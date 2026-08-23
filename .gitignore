@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+data/klpga_history.db
+data/cache/*
+!data/cache/.gitkeep
+data/export/*
+!data/export/.gitkeep
+
+logs/*.log
+reports/*.md
+!reports/.gitkeep
+
+.pytest_cache/
