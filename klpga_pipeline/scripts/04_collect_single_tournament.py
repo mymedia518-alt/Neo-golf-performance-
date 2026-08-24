@@ -51,6 +51,7 @@ from klpga.collectors.tournaments import fetch_game_list  # noqa: E402
 from klpga.db.upsert import (  # noqa: E402
     finish_collection_run,
     start_collection_run,
+    update_tournament_winner_score,
     upsert_player,
     upsert_player_event,
     upsert_player_round,
@@ -212,7 +213,10 @@ def main() -> int:
 
     winner_score = resolve_winner_score(player_event_rows, match.winner_code)
     if winner_score is not None:
-        upsert_tournament(conn, {"event_id": match.game_code, "winner_score": winner_score})
+        # A plain UPDATE on the already-existing row, NOT an upsert —
+        # a partial-column upsert here previously failed with a
+        # NOT NULL constraint error on other tournament_master columns.
+        update_tournament_winner_score(conn, match.game_code, winner_score)
         conn.commit()
 
     finish_collection_run(conn, run_id, status="success", finished_at=_now_iso(), rows_written=len(player_rows))
