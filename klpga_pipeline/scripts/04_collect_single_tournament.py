@@ -199,8 +199,9 @@ def main() -> int:
         )
         print()
 
+    final_round = max(rounds_data.keys())
     player_rows, player_event_rows, player_round_rows = build_rows(
-        args.game_code, match.season, match.game_code, merged
+        args.game_code, match.season, match.game_code, merged, final_round
     )
 
     for row in player_rows:

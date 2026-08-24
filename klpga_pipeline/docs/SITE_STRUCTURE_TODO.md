@@ -240,6 +240,67 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   (a real structural fact) instead of `data-rank` text matching** —
   see the fix entry that follows this one once the `999` markup
   inspection comes back. Not fixed yet as of this entry.
+- **`scripts/07_inspect_status_markup.py` run, 2026-08-24 — raw markup
+  for 5 real `999` rows (gameCode=2026080002) inspected.** Confirmed:
+  - `data-rank="999"` is mirrored by a `data-updown="999"` attribute
+    (not otherwise useful — just duplicates rank).
+  - `data-score`, `data-totunderpar`, `data-todayunderpar` are ALL
+    reset to the placeholder `"0"` alongside `data-rank="999"` — real
+    zeros are never paired with a `999` rank in the sample.
+  - 4 of 5 sampled players had a completely VALID round 1 (real rank
+    like 84/109/113, real score like 75/78/79) and only became `999`
+    starting round 2 — i.e. they legitimately played round 1, then
+    something happened before/during round 2. The 5th player was
+    already `999` at round 1 itself, with `data-round1score="0"`.
+  - `class="table-drop"` appears on every sampled row (999 AND normal)
+    — a generic UI class for the expandable detail panel, not a
+    status-specific marker.
+  - **No `"WD"`, `"DQ"`, or any other status text was found anywhere**
+    in the surrounding markup (no distinguishing class name, no
+    `title` attribute, nothing) — this endpoint's data genuinely does
+    not appear to let WD be told apart from DQ.
+  - `data-inghole` (e.g. "1", "9", "10" on `999` rows) does NOT behave
+    consistently enough to be trusted yet: several players' round-1
+    responses show `data-inghole` values less than 18 (e.g. "9") DESPITE
+    those same rows having a complete, valid round-1 score — so
+    `data-inghole` is NOT reliably "holes completed in the round being
+    queried." Left uninterpreted; not used for any classification
+    logic. Still an open question for a future investigation.
+  **Fixed** (`src/klpga/parsers/leaderboard_parser.py`,
+  `src/klpga/collectors/aggregate.py`):
+  - `data-rank="999"` is now parsed as `status="INCOMPLETE"`,
+    `rank=None` (previously incorrectly parsed as a literal numeric
+    rank 999) — `rank_display="999"` is still preserved raw.
+  - When a row's status is `INCOMPLETE`, its
+    `total_strokes`/`total_under_par`/`today_under_par` are set to
+    `None` instead of the placeholder `"0"` — but ONLY for this
+    confirmed sentinel case; a normal row's genuine `"0"` (even par)
+    is untouched.
+  - A literal `"0"` in any `data-round{N}score` or `data-score` field
+    is now always parsed as `None` — 0 strokes is never realistic for
+    a round or a tournament total in golf, regardless of the row's
+    rank, so this isn't limited to the `999` case.
+  - `made_cut` is now derived structurally: 1 if the player has a real
+    (non-sentinel, non-placeholder-zero) score for the tournament's
+    actual final round, else 0 — no longer dependent on `data-rank`
+    text matching at all, since the real site doesn't use `"CUT"` text.
+  - `withdrawn`/`disqualified` are LEFT AT 0 for `INCOMPLETE` rows —
+    genuinely unconfirmed which applies, and this is not guessed. They
+    still fire if `status` is literally `"WD"`/`"DQ"` text (kept for
+    forward-compatibility in case some response somewhere does use
+    it — never actually observed). `finish_position` preserves the raw
+    `"999"` so this group stays identifiable to downstream consumers
+    despite the boolean columns not distinguishing it from a normal
+    missed cut.
+  Regression tests added: `tests/test_leaderboard_parser.py` (parser-
+  level: the 999-sentinel row, literal-zero-score suppression, and a
+  belt-and-suspenders check that genuine even-par `"0"` on a NORMAL row
+  is preserved) and `tests/test_cut_player_integration.py` (full
+  pipeline test using the exact real markup shape from playerCode 9777).
+  **The earlier re-collected 5-tournament dataset is once again
+  known-incomplete for made_cut/withdrawn/disqualified specifically
+  (though its player/round discovery is correct) and needs another
+  re-collection with this fix** — see "Next steps" below.
 
 ## Next steps
 
@@ -264,26 +325,33 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
    `disqualified` were STILL all zero** — see the follow-up entry in
    section 5. Do NOT treat this dataset's CUT/WD/DQ flags as correct
    yet; the `rounds_played`/`finish_position` data itself looks right.
-4. **Current goal: run `scripts/07_inspect_status_markup.py`** against
-   the existing `data/klpga_small.sqlite` + cache dir (zero new
-   network requests) to inspect the raw HTML around the 14
-   `finish_position='999'` rows, before writing any
-   made_cut/withdrawn/disqualified classification logic. See README.md
-   "Investigating CUT/WD/DQ classification".
-5. **Still open / not yet run:** `scripts/00_discover_site.py` —
+4. ~~Run `scripts/07_inspect_status_markup.py`~~ — **DONE, 2026-08-24.**
+   Raw markup for 5 real `999` rows inspected; no WD/DQ distinction
+   found anywhere. Results and the made_cut/withdrawn/disqualified fix
+   folded into section 5 above.
+5. **Current goal: re-run the 5-tournament checkpoint one more time**
+   with the made_cut/withdrawn/disqualified fix
+   (`scripts/01_collect_tournaments.py --target 5` etc., same commands
+   as before, fresh `--reset`) — confirm `made_cut`/`rounds_played` now
+   line up correctly (e.g. `SUM(1-made_cut)` should roughly match the
+   252+14=266 non-4-round players from the last run, not 0) before
+   scaling to 100. See README.md "Running a small multi-tournament
+   validation".
+6. **Still open / not yet run:** `scripts/00_discover_site.py` —
    `robots.txt` for both hosts has not actually been fetched yet in any
    run so far.
-6. Once the classification logic is fixed and re-validated on the
-   5-tournament dataset, scale up to the full 100-tournament run
+7. Once step 5 looks right, scale up to the full 100-tournament run
    (`scripts/01_collect_tournaments.py --target 100`, the default). See
    README.md "Running the full pipeline".
-7. Use that/those run's output to fill in the remaining `[ ]` items above
-   (other tourType codes, non-F gameFinish values, a real CUT case for
-   the round-history question, exact duplicate-row markup, `par`/
-   `course_yards`/`field_size`, per-player prize money, `official_url`
-   pattern).
-8. Update this file's checkboxes based on what's actually observed —
+8. Use that/those run's output to fill in the remaining `[ ]` items above
+   (other tourType codes, non-F gameFinish values, exact duplicate-row
+   markup, what `data-inghole` actually means, `par`/`course_yards`/
+   `field_size`, per-player prize money, `official_url` pattern, and
+   whether some OTHER endpoint — e.g. a default full-leaderboard view
+   without a `round` param — distinguishes WD from DQ where this one
+   doesn't).
+9. Update this file's checkboxes based on what's actually observed —
    never mark something done from inference alone.
-9. `player_stats_snapshot` (data.klpga.co.kr) collection has not
-   started — nothing there is confirmed yet. That's the next data
-   source after tournament/leaderboard collection is solid at 100.
+10. `player_stats_snapshot` (data.klpga.co.kr) collection has not
+    started — nothing there is confirmed yet. That's the next data
+    source after tournament/leaderboard collection is solid at 100.
