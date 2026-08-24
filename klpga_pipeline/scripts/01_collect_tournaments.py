@@ -27,6 +27,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import requests
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga import config  # noqa: E402
@@ -92,6 +94,13 @@ def main() -> int:
         conn.close()
         print(f"BLOCKED by site access restriction: {exc}", file=sys.stderr)
         print("Not retrying or fabricating data — see error above.", file=sys.stderr)
+        return 1
+    except requests.exceptions.RequestException as exc:
+        finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=str(exc))
+        conn.commit()
+        conn.close()
+        print(f"NETWORK ERROR reaching {config.GAME_LIST_ENDPOINT}: {exc}", file=sys.stderr)
+        print("Not fabricating data — nothing was written.", file=sys.stderr)
         return 1
     except Exception as exc:  # noqa: BLE001
         finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=str(exc))

@@ -27,13 +27,13 @@ def test_parses_three_rows(rows):
     assert len(rows) == 3
 
 
-def test_seo_kyorim_row_matches_confirmed_spec(rows):
+def test_seo_gyorim_row_matches_confirmed_spec(rows):
     """Exact field values from the task spec's confirmed capture."""
     row = next(r for r in rows if r.player_code == "11134")
 
     assert row.game_code == "2026080002"
     assert row.player_code == "11134"
-    assert row.player_name == "서고린"
+    assert row.player_name == "서교림"
     assert row.player_eng_name == "SEO Kyorim"
     assert row.round_number == 2
 
