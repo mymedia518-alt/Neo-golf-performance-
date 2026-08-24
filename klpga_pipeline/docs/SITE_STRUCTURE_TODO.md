@@ -211,6 +211,35 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   `tests/test_cut_player_integration.py` (full collector -> merge ->
   build pipeline test asserting a CUT player ends up with
   `made_cut=0`, 2 rounds played, not dropped).
+- **Follow-up after re-collecting the 5-tournament dataset with the
+  fix above, 2026-08-24: player discovery now works (602 player_event
+  rows, 1,862 player_round rows — no longer the suspicious exact-4x
+  ratio), but `made_cut`/`withdrawn`/`disqualified` were STILL all
+  zero.** Root cause: those three columns were only ever derived from
+  `status` (set only when `data-rank` is the literal text `"CUT"` /
+  `"WD"` / `"DQ"`) — never from `rounds_played` at all. The live data
+  shows the real site does NOT use those literal strings in
+  `data-rank`. The actual `rounds_played` distribution across the 5
+  tournaments: `[(1, 14), (2, 252), (4, 336)]` — **zero 3-round
+  players**, exactly the signature of a standard 36-hole cut (cut
+  after round 2). Two distinct patterns for the non-4-round groups:
+    - **252 players, 2 rounds, plain real numeric `finish_position`**
+      (e.g. 62, 90, 101 — real ranks among the field, not a special
+      marker). This is almost certainly the normal missed-cut group.
+    - **14 players, 1 round, `finish_position == '999'`** — a sentinel
+      value, not a real rank. This is NOT yet confirmed to mean WD
+      specifically vs. DQ specifically vs. some other single "did not
+      complete round 1" bucket — `999` could cover more than one real
+      status. `scripts/07_inspect_status_markup.py` was added to
+      inspect the raw cached HTML around these `999` rows (using the
+      already-fetched disk cache, zero new requests) for any
+      additional marker (class name, title attribute, different text)
+      before writing classification logic — **not yet run**.
+  **`made_cut`/`withdrawn`/`disqualified` derivation is being reworked
+  to key off `rounds_played` vs. the tournament's actual final round
+  (a real structural fact) instead of `data-rank` text matching** —
+  see the fix entry that follows this one once the `999` markup
+  inspection comes back. Not fixed yet as of this entry.
 
 ## Next steps
 
@@ -224,31 +253,37 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
    multi-tournament run)~~ — **DONE, 2026-08-24.** 5 tournaments, 336
    player_event rows total, `03_validate.py --target 5` ->
    `VALIDATION PASSED`. Also surfaced and confirmed the fix for the
-   `winner_score` bug in section 5. **Also superseded, 2026-08-24:
+   `winner_score` bug in section 5. **Superseded, 2026-08-24:
    known-incomplete** — this run's diagnostics (`SUM(1-made_cut)=0`
    across all 336 rows) is exactly what led to finding the CUT/WD/DQ
-   drop bug in section 5. Must be re-collected.
-3. **Current goal: re-run the 5-tournament checkpoint with the
-   CUT/WD/DQ fix** (`scripts/01_collect_tournaments.py --target 5`
-   against a fresh DB) before scaling to 100 — need to confirm the fix
-   actually surfaces real CUT/WD/DQ data (or confirms these specific 5
-   tournaments genuinely have none) before trusting a much larger run.
-   See README.md "Running a small multi-tournament validation".
-4. **Still open / not yet run:** `scripts/00_discover_site.py` —
+   drop bug in section 5. Re-collected.
+3. ~~Re-run the 5-tournament checkpoint with the player-discovery
+   fix~~ — **DONE, 2026-08-24.** 602 player_event rows, 1,862
+   player_round rows — player discovery confirmed fixed (no longer the
+   suspicious exact-4x ratio). **But `made_cut`/`withdrawn`/
+   `disqualified` were STILL all zero** — see the follow-up entry in
+   section 5. Do NOT treat this dataset's CUT/WD/DQ flags as correct
+   yet; the `rounds_played`/`finish_position` data itself looks right.
+4. **Current goal: run `scripts/07_inspect_status_markup.py`** against
+   the existing `data/klpga_small.sqlite` + cache dir (zero new
+   network requests) to inspect the raw HTML around the 14
+   `finish_position='999'` rows, before writing any
+   made_cut/withdrawn/disqualified classification logic. See README.md
+   "Investigating CUT/WD/DQ classification".
+5. **Still open / not yet run:** `scripts/00_discover_site.py` —
    `robots.txt` for both hosts has not actually been fetched yet in any
    run so far.
-5. Only once step 3 looks solid (or confirms a real CUT/WD/DQ case,
-   which would be the strongest possible confirmation the fix works),
-   scale up to the full 100-tournament run
+6. Once the classification logic is fixed and re-validated on the
+   5-tournament dataset, scale up to the full 100-tournament run
    (`scripts/01_collect_tournaments.py --target 100`, the default). See
    README.md "Running the full pipeline".
-6. Use that/those run's output to fill in the remaining `[ ]` items above
+7. Use that/those run's output to fill in the remaining `[ ]` items above
    (other tourType codes, non-F gameFinish values, a real CUT case for
    the round-history question, exact duplicate-row markup, `par`/
    `course_yards`/`field_size`, per-player prize money, `official_url`
    pattern).
-7. Update this file's checkboxes based on what's actually observed —
+8. Update this file's checkboxes based on what's actually observed —
    never mark something done from inference alone.
-8. `player_stats_snapshot` (data.klpga.co.kr) collection has not
+9. `player_stats_snapshot` (data.klpga.co.kr) collection has not
    started — nothing there is confirmed yet. That's the next data
    source after tournament/leaderboard collection is solid at 100.
