@@ -50,7 +50,7 @@ def test_upsert_tournament_then_player_then_event_then_round_is_idempotent(conn)
     }
     player = {
         "player_id": "11134",
-        "player_name": "서고린",
+        "player_name": "서교림",
         "birth_year": None,
         "nationality": None,
         "team_or_sponsor": None,
@@ -61,7 +61,7 @@ def test_upsert_tournament_then_player_then_event_then_round_is_idempotent(conn)
         "game_code": "2026030001",
         "season": 2026,
         "player_id": "11134",
-        "player_name": "서고린",
+        "player_name": "서교림",
         "finish_position": "1",
         "finish_position_numeric": 1,
         "tie_flag": 0,
@@ -85,7 +85,7 @@ def test_upsert_tournament_then_player_then_event_then_round_is_idempotent(conn)
         "season": 2026,
         "round_number": 1,
         "player_id": "11134",
-        "player_name": "서고린",
+        "player_name": "서교림",
         "round_score": 70,
         "round_to_par": None,
         "finish_position_after_round": None,

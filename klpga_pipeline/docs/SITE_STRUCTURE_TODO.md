@@ -88,15 +88,21 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
 
 ## Next steps once network access works
 
+**Current goal is ONE real tournament (gameCode=2026080002), not the
+full 100 — do not jump straight to `01_collect_tournaments.py`.**
+
 1. Run `scripts/00_discover_site.py` and read `robots.txt` for both
    hosts before anything else.
-2. Run `scripts/01_collect_tournaments.py` for a real season and inspect
-   the raw cached JSON in `data/raw_cache/http/` to fill in the
-   remaining `[ ]` items above (other tourType codes, gameFinish values,
-   any startDate-equivalent field).
-3. Run `scripts/02_collect_leaderboards.py` against one real completed
-   gameCode and inspect the raw cached HTML to confirm the CUT/WD/DQ
-   round-history question above, and to see the real markup around the
-   confirmed attributes.
+2. Run `scripts/04_collect_single_tournament.py --season 2026
+   --game-code 2026080002` and review its full printed output (the raw
+   `getGameList` entry, round-fetch counts, sample player rows, raw HTML
+   snippet). This is the single-tournament validation checkpoint.
+3. Use that output to fill in the remaining `[ ]` items above (other
+   tourType codes, gameFinish values, any startDate-equivalent field,
+   the CUT/WD/DQ round-history question, real markup around the
+   confirmed attributes).
 4. Update this file's checkboxes based on what's actually observed —
    never mark something done from inference alone.
+5. Only after step 2-4 look solid, scale up to
+   `scripts/01_collect_tournaments.py` / `02_collect_leaderboards.py`
+   for the full 100-tournament run.
