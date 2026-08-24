@@ -149,27 +149,60 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
       is ready to run the moment access works, and will save
       `robots.txt` for both hosts before any other collection runs.
 
+## 5. Bugs found on real data (fixed)
+
+- **`winner_score` patch crashed with `sqlite3.IntegrityError: NOT NULL
+  constraint failed: tournament_master.game_code`**, discovered on the
+  live 5-tournament run, 2026-08-24. Root cause: patching just
+  `{event_id, winner_score}` through the generic
+  `INSERT ... ON CONFLICT DO UPDATE` upsert helper — SQLite validates
+  NOT NULL constraints on the constructed INSERT candidate row (other
+  NOT NULL columns, omitted from that partial dict) *before* it checks
+  whether ON CONFLICT even applies, so this failed even though the row
+  already existed and only an UPDATE was intended. This also crashed
+  `02_collect_leaderboards.py`'s whole per-tournament loop outright
+  (the patch call was outside the try/except), silently abandoning
+  every tournament after the first.
+  Fixed: `db/upsert.update_tournament_winner_score()` is now a plain
+  `UPDATE`, not an upsert; the entire per-tournament pipeline in
+  `02_collect_leaderboards.py` is now inside one try/except so a
+  failure on one tournament doesn't kill the batch. Regression tests
+  added (`tests/test_upsert.py`, `tests/test_validate.py`).
+- **`03_validate.py` didn't detect the above failure** — it only
+  checked row counts / duplicates / FK integrity, none of which notice
+  a `tournament_master` row with zero `player_event` rows (exactly what
+  the crash above left behind). Fixed: added a coverage check requiring
+  every `tournament_master` row to have ≥1 `player_event` row.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
-   --game-code 2026080002`~~ — **DONE, 2026-08-24, from a Windows PC
-   with real internet access.** 1 tournament, 72 players, 72
-   player_event rows, 288 player_round rows, winner confirmed
-   (서교림/11134, 280/-8). Results folded into sections 1-2 above.
-2. **Still open / not yet run:** `scripts/00_discover_site.py` —
+   --game-code 2026080002`~~ — **DONE, 2026-08-24.** 1 tournament, 72
+   players, 72 player_event rows, 288 player_round rows, winner
+   confirmed (서교림/11134, 280/-8). Results folded into sections 1-2.
+2. ~~Run `scripts/01_collect_tournaments.py --target 5` (small
+   multi-tournament run)~~ — **DONE, 2026-08-24.** 5 tournaments, 336
+   player_event rows total, `03_validate.py --target 5` ->
+   `VALIDATION PASSED`. Also surfaced and confirmed the fix for the bug
+   in section 5 above. This run's report didn't include new
+   field-level detail (tourType/gameFinish variety, a real CUT case,
+   etc.) beyond aggregate counts — the open items below are still open.
+3. **Still open / not yet run:** `scripts/00_discover_site.py` —
    `robots.txt` for both hosts has not actually been fetched yet in any
-   run so far. Should still be run before scaling up further.
-3. **Current goal: `scripts/01_collect_tournaments.py --target 5`**
-   (a small 3-5 tournament run) to exercise the season walk-back logic
-   across multiple `gameCode`s, which the single-tournament script
-   doesn't test. See README.md "Running a small multi-tournament
-   validation".
-4. Use that run's output to fill in the remaining `[ ]` items above
+   run so far.
+4. **Current goal: the full 100-tournament run**
+   (`scripts/01_collect_tournaments.py --target 100`, the default). See
+   README.md "Running the full pipeline". This is also the run most
+   likely to surface the still-open items below (a real CUT case,
+   other tourType/gameFinish values, older-season quirks), since it
+   spans more tournaments and likely more than one season.
+5. Use that run's output to fill in the remaining `[ ]` items above
    (other tourType codes, non-F gameFinish values, a real CUT case for
    the round-history question, exact duplicate-row markup, `par`/
    `course_yards`/`field_size`, per-player prize money, `official_url`
    pattern).
-5. Update this file's checkboxes based on what's actually observed —
+6. Update this file's checkboxes based on what's actually observed —
    never mark something done from inference alone.
-6. Only after the 3-5 tournament run looks solid, scale up to the full
-   100-tournament run (`--target 100`, the default).
+7. `player_stats_snapshot` (data.klpga.co.kr) collection has not
+   started — nothing there is confirmed yet. That's the next data
+   source after tournament/leaderboard collection is solid at 100.
