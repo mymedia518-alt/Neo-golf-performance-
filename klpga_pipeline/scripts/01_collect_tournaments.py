@@ -53,16 +53,19 @@ def to_tournament_row(listing) -> dict:
         "game_code": listing.game_code,
         "event_name": listing.game_title,
         "season": listing.season,
-        "start_date": None,  # not confirmed from getGameList — see docs/SITE_STRUCTURE_TODO.md
+        "start_date": listing.start_date.isoformat() if listing.start_date else listing.start_date_raw,
         "end_date": listing.end_date.isoformat() if listing.end_date else listing.end_date_raw,
         "course_name": listing.course_text,
-        "course_location": None,
+        "course_location": None,  # not confirmed — see docs/SITE_STRUCTURE_TODO.md
         "par": None,
         "course_yards": None,
         "rounds_scheduled": None,
         "rounds_completed": None,
         "field_size": None,
-        "winner": None,
+        "winner": listing.winner_name,
+        # winner_score is NOT set here — it can only come from real
+        # collected round data (02_collect_leaderboards.py backfills it
+        # once player_event rows exist for this event).
         "winner_score": None,
         "official_url": None,
     }

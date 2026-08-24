@@ -1,20 +1,23 @@
 """Tournament list collector — real getGameList API adapter.
 
-Confirmed via browser Network capture (see docs/SITE_STRUCTURE_TODO.md):
+Confirmed via browser Network capture AND a live run against the real
+site (see docs/SITE_STRUCTURE_TODO.md, gameCode=2026080002 / season=2026,
+Windows validation run):
 
   POST https://klpga.co.kr/ajax/tourInfo/getGameList
   Content-Type: application/x-www-form-urlencoded
   form: season=<year>, tourType=RE, year=
   response: application/json, {"gameList": [...]}
 
-Only the fields actually observed in a real response are parsed into
-named TournamentListing fields:
+Fields confirmed and parsed into named TournamentListing fields:
   gameCode, gameTitle, gameEngTitle, tourType, courseText, courseEngText,
-  endDate (YYYYMMDD), gameFinish ("F" == confirmed "completed").
+  outCourseText, inCourseText, startDate/endDate (YYYYMMDD),
+  gameFinish ("F" == confirmed "completed"), prizeMoney (total purse,
+  integer KRW), winnerCode, winnerName.
 
 Every other key present in a live response is kept verbatim in `.raw`
 for later inspection, but nothing is invented for keys that were never
-observed in the confirmed capture.
+observed in a confirmed capture/run.
 """
 from __future__ import annotations
 
@@ -25,11 +28,6 @@ from typing import Any, Optional
 from klpga import config
 from klpga.http_client import PoliteHttpClient
 
-_KNOWN_FIELDS = {
-    "gameCode", "gameTitle", "gameEngTitle", "tourType",
-    "courseText", "courseEngText", "endDate", "gameFinish",
-}
-
 
 @dataclass
 class TournamentListing:
@@ -39,9 +37,16 @@ class TournamentListing:
     tour_type: Optional[str]
     course_text: Optional[str]
     course_eng_text: Optional[str]
+    out_course_text: Optional[str]  # outCourseText, e.g. nine-hole course name
+    in_course_text: Optional[str]   # inCourseText, e.g. nine-hole course name
+    start_date: Optional[date]      # parsed from startDate (YYYYMMDD)
+    start_date_raw: Optional[str]   # startDate exactly as returned
     end_date: Optional[date]        # parsed from endDate (YYYYMMDD)
     end_date_raw: Optional[str]     # endDate exactly as returned
     game_finish: Optional[str]      # raw gameFinish flag
+    prize_money: Optional[int]      # total tournament purse (KRW), as returned
+    winner_code: Optional[str]      # official playerCode of the winner
+    winner_name: Optional[str]      # winner's name as returned
     # The season this listing was requested under (i.e. the `season` form
     # value sent to getGameList) — this is request metadata, not a value
     # read from the response body, so it's always populated.
@@ -70,6 +75,18 @@ def _parse_yyyymmdd(text: Optional[str]) -> Optional[date]:
         return None
     try:
         return date(int(text[0:4]), int(text[4:6]), int(text[6:8]))
+    except ValueError:
+        return None
+
+
+def _to_int(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    text = str(value).strip()
+    if text == "":
+        return None
+    try:
+        return int(text)
     except ValueError:
         return None
 
@@ -110,9 +127,16 @@ def fetch_game_list(
                 tour_type=_clean(entry.get("tourType")),
                 course_text=_clean(entry.get("courseText")),
                 course_eng_text=_clean(entry.get("courseEngText")),
+                out_course_text=_clean(entry.get("outCourseText")),
+                in_course_text=_clean(entry.get("inCourseText")),
+                start_date=_parse_yyyymmdd(entry.get("startDate")),
+                start_date_raw=_clean(entry.get("startDate")),
                 end_date=_parse_yyyymmdd(entry.get("endDate")),
                 end_date_raw=_clean(entry.get("endDate")),
                 game_finish=_clean(entry.get("gameFinish")),
+                prize_money=_to_int(entry.get("prizeMoney")),
+                winner_code=_clean(entry.get("winnerCode")),
+                winner_name=_clean(entry.get("winnerName")),
                 season=season,
                 raw=entry,
             )

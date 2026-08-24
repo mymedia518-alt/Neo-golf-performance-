@@ -42,7 +42,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga import config  # noqa: E402
-from klpga.collectors.aggregate import build_rows, merge_player_rows  # noqa: E402
+from klpga.collectors.aggregate import build_rows, merge_player_rows, resolve_winner_score  # noqa: E402
 from klpga.collectors.leaderboard import (  # noqa: E402
     collect_all_rounds_for_game,
     fetch_round_leaderboard_html,
@@ -134,21 +134,32 @@ def main() -> int:
         "game_code": match.game_code,
         "event_name": match.game_title,
         "season": match.season,
-        "start_date": None,
+        "start_date": match.start_date.isoformat() if match.start_date else match.start_date_raw,
         "end_date": match.end_date.isoformat() if match.end_date else match.end_date_raw,
         "course_name": match.course_text,
-        "course_location": None,
+        "course_location": None,  # not confirmed — see docs/SITE_STRUCTURE_TODO.md
         "par": None,
         "course_yards": None,
         "rounds_scheduled": None,
         "rounds_completed": None,
         "field_size": None,
-        "winner": None,
+        "winner": match.winner_name,
+        # winner_score can only come from real collected round data —
+        # filled in below, after the leaderboard is collected.
         "winner_score": None,
         "official_url": None,
     }
     upsert_tournament(conn, tournament_row)
     conn.commit()
+
+    if match.prize_money is not None or match.out_course_text is not None or match.in_course_text is not None:
+        print("=== NOTE: confirmed getGameList fields with no tournament_master column yet ===")
+        print(f"  prizeMoney (total purse, KRW): {match.prize_money!r}")
+        print(f"  outCourseText: {match.out_course_text!r}")
+        print(f"  inCourseText: {match.in_course_text!r}")
+        print("  (not written to the DB — the spec's 16-column tournament_master")
+        print("   schema has no slot for these; see docs/SITE_STRUCTURE_TODO.md)")
+        print()
 
     # --- Step 2: leaderboard collection ---
     try:
@@ -178,6 +189,15 @@ def main() -> int:
     print()
 
     merged = merge_player_rows(rounds_data)
+    total_raw_rows = sum(len(rows) for rows in rounds_data.values())
+    if total_raw_rows != len(merged):
+        print(
+            f"NOTE: {total_raw_rows} raw parsed row(s) across all fetched rounds merged down to "
+            f"{len(merged)} unique player_code(s) — the site's roundLeaderboard HTML appears to "
+            f"contain duplicate/partial DOM entries per player; merge-by-player_code handles this."
+        )
+        print()
+
     player_rows, player_event_rows, player_round_rows = build_rows(
         args.game_code, match.season, match.game_code, merged
     )
@@ -190,6 +210,11 @@ def main() -> int:
         upsert_player_round(conn, row)
     conn.commit()
 
+    winner_score = resolve_winner_score(player_event_rows, match.winner_code)
+    if winner_score is not None:
+        upsert_tournament(conn, {"event_id": match.game_code, "winner_score": winner_score})
+        conn.commit()
+
     finish_collection_run(conn, run_id, status="success", finished_at=_now_iso(), rows_written=len(player_rows))
     conn.commit()
 
@@ -197,6 +222,8 @@ def main() -> int:
     print(f"  players (player_master):        {len(player_rows)}")
     print(f"  player_event rows:               {len(player_event_rows)}")
     print(f"  player_round rows:               {len(player_round_rows)}")
+    print(f"  winner (from getGameList):       {match.winner_name!r} (playerCode={match.winner_code!r})")
+    print(f"  winner_score (from collected round data): {winner_score!r}")
     print()
 
     print("=== STEP 4: sample player_event rows (top 5 by finish rank) ===")
