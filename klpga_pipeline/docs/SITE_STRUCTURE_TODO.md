@@ -301,6 +301,40 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   known-incomplete for made_cut/withdrawn/disqualified specifically
   (though its player/round discovery is correct) and needs another
   re-collection with this fix** — see "Next steps" below.
+- **Re-collected live, 2026-08-24, on the fix above — CONFIRMED
+  WORKING**: `made_cut` split `(0, 266), (1, 336)` across 602
+  player_event rows (`03_validate.py --target 5` -> `VALIDATION
+  PASSED`). `rounds_played` distribution shifted from the earlier
+  (incorrect) `[(1,14),(2,252),(4,336)]` to `[(None,10),(1,15),(2,241),
+  (4,336)]` — the `"0"`-score fix correctly reclassified some players
+  who looked like they had 2 valid rounds as actually only having 1, or
+  (10 players) 0. This 0-round group is the same real pattern as
+  playerCode 9750: `data-rank="999"` already on round 1 itself, with
+  `data-round1score="0"` — a player who registered in the field but has
+  zero valid round scores anywhere.
+  **Follow-up bug found from this**: `rounds_played` was stored as
+  `NULL` for these 10 players (`len(round_scores) or None` collapses a
+  real, confirmed `0` into `NULL`, which misreads as "unknown" rather
+  than "verified zero"). Fixed — `rounds_played` now stores the literal
+  int, including `0`. Regression test added
+  (`tests/test_cut_player_integration.py`,
+  `test_zero_valid_rounds_pattern_stores_real_zero_not_null`).
+  **Decision on WD vs. DQ classification** (in response to a direct
+  question about whether the 10 zero-round + 15 one-round players need
+  further status classification): **no further classification is
+  attempted.** The raw HTML inspection (see the entry above) confirmed
+  no marker anywhere distinguishes WD from DQ at this endpoint — adding
+  a specific split would mean guessing, which violates the project's
+  own "don't fabricate" requirement. `withdrawn`/`disqualified` stay
+  `0` for every non-completing player (whether a normal 2-round missed
+  cut or an abnormal 0/1-round early exit). Downstream consumers can
+  still distinguish "normal missed cut" from "abnormal early exit"
+  using already-real, already-collected fields: `rounds_played == 2`
+  with a plain numeric `finish_position` is the normal missed-cut
+  pattern for a 36-hole-cut event; `rounds_played < 2` with
+  `finish_position == '999'` is the abnormal-exit pattern. No new
+  column was added for this — the existing fields already carry the
+  signal.
 
 ## Next steps
 
@@ -329,18 +363,21 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
    Raw markup for 5 real `999` rows inspected; no WD/DQ distinction
    found anywhere. Results and the made_cut/withdrawn/disqualified fix
    folded into section 5 above.
-5. **Current goal: re-run the 5-tournament checkpoint one more time**
-   with the made_cut/withdrawn/disqualified fix
-   (`scripts/01_collect_tournaments.py --target 5` etc., same commands
-   as before, fresh `--reset`) — confirm `made_cut`/`rounds_played` now
-   line up correctly (e.g. `SUM(1-made_cut)` should roughly match the
-   252+14=266 non-4-round players from the last run, not 0) before
-   scaling to 100. See README.md "Running a small multi-tournament
-   validation".
+5. ~~Re-run the 5-tournament checkpoint with the made_cut/withdrawn/
+   disqualified fix~~ — **DONE, 2026-08-24. CONFIRMED WORKING.**
+   `made_cut` split (0, 266), (1, 336) across 602 player_event rows;
+   `03_validate.py --target 5` -> `VALIDATION PASSED`. Found and fixed
+   one more follow-up bug (`rounds_played` NULL instead of a confirmed
+   0 — see section 5) and made the explicit decision NOT to attempt a
+   WD/DQ split (no marker exists to support it; `rounds_played` +
+   `finish_position` already carry the distinguishing signal). This
+   dataset has NOT been re-collected again with the `rounds_played=0`
+   display fix specifically — that fix is cosmetic (doesn't change
+   made_cut or any other classification), so it doesn't block scaling.
 6. **Still open / not yet run:** `scripts/00_discover_site.py` —
    `robots.txt` for both hosts has not actually been fetched yet in any
    run so far.
-7. Once step 5 looks right, scale up to the full 100-tournament run
+7. **Current goal: scale up to the full 100-tournament run**
    (`scripts/01_collect_tournaments.py --target 100`, the default). See
    README.md "Running the full pipeline".
 8. Use that/those run's output to fill in the remaining `[ ]` items above
