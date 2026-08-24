@@ -31,6 +31,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import requests
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.collectors.aggregate import build_rows, merge_player_rows, resolve_winner_score  # noqa: E402
@@ -38,10 +40,10 @@ from klpga.collectors.leaderboard import collect_all_rounds_for_game  # noqa: E4
 from klpga.db.upsert import (  # noqa: E402
     finish_collection_run,
     start_collection_run,
+    update_tournament_winner_score,
     upsert_player,
     upsert_player_event,
     upsert_player_round,
-    upsert_tournament,
 )
 from klpga.http_client import PoliteHttpClient, RateLimitBlockedError  # noqa: E402
 
@@ -81,43 +83,59 @@ def main() -> int:
     for t in tournaments:
         run_id = start_collection_run(conn, "02_collect_leaderboards", target=t["game_code"], started_at=_now_iso())
         conn.commit()
+
+        # The ENTIRE per-tournament pipeline (leaderboard fetch through
+        # the winner_score patch) is inside one try block: a failure
+        # anywhere here — network, parsing, or a DB constraint — must
+        # not crash the whole batch and silently abandon the remaining
+        # tournaments. It's logged to collection_runs and this
+        # tournament is skipped; the loop continues.
         try:
             rounds_data = collect_all_rounds_for_game(client, t["game_code"])
+
+            merged = merge_player_rows(rounds_data)
+            player_rows, player_event_rows, player_round_rows = build_rows(
+                t["game_code"], t["season"], t["event_id"], merged
+            )
+
+            for row in player_rows:
+                upsert_player(conn, row)
+            for row in player_event_rows:
+                upsert_player_event(conn, row)
+            for row in player_round_rows:
+                upsert_player_round(conn, row)
+            conn.commit()
+
+            # winner_code isn't persisted in tournament_master (no column
+            # in the spec's 16-column schema), so this falls back to
+            # matching the unique rank-1 finisher — still real collected
+            # data, never fabricated, just less authoritative than
+            # getGameList's winnerCode (which
+            # 04_collect_single_tournament.py uses when available in the
+            # same run). update_tournament_winner_score is a plain
+            # UPDATE on the already-existing row, NOT an upsert — a
+            # partial-column upsert here previously failed with a
+            # NOT NULL constraint error on other columns.
+            winner_score = resolve_winner_score(player_event_rows, None)
+            if winner_score is not None:
+                update_tournament_winner_score(conn, t["event_id"], winner_score)
+                conn.commit()
         except RateLimitBlockedError as exc:
             finish_collection_run(conn, run_id, status="blocked", finished_at=_now_iso(), error_message=str(exc))
             conn.commit()
             print(f"BLOCKED collecting gameCode={t['game_code']}: {exc}", file=sys.stderr)
             blocked = True
             break
+        except requests.exceptions.RequestException as exc:
+            finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=str(exc))
+            conn.commit()
+            print(f"NETWORK ERROR collecting gameCode={t['game_code']}: {exc}", file=sys.stderr)
+            continue
         except Exception as exc:  # noqa: BLE001
             finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=str(exc))
             conn.commit()
             print(f"ERROR collecting gameCode={t['game_code']}: {exc}", file=sys.stderr)
             continue
-
-        merged = merge_player_rows(rounds_data)
-        player_rows, player_event_rows, player_round_rows = build_rows(
-            t["game_code"], t["season"], t["event_id"], merged
-        )
-
-        for row in player_rows:
-            upsert_player(conn, row)
-        for row in player_event_rows:
-            upsert_player_event(conn, row)
-        for row in player_round_rows:
-            upsert_player_round(conn, row)
-        conn.commit()
-
-        # winner_code isn't persisted in tournament_master (no column in
-        # the spec's 16-column schema), so this falls back to matching
-        # the unique rank-1 finisher — still real collected data, never
-        # fabricated, just less authoritative than getGameList's
-        # winnerCode (which 04_collect_single_tournament.py uses when
-        # available in the same run).
-        winner_score = resolve_winner_score(player_event_rows, None)
-        if winner_score is not None:
-            upsert_tournament(conn, {"event_id": t["event_id"], "winner_score": winner_score})
-            conn.commit()
 
         total_players_written += len(player_rows)
         finish_collection_run(

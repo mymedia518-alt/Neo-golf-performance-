@@ -11,6 +11,7 @@ import pytest
 from klpga.db.upsert import (
     finish_collection_run,
     start_collection_run,
+    update_tournament_winner_score,
     upsert_player,
     upsert_player_event,
     upsert_player_round,
@@ -134,6 +135,57 @@ def test_upsert_updates_changed_values_on_conflict(conn):
     result = conn.execute("SELECT player_name FROM player_master WHERE player_id='999'").fetchone()
     assert result[0] == "New Name"
     assert conn.execute("SELECT COUNT(*) FROM player_master").fetchone()[0] == 1
+
+
+def _minimal_tournament_row(event_id):
+    return {
+        "event_id": event_id,
+        "game_code": event_id,
+        "event_name": "Test Tournament",
+        "season": 2026,
+        "start_date": "2026-08-20",
+        "end_date": "2026-08-23",
+        "course_name": None,
+        "course_location": None,
+        "par": None,
+        "course_yards": None,
+        "rounds_scheduled": None,
+        "rounds_completed": None,
+        "field_size": None,
+        "winner": "서교림",
+        "winner_score": None,
+        "official_url": None,
+    }
+
+
+def test_update_tournament_winner_score_patches_existing_row_without_not_null_error(conn):
+    """Regression test: a real live run hit
+    'sqlite3.IntegrityError: NOT NULL constraint failed:
+    tournament_master.game_code' when winner_score was patched via
+    upsert_tournament(conn, {"event_id": ..., "winner_score": ...}) —
+    SQLite validates NOT NULL on the INSERT candidate row (game_code,
+    event_name, season, end_date all omitted from that partial dict)
+    BEFORE it even checks whether ON CONFLICT applies. This must patch
+    cleanly via a plain UPDATE instead."""
+    upsert_tournament(conn, _minimal_tournament_row("2026080002"))
+    conn.commit()
+
+    update_tournament_winner_score(conn, "2026080002", 280)
+    conn.commit()
+
+    row = conn.execute(
+        "SELECT event_id, game_code, event_name, winner, winner_score FROM tournament_master WHERE event_id='2026080002'"
+    ).fetchone()
+    assert row == ("2026080002", "2026080002", "Test Tournament", "서교림", "280")
+    assert conn.execute("SELECT COUNT(*) FROM tournament_master").fetchone()[0] == 1
+
+
+def test_update_tournament_winner_score_is_a_noop_for_a_missing_event_id(conn):
+    """Never inserts — patching a nonexistent event_id updates zero
+    rows rather than creating a broken partial tournament_master row."""
+    update_tournament_winner_score(conn, "does-not-exist", 999)
+    conn.commit()
+    assert conn.execute("SELECT COUNT(*) FROM tournament_master").fetchone()[0] == 0
 
 
 def test_collection_run_lifecycle(conn):

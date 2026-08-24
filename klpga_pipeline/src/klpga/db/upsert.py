@@ -42,7 +42,27 @@ def _upsert(
 
 
 def upsert_tournament(conn: sqlite3.Connection, row: Mapping[str, Any]) -> None:
+    """Full-row upsert. `row` must include every NOT NULL
+    tournament_master column (game_code, event_name, season, end_date) —
+    SQLite validates NOT NULL constraints on the constructed INSERT
+    candidate row BEFORE it even checks whether ON CONFLICT applies, so
+    a partial row here fails even when the row already exists and only
+    an UPDATE was intended. For a partial patch on an existing row, use
+    update_tournament_winner_score (or add a similarly dedicated
+    UPDATE-only helper) instead of calling this with a partial row."""
     _upsert(conn, "tournament_master", row, conflict_cols=["event_id"])
+
+
+def update_tournament_winner_score(conn: sqlite3.Connection, event_id: str, winner_score: Any) -> None:
+    """Patch tournament_master.winner_score on an ALREADY-EXISTING row —
+    a plain UPDATE, not an upsert, specifically to avoid the NOT NULL
+    pitfall described on upsert_tournament above. If event_id doesn't
+    exist yet, this updates zero rows (no error, nothing inserted) —
+    call upsert_tournament with the full row first."""
+    conn.execute(
+        "UPDATE tournament_master SET winner_score = :winner_score WHERE event_id = :event_id",
+        {"winner_score": winner_score, "event_id": event_id},
+    )
 
 
 def upsert_player(conn: sqlite3.Connection, row: Mapping[str, Any]) -> None:

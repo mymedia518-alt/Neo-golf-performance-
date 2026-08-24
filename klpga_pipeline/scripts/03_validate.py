@@ -5,6 +5,17 @@
     resolve to an existing tournament_master / player_master row
     (foreign_keys=ON already enforces this at insert time, but this
     re-checks explicitly for a clear pass/fail report)
+  - every tournament_master row has at least one player_event row —
+    i.e. 02_collect_leaderboards.py actually ran to completion for it.
+    tournament_master alone only proves 01_collect_tournaments.py
+    succeeded; a tournament with zero player_event rows means its
+    leaderboard collection crashed, was blocked, or never ran, and this
+    would otherwise pass silently since row-count/FK/duplicate checks
+    don't look at per-tournament coverage at all.
+  - no collection_runs row logged status='error' or 'blocked' — a
+    secondary signal pointing at *why*, if the coverage check above
+    fails (kept separate since a script can legitimately retry after an
+    earlier failed run and still end up fully collected).
 
 Usage:
     python scripts/03_validate.py --db data/klpga.sqlite
@@ -91,8 +102,45 @@ def validate(db_path: Path, target_count: int) -> list[str]:
     if orphan_pr_event:
         failures.append(f"{orphan_pr_event} player_round rows reference a missing tournament_master.event_id")
 
+    incomplete = conn.execute(
+        "SELECT tm.event_id, tm.game_code, tm.event_name FROM tournament_master tm "
+        "LEFT JOIN player_event pe ON tm.event_id = pe.event_id "
+        "WHERE pe.event_id IS NULL"
+    ).fetchall()
+    if incomplete:
+        examples = ", ".join(f"{game_code} ({name})" for _, game_code, name in incomplete[:5])
+        more = f" (+{len(incomplete) - 5} more)" if len(incomplete) > 5 else ""
+        failures.append(
+            f"{len(incomplete)} tournament_master row(s) have ZERO player_event rows — "
+            f"02_collect_leaderboards.py did not complete for them: {examples}{more}"
+        )
+
     conn.close()
     return failures
+
+
+def collect_warnings(db_path: Path) -> list[str]:
+    """Non-fatal diagnostics: historical error/blocked collection_runs
+    rows. NOT counted toward pass/fail — a script can legitimately fail
+    once, get fixed, and be re-run successfully, and this append-only
+    audit log keeps the old failed row forever. The authoritative
+    "did collection actually complete" signal is the player_event
+    coverage check in validate() above; this is just context to help
+    explain a failure it finds, or to flag past retries even when
+    coverage now looks fine."""
+    conn = sqlite3.connect(db_path)
+    total = _scalar(conn, "SELECT COUNT(*) FROM collection_runs WHERE status IN ('error', 'blocked')")
+    warnings: list[str] = []
+    if total:
+        recent = conn.execute(
+            "SELECT script_name, target, status, error_message FROM collection_runs "
+            "WHERE status IN ('error', 'blocked') ORDER BY run_id DESC LIMIT 5"
+        ).fetchall()
+        examples = "; ".join(f"{s}/{t}: {status} ({msg})" for s, t, status, msg in recent)
+        more = f" (+{total - len(recent)} more)" if total > len(recent) else ""
+        warnings.append(f"{total} historical collection_runs row(s) logged error/blocked: {examples}{more}")
+    conn.close()
+    return warnings
 
 
 def main() -> int:
@@ -107,6 +155,14 @@ def main() -> int:
         return 2
 
     failures = validate(db_path, args.target)
+    warnings = collect_warnings(db_path)
+
+    if warnings:
+        print(f"NOTE ({len(warnings)} non-fatal, informational — does not affect pass/fail):")
+        for w in warnings:
+            print(f"  - {w}")
+        print()
+
     if failures:
         print(f"VALIDATION FAILED ({len(failures)} issue(s)):")
         for f in failures:
