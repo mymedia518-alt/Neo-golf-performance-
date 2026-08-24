@@ -173,6 +173,44 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   a `tournament_master` row with zero `player_event` rows (exactly what
   the crash above left behind). Fixed: added a coverage check requiring
   every `tournament_master` row to have ≥1 `player_event` row.
+- **CUT/WD/DQ players were silently dropped from collection entirely —
+  a serious data-completeness bug**, discovered from the live
+  5-tournament run's diagnostics, 2026-08-24: `player_round` was
+  **exactly** `4 × player_event` across all 336 collected
+  `player_event` rows (`SUM(1-made_cut)=0`, `SUM(withdrawn)=0`,
+  `SUM(disqualified)=0`). That is not plausible as "none of 5 real
+  KLPGA tournaments had a cut" — the real cause was that
+  `collect_all_rounds_for_game`'s missing-round detection only scanned
+  players **already present** in the final round's response for
+  missing individual scores. A player who is cut/WD/DQ and therefore
+  **entirely absent** from the final round's row list (not merely
+  missing some fields on a present row) was never even seen, so they
+  never triggered any earlier-round fetch and never appeared anywhere
+  in the collected data — not with `made_cut=0`, just not present at
+  all.
+  Fixed (`src/klpga/collectors/leaderboard.py`): now always fetches
+  round 1 too (the one round the full starting field is guaranteed to
+  appear on) and diffs its `player_code` set against the final round's.
+  Any discrepancy triggers fetching every intermediate round to locate
+  where each dropped player's real last-played data (and CUT/WD/DQ
+  marker) actually is. This costs more requests per tournament in the
+  common case where cuts did happen (up to one request per round
+  instead of one or two total), which is an intentional trade — data
+  completeness over request-count minimization, per the project's own
+  stated priority.
+  **Consequence: both the earlier single-tournament (gameCode
+  2026080002) and 5-tournament collected datasets are known-incomplete**
+  and must be re-collected with the fixed code before being trusted —
+  see "Next steps" below. This does NOT necessarily mean those specific
+  tournaments actually had CUT players (gameCode 2026080002 in
+  particular may be a genuinely small/no-cut field, as speculated
+  earlier in this doc) — it means the pipeline could not have told us
+  either way, which is the actual defect.
+  Regression tests added: `tests/test_leaderboard_collector.py`
+  (collector-level request-strategy tests) and
+  `tests/test_cut_player_integration.py` (full collector -> merge ->
+  build pipeline test asserting a CUT player ends up with
+  `made_cut=0`, 2 rounds played, not dropped).
 
 ## Next steps
 
@@ -180,29 +218,37 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
    --game-code 2026080002`~~ — **DONE, 2026-08-24.** 1 tournament, 72
    players, 72 player_event rows, 288 player_round rows, winner
    confirmed (서교림/11134, 280/-8). Results folded into sections 1-2.
+   **Superseded, 2026-08-24: known-incomplete** per the CUT/WD/DQ bug
+   in section 5 — must be re-collected with the fixed code.
 2. ~~Run `scripts/01_collect_tournaments.py --target 5` (small
    multi-tournament run)~~ — **DONE, 2026-08-24.** 5 tournaments, 336
    player_event rows total, `03_validate.py --target 5` ->
-   `VALIDATION PASSED`. Also surfaced and confirmed the fix for the bug
-   in section 5 above. This run's report didn't include new
-   field-level detail (tourType/gameFinish variety, a real CUT case,
-   etc.) beyond aggregate counts — the open items below are still open.
-3. **Still open / not yet run:** `scripts/00_discover_site.py` —
+   `VALIDATION PASSED`. Also surfaced and confirmed the fix for the
+   `winner_score` bug in section 5. **Also superseded, 2026-08-24:
+   known-incomplete** — this run's diagnostics (`SUM(1-made_cut)=0`
+   across all 336 rows) is exactly what led to finding the CUT/WD/DQ
+   drop bug in section 5. Must be re-collected.
+3. **Current goal: re-run the 5-tournament checkpoint with the
+   CUT/WD/DQ fix** (`scripts/01_collect_tournaments.py --target 5`
+   against a fresh DB) before scaling to 100 — need to confirm the fix
+   actually surfaces real CUT/WD/DQ data (or confirms these specific 5
+   tournaments genuinely have none) before trusting a much larger run.
+   See README.md "Running a small multi-tournament validation".
+4. **Still open / not yet run:** `scripts/00_discover_site.py` —
    `robots.txt` for both hosts has not actually been fetched yet in any
    run so far.
-4. **Current goal: the full 100-tournament run**
+5. Only once step 3 looks solid (or confirms a real CUT/WD/DQ case,
+   which would be the strongest possible confirmation the fix works),
+   scale up to the full 100-tournament run
    (`scripts/01_collect_tournaments.py --target 100`, the default). See
-   README.md "Running the full pipeline". This is also the run most
-   likely to surface the still-open items below (a real CUT case,
-   other tourType/gameFinish values, older-season quirks), since it
-   spans more tournaments and likely more than one season.
-5. Use that run's output to fill in the remaining `[ ]` items above
+   README.md "Running the full pipeline".
+6. Use that/those run's output to fill in the remaining `[ ]` items above
    (other tourType codes, non-F gameFinish values, a real CUT case for
    the round-history question, exact duplicate-row markup, `par`/
    `course_yards`/`field_size`, per-player prize money, `official_url`
    pattern).
-6. Update this file's checkboxes based on what's actually observed —
+7. Update this file's checkboxes based on what's actually observed —
    never mark something done from inference alone.
-7. `player_stats_snapshot` (data.klpga.co.kr) collection has not
+8. `player_stats_snapshot` (data.klpga.co.kr) collection has not
    started — nothing there is confirmed yet. That's the next data
    source after tournament/leaderboard collection is solid at 100.

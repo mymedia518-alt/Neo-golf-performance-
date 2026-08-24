@@ -1,8 +1,13 @@
-"""Tests for klpga.collectors.leaderboard — specifically the request-count
-optimization from spec section 5 (reuse the final round's response when
-it already has all 4 round scores; only fetch an earlier round when a
-player's score for it is actually missing). No network access — a fake
-client stands in for PoliteHttpClient."""
+"""Tests for klpga.collectors.leaderboard's collection strategy.
+
+Corrected after a real bug found on live data (see leaderboard.py's
+module docstring): the original strategy only checked players already
+present in the final round's response for missing individual scores, so
+a player entirely ABSENT from that response (a real CUT/WD/DQ case) was
+never detected at all. Fixed by always fetching round 1 too (the
+guaranteed full starting field) and comparing player_code sets. No
+network access — a fake client stands in for PoliteHttpClient.
+"""
 from __future__ import annotations
 
 from klpga.collectors.leaderboard import collect_all_rounds_for_game, discover_final_round
@@ -31,42 +36,54 @@ class FakeLeaderboardClient:
         return html.replace("{round}", str(rnd))
 
 
-def test_final_round_with_full_history_needs_only_one_request():
+def test_identical_field_on_round1_and_final_round_needs_only_two_requests():
+    """When round 1 and the final round have the exact same set of
+    players (a real confirmed no-cut/no-dropout case) and every row
+    already has all 4 round scores, only round 1 and the final round
+    need fetching."""
     final_html = (
         _row_html(1, "선수A", "111", r1="70", r2="67", r3="68", r4="71", total="276")
         + _row_html(2, "선수B", "112", r1="72", r2="70", r3="69", r4="70", total="281")
     )
-    client = FakeLeaderboardClient({4: final_html})
-
-    results = collect_all_rounds_for_game(client, "G1", final_round=4)
-
-    assert set(results.keys()) == {4}
-    assert len(client.calls) == 1
-    assert client.calls[0] == {"gameCode": "G1", "round": "4"}
-
-
-def test_cut_player_missing_earlier_round_triggers_one_targeted_extra_call():
-    # Final round (4) response: player A has all 4 rounds; CUT player B is
-    # missing round1 in this response (simulating the "may not be included"
-    # case called out in the spec).
-    final_html = (
-        _row_html(1, "선수A", "111", r1="70", r2="67", r3="68", r4="71", total="276")
-        + _row_html("CUT", "선수B", "112", r1="", r2="79", r3="68", r4="", total="", today="")
-    )
-    round1_html = _row_html(1, "선수A", "111", r1="70", today="-2") + _row_html(
-        "CUT", "선수B", "112", r1="75", today="+3"
+    round1_html = (
+        _row_html(1, "선수A", "111", r1="70", today="-2")
+        + _row_html(2, "선수B", "112", r1="72", today="0")
     )
     client = FakeLeaderboardClient({4: final_html, 1: round1_html})
 
     results = collect_all_rounds_for_game(client, "G1", final_round=4)
 
-    assert set(results.keys()) == {4, 1}
-    # exactly 2 requests total: the final round, plus the one missing round
+    assert set(results.keys()) == {1, 4}
     assert len(client.calls) == 2
-    assert {c["round"] for c in client.calls} == {"4", "1"}
-    # round 2/3 were NOT re-fetched even though they weren't 100% verified
-    # for every player, because no row was missing a round2/round3 score
-    assert all(c["round"] != "2" and c["round"] != "3" for c in client.calls)
+    assert {c["round"] for c in client.calls} == {"1", "4"}
+
+
+def test_player_entirely_absent_from_final_round_triggers_full_intermediate_fetch():
+    """Regression test for the real bug: a CUT player completely ABSENT
+    from the final round's response (not just missing fields on a
+    present row) must be detected by diffing round 1's field against
+    the final round's, and every intermediate round fetched to locate
+    where their data (and CUT/WD/DQ status) actually is."""
+    # Only 선수A (111) appears on the final round -- 선수B (112) was cut
+    # after round 2 and simply isn't in this response at all.
+    final_html = _row_html(1, "선수A", "111", r1="70", r2="67", r3="68", r4="71", total="276")
+    round1_html = (
+        _row_html(1, "선수A", "111", r1="70", today="-2")
+        + _row_html(1, "선수B", "112", r1="75", today="+3")
+    )
+    round2_html = (
+        _row_html(1, "선수A", "111", r1="70", r2="67", today="-3")
+        + _row_html("CUT", "선수B", "112", r1="75", r2="79", today="+7")
+    )
+    round3_html = _row_html(1, "선수A", "111", r1="70", r2="67", r3="68", today="-1")
+    client = FakeLeaderboardClient(
+        {4: final_html, 1: round1_html, 2: round2_html, 3: round3_html}
+    )
+
+    results = collect_all_rounds_for_game(client, "G1", final_round=4)
+
+    assert set(results.keys()) == {1, 2, 3, 4}
+    assert {c["round"] for c in client.calls} == {"1", "2", "3", "4"}
 
 
 def test_discover_final_round_probes_downward_to_first_non_empty_round():

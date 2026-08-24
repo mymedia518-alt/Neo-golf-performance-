@@ -10,30 +10,27 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 32/32 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 38/38 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
   parsing/merge/UPSERT *code* is correct for that structure.
-- ✅ **Live single-tournament collection: SUCCEEDED**, from a Windows PC
-  with real internet access (this dev environment's own egress to
-  `klpga.co.kr` is still blocked). `gameCode=2026080002` ("BC카드 · 한경
-  제48회 KLPGA 챔피언십", season 2026): 1 tournament, 72 players, 72
-  player_event rows, 288 player_round rows. Winner 서교림 (playerCode
-  `11134`), 70-67-69-74=280 (-8), confirmed against `getGameList`'s
-  `winnerCode`/`winnerName` and matched by the parser's own rank-1
-  result.
-- ✅ **Live 5-tournament batch collection: SUCCEEDED**, same Windows PC.
-  `scripts/01_collect_tournaments.py --target 5` walked back the season
-  correctly; `02_collect_leaderboards.py` processed all 5 (336
-  player_event rows total); `03_validate.py --target 5` returned
-  `VALIDATION PASSED: all checks OK`. This run also caught and confirmed
-  the fix for a real bug (`winner_score` patch crashing on a NOT NULL
-  constraint, which silently aborted collection after tournament 1 of 5
-  the first time this was tried) — see the "bugfix" entry in git log and
-  `docs/SITE_STRUCTURE_TODO.md` for details.
-- ❌ **Full 100-tournament collection: not attempted yet.** That's the
-  current goal — see "Running the full pipeline" below.
+- ⚠️ **Live single-tournament and 5-tournament collections both
+  SUCCEEDED, then were found to be INCOMPLETE.** `gameCode=2026080002`
+  (1 tournament) and a 5-tournament batch via
+  `scripts/01_collect_tournaments.py --target 5` both ran end-to-end and
+  passed `03_validate.py` — but the 5-tournament run's own diagnostics
+  (`player_round` exactly `4 × player_event` across all 336 rows, zero
+  CUT/WD/DQ anywhere) revealed a real data-completeness bug: players who
+  don't reach the final round were being silently dropped from
+  collection entirely, not recorded with `made_cut=0`. **Both datasets
+  must be re-collected with the fix** before being trusted. See
+  `docs/SITE_STRUCTURE_TODO.md` section 5 for the full writeup and the
+  earlier `winner_score` NOT NULL bug this run also caught and fixed.
+- ❌ **Full 100-tournament collection: not attempted yet.** Next up: a
+  re-run of the 5-tournament checkpoint with the fix, to confirm it
+  actually surfaces CUT/WD/DQ data before scaling to 100 — see "Running
+  a small multi-tournament validation" below.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -55,12 +52,14 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: the full 100-tournament collection
+## Current goal: re-validate the 5-tournament checkpoint with the fix
 
-Both the single-tournament and 5-tournament checkpoints are clean. The
-next step is the full run — `scripts/01_collect_tournaments.py --target
-100` (the default) against the canonical `data/klpga.sqlite`. See
-"Running the full pipeline" below.
+The CUT/WD/DQ drop bug (see status above) means the full 100-tournament
+run shouldn't happen yet — re-run the same 5-tournament checkpoint first
+with the fixed code, and check whether it now surfaces real CUT/WD/DQ
+rows (or confirms these specific 5 tournaments genuinely have none).
+Only after that looks right does it make sense to scale to 100. See
+"Running a small multi-tournament validation" below.
 
 Known, expected gap even after a clean 100-tournament run:
 **`player_stats_snapshot` will still be empty.** `data.klpga.co.kr` (the
@@ -112,20 +111,23 @@ tests/
   test_upsert.py                 UPSERT idempotency + collection_runs lifecycle tests, incl. the
                                   winner_score NOT NULL regression found in the live 5-tournament run
   test_validate.py               03_validate.py's per-tournament coverage-gap check
+  test_cut_player_integration.py  full collector->merge->build pipeline test for the CUT/WD/DQ
+                                   drop regression found in the live 5-tournament run
 ```
 
-## Running a single-tournament validation (done — see status above)
+## Running a single-tournament validation (ran once — result now known-incomplete, see status above)
 
 ```bash
-python src/klpga/db/init_db.py --db data/klpga.sqlite
+python src/klpga/db/init_db.py --db data/klpga.sqlite --reset
 python scripts/04_collect_single_tournament.py --season 2026 --game-code 2026080002 --db data/klpga.sqlite
 ```
 
 Prints the raw `getGameList` entry it matched, how many
 `roundLeaderboard` requests it made, sample parsed player rows, and a
-raw HTML snippet.
+raw HTML snippet. Re-running with `--reset` replaces the earlier
+incomplete result.
 
-## Running a small multi-tournament validation (done — see status above)
+## Running a small multi-tournament validation (current goal — re-run with the fix)
 
 ```bash
 python src/klpga/db/init_db.py --db data/klpga_small.sqlite --reset
@@ -135,7 +137,12 @@ python scripts/03_validate.py --db data/klpga_small.sqlite --target 5
 python src/klpga/db/export_csv.py --db data/klpga_small.sqlite --out data/csv_small
 ```
 
-## Running the full pipeline (current goal)
+Same commands as the first 5-tournament run — `--reset` on `init_db.py`
+discards the earlier known-incomplete result. Check the CUT/WD/DQ counts
+this time (see the diagnostic query in the status discussion) before
+moving on to the full run below.
+
+## Running the full pipeline (later — after the 5-tournament re-run looks right)
 
 ```bash
 python src/klpga/db/init_db.py --db data/klpga.sqlite --reset
