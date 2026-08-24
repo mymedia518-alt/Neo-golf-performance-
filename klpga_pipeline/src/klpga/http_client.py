@@ -157,6 +157,34 @@ class PoliteHttpClient:
         )
         return text
 
+    def post_text(
+        self,
+        url: str,
+        data: Optional[dict] = None,
+        use_cache: bool = True,
+        headers: Optional[dict] = None,
+    ) -> str:
+        """POST that returns an HTML/text body (e.g. roundLeaderboard,
+        which responds with an HTML fragment rather than JSON)."""
+        cache_key_params = {"data": data}
+        cache_path = self._cache_path(url, cache_key_params)
+        if use_cache and cache_path.exists():
+            logger.debug("cache hit: %s %s", url, data)
+            return json.loads(cache_path.read_text(encoding="utf-8"))["body_text"]
+
+        host = requests.utils.urlparse(url).netloc
+        self._throttle(host)
+        resp = self._do_request("POST", url, data=data, headers=headers)
+        text = resp.text
+        cache_path.write_text(
+            json.dumps(
+                {"url": url, "params": cache_key_params, "body_text": text},
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        return text
+
     def post_json(
         self,
         url: str,
