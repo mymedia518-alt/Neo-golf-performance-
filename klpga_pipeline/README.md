@@ -15,22 +15,24 @@ data.
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
   parsing/merge/UPSERT *code* is correct for that structure.
-- ⚠️ **Live single-tournament and 5-tournament collections both
-  SUCCEEDED, then were found to be INCOMPLETE.** `gameCode=2026080002`
-  (1 tournament) and a 5-tournament batch via
-  `scripts/01_collect_tournaments.py --target 5` both ran end-to-end and
-  passed `03_validate.py` — but the 5-tournament run's own diagnostics
-  (`player_round` exactly `4 × player_event` across all 336 rows, zero
-  CUT/WD/DQ anywhere) revealed a real data-completeness bug: players who
-  don't reach the final round were being silently dropped from
-  collection entirely, not recorded with `made_cut=0`. **Both datasets
-  must be re-collected with the fix** before being trusted. See
-  `docs/SITE_STRUCTURE_TODO.md` section 5 for the full writeup and the
-  earlier `winner_score` NOT NULL bug this run also caught and fixed.
-- ❌ **Full 100-tournament collection: not attempted yet.** Next up: a
-  re-run of the 5-tournament checkpoint with the fix, to confirm it
-  actually surfaces CUT/WD/DQ data before scaling to 100 — see "Running
-  a small multi-tournament validation" below.
+- ⚠️ **Live single-tournament and 5-tournament collections both ran,
+  and both had real bugs found and partially fixed from their own
+  diagnostics.** Round 1: `player_round` was exactly `4 × player_event`
+  across all 336 rows, zero CUT/WD/DQ anywhere — players who didn't
+  reach the final round were being silently dropped from collection
+  entirely. Fixed; re-run showed 602 player_event / 1,862 player_round
+  rows (player discovery confirmed working — real round-count spread,
+  no more suspicious exact ratio). Round 2: `made_cut`/`withdrawn`/
+  `disqualified` were **still** all zero even with the players now
+  correctly discovered — root cause: those flags were only ever derived
+  from a literal `"CUT"`/`"WD"`/`"DQ"` string in `data-rank`, which the
+  real site apparently never uses (missed-cut players just get a plain
+  numeric rank; a 1-round dropout group shows a `999` sentinel instead).
+  **Not yet fixed** — see `docs/SITE_STRUCTURE_TODO.md` section 5 and
+  "Investigating CUT/WD/DQ classification" below for the current
+  diagnostic step before writing the fix.
+- ❌ **Full 100-tournament collection: not attempted yet.** Blocked on
+  correct CUT/WD/DQ classification first — see above.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -102,6 +104,8 @@ scripts/
   02_collect_leaderboards.py    every tournament_master row -> player_master/player_event/player_round
   03_validate.py                exactly-N check, duplicate check, FK integrity check
   04_collect_single_tournament.py  ONE known gameCode end-to-end — used for the first validation checkpoint
+  07_inspect_status_markup.py   diagnostic: dump raw cached HTML around finish_position='999' player
+                                 rows, to find any CUT/WD/DQ marker beyond the bare rank sentinel
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -113,6 +117,7 @@ tests/
   test_validate.py               03_validate.py's per-tournament coverage-gap check
   test_cut_player_integration.py  full collector->merge->build pipeline test for the CUT/WD/DQ
                                    drop regression found in the live 5-tournament run
+  test_inspect_status_markup.py   find_row_context() extraction logic for the 999-sentinel diagnostic
 ```
 
 ## Running a single-tournament validation (ran once — result now known-incomplete, see status above)
@@ -127,7 +132,7 @@ Prints the raw `getGameList` entry it matched, how many
 raw HTML snippet. Re-running with `--reset` replaces the earlier
 incomplete result.
 
-## Running a small multi-tournament validation (current goal — re-run with the fix)
+## Running a small multi-tournament validation (ran twice — see status above)
 
 ```bash
 python src/klpga/db/init_db.py --db data/klpga_small.sqlite --reset
@@ -137,12 +142,30 @@ python scripts/03_validate.py --db data/klpga_small.sqlite --target 5
 python src/klpga/db/export_csv.py --db data/klpga_small.sqlite --out data/csv_small
 ```
 
-Same commands as the first 5-tournament run — `--reset` on `init_db.py`
-discards the earlier known-incomplete result. Check the CUT/WD/DQ counts
-this time (see the diagnostic query in the status discussion) before
-moving on to the full run below.
+`--reset` on `init_db.py` discards whatever was there before, so this
+same command sequence is what re-collects `data/klpga_small.sqlite`
+after any further fix, too — no separate "second run" instructions
+needed each time.
 
-## Running the full pipeline (later — after the 5-tournament re-run looks right)
+## Investigating CUT/WD/DQ classification (current goal)
+
+Before writing any fix for the `made_cut`/`withdrawn`/`disqualified`
+issue, inspect the raw HTML the site actually returned for the
+`finish_position='999'` players — this uses the already-cached
+responses from the collection run above, so it makes **zero new
+network requests**:
+
+```bash
+python scripts/07_inspect_status_markup.py --db data/klpga_small.sqlite --cache-dir data/raw_cache/http
+```
+
+This prints, for each sampled `999` player, the raw HTML around their
+row on every round they might appear on (1-4) — looking for any class
+name, title attribute, or different text beyond the bare `999` rank
+that would distinguish WD from DQ (or confirm there's genuinely no
+such distinction available in this endpoint's data).
+
+## Running the full pipeline (later — after CUT/WD/DQ classification is fixed and re-validated)
 
 ```bash
 python src/klpga/db/init_db.py --db data/klpga.sqlite --reset
