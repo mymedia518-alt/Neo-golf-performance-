@@ -9,16 +9,34 @@ Confirmed per-player fields, observed as attributes on the DOM (see
 docs/SITE_STRUCTURE_TODO.md for the capture):
 
   Row-level (rank/score summary):
-    data-rank            e.g. "1", "T2", "CUT", "WD", "DQ"
+    data-rank            e.g. "1", "T2", "999" (see below), "CUT"/"WD"/"DQ" per
+                          the task's written spec (never actually observed as
+                          literal text in any live response so far)
     data-name            player's Korean name
     data-totunderpar     total score to par, e.g. "-7", "E", "+2"
-    data-inghole         holes completed so far, e.g. "18"
+    data-inghole         holes completed so far, e.g. "18" — meaning not fully
+                          understood yet, see docs/SITE_STRUCTURE_TODO.md
     data-todayunderpar   today's round score to par
     data-score           total strokes
     data-round1score .. data-round4score   per-round strokes, "" if none
+    data-updown           mirrors data-rank exactly in every observed case so
+                          far; not otherwise used
 
   Detail-level (player identity):
     _gameCode, _playerCode, _playerName, _playerEngName, _round, _hole
+
+  CONFIRMED live, 2026-08-24 (real HTML, gameCode=2026080002): a player
+  who does not complete a round gets data-rank="999" (mirrored in
+  data-updown) instead of a real rank, with data-score /
+  data-totunderpar / data-todayunderpar all reset to the placeholder
+  "0" alongside it — NOT real zero values. This is a genuine sentinel,
+  handled explicitly below (see _RANK_SENTINELS). No literal "WD" or
+  "DQ" text, class name, or attribute was found anywhere in the
+  surrounding markup for these rows — this endpoint does not appear to
+  textually distinguish withdrawal from disqualification, so this
+  parser deliberately does NOT guess between them (see
+  klpga.collectors.aggregate for how made_cut/withdrawn/disqualified
+  are derived from this).
 
 HTML normalizes attribute names to lowercase, and the user's capture
 notes may have been taken from a JS object dump rather than raw markup,
@@ -39,8 +57,19 @@ from typing import Optional
 
 from bs4 import BeautifulSoup, Tag
 
-# Confirmed non-numeric rank/status strings.
+# Per the task's written spec — never actually observed as literal
+# data-rank text in any live response captured so far. Kept in case a
+# future response does use them.
 _STATUS_VALUES = {"CUT", "WD", "DQ"}
+
+# CONFIRMED live, 2026-08-24 (gameCode=2026080002): data-rank="999" is
+# the site's real sentinel for "did not complete this round" — not a
+# literal numeric rank. It cannot be distinguished into WD vs. DQ from
+# this endpoint's data (no other marker was found alongside it), so it
+# gets its own status distinct from the (unconfirmed) CUT/WD/DQ text
+# values above, rather than being guessed into one of them.
+_RANK_SENTINELS = {"999": "INCOMPLETE"}
+
 _TIE_RANK_RE = re.compile(r"^T(\d+)$", re.IGNORECASE)
 _SIGNED_INT_RE = re.compile(r"^[+-]?\d+$")
 
@@ -93,6 +122,17 @@ def _to_plain_int(text: Optional[str]) -> Optional[int]:
         return None
 
 
+def _to_stroke_count(text: Optional[str]) -> Optional[int]:
+    """Parse a stroke count (a single round's score, or a tournament
+    total). CONFIRMED live, 2026-08-24: a literal "0" is used as a
+    placeholder alongside the data-rank="999" sentinel (see
+    _RANK_SENTINELS) rather than a real score — 0 strokes is never a
+    realistic value for a round or a tournament total in golf, so it's
+    treated as no-data here, never as a genuine zero."""
+    value = _to_plain_int(text)
+    return None if value == 0 else value
+
+
 def _to_signed_int(text: Optional[str]) -> Optional[int]:
     """Parse a signed 'to par' style value such as '-7' or '+2'.
     Non-numeric values like 'E' (even par) are preserved only in the
@@ -136,7 +176,9 @@ class PlayerRoundRow:
     rank_display: Optional[str]      # raw data-rank text, e.g. "1", "T2", "CUT"
     rank: Optional[int]              # normalized numeric rank, None if not applicable
     tie_flag: bool                   # True if rank_display matched T<n>
-    status: Optional[str]            # 'CUT' / 'WD' / 'DQ', else None
+    status: Optional[str]            # 'CUT'/'WD'/'DQ' (unconfirmed text values,
+                                      # never observed live) or 'INCOMPLETE' (the
+                                      # confirmed "999" rank sentinel), else None
 
     total_under_par_display: Optional[str]   # raw data-totunderpar text
     total_under_par: Optional[int]           # signed-int parse, None if e.g. 'E'
@@ -167,6 +209,8 @@ def parse_rank(raw: Optional[str]) -> tuple[Optional[str], Optional[int], bool, 
     upper = raw.upper()
     if upper in _STATUS_VALUES:
         return raw, None, False, upper
+    if raw in _RANK_SENTINELS:
+        return raw, None, False, _RANK_SENTINELS[raw]
     m = _TIE_RANK_RE.match(raw)
     if m:
         return raw, int(m.group(1)), True, None
@@ -193,8 +237,17 @@ def parse_round_leaderboard_html(
 
         rank_display, rank_numeric, tie_flag, status = parse_rank(_attr(row, "data-rank"))
 
-        total_under_par_display = _clean_str(_attr(row, "data-totunderpar"))
-        today_under_par_display = _clean_str(_attr(row, "data-todayunderpar"))
+        # CONFIRMED live, 2026-08-24: when data-rank is the "999"
+        # sentinel (status == "INCOMPLETE"), data-totunderpar /
+        # data-todayunderpar are placeholder "0" alongside it, not real
+        # even-par values — unlike a normal row, where "0" genuinely
+        # means "E" (even par) and must be kept. Only suppressed for
+        # this specific confirmed sentinel case, not generically for
+        # every non-None status (CUT/WD/DQ text values are unconfirmed
+        # and may behave differently if ever actually observed).
+        is_incomplete_sentinel = status == "INCOMPLETE"
+        total_under_par_display = None if is_incomplete_sentinel else _clean_str(_attr(row, "data-totunderpar"))
+        today_under_par_display = None if is_incomplete_sentinel else _clean_str(_attr(row, "data-todayunderpar"))
 
         row_player_name = _clean_str(_attr(row, "data-name"))
         detail_player_name = _clean_str(_attr(detail, "_playername"))
@@ -216,12 +269,12 @@ def parse_round_leaderboard_html(
                 total_under_par=_to_signed_int(total_under_par_display),
                 today_under_par_display=today_under_par_display,
                 today_under_par=_to_signed_int(today_under_par_display),
-                total_strokes=_to_plain_int(_attr(row, "data-score")),
+                total_strokes=_to_stroke_count(_attr(row, "data-score")),
                 holes_completed=_clean_str(_attr(row, "data-inghole")),
-                round1_score=_to_plain_int(_attr(row, "data-round1score")),
-                round2_score=_to_plain_int(_attr(row, "data-round2score")),
-                round3_score=_to_plain_int(_attr(row, "data-round3score")),
-                round4_score=_to_plain_int(_attr(row, "data-round4score")),
+                round1_score=_to_stroke_count(_attr(row, "data-round1score")),
+                round2_score=_to_stroke_count(_attr(row, "data-round2score")),
+                round3_score=_to_stroke_count(_attr(row, "data-round3score")),
+                round4_score=_to_stroke_count(_attr(row, "data-round4score")),
             )
         )
 

@@ -10,29 +10,38 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 38/38 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 45/45 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
   parsing/merge/UPSERT *code* is correct for that structure.
 - ⚠️ **Live single-tournament and 5-tournament collections both ran,
-  and both had real bugs found and partially fixed from their own
-  diagnostics.** Round 1: `player_round` was exactly `4 × player_event`
-  across all 336 rows, zero CUT/WD/DQ anywhere — players who didn't
-  reach the final round were being silently dropped from collection
-  entirely. Fixed; re-run showed 602 player_event / 1,862 player_round
-  rows (player discovery confirmed working — real round-count spread,
-  no more suspicious exact ratio). Round 2: `made_cut`/`withdrawn`/
-  `disqualified` were **still** all zero even with the players now
-  correctly discovered — root cause: those flags were only ever derived
-  from a literal `"CUT"`/`"WD"`/`"DQ"` string in `data-rank`, which the
-  real site apparently never uses (missed-cut players just get a plain
-  numeric rank; a 1-round dropout group shows a `999` sentinel instead).
-  **Not yet fixed** — see `docs/SITE_STRUCTURE_TODO.md` section 5 and
-  "Investigating CUT/WD/DQ classification" below for the current
-  diagnostic step before writing the fix.
+  and had three real bugs found and fixed in sequence from their own
+  diagnostics** (see `docs/SITE_STRUCTURE_TODO.md` section 5 for the
+  full writeup of each):
+  1. Players who didn't reach the final round were silently dropped
+     from collection entirely (fixed — player discovery confirmed
+     correct: 602 player_event / 1,862 player_round rows, a real spread).
+  2. `made_cut`/`withdrawn`/`disqualified` stayed all-zero even with
+     players correctly discovered, because those flags were only ever
+     derived from a literal `"CUT"`/`"WD"`/`"DQ"` string in `data-rank`
+     — confirmed via raw HTML inspection
+     (`scripts/07_inspect_status_markup.py`) that the real site never
+     uses that text at all. Missed-cut players get a plain real numeric
+     rank; players who don't complete their last-appeared round get a
+     `data-rank="999"` sentinel instead (with score/to-par fields reset
+     to placeholder `"0"`s alongside it) — no marker anywhere
+     distinguishes WD from DQ. Fixed: `made_cut` is now derived from
+     whether the player has a real score for the tournament's actual
+     final round; a literal `"0"` score is never treated as real;
+     `withdrawn`/`disqualified` are honestly left `0` for the `999`
+     group (not guessed) while `finish_position="999"` stays preserved
+     so that group remains identifiable.
+  **Needs one more re-collection of the 5-tournament checkpoint to
+  confirm this fix live** before scaling to 100 — not done yet as of
+  this entry.
 - ❌ **Full 100-tournament collection: not attempted yet.** Blocked on
-  correct CUT/WD/DQ classification first — see above.
+  confirming the classification fix above on real data first.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -145,27 +154,17 @@ python src/klpga/db/export_csv.py --db data/klpga_small.sqlite --out data/csv_sm
 `--reset` on `init_db.py` discards whatever was there before, so this
 same command sequence is what re-collects `data/klpga_small.sqlite`
 after any further fix, too — no separate "second run" instructions
-needed each time.
+needed each time. **Current goal**: run it once more now that the
+made_cut/withdrawn/disqualified fix (see status above) is in, and
+check the CUT/WD/DQ counts before moving to the full run below.
 
-## Investigating CUT/WD/DQ classification (current goal)
+`scripts/07_inspect_status_markup.py` (raw HTML inspection around
+`finish_position='999'` rows, zero new network requests since it reads
+the same disk cache) is what surfaced the real markup behind that fix —
+kept in the repo for any future investigation of remaining open
+questions (e.g. whether some other endpoint distinguishes WD from DQ).
 
-Before writing any fix for the `made_cut`/`withdrawn`/`disqualified`
-issue, inspect the raw HTML the site actually returned for the
-`finish_position='999'` players — this uses the already-cached
-responses from the collection run above, so it makes **zero new
-network requests**:
-
-```bash
-python scripts/07_inspect_status_markup.py --db data/klpga_small.sqlite --cache-dir data/raw_cache/http
-```
-
-This prints, for each sampled `999` player, the raw HTML around their
-row on every round they might appear on (1-4) — looking for any class
-name, title attribute, or different text beyond the bare `999` rank
-that would distinguish WD from DQ (or confirm there's genuinely no
-such distinction available in this endpoint's data).
-
-## Running the full pipeline (later — after CUT/WD/DQ classification is fixed and re-validated)
+## Running the full pipeline (later — after the classification fix is confirmed live)
 
 ```bash
 python src/klpga/db/init_db.py --db data/klpga.sqlite --reset

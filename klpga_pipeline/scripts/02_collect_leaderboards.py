@@ -92,10 +92,11 @@ def main() -> int:
         # tournament is skipped; the loop continues.
         try:
             rounds_data = collect_all_rounds_for_game(client, t["game_code"])
+            final_round = max(rounds_data.keys())
 
             merged = merge_player_rows(rounds_data)
             player_rows, player_event_rows, player_round_rows = build_rows(
-                t["game_code"], t["season"], t["event_id"], merged
+                t["game_code"], t["season"], t["event_id"], merged, final_round
             )
 
             for row in player_rows:

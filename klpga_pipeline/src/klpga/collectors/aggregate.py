@@ -11,11 +11,25 @@ that weren't directly queried, front9/back9/birdie/eagle/etc. counts,
 player birth_year/nationality/team_or_sponsor) are left NULL — see
 docs/SITE_STRUCTURE_TODO.md.
 
-ASSUMPTION (not confirmed against a live response, flagged so it can be
-corrected once verified): made_cut is derived as status not in {'CUT'};
-withdrawn/disqualified are derived from status == 'WD'/'DQ'. This is a
-reasonable reading of the confirmed CUT/WD/DQ status strings, not a
-verified site rule.
+made_cut/withdrawn/disqualified, CONFIRMED live 2026-08-24
+(gameCode=2026080002 real HTML — see docs/SITE_STRUCTURE_TODO.md):
+  - made_cut is derived from whether the player has a real (non-
+    sentinel) score for the tournament's actual final round — a
+    structural fact from real collected data, NOT from data-rank text.
+    The site does not appear to use literal "CUT" text at all; a
+    missed-cut player simply gets a real numeric rank on their last
+    completed round and no row on later rounds.
+  - withdrawn/disqualified are left 0 UNLESS status is literally "WD"
+    or "DQ" (kept for forward-compatibility in case some response
+    somewhere does use that text — never actually observed so far).
+    A player who didn't complete their last-appeared round shows the
+    confirmed data-rank="999" sentinel (parsed as status="INCOMPLETE")
+    instead — this clearly means "something abnormal happened," but no
+    marker distinguishing WD from DQ was found anywhere in this
+    endpoint's HTML. Rather than guess, withdrawn/disqualified stay 0
+    for these rows too; the raw finish_position="999" is preserved
+    so this group remains identifiable to downstream consumers without
+    fabricating which specific status applies.
 """
 from __future__ import annotations
 
@@ -82,10 +96,16 @@ def merge_player_rows(rounds_data: dict[int, list[PlayerRoundRow]]) -> dict[str,
     return merged
 
 
-def build_rows(game_code: str, season: int, event_id: str, merged: dict[str, dict]):
+def build_rows(game_code: str, season: int, event_id: str, merged: dict[str, dict], final_round: int):
     """Returns (player_rows, player_event_rows, player_round_rows) — dicts
     shaped exactly for klpga.db.upsert.upsert_player /
-    upsert_player_event / upsert_player_round."""
+    upsert_player_event / upsert_player_round.
+
+    `final_round` is the tournament's actual final round (e.g. the
+    round number collect_all_rounds_for_game discovered/was given —
+    typically `max(rounds_data.keys())` at the call site). made_cut is
+    computed from whether each player has a real score for exactly
+    that round, not from any status text."""
     player_rows, player_event_rows, player_round_rows = [], [], []
 
     for player_code, entry in merged.items():
@@ -107,6 +127,7 @@ def build_rows(game_code: str, season: int, event_id: str, merged: dict[str, dic
             total_score / rounds_played if total_score is not None and rounds_played > 0 else None
         )
         status = entry["status"]
+        made_cut = 1 if final_round in round_scores else 0
 
         player_event_rows.append(
             {
@@ -118,7 +139,7 @@ def build_rows(game_code: str, season: int, event_id: str, merged: dict[str, dic
                 "finish_position": entry["rank_display"],
                 "finish_position_numeric": entry["rank"],
                 "tie_flag": 1 if entry["tie_flag"] else 0,
-                "made_cut": 0 if status == "CUT" else 1,
+                "made_cut": made_cut,
                 "withdrawn": 1 if status == "WD" else 0,
                 "disqualified": 1 if status == "DQ" else 0,
                 "rounds_played": rounds_played or None,
