@@ -1,0 +1,228 @@
+"""Parser for the KLPGA roundLeaderboard HTML fragment.
+
+Confirmed via browser Network capture against
+  POST https://klpga.co.kr/load/leaderboard/roundLeaderboard
+  form: gameCode=<code>, round=<n>
+which returns an HTML fragment (not JSON).
+
+Confirmed per-player fields, observed as attributes on the DOM (see
+docs/SITE_STRUCTURE_TODO.md for the capture):
+
+  Row-level (rank/score summary):
+    data-rank            e.g. "1", "T2", "CUT", "WD", "DQ"
+    data-name            player's Korean name
+    data-totunderpar     total score to par, e.g. "-7", "E", "+2"
+    data-inghole         holes completed so far, e.g. "18"
+    data-todayunderpar   today's round score to par
+    data-score           total strokes
+    data-round1score .. data-round4score   per-round strokes, "" if none
+
+  Detail-level (player identity):
+    _gameCode, _playerCode, _playerName, _playerEngName, _round, _hole
+
+HTML normalizes attribute names to lowercase, and the user's capture
+notes may have been taken from a JS object dump rather than raw markup,
+so attribute lookups here are case-insensitive on purpose rather than
+assuming one exact casing.
+
+Design intent: don't rely on where text is positioned on the rendered
+page (fragile) — read the data-* / _-prefixed attributes directly, since
+those are what's actually confirmed to exist regardless of surrounding
+markup/CSS changes. Anything not present in a given row is left as None
+(NULL) rather than guessed.
+"""
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass
+from typing import Optional
+
+from bs4 import BeautifulSoup, Tag
+
+# Confirmed non-numeric rank/status strings.
+_STATUS_VALUES = {"CUT", "WD", "DQ"}
+_TIE_RANK_RE = re.compile(r"^T(\d+)$", re.IGNORECASE)
+_SIGNED_INT_RE = re.compile(r"^[+-]?\d+$")
+
+# The row scope is any element carrying data-rank — this is the one
+# confirmed anchor attribute for "this element represents one player's
+# leaderboard row."
+_ROW_SELECTOR = "[data-rank]"
+
+# Candidate attribute names (case-insensitive) for locating the nested
+# "detail" element that carries _playerCode etc. A row's own tag may
+# itself carry these attributes, or a descendant may.
+_DETAIL_ATTR_CANDIDATES = ("_playercode", "_playername", "_playerengname", "_gamecode", "_round", "_hole")
+
+
+def _attrs_lower(tag: Tag) -> dict[str, str]:
+    return {str(k).lower(): v for k, v in tag.attrs.items()}
+
+
+def _attr(tag: Optional[Tag], *names: str) -> Optional[str]:
+    """Case-insensitive attribute lookup, first match among aliases wins."""
+    if tag is None:
+        return None
+    lower = _attrs_lower(tag)
+    for name in names:
+        val = lower.get(name.lower())
+        if val is not None:
+            return val
+    return None
+
+
+def _clean_str(text: Optional[str]) -> Optional[str]:
+    """Empty string -> None. Never invents a value for missing data."""
+    if text is None:
+        return None
+    if isinstance(text, list):  # bs4 can return a list for some attrs
+        text = " ".join(text)
+    text = text.strip()
+    return text if text != "" else None
+
+
+def _to_plain_int(text: Optional[str]) -> Optional[int]:
+    """Parse an unsigned/plain integer string (e.g. round strokes, total
+    strokes, hole count). Empty/non-numeric -> None, never guessed."""
+    text = _clean_str(text)
+    if text is None:
+        return None
+    try:
+        return int(text)
+    except ValueError:
+        return None
+
+
+def _to_signed_int(text: Optional[str]) -> Optional[int]:
+    """Parse a signed 'to par' style value such as '-7' or '+2'.
+    Non-numeric values like 'E' (even par) are preserved only in the
+    *_display field, not forced into a fabricated 0 here."""
+    text = _clean_str(text)
+    if text is None:
+        return None
+    if not _SIGNED_INT_RE.match(text):
+        return None
+    return int(text)
+
+
+def _find_detail_tag(row: Tag) -> Optional[Tag]:
+    """Find the element (row itself, or a descendant) carrying the
+    _playerCode-style detail attributes."""
+    if any(_attr(row, name) is not None for name in _DETAIL_ATTR_CANDIDATES):
+        return row
+    for candidate_name in _DETAIL_ATTR_CANDIDATES:
+        found = row.find(attrs={candidate_name: True})
+        if found is not None:
+            return found
+    return None
+
+
+@dataclass
+class PlayerRoundRow:
+    """One player's leaderboard row as returned for a single
+    (gameCode, round) roundLeaderboard request.
+
+    Fields mirror the confirmed minimum-collection-field list. Rank and
+    to-par values keep BOTH the raw response string (never altered) and a
+    best-effort normalized numeric parse (None when not cleanly numeric,
+    e.g. CUT/WD/DQ/'E')."""
+
+    game_code: Optional[str]
+    player_code: Optional[str]
+    player_name: Optional[str]
+    player_eng_name: Optional[str]
+    round_number: Optional[int]
+
+    rank_display: Optional[str]      # raw data-rank text, e.g. "1", "T2", "CUT"
+    rank: Optional[int]              # normalized numeric rank, None if not applicable
+    tie_flag: bool                   # True if rank_display matched T<n>
+    status: Optional[str]            # 'CUT' / 'WD' / 'DQ', else None
+
+    total_under_par_display: Optional[str]   # raw data-totunderpar text
+    total_under_par: Optional[int]           # signed-int parse, None if e.g. 'E'
+
+    today_under_par_display: Optional[str]   # raw data-todayunderpar text
+    today_under_par: Optional[int]
+
+    total_strokes: Optional[int]     # data-score
+    holes_completed: Optional[str]   # data-inghole, kept as raw text (may be non-numeric)
+
+    round1_score: Optional[int]
+    round2_score: Optional[int]
+    round3_score: Optional[int]
+    round4_score: Optional[int]
+
+    def has_all_four_rounds(self) -> bool:
+        return all(
+            v is not None
+            for v in (self.round1_score, self.round2_score, self.round3_score, self.round4_score)
+        )
+
+
+def parse_rank(raw: Optional[str]) -> tuple[Optional[str], Optional[int], bool, Optional[str]]:
+    """Returns (rank_display, rank_numeric, tie_flag, status)."""
+    raw = _clean_str(raw)
+    if raw is None:
+        return None, None, False, None
+    upper = raw.upper()
+    if upper in _STATUS_VALUES:
+        return raw, None, False, upper
+    m = _TIE_RANK_RE.match(raw)
+    if m:
+        return raw, int(m.group(1)), True, None
+    if raw.isdigit():
+        return raw, int(raw), False, None
+    # Unrecognized rank text: preserve raw, don't force a numeric guess.
+    return raw, None, False, None
+
+
+def parse_round_leaderboard_html(
+    html: str,
+    game_code: Optional[str] = None,
+    round_number: Optional[int] = None,
+) -> list[PlayerRoundRow]:
+    """Parse a roundLeaderboard HTML fragment into one PlayerRoundRow per
+    player. `game_code`/`round_number` are fallbacks used only when a row
+    doesn't itself carry a confirmed _gameCode/_round attribute — the
+    per-row attribute always takes priority when present."""
+    soup = BeautifulSoup(html, "lxml")
+    rows: list[PlayerRoundRow] = []
+
+    for row in soup.select(_ROW_SELECTOR):
+        detail = _find_detail_tag(row)
+
+        rank_display, rank_numeric, tie_flag, status = parse_rank(_attr(row, "data-rank"))
+
+        total_under_par_display = _clean_str(_attr(row, "data-totunderpar"))
+        today_under_par_display = _clean_str(_attr(row, "data-todayunderpar"))
+
+        row_player_name = _clean_str(_attr(row, "data-name"))
+        detail_player_name = _clean_str(_attr(detail, "_playername"))
+        detail_round = _to_plain_int(_attr(detail, "_round"))
+        detail_game_code = _clean_str(_attr(detail, "_gamecode"))
+
+        rows.append(
+            PlayerRoundRow(
+                game_code=detail_game_code or game_code,
+                player_code=_clean_str(_attr(detail, "_playercode")),
+                player_name=detail_player_name or row_player_name,
+                player_eng_name=_clean_str(_attr(detail, "_playerengname")),
+                round_number=detail_round if detail_round is not None else round_number,
+                rank_display=rank_display,
+                rank=rank_numeric,
+                tie_flag=tie_flag,
+                status=status,
+                total_under_par_display=total_under_par_display,
+                total_under_par=_to_signed_int(total_under_par_display),
+                today_under_par_display=today_under_par_display,
+                today_under_par=_to_signed_int(today_under_par_display),
+                total_strokes=_to_plain_int(_attr(row, "data-score")),
+                holes_completed=_clean_str(_attr(row, "data-inghole")),
+                round1_score=_to_plain_int(_attr(row, "data-round1score")),
+                round2_score=_to_plain_int(_attr(row, "data-round2score")),
+                round3_score=_to_plain_int(_attr(row, "data-round3score")),
+                round4_score=_to_plain_int(_attr(row, "data-round4score")),
+            )
+        )
+
+    return rows

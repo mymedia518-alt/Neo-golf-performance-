@@ -1,0 +1,84 @@
+<!--
+  SYNTHETIC test fixture for klpga.parsers.leaderboard_parser.
+
+  This is NOT a raw HTML capture of the live site — it's a small,
+  hand-authored HTML fragment built to exercise the confirmed data-*
+  and _-prefixed attribute structure observed in a browser DevTools
+  Network capture of:
+
+    POST https://klpga.co.kr/load/leaderboard/roundLeaderboard
+    form: gameCode=2026080002, round=2
+
+  Row 1 mirrors the exact confirmed example values from that capture
+  (player 서고린 / playerCode 11134). Rows 2-3 are synthetic
+  additions covering a tied rank and a CUT player, to exercise the
+  parser's rank/status handling.
+
+  Do NOT load this fixture into data/klpga.sqlite as if it were real
+  collected data — tests must use an isolated in-memory/temp database.
+-->
+<div class="leaderboardList">
+  <ul class="lb-row"
+      data-rank="1"
+      data-name="서고린"
+      data-totunderpar="-7"
+      data-inghole="18"
+      data-todayunderpar="-5"
+      data-score="137"
+      data-round1score="70"
+      data-round2score="67"
+      data-round3score=""
+      data-round4score="">
+    <li class="player-detail"
+        _gamecode="2026080002"
+        _playercode="11134"
+        _playername="서고린"
+        _playerengname="SEO Kyorim"
+        _round="2"
+        _hole="18">
+      <span class="name">서고린</span>
+    </li>
+  </ul>
+
+  <ul class="lb-row"
+      data-rank="T2"
+      data-name="예시선수"
+      data-totunderpar="-5"
+      data-inghole="18"
+      data-todayunderpar="-3"
+      data-score="139"
+      data-round1score="71"
+      data-round2score="68"
+      data-round3score=""
+      data-round4score="">
+    <li class="player-detail"
+        _gamecode="2026080002"
+        _playercode="20099"
+        _playername="예시선수"
+        _playerengname="YE Siseonsu"
+        _round="2"
+        _hole="18">
+    </li>
+  </ul>
+
+  <ul class="lb-row"
+      data-rank="CUT"
+      data-name="컷선수"
+      data-totunderpar="+2"
+      data-inghole=""
+      data-todayunderpar=""
+      data-score=""
+      data-round1score="75"
+      data-round2score="79"
+      data-round3score=""
+      data-round4score="">
+    <li class="player-detail"
+        _gamecode="2026080002"
+        _playercode="30055"
+        _playername="컷선수"
+        _playerengname="CUT Player"
+        _round="2"
+        _hole="">
+    </li>
+  </ul>
+</div>

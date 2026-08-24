@@ -13,7 +13,10 @@ CREATE TABLE IF NOT EXISTS tournament_master (
     game_code           TEXT NOT NULL UNIQUE,
     event_name          TEXT NOT NULL,
     season              INTEGER NOT NULL,
-    start_date          TEXT NOT NULL,
+    -- Nullable: no confirmed getGameList field for the tournament start
+    -- date has been observed yet (only endDate) — not fabricated.
+    -- See docs/SITE_STRUCTURE_TODO.md.
+    start_date          TEXT,
     end_date            TEXT NOT NULL,
     course_name         TEXT,
     course_location     TEXT,
@@ -24,7 +27,10 @@ CREATE TABLE IF NOT EXISTS tournament_master (
     field_size          INTEGER,
     winner              TEXT,
     winner_score        TEXT,
-    official_url        TEXT NOT NULL
+    -- Nullable: the tournament detail-page URL pattern has not been
+    -- confirmed against a live response yet (see
+    -- docs/SITE_STRUCTURE_TODO.md), so it is not fabricated.
+    official_url        TEXT
 );
 
 -- ============================================================
@@ -191,3 +197,20 @@ CREATE TABLE IF NOT EXISTS player_stats_snapshot (
 
 CREATE INDEX IF NOT EXISTS idx_stats_snapshot_player ON player_stats_snapshot(player_id);
 CREATE INDEX IF NOT EXISTS idx_stats_snapshot_event ON player_stats_snapshot(related_event_id);
+
+-- ============================================================
+-- 6. collection_runs — audit log of each collection script
+--    invocation, so re-runs/resumes and failures are traceable.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS collection_runs (
+    run_id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    script_name   TEXT NOT NULL,
+    target        TEXT,              -- e.g. a season or gameCode being collected
+    started_at    TEXT NOT NULL,     -- ISO-8601 UTC timestamp
+    finished_at   TEXT,
+    status        TEXT NOT NULL CHECK (status IN ('running', 'success', 'error', 'blocked')),
+    rows_written  INTEGER,
+    error_message TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_collection_runs_script ON collection_runs(script_name);
