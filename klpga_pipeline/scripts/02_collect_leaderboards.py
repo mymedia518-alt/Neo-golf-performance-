@@ -33,7 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from klpga.collectors.aggregate import build_rows, merge_player_rows  # noqa: E402
+from klpga.collectors.aggregate import build_rows, merge_player_rows, resolve_winner_score  # noqa: E402
 from klpga.collectors.leaderboard import collect_all_rounds_for_game  # noqa: E402
 from klpga.db.upsert import (  # noqa: E402
     finish_collection_run,
@@ -41,6 +41,7 @@ from klpga.db.upsert import (  # noqa: E402
     upsert_player,
     upsert_player_event,
     upsert_player_round,
+    upsert_tournament,
 )
 from klpga.http_client import PoliteHttpClient, RateLimitBlockedError  # noqa: E402
 
@@ -106,6 +107,17 @@ def main() -> int:
         for row in player_round_rows:
             upsert_player_round(conn, row)
         conn.commit()
+
+        # winner_code isn't persisted in tournament_master (no column in
+        # the spec's 16-column schema), so this falls back to matching
+        # the unique rank-1 finisher — still real collected data, never
+        # fabricated, just less authoritative than getGameList's
+        # winnerCode (which 04_collect_single_tournament.py uses when
+        # available in the same run).
+        winner_score = resolve_winner_score(player_event_rows, None)
+        if winner_score is not None:
+            upsert_tournament(conn, {"event_id": t["event_id"], "winner_score": winner_score})
+            conn.commit()
 
         total_players_written += len(player_rows)
         finish_collection_run(

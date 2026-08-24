@@ -26,7 +26,17 @@ class FakeClient:
         return self.responses_by_season.get(season, {"gameList": []})
 
 
-def _game(game_code, title, tour_type="RE", end_date="20260315", finish="F"):
+def _game(
+    game_code,
+    title,
+    tour_type="RE",
+    start_date="20260301",
+    end_date="20260315",
+    finish="F",
+    prize_money=None,
+    winner_code=None,
+    winner_name=None,
+):
     return {
         "gameCode": game_code,
         "gameTitle": title,
@@ -34,29 +44,71 @@ def _game(game_code, title, tour_type="RE", end_date="20260315", finish="F"):
         "tourType": tour_type,
         "courseText": "아마타스프링",
         "courseEngText": "AMATA SPRING Country Club",
+        "outCourseText": "아웃코스",
+        "inCourseText": "인코스",
+        "startDate": start_date,
         "endDate": end_date,
         "gameFinish": finish,
+        "prizeMoney": prize_money,
+        "winnerCode": winner_code,
+        "winnerName": winner_name,
     }
 
 
 def test_fetch_game_list_parses_confirmed_fields_only():
-    client = FakeClient({2026: {"gameList": [_game("2026030001", "리쥬란 챔피언십")]}})
+    """Field values mirror the real live-confirmed capture for
+    gameCode=2026080002 (BC카드·한경 제48회 KLPGA 챔피언십, winner
+    서교림 / playerCode=11134) — see docs/SITE_STRUCTURE_TODO.md."""
+    client = FakeClient(
+        {
+            2026: {
+                "gameList": [
+                    _game(
+                        "2026080002",
+                        "BC카드 · 한경 제48회 KLPGA 챔피언십",
+                        start_date="20260820",
+                        end_date="20260823",
+                        prize_money=1500000000,
+                        winner_code="11134",
+                        winner_name="서교림",
+                    )
+                ]
+            }
+        }
+    )
     listings = fetch_game_list(client, season=2026, tour_type="RE")
 
     assert len(listings) == 1
     listing = listings[0]
-    assert listing.game_code == "2026030001"
-    assert listing.game_title == "리쥬란 챔피언십"
-    assert listing.game_eng_title == "리쥬란 챔피언십 (EN)"
+    assert listing.game_code == "2026080002"
+    assert listing.game_title == "BC카드 · 한경 제48회 KLPGA 챔피언십"
+    assert listing.game_eng_title == "BC카드 · 한경 제48회 KLPGA 챔피언십 (EN)"
     assert listing.tour_type == "RE"
     assert listing.course_text == "아마타스프링"
     assert listing.course_eng_text == "AMATA SPRING Country Club"
-    assert listing.end_date_raw == "20260315"
-    assert listing.end_date.isoformat() == "2026-03-15"
+    assert listing.out_course_text == "아웃코스"
+    assert listing.in_course_text == "인코스"
+    assert listing.start_date_raw == "20260820"
+    assert listing.start_date.isoformat() == "2026-08-20"
+    assert listing.end_date_raw == "20260823"
+    assert listing.end_date.isoformat() == "2026-08-23"
     assert listing.game_finish == "F"
+    assert listing.prize_money == 1500000000
+    assert listing.winner_code == "11134"
+    assert listing.winner_name == "서교림"
     assert listing.season == 2026
     assert listing.is_completed is True
     assert listing.is_regular_tour is True
+
+
+def test_fetch_game_list_leaves_unconfirmed_optional_fields_none_when_absent():
+    """A game list entry with no prizeMoney/winner fields (e.g. an
+    upcoming/in-progress tournament) parses without fabricating values."""
+    client = FakeClient({2026: {"gameList": [_game("X", "미완료 대회", finish="P")]}})
+    listing = fetch_game_list(client, season=2026)[0]
+    assert listing.prize_money is None
+    assert listing.winner_code is None
+    assert listing.winner_name is None
 
 
 def test_fetch_game_list_raises_on_unexpected_shape():

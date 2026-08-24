@@ -160,3 +160,22 @@ def build_rows(game_code: str, season: int, event_id: str, merged: dict[str, dic
             )
 
     return player_rows, player_event_rows, player_round_rows
+
+
+def resolve_winner_score(player_event_rows: list[dict], winner_player_id: Optional[str]) -> Optional[int]:
+    """Look up the winner's total_score from already-collected real
+    player_event rows — never fabricated, only returned when unambiguous.
+
+    Prefers matching by winner_player_id (from getGameList's confirmed
+    winnerCode field, the site's own authoritative winner designation).
+    Falls back to a unique finish_position_numeric == 1 row only when no
+    winner_player_id is available (e.g. an older/unconfirmed response
+    shape). Returns None — never a guess — if the match isn't exactly
+    one row (missing data, or a tie not resolved by a single winnerCode).
+    """
+    if winner_player_id is not None:
+        matches = [r for r in player_event_rows if r["player_id"] == winner_player_id]
+        return matches[0]["total_score"] if len(matches) == 1 else None
+
+    rank1 = [r for r in player_event_rows if r["finish_position_numeric"] == 1]
+    return rank1[0]["total_score"] if len(rank1) == 1 else None
