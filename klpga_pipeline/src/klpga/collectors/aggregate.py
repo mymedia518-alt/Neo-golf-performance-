@@ -142,7 +142,12 @@ def build_rows(game_code: str, season: int, event_id: str, merged: dict[str, dic
                 "made_cut": made_cut,
                 "withdrawn": 1 if status == "WD" else 0,
                 "disqualified": 1 if status == "DQ" else 0,
-                "rounds_played": rounds_played or None,
+                # A real, confirmed 0 (a player who appeared in the
+                # field but has zero valid round scores anywhere — see
+                # docs/SITE_STRUCTURE_TODO.md) is stored as literal 0,
+                # not NULL — NULL would misread as "unknown," but this
+                # is a verified count, not missing data.
+                "rounds_played": rounds_played,
                 "r1_score": round_scores.get(1),
                 "r2_score": round_scores.get(2),
                 "r3_score": round_scores.get(3),

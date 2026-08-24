@@ -132,3 +132,33 @@ def test_real_999_sentinel_pattern_is_not_counted_as_a_completed_round():
 
     round_rows_b = [r for r in player_round_rows if r["player_id"] == "112"]
     assert {r["round_number"] for r in round_rows_b} == {1}
+
+
+def test_zero_valid_rounds_pattern_stores_real_zero_not_null():
+    """Regression test using the ACTUAL confirmed live pattern for
+    playerCode 9750 (see docs/SITE_STRUCTURE_TODO.md, gameCode=2026080002):
+    a player who is ALREADY the "999" sentinel on round 1 itself, with
+    data-round1score="0" — i.e. zero valid rounds anywhere, not one.
+    rounds_played must be the real, confirmed 0 — NOT NULL, which would
+    misread as "unknown" rather than "verified zero." made_cut must
+    still be 0, and this player must not be silently dropped from
+    player_event."""
+    final_html = _row_html(1, "선수A", "111", r1="70", r2="67", r3="68", r4="71", total="276")
+    round1_html = (
+        _row_html(1, "선수A", "111", r1="70", today="-2")
+        + _row_html(999, "선수C", "999999", r1="0", today="0", underpar="0", total="0", hole="1")
+    )
+    client = FakeLeaderboardClient({4: final_html, 1: round1_html})
+
+    rounds_data = collect_all_rounds_for_game(client, "G1", final_round=4)
+    merged = merge_player_rows(rounds_data)
+    player_rows, player_event_rows, _ = build_rows("G1", 2026, "G1", merged, final_round=4)
+
+    assert "999999" in {p["player_id"] for p in player_rows}, "must not be silently dropped"
+
+    player_c = next(e for e in player_event_rows if e["player_id"] == "999999")
+    assert player_c["made_cut"] == 0
+    assert player_c["finish_position"] == "999"
+    assert player_c["rounds_played"] == 0, "a confirmed zero round count must be stored as 0, not NULL"
+    assert player_c["r1_score"] is None
+    assert player_c["total_score"] is None
