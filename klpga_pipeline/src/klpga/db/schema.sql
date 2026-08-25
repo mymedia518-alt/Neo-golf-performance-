@@ -121,30 +121,61 @@ CREATE INDEX IF NOT EXISTS idx_player_round_player ON player_round(player_id);
 CREATE INDEX IF NOT EXISTS idx_player_round_event ON player_round(event_id);
 
 -- ============================================================
--- 5. player_stats_snapshot — official KLPGA Data Center
---    performance statistics, captured AS OF a point in time to
---    avoid look-ahead bias when attached to a past event.
+-- 5. player_stats_snapshot — two DIFFERENT kinds of row, clearly
+--    separated by column group below:
+--
+--    (a) OFFICIAL KLPGA Data Center performance statistics
+--        (data.klpga.co.kr), captured AS OF a point in time to avoid
+--        look-ahead bias when attached to a past event. Only columns
+--        the official site actually publishes are filled; everything
+--        else stays NULL. Nothing in this group is estimated/derived.
+--        This host has never been reached from any environment this
+--        project has run in — every column in this group is still
+--        NULL in every row as of 2026-08-25 (see
+--        docs/SITE_STRUCTURE_TODO.md section 3).
+--
+--    (b) DERIVED aggregates (`derived_*` columns, snapshot_type=
+--        'derived_trailing100' only) computed by
+--        src/klpga/analytics/player_stats.py straight from this
+--        project's own validated tournament_master / player_event /
+--        player_round dataset — NOT official KLPGA statistics, and
+--        NOT a substitute for the official columns in (a). See that
+--        module's docstring for the exact formula/provenance of each
+--        one. True Strokes Gained and GIR are NOT derivable from this
+--        dataset (no shot-level distance-to-hole/lie/hole-by-hole
+--        green data was ever collected or is even collectible via the
+--        confirmed roundLeaderboard endpoint) and deliberately have NO
+--        derived_* equivalent — see docs/SITE_STRUCTURE_TODO.md
+--        section 6. Never read a `derived_*` column as if it were
+--        group (a)'s official equivalent, or vice versa.
 --
 --    snapshot_type:
---      'pre_event'      -> stats as published immediately before
---                           related_event_id started (preferred).
---      'season_to_date' -> stats as of a mid-season snapshot date
---                           when a pre_event snapshot isn't available.
---      'season_final'   -> season-end final stats (only ever used
---                           for events AFTER that season ended —
---                           never attached to a prior event).
---
---    Only columns the official site actually publishes are filled;
---    everything else stays NULL. Nothing here is estimated/derived.
+--      'pre_event'          -> official stats as published immediately
+--                               before related_event_id started
+--                               (preferred, group (a) only).
+--      'season_to_date'     -> official stats as of a mid-season
+--                               snapshot date, group (a) only.
+--      'season_final'       -> official season-end final stats (only
+--                               ever used for events AFTER that season
+--                               ended), group (a) only.
+--      'derived_trailing100' -> this pipeline's own aggregate over the
+--                               full validated tournament dataset as
+--                               of `as_of_date`, group (b) only.
+--                               related_event_id is always NULL for
+--                               this type (not tied to one event) — a
+--                               full recompute (DELETE + re-INSERT),
+--                               not an incremental upsert; see
+--                               scripts/09_build_player_stats_snapshot.py.
 -- ============================================================
 CREATE TABLE IF NOT EXISTS player_stats_snapshot (
     snapshot_id           INTEGER PRIMARY KEY AUTOINCREMENT,
     player_id             TEXT NOT NULL REFERENCES player_master(player_id),
     season                INTEGER NOT NULL,
     as_of_date            TEXT NOT NULL,
-    snapshot_type         TEXT NOT NULL CHECK (snapshot_type IN ('pre_event', 'season_to_date', 'season_final')),
+    snapshot_type         TEXT NOT NULL CHECK (snapshot_type IN ('pre_event', 'season_to_date', 'season_final', 'derived_trailing100')),
     related_event_id      TEXT REFERENCES tournament_master(event_id),
 
+    -- ---------------- group (a): OFFICIAL Data Center columns -------
     scoring_average        REAL,
     scoring_average_rank   INTEGER,
 
@@ -190,6 +221,29 @@ CREATE TABLE IF NOT EXISTS player_stats_snapshot (
     scrambling_rank        INTEGER,
 
     official_url           TEXT,
+
+    -- ---------------- group (b): DERIVED columns ---------------------
+    -- (this project's own aggregates — see module docstring above)
+    derived_tournaments_played     INTEGER,
+    derived_rounds_played          INTEGER,
+    derived_made_cuts              INTEGER,
+    derived_cut_rate               REAL,
+    derived_wins                   INTEGER,
+    derived_top5                   INTEGER,
+    derived_top10                  INTEGER,
+    derived_best_finish            INTEGER,
+    derived_avg_score              REAL,
+    derived_avg_score_to_par       REAL,
+    derived_scoring_stddev         REAL,
+    derived_recent_form_5          REAL,
+    derived_recent_form_5_n        INTEGER,
+    derived_recent_form_10         REAL,
+    derived_recent_form_10_n       INTEGER,
+    derived_recent_form_20         REAL,
+    derived_recent_form_20_n       INTEGER,
+    derived_weighted_recent_form   REAL,
+    derived_weighted_recent_form_n INTEGER,
+
     collected_at            TEXT NOT NULL,
 
     UNIQUE (player_id, season, as_of_date, snapshot_type, related_event_id)
