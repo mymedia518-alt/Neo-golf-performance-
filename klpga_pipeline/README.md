@@ -10,11 +10,15 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 86/86 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 106/106 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
-  fake in-process HTTP clients for the collector logic. They prove the
-  parsing/merge/UPSERT *code* is correct for that structure.
+  fake in-process HTTP clients for the collector logic — they prove the
+  parsing/merge/UPSERT *code* is correct for that structure. The
+  entry-list parser tests are different: they run against
+  `tests/fixtures/entry_list_sample.html`, the COMPLETE real HTML of a
+  live entry-list page pasted verbatim by the user (see "Entry-list
+  collection" below) — not synthetic.
 - ✅ **Live 5-tournament collection: CONFIRMED WORKING**, after finding
   and fixing four real bugs in sequence from the run's own diagnostics
   (see `docs/SITE_STRUCTURE_TODO.md` section 5 for the full writeup of
@@ -93,19 +97,19 @@ data.
   by Model C's point-in-time walk-forward backtest, not hand-picked —
   approved. **Not implemented.** Implementation is blocked on the
   entry-list investigation below.
-- 🚧 **Upcoming-tournament entry list: investigation in progress,
-  2026-08-25 — NOT confirmed.** A hard prerequisite for the
-  win-probability model (it must rank only the actual entered field).
-  Repo search confirms nothing about a participant/entry roster exists
-  anywhere in this codebase — only `getGameList` and `roundLeaderboard`
-  are confirmed endpoints. Live investigation from this dev sandbox is
-  blocked by the network egress proxy's own policy (confirmed via its
-  status endpoint, not assumed) — needs to run from a machine with real
-  access, same as every other endpoint in this project.
-  `scripts/13_discover_entry_list.py` (read-only, no DB writes) is
-  built and tested for the automatable half of the investigation; see
-  `docs/SITE_STRUCTURE_TODO.md` section 7 for the full writeup and the
-  required browser DevTools follow-up.
+- ✅ **Upcoming-tournament entry list: source CONFIRMED, collection
+  layer built, 2026-08-25.** `GET /web/tourInfo/entry?gameCode=<code>`
+  returns a full HTML page (not JSON) whose `<h2>전체 선수</h2>` table is
+  the real, confirmed roster — cross-checked against the complete raw
+  HTML the user pasted (문정민 → `playerCode=10296`, plus 5 more real
+  players; 120/120 rows match the page's own summary count). Parser
+  (`entry_list_parser.py`), collector (`entry_list.py`: fetch +
+  `player_master` matching + completed-tournament cross-check), and a
+  read-only diagnostic (`scripts/14_inspect_entry_list.py`) are
+  implemented and tested (106/106 full suite). **The `tournament_entry`
+  storage layer is still NOT created** — that, and the actual live run
+  on the Windows PC, remain the next steps; see
+  `docs/SITE_STRUCTURE_TODO.md` section 7.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -130,18 +134,22 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: resolve the entry-list blocker before implementing the win-probability model
+## Current goal: verify the entry-list collection layer against the live field, then implement the win-probability model
 
 The raw 100-tournament dataset is validated, the derived analytics
 layer has survived two red-team passes and is now fully verified
-against production (see status above), and the win-probability model's
+against production (see status above), the win-probability model's
 overall direction is approved (Model B's mechanism, Model C's
-walk-forward fitting — see the design report). **Implementation is
-deliberately NOT started.** The model must rank only a real upcoming
-tournament's actual entered field, and no entry-list source has been
-confirmed yet — see `docs/SITE_STRUCTURE_TODO.md` section 7 and run
-`scripts/13_discover_entry_list.py` (see "Entry-list investigation"
-below) on a machine with real internet access.
+walk-forward fitting — see the design report), and the entry-list
+source is now confirmed with a working parser/collector/diagnostic
+layer (see status above and `docs/SITE_STRUCTURE_TODO.md` section 7).
+**Model implementation is still deliberately NOT started.** What's left
+before it can begin: run `scripts/14_inspect_entry_list.py` against the
+real live site (and a completed tournament's
+`cross_check_against_player_event`) from a machine with real internet
+access, then — only after that live verification and explicit
+approval — implement the `tournament_entry` storage layer itself (see
+"Entry-list collection" below).
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
@@ -220,27 +228,34 @@ exact name match (falls back to the players with the most
 the round_to_par reliability check — confirmed AGREE against production
 (see status above).
 
-## Entry-list investigation (current goal — see status above)
+## Entry-list collection (current goal — see status above)
+
+Confirmed source: `GET /web/tourInfo/entry?gameCode=<code>` — a full
+HTML page whose `<h2>전체 선수</h2>` table is the real entry list (a
+second `<h2>즐겨찾기 선수</h2>` table is a hidden client-side favorites
+duplicate and is excluded). See `docs/SITE_STRUCTURE_TODO.md` section 7
+for the full confirmation log, the real HTML structure, and the
+(still not created) `tournament_entry` schema proposal.
 
 ```bash
-python scripts/13_discover_entry_list.py --season <current_season>
+python scripts/14_inspect_entry_list.py --game-code <code>
+python scripts/14_inspect_entry_list.py --game-code <code> --db data/klpga.sqlite
 ```
 
 Read-only, no DB writes — requires a machine with real internet access
 to `klpga.co.kr` (this dev sandbox's own egress is confirmed blocked by
-policy for that host, not just unreachable). It: (a) surfaces every
-`getGameList` entry's `gameFinish` value and dumps the full raw JSON of
-the soonest not-yet-completed tournament, so any unparsed entry-related
-field can be spotted; (b) re-runs `00`'s robots.txt/home-page link
-discovery with a keyword list that (unlike `00`'s) actually includes
-entry/roster/participant terms in English and Korean, one hop deeper.
-It explicitly cannot fully resolve the endpoint on its own — an
-AJAX-driven tab click won't show up as a plain link — and ends by
-asking for a real browser DevTools Network capture on the candidate
-tournament's page, the same method that confirmed every other endpoint
-in this project. See `docs/SITE_STRUCTURE_TODO.md` section 7 for the
-full investigation log and the proposed (not yet created)
-`tournament_entry` schema.
+policy for that host, not just unreachable). Prints: the page's own
+summary-box counts, the parsed entrant total (flagged if it doesn't
+match the summary), any row that looked like an entrant but had no
+extractable `playerCode` (never silently dropped), duplicate
+`playerCode`s, matched/unmatched counts against `player_master` when
+`--db` is given (matched by `player_code` only, never by name), and 10
+sample entrants.
+
+`scripts/13_discover_entry_list.py` (the earlier, now-superseded
+automatable half of the original investigation — broadened-keyword link
+discovery) remains in the repo for reference; the confirmed source above
+supersedes it.
 
 ## Setup
 
@@ -261,8 +276,14 @@ src/klpga/
     leaderboard.py              roundLeaderboard adapter (minimal-request strategy, section 5 of spec)
     aggregate.py                 merge raw round rows -> player_master/player_event/player_round dicts,
                                   resolve_winner_score() from real collected data
+    entry_list.py                 /web/tourInfo/entry adapter: fetch, match to player_master by
+                                   player_code, cross-check against a completed tournament's
+                                   player_event — see "Entry-list collection" above
   parsers/
     leaderboard_parser.py       HTML fragment -> per-player round data, via data-*/_ attributes
+    entry_list_parser.py        entry-list HTML page -> per-entrant rows (excludes the hidden
+                                 favorites table, tracks 자격자/추천자/초청자 category, reports
+                                 unparseable rows explicitly — see "Entry-list collection" above)
   db/
     schema.sql                  SQLite schema (5 spec tables + collection_runs audit log)
     init_db.py                  create/reset klpga.sqlite
@@ -296,8 +317,12 @@ scripts/
                                           reliable enough to use directly, and does
                                           derived_avg_round_score_to_par's formula agree with it
   13_discover_entry_list.py          read-only: getGameList non-F breakdown + broadened
-                                      entry/roster keyword link discovery — see "Entry-list
-                                      investigation" above; does not guess any endpoint
+                                      entry/roster keyword link discovery — superseded once the
+                                      real endpoint was confirmed, kept for reference
+  14_inspect_entry_list.py           read-only entry-list diagnostic: fetch, parse, cross-check
+                                      against the page's own summary count, report unparseable
+                                      rows/duplicates, optional player_master matching — see
+                                      "Entry-list collection" above; no DB writes
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -325,6 +350,16 @@ tests/
                                             on deliberately corrupted data, never writes to the DB
   test_discover_entry_list.py     keyword-link matcher + getGameList candidate-selection logic
                                    against a fake client, no network
+  test_entry_list_parser.py       entry_list_parser tests against the real captured
+                                   entry_list_sample.html fixture — 문정민 -> playerCode 10296
+                                   cross-check, 5 more real players, summary/row-count
+                                   reconciliation, favorites-table exclusion
+  test_entry_list_collector.py    fetch_entry_list/match_entries_to_player_master/
+                                   cross_check_against_player_event against a fake client and a
+                                   real schema.sql-built temp DB, no network
+  test_inspect_entry_list.py      scripts/14's report logic against the real fixture: summary
+                                   match, unparsed-row/duplicate reporting, player_master
+                                   matched/unmatched counts
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`

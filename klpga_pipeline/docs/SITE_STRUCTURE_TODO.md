@@ -654,94 +654,150 @@ investigation).** Resolved by design, not just documentation:
   (approved direction: Model B's mechanism, fit Model C's
   walk-forward way) for how this feature is used next.
 
-## 7. Upcoming-tournament entry list — investigation (blocking prerequisite for win-probability v1)
+## 7. Upcoming-tournament entry list — CONFIRMED source, collection layer built
 
-**Status: NOT confirmed. No entry-list endpoint or page has been
-identified as of this entry.** This is a hard prerequisite for the
-win-probability model (it must rank only the actual entered field) and
-is being tracked separately from the model design itself.
+**Status: endpoint and HTML structure CONFIRMED (2026-08-25) via manual
+browser capture, cross-checked against the full raw HTML the user pasted
+verbatim. Parser, collector (fetch + player_master matching + completed-
+tournament cross-check), a read-only diagnostic script, and tests are
+implemented and passing (106/106 full suite). The `tournament_entry`
+storage layer itself is still NOT created — implementing it requires a
+separate approval per the original instruction.** This was a hard
+prerequisite for the win-probability model (it must rank only the actual
+entered field) and is tracked separately from the model design itself.
 
-- [x] **STEP 1, repo search, 2026-08-25**: grepped the full codebase
-      (case-insensitive) for `entry`, `참가`, `출전`, `엔트리`,
-      `participant`, `applicant` and every other lead in the brief.
-      Every match is either the unrelated Python variable name `entry`
-      used throughout `collectors/aggregate.py`'s per-player merge dict,
-      or "getGameList entry" (one item of the `gameList` array — a
-      *tournament listing*, not a *player entry list*). **Nothing about
-      a participant/entry roster exists anywhere in this codebase,
-      confirmed by search, not assumed.** Only two endpoints are
-      confirmed anywhere in this project: `getGameList` (tournament
-      list) and `roundLeaderboard` (per-round results) — see section 1
-      and 2 above. `scripts/00_discover_site.py` (recon-only, never
-      successfully run — see section 4) has a keyword list for its
-      link-discovery crawl that never included any entry/roster term at
-      all, English or Korean — a real gap in what it was ever looking
-      for.
-- [x] **STEP 2, live investigation attempt, 2026-08-25 — blocked from
-      this environment, confirmed via the proxy's own status, not
-      assumed.** Tried `curl` directly (`CONNECT tunnel failed,
-      response 403`) and the `WebFetch` tool (`EGRESS_BLOCKED`) against
-      `klpga.co.kr` from this dev sandbox. The proxy's own status
-      endpoint confirms this is a **policy denial**, not a transient
-      failure: `recentRelayFailures` shows `"gateway answered 403 to
-      CONNECT (policy denial or upstream failure)"` for both
-      `klpga.co.kr:443` and `www.klpga.co.kr:443`. Consistent with
-      every prior live confirmation in this project (`getGameList`,
-      `roundLeaderboard`, `gameMethod`) — those were all confirmed from
-      the user's Windows PC, not this sandbox, and the same has to be
-      true here.
-- [x] **Built `scripts/13_discover_entry_list.py`, 2026-08-25** — the
-      automatable half of STEP 2/3, to run on a machine with real
-      access. It does NOT guess any endpoint. It: (a) calls the
-      already-confirmed `getGameList` for a season and prints every
-      entry's `gameFinish` value plus the FULL raw JSON of the soonest
-      non-`"F"` (i.e. not yet completed) candidate tournament, so any
-      unparsed entry-count/roster-shaped field already sitting in a
-      response this project has never looked at that way can surface;
-      (b) re-runs the section-4 robots.txt + home-page link discovery
-      with a broadened keyword list that now actually includes
-      entry/roster/participant terms in English and Korean
-      (`entry`, `participant`, `roster`, `application`, `참가선수`,
-      `출전선수`, `엔트리`, `선수명단`, `출전`, `참가`, `신청선수`); (c)
-      follows every keyword-matched link one hop further and re-scans
-      those pages too. Read-only, no DB writes, same rate-limited
-      disk-cached `PoliteHttpClient` as every other collector.
-      Regression tests added (`tests/test_discover_entry_list.py`) for
-      the keyword matcher and the candidate-selection/raw-JSON-dump
-      logic against a fake client. 86/86 tests passing.
-      **Not yet run against the live site — requires the Windows PC.**
-      This script's own printed output is explicit that it CANNOT fully
-      resolve the endpoint by itself (an AJAX call fired by clicking an
-      "출전선수"/"엔트리" tab, if that's how the site does it, won't be
-      a plain `<a href>`/`<script src>` this crawl can see) — it ends
-      by asking for a real browser DevTools Network capture on the
-      candidate tournament's own page, the same method that confirmed
-      every other endpoint in this project.
-- [ ] **STEP 3/4** (build the confirmed diagnostic script; test against
-      an upcoming tournament and cross-check one completed tournament's
-      entry list against its real `player_event` field) — blocked on
-      STEP 2 actually producing a confirmed endpoint. Not started.
-- [ ] **STEP 5, future schema — DESIGNED, NOT CREATED.** Proposed
-      `tournament_entry` table (not added to `schema.sql`, per explicit
-      instruction not to create it yet):
+- [x] **CONFIRMED live, 2026-08-25 (manual browser capture, gameCode=
+      2026080001, 제15회 KG 레이디스 오픈):**
+      ```
+      GET https://klpga.co.kr/web/tourInfo/entry?gameCode=<code>
+      response: HTTP 200, text/html; charset=UTF-8 — a full rendered
+      page, NOT JSON, NOT an AJAX fragment.
+      ```
+      Confirmed participant example: 문정민, whose KLPGA player detail
+      page resolves to `mainRecord?playerCode=10296` — i.e. `playerCode`
+      is the same identity space already used everywhere else in this
+      project (`player_master.player_id`).
+- [x] **Full raw HTML cross-check, 2026-08-25** — the user pasted the
+      complete live page (not a summary). Saved verbatim as
+      `tests/fixtures/entry_list_sample.html` (640KB, real captured
+      data — same convention as `round_leaderboard_sample.html`).
+      Confirmed structure from this real capture:
+      - A summary box (`div.bg-light.boxshadow div.row.text-center`)
+        with `div.col > h4 (label) + h1 (value)` pairs: 총 참가자=120,
+        자격자=115, 추천자=5, 초청자=0.
+      - **Two tables exist on the page.** `<h2>즐겨찾기 선수</h2>`
+        ("favorites") is wrapped in `<div class="section-favorit"
+        style="display:none">`, and — confirmed by inspecting the real
+        markup — actually re-lists ALL 120 entrants again, with every
+        individual `<tr>` also carrying its own `style="display:none;"`.
+        This is a client-side favorite-toggle duplicate of the roster,
+        NOT a second real list, and is excluded entirely by the parser.
+        `<h2>전체 선수</h2>` ("all players") is the real, confirmed
+        entry list — its row count (120) reconciles exactly with the
+        summary box's 총 참가자 figure.
+      - Real player rows carry `a.col-7[href*='playerCode=X']` (a
+        second anchor around the avatar `<img>` carries the same code
+        but no name text — only `a.col-7` is used). Interleaved in the
+        same `<tbody>` are section-divider rows with no player link,
+        e.g. `<td colspan="3">| 자격자 : 115명</td>`, which only update
+        a running category context for the rows that follow. A category
+        with 0 entrants (초청자 here) has no divider row at all.
+      - The last `<td>` in a real player row is a free-text "참가 자격"
+        (qualification/eligibility REASON) column, e.g. "시드순위자",
+        "2025 정규투어 상금순위 60위 이내", "2024 일반대회 우승자", or
+        empty.
+      - **CONFIRMED cross-check:** 문정민's real row has
+        `playerCode=10296`, category "자격자", reason "2024 일반대회
+        우승자" — exactly matching the live browser confirmation. Five
+        additional real players were cross-checked the same way
+        (강가율/9174, 강지선/10623, 방신실/10095, 임진영/10138,
+        정영화/10143 under 추천자 with an empty reason) — see
+        `tests/test_entry_list_parser.py`.
+- [x] **`entry_status` — investigated, NO confirmed source found.** The
+      original schema sketch (STEP 5) proposed an `entry_status` column
+      for withdrawal/DNS. No WD/DNS/cancellation marker of any kind
+      (text, CSS class, or attribute) was found anywhere in the real
+      captured HTML — the same finding this project already made for
+      `roundLeaderboard`'s WD/DQ text (see section 5). The schema below
+      is revised accordingly: `entry_status` is dropped in favor of the
+      two genuinely confirmed fields, `qualification_category` (자격자/
+      추천자/초청자, from the divider rows) and `qualification_reason`
+      (the free-text "참가 자격" column). True attendance/withdrawal
+      status remains an open, unconfirmed gap — not fabricated.
+- [x] **Implemented, 2026-08-25:**
+      - `src/klpga/parsers/entry_list_parser.py` —
+        `parse_entry_summary()` / `parse_entry_list_html()`, excludes
+        the favorites table, tracks category via divider rows, and
+        explicitly surfaces (never silently drops) any row that looked
+        like an entrant but had no extractable `playerCode`
+        (`EntryListParseResult.unparsed_row_count` /
+        `.unparsed_samples`).
+      - `src/klpga/config.py` — `ENTRY_LIST_ENDPOINT`.
+      - `src/klpga/collectors/entry_list.py` — `fetch_entry_list()`
+        (uses the existing rate-limited/disk-cached `PoliteHttpClient`),
+        `match_entries_to_player_master()` (matches by `player_code` ==
+        `player_master.player_id` only, never by name; reports matched
+        and unmatched counts explicitly, never discards silently;
+        detects duplicate `player_code`s), `cross_check_against_
+        player_event()` (compares an entry list's player_code set
+        against an already-collected completed tournament's
+        `player_event.player_id` set for the same `game_code` —
+        reports the set difference without treating a mismatch as an
+        error, per the explicit "do not assume the two lists must be
+        identical" instruction).
+      - `scripts/14_inspect_entry_list.py` — read-only Windows
+        diagnostic (`--game-code`, optional `--db` opened
+        read-only). Prints: gameCode, the page's own summary counts,
+        parsed entrant total (cross-checked against 총 참가자, mismatch
+        flagged not hidden), unparseable-row count/samples, duplicate
+        `player_code`s, matched/unmatched vs. `player_master` when
+        `--db` is given, and 10 sample entrants. Makes no DB writes.
+      - Tests: `tests/test_entry_list_parser.py` (12 tests, against the
+        real fixture), `tests/test_entry_list_collector.py` (5 tests,
+        fake client + real `schema.sql`-built temp DB),
+        `tests/test_inspect_entry_list.py` (3 tests, script report
+        logic against the real fixture). Full suite: 106/106 passing.
+- [ ] **STEP 4's live-field run** (`scripts/14_inspect_entry_list.py
+      --game-code 2026080001` against the real site, and a completed
+      tournament's `cross_check_against_player_event`) still requires
+      running on the Windows PC — this sandbox's egress to
+      `klpga.co.kr` remains policy-blocked (re-confirmed 2026-08-25 via
+      the proxy's own status endpoint before the user's manual capture
+      was used instead).
+- [x] **Revised schema proposal — STILL NOT created in `schema.sql`,
+      per explicit instruction to wait for approval:**
       ```
       tournament_entry (
-          game_code            TEXT NOT NULL,   -- joins tournament_master.game_code
-          player_code          TEXT NOT NULL,   -- the confirmed real KLPGA playerCode;
-                                                 -- PRIMARY identity, joins player_master.player_id
-          player_name_display  TEXT,            -- display only, never used for matching
-          entry_status         TEXT,            -- e.g. entered / withdrawn / DNS — exact
-                                                 -- vocabulary depends on what STEP 2 confirms;
-                                                 -- not invented ahead of that
-          source               TEXT NOT NULL,   -- which confirmed endpoint/page this row came from
-          collected_at         TEXT NOT NULL,
+          game_code               TEXT NOT NULL,   -- joins tournament_master.game_code
+          player_code             TEXT NOT NULL,   -- confirmed real KLPGA playerCode;
+                                                    -- PRIMARY identity, joins player_master.player_id
+          player_name_display     TEXT,            -- display only, never used for matching
+          qualification_category  TEXT,            -- confirmed: 자격자 / 추천자 / 초청자
+          qualification_reason    TEXT,            -- confirmed free-text "참가 자격" column
+          source                  TEXT NOT NULL,   -- e.g. "web/tourInfo/entry"
+          collected_at            TEXT NOT NULL,
           PRIMARY KEY (game_code, player_code)
       )
       ```
-      `player_code` is the only identity key for joining into any
-      analytics table — matches the rest of this pipeline's convention
-      (section 2, and every prior red-team pass). No fuzzy name
-      matching, ever, per explicit instruction.
+      `entry_status` intentionally dropped — no confirmed source (see
+      above). `player_code` remains the only identity key for joining;
+      no fuzzy name matching, ever, per explicit instruction.
+
+**Earlier investigation history (superseded by the confirmation above,
+kept for the record):** a full repo search (2026-08-25) found nothing
+about an entry/participant roster anywhere in this codebase before this
+investigation started. A live fetch attempt from this dev sandbox was
+confirmed blocked at the proxy policy level (`curl` -> `CONNECT tunnel
+failed, response 403`; `WebFetch` -> `EGRESS_BLOCKED`; the proxy's own
+status endpoint showed `"gateway answered 403 to CONNECT (policy denial
+or upstream failure)"` for both `klpga.co.kr:443` and
+`www.klpga.co.kr:443`) — consistent with every other endpoint in this
+project, all of which were confirmed from the user's Windows PC or, in
+this case, a manual browser capture the user reported and then pasted in
+full. `scripts/13_discover_entry_list.py` (read-only link-discovery
+crawl, broadened entry/roster keyword list) was built as the automatable
+half of the investigation and remains in the repo, though it was
+superseded once the endpoint was confirmed directly.
 
 ## Next steps
 
