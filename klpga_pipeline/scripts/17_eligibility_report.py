@@ -2,18 +2,30 @@
 DB — no DB writes, does not touch tournament_master/player_master/
 player_event/player_round/tournament_entry.
 
+POPULATION REPORTED: this script's rows are the ELIGIBLE-AT-THRESHOLD-k
+population (see klpga.backtest.walk_forward's module docstring for the
+canonical definitions) — a THRESHOLD-FILTERED SUBSET of every USABLE
+target tournament (a tournament_master row with a resolvable date and a
+non-empty field). scripts/21_data_coverage_report.py reports that full
+USABLE population UNCONDITIONALLY (no threshold filter at all) — this
+script's threshold=0 row is DEFINITIONALLY identical to it (proven in
+tests/test_population_definitions.py), but any threshold>0 row is, BY
+DESIGN, a strictly smaller number. Do not compare a threshold>0 row here
+against script 21's total and expect them to match — that difference is
+the trade-off this script exists to show, not a bug.
+
 For a range of candidate "minimum prior tournaments required" values,
 prints:
-  - number of target tournaments retained
-  - percentage of the corpus (the 100 historical tournaments) retained
-  - number of player-target rows retained
-  - earliest usable target tournament / date at that threshold
+  - number of target tournaments ELIGIBLE at that threshold
+  - percentage of the corpus (every USABLE target tournament) retained
+  - number of player-target rows ELIGIBLE at that threshold
+  - earliest eligible target tournament / date at that threshold
   - median (and mean) prior_events_n among eligible player-target rows
   - % of eligible rows with zero prior events, and with <5/<10/<20
 
 This script does NOT choose a threshold — see
 klpga.backtest.walk_forward's module docstring. It only surfaces the
-empirical trade-off (more history required -> fewer usable target
+empirical trade-off (more history required -> fewer eligible target
 tournaments, but higher-quality features on the ones that remain) for
 a human to decide on later, at the model-design gate.
 
@@ -40,10 +52,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 _COLUMNS = [
     ("threshold", "min prior\ntournaments", 12),
-    ("eligible_tournament_count", "targets\nretained", 10),
-    ("pct_of_corpus_retained", "% of\ncorpus", 8),
-    ("eligible_field_row_count", "player-target\nrows", 13),
-    ("earliest_eligible_target_start_date", "earliest\ntarget date", 12),
+    ("eligible_tournament_count", "eligible\ntargets", 10),
+    ("pct_of_corpus_retained", "% of\nusable", 8),
+    ("eligible_field_row_count", "eligible\nrows", 13),
+    ("earliest_eligible_target_start_date", "earliest\neligible date", 14),
     ("earliest_eligible_target_game_code", "earliest\ngame_code", 12),
     ("median_prior_events_n", "median\nprior_n", 9),
     ("mean_prior_events_n", "mean\nprior_n", 9),
@@ -55,7 +67,14 @@ _COLUMNS = [
 
 
 def format_report(sweep: list[dict], total_tournament_count: int) -> str:
-    lines = [f"Corpus: {total_tournament_count} tournament_master row(s)."]
+    lines = [
+        f"USABLE population (unconditional — every tournament_master row with a resolvable date "
+        f"and a non-empty field; same population scripts/21_data_coverage_report.py reports): "
+        f"{total_tournament_count} tournament(s).",
+        "Rows below are the ELIGIBLE-AT-THRESHOLD-k SUBSET of that population — 'eligible targets' "
+        "at threshold=0 equals the usable count above exactly; any threshold>0 row is, by design, "
+        "smaller (see klpga.backtest.walk_forward's module docstring).",
+    ]
     header_lines = [""] * 2
     for _, label, width in _COLUMNS:
         parts = label.split("\n")
