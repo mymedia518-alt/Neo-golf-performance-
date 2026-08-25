@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 73/73 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 81/81 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
@@ -58,18 +58,32 @@ data.
   `roundLeaderboard`. Fixed by requiring `gameMethod == "0"` in
   `filter_completed_regular_tour`, then re-collected clean.)
 - ✅ **Derived analytics layer (`player_stats_snapshot`): built,
-  2026-08-25.** 19 `derived_*` columns per player (tournaments played,
-  rounds played, made cuts/cut rate, wins, top 5/10, best finish,
-  scoring average, average score-to-par, scoring std dev, recent form
-  at 5/10/20 events with sample-size companions, weighted recent form),
-  computed straight from the validated 100-tournament dataset — see
-  "Analytics layer" below and `docs/SITE_STRUCTURE_TODO.md` section 6
-  for the full formula/provenance writeup. **True Strokes Gained and
-  GIR are confirmed NOT computable** from this dataset (no shot-level
+  2026-08-25, then red-teamed twice.** 21 `derived_*` columns per
+  player (tournaments played, rounds played, made cuts/cut rate, wins,
+  top 5/10, best finish, per-round scoring average + std dev,
+  event-average and round-rate score-to-par, recent form at 5/10/20
+  events with sample-size companions, weighted recent form), computed
+  straight from the validated 100-tournament dataset — see "Analytics
+  layer" below and `docs/SITE_STRUCTURE_TODO.md` section 6 for the full
+  formula/provenance writeup. **True Strokes Gained and GIR are
+  confirmed NOT computable** from this dataset (no shot-level
   distance/lie/hole-by-hole data exists or is exposed by the confirmed
   endpoint) — no proxy was built for either, and the official Data
   Center columns (`sg_*`, `gir`, driving/putting/scrambling/etc.) stay
   NULL, same as before.
+  **Red-team round 1**: a `derived_avg_score_to_par` metric looked
+  unrealistically low for real players — traced to the code (confirmed:
+  it's a tournament-total average, not a bug) and confirmed against the
+  real production DB (김민주: `implied_avg_par/round = 72.00` across all
+  97 valid events, zero implausible events — `score_to_par` is
+  genuinely self-consistent).
+  **Red-team round 2**: even though it wasn't a bug, that metric's OLD
+  NAME didn't say it was a tournament-total average. Every
+  tournament-total-based column was renamed to say `_event_` or
+  `_round_` explicitly (see "Analytics layer" below), a new
+  `derived_avg_round_score_to_par` rate metric was added, and its
+  formula was verified against real per-round `round_to_par` data —
+  see `scripts/12_verify_round_to_par_reliability.py`.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -94,15 +108,19 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: red-team the derived feature set before the win-probability model
+## Current goal: verify the round-rate score-to-par metric before the win-probability model
 
-The raw 100-tournament dataset is validated, the derived
-`player_stats_snapshot` feature set is built (546/546 players
-populated on the production DB), but a red-team check on
-`derived_avg_score_to_par` is in progress — see "Analytics layer" below
-and `docs/SITE_STRUCTURE_TODO.md` section 6 for the full trace. **The
-win-probability model is deliberately NOT started until this check is
-run against the real production DB and the output reviewed.**
+The raw 100-tournament dataset is validated, and the derived
+`player_stats_snapshot` feature set is built and has survived two
+red-team passes (see status above). The second pass added
+`derived_avg_round_score_to_par` and a renamed, unambiguous column set
+— `scripts/12_verify_round_to_par_reliability.py` checks that new
+metric's formula against real per-round `round_to_par` data, but has
+only been run against synthetic test data so far, not the real
+production DB. **The win-probability model is deliberately NOT started
+until that script is run against production and the output reviewed.**
+See "Analytics layer" below and `docs/SITE_STRUCTURE_TODO.md` section 6
+for the full detail.
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
@@ -117,29 +135,48 @@ data source, distinct from the derived analytics layer below.
 ## Analytics layer: derived `player_stats_snapshot` metrics
 
 `src/klpga/analytics/player_stats.py` (`compute_player_stats`) computes
-19 `derived_*` columns per `player_id` (the confirmed real KLPGA
+21 `derived_*` columns per `player_id` (the confirmed real KLPGA
 playerCode, never player_name) from the validated `tournament_master` /
 `player_event` / `player_round` dataset — tournaments played, rounds
 played, made cuts + cut rate, wins, top 5, top 10, best finish, a true
-per-round scoring average, average score-to-par, scoring standard
-deviation, recent-form averages over the 5/10/20 most recent events
-(each with a companion `_n` sample-size column), and a linearly-weighted
-recent-form figure over up to the 10 most recent events. **Every
-metric's exact source field, formula, sample size, and missing-data
-treatment is documented in that module's docstring.**
+per-round scoring average + std dev, a per-EVENT average score-to-par
+and a per-ROUND rate score-to-par (see naming convention below),
+recent-form averages over the 5/10/20 most recent events (each with a
+companion `_n` sample-size column), and a linearly-weighted recent-form
+figure over up to the 10 most recent events. **Every metric's exact
+source field, formula, sample size, and missing-data treatment is
+documented in that module's docstring.**
+
+**Naming convention (added after a red-team check — see status above):**
+`player_event.score_to_par` is a per-tournament CUMULATIVE total (the
+site's own `data-totunderpar`), not a per-round figure. Any `derived_*`
+column built from it MUST include `_event_` in its name; any column
+built from real per-round data (`player_round.round_score` /
+`round_to_par`) or expressed as a per-round rate MUST include `_round_`
+— so a tournament-total metric can never be mistaken for a per-round
+one just from its name. `derived_avg_event_score_to_par` averages
+`score_to_par` one-event-one-vote; `derived_avg_round_score_to_par` is
+`sum(score_to_par)/sum(rounds_played)`, a rounds-weighted rate
+comparable in magnitude to a single round's performance.
+`scripts/12_verify_round_to_par_reliability.py` mathematically verifies
+the round-rate formula against real per-round `round_to_par` data.
 
 These are clearly separated in `schema.sql` from the pre-existing
 OFFICIAL Data Center columns (which stay NULL) via a
 `snapshot_type='derived_trailing100'` row and a `derived_` column-name
 prefix — never conflated with an official KLPGA statistic.
-`src/klpga/db/migrate.py` safely adds the new columns to an existing DB
-(only when `player_stats_snapshot` is still empty; refuses and raises
-rather than ever dropping populated rows).
+`src/klpga/db/migrate.py` safely adds new/renamed columns to an
+existing DB, even one already populated with `derived_trailing100`
+rows (those are always fully reproducible by re-running `09`, so
+dropping and rebuilding them is safe) — it refuses and raises only if a
+row exists under any OTHER snapshot_type (real, non-reproducible
+official-stat data).
 
 ```bash
 python scripts/09_build_player_stats_snapshot.py --db data/klpga.sqlite
 python scripts/10_print_snapshot_samples.py --db data/klpga.sqlite --limit 10
 python scripts/11_diagnose_avg_score_to_par.py --db data/klpga.sqlite
+python scripts/12_verify_round_to_par_reliability.py --db data/klpga.sqlite
 ```
 
 `09` always fully regenerates every `derived_trailing100` row (DELETE +
@@ -209,7 +246,10 @@ scripts/
   10_print_snapshot_samples.py       read-only: print sample player_stats_snapshot rows for a
                                       quick eyeball check after running 09
   11_diagnose_avg_score_to_par.py    read-only red-team check: raw round scores + implied-par
-                                      sanity check for derived_avg_score_to_par, see "Analytics layer"
+                                      sanity check for score_to_par, see "Analytics layer"
+  12_verify_round_to_par_reliability.py  read-only red-team check: is player_round.round_to_par
+                                          reliable enough to use directly, and does
+                                          derived_avg_round_score_to_par's formula agree with it
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -233,6 +273,8 @@ tests/
   test_print_snapshot_samples.py  read-only sample printer: 2dp formatting, never writes to the DB
   test_diagnose_avg_score_to_par.py  implied-par sanity check fires on corrupted data, never
                                       writes to the DB
+  test_verify_round_to_par_reliability.py  check A/B pass on consistent synthetic data and fire
+                                            on deliberately corrupted data, never writes to the DB
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
