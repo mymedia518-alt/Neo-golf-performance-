@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 52/52 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 66/66 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
@@ -41,24 +41,35 @@ data.
   **Confirmed live, 2026-08-24**: `made_cut` split `(0, 266), (1, 336)`
   across 602 player_event rows, `03_validate.py --target 5` ->
   `VALIDATION PASSED`.
-- ⚠️ **Full 100-tournament collection: attempted once, 2026-08-24 — 94/100
-  succeeded, 6 failed with zero leaderboard data.** Root-caused via
-  `scripts/08_inspect_failed_leaderboards.py` (raw `getGameList` diff
-  against a working baseline, plus an exhaustive `round=1..8` probe
-  against the live `roundLeaderboard` endpoint): all 6 failures had
-  `gameMethod != "0"` — 3 were Match Play (`"두산 매치플레이"` /
-  "Doosan Match Play", `gameMethod: "1"`) and 3 were Modified Stableford
-  (`"동부건설 · 한국토지신탁 챔피언십"`, `gameMethod: "2"`). Both
-  confirmed, by the round=1..8 probe, to return **zero player rows at
-  every round** via this endpoint — not a narrower round range, a
-  genuinely different/unavailable data source. **Fixed**:
-  `filter_completed_regular_tour` now requires `gameMethod == "0"`
-  (stroke play) in addition to `tourType == "RE"` and
-  `gameFinish == "F"`, so the season walk-back automatically skips these
-  formats and finds real stroke-play replacements instead. The 94/100
-  dataset from this run is superseded — it must be re-collected from
-  scratch with this fix. This is now the current goal — see "Running the
-  full pipeline" below.
+- ✅ **Full 100-tournament collection: CONFIRMED COMPLETE, 2026-08-25**
+  (Windows production DB, after the `gameMethod` fix below). Validated:
+  100 distinct tournaments, 0 excluded special-format gameCodes
+  remaining, 0 zero-player tournaments, `03_validate.py --target 100`
+  -> `VALIDATION PASSED`. Row counts: `tournament_master` 100,
+  `player_master` 546, `player_event` 11,850, `player_round` 33,215,
+  CSV export 45,711 total rows.
+  **This raw dataset is now the validated checkpoint — it is not to be
+  modified or recollected unless a genuine data-integrity bug is
+  found.** (The first attempt, 2026-08-24, got 94/100 — 6 tournaments
+  failed with zero leaderboard data. Root-caused via
+  `scripts/08_inspect_failed_leaderboards.py`: all 6 had
+  `gameMethod != "0"` — 3 Match Play, 3 Modified Stableford, both
+  confirmed to return zero player rows at every round via
+  `roundLeaderboard`. Fixed by requiring `gameMethod == "0"` in
+  `filter_completed_regular_tour`, then re-collected clean.)
+- ✅ **Derived analytics layer (`player_stats_snapshot`): built,
+  2026-08-25.** 19 `derived_*` columns per player (tournaments played,
+  rounds played, made cuts/cut rate, wins, top 5/10, best finish,
+  scoring average, average score-to-par, scoring std dev, recent form
+  at 5/10/20 events with sample-size companions, weighted recent form),
+  computed straight from the validated 100-tournament dataset — see
+  "Analytics layer" below and `docs/SITE_STRUCTURE_TODO.md` section 6
+  for the full formula/provenance writeup. **True Strokes Gained and
+  GIR are confirmed NOT computable** from this dataset (no shot-level
+  distance/lie/hole-by-hole data exists or is exposed by the confirmed
+  endpoint) — no proxy was built for either, and the official Data
+  Center columns (`sg_*`, `gir`, driving/putting/scrambling/etc.) stay
+  NULL, same as before.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -83,26 +94,53 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: re-run the full 100-tournament collection with the gameMethod fix
+## Current goal: design the win-probability model
 
-The first 100-tournament run (see status above) got 94/100 real
-stroke-play tournaments plus 6 Match Play / Modified Stableford
-tournaments that this pipeline can't collect via `roundLeaderboard`.
-With `filter_completed_regular_tour` now excluding `gameMethod != "0"`,
-re-running `scripts/01_collect_tournaments.py --target 100` against a
-fresh `--reset` DB should walk back far enough in time to find 100 real
-stroke-play replacements automatically — expect it to reach further back
-than the previous run and take a bit longer. `03_validate.py --target
-100` should then report `VALIDATION PASSED` with zero coverage-gap
-failures. See "Running the full pipeline" below.
+The raw 100-tournament dataset is validated and the derived
+`player_stats_snapshot` feature set (see "Analytics layer" below) is
+built and tested. Per explicit project decision, the win-probability
+model itself has NOT been started yet — it's designed next, once the
+derived feature set above has been reviewed.
 
-Known, expected gap even after a clean 100-tournament run:
-**`player_stats_snapshot` will still be empty.** `data.klpga.co.kr` (the
+Known, permanent gap regardless of any future re-run: the OFFICIAL
+`player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
+`driving_distance`, `driving_accuracy`, `putting_average`,
+`sixties_rate`, `top10_rate`, `birdie_average`, `par_breakers`,
+`sand_save`, `scrambling`) are still all NULL. `data.klpga.co.kr` (the
 Performance Statistics data center) has not been reached from any
-environment yet — nothing about it is confirmed, so no snapshot
-collection has started. This isn't an oversight to silently work around;
-it's the next data source after tournament/leaderboard collection is
-solid.
+environment yet — nothing about it is confirmed. This isn't an
+oversight to silently work around; it's a separate, still-unstarted
+data source, distinct from the derived analytics layer below.
+
+## Analytics layer: derived `player_stats_snapshot` metrics
+
+`src/klpga/analytics/player_stats.py` (`compute_player_stats`) computes
+19 `derived_*` columns per `player_id` (the confirmed real KLPGA
+playerCode, never player_name) from the validated `tournament_master` /
+`player_event` / `player_round` dataset — tournaments played, rounds
+played, made cuts + cut rate, wins, top 5, top 10, best finish, a true
+per-round scoring average, average score-to-par, scoring standard
+deviation, recent-form averages over the 5/10/20 most recent events
+(each with a companion `_n` sample-size column), and a linearly-weighted
+recent-form figure over up to the 10 most recent events. **Every
+metric's exact source field, formula, sample size, and missing-data
+treatment is documented in that module's docstring.**
+
+These are clearly separated in `schema.sql` from the pre-existing
+OFFICIAL Data Center columns (which stay NULL) via a
+`snapshot_type='derived_trailing100'` row and a `derived_` column-name
+prefix — never conflated with an official KLPGA statistic.
+`src/klpga/db/migrate.py` safely adds the new columns to an existing DB
+(only when `player_stats_snapshot` is still empty; refuses and raises
+rather than ever dropping populated rows).
+
+```bash
+python scripts/09_build_player_stats_snapshot.py --db data/klpga.sqlite
+```
+
+Always fully regenerates every `derived_trailing100` row (DELETE +
+re-INSERT) rather than an incremental upsert — see that script's
+docstring for the specific SQLite NULL-uniqueness pitfall this avoids.
 
 ## Setup
 
@@ -131,6 +169,11 @@ src/klpga/
     upsert.py                   idempotent UPSERT helpers + collection_runs logging
     export_csv.py               SQLite -> the 5 spec CSV files (stdlib csv/sqlite3 only, no pandas —
                                  see docs/SITE_STRUCTURE_TODO.md section 5 for why)
+    migrate.py                  safe (0-rows-only) player_stats_snapshot schema migration for the
+                                 derived_* columns
+  analytics/
+    player_stats.py             derived player_stats_snapshot metrics — formulas/provenance in its
+                                 own docstring, see "Analytics layer" above
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -143,6 +186,8 @@ scripts/
   08_inspect_failed_leaderboards.py  diagnostic: raw getGameList diff (failed tournaments vs. a
                                       working baseline) + round=1..8 probe against the live
                                       roundLeaderboard endpoint — found the gameMethod fix
+  09_build_player_stats_snapshot.py  migrate + compute + fully regenerate the derived_*
+                                      player_stats_snapshot columns from the validated dataset
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -157,6 +202,12 @@ tests/
   test_inspect_status_markup.py   find_row_context() extraction logic for the 999-sentinel diagnostic
   test_export_csv.py              export_all() row counts, TRUE/FALSE mapping, NULL handling, and the
                                    missing-`--db` FileNotFoundError path
+  test_player_stats.py            compute_player_stats() formulas, hand-computed against a synthetic
+                                   scenario (see "Analytics layer" above)
+  test_migrate.py                 player_stats_snapshot schema migration: migrates a 0-row old-shape
+                                   table, no-ops once current, refuses to drop a populated old-shape one
+  test_build_player_stats_snapshot.py  end-to-end: snapshot metadata, official columns stay NULL,
+                                        re-running replaces rather than duplicates rows
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
@@ -196,7 +247,7 @@ made_cut/withdrawn/disqualified fix — kept in the repo for any future
 investigation of remaining open questions (e.g. whether some other
 endpoint distinguishes WD from DQ).
 
-## Running the full pipeline (current goal)
+## Running the full pipeline (confirmed complete — see status above)
 
 ```bash
 python src/klpga/db/init_db.py --db data/klpga.sqlite --reset
@@ -204,12 +255,18 @@ python scripts/01_collect_tournaments.py --season <current_season> --target 100 
 python scripts/02_collect_leaderboards.py --db data/klpga.sqlite
 python scripts/03_validate.py --db data/klpga.sqlite --target 100
 python src/klpga/db/export_csv.py --db data/klpga.sqlite --out data/csv
+python scripts/09_build_player_stats_snapshot.py --db data/klpga.sqlite
 ```
 
 Use `--reset` on `init_db.py` here since earlier checkpoints may have
 left a stale single-tournament row in this exact DB path — the full run
 should start from a clean slate so the `--target 100` row count is
-unambiguous.
+unambiguous. **Do not re-run steps 1-4 (through `01`-`03`/CSV export)
+against the already-validated production DB unless a genuine
+data-integrity bug is found** — that dataset is the checkpoint everything
+in "Analytics layer" reads from. `09_build_player_stats_snapshot.py` is
+safe and cheap to re-run any time (it only touches
+`player_stats_snapshot`, and fully regenerates its own rows each run).
 
 Every collection script logs a `collection_runs` row (`running` ->
 `success`/`error`/`blocked`). A `RateLimitBlockedError` (401/403/429

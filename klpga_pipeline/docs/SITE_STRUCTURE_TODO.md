@@ -161,7 +161,14 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
 
 - [ ] Nothing confirmed yet — `data.klpga.co.kr` has not been reachable
       from this environment (egress still blocked as of 2026-08-24; see
-      session notes). `player_stats_snapshot` collection has not started.
+      session notes). The OFFICIAL columns in `player_stats_snapshot`
+      (`scoring_average`, `sg_*`, `gir`, `driving_distance`,
+      `driving_accuracy`, `putting_average`, `sixties_rate`,
+      `top10_rate`, `birdie_average`, `par_breakers`, `sand_save`,
+      `scrambling`) are still all NULL in every row — this data source
+      has not started. See section 6 below for the *derived* columns
+      that ARE now populated from the already-validated tournament
+      dataset — those are a different thing and do not fill this gap.
 
 ## 4. robots.txt / terms of service
 
@@ -420,6 +427,104 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   produce a real `csv/` directory with header-only files, never a
   silent no-op).
 
+## 6. Analytics layer — derived `player_stats_snapshot` metrics (NOT official Data Center stats)
+
+**Confirmed complete, 2026-08-25: the 100-tournament raw dataset is the
+validated checkpoint.** Windows production DB: 100 distinct
+tournaments, 0 excluded special-format gameCodes remaining, 0
+zero-player tournaments, `03_validate.py --target 100` ->
+`VALIDATION PASSED`. Row counts: `tournament_master` 100,
+`player_master` 546, `player_event` 11,850, `player_round` 33,215, CSV
+export 45,711 total rows. This raw dataset is NOT to be modified or
+recollected unless a genuine data-integrity bug is found — everything
+in this section reads from it, never writes to it.
+
+**Whether true Strokes Gained and GIR are computable from this
+dataset: NO, confirmed by inspection, not assumed.** Both require
+shot-level data this project has never collected and the confirmed
+`roundLeaderboard` endpoint does not expose:
+  - **Strokes Gained** (Total or any component — off-the-tee, approach,
+    around-the-green, putting) needs each shot's distance-to-hole and
+    lie, compared against a field-relative baseline. Nothing at that
+    granularity exists anywhere in `player_round` — only a whole
+    round's final stroke count.
+  - **GIR** (greens in regulation) needs to know, hole by hole, whether
+    the green was reached in par-minus-2 strokes. The only
+    hole-related field ever observed, `data-inghole`, was investigated
+    in an earlier session (see section 2 above) and found to NOT behave
+    consistently as "holes completed" — several rows showed
+    `data-inghole` values inconsistent with an otherwise complete,
+    valid round score. It was explicitly left uninterpreted then and
+    still is; it is not usable as a GIR proxy.
+  Per the project's explicit instruction, **no proxy metric was built
+  for either and none is labeled "SG Total" or "GIR" anywhere** — the
+  corresponding `player_stats_snapshot` columns (`sg_total`,
+  `sg_off_the_tee`, `sg_approach`, `sg_around_green`, `sg_putting`,
+  `gir`, and their `_rank` columns) are simply never written by the new
+  analytics code and stay NULL, same as every other official Data
+  Center column (driving distance/accuracy, putting average, sixties
+  rate, birdie average, par breakers, sand save, scrambling).
+
+**What IS derivable, and built**: `src/klpga/analytics/player_stats.py`
+(`compute_player_stats`) computes 19 `derived_*` columns per
+`player_id` (the confirmed real KLPGA playerCode — never player_name)
+straight from `tournament_master` / `player_event` / `player_round`:
+tournaments played, rounds played, made cuts + cut rate, wins, top 5,
+top 10, best finish, a true per-round scoring average, average
+score-to-par, scoring standard deviation, recent-form averages over the
+5/10/20 most recent events (each with a companion `_n` column recording
+how many events actually contributed, since most players have played
+far fewer than 20 of the 100 tournaments), and a linearly-weighted
+recent-form figure over up to the 10 most recent events. **Every
+metric's exact source field, formula, sample size, and missing-data
+treatment is documented in that module's docstring** — not repeated
+here to avoid the two copies drifting apart.
+
+One nuance worth flagging explicitly: "score relative to par" is
+NOT computed by this pipeline from a course-par value — course/hole par
+has never been confirmed in any live response
+(`tournament_master.par` / `player_round.course_par` are always NULL,
+see section 1). It is instead the average of the site's OWN published
+to-par figure per tournament (`data-totunderpar`, confirmed live,
+already stored as `player_event.score_to_par`) — official per-event
+data, aggregated by this pipeline, not estimated by it.
+
+**Schema change**: `player_stats_snapshot` now documents two clearly
+separated column groups in `schema.sql` — the pre-existing OFFICIAL
+Data Center columns (group (a), still all NULL) and the new `derived_*`
+columns (group (b)). A new `snapshot_type='derived_trailing100'` value
+was added to the `CHECK` constraint for this group; `related_event_id`
+is always NULL for it (not tied to one event). `src/klpga/db/migrate.py`
+(`ensure_player_stats_snapshot_schema`) safely adds the new columns to
+an existing DB created under the old schema — but ONLY when
+`player_stats_snapshot` is still empty (true on every validated DB so
+far, since this data source had never been populated); it refuses and
+raises instead of ever dropping a populated table under the old shape.
+`scripts/09_build_player_stats_snapshot.py` runs the migration, then a
+full DELETE + re-INSERT of every `derived_trailing100` row on each run
+(a deliberate full recompute, not an incremental upsert — see that
+script's docstring for why an upsert would be wrong here: SQLite never
+treats two NULL `related_event_id` values as conflicting under the
+table's `UNIQUE` constraint, so an upsert would silently accumulate
+duplicate rows on every re-run instead of replacing them).
+
+Regression tests: `tests/test_player_stats.py` (every formula
+hand-computed against a synthetic scenario — see that file for the
+worked example), `tests/test_migrate.py` (migrates a 0-row old-shape
+table, is a no-op once current, refuses to drop a populated old-shape
+table), `tests/test_build_player_stats_snapshot.py` (end-to-end:
+snapshot metadata, official columns stay NULL, re-running replaces
+rather than duplicates rows). 66/66 tests passing. Also run manually
+against a synthetic multi-tournament test DB (5 players x 8
+tournaments) — sane, non-degenerate values across all `derived_*`
+columns, confirmed no duplicate rows after a second run, and confirmed
+the old-shape-DB migration path against a hand-built pre-migration
+table.
+
+**Not yet decided or built**: the win-probability model itself. Per
+explicit instruction, this is deferred until the `derived_*` feature
+set above is reported back and reviewed.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
@@ -466,24 +571,32 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
    entry in section 5 above. **Superseded, 2026-08-24: this dataset
    must be re-collected from scratch** now that
    `filter_completed_regular_tour` excludes `gameMethod != "0"`.
-7. **Current goal: re-run the full 100-tournament collection with the
-   `gameMethod` fix** (`scripts/01_collect_tournaments.py --target
-   100` against a fresh `--reset` DB). This time the season walk-back
-   should skip Match Play/Stableford tournaments automatically and
-   walk back far enough to find 100 real replacements — expect it to
-   reach further back in time than the previous run did, and possibly
-   take a bit longer. `03_validate.py --target 100` should report
-   `VALIDATION PASSED` with zero coverage-gap failures this time. See
-   README.md "Running the full pipeline".
+7. ~~Re-run the full 100-tournament collection with the `gameMethod`
+   fix~~ — **DONE and CONFIRMED, 2026-08-25.** Windows production DB:
+   100 distinct tournaments, 0 excluded special-format gameCodes
+   remaining, 0 zero-player tournaments, `03_validate.py --target 100`
+   -> `VALIDATION PASSED`. `tournament_master` 100, `player_master`
+   546, `player_event` 11,850, `player_round` 33,215, CSV export
+   45,711 total rows. **This is now the validated raw-data checkpoint —
+   do not modify or recollect it unless a genuine data-integrity bug is
+   found.** See section 6 above.
 8. Use that run's output to fill in the remaining `[ ]` items above
    (other tourType codes, non-F gameFinish values, exact duplicate-row
    markup, what `data-inghole` actually means, `par`/`course_yards`/
    `field_size`, per-player prize money, `official_url` pattern, and
    whether some OTHER endpoint — e.g. a default full-leaderboard view
    without a `round` param — distinguishes WD from DQ where this one
-   doesn't).
+   doesn't). Not yet done — still open.
 9. Update this file's checkboxes based on what's actually observed —
    never mark something done from inference alone.
-10. `player_stats_snapshot` (data.klpga.co.kr) collection has not
-    started — nothing there is confirmed yet. That's the next data
-    source after tournament/leaderboard collection is solid at 100.
+10. ~~`player_stats_snapshot` (data.klpga.co.kr) collection~~ —
+    **partially superseded, 2026-08-25**: the OFFICIAL Data Center
+    columns in this table are still fully unpopulated (that endpoint is
+    still unreached — nothing changed there), but the table itself now
+    also carries a second, DERIVED set of columns computed from the
+    validated tournament dataset. See section 6 above for exactly what
+    was built and why the two are kept clearly separate.
+11. **Current goal: design the win-probability model** using the
+    `derived_*` feature set built in section 6, once that feature set
+    has been reviewed. Deliberately not started yet — see section 6's
+    "Not yet decided or built" note.
