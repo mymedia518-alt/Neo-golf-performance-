@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 47/47 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 52/52 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
@@ -129,7 +129,8 @@ src/klpga/
     schema.sql                  SQLite schema (5 spec tables + collection_runs audit log)
     init_db.py                  create/reset klpga.sqlite
     upsert.py                   idempotent UPSERT helpers + collection_runs logging
-    export_csv.py               SQLite -> the 5 spec CSV files
+    export_csv.py               SQLite -> the 5 spec CSV files (stdlib csv/sqlite3 only, no pandas —
+                                 see docs/SITE_STRUCTURE_TODO.md section 5 for why)
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -154,6 +155,8 @@ tests/
   test_cut_player_integration.py  full collector->merge->build pipeline test for the CUT/WD/DQ
                                    drop regression found in the live 5-tournament run
   test_inspect_status_markup.py   find_row_context() extraction logic for the 999-sentinel diagnostic
+  test_export_csv.py              export_all() row counts, TRUE/FALSE mapping, NULL handling, and the
+                                   missing-`--db` FileNotFoundError path
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
