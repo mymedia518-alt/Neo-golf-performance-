@@ -143,6 +143,17 @@ data.
   wording clarified so the two populations can't be misread as the
   same one. See `docs/SITE_STRUCTURE_TODO.md` section 8. 182/182 full
   suite passing.
+- ✅ **Win-probability model evaluation spec: FROZEN, 2026-08-25** —
+  `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`. Written and
+  committed BEFORE any model is fit, so the promotion rules can't move
+  after seeing results: primary metrics (per-tournament log loss +
+  field-size-normalized Brier), mandatory baselines (uniform + a
+  single-feature MLE-fit softmax), a 7-model core ablation ladder plus
+  one-at-a-time challengers, walk-forward fitting/calibration
+  discipline, 5-slice rookie/sparse-history evaluation, paired
+  significance-based promotion criteria, and 15+ red-team failure
+  modes addressed explicitly. **Still no model code, no fitted
+  coefficients, no live probabilities of any kind.**
   **Next: implement the win-probability model itself — not yet
   started, per explicit instruction to stop and wait for review.**
 
@@ -169,21 +180,24 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: implement the win-probability model
+## Current goal: implement the win-probability model against the frozen evaluation spec
 
 The raw 100-tournament dataset is validated, the derived analytics
 layer has survived two red-team passes and is now fully verified
 against production, the entry-list source is confirmed AND
 live-verified end-to-end including the `tournament_entry` storage
-layer, and the point-in-time feature + walk-forward backtest layer is
-implemented and leakage-tested (see status above and
-`docs/SITE_STRUCTURE_TODO.md` sections 7-8). **Model implementation is
-still deliberately NOT started** — per explicit instruction, this
-session stops here and waits for review of the backtest architecture
-before fitting any probability model (Model B's mechanism, fit by
-Model C's walk-forward methodology — see the design report — on top of
-`klpga.backtest.walk_forward`'s dataset, with weights/temperature
-learned, never hand-picked).
+layer, the point-in-time feature + walk-forward backtest layer is
+implemented and leakage-tested, and the model EVALUATION methodology
+itself is now frozen in `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`
+(see status above and `docs/SITE_STRUCTURE_TODO.md` sections 7-8).
+**Model implementation is still deliberately NOT started** — per
+explicit instruction, this session stops here and waits for review
+before fitting any probability model. When implementation begins, it
+must follow the frozen spec exactly: the ablation ladder (`M0`-`M6`,
+then one-at-a-time challengers), walk-forward MLE fitting (never
+hand-picked weights/temperature), the mandatory baselines, and the
+promotion criteria — not a redesigned process chosen after seeing
+results.
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,

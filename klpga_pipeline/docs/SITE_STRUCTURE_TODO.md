@@ -1230,9 +1230,16 @@ redundancy/coverage reports above — they are evidence, not a decision.
 11. ~~Design the win-probability model~~ — **superseded, 2026-08-25**:
     approved in DIRECTION only (Model B's mechanism, fit by Model C's
     walk-forward methodology). Implementation was correctly deferred
-    behind two prerequisite gates instead: the entry-list collection
-    layer (section 7, DONE) and the point-in-time feature/walk-forward
-    backtest layer (section 8, DONE). **Current goal: implement the
-    win-probability model itself** on top of section 8's walk-forward
-    dataset — not yet started, per explicit instruction to stop and
-    wait for review after section 8.
+    behind three prerequisite gates instead: the entry-list collection
+    layer (section 7, DONE), the point-in-time feature/walk-forward
+    backtest layer (section 8, DONE), and the model EVALUATION
+    specification — **DONE, 2026-08-25**:
+    `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`, frozen before any
+    model is fit (primary metrics, mandatory baselines, the `M0`-`M6`
+    ablation ladder + one-at-a-time challengers, walk-forward
+    fitting/calibration discipline, 5-slice rookie evaluation, paired
+    significance-based promotion criteria, 15+ red-team failure modes,
+    and a registry schema sketch — not created). **Current goal:
+    implement the win-probability model itself**, following that spec
+    exactly, on top of section 8's walk-forward dataset — not yet
+    started, per explicit instruction to stop and wait for review.
