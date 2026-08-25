@@ -29,12 +29,13 @@ _COLUMNS = [
     "derived_top10",
     "derived_best_finish",
     "derived_cut_rate",
-    "derived_avg_score",
-    "derived_avg_score_to_par",
-    "derived_scoring_stddev",
-    "derived_recent_form_10",
-    "derived_recent_form_10_n",
-    "derived_weighted_recent_form",
+    "derived_avg_round_score",
+    "derived_round_scoring_stddev",
+    "derived_avg_event_score_to_par",
+    "derived_avg_round_score_to_par",
+    "derived_recent_event_form_10",
+    "derived_recent_event_form_10_n",
+    "derived_weighted_recent_event_form",
 ]
 
 
@@ -67,7 +68,7 @@ def print_samples(db_path: Path, limit: int) -> int:
             FROM player_stats_snapshot s
             JOIN player_master p ON s.player_id = p.player_id
             WHERE s.snapshot_type = 'derived_trailing100'
-            ORDER BY s.derived_wins DESC, s.derived_avg_score_to_par ASC
+            ORDER BY s.derived_wins DESC, s.derived_avg_event_score_to_par ASC
             LIMIT ?
             """,
             (limit,),

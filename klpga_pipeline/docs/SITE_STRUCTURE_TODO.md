@@ -561,9 +561,90 @@ golf par (68-74) for every single event if `score_to_par` really is a
 self-consistent tournament total, and won't if it's ever corrupted or
 mixed with something else. Confirmed working end-to-end (including a
 test that deliberately corrupts `score_to_par` and verifies the
-implausible-par flag actually fires) — but this still needs to be run
-against the real Windows production DB and the output reviewed before
-the win-probability model resumes; **not yet done as of this entry.**
+implausible-par flag actually fires).
+
+**Confirmed against the real Windows production DB, 2026-08-25:
+`scripts/11` ran for 김민주 — `implied_avg_par/round = 72.00` for every
+one of 97 valid events, mean across all 97 = 72.00, ZERO implausible
+events.** This is the strongest possible confirmation short of an
+official par field: `score_to_par` is a genuinely self-consistent
+tournament-total figure, not corrupted or mixed with a round-level
+value anywhere in the production dataset.
+
+**Follow-up red-team round, 2026-08-25 (user-initiated, before any
+modeling work): even though `derived_avg_score_to_par` was confirmed
+NOT buggy, its OLD NAME didn't say it was a tournament-total average —
+a real risk of being misread as a per-round figure by anyone building
+on top of it later (exactly the original trigger for this whole
+investigation).** Resolved by design, not just documentation:
+  - `derived_avg_score_to_par` renamed to `derived_avg_event_score_to_par`
+    (same formula, unchanged) with a new `_n` sample-size companion.
+  - **New metric added**: `derived_avg_round_score_to_par` =
+    sum(`score_to_par`) / sum(`rounds_played`) across a player's valid
+    events — a rounds-WEIGHTED rate, comparable in magnitude to what a
+    single round typically looks like (unlike the event-average, which
+    treats a 2-round missed cut and a 4-round made cut as equally
+    weighted data points). Also gets an `_n` companion storing the
+    actual summed round count (the rate's true denominator).
+  - **Every other tournament-total-based derived column renamed for the
+    same reason**, so the naming CONVENTION itself now prevents this
+    class of mistake rather than relying on any one column's docstring:
+    `derived_avg_score` -> `derived_avg_round_score`, `derived_
+    scoring_stddev` -> `derived_round_scoring_stddev` (both already
+    genuinely per-round, renamed only for consistency),
+    `derived_recent_form_{5,10,20}` -> `derived_recent_event_form_
+    {5,10,20}`, `derived_weighted_recent_form` -> `derived_
+    weighted_recent_event_form`. Going forward: any `derived_*` column
+    built from `player_event.score_to_par` (a per-event total) MUST
+    include `_event_` in its name; anything built from real per-round
+    data or expressed as a per-round rate MUST include `_round_`. See
+    `src/klpga/analytics/player_stats.py`'s docstring, which states this
+    convention explicitly as a rule for any future column.
+  - **`src/klpga/db/migrate.py`'s safety check was also tightened**:
+    it used to refuse touching player_stats_snapshot if it had ANY rows
+    under an outdated schema. Since a populated production DB (546
+    rows) needed exactly this kind of rename applied, that check would
+    have wrongly refused a perfectly safe migration — `derived_
+    trailing100` rows are BY DESIGN always fully, mechanically
+    reproducible by re-running `scripts/09`, so dropping and rebuilding
+    them loses nothing. The check now only refuses if a row exists
+    under a snapshot_type OTHER than `derived_trailing100` (i.e. real,
+    non-reproducible official-stat data) — regression test added
+    confirming a 50-row populated old-shape `derived_trailing100` table
+    migrates cleanly, while a single `season_final` row still correctly
+    blocks the migration.
+  - **Mathematical verification, not just a formula choice**: added
+    `scripts/12_verify_round_to_par_reliability.py` to check, against
+    real production rows, whether `player_round.round_to_par`
+    (`data-todayunderpar`) is reliable enough to use DIRECTLY instead of
+    the sum-of-totals rate formula above — explicitly not assumed
+    reliable just because the field exists.
+      - CHECK A (no additivity assumption needed): for players with
+        exactly one valid round, `round_to_par` for that round and
+        `score_to_par` for the event must be identical — with only one
+        round played, "today" and "the tournament total so far" are the
+        same thing by definition.
+      - CHECK B (tests additivity): for players whose event has
+        `round_to_par` present on every round they played, the sum of
+        those per-round values must equal `score_to_par` if the
+        per-round figures are genuine independent daily deltas.
+      - CROSS-CHECK: for the CHECK B subset,
+        `derived_avg_round_score_to_par`'s formula
+        (`sum(score_to_par)/sum(rounds_played)`) is compared against a
+        direct reconstruction from the raw `round_to_par` field
+        (`sum(round_to_par)/count(rounds)`) restricted to that same
+        subset — these must converge, which is the actual proof (not
+        just an assertion) that the chosen rate formula is
+        mathematically consistent with real per-round data wherever
+        there's enough of it to check.
+    Confirmed working against synthetic data in both directions (a
+    hand-built consistent case that passes, and a hand-built corrupted
+    case that correctly gets flagged). **Still needs to be run against
+    the real Windows production DB — not yet done as of this entry.**
+    `player_round.round_to_par` coverage itself (what fraction of rows
+    have a non-NULL value at all, separate from whether the values that
+    exist are correct) is also reported by this script and has not yet
+    been inspected on production either.
 
 ## Next steps
 

@@ -1,5 +1,11 @@
-"""Red-team diagnostic for derived_avg_score_to_par (see
-src/klpga/analytics/player_stats.py) against the REAL production DB.
+"""Red-team diagnostic for the OLD `derived_avg_score_to_par` metric
+(see src/klpga/analytics/player_stats.py) against the REAL production
+DB. Kept as-is for the historical record of the investigation that led
+to it — as of 2026-08-25 that single metric was split into
+`derived_avg_event_score_to_par` (same formula, unchanged) and the new
+`derived_avg_round_score_to_par` (see that module's docstring and
+scripts/12_verify_round_to_par_reliability.py for the follow-up
+verification this diagnostic's finding led to).
 
 Trigger: derived_avg_score_to_par values around -4.7 to -4.9 for real
 players (이예원, 박지영, 김민솔) looked unrealistically low IF this were
@@ -196,7 +202,7 @@ def diagnose(db_path: Path, names: list[str], fill_to: int) -> int:
             print(f"  events with a real score_to_par: {len(to_par_values)} / {len(events)}")
             if to_par_values:
                 mean_to_par = sum(to_par_values) / len(to_par_values)
-                print(f"  mean(score_to_par) across those events = {mean_to_par:.2f}  <- should match derived_avg_score_to_par in player_stats_snapshot")
+                print(f"  mean(score_to_par) across those events = {mean_to_par:.2f}  <- should match derived_avg_event_score_to_par in player_stats_snapshot")
             if implied_par_per_round_values:
                 mean_implied_par = sum(implied_par_per_round_values) / len(implied_par_per_round_values)
                 print(f"  mean(implied_avg_par/round) across those events = {mean_implied_par:.2f}  <- sanity check: should be within {_PLAUSIBLE_PAR_PER_ROUND}")

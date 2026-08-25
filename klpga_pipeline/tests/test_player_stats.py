@@ -98,22 +98,30 @@ def test_full_scenario_matches_hand_computed_values(conn):
     assert row["derived_best_finish"] == 1
 
     all_scores = [70, 71, 69, 68, 75, 74, 68, 67, 70, 69]
-    assert row["derived_avg_score"] == round(sum(all_scores) / len(all_scores), 2)
-    assert row["derived_scoring_stddev"] == round(statistics.stdev(all_scores), 2)
+    assert row["derived_avg_round_score"] == round(sum(all_scores) / len(all_scores), 2)
+    assert row["derived_round_scoring_stddev"] == round(statistics.stdev(all_scores), 2)
 
-    assert row["derived_avg_score_to_par"] == round((-2 + 5 - 10) / 3, 2)
+    # Event-level average: one vote per event, regardless of rounds_played.
+    assert row["derived_avg_event_score_to_par"] == round((-2 + 5 - 10) / 3, 2)
+    assert row["derived_avg_event_score_to_par_n"] == 3
+
+    # Round-level rate: sum(score_to_par) / sum(rounds_played), so the
+    # 4-round events weigh more than the 2-round missed cut.
+    # (-2 + 5 - 10) / (4 + 2 + 4) = -7 / 10.
+    assert row["derived_avg_round_score_to_par"] == round((-2 + 5 - 10) / 10, 2)
+    assert row["derived_avg_round_score_to_par_n"] == 10
 
     # Only 3 events exist, so all three recent-form windows fall back to
     # all 3, newest-first: T3(-10), T2(5), T1(-2).
     expected_recent = round((-10 + 5 - 2) / 3, 2)
     for window in (5, 10, 20):
-        assert row[f"derived_recent_form_{window}"] == expected_recent
-        assert row[f"derived_recent_form_{window}_n"] == 3
+        assert row[f"derived_recent_event_form_{window}"] == expected_recent
+        assert row[f"derived_recent_event_form_{window}_n"] == 3
 
     # Weighted (k=3): weights [3, 2, 1] applied newest-first to
     # [-10, 5, -2] -> (3*-10 + 2*5 + 1*-2) / 6 = -22/6.
-    assert row["derived_weighted_recent_form"] == round(-22 / 6, 2)
-    assert row["derived_weighted_recent_form_n"] == 3
+    assert row["derived_weighted_recent_event_form"] == round(-22 / 6, 2)
+    assert row["derived_weighted_recent_event_form_n"] == 3
 
 
 def test_zero_round_player_gets_null_score_metrics_not_zero(conn):
@@ -133,13 +141,16 @@ def test_zero_round_player_gets_null_score_metrics_not_zero(conn):
     assert row["derived_cut_rate"] == 0.0
     assert row["derived_wins"] == 0
     assert row["derived_best_finish"] is None
-    assert row["derived_avg_score"] is None
-    assert row["derived_scoring_stddev"] is None
-    assert row["derived_avg_score_to_par"] is None
-    assert row["derived_recent_form_5"] is None
-    assert row["derived_recent_form_5_n"] == 0
-    assert row["derived_weighted_recent_form"] is None
-    assert row["derived_weighted_recent_form_n"] == 0
+    assert row["derived_avg_round_score"] is None
+    assert row["derived_round_scoring_stddev"] is None
+    assert row["derived_avg_event_score_to_par"] is None
+    assert row["derived_avg_event_score_to_par_n"] == 0
+    assert row["derived_avg_round_score_to_par"] is None
+    assert row["derived_avg_round_score_to_par_n"] == 0
+    assert row["derived_recent_event_form_5"] is None
+    assert row["derived_recent_event_form_5_n"] == 0
+    assert row["derived_weighted_recent_event_form"] is None
+    assert row["derived_weighted_recent_event_form_n"] == 0
 
 
 def test_scoring_stddev_requires_at_least_two_rounds(conn):
@@ -152,8 +163,8 @@ def test_scoring_stddev_requires_at_least_two_rounds(conn):
     conn.commit()
 
     row = compute_player_stats(conn)[0]
-    assert row["derived_avg_score"] == 72.0
-    assert row["derived_scoring_stddev"] is None
+    assert row["derived_avg_round_score"] == 72.0
+    assert row["derived_round_scoring_stddev"] is None
 
 
 def test_recent_form_window_caps_at_actual_available_events(conn):
@@ -173,15 +184,15 @@ def test_recent_form_window_caps_at_actual_available_events(conn):
     row = compute_player_stats(conn)[0]
     # Newest-first by end_date: T7(-7), T6(-6), ..., T1(-1).
     newest_five = [-7, -6, -5, -4, -3]
-    assert row["derived_recent_form_5"] == round(sum(newest_five) / 5, 2)
-    assert row["derived_recent_form_5_n"] == 5
+    assert row["derived_recent_event_form_5"] == round(sum(newest_five) / 5, 2)
+    assert row["derived_recent_event_form_5_n"] == 5
 
     all_seven = [-7, -6, -5, -4, -3, -2, -1]
     expected_all = round(sum(all_seven) / 7, 2)
-    assert row["derived_recent_form_10"] == expected_all
-    assert row["derived_recent_form_10_n"] == 7
-    assert row["derived_recent_form_20"] == expected_all
-    assert row["derived_recent_form_20_n"] == 7
+    assert row["derived_recent_event_form_10"] == expected_all
+    assert row["derived_recent_event_form_10_n"] == 7
+    assert row["derived_recent_event_form_20"] == expected_all
+    assert row["derived_recent_event_form_20_n"] == 7
 
 
 def test_wins_top5_top10_ignore_events_with_no_numeric_finish(conn):

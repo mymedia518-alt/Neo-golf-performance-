@@ -224,25 +224,47 @@ CREATE TABLE IF NOT EXISTS player_stats_snapshot (
 
     -- ---------------- group (b): DERIVED columns ---------------------
     -- (this project's own aggregates — see module docstring above)
-    derived_tournaments_played     INTEGER,
-    derived_rounds_played          INTEGER,
-    derived_made_cuts              INTEGER,
-    derived_cut_rate               REAL,
-    derived_wins                   INTEGER,
-    derived_top5                   INTEGER,
-    derived_top10                  INTEGER,
-    derived_best_finish            INTEGER,
-    derived_avg_score              REAL,
-    derived_avg_score_to_par       REAL,
-    derived_scoring_stddev         REAL,
-    derived_recent_form_5          REAL,
-    derived_recent_form_5_n        INTEGER,
-    derived_recent_form_10         REAL,
-    derived_recent_form_10_n       INTEGER,
-    derived_recent_form_20         REAL,
-    derived_recent_form_20_n       INTEGER,
-    derived_weighted_recent_form   REAL,
-    derived_weighted_recent_form_n INTEGER,
+    --
+    -- Naming convention, added 2026-08-25 after a red-team check found
+    -- `derived_avg_score_to_par` (the old name) was ambiguous — it is
+    -- a TOURNAMENT-TOTAL score-to-par average, not a per-round figure,
+    -- and the old name didn't say so. Every column below now says
+    -- `_event_` or `_round_` explicitly so a tournament-total metric
+    -- can never be mistaken for a per-round one just from its name:
+    --   `_round_*`  -> computed from real per-round data
+    --                  (player_round.round_score), or a rate expressed
+    --                  per round (sum of event totals / sum of rounds).
+    --   `_event_*`  -> computed from per-EVENT totals
+    --                  (player_event.score_to_par, the tournament-
+    --                  cumulative `data-totunderpar` figure), averaged
+    --                  one-event-one-vote — NOT scaled by how many
+    --                  rounds each event represents.
+    -- See src/klpga/analytics/player_stats.py's docstring for the full
+    -- formula/provenance of each, and docs/SITE_STRUCTURE_TODO.md
+    -- section 6 for the red-team writeup and mathematical verification
+    -- of derived_avg_round_score_to_par against raw round_to_par data.
+    derived_tournaments_played          INTEGER,
+    derived_rounds_played                INTEGER,
+    derived_made_cuts                    INTEGER,
+    derived_cut_rate                     REAL,
+    derived_wins                         INTEGER,
+    derived_top5                         INTEGER,
+    derived_top10                        INTEGER,
+    derived_best_finish                  INTEGER,
+    derived_avg_round_score              REAL,
+    derived_round_scoring_stddev         REAL,
+    derived_avg_event_score_to_par       REAL,
+    derived_avg_event_score_to_par_n     INTEGER,
+    derived_avg_round_score_to_par       REAL,
+    derived_avg_round_score_to_par_n     INTEGER,
+    derived_recent_event_form_5          REAL,
+    derived_recent_event_form_5_n        INTEGER,
+    derived_recent_event_form_10         REAL,
+    derived_recent_event_form_10_n       INTEGER,
+    derived_recent_event_form_20         REAL,
+    derived_recent_event_form_20_n       INTEGER,
+    derived_weighted_recent_event_form   REAL,
+    derived_weighted_recent_event_form_n INTEGER,
 
     collected_at            TEXT NOT NULL,
 

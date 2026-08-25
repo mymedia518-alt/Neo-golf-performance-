@@ -33,7 +33,7 @@ def db_path(tmp_path):
     conn.execute(
         "INSERT INTO player_stats_snapshot "
         "(player_id, season, as_of_date, snapshot_type, related_event_id, "
-        "derived_tournaments_played, derived_wins, derived_avg_score, collected_at) "
+        "derived_tournaments_played, derived_wins, derived_avg_round_score, collected_at) "
         "VALUES ('p1', 2026, '2026-08-25', 'derived_trailing100', NULL, 3, 1, 71.5, '2026-08-25T00:00:00Z')"
     )
     conn.commit()
