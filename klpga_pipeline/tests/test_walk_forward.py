@@ -196,3 +196,34 @@ def test_eligibility_sweep_handles_zero_eligible_tournaments(four_tournament_cor
     assert sweep[0]["mean_prior_events_n"] is None
     assert sweep[0]["median_prior_events_n"] is None
     assert sweep[0]["pct_zero_prior_events"] is None
+    assert sweep[0]["earliest_eligible_target_event_id"] is None
+    assert sweep[0]["pct_of_corpus_retained"] == 0.0
+
+
+def test_eligibility_sweep_pct_of_corpus_retained(four_tournament_corpus):
+    result = build_walk_forward_dataset(four_tournament_corpus)
+    assert result.total_tournament_count == 4
+    sweep = eligibility_sweep(result, thresholds=(0, 1, 2))
+    pcts = {r["threshold"]: r["pct_of_corpus_retained"] for r in sweep}
+    assert pcts == {0: 100.0, 1: 75.0, 2: 50.0}
+
+
+def test_eligibility_sweep_earliest_eligible_target(four_tournament_corpus):
+    result = build_walk_forward_dataset(four_tournament_corpus)
+    sweep = eligibility_sweep(result, thresholds=(0, 1, 2, 3))
+    by_threshold = {r["threshold"]: r for r in sweep}
+    assert by_threshold[0]["earliest_eligible_target_event_id"] == "T1"
+    assert by_threshold[0]["earliest_eligible_target_start_date"] == "2026-01-01"
+    assert by_threshold[1]["earliest_eligible_target_event_id"] == "T2"
+    assert by_threshold[2]["earliest_eligible_target_event_id"] == "T3"
+    assert by_threshold[3]["earliest_eligible_target_event_id"] == "T4"
+
+
+def test_eligibility_sweep_lt_thresholds(four_tournament_corpus):
+    # k=0: all 9 rows, prior_events_n = [0,0,1,0,2,1,1,3,2]
+    result = build_walk_forward_dataset(four_tournament_corpus)
+    sweep = eligibility_sweep(result, thresholds=(0,))
+    row = sweep[0]
+    assert row["pct_lt_5_prior_events"] == 100.0  # every value is < 5
+    assert row["pct_lt_10_prior_events"] == 100.0
+    assert row["pct_lt_20_prior_events"] == 100.0

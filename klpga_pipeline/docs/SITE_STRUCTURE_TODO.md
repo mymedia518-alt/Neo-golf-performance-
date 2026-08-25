@@ -1013,31 +1013,84 @@ reconstructed field, are excluded and reported explicitly
 cutoff), how many target tournaments have at least `k` OTHER validated
 tournaments strictly earlier in the corpus, and — among that eligible
 set's field rows — the resulting `prior_events_n` distribution (mean,
-median, % zero-history rows). Verified correct on a hand-computable
-4-tournament synthetic corpus in `tests/test_walk_forward.py` (exact
-counts and distribution stats asserted). **The actual sweep result for
-the real 100-tournament production dataset has NOT been run yet** —
-this sandbox has no production DB (network egress to klpga.co.kr is
-still policy-blocked here; see section 7's earlier note) — see
-"Diagnostic command" below for the exact command to run this on the
-Windows PC. No single threshold is chosen anywhere in the code — that
-remains an explicit human decision once the real sweep is seen.
+median, % zero-history, and % with <5/<10/<20 prior events), the %
+of the corpus retained, and the earliest eligible target
+tournament/date at that threshold. Verified correct on hand-computable
+synthetic corpora in `tests/test_walk_forward.py` (exact counts and
+distribution stats asserted). **The actual sweep result for the real
+100-tournament production dataset has NOT been run in this sandbox** —
+no production DB exists here (network egress to klpga.co.kr is still
+policy-blocked; see section 7's earlier note) — see "Production
+diagnostics" below for the exact command. No single threshold is
+chosen anywhere in the code — that remains an explicit human decision
+once the real sweep is seen.
 
-### Diagnostic command (requirement #9)
+### Production diagnostics (read-only, run against the real DB)
 
-```bash
-python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code>
-python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code> --players <code1>,<code2>
-python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code> --sample 10
-```
-Read-only (opens the DB `mode=ro`), prints the target tournament and
-the exact feature-cutoff date used (flagging a `start_date` fallback to
-`end_date` if it occurs), then for each selected player: the exact
-prior tournaments used, the exact recent-form events used per window,
-every point-in-time feature value, and finally — under a clearly
-separate `LABEL` heading — the target tournament's own real outcome.
-Tested in `tests/test_backtest_diagnostic.py` (3 tests) against a real
-schema.sql-built temp DB.
+Six read-only scripts, none of which write to `tournament_master`/
+`player_master`/`player_event`/`player_round`/`tournament_entry` —
+built so the architecture above can be audited against real production
+data before any model is fit, not just against synthetic tests:
+
+- **`scripts/16_backtest_diagnostic.py`** — the point-in-time audit
+  command (requirement #9 from the prior gate): target
+  game_code/name/start_date, feature cutoff (flagging any `start_date`
+  fallback), exact prior tournaments/recent-form events used per
+  selected player, every feature value, and the target's outcome shown
+  separately as `LABEL`. (Already existed — this session's `#2` ask was
+  satisfied by this exact script, not a new one.)
+- **`scripts/17_eligibility_report.py`** (NEW) — prints
+  `eligibility_sweep()`'s full table (min prior tournaments, targets
+  retained, % of corpus, player-target rows retained, earliest eligible
+  target date/game_code, median/mean `prior_events_n`, % zero/<5/<10/<20
+  prior events) for a threshold range. Never chooses a threshold.
+- **`scripts/18_leakage_invariance_check.py`** (NEW) — picks a REAL
+  target tournament (default: the chronological middle of the corpus)
+  and a REAL player with genuine events on both sides of its cutoff
+  (default: the most prolific player who qualifies), lists every one of
+  that player's real corpus events classified as USED
+  (strictly-before-cutoff) or EXCLUDED (on/after cutoff, or the target
+  itself), then proves by direct set comparison that
+  `prior_event_ids_used` equals exactly the USED set — an auditable
+  production-data companion to the synthetic adversarial tests above,
+  not a replacement for them.
+- **`scripts/19_field_relative_audit.py`** (NEW) — for selected
+  player/round examples (default: the historical round with the
+  largest real field), prints the player's real `round_score`, the
+  field benchmark including everyone, the leave-one-out benchmark
+  excluding the player's own score, the resulting field-relative round
+  score, and an explicit arithmetic proof
+  (`sum_excluding_self + own_score == total_sum`) that the player's own
+  score was actually excluded — never labeled Strokes Gained anywhere
+  in its output.
+- **`scripts/20_feature_redundancy_report.py`** (NEW) — pairwise
+  Pearson correlation (a stdlib-only hand-rolled implementation, no
+  numpy/pandas dependency — consistent with `export_csv.py`'s existing
+  "no pandas" precedent) across `prior_events_n`/`prior_wins`/
+  `prior_top5`/`prior_top10`/`prior_cut_rate`/`prior_avg_round_score_to_par`/
+  the three recent-form windows/`prior_avg_round_to_par`/
+  `prior_avg_field_relative_round_score`, using pairwise deletion with
+  the sample size `n` always shown alongside `r`. A "notable pairs"
+  list (`|r| >= 0.7`, `n >= 30` by default, both overridable) is
+  display-only — the script never removes a feature or picks a weight;
+  it exists purely as evidence for the later model-design gate.
+- **`scripts/21_data_coverage_report.py`** (NEW) — for
+  `prior_avg_round_score_to_par`, `prior_avg_round_to_par`,
+  `prior_avg_field_relative_round_score`, and `prior_recent_form_5/10/20`:
+  non-NULL coverage (count and %) across the real walk-forward dataset,
+  plus the companion `_n` column's min/median/mean/max distribution
+  (including the zeros — a `_n` of 0 is real coverage information, not
+  noise to discard).
+
+All six are covered by tests against small, hand-computable synthetic
+DBs (`tests/test_eligibility_report.py`,
+`tests/test_leakage_invariance_check.py`,
+`tests/test_field_relative_audit.py`,
+`tests/test_feature_redundancy_report.py`,
+`tests/test_data_coverage_report.py`) — 25 new tests, full suite
+178/178 passing. **None of them has been run against the real
+production DB yet** — see "Production diagnostics" commands in
+README.md for the exact Windows invocations.
 
 ### Explicitly not touched by this layer
 
@@ -1045,7 +1098,9 @@ Per instruction: `tournament_entry` (section 7) and the live
 gameCode=2026080001 field (120 confirmed entrants) are untouched — this
 layer only reads `tournament_master`/`player_event`/`player_round`
 (read-only throughout) and does not query `tournament_entry` at all.
-The win-probability model itself remains unimplemented.
+The win-probability model itself remains unimplemented, and no
+feature-selection or weighting decision has been made from the
+redundancy/coverage reports above — they are evidence, not a decision.
 
 ## Next steps
 

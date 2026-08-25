@@ -98,6 +98,11 @@ class WalkForwardDatasetResult:
     # event_ids excluded because they have zero player_event rows at
     # all (an empty reconstructed field — nothing to build a row for).
     skipped_empty_field_event_ids: list[str] = field(default_factory=list)
+    # Total row count of tournament_master at build time — the "100" in
+    # "percentage of the 100 historical tournaments retained" (may
+    # differ from 100 on a partially-collected/test DB; always the real
+    # count, never assumed).
+    total_tournament_count: int = 0
 
 
 def _ordered_target_tournaments(conn: sqlite3.Connection) -> tuple[list[TargetTournament], list[str]]:
@@ -169,12 +174,19 @@ def build_walk_forward_dataset(conn: sqlite3.Connection, corpus: Optional[Corpus
             }
             rows.append(row)
 
+    total_tournament_count = conn.execute("SELECT COUNT(*) FROM tournament_master").fetchone()[0]
+
     return WalkForwardDatasetResult(
         rows=rows,
         target_order=target_order,
         skipped_no_date_event_ids=skipped_no_date,
         skipped_empty_field_event_ids=skipped_empty_field,
+        total_tournament_count=total_tournament_count,
     )
+
+
+def _pct(numerator: int, denominator: int) -> Optional[float]:
+    return round(100 * numerator / denominator, 1) if denominator else None
 
 
 def eligibility_sweep(
@@ -184,8 +196,9 @@ def eligibility_sweep(
     """For each threshold k in `thresholds`: how many target tournaments
     have prior_tournament_count >= k, and — among that eligible set's
     field rows — the resulting distribution of prior_events_n (mean,
-    median, fraction with zero prior events). See module docstring: this
-    reports the trade-off, it does not pick a threshold."""
+    median, and the fraction with fewer than 5/10/20/zero prior events).
+    See module docstring: this reports the trade-off, it does not pick
+    a threshold."""
     rows_by_target: dict[str, list[dict]] = {}
     for row in result.rows:
         rows_by_target.setdefault(row["target_event_id"], []).append(row)
@@ -198,17 +211,27 @@ def eligibility_sweep(
             row for event_id in eligible_event_ids for row in rows_by_target.get(event_id, [])
         ]
         prior_ns = [row["prior_events_n"] for row in eligible_rows]
+        # eligible_targets is a suffix of the ascending target_order (see
+        # _ordered_target_tournaments — filtering rank >= k on a list
+        # already sorted by rank simply drops the first k entries), so
+        # its first element is always the earliest-dated eligible target.
+        earliest = eligible_targets[0] if eligible_targets else None
 
         report.append(
             {
                 "threshold": k,
                 "eligible_tournament_count": len(eligible_targets),
+                "pct_of_corpus_retained": _pct(len(eligible_targets), result.total_tournament_count),
                 "eligible_field_row_count": len(eligible_rows),
+                "earliest_eligible_target_event_id": earliest.event_id if earliest else None,
+                "earliest_eligible_target_game_code": earliest.game_code if earliest else None,
+                "earliest_eligible_target_start_date": earliest.effective_date.isoformat() if earliest else None,
                 "mean_prior_events_n": round(statistics.mean(prior_ns), 2) if prior_ns else None,
                 "median_prior_events_n": statistics.median(prior_ns) if prior_ns else None,
-                "pct_zero_prior_events": (
-                    round(100 * sum(1 for n in prior_ns if n == 0) / len(prior_ns), 1) if prior_ns else None
-                ),
+                "pct_zero_prior_events": _pct(sum(1 for n in prior_ns if n == 0), len(prior_ns)),
+                "pct_lt_5_prior_events": _pct(sum(1 for n in prior_ns if n < 5), len(prior_ns)),
+                "pct_lt_10_prior_events": _pct(sum(1 for n in prior_ns if n < 10), len(prior_ns)),
+                "pct_lt_20_prior_events": _pct(sum(1 for n in prior_ns if n < 20), len(prior_ns)),
             }
         )
     return report
