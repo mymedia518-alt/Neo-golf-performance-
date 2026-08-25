@@ -639,12 +639,109 @@ investigation).** Resolved by design, not just documentation:
         there's enough of it to check.
     Confirmed working against synthetic data in both directions (a
     hand-built consistent case that passes, and a hand-built corrupted
-    case that correctly gets flagged). **Still needs to be run against
-    the real Windows production DB — not yet done as of this entry.**
-    `player_round.round_to_par` coverage itself (what fraction of rows
-    have a non-NULL value at all, separate from whether the values that
-    exist are correct) is also reported by this script and has not yet
-    been inspected on production either.
+    case that correctly gets flagged).
+
+- **Confirmed against the real Windows production DB, 2026-08-25:
+  `scripts/12_verify_round_to_par_reliability.py` result: `round_to_par`
+  coverage 33,006/33,215 = 99.4%; CHECK B fully-covered multi-round
+  events: 11,179; exact matches: 11,179/11,179 (zero mismatches);
+  cross-check `sum(score_to_par)/sum(rounds_played)` vs.
+  `sum(round_to_par)/count(rounds)` both = 0.51 -> AGREE.**
+  `derived_avg_round_score_to_par` is now verified end-to-end: the
+  formula, the raw field it could have used instead, and the real
+  production data all agree. This closes both red-team rounds on the
+  score-to-par metrics — see the win-probability model design report
+  (approved direction: Model B's mechanism, fit Model C's
+  walk-forward way) for how this feature is used next.
+
+## 7. Upcoming-tournament entry list — investigation (blocking prerequisite for win-probability v1)
+
+**Status: NOT confirmed. No entry-list endpoint or page has been
+identified as of this entry.** This is a hard prerequisite for the
+win-probability model (it must rank only the actual entered field) and
+is being tracked separately from the model design itself.
+
+- [x] **STEP 1, repo search, 2026-08-25**: grepped the full codebase
+      (case-insensitive) for `entry`, `참가`, `출전`, `엔트리`,
+      `participant`, `applicant` and every other lead in the brief.
+      Every match is either the unrelated Python variable name `entry`
+      used throughout `collectors/aggregate.py`'s per-player merge dict,
+      or "getGameList entry" (one item of the `gameList` array — a
+      *tournament listing*, not a *player entry list*). **Nothing about
+      a participant/entry roster exists anywhere in this codebase,
+      confirmed by search, not assumed.** Only two endpoints are
+      confirmed anywhere in this project: `getGameList` (tournament
+      list) and `roundLeaderboard` (per-round results) — see section 1
+      and 2 above. `scripts/00_discover_site.py` (recon-only, never
+      successfully run — see section 4) has a keyword list for its
+      link-discovery crawl that never included any entry/roster term at
+      all, English or Korean — a real gap in what it was ever looking
+      for.
+- [x] **STEP 2, live investigation attempt, 2026-08-25 — blocked from
+      this environment, confirmed via the proxy's own status, not
+      assumed.** Tried `curl` directly (`CONNECT tunnel failed,
+      response 403`) and the `WebFetch` tool (`EGRESS_BLOCKED`) against
+      `klpga.co.kr` from this dev sandbox. The proxy's own status
+      endpoint confirms this is a **policy denial**, not a transient
+      failure: `recentRelayFailures` shows `"gateway answered 403 to
+      CONNECT (policy denial or upstream failure)"` for both
+      `klpga.co.kr:443` and `www.klpga.co.kr:443`. Consistent with
+      every prior live confirmation in this project (`getGameList`,
+      `roundLeaderboard`, `gameMethod`) — those were all confirmed from
+      the user's Windows PC, not this sandbox, and the same has to be
+      true here.
+- [x] **Built `scripts/13_discover_entry_list.py`, 2026-08-25** — the
+      automatable half of STEP 2/3, to run on a machine with real
+      access. It does NOT guess any endpoint. It: (a) calls the
+      already-confirmed `getGameList` for a season and prints every
+      entry's `gameFinish` value plus the FULL raw JSON of the soonest
+      non-`"F"` (i.e. not yet completed) candidate tournament, so any
+      unparsed entry-count/roster-shaped field already sitting in a
+      response this project has never looked at that way can surface;
+      (b) re-runs the section-4 robots.txt + home-page link discovery
+      with a broadened keyword list that now actually includes
+      entry/roster/participant terms in English and Korean
+      (`entry`, `participant`, `roster`, `application`, `참가선수`,
+      `출전선수`, `엔트리`, `선수명단`, `출전`, `참가`, `신청선수`); (c)
+      follows every keyword-matched link one hop further and re-scans
+      those pages too. Read-only, no DB writes, same rate-limited
+      disk-cached `PoliteHttpClient` as every other collector.
+      Regression tests added (`tests/test_discover_entry_list.py`) for
+      the keyword matcher and the candidate-selection/raw-JSON-dump
+      logic against a fake client. 86/86 tests passing.
+      **Not yet run against the live site — requires the Windows PC.**
+      This script's own printed output is explicit that it CANNOT fully
+      resolve the endpoint by itself (an AJAX call fired by clicking an
+      "출전선수"/"엔트리" tab, if that's how the site does it, won't be
+      a plain `<a href>`/`<script src>` this crawl can see) — it ends
+      by asking for a real browser DevTools Network capture on the
+      candidate tournament's own page, the same method that confirmed
+      every other endpoint in this project.
+- [ ] **STEP 3/4** (build the confirmed diagnostic script; test against
+      an upcoming tournament and cross-check one completed tournament's
+      entry list against its real `player_event` field) — blocked on
+      STEP 2 actually producing a confirmed endpoint. Not started.
+- [ ] **STEP 5, future schema — DESIGNED, NOT CREATED.** Proposed
+      `tournament_entry` table (not added to `schema.sql`, per explicit
+      instruction not to create it yet):
+      ```
+      tournament_entry (
+          game_code            TEXT NOT NULL,   -- joins tournament_master.game_code
+          player_code          TEXT NOT NULL,   -- the confirmed real KLPGA playerCode;
+                                                 -- PRIMARY identity, joins player_master.player_id
+          player_name_display  TEXT,            -- display only, never used for matching
+          entry_status         TEXT,            -- e.g. entered / withdrawn / DNS — exact
+                                                 -- vocabulary depends on what STEP 2 confirms;
+                                                 -- not invented ahead of that
+          source               TEXT NOT NULL,   -- which confirmed endpoint/page this row came from
+          collected_at         TEXT NOT NULL,
+          PRIMARY KEY (game_code, player_code)
+      )
+      ```
+      `player_code` is the only identity key for joining into any
+      analytics table — matches the rest of this pipeline's convention
+      (section 2, and every prior red-team pass). No fuzzy name
+      matching, ever, per explicit instruction.
 
 ## Next steps
 
