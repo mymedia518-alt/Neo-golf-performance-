@@ -10,8 +10,13 @@ klpga.parsers.entry_list_parser and tests/fixtures/entry_list_sample.html):
 This module is read-only with respect to tournament_master, player_master,
 player_event, player_round and the production 100-tournament dataset — it
 never writes to any of them. Matching functions below only SELECT against
-player_master to report matched/unmatched counts; no tournament_entry
-storage layer exists yet (that is a separate, not-yet-approved step).
+player_master to report matched/unmatched counts.
+
+`build_tournament_entry_rows` below is a pure function (no DB access) that
+shapes parsed EntryRows into tournament_entry row dicts — the actual write
+(via klpga.db.upsert.upsert_tournament_entry) happens in
+scripts/15_collect_entry_list.py, matching this project's convention of
+keeping DB writes in the orchestration script rather than the collector.
 """
 from __future__ import annotations
 
@@ -113,3 +118,30 @@ def cross_check_against_player_event(
         entry_only=sorted(entry_codes - result_codes),
         result_only=sorted(result_codes - entry_codes),
     )
+
+
+def build_tournament_entry_rows(
+    game_code: str,
+    entry_rows: list[EntryRow],
+    source: str,
+    collected_at: str,
+) -> list[dict]:
+    """Shape parsed EntryRows into tournament_entry row dicts, ready for
+    klpga.db.upsert.upsert_tournament_entry. Only the fields genuinely
+    confirmed on the live entry-list page are included — no
+    entry_status/WD/DNS or any other unconfirmed field is added here.
+    Pure function: no DB access, no fabrication of any field not already
+    present on `entry_rows`."""
+    return [
+        {
+            "game_code": game_code,
+            "player_code": row.player_code,
+            "player_name_display": row.player_name,
+            "nationality": row.nationality,
+            "qualification_category": row.qualification_category,
+            "qualification_reason": row.qualification_reason,
+            "source": source,
+            "collected_at": collected_at,
+        }
+        for row in entry_rows
+    ]

@@ -654,17 +654,22 @@ investigation).** Resolved by design, not just documentation:
   (approved direction: Model B's mechanism, fit Model C's
   walk-forward way) for how this feature is used next.
 
-## 7. Upcoming-tournament entry list — CONFIRMED source, collection layer built
+## 7. Upcoming-tournament entry list — CONFIRMED source, collection + storage layer DONE
 
-**Status: endpoint and HTML structure CONFIRMED (2026-08-25) via manual
-browser capture, cross-checked against the full raw HTML the user pasted
-verbatim. Parser, collector (fetch + player_master matching + completed-
-tournament cross-check), a read-only diagnostic script, and tests are
-implemented and passing (106/106 full suite). The `tournament_entry`
-storage layer itself is still NOT created — implementing it requires a
-separate approval per the original instruction.** This was a hard
-prerequisite for the win-probability model (it must rank only the actual
-entered field) and is tracked separately from the model design itself.
+**Status: fully closed, 2026-08-25.** Endpoint and HTML structure
+CONFIRMED via manual browser capture, cross-checked against the full
+raw HTML the user pasted verbatim. Parser, collector (fetch +
+`player_master` matching + completed-tournament cross-check), a
+read-only diagnostic script, and the `tournament_entry` storage layer
+(idempotent UPSERT, additive migration, live-verified against the real
+field) are all implemented, tested, and confirmed against a real
+production run on the Windows PC (120/120 parsed, 119/120 matched — see
+below). Full suite: 122/122 passing. This was a hard prerequisite for
+the win-probability model (it must rank only the actual entered field)
+and is tracked separately from the model design itself. **Next design
+gate before the model: a point-in-time feature/backtest layer, to
+guarantee no future information leaks into historical predictions —
+not yet started.**
 
 - [x] **CONFIRMED live, 2026-08-25 (manual browser capture, gameCode=
       2026080001, 제15회 KG 레이디스 오픈):**
@@ -756,32 +761,78 @@ entered field) and is tracked separately from the model design itself.
         real fixture), `tests/test_entry_list_collector.py` (5 tests,
         fake client + real `schema.sql`-built temp DB),
         `tests/test_inspect_entry_list.py` (3 tests, script report
-        logic against the real fixture). Full suite: 106/106 passing.
-- [ ] **STEP 4's live-field run** (`scripts/14_inspect_entry_list.py
-      --game-code 2026080001` against the real site, and a completed
-      tournament's `cross_check_against_player_event`) still requires
-      running on the Windows PC — this sandbox's egress to
-      `klpga.co.kr` remains policy-blocked (re-confirmed 2026-08-25 via
-      the proxy's own status endpoint before the user's manual capture
-      was used instead).
-- [x] **Revised schema proposal — STILL NOT created in `schema.sql`,
-      per explicit instruction to wait for approval:**
-      ```
-      tournament_entry (
-          game_code               TEXT NOT NULL,   -- joins tournament_master.game_code
-          player_code             TEXT NOT NULL,   -- confirmed real KLPGA playerCode;
-                                                    -- PRIMARY identity, joins player_master.player_id
-          player_name_display     TEXT,            -- display only, never used for matching
-          qualification_category  TEXT,            -- confirmed: 자격자 / 추천자 / 초청자
-          qualification_reason    TEXT,            -- confirmed free-text "참가 자격" column
-          source                  TEXT NOT NULL,   -- e.g. "web/tourInfo/entry"
-          collected_at            TEXT NOT NULL,
+        logic against the real fixture). Full suite: 106/106 passing
+        as of this checkpoint.
+- [x] **STEP 4's live-field run — DONE, 2026-08-25, on the Windows PC.
+      CONFIRMED PRODUCTION RESULT for gameCode=2026080001:**
+      - Page summary total entrants: 120
+      - Parsed entrant rows: 120
+      - `qualification_category`: 자격자=115, 추천자=5, 초청자=0
+      - Unparseable entrant rows: 0
+      - Duplicate `player_code`s: 0
+      - Matched against existing `player_master`: 119
+      - Unmatched: 1 — `player_code=13355`, name="배윤철 0908(A)"
+        (99.17% match rate)
+
+      **`player_code=13355` is treated as a legitimate unmatched/new
+      entrant** (per explicit instruction) — never fuzzy-matched by
+      name, never dropped. This is now a real (not hypothetical) test
+      case for a future rookie/unknown-player fallback, and is exactly
+      why `tournament_entry` below has no FK to `player_master`.
+- [x] **`tournament_entry` storage layer — IMPLEMENTED, 2026-08-25**
+      (revised from the original STEP 5 sketch — `entry_status` dropped,
+      no confirmed source; see above):
+      ```sql
+      CREATE TABLE IF NOT EXISTS tournament_entry (
+          game_code               TEXT NOT NULL,   -- joins tournament_master.game_code (not FK:
+                                                     -- an upcoming tournament may have no
+                                                     -- tournament_master row yet)
+          player_code              TEXT NOT NULL,   -- confirmed real KLPGA playerCode; same identity
+                                                     -- space as player_master.player_id, but NOT an FK
+                                                     -- (a legitimate entrant may be unmatched — see
+                                                     -- player_code=13355 above)
+          player_name_display      TEXT NOT NULL,   -- display only, never used for matching
+          nationality               TEXT,            -- confirmed from the tb-flag country code
+          qualification_category    TEXT,            -- confirmed: 자격자 / 추천자 / 초청자
+          qualification_reason      TEXT,            -- confirmed free-text "참가 자격" column
+          source                    TEXT NOT NULL,   -- confirmed endpoint this row came from
+          collected_at              TEXT NOT NULL,
           PRIMARY KEY (game_code, player_code)
       )
       ```
-      `entry_status` intentionally dropped — no confirmed source (see
-      above). `player_code` remains the only identity key for joining;
-      no fuzzy name matching, ever, per explicit instruction.
+      - `src/klpga/db/schema.sql` section 6 (collection_runs renumbered
+        to section 7). No `entry_status`/WD/DNS/SG/GIR/course-par or any
+        other unconfirmed field — guarded by a dedicated test
+        (`test_upsert_never_writes_an_entry_status_or_other_unconfirmed_column`).
+      - `src/klpga/db/migrate.py` — `ensure_tournament_entry_schema()`:
+        purely additive (the table is brand new, so unlike the
+        `player_stats_snapshot` migration there is never an existing
+        row to migrate or a drop-and-recreate decision) — creates the
+        table on an already-populated production DB without touching
+        `tournament_master`/`player_master`/`player_event`/
+        `player_round`, confirmed by a dedicated regression test.
+      - `src/klpga/db/upsert.py` — `upsert_tournament_entry()`: UPSERT
+        keyed on `(game_code, player_code)`. Re-running collection for
+        the same gameCode overwrites each row in place — confirmed
+        idempotent by tests (3x re-collection of all 120 real entrants
+        -> still 120 rows, not 360).
+      - `src/klpga/collectors/entry_list.py` —
+        `build_tournament_entry_rows()`: pure row-shaping (no DB
+        access), only the genuinely confirmed fields.
+      - `scripts/15_collect_entry_list.py` — the live collection
+        command: fetch -> parse -> `ensure_tournament_entry_schema` ->
+        UPSERT -> `collection_runs` audit log entry -> explicit
+        matched/unmatched report against `player_master` (unmatched
+        entrants are stored, never dropped). Never writes to
+        `tournament_master`/`player_master`/`player_event`/
+        `player_round` — confirmed by a dedicated regression test.
+      - Tests: `tests/test_tournament_entry.py` (10 tests — migration
+        safety, upsert idempotency, the unmatched-rookie-entrant case,
+        pure row-shaping), `tests/test_collect_entry_list.py` (6
+        tests — full collection against the real 120-row fixture,
+        matched/unmatched reporting, idempotent re-collection,
+        untouched validated tables, `collection_runs` audit log). Full
+        suite: 122/122 passing.
 
 **Earlier investigation history (superseded by the confirmation above,
 kept for the record):** a full repo search (2026-08-25) found nothing

@@ -275,7 +275,50 @@ CREATE INDEX IF NOT EXISTS idx_stats_snapshot_player ON player_stats_snapshot(pl
 CREATE INDEX IF NOT EXISTS idx_stats_snapshot_event ON player_stats_snapshot(related_event_id);
 
 -- ============================================================
--- 6. collection_runs — audit log of each collection script
+-- 6. tournament_entry — one row per (game_code, player_code) confirmed
+--    entrant on the live entry-list page (GET
+--    /web/tourInfo/entry?gameCode=<code> — see
+--    klpga.parsers.entry_list_parser / klpga.collectors.entry_list and
+--    docs/SITE_STRUCTURE_TODO.md section 7 for the full confirmation
+--    log). This is entry-list data (who is IN THE FIELD, confirmed live
+--    2026-08-25 against gameCode=2026080001: 120/120 rows parsed, 0
+--    unparseable, 0 duplicate player_codes) — NOT tournament RESULT
+--    data (that stays in player_event/player_round) and NOT tied to
+--    tournament_master.event_id, since an upcoming tournament may not
+--    have played rounds yet.
+--
+--    No FK to player_master: a real, live-confirmed entrant can be a
+--    rookie/unknown player not yet in player_master (confirmed
+--    2026-08-25: player_code=13355, 배윤철, unmatched against the
+--    existing 119/120-matched player_master — this row must still be
+--    stored, never dropped, and is a real test case for a future
+--    rookie/unknown-player fallback). Only genuinely confirmed fields
+--    are stored — no entry_status/WD/DNS marker exists on this page
+--    (investigated, not found; see section 7), and no
+--    course/statistics field is invented here either.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS tournament_entry (
+    game_code               TEXT NOT NULL,   -- joins tournament_master.game_code (not enforced as FK:
+                                              -- an upcoming tournament may not have a tournament_master
+                                              -- row yet)
+    player_code              TEXT NOT NULL,   -- confirmed real KLPGA playerCode; same identity space as
+                                              -- player_master.player_id, but NOT enforced as an FK here
+                                              -- (a legitimate entrant may not exist in player_master yet)
+    player_name_display      TEXT NOT NULL,   -- display only, never used for matching
+    nationality               TEXT,            -- confirmed from the tb-flag country code, e.g. 'KOR'
+    qualification_category    TEXT,            -- confirmed: 자격자 / 추천자 / 초청자
+    qualification_reason      TEXT,            -- confirmed free-text "참가 자격" column, NULL if empty
+    source                    TEXT NOT NULL,   -- which confirmed endpoint/page this row came from
+    collected_at              TEXT NOT NULL,   -- ISO-8601 UTC timestamp of this collection run
+
+    PRIMARY KEY (game_code, player_code)
+);
+
+CREATE INDEX IF NOT EXISTS idx_tournament_entry_game ON tournament_entry(game_code);
+CREATE INDEX IF NOT EXISTS idx_tournament_entry_player ON tournament_entry(player_code);
+
+-- ============================================================
+-- 7. collection_runs — audit log of each collection script
 --    invocation, so re-runs/resumes and failures are traceable.
 -- ============================================================
 CREATE TABLE IF NOT EXISTS collection_runs (

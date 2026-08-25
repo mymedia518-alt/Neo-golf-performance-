@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 106/106 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 122/122 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -97,19 +97,22 @@ data.
   by Model C's point-in-time walk-forward backtest, not hand-picked —
   approved. **Not implemented.** Implementation is blocked on the
   entry-list investigation below.
-- ✅ **Upcoming-tournament entry list: source CONFIRMED, collection
-  layer built, 2026-08-25.** `GET /web/tourInfo/entry?gameCode=<code>`
-  returns a full HTML page (not JSON) whose `<h2>전체 선수</h2>` table is
-  the real, confirmed roster — cross-checked against the complete raw
-  HTML the user pasted (문정민 → `playerCode=10296`, plus 5 more real
-  players; 120/120 rows match the page's own summary count). Parser
-  (`entry_list_parser.py`), collector (`entry_list.py`: fetch +
-  `player_master` matching + completed-tournament cross-check), and a
-  read-only diagnostic (`scripts/14_inspect_entry_list.py`) are
-  implemented and tested (106/106 full suite). **The `tournament_entry`
-  storage layer is still NOT created** — that, and the actual live run
-  on the Windows PC, remain the next steps; see
-  `docs/SITE_STRUCTURE_TODO.md` section 7.
+- ✅ **Upcoming-tournament entry list: source CONFIRMED, collection +
+  storage layer DONE, live-verified 2026-08-25.** `GET
+  /web/tourInfo/entry?gameCode=<code>` returns a full HTML page (not
+  JSON) whose `<h2>전체 선수</h2>` table is the real, confirmed roster.
+  **Live production run against gameCode=2026080001 on the Windows PC:
+  120/120 rows parsed, 0 unparseable, 0 duplicate `player_code`s, 119
+  matched / 1 unmatched against `player_master`** (unmatched:
+  `player_code=13355`, "배윤철 0908(A)" — a legitimate new/rookie
+  entrant, stored without fuzzy name matching, now a real test case for
+  a future rookie fallback). `tournament_entry` (idempotent UPSERT
+  keyed on `game_code`+`player_code`, additive migration, no
+  `entry_status`/WD/DNS/SG/GIR — no confirmed source for any of those)
+  is implemented and tested; see `docs/SITE_STRUCTURE_TODO.md` section 7.
+  **Next design gate before the win-probability model: a point-in-time
+  feature/backtest layer, to guarantee no future information leaks into
+  historical predictions — not yet started.**
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -134,22 +137,22 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: verify the entry-list collection layer against the live field, then implement the win-probability model
+## Current goal: point-in-time feature/backtest layer, before the win-probability model
 
 The raw 100-tournament dataset is validated, the derived analytics
 layer has survived two red-team passes and is now fully verified
 against production (see status above), the win-probability model's
 overall direction is approved (Model B's mechanism, Model C's
 walk-forward fitting — see the design report), and the entry-list
-source is now confirmed with a working parser/collector/diagnostic
-layer (see status above and `docs/SITE_STRUCTURE_TODO.md` section 7).
-**Model implementation is still deliberately NOT started.** What's left
-before it can begin: run `scripts/14_inspect_entry_list.py` against the
-real live site (and a completed tournament's
-`cross_check_against_player_event`) from a machine with real internet
-access, then — only after that live verification and explicit
-approval — implement the `tournament_entry` storage layer itself (see
-"Entry-list collection" below).
+source is now confirmed AND live-verified end-to-end, including the
+`tournament_entry` storage layer (see status above and
+`docs/SITE_STRUCTURE_TODO.md` section 7 — 120/120 parsed, 119/120
+matched against `player_master` on the real gameCode=2026080001 field).
+**Model implementation is still deliberately NOT started.** The next
+design gate, per explicit instruction, is a point-in-time
+feature/backtest layer — guaranteeing no future information leaks into
+historical predictions (Model C's walk-forward requirement) — before
+any model code is written.
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
@@ -228,29 +231,48 @@ exact name match (falls back to the players with the most
 the round_to_par reliability check — confirmed AGREE against production
 (see status above).
 
-## Entry-list collection (current goal — see status above)
+## Entry-list collection — DONE, live-verified
 
 Confirmed source: `GET /web/tourInfo/entry?gameCode=<code>` — a full
 HTML page whose `<h2>전체 선수</h2>` table is the real entry list (a
 second `<h2>즐겨찾기 선수</h2>` table is a hidden client-side favorites
 duplicate and is excluded). See `docs/SITE_STRUCTURE_TODO.md` section 7
 for the full confirmation log, the real HTML structure, and the
-(still not created) `tournament_entry` schema proposal.
+`tournament_entry` schema.
+
+**Confirmed production run, 2026-08-25 (gameCode=2026080001, Windows
+PC):** 120/120 rows parsed, 0 unparseable, 0 duplicate `player_code`s,
+119 matched / 1 unmatched against `player_master` (99.17% match rate;
+unmatched: `player_code=13355`, "배윤철 0908(A)" — a legitimate
+new/rookie entrant, stored without fuzzy name matching).
 
 ```bash
+# read-only diagnostic — no DB writes
 python scripts/14_inspect_entry_list.py --game-code <code>
 python scripts/14_inspect_entry_list.py --game-code <code> --db data/klpga.sqlite
+
+# live collection — writes/UPSERTs tournament_entry, idempotent to re-run
+python scripts/15_collect_entry_list.py --game-code <code> --db data/klpga.sqlite
 ```
 
-Read-only, no DB writes — requires a machine with real internet access
-to `klpga.co.kr` (this dev sandbox's own egress is confirmed blocked by
-policy for that host, not just unreachable). Prints: the page's own
-summary-box counts, the parsed entrant total (flagged if it doesn't
-match the summary), any row that looked like an entrant but had no
-extractable `playerCode` (never silently dropped), duplicate
-`playerCode`s, matched/unmatched counts against `player_master` when
-`--db` is given (matched by `player_code` only, never by name), and 10
-sample entrants.
+Both require a machine with real internet access to `klpga.co.kr` (this
+dev sandbox's own egress is confirmed blocked by policy for that host,
+not just unreachable). `14` prints: the page's own summary-box counts,
+the parsed entrant total (flagged if it doesn't match the summary), any
+row that looked like an entrant but had no extractable `playerCode`
+(never silently dropped), duplicate `playerCode`s, matched/unmatched
+counts against `player_master` when `--db` is given (matched by
+`player_code` only, never by name), and 10 sample entrants — and makes
+no DB writes. `15` does the same fetch/parse/report, then UPSERTs every
+parsed entrant into `tournament_entry` keyed on
+`(game_code, player_code)` — safe to re-run for the same gameCode (no
+duplicate rows), additively creates the table on a DB that predates it,
+and never touches `tournament_master`/`player_master`/`player_event`/
+`player_round`. Only genuinely confirmed fields are stored
+(`player_name_display`, `nationality`, `qualification_category`,
+`qualification_reason`, `source`, `collected_at`) — no `entry_status`,
+WD/DNS, SG, GIR, or course-par field exists, since none has a confirmed
+source on this page (see `docs/SITE_STRUCTURE_TODO.md` section 7).
 
 `scripts/13_discover_entry_list.py` (the earlier, now-superseded
 automatable half of the original investigation — broadened-keyword link
@@ -285,13 +307,15 @@ src/klpga/
                                  favorites table, tracks 자격자/추천자/초청자 category, reports
                                  unparseable rows explicitly — see "Entry-list collection" above)
   db/
-    schema.sql                  SQLite schema (5 spec tables + collection_runs audit log)
+    schema.sql                  SQLite schema (5 spec tables + tournament_entry + collection_runs
+                                 audit log)
     init_db.py                  create/reset klpga.sqlite
-    upsert.py                   idempotent UPSERT helpers + collection_runs logging
+    upsert.py                   idempotent UPSERT helpers (incl. tournament_entry) + collection_runs
+                                 logging
     export_csv.py               SQLite -> the 5 spec CSV files (stdlib csv/sqlite3 only, no pandas —
                                  see docs/SITE_STRUCTURE_TODO.md section 5 for why)
-    migrate.py                  safe (0-rows-only) player_stats_snapshot schema migration for the
-                                 derived_* columns
+    migrate.py                  safe additive migrations: player_stats_snapshot derived_* columns
+                                 (0-rows-only), and tournament_entry (purely additive, brand-new table)
   analytics/
     player_stats.py             derived player_stats_snapshot metrics — formulas/provenance in its
                                  own docstring, see "Analytics layer" above
@@ -323,6 +347,9 @@ scripts/
                                       against the page's own summary count, report unparseable
                                       rows/duplicates, optional player_master matching — see
                                       "Entry-list collection" above; no DB writes
+  15_collect_entry_list.py           live collection: fetch, parse, UPSERT tournament_entry
+                                      (idempotent), report matched/unmatched vs player_master,
+                                      collection_runs audit log — see "Entry-list collection" above
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -341,6 +368,12 @@ tests/
                                    scenario (see "Analytics layer" above)
   test_migrate.py                 player_stats_snapshot schema migration: migrates a 0-row old-shape
                                    table, no-ops once current, refuses to drop a populated old-shape one
+  test_tournament_entry.py        tournament_entry migration safety (never touches the validated
+                                   tables), upsert idempotency, the confirmed unmatched-rookie-entrant
+                                   case (player_code=13355), pure row-shaping
+  test_collect_entry_list.py      scripts/15's full collection flow against the real 120-row fixture:
+                                   matched/unmatched reporting, idempotent re-collection, untouched
+                                   validated tables, collection_runs audit log
   test_build_player_stats_snapshot.py  end-to-end: snapshot metadata, official columns stay NULL,
                                         re-running replaces rather than duplicates rows
   test_print_snapshot_samples.py  read-only sample printer: 2dp formatting, never writes to the DB

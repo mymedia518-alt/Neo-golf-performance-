@@ -1,5 +1,8 @@
-"""Safe, additive migration for player_stats_snapshot's `derived_*`
-columns (see src/klpga/analytics/player_stats.py for what they are).
+"""Safe, additive migrations:
+  - player_stats_snapshot's `derived_*` columns (see
+    src/klpga/analytics/player_stats.py for what they are).
+  - the tournament_entry table (see klpga.collectors.entry_list and
+    docs/SITE_STRUCTURE_TODO.md section 7).
 
 Never touches tournament_master / player_master / player_event /
 player_round — the validated raw dataset — under any circumstance.
@@ -79,4 +82,22 @@ def ensure_player_stats_snapshot_schema(conn: sqlite3.Connection, schema_path: P
         conn.execute("DROP INDEX IF EXISTS idx_stats_snapshot_player")
         conn.execute("DROP INDEX IF EXISTS idx_stats_snapshot_event")
 
+    conn.executescript(schema_path.read_text(encoding="utf-8"))
+
+
+def ensure_tournament_entry_schema(conn: sqlite3.Connection, schema_path: Path) -> None:
+    """Additively create tournament_entry (+ its indexes) on an already-
+    existing DB that predates this table, without touching anything
+    else. Purely additive — tournament_entry is a brand-new table, so
+    unlike ensure_player_stats_snapshot_schema above there is never an
+    existing row to migrate or a drop-and-recreate decision to make.
+    schema.sql's own `CREATE TABLE IF NOT EXISTS` / `CREATE INDEX IF NOT
+    EXISTS` statements make re-running the whole script safe even
+    against a fully populated production DB — this just makes that
+    explicit and gives it a name to call from a collection script,
+    mirroring ensure_player_stats_snapshot_schema's role for the other
+    additive schema change in this project."""
+    existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(tournament_entry)")}
+    if existing_cols:
+        return
     conn.executescript(schema_path.read_text(encoding="utf-8"))
