@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 153/153 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 178/178 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -120,9 +120,17 @@ data.
   "canary" future score/win — all confirm a target's features never
   change.** No SG/GIR/driving/putting/course-par proxy, and no
   probability/weight/cap/calibration constant, anywhere in this layer.
-  See `docs/SITE_STRUCTURE_TODO.md` section 8 for the full architecture,
-  feature definitions, and the eligibility trade-off (not yet run
-  against the real 100-tournament production DB — needs the Windows PC).
+  See `docs/SITE_STRUCTURE_TODO.md` section 8 for the full architecture
+  and feature definitions.
+- ✅ **Production diagnostics for the backtest layer: built, 2026-08-25.**
+  6 read-only scripts (`17`-`21`, plus the existing `16`) — eligibility
+  sweep, a real-production-data leakage invariance check (companion to
+  the synthetic adversarial tests, not a replacement), a field-relative
+  audit proving the leave-one-out exclusion arithmetic, a feature
+  redundancy report (correlation only — no feature removed, no weight
+  chosen), and a data coverage report. 25 new tests, 178/178 full suite
+  passing. **None has been run against the real production DB yet** —
+  see "Production diagnostics" below for the exact Windows commands.
   **Next: implement the win-probability model itself — not yet
   started, per explicit instruction to stop and wait for review.**
 
@@ -290,6 +298,56 @@ automatable half of the original investigation — broadened-keyword link
 discovery) remains in the repo for reference; the confirmed source above
 supersedes it.
 
+## Point-in-time backtest layer + production diagnostics (current goal — see status above)
+
+`src/klpga/backtest/` computes every feature strictly from a player's
+OTHER tournaments before a target tournament's confirmed start date —
+see `docs/SITE_STRUCTURE_TODO.md` section 8 for the full architecture,
+feature definitions, and leakage-test results. **None of the commands
+below have been run against the real production DB yet** — this is
+the exact set to run on the Windows PC before any model-design
+decision.
+
+```bash
+# Point-in-time audit — one target tournament, selected players: exact
+# cutoff, exact prior tournaments/recent-form events used, every
+# feature value, target outcome shown separately as LABEL.
+python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code>
+python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code> --players <code1>,<code2>
+
+# Eligibility sweep — targets/rows retained, % of corpus, earliest
+# eligible target, prior_events_n distribution, across a threshold
+# range. Chooses nothing.
+python scripts/17_eligibility_report.py --db data/klpga.sqlite
+python scripts/17_eligibility_report.py --db data/klpga.sqlite --thresholds 0,1,2,3,5,10,20,30
+
+# Leakage invariance check on REAL production data (companion to the
+# synthetic adversarial tests, not a replacement) — auto-picks a
+# mid-corpus target + a real player with events on both sides of its
+# cutoff, proves prior_event_ids_used excludes every after-cutoff event.
+python scripts/18_leakage_invariance_check.py --db data/klpga.sqlite
+python scripts/18_leakage_invariance_check.py --db data/klpga.sqlite --game-code <code> --player-code <code>
+
+# Field-relative audit — round score, field benchmark, leave-one-out
+# benchmark, field-relative score, and the exclusion-arithmetic proof.
+# Never labeled Strokes Gained.
+python scripts/19_field_relative_audit.py --db data/klpga.sqlite
+python scripts/19_field_relative_audit.py --db data/klpga.sqlite --game-code <code> --round 2 --players <code1>,<code2>
+
+# Feature redundancy report — pairwise correlation across the prior_*
+# performance features. Reports only; removes/weights nothing.
+python scripts/20_feature_redundancy_report.py --db data/klpga.sqlite
+python scripts/20_feature_redundancy_report.py --db data/klpga.sqlite --min-n 50 --notable-threshold 0.6
+
+# Data coverage report — non-NULL % and companion _n distribution for
+# the sparser derived features (career rate, sparse round_to_par,
+# field-relative, recent form 5/10/20).
+python scripts/21_data_coverage_report.py --db data/klpga.sqlite
+```
+
+All six are read-only and never write to `tournament_master`/
+`player_master`/`player_event`/`player_round`/`tournament_entry`.
+
 ## Setup
 
 ```bash
@@ -378,6 +436,22 @@ scripts/
                                       form events used, every point-in-time feature value, and the
                                       target's real outcome shown separately as a LABEL — see
                                       docs/SITE_STRUCTURE_TODO.md section 8; no DB writes
+  17_eligibility_report.py           read-only: eligibility_sweep() as a table across a threshold
+                                      range — targets/rows retained, % of corpus, earliest eligible
+                                      target, prior_events_n distribution. Chooses no threshold.
+  18_leakage_invariance_check.py     read-only: auto-picks a real mid-corpus target + a real player
+                                      with events on both sides of its cutoff, proves
+                                      prior_event_ids_used excludes every after-cutoff event —
+                                      production-data companion to the synthetic leakage tests
+  19_field_relative_audit.py         read-only: round score, field benchmark, leave-one-out
+                                      benchmark, field-relative score, and the exclusion-arithmetic
+                                      proof for selected player/round examples. Never labeled SG.
+  20_feature_redundancy_report.py    read-only: pairwise Pearson correlation (stdlib-only) across
+                                      the prior_* performance features, with sample size shown.
+                                      Reports only — removes no feature, picks no weight.
+  21_data_coverage_report.py         read-only: non-NULL % and companion _n distribution for the
+                                      sparser derived features (career rate, sparse round_to_par,
+                                      field-relative, recent form 5/10/20)
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -433,6 +507,17 @@ tests/
                                    hand-computable 4-tournament synthetic corpus
   test_backtest_diagnostic.py     scripts/16's report logic: cutoff date, feature/label separation,
                                    unknown gameCode and not-in-field player handling
+  test_eligibility_report.py      scripts/17's report matches eligibility_sweep() exactly, does not
+                                   choose a threshold, reports skipped undated tournaments
+  test_leakage_invariance_check.py  scripts/18's real-data classification: auto-select middle
+                                     target + prolific player, explicit target/player, unknown
+                                     gameCode, and the no-qualifying-player edge case
+  test_field_relative_audit.py    scripts/19's leave-one-out arithmetic against hand-computed
+                                   scores, auto-select-largest-field, never-labeled-SG, n=1 field
+  test_feature_redundancy_report.py  hand-rolled Pearson correlation against known values,
+                                      pairwise-deletion sample sizing, no-decision framing
+  test_data_coverage_report.py    coverage/_n-distribution math against hand-built rows, empty
+                                   dataset handling
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
