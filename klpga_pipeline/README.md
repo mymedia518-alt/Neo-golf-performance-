@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 122/122 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 153/153 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -110,9 +110,21 @@ data.
   keyed on `game_code`+`player_code`, additive migration, no
   `entry_status`/WD/DNS/SG/GIR — no confirmed source for any of those)
   is implemented and tested; see `docs/SITE_STRUCTURE_TODO.md` section 7.
-  **Next design gate before the win-probability model: a point-in-time
-  feature/backtest layer, to guarantee no future information leaks into
-  historical predictions — not yet started.**
+- ✅ **Point-in-time features + walk-forward backtest layer: DONE,
+  2026-08-25.** New `src/klpga/backtest/` package computes every
+  feature strictly from a player's OTHER tournaments before a target
+  tournament's confirmed start date (never the target's own rows,
+  never a later tournament, fail-safe exclusion on same-day/missing-
+  date ambiguity). **5 mandatory adversarial leakage tests — inserting
+  future tournaments, the target tournament's own rows, and an extreme
+  "canary" future score/win — all confirm a target's features never
+  change.** No SG/GIR/driving/putting/course-par proxy, and no
+  probability/weight/cap/calibration constant, anywhere in this layer.
+  See `docs/SITE_STRUCTURE_TODO.md` section 8 for the full architecture,
+  feature definitions, and the eligibility trade-off (not yet run
+  against the real 100-tournament production DB — needs the Windows PC).
+  **Next: implement the win-probability model itself — not yet
+  started, per explicit instruction to stop and wait for review.**
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -137,22 +149,21 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: point-in-time feature/backtest layer, before the win-probability model
+## Current goal: implement the win-probability model
 
 The raw 100-tournament dataset is validated, the derived analytics
 layer has survived two red-team passes and is now fully verified
-against production (see status above), the win-probability model's
-overall direction is approved (Model B's mechanism, Model C's
-walk-forward fitting — see the design report), and the entry-list
-source is now confirmed AND live-verified end-to-end, including the
-`tournament_entry` storage layer (see status above and
-`docs/SITE_STRUCTURE_TODO.md` section 7 — 120/120 parsed, 119/120
-matched against `player_master` on the real gameCode=2026080001 field).
-**Model implementation is still deliberately NOT started.** The next
-design gate, per explicit instruction, is a point-in-time
-feature/backtest layer — guaranteeing no future information leaks into
-historical predictions (Model C's walk-forward requirement) — before
-any model code is written.
+against production, the entry-list source is confirmed AND
+live-verified end-to-end including the `tournament_entry` storage
+layer, and the point-in-time feature + walk-forward backtest layer is
+implemented and leakage-tested (see status above and
+`docs/SITE_STRUCTURE_TODO.md` sections 7-8). **Model implementation is
+still deliberately NOT started** — per explicit instruction, this
+session stops here and waits for review of the backtest architecture
+before fitting any probability model (Model B's mechanism, fit by
+Model C's walk-forward methodology — see the design report — on top of
+`klpga.backtest.walk_forward`'s dataset, with weights/temperature
+learned, never hand-picked).
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
@@ -319,6 +330,18 @@ src/klpga/
   analytics/
     player_stats.py             derived player_stats_snapshot metrics — formulas/provenance in its
                                  own docstring, see "Analytics layer" above
+  backtest/
+    temporal.py                  the single source of truth for tournament date ordering: confirmed
+                                  start_date preferred, end_date fallback, fail-safe exclusion on
+                                  same-day/missing-date ambiguity — see docs section 8
+    historical_field.py          reconstructs a historical target tournament's evaluation field from
+                                  player_event (documented limitation: a RESULT field, not a confirmed
+                                  historical ENTRY list — tournament_entry doesn't exist historically)
+    point_in_time_features.py    the leakage-critical feature engine: every prior_* feature computed
+                                  strictly from a player's OTHER tournaments before the target's
+                                  effective date — see docs section 8 for the full feature reference
+    walk_forward.py              build_walk_forward_dataset() + eligibility_sweep() (the
+                                  minimum-history trade-off report, no hard-coded threshold)
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -350,6 +373,11 @@ scripts/
   15_collect_entry_list.py           live collection: fetch, parse, UPSERT tournament_entry
                                       (idempotent), report matched/unmatched vs player_master,
                                       collection_runs audit log — see "Entry-list collection" above
+  16_backtest_diagnostic.py          read-only: for one target tournament + selected players, prints
+                                      the exact feature cutoff date, exact prior tournaments/recent-
+                                      form events used, every point-in-time feature value, and the
+                                      target's real outcome shown separately as a LABEL — see
+                                      docs/SITE_STRUCTURE_TODO.md section 8; no DB writes
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -393,6 +421,18 @@ tests/
   test_inspect_entry_list.py      scripts/14's report logic against the real fixture: summary
                                    match, unparsed-row/duplicate reporting, player_master
                                    matched/unmatched counts
+  test_point_in_time_features.py  klpga.backtest's leakage-critical feature engine — baseline
+                                   correctness, same-day/missing-date fail-safe exclusion, and the
+                                   MANDATORY adversarial leakage tests (future tournaments,
+                                   target-tournament rows, extreme canary scores/wins — target
+                                   features never change)
+  test_historical_field.py        historical field reconstruction from player_event, and the
+                                   identity/label field separation
+  test_walk_forward.py            walk-forward dataset row shape, rookie retention with zero prior
+                                   events, no silent drops, eligibility sweep math on a
+                                   hand-computable 4-tournament synthetic corpus
+  test_backtest_diagnostic.py     scripts/16's report logic: cutoff date, feature/label separation,
+                                   unknown gameCode and not-in-field player handling
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
