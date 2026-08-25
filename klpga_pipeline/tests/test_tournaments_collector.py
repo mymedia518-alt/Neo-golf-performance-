@@ -36,6 +36,7 @@ def _game(
     prize_money=None,
     winner_code=None,
     winner_name=None,
+    game_method="0",
 ):
     return {
         "gameCode": game_code,
@@ -52,6 +53,7 @@ def _game(
         "prizeMoney": prize_money,
         "winnerCode": winner_code,
         "winnerName": winner_name,
+        "gameMethod": game_method,
     }
 
 
@@ -96,9 +98,11 @@ def test_fetch_game_list_parses_confirmed_fields_only():
     assert listing.prize_money == 1500000000
     assert listing.winner_code == "11134"
     assert listing.winner_name == "서교림"
+    assert listing.game_method == "0"
     assert listing.season == 2026
     assert listing.is_completed is True
     assert listing.is_regular_tour is True
+    assert listing.is_stroke_play is True
 
 
 def test_fetch_game_list_leaves_unconfirmed_optional_fields_none_when_absent():
@@ -125,6 +129,30 @@ def test_filter_completed_regular_tour_excludes_other_tour_types_and_unfinished(
                     _game("A", "완료된 정규투어", tour_type="RE", finish="F"),
                     _game("B", "진행중 정규투어", tour_type="RE", finish="P"),
                     _game("C", "완료된 드림투어", tour_type="DR", finish="F"),
+                ]
+            }
+        }
+    )
+    listings = fetch_game_list(client, season=2026)
+    kept = filter_completed_regular_tour(listings)
+    assert [l.game_code for l in kept] == ["A"]
+
+
+def test_filter_completed_regular_tour_excludes_match_play_and_stableford():
+    """Regression test using the real confirmed values from the live
+    100-tournament run (see docs/SITE_STRUCTURE_TODO.md): gameMethod=1
+    (Match Play, e.g. Doosan Match Play) and gameMethod=2 (Modified
+    Stableford, e.g. 동부건설 · 한국토지신탁 챔피언십) both return zero
+    data from roundLeaderboard at every round — confirmed by
+    exhaustively probing round=1..8 against the live endpoint. Both
+    must be excluded even though tourType=RE and gameFinish=F."""
+    client = FakeClient(
+        {
+            2026: {
+                "gameList": [
+                    _game("A", "정규 스트로크플레이", game_method="0"),
+                    _game("B", "두산 매치플레이", game_method="1"),
+                    _game("C", "동부건설 · 한국토지신탁 챔피언십", game_method="2"),
                 ]
             }
         }

@@ -13,7 +13,19 @@ Fields confirmed and parsed into named TournamentListing fields:
   gameCode, gameTitle, gameEngTitle, tourType, courseText, courseEngText,
   outCourseText, inCourseText, startDate/endDate (YYYYMMDD),
   gameFinish ("F" == confirmed "completed"), prizeMoney (total purse,
-  integer KRW), winnerCode, winnerName.
+  integer KRW), winnerCode, winnerName, gameMethod (see below).
+
+CONFIRMED live, 2026-08-24 (100-tournament run, gameCode=2023060005 as
+a working baseline vs. 6 real failures — see
+docs/SITE_STRUCTURE_TODO.md): `gameMethod` is the tournament FORMAT
+field. `"0"` is standard stroke play — the only format the confirmed
+`roundLeaderboard` endpoint actually serves data for. `"1"` (Match
+Play) and `"2"` (Modified Stableford, KLPGA's "동부건설·한국토지신탁
+챔피언십") were BOTH confirmed, by exhaustively probing round=1..8
+against the real endpoint, to return ZERO player rows at every round —
+not "wrong round range," a genuinely different data source this
+endpoint doesn't expose at all. `filter_completed_regular_tour` below
+excludes anything but `gameMethod == "0"` for exactly this reason.
 
 Every other key present in a live response is kept verbatim in `.raw`
 for later inspection, but nothing is invented for keys that were never
@@ -47,6 +59,9 @@ class TournamentListing:
     prize_money: Optional[int]      # total tournament purse (KRW), as returned
     winner_code: Optional[str]      # official playerCode of the winner
     winner_name: Optional[str]      # winner's name as returned
+    game_method: Optional[str]      # "0"=stroke play (collectible), "1"=Match Play,
+                                     # "2"=Modified Stableford (both confirmed unavailable
+                                     # via roundLeaderboard — see module docstring)
     # The season this listing was requested under (i.e. the `season` form
     # value sent to getGameList) — this is request metadata, not a value
     # read from the response body, so it's always populated.
@@ -60,6 +75,10 @@ class TournamentListing:
     @property
     def is_regular_tour(self) -> bool:
         return self.tour_type == config.TOUR_TYPE_REGULAR
+
+    @property
+    def is_stroke_play(self) -> bool:
+        return self.game_method == config.GAME_METHOD_STROKE_PLAY
 
 
 def _clean(text: Any) -> Optional[str]:
@@ -137,6 +156,7 @@ def fetch_game_list(
                 prize_money=_to_int(entry.get("prizeMoney")),
                 winner_code=_clean(entry.get("winnerCode")),
                 winner_name=_clean(entry.get("winnerName")),
+                game_method=_clean(entry.get("gameMethod")),
                 season=season,
                 raw=entry,
             )
@@ -146,8 +166,10 @@ def fetch_game_list(
 
 def filter_completed_regular_tour(listings: list[TournamentListing]) -> list[TournamentListing]:
     """Keep only tourType=RE (confirmed 'regular tour') AND
-    gameFinish=F (confirmed 'completed') entries."""
-    return [l for l in listings if l.is_regular_tour and l.is_completed]
+    gameFinish=F (confirmed 'completed') AND gameMethod=0 (confirmed
+    'stroke play' — the only format the roundLeaderboard endpoint
+    actually returns data for; see module docstring) entries."""
+    return [l for l in listings if l.is_regular_tour and l.is_completed and l.is_stroke_play]
 
 
 def collect_most_recent_completed(
