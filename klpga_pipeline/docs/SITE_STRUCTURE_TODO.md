@@ -523,7 +523,15 @@ table.
 
 **Not yet decided or built**: the win-probability model itself. Per
 explicit instruction, this is deferred until the `derived_*` feature
-set above is reported back and reviewed.
+set above is reported back and reviewed — and, after that,
+**deliberately deferred further behind two more prerequisite gates**:
+the entry-list collection layer (section 7, DONE) and the point-in-time
+feature/walk-forward backtest layer (section 8, DONE). Note that this
+section's `derived_*` metrics are computed over each player's WHOLE
+history and are NOT point-in-time-safe to use as model inputs directly
+— section 8's `prior_*` features (same formulas, restricted to a
+target tournament's actual strictly-prior data) are what a
+walk-forward-fit model must use instead.
 
 **Red-team check, 2026-08-25: `derived_avg_score_to_par` looked
 unrealistically low for real players (이예원 -4.69, 박지영 -4.91, 김민솔
@@ -850,6 +858,195 @@ crawl, broadened entry/roster keyword list) was built as the automatable
 half of the investigation and remains in the repo, though it was
 superseded once the endpoint was confirmed directly.
 
+## 8. Point-in-time features + walk-forward backtest layer (before the win-probability model)
+
+**Status: IMPLEMENTED and tested, 2026-08-25. No probability model,
+feature weight, probability cap, or calibration constant is introduced
+anywhere in this layer — deliberately, per explicit instruction.** This
+is the architecture a future win-probability model (approved direction:
+Model B's mechanism, fit by Model C's point-in-time walk-forward
+methodology — see the design report) will be trained/evaluated against.
+Implementing that model is explicitly the NEXT step, not this one.
+
+### Architecture
+
+New package `src/klpga/backtest/`:
+
+- **`temporal.py`** — the single source of truth for "is tournament A
+  strictly before tournament B." `effective_tournament_date()` prefers
+  the confirmed `start_date` field, falls back to `end_date` only when
+  `start_date` is NULL (and reports which one it used).
+  `is_strictly_before()` requires BOTH dates present and a strict `<` —
+  a same-calendar-day tie or a missing date on either side returns
+  `False` (exclude), never a guess in the permissive direction. Every
+  other module in this package calls this one rather than re-deriving
+  ordering itself.
+- **`historical_field.py`** — `reconstruct_historical_field()` builds a
+  historical target tournament's evaluation field from `player_event`
+  (the only confirmed historical participation data — see the
+  LIMITATION below). Keeps identity (`player_code`/`player_name`)
+  physically separate from LABEL fields (`label_finish_position`,
+  `label_finish_position_numeric`, `label_made_cut`, `label_is_winner`)
+  in the `FieldMember` dataclass, so a label can never accidentally
+  flow into a feature computation.
+- **`point_in_time_features.py`** — the one leakage-critical module.
+  `load_corpus()` loads every `player_event`/`player_round` row across
+  the WHOLE dataset once (deliberately unfiltered — filtering happens
+  per-call below, which is exactly what the adversarial tests exercise
+  by inserting extra rows into this same corpus).
+  `compute_point_in_time_features(corpus, target_event_id,
+  target_effective_date, player_id, player_name)` is the single
+  function every feature is computed through: it excludes
+  `target_event_id` outright (regardless of date) AND requires
+  `temporal.is_strictly_before` on top — belt and suspenders. See the
+  module's docstring for the full field-by-field definition (source,
+  formula, sample size, missing-data treatment) of every feature; not
+  duplicated here to avoid the two copies drifting.
+- **`walk_forward.py`** — `build_walk_forward_dataset()` assembles the
+  full modeling dataset (see shape below); `eligibility_sweep()`
+  reports the minimum-history trade-off across a range of thresholds
+  (see below) rather than choosing one.
+- **`scripts/16_backtest_diagnostic.py`** — read-only audit tool (see
+  "Diagnostic command" below).
+
+### Feature definitions (summary — full detail in
+`point_in_time_features.py`'s module docstring)
+
+All computed ONLY from a player's OTHER tournaments strictly before the
+target's effective date; every windowed feature carries a companion
+`_n` and is NEVER padded to a fixed size (a rookie/debuting player gets
+`prior_events_n=0` and every other `prior_*` feature `None`/`0` — she
+still appears as a row in the dataset, per explicit instruction, and no
+placeholder win probability is assigned at this layer since this layer
+emits no probability field at all):
+
+- `prior_events_n`, `prior_wins`, `prior_top5`, `prior_top10`,
+  `prior_made_cuts`, `prior_cut_rate`
+- `prior_avg_round_score_to_par` (+ `_n`) — the same rounds-weighted
+  rate formula as `derived_avg_round_score_to_par` in section 6, just
+  computed over the point-in-time-restricted event set (the "career"
+  scoring feature)
+- `prior_recent_form_5` / `_10` / `_20` (+ `_n` each) — same windowing
+  convention as section 6's `derived_recent_event_form_N`
+- `prior_avg_round_to_par` (+ `_n`) — direct average of the real but
+  SPARSE `round_to_par` field (only ever collected for round 1, the
+  final round, and rounds probed after a cut differential — see
+  section 5); genuinely low `_n` is expected and does not mean "few
+  rounds played," it means "few of those rounds were directly queried
+  for this field"
+- `prior_avg_field_relative_round_score` (+ `_n`) — a player's
+  `round_score` compared against a LEAVE-ONE-OUT average of every
+  OTHER player's `round_score` in that SAME past (event, round) — a
+  course/field-difficulty-adjusted scoring deviation, mathematically
+  defensible because that past event is, by construction, already
+  fully complete before the target starts. **Deliberately never called
+  Strokes Gained** (true SG needs shot-level distance-to-hole/lie data
+  this project has never collected — see section 6).
+
+**Deliberately NOT built**, per explicit instruction: any SG/GIR/
+driving-distance/driving-accuracy/putting/course-par proxy.
+
+### Historical field — confirmed limitation
+
+`tournament_entry` only exists going forward from 2026-08-25 (section
+7) — there is no confirmed way to reconstruct a true historical ENTRY
+list for any of the 100 validated tournaments. `historical_field.py`
+uses `player_event` membership instead (a RESULT field: everyone the
+site's own roundLeaderboard collection actually captured a round for,
+including missed-cut/incomplete-round players per the section 5 fix).
+Known gap: a player who withdrew before any round was ever posted would
+not appear in `player_event` at all, and so would not appear in this
+reconstructed field, even if she was a real confirmed entrant. No
+known case of the reverse (a `player_event` row for someone never
+actually entered) exists, since every row comes from the site's own
+round-by-round leaderboard. This is surfaced on every
+`HistoricalFieldResult.source`, not hidden.
+
+### Leakage tests — result (hard gate, red-team requirement #6)
+
+`tests/test_point_in_time_features.py` — 13 tests, including 5
+adversarial leakage tests, **all passing**:
+- inserting a future tournament (dated after the target) with an
+  extreme win/score for the same player — features unchanged
+- inserting extra rows belonging to the TARGET tournament itself for
+  the same player — features unchanged
+- inserting a deliberately implausible "canary" future event/score
+  (`score_to_par=-999`, every round shot in 1 stroke) — features
+  unchanged (a large-magnitude canary so any leak would be impossible
+  to miss, not a subtle drift)
+- inserting a future event that reuses the same `round_number` as a
+  real prior event (different `event_id`, so a different
+  field-relative-benchmark key) — features unchanged
+- all of the above combined in one test, plus a same-calendar-day
+  sibling tournament inserted at the same time — features unchanged
+Plus 2 dedicated same-day/missing-date fail-safe tests (requirement
+#1) confirming exclusion, not inclusion, on ambiguity.
+`tests/test_walk_forward.py` (11 tests) and `tests/test_historical_field.py`
+(4 tests) cover the dataset-assembly and field-reconstruction layers on
+top. Full suite: **153/153 passing.**
+
+### Walk-forward dataset shape
+
+One row per (target tournament, field member):
+```
+target_game_code, target_event_id, target_start_date, target_start_date_is_exact,
+player_code, player_name,
+prior_events_n, prior_wins, prior_top5, prior_top10, prior_made_cuts, prior_cut_rate,
+prior_avg_round_score_to_par, prior_avg_round_score_to_par_n,
+prior_recent_form_5, prior_recent_form_5_n, prior_recent_form_10, prior_recent_form_10_n,
+prior_recent_form_20, prior_recent_form_20_n,
+prior_avg_round_to_par, prior_avg_round_to_par_n,
+prior_avg_field_relative_round_score, prior_avg_field_relative_round_score_n,
+label_finish_position, label_finish_position_numeric, label_made_cut, label_is_winner
+```
+`label_*` columns are the target tournament's own outcome — evaluation
+labels only, never features (see `walk_forward.py`'s docstring).
+Tournaments with no resolvable effective date, or an empty
+reconstructed field, are excluded and reported explicitly
+(`WalkForwardDatasetResult.skipped_no_date_event_ids` /
+`.skipped_empty_field_event_ids`) — never silently dropped.
+
+### Eligibility / minimum-history trade-off (requirement #8)
+
+`eligibility_sweep()` reports, across a threshold sweep (default `k in
+{0,1,2,3,5,8,10,15,20,30,40,50}` — a display sweep, not a chosen
+cutoff), how many target tournaments have at least `k` OTHER validated
+tournaments strictly earlier in the corpus, and — among that eligible
+set's field rows — the resulting `prior_events_n` distribution (mean,
+median, % zero-history rows). Verified correct on a hand-computable
+4-tournament synthetic corpus in `tests/test_walk_forward.py` (exact
+counts and distribution stats asserted). **The actual sweep result for
+the real 100-tournament production dataset has NOT been run yet** —
+this sandbox has no production DB (network egress to klpga.co.kr is
+still policy-blocked here; see section 7's earlier note) — see
+"Diagnostic command" below for the exact command to run this on the
+Windows PC. No single threshold is chosen anywhere in the code — that
+remains an explicit human decision once the real sweep is seen.
+
+### Diagnostic command (requirement #9)
+
+```bash
+python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code>
+python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code> --players <code1>,<code2>
+python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code> --sample 10
+```
+Read-only (opens the DB `mode=ro`), prints the target tournament and
+the exact feature-cutoff date used (flagging a `start_date` fallback to
+`end_date` if it occurs), then for each selected player: the exact
+prior tournaments used, the exact recent-form events used per window,
+every point-in-time feature value, and finally — under a clearly
+separate `LABEL` heading — the target tournament's own real outcome.
+Tested in `tests/test_backtest_diagnostic.py` (3 tests) against a real
+schema.sql-built temp DB.
+
+### Explicitly not touched by this layer
+
+Per instruction: `tournament_entry` (section 7) and the live
+gameCode=2026080001 field (120 confirmed entrants) are untouched — this
+layer only reads `tournament_master`/`player_event`/`player_round`
+(read-only throughout) and does not query `tournament_entry` at all.
+The win-probability model itself remains unimplemented.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
@@ -921,7 +1118,12 @@ superseded once the endpoint was confirmed directly.
     also carries a second, DERIVED set of columns computed from the
     validated tournament dataset. See section 6 above for exactly what
     was built and why the two are kept clearly separate.
-11. **Current goal: design the win-probability model** using the
-    `derived_*` feature set built in section 6, once that feature set
-    has been reviewed. Deliberately not started yet — see section 6's
-    "Not yet decided or built" note.
+11. ~~Design the win-probability model~~ — **superseded, 2026-08-25**:
+    approved in DIRECTION only (Model B's mechanism, fit by Model C's
+    walk-forward methodology). Implementation was correctly deferred
+    behind two prerequisite gates instead: the entry-list collection
+    layer (section 7, DONE) and the point-in-time feature/walk-forward
+    backtest layer (section 8, DONE). **Current goal: implement the
+    win-probability model itself** on top of section 8's walk-forward
+    dataset — not yet started, per explicit instruction to stop and
+    wait for review after section 8.
