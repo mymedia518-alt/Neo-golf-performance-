@@ -2,6 +2,17 @@
 no DB writes, does not touch tournament_master/player_master/
 player_event/player_round/tournament_entry.
 
+POPULATION REPORTED: every USABLE target tournament (a tournament_master
+row with a resolvable date and a non-empty field — see
+klpga.backtest.walk_forward's module docstring for the canonical
+definition), UNCONDITIONALLY — this script applies NO minimum-prior-
+history filter. This is the SAME population as
+scripts/17_eligibility_report.py's threshold=0 row (proven identical in
+tests/test_population_definitions.py); any threshold>0 row in that
+script reports a strictly smaller, ELIGIBLE-AT-THRESHOLD-k subset — do
+not expect this script's totals to match that script's non-zero
+thresholds, they answer different questions on purpose.
+
 For the real walk-forward dataset (klpga.backtest.walk_forward), reports
 actual coverage of the sparser/derived point-in-time features:
   - prior_avg_round_score_to_par
@@ -71,8 +82,11 @@ def compute_coverage(rows: list[dict]) -> dict:
 def run(conn: sqlite3.Connection) -> dict:
     result = build_walk_forward_dataset(conn)
     total = len(result.rows)
-    print(f"Walk-forward dataset: {total} (target, player) row(s) across "
-          f"{len(result.target_order)} usable target tournament(s).")
+    print(
+        f"USABLE population (unconditional — NO minimum-prior-history filter applied; "
+        f"same population scripts/17_eligibility_report.py's threshold=0 row reports): "
+        f"{total} (target, player) row(s) across {len(result.target_order)} usable target tournament(s)."
+    )
 
     coverage = compute_coverage(result.rows)
 

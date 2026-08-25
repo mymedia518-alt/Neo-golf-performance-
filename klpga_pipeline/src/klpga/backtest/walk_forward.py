@@ -28,6 +28,44 @@ FieldMember keeps them in physically separate dataclass fields for
 exactly this reason).
 
 ======================================================================
+POPULATION DEFINITIONS (read this before comparing counts across
+scripts — see docs/SITE_STRUCTURE_TODO.md section 8's "population
+definitions audit" for the full write-up of a real discrepancy report
+this section exists to prevent from recurring)
+======================================================================
+This module has exactly ONE tournament population, produced by
+`build_walk_forward_dataset()` and exposed as `result.target_order` /
+`result.rows`:
+
+  USABLE target tournament = a `tournament_master` row with a
+  resolvable effective date (klpga.backtest.temporal) AND a non-empty
+  reconstructed field (klpga.backtest.historical_field) — i.e. NOT in
+  `skipped_no_date_event_ids` or `skipped_empty_field_event_ids`. This
+  is the population `scripts/21_data_coverage_report.py` reports
+  UNCONDITIONALLY (it applies no history-sufficiency filter at all).
+
+  ELIGIBLE-AT-THRESHOLD-k target tournament = a USABLE tournament that
+  ALSO has `prior_tournament_count >= k` (i.e. at least k OTHER usable
+  tournaments strictly earlier in the corpus — see `eligibility_sweep`
+  below). This is a threshold-filtered SUBSET of "usable", reported by
+  `scripts/17_eligibility_report.py` for each k in its sweep.
+
+  At k=0 every usable tournament is trivially eligible (rank is always
+  >= 0), so `eligibility_sweep(..., thresholds=(0,))` is DEFINITIONALLY
+  identical to the full usable population — proven in
+  `tests/test_population_definitions.py`. For k>0, "eligible" is a
+  strict subset: seeing e.g. 95 eligible tournaments at threshold=5
+  against 100 usable tournaments overall is the EXPECTED effect of
+  excluding the 5 chronologically-earliest tournaments (each has fewer
+  than 5 usable tournaments before it, structurally, regardless of any
+  feature), not a bug or a second, inconsistent population — the same
+  applies to the row counts, which shrink by exactly those 5
+  tournaments' field sizes. Never read "N target tournaments retained"
+  from one script's threshold>0 row as if it were the same number as
+  another script's unconditional "usable" count — they answer different
+  questions on purpose.
+
+======================================================================
 ELIGIBILITY / MINIMUM-HISTORY TRADE-OFF (red-team requirement #8)
 ======================================================================
 There is no single correct "minimum prior history" cutoff for a
@@ -37,11 +75,11 @@ exists, not something to bake into the data layer. Instead,
 `eligibility_sweep` reports, across a range of candidate thresholds k
 ("this target tournament must have at least k OTHER validated
 tournaments strictly earlier in the corpus"), both:
-  - how many target tournaments qualify at that threshold (fewer as k
-    grows — the tournaments earliest in this project's 100-tournament
-    corpus always have the least trailing history, structurally, no
-    matter what feature is examined), and
-  - the resulting quality of the retained tournaments' fields (mean/
+  - how many target tournaments are ELIGIBLE at that threshold (fewer
+    as k grows — the tournaments earliest in this project's
+    100-tournament corpus always have the least trailing history,
+    structurally, no matter what feature is examined), and
+  - the resulting quality of the eligible tournaments' fields (mean/
     median per-player prior_events_n, and the fraction of field-rows
     that are still zero-history/rookie rows) — this typically improves
     as k grows, since later tournaments' fields include more players

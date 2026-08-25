@@ -1092,6 +1092,60 @@ DBs (`tests/test_eligibility_report.py`,
 production DB yet** — see "Production diagnostics" commands in
 README.md for the exact Windows invocations.
 
+### Population-definitions audit, 2026-08-25 (real production report of a discrepancy — resolved as EXPECTED, not a bug)
+
+**Reported:** on the real production DB, `scripts/17_eligibility_report.py`
+at threshold=5 showed 95 target tournaments / 11,189 player-target
+rows, while `scripts/21_data_coverage_report.py` showed 100 usable
+target tournaments / 11,850 rows.
+
+**Audited, not assumed:** both scripts call the exact same
+`klpga.backtest.walk_forward.build_walk_forward_dataset()` — there was
+never a second, competing implementation to diverge. The difference is
+that `eligibility_sweep()`'s threshold parameter ADDITIONALLY filters
+that one population down to tournaments with
+`prior_tournament_count >= k`, while script 21 always reports the full
+population unconditionally (equivalent to threshold=0). Since
+`prior_tournament_count` is literally each tournament's 0-based rank in
+ascending date order (`_ordered_target_tournaments`), threshold=k is
+proven — by construction, not by inspection of the real numbers alone
+— to remove EXACTLY the k chronologically-earliest tournaments:
+100−5=95 tournaments, and the row-count drop (11,850−11,189=661) is
+exactly those 5 earliest tournaments' combined field size (consistent
+with this project's real confirmed field sizes, e.g. the live-verified
+120-entrant KG Ladies Open field — section 7).
+
+**Proof, not inference:** `tests/test_population_definitions.py` (4
+tests) formally proves, on synthetic corpora (including a 100-
+tournament one matching the real scale): (1) `eligibility_sweep`'s
+threshold=0 row is definitionally IDENTICAL to script 21's
+unconditional totals — same tournament count, same row count; (2)
+threshold=k removes EXACTLY the k earliest tournaments and EXACTLY
+their combined field-size row count, for every k from 0 to the corpus
+size; (3) both scripts' printed output agree exactly at the
+threshold=0 baseline. **No filtering/threshold logic was changed** —
+the fix was wording-only, applied after this proof, not before it:
+
+- `klpga.backtest.walk_forward`'s module docstring gained a
+  "POPULATION DEFINITIONS" section naming the two populations
+  precisely: **USABLE** (a `tournament_master` row with a resolvable
+  date and a non-empty field — script 21's unconditional population)
+  vs. **ELIGIBLE-AT-THRESHOLD-k** (USABLE AND
+  `prior_tournament_count >= k` — script 17's per-row population).
+- `scripts/17_eligibility_report.py`'s docstring, column headers
+  (`targets retained` -> `eligible targets`, `% of corpus` -> `% of
+  usable`, `player-target rows` -> `eligible rows`, `earliest target
+  date` -> `earliest eligible date`), and printed banner now state
+  explicitly which population is being filtered and that a
+  threshold>0 row is intentionally smaller than script 21's total.
+- `scripts/21_data_coverage_report.py`'s docstring and printed banner
+  now state explicitly that it reports the UNCONDITIONAL population,
+  equal to script 17's threshold=0 row, and cross-reference it by name.
+
+Conclusion: the two numbers were both correct all along; only the
+words around them could be misread as describing the same population.
+Full suite after the wording fix: 182/182 passing.
+
 ### Explicitly not touched by this layer
 
 Per instruction: `tournament_entry` (section 7) and the live

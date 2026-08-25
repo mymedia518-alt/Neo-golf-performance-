@@ -69,7 +69,8 @@ def test_run_prints_report_and_does_not_choose_a_threshold(module, conn, capsys)
     report = module.run(conn, thresholds=(0, 1, 2))
     out = capsys.readouterr().out
 
-    assert "Corpus: 3 tournament_master row(s)." in out
+    assert "USABLE population" in out
+    assert "3 tournament(s)." in out
     assert "No threshold is chosen by this script" in out
     assert "min prior" in report
 

@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 178/178 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 182/182 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -129,8 +129,20 @@ data.
   audit proving the leave-one-out exclusion arithmetic, a feature
   redundancy report (correlation only — no feature removed, no weight
   chosen), and a data coverage report. 25 new tests, 178/178 full suite
-  passing. **None has been run against the real production DB yet** —
-  see "Production diagnostics" below for the exact Windows commands.
+  passing.
+- ✅ **Population-definitions audit, 2026-08-25: a real discrepancy
+  report (script `17` at threshold=5: 95 targets/11,189 rows vs. script
+  `21`: 100 usable targets/11,850 rows) audited and proven, in code, to
+  be EXPECTED — not a bug.** Script `17` reports an
+  ELIGIBLE-AT-THRESHOLD-k SUBSET of script `21`'s unconditional USABLE
+  population; they're definitionally identical at threshold=0 and
+  intentionally diverge above it (100−5=95 tournaments, and the row
+  drop equals exactly those 5 earliest tournaments' field size). Proven
+  by 4 new tests (`tests/test_population_definitions.py`) before any
+  wording changed — no filtering/threshold logic touched, only output
+  wording clarified so the two populations can't be misread as the
+  same one. See `docs/SITE_STRUCTURE_TODO.md` section 8. 182/182 full
+  suite passing.
   **Next: implement the win-probability model itself — not yet
   started, per explicit instruction to stop and wait for review.**
 
@@ -308,6 +320,15 @@ below have been run against the real production DB yet** — this is
 the exact set to run on the Windows PC before any model-design
 decision.
 
+**Two related but DIFFERENT population definitions, audited
+2026-08-25** (see section 8's "population-definitions audit" for the
+full write-up): script `17`'s rows are the **eligible-at-threshold-k**
+subset (an additional prior-history filter on top); script `21`
+reports the full **usable** population unconditionally (no filter at
+all — identical to script `17`'s own threshold=0 row). Don't expect a
+threshold>0 row from `17` to match `21`'s totals — that gap is the
+trade-off `17` exists to show.
+
 ```bash
 # Point-in-time audit — one target tournament, selected players: exact
 # cutoff, exact prior tournaments/recent-form events used, every
@@ -315,9 +336,9 @@ decision.
 python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code>
 python scripts/16_backtest_diagnostic.py --db data/klpga.sqlite --game-code <code> --players <code1>,<code2>
 
-# Eligibility sweep — targets/rows retained, % of corpus, earliest
-# eligible target, prior_events_n distribution, across a threshold
-# range. Chooses nothing.
+# Eligibility sweep — eligible targets/rows, % of usable corpus,
+# earliest eligible target, prior_events_n distribution, across a
+# threshold range. Chooses nothing.
 python scripts/17_eligibility_report.py --db data/klpga.sqlite
 python scripts/17_eligibility_report.py --db data/klpga.sqlite --thresholds 0,1,2,3,5,10,20,30
 
@@ -518,6 +539,11 @@ tests/
                                       pairwise-deletion sample sizing, no-decision framing
   test_data_coverage_report.py    coverage/_n-distribution math against hand-built rows, empty
                                    dataset handling
+  test_population_definitions.py  the 2026-08-25 population-definitions audit: proves script 17's
+                                   threshold=0 is definitionally identical to script 21's
+                                   unconditional totals, and that threshold=k removes exactly the k
+                                   earliest tournaments (and exactly their field-size row count) —
+                                   not a bug, see docs/SITE_STRUCTURE_TODO.md section 8
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
