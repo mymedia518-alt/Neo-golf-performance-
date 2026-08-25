@@ -525,6 +525,46 @@ table.
 explicit instruction, this is deferred until the `derived_*` feature
 set above is reported back and reviewed.
 
+**Red-team check, 2026-08-25: `derived_avg_score_to_par` looked
+unrealistically low for real players (이예원 -4.69, 박지영 -4.91, 김민솔
+-4.72) after the production snapshot build (546/546 populated).**
+Traced the exact code path rather than assuming it was fine:
+`derived_avg_score_to_par` = mean of `player_event.score_to_par`
+(`src/klpga/analytics/player_stats.py`); `player_event.score_to_par` =
+`entry["total_under_par"]` (`src/klpga/collectors/aggregate.py
+build_rows()`), which is set ONLY in `merge_player_rows()`'s summary
+section from `row.total_under_par` — parsed from `data-totunderpar`, a
+per-TOURNAMENT cumulative field. The separate per-ROUND to-par field
+(`data-todayunderpar` -> `PlayerRoundRow.today_under_par` ->
+`player_round.round_to_par`) is written to an entirely different dict
+key (`entry["round_to_par"]`, a per-round dict) and is never read by
+`compute_player_stats()` anywhere — confirmed by grep across
+`src/klpga/`, not just re-reading the two functions in isolation. So
+`derived_avg_score_to_par` is "average TOURNAMENT-total score-to-par
+across events," never a round-level figure, and there is no code path
+that mixes the two. A -4 to -5 average across a real player's full mix
+of made-cut (typically -5 to -15 as a 4-round total) and missed-cut
+(commonly single-digit positive as a 2-round total) events is the
+expected order of magnitude for this metric — it would only look wrong
+if mistaken for a single round's to-par, which is exactly the
+mislabeling risk this check exists to rule out.
+Built `scripts/11_diagnose_avg_score_to_par.py` to verify this against
+REAL production rows rather than stop at the code trace: for each of 5
+representative players (defaults to the 3 flagged names + 2 more, or
+falls back to the players with the most `derived_tournaments_played` if
+a name doesn't match) it prints, per tournament: every raw
+`player_round.round_score`, the sparse per-round `round_to_par` when
+directly queried, `player_event.total_score` and `.score_to_par`, and
+an independently reverse-engineered `implied_total_par = total_score -
+score_to_par` (and per-round average) — which should land near a real
+golf par (68-74) for every single event if `score_to_par` really is a
+self-consistent tournament total, and won't if it's ever corrupted or
+mixed with something else. Confirmed working end-to-end (including a
+test that deliberately corrupts `score_to_par` and verifies the
+implausible-par flag actually fires) — but this still needs to be run
+against the real Windows production DB and the output reviewed before
+the win-probability model resumes; **not yet done as of this entry.**
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
