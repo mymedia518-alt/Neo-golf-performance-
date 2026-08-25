@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 66/66 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 69/69 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
@@ -136,11 +136,16 @@ rather than ever dropping populated rows).
 
 ```bash
 python scripts/09_build_player_stats_snapshot.py --db data/klpga.sqlite
+python scripts/10_print_snapshot_samples.py --db data/klpga.sqlite --limit 10
 ```
 
-Always fully regenerates every `derived_trailing100` row (DELETE +
+`09` always fully regenerates every `derived_trailing100` row (DELETE +
 re-INSERT) rather than an incremental upsert — see that script's
 docstring for the specific SQLite NULL-uniqueness pitfall this avoids.
+Neither script touches `tournament_master`/`player_event`/
+`player_round` — `09` only writes `player_stats_snapshot`, and `10` is
+read-only. Both are safe to run repeatedly against the already-
+validated production DB without resetting or recollecting it.
 
 ## Setup
 
@@ -188,6 +193,8 @@ scripts/
                                       roundLeaderboard endpoint — found the gameMethod fix
   09_build_player_stats_snapshot.py  migrate + compute + fully regenerate the derived_*
                                       player_stats_snapshot columns from the validated dataset
+  10_print_snapshot_samples.py       read-only: print sample player_stats_snapshot rows for a
+                                      quick eyeball check after running 09
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -208,6 +215,7 @@ tests/
                                    table, no-ops once current, refuses to drop a populated old-shape one
   test_build_player_stats_snapshot.py  end-to-end: snapshot metadata, official columns stay NULL,
                                         re-running replaces rather than duplicates rows
+  test_print_snapshot_samples.py  read-only sample printer: 2dp formatting, never writes to the DB
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
