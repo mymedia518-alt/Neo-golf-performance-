@@ -55,6 +55,15 @@ GAME_METHOD_STROKE_PLAY = "0"
 #   klpga.parsers.leaderboard_parser.
 ROUND_LEADERBOARD_ENDPOINT = f"{BASE_URL}/load/leaderboard/roundLeaderboard"
 
+# [3] Upcoming/in-progress tournament entry list ("참가자 명단")
+#   GET https://klpga.co.kr/web/tourInfo/entry?gameCode=<code>
+#   response: text/html; charset=UTF-8 — a full rendered page (NOT JSON,
+#   NOT an AJAX fragment) — see klpga.parsers.entry_list_parser.
+#   Confirmed via manual browser capture, 2026-08-25 (gameCode=2026080001,
+#   제15회 KG 레이디스 오픈; cross-checked against the full raw HTML the
+#   user pasted verbatim, see tests/fixtures/entry_list_sample.html).
+ENTRY_LIST_ENDPOINT = f"{BASE_URL}/web/tourInfo/entry"
+
 # ============================================================
 # UNCONFIRMED / project-level assumptions — recheck against live
 # responses before trusting them. See docs/SITE_STRUCTURE_TODO.md.
