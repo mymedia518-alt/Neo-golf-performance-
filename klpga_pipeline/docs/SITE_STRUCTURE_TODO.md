@@ -48,6 +48,28 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
 - [x] `outCourseText`/`inCourseText` (nine-hole course names) confirmed
       — also not mapped to a column for the same reason (only
       `courseText` -> `course_name` is in the fixed spec)
+- [x] **`gameMethod` — tournament format field, live-confirmed
+      2026-08-24 from the 100-tournament run.** `"0"` = standard stroke
+      play (the baseline, `gameCode=2023060005`, "맥콜 · 모나 용평
+      오픈 with SBS Golf", had `gameMethod: "0"` and collected
+      normally). `"1"` = Match Play (all 3 "두산 매치플레이" /
+      "Doosan Match Play" tournaments hit — `gameCode`s 2024050016,
+      2025050002, 2026050002). `"2"` = Modified Stableford (all 3
+      "동부건설 · 한국토지신탁 챔피언십" / "Dongbu Construction ·
+      KOREIT Championship" tournaments hit — `gameCode`s 2023100002,
+      2024100009, 2025100001). Both `"1"` and `"2"` were confirmed, by
+      exhaustively probing `round=1..8` against the real
+      `roundLeaderboard` endpoint for all of them, to return **zero
+      player rows at every single round tried** — not a narrower round
+      range than assumed, a genuinely different/unavailable data source
+      for this endpoint. `filter_completed_regular_tour` now requires
+      `gameMethod == config.GAME_METHOD_STROKE_PLAY` ("0") in addition
+      to `tourType == "RE"` and `gameFinish == "F"`. Other `gameMethod`
+      values may exist (Pro-Am format, etc.) and are unconfirmed —
+      treated as unsupported until proven otherwise.
+- [x] `leaderBoardYN` **ruled out** as a distinguishing field — it was
+      `null` on the working baseline tournament too, not just the 6
+      failures. Not used for anything.
 - [ ] What other `tourType` values exist (Dream Tour / Jump Tour /
       Champions Tour / event) and their exact codes — **do not assume**
       `DR`/`JP`/`CH` etc. until seen in a real response
@@ -335,6 +357,29 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   `finish_position == '999'` is the abnormal-exit pattern. No new
   column was added for this — the existing fields already carry the
   signal.
+- **First full 100-tournament run, 2026-08-24: 94/100 tournaments
+  collected their leaderboard successfully (11,057 player rows), but 6
+  failed with `discover_final_round` exhausting rounds 1..4 with zero
+  player rows.** This was a genuinely different failure mode from
+  anything seen at smaller scale — not a missing/incomplete round, but
+  zero data on every round tried. The batch-processing and
+  validation-coverage work from earlier entries in this section handled
+  it exactly as designed: `02_collect_leaderboards.py` logged each of
+  the 6 individually to `collection_runs` and kept processing the other
+  94; `03_validate.py` correctly caught the resulting coverage gap.
+  Root cause found via `scripts/08_inspect_failed_leaderboards.py`
+  (raw `getGameList` comparison against a working baseline, plus an
+  exhaustive `round=1..8` probe against the live endpoint for all 6) —
+  see the `gameMethod` entry in section 1 above for the full finding.
+  **Fixed**: `filter_completed_regular_tour` now excludes
+  `gameMethod != "0"` tournaments (Match Play, Modified Stableford),
+  so the season walk-back in `collect_most_recent_completed`
+  automatically continues past them to find real stroke-play
+  replacements — no manual exclusion list needed. Regression test
+  added (`tests/test_tournaments_collector.py`,
+  `test_filter_completed_regular_tour_excludes_match_play_and_stableford`).
+  **The current 100-tournament dataset (94 usable + 6 unusable) must be
+  re-collected from scratch with this fix** — see "Next steps" below.
 
 ## Next steps
 
@@ -374,13 +419,24 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
    dataset has NOT been re-collected again with the `rounds_played=0`
    display fix specifically — that fix is cosmetic (doesn't change
    made_cut or any other classification), so it doesn't block scaling.
-6. **Still open / not yet run:** `scripts/00_discover_site.py` —
-   `robots.txt` for both hosts has not actually been fetched yet in any
-   run so far.
-7. **Current goal: scale up to the full 100-tournament run**
-   (`scripts/01_collect_tournaments.py --target 100`, the default). See
+6. ~~Scale up to the full 100-tournament run~~ — **DONE, 2026-08-24.**
+   94/100 collected cleanly (11,057 player rows); 6 failed
+   (`gameCode`s 2023100002, 2024050016, 2024100009, 2025050002,
+   2025100001, 2026050002) — all confirmed Match Play or Modified
+   Stableford via `scripts/08_inspect_failed_leaderboards.py`. See the
+   entry in section 5 above. **Superseded, 2026-08-24: this dataset
+   must be re-collected from scratch** now that
+   `filter_completed_regular_tour` excludes `gameMethod != "0"`.
+7. **Current goal: re-run the full 100-tournament collection with the
+   `gameMethod` fix** (`scripts/01_collect_tournaments.py --target
+   100` against a fresh `--reset` DB). This time the season walk-back
+   should skip Match Play/Stableford tournaments automatically and
+   walk back far enough to find 100 real replacements — expect it to
+   reach further back in time than the previous run did, and possibly
+   take a bit longer. `03_validate.py --target 100` should report
+   `VALIDATION PASSED` with zero coverage-gap failures this time. See
    README.md "Running the full pipeline".
-8. Use that/those run's output to fill in the remaining `[ ]` items above
+8. Use that run's output to fill in the remaining `[ ]` items above
    (other tourType codes, non-F gameFinish values, exact duplicate-row
    markup, what `data-inghole` actually means, `par`/`course_yards`/
    `field_size`, per-player prize money, `official_url` pattern, and

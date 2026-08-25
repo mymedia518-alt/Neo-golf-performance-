@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 46/46 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 47/47 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
@@ -41,8 +41,24 @@ data.
   **Confirmed live, 2026-08-24**: `made_cut` split `(0, 266), (1, 336)`
   across 602 player_event rows, `03_validate.py --target 5` ->
   `VALIDATION PASSED`.
-- ❌ **Full 100-tournament collection: not attempted yet.** This is now
-  the current goal — see "Running the full pipeline" below.
+- ⚠️ **Full 100-tournament collection: attempted once, 2026-08-24 — 94/100
+  succeeded, 6 failed with zero leaderboard data.** Root-caused via
+  `scripts/08_inspect_failed_leaderboards.py` (raw `getGameList` diff
+  against a working baseline, plus an exhaustive `round=1..8` probe
+  against the live `roundLeaderboard` endpoint): all 6 failures had
+  `gameMethod != "0"` — 3 were Match Play (`"두산 매치플레이"` /
+  "Doosan Match Play", `gameMethod: "1"`) and 3 were Modified Stableford
+  (`"동부건설 · 한국토지신탁 챔피언십"`, `gameMethod: "2"`). Both
+  confirmed, by the round=1..8 probe, to return **zero player rows at
+  every round** via this endpoint — not a narrower round range, a
+  genuinely different/unavailable data source. **Fixed**:
+  `filter_completed_regular_tour` now requires `gameMethod == "0"`
+  (stroke play) in addition to `tourType == "RE"` and
+  `gameFinish == "F"`, so the season walk-back automatically skips these
+  formats and finds real stroke-play replacements instead. The 94/100
+  dataset from this run is superseded — it must be re-collected from
+  scratch with this fix. This is now the current goal — see "Running the
+  full pipeline" below.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -52,7 +68,10 @@ live run against the site:
   fields: `gameCode`, `gameTitle`, `gameEngTitle`, `tourType`,
   `courseText`, `courseEngText`, `outCourseText`, `inCourseText`,
   `startDate`, `endDate`, `gameFinish`, `prizeMoney`, `winnerCode`,
-  `winnerName`.
+  `winnerName`, `gameMethod` (tournament format — `"0"`=stroke play,
+  the only format `roundLeaderboard` actually returns data for;
+  `"1"`=Match Play, `"2"`=Modified Stableford, both confirmed
+  unavailable via this endpoint).
 - `POST /load/leaderboard/roundLeaderboard` — per-round leaderboard, HTML
   fragment, player data on `data-*`/`_playerCode`-style attributes.
 
@@ -64,14 +83,18 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: re-validate the 5-tournament checkpoint with the fix
+## Current goal: re-run the full 100-tournament collection with the gameMethod fix
 
-The CUT/WD/DQ drop bug (see status above) means the full 100-tournament
-run shouldn't happen yet — re-run the same 5-tournament checkpoint first
-with the fixed code, and check whether it now surfaces real CUT/WD/DQ
-rows (or confirms these specific 5 tournaments genuinely have none).
-Only after that looks right does it make sense to scale to 100. See
-"Running a small multi-tournament validation" below.
+The first 100-tournament run (see status above) got 94/100 real
+stroke-play tournaments plus 6 Match Play / Modified Stableford
+tournaments that this pipeline can't collect via `roundLeaderboard`.
+With `filter_completed_regular_tour` now excluding `gameMethod != "0"`,
+re-running `scripts/01_collect_tournaments.py --target 100` against a
+fresh `--reset` DB should walk back far enough in time to find 100 real
+stroke-play replacements automatically — expect it to reach further back
+than the previous run and take a bit longer. `03_validate.py --target
+100` should then report `VALIDATION PASSED` with zero coverage-gap
+failures. See "Running the full pipeline" below.
 
 Known, expected gap even after a clean 100-tournament run:
 **`player_stats_snapshot` will still be empty.** `data.klpga.co.kr` (the
@@ -116,6 +139,9 @@ scripts/
   04_collect_single_tournament.py  ONE known gameCode end-to-end — used for the first validation checkpoint
   07_inspect_status_markup.py   diagnostic: dump raw cached HTML around finish_position='999' player
                                  rows, to find any CUT/WD/DQ marker beyond the bare rank sentinel
+  08_inspect_failed_leaderboards.py  diagnostic: raw getGameList diff (failed tournaments vs. a
+                                      working baseline) + round=1..8 probe against the live
+                                      roundLeaderboard endpoint — found the gameMethod fix
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -129,6 +155,9 @@ tests/
                                    drop regression found in the live 5-tournament run
   test_inspect_status_markup.py   find_row_context() extraction logic for the 999-sentinel diagnostic
 ```
+
+`tests/test_tournaments_collector.py` also covers the `gameMethod`
+filter: `test_filter_completed_regular_tour_excludes_match_play_and_stableford`.
 
 ## Running a single-tournament validation (ran once — result now known-incomplete, see status above)
 

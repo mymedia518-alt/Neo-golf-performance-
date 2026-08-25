@@ -34,6 +34,19 @@ TOUR_TYPE_REGULAR = "RE"
 # been confirmed — do not assume what they are.
 GAME_FINISH_DONE = "F"
 
+# Confirmed gameMethod value meaning "standard stroke play" — the only
+# format the roundLeaderboard endpoint actually returns data for.
+# CONFIRMED live, 2026-08-24 (100-tournament run): "1" (Match Play,
+# e.g. Doosan Match Play) and "2" (Modified Stableford, e.g. 동부건설·
+# 한국토지신탁 챔피언십) were BOTH found to return ZERO player rows
+# across an exhaustive round=1..8 probe against the real endpoint — not
+# a narrower round range, a genuinely different/unavailable data source
+# for this endpoint. See docs/SITE_STRUCTURE_TODO.md for the full
+# baseline-comparison writeup. Other gameMethod values may exist and
+# are unconfirmed — treat anything other than "0" as unsupported by
+# this pipeline until proven otherwise.
+GAME_METHOD_STROKE_PLAY = "0"
+
 # [2] Full leaderboard, per round ("FULL LEADERBOARD" round buttons)
 #   POST https://klpga.co.kr/load/leaderboard/roundLeaderboard
 #   Content-Type: application/x-www-form-urlencoded
