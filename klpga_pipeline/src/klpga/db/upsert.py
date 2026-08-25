@@ -77,6 +77,12 @@ def upsert_player_round(conn: sqlite3.Connection, row: Mapping[str, Any]) -> Non
     _upsert(conn, "player_round", row, conflict_cols=["event_id", "player_id", "round_number"])
 
 
+def upsert_tournament_entry(conn: sqlite3.Connection, row: Mapping[str, Any]) -> None:
+    """Idempotent by (game_code, player_code) — re-collecting the same
+    entry list overwrites each row in place rather than duplicating it."""
+    _upsert(conn, "tournament_entry", row, conflict_cols=["game_code", "player_code"])
+
+
 def upsert_stats_snapshot(conn: sqlite3.Connection, row: Mapping[str, Any]) -> None:
     _upsert(
         conn,
