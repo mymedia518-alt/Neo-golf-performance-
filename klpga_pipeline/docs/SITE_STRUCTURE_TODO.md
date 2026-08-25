@@ -380,6 +380,45 @@ Status legend: `[x]` confirmed · `[ ]` not yet confirmed.
   `test_filter_completed_regular_tour_excludes_match_play_and_stableford`).
   **The current 100-tournament dataset (94 usable + 6 unusable) must be
   re-collected from scratch with this fix** — see "Next steps" below.
+- **`src/klpga/db/export_csv.py` exited with no error and no `data/csv`
+  directory at all, on Windows, against a real, already-validated
+  100-tournament DB (`03_validate.py --target 100` -> `VALIDATION
+  PASSED`), 2026-08-25.** `export_all()`'s very first line is
+  `out_dir.mkdir(parents=True, exist_ok=True)` — for the directory to
+  never appear, execution must have stopped before `export_all` even
+  ran, i.e. at module import time. The only import in that script not
+  already proven to work on that machine (every other script — 01-04,
+  07, 08, 03_validate.py — uses only sqlite3/argparse/stdlib and had
+  already run successfully) was `import pandas as pd`, a C-extension
+  package. This dev sandbox has no way to reach the user's Windows
+  machine to capture the actual traceback, so rather than guess at the
+  exact DLL/wheel mismatch, **the pandas/numpy dependency was removed
+  from this script entirely** — a plain SQLite-rows-to-CSV export has no
+  real need for it. Rewritten using only `csv` + `sqlite3` (stdlib).
+  Also fixed two related, genuine (not just Windows-specific) gaps found
+  while rewriting:
+  - `sqlite3.connect(db_path)` silently creates a new, empty database
+    file if `db_path` doesn't exist — so a wrong/mistyped `--db` path
+    would previously not fail clearly, it would instead try to `SELECT
+    *` from tables that don't exist in that brand-new empty file.
+    `export_all` now explicitly checks `db_path.exists()` first and
+    raises `FileNotFoundError` with a clear message (mirroring
+    `03_validate.py`'s existing `--db` check) — matching exit code 2.
+  - `main()` now wraps the whole export in try/except: any unexpected
+    exception prints a full traceback to stderr and returns exit code 1
+    — there is no code path left that can exit 0 (or exit with no
+    printed output at all) without having actually written the CSVs.
+  Per-table output was already printed (row count + full path); a
+  final summary line (`Exported N table(s), M row(s) total -> <out_dir>`)
+  was added so a real run's completion is unambiguous at a glance.
+  `pandas` removed from `requirements.txt` (nothing else in the repo
+  imports it — confirmed by grep).
+  Regression tests added: `tests/test_export_csv.py` — CSV headers/row
+  counts per table, boolean TRUE/FALSE mapping, NULL -> empty string
+  (not the literal word "None"), the missing-`--db` FileNotFoundError
+  path, and the specific reported symptom (every table empty must still
+  produce a real `csv/` directory with header-only files, never a
+  silent no-op).
 
 ## Next steps
 
