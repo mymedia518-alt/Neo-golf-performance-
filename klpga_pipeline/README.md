@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 69/69 passing.** These run against a synthetic HTML
+- ✅ **Unit tests: 73/73 passing.** These run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic. They prove the
@@ -94,13 +94,15 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: design the win-probability model
+## Current goal: red-team the derived feature set before the win-probability model
 
-The raw 100-tournament dataset is validated and the derived
-`player_stats_snapshot` feature set (see "Analytics layer" below) is
-built and tested. Per explicit project decision, the win-probability
-model itself has NOT been started yet — it's designed next, once the
-derived feature set above has been reviewed.
+The raw 100-tournament dataset is validated, the derived
+`player_stats_snapshot` feature set is built (546/546 players
+populated on the production DB), but a red-team check on
+`derived_avg_score_to_par` is in progress — see "Analytics layer" below
+and `docs/SITE_STRUCTURE_TODO.md` section 6 for the full trace. **The
+win-probability model is deliberately NOT started until this check is
+run against the real production DB and the output reviewed.**
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
@@ -137,15 +139,26 @@ rather than ever dropping populated rows).
 ```bash
 python scripts/09_build_player_stats_snapshot.py --db data/klpga.sqlite
 python scripts/10_print_snapshot_samples.py --db data/klpga.sqlite --limit 10
+python scripts/11_diagnose_avg_score_to_par.py --db data/klpga.sqlite
 ```
 
 `09` always fully regenerates every `derived_trailing100` row (DELETE +
 re-INSERT) rather than an incremental upsert — see that script's
 docstring for the specific SQLite NULL-uniqueness pitfall this avoids.
-Neither script touches `tournament_master`/`player_event`/
-`player_round` — `09` only writes `player_stats_snapshot`, and `10` is
-read-only. Both are safe to run repeatedly against the already-
-validated production DB without resetting or recollecting it.
+`10` and `11` are read-only. None of the three touch
+`tournament_master`/`player_event`/`player_round` except to SELECT from
+them — all are safe to run repeatedly against the already-validated
+production DB without resetting or recollecting it.
+
+`11` is the red-team check on `derived_avg_score_to_par` (see "Current
+goal" above and `docs/SITE_STRUCTURE_TODO.md` section 6): for 5
+representative players it prints raw round scores, the sparse per-round
+`round_to_par`, the tournament `total_score`/`score_to_par`, and a
+reverse-engineered implied par per round (should land near 68-74 for
+every event if `score_to_par` is a self-consistent tournament total).
+`--names "이예원,박지영,김민솔,서교림,박민지"` picks specific players by
+exact name match (falls back to the players with the most
+`derived_tournaments_played` for any name that doesn't match).
 
 ## Setup
 
@@ -195,6 +208,8 @@ scripts/
                                       player_stats_snapshot columns from the validated dataset
   10_print_snapshot_samples.py       read-only: print sample player_stats_snapshot rows for a
                                       quick eyeball check after running 09
+  11_diagnose_avg_score_to_par.py    read-only red-team check: raw round scores + implied-par
+                                      sanity check for derived_avg_score_to_par, see "Analytics layer"
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -216,6 +231,8 @@ tests/
   test_build_player_stats_snapshot.py  end-to-end: snapshot metadata, official columns stay NULL,
                                         re-running replaces rather than duplicates rows
   test_print_snapshot_samples.py  read-only sample printer: 2dp formatting, never writes to the DB
+  test_diagnose_avg_score_to_par.py  implied-par sanity check fires on corrupted data, never
+                                      writes to the DB
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
