@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 235/235 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 256/256 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -166,11 +166,30 @@ data.
   leakage, rookie retention, field-size handling, determinism).
   `scripts/22_compare_win_probability_models.py` runs it read-only
   against production with live progress + elapsed time. 235/235 full
-  suite passing. **Not yet run against real production data, and no
-  model has been selected** — see "M0-M6 model comparison" below for
-  the exact commands.
-  **Next: run it on the Windows PC, then judge the results against the
-  frozen spec's Section 11 promotion criteria — not yet done.**
+  suite passing at implementation time — see "M0-M6 model comparison"
+  below for the exact commands.
+- ✅ **M4 frozen as the v1 production model, 2026-08-25** — run against
+  the real production DB at eligibility thresholds 5/8/10, M4
+  (`prior_avg_round_score_to_par` + `prior_recent_form_10`) had the
+  best mean log loss at every threshold. No M7/challenger was created,
+  M4 was not retuned on the KG Ladies Open, and no probability cap/
+  manual weight/hand-set rookie probability/post-hoc calibration was
+  added. A known, documented, NOT-yet-corrected limitation: coarse
+  calibration diagnostics suggest over-confidence in the ~10-20%
+  probability bins. See `docs/SITE_STRUCTURE_TODO.md` section 10 for
+  the exact evidence.
+- ✅ **Read-only production inference layer: IMPLEMENTED, 2026-08-25** —
+  `src/klpga/models/inference.py` + `scripts/23_predict_tournament_win_probabilities.py`
+  predict an upcoming tournament's live `tournament_entry` field under
+  frozen M4, reusing every existing feature/shrinkage/fitting component
+  unchanged. Never guesses a historical cutoff date; a zero-history or
+  `player_master`-unmatched entrant (e.g. player_code=13355) is never
+  dropped, zeroed, or hand-assigned a probability. 21 new tests,
+  including the 12 mandatory adversarial tests. 256/256 full suite
+  passing. **No KG Ladies Open probability has been computed or
+  displayed inside this sandbox** — see "Live tournament-field
+  win-probability inference" below for the exact production command to
+  run on the Windows machine.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -396,12 +415,19 @@ python scripts/21_data_coverage_report.py --db data/klpga.sqlite
 All six are read-only and never write to `tournament_master`/
 `player_master`/`player_event`/`player_round`/`tournament_entry`.
 
-## M0-M6 model comparison (current goal — see status above)
+## M0-M6 model comparison — DONE against real production data, M4 frozen as v1
 
 `src/klpga/models/` implements exactly the ablation ladder frozen in
 `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md` — no other feature. See
 `docs/SITE_STRUCTURE_TODO.md` section 9 for the full architecture.
-**Not yet run against real production data.**
+**Run against real production data, 2026-08-25** — M4
+(`prior_avg_round_score_to_par` + `prior_recent_form_10`) had the best
+mean log loss at every eligibility threshold swept (5, 8, 10) and is
+now **frozen as the v1 production model**. See
+`docs/SITE_STRUCTURE_TODO.md` section 10 for the exact evidence
+(N/log-loss/paired-comparison numbers per threshold) and the known,
+documented, NOT-yet-corrected calibration limitation (over-confidence
+in the ~10-20% probability bins).
 
 ```bash
 # Primary comparison at the v1 candidate threshold.
@@ -428,6 +454,43 @@ fit is re-run for every eligible target × every model) — this is
 expected, not a hang. Makes no DB writes and selects no winning
 model — judge the output against
 `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md` Section 11.
+
+## Live tournament-field win-probability inference (production, read-only)
+
+`src/klpga/models/inference.py` + `scripts/23_predict_tournament_win_probabilities.py`
+— read-only production inference for one UPCOMING tournament's live
+`tournament_entry` field, under the frozen v1 model M4. See
+`docs/SITE_STRUCTURE_TODO.md` section 10 for the full architecture,
+the strictly-prior cutoff policy, and rookie/unmatched handling.
+
+```bash
+# Production command — works if tournament_master already has a row
+# for this gameCode with a resolvable start_date/end_date:
+python scripts/23_predict_tournament_win_probabilities.py --db data/klpga.sqlite --game-code 2026080001
+
+# If tournament_master has NO row (or no usable date) for this
+# gameCode, --cutoff-date is required — this script never guesses a
+# cutoff (e.g. "today"):
+python scripts/23_predict_tournament_win_probabilities.py --db data/klpga.sqlite \
+    --game-code 2026080001 --cutoff-date 2026-08-28 --tournament-name "제15회 KG 레이디스 오픈"
+```
+
+Read-only (`mode=ro` connection) — never writes to
+`tournament_master`/`player_master`/`player_event`/`player_round`/
+`tournament_entry`/`player_stats_snapshot`, and creates no probability
+table. Prints the tournament header (name, gameCode, field size,
+historical cutoff date + source, training tournament count, model
+ID/features, the documented calibration limitation), the full
+descending probability table (rank, player_code, player_name,
+win_probability, win_probability_pct, prior_events_n,
+prior_avg_round_score_to_par, prior_recent_form_10,
+prior_recent_form_10_n, history_slice, an explicit `[UNMATCHED vs
+player_master]` marker for entrants like player_code=13355), the
+sum/min/max probability and zero-history/unmatched/predicted counts,
+and 5 required final checks (entrants parsed/predicted = field size,
+dropped entrants = 0, duplicate player_codes = 0, probability sum =
+1.000000 +/- 1e-6). Every entrant in `tournament_entry` is guaranteed
+to appear in the output — none is ever silently dropped.
 
 ## Setup
 
@@ -492,6 +555,11 @@ src/klpga/
                                     time_stability_report(), rookie_slice_report()
     report.py                      leaderboard/paired-comparison/calibration/time-stability/rookie
                                     report formatting for scripts/22
+    inference.py                   read-only PRODUCTION inference for an upcoming tournament's live
+                                    tournament_entry field under the frozen v1 model M4 — orchestration
+                                    only, reuses walk_forward/point_in_time_features/candidates/
+                                    math_utils unchanged; see "Live tournament-field win-probability
+                                    inference" above
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -548,6 +616,10 @@ scripts/
                                          thresholds, prints per-(target,model) progress + elapsed
                                          time, then the full comparison report — see "M0-M6 model
                                          comparison" above; no DB writes, selects no winning model
+  23_predict_tournament_win_probabilities.py  read-only PRODUCTION inference: frozen model M4 against
+                                               one upcoming tournament's live tournament_entry field —
+                                               see "Live tournament-field win-probability inference"
+                                               above; no DB writes, no probability table created
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -631,6 +703,13 @@ tests/
                                     field-size handling, determinism
   test_compare_win_probability_models_script.py  scripts/22's report output, progress printing, no
                                                   DB writes, unknown-model-id rejection
+  test_model_inference.py         scripts/23's production inference layer — the 12 mandatory
+                                   adversarial tests (target/future-tournament leakage, all entrants
+                                   survive, zero-history/unmatched entrants get p>0, duplicate
+                                   player_code rejection, finite/non-negative/sums-to-1 probabilities,
+                                   run-to-run and entry-row-order determinism, target excluded from
+                                   feature histories, no feature outside frozen M4) plus cutoff/
+                                   tournament-name resolution and the read-only-DB guarantee
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`

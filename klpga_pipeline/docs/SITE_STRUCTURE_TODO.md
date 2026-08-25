@@ -1241,6 +1241,142 @@ instruction, no model is selected as a production candidate until
 those real results are seen and judged against the frozen spec's
 Section 11 criteria.
 
+## 10. M4 frozen as the v1 production model + read-only production inference layer
+
+**Status: M4 frozen 2026-08-25 on real production-DB results; read-only
+inference layer implemented and tested against synthetic data,
+2026-08-25.** No KG Ladies Open probability has been computed or
+displayed anywhere in this sandbox — see the STOP condition at the end
+of this section.
+
+### 10.1 The freeze decision
+
+`scripts/22_compare_win_probability_models.py` was run on the real
+Windows production `data/klpga.sqlite` at eligibility thresholds 5, 8,
+and 10. **M4** (`prior_avg_round_score_to_par` + `prior_recent_form_10`)
+had the best mean log loss at every threshold swept, and its paired
+Wilcoxon comparison against Baseline 1 (M1, career scoring strength
+only) was as follows (M4 vs M1, negative `mean_diff` = M4 improves on
+M1; log loss, lower is better):
+
+| Threshold | N (eligible tournaments) | M4 mean log loss | M4 vs M1 mean_diff | p-value |
+|---|---|---|---|---|
+| 5  | 95 | 3.9856 | -0.1181 | 0.0444 |
+| 8  | 92 | 3.9721 | -0.1209 | 0.0443 |
+| 10 | 90 | 3.9870 | -0.1232 | 0.0442 |
+
+**M4 remained the best LogLoss model across all three thresholds.**
+
+Per this result, **M4 is frozen as the v1 production candidate.** No
+M7 or additional challenger model was created, M4 was not retuned in
+response to any KG Ladies Open information, and no probability cap,
+manual weight, hand-set rookie probability, or post-hoc calibration
+adjustment was added anywhere — the model used in production inference
+(section 10.2 below) is exactly the `klpga.models.candidates.MODEL_FEATURES["M4"]`
+mechanism already frozen and tested in section 9, unmodified.
+
+**Known limitation, explicitly documented and NOT fixed at this
+stage**: coarse calibration diagnostics suggest over-confidence in
+some higher probability bins, especially approximately 10-20%. This is
+disclosed here as a known, accepted property of the v1 model — not
+something this stage's inference layer attempts to correct via any
+post-hoc adjustment.
+
+For the avoidance of doubt: **field-relative score is not Strokes
+Gained**, and v1 contains no SG/GIR/driving/putting/course-par proxy
+of any kind (see `klpga.backtest.point_in_time_features`'s module
+docstring) — the same statement already on record in section 8/9
+above, restated here because it governs what this production model can
+and cannot honestly claim to capture.
+
+### 10.2 Read-only production inference layer
+
+New module `src/klpga/models/inference.py` — orchestration only, no
+new feature/shrinkage/fitting logic of its own. It reuses, unchanged:
+`klpga.backtest.walk_forward.build_walk_forward_dataset` (historical
+training corpus), `klpga.backtest.point_in_time_features.compute_point_in_time_features`
+(per-entrant point-in-time features, same leakage-safe date filtering
+as every other module in this project), and
+`klpga.models.candidates.fit_candidate_model` /
+`predict_candidate_model` (M4's shrinkage/standardization/softmax
+mechanism, exactly as frozen in section 9) plus
+`klpga.models.math_utils.clip_and_renormalize` (the same pre-registered
+`epsilon=1e-6` floor used everywhere else in this project).
+
+**Live field source**: `tournament_entry`, NOT
+`klpga.backtest.historical_field` — the latter is `player_event`
+(RESULT-data) based and only valid for a tournament that has already
+been played. `tournament_entry` has no FK to `player_master` by
+design, so a real, live-confirmed entrant who is not yet in
+`player_master` (confirmed 2026-08-25: `player_code=13355`,
+"배윤철 0908(A)", unmatched against 119/120-matched `player_master` for
+gameCode=2026080001) is still stored and still predicted — never
+dropped.
+
+**Strictly-prior cutoff policy** (`resolve_cutoff_date`): explicit
+`--cutoff-date` wins if given; otherwise falls back to
+`tournament_master`'s `start_date`/`end_date` for the same `game_code`,
+via the same `effective_tournament_date` helper used everywhere in this
+project; otherwise raises rather than ever guessing "today." Every
+population mean/std/shrinkage-k/beta/tau used by M4 is fit ONLY from
+usable historical tournaments strictly before that resolved cutoff
+date, additionally excluding any historical row sharing this run's own
+`game_code` (defense in depth — see `_build_training_rows`'s docstring).
+
+**Rookie / unmatched / sparse-history handling**: no new model-level
+code path. A zero-history entrant — whether a genuine rookie or an
+entrant unmatched against `player_master` — already gets `n=0` ->
+`z=0` exactly (full shrinkage to the training fold's population mean)
+under M4's EXISTING, unmodified shrinkage mechanism; this module only
+adds diagnostic reporting of which category each entrant fell into
+(`EntrantPrediction.is_unmatched`, `.history_slice`, reusing
+`klpga.models.walk_forward_eval`'s `ROOKIE_SLICES` bucketing). Every
+entrant receives a strictly-positive softmax probability by
+construction — none is ever dropped, zeroed, or hand-assigned.
+
+**Hard invariants** (`_validate_invariants`): every probability finite
+and non-negative, and the field sums to `1.0 +/- 1e-6`. Any violation
+raises `RuntimeError` and stops inference — no silent-repair path
+exists anywhere in this module.
+
+**`scripts/23_predict_tournament_win_probabilities.py`** (NEW) — the
+read-only CLI wrapper. Opens the DB `mode=ro` (never writes to
+`tournament_master`/`player_master`/`player_event`/`player_round`/
+`tournament_entry`/`player_stats_snapshot`, and creates no probability
+table). Prints: tournament name/gameCode/field size/historical
+cutoff/training tournament count/model ID+features/the documented
+calibration limitation; the full descending probability table (rank,
+player_code, player_name, win_probability, win_probability_pct,
+prior_events_n, prior_avg_round_score_to_par, prior_recent_form_10,
+prior_recent_form_10_n, history_slice, an explicit UNMATCHED marker);
+sum/min/max probability and the zero-history/unmatched/predicted
+counts; and the required final checks (entrants parsed = field size,
+entrants predicted = field size, dropped entrants = 0, duplicate
+player_codes = 0, probability sum = 1.000000 +/- 1e-6).
+
+**Tests**: `tests/test_model_inference.py` — the 12 mandatory
+adversarial tests (target tournament's own outcome cannot affect its
+own predictions; inserting/mutating a future tournament cannot affect
+predictions; every entry player survives inference; a zero-history
+player gets `p > 0`; an unmatched entry survives; a duplicate
+`player_code` is explicitly rejected; every probability is finite and
+non-negative; the field sums to `1 +/- 1e-6`; repeated execution on
+identical data is exactly reproducible; entry-row insertion order does
+not change predictions; the target tournament is excluded from every
+feature history; and no feature outside frozen M4 is consumed), plus
+basic correctness and a read-only-DB guarantee — all against a small
+synthetic in-memory SQLite DB, never the real production DB.
+
+### 10.3 STOP condition
+
+Per explicit instruction, **no KG Ladies Open probability was invented
+or displayed inside this sandbox.** This sandbox has no production
+database (network egress to klpga.co.kr remains policy-blocked). The
+first real 제15회 KG 레이디스 오픈 (gameCode=2026080001) probabilities
+must come only from running `scripts/23_predict_tournament_win_probabilities.py`
+against the real production `data/klpga.sqlite` on the Windows machine
+— see README.md for the exact command.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
@@ -1324,7 +1460,10 @@ Section 11 criteria.
     ablation ladder + one-at-a-time challengers, walk-forward
     fitting/calibration discipline, 5-slice rookie evaluation, paired
     significance-based promotion criteria, 15+ red-team failure modes,
-    and a registry schema sketch — not created). **Current goal:
-    implement the win-probability model itself**, following that spec
-    exactly, on top of section 8's walk-forward dataset — not yet
-    started, per explicit instruction to stop and wait for review.
+    and a registry schema sketch — not created). Model implementation
+    (M0-M6 comparison machinery) — **DONE, 2026-08-25**, see section 9.
+    **Superseded, 2026-08-25**: real production-DB results are in, M4
+    is frozen as the v1 production model, and a read-only production
+    inference layer has been built — see section 10 above. No KG
+    Ladies Open probability has been computed inside this sandbox; that
+    is the next real-world step, on the Windows production machine.
