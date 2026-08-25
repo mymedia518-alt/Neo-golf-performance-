@@ -1156,6 +1156,91 @@ The win-probability model itself remains unimplemented, and no
 feature-selection or weighting decision has been made from the
 redundancy/coverage reports above — they are evidence, not a decision.
 
+## 9. M0-M6 win-probability model comparison — FIRST MODEL EXPERIMENTATION STAGE (implemented, not yet run on production, no model selected)
+
+**Status: implemented and tested against synthetic data, 2026-08-25.
+Exactly per `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`.** No
+model has been selected, no live probability has been computed, and
+`tournament_entry`/every raw table remain untouched — this stage only
+builds the machinery the frozen spec's Section 11 promotion decision
+will be made from.
+
+New package `src/klpga/models/`:
+
+- **`math_utils.py`** — dependency-free (no numpy/scipy): a
+  deterministic grid-refine maximizer for the <=2-parameter model fits,
+  a numerically-stable softmax, the pre-registered `1e-6` clip-and-
+  renormalize floor, and the Wilcoxon signed-rank test (closed-form
+  normal approximation via `math.erf` — no randomness).
+- **`candidates.py`** — the frozen `M0`-`M6` feature sets EXACTLY (see
+  the spec's Section 6.1 table) and nothing else — a dedicated test
+  (`test_no_forbidden_features_anywhere_in_the_ladder`) guards against
+  `wins`/`top5`/`top10`/`cut_rate`/`recent20`/`prior_avg_round_to_par`
+  ever entering this stage's models. Each non-`M0` model is a
+  conditional-logit softmax over 1-2 SHRUNK, STANDARDIZED features
+  (`combined = z1 [+ beta * z2]`, `P(i) = softmax(-combined_i / tau)`),
+  with `tau`/`beta` fit by maximum likelihood on the training fold via
+  `math_utils.grid_refine_search` — never hand-picked.
+  **Shrinkage** (Section 4 of this stage's instructions): for each
+  feature, `pop_mean`/`pop_std`/`k` (`k` = median of the feature's own
+  `_n` sample-size companion) are fit from TRAINING rows only; a
+  player's z-score is `(n / (n + k)) * (raw - pop_mean) / pop_std` — a
+  zero-history player gets `n=0` and therefore `z=0` exactly (the
+  training fold's average strength), never a dropped row and never a
+  hand-set constant.
+- **`metrics.py`** — per-tournament log loss and field-size-normalized
+  Brier (PRIMARY, spec Section 3A/B), rank/hit-rate diagnostics
+  (SECONDARY, Section 5), coarse-bin calibration with TOURNAMENT-level
+  (not row-level) bootstrap 90% CIs (fixed, disclosed seed
+  `BOOTSTRAP_SEED = 20260825` — the only randomized step anywhere in
+  this package), and the paired Wilcoxon comparison for Section 11's
+  promotion gate.
+- **`walk_forward_eval.py`** — `run_multi_model_walk_forward()`: for
+  each ELIGIBLE-AT-THRESHOLD-k target (chronological order), trains on
+  every USABLE (not threshold-filtered — see that module's docstring
+  for why restricting training to only-eligible tournaments would
+  starve the earliest eligible target of any training data at all)
+  tournament strictly before it, reusing
+  `klpga.backtest.walk_forward.build_walk_forward_dataset()`'s rows
+  directly — no parallel feature implementation. Also:
+  `time_stability_report()` (early/middle/late thirds) and
+  `rookie_slice_report()` (the 5 fixed `prior_events_n` slices from the
+  frozen spec's Section 7).
+- **`report.py`** — the leaderboard table, paired-comparison section
+  (vs `M0` and vs `M1` as Baseline 1), calibration, time-stability, and
+  rookie-audit sections, formatted from the above — no number computed
+  fresh in this module, and the leaderboard explicitly states "no model
+  is declared the winner from this table alone."
+- **`scripts/22_compare_win_probability_models.py`** (NEW) — the
+  read-only production diagnostic: runs `M0`-`M6` at one or more
+  thresholds, prints progress per (target, model) pair with elapsed
+  time (never appears frozen), a reproducibility header (git commit,
+  model/feature list, threshold(s), training rule, fitting method,
+  spec document reference), and the full report. Makes no DB writes
+  and selects no winning model.
+
+**Tests**: 53 new (`tests/test_model_math_utils.py`,
+`tests/test_model_candidates.py`, `tests/test_model_metrics.py`,
+`tests/test_model_walk_forward_eval.py`,
+`tests/test_compare_win_probability_models_script.py`), including the
+explicit adversarial set requested for this stage — field
+probabilities sum to 1/finite/non-negative for every model, a target
+tournament's own outcome change never alters its own or any other
+tournament's prediction, a newly-inserted or mutated FUTURE tournament
+never alters an earlier prediction, a rookie stays in the field with a
+strictly positive probability, field-size changes are handled
+correctly, and identical inputs produce identical predictions. Full
+suite: **235/235 passing.**
+
+**Not yet run against the real production DB** — this sandbox has no
+production database (network egress to klpga.co.kr remains
+policy-blocked). See README.md's "M0-M6 model comparison" section for
+the exact Windows commands (`scripts/22_compare_win_probability_models.py`
+at `threshold=5`, then a sensitivity run at `8` and `10`). Per explicit
+instruction, no model is selected as a production candidate until
+those real results are seen and judged against the frozen spec's
+Section 11 criteria.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026

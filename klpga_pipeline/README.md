@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 182/182 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 235/235 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -154,8 +154,23 @@ data.
   significance-based promotion criteria, and 15+ red-team failure
   modes addressed explicitly. **Still no model code, no fitted
   coefficients, no live probabilities of any kind.**
-  **Next: implement the win-probability model itself — not yet
-  started, per explicit instruction to stop and wait for review.**
+- ✅ **M0-M6 model comparison: IMPLEMENTED, 2026-08-25** — new
+  `src/klpga/models/` package fits the frozen ladder (uniform baseline
+  through field-relative+recent10) walk-forward, via a deterministic
+  grid-search MLE fit (no numpy/scipy, no randomness — the only seeded
+  step anywhere is the calibration bootstrap CI). Training-only,
+  sample-size-aware shrinkage handles zero/sparse-history players (a
+  rookie's missing feature shrinks fully to the training fold's mean,
+  never a dropped row, never probability zero). 53 new tests, including
+  the full adversarial set (sums to 1, target/future-tournament
+  leakage, rookie retention, field-size handling, determinism).
+  `scripts/22_compare_win_probability_models.py` runs it read-only
+  against production with live progress + elapsed time. 235/235 full
+  suite passing. **Not yet run against real production data, and no
+  model has been selected** — see "M0-M6 model comparison" below for
+  the exact commands.
+  **Next: run it on the Windows PC, then judge the results against the
+  frozen spec's Section 11 promotion criteria — not yet done.**
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -180,24 +195,22 @@ player performance-statistics endpoints on `data.klpga.co.kr`,
 robots.txt) are still unconfirmed and intentionally left `NULL` rather
 than guessed.
 
-## Current goal: implement the win-probability model against the frozen evaluation spec
+## Current goal: run the M0-M6 comparison on real production data and judge it
 
 The raw 100-tournament dataset is validated, the derived analytics
-layer has survived two red-team passes and is now fully verified
-against production, the entry-list source is confirmed AND
-live-verified end-to-end including the `tournament_entry` storage
-layer, the point-in-time feature + walk-forward backtest layer is
-implemented and leakage-tested, and the model EVALUATION methodology
-itself is now frozen in `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`
-(see status above and `docs/SITE_STRUCTURE_TODO.md` sections 7-8).
-**Model implementation is still deliberately NOT started** — per
-explicit instruction, this session stops here and waits for review
-before fitting any probability model. When implementation begins, it
-must follow the frozen spec exactly: the ablation ladder (`M0`-`M6`,
-then one-at-a-time challengers), walk-forward MLE fitting (never
-hand-picked weights/temperature), the mandatory baselines, and the
-promotion criteria — not a redesigned process chosen after seeing
-results.
+layer is fully verified against production, the entry-list source is
+confirmed and live-verified end-to-end, the point-in-time feature +
+walk-forward backtest layer is implemented and leakage-tested, the
+model EVALUATION methodology is frozen
+(`docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`), and the `M0`-`M6`
+walk-forward comparison ITSELF is now implemented and tested (see
+status above and `docs/SITE_STRUCTURE_TODO.md` sections 7-9).
+**No model has been run against real production data, and no model has
+been selected** — per explicit instruction, this session stops here.
+Next: run `scripts/22_compare_win_probability_models.py` on the
+Windows PC at threshold 5, then 8 and 10 as a sensitivity check, and
+judge the results against the frozen spec's Section 11 promotion
+criteria — not a redesigned process chosen after seeing results.
 
 Known, permanent gap regardless of any future re-run: the OFFICIAL
 `player_stats_snapshot` columns (`scoring_average`, `sg_*`, `gir`,
@@ -383,6 +396,39 @@ python scripts/21_data_coverage_report.py --db data/klpga.sqlite
 All six are read-only and never write to `tournament_master`/
 `player_master`/`player_event`/`player_round`/`tournament_entry`.
 
+## M0-M6 model comparison (current goal — see status above)
+
+`src/klpga/models/` implements exactly the ablation ladder frozen in
+`docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md` — no other feature. See
+`docs/SITE_STRUCTURE_TODO.md` section 9 for the full architecture.
+**Not yet run against real production data.**
+
+```bash
+# Primary comparison at the v1 candidate threshold.
+python scripts/22_compare_win_probability_models.py --db data/klpga.sqlite --thresholds 5
+
+# Sensitivity checks — run separately, compare, do not pick whichever
+# threshold makes a model look best.
+python scripts/22_compare_win_probability_models.py --db data/klpga.sqlite --thresholds 8
+python scripts/22_compare_win_probability_models.py --db data/klpga.sqlite --thresholds 10
+
+# All three in one run (repeats the full report per threshold):
+python scripts/22_compare_win_probability_models.py --db data/klpga.sqlite --thresholds 5,8,10
+
+# A quick subset (e.g. just the baselines) for a fast sanity check:
+python scripts/22_compare_win_probability_models.py --db data/klpga.sqlite --thresholds 5 --models M0,M1,M2
+```
+
+Read-only, prints progress per (target tournament, model) pair with
+elapsed time so the terminal never appears frozen, then the full
+report (leaderboard, paired Wilcoxon comparisons vs `M0` and `M1`,
+calibration, time-stability, rookie/sparse-history audit) for each
+threshold. Runtime may be substantial (a deterministic grid-search MLE
+fit is re-run for every eligible target × every model) — this is
+expected, not a hang. Makes no DB writes and selects no winning
+model — judge the output against
+`docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md` Section 11.
+
 ## Setup
 
 ```bash
@@ -435,6 +481,17 @@ src/klpga/
                                   effective date — see docs section 8 for the full feature reference
     walk_forward.py              build_walk_forward_dataset() + eligibility_sweep() (the
                                   minimum-history trade-off report, no hard-coded threshold)
+  models/
+    math_utils.py                 dependency-free deterministic grid-search MLE optimizer, softmax,
+                                   clip-and-renormalize floor, Wilcoxon signed-rank test
+    candidates.py                  the frozen M0-M6 feature sets, training-only shrinkage/
+                                    standardization, MLE fitting, field-probability prediction
+    metrics.py                     log loss, normalized Brier, rank/hit-rate diagnostics, coarse-bin
+                                    calibration with tournament-level bootstrap CIs, paired comparison
+    walk_forward_eval.py           run_multi_model_walk_forward() (the walk-forward fit/predict loop),
+                                    time_stability_report(), rookie_slice_report()
+    report.py                      leaderboard/paired-comparison/calibration/time-stability/rookie
+                                    report formatting for scripts/22
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -487,6 +544,10 @@ scripts/
   21_data_coverage_report.py         read-only: non-NULL % and companion _n distribution for the
                                       sparser derived features (career rate, sparse round_to_par,
                                       field-relative, recent form 5/10/20)
+  22_compare_win_probability_models.py  read-only: fits/predicts M0-M6 walk-forward at one or more
+                                         thresholds, prints per-(target,model) progress + elapsed
+                                         time, then the full comparison report — see "M0-M6 model
+                                         comparison" above; no DB writes, selects no winning model
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -558,6 +619,18 @@ tests/
                                    unconditional totals, and that threshold=k removes exactly the k
                                    earliest tournaments (and exactly their field-size row count) —
                                    not a bug, see docs/SITE_STRUCTURE_TODO.md section 8
+  test_model_math_utils.py        deterministic grid-search optimizer, softmax, clip-and-renormalize
+                                   floor, Wilcoxon test against known values
+  test_model_candidates.py        frozen M0-M6 feature sets match the spec exactly (and no forbidden
+                                   feature leaks in), shrinkage/standardization math, valid probability
+                                   distributions for every model
+  test_model_metrics.py           log loss/Brier/rank/calibration/paired-comparison hand-computed
+                                   against known values
+  test_model_walk_forward_eval.py  the mandatory adversarial set: sums to 1/finite/non-negative,
+                                    target/future-tournament leakage, rookie retention with p>0,
+                                    field-size handling, determinism
+  test_compare_win_probability_models_script.py  scripts/22's report output, progress printing, no
+                                                  DB writes, unknown-model-id rejection
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
