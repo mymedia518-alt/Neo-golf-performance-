@@ -178,15 +178,46 @@ def acquire_missing_evidence(
     request (to capture the true BEFORE baseline) and once after
     acquisition (or the hard stop) completes — and returns both as
     plain category-count dicts, never forcing a category to zero."""
-    _counts, plan = build_canonical_plan(taxonomy)
-    by_key: dict[str, dict] = {}
-    for entry in plan:
-        by_key.setdefault(entry["identity_key"], entry)
-
     audits_before = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
     before_counts = _category_counts(audits_before)
 
     rows = build_missing_evidence_request_plan(taxonomy, season=season, raw_samples_dir=raw_samples_dir)
+    core = acquire_canonical_rows(client, taxonomy, rows, season, raw_samples_dir, log=log)
+
+    audits_after = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
+    after_counts = _category_counts(audits_after)
+
+    return {
+        "expected_missing_evidence_identities": len(rows),
+        "processed": len(core["items"]) + len(core["skipped"]),
+        "items": core["items"],
+        "skipped": core["skipped"],
+        "hard_stop": core["hard_stop"],
+        "before_counts": before_counts,
+        "after_counts": after_counts,
+    }
+
+
+def acquire_canonical_rows(
+    client, taxonomy: dict, rows: list[dict], season: str, raw_samples_dir: Path, *, log: Callable[[str], None] = print
+) -> dict:
+    """The shared acquisition CORE `acquire_missing_evidence` (above)
+    and `season_metric_collector.acquire_season_metrics` both call —
+    fires one request per row in `rows` (any list matching `build_
+    missing_evidence_request_plan`'s row shape: `identity_key`/`menu1`/
+    `menu2`/`menu3`/`season`/`expected_raw_sample_path`/`raw_sample_
+    exists`/`warning`) not already evidenced on disk, with the EXACT
+    same hard-stop/per-item-failure/skip/PROGRESS-line behavior
+    documented on `acquire_missing_evidence` above — this function IS
+    that behavior; `acquire_missing_evidence` only adds the before/
+    after collision-audit wrapping and its own `UNRESOLVED_
+    INSUFFICIENT_EVIDENCE`-only row source on top of it. Returns
+    `{"items": [...], "skipped": [...], "hard_stop": dict|None}` —
+    never raises."""
+    _counts, plan = build_canonical_plan(taxonomy)
+    by_key: dict[str, dict] = {}
+    for entry in plan:
+        by_key.setdefault(entry["identity_key"], entry)
 
     items: list[dict] = []
     skipped: list[dict] = []
@@ -309,15 +340,4 @@ def acquire_missing_evidence(
         )
         log(_progress_line(i, len(rows), identity_key, cache_live, "SUCCESS", parsed.parse_status, "SAVED"))
 
-    audits_after = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
-    after_counts = _category_counts(audits_after)
-
-    return {
-        "expected_missing_evidence_identities": len(rows),
-        "processed": len(items) + len(skipped),
-        "items": items,
-        "skipped": skipped,
-        "hard_stop": hard_stop,
-        "before_counts": before_counts,
-        "after_counts": after_counts,
-    }
+    return {"items": items, "skipped": skipped, "hard_stop": hard_stop}

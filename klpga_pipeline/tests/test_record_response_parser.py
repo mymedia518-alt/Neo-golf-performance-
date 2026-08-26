@@ -372,3 +372,96 @@ def test_static_blank_th_alone_without_dynamic_vars_is_unknown_not_a_fake_label(
     result = parse_record_response(html)
     assert all(c.label is None and c.source == "unknown" for c in result.column_semantics)
     assert result.parse_status == "AMBIGUOUS"
+
+
+# ---------------------------------------------------------------
+# Round 12 — value/rank extraction from <td class="record"/"record1"/
+# ...> cell TEXT, the real record-family row shape (no data-* on the
+# <tr> at all — everything lives on child <td> cells). This is the
+# exact gap the Sg-family fixture's Round 9 comment documented as
+# unresolvable for lack of un-truncated real evidence
+# (`values["record"] correctly None`); Round 12's real, complete
+# Approach/Tee/Around/Putt raw_samples/ evidence supplies it.
+# ---------------------------------------------------------------
+
+
+def _cell_value_html(record_html: str) -> str:
+    return f"""
+    <table>
+      <thead><tr><th></th><th></th><th></th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="text-start player_name"><a href="/web/profile/mainRecord?playerCode=10112">고지우</a></td>
+          {record_html}
+        </tr>
+      </tbody>
+    </table>
+    """
+
+
+def test_value_recovered_from_record_cell_text_when_no_data_attribute():
+    html = _cell_value_html(
+        '<td class="record" data-rank="1">6.26</td><td class="record1">5,444.38</td>'
+    )
+    result = parse_record_response(html)
+    assert len(result.rows) == 1
+    row = result.rows[0]
+    assert row.values["record"] == "6.26"
+    assert row.values["record1"] == "5,444.38"
+
+
+def test_rank_recovered_from_record_cell_data_rank_when_no_data_attribute_on_tr():
+    html = _cell_value_html('<td class="record" data-rank="1">6.26</td>')
+    result = parse_record_response(html)
+    assert result.rows[0].rank == "1"
+
+
+def test_html_comment_inside_record_cell_is_excluded_from_the_value():
+    """Real evidence: `<td class="record" data-rank="1">6.26 <!--
+    <span class="tb-rank-up">50</span> --></td>` — the trailing rank-
+    change comment must never leak into the extracted value text."""
+    html = _cell_value_html(
+        '<td class="record" data-rank="1">6.26 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>'
+    )
+    result = parse_record_response(html)
+    assert result.rows[0].values["record"] == "6.26"
+
+
+def test_data_attribute_value_is_preferred_over_cell_text_when_both_present():
+    html = f"""
+    <table>
+      <thead><tr><th></th></tr></thead>
+      <tbody>
+        <tr data-record="9.99">
+          <td class="record">6.26</td>
+        </tr>
+      </tbody>
+    </table>
+    """
+    result = parse_record_response(html)
+    assert result.rows[0].values["record"] == "9.99"
+
+
+def test_empty_record_cell_yields_none_not_empty_string():
+    html = _cell_value_html('<td class="record"></td>')
+    result = parse_record_response(html)
+    assert result.rows[0].values["record"] is None
+
+
+REAL_RAW_SAMPLES_DIR = Path(__file__).resolve().parents[1] / "docs" / "discovery" / "raw_samples"
+
+
+def test_real_approach02_evidence_recovers_the_first_players_real_values():
+    """Pinned to the REAL, committed Approach::Approach02::020201 raw
+    response — 고지우 (playerCode=10112)'s real first row:
+    record=6.26, record1=5,444.38, record2=870, record3=83,
+    record4=0.0, rank=1."""
+    html = (REAL_RAW_SAMPLES_DIR / "Approach__Approach02__020201__2025.html").read_text(encoding="utf-8")
+    result = parse_record_response(html)
+    row = next(r for r in result.rows if r.player_code == "10112")
+    assert row.rank == "1"
+    assert row.values["record"] == "6.26"
+    assert row.values["record1"] == "5,444.38"
+    assert row.values["record2"] == "870"
+    assert row.values["record3"] == "83"
+    assert row.values["record4"] == "0.0"

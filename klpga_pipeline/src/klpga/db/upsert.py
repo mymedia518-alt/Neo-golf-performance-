@@ -92,6 +92,19 @@ def upsert_stats_snapshot(conn: sqlite3.Connection, row: Mapping[str, Any]) -> N
     )
 
 
+def upsert_official_metric_value(conn: sqlite3.Connection, row: Mapping[str, Any]) -> None:
+    """Idempotent by (season, player_code, identity_key, official_label)
+    — re-collecting the same season-level official metric overwrites
+    the row in place rather than duplicating it. See schema.sql
+    section 8 for the full field/provenance rationale."""
+    _upsert(
+        conn,
+        "official_metric_value",
+        row,
+        conflict_cols=["season", "player_code", "identity_key", "official_label"],
+    )
+
+
 def start_collection_run(conn: sqlite3.Connection, script_name: str, target: str | None, started_at: str) -> int:
     cur = conn.execute(
         "INSERT INTO collection_runs (script_name, target, started_at, status) "
