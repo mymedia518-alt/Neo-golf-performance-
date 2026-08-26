@@ -1,0 +1,45 @@
+<!--
+  Reconstructed from REAL reported evidence (docs/KLPGA_OFFICIAL_DATA_MAP.md
+  Round 3, "Confirmed Approach example") — NOT independently captured by
+  this session (no network access to klpga.co.kr). The user's manual
+  DevTools capture for season=2025, menu1=Approach, menu2=Approach01,
+  menu3=020104 ("그린 적중률 - 160~180야드 미만(RTP)") reported:
+    김수지: GIR=70.49%, successes=43, attempts=61, measured rounds=73, RTP≈-0.0465
+  and confirmed record/record1/record2/record3/record4 mean
+  GIR%/successes/attempts/measured-rounds/RTP for THIS metric only —
+  never assumed to generalize to any other metric.
+
+  This fixture ALSO includes a synthetic embedded metadata <script>
+  block (menu/menuName/recordNote/order) — the user's DevTools
+  inspection surfaced these key NAMES as real, but did not report the
+  exact response location/shape carrying them. Included here so
+  klpga.discovery.response_parser's metadata-detection path has a
+  fixture to test against; must be revalidated once a real response is
+  captured (see the module's own docstring).
+-->
+<html>
+<body>
+<script>
+var recordMeta = {"menu": "Approach01", "menuName": "그린 적중률", "recordNote": "160~180야드 미만(RTP)", "order": "020104"};
+</script>
+<table id="recordTable">
+  <thead>
+    <tr>
+      <th>순위</th>
+      <th>선수명</th>
+      <th>GIR</th>
+      <th>성공</th>
+      <th>시도</th>
+      <th>측정라운드</th>
+      <th>RTP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-playercode="P_KIMSJ" data-name="김수지" data-rank="1"
+        data-record="70.49" data-record1="43" data-record2="61" data-record3="73" data-record4="-0.0465">
+      <td>1</td><td>김수지</td><td>70.49%</td><td>43</td><td>61</td><td>73</td><td>-0.0465</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

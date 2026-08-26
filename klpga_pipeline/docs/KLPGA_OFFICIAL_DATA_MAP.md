@@ -1,7 +1,8 @@
 # KLPGA Official Data Taxonomy Map — Phase 1
 
 **Status: research/discovery only, 2026-08-26 (Round 1), updated
-2026-08-26 (Round 2).** Maps what the official KLPGA records interface
+2026-08-26 (Round 2), Phase A tooling implemented 2026-08-26 (Round
+3).** Maps what the official KLPGA records interface
 exposes through the `loadLocationRecord` XHR family, based on evidence
 the user captured manually in Chrome DevTools. This document does not
 implement a collector, does not touch the database, the model, the
@@ -444,6 +445,129 @@ order:
    Shot/location, Live) using the same discipline — click first,
    capture request + response together, never assume from a label
    alone.
+
+---
+
+---
+
+## Round 3 — Phase A discovery tooling implemented
+
+**Status: code written and tested, 2026-08-26. NOT yet run against the
+live site** — this session still has no network access to
+`klpga.co.kr` (re-confirmed before Round 3 began, unchanged). Every
+new module below is tested exclusively against fixtures.
+
+### What was authorized and built
+
+Per the conditional approval, only **Phase A** (menu-taxonomy
+discovery) and the parser/test architecture were implemented — Phase B
+(actually firing `loadLocationRecord` requests) stays deliberately
+unimplemented and unrun. No `scripts/27` exists yet.
+
+New package `src/klpga/discovery/`:
+
+- **`menu_taxonomy.py`** — parses a supplied HTML page for
+  `data-menu1/2/3` attributes into `MenuLeaf` records. Canonical
+  identity is the full `(menu1, menu2, menu3)` triple; `menu3` is
+  never treated as globally unique — `build_source_metric_key()`
+  produces `menu1::menu2::menu3` for reporting, never for
+  deduplication. Reports completeness **per menu1 category**
+  (`incomplete_menu1_categories`) rather than one global flag, and
+  never invents a second endpoint when a category's submenu isn't
+  found in the static DOM.
+- **`response_parser.py`** — parses one `loadLocationRecord` response
+  into rows + column semantics, preferring an embedded metadata block
+  (`menu`/`menuName`/`recordNote`/`order`) over table-header text over
+  positional guessing; never assumes `record`/`record1..4` mean the
+  same thing across two different metrics. **Not yet validated against
+  a real response** — built and tested against fixtures reconstructed
+  from the user's own reported field values (Approach GIR 160–180yd
+  and 140–160yd), which is explicitly flagged in the module's own
+  docstring as a working assumption pending real HTML.
+- **`collision_report.py`** — implements every collision check Round 3
+  asked for. **Real regression coverage of the actual Round-1 finding**:
+  a bug was caught and fixed here during implementation — the first
+  version of `collisions` only flagged menu3 codes appearing under
+  *different* `(menu1, menu2)` pairs, which would have completely
+  missed the real `menu3=010102` case (same menu1, same menu2,
+  different label). Fixed to flag any menu3 code appearing as more
+  than one leaf at all, then classify the *more specific* differing-
+  menu1/differing-menu2 buckets as a subset.
+- **`taxonomy_report.py`** — the JSON/CSV writers and the exact counts
+  Round 3's §9 asked for (menu1/menu2/menu3-combination/unique-menu3/
+  collision counts).
+
+New script `scripts/26_discover_klpga_record_taxonomy.py` (Phase A
+only): fetches exactly one page (`--source-url`, **required, no
+default** — this script does not guess the landing-page URL, matching
+the same discipline as `RECORD_TAXONOMY_SOURCE_URL` in `config.py`
+being left unset rather than filled with a guess), inspects it, writes
+the three output files, and stops. Exits with a distinct code
+(`EXIT_INCOMPLETE_NEEDS_INVESTIGATION`) if any menu1 category has zero
+resolved menu3 leaves, printing exactly which categories need further
+investigation rather than attempting a guessed follow-up request.
+
+`config.py` gained `RECORD_TAXONOMY_ENDPOINT` (now fully CONFIRMED —
+the complete path `POST /load/record/loadLocationRecord` was given
+directly in Round 3, closing the "exact full path not stated" gap from
+Round 1's Table 1) and `RECORD_TAXONOMY_SOURCE_URL = None`, documented
+as intentionally unset.
+
+### What was deliberately NOT built this round
+
+- `scripts/27` (Phase B live validation orchestrator) — not created.
+- `season_validator.py` — not implemented. Building it now would have
+  required either leaving it untested, or fabricating a plausible-
+  looking "season=2025 vs season=2026 differs" test fixture pair with
+  no real evidence behind either value — exactly the kind of invented
+  evidence this whole discovery effort exists to avoid. It will be
+  built once real two-season response data exists (Phase B).
+- Any live request of any kind.
+
+### Test coverage (all fixture-based, zero network access)
+
+31 new tests across `test_menu_taxonomy.py`, `test_record_response_parser.py`,
+`test_collision_report.py`, `test_discover_klpga_record_taxonomy_script.py`,
+using 5 new fixtures under `tests/fixtures/`:
+
+- `record_menu_static_tree_sample.html` — synthetic, built from the
+  real confirmed `(menu1, menu2, menu3, label)` tuples reported across
+  Rounds 1–3 (SG Total, Tee 평균 티샷 거리, Approach 020104/020105).
+- `record_menu_partial_tree_sample.html` — synthetic, adds a "Putting"
+  category with no discoverable submenu, to test missing-level
+  detection.
+- `record_menu_collision_sample.html` — **reconstructed from the real
+  Round-1 evidence**, not synthetic: `menu3=010102` under Tee/Tee01
+  mapped to two different labels. This is what the fixed `collisions`
+  bug above was caught against.
+- `loadLocationRecord_approach_020104_sample.html` /
+  `_020105_sample.html` — reconstructed from the real field values the
+  user reported this round (김수지 70.49%/43/61/73rounds/-0.0465;
+  임희정 74.45%/169/227/84rounds/-0.0769). The 020104 fixture includes
+  a synthetic metadata block (to exercise the metadata-detection path)
+  and the 020105 fixture deliberately omits one (to exercise the
+  table-header fallback path) — every fixture's header comment states
+  plainly that it is a reconstruction, not captured markup.
+
+Full suite: 339/339 passing (308 before this round + 31 new).
+
+### Exact Windows command for the next real run
+
+```
+python scripts\26_discover_klpga_record_taxonomy.py --source-url "<paste the exact record/거리기록 page URL from your own browser's address bar>"
+```
+
+Replace the `--source-url` value with whatever URL you're actually on
+when you click the menu tabs that fire `getRecord(menu1, menu2,
+menu3)` — this script will not run without it and will not guess one.
+Output lands in `docs\discovery\` by default (`--out-dir` to change
+it), and every fetched page is cached under `data\raw_cache\http\` via
+the existing `PoliteHttpClient` (gitignored, matching every other
+collection step in this project).
+
+If the run reports `INCOMPLETE`, it will name exactly which menu1
+categories had zero resolved submenu — that's the next thing to
+inspect directly in DevTools before Phase A can be called complete.
 
 ---
 

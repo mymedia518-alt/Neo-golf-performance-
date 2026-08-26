@@ -1,0 +1,37 @@
+<!--
+  Reconstructed from REAL reported evidence (docs/KLPGA_OFFICIAL_DATA_MAP.md
+  Round 3, "Confirmed Approach example") — NOT independently captured by
+  this session (no network access to klpga.co.kr). The user's manual
+  DevTools capture for season=2025, menu1=Approach, menu2=Approach01,
+  menu3=020105 ("그린 적중률 - 140~160야드 미만(RTP)") reported:
+    임희정: GIR=74.45%, successes=169, attempts=227, measured rounds=84, RTP≈-0.0769
+
+  UNLIKE the 020104 fixture, this one deliberately OMITS any embedded
+  metadata block — used to test
+  klpga.discovery.response_parser's table-header-only fallback path
+  (parse_status should come back DISCOVERED_NOT_VALIDATED, not
+  CONFIRMED, since no metadata block backs the column semantics here).
+-->
+<html>
+<body>
+<table id="recordTable">
+  <thead>
+    <tr>
+      <th>순위</th>
+      <th>선수명</th>
+      <th>GIR</th>
+      <th>성공</th>
+      <th>시도</th>
+      <th>측정라운드</th>
+      <th>RTP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-playercode="P_LIMHJ" data-name="임희정" data-rank="1"
+        data-record="74.45" data-record1="169" data-record2="227" data-record3="84" data-record4="-0.0769">
+      <td>1</td><td>임희정</td><td>74.45%</td><td>169</td><td>227</td><td>84</td><td>-0.0769</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
