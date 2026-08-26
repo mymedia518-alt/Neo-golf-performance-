@@ -395,6 +395,58 @@ def test_keyboard_interrupt_reports_last_marker_and_is_not_swallowed():
     assert any(isinstance(stmt, ast.Raise) and stmt.exc is None for stmt in handler.body)
 
 
+# ---------------------------------------------------------------
+# Phase B1.1 — raw-response HTML preservation (Mission 3). The live
+# Windows run that produced EMPTY_SCHEMA for 200+-row responses needs
+# the actual raw HTML to root-cause; PoliteHttpClient already caches
+# every response under data/raw_cache/http/ but keyed by an opaque
+# content hash, impractical to find "the Putt::Putt01::040101
+# response" by hand. These tests cover the human-named second copy.
+# ---------------------------------------------------------------
+
+
+def test_raw_samples_saved_by_default_one_file_per_sampled_metric(module, small_taxonomy, client_2025, tmp_path):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    raw_dir = tmp_path / "raw_samples"
+    assert raw_dir.is_dir()
+    files = sorted(p.name for p in raw_dir.iterdir())
+    assert files == [
+        "Approach__Approach01__020104__2025.html",
+        "Approach__Approach01__020105__2025.html",
+        "Sg__Total__2025.html",
+    ]
+
+
+def test_raw_sample_content_matches_the_exact_response_bytes(module, small_taxonomy, client_2025, tmp_path):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    saved = (tmp_path / "raw_samples" / "Sg__Total__2025.html").read_text(encoding="utf-8")
+    assert saved == _sg_html()
+
+
+def test_raw_samples_skipped_when_disabled(module, small_taxonomy, client_2025, tmp_path):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path, save_raw_responses=False)
+    assert not (tmp_path / "raw_samples").exists()
+
+
+def test_raw_sample_still_saved_for_a_zero_row_empty_response(module, tmp_path):
+    """The real live-run CLASS 2 case (All::* — 0 rows, EMPTY,
+    non-trivial byte count) must still get its raw HTML preserved —
+    evidence preservation must not depend on the response having rows."""
+    taxonomy = {
+        "source_url": "https://example.test",
+        "leaves": [_leaf("All", "Approach", None, "menu2", "전체")],
+    }
+
+    class ZeroRowClient:
+        def post_text(self, url, data=None, **kwargs):
+            return "<html><body><table><thead><tr><th>없음</th></tr></thead><tbody></tbody></table></body></html>"
+
+    module.run(ZeroRowClient(), taxonomy, "2025", tmp_path)
+    saved = tmp_path / "raw_samples" / "All__Approach__2025.html"
+    assert saved.exists()
+    assert "없음" in saved.read_text(encoding="utf-8")
+
+
 def test_missing_taxonomy_file_fails_cleanly(module, tmp_path, capsys):
     import sys
 

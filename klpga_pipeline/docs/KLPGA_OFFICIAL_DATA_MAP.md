@@ -1182,6 +1182,125 @@ website. Phase B2 was not started; no bulk live requests were made
 (this session made zero live requests, as always — no network
 access).
 
+## Round 3, Phase B1 — CLASS 1 / CLASS 2 investigation (evidence still needed)
+
+**Status: 2026-08-26.** The Windows Phase B1.1 diagnostic run
+completed successfully on commit `7231954`: 9 live requests,
+`HTTP_SUCCESS=9 HTTP_FAILURE=0 PARSE_SUCCESS=4 PARSE_EMPTY=5`. Two
+distinct failure shapes were reported and must NOT be treated as one
+bug:
+
+- **CLASS 1** — HTTP success + real player rows (>0) + `EMPTY_SCHEMA`.
+  Example: `Putt::Putt01::040101`, bytes=192516, 231 rows,
+  `parse_status=DISCOVERED_NOT_VALIDATED`.
+- **CLASS 2** — HTTP success + zero rows + `EMPTY_SCHEMA`/`EMPTY`.
+  Examples: `All::Approach`/`All::Around`/`All::Putt`/`All::Sg`, each
+  bytes=33543, 0 rows.
+
+### A/B. Root cause: NOT YET CONFIRMED for either class
+
+This session still has no access to the actual raw HTML — only the
+byte counts, row counts, and status strings quoted above. That is
+metadata about the response, not the response. Per instruction ("do
+not modify parser behavior until the exact mismatch is identified" /
+"if real raw HTML is still unavailable ... do not guess"), no parser
+change was made. Two prior hypotheses (blank `<th>` text; the site
+using separate `recordName`/`record1..4` JS variables rather than a
+JSON `menu`/`menuName` object) remain **unconfirmed** for CLASS 1, and
+CLASS 2 has four live, undistinguished hypotheses per Mission 4
+(navigation-only leaf / invalid request leaf / legitimate zero-data
+endpoint / parser-taxonomy false positive) — none preferred without
+the HTML. `bytes=33543` for CLASS 2 is a real, non-trivial page (not a
+blank/error response), which rules out "the request outright failed"
+but nothing more specific than that.
+
+### What WAS done: raw-evidence preservation (Mission 3/6)
+
+`scripts/27_klpga_response_schema_sample.py` now saves a second,
+**human-named** copy of every sampled metric's raw response HTML to
+`docs/discovery/raw_samples/<identity_key>__<season>.html` (e.g.
+`Putt__Putt01__040101__2025.html`), on by default (`--no-raw-samples`
+to disable), bounded by the same `--sample-size`/`--max-requests` cap
+already governing live requests — never unbounded. This directory is
+now gitignored (`docs/discovery/raw_samples/`), so it is never
+auto-committed; specific files get handed over deliberately.
+
+**Important: PoliteHttpClient already caches every response** under
+`data/raw_cache/http/<hash>.json` (keyed by a content hash of
+url+params, containing the exact `body_text`) — this has been true
+since Round 1 and was never disabled. That means **the run that just
+completed already has these exact 9 raw responses sitting on the
+Windows machine right now**, just under opaque hash-named files. The
+fastest path to real evidence is extracting them from that existing
+cache rather than waiting for a new run — see the PowerShell snippet
+below.
+
+### Extracting the ALREADY-CACHED responses from the run that just completed
+
+```powershell
+cd klpga_pipeline
+$targets = @(
+  @{menu1="Tee";      menu2="Tee01";      menu3=$null},
+  @{menu1="Approach";  menu2="Approach01"; menu3=$null},
+  @{menu1="Around";    menu2="Around01";   menu3=$null},
+  @{menu1="Putt";      menu2="Putt01";     menu3="040101"},
+  @{menu1="All";       menu2="Approach";   menu3=$null},
+  @{menu1="All";       menu2="Around";     menu3=$null},
+  @{menu1="All";       menu2="Putt";       menu3=$null},
+  @{menu1="All";       menu2="Sg";         menu3=$null}
+)
+New-Item -ItemType Directory -Force -Path docs\discovery\raw_samples | Out-Null
+Get-ChildItem data\raw_cache\http\*.json | ForEach-Object {
+  $j = Get-Content $_.FullName -Raw | ConvertFrom-Json
+  $p = $j.params.data
+  foreach ($t in $targets) {
+    if ($p.menu1 -eq $t.menu1 -and $p.menu2 -eq $t.menu2 -and ($t.menu3 -eq $null -or $p.menu3 -eq $t.menu3)) {
+      $name = "$($p.menu1)__$($p.menu2)" + $(if ($p.menu3) { "__$($p.menu3)" } else { "" }) + "__$($p.season).html"
+      $j.body_text | Out-File -Encoding utf8 "docs\discovery\raw_samples\$name"
+      Write-Host "Extracted: $name"
+    }
+  }
+}
+```
+
+(Adjust the `menu2` values above if the real sample used different
+menu2 nodes than these placeholders — check
+`docs\discovery\KLPGA_RESPONSE_SCHEMA_SAMPLES.json`'s `identity_key`
+field for the exact menu1/menu2/menu3 actually sampled this run.)
+Once extracted, paste or push at least the CLASS 1 (`Putt`) and one
+CLASS 2 (`All::*`) file back for real root-cause analysis.
+
+### E–I. Schema/playerCode results
+
+Not yet determinable from metadata alone — genuinely blocked pending
+the raw HTML above, per Missions 2 and 5.
+
+### J. All::* classification
+
+Not yet proven — see the four live hypotheses under A/B above.
+
+### Files changed
+
+`scripts/27_klpga_response_schema_sample.py` (`raw_dir`/`--no-raw-samples`,
+raw HTML preservation wired into both the main sample loop and the
+historical probe), `.gitignore` (`docs/discovery/raw_samples/`),
+`docs/KLPGA_OFFICIAL_DATA_MAP.md` (this section). `response_parser.py`
+was **not modified** — no root cause confirmed yet. New/updated tests
+in `tests/test_klpga_response_schema_sample_script.py`. Full suite:
+462/462 passing.
+
+### Next Windows command (unchanged; now also saves raw_samples/ automatically)
+
+```
+python scripts\27_klpga_response_schema_sample.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json ^
+    --season 2025
+```
+
+No change needed to re-run — the PowerShell extraction snippet above
+against the ALREADY-COMPLETED run is faster than waiting for a new
+one, since the raw bytes are already on disk.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

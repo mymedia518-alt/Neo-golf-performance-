@@ -9,3 +9,8 @@ data/csv/*.csv
 # reproducible from predictions/ + src/klpga/site/ + scripts/25.
 # See docs/PREDICTIONS_SITE.md.
 web/dist/
+
+# Raw response HTML saved per sampled metric by scripts/27 (Phase
+# B1.1 evidence preservation) — local diagnostic evidence only, never
+# auto-committed; hand specific files over deliberately when needed.
+docs/discovery/raw_samples/
