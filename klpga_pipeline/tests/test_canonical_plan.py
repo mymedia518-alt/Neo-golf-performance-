@@ -8,10 +8,12 @@ import json
 from klpga.discovery.canonical_plan import (
     build_canonical_plan,
     build_canonical_plan_json,
+    build_identity_key_collision_report,
     build_malformed_leaf_report,
     check_sanity_invariants,
     classify_malformation_reason,
     group_counts_by_family,
+    to_identity_key_collision_report_csv,
     to_malformed_leaf_report_csv,
 )
 
@@ -324,3 +326,129 @@ def test_sanity_invariants_pass_on_a_clean_result():
 def test_sanity_invariants_do_not_fire_on_empty_taxonomy():
     counts, _plan = build_canonical_plan({"leaves": []})
     assert check_sanity_invariants(counts) == []
+
+
+# ---------------------------------------------------------------
+# Round 10 — identity_key duplication: the B2 Stage 1 blocker.
+#
+# Mechanism confirmed by reading build_canonical_plan directly (no
+# live data needed): the exact-duplicate dedup key is
+# (identity_tuple, label) — NOT identity_tuple alone. Two DOM leaves
+# sharing the exact same menu1/menu2/menu3 but carrying DIFFERENT
+# labels are therefore NOT deduplicated: both survive into the
+# canonical plan, both carrying the SAME identity_key string (derived
+# from identity_tuple only, never label). This is a different
+# mechanism from menu3_collision_count, which only tracks BARE menu3
+# codes shared across DIFFERENT menu1/menu2 paths (a menu2-level leaf
+# has no menu3 to collide on at all, and two entries can share a bare
+# menu3 code while having completely different, non-colliding
+# identity_keys).
+# ---------------------------------------------------------------
+
+
+def test_same_identity_different_label_is_not_deduplicated_and_shares_identity_key():
+    """The exact mechanism behind the real 30-group/33-entry finding:
+    same (menu1, menu2, menu3), two different labels."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee05", "010301", "menu3", "라벨 A"),
+            _leaf("Tee", "Tee05", "010301", "menu3", "라벨 B"),
+        ]
+    }
+    counts, plan = build_canonical_plan(taxonomy)
+    assert counts.exact_duplicate_count == 0  # NOT an exact (identity, label) duplicate
+    assert counts.canonical_requestable_metric_count == 2  # both entries survive
+    assert counts.unique_identity_key_count == 1
+    assert counts.duplicate_identity_key_group_count == 1
+    identity_keys = {p["identity_key"] for p in plan}
+    assert identity_keys == {"Tee::Tee05::010301"}
+    assert {p["label"] for p in plan} == {"라벨 A", "라벨 B"}
+
+
+def test_same_identity_same_label_cannot_reach_duplicate_identity_key_count():
+    """Category A (same identity_key AND same label) is structurally
+    IMPOSSIBLE to reach duplicate_identity_key_group_count — it is
+    collapsed by the exact-duplicate dedup step first."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee05", "010301", "menu3", "동일 라벨"),
+            _leaf("Tee", "Tee05", "010301", "menu3", "동일 라벨"),
+        ]
+    }
+    counts, plan = build_canonical_plan(taxonomy)
+    assert counts.exact_duplicate_count == 1
+    assert counts.canonical_requestable_metric_count == 1
+    assert counts.unique_identity_key_count == 1
+    assert counts.duplicate_identity_key_group_count == 0
+
+
+def test_menu2_level_identity_key_collision_is_detected():
+    """menu3_collision_count structurally cannot see this (a menu2-
+    level leaf has no menu3) — duplicate_identity_key_group_count must
+    still catch it, since it operates on identity_key directly."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Sg", "Total", None, "menu2", "SG : 전체 A"),
+            _leaf("Sg", "Total", None, "menu2", "SG : 전체 B"),
+        ]
+    }
+    counts, plan = build_canonical_plan(taxonomy)
+    assert counts.menu3_collision_count == 0  # blind to menu2-level collisions, by design
+    assert counts.duplicate_identity_key_group_count == 1
+    assert counts.unique_identity_key_count == 1
+    assert len(plan) == 2
+
+
+def test_unique_identity_key_count_on_the_real_evidence_taxonomy():
+    """The shared fixture's cross-family menu3 collision ("010102"
+    under both Tee and Approach) produces DIFFERENT identity_keys
+    (Tee::Tee01::010102 vs Approach::Approach02::010102) — it must NOT
+    be counted as an identity_key duplicate, confirming the two
+    mechanisms are genuinely independent."""
+    counts, plan = build_canonical_plan(_real_evidence_taxonomy())
+    assert counts.menu3_collision_count == 1
+    assert counts.duplicate_identity_key_group_count == 0
+    assert counts.unique_identity_key_count == counts.canonical_requestable_metric_count == len(plan)
+
+
+def test_build_identity_key_collision_report_empty_when_no_collisions():
+    assert build_identity_key_collision_report(_real_evidence_taxonomy()) == []
+
+
+def test_build_identity_key_collision_report_covers_every_field_and_is_grouped():
+    taxonomy = {
+        "leaves": [
+            _leaf("Sg", "Total", None, "menu2", "SG : 전체 A"),
+            {**_leaf("Sg", "Total", None, "menu2", "SG : 전체 B"), "label_resolution_method": "ancestor_walk"},
+            _leaf("Tee", "Tee01", "010101", "menu3", "고유 라벨"),  # not part of any collision
+        ]
+    }
+    rows = build_identity_key_collision_report(taxonomy)
+    assert len(rows) == 2  # only the colliding Sg::Total pair — the unique Tee entry is excluded
+    assert {r["identity_key"] for r in rows} == {"Sg::Total"}
+    assert all(r["group_size"] == 2 for r in rows)
+    labels = sorted(r["label"] for r in rows)
+    assert labels == ["SG : 전체 A", "SG : 전체 B"]
+    required_keys = {
+        "identity_key", "group_size", "menu1", "menu2", "menu3", "leaf_level",
+        "label", "node_type", "evidence_source", "label_resolution_method", "is_menu3_collision",
+    }
+    for row in rows:
+        assert required_keys.issubset(row.keys())
+    # Provenance from the ORIGINAL raw taxonomy leaf is preserved when present.
+    method_row = next(r for r in rows if r["label"] == "SG : 전체 B")
+    assert method_row["label_resolution_method"] == "ancestor_walk"
+
+
+def test_to_identity_key_collision_report_csv_has_required_columns():
+    taxonomy = {
+        "leaves": [
+            _leaf("Sg", "Total", None, "menu2", "라벨 A"),
+            _leaf("Sg", "Total", None, "menu2", "라벨 B"),
+        ]
+    }
+    rows = build_identity_key_collision_report(taxonomy)
+    csv_text = to_identity_key_collision_report_csv(rows)
+    header = csv_text.splitlines()[0]
+    for column in ("identity_key", "group_size", "menu1", "menu2", "menu3", "label", "node_type", "evidence_source"):
+        assert column in header
