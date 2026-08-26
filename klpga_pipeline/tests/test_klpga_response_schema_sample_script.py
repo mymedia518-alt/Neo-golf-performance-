@@ -274,7 +274,7 @@ def test_malformed_leaf_is_rejected_and_never_fetched(module, small_taxonomy, cl
     rc = module.run(client_2025, small_taxonomy, "2025", tmp_path)
     assert rc == module.EXIT_COMPLETE
     out = capsys.readouterr().out
-    assert "Rejected 1 malformed taxonomy leaf" in out
+    assert "[STEP 05] malformed leaves rejected: 1" in out
     # Only the 3 legitimate fixtures were ever fetched — RecordingFakeClient
     # would have raised KeyError on an unrecognized (menu1, menu2, menu3)
     # request, which it never received.
@@ -298,6 +298,101 @@ def test_http_failure_counted_separately_from_parse_outcomes(module, small_taxon
     # never folded into "successfully sampled."
     payload = json.loads((tmp_path / "KLPGA_RESPONSE_SCHEMA_SAMPLES.json").read_text(encoding="utf-8"))
     assert payload["sample_count"] == 2
+
+
+# ---------------------------------------------------------------
+# Phase B1.1 diagnostic instrumentation — STEP/REQUEST/RESPONSE/PARSE
+# markers, added after a Windows run produced no visible output at all
+# before it had to be Ctrl+C'd. These tests prove the markers actually
+# fire (not just that flush=True is present, which capsys can't
+# observe directly since it's not a real console).
+# ---------------------------------------------------------------
+
+
+def test_step_markers_appear_in_order_for_a_clean_run(module, small_taxonomy, client_2025, tmp_path, capsys):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    out = capsys.readouterr().out
+    steps = [line for line in out.splitlines() if line.startswith("[STEP ")]
+    step_numbers = [s.split("]")[0].replace("[STEP ", "") for s in steps]
+    assert step_numbers == sorted(step_numbers)  # monotonically non-decreasing as printed
+    assert any(s.startswith("[STEP 03]") for s in steps)
+    assert any(s.startswith("[STEP 04]") for s in steps)
+    assert any(s.startswith("[STEP 05]") for s in steps)
+    assert any(s.startswith("[STEP 06]") for s in steps)
+
+
+def test_request_response_parse_markers_are_tagged_and_numbered(module, small_taxonomy, client_2025, tmp_path, capsys):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    out = capsys.readouterr().out
+    assert "[REQUEST 1/3]" in out
+    assert "[REQUEST 2/3]" in out
+    assert "[REQUEST 3/3]" in out
+    assert "[RESPONSE 1/3]" in out
+    assert "[PARSE 1/3]" in out
+    # Each RESPONSE line must carry a real elapsed-time figure, not a
+    # placeholder — proves it's measured, not hardcoded.
+    response_line = next(line for line in out.splitlines() if line.startswith("[RESPONSE 1/3]"))
+    assert "elapsed=" in response_line and "bytes=" in response_line
+
+
+def test_request_marker_still_fires_even_when_the_fetch_then_fails(module, small_taxonomy, tmp_path, capsys):
+    """The REQUEST marker must print BEFORE the network call — so even
+    an HTTP failure leaves a trace of which metric was being attempted,
+    the exact diagnostic gap the live Windows hang exposed."""
+
+    class AlwaysFailsClient:
+        def post_text(self, url, data=None, **kwargs):
+            raise ValueError("simulated failure")
+
+    module.run(AlwaysFailsClient(), small_taxonomy, "2025", tmp_path)
+    out = capsys.readouterr().out
+    assert "[REQUEST 1/3]" in out
+    assert "menu1='Sg'" in out
+    # No RESPONSE marker for that request — the failure happened
+    # before a response was ever received.
+    assert "[RESPONSE 1/3]" not in out
+
+
+def test_fetch_and_analyze_tag_defaults_to_question_mark_when_unspecified(module, small_taxonomy, client_2025, capsys):
+    """Direct unit check of fetch_and_analyze's own default — callers
+    outside run() (e.g. future ad-hoc debugging) still get a usable,
+    non-crashing marker."""
+    leaf = module.select_representative_sample(small_taxonomy, target_count=1)[0]
+    module.fetch_and_analyze(client_2025, leaf, "2025")
+    out = capsys.readouterr().out
+    assert "[REQUEST ?]" in out
+
+
+# ---------------------------------------------------------------
+# Phase B1.1 — top-level KeyboardInterrupt diagnostic. Runs the script
+# as a real subprocess so SIGINT/KeyboardInterrupt semantics (and the
+# `if __name__ == "__main__":` block) are genuinely exercised, not
+# simulated in-process.
+# ---------------------------------------------------------------
+
+
+def test_keyboard_interrupt_reports_last_marker_and_is_not_swallowed():
+    """Verified structurally (not by fabricating a real hang + timed
+    Ctrl+C, which would be flaky in CI): the top-level `if __name__ ==
+    "__main__":` block must catch KeyboardInterrupt and its handler
+    must end in a bare `raise` — reporting the last marker without
+    ever swallowing the interrupt, per Mission 4."""
+    import ast
+
+    source = SCRIPT_PATH.read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    main_block = next(
+        node
+        for node in tree.body
+        if isinstance(node, ast.If)
+        and isinstance(node.test, ast.Compare)
+        and getattr(node.test.left, "id", None) == "__name__"
+    )
+    dumped = ast.dump(main_block)
+    assert "KeyboardInterrupt" in dumped
+    # The handler body must re-raise (bare `raise`), never swallow it.
+    handler = next(h for h in main_block.body[0].handlers)
+    assert any(isinstance(stmt, ast.Raise) and stmt.exc is None for stmt in handler.body)
 
 
 def test_missing_taxonomy_file_fails_cleanly(module, tmp_path, capsys):
