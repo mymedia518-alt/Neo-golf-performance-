@@ -119,8 +119,33 @@ def cluster_by_schema_family(records: list[dict]) -> dict[str, list[dict]]:
     return families
 
 
+def build_request_outcome_counts(records: list[dict], *, http_failure_count: int = 0) -> dict:
+    """Phase B1.1 Mission 7 — HTTP success is not the same claim as
+    parse success. Buckets every record that got an HTTP response by
+    its actual parse_status, kept separate from requests that never
+    got an HTTP response at all. A response classified EMPTY or
+    AMBIGUOUS/FAILED still counts toward `http_success` (the request
+    itself worked) but NOT toward `parse_success` — "successfully
+    sampled" must mean real data was extracted, not merely that the
+    site replied."""
+    parse_success = sum(1 for r in records if r["parse_status"] in ("CONFIRMED", "DISCOVERED_NOT_VALIDATED"))
+    parse_empty = sum(1 for r in records if r["parse_status"] == "EMPTY")
+    parse_ambiguous_or_failed = sum(1 for r in records if r["parse_status"] in ("AMBIGUOUS", "FAILED"))
+    return {
+        "http_success": len(records),
+        "http_failure": http_failure_count,
+        "parse_success": parse_success,
+        "parse_empty": parse_empty,
+        "parse_ambiguous_or_failed": parse_ambiguous_or_failed,
+    }
+
+
 def render_schema_report_markdown(
-    records: list[dict], *, request_count: int, historical_probe_records: Optional[list[dict]] = None
+    records: list[dict],
+    *,
+    request_count: int,
+    historical_probe_records: Optional[list[dict]] = None,
+    outcome_counts: Optional[dict] = None,
 ) -> str:
     lines = ["# KLPGA Response Schema Report — Phase B1", ""]
     lines.append(
@@ -129,6 +154,26 @@ def render_schema_report_markdown(
         "full discovered taxonomy without saying so explicitly."
     )
     lines.append("")
+
+    if outcome_counts:
+        lines.append("## Request outcome breakdown (HTTP success ≠ parse success)")
+        lines.append("")
+        lines.append("| HTTP_SUCCESS | HTTP_FAILURE | PARSE_SUCCESS | PARSE_EMPTY | PARSE_AMBIGUOUS_OR_FAILED |")
+        lines.append("|---|---|---|---|---|")
+        lines.append(
+            f"| {outcome_counts['http_success']} | {outcome_counts['http_failure']} | "
+            f"{outcome_counts['parse_success']} | {outcome_counts['parse_empty']} | "
+            f"{outcome_counts['parse_ambiguous_or_failed']} |"
+        )
+        lines.append("")
+        lines.append(
+            "`PARSE_SUCCESS` is the only count that means real column data "
+            "was extracted. A metric can be `HTTP_SUCCESS` (the site "
+            "replied) and still `PARSE_EMPTY` or "
+            "`PARSE_AMBIGUOUS_OR_FAILED` — neither is \"successfully "
+            "sampled.\""
+        )
+        lines.append("")
 
     families = cluster_by_schema_family(records)
     lines.append(f"## Schema families discovered: {len(families)}")

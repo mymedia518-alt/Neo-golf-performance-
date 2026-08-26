@@ -8,7 +8,9 @@ from __future__ import annotations
 
 from klpga.discovery.response_schema import PlayerIdentityRecord
 from klpga.discovery.schema_report import (
+    build_request_outcome_counts,
     render_player_identity_report_markdown,
+    render_schema_report_markdown,
     write_raw_count_metrics_csv,
     write_response_failures_csv,
 )
@@ -126,3 +128,58 @@ def test_player_identity_report_separates_single_metric_players():
     assert "`NOT_AVAILABLE`" in report
     assert "Single-metric players (1" in report
     assert "Cross-checkable players (0" in report
+
+
+# ---------------------------------------------------------------
+# Phase B1.1 Mission 7 — HTTP success vs parse success reporting
+# ---------------------------------------------------------------
+
+
+def _report_record(**overrides):
+    defaults = dict(
+        identity_key="X::Y",
+        menu1="Approach",
+        metric_label="테스트",
+        parse_status="CONFIRMED",
+        schema_fingerprint="RATE_COUNT",
+        raw_pair_status="NOT_APPLICABLE",
+        rtp_status="RTP_ABSENT",
+        data_quality_any_flagged=False,
+        data_quality_flags={},
+    )
+    defaults.update(overrides)
+    return defaults
+
+
+def test_outcome_counts_separates_parse_success_from_empty_and_ambiguous():
+    records = [
+        _report_record(identity_key="A", parse_status="CONFIRMED"),
+        _report_record(identity_key="B", parse_status="DISCOVERED_NOT_VALIDATED"),
+        _report_record(identity_key="C", parse_status="EMPTY"),
+        _report_record(identity_key="D", parse_status="AMBIGUOUS"),
+        _report_record(identity_key="E", parse_status="FAILED"),
+    ]
+    counts = build_request_outcome_counts(records, http_failure_count=2)
+    assert counts == {
+        "http_success": 5,
+        "http_failure": 2,
+        "parse_success": 2,
+        "parse_empty": 1,
+        "parse_ambiguous_or_failed": 2,
+    }
+
+
+def test_outcome_counts_all_zero_for_empty_records():
+    counts = build_request_outcome_counts([])
+    assert counts["http_success"] == 0
+    assert counts["parse_success"] == 0
+    assert counts["http_failure"] == 0
+
+
+def test_schema_report_renders_outcome_breakdown_table():
+    records = [_report_record(parse_status="EMPTY")]
+    counts = build_request_outcome_counts(records, http_failure_count=1)
+    report = render_schema_report_markdown(records, request_count=2, outcome_counts=counts)
+    assert "Request outcome breakdown" in report
+    assert "HTTP_SUCCESS" in report and "PARSE_EMPTY" in report
+    assert "PARSE_SUCCESS" in report

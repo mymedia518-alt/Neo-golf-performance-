@@ -43,6 +43,20 @@ category, rather than assuming a single global answer. A menu1
 category is only reported incomplete if NEITHER a menu2-level nor a
 menu3-level leaf could be resolved for it.
 
+**Phase B1.1 note**: Pass 1's fallback branch (an unresolvable
+`data-menu3` tag — no own attrs, no resolvable ancestor) preserves the
+leaf with `menu1=""`/`menu2=""` rather than dropping it, per this
+module's own "never silently drop a discovered thing" discipline (see
+`test_unresolvable_menu3_is_preserved_not_dropped`). A live Windows run
+surfaced exactly this shape twice for the same menu3 code (likely two
+independently-orphaned DOM nodes, e.g. a desktop+mobile nav duplicate)
+and it was initially misreported as a *sampler* bug. It is not: this
+module's preservation is correct as an audit trail of what the DOM
+scan could not resolve. The actual fix belongs at the sampling
+boundary — see `klpga.discovery.sampler.reject_malformed_leaves`,
+which excludes any blank-menu1/menu2 leaf before it can ever become a
+live request.
+
 Collision handling: per explicit instruction, `menu3` is NOT assumed
 globally unique (a live Round 3 run found 31 collisions among 241
 unique menu3 codes). The canonical identity for one discovered leaf is

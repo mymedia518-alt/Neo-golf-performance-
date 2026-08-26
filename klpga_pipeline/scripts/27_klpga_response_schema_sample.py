@@ -61,8 +61,14 @@ from klpga.discovery.response_schema import (  # noqa: E402
     build_player_identity_report,
     classify_historical_availability,
 )
-from klpga.discovery.sampler import SampledLeaf, find_duplicate_identities, select_representative_sample  # noqa: E402
+from klpga.discovery.sampler import (  # noqa: E402
+    SampledLeaf,
+    find_duplicate_identities,
+    reject_malformed_leaves,
+    select_representative_sample,
+)
 from klpga.discovery.schema_report import (  # noqa: E402
+    build_request_outcome_counts,
     build_sample_record,
     render_neo_raw_input_candidates_markdown,
     render_player_identity_report_markdown,
@@ -128,8 +134,16 @@ def run(
     max_requests: int = DEFAULT_MAX_REQUESTS,
     historical_season: str | None = None,
 ) -> int:
-    sample = select_representative_sample(taxonomy, target_count=sample_size)
-    print(f"Selected {len(sample)} representative metrics from a taxonomy of {len(taxonomy.get('leaves', []))} leaves.")
+    raw_leaves = taxonomy.get("leaves", [])
+    valid_leaves, rejected_leaves = reject_malformed_leaves(raw_leaves)
+    if rejected_leaves:
+        print(
+            f"Rejected {len(rejected_leaves)} malformed taxonomy leaf(ies) before sampling "
+            f"(blank/missing menu1 or menu2 — never a requestable metric): "
+            f"{[d.get('source_metric_key', d) for d in rejected_leaves]}"
+        )
+    sample = select_representative_sample({**taxonomy, "leaves": valid_leaves}, target_count=sample_size)
+    print(f"Selected {len(sample)} representative metrics from a taxonomy of {len(raw_leaves)} leaves ({len(valid_leaves)} valid).")
 
     duplicates = find_duplicate_identities(sample)
     if duplicates:
@@ -139,6 +153,7 @@ def run(
     parsed_by_key = {}  # source_metric_key -> ParsedRecordResponse, kept for the historical comparison below
     log_entries = []
     request_count = 0
+    http_failure_count = 0
     blocked = False
 
     for leaf in sample:
@@ -153,9 +168,14 @@ def run(
             print("Not retrying, not bypassing — halting the run per instruction. Partial results below are still written.")
             blocked = True
             break
-        except Exception as exc:  # noqa: BLE001 — one bad response must not abort the whole sample run
-            print(f"FAILED to fetch/parse {leaf.source_metric_key}: {exc}")
+        except Exception as exc:  # noqa: BLE001 — an HTTP-layer failure must not abort the whole sample run.
+            # parse_record_response() never raises (it degrades to
+            # parse_status="FAILED" internally per its own docstring),
+            # so any exception reaching here is treated as an
+            # HTTP_FAILURE, not a parse failure — see Mission 7.
+            print(f"HTTP_FAILURE fetching {leaf.source_metric_key}: {exc}")
             request_count += 1
+            http_failure_count += 1
             continue
 
         record = build_sample_record(leaf, season=season, http_status=200, parsed=parsed, analysis=analysis)
@@ -198,8 +218,14 @@ def run(
         encoding="utf-8",
     )
     (out_dir / "KLPGA_RESPONSE_SCHEMA_SAMPLES.csv").write_text(write_samples_csv(records), encoding="utf-8")
+    outcome_counts = build_request_outcome_counts(records, http_failure_count=http_failure_count)
     (out_dir / "KLPGA_RESPONSE_SCHEMA_REPORT.md").write_text(
-        render_schema_report_markdown(records, request_count=request_count, historical_probe_records=historical_probe_records or None),
+        render_schema_report_markdown(
+            records,
+            request_count=request_count,
+            historical_probe_records=historical_probe_records or None,
+            outcome_counts=outcome_counts,
+        ),
         encoding="utf-8",
     )
     (out_dir / "KLPGA_RAW_FIELD_INVENTORY.md").write_text(render_raw_field_inventory_markdown(records), encoding="utf-8")
@@ -218,7 +244,12 @@ def run(
     print()
     print(f"Cross-metric playerCode identity consistency: {identity_overall}")
     print(f"Live requests made: {request_count}")
-    print(f"Metrics successfully sampled: {len(records)}")
+    print(
+        f"HTTP_SUCCESS: {outcome_counts['http_success']}  HTTP_FAILURE: {outcome_counts['http_failure']}  "
+        f"PARSE_SUCCESS: {outcome_counts['parse_success']}  PARSE_EMPTY: {outcome_counts['parse_empty']}  "
+        f"PARSE_AMBIGUOUS_OR_FAILED: {outcome_counts['parse_ambiguous_or_failed']}"
+    )
+    print(f"Metrics with real parsed data (PARSE_SUCCESS): {outcome_counts['parse_success']}")
     print(f"Output written to: {out_dir}")
 
     if blocked:
