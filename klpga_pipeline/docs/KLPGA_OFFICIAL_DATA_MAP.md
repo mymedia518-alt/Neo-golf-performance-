@@ -1588,6 +1588,224 @@ the public website. Phase B2 not started; no bulk canonical sweep
 performed — `scripts/28` only WRITES a plan file, it never fires any
 of the requests it lists.
 
+## Round 3, Phase B1 — the 272-malformed-node investigation
+
+**Status: 2026-08-26.** The real Windows run of `scripts/28_build_canonical_metric_request_plan.py`
+against the actual `KLPGA_RECORD_TAXONOMY_DISCOVERED.json` reported:
+
+```
+total DOM-discovered nodes:          283
+malformed leaves (blank identity):   272
+requestable menu2-level metrics:       1
+requestable menu3-level metrics:       4
+navigation/container nodes:            6
+exact duplicate DOM entries:           0
+CANONICAL requestable metric count:     5
+menu3 collisions (canonical set):       0
+```
+
+96.1% malformed is not acceptable as a validated plan — this section
+documents the investigation, the diagnostic tooling built, and why no
+speculative parser fix was applied.
+
+### A. Exact cause of the 272 malformed nodes — BEST-EVIDENCE HYPOTHESIS, NOT PROVEN
+
+This session still has no access to the real taxonomy JSON file
+itself (confirmed — `docs/discovery/` does not exist in this
+repo/session, as in every prior round). What WAS possible: a
+field-by-field code audit of every commit that ever touched the
+serializer (`taxonomy_report.to_taxonomy_json`) against every reader
+(`canonical_plan.py`, `sampler.py`), plus new round-trip regression
+tests (`tests/test_taxonomy_json_roundtrip.py`) that serialize a real
+DOM through this project's OWN current pipeline and confirm zero
+malformed leaves come out the other end. **Result: no serializer/reader
+field-name mismatch was found anywhere in this codebase's history** —
+see B/C/D below for the literal comparison.
+
+With a schema mismatch ruled out by direct code audit, the only
+evidence-consistent explanation left is: **the real DOM,at Phase-A-scrape
+time, genuinely produced 272 leaves via `inspect_menu_dom`'s Pass-1
+"unknown" fallback** — a `data-menu3` tag whose ancestor chain (a
+`<div>`/container carrying `data-menu1`/`data-menu2`) could not be
+found, so `menu1`/`menu2` were correctly left blank rather than
+guessed (per this module's own "never invent an identity" rule — see
+`test_unresolvable_menu3_is_preserved_not_dropped`). This is
+consistent with everything the numbers show:
+
+- The arithmetic is exact and leaves no room for a hidden third
+  category: 272 malformed + 6 navigation + 5 requestable = 283, with 0
+  duplicates — every single leaf is accounted for.
+- 6 navigation + 5 requestable = **11 leaves with a real, resolved
+  identity** — matching the ORIGINAL Phase A run's own reported "11
+  menu2 nodes" count almost exactly. This strongly suggests only
+  `own_attrs`-resolved leaves (identifiers all present directly on one
+  clickable tag) survived, while `ancestor_walk` resolution — which
+  requires a real containing DOM element carrying `data-menu1`/
+  `data-menu2` — failed for the overwhelming majority of the real
+  page's menu3-level tags.
+- `unique_menu3_count`/`collision_count`/`incomplete_menu1_count` in
+  the ORIGINAL Phase A summary are all computed independently of
+  whether a leaf's menu1/menu2 resolved (a menu3 CODE is counted
+  whether or not its identity resolved) — so a majority-blank dataset
+  could still report "241 unique codes, 31 collisions, 0 incomplete
+  categories" and read as a clean, "COMPLETE" run, exactly as happened.
+
+**This is a hypothesis about the real site's DOM structure, not a
+code bug this session can fix without guessing.** The user's
+individually-inspected DevTools captures (SG Total, Approach GIR,
+Tee distance buckets — all confirmed elsewhere in this project) happen
+to be exactly the kind of element where `own_attrs` resolution
+succeeds; the BULK of the real page's menu tree, at scale, apparently
+uses a different structure this project has never had full real HTML
+for. Confirming this precisely (and only then safely patching
+`inspect_menu_dom`'s ancestor-walk) requires the real page HTML or at
+minimum a sample of the real malformed rows — see the new
+`KLPGA_MALFORMED_LEAF_REPORT.csv` below.
+
+### B. Taxonomy JSON schema actually found: UNKNOWN (file not available this session)
+
+### C. Schema expected by canonical_plan.py before this round's fix
+
+`menu1`, `menu1_label`, `menu2`, `menu2_label`, `menu3`, `menu3_label`,
+`leaf_level`, `source_metric_key`, `label_resolution_method`,
+`is_menu3_collision`, optionally `node_type` — exactly what
+`taxonomy_report.to_taxonomy_json` has written since the Round 3 patch
+(commit `1a54320`) onward, confirmed by direct git-history diff against
+every version of that function this project has ever shipped.
+
+### D. Exact mismatch: NONE FOUND in this codebase's history
+
+Diffed `to_taxonomy_json` across commits `6647684` (original,
+pre-patch — no `leaf_level` key at all), `1a54320` (the patch that
+introduced 2-level/3-level leaves and `leaf_level`), and current HEAD
+(adds `node_type`, additive only). `canonical_plan.py`'s readers
+(`_is_malformed`, `_node_type`, `_identity_key_tuple`, `_label`) match
+the POST-patch schema exactly, field for field. If the real file were
+still in the ORIGINAL pre-patch shape (no `leaf_level` at all), that
+alone would NOT explain 272 malformed leaves — `_is_malformed` never
+inspects `leaf_level`, only `menu1`/`menu2`. New diagnostic
+(`classify_malformation_reason`) explicitly distinguishes this
+possibility (`"legacy_taxonomy_format_missing_leaf_level"`) from the
+Pass-1-unknown-fallback signature (`"missing_menu1_and_menu2"`) so the
+real report (once generated) settles this directly rather than by
+further inference.
+
+### E/F. Nodes recovered / still malformed
+
+**Not applicable this session — no code change was made to
+`inspect_menu_dom`, `taxonomy_report.py`, or `canonical_plan.py`'s
+rejection logic.** Per instruction ("fix only the confirmed root
+cause… do not fabricate menu values… do not reconstruct identities
+from labels"), no speculative fix was applied without the real
+evidence to validate it against. What WAS built is entirely diagnostic
+and safety-guard tooling — see Missions 2/6/7 below.
+
+### Mission 2 — malformed diagnostic report
+
+New `canonical_plan.classify_malformation_reason()` (categories:
+`missing_menu1_and_menu2`, `missing_menu1`, `missing_menu2`,
+`missing_menu3_when_required`, `legacy_taxonomy_format_missing_leaf_level`,
+`unrecognized_fields:<...>`, `other`) and `build_malformed_leaf_report()` /
+`to_malformed_leaf_report_csv()`, wired into `scripts/28` to always
+write `docs/discovery/KLPGA_MALFORMED_LEAF_REPORT.csv` (original_index,
+raw_menu1/2/3, leaf_level, label, node_type, identity_key,
+rejection_reason per row) — even when the sanity check below fails, so
+the real data is on disk to actually settle A/B/D above.
+
+### Mission 3 — schema contract verified via round-trip tests
+
+New `tests/test_taxonomy_json_roundtrip.py`: DOM → `MenuLeaf` →
+`to_taxonomy_json` → `json.loads` → `select_representative_sample` /
+`build_canonical_plan`, for both a menu2-level identity (`Sg::Total`)
+and a menu3-level identity (`Tee::Tee01::010101`) — confirms the
+identity tuple survives the full round-trip unchanged, and that this
+project's own current pipeline produces ZERO malformed leaves from
+clean, resolvable evidence (isolating the 272-node problem to the real
+site's DOM shape, not this codebase).
+
+### Mission 4 — 241 unique codes / 31 collisions vs 5 canonical / 0 collisions: explained, not contradicted
+
+Fully consistent, not a contradiction: the OLD stats
+(`unique_menu3_count`/`collision_count` in the Phase A taxonomy JSON)
+are computed over EVERY menu3-level leaf's CODE, regardless of whether
+its menu1/menu2 identity resolved. The NEW canonical-plan collision
+count is computed only over the 4 SURVIVING (non-malformed,
+non-navigation) menu3-level leaves — with only 4 candidates, there is
+essentially no room for a collision to appear (need 2+ surviving
+leaves sharing a code). The old evidence is not declared invalid —
+the 241/31 figures remain real, accurate facts about the raw DOM scan;
+they simply describe a different (larger, identity-unresolved)
+population than the canonical (identity-resolved) one.
+
+### Mission 5 — no fix applied without confirmed root cause
+
+Per instruction, `menu_taxonomy.py`'s ancestor-walk was NOT modified —
+doing so without the real page HTML would mean guessing at a DOM
+structure this session has never seen in full, risking exactly the
+"reconstruct identities from labels" / "fabricate menu values" outcome
+the instructions explicitly forbid. `All::*` → `NAVIGATION_CONTAINER`
+remains unchanged and confirmed (Mission 8).
+
+### Mission 6 — canonical plan now includes per-family counts
+
+`scripts/28` now prints total DOM-discovered nodes, valid identity
+nodes, malformed nodes, requestable menu2/menu3 counts, navigation
+count, exact duplicates, canonical count, collisions, AND a per-family
+breakdown (Sg/Tee/Approach/Around/Putt/other — grouped strictly by
+each leaf's own `menu1`, so an `All::Sg` navigation entry counts under
+"other," not "Sg," since its real menu1 is "All").
+
+### Mission 7 — sanity invariants added
+
+New `canonical_plan.check_sanity_invariants()`: fails when
+`malformed_ratio > 10%` OR the canonical count is `>80%` smaller than
+the valid-identity leaf count. `scripts/28` now returns a distinct
+`EXIT_SANITY_CHECK_FAILED` (6) and prints `SANITY CHECK FAILED` with
+the specific violation(s) whenever either trips — **the exact
+272/283 result from this round is regression-tested to fail this
+check** (`test_run_returns_sanity_check_failed_on_the_windows_shaped_result`).
+Both output files are still written on failure (the data is real and
+worth having on disk), but the exit code and console output make clear
+this is NOT a trustworthy, ready-to-use canonical plan.
+
+### Mission 8 — confirmed fixes verified unregressed
+
+Re-checked directly this round (not merely re-run via the suite):
+`All::*` → `NAVIGATION_CONTAINER` classification, the dynamic-header
+(`var record/record1/.../record4`) parser fix (still produces
+`PERCENTAGE_COUNT_COUNT_ROUNDS` with both playerCodes intact), raw-count-pair
+detection, and measured-round detection — all unchanged, all still
+passing their existing tests.
+
+### Files changed
+
+`src/klpga/discovery/canonical_plan.py` (`classify_malformation_reason`,
+`build_malformed_leaf_report`, `to_malformed_leaf_report_csv`,
+`group_counts_by_family`, `check_sanity_invariants`),
+`scripts/28_build_canonical_metric_request_plan.py` (malformed-report
+writing, per-family printing, sanity-check exit code), new
+`tests/test_taxonomy_json_roundtrip.py`, updates to
+`tests/test_canonical_plan.py` and
+`tests/test_build_canonical_metric_request_plan_script.py`. No change
+to `menu_taxonomy.py`, `response_parser.py`, `sampler.py`'s rejection
+logic, or `taxonomy_report.py` this round.
+
+### Tests / safety
+
+526/526 tests passing. No change to Prediction #001, `predictions/`,
+model/inference/probability logic, the production DB, the archive, or
+the public website. No live requests made; Phase B1/B2 not started.
+
+### Next step
+
+Push (or paste key rows from) `docs/discovery/KLPGA_MALFORMED_LEAF_REPORT.csv`
+from the real Windows run — its `rejection_reason` column directly
+answers whether A's hypothesis (Pass-1 ancestor-resolution failure,
+`missing_menu1_and_menu2`) is correct, or whether something else
+(`legacy_taxonomy_format_missing_leaf_level` / `unrecognized_fields:...`)
+is actually going on. That is the evidence needed before any parser
+fix can be made safely.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
