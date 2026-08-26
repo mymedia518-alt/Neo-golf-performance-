@@ -2685,30 +2685,96 @@ probability logic, the production DB, the archive, or the public
 website. Phase B1 not rerun. Phase B2 not started, and remains
 unauthorized.
 
-### E. What's still open (not fixed this round, flagged not hidden)
+## Round 9 — Sg-family player_name row-extraction fix (real row markup evidence)
 
-The `missing_player_name: 223` row-extraction gap for Sg-family
-responses is unresolved — this round's evidence covered only the
-`<script>` header block, not real `<tbody>`/`<tr>` row markup. If the
-bounded B1 rerun below still shows `Sg::*` rows missing player names,
-that specific gap needs its own real row-markup evidence before a
-fix can be attempted (same discipline as every other fix this
-project has made — no guessing the attribute convention).
+### A. Context
 
-### F. Windows command — bounded B1 rerun (unchanged canonical plan, no regeneration needed)
+Following Round 8's CSV fix and a Windows sync to `2454d78`, a fresh
+bounded 20-request B1 rerun confirmed the Round 7 `menu_switch_vars`
+header fix works end-to-end against a live response:
+`HTTP_SUCCESS=20/20, PARSE_SUCCESS=18, PARSE_EMPTY=2,
+PARSE_AMBIGUOUS_OR_FAILED=0`, and `Sg::Around` specifically reached
+`parse_status=DISCOVERED_NOT_VALIDATED` with `schema_fingerprint=
+SG_ROUNDS` and 223 real rows — the exact CLASS 1 defect Round 7 fixed.
+That same rerun's `data_quality_flags` for the Sg-family entries,
+read from `KLPGA_RESPONSE_SCHEMA_SAMPLES.json`, showed
+`player_row_count=231, missing_player_code=0, missing_player_name=
+231` — the row-level gap Round 7 had explicitly flagged as open and
+deferred (real `<tbody>`/`<tr>` row markup for the Sg family had never
+been captured).
 
-```
-git pull
+### B. Root cause
 
-python scripts\27_klpga_response_schema_sample.py --canonical-plan docs\discovery\KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json --season 2025
-```
+The user extracted and pasted the first real `<tr>` elements from the
+actual saved response (`docs\discovery\raw_samples\Sg__Around__2025
+.html`) via a targeted PowerShell regex. This proved the Sg family's
+real rows are NOT the `<tr data-playercode="..." data-name="...">`
+shape this project had been assuming (proven correct only for the
+sibling `roundLeaderboard` endpoint and for other, non-Sg,
+`loadLocationRecord` fixtures) — there is no name/code attribute on
+the `<tr>` at all. The real shape is semantic table markup: a
+`<td class="td-like">` holding a favorite-toggle `<input
+_favoritPlayerCode="9134">`, a rank `<td>`, a country-flag `<td>`, and
+critically a `<td class="text-start player_name"><a href="/web/
+profile/mainRecord?playerCode=9134">Name</a></td>` cell. `player_code`
+was already being found (`missing_player_code=0`) purely by luck: the
+existing `_extract_player_code_from_href` fallback already searches
+every `<a>` in the row for a `playerCode=` query parameter, and that
+anchor happens to live inside this same cell. Nothing in
+`_extract_rows` read a name from anywhere except a `data-name`/
+`data-playername` attribute, so `player_name` came back `None` for
+every one of the 231 rows.
 
-Paste back: the same `KLPGA_RESPONSE_SCHEMA_SAMPLES.json`-derived
-non-success listing as before (parse_status distribution + the
-`Sg::Approach`/`Sg::Around` entries' `parse_status`/`schema_
-fingerprint`/`column_labels`/`data_quality_flags`), so the fix can be
-verified against a fresh live response rather than the previously
-saved one. Still not Phase B2.
+### C. The fix (`src/klpga/discovery/response_parser.py`)
+
+New `_extract_player_name_from_cell(tr)`: finds the row's
+`class="player_name"` cell (matches `class="text-start player_name"`
+regardless of its other classes), reads the text of its nested `<a>`
+if present, else the cell's own text. Wired into `_extract_rows` as a
+fallback used ONLY when no `data-name`/`data-playername` attribute is
+present, so the already-working data-attribute convention (confirmed
+for other real evidence, e.g. `loadLocationRecord_approach_020104_
+sample.html`) is unaffected and still takes precedence. Purely
+additive — no existing extraction path was removed or reordered.
+
+**Still open, not addressed this round:** whether the `record`/
+`record1`... VALUE cells (the actual SG numeric stats, as opposed to
+player identity) are being extracted correctly for this same real row
+shape is unconfirmed. The existing `values[field_name] = _attr(tr,
+f"data-{field_name}")` reads attributes directly on the `<tr>`, and
+this round's real evidence shows the `<tr>` carries none — so those
+values may also currently be silently `None` for the Sg family. This
+was NOT investigated or fixed this round (out of the explicitly
+requested scope: player-name extraction only) and is not caught by
+any current `DataQualityFlags` check (a `None` value is skipped, not
+counted as `blank_values`). Recommend checking the full
+`data_quality_flags` object — and the actual `record`/`record1`...
+values, not just their presence/absence — for the Sg entries in the
+next rerun before treating this data as analytics-ready.
+
+### D. Tests
+
+Updated `tests/fixtures/loadLocationRecord_sg_menu_switch_sample.html`
+(the Round 7 fixture) with the real row shape — header row and player
+identity cells verbatim from this round's pasted evidence; the exact
+`<a href=...>` query string and visible name text were cut off in the
+capture, so they reuse the separately-already-confirmed `/web/profile/
+mainRecord?playerCode=<code>` href convention with the real
+`_favoritPlayerCode` values (9134, 8770) seen in evidence — flagged
+in the fixture's own comment as not independently confirmed for that
+specific span. Updated `tests/test_menu_switch_metadata.py`'s row
+assertions to match (player_code now resolved via href fallback,
+`values["record"]` correctly `None` since no such attribute exists on
+this real shape). Added three new unit tests to `tests/
+test_record_response_parser.py`: name resolved from `td.player_name >
+a` when no data-attribute exists, data-attribute still takes
+precedence when both are present, and cell-text fallback when no `<a>`
+is nested.
+
+**600/600 tests passing** (597 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. Phase B2 not started, and remains unauthorized.
 
 ---
 
