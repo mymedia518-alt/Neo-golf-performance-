@@ -293,3 +293,53 @@ def test_match_details_record_the_specific_response_column_and_method(tmp_path):
     assert details[0].taxonomy_label == "1퍼트 성공률"
     assert details[0].response_column == "성공률(%)"
     assert details[0].method == "substring"
+
+
+def test_real_putt02_evidence_internal_whitespace_difference_now_matches(tmp_path):
+    """Real evidence for Putt::Putt02::040201: the taxonomy label
+    "평균 퍼트수" (no internal space) and the response column
+    "평균 퍼트 수" (with an internal space before "수") are the SAME
+    label written with inconsistent Korean compound-noun spacing —
+    previously classified D_UNRESOLVED because the old normalizer only
+    collapsed repeated whitespace, never removed it. Must now resolve
+    as an exact match once all whitespace is stripped."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Putt", "Putt02", "040201", "menu3", "평균 퍼트수"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "평균 퍼트 수"])
+    (tmp_path / "Putt__Putt02__040201__2025.html").write_text(html, encoding="utf-8")
+
+    # A single-label "group" isn't a collision by itself; pair it with
+    # an unrelated second label so the identity still qualifies as a
+    # collision group and we can observe the specific label's outcome.
+    taxonomy["leaves"].append(_leaf("Putt", "Putt02", "040201", "menu3", "완전히 무관한 라벨"))
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert "평균 퍼트수" in a.matched_labels
+    detail = next(d for d in a.match_details if d.taxonomy_label == "평균 퍼트수")
+    assert detail.response_column == "평균 퍼트 수"
+    assert detail.method == "exact"
+
+
+def test_whitespace_normalization_does_not_merge_different_meaning_words(tmp_path):
+    """The same fix must NOT resolve Tee::Tee01::010101's real
+    "Par4,5 티샷 비율" (rate) vs "Par4,5 티샷 횟수" (count) case — they
+    differ by an actual character (비율 vs 횟수), not by whitespace, so
+    removing whitespace must leave them exactly as unrelated as
+    before."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee01", "010101", "menu3", "Par4,5 티샷 비율"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "평균 티샷 거리(yds)", "Par4,5 티샷 횟수"])
+    (tmp_path / "Tee__Tee01__010101__2025.html").write_text(html, encoding="utf-8")
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    assert audits[0].unmatched_labels == ["Par4,5 티샷 비율"]
