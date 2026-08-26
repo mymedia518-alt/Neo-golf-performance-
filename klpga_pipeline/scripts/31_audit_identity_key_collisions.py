@@ -32,6 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.discovery.canonical_plan import build_canonical_plan  # noqa: E402
 from klpga.discovery.identity_key_audit import (  # noqa: E402
+    CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED,
     CATEGORY_CONTAINER_CHILD,
     CATEGORY_EMPTY_SHARED_RESPONSE,
     CATEGORY_EXACT_DUPLICATE,
@@ -51,6 +52,7 @@ EXIT_TAXONOMY_LOAD_FAILED = 5
 _CATEGORY_PRINT_ORDER = [
     CATEGORY_MULTI_METRIC_CONFIRMED,
     CATEGORY_CONTAINER_CHILD,
+    CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED,
     CATEGORY_EMPTY_SHARED_RESPONSE,
     CATEGORY_EXACT_DUPLICATE,
     CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW,

@@ -216,3 +216,24 @@ def test_main_reads_real_taxonomy_file_end_to_end(module, tmp_path):
     finally:
         sys.argv = argv_backup
     assert rc == module.EXIT_GATE_CLEAN  # no collisions at all -> trivially clean
+
+
+def test_real_taxonomy_and_evidence_gate_report_reflects_compound_title_fix(module, capsys):
+    """Integration pin against the REAL, committed
+    docs/discovery/KLPGA_RECORD_TAXONOMY_DISCOVERED.json and
+    docs/discovery/raw_samples/ — confirms the new category is wired
+    into this script's own printed classification counts and that
+    exactly the one genuinely-unexplained group (Around::Around01::
+    030101) remains in the gate's NOT CLEAN list."""
+    root = Path(__file__).resolve().parents[1]
+    taxonomy_path = root / "docs" / "discovery" / "KLPGA_RECORD_TAXONOMY_DISCOVERED.json"
+    raw_samples_dir = root / "docs" / "discovery" / "raw_samples"
+    taxonomy = json.loads(taxonomy_path.read_text(encoding="utf-8"))
+
+    rc = module.run(taxonomy, "2025", raw_samples_dir)
+    out = capsys.readouterr().out
+
+    assert "E_COMPOUND_MENU_TITLE_SPLIT_CONFIRMED: 14" in out
+    assert "TOTAL_UNRESOLVED = 1" in out
+    assert "Around::Around01::030101" in out
+    assert rc == module.EXIT_GATE_NOT_CLEAN
