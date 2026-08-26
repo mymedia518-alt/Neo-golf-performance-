@@ -4,7 +4,12 @@ live Windows run's output was never pushed here), so these use small,
 representative synthetic taxonomies covering multiple families."""
 from __future__ import annotations
 
-from klpga.discovery.sampler import find_duplicate_identities, reject_malformed_leaves, select_representative_sample
+from klpga.discovery.sampler import (
+    find_duplicate_identities,
+    reject_malformed_leaves,
+    reject_navigation_container_leaves,
+    select_representative_sample,
+)
 
 
 def _leaf(menu1, menu1_label, menu2, menu2_label, menu3, menu3_label, leaf_level):
@@ -196,3 +201,81 @@ def test_confirmed_stat_families_are_prioritized_over_all_navigation_family():
     families = {leaf.menu1 for leaf in sample}
     assert "All" not in families
     assert families == {"Sg", "Tee"}
+
+
+# ---------------------------------------------------------------
+# Phase B1 CLASS 2 Mission 4 — navigation/container nodes must NEVER
+# be selected at all (not merely deprioritized). Real evidence: a live
+# menu1="All" request (menu2="Sg") returned HTTP 200, 0 rows, and a
+# body containing the FULL navigation menu tree itself
+# (data-menu1/menu2/menu3 spanning every family) — a container page,
+# not player data. This taxonomy mirrors the exact real evidence: five
+# All::* entries (Sg/Tee/Approach/Around/Putt, as explicitly named in
+# the mission) alongside real requestable leaves for the same families.
+# ---------------------------------------------------------------
+
+
+def _real_evidence_taxonomy_with_all_navigation_nodes() -> dict:
+    leaves = [
+        _leaf("All", "전체기록보기", "Sg", "SG 전체", None, None, "menu2"),
+        _leaf("All", "전체기록보기", "Tee", "티샷 전체", None, None, "menu2"),
+        _leaf("All", "전체기록보기", "Approach", "어프로치 전체", None, None, "menu2"),
+        _leaf("All", "전체기록보기", "Around", "어라운드 전체", None, None, "menu2"),
+        _leaf("All", "전체기록보기", "Putt", "퍼팅 전체", None, None, "menu2"),
+        _leaf("Sg", "SG", "Total", "SG : 전체", None, None, "menu2"),
+        _leaf("Sg", "SG", "TeeToGreen", "SG : 티투그린", None, None, "menu2"),
+        _leaf("Tee", "티샷", "Tee01", "Par4,5 티샷 비율", "010101", "평균 티샷 거리", "menu3"),
+        _leaf("Tee", "티샷", "Tee01", "Par4,5 티샷 비율", "010102", "280야드 이상(RTP)", "menu3"),
+        _leaf("Tee", "티샷", "Tee01", "Par4,5 티샷 비율", "010103", "260~280야드 미만(RTP)", "menu3"),
+        _leaf("Approach", "어프로치", "Approach01", "그린 적중률", "020104", "160~180야드 미만(RTP)", "menu3"),
+        _leaf("Around", "어라운드그린", "Around01", "어프로치 샷", "030101", "그린 주변 샷", "menu3"),
+        _leaf("Putt", "퍼팅", "Putt01", "1퍼트", "040101", "1퍼트 성공률", "menu3"),
+    ]
+    for leaf_dict in leaves:
+        leaf_dict["node_type"] = "NAVIGATION_CONTAINER" if leaf_dict["menu1"] == "All" else "REQUESTABLE_METRIC_LEAF"
+    return {"source_url": "https://example.test/record", "leaves": leaves}
+
+
+def test_reject_navigation_container_leaves_by_node_type():
+    taxonomy = _real_evidence_taxonomy_with_all_navigation_nodes()
+    valid, rejected = reject_navigation_container_leaves(taxonomy["leaves"])
+    assert len(rejected) == 5
+    assert all(d["menu1"] == "All" for d in rejected)
+    assert all(d["menu1"] != "All" for d in valid)
+
+
+def test_reject_navigation_container_leaves_falls_back_to_menu1_when_node_type_missing():
+    """An older taxonomy JSON produced before node_type existed must
+    still get "All" rejected, via the confirmed-menu1-value fallback."""
+    leaves = [
+        {"menu1": "All", "menu2": "Sg", "menu3": None, "leaf_level": "menu2", "source_metric_key": "All::Sg"},
+        {"menu1": "Sg", "menu2": "Total", "menu3": None, "leaf_level": "menu2", "source_metric_key": "Sg::Total"},
+    ]
+    valid, rejected = reject_navigation_container_leaves(leaves)
+    assert len(rejected) == 1
+    assert rejected[0]["menu1"] == "All"
+    assert len(valid) == 1
+
+
+def test_representative_sample_never_contains_any_all_navigation_leaf():
+    taxonomy = _real_evidence_taxonomy_with_all_navigation_nodes()
+    sample = select_representative_sample(taxonomy, target_count=20)
+    assert all(leaf.menu1 != "All" for leaf in sample)
+
+
+def test_representative_sample_still_covers_the_five_confirmed_families():
+    """The fix must not throw out the real data along with the
+    navigation nodes — Sg/Tee/Approach/Around/Putt must all still be
+    representable."""
+    taxonomy = _real_evidence_taxonomy_with_all_navigation_nodes()
+    sample = select_representative_sample(taxonomy, target_count=20)
+    families = {leaf.menu1 for leaf in sample}
+    assert families == {"Sg", "Tee", "Approach", "Around", "Putt"}
+
+
+def test_navigation_containers_dont_count_toward_duplicate_identity_warning():
+    """Rejected before sampling entirely — they must never surface as
+    a find_duplicate_identities false positive either."""
+    taxonomy = _real_evidence_taxonomy_with_all_navigation_nodes()
+    sample = select_representative_sample(taxonomy, target_count=20)
+    assert find_duplicate_identities(sample) == []

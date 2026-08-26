@@ -76,6 +76,45 @@ def reject_malformed_leaves(raw_leaves: list[dict]) -> tuple[list[dict], list[di
     return valid, rejected
 
 
+_CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES = frozenset({"All"})
+"""Kept in sync with klpga.discovery.menu_taxonomy's
+CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES — duplicated as a plain
+frozenset (not imported) so the sampler has zero dependency on the
+menu_taxonomy module's DOM-scraping machinery, matching this module's
+existing "operates on the already-produced taxonomy dict, nothing
+more" scope. See that module's docstring for the real evidence: a
+menu1="All" request returned 0 rows and a body containing the entire
+navigation menu tree itself (data-menu1/menu2/menu3 spanning every
+confirmed family) — a container/navigation page, never a requestable
+metric, regardless of which menu2 follows it."""
+
+
+def _is_navigation_container_leaf_dict(d: dict) -> bool:
+    """True if `node_type` explicitly says NAVIGATION_CONTAINER (a
+    taxonomy JSON produced by the current menu_taxonomy.py), OR — for
+    an older taxonomy JSON produced before node_type existed — if
+    menu1 is one of the specifically-evidenced navigation values.
+    Never a broader name-pattern guess."""
+    node_type = d.get("node_type")
+    if node_type is not None:
+        return node_type == "NAVIGATION_CONTAINER"
+    return d.get("menu1") in _CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES
+
+
+def reject_navigation_container_leaves(raw_leaves: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Splits taxonomy["leaves"] into (valid, rejected) by node_type,
+    BEFORE any sampling happens — parallel to `reject_malformed_leaves`
+    but a distinct rejection category, never silently merged with it:
+    a malformed leaf has no usable identity at all, while a navigation
+    container has a perfectly valid identity that simply does not
+    point at player data. Confirmed real evidence: `All::Sg` returned
+    HTTP 200, 0 rows, and a body containing the full navigation menu
+    tree — see menu_taxonomy.py's CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES."""
+    valid = [d for d in raw_leaves if not _is_navigation_container_leaf_dict(d)]
+    rejected = [d for d in raw_leaves if _is_navigation_container_leaf_dict(d)]
+    return valid, rejected
+
+
 _PRIORITY_FAMILIES = ["Sg", "Tee", "Approach", "Around", "Putt"]
 """Round-robin family priority order — the five confirmed real stat
 families this project has directly reported evidence for (see
@@ -123,13 +162,16 @@ def select_representative_sample(
     the input list's own order is not relied upon.
 
     Malformed leaves (blank/missing menu1 or menu2 — see
-    `reject_malformed_leaves`) are defensively excluded here too, even
-    though the caller is expected to have already called
-    `reject_malformed_leaves` for its own reporting — belt-and-suspenders,
-    since a malformed leaf must never reach a live request regardless
-    of whether the caller remembered the separate reporting step.
+    `reject_malformed_leaves`) and navigation/container nodes (e.g. any
+    menu1="All" entry — see `reject_navigation_container_leaves`) are
+    defensively excluded here too, even though the caller is expected
+    to have already called both rejection functions for its own
+    reporting — belt-and-suspenders, since neither may ever reach a
+    live request regardless of whether the caller remembered the
+    separate reporting step.
     """
-    valid_leaf_dicts, _rejected = reject_malformed_leaves(taxonomy.get("leaves", []))
+    valid_leaf_dicts, _rejected_malformed = reject_malformed_leaves(taxonomy.get("leaves", []))
+    valid_leaf_dicts, _rejected_navigation = reject_navigation_container_leaves(valid_leaf_dicts)
     leaves = [_leaf_from_dict(d) for d in valid_leaf_dicts]
 
     by_family: dict[str, list[SampledLeaf]] = {}

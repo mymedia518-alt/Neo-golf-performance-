@@ -12,6 +12,8 @@ from pathlib import Path
 from klpga.discovery.menu_taxonomy import (
     LEAF_LEVEL_MENU2,
     LEAF_LEVEL_MENU3,
+    NODE_TYPE_NAVIGATION_CONTAINER,
+    NODE_TYPE_REQUESTABLE_METRIC_LEAF,
     build_source_metric_key,
     inspect_menu_dom,
 )
@@ -267,3 +269,59 @@ def test_empty_dom_yields_empty_result_not_an_error():
     assert result.leaves == []
     assert result.menu1_count == 0
     assert result.is_fully_static is False
+
+
+# ---------------------------------------------------------------
+# Phase B1 CLASS 2 — node_type classification (REQUESTABLE_METRIC_LEAF
+# vs NAVIGATION_CONTAINER), added after direct live-response evidence
+# (docs/discovery/raw_samples/All__Sg__2025.html — a menu1="All"
+# request returned 0 rows and a body containing the full navigation
+# menu tree itself). This HTML mirrors the exact real evidence quoted:
+# data-menu1="Sg" data-menu2="Total"/"TeeToGreen", data-menu1="Tee"
+# data-menu2="Tee01" data-menu3="010101"/"010102"/"010103", plus an
+# "All" entry — the confirmed navigation/container case.
+# ---------------------------------------------------------------
+
+
+def _real_evidence_shaped_dom() -> str:
+    return """
+    <div data-menu1="All"><a data-menu1="All" data-menu2="Sg">전체기록보기</a></div>
+    <div data-menu1="Sg">
+      <a data-menu1="Sg" data-menu2="Total">SG : 전체</a>
+      <a data-menu1="Sg" data-menu2="TeeToGreen">SG : 티투그린</a>
+    </div>
+    <div data-menu1="Tee" data-menu2="Tee01">
+      <a data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</a>
+      <a data-menu1="Tee" data-menu2="Tee01" data-menu3="010102">280야드 이상(RTP)</a>
+      <a data-menu1="Tee" data-menu2="Tee01" data-menu3="010103">260~280야드 미만(RTP)</a>
+    </div>
+    """
+
+
+def test_all_family_leaf_classified_as_navigation_container():
+    result = inspect_menu_dom(_real_evidence_shaped_dom())
+    all_leaf = next(leaf for leaf in result.leaves if leaf.menu1 == "All")
+    assert all_leaf.node_type == NODE_TYPE_NAVIGATION_CONTAINER
+
+
+def test_confirmed_stat_families_classified_as_requestable():
+    """Sg/Tee — the families with direct real-value evidence elsewhere
+    in this project — must NOT be swept into NAVIGATION_CONTAINER by
+    this new classification; only the specifically-evidenced "All"
+    value is affected."""
+    result = inspect_menu_dom(_real_evidence_shaped_dom())
+    non_all_leaves = [leaf for leaf in result.leaves if leaf.menu1 != "All"]
+    assert non_all_leaves  # sanity: the fixture actually has some
+    assert all(leaf.node_type == NODE_TYPE_REQUESTABLE_METRIC_LEAF for leaf in non_all_leaves)
+
+
+def test_requestable_leaves_property_excludes_all_family():
+    result = inspect_menu_dom(_real_evidence_shaped_dom())
+    assert all(leaf.menu1 != "All" for leaf in result.requestable_leaves)
+    assert len(result.requestable_leaves) == len(result.leaves) - 1
+
+
+def test_navigation_container_leaves_property_contains_only_all_family():
+    result = inspect_menu_dom(_real_evidence_shaped_dom())
+    assert len(result.navigation_container_leaves) == 1
+    assert result.navigation_container_leaves[0].menu1 == "All"

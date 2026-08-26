@@ -14,7 +14,7 @@ import io
 import json
 from dataclasses import dataclass
 
-from klpga.discovery.menu_taxonomy import DomInspectionResult
+from klpga.discovery.menu_taxonomy import NODE_TYPE_REQUESTABLE_METRIC_LEAF, DomInspectionResult
 
 
 @dataclass
@@ -25,14 +25,16 @@ class TaxonomyCounts:
     count, not the same as menu2_level_leaf_count below."""
     menu2_level_leaf_count: int
     """Metric leaves that terminate at menu2 (no menu3) — e.g. the
-    confirmed SG Total case."""
+    confirmed SG Total case. Includes NAVIGATION_CONTAINER leaves (see
+    requestable_menu2_leaf_count below for the filtered count)."""
     menu3_level_leaf_count: int
     """Metric leaves that terminate at menu3. This is the OLD-style
     "menu3 combinations found" count from the original Round 3
     implementation, unchanged in meaning."""
     total_leaf_count: int
     """menu2_level_leaf_count + menu3_level_leaf_count — the NEW
-    complete metric-leaf count."""
+    complete metric-leaf count, at BOTH node types (still includes
+    NAVIGATION_CONTAINER leaves)."""
     unique_menu3_count: int
     """Distinct menu3 codes alone, among menu3-level leaves only."""
     collision_count: int
@@ -42,6 +44,14 @@ class TaxonomyCounts:
     """menu1 categories with NEITHER a resolved menu2-level NOR a
     resolved menu3-level leaf — candidates needing further live
     investigation."""
+    requestable_menu2_leaf_count: int
+    """menu2-level leaves with node_type=REQUESTABLE_METRIC_LEAF only —
+    see MenuLeaf.node_type / CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES."""
+    requestable_menu3_leaf_count: int
+    """menu3-level leaves with node_type=REQUESTABLE_METRIC_LEAF only."""
+    navigation_container_count: int
+    """Total leaves (any level) classified NAVIGATION_CONTAINER — e.g.
+    every menu1="All" entry. These never enter a live request plan."""
 
 
 def compute_counts(dom_result: DomInspectionResult) -> TaxonomyCounts:
@@ -56,6 +66,9 @@ def compute_counts(dom_result: DomInspectionResult) -> TaxonomyCounts:
         unique_menu3_count=len(dom_result.unique_menu3_values),
         collision_count=len(dom_result.collisions),
         incomplete_menu1_count=len(dom_result.incomplete_menu1_categories),
+        requestable_menu2_leaf_count=sum(1 for leaf in dom_result.menu2_level_leaves if leaf.node_type == NODE_TYPE_REQUESTABLE_METRIC_LEAF),
+        requestable_menu3_leaf_count=sum(1 for leaf in dom_result.menu3_level_leaves if leaf.node_type == NODE_TYPE_REQUESTABLE_METRIC_LEAF),
+        navigation_container_count=len(dom_result.navigation_container_leaves),
     )
 
 
@@ -80,6 +93,9 @@ def to_taxonomy_json(
         "unique_menu3_count": counts.unique_menu3_count,
         "collision_count": counts.collision_count,
         "incomplete_menu1_count": counts.incomplete_menu1_count,
+        "requestable_menu2_leaf_count": counts.requestable_menu2_leaf_count,
+        "requestable_menu3_leaf_count": counts.requestable_menu3_leaf_count,
+        "navigation_container_count": counts.navigation_container_count,
         "incomplete_menu1_categories": [
             {"menu1": c.menu1, "menu1_label": c.menu1_label}
             for c in dom_result.incomplete_menu1_categories
@@ -96,6 +112,7 @@ def to_taxonomy_json(
                 "source_metric_key": leaf.source_metric_key,
                 "label_resolution_method": leaf.label_resolution_method,
                 "is_menu3_collision": leaf.menu3 in collisions if leaf.menu3 is not None else False,
+                "node_type": leaf.node_type,
             }
             for leaf in dom_result.leaves
         ],
@@ -119,6 +136,7 @@ def to_taxonomy_csv(dom_result: DomInspectionResult) -> str:
             "source_metric_key",
             "label_resolution_method",
             "is_menu3_collision",
+            "node_type",
         ]
     )
     for leaf in dom_result.leaves:
@@ -134,6 +152,7 @@ def to_taxonomy_csv(dom_result: DomInspectionResult) -> str:
                 leaf.source_metric_key,
                 leaf.label_resolution_method,
                 (leaf.menu3 in collisions) if leaf.menu3 is not None else False,
+                leaf.node_type,
             ]
         )
     return buf.getvalue()
