@@ -3317,6 +3317,64 @@ genuinely absent" — the ONLY category that could justify a bounded,
 separately-authorized additional live request, per instruction. Not
 executing B2.
 
+## Round 10 (continued) — native diagnostic output in the audit script
+
+The matcher fix took the real audit from 29 to 22 unresolved groups
+(7 `PARTIAL_MATCH_NEEDS_REVIEW`, 1 `D_UNRESOLVED`, 14 `INSUFFICIENT_
+EVIDENCE`). A PowerShell attempt to extract just those 8
+evidence-backed groups from the script's existing free-form log lines
+returned no matches, so rather than iterate on ad-hoc text extraction
+against output not designed for it, `scripts/31_audit_identity_key_
+collisions.py` now prints the diagnostic directly, in a fixed,
+parseable structure, built entirely from evidence the audit already
+loaded — still zero live requests.
+
+**`klpga.discovery.identity_key_audit` changes**: `_classify_label_
+against_response` now returns `(tier, matched_normalized_response_
+label)` instead of just the tier, so a confirmed match can be traced
+back to the SPECIFIC response column it resolved against, not merely
+"matched: true". New `LabelMatchDetail` (`taxonomy_label`, `response_
+column` — the original, non-normalized text — `method`: `"exact"` or
+`"substring"`) and a `GroupAudit.match_details` list built from it.
+`GroupAudit.raw_sample_path` is now populated for
+`UNRESOLVED_INSUFFICIENT_EVIDENCE` too — the EXPECTED (not-yet-
+existing) path — so the missing-evidence section can print it
+directly without re-deriving it.
+
+**`scripts/31` changes**: after the existing free-form per-group log,
+three new sections:
+- `=== UNRESOLVED_COLLISION_DIAGNOSTIC ===` — one block per
+  `PARTIAL_MATCH_NEEDS_REVIEW`/`D_UNRESOLVED` group, in exactly the
+  requested field order (`identity_key`, `taxonomy_labels`,
+  `response_columns`, `confirmed_matches` as `label -> column
+  [method]`, `container_candidates`, `unmatched_taxonomy_labels`,
+  `raw_sample_path`).
+- `=== MISSING_EVIDENCE_IDENTITIES ===` — `identity_key` +
+  `expected_raw_sample_path` for every `INSUFFICIENT_EVIDENCE` group.
+- `=== SUMMARY ===` — `EXISTING_EVIDENCE_PARTIAL`,
+  `EXISTING_EVIDENCE_D_UNRESOLVED`, `MISSING_EVIDENCE_REQUESTS`,
+  `TOTAL_UNRESOLVED`, computed directly from the audit's own category
+  counts.
+
+Diagnostic reporting only — no classification/matching logic changed
+this round, no collision resolved, no formula or semantic equivalence
+inferred, `scripts/29`'s B2 runner untouched, no live requests.
+
+**Tests**: 4 new — `match_details` records the specific matched
+column and method (not just a boolean), the new diagnostic section
+prints every required field for a real-shaped `PARTIAL_MATCH_NEEDS_
+REVIEW` group, the missing-evidence section lists the expected path
+for an unresolved-insufficient-evidence group, and the summary counts
+match a taxonomy with one of each of the three unresolved categories
+plus one fully-resolved group. One pre-existing test updated
+(`raw_sample_path` is no longer `None` for `INSUFFICIENT_EVIDENCE`,
+by design).
+
+**652/652 tests passing** (648 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

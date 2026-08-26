@@ -87,6 +87,91 @@ def test_gate_reports_b2_request_count_from_unique_identity_key_count(module, tm
     assert "B2_REQUEST_COUNT = 2" in out  # Sg::Total + Around::Around04::030306
 
 
+# ---------------------------------------------------------------
+# Round 10 diagnostic follow-up — dedicated printed sections for
+# unresolved groups, built entirely from evidence the audit already
+# loaded (no PowerShell text-extraction needed against the free-form
+# per-group log lines above).
+# ---------------------------------------------------------------
+
+
+def test_unresolved_collision_diagnostic_section_prints_required_fields(module, tmp_path, capsys):
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee01", "010101", "menu3", "Par4,5 티샷 비율"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "티샷"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "평균 티샷 거리(yds)", "티샷 거리 총 합(yds)", "Par4,5 티샷 횟수"])
+    (tmp_path / "Tee__Tee01__010101__2025.html").write_text(html, encoding="utf-8")
+
+    module.run(taxonomy, "2025", tmp_path)
+    out = capsys.readouterr().out
+
+    assert "=== UNRESOLVED_COLLISION_DIAGNOSTIC ===" in out
+    assert "identity_key: Tee::Tee01::010101" in out
+    assert "taxonomy_labels:" in out
+    assert "  - Par4,5 티샷 비율" in out
+    assert "response_columns:" in out
+    assert "  - 평균 티샷 거리(yds)" in out
+    assert "confirmed_matches:" in out
+    # After paren-stripping, "평균 티샷 거리" and "평균 티샷 거리(yds)"
+    # normalize to the identical string -- an "exact" match, not a
+    # weaker "substring" one.
+    assert "  - 평균 티샷 거리 -> 평균 티샷 거리(yds) [exact]" in out
+    assert "container_candidates:" in out
+    assert "  - 티샷" in out
+    assert "unmatched_taxonomy_labels:" in out
+    assert "  - Par4,5 티샷 비율" in out
+    assert f"raw_sample_path: {tmp_path / 'Tee__Tee01__010101__2025.html'}" in out
+
+
+def test_missing_evidence_identities_section_lists_expected_paths(module, tmp_path, capsys):
+    taxonomy = {
+        "leaves": [
+            _leaf("Putt", "Putt02", "040201", "menu3", "성공률"),
+            _leaf("Putt", "Putt02", "040201", "menu3", "퍼팅"),
+        ]
+    }
+    module.run(taxonomy, "2025", tmp_path)  # no raw sample saved at all
+    out = capsys.readouterr().out
+
+    assert "=== MISSING_EVIDENCE_IDENTITIES ===" in out
+    assert "identity_key: Putt::Putt02::040201" in out
+    assert f"expected_raw_sample_path: {tmp_path / 'Putt__Putt02__040201__2025.html'}" in out
+
+
+def test_summary_counts_match_actual_category_counts(module, tmp_path, capsys):
+    taxonomy = {
+        "leaves": [
+            # PARTIAL: one matched, one genuinely unmatched
+            _leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "완전 무관한 라벨"),
+            # D_UNRESOLVED: nothing relates at all
+            _leaf("Putt", "Putt02", "040201", "menu3", "라벨A"),
+            _leaf("Putt", "Putt02", "040201", "menu3", "라벨B"),
+            # INSUFFICIENT_EVIDENCE: no raw sample saved
+            _leaf("Around", "Around05", "030401", "menu3", "라벨C"),
+            _leaf("Around", "Around05", "030401", "menu3", "라벨D"),
+        ]
+    }
+    (tmp_path / "Tee__Tee01__010101__2025.html").write_text(
+        _table_response_html(["순위", "선수명", "평균 티샷 거리(yds)"]), encoding="utf-8"
+    )
+    (tmp_path / "Putt__Putt02__040201__2025.html").write_text(
+        _table_response_html(["순위", "선수명", "무관한 컬럼"]), encoding="utf-8"
+    )
+
+    module.run(taxonomy, "2025", tmp_path)
+    out = capsys.readouterr().out
+
+    assert "EXISTING_EVIDENCE_PARTIAL = 1" in out
+    assert "EXISTING_EVIDENCE_D_UNRESOLVED = 1" in out
+    assert "MISSING_EVIDENCE_REQUESTS = 1" in out
+    assert "TOTAL_UNRESOLVED = 3" in out
+
+
 def test_missing_taxonomy_file_fails_cleanly(module, tmp_path):
     import sys
 

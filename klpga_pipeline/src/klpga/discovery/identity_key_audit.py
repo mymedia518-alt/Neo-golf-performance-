@@ -137,28 +137,43 @@ _LABEL_MATCH_CONTAINER_CANDIDATE = "container_candidate"
 _LABEL_MATCH_NONE = "none"
 
 
-def _classify_label_against_response(norm_label: str, normalized_response_labels: list[str]) -> str:
+def _classify_label_against_response(
+    norm_label: str, normalized_response_labels: list[str]
+) -> tuple[str, Optional[str]]:
     """Per-label match tier against the FULL list of the response's
     normalized column labels (not a set — needed to detect an
     AMBIGUOUS substring hit, i.e. a label that substring-matches more
     than one column, which is exactly the generic/container-label
-    signature confirmed by real evidence this round)."""
+    signature confirmed by real evidence this round). Returns
+    (tier, matched_normalized_response_label_or_None) — the second
+    element is set only for `exact`/`substring` tiers, so a caller can
+    report exactly which response column a taxonomy label resolved
+    against."""
     if not norm_label:
-        return _LABEL_MATCH_NONE
+        return _LABEL_MATCH_NONE, None
     if norm_label in normalized_response_labels:
-        return _LABEL_MATCH_EXACT
+        return _LABEL_MATCH_EXACT, norm_label
 
     substring_hits = [
         resp for resp in normalized_response_labels
         if norm_label in resp or resp in norm_label
     ]
     if not substring_hits:
-        return _LABEL_MATCH_NONE
+        return _LABEL_MATCH_NONE, None
 
     shorter_len = min(len(norm_label), min(len(resp) for resp in substring_hits))
     if len(substring_hits) == 1 and shorter_len >= _MIN_SUBSTRING_MATCH_LENGTH:
-        return _LABEL_MATCH_SUBSTRING
-    return _LABEL_MATCH_CONTAINER_CANDIDATE
+        return _LABEL_MATCH_SUBSTRING, substring_hits[0]
+    return _LABEL_MATCH_CONTAINER_CANDIDATE, None
+
+
+@dataclass
+class LabelMatchDetail:
+    taxonomy_label: str
+    response_column: str
+    """The ORIGINAL (non-normalized) response column label text."""
+    method: str
+    """"exact" | "substring" — which tier resolved this label."""
 
 
 @dataclass
@@ -167,6 +182,10 @@ class GroupAudit:
     labels: list[str]
     category: str
     matched_labels: list[str] = field(default_factory=list)
+    match_details: list[LabelMatchDetail] = field(default_factory=list)
+    """One entry per confirmed (exact/substring) match, pairing the
+    taxonomy label with the SPECIFIC original response column it
+    resolved against and how — never just "matched: True"."""
     container_candidate_labels: list[str] = field(default_factory=list)
     unmatched_labels: list[str] = field(default_factory=list)
     response_column_labels: list[str] = field(default_factory=list)
@@ -216,6 +235,7 @@ def audit_identity_key_collisions(
                     request_identity_key=request_key,
                     labels=labels,
                     category=CATEGORY_INSUFFICIENT_EVIDENCE,
+                    raw_sample_path=str(raw_path),
                     notes=f"No saved raw response at {raw_path} — cannot classify without live/cached evidence.",
                 )
             )
@@ -239,11 +259,22 @@ def audit_identity_key_collisions(
             )
             continue
 
-        matched, container_candidates, unmatched = [], [], []
+        original_by_normalized: dict[str, str] = {}
+        for original, norm in zip(response_labels, normalized_response_labels):
+            original_by_normalized.setdefault(norm, original)
+
+        matched, match_details, container_candidates, unmatched = [], [], [], []
         for label, norm in zip(labels, normalized):
-            tier = _classify_label_against_response(norm, normalized_response_labels)
+            tier, matched_norm = _classify_label_against_response(norm, normalized_response_labels)
             if tier in (_LABEL_MATCH_EXACT, _LABEL_MATCH_SUBSTRING):
                 matched.append(label)
+                match_details.append(
+                    LabelMatchDetail(
+                        taxonomy_label=label,
+                        response_column=original_by_normalized.get(matched_norm, matched_norm or ""),
+                        method=tier,
+                    )
+                )
             elif tier == _LABEL_MATCH_CONTAINER_CANDIDATE:
                 container_candidates.append(label)
             else:
@@ -268,6 +299,7 @@ def audit_identity_key_collisions(
                 labels=labels,
                 category=category,
                 matched_labels=matched,
+                match_details=match_details,
                 container_candidate_labels=container_candidates,
                 unmatched_labels=unmatched,
                 response_column_labels=response_labels,
