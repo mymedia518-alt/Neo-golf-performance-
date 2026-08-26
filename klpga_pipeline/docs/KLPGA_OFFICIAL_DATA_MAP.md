@@ -1301,6 +1301,161 @@ No change needed to re-run — the PowerShell extraction snippet above
 against the ALREADY-COMPLETED run is faster than waiting for a new
 one, since the raw bytes are already on disk.
 
+## Round 3, Phase B1 — CLASS 1 root cause CONFIRMED, dynamic-header parser fix
+
+**Status: 2026-08-26.** Direct real-evidence quotes from a Windows-side
+cache inspection (playerCode/player_name/record values, and — most
+importantly — the literal `var record = "그린 적중률(%)"; ...` /
+`$(".recordName").html(record);` JS pattern) confirmed the CLASS 1 root
+cause hypothesized in the prior round and fixed it, evidence-first, per
+instruction.
+
+### Mission 0 — cache identity: NOT independently verified
+
+This session has no access to the actual cache file or its stored
+`params` (season/menu1/menu2/menu3) — only the quoted body content. **I
+cannot independently confirm the response's true request identity** —
+per instruction, saying so explicitly rather than assuming it. What
+CAN be said from the content itself: the recovered labels ("그린
+적중률(%)" / "그린 적중 횟수" / "샷 시도 횟수" / "측정 라운드") are
+semantically a GIR (green-in-regulation) metric, identical in *meaning*
+to the already-confirmed Approach-family evidence (020104/020105) from
+earlier rounds — and have nothing to do with putting. This strongly
+suggests the response is **NOT** `Putt::Putt01::040101` as the prior
+round's "Example A" label assumed; it is far more likely an
+Approach/GIR-family response, possibly under a previously-unseen
+menu3 code. Whether "040101" genuinely collides across menu1 families,
+or the earlier substring search simply matched a DIFFERENT field
+inside an Approach response, remains **unproven** — the cache's own
+`params` field (or a fresh run's `raw_samples/<identity_key>__<season>.html`
+filename, which IS self-identifying) is required to settle it. No
+menu-code collision was silently resolved; this is flagged, not
+assumed, per Mission 5.
+
+### Mission 1 — CLASS 1 root cause: CONFIRMED
+
+`response_parser.py`'s `_extract_metadata()` looks for a JSON-object
+literal containing a `"menu"`/`"menuName"` key; the real response
+instead carries **separate top-level JS variable declarations**
+(`var record = "...";`, `var record1 = "...";`, ...) that a client-side
+jQuery call (`$(".recordName").html(record);`) uses to fill `<th
+class="recordName">` (etc.) text **at render time, in a real browser**.
+This parser only ever sees the static HTTP response body — no JS
+executes — so those `<th>` elements are present but **empty** in every
+fetch this parser makes. The existing table-header fallback
+(`_extract_column_semantics`) read that blank text as-is, and
+`build_schema_fingerprint` filters out falsy labels entirely, producing
+`EMPTY_SCHEMA` despite 231 real player rows and real, present
+`data-record*` values. **This is now proven, not hypothesized** — the
+real evidence explicitly contains the exact JS pattern predicted in the
+prior round's Phase B1.1 report.
+
+### Mission 2 — minimal parser fix
+
+New `_extract_dynamic_header_labels(html, record_fields)` in
+`response_parser.py`: scans the raw response body (not the parsed DOM
+— script-tag text extraction via BeautifulSoup is unreliable across
+mixed content) with `var\s+(record\d*)\s*=\s*"([^"]*)"\s*;`, returning
+only **non-blank** labels for known `record_fields`. Wired into
+`_extract_column_semantics` as a new priority layer, ranked between the
+existing JSON-metadata layer (still tried first, unchanged) and the
+static table-header fallback (now used only when neither of the first
+two layers has a label — and, as a related correctness fix, only when
+the `<th>` text is itself non-blank, so a blank header can never again
+be silently treated as "found"). All requirements satisfied:
+non-hardcoded (labels come only from the response's own text),
+menu-code-blind (nothing here reads menu1/menu2/menu3 to infer
+meaning), playerCode extraction untouched (row scanning is independent
+of column-header resolution), and every existing parsing path
+(metadata block, plain table header, `unknown`) preserved and still
+covered by its original tests.
+
+### Mission 3 — regression fixture
+
+New `tests/fixtures/loadLocationRecord_dynamic_header_sample.html`,
+modeled directly on the real evidence (exact reported values: playerCode
+9807/김새로미 40·36·90·5·0.0, playerCode 9812/전예성 33.33·12·36·5·0.0,
+the exact `var record.../record1.../record4=""` block) with `<th
+class="recordName">` (etc.) left deliberately blank, matching the real
+render-time-only population. 10 new tests across
+`tests/test_record_response_parser.py` and `tests/test_response_schema.py`
+prove: schema is not `EMPTY_SCHEMA` (`PERCENTAGE_COUNT_COUNT_ROUNDS`),
+all four non-blank labels recovered with `source="dynamic_header_vars"`,
+blank `record4` resolves to `label=None`/`source="unknown"` (never a
+fake metric), values map to the correct fields, playerCode is
+recovered for both rows, a `CONFIRMED_RAW_PAIR` is detected between
+record1/record2 with both rows' arithmetic checking out
+(36/90×100=40.0, 12/36×100=33.33̄), RTP correctly reads `RTP_ABSENT`
+(not conflated with the blank record4), and a static-blank-`<th>`-only
+case (no dynamic vars at all) resolves to `unknown`/`AMBIGUOUS` rather
+than a fabricated empty-string label — a regression guard on the fix
+itself.
+
+### Mission 4 — re-evaluating the prior sample (`HTTP_SUCCESS:9 PARSE_SUCCESS:4 PARSE_EMPTY:5`)
+
+**Not the EMPTY bucket.** `parse_status="EMPTY"` requires **zero player
+rows** (`if not rows: status="EMPTY"` — a check that runs before column
+semantics are ever examined). The dynamic-header defect only affects
+*column-label* resolution for responses that already have rows; it
+cannot turn a genuinely 0-row response into a populated one. **None of
+the 5 `PARSE_EMPTY` responses are explained or fixed by this round's
+change** — they remain CLASS 2 (`All::*` and possibly one more
+unnamed 0-row response — the prior round's evidence named 4 `All::*`
+examples but reported `PARSE_EMPTY=5`; the 5th has not been identified
+and is **not assumed** to be another `All::*` instance) — genuinely
+separate from CLASS 1, exactly as Mission 5 requires.
+
+**Possibly the PARSE_SUCCESS bucket.** The one CLASS 1 response
+directly investigated (the 231-row, `DISCOVERED_NOT_VALIDATED`,
+`EMPTY_SCHEMA` one) was already counted among the 4 `PARSE_SUCCESS`
+responses before this fix — `DISCOVERED_NOT_VALIDATED` is a
+`PARSE_SUCCESS` outcome; `EMPTY_SCHEMA` is a separate, finer-grained
+quality signal about the *schema*, not the top-level outcome bucket.
+This fix should make that one response's schema fingerprint real
+(`PERCENTAGE_COUNT_COUNT_ROUNDS`-shaped, going by the evidence) instead
+of `EMPTY_SCHEMA` on the next run. **Whether the other 3 `PARSE_SUCCESS`
+responses were ALSO silently EMPTY_SCHEMA before this fix is
+unproven** — only one was directly evidenced this round; claiming all
+4 benefit without independently checking each would be exactly the
+kind of unproven generalization the instructions warn against.
+
+### Files changed
+
+`src/klpga/discovery/response_parser.py` (`_extract_dynamic_header_labels`,
+`_extract_column_semantics` gains the new priority layer + blank-`<th>`
+correctness fix, `parse_record_response` wiring and a new
+`DISCOVERED_NOT_VALIDATED` note variant, module docstring layer list
+updated), new fixture `tests/fixtures/loadLocationRecord_dynamic_header_sample.html`,
+new/updated tests in `tests/test_record_response_parser.py` and
+`tests/test_response_schema.py`, this section of
+`docs/KLPGA_OFFICIAL_DATA_MAP.md`. No change to `response_schema.py`'s
+classification logic itself, `sampler.py`, or any script — this round
+is parser-only, per Mission 2's scope.
+
+### Tests / protected areas
+
+473/473 tests passing. No change to Prediction #001, `predictions/`,
+model/inference/probability logic, the production DB, the archive, or
+the public website. Phase B2 not started; no bulk requests made; no
+menu-code collision was silently resolved (see Mission 0 above).
+
+### Exact next Windows command
+
+Unchanged — the fix applies automatically to every future parse, live
+or cached-replay:
+
+```
+python scripts\27_klpga_response_schema_sample.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json ^
+    --season 2025
+```
+
+To settle Mission 0's open identity question, check
+`docs\discovery\raw_samples\` from this run (filenames are
+self-identifying: `<menu1>__<menu2>__<menu3>__<season>.html`) or the
+cache JSON's own `params` field for whichever file contains the
+`playerCode=9807`/`전예성` evidence quoted above.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
