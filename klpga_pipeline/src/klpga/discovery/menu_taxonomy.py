@@ -310,49 +310,71 @@ def _find_ancestor_with_attr(tag: Tag, attr_name: str) -> Optional[Tag]:
     return None
 
 
-def _find_ancestor_ids(tag: Tag) -> list[str]:
+def _collect_known_menu_identity_values(all_tags: list[Tag]) -> set[str]:
+    """Every literal string that appears ANYWHERE in the document as
+    the value of a tag's OWN `data-menu1` or `data-menu2` attribute.
+
+    **Round 6 fix.** Real literal ancestor-chain evidence (Windows
+    PowerShell extraction of the actual `locationRecord` source page,
+    2026-08-26; see docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 6 section)
+    proved Round 4's plain "nearest ancestor id" rule was too broad: the
+    real page wraps every menu level in GENERIC, REUSED layout
+    infrastructure ids too — a scroll-widget wrapper (`id="nav-scroll"`,
+    confirmed to sometimes carry that id and sometimes not on the
+    otherwise-identical wrapper) and, more importantly, shared
+    multi-family PANE containers (`id="menu2"` — directly confirmed to
+    be the ONE shared ancestor of `<div id="Approach">`, `<div id="Sg">`,
+    etc.; `id="menu3"` — directly confirmed to be the ONE shared
+    ancestor of `<div id="Approach05">`, `<div id="Tee01">`, etc.).
+    Treating a generic pane id as a semantic identity produced
+    `menu1="nav-scroll"` and `menu1="menu3"` in a real regenerated
+    taxonomy.
+
+    The distinguishing structural fact, also directly confirmed: a
+    GENUINE semantic container's `id` value ALWAYS ALSO appears
+    elsewhere in the document as a real `data-menu1`/`data-menu2`
+    attribute value on some tag (e.g. `id="Approach"` matches the top
+    nav button's own `data-menu1="All" data-menu2="Approach"`;
+    `id="Approach05"` matches its own tab's own
+    `data-menu2="Approach05"`). A generic layout id (`nav-scroll`,
+    `menu2`, `menu3`) never does — nobody's `data-menu2` is ever
+    literally `"menu3"`. This function builds that lookup set once per
+    document; `_find_ancestor_ids` filters against it. Purely
+    structural — reads real attribute VALUES already present on other
+    tags, never labels, never menu3 numbering, never a hardcoded list
+    of family names or generic-id names."""
+    values: set[str] = set()
+    for tag in all_tags:
+        v1 = _attr(tag, _MENU1_ATTR)
+        if v1:
+            values.add(v1)
+        v2 = _attr(tag, _MENU2_ATTR)
+        if v2:
+            values.add(v2)
+    return values
+
+
+def _find_ancestor_ids(tag: Tag, known_values: set[str]) -> list[str]:
     """Ordered list (nearest to farthest) of the literal `id` attribute
-    value on every ANCESTOR of `tag` that carries a non-blank `id` —
-    real BeautifulSoup ancestor relationships via `tag.parents`, never
-    a document-order/positional guess.
-
-    **Round 4 fix — replaces the removed `_find_nearest_preceding_attr`
-    ("preceding_context") tier.** Real literal HTML evidence (Windows
-    capture of the actual `locationRecord` source page, 2026-08-26; see
-    docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 4 section) proved
-    `preceding_context`'s unbounded document-order backward scan was
-    unsound: it independently resolved `menu1` and `menu2` from two
-    UNRELATED tags with no structural relationship to `tag` or to each
-    other, producing synthetic identities that never exist in the real
-    DOM (confirmed case: a `data-menu3="010102"` button genuinely
-    nested inside `<div id="Tee01">` resolved as `menu1="All"` from a
-    distant top-level navigation button and `menu2="Putt08"` from an
-    unrelated earlier sibling tab — neither of which is any ancestor of
-    this tag at all).
-
-    The confirmed real structure instead nests each menu level inside a
-    `<div id="...">` wrapper: a family-level container (e.g.
-    `<div id="Sg">`, confirmed directly) and, for families with a third
-    menu level, a subgroup-level container nested inside it (e.g.
-    `<div id="Tee01">`, confirmed directly, itself presumed nested
-    inside a bare `<div id="Tee">` family container by direct structural
-    analogy with the confirmed `Sg` shape — not yet independently
-    observed for every family, which is why this is used only as a
-    FALLBACK after `_find_ancestor_with_attr`, and only for whichever
-    identity component is still missing; if the analogy is wrong for a
-    given leaf, the missing component simply stays unresolved rather
-    than being guessed, since nothing here reads `id` values further
-    than their presence and nesting order).
-
-    Nothing about the `id` VALUES themselves (their text, digit
-    suffixes, or naming pattern) is inspected or matched against any
-    known list — only genuine ancestor presence and nesting order."""
+    value on every ANCESTOR of `tag` that (a) carries a non-blank `id`
+    AND (b) that `id` value is a member of `known_values` — see
+    `_collect_known_menu_identity_values`'s docstring for why this
+    filter is required (a real regenerated taxonomy showed generic
+    layout ids like "nav-scroll"/"menu2"/"menu3" being wrongly accepted
+    as semantic values before this filter existed). Real BeautifulSoup
+    ancestor relationships via `tag.parents`, never a document-order/
+    positional guess, and nothing about the `id` value's text, digit
+    suffixes, or naming pattern is inspected beyond exact membership in
+    a set built from real attribute values elsewhere in the SAME
+    document."""
     ids: list[str] = []
     for ancestor in tag.parents:
         if isinstance(ancestor, Tag):
             value = ancestor.get("id")
             if value:
-                ids.append(value if isinstance(value, str) else " ".join(value))
+                value_str = value if isinstance(value, str) else " ".join(value)
+                if value_str in known_values:
+                    ids.append(value_str)
     return ids
 
 
@@ -385,18 +407,56 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
     all_tags = soup.find_all(True)
 
     menu1_tags = [t for t in all_tags if _attr(t, _MENU1_ATTR) is not None]
+    known_values = _collect_known_menu_identity_values(all_tags)
 
     leaves: list[MenuLeaf] = []
 
+    def _resolve_menu1_via_ancestor(tag: Tag) -> tuple[Optional[str], bool]:
+        """Shared menu1-resolution fallback chain: a genuine ancestor's
+        own `data-menu1` attribute, then a genuine ancestor
+        `<div id="...">` whose id is a confirmed semantic value (see
+        `_find_ancestor_ids`). Returns (resolved_value, used_ancestor)."""
+        menu1_ancestor = _find_ancestor_with_attr(tag, _MENU1_ATTR)
+        if menu1_ancestor is not None:
+            return _attr(menu1_ancestor, _MENU1_ATTR) or "", True
+        ids = _find_ancestor_ids(tag, known_values)
+        if ids:
+            return ids[0], True
+        return None, False
+
     # --- Pass 1: menu3-level leaves ---
+    # Round 6 evidence (docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 6
+    # section) proved a tag's own subgroup-tab-row entry (own
+    # data-menu2 present, e.g. `<button data-menu2="Approach05"
+    # data-menu3="020501">`) and that SAME subgroup's menu3-only detail
+    # buttons (e.g. inside `<div id="Approach05">`) are NOT nested
+    # inside each other at all — they are SIBLINGS under two different
+    # shared, generic panes (`id="menu2"` / `id="menu3"`). There is
+    # THEREFORE no ancestor path whatsoever from a menu3-only detail
+    # button to its family identity. Stage 1 below resolves every tag
+    # that DOES carry its own data-menu2 (which always has a genuine
+    # ancestor path to its family, confirmed directly), and records
+    # `subgroup_menu1_registry[own_menu2] = resolved_menu1` while doing
+    # so. Stage 2 resolves the menu3-only tags, and for the
+    # (structurally unreachable) menu1 component, looks up that
+    # registry by the subgroup id it DID resolve via ancestry — a real,
+    # evidence-backed cross-reference to another tag's OWN resolution,
+    # never a label, menu3-number, or hardcoded family name.
     menu3_tags = [t for t in all_tags if _has_value(t, _MENU3_ATTR)]
-    for tag in menu3_tags:
+    tags_with_own_menu2 = [t for t in menu3_tags if _attr(t, _MENU2_ATTR) is not None]
+    tags_without_own_menu2 = [t for t in menu3_tags if _attr(t, _MENU2_ATTR) is None]
+
+    subgroup_menu1_registry: dict[str, str] = {}
+
+    # Stage 1
+    for tag in tags_with_own_menu2:
         menu3 = _attr(tag, _MENU3_ATTR) or ""
         menu3_label = tag.get_text(strip=True)
+        own_menu2 = _attr(tag, _MENU2_ATTR) or ""
 
         own_menu1 = _attr(tag, _MENU1_ATTR)
-        own_menu2 = _attr(tag, _MENU2_ATTR)
-        if own_menu1 is not None and own_menu2 is not None:
+        if own_menu1 is not None:
+            subgroup_menu1_registry[own_menu2] = own_menu1
             leaves.append(
                 MenuLeaf(
                     menu1=own_menu1,
@@ -411,20 +471,46 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
             )
             continue
 
-        # Round 4 fix (DEFECT 1) — a `data-menu2` value the tag carries
-        # ON ITSELF is authoritative and must NEVER be thrown away
-        # merely because `data-menu1` happens to be absent from the
-        # SAME tag. The old code required BOTH own attrs together or
-        # discarded both, which is exactly what caused the proven
-        # "menu2 off-by-one" bug: a real page's menu2-level sub-tab
-        # (e.g. `<button data-menu2="Approach02" data-menu3="020201">`)
-        # had its own correct `data-menu2` discarded, then re-derived
-        # from the wrong (preceding sibling's) tag. Each missing
-        # component is now resolved independently and only from a
-        # genuine structural relationship — never by discarding a
-        # reliable value already sitting on the tag itself.
-        resolved_menu1 = own_menu1
-        resolved_menu2 = own_menu2
+        resolved_menu1, used_ancestor = _resolve_menu1_via_ancestor(tag)
+        if resolved_menu1 is not None:
+            subgroup_menu1_registry[own_menu2] = resolved_menu1
+            leaves.append(
+                MenuLeaf(
+                    menu1=resolved_menu1,
+                    menu1_label="",
+                    menu2=own_menu2,
+                    menu2_label="",
+                    menu3=menu3,
+                    menu3_label=menu3_label,
+                    leaf_level=LEAF_LEVEL_MENU3,
+                    label_resolution_method="ancestor_walk" if used_ancestor else "own_attrs",
+                )
+            )
+        else:
+            # menu2 is genuinely known (own attribute) but menu1 isn't —
+            # preserve the known component per this module's "preserve
+            # every discovered thing" discipline (sampler.py still
+            # rejects any blank menu1/menu2 before a live request).
+            leaves.append(
+                MenuLeaf(
+                    menu1="",
+                    menu1_label="",
+                    menu2=own_menu2,
+                    menu2_label="",
+                    menu3=menu3,
+                    menu3_label=menu3_label,
+                    leaf_level=LEAF_LEVEL_MENU3,
+                    label_resolution_method="unknown",
+                )
+            )
+
+    # Stage 2
+    for tag in tags_without_own_menu2:
+        menu3 = _attr(tag, _MENU3_ATTR) or ""
+        menu3_label = tag.get_text(strip=True)
+
+        resolved_menu1 = _attr(tag, _MENU1_ATTR)  # essentially always None here, kept general
+        resolved_menu2: Optional[str] = None
         used_ancestor = False
 
         if resolved_menu1 is None:
@@ -433,39 +519,29 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
                 resolved_menu1 = _attr(menu1_ancestor, _MENU1_ATTR) or ""
                 used_ancestor = True
 
-        if resolved_menu2 is None:
-            menu2_ancestor = _find_ancestor_with_attr(tag, _MENU2_ATTR)
-            if menu2_ancestor is not None:
-                resolved_menu2 = _attr(menu2_ancestor, _MENU2_ATTR) or ""
-                used_ancestor = True
+        menu2_ancestor = _find_ancestor_with_attr(tag, _MENU2_ATTR)
+        if menu2_ancestor is not None:
+            resolved_menu2 = _attr(menu2_ancestor, _MENU2_ATTR) or ""
+            used_ancestor = True
 
-        # Round 4 fix (DEFECT 2) — replaces the removed unbounded
-        # document-order `preceding_context` scan, which independently
-        # borrowed menu1/menu2 from two UNRELATED tags with no
-        # structural relationship to this leaf or each other (proven
-        # real case: a `data-menu3="010102"` button genuinely nested
-        # inside `<div id="Tee01">` was resolved as
-        # `All::Putt08::010102` — neither "All" nor "Putt08" came from
-        # anything related to this tag at all). Whatever is STILL
-        # missing after real ancestor data-attributes is resolved from
-        # the genuine ancestor `<div id="...">` container chain instead
-        # — see `_find_ancestor_ids`'s docstring for the confirmed
-        # real container-nesting evidence this is grounded in. The
-        # nearest ancestor id fills whichever slot is still open first
-        # (menu2, being the more deeply nested level), the next
-        # ancestor id further up fills menu1 if that is also still
-        # open — never the other way around, and never more ids than
-        # there are missing slots.
         if resolved_menu1 is None or resolved_menu2 is None:
-            ancestor_ids = _find_ancestor_ids(tag)
+            ids = _find_ancestor_ids(tag, known_values)
             idx = 0
-            if resolved_menu2 is None and idx < len(ancestor_ids):
-                resolved_menu2 = ancestor_ids[idx]
+            if resolved_menu2 is None and idx < len(ids):
+                resolved_menu2 = ids[idx]
                 idx += 1
                 used_ancestor = True
-            if resolved_menu1 is None and idx < len(ancestor_ids):
-                resolved_menu1 = ancestor_ids[idx]
+            if resolved_menu1 is None and idx < len(ids):
+                resolved_menu1 = ids[idx]
                 used_ancestor = True
+
+        # Cross-reference fallback (see this pass's own comment above):
+        # no ancestor path to the family identity exists for a menu3-
+        # only detail button at all — reuse the family identity already
+        # resolved for the SAME subgroup id via its own tab-row entry.
+        if resolved_menu1 is None and resolved_menu2 is not None and resolved_menu2 in subgroup_menu1_registry:
+            resolved_menu1 = subgroup_menu1_registry[resolved_menu2]
+            used_ancestor = True
 
         if resolved_menu1 is not None and resolved_menu2 is not None:
             leaves.append(
@@ -486,9 +562,8 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
         # whole is "unknown" (never safe to request: sampler.py rejects
         # any blank menu1/menu2 before a live request), but per this
         # module's "preserve every discovered thing" discipline,
-        # whichever single component WAS genuinely resolved (e.g. a
-        # real own `data-menu2` with no ancestor able to supply menu1)
-        # is still preserved in the audit trail rather than blanked out.
+        # whichever single component WAS genuinely resolved is still
+        # preserved in the audit trail rather than blanked out.
         leaves.append(
             MenuLeaf(
                 menu1=resolved_menu1 or "",
@@ -520,19 +595,14 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
         # "TeeToGreen">`/`data-menu2="All">` with NO own `data-menu1` on
         # any of them) proved this level has the identical structural
         # shape as Pass 1's menu3-level tags, not just the "All"
-        # navigation buttons this pass was originally written for.
+        # navigation buttons this pass was originally written for. A
+        # menu2-level leaf's own container always has a genuine
+        # ancestor path to its family id (unlike Pass 1 Stage 2's
+        # menu3-only case) — no cross-reference registry needed here.
         resolved_menu1 = own_menu1
         used_ancestor = False
         if resolved_menu1 is None:
-            menu1_ancestor = _find_ancestor_with_attr(tag, _MENU1_ATTR)
-            if menu1_ancestor is not None:
-                resolved_menu1 = _attr(menu1_ancestor, _MENU1_ATTR) or ""
-                used_ancestor = True
-        if resolved_menu1 is None:
-            ancestor_ids = _find_ancestor_ids(tag)
-            if ancestor_ids:
-                resolved_menu1 = ancestor_ids[0]
-                used_ancestor = True
+            resolved_menu1, used_ancestor = _resolve_menu1_via_ancestor(tag)
 
         if resolved_menu1 is None:
             # Genuinely unresolvable menu1 for this menu2-level leaf —

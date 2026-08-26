@@ -1,0 +1,123 @@
+<!--
+  Round 6 regression fixture — built directly from the LITERAL real
+  ancestor-chain evidence (Windows PowerShell full-ancestor-chain
+  extraction of the actual cached Phase A `locationRecord` source
+  page, 2026-08-26; see docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 6
+  section for the full evidence trail).
+
+  Confirmed verbatim (real ancestor chains pasted directly):
+
+  020501 occurrence #1 (outer subgroup-tab-row entry):
+    <button class="nav-link" data-menu2="Approach05" data-menu3="020501">
+    ancestors: li -> ul -> div#nav-scroll.nav-scroll.scroll-button
+             -> div#Approach -> div#menu2 -> section -> body -> html
+
+  020501 occurrence #2 (inner menu3-only detail button):
+    <button class="nav-link" data-menu3="020501">
+    ancestors: li -> ul -> div.nav-scroll -> div#Approach05
+             -> div#menu3 -> section -> body -> html
+
+  010102 (inner menu3-only detail button, the real Putt08::010102
+  false-identity case from earlier rounds):
+    <button class="nav-link" data-menu3="010102">
+    ancestors: li -> ul -> div.nav-scroll -> div#Tee01
+             -> div#menu3 -> section -> body -> html
+
+  This proves the real page uses a 3-pane layout: a family/subgroup
+  TAB ROW lives under the shared `id="menu2"` pane (each family's own
+  `<div id="Family">` a direct child of it), while every family's
+  METRIC DETAIL buttons live under a DIFFERENT shared `id="menu3"`
+  pane (each subgroup's own `<div id="FamilySubgroup">` a direct
+  child of THAT). `<div id="Approach">` and `<div id="Approach05">`
+  are therefore SIBLINGS in different panes, never nested inside each
+  other — there is NO ancestor path at all from a menu3-only detail
+  button to its family identity. `id="nav-scroll"`/`id="menu2"`/
+  `id="menu3"` are generic layout infrastructure — none of them are
+  ever the value of a real `data-menu1`/`data-menu2` attribute
+  anywhere in the document, which is exactly the structural test this
+  round's resolver fix uses to exclude them.
+
+  Approach01-04, Around01, Putt01/Putt08's own tab-row entries and
+  Sg's own menu2-level tabs are included as directly-confirmed real
+  shapes from earlier rounds, reused here for broader coverage.
+-->
+<html>
+<body>
+
+<section class="section-area section-content-header">
+
+  <div id="menu1">
+    <button class="nav-link" data-menu1="All" data-menu2="Sg">전체기록보기</button>
+    <button class="nav-link" data-menu1="All" data-menu2="Tee">티샷</button>
+    <button class="nav-link" data-menu1="All" data-menu2="Approach">어프로치</button>
+    <button class="nav-link" data-menu1="All" data-menu2="Around">그린 주변</button>
+    <button class="nav-link" data-menu1="All" data-menu2="Putt">퍼팅</button>
+  </div>
+
+  <div id="menu2">
+    <div id="Sg">
+      <div class="nav-scroll">
+        <ul class="nav nav-pills nav-round-xl justify-content-start w-auto my-2">
+          <li class="nav-item"><button class="nav-link" data-menu2="Total">SG : 전체</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu2="TeeToGreen">SG : 티샷 to 그린</button></li>
+        </ul>
+      </div>
+    </div>
+    <div id="Tee">
+      <div id="nav-scroll" class="nav-scroll scroll-button">
+        <ul class="nav nav-pills nav-round-xl justify-content-start my-2">
+          <li class="nav-item"><button class="nav-link" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</button></li>
+        </ul>
+      </div>
+    </div>
+    <div id="Approach">
+      <div id="nav-scroll" class="nav-scroll scroll-button">
+        <ul class="nav nav-pills nav-round-xl justify-content-start my-2">
+          <li class="nav-item"><button class="nav-link" data-menu2="Approach01" data-menu3="020101">그린 적중률</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu2="Approach02" data-menu3="020201">그린 적중 시 남은 거리</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu2="Approach03" data-menu3="020301">그린 적중률(페어웨이)</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu2="Approach04" data-menu3="020401">그린 적중 시 평균 남은 거리(페어웨이)</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu2="Approach05" data-menu3="020501">그린 적중률(러프)</button></li>
+        </ul>
+      </div>
+    </div>
+    <div id="Around">
+      <div class="nav-scroll">
+        <ul class="nav nav-pills nav-round-xl justify-content-start w-auto my-2">
+          <li class="nav-item"><button class="nav-link" data-menu2="Around01" data-menu3="030101">그린 주변 샷 성공률</button></li>
+        </ul>
+      </div>
+    </div>
+    <div id="Putt">
+      <div class="nav-scroll">
+        <ul class="nav nav-pills nav-round-xl justify-content-start w-auto my-2">
+          <li class="nav-item"><button class="nav-link" data-menu2="Putt01" data-menu3="040101">1퍼트 성공률</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu2="Putt08" data-menu3="080101">기타 퍼팅 지표</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu3">
+    <div id="Tee01" style="display: none">
+      <div class="nav-scroll">
+        <ul class="nav nav-pills nav-sub justify-content-start w-auto my-3">
+          <li class="nav-item"><button class="nav-link" data-menu3="010101">평균 티샷 거리</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu3="010102">280야드 이상(RTP)</button></li>
+        </ul>
+      </div>
+    </div>
+    <div id="Approach05" style="display: none">
+      <div class="nav-scroll">
+        <ul class="nav nav-pills nav-sub justify-content-start w-auto my-3">
+          <li class="nav-item"><button class="nav-link" data-menu3="020501">그린적중률(러프)</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu3="020503">180~200야드 미만</button></li>
+          <li class="nav-item"><button class="nav-link" data-menu3="020504">160~180야드 미만</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

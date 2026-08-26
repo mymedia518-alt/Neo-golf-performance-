@@ -7,6 +7,21 @@
   (tests/fixtures/record_menu_preceding_context_sample.html — deleted
   this round after being directly disproven by the real page).
 
+  Round 6 correction (see docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 6
+  section): the FULL real ancestor chain, extracted later, proved
+  `<div id="Approach02">` (this fixture's shape below) is actually a
+  SIBLING of `<div id="Approach">` under a separate, shared, generic
+  `id="menu3"` pane — NOT a true descendant of `<div id="Approach">`
+  as modeled here. This fixture is kept because the resolver still
+  produces the correct output for genuinely-nested input too (it
+  degrades gracefully to the same "own attrs preserved + ancestor
+  chain" path without ever needing the Round 6 cross-reference
+  registry) — but the REAL page's actual sibling-pane shape is
+  regression-tested separately in
+  tests/fixtures/record_menu_confirmed_pane_structure_sample.html /
+  tests/test_pane_structure_resolution.py, which is the fixture to
+  trust for how the real site is actually laid out.
+
   Confirmed verbatim shapes reproduced here:
     - Top-level family navigation buttons, own_attrs, each carrying
       data-menu1="All" data-menu2="<Family>" together (e.g. "티샷"/

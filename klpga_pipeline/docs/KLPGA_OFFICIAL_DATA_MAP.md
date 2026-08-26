@@ -2400,6 +2400,122 @@ canonical metrics and does not start Phase B2.
 
 ---
 
+## Round 6 — Round 4's ancestor-id fallback was too broad: fixed with a document-wide known-value filter + cross-reference registry
+
+### A. What the fresh Round 4 taxonomy showed
+
+A provenance-first rerun (confirming `fef2af7` was actually in the
+checkout and forcing script 26/28 to regenerate from a fresh fetch,
+rather than consuming stale artifacts) proved Round 4's menu2
+off-by-one fix genuinely worked — every `ApproachNN` tab kept its own
+`menu2`. But `menu1` recovery was now wrong in a NEW way:
+`menu1="nav-scroll"` and `menu1="menu3"` appeared in the regenerated
+taxonomy for `020501` and `010102`. Round 4's "next ancestor id fills
+menu1" rule was accepting ANY `id`-bearing ancestor, including generic
+layout infrastructure.
+
+### B. The full real ancestor chain (literal, pasted directly)
+
+A read-only PowerShell ancestor-chain walker (tag-stack tracker over
+the actual cached `locationRecord` source page) printed the complete
+chain for every occurrence of `020101`/`020201`/`020301`/`020401`/
+`020501`/`010102`. The decisive finding:
+
+```
+020501 occurrence #1 (outer tab-row entry, own data-menu2="Approach05"):
+  li -> ul -> div#nav-scroll.nav-scroll.scroll-button
+     -> div#Approach -> div#menu2 -> section -> body -> html
+
+020501 occurrence #2 (inner menu3-only detail button):
+  li -> ul -> div.nav-scroll -> div#Approach05
+     -> div#menu3 -> section -> body -> html
+
+010102 (inner menu3-only detail button):
+  li -> ul -> div.nav-scroll -> div#Tee01
+     -> div#menu3 -> section -> body -> html
+```
+
+This proves the real page is a 3-pane layout: `id="menu2"` is a SINGLE
+shared pane holding every family's own `<div id="Family">` tab-row
+container; `id="menu3"` is a SEPARATE shared pane holding every
+subgroup's own `<div id="FamilySubgroup">` detail-button container.
+`<div id="Approach">` and `<div id="Approach05">` are SIBLINGS under
+two different panes — never nested in each other. There is therefore
+**no ancestor path at all** from a menu3-only detail button to its
+family identity; Round 4's two-level "next ancestor id" assumption was
+simply wrong for this shape.
+
+### C. Root cause
+
+Round 4's `_find_ancestor_ids` accepted ANY `id`-bearing ancestor, with
+no way to distinguish a genuine semantic container (`id="Approach"`,
+`id="Approach05"`) from a generic, reused layout wrapper
+(`id="nav-scroll"`, `id="menu2"`, `id="menu3"`) — all four "look" the
+same to a plain ancestor-id walk.
+
+### D. New structural rule
+
+**No hardcoded family names, no generic-id blacklist.** Instead: a
+literal string only counts as a semantic menu identity if it ALSO
+appears, somewhere else in the SAME document, as the real value of a
+`data-menu1` or `data-menu2` attribute — confirmed directly: `"Approach"`
+matches the top-nav button's own `data-menu2="Approach"`;
+`"Approach05"` matches its own tab's own `data-menu2="Approach05"`;
+`"nav-scroll"`/`"menu2"`/`"menu3"` never appear as such a value
+anywhere. `_collect_known_menu_identity_values(all_tags)` builds this
+set once per document; `_find_ancestor_ids` now filters against it.
+
+### E. Duplicate-occurrence handling
+
+Since `<div id="Approach">` and `<div id="Approach05">` are siblings,
+not ancestor/descendant, a menu3-only detail button (e.g. inside
+`<div id="Approach05">`) has genuinely no ancestor path to its family
+at all. Resolving Stage 1 first (every tag that DOES carry its own
+`data-menu2` — the outer tab-row entries, which DO have a real
+ancestor path) builds `subgroup_menu1_registry["Approach05"] =
+"Approach"` along the way; Stage 2 (the menu3-only detail buttons)
+looks up that registry by whichever subgroup id it resolved via the
+filtered ancestor-id chain — a real cross-reference to another tag's
+own resolution, never a label, menu3 number, or hardcoded name. Both
+of `020501`'s real duplicate occurrences (outer tab + inner detail
+item) now resolve to the SAME true identity
+(`Approach::Approach05::020501`), reported by the existing, unchanged
+collision machinery rather than producing two different false
+identities.
+
+### F. Expected six identities
+
+```
+020101 -> Approach::Approach01::020101
+020201 -> Approach::Approach02::020201
+020301 -> Approach::Approach03::020301
+020401 -> Approach::Approach04::020401
+020501 -> Approach::Approach05::020501
+010102 -> Tee::Tee01::010102
+```
+
+### G. Files changed
+
+`src/klpga/discovery/menu_taxonomy.py` (new
+`_collect_known_menu_identity_values`, `_find_ancestor_ids` gained a
+`known_values` filter parameter, Pass 1 restructured into two stages
+with `subgroup_menu1_registry`, Pass 2 reuses the shared
+`_resolve_menu1_via_ancestor` helper); new
+`tests/fixtures/record_menu_confirmed_pane_structure_sample.html` +
+`tests/test_pane_structure_resolution.py` (13 tests, built directly
+from this round's literal ancestor-chain evidence); the Round 4
+fixture's header comment was corrected to flag that its nested-div
+shape doesn't match the real page (kept anyway — the resolver still
+handles genuine nesting correctly, it's just not what the real site
+does).
+
+**584/584 tests passing** (571 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. Phase B2 not started.
+
+---
+
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
 database, model, archive, or website changes were made to produce this
 document.*
