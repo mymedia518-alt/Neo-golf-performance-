@@ -16,6 +16,9 @@ fields, RTP presence, data-quality checks), and writes:
   docs/discovery/KLPGA_RESPONSE_SCHEMA_REPORT.md
   docs/discovery/KLPGA_RAW_FIELD_INVENTORY.md
   docs/discovery/NEO_RAW_INPUT_CANDIDATES.md
+  docs/discovery/KLPGA_RAW_COUNT_METRICS.csv
+  docs/discovery/KLPGA_PLAYER_IDENTITY_REPORT.md
+  docs/discovery/KLPGA_RESPONSE_FAILURES.csv
   docs/discovery/KLPGA_PHASE_B1_REQUEST_LOG.json / .csv
 
 Then STOPS. This script does NOT proceed to a full 283-metric sweep —
@@ -53,13 +56,20 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from klpga import config  # noqa: E402
 from klpga.discovery.request_log import build_log_entry, to_log_csv, to_log_jsonl  # noqa: E402
 from klpga.discovery.response_parser import parse_record_response  # noqa: E402
-from klpga.discovery.response_schema import analyze_response, classify_historical_availability  # noqa: E402
+from klpga.discovery.response_schema import (  # noqa: E402
+    analyze_response,
+    build_player_identity_report,
+    classify_historical_availability,
+)
 from klpga.discovery.sampler import SampledLeaf, find_duplicate_identities, select_representative_sample  # noqa: E402
 from klpga.discovery.schema_report import (  # noqa: E402
     build_sample_record,
     render_neo_raw_input_candidates_markdown,
+    render_player_identity_report_markdown,
     render_raw_field_inventory_markdown,
     render_schema_report_markdown,
+    write_raw_count_metrics_csv,
+    write_response_failures_csv,
     write_samples_csv,
     write_samples_json,
 )
@@ -71,8 +81,8 @@ EXIT_COMPLETE = 0
 EXIT_BLOCKED = 4
 EXIT_TAXONOMY_LOAD_FAILED = 5
 
-DEFAULT_SAMPLE_SIZE = 16
-DEFAULT_MAX_REQUESTS = 24  # sample_size + headroom for the historical probe (<=3), a hard circuit breaker
+DEFAULT_SAMPLE_SIZE = 20
+DEFAULT_MAX_REQUESTS = 28  # sample_size + headroom for the historical probe (<=3), a hard circuit breaker
 
 
 def _request_form(leaf: SampledLeaf, season: str) -> dict:
@@ -194,10 +204,19 @@ def run(
     )
     (out_dir / "KLPGA_RAW_FIELD_INVENTORY.md").write_text(render_raw_field_inventory_markdown(records), encoding="utf-8")
     (out_dir / "NEO_RAW_INPUT_CANDIDATES.md").write_text(render_neo_raw_input_candidates_markdown(records), encoding="utf-8")
+    (out_dir / "KLPGA_RAW_COUNT_METRICS.csv").write_text(write_raw_count_metrics_csv(records), encoding="utf-8")
+    (out_dir / "KLPGA_RESPONSE_FAILURES.csv").write_text(write_response_failures_csv(records), encoding="utf-8")
+
+    identity_overall, identity_records = build_player_identity_report(parsed_by_key)
+    (out_dir / "KLPGA_PLAYER_IDENTITY_REPORT.md").write_text(
+        render_player_identity_report_markdown(identity_overall, identity_records), encoding="utf-8"
+    )
+
     (out_dir / "KLPGA_PHASE_B1_REQUEST_LOG.json").write_text(to_log_jsonl(log_entries), encoding="utf-8")
     (out_dir / "KLPGA_PHASE_B1_REQUEST_LOG.csv").write_text(to_log_csv(log_entries), encoding="utf-8")
 
     print()
+    print(f"Cross-metric playerCode identity consistency: {identity_overall}")
     print(f"Live requests made: {request_count}")
     print(f"Metrics successfully sampled: {len(records)}")
     print(f"Output written to: {out_dir}")
