@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 304/304 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 308/308 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -215,7 +215,7 @@ data.
   first-run facts (top player 서교림/11134, ~10.097% display
   probability, 100 training tournaments, field 120). See
   `predictions/2026/prediction_001_2026080001.json`.
-- ✅ **NEO GOLF PREDICTIONS public site: IMPLEMENTED, 2026-08-26** —
+- ✅ **NEO Predictions public site: IMPLEMENTED, 2026-08-26** —
   `src/klpga/site/` + `scripts/25_build_predictions_site.py`: a static-
   site generator reading ONLY the immutable archive — never the DB,
   never `run_inference` (source-checked, not just intended).
@@ -227,7 +227,7 @@ data.
   a declared dependency, not a new one). 21 new tests (15 build-level +
   6 real browser tests). 295/295 full suite passing. Generated output
   is a build artifact, not committed to git. See
-  `docs/PREDICTIONS_SITE.md` and "NEO GOLF PREDICTIONS" below.
+  `docs/PREDICTIONS_SITE.md` and "NEO Predictions — public site" below.
 - ✅ **Public-site v1.1 copy release, 2026-08-26** — removed all
   reader-facing "M4"/model-version/calibration-limitation/internal-
   docs references (the archive JSON's `model_id`/`model_version`/
@@ -242,6 +242,32 @@ data.
   driving/putting ever being claimed as inputs. 304/304 full suite
   passing. Prediction #001's archive JSON/CSV are unmodified (byte-
   identical, confirmed via `git diff`/hash).
+- ✅ **Public-site v1.2 visual-hierarchy pass, 2026-08-26** — a brand
+  architecture (master brand `NEO`, acronym meaning "Numbers ·
+  Evidence · Oracle" shown in the hero only, category descriptor "Golf
+  Intelligence," product name "NEO Predictions" for `<title>`/footer
+  only) replaces the retired "NEO GOLF PREDICTIONS" brand string
+  everywhere on the site. A new hero section is now the dominant
+  visual object on a prediction page — brand lockup, then `NEO
+  PREDICTION #001` / tournament / player name + `10.10%` / "우승확률 ·
+  전체 120명 중 1위" / "PRE-TOURNAMENT · LOCKED" — with the player name
+  never rendering smaller than the probability (equal `font-size` at
+  every breakpoint, verified live via a Playwright computed-style
+  comparison, not just a CSS rule). The WHY section was rebuilt as
+  three scannable cards (LONG-TERM / RECENT FORM / EXPERIENCE, still
+  only archived values — no new metric introduced), with the
+  recent-form-10 unit clarifier rendered inside its own card rather
+  than a page-bottom footnote. Ranking now defaults to TOP 10
+  (`TOP 10 | TOP 20 | 전체 120명`), server-rendered so it holds even
+  without JS — all 120 entrants still always render, none dropped.
+  Fixed a real bug this surfaced: with `top10` as the default filter,
+  a search hit outside the top 10 briefly returned zero results;
+  an active search query now bypasses the rank filter, so all 120
+  entrants stay reachable by search regardless of which filter pill is
+  active. 4 new/rewritten tests. 308/308 full suite passing.
+  Prediction #001's archive JSON/CSV remain byte-identical (confirmed
+  via `git diff`/hash). See `docs/PREDICTIONS_SITE.md` "Brand
+  architecture, v1.2."
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -581,7 +607,7 @@ evaluation (design only, not yet implemented) will always read an
 archived snapshot and write a separate file — never mutate the
 original.
 
-## NEO GOLF PREDICTIONS — public site
+## NEO Predictions — public site
 
 `src/klpga/site/` + `scripts/25_build_predictions_site.py` — a static-
 site generator over the immutable prediction archive. Read-only,
@@ -690,7 +716,7 @@ src/klpga/
   site/
     build.py                       static-site generator: loads archived predictions (read-only,
                                     never the DB, never inference), hard-validates each one, writes
-                                    the full static site — see "NEO GOLF PREDICTIONS" above
+                                    the full static site — see "NEO Predictions — public site" above
     templates.py                   HTML rendering + every derived Korean label, with rationale, for
                                     the public site — see docs/PREDICTIONS_SITE.md
     static/app.js, styles.css      vanilla JS (search/filter/expand — never re-sorts rows) and
@@ -759,8 +785,8 @@ scripts/
                                       output atomically as an immutable JSON+CSV prediction snapshot
                                       (plus an explicitly-labeled, cross-checked rerun_reconstruction
                                       mode for Prediction #001) — see "NEO Prediction Archive" above
-  25_build_predictions_site.py       builds the static NEO GOLF PREDICTIONS site from predictions/
-                                      only — no DB, no inference; see "NEO GOLF PREDICTIONS" above
+  25_build_predictions_site.py       builds the static NEO Predictions site from predictions/
+                                      only — no DB, no inference; see "NEO Predictions — public site" above
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)

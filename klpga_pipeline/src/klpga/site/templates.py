@@ -23,8 +23,20 @@ from klpga.archive.prediction_archive import EntrantSnapshot, PredictionSnapshot
 from klpga.models.walk_forward_eval import ROOKIE_SLICES
 from klpga.site.build import ordered_entrants
 
-SITE_TITLE = "NEO GOLF PREDICTIONS"
-SITE_TAGLINE = "data-driven golf intelligence"
+### v1.2 BRAND ARCHITECTURE ###
+# Master brand: NEO. "Numbers · Evidence · Oracle" is the acronym
+# expansion, shown in the hero only (not the compact per-page header,
+# to keep that lightweight). "Golf Intelligence" is the category
+# descriptor, shown both in the compact header and the hero.
+# "NEO Predictions" is the product name — used for <title>/footer,
+# never as the primary brand mark. See docs/PREDICTIONS_SITE.md
+# "Brand architecture, v1.2."
+SITE_MASTER_BRAND = "NEO"
+SITE_BRAND_MEANING = "Numbers · Evidence · Oracle"
+SITE_CATEGORY_DESCRIPTOR = "Golf Intelligence"
+SITE_PRODUCT_NAME = "NEO Predictions"
+
+HERO_INTRO_KO = "과거 경기 데이터를 바탕으로 KLPGA 선수들의 우승 가능성을 확률로 분석합니다."
 
 # Korean labels for klpga.models.walk_forward_eval.ROOKIE_SLICES — kept
 # in lockstep with the frozen slice names via the assertion below, so
@@ -118,40 +130,62 @@ PLAYER_UNMATCHED_NOTE_KO = (
     "예측 대상에서 제외되지 않으며, 과거 기록이 없는 선수와 동일한 방식으로 처리됩니다."
 )
 
-### v1.1 SUMMARY STRIP (near the top of every prediction page) ###
+### v1.1 SUMMARY STRIP — now a compact single line beneath the hero
+### stat, not the visual lead (v1.2 hierarchy pass) ###
 SUMMARY_TOURNAMENTS_LABEL_KO = "분석"
 SUMMARY_ROWS_LABEL_KO = "선수-대회 기록"
 SUMMARY_FIELD_LABEL_KO = "비교"
 SUMMARY_PROB_SUM_LABEL_KO = "전체 우승확률 합"
 
-### v1.1 "WHY" SECTION (rank-1 entrant only, shown near the leaderboard) ###
-WHY_TITLE_KO = "왜 이 선수의 우승확률이 높을까요?"
-WHY_INTRO_TEMPLATE_KO = (
-    "{name} 선수의 우승확률은 대회 시작 전까지 확인된 장기적인 스코어 경기력과 "
-    "최근 경기 흐름을 이번 대회 출전선수 {field_size}명과 비교해 계산한 값입니다."
+### v1.2 "WHY" SECTION — three scannable cards (rank-1 entrant only,
+### shown near the leaderboard). Replaces v1.1's definition-list
+### layout; the player/probability/rank headline itself now lives in
+### the hero (`_hero_prediction_html`), so this section is purely the
+### "why," not a repeat of "who." ###
+WHY_TITLE_TEMPLATE_KO = "왜 {name}일까?"
+WHY_JUMP_TEMPLATE_KO = "왜 {name}일까? ↓"
+WHY_SUMMARY_TEMPLATE_KO = (
+    "장기 성적과 최근 흐름을 이번 대회 출전선수 {field_size}명과 비교했을 때 "
+    "NEO에서 가장 높은 우승확률이 나왔습니다."
 )
-WHY_PARTICIPATION_LABEL_KO = "참가 이력"
 # prior_avg_round_score_to_par IS a genuine per-round rate
 # (sum(score_to_par)/sum(rounds_played) — see
 # point_in_time_features.py's module docstring) — safe to call
 # "per round."
-WHY_LONG_TERM_LABEL_KO = "라운드당 평균 스코어"
+WHY_LONG_TERM_EYEBROW_KO = "LONG-TERM"
+WHY_LONG_TERM_CAPTION_KO = "라운드당 평균 vs Par"
 # prior_recent_form_10 is the mean of each TOURNAMENT's total
 # score-to-par across up to the 10 most recent prior tournaments — a
 # per-EVENT average, NOT a per-round figure (see
 # point_in_time_features.py's module docstring and
 # player_stats.py's `_event_`/`_round_` naming-convention section).
 # Must never be described as "per round" or "per round X strokes
-# better" — that would misstate its unit.
-WHY_RECENT_FORM_LABEL_KO = "최근 10개 대회 흐름"
-WHY_RECENT_FORM_NOTE_KO = "라운드 평균이 아닌 대회 전체 합산 스코어 기준입니다."
-WHY_NO_DATA_KO = "데이터 없음"
+# better" — that would misstate its unit. Per explicit instruction,
+# this clarification lives INSIDE the card itself, not as a
+# page-bottom footnote easy to miss.
+WHY_RECENT_FORM_EYEBROW_KO = "RECENT FORM"
+WHY_RECENT_FORM_CAPTION_KO = "최근 10개 대회 성적 흐름"
+WHY_RECENT_FORM_CLARIFIER_KO = "라운드 평균이 아닌, 대회 전체 스코어 기준입니다."
+WHY_EXPERIENCE_EYEBROW_KO = "EXPERIENCE"
+WHY_EXPERIENCE_CAPTION_KO = "분석에 반영된 대회"
+WHY_NO_DATA_KO = "—"
+
+
+def _signed_stat(value: float) -> str:
+    """'-0.66' -> '-0.66', '1.2' -> '+1.20' — a bare signed number for
+    the WHY-card headline value. Explicit +/- (never omitted for a
+    positive value) so the sign is never ambiguous at a glance. This
+    does NOT state a unit itself — the card's caption/clarifier does
+    that, and must never claim "per round" for a per-event figure."""
+    return f"{value:+.2f}"
 
 
 def _signed_strokes_ko(value: float) -> str:
     """'-0.66' -> '파 대비 약 0.66타 언더'. Renders a signed to-par
-    float as plain Korean — never states a per-round/per-event unit
-    itself; callers pair this with the correct unit label."""
+    float as plain Korean prose — used only in the per-row detail
+    panel (unchanged from v1.1); the WHY cards use `_signed_stat`
+    instead. Never states a per-round/per-event unit itself; callers
+    pair this with the correct unit label."""
     if value < 0:
         direction = "언더"
     elif value > 0:
@@ -198,14 +232,26 @@ def _recent_form_value_html(entrant: EntrantSnapshot) -> str:
     )
 
 
+DEFAULT_VISIBLE_RANK_COUNT = 10
+
+
 def _entrant_row_html(entrant: EntrantSnapshot, maximum_probability: float) -> str:
+    """All 120 entrants always render (never dropped) — ranks beyond
+    `DEFAULT_VISIBLE_RANK_COUNT` are marked `row-hidden` at RENDER
+    time (server-side), so a visitor with JS disabled still gets the
+    correct TOP-10 default (progressive enhancement, matching this
+    module's existing search/filter design — see app.js's docstring).
+    This is purely a CSS visibility default; it never removes a row
+    from the DOM, never re-sorts anything, and `app.js`'s filter
+    controls can always reveal every row."""
     pct = _format_pct(entrant.win_probability)
     bar_pct = _bar_width_pct(entrant.win_probability, maximum_probability)
     search_key = f"{entrant.player_name_display} {entrant.player_code}".lower()
     unmatched_badge = "" if entrant.player_master_matched else '<span class="badge badge-unmatched">미매칭</span>'
+    hidden_by_default = " row-hidden" if entrant.rank > DEFAULT_VISIBLE_RANK_COUNT else ""
 
     main_row = (
-        f'<tr class="pred-row" data-rank="{entrant.rank}" data-code="{h(entrant.player_code)}" '
+        f'<tr class="pred-row{hidden_by_default}" data-rank="{entrant.rank}" data-code="{h(entrant.player_code)}" '
         f'data-search="{h(search_key)}" tabindex="0" role="button" aria-expanded="false">'
         f'<td class="col-rank">{entrant.rank}</td>'
         f'<td class="col-player">{h(entrant.player_name_display)}{unmatched_badge}</td>'
@@ -219,7 +265,7 @@ def _entrant_row_html(entrant: EntrantSnapshot, maximum_probability: float) -> s
     matched_note = "" if entrant.player_master_matched else f'<p class="detail-note">{h(PLAYER_UNMATCHED_NOTE_KO)}</p>'
 
     detail_row = (
-        f'<tr class="pred-detail" hidden><td colspan="3">'
+        f'<tr class="pred-detail{hidden_by_default}" hidden><td colspan="3">'
         f'<dl class="detail-grid">'
         f'<dt>우승확률</dt><dd>{pct}</dd>'
         f'<dt>예측 순위</dt><dd>{entrant.rank}위</dd>'
@@ -265,6 +311,11 @@ def _embedded_data_json(snapshot: PredictionSnapshot) -> str:
 
 
 def _table_html(snapshot: PredictionSnapshot) -> str:
+    """Default visible state is TOP 10 (both the server-rendered rows,
+    via `_entrant_row_html`, and this control's active pill) — all
+    120 entrants are always present in the DOM and reachable via
+    "전체 {field_size}명"; filtering only ever toggles visibility,
+    never re-sorts or removes a row."""
     entrants = ordered_entrants(snapshot)
     rows = "".join(_entrant_row_html(e, snapshot.maximum_probability) for e in entrants)
     return (
@@ -273,9 +324,9 @@ def _table_html(snapshot: PredictionSnapshot) -> str:
         '<input type="search" id="player-search" class="search-input" '
         'placeholder="선수 검색 (이름 또는 선수코드)" aria-label="선수 검색">'
         '<div class="filter-pills" role="group" aria-label="순위 필터">'
-        '<button type="button" class="filter-pill active" data-filter="all" aria-pressed="true">전체</button>'
-        '<button type="button" class="filter-pill" data-filter="top10" aria-pressed="false">TOP 10</button>'
+        '<button type="button" class="filter-pill active" data-filter="top10" aria-pressed="true">TOP 10</button>'
         '<button type="button" class="filter-pill" data-filter="top20" aria-pressed="false">TOP 20</button>'
+        f'<button type="button" class="filter-pill" data-filter="all" aria-pressed="false">전체 {snapshot.field_size}명</button>'
         '</div></div>'
         '<table id="predictions-table" class="pred-table">'
         '<thead><tr><th class="col-rank">순위</th><th class="col-player">선수</th>'
@@ -288,54 +339,121 @@ def _table_html(snapshot: PredictionSnapshot) -> str:
 
 
 def _summary_strip_html(snapshot: PredictionSnapshot) -> str:
+    """A single compact line of secondary evidence — deliberately NOT
+    the visual lead (v1.2 hierarchy pass moved the player/probability
+    headline into the hero; this strip now supports it, doesn't
+    compete with it)."""
     items = (
         (f"과거 {snapshot.training_tournament_count}개 대회", SUMMARY_TOURNAMENTS_LABEL_KO),
         (f"약 {CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX}개", SUMMARY_ROWS_LABEL_KO),
         (f"출전선수 {snapshot.field_size}명", SUMMARY_FIELD_LABEL_KO),
         ("100%", SUMMARY_PROB_SUM_LABEL_KO),
     )
-    tiles = "".join(
-        f'<div class="summary-item"><span class="summary-value">{h(value)}</span>'
-        f'<span class="summary-label">{h(label)}</span></div>'
-        for value, label in items
+    text = " · ".join(f"{value} {label}" for value, label in items)
+    return f'<p class="summary-strip">{h(text)}</p>'
+
+
+def _why_card_html(eyebrow: str, value: str, caption: str, clarifier: str | None = None) -> str:
+    clarifier_html = f'<span class="why-card-clarifier">{h(clarifier)}</span>' if clarifier else ""
+    return (
+        '<div class="why-card">'
+        f'<span class="why-card-eyebrow">{h(eyebrow)}</span>'
+        f'<span class="why-card-value">{h(value)}</span>'
+        f'<span class="why-card-caption">{h(caption)}</span>'
+        f"{clarifier_html}"
+        "</div>"
     )
-    return f'<div class="summary-strip">{tiles}</div>'
 
 
 def _why_section_html(snapshot: PredictionSnapshot) -> str:
+    """Three scannable stat cards for the archive's rank-1 entrant —
+    purely the "why," not a repeat of the hero's "who/what/rank." Uses
+    only archived values (`prior_events_n`, `prior_avg_round_score_to_par`,
+    `prior_recent_form_10`/`_n`) — never invents SG/GIR/driving/putting
+    or any metric not actually used by this prediction."""
     entrants = ordered_entrants(snapshot)
     if not entrants:
         return ""
     top = entrants[0]
-    pct = _format_pct(top.win_probability)
 
-    long_term_html = (
-        h(_signed_strokes_ko(top.prior_avg_round_score_to_par))
+    long_term_value = (
+        _signed_stat(top.prior_avg_round_score_to_par)
         if top.prior_avg_round_score_to_par is not None
-        else h(WHY_NO_DATA_KO)
+        else WHY_NO_DATA_KO
     )
-    if top.prior_recent_form_10 is not None and top.prior_recent_form_10_n:
-        recent_form_html = (
-            f"{h(_signed_strokes_ko(top.prior_recent_form_10))}"
-            f'<br><span class="detail-subvalue">{h(WHY_RECENT_FORM_NOTE_KO)}</span>'
+    recent_form_value = (
+        _signed_stat(top.prior_recent_form_10)
+        if top.prior_recent_form_10 is not None and top.prior_recent_form_10_n
+        else WHY_NO_DATA_KO
+    )
+
+    cards_html = (
+        _why_card_html(WHY_LONG_TERM_EYEBROW_KO, long_term_value, WHY_LONG_TERM_CAPTION_KO)
+        + _why_card_html(
+            WHY_RECENT_FORM_EYEBROW_KO, recent_form_value, WHY_RECENT_FORM_CAPTION_KO,
+            clarifier=WHY_RECENT_FORM_CLARIFIER_KO,
         )
-    else:
-        recent_form_html = h(WHY_NO_DATA_KO)
+        + _why_card_html(WHY_EXPERIENCE_EYEBROW_KO, str(top.prior_events_n), WHY_EXPERIENCE_CAPTION_KO)
+    )
+
+    title = WHY_TITLE_TEMPLATE_KO.format(name=top.player_name_display)
+    summary = WHY_SUMMARY_TEMPLATE_KO.format(field_size=snapshot.field_size)
 
     return (
-        '<section class="why-panel" aria-label="왜 이 선수의 우승확률이 높을까요?">'
-        f'<h2>{h(WHY_TITLE_KO)}</h2>'
-        '<div class="why-player">'
-        f'<span class="why-player-name">{h(top.player_name_display)}</span>'
-        f'<span class="why-player-prob">우승확률 {pct}</span>'
-        f'<span class="why-player-rank">예측순위 {top.rank}위</span>'
+        '<section class="why-panel" id="why" aria-label="왜 이 선수의 우승확률이 높을까요?">'
+        f'<h2>{h(title)}</h2>'
+        f'<div class="why-cards">{cards_html}</div>'
+        f'<p class="why-summary">{h(summary)}</p>'
+        '</section>'
+    )
+
+
+def _hero_brand_html() -> str:
+    return (
+        '<div class="hero-brand">'
+        f'<span class="hero-brand-name">{h(SITE_MASTER_BRAND)}</span>'
+        f'<span class="hero-brand-meaning">{h(SITE_BRAND_MEANING)}</span>'
+        f'<span class="hero-brand-category">{h(SITE_CATEGORY_DESCRIPTOR)}</span>'
         '</div>'
-        f'<p>{h(WHY_INTRO_TEMPLATE_KO.format(name=top.player_name_display, field_size=snapshot.field_size))}</p>'
-        '<dl class="why-stats">'
-        f'<dt>{h(WHY_PARTICIPATION_LABEL_KO)}</dt><dd>{top.prior_events_n}회</dd>'
-        f'<dt>{h(WHY_LONG_TERM_LABEL_KO)}</dt><dd>{long_term_html}</dd>'
-        f'<dt>{h(WHY_RECENT_FORM_LABEL_KO)}</dt><dd>{recent_form_html}</dd>'
-        '</dl>'
+        f'<p class="hero-intro">{h(HERO_INTRO_KO)}</p>'
+    )
+
+
+def _hero_prediction_html(snapshot: PredictionSnapshot, top: EntrantSnapshot) -> str:
+    """The dominant visual object: the rank-1 player and probability —
+    NOT the methodology, NOT the dataset metadata, NOT the model name.
+    The player name renders at equal-or-greater visual weight than the
+    probability (enforced in CSS, `.hero-player-name` >= `.hero-player-prob`
+    font-size — see styles.css and the accompanying test) so this never
+    reads as an odds display."""
+    tournament_name = snapshot.tournament_name or "(대회명 미확인)"
+    pct = _format_pct(top.win_probability)
+    return (
+        '<div class="hero-prediction">'
+        f'<p class="hero-eyebrow">NEO PREDICTION #{h(snapshot.prediction_id)}</p>'
+        f'<h1 class="hero-tournament">{h(tournament_name)}</h1>'
+        '<div class="hero-stat">'
+        f'<span class="hero-player-name">{h(top.player_name_display)}</span>'
+        f'<span class="hero-player-prob">{pct}</span>'
+        '</div>'
+        f'<p class="hero-stat-sub">우승확률 · 전체 {snapshot.field_size}명 중 {top.rank}위</p>'
+        '<p class="hero-status">PRE-TOURNAMENT · LOCKED</p>'
+        '</div>'
+    )
+
+
+def _hero_section_html(snapshot: PredictionSnapshot) -> str:
+    entrants = ordered_entrants(snapshot)
+    if not entrants:
+        return ""
+    top = entrants[0]
+    jump_label = WHY_JUMP_TEMPLATE_KO.format(name=top.player_name_display)
+    return (
+        '<section class="hero">'
+        f'{_hero_brand_html()}'
+        f'{_hero_prediction_html(snapshot, top)}'
+        f'{_summary_strip_html(snapshot)}'
+        f'<a href="#why" class="hero-jump">{h(jump_label)}</a>'
         '</section>'
     )
 
@@ -418,13 +536,13 @@ def _shell(*, page_title: str, active_nav: str, body_html: str) -> str:
         "</head>"
         "<body>"
         '<header class="site-header">'
-        f'<a href="/" class="brand"><span class="brand-mark">{h(SITE_TITLE)}</span>'
-        f'<span class="brand-tagline">{h(SITE_TAGLINE)}</span></a>'
+        f'<a href="/" class="brand"><span class="brand-mark">{h(SITE_MASTER_BRAND)}</span>'
+        f'<span class="brand-tagline">{h(SITE_CATEGORY_DESCRIPTOR)}</span></a>'
         f"{_nav_html(active_nav)}"
         "</header>"
         f'<main class="site-main">{body_html}</main>'
         '<footer class="site-footer">'
-        f'<p>{h(SITE_TITLE)} — {h(SITE_TAGLINE)}</p>'
+        f'<p>{h(SITE_PRODUCT_NAME)} — {h(SITE_CATEGORY_DESCRIPTOR)}</p>'
         "</footer>"
         '<script src="/static/app.js"></script>'
         "</body></html>"
@@ -434,15 +552,14 @@ def _shell(*, page_title: str, active_nav: str, body_html: str) -> str:
 def render_prediction_page(snapshot: PredictionSnapshot, *, is_home: bool) -> str:
     """The main per-prediction page (also written to `/` for the
     latest prediction, and to `/predictions/<id>/` as its permalink —
-    identical content either way)."""
+    identical content either way). v1.2: the hero
+    (`_hero_section_html`) is the dominant visual object — the
+    rank-1 player and probability lead, not the methodology or
+    dataset metadata (see docs/PREDICTIONS_SITE.md "v1.2 hierarchy")."""
     tournament_name = snapshot.tournament_name or "(대회명 미확인)"
     body = (
         '<article class="prediction-page">'
-        '<div class="tournament-header">'
-        f'<h1 class="tournament-name">{h(tournament_name)}</h1>'
-        '<span class="badge badge-status">PRE-TOURNAMENT</span>'
-        "</div>"
-        f"{_summary_strip_html(snapshot)}"
+        f"{_hero_section_html(snapshot)}"
         f"{_why_section_html(snapshot)}"
         f"{_table_html(snapshot)}"
         f"{_explanation_block_html()}"
@@ -450,7 +567,11 @@ def render_prediction_page(snapshot: PredictionSnapshot, *, is_home: bool) -> st
         f"{_prediction_record_block_html(snapshot)}"
         "</article>"
     )
-    title = f"{SITE_TITLE} — {tournament_name}" if is_home else f"{SITE_TITLE} — 예측 #{snapshot.prediction_id}"
+    title = (
+        f"{SITE_PRODUCT_NAME} — {tournament_name}"
+        if is_home
+        else f"{SITE_PRODUCT_NAME} — 예측 #{snapshot.prediction_id}"
+    )
     return _shell(page_title=title, active_nav="home" if is_home else "predictions", body_html=body)
 
 
@@ -470,7 +591,7 @@ def render_predictions_index(snapshots: list[PredictionSnapshot]) -> str:
         f'<ul class="prediction-list">{items}</ul>'
         "</section>"
     )
-    return _shell(page_title=f"{SITE_TITLE} — 예측 기록", active_nav="predictions", body_html=body)
+    return _shell(page_title=f"{SITE_PRODUCT_NAME} — 예측 기록", active_nav="predictions", body_html=body)
 
 
 def render_history_page(snapshots: list[PredictionSnapshot]) -> str:
@@ -490,7 +611,7 @@ def render_history_page(snapshots: list[PredictionSnapshot]) -> str:
         f'<ul class="prediction-list">{items}</ul>'
         "</section>"
     )
-    return _shell(page_title=f"{SITE_TITLE} — 예측 기록 (결과 평가)", active_nav="predictions", body_html=body)
+    return _shell(page_title=f"{SITE_PRODUCT_NAME} — 예측 기록 (결과 평가)", active_nav="predictions", body_html=body)
 
 
 def render_methodology_page(snapshot: PredictionSnapshot) -> str:
@@ -506,5 +627,5 @@ def render_methodology_page(snapshot: PredictionSnapshot) -> str:
         f'<p class="explanation-note">{h(PROBABILITY_SUM_NOTE_KO)} {h(PROBABILITY_NOT_GUARANTEE_KO)}</p>'
         "</section>"
     )
-    return _shell(page_title=f"{SITE_TITLE} — 방법론", active_nav="methodology", body_html=body)
+    return _shell(page_title=f"{SITE_PRODUCT_NAME} — 방법론", active_nav="methodology", body_html=body)
 

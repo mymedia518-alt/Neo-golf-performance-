@@ -358,6 +358,60 @@ def test_public_page_only_mentions_excluded_stats_inside_the_negative_disclaimer
         assert term not in remainder, f"{term!r} appears outside the negative disclaimer"
 
 
+def test_hero_section_shows_rank1_player_leading_the_probability(predictions_root, tmp_path):
+    """v1.2: the player + probability headline moved out of the WHY
+    section and into the hero (the dominant visual object on the
+    page) — the WHY section is purely the 'why,' not a repeat of
+    'who/what/rank.'"""
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+
+    hero_match = re.search(r'<section class="hero">.*?</section>', html, re.DOTALL)
+    assert hero_match is not None
+    hero_html = hero_match.group(0)
+
+    top = sorted(snapshot.predictions, key=lambda e: e.rank)[0]
+    assert top.player_name_display in hero_html
+    assert f"{top.win_probability * 100:.2f}%" in hero_html
+    assert f"전체 {snapshot.field_size}명 중 {top.rank}위" in hero_html
+    assert "PRE-TOURNAMENT" in hero_html
+    assert "LOCKED" in hero_html
+    assert f"NEO PREDICTION #{snapshot.prediction_id}" in hero_html
+    assert (snapshot.tournament_name or "") in hero_html
+
+    assert site_templates.SITE_MASTER_BRAND in hero_html
+    assert site_templates.SITE_BRAND_MEANING in hero_html
+    assert site_templates.SITE_CATEGORY_DESCRIPTOR in hero_html
+    assert site_templates.HERO_INTRO_KO in hero_html
+
+
+def test_top10_is_the_server_rendered_default_and_all_rows_still_exist(tmp_path):
+    """v1.2: TOP 10 is the default VISIBLE state, but every entrant
+    must still be present in the DOM (never silently dropped) and the
+    'top10' filter pill must be the one marked active server-side, to
+    match the pill state app.js starts in."""
+    entrants = [_entrant(i, f"P{i:03d}", f"선수{i:03d}", max(0.001, 0.30 - (i - 1) * 0.01)) for i in range(1, 26)]
+    root = tmp_path / "predictions"
+    snapshot = _snapshot(entrants)
+    _write_archive(root, snapshot)
+
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+
+    all_rows = re.findall(r'<tr class="pred-row( row-hidden)?" data-rank="(\d+)"', html)
+    assert len(all_rows) == 25, "all 25 entrants must render, none silently dropped"
+
+    hidden_ranks = sorted(int(rank) for hidden, rank in all_rows if hidden)
+    visible_ranks = sorted(int(rank) for hidden, rank in all_rows if not hidden)
+    assert visible_ranks == list(range(1, 11))
+    assert hidden_ranks == list(range(11, 26))
+
+    assert '<button type="button" class="filter-pill active" data-filter="top10" aria-pressed="true">TOP 10</button>' in html
+    assert 'data-filter="top20" aria-pressed="false">TOP 20</button>' in html
+    assert 'data-filter="all" aria-pressed="false">전체 25명</button>' in html
+
+
 def test_why_section_shows_rank1_player_with_archived_values(predictions_root, tmp_path):
     root, snapshot = predictions_root
     result = build_site(root, tmp_path / "dist")
@@ -369,9 +423,7 @@ def test_why_section_shows_rank1_player_with_archived_values(predictions_root, t
 
     top = sorted(snapshot.predictions, key=lambda e: e.rank)[0]
     assert top.player_name_display in why_html
-    assert f"우승확률 {top.win_probability * 100:.2f}%" in why_html
-    assert f"예측순위 {top.rank}위" in why_html
-    assert f"{top.prior_events_n}회" in why_html
+    assert f"{top.prior_events_n}" in why_html
 
 
 def test_recent_form_10_is_never_described_as_a_per_round_figure(predictions_root, tmp_path):
@@ -383,17 +435,18 @@ def test_recent_form_10_is_never_described_as_a_per_round_figure(predictions_roo
     result = build_site(root, tmp_path / "dist")
     html = (result.output_root / "index.html").read_text(encoding="utf-8")
 
-    assert site_templates.WHY_RECENT_FORM_NOTE_KO in html
+    assert site_templates.WHY_RECENT_FORM_CLARIFIER_KO in html
     assert "라운드 평균이 아닌" in html
-    # The one metric that IS legitimately per-round keeps that label...
-    assert site_templates.WHY_LONG_TERM_LABEL_KO in html
-    # ...but recent-form-10's own label must never claim "per round."
+    # The one metric that IS legitimately per-round keeps that caption...
+    assert site_templates.WHY_LONG_TERM_CAPTION_KO in html
+    assert "라운드당" in site_templates.WHY_LONG_TERM_CAPTION_KO
+    # ...but recent-form-10's own card must never claim "per round."
     why_match = re.search(r'<section class="why-panel".*?</section>', html, re.DOTALL)
-    recent_form_block = re.search(
-        r"최근 10개 대회 흐름</dt><dd>(.*?)</dd>", why_match.group(0), re.DOTALL
+    recent_form_card = re.search(
+        r'<span class="why-card-eyebrow">RECENT FORM</span>.*?</div>', why_match.group(0), re.DOTALL
     )
-    assert recent_form_block is not None
-    assert "라운드당" not in recent_form_block.group(1)
+    assert recent_form_card is not None
+    assert "라운드당" not in recent_form_card.group(0)
 
 
 def test_prior_avg_round_score_to_par_is_a_genuine_per_round_rate_by_formula():
@@ -416,7 +469,7 @@ def test_summary_strip_shows_the_four_required_facts(predictions_root, tmp_path)
     result = build_site(root, tmp_path / "dist")
     html = (result.output_root / "index.html").read_text(encoding="utf-8")
 
-    strip_match = re.search(r'<div class="summary-strip">.*?</div>\s*</div>', html, re.DOTALL)
+    strip_match = re.search(r'<p class="summary-strip">.*?</p>', html, re.DOTALL)
     assert strip_match is not None
     strip_html = strip_match.group(0)
     assert f"과거 {snapshot.training_tournament_count}개 대회" in strip_html

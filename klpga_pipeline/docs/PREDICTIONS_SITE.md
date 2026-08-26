@@ -1,4 +1,4 @@
-# NEO GOLF PREDICTIONS — public site
+# NEO Predictions — public site
 
 **Status: implemented 2026-08-26.** A static-site generator over the
 immutable NEO Prediction Archive (`docs/PREDICTION_ARCHIVE.md`). This
@@ -128,17 +128,20 @@ constant, so it has one place to review and one place to change.
   10 most recent PRIOR tournaments (never padded — see
   `klpga.backtest.point_in_time_features`'s module docstring). It is
   never labeled "per round" anywhere on the site — that would misstate
-  its unit. Current wording (`RECENT_FORM_VALUE_LABEL_KO`,
-  `WHY_RECENT_FORM_NOTE_KO`):
+  its unit. As of v1.2, the WHY section's RECENT FORM card carries this
+  disambiguation inline (`WHY_RECENT_FORM_CLARIFIER_KO`, rendered
+  inside the card itself, not a page-bottom footnote); the per-row
+  detail panel keeps its own longer wording
+  (`RECENT_FORM_VALUE_LABEL_KO`):
 
   > 최근 최대 10개 대회의 대회 합계 스코어(파 대비) 평균 /
-  > 라운드 평균이 아닌 대회 전체 합산 스코어 기준입니다.
+  > 라운드 평균이 아닌, 대회 전체 스코어 기준입니다.
 
   By contrast, **`prior_avg_round_score_to_par` IS a genuine per-round
   rate** — `sum(score_to_par)/sum(rounds_played)`
-  (`point_in_time_features.py`) — so the "왜 이 선수의 우승확률이
-  높을까요?" section's `WHY_LONG_TERM_LABEL_KO` ("라운드당 평균
-  스코어") is the only place on the site that legitimately says "per
+  (`point_in_time_features.py`) — so the "왜 {선수}일까?" WHY section's
+  LONG-TERM card (`WHY_LONG_TERM_CAPTION_KO`, "라운드당 평균 vs
+  Par") is the only place on the site that legitimately says "per
   round." These two metrics must never be given the same unit framing.
 
 - **`player_master_matched = false`** ("배윤설 0908(A)"-style entrants):
@@ -241,6 +244,109 @@ next to it is always the ground truth number.
 
 System font stack only (Apple SD Gothic Neo / Malgun Gothic / Noto
 Sans KR / Segoe UI fallback) — no bundled webfont.
+
+---
+
+## Brand architecture, v1.2
+
+**Status: implemented 2026-08-26**, a visual-hierarchy/product-design
+pass. Every constant lives in `src/klpga/site/templates.py`:
+
+| Constant | Value | Where it's shown |
+|---|---|---|
+| `SITE_MASTER_BRAND` | `NEO` | Compact per-page header AND hero |
+| `SITE_BRAND_MEANING` | `Numbers · Evidence · Oracle` | Hero only (the acronym expansion is a first-visit explainer, not needed on every page) |
+| `SITE_CATEGORY_DESCRIPTOR` | `Golf Intelligence` | Compact per-page header AND hero |
+| `SITE_PRODUCT_NAME` | `NEO Predictions` | `<title>` and footer only — never the primary visual brand mark |
+
+"NEO GOLF PREDICTIONS" is retired as a brand string; it does not appear
+anywhere in the rendered site.
+
+### Hero structure
+
+`_hero_section_html()` is now the dominant visual object on a
+prediction page — it renders before the WHY section, the ranking
+table, and the methodology panel. It carries, in order: the brand
+lockup (`_hero_brand_html`, including `HERO_INTRO_KO`, the one-line
+plain-Korean explanation of what NEO does), the prediction headline
+(`_hero_prediction_html`: `NEO PREDICTION #<id>`, tournament name,
+player name + probability, `우승확률 · 전체 {field_size}명 중
+{rank}위`, `PRE-TOURNAMENT · LOCKED`), then the compact evidence line
+(`_summary_strip_html`, now a single `<p class="summary-strip">`, not
+a four-tile grid), then a `#why` jump link.
+
+**Hard invariant: the player must visually lead the probability.**
+`.hero-player-name` and `.hero-player-prob` share the same `font-size`
+in `styles.css` at every breakpoint (2.1rem mobile, 2.6rem desktop) —
+enforced live, not just by the stylesheet, by
+`tests/test_predictions_site_browser.py::test_hero_player_name_is_not_visually_smaller_than_probability`,
+which compares `getComputedStyle(...).fontSize` for both elements in
+a real rendered page. `10.10%` is never allowed to outweigh the
+player's own name, which is what would make this read as betting
+odds instead of an analysis.
+
+### WHY section redesign
+
+`_why_section_html()` now renders three scannable cards
+(`_why_card_html`) instead of a definition list — LONG-TERM (
+`prior_avg_round_score_to_par`, a genuine per-round rate, captioned
+"라운드당 평균 vs Par"), RECENT FORM (`prior_recent_form_10`, a
+per-EVENT average, captioned "최근 10개 대회 성적 흐름"), and
+EXPERIENCE (`prior_events_n`). No metric outside these three archived
+values is ever introduced — no SG/GIR/driving/putting, matching the
+data-coverage audit referenced below.
+
+The unit-safety clarifier for `prior_recent_form_10`
+(`WHY_RECENT_FORM_CLARIFIER_KO` = "라운드 평균이 아닌, 대회 전체
+스코어 기준입니다.") renders **inside the RECENT FORM card itself**
+(via `_why_card_html`'s optional `clarifier` param), not as a
+page-bottom footnote a reader could miss.
+
+The player/probability/rank headline that the WHY section showed in
+v1.1 moved to the hero — the WHY section is now purely "why," never a
+repeat of "who/what/rank."
+
+### TOP 10 default ranking
+
+`DEFAULT_VISIBLE_RANK_COUNT = 10` in `templates.py`. Every entrant
+still renders unconditionally in `_entrant_row_html()` — all 120 rows
+always exist in the DOM — but rows with `rank >
+DEFAULT_VISIBLE_RANK_COUNT` get a `row-hidden` CSS class **at render
+time**, so this is the correct default even for a visitor with
+JavaScript disabled (progressive enhancement, not a JS-only default).
+The filter pills reorder to `TOP 10` (active by default) → `TOP 20` →
+`전체 {field_size}명` (dynamic label, not a bare "전체" — makes the
+true total explicit).
+
+`static/app.js`'s `state.filter` default was changed from `"all"` to
+`"top10"` to mirror the server-rendered default. This surfaced one
+real behavior gap during implementation: with a `top10` default
+filter, `matchesFilter()` would silently return zero results for a
+search hit outside the top 10 (e.g. searching a rank-60 player while
+the TOP 10 pill was still showing active) — which would have made
+that entrant effectively unreachable by search, contradicting "all
+120 entrants must remain accessible." Fixed by having an active
+search query bypass the rank filter entirely
+(`matchesFilter()` returns `true` immediately when `state.query` is
+non-empty) — search always searches the full 120, independent of
+which rank filter pill is currently showing as active. Covered by
+`tests/test_predictions_site_browser.py::test_search_never_reorders_rows_only_hides_them`
+and `::test_top10_is_visible_by_default_on_load`, and by
+`tests/test_predictions_site_build.py::test_top10_is_the_server_rendered_default_and_all_rows_still_exist`
+for the server-rendered default itself.
+
+No entrant is ever dropped: `ordered_entrants()` still supplies every
+row to `_entrant_row_html()` unconditionally, and the "전체
+{field_size}명" filter always restores every row to visible.
+
+### Desktop container width
+
+`.site-main`'s `max-width` widened from 720px to 860px, with desktop
+padding increased at the `640px` breakpoint, so the page reads as a
+designed layout rather than a narrow document floating in a large
+empty browser window. Mobile (`<640px`) is unaffected; the 360px
+no-horizontal-scroll guarantee (`tests/test_predictions_site_browser.py::test_mobile_viewport_shows_rank_player_win_without_horizontal_scroll`)
+was re-verified after this change.
 
 ---
 

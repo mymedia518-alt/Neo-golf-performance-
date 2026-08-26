@@ -231,8 +231,30 @@ def test_mobile_viewport_shows_rank_player_win_without_horizontal_scroll(page, s
 
 def test_home_page_title_and_status_badge(page, site_url):
     page.goto(site_url)
-    assert "NEO GOLF PREDICTIONS" in page.title()
-    # PRE-TOURNAMENT legitimately appears twice as of v1.1 (the
-    # tournament header badge, and again in the simplified public
-    # Prediction Record panel) — assert the header's badge specifically.
-    assert page.locator(".tournament-header .badge-status").inner_text() == "PRE-TOURNAMENT"
+    assert "NEO Predictions" in page.title()
+    # PRE-TOURNAMENT legitimately appears twice as of v1.2 (the hero's
+    # plain-text status line, and again in the simplified public
+    # Prediction Record panel) — assert the hero's specifically.
+    assert "PRE-TOURNAMENT" in page.locator(".hero-status").inner_text()
+    assert "LOCKED" in page.locator(".hero-status").inner_text()
+
+
+def test_hero_player_name_is_not_visually_smaller_than_probability(page, site_url):
+    """Hard product requirement: the player must visually lead the
+    probability — 10.10% must never read like betting odds. Enforced
+    here as a live rendered font-size comparison, not just a CSS rule
+    that could silently drift from the markup."""
+    page.goto(site_url)
+    name_size = page.eval_on_selector(".hero-player-name", "el => parseFloat(getComputedStyle(el).fontSize)")
+    prob_size = page.eval_on_selector(".hero-player-prob", "el => parseFloat(getComputedStyle(el).fontSize)")
+    assert name_size >= prob_size
+
+
+def test_top10_is_visible_by_default_on_load(page, site_url):
+    """The TOP10 default must hold even before any JS interaction —
+    this is the server-rendered state app.js's own default merely
+    mirrors."""
+    page.goto(site_url)
+    visible = sorted(int(r) for r in _ranks(page, ".pred-row:not(.row-hidden)"))
+    assert visible == list(range(1, 11))
+    assert page.locator('.filter-pill[data-filter="top10"]').get_attribute("aria-pressed") == "true"

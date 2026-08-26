@@ -16,7 +16,12 @@
     var filterButtons = root.querySelectorAll(".filter-pill");
     var rows = Array.prototype.slice.call(table.querySelectorAll(".pred-row"));
 
-    var state = { query: "", filter: "all" };
+    // "top10" matches the server-rendered default (see
+    // DEFAULT_VISIBLE_RANK_COUNT / _entrant_row_html in templates.py) —
+    // this only keeps client-side state in sync with what's already on
+    // the page; it doesn't itself hide/show anything until a
+    // search/filter interaction happens.
+    var state = { query: "", filter: "top10" };
 
     function matchesSearch(row) {
       if (!state.query) return true;
@@ -25,6 +30,12 @@
     }
 
     function matchesFilter(row) {
+      // An active search query overrides the rank filter — every one
+      // of the 120 entrants must stay reachable by name/code, even
+      // while the "TOP 10" pill is still showing as active. Without
+      // this, searching for a player ranked outside the current pill
+      // would silently return zero results.
+      if (state.query) return true;
       if (state.filter === "all") return true;
       var rank = parseInt(row.getAttribute("data-rank"), 10);
       if (state.filter === "top10") return rank <= 10;
