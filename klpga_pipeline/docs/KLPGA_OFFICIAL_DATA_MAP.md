@@ -3466,6 +3466,142 @@ made. No change to Prediction #001, `predictions/`, model/inference/
 probability logic, the production DB, the archive, or the public
 website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
 
+## Round 10 (continued) — bounded missing-evidence acquisition: live-fire mode implemented (not yet run)
+
+Per explicit authorization ("Authorize only the bounded missing-
+evidence acquisition step for the identities currently classified as
+UNRESOLVED_INSUFFICIENT_EVIDENCE... Use the existing PoliteHttpClient
+safety/rate-limit behavior, save each raw response to its exact
+expected_raw_sample_path, stop immediately on 401/403/429, and after
+acquisition rerun the existing identity-key collision audit"),
+`scripts/32_bounded_missing_evidence_request_plan.py` gained a
+`--live` mode. `--dry-run` behaves exactly as before (unchanged code
+path, unchanged tests). `--live` and `--dry-run` are mutually
+exclusive; passing neither still refuses to run, exactly as before.
+
+**Important limitation this round could not remove**: this
+development session runs in a cloud sandbox with no network route to
+klpga.co.kr — it has never been able to fire a live HTTP request
+against the real site at any point in this project. This round
+therefore implements, offline-tests, and ships the live-fire
+*capability* — it has NOT executed it. The actual acquisition run
+must happen on the user's own machine; see "Exact commands" below.
+Everything else this round's authorization asked for (implementation,
+offline verification, the collision-audit rerun wiring, the
+consolidated report format, tests, full suite, commit/push) is
+complete.
+
+**New: `acquire_missing_evidence(client, taxonomy, season, raw_
+samples_dir, *, log)`** — the live-fire core, fully offline-testable
+against a fake client double (never a real `PoliteHttpClient` in
+tests, so the test suite itself makes zero network calls):
+- Derives the request set FRESH every call from `build_missing_
+  evidence_request_plan` (itself derived fresh from `audit_identity_
+  key_collisions`) — never hardcoded, never assumed to match a prior
+  run's set. Only `UNRESOLVED_INSUFFICIENT_EVIDENCE` identities are
+  ever requested; `PARTIAL_MATCH_NEEDS_REVIEW`/`D_UNRESOLVED`/already-
+  resolved groups are excluded by construction, exactly as the
+  dry-run plan already was.
+- Immediately before EACH request (not just once when the plan was
+  built), re-checks whether the expected raw-sample file already
+  exists on disk — if so, the identity is skipped without ever being
+  requested, so evidence that appears mid-run (e.g. from a concurrent
+  process) is never overwritten.
+- Reuses `record_fetch.fetch_and_analyze` unmodified for the actual
+  request/parse/log-entry step — the exact same tested logic Phase
+  B1 and Phase B2 already use, saving the raw response to precisely
+  the naming convention the audit itself reads back.
+- A `RateLimitBlockedError` (401/403/429) is a HARD stop: halts every
+  further request for the rest of that run, immediately, never
+  retried or bypassed (`PoliteHttpClient` itself already never
+  retries this exception — see `http_client.py`'s `_retryable`). Every
+  not-yet-attempted identity is recorded in `skipped` with a reason
+  naming the stop. Any other exception (an HTTP-layer failure after
+  `PoliteHttpClient`'s own 4-attempt retry/backoff is exhausted) is a
+  LOCAL blocker: recorded as `HTTP_FAILURE` and acquisition continues
+  to the next identity — this matches the SKIP → LOG → CONTINUE
+  policy from the authorization, distinguishing a per-item failure
+  from a site-wide access restriction.
+- Records, per identity: HTTP outcome, a best-effort `cache_live_
+  distinction` (`CACHE_HIT`/`LIVE_FETCH`, computed by checking
+  `PoliteHttpClient`'s own disk-cache path before the request touches
+  it; `NOT_AVAILABLE` — never a guess — if the client doesn't expose
+  that internal), raw sample path and size, timestamp, `parse_status`,
+  `player_row_count`, `schema_fingerprint`, and the full data-quality
+  field set (`missing_player_code`, `missing_player_name`, `blank_
+  values`, `non_numeric_numeric_fields`, `duplicate_player_rows`,
+  `data_quality_any_flagged`) straight from the existing, unmodified
+  `response_schema.analyze_response`.
+- Reruns `audit_identity_key_collisions` twice — once before any
+  request (the true BEFORE baseline) and once after acquisition or the
+  hard stop (AFTER) — returning both as plain category-count tallies.
+  Never forces any category to zero; a category genuinely remaining
+  non-zero after acquisition is reported as such, not hidden.
+
+**New: `run_live(client, taxonomy, season, raw_samples_dir)`** — wraps
+`acquire_missing_evidence` and prints the single consolidated report:
+`=== EXECUTION SUMMARY ===` (counts matching the authorization's
+field list, including `COMPLETION_PERCENT`), `=== HTTP / CACHE ===`,
+`=== PARSER ===`, `=== COLLISION AUDIT ===` (BEFORE vs AFTER), `===
+SKIPPED_ITEMS_REVIEW ===`, `=== HARD_STOPS ===`. Returns `EXIT_HARD_
+STOP` (4, mirroring `scripts/29`'s `EXIT_BLOCKED`) if a 401/403/429
+halted the run partway through, `EXIT_COMPLETE` (0) otherwise —
+including the case of zero remaining missing-evidence identities.
+
+**Tests**: 13 new in `tests/test_bounded_missing_evidence_request_
+plan_script.py`, all offline against a fake in-process client double
+(`_FakeClient`/`_FakeClientNoCacheIntrospection` — never a real socket):
+only the genuinely-missing identity is ever requested; PARTIAL/
+resolved groups are never touched; the raw sample is saved and every
+parser/data-quality field is recorded correctly; a `RateLimitBlocked
+Error` halts the run and leaves the remaining identity un-requested
+and explicitly skipped with a hard-stop reason; a plain HTTP failure
+is recorded and acquisition continues to the next identity; evidence
+that already exists at call time is never re-requested or overwritten;
+BEFORE/AFTER collision-audit counts reflect newly-acquired evidence;
+`cache_live_distinction` reports `NOT_AVAILABLE` honestly when the
+client can't support it and `CACHE_HIT` when it can; the consolidated
+report prints every required section; `--live`+`--dry-run` together is
+refused; and one true end-to-end test drives `main()` with the REAL
+`PoliteHttpClient` (safe offline only because that test's taxonomy has
+zero missing-evidence identities, so zero HTTP calls are ever made),
+proving the `--live` CLI wiring itself is correct. All 10 pre-existing
+tests in that file continue to pass completely unchanged.
+
+**677/677 tests passing** (664 before this round). No live requests
+made — this sandbox has no network route to klpga.co.kr; see
+limitation note above. No change to Prediction #001, `predictions/`,
+model/inference/probability logic, the production DB, the archive, or
+the public website. `scripts/29`'s B2 runner untouched. Phase B2 not
+executed. The identity-key matcher/classification code is completely
+untouched this round.
+
+**Exact commands for the user to run the actual acquisition** (on a
+machine with real network access to klpga.co.kr — this sandbox
+cannot run these):
+
+```powershell
+# 1. Sync to this round's commit (see the commit hash given after push).
+# 2. Dry run first — review the plan, confirms zero HTTP requests:
+python scripts\32_bounded_missing_evidence_request_plan.py `
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json `
+    --season 2025 `
+    --dry-run
+
+# 3. Only after reviewing that plan, the actual live acquisition:
+python scripts\32_bounded_missing_evidence_request_plan.py `
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json `
+    --season 2025 `
+    --live
+```
+
+Paste back the full console output of step 3 (or, if truncated, the
+newly-saved files under `docs\discovery\raw_samples\` plus the
+console's `=== EXECUTION SUMMARY ===` / `=== COLLISION AUDIT ===`
+sections) so the BEFORE/AFTER comparison and any genuine parser
+findings from real response data can be completed against real
+evidence, per this project's standing evidence discipline.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
