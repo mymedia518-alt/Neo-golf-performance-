@@ -85,6 +85,7 @@ from klpga.discovery.sampler import (  # noqa: E402
     reject_malformed_leaves,
     reject_navigation_container_leaves,
     select_representative_sample,
+    select_representative_sample_from_canonical_plan,
 )
 from klpga.discovery.schema_report import (  # noqa: E402
     build_request_outcome_counts,
@@ -200,36 +201,61 @@ def run(
     max_requests: int = DEFAULT_MAX_REQUESTS,
     historical_season: str | None = None,
     save_raw_responses: bool = True,
+    canonical_plan: list[dict] | None = None,
 ) -> int:
+    """`canonical_plan`, when given (the `canonical_requestable_metrics`
+    list from `docs/discovery/KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json`),
+    is used as the sample's SOURCE OF TRUTH instead of `taxonomy` — it
+    is already malformed-free and navigation-free by construction (see
+    `canonical_plan.py`), so no separate rejection pass runs. `taxonomy`
+    is still accepted (may be `{}`) purely for the samples-json
+    `source_taxonomy` field. Leave `canonical_plan` as `None` to keep
+    the original raw-taxonomy path unchanged."""
     raw_dir = (out_dir / "raw_samples") if save_raw_responses else None
-    _log("[STEP 03] taxonomy loading (rejecting malformed leaves and navigation containers)")
-    raw_leaves = taxonomy.get("leaves", [])
-    valid_leaves, rejected_leaves = reject_malformed_leaves(raw_leaves)
-    valid_leaves, rejected_navigation = reject_navigation_container_leaves(valid_leaves)
-    _log(f"[STEP 04] taxonomy loaded: {len(raw_leaves)} leaves ({len(valid_leaves)} requestable)")
-    if rejected_leaves:
-        _log(
-            f"[STEP 05] malformed leaves rejected: {len(rejected_leaves)} "
-            f"(blank/missing menu1 or menu2 — never a requestable metric): "
-            f"{[d.get('source_metric_key', d) for d in rejected_leaves]}"
-        )
+    if canonical_plan is not None:
+        _log(f"[STEP 03] canonical plan loaded: {len(canonical_plan)} canonical requestable metrics (source of truth)")
+        _log("[STEP 04] taxonomy loading: skipped (canonical-plan mode)")
+        _log("[STEP 05] malformed leaves rejected: N/A — canonical plan is malformed-free by construction")
+        _log("[STEP 05b] navigation/container leaves rejected: N/A — canonical plan is navigation-free by construction")
+        sample = select_representative_sample_from_canonical_plan(canonical_plan, target_count=sample_size)
+        _log(f"[STEP 06] representative sample selected: {len(sample)} (from {len(canonical_plan)} canonical metrics)")
     else:
-        _log("[STEP 05] malformed leaves rejected: 0")
-    if rejected_navigation:
-        _log(
-            f"[STEP 05b] navigation/container leaves rejected: {len(rejected_navigation)} "
-            f"(e.g. menu1=\"All\" — confirmed by real evidence to return a navigation menu "
-            f"page, not player data, never a requestable metric): "
-            f"{[d.get('source_metric_key', d) for d in rejected_navigation]}"
-        )
-    else:
-        _log("[STEP 05b] navigation/container leaves rejected: 0")
-    sample = select_representative_sample({**taxonomy, "leaves": valid_leaves}, target_count=sample_size)
-    _log(f"[STEP 06] representative sample selected: {len(sample)} (from {len(valid_leaves)} requestable leaves)")
+        _log("[STEP 03] taxonomy loading (rejecting malformed leaves and navigation containers)")
+        raw_leaves = taxonomy.get("leaves", [])
+        valid_leaves, rejected_leaves = reject_malformed_leaves(raw_leaves)
+        valid_leaves, rejected_navigation = reject_navigation_container_leaves(valid_leaves)
+        _log(f"[STEP 04] taxonomy loaded: {len(raw_leaves)} leaves ({len(valid_leaves)} requestable)")
+        if rejected_leaves:
+            _log(
+                f"[STEP 05] malformed leaves rejected: {len(rejected_leaves)} "
+                f"(blank/missing menu1 or menu2 — never a requestable metric): "
+                f"{[d.get('source_metric_key', d) for d in rejected_leaves]}"
+            )
+        else:
+            _log("[STEP 05] malformed leaves rejected: 0")
+        if rejected_navigation:
+            _log(
+                f"[STEP 05b] navigation/container leaves rejected: {len(rejected_navigation)} "
+                f"(e.g. menu1=\"All\" — confirmed by real evidence to return a navigation menu "
+                f"page, not player data, never a requestable metric): "
+                f"{[d.get('source_metric_key', d) for d in rejected_navigation]}"
+            )
+        else:
+            _log("[STEP 05b] navigation/container leaves rejected: 0")
+        sample = select_representative_sample({**taxonomy, "leaves": valid_leaves}, target_count=sample_size)
+        _log(f"[STEP 06] representative sample selected: {len(sample)} (from {len(valid_leaves)} requestable leaves)")
 
     duplicates = find_duplicate_identities(sample)
     if duplicates:
         _log(f"WARNING: sampler produced duplicate identities (sampler bug, not a taxonomy finding): {duplicates}")
+
+    _log(f"[STEP 06b] Phase B1 request plan — {len(sample)} metrics selected, about to make {len(sample)} live requests:")
+    for plan_idx, plan_leaf in enumerate(sample, start=1):
+        _log(
+            f"  {plan_idx}. {plan_leaf.source_metric_key} "
+            f"(menu1={plan_leaf.menu1!r} menu2={plan_leaf.menu2!r} menu3={plan_leaf.menu3!r} "
+            f"leaf_level={plan_leaf.leaf_level!r})"
+        )
 
     records: list[dict] = []
     parsed_by_key = {}  # source_metric_key -> ParsedRecordResponse, kept for the historical comparison below
@@ -372,7 +398,17 @@ def _pick_historical_probe_leaves(sample: list[SampledLeaf], records: list[dict]
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--taxonomy", required=True, help="Path to a Phase A KLPGA_RECORD_TAXONOMY_DISCOVERED.json")
+    input_group = parser.add_mutually_exclusive_group(required=True)
+    input_group.add_argument("--taxonomy", help="Path to a Phase A KLPGA_RECORD_TAXONOMY_DISCOVERED.json")
+    input_group.add_argument(
+        "--canonical-plan",
+        help=(
+            "Path to docs/discovery/KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json "
+            "(scripts/28_build_canonical_metric_request_plan.py's output) — the preferred, "
+            "already malformed-free/navigation-free source of truth for Phase B1 sampling. "
+            "Mutually exclusive with --taxonomy."
+        ),
+    )
     parser.add_argument("--season", required=True, help="Season value to request (e.g. 2025) — not guessed")
     parser.add_argument("--historical-season", default=None, help="Optional prior season for a minimal (<=3 metric) historical probe")
     parser.add_argument("--sample-size", type=int, default=DEFAULT_SAMPLE_SIZE)
@@ -389,14 +425,27 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    _log(f"[STEP 03] taxonomy loading: {args.taxonomy}")
-    taxonomy_path = Path(args.taxonomy)
-    if not taxonomy_path.exists():
-        _log(f"Taxonomy file not found: {taxonomy_path}")
-        _log("Run scripts/26_discover_klpga_record_taxonomy.py first.")
-        return EXIT_TAXONOMY_LOAD_FAILED
-    taxonomy = json.loads(taxonomy_path.read_text(encoding="utf-8"))
-    _log(f"[STEP 04] taxonomy loaded: {len(taxonomy.get('leaves', []))} leaves")
+    canonical_plan: list[dict] | None = None
+    if args.canonical_plan:
+        _log(f"[STEP 03] canonical plan loading: {args.canonical_plan}")
+        canonical_plan_path = Path(args.canonical_plan)
+        if not canonical_plan_path.exists():
+            _log(f"Canonical plan file not found: {canonical_plan_path}")
+            _log("Run scripts/28_build_canonical_metric_request_plan.py first.")
+            return EXIT_TAXONOMY_LOAD_FAILED
+        canonical_plan_payload = json.loads(canonical_plan_path.read_text(encoding="utf-8"))
+        canonical_plan = canonical_plan_payload.get("canonical_requestable_metrics", [])
+        _log(f"[STEP 04] canonical plan loaded: {len(canonical_plan)} canonical requestable metrics")
+        taxonomy: dict = {"source_url": args.canonical_plan}
+    else:
+        _log(f"[STEP 03] taxonomy loading: {args.taxonomy}")
+        taxonomy_path = Path(args.taxonomy)
+        if not taxonomy_path.exists():
+            _log(f"Taxonomy file not found: {taxonomy_path}")
+            _log("Run scripts/26_discover_klpga_record_taxonomy.py first.")
+            return EXIT_TAXONOMY_LOAD_FAILED
+        taxonomy = json.loads(taxonomy_path.read_text(encoding="utf-8"))
+        _log(f"[STEP 04] taxonomy loaded: {len(taxonomy.get('leaves', []))} leaves")
 
     client = PoliteHttpClient(cache_dir=Path(args.cache_dir), on_retry=lambda msg: _log(f"[HTTP RETRY] {msg}"))
     _log(
@@ -405,8 +454,8 @@ def main() -> int:
     )
     # NOTE: STEP 05/06 (malformed-leaf rejection, representative sample
     # selection) print from inside run() itself, since they operate on
-    # the taxonomy dict run() receives, not on anything main() computes
-    # separately.
+    # the taxonomy dict / canonical plan run() receives, not on
+    # anything main() computes separately.
     return run(
         client,
         taxonomy,
@@ -416,6 +465,7 @@ def main() -> int:
         max_requests=args.max_requests,
         historical_season=args.historical_season,
         save_raw_responses=not args.no_raw_samples,
+        canonical_plan=canonical_plan,
     )
 
 
