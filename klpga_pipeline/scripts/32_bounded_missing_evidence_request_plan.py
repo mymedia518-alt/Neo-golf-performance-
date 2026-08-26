@@ -44,296 +44,38 @@ Usage (live, real HTTP requests — only after reviewing the dry run):
         --taxonomy docs\\discovery\\KLPGA_RECORD_TAXONOMY_DISCOVERED.json \\
         --season 2025 \\
         --live
+
+Round 11 note: the request-plan/acquisition LOGIC now lives in
+`klpga.discovery.missing_evidence_acquisition` (re-exported below
+unchanged) so `scripts/run_klpga_collector.py`'s local-collector
+orchestrator can reuse it directly — this script itself is now a thin
+CLI wrapper, exactly like scripts/27/29 already are around
+`record_fetch.py`. Every name and behavior below is unchanged from
+before this extraction; all of this script's own tests still pass
+without modification.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from klpga import config  # noqa: E402
+from klpga.discovery.identity_key_audit import CATEGORY_INSUFFICIENT_EVIDENCE, audit_identity_key_collisions  # noqa: E402
 from klpga.discovery.canonical_plan import build_canonical_plan  # noqa: E402
-from klpga.discovery.identity_key_audit import (  # noqa: E402
-    CATEGORY_INSUFFICIENT_EVIDENCE,
-    CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW,
-    CATEGORY_UNRESOLVED,
-    audit_identity_key_collisions,
+from klpga.discovery.missing_evidence_acquisition import (  # noqa: E402
+    EXIT_HARD_STOP,
+    acquire_missing_evidence,
+    build_missing_evidence_request_plan,
 )
-from klpga.discovery.record_fetch import fetch_and_analyze, request_form, sanitize_identity_key_for_filename  # noqa: E402
-from klpga.discovery.sampler import _canonical_entry_to_leaf_dict, _leaf_from_dict  # noqa: E402
-from klpga.http_client import RateLimitBlockedError  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 
 EXIT_COMPLETE = 0
 EXIT_TAXONOMY_LOAD_FAILED = 5
 EXIT_DRY_RUN_REQUIRED = 2
-EXIT_HARD_STOP = 4
-"""Mirrors scripts/29's EXIT_BLOCKED=4 — a 401/403/429 hard stop is not
-a script bug, but it is not a clean completion either: the caller
-should notice."""
-
-_UNRESOLVED_AUDIT_CATEGORIES = frozenset(
-    {CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW, CATEGORY_UNRESOLVED, CATEGORY_INSUFFICIENT_EVIDENCE}
-)
-
-
-def build_missing_evidence_request_plan(
-    taxonomy: dict, *, season: str, raw_samples_dir: Path
-) -> list[dict]:
-    """Returns one row per `UNRESOLVED_INSUFFICIENT_EVIDENCE`
-    `request_identity_key`, sorted for determinism. Every field is
-    derived from evidence/logic that already exists elsewhere in this
-    project (`build_canonical_plan`, `audit_identity_key_collisions`,
-    `request_form`, `sanitize_identity_key_for_filename`) — nothing
-    new is invented here."""
-    counts, plan = build_canonical_plan(taxonomy)
-    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
-    missing = [a for a in audits if a.category == CATEGORY_INSUFFICIENT_EVIDENCE]
-    missing_keys = sorted(a.request_identity_key for a in missing)
-
-    by_key: dict[str, dict] = {}
-    for entry in plan:
-        by_key.setdefault(entry["identity_key"], entry)
-
-    rows: list[dict] = []
-    for key in missing_keys:
-        entry = by_key.get(key)
-        if entry is None:
-            # Should not happen — every audited identity_key comes
-            # directly from this same canonical plan — but never
-            # silently skip a real inconsistency.
-            rows.append(
-                {
-                    "identity_key": key,
-                    "menu1": None,
-                    "menu2": None,
-                    "menu3": None,
-                    "season": season,
-                    "expected_raw_sample_path": None,
-                    "raw_sample_exists": None,
-                    "warning": "No matching canonical plan entry found for this identity_key.",
-                }
-            )
-            continue
-        leaf = _leaf_from_dict(_canonical_entry_to_leaf_dict(entry))
-        form = request_form(leaf, season)
-        raw_path = raw_samples_dir / f"{sanitize_identity_key_for_filename(key)}__{season}.html"
-        rows.append(
-            {
-                "identity_key": key,
-                "menu1": form.get("menu1"),
-                "menu2": form.get("menu2"),
-                "menu3": form.get("menu3"),
-                "season": form.get("season"),
-                "expected_raw_sample_path": str(raw_path),
-                "raw_sample_exists": raw_path.exists(),
-                "warning": None,
-            }
-        )
-    return rows
-
-
-def _category_counts(audits: list) -> dict:
-    """Tallies one audit run's `GroupAudit.category` values, plus a
-    `total_unresolved` (PARTIAL + D_UNRESOLVED + INSUFFICIENT_EVIDENCE
-    — matching scripts/31's own SUMMARY definition exactly, so a
-    BEFORE/AFTER comparison here means the same thing it does there)
-    and `total_groups`. Never forces any count to zero — this is a
-    plain tally of whatever the audit actually returned."""
-    counts: dict[str, int] = {}
-    for a in audits:
-        counts[a.category] = counts.get(a.category, 0) + 1
-    counts["total_unresolved"] = sum(counts.get(c, 0) for c in _UNRESOLVED_AUDIT_CATEGORIES)
-    counts["total_groups"] = len(audits)
-    return counts
-
-
-def _cache_live_distinction(client, leaf, season: str) -> str:
-    """Best-effort, NEVER guessed: "CACHE_HIT" if `PoliteHttpClient`'s
-    own disk cache already held this exact request's response before
-    this run touched it, "LIVE_FETCH" if not, "NOT_AVAILABLE" if this
-    cannot be determined at all (e.g. a test double that doesn't
-    expose the same cache internals, or any other lookup failure) —
-    per explicit instruction, an undeterminable distinction is reported
-    honestly rather than guessed either way."""
-    try:
-        form = request_form(leaf, season)
-        cache_path = client._cache_path(config.RECORD_TAXONOMY_ENDPOINT, {"data": form})
-        return "CACHE_HIT" if cache_path.exists() else "LIVE_FETCH"
-    except Exception:  # noqa: BLE001 — genuinely any lookup failure means "cannot determine", not a bug.
-        return "NOT_AVAILABLE"
-
-
-def acquire_missing_evidence(
-    client, taxonomy: dict, season: str, raw_samples_dir: Path, *, log: Callable[[str], None] = print
-) -> dict:
-    """Live-fire acquisition. Makes a real HTTP request (via `client` —
-    a `PoliteHttpClient` or, in tests, a compatible fake) for EVERY
-    identity_key `build_missing_evidence_request_plan` currently lists
-    — i.e. every `UNRESOLVED_INSUFFICIENT_EVIDENCE` group, derived
-    fresh right now — and only those. Never touches a `PARTIAL_MATCH_
-    NEEDS_REVIEW`/`D_UNRESOLVED`/already-resolved group; never fires a
-    request for an identity whose expected raw-sample file already
-    exists (re-checked immediately before each request, not just once
-    at plan-build time).
-
-    A per-item HTTP failure (exhausted retries on a 5xx/timeout, etc.)
-    is a LOCAL blocker: recorded in `items` with `http_outcome=
-    "HTTP_FAILURE"`, and acquisition continues to the next identity. A
-    `RateLimitBlockedError` (401/403/429) is a HARD safety blocker: it
-    halts every further live request for the REMAINDER of this run
-    (never retried, never bypassed) — every identity not yet attempted
-    is recorded in `skipped` with a reason naming the hard stop, and
-    this function still returns a full, valid report of whatever was
-    collected before it. Never raises.
-
-    Reruns `audit_identity_key_collisions` twice — once before any
-    request (to capture the true BEFORE baseline) and once after
-    acquisition (or the hard stop) completes — and returns both as
-    plain category-count dicts, never forcing a category to zero."""
-    _counts, plan = build_canonical_plan(taxonomy)
-    by_key: dict[str, dict] = {}
-    for entry in plan:
-        by_key.setdefault(entry["identity_key"], entry)
-
-    audits_before = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
-    before_counts = _category_counts(audits_before)
-
-    rows = build_missing_evidence_request_plan(taxonomy, season=season, raw_samples_dir=raw_samples_dir)
-
-    items: list[dict] = []
-    skipped: list[dict] = []
-    hard_stop: dict | None = None
-
-    for i, row in enumerate(rows, start=1):
-        identity_key = row["identity_key"]
-        expected_path = Path(row["expected_raw_sample_path"]) if row["expected_raw_sample_path"] else None
-
-        if hard_stop is not None:
-            skipped.append(
-                {
-                    "identity_key": identity_key,
-                    "stage": "acquisition",
-                    "reason": (
-                        f"not attempted — a hard safety stop already occurred this run on "
-                        f"{hard_stop['identity_key']}"
-                    ),
-                }
-            )
-            continue
-
-        entry = by_key.get(identity_key)
-        if entry is None:
-            skipped.append(
-                {
-                    "identity_key": identity_key,
-                    "stage": "plan_lookup",
-                    "reason": row.get("warning") or "no matching canonical plan entry found",
-                }
-            )
-            continue
-
-        if expected_path is not None and expected_path.exists():
-            skipped.append(
-                {
-                    "identity_key": identity_key,
-                    "stage": "pre_request_check",
-                    "reason": (
-                        "a raw sample already exists at the expected path — outside this run's "
-                        "scope, never overwritten, never requested"
-                    ),
-                }
-            )
-            continue
-
-        leaf = _leaf_from_dict(_canonical_entry_to_leaf_dict(entry))
-        cache_live = _cache_live_distinction(client, leaf, season)
-        attempt_timestamp = datetime.now(timezone.utc).isoformat()
-
-        try:
-            parsed, analysis, _log_entry = fetch_and_analyze(
-                client, leaf, season, tag=f"{i}/{len(rows)}", raw_dir=raw_samples_dir, log=log
-            )
-        except RateLimitBlockedError as exc:
-            hard_stop = {"identity_key": identity_key, "error": str(exc), "timestamp": attempt_timestamp}
-            log(f"HARD STOP on {identity_key}: {exc} — not retrying, not bypassing, halting further live requests this run.")
-            skipped.append(
-                {"identity_key": identity_key, "stage": "acquisition", "reason": f"hard safety stop: {exc}"}
-            )
-            continue
-        except Exception as exc:  # noqa: BLE001 — a per-item HTTP failure must not abort the whole run.
-            log(f"HTTP_FAILURE for {identity_key}: {exc}")
-            items.append(
-                {
-                    "identity_key": identity_key,
-                    "menu1": entry.get("menu1"),
-                    "menu2": entry.get("menu2"),
-                    "menu3": entry.get("menu3"),
-                    "season": season,
-                    "cache_live_distinction": cache_live,
-                    "http_outcome": "HTTP_FAILURE",
-                    "error": str(exc),
-                    "raw_sample_path": None,
-                    "response_size": None,
-                    "timestamp": attempt_timestamp,
-                    "parse_status": None,
-                    "player_row_count": None,
-                    "schema_fingerprint": None,
-                    "missing_player_code": None,
-                    "missing_player_name": None,
-                    "blank_values": None,
-                    "non_numeric_numeric_fields": None,
-                    "duplicate_player_rows": None,
-                    "data_quality_any_flagged": None,
-                }
-            )
-            continue
-
-        dq = analysis.data_quality
-        response_size = expected_path.stat().st_size if expected_path is not None and expected_path.exists() else None
-        items.append(
-            {
-                "identity_key": identity_key,
-                "menu1": entry.get("menu1"),
-                "menu2": entry.get("menu2"),
-                "menu3": entry.get("menu3"),
-                "season": season,
-                "cache_live_distinction": cache_live,
-                "http_outcome": "HTTP_SUCCESS",
-                "error": None,
-                "raw_sample_path": str(expected_path) if expected_path is not None else None,
-                "response_size": response_size,
-                "timestamp": attempt_timestamp,
-                "parse_status": parsed.parse_status,
-                "player_row_count": len(parsed.rows),
-                "schema_fingerprint": analysis.schema_fingerprint,
-                "missing_player_code": dq.missing_player_code,
-                "missing_player_name": dq.missing_player_name,
-                "blank_values": dq.blank_values,
-                "non_numeric_numeric_fields": dq.non_numeric_numeric_fields,
-                "duplicate_player_rows": dq.duplicate_player_rows,
-                "data_quality_any_flagged": dq.any_flagged,
-            }
-        )
-
-    audits_after = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
-    after_counts = _category_counts(audits_after)
-
-    return {
-        "expected_missing_evidence_identities": len(rows),
-        "processed": len(items) + len(skipped),
-        "items": items,
-        "skipped": skipped,
-        "hard_stop": hard_stop,
-        "before_counts": before_counts,
-        "after_counts": after_counts,
-    }
 
 
 def run_live(client, taxonomy: dict, season: str, raw_samples_dir: Path) -> int:

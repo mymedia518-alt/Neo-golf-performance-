@@ -3602,6 +3602,122 @@ sections) so the BEFORE/AFTER comparison and any genuine parser
 findings from real response data can be completed against real
 evidence, per this project's standing evidence discipline.
 
+## Round 11 — the LOCAL COLLECTOR (single Windows entry point, not yet run live)
+
+The prior round confirmed, with direct evidence, that this cloud
+sandbox cannot make live KLPGA requests at all: `curl` to
+`klpga.co.kr`/`www.klpga.co.kr` both returned `CONNECT tunnel failed,
+response 403`, and the sandbox's own outbound proxy status endpoint
+logged both as `"gateway answered 403 to CONNECT (policy denial or
+upstream failure)"`. Separately, this sandbox's checkout has never had
+`docs/discovery/KLPGA_RECORD_TAXONOMY_DISCOVERED.json` or
+`docs/discovery/raw_samples/` at all — the latter is `.gitignore`d and
+has only ever existed on the user's Windows machine. Neither blocker
+was worked around; per instruction, this round instead builds a
+single, resumable, idempotent LOCAL COLLECTOR the user runs themselves
+on a machine that actually has KLPGA network access and the existing
+evidence directory.
+
+**New `src/klpga/discovery/missing_evidence_acquisition.py`** — pure
+extraction, zero behavior change: `build_missing_evidence_request_
+plan`, `acquire_missing_evidence`, `_cache_live_distinction`,
+`_category_counts`, `EXIT_HARD_STOP` moved out of `scripts/32` into
+`src/`, the same "shared logic lives in `src/klpga/discovery/`, the
+script becomes a thin CLI wrapper" pattern this project already used
+for `record_fetch.py` (extracted from scripts/27 for scripts/29). This
+lets the new local-collector orchestrator reuse the EXACT same,
+already-tested request/parse/skip/hard-stop logic instead of
+duplicating it. `scripts/32` now just imports and re-exports these
+names — all 23 of its own existing tests continue to pass completely
+unmodified.
+
+**New `src/klpga/discovery/local_collector.py`** — the orchestration
+layer. `run_local_collection(client, taxonomy, season, *, raw_samples_
+dir, checkpoint_path, skip_queue_path, report_path, live, log)` calls,
+in order: `build_canonical_plan` → `load_checkpoint`/`load_skip_queue`
+→ `build_missing_evidence_request_plan` (state inspection) →, if
+`live`, `acquire_missing_evidence` (the actual request/parse/validate
+step, unmodified) → updates the checkpoint via `b2_checkpoint.mark_
+success`/`mark_http_failure` (reused unchanged) → merges new failures
+into the persistent skip queue → renders and writes one consolidated
+Markdown report. Two independent, atomically-written, on-disk
+persistence layers: (1) `b2_checkpoint`'s own JSON ledger, reused
+as-is — but deliberately NOT the gate on what gets requested, since
+that gate already lives in the audit's own fresh raw-file-existence
+check every run (ground truth over recorded state — an identity with
+a deleted raw file is correctly re-requested even if the checkpoint
+still says SUCCESS); (2) a new `SKIP_QUEUE.json`, one row per
+non-systemic failure (`tournament`/`identity_key`/`metric`/`stage`/
+`reason`/`evidence_path`/`recommended_action`), deduplicated by
+`(tournament, identity_key, stage)` across runs — a repeat failure
+updates the existing row, a resolved one is simply never touched
+again (not force-cleared).
+
+**New `scripts/run_klpga_collector.py`** — the single command:
+`python scripts/run_klpga_collector.py --taxonomy ... --season ...
+[--live]`. Defaults to a safe preview (zero HTTP requests, matching
+every other script's own mandatory-dry-run-first convention in this
+project) — `--live` is required to actually fire requests. Writes the
+report to `docs/discovery/local_collector/LOCAL_COLLECTOR_REPORT.md`
+by default (checkpoint/skip-queue alongside it), all overridable via
+flags. Module docstring is explicit about what this milestone does
+NOT yet do: no tournament/player enumeration, no normalized-database
+storage layer, no expansion beyond the current `UNRESOLVED_
+INSUFFICIENT_EVIDENCE` set — so it is never mistaken for
+100-tournament-scale readiness.
+
+**Tests**: 16 new (12 in `tests/test_local_collector.py`, 4 in
+`tests/test_run_klpga_collector_script.py`), all fully offline against
+a fake in-process client double — covering skip-queue load/write/merge
+(dedup-and-update vs preserve-untouched-rows vs genuinely-new-row),
+skip-queue-entry derivation from both `skipped` and `HTTP_FAILURE`
+items, a zero-HTTP preview run, a live run that acquires evidence and
+updates both the checkpoint and skip queue, resumability/idempotency
+(a second live run against the same paths makes ZERO new requests
+once evidence exists), a hard-stop run that still writes a complete
+report and records the blocked identity in the skip queue, the report
+containing every required observability field, and the CLI wrapper's
+own argument wiring (missing-taxonomy handling, a default preview run,
+and one real-`PoliteHttpClient`-construction end-to-end run kept safe
+by using a taxonomy with zero missing-evidence identities — the same
+pattern scripts/32's own CLI test already established). All 23
+pre-existing `scripts/32` tests continue to pass unmodified.
+
+**693/693 tests passing** (677 before this round). No live requests
+made — this sandbox still has no network route to klpga.co.kr (see
+above); the collector itself has been built, offline-tested, and
+manually smoke-tested against a synthetic (non-KLPGA) taxonomy to
+confirm the CLI/report/checkpoint/skip-queue wiring produces correct
+output end to end, but has never been run against the real site. No
+change to Prediction #001, `predictions/`, model/inference/probability
+logic, the production DB, the archive, or the public website. The
+identity-key matcher/classification code and `scripts/29`'s B2 runner
+are both untouched this round.
+
+**Exact command for the user to run** (on a machine with real network
+access to klpga.co.kr, with the existing taxonomy/raw_samples already
+in place):
+
+```powershell
+# Preview first — zero HTTP requests, writes/prints the exact plan:
+python scripts\run_klpga_collector.py `
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json `
+    --season 2025
+
+# Only after reviewing that plan, the live run:
+python scripts\run_klpga_collector.py `
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json `
+    --season 2025 `
+    --live
+```
+
+Interrupting and re-running either command is always safe — see
+`local_collector.py`'s own module docstring for the resumability/
+idempotency guarantees. Paste back (or point to)
+`docs\discovery\local_collector\LOCAL_COLLECTOR_REPORT.md` after a
+live run so the BEFORE/AFTER collision-audit comparison and any
+genuine parser findings can be completed against real evidence.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
