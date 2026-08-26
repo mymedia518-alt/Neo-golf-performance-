@@ -1,0 +1,5934 @@
+
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+		setTalbeOrder(2);
+		
+		var menu = "020901";
+		var menuName = "Par5, 2nd 샷 - 페어웨이 안착률(RTP)";
+		var recordNote = "*  Par5 두번째 샷의 페어웨이 안착률";
+		var record = "페어웨이 안착률(%)";
+		var record1 = "페어웨이 안착 수";
+		var record2 = "전체 샷 시도 횟수";
+		var record3 = "측정 라운드";
+		var record4 = "RTP";
+		var order = "desc";
+		
+		$("#menuName").html(menuName);
+		$("#recordNote").html(recordNote);
+		$(".recordName").html(record);
+		$(".recordName").addClass("sort-"+order);
+		$(".record1Name").html(record1);
+		$(".record2Name").html(record2);
+		$(".record3Name").html(record3);
+		$(".record4Name").html(record4);
+		
+		if(record1 == "") {
+			$(".table-record .record1Name").remove();
+			$(".table-record .record1").remove();
+		}
+		if(record2 == "") {
+			$(".table-record .record2Name").remove();
+			$(".table-record .record2").remove();
+		}
+		if(record3 == "") {
+			$(".table-record .record3Name").remove();
+			$(".table-record .record3").remove();
+		}
+		if(record4 == "") {
+			$(".table-record .record4Name").remove();
+			$(".table-record .record4").remove();
+		}
+		
+		
+		adjustTableColWidths();
+	})
+</script>
+<div class="container">
+
+	<div class="borderline-header">
+		<h2 id="menuName"></h2>
+		<div class="header-description">
+			<ul>
+				<li id="recordNote"></li>
+			</ul>
+		</div>
+	</div>
+	
+	<br>
+
+	<!-- 전체 선수 리스트 -->
+	<div class="d-flex justify-content-between">
+		<h2 class="mb-3">전체 선수</h2>
+		<!-- <span class="h5 mt-3"> * 투어 평균 2.98</span> -->
+	</div>
+	<div class="table-responsive">
+		<table class="table table-record table-hover">
+			<thead>
+				<tr>
+					<th>FAV</th>
+					<th class="text-start" style="width: 95px; min-width: 95px;">순위</th>
+					<th class="text-start" style="min-width: 120px;">선수명</th>
+					<th class="recordName active"></th>
+					<th class="record1Name sort-desc"></th>
+					<th class="record2Name sort-desc"></th>
+					<th class="record3Name sort-desc"></th>
+					<th class="record4Name sort-desc"></th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="7469"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">1<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=7469">
+						
+						김지현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="1">80.51 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">219</td>
+					<td class="record2">272</td>
+					<td class="record3">68</td>
+					<td class="record4">-0.0274</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9082"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">2<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9082">
+						
+						전예성
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="2">79.30 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">272</td>
+					<td class="record2">343</td>
+					<td class="record3">85</td>
+					<td class="record4">-0.0993</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9134"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">3<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9134">
+						
+						서어진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="3">77.93 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">293</td>
+					<td class="record2">376</td>
+					<td class="record3">93</td>
+					<td class="record4">-0.1945</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="4905"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">4<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=4905">
+						
+						안선주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="4">77.20 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">149</td>
+					<td class="record2">193</td>
+					<td class="record3">48</td>
+					<td class="record4">-0.1007</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8793"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">5<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8793">
+						
+						전효민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="5">77.11 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">192</td>
+					<td class="record2">249</td>
+					<td class="record3">62</td>
+					<td class="record4">-0.1042</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9990"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">6<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9990">
+						
+						윤수아
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="6">76.92 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">190</td>
+					<td class="record2">247</td>
+					<td class="record3">62</td>
+					<td class="record4">-0.1158</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11770"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">7<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11770">
+						
+						짜라위 분짠(I)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="7">76.29 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">148</td>
+					<td class="record2">194</td>
+					<td class="record3">49</td>
+					<td class="record4">-0.1554</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8811"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">8<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8811">
+						
+						이채은2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="8">76.09 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">245</td>
+					<td class="record2">322</td>
+					<td class="record3">80</td>
+					<td class="record4">-0.1796</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9235"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">9<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9235">
+						
+						최은우
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="9">75.77 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">272</td>
+					<td class="record2">359</td>
+					<td class="record3">89</td>
+					<td class="record4">-0.1912</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8277"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">10<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8277">
+						
+						최민경
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="10">75.37 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">254</td>
+					<td class="record2">337</td>
+					<td class="record3">85</td>
+					<td class="record4">-0.1969</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9113"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">11<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9113">
+						
+						노승희
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="11">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">285</td>
+					<td class="record2">380</td>
+					<td class="record3">94</td>
+					<td class="record4">-0.2807</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11042"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">12<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11042">
+						
+						홍현지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="12">74.68 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">230</td>
+					<td class="record2">308</td>
+					<td class="record3">77</td>
+					<td class="record4">-0.1696</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8770"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">13<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8770">
+						
+						조아연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="13">74.59 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">270</td>
+					<td class="record2">362</td>
+					<td class="record3">90</td>
+					<td class="record4">-0.1704</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10081"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">14<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10081">
+						
+						김민주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="14">74.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">260</td>
+					<td class="record2">349</td>
+					<td class="record3">87</td>
+					<td class="record4">-0.1846</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9130"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">15<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9130">
+						
+						박현경
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="15">73.91 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">255</td>
+					<td class="record2">345</td>
+					<td class="record3">86</td>
+					<td class="record4">-0.2588</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8271"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">16<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8271">
+						
+						김효문
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="16">73.73 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">188</td>
+					<td class="record2">255</td>
+					<td class="record3">63</td>
+					<td class="record4">-0.1011</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9183"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">17<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9183">
+						
+						박결
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="17">73.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">221</td>
+					<td class="record2">300</td>
+					<td class="record3">74</td>
+					<td class="record4">-0.1222</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10075"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">18<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10075">
+						
+						고은혜
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="18">73.12 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">136</td>
+					<td class="record2">186</td>
+					<td class="record3">46</td>
+					<td class="record4">-0.0221</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9786"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">19<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9786">
+						
+						주가인
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="19">72.96 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">170</td>
+					<td class="record2">233</td>
+					<td class="record3">58</td>
+					<td class="record4">-0.0765</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9784"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">20<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9784">
+						
+						이예원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="20">72.84 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">244</td>
+					<td class="record2">335</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.2418</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9705"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">21<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9705">
+						
+						홍지원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="21">72.81 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">249</td>
+					<td class="record2">342</td>
+					<td class="record3">85</td>
+					<td class="record4">-0.1325</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10159"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">22<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10159">
+						
+						강채연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="22">72.35 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">225</td>
+					<td class="record2">311</td>
+					<td class="record3">78</td>
+					<td class="record4">-0.1511</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10083"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">23<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10083">
+						
+						마서영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="23">71.83 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">181</td>
+					<td class="record2">252</td>
+					<td class="record3">63</td>
+					<td class="record4">-0.0608</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9714"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">24<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9714">
+						
+						유지나
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="24">71.77 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">239</td>
+					<td class="record2">333</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.1172</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9426"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">25<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9426">
+						
+						한진선
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="25">71.69 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">233</td>
+					<td class="record2">325</td>
+					<td class="record3">81</td>
+					<td class="record4">-0.2704</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="1521"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">26<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=1521">
+						
+						지한솔
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="26">71.47 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">248</td>
+					<td class="record2">347</td>
+					<td class="record3">86</td>
+					<td class="record4">-0.1935</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9156"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">27<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9156">
+						
+						한빛나
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="27">71.28 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">211</td>
+					<td class="record2">296</td>
+					<td class="record3">74</td>
+					<td class="record4">-0.0616</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8764"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">28<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8764">
+						
+						김소이
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="28">71.27 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">191</td>
+					<td class="record2">268</td>
+					<td class="record3">66</td>
+					<td class="record4">-0.1675</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10586"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">29<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10586">
+						
+						홍진영2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="29">71.23 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">260</td>
+					<td class="record2">365</td>
+					<td class="record3">92</td>
+					<td class="record4">-0.1231</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8881"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">30<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8881">
+						
+						성유진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="30">71.02 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">250</td>
+					<td class="record2">352</td>
+					<td class="record3">87</td>
+					<td class="record4">-0.244</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8282"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">31<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8282">
+						
+						허다빈
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="31">70.98 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">181</td>
+					<td class="record2">255</td>
+					<td class="record3">63</td>
+					<td class="record4">-0.0773</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9109"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">32<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9109">
+						
+						이제영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="32">70.22 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">191</td>
+					<td class="record2">272</td>
+					<td class="record3">67</td>
+					<td class="record4">-0.1466</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9120"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">33<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9120">
+						
+						유효주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="33">69.64 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">172</td>
+					<td class="record2">247</td>
+					<td class="record3">63</td>
+					<td class="record4">-0.1047</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8284"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">34<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8284">
+						
+						최예림
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="34">69.52 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">219</td>
+					<td class="record2">315</td>
+					<td class="record3">78</td>
+					<td class="record4">-0.1324</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10138"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">35<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10138">
+						
+						임진영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="35">69.09 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">219</td>
+					<td class="record2">317</td>
+					<td class="record3">79</td>
+					<td class="record4">-0.1644</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11447"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">36<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11447">
+						
+						한아름
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="36">69.02 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">176</td>
+					<td class="record2">255</td>
+					<td class="record3">64</td>
+					<td class="record4">-0.1648</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8838"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">37<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8838">
+						
+						김우정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="37">69.02 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">225</td>
+					<td class="record2">326</td>
+					<td class="record3">81</td>
+					<td class="record4">-0.1378</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10490"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">38<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10490">
+						
+						이소유
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="38">68.89 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">124</td>
+					<td class="record2">180</td>
+					<td class="record3">45</td>
+					<td class="record4">-0.1048</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9364"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">39<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9364">
+						
+						박소혜
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="39">68.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">160</td>
+					<td class="record2">233</td>
+					<td class="record3">60</td>
+					<td class="record4">-0.1625</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9106"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">40<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9106">
+						
+						권서연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="40">68.64 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">151</td>
+					<td class="record2">220</td>
+					<td class="record3">56</td>
+					<td class="record4">-0.0397</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9449"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">41<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9449">
+						
+						이지현3
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="41">68.45 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">243</td>
+					<td class="record2">355</td>
+					<td class="record3">88</td>
+					<td class="record4">-0.1646</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8859"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">42<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8859">
+						
+						이승연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="42">68.06 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">245</td>
+					<td class="record2">360</td>
+					<td class="record3">89</td>
+					<td class="record4">-0.151</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9707"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">43<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9707">
+						
+						이준이
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="43">67.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">187</td>
+					<td class="record2">276</td>
+					<td class="record3">69</td>
+					<td class="record4">-0.0749</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9711"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">43<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9711">
+						
+						정주리
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="43">67.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">187</td>
+					<td class="record2">276</td>
+					<td class="record3">69</td>
+					<td class="record4">-0.1711</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8863"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">45<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8863">
+						
+						윤혜림
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="45">67.71 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">195</td>
+					<td class="record2">288</td>
+					<td class="record3">71</td>
+					<td class="record4">-0.1077</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11374"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">46<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11374">
+						
+						전승희
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="46">67.63 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">140</td>
+					<td class="record2">207</td>
+					<td class="record3">52</td>
+					<td class="record4">-0.0571</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10618"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">47<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10618">
+						
+						박도영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="47">67.52 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">212</td>
+					<td class="record2">314</td>
+					<td class="record3">78</td>
+					<td class="record4">-0.1887</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9362"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">47<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9362">
+						
+						박지영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="47">67.52 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">212</td>
+					<td class="record2">314</td>
+					<td class="record3">78</td>
+					<td class="record4">-0.1981</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8854"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">49<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8854">
+						
+						서연정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="49">67.43 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">205</td>
+					<td class="record2">304</td>
+					<td class="record3">76</td>
+					<td class="record4">-0.1561</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9483"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">50<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9483">
+						
+						한지원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="50">67.24 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">197</td>
+					<td class="record2">293</td>
+					<td class="record3">73</td>
+					<td class="record4">-0.1472</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9938"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">51<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9938">
+						
+						이주현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="51">67.20 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">168</td>
+					<td class="record2">250</td>
+					<td class="record3">64</td>
+					<td class="record4">-0.0536</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10795"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">52<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10795">
+						
+						조이안
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="52">66.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">136</td>
+					<td class="record2">204</td>
+					<td class="record3">52</td>
+					<td class="record4">-0.0441</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="7434"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">53<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=7434">
+						
+						이정민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="53">66.20 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">141</td>
+					<td class="record2">213</td>
+					<td class="record3">56</td>
+					<td class="record4">-0.1206</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9145"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">54<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9145">
+						
+						임희정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="54">66.08 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">224</td>
+					<td class="record2">339</td>
+					<td class="record3">84</td>
+					<td class="record4">-0.2277</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8883"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">55<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8883">
+						
+						이가영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="55">66.03 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">243</td>
+					<td class="record2">368</td>
+					<td class="record3">91</td>
+					<td class="record4">-0.1934</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8799"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">56<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8799">
+						
+						오경은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="56">65.79 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">175</td>
+					<td class="record2">266</td>
+					<td class="record3">66</td>
+					<td class="record4">-0.1314</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8772"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">57<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8772">
+						
+						박민지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="57">65.73 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">188</td>
+					<td class="record2">286</td>
+					<td class="record3">71</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10109"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">58<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10109">
+						
+						고지원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="58">65.58 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">181</td>
+					<td class="record2">276</td>
+					<td class="record3">68</td>
+					<td class="record4">-0.2652</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9174"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">59<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9174">
+						
+						강가율
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="59">65.51 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">207</td>
+					<td class="record2">316</td>
+					<td class="record3">79</td>
+					<td class="record4">-0.1884</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9820"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">60<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9820">
+						
+						정윤지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="60">65.48 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">220</td>
+					<td class="record2">336</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.2273</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10178"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">61<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10178">
+						
+						김희지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="61">65.22 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">120</td>
+					<td class="record2">184</td>
+					<td class="record3">47</td>
+					<td class="record4">-0.1667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10599"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">62<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10599">
+						
+						박지혜3
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="62">65.11 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">153</td>
+					<td class="record2">235</td>
+					<td class="record3">59</td>
+					<td class="record4">-0.0261</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9759"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">63<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9759">
+						
+						이율린
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="63">64.69 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">196</td>
+					<td class="record2">303</td>
+					<td class="record3">76</td>
+					<td class="record4">-0.1939</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11135"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">64<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11135">
+						
+						하다인
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="64">64.65 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">128</td>
+					<td class="record2">198</td>
+					<td class="record3">51</td>
+					<td class="record4">-0.0313</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10727"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">65<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10727">
+						
+						황민정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="65">64.56 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">204</td>
+					<td class="record2">316</td>
+					<td class="record3">79</td>
+					<td class="record4">-0.1324</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10097"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">66<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10097">
+						
+						김민선7
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="66">64.19 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">233</td>
+					<td class="record2">363</td>
+					<td class="record3">90</td>
+					<td class="record4">-0.2146</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9788"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">67<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9788">
+						
+						박혜준
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="67">63.64 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">238</td>
+					<td class="record2">374</td>
+					<td class="record3">93</td>
+					<td class="record4">-0.1723</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8215"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">68<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8215">
+						
+						윤선정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="68">63.52 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">148</td>
+					<td class="record2">233</td>
+					<td class="record3">59</td>
+					<td class="record4">-0.1284</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8300"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">69<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8300">
+						
+						김수지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="69">63.39 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">187</td>
+					<td class="record2">295</td>
+					<td class="record3">73</td>
+					<td class="record4">-0.2353</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9431"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">70<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9431">
+						
+						박보겸
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="70">63.27 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">217</td>
+					<td class="record2">343</td>
+					<td class="record3">86</td>
+					<td class="record4">-0.2074</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11431"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">71<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11431">
+						
+						서지은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="71">63.21 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">134</td>
+					<td class="record2">212</td>
+					<td class="record3">54</td>
+					<td class="record4">-0.2015</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9136"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">72<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9136">
+						
+						조혜림
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="72">63.07 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">193</td>
+					<td class="record2">306</td>
+					<td class="record3">77</td>
+					<td class="record4">-0.1658</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10577"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">73<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10577">
+						
+						최예본
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="73">62.82 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">147</td>
+					<td class="record2">234</td>
+					<td class="record3">58</td>
+					<td class="record4">-0.1224</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9487"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">74<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9487">
+						
+						김재희
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="74">62.65 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">203</td>
+					<td class="record2">324</td>
+					<td class="record3">82</td>
+					<td class="record4">-0.1527</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10531"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">75<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10531">
+						
+						현세린
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="75">62.59 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">184</td>
+					<td class="record2">294</td>
+					<td class="record3">74</td>
+					<td class="record4">-0.0815</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="6781"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">76<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=6781">
+						
+						박주영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="76">62.54 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">187</td>
+					<td class="record2">299</td>
+					<td class="record3">74</td>
+					<td class="record4">-0.2353</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9750"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">77<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9750">
+						
+						홍정민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="77">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">200</td>
+					<td class="record2">320</td>
+					<td class="record3">79</td>
+					<td class="record4">-0.385</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9401"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">78<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9401">
+						
+						마다솜
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="78">62.39 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">146</td>
+					<td class="record2">234</td>
+					<td class="record3">60</td>
+					<td class="record4">-0.2123</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9652"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">79<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9652">
+						
+						이세희
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="79">62.33 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">187</td>
+					<td class="record2">300</td>
+					<td class="record3">75</td>
+					<td class="record4">-0.1176</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9389"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">80<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9389">
+						
+						전우리
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="80">62.01 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">204</td>
+					<td class="record2">329</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.0931</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8240"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">81<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8240">
+						
+						황정미
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="81">61.82 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">183</td>
+					<td class="record2">296</td>
+					<td class="record3">74</td>
+					<td class="record4">-0.0984</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="6916"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">82<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=6916">
+						
+						안송이
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="82">61.81 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">191</td>
+					<td class="record2">309</td>
+					<td class="record3">77</td>
+					<td class="record4">-0.2251</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8246"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">83<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8246">
+						
+						이소영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="83">61.77 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">202</td>
+					<td class="record2">327</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.1881</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8392"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">84<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8392">
+						
+						이다연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="84">61.26 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">155</td>
+					<td class="record2">253</td>
+					<td class="record3">63</td>
+					<td class="record4">-0.2968</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10623"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">85<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10623">
+						
+						강지선
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="85">61.04 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">188</td>
+					<td class="record2">308</td>
+					<td class="record3">78</td>
+					<td class="record4">-0.1489</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="7963"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">86<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=7963">
+						
+						장하나
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="86">61.01 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">97</td>
+					<td class="record2">159</td>
+					<td class="record3">41</td>
+					<td class="record4">0.1237</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9748"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">87<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9748">
+						
+						신유진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="87">60.99 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">136</td>
+					<td class="record2">223</td>
+					<td class="record3">56</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9135"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">88<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9135">
+						
+						신다인
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="88">60.59 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">206</td>
+					<td class="record2">340</td>
+					<td class="record3">84</td>
+					<td class="record4">-0.1942</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10157"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">89<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10157">
+						
+						황연서
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="89">60.47 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">153</td>
+					<td class="record2">253</td>
+					<td class="record3">64</td>
+					<td class="record4">-0.0131</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9708"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">90<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9708">
+						
+						이재윤
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="90">60.24 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">200</td>
+					<td class="record2">332</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.195</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10185"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">91<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10185">
+						
+						황유민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="91">59.46 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">154</td>
+					<td class="record2">259</td>
+					<td class="record3">64</td>
+					<td class="record4">-0.2273</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10058"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">92<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10058">
+						
+						한나경
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="92">59.04 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">98</td>
+					<td class="record2">166</td>
+					<td class="record3">41</td>
+					<td class="record4">-0.1531</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9765"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">93<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9765">
+						
+						정소이
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="93">58.94 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">178</td>
+					<td class="record2">302</td>
+					<td class="record3">76</td>
+					<td class="record4">-0.1517</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9436"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">94<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9436">
+						
+						구래현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="94">58.82 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">170</td>
+					<td class="record2">289</td>
+					<td class="record3">72</td>
+					<td class="record4">-0.0941</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11134"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">95<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11134">
+						
+						서교림
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="95">58.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">203</td>
+					<td class="record2">346</td>
+					<td class="record3">87</td>
+					<td class="record4">-0.202</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8355"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">96<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8355">
+						
+						장수연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="96">58.65 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">139</td>
+					<td class="record2">237</td>
+					<td class="record3">59</td>
+					<td class="record4">-0.1151</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9796"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">97<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9796">
+						
+						윤다현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="97">58.62 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">85</td>
+					<td class="record2">145</td>
+					<td class="record3">37</td>
+					<td class="record4">-0.1176</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10022"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">98<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10022">
+						
+						손예빈
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="98">58.47 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">107</td>
+					<td class="record2">183</td>
+					<td class="record3">46</td>
+					<td class="record4">-0.1963</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10002"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">99<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10002">
+						
+						김민별
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="99">58.23 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">191</td>
+					<td class="record2">328</td>
+					<td class="record3">82</td>
+					<td class="record4">-0.1832</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9992"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">100<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9992">
+						
+						최혜원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="100">57.33 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">86</td>
+					<td class="record2">150</td>
+					<td class="record3">38</td>
+					<td class="record4">-0.1279</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10092"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">101<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10092">
+						
+						이로운
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="101">56.68 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">123</td>
+					<td class="record2">217</td>
+					<td class="record3">55</td>
+					<td class="record4">-0.065</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10789"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">102<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10789">
+						
+						리 슈잉
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="102">55.56 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">170</td>
+					<td class="record2">306</td>
+					<td class="record3">76</td>
+					<td class="record4">-0.1412</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10112"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">103<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10112">
+						
+						고지우
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="103">54.85 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">181</td>
+					<td class="record2">330</td>
+					<td class="record3">83</td>
+					<td class="record4">-0.2265</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11376"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">104<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11376">
+						
+						조혜지2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="104">54.09 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">119</td>
+					<td class="record2">220</td>
+					<td class="record3">57</td>
+					<td class="record4">-0.0756</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11630"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">105<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11630">
+						
+						정지효
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="105">54.02 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">121</td>
+					<td class="record2">224</td>
+					<td class="record3">57</td>
+					<td class="record4">-0.2149</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10296"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">106<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10296">
+						
+						문정민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="106">53.82 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">176</td>
+					<td class="record2">327</td>
+					<td class="record3">82</td>
+					<td class="record4">-0.2159</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10095"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">107<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10095">
+						
+						방신실
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="107">53.54 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">174</td>
+					<td class="record2">325</td>
+					<td class="record3">81</td>
+					<td class="record4">-0.2069</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11143"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">108<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11143">
+						
+						김시현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="108">53.35 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">183</td>
+					<td class="record2">343</td>
+					<td class="record3">86</td>
+					<td class="record4">-0.1749</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9391"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">109<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9391">
+						
+						최가빈
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="109">53.06 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">191</td>
+					<td class="record2">360</td>
+					<td class="record3">90</td>
+					<td class="record4">-0.1728</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10078"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">110<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10078">
+						
+						강정현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="110">52.59 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">132</td>
+					<td class="record2">251</td>
+					<td class="record3">63</td>
+					<td class="record4">-0.0303</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10146"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">111<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10146">
+						
+						유현조
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="111">51.51 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">188</td>
+					<td class="record2">365</td>
+					<td class="record3">91</td>
+					<td class="record4">-0.2606</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10114"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">112<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10114">
+						
+						김나영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="112">50.95 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">134</td>
+					<td class="record2">263</td>
+					<td class="record3">66</td>
+					<td class="record4">-0.1866</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11057"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">113<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11057">
+						
+						송은아
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="113">50.30 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">167</td>
+					<td class="record2">332</td>
+					<td class="record3">84</td>
+					<td class="record4">-0.1377</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11649"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">114<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11649">
+						
+						이동은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="114">49.44 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">178</td>
+					<td class="record2">360</td>
+					<td class="record3">90</td>
+					<td class="record4">-0.1798</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8589"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start">115<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8589">
+						
+						배소현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="115">49.15 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">173</td>
+					<td class="record2">352</td>
+					<td class="record3">87</td>
+					<td class="record4">-0.2139</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8840"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8840">
+						
+						정수빈
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">71.43 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">10</td>
+					<td class="record2">14</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.4</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8824"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8824">
+						
+						안나린
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">10</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.4</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8884"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8884">
+						
+						윤화영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">79.72 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">114</td>
+					<td class="record2">143</td>
+					<td class="record3">35</td>
+					<td class="record4">-0.2281</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8906"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8906">
+						
+						이정은6
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">100 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">7</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8972"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8972">
+						
+						조정민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">68.87 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">73</td>
+					<td class="record2">106</td>
+					<td class="record3">27</td>
+					<td class="record4">-0.2192</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9000"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9000">
+						
+						김지수
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75.61 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">124</td>
+					<td class="record2">164</td>
+					<td class="record3">40</td>
+					<td class="record4">-0.1371</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8868"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8868">
+						
+						안소현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">66.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">16</td>
+					<td class="record2">24</td>
+					<td class="record3">6</td>
+					<td class="record4">0.125</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9126"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9126">
+						
+						김지안
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.1667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9085"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9085">
+						
+						성지은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.6</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9089"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9089">
+						
+						김소정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">56.52 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">26</td>
+					<td class="record2">46</td>
+					<td class="record3">12</td>
+					<td class="record4">-0.2692</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9160"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9160">
+						
+						김수민2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">71.43 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">7</td>
+					<td class="record3">2</td>
+					<td class="record4">0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9167"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9167">
+						
+						박사과
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">25 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">2</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">1.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9180"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9180">
+						
+						박수진2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9398"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9398">
+						
+						손연정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9422"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9422">
+						
+						이주은3
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">1.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9384"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9384">
+						
+						김하니
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9277"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9277">
+						
+						김아현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">71.43 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">7</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9427"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9427">
+						
+						류은수
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">10</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9503"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9503">
+						
+						이슬기2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">70.73 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">58</td>
+					<td class="record2">82</td>
+					<td class="record3">21</td>
+					<td class="record4">-0.0345</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9584"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9584">
+						
+						정지유
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9777"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9777">
+						
+						김윤경2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">66.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">12</td>
+					<td class="record3">3</td>
+					<td class="record4">0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9752"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9752">
+						
+						김나현2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">60 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">21</td>
+					<td class="record2">35</td>
+					<td class="record3">9</td>
+					<td class="record4">-0.1905</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9756"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9756">
+						
+						홍예은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">72.22 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">26</td>
+					<td class="record2">36</td>
+					<td class="record3">9</td>
+					<td class="record4">-0.0769</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9722"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9722">
+						
+						양아연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.96 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">17</td>
+					<td class="record2">27</td>
+					<td class="record3">7</td>
+					<td class="record4">-0.1176</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9726"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9726">
+						
+						신이솔
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">63.16 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">19</td>
+					<td class="record3">5</td>
+					<td class="record4">-0.1667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9728"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9728">
+						
+						허윤서
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">93.33 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">14</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9746"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9746">
+						
+						김가영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">4</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9702"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9702">
+						
+						김리안
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">70.31 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">90</td>
+					<td class="record2">128</td>
+					<td class="record3">31</td>
+					<td class="record4">-0.0889</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9461"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9461">
+						
+						김고운
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9465"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9465">
+						
+						안지현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">56 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">28</td>
+					<td class="record2">50</td>
+					<td class="record3">13</td>
+					<td class="record4">-0.1429</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9988"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9988">
+						
+						이현서
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">14</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">0.2143</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9807"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9807">
+						
+						김서윤2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">15</td>
+					<td class="record2">20</td>
+					<td class="record3">5</td>
+					<td class="record4">-0.1333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9812"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9812">
+						
+						김혜승
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">100 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9823"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9823">
+						
+						윤이나
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">20</td>
+					<td class="record2">32</td>
+					<td class="record3">8</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9824"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9824">
+						
+						장윤진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">54 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">27</td>
+					<td class="record2">50</td>
+					<td class="record3">13</td>
+					<td class="record4">-0.037</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9898"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9898">
+						
+						서하영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="9937"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=9937">
+						
+						황유나
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">61.60 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">77</td>
+					<td class="record2">125</td>
+					<td class="record3">31</td>
+					<td class="record4">-0.039</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="7617"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=7617">
+						
+						우선화
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">12.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">1</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="7423"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=7423">
+						
+						김다나
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">80 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">10</td>
+					<td class="record3">2</td>
+					<td class="record4">0.375</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="6808"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=6808">
+						
+						정희원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">69 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">69</td>
+					<td class="record2">100</td>
+					<td class="record3">26</td>
+					<td class="record4">0.1014</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8179"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8179">
+						
+						박성현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">71.43 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">20</td>
+					<td class="record2">28</td>
+					<td class="record3">7</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8191"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8191">
+						
+						전인지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">24</td>
+					<td class="record2">32</td>
+					<td class="record3">8</td>
+					<td class="record4">-0.2083</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8234"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8234">
+						
+						이주미
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">70 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">14</td>
+					<td class="record2">20</td>
+					<td class="record3">5</td>
+					<td class="record4">-0.1429</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8262"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8262">
+						
+						인주연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">44.68 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">21</td>
+					<td class="record2">47</td>
+					<td class="record3">12</td>
+					<td class="record4">-0.2381</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8243"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8243">
+						
+						장은수
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.375</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8374"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8374">
+						
+						신보민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8375"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8375">
+						
+						김효주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">68.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">11</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.6364</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8378"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8378">
+						
+						김아로미
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">61.82 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">34</td>
+					<td class="record2">55</td>
+					<td class="record3">14</td>
+					<td class="record4">-0.0882</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8380"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8380">
+						
+						김새로미
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">73.02 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">46</td>
+					<td class="record2">63</td>
+					<td class="record3">16</td>
+					<td class="record4">-0.3478</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8386"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8386">
+						
+						성은정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">100 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.125</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8320"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8320">
+						
+						김아림
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">43.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8349"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8349">
+						
+						최혜진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">43.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.1429</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8422"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8422">
+						
+						이수진3
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8424"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8424">
+						
+						정슬기
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">66.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">12</td>
+					<td class="record3">3</td>
+					<td class="record4">-0.125</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8430"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8430">
+						
+						조은채
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">9</td>
+					<td class="record2">12</td>
+					<td class="record3">3</td>
+					<td class="record4">-0.2222</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8431"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8431">
+						
+						박도은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">81.25 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">13</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.1538</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8434"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8434">
+						
+						김지영2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">12.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">1</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8436"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8436">
+						
+						유현주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">83.33 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">20</td>
+					<td class="record2">24</td>
+					<td class="record3">6</td>
+					<td class="record4">-0.05</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8773"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8773">
+						
+						송가은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">74.07 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">120</td>
+					<td class="record2">162</td>
+					<td class="record3">40</td>
+					<td class="record4">-0.15</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="8791"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=8791">
+						
+						신지원2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11640"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11640">
+						
+						성아진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">43.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="5137"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=5137">
+						
+						신지애
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">10</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="6442"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=6442">
+						
+						최혜용
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="1599"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						리디아 고
+						
+					</td>
+					<td class="record" data-rank="0">68.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">11</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.0909</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="1734"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						이민지
+						
+					</td>
+					<td class="record" data-rank="0">80 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="3779"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=3779">
+						
+						임은아
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">42.86 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">14</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="3787"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=3787">
+						
+						최혜정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">60 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">20</td>
+					<td class="record3">5</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="3789"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=3789">
+						
+						홍진주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">42.86 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">7</td>
+					<td class="record3">2</td>
+					<td class="record4">0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="4626"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=4626">
+						
+						박희영
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11056"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11056">
+						
+						박예지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">68.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">44</td>
+					<td class="record2">64</td>
+					<td class="record3">16</td>
+					<td class="record4">-0.1591</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11480"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11480">
+						
+						김연서
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11485"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11485">
+						
+						신지우
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.6667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11500"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11500">
+						
+						차야닛 왕마하뽄(I)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.5</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11505"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11505">
+						
+						온까녹 소이수완(I)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11921"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11921">
+						
+						송민교
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">73.91 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">17</td>
+					<td class="record2">23</td>
+					<td class="record3">6</td>
+					<td class="record4">-0.2353</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11926"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11926">
+						
+						유다겸(I)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">73.68 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">14</td>
+					<td class="record2">19</td>
+					<td class="record3">5</td>
+					<td class="record4">-0.2143</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11944"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						오수민 0809(A)
+						
+					</td>
+					<td class="record" data-rank="0">13.33 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">2</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11970"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11970">
+						
+						김정현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.5</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11984"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						안윤주 1101(A)
+						
+					</td>
+					<td class="record" data-rank="0">43.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.4286</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11985"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11985">
+						
+						최이수
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="1232"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=1232">
+						
+						배경은
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="12571"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=12571">
+						
+						깐 반나부디(I)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="12913"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						싱손 마리아 라파엘라
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.5</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="12921"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						빠따랏 랏따놘
+						
+					</td>
+					<td class="record" data-rank="0">73.08 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">38</td>
+					<td class="record2">52</td>
+					<td class="record3">13</td>
+					<td class="record4">0.2105</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="13055"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						지 유아이
+						
+					</td>
+					<td class="record" data-rank="0">54.55 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">66</td>
+					<td class="record2">121</td>
+					<td class="record3">31</td>
+					<td class="record4">-0.0455</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="13067"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						홀리 빅토리아 하림
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">4</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="13155"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						키라 푸차른
+						
+					</td>
+					<td class="record" data-rank="0">25 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">2</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="13431"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						류 위제 1005(A)
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="1456"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=1456">
+						
+						이지현2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">4</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="1485"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=1485">
+						
+						빳차라쭈타 콩끄라판(I)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">40 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">20</td>
+					<td class="record3">5</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11060"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11060">
+						
+						안재희
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11062"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11062">
+						
+						정세진
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11066"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11066">
+						
+						유서연2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">12</td>
+					<td class="record3">3</td>
+					<td class="record4">-0.3333</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11072"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11072">
+						
+						조민주
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">80 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0833</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11073"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11073">
+						
+						최정원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">56.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">17</td>
+					<td class="record2">30</td>
+					<td class="record3">8</td>
+					<td class="record4">0.0588</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11080"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11080">
+						
+						길예람
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">40 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.1667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10790"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10790">
+						
+						김하은2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">71.43 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">20</td>
+					<td class="record2">28</td>
+					<td class="record3">7</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10908"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10908">
+						
+						심지연
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10934"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10934">
+						
+						오승
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.1667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10698"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10698">
+						
+						정민서
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10725"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10725">
+						
+						김민솔
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">47.94 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">93</td>
+					<td class="record2">194</td>
+					<td class="record3">48</td>
+					<td class="record4">-0.1505</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11182"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11182">
+						
+						김소담
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">81.25 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">13</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.0769</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11195"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11195">
+						
+						박주원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11202"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11202">
+						
+						황보민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">87.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2857</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11216"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11216">
+						
+						김지윤2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11266"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						이 신
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.8</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11272"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						왕 리닝
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11365"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						박서진 0804(A)
+						
+					</td>
+					<td class="record" data-rank="0">28.57 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">2</td>
+					<td class="record2">7</td>
+					<td class="record3">2</td>
+					<td class="record4">0.5</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11388"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11388">
+						
+						김하람2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">100 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">7</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.1429</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11391"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						양윤서 0801(A)
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.125</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11395"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11395">
+						
+						백송
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">45.92 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">45</td>
+					<td class="record2">98</td>
+					<td class="record3">25</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11411"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						이효송
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0833</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11136"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11136">
+						
+						홍수민
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">56.25 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">9</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.1111</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11137"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11137">
+						
+						양진서
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="11142"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=11142">
+						
+						박서진C(S)
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">46.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">7</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10139"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10139">
+						
+						양효리
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">93.75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">15</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.4667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10150"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10150">
+						
+						우윤지
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">33.33 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">5</td>
+					<td class="record2">15</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.2</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10161"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10161">
+						
+						박아름2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10481"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10481">
+						
+						이서윤4
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">62.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">10</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.1</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10563"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10563">
+						
+						백소원
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">4</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.75</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10570"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10570">
+						
+						김수현3
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">68.83 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">53</td>
+					<td class="record2">77</td>
+					<td class="record3">19</td>
+					<td class="record4">-0.0189</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10080"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10080">
+						
+						이수정
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">79.17 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">19</td>
+					<td class="record2">24</td>
+					<td class="record3">6</td>
+					<td class="record4">-0.1053</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10021"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10021">
+						
+						김희준
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10025"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10025">
+						
+						김지현3
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">25 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">2</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10027"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10027">
+						
+						김지연5
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">6</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">-0.5</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10048"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10048">
+						
+						이정우
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">66.67 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">8</td>
+					<td class="record2">12</td>
+					<td class="record3">3</td>
+					<td class="record4">-0.25</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10057"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10057">
+						
+						정지현
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.0</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10100"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10100">
+						
+						임나경
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">56.41 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">22</td>
+					<td class="record2">39</td>
+					<td class="record3">10</td>
+					<td class="record4">0.1818</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10101"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10101">
+						
+						임지유
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">60 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">18</td>
+					<td class="record2">30</td>
+					<td class="record3">7</td>
+					<td class="record4">-0.2222</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10093"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10093">
+						
+						임채리
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">37.50 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">3</td>
+					<td class="record2">8</td>
+					<td class="record3">2</td>
+					<td class="record4">0.6667</td>
+				</tr>
+				
+				<tr>
+					<td class="td-like">
+						<div class="form-check form-check-like">
+							<input class="form-check-input" type="checkbox" _favoritPlayerCode="10087"
+							 onclick="favoritAction(this);">
+						</div>
+					</td>
+					<td class="text-start"><!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+					<td class="text-start player_name">
+						
+						<a href="/web/profile/mainRecord?playerCode=10087">
+						
+						김나영2
+						
+						</a>
+						
+					</td>
+					<td class="record" data-rank="0">75 <!-- <span class="ms-2 tb-rank-up">50</span> --></td>
+					<td class="record1">12</td>
+					<td class="record2">16</td>
+					<td class="record3">4</td>
+					<td class="record4">-0.3333</td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+
+</div>
+<!-- end .container -->

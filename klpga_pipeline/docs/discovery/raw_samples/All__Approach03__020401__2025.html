@@ -1,0 +1,585 @@
+
+
+
+
+
+<script>
+	$(document).ready(function() {
+		
+		$("#linkAll a").click(function() {
+			event.preventDefault();
+			var menu1 = $(this).attr("data-menu1");
+			var menu2 = $(this).attr("data-menu2");
+			var menu3 = $(this).attr("data-menu3");
+			
+			$('html, body').scrollTop(0);
+			getRecord(menu1, menu2, menu3);
+			
+			return false;
+		});
+		
+		$("#category li button").click(function() {
+			$("#category li button").removeClass("active");
+			$(this).addClass("active");
+			
+			
+			var headerHeight = 7;
+			
+			if(typeof $(".section-status").height() != "undefined") {
+				headerHeight += $(".section-status").height();
+			}
+			
+			if($(".header-menu").is(":visible")) {
+				headerHeight += 0;
+			} else {
+				headerHeight += 197;
+			}
+		
+			console.log(headerHeight);
+			$('html, body').animate({
+				scrollTop: $("#"+$(this).attr("data-id")).offset().top-headerHeight
+			}, 0);
+			
+		});
+	})
+
+</script>
+<style>
+	:root {
+		scroll-behavior: auto;
+	}
+	a {
+		cursor: pointer;
+	}
+</style>
+<div id="linkAll" class="container">
+
+	<!-- SG -->
+	<div id="locationrecord-SG" class="recordTitle">
+		<div class="table-record-header">
+			<h3 class="fw-bold pb-0">Strokes Gained</h3>
+		</div>
+		<div class="table-record-body bg-light">
+			<div class="row g-0">
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Sg" data-menu2="Total">SG : 전체</a></h3>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Sg" data-menu2="TeeToGreen">SG : 티샷 to 그린</a></h3>
+				</div>
+				<div class="col-6 col-lg-3"></div>
+				<div class="col-6 col-lg-3"></div>
+			</div>
+			<div class="pc-only bg-white border-bottom p-1"></div>
+			<div class="row g-0">
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Sg" data-menu2="Tee">SG : 티샷</a></h3>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Sg" data-menu2="Approach">SG : 어프로치</a></h3>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Sg" data-menu2="Around">SG : 그린주변</a></h3>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Sg" data-menu2="Putt">SG : 퍼팅</a></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<!-- 티샷 -->
+	<div id="locationrecord-teeshot" class="table-record-wrapper">
+		<div class="table-record-header">
+			<h3 class="fw-bold pb-0">티샷</h3>
+		</div>
+		<div class="table-record-body">
+			<div class="row g-0">
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">Par4,5 티샷 비율</a></h3>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010102">280야드 이상(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010103">260~280야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010104">240~260야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010105">220~240야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010106">220~200야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010107">200야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee01" data-menu3="010108">전장 대비 비율</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010109">Par4,5 페어웨이 안착률</a></h3>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010109">페어웨이 안착률</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010110">280야드 이상</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010111">260~280야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010112">240~260야드 미만 </a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010113">220~240야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010114">200~220야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee02" data-menu3="010115">200야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010201">Par5 티샷 비율</a></h3>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010201">평균 티샷 거리</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010202">280야드 이상(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010203">260~280야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010204">240~260야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010205">220~240야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010206">200~220야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010207">200야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee03" data-menu3="010208">전장 대비 비율</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010209">Par5 페어웨이 안착률</a></h3>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010209">페어웨이 안착률</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010210">280야드 이상</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010211">260~280야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010212">240~260야드 미만 </a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010213">220~240야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010214">220~200야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee04" data-menu3="010215">200야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010301">Par4 티샷 비율</a></h3>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010301">평균 티샷 거리</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010302">280야드 이상(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010303">260~280야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010304">240~260야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010305">220~240야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010306">200~220야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010307">200야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee05" data-menu3="010308">전장 대비 비율</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010309">Par4 페어웨이 안착률</a></h3>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010309">페어웨이 안착률</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010310">280야드 이상</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010311">260~280야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010312">240~260야드 미만 </a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010313">220~240야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010314">200~220야드 미만</a></h4>
+					<h4><a data-menu1="Tee" data-menu2="Tee06" data-menu3="010315">200야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3 pc-only">
+					<h3>&nbsp;</h3>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3 pc-only">
+					<h3>&nbsp;</h3>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<!-- 어프로치  -->
+	<div id="locationrecord-approach" class="table-record-wrapper">
+		<div class="table-record-header">
+			<h3 class="fw-bold pb-0">어프로치</h3>
+		</div>
+		<div class="table-record-body">
+			<div class="row g-0">
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020101">그린 적중률</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020101">그린 적중률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020103">180~200야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020104">160~180야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020105">140~160야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020106">120~140야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020107">100~120야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020108">80~100야드 미만 (RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020109">60~80야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020110">60야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020111">100야드 이상(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach01" data-menu3="020112">100야드 미만(RTP)</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020201">그린 적중 시 남은 거리</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020201">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020203">180~200야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020204">160~180야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020205">140~160야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020206">120~140야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020207">100~120야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020208">80~100야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020209">60~80야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020210">60야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020211">100야드 이상</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach02" data-menu3="020212">100야드 미만</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020301">그린 적중률(페어웨이)</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020301">그린 적중률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020303">180~200야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020304">160~180야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020305">140~160야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020306">120~140야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020307">100~120야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020308">80~100야 미만 (RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020309">60~80야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020310">60야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020311">100야드 이상(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach03" data-menu3="020312">100야드 미만(RTP)</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020401">그린 적중 시 평균 남은 거리(페어웨이)</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020401">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020403">180~200야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020404">160~180야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020405">140~160야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020406">120~140야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020407">100~120야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020408">80~100야 미만 </a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020409">60~80야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020410">60야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020411">100야드 이상</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach04" data-menu3="020412">100야드 미만</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020501">그린 적중률(러프)</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020501">그린적중률(러프)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020503">180~200야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020504">160~180야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020505">140~160야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020506">120~140야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020507">100~120야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020508">80~100야 미만 </a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020509">60~80야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020510">60야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020511">100야드 이상</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach05" data-menu3="020512">100야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020601">그린 적중 시 평균 남은 거리(러프)</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020601">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020603">180~200야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020604">160~180야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020605">140~160야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020606">120~140야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020607">100~120야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020608">80~100야드 미만 </a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020609">60~80야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020610">60야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020611">100야드 이상</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach06" data-menu3="020612">100야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020701">버디 이하 확률</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020701">페어웨이(상황별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020702">러프(상황별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020703">페어웨이 벙커(상황별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020715">그린 적중 시(상황별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020705">180~200야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020706">160~180야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020707">140~160야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020708">120~140야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020709">100~120야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020710">80~100야드 미만 </a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020711">60~80야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020712">60야드 미만(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020713">100야드 이상(거리별)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach07" data-menu3="020714">100야드 미만(거리별)</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach08" data-menu3="020801">어프로치 후 남은 거리</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach08" data-menu3="020801">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach08" data-menu3="020802">버디 이하</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach08" data-menu3="020803">파</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach08" data-menu3="020804">보기 이하</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010401">Par3 그린 적중률</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010401">그린 적중률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010402">180야드 이상(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010403">170~180야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010404">160~170야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010405">150~160야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010406">140~150야드 미만(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach09" data-menu3="010407">140야드 미만(RTP)</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010408">Par3 티샷 후 남은 거리</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010408">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010409">180야드 이상</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010410">170~180야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010411">160~170야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010412">150~160야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010413">140~150야드 미만</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach10" data-menu3="010414">140야드 미만</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020901">Par5, 2nd 샷</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020901">페어웨이 안착률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020902">러프 착지율(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020903">그린 주변 벙커 착지율(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020904">프린지 안착률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020905">그린 적중률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020906">30야드 이내 안착률(RTP)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach11" data-menu3="020907">50야드 이내 안착률(RTP)</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Approach" data-menu2="Approach12" data-menu3="020908">Par5, 2nd 샷(거리)</a></h3>
+					<h4><a data-menu1="Approach" data-menu2="Approach12" data-menu3="020908">평균 비거리(그린 공략)</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach12" data-menu3="020909">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Approach" data-menu2="Approach12" data-menu3="020910">평균 남은 거리(그린 적중 시)</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<!-- 그린주변 -->
+	<div id="locationrecord-green" class="table-record-wrapper">
+		<div class="table-record-header">
+			<h3 class="fw-bold pb-0">그린주변</h3>
+		</div>
+		<div class="table-record-body">
+			<div class="row g-0">
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Around" data-menu2="Around01" data-menu3="030101">샌드 세이브율</a></h3>
+					<h4><a data-menu1="Around" data-menu2="Around01" data-menu3="030101">샌드 세이브율</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around01" data-menu3="030102">30야드 이상</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around01" data-menu3="030103">20~30야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around01" data-menu3="030104">10~20야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around01" data-menu3="030105">10야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Around" data-menu2="Around02" data-menu3="030201">샌드 세이브 시 남은 거리</a></h3>
+					<h4><a data-menu1="Around" data-menu2="Around02" data-menu3="030201">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around02" data-menu3="030202">30야드 이상</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around02" data-menu3="030203">20~30야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around02" data-menu3="030204">10~20야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around02" data-menu3="030205">10야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Around" data-menu2="Around03" data-menu3="030301">스크램블링</a></h3>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030301">스크램블링</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030311">그린 주변 벙커</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030312">러프</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030313">프린지</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030302">30야드 이상</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030303">20~30야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030304">10~20야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around03" data-menu3="030305">10야드 미만</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Around" data-menu2="Around04" data-menu3="030306">스크램블링 시 남은 거리</a></h3>
+					<h4><a data-menu1="Around" data-menu2="Around04" data-menu3="030306">평균 남은 거리</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around04" data-menu3="030307">30야드 이상</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around04" data-menu3="030308">20~30야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around04" data-menu3="030309">10~20야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around04" data-menu3="030310">10야드 미만</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-12 col-lg-6">
+					<h3 class="fw-bold"><a data-menu1="Around" data-menu2="Around05" data-menu3="030401">그린 주변 샷 후 남은 거리</a></h3>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030401">60야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030402">50~60야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030403">40~50야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030404">30~40야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030405">20~30야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030406">10~20야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030407">10야드 미만</a></h4>
+					<h4><a data-menu1="Around" data-menu2="Around05" data-menu3="030408">그린 주변 벙커</a></h4>
+				</div>
+				<div class="col-6 col-lg-3 pc-only">
+					<h3>&nbsp;</h3>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3 pc-only">
+					<h3>&nbsp;</h3>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<!-- 퍼팅 -->
+	<div id="locationrecord-putting" class="table-record-wrapper">
+		<div class="table-record-header">
+			<h3 class="fw-bold pb-0">퍼팅</h3>
+		</div>
+		<div class="table-record-body">
+			<div class="row g-0">
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040101">1퍼트 성공률</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040101">1퍼트성공률</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040102">1야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040103">1~2야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040104">2~3야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040105">3~5야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040106">5~7야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040107">7~10야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040108">10~15야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt01" data-menu3="040109">15야드 이상</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt02" data-menu3="040201">라운드당 퍼트수</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt02" data-menu3="040201">평균 퍼트수</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt02" data-menu3="040202">1라운드</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt02" data-menu3="040203">2라운드</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt02" data-menu3="040204">3라운드</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt02" data-menu3="040205">FINAL라운드</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt03" data-menu3="040206">라운드당 퍼트 성공 수</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt03" data-menu3="040206">1퍼트</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt03" data-menu3="040206">2퍼트</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt03" data-menu3="040206">3퍼트 이상</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040301">퍼팅 평균 성공 거리</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040301">평균 성공 거리</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040302">이글 이하</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040303">버디</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040304">1퍼트</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040305">2퍼트</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt04" data-menu3="040306">3퍼트 이상</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt05" data-menu3="040404">그린 적중 시 퍼팅 평균 성공 거리</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt05" data-menu3="040404">1퍼트</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt05" data-menu3="040405">2퍼트</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt05" data-menu3="040406">3퍼트 이상</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040501">3퍼트율</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040501">3퍼트율</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040502">5야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040503">5~10야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040504">10~15야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040505">15~20야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040506">20야드 이상</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt06" data-menu3="040507">라운드당</a></h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+					<h4>&nbsp;</h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040601">퍼트 성공률 </a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040601">평균 성공률</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040602">1야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040603">1~2야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040604">2~3야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040605">3~4야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040606">4~5야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040607">5~7야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040608">7~10야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040609">10~15야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040610">15~20야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040709">20야드 이상</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt07" data-menu3="040710">평균 퍼트 수</a></h4>
+				</div>
+				<div class="col-6 col-lg-3">
+					<h3 class="fw-bold"><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040801">그린 적중 시 퍼트 성공률</a></h3>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040801">평균 성공률</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040802">1야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040803">1~2야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040804">2~3야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040805">3~4야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040806">4~5야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040807">5~7야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040808">7~10야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040809">10~15야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040810">15~20야드 미만</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040811">20야드 이상</a></h4>
+					<h4><a data-menu1="Putt" data-menu2="Putt08" data-menu3="040812">그린 적중 시 평균 퍼트 수 </a></h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+<!-- end .container -->
