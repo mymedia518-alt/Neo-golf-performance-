@@ -109,49 +109,21 @@ def test_sg_menu2_leaf_still_requestable():
 
 
 # ---------------------------------------------------------------
-# D. preceding_context-resolved menu3 leaves do not become
-#    NAVIGATION_CONTAINER merely because their identity came from
-#    preceding context (the EXACT real bug shape: a shared "All"
-#    container precedes hundreds of real menu3 metric links)
+# D. Ancestor-container-id-resolved menu3 leaves do not become
+#    NAVIGATION_CONTAINER merely because a genuine ancestor id happens
+#    to be a family name — and, per the Round 4 resolver rewrite (see
+#    tests/test_container_id_resolution.py for the full regression
+#    suite), a menu3-level leaf can no longer resolve menu1="All" at
+#    all unless that value is genuinely present as its own attribute
+#    or a genuine ancestor's — the old sibling-header
+#    `preceding_context` shape these tests used to model here has been
+#    proven, by real page evidence, to never have existed on the real
+#    site; the two `inspect_menu_dom`-level tests that used to live
+#    here were removed for that reason. This one stays: it exercises
+#    `canonical_plan.py` directly (a layer this round did not touch)
+#    against an already-resolved taxonomy dict, independent of HOW
+#    that resolution happened.
 # ---------------------------------------------------------------
-
-
-def test_preceding_context_resolved_leaf_with_all_ancestor_is_requestable():
-    """Models the real page's apparent shape: a page-level container
-    tagged data-menu1="All" precedes real per-metric anchors that only
-    carry data-menu3 (no own menu1/menu2, no true DOM ancestor either)
-    — preceding_context resolves menu1="All" structurally, but the
-    leaf must still be REQUESTABLE_METRIC_LEAF, not excluded."""
-    html = """
-    <div data-menu1="All">전체 목록 컨테이너</div>
-    <div data-menu2="Sg">SG 섹션</div>
-    <ul><li><a data-menu3="010101">Par4,5 티샷 비율</a></li></ul>
-    """
-    result = inspect_menu_dom(html)
-    leaf = result.leaves[0]
-    assert leaf.label_resolution_method == "preceding_context"
-    assert leaf.menu1 == "All"
-    assert leaf.leaf_level == "menu3"
-    assert leaf.node_type == NODE_TYPE_REQUESTABLE_METRIC_LEAF
-
-
-def test_many_preceding_context_leaves_sharing_an_all_container_are_all_requestable():
-    """The exact real-run shape at small scale: one shared "All"
-    container precedes many distinct real menu3 metric leaves — every
-    one of them must survive as requestable, never bulk-excluded."""
-    html = """
-    <div data-menu1="All">전체 목록 컨테이너</div>
-    <div data-menu2="Tee01">Tee 섹션</div>
-    <ul>
-      <li><a data-menu3="010101">Par4,5 티샷 비율</a></li>
-      <li><a data-menu3="010109">Par4,5 페어웨이 안착률</a></li>
-      <li><a data-menu3="020101">그린 적중률</a></li>
-    </ul>
-    """
-    result = inspect_menu_dom(html)
-    assert len(result.leaves) == 3
-    assert all(leaf.node_type == NODE_TYPE_REQUESTABLE_METRIC_LEAF for leaf in result.leaves)
-    assert all(leaf.menu1 == "All" for leaf in result.leaves)
 
 
 def test_canonical_plan_no_longer_bulk_excludes_preceding_context_all_leaves():

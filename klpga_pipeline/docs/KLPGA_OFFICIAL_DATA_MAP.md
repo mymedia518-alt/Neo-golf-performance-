@@ -2221,6 +2221,185 @@ command.
 
 ---
 
+## Round 5 — the real bounded B1 run exposed a genuine Phase A resolver bug: fixed from literal real-page HTML evidence
+
+### A. What the real bounded B1 run found
+
+10 live requests, HTTP_SUCCESS=10, PARSE_SUCCESS=4, PARSE_EMPTY=6.
+Succeeded: `Tee::Tee01::010101`, `Approach::Approach01::020101`,
+`Around::Around01::030101`, `Putt::Putt01::040101` (each 200+ rows).
+Empty (HTTP 200, 33543 bytes, 0 rows, every time): `All::Approach01::020201`,
+`All::Approach02::020301`, `All::Approach03::020401`,
+`All::Approach04::020501`, `All::Putt08::010102`. This proved the
+canonical plan itself — built entirely offline from Phase A's taxonomy
+JSON — contained wrong identities: real menu3-level metrics were being
+requested under the wrong menu1/menu2.
+
+### B. Evidence trail (all real, literal, Windows-side)
+
+Five escalating rounds of PowerShell extraction against the actual
+cached Phase A source page (`https://klpga.co.kr/web/record/locationRecord`,
+recovered from `data/raw_cache/http/` by its GET-with-no-params cache
+signature) established, in order:
+
+1. Early "evidence" pulled from `docs/discovery/raw_samples/*.html`
+   turned out to be `loadLocationRecord` AJAX response bodies — a
+   *different document* from the one Phase A's `inspect_menu_dom()`
+   ever parses. That evidence was correctly discarded rather than used
+   to justify a fix (see the mid-round correction in this project's
+   own history — no code was changed on the strength of it).
+2. Literal markup from the real source page then showed: the Approach
+   family's menu2-level sub-tabs are flat siblings, each carrying its
+   OWN `data-menu2` + `data-menu3` but NO own `data-menu1` — e.g.
+   `<button data-menu2="Approach02" data-menu3="020201">그린 적중 시
+   남은 거리</button>`.
+3. A literal structural trace (own tag / nearest preceding
+   `data-menu1` / nearest preceding `data-menu2` / nearest ancestor
+   `<div id="...">`) of the `Putt08::010102` case showed the button is
+   genuinely nested inside `<div id="Tee01">`, while the OLD resolver
+   had independently borrowed `menu1="All"` from a distant top-nav
+   button and `menu2="Putt08"` from an unrelated earlier tab — neither
+   of which is any ancestor of that tag.
+
+### C. Root cause (two defects, both proven against literal real HTML)
+
+**DEFECT 1 — partial own identity discarded.** `inspect_menu_dom()`
+Pass 1's `own_attrs` check required BOTH `data-menu1` AND `data-menu2`
+present on the same tag before using EITHER. A tag with its own
+reliable `data-menu2` (Approach02's own tab) but no own `data-menu1`
+had that real value thrown away entirely, then re-derived from
+scratch — producing the proven "menu2 off-by-one" bug: Approach02's
+own request ended up labeled `menu2="Approach01"`, Approach03 got
+`"Approach02"`, etc. (Pass 2, the menu2-level leaf pass, had the
+identical defect — proven by the real `<div id="Sg">` evidence: `SG :
+전체`/`SG : 티샷 to 그린`'s own tabs carry only `data-menu2`, no own
+`data-menu1`, meaning Sg's real menu2-level metrics were being
+silently skipped by Phase A entirely, not merely mis-tagged.)
+
+**DEFECT 2 — missing components resolved by an unbounded,
+independent, per-component document-order scan.** The `preceding_context`
+tier (`_find_nearest_preceding_attr`) searched backward through the
+ENTIRE flattened document for the nearest earlier tag carrying
+`data-menu1`, and *independently* the nearest earlier tag carrying
+`data-menu2` — with no requirement that either have any structural
+relationship to the tag being resolved, or to each other. This is what
+produced the synthetic `All::Putt08::010102` identity: `menu1="All"`
+and `menu2="Putt08"` came from two different, unrelated, non-ancestor
+tags, combined into a tuple that never existed anywhere in the real
+DOM.
+
+### D. The fix (`src/klpga/discovery/menu_taxonomy.py`)
+
+- `_find_nearest_preceding_attr` (the unbounded scan) is **removed
+  entirely** — no code path resolves menu1/menu2 from document-order
+  position any more, in either Pass 1 or Pass 2.
+- New `_find_ancestor_ids(tag)`: an ordered (nearest-to-farthest) list
+  of the literal `id` attribute value on every genuine ANCESTOR of
+  `tag` — grounded in the confirmed real container-nesting evidence
+  (`<div id="Sg">` wrapping Sg's own tabs; `<div id="Tee01">` wrapping
+  Tee01's own menu3-only detail buttons). Nothing about the `id`
+  VALUES themselves — their text, digit suffixes, or naming pattern —
+  is inspected; only genuine ancestor presence and nesting order.
+- Both Pass 1 and Pass 2 now resolve identity component-by-component:
+  an own attribute already on the tag is ALWAYS used directly and
+  never discarded; a still-missing component is resolved first via a
+  genuine ancestor's own `data-menu1`/`data-menu2` attribute
+  (`_find_ancestor_with_attr`, unchanged), then via the ancestor `id`
+  chain — nearest ancestor id fills menu2 if menu2 is still open,
+  the next ancestor id further up fills menu1 if menu1 is still open.
+  Whatever still can't be resolved falls to `"unknown"`, preserving
+  whatever component WAS genuinely resolved rather than blanking both
+  out (this project's "preserve every discovered thing" discipline) —
+  and per `sampler.reject_malformed_leaves`, any leaf with a blank
+  menu1 or menu2 is still never eligible for a live request regardless.
+- This design is **safe-by-construction**: the bare family-level
+  `<div id="Tee">`/`<div id="Approach">` containers (one level above
+  the confirmed `<div id="Tee01">`/`<div id="Approach02">` subgroup
+  containers) were inferred by direct structural analogy with the one
+  bare family container independently confirmed (`<div id="Sg">`), not
+  independently observed for every family. If that analogy is wrong
+  for some family, the affected leaves simply fall to `"unknown"` —
+  visible and auditable in the malformed-leaf report — rather than
+  silently producing another wrong-but-confident identity like the bug
+  being fixed. Under- resolving is the safe failure mode here;
+  over-resolving (the old behavior) is not.
+- `MenuLeaf.label_resolution_method` no longer has a `"preceding_context"`
+  value — only `"own_attrs"`, `"ancestor_walk"` (now covering both the
+  data-attribute and the container-id ancestor mechanisms), and
+  `"unknown"`.
+
+### E. What did NOT change
+
+`_find_ancestor_with_attr` (genuine ancestor data-attribute walk),
+`CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES`/`node_type`'s
+`leaf_level == "menu2"` scoping (Round 3's fix), `canonical_plan.py`,
+`sampler.py`, `response_parser.py`'s dynamic-header handling, and every
+sanity-check threshold in `check_sanity_invariants` are all untouched.
+Menu3 collision handling (`DomInspectionResult.collisions`, keyed by
+bare menu3 code regardless of parent) is unaffected — collisions are
+still never silently resolved.
+
+### F. Tests
+
+- Deleted `tests/fixtures/record_menu_preceding_context_sample.html`
+  and `tests/test_preceding_context_resolution.py` — both were built
+  on a hypothesis (a preceding-sibling-header DOM shape) that this
+  round's literal real-page evidence directly disproved. Its own
+  header comment always flagged it as "NOT a literal HTML capture."
+- Added `tests/fixtures/record_menu_confirmed_container_structure_sample.html`
+  — built directly from the literal real HTML pasted this round (top-
+  level family nav buttons, `<div id="Sg">`, `<div id="Tee">`/
+  `<div id="Tee01">`, `<div id="Approach">`/`<div id="Approach02">`,
+  `<div id="Around">`, `<div id="Putt">`), with the not-independently-
+  observed bare family containers flagged transparently in the
+  fixture's own comment.
+- Added `tests/test_container_id_resolution.py`: the Approach off-by-one
+  fix (every Approach0N tab keeps its own menu2), the Tee01/010102 fix
+  (resolves to `Tee::Tee01::010102`, explicit assertion that
+  `("All","Putt08","010102")` can never appear), the two-level
+  ancestor-id chain (a menu3-only button nested inside a subgroup
+  detail div inside a family div), Sg's Pass 2 fix, "All" navigation
+  exclusion still intact, and the safe-unknown-fallback behavior.
+- Trimmed two now-structurally-impossible tests out of
+  `tests/test_navigation_container_scope_fix.py` (their sibling-header
+  premise no longer applies to how the resolver works); its
+  canonical-plan-level test (a different, untouched layer) is
+  unchanged.
+
+**571/571 tests passing** (was 570 before this round — net effect of
+removing ~15 obsolete tests and adding a larger, evidence-grounded
+replacement suite). No live requests made this round. No change to
+Prediction #001, `predictions/`, model/inference/probability logic,
+the production DB, the archive, or the public website. Phase B2 was
+not started.
+
+### G. Windows commands — regenerate and rerun the bounded B1 validation
+
+```
+git pull
+
+python scripts\26_discover_klpga_record_taxonomy.py ^
+    --source-url "https://klpga.co.kr/web/record/locationRecord"
+
+python scripts\28_build_canonical_metric_request_plan.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json
+
+python scripts\27_klpga_response_schema_sample.py ^
+    --canonical-plan docs\discovery\KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json ^
+    --season 2025
+```
+
+Expected direction only, not a predicted count: `Approach::Approach02::020201`
+(and 03/04/05) should now request as `Approach::ApproachNN::0N0N01`
+rather than `All::ApproachN-1::...`; `Tee::Tee01::010102` should now
+appear instead of `All::Putt08::010102`; Sg's `Total`/`TeeToGreen`
+menu2-level leaves should now actually appear in the taxonomy (Pass 2
+fix) where they may have been silently absent before. This command
+STOPS after writing its bounded output — it does not request all 277
+canonical metrics and does not start Phase B2.
+
+---
+
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
 database, model, archive, or website changes were made to produce this
 document.*
