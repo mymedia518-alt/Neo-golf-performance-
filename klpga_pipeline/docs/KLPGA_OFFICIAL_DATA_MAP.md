@@ -3,7 +3,8 @@
 **Status: research/discovery only, 2026-08-26 (Round 1), updated
 2026-08-26 (Round 2), Phase A tooling implemented 2026-08-26 (Round
 3), Phase A patched same day for 2-level/3-level metric leaves (Round
-3 patch).** Maps what the official KLPGA records interface
+3 patch), Phase B1 (response-schema sampling) tooling built same day —
+NOT yet run live (Round 3 Phase B1).** Maps what the official KLPGA records interface
 exposes through the `loadLocationRecord` XHR family, based on evidence
 the user captured manually in Chrome DevTools. This document does not
 implement a collector, does not touch the database, the model, the
@@ -704,6 +705,111 @@ next thing to decide, not something this patch assumes.
 - The real counts (menu2-level vs. menu3-level split, updated
   collision categories A/B/C) across the actual live taxonomy — only a
   fixture-scale version of this has been exercised.
+
+---
+
+---
+
+## Round 3, Phase B1 — response-schema sampling tooling (built, not yet run live)
+
+**Status: code written and tested, 2026-08-26. NOT run against the
+live site by this session** — no network access, unchanged since
+Round 1. Confirmed Phase A baseline (from the user's live Windows
+run): 6 menu1 categories, 11 menu2 nodes, 7 menu2-level leaves, 276
+menu3-level leaves, 283 total, 241 unique menu3 codes, 31 collisions,
+0 unresolved categories — `COMPLETE`.
+
+### What Phase B1 does
+
+Given an already-produced Phase A taxonomy JSON, deterministically
+selects a small (~12-20), cross-family representative sample — never
+the full 283 — fires exactly one live request per sampled metric
+against the already-confirmed `/load/record/loadLocationRecord`
+endpoint, and analyzes each response for: schema fingerprint, raw
+numerator/denominator-pair detection (with a validated cross-check
+against the displayed rate, never a silent replacement of it),
+distinct sample-size fields (never merged across types), RTP presence,
+player-code extraction method, and data-quality anomalies. An optional
+minimal historical-season probe (≤3 metrics) classifies
+`HISTORICAL_SEASON_AVAILABLE` / `CURRENT_ONLY` / `UNKNOWN` — a
+structurally different, weaker claim than PIT safety. **Every metric's
+`pit_status` is the hardcoded constant `PIT_UNVERIFIED`, with a
+dedicated static-source test asserting the literal string "PIT_SAFE"
+does not appear anywhere in the analysis module** — nothing in this
+tooling can promote a metric to PIT-safe.
+
+New package additions: `src/klpga/discovery/response_schema.py`
+(fingerprinting, raw-pair/sample-size/RTP/data-quality analysis, the
+PIT constant), `sampler.py` (representative selection, deterministic —
+no randomness), `request_log.py` (structurally redacted audit log — no
+field capable of holding a header/cookie/token exists in the schema at
+all), `schema_report.py` (the five required output-file writers).
+`scripts/27_klpga_response_schema_sample.py` is the Phase B1-only
+orchestrator; Phase B2 (a full 283-metric sweep) has no script and was
+not implemented, per instruction.
+
+### A real correction made during this round
+
+The response-parser's record-field count (`response_parser.py`,
+Round 3 Phase A) was hardcoded at exactly 5 (`record`..`record4`) —
+built before any evidence suggested otherwise. This round's directly
+reported SG Total evidence (six named values: Total/Tee Shot/Approach/
+Around the Green/Putting/measured rounds — see the Strokes Gained
+section above) doesn't fit that assumption. Fixed:
+`_discover_record_fields()` now scans each response for whichever
+`data-record*` attributes actually exist, rather than assuming a fixed
+count — verified by a new SG Total fixture with six `record`..`record5`
+values matching the real reported figures (2.38/0.67/1.00/0.17/0.54/61,
+whose arithmetic — 0.67+1.00+0.17+0.54=2.38 — is the same check that
+originally confirmed this evidence). That fixture also exercises the
+other real reported player-identity pattern (a
+`/web/profile/mainRecord?playerCode=...` link) as a fallback player-code
+source, distinct from the `data-playercode` attribute the Approach/Tee
+fixtures already covered.
+
+The two existing Approach fixtures (`020104`/`020105`) were also
+updated: this round's evidence gave the *exact* column header text
+("그린 적중률(%)", "그린 적중 횟수", "샷 시도 횟수", "측정 라운드")
+where Round 3 Phase A's fixtures had used abbreviated placeholders
+("GIR"/"성공"/"시도") pending that more precise evidence — now
+corrected, and a second real reported row (배소현: 64.94%/50/77/87/0.04)
+was added to `020104` alongside the original (김수지: 70.49%/43/61/73/
+-0.0465), both independently reported, both arithmetic-consistent.
+
+### What was deliberately NOT built or run this round
+
+- No live request was made — the sample/analysis/report pipeline is
+  fully tested against fixtures only.
+- Phase B2 (full 283-metric enumeration) — no script, no design
+  commitment beyond "the same per-metric analysis, at scale."
+- `docs/discovery/KLPGA_RESPONSE_SCHEMA_SAMPLES.json/.csv`,
+  `KLPGA_RESPONSE_SCHEMA_REPORT.md`, `KLPGA_RAW_FIELD_INVENTORY.md`,
+  `NEO_RAW_INPUT_CANDIDATES.md`, and the Phase B1 request log —
+  none of these exist yet in this repository. They are Phase A's
+  taxonomy files' sibling problem: this session has no live output to
+  write, and fabricating them would defeat the entire point of this
+  evidence discipline. The next live Windows run produces them for
+  real.
+
+### Exact Windows command for the next real run
+
+```
+python scripts\27_klpga_response_schema_sample.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json ^
+    --season 2025
+```
+
+Add `--historical-season 2024` (or whichever prior year the site's own
+`#searchSeason` selector actually offers) to also run the minimal
+3-metric historical probe. Output lands in `docs\discovery\` by
+default (`--out-dir` to change it); every fetched response is cached
+under `data\raw_cache\http\` via the existing `PoliteHttpClient`,
+unchanged rate-limit/retry behavior, no concurrency, one request per
+sampled metric plus up to 3 for the optional historical probe — a hard
+`--max-requests` cap (default 24) stops the run regardless. A 401/403/
+429 from the site halts the entire run immediately (`EXIT_BLOCKED`) —
+partial results already collected are still written, but nothing
+further is attempted.
 
 ---
 
