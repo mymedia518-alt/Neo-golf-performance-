@@ -19,6 +19,7 @@ from klpga.discovery.canonical_plan import build_canonical_plan
 from klpga.discovery.sampler import (
     _canonical_entry_to_leaf_dict,
     find_duplicate_identities,
+    select_full_canonical_plan,
     select_representative_sample_from_canonical_plan,
 )
 
@@ -206,3 +207,59 @@ def test_end_to_end_from_build_canonical_plan_output():
     sample = select_representative_sample_from_canonical_plan(plan, target_count=10)
     assert all(leaf.menu1 != "All" for leaf in sample)
     assert len(sample) >= 1
+
+
+# ---------------------------------------------------------------
+# E. Phase B2 (Round 9 follow-up) — select_full_canonical_plan: every
+#    entry, no per_family_cap, deterministic order.
+# ---------------------------------------------------------------
+
+
+def test_full_canonical_plan_returns_every_entry_not_a_sample():
+    """A family with MORE than select_representative_sample_from_
+    canonical_plan's per_family_cap (4) worth of entries must still
+    return ALL of them — this is the whole point of the B2 full sweep
+    versus the B1 representative sample."""
+    plan = [_entry("Sg", "Total", None, "menu2", "SG : 전체")] + [
+        _entry("Sg", f"Sub{i}", f"00000{i}", "menu3", f"라벨{i}") for i in range(6)
+    ]
+    assert len(plan) == 7  # 1 more than the B1 per_family_cap of 4, plus 2 extra to be sure
+
+    full = select_full_canonical_plan(plan)
+    assert len(full) == 7
+
+    capped_sample = select_representative_sample_from_canonical_plan(plan, target_count=20)
+    assert len(capped_sample) < len(full)  # proves the B1 path really would have dropped some
+
+
+def test_full_canonical_plan_deterministic_order_by_menu1_menu2_menu3():
+    plan = [
+        _entry("Tee", "Tee02", "010102", "menu3", "라벨"),
+        _entry("Sg", "Total", None, "menu2", "SG : 전체"),
+        _entry("Tee", "Tee01", "010101", "menu3", "라벨"),
+        _entry("Approach", "Approach01", "020101", "menu3", "라벨"),
+    ]
+    full = select_full_canonical_plan(plan)
+    assert [leaf.source_metric_key for leaf in full] == [
+        "Approach::Approach01::020101",
+        "Sg::Total",
+        "Tee::Tee01::010101",
+        "Tee::Tee02::010102",
+    ]
+
+    # Re-running against the SAME plan (even if the caller passes it
+    # in a different order) always produces the identical sequence —
+    # required for the B2 checkpoint's resume logic to be meaningful.
+    shuffled_plan = [plan[3], plan[1], plan[0], plan[2]]
+    full_again = select_full_canonical_plan(shuffled_plan)
+    assert [leaf.source_metric_key for leaf in full_again] == [leaf.source_metric_key for leaf in full]
+
+
+def test_full_canonical_plan_never_invents_a_navigation_rejection_pass():
+    """Unlike the raw-taxonomy sampling path, the canonical plan is
+    already malformed-free/navigation-free by construction — this
+    function must not filter anything further."""
+    plan = [_entry("All", "Sg", None, "menu2", "전체기록보기")]
+    full = select_full_canonical_plan(plan)
+    assert len(full) == 1
+    assert full[0].menu1 == "All"
