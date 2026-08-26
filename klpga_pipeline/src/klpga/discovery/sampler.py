@@ -83,22 +83,27 @@ frozenset (not imported) so the sampler has zero dependency on the
 menu_taxonomy module's DOM-scraping machinery, matching this module's
 existing "operates on the already-produced taxonomy dict, nothing
 more" scope. See that module's docstring for the real evidence: a
-menu1="All" request returned 0 rows and a body containing the entire
-navigation menu tree itself (data-menu1/menu2/menu3 spanning every
-confirmed family) — a container/navigation page, never a requestable
-metric, regardless of which menu2 follows it."""
+MENU2-LEVEL (no menu3) menu1="All" request returned 0 rows and a body
+containing the entire navigation menu tree itself (data-menu1/menu2/
+menu3 spanning every confirmed family) — a container/navigation page,
+never a requestable metric. Deliberately does NOT cover a menu3-level
+leaf whose menu1 happens to read "All" (e.g. via preceding_context
+DOM resolution) — no request of that shape has ever been confirmed to
+behave the same way; see the fallback's own leaf_level check below."""
 
 
 def _is_navigation_container_leaf_dict(d: dict) -> bool:
     """True if `node_type` explicitly says NAVIGATION_CONTAINER (a
     taxonomy JSON produced by the current menu_taxonomy.py), OR — for
-    an older taxonomy JSON produced before node_type existed — if
-    menu1 is one of the specifically-evidenced navigation values.
-    Never a broader name-pattern guess."""
+    an older taxonomy JSON produced before node_type existed — if this
+    is a MENU2-LEVEL leaf (menu3 absent — the exact confirmed request
+    shape) whose menu1 is one of the specifically-evidenced navigation
+    values. A menu3-level leaf is never excluded on menu1 value alone,
+    even in this fallback path. Never a broader name-pattern guess."""
     node_type = d.get("node_type")
     if node_type is not None:
         return node_type == "NAVIGATION_CONTAINER"
-    return d.get("menu1") in _CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES
+    return d.get("leaf_level") == "menu2" and d.get("menu1") in _CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES
 
 
 def reject_navigation_container_leaves(raw_leaves: list[dict]) -> tuple[list[dict], list[dict]]:

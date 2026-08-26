@@ -85,20 +85,34 @@ NODE_TYPE_NAVIGATION_CONTAINER = "NAVIGATION_CONTAINER"
 CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES = frozenset({"All"})
 """CONFIRMED by direct live-response evidence (Phase B1 — see
 docs/KLPGA_OFFICIAL_DATA_MAP.md's CLASS 2 root-cause section): a
-request with menu1="All" (e.g. menu2="Sg", menu3=None) returned HTTP
-200, 33543 bytes, ZERO player rows — and the response BODY ITSELF
-contained the full record navigation menu tree (data-menu1/menu2/menu3
-attributes spanning every confirmed family: Sg/Total, Sg/TeeToGreen,
-Tee/Tee01/010101, Tee/Tee01/010102, Tee/Tee01/010103, ...). That is a
-navigation/container page, not player data — "All" is not a
-requestable metric family at all, regardless of which menu2 value
-follows it.
+request with menu1="All", menu2="Sg", **menu3=None** (a menu2-level
+request — no menu3 field at all, the same request shape as the
+confirmed SG Total case) returned HTTP 200, 33543 bytes, ZERO player
+rows — and the response BODY ITSELF contained the full record
+navigation menu tree (data-menu1/menu2/menu3 attributes spanning every
+confirmed family: Sg/Total, Sg/TeeToGreen, Tee/Tee01/010101,
+Tee/Tee01/010102, Tee/Tee01/010103, ...). That is a navigation/
+container page, not player data.
 
-Scoped to EXACTLY this confirmed value. This is NOT an inference from
-the string "All" looking like a navigation label — it is grounded in
-the observed response shape (0 rows + the menu tree itself in the
-body) for this specific menu1 value. No other menu1 family has
-equivalent evidence, so no other family is classified this way."""
+**Scoped precisely to that confirmed request SHAPE — menu1="All" AND
+leaf_level="menu2" (menu3=None) — never to menu1="All" alone.** A
+menu3-level leaf (e.g. "All"::"Sg"::"<code>") has NEVER been
+independently confirmed to behave the same way; no live request of
+that shape has ever been made or evidenced. This distinction was
+added after a real Phase A run against the fixed `preceding_context`
+resolver (see the DOM-ancestry-fix round) showed why it matters: 272
+genuine, menu3-level metric leaves structurally resolved their nearest
+preceding `data-menu1` to a shared page-level element ALSO carrying
+"All" — an artifact of the real page apparently wrapping its entire
+metric-link listing in one such container, unrelated to the
+CONFIRMED navigation-request evidence, which was specifically about a
+menu2-level ("All"/family, no menu3) request. Classifying those 272
+menu3-level leaves as NAVIGATION_CONTAINER purely because their
+structurally-resolved menu1 field happened to read "All" would have
+been exactly the "affirmative structural evidence" this project's own
+discipline requires NOT to skip — the confirmed evidence never covered
+that shape, so it must not exclude it. No other menu1 family has
+equivalent navigation evidence either, at any leaf_level."""
 
 
 def _attr(tag: Tag, name: str) -> Optional[str]:
@@ -179,9 +193,17 @@ class MenuLeaf:
     def node_type(self) -> str:
         """REQUESTABLE_METRIC_LEAF or NAVIGATION_CONTAINER — see
         `CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES`'s docstring for
-        the real evidence backing this classification. Derived purely
-        from `menu1`, never from `menu3` being fabricated or guessed."""
-        if self.menu1 in CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
+        the real evidence backing this classification, AND why it is
+        scoped to `leaf_level == LEAF_LEVEL_MENU2` specifically: the
+        confirmed navigation-page evidence was for a menu2-level
+        ("All"/family, no menu3) request only. A menu3-level leaf is
+        NEVER auto-excluded merely because its structurally-resolved
+        `menu1` happens to read "All" — that shape has no confirming
+        evidence, and per this project's own discipline, absence of
+        evidence must not become an exclusion. Derived purely from
+        `menu1` + `leaf_level`, never from `menu3` being fabricated or
+        guessed, and never from labels or golf semantics."""
+        if self.leaf_level == LEAF_LEVEL_MENU2 and self.menu1 in CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
             return NODE_TYPE_NAVIGATION_CONTAINER
         return NODE_TYPE_REQUESTABLE_METRIC_LEAF
 
