@@ -91,6 +91,89 @@ def test_missing_taxonomy_file_fails_cleanly(module, tmp_path):
     assert rc == module.EXIT_TAXONOMY_LOAD_FAILED
 
 
+# ---------------------------------------------------------------
+# Follow-up round — real Windows result (283 total, 272 malformed,
+# ~96%): malformed-leaf diagnostic report, per-family breakdown, and
+# the sanity-invariant safety guard that must fail loudly on exactly
+# this shape rather than presenting a misleading canonical plan.
+# ---------------------------------------------------------------
+
+
+def _windows_shaped_taxonomy() -> dict:
+    leaves = []
+    for i in range(27):
+        leaves.append(
+            {
+                "menu1": "", "menu1_label": "", "menu2": "", "menu2_label": "",
+                "menu3": f"{900000 + i}", "menu3_label": "고아 항목",
+                "leaf_level": "menu3", "source_metric_key": f"::{900000 + i}",
+            }
+        )
+    for menu2 in ("Sg", "Tee", "Approach", "Around", "Putt", "Other"):
+        leaves.append(
+            {
+                "menu1": "All", "menu1_label": "All", "menu2": menu2, "menu2_label": "전체",
+                "menu3": None, "menu3_label": None, "leaf_level": "menu2", "source_metric_key": f"All::{menu2}",
+            }
+        )
+    leaves.append(
+        {
+            "menu1": "Sg", "menu1_label": "SG", "menu2": "Total", "menu2_label": "SG : 전체",
+            "menu3": None, "menu3_label": None, "leaf_level": "menu2", "source_metric_key": "Sg::Total",
+        }
+    )
+    for i in range(4):
+        leaves.append(
+            {
+                "menu1": "Tee", "menu1_label": "티샷", "menu2": "Tee01", "menu2_label": "",
+                "menu3": f"01010{i}", "menu3_label": f"거리 구간 {i}",
+                "leaf_level": "menu3", "source_metric_key": f"Tee::Tee01::01010{i}",
+            }
+        )
+    return {"source_url": "https://example.test", "leaves": leaves}
+
+
+def test_run_writes_malformed_leaf_report_csv(module, tmp_path):
+    taxonomy = _windows_shaped_taxonomy()
+    module.run(taxonomy, "test.json", tmp_path)
+    report_path = tmp_path / "KLPGA_MALFORMED_LEAF_REPORT.csv"
+    assert report_path.exists()
+    lines = report_path.read_text(encoding="utf-8").strip().splitlines()
+    assert len(lines) == 1 + 27  # header + 27 malformed rows
+    assert "missing_menu1_and_menu2" in report_path.read_text(encoding="utf-8")
+
+
+def test_run_prints_per_family_breakdown(module, tmp_path, capsys):
+    taxonomy = _windows_shaped_taxonomy()
+    module.run(taxonomy, "test.json", tmp_path)
+    out = capsys.readouterr().out
+    assert "Counts by menu1 family:" in out
+    for family in ("Sg", "Tee", "Approach", "Around", "Putt", "other"):
+        assert family in out
+
+
+def test_run_returns_sanity_check_failed_on_the_windows_shaped_result(module, tmp_path, capsys):
+    """The exact regression this round demands: a ~96%-malformed
+    result must exit non-zero and say so loudly, never presenting
+    itself as a clean, trustworthy canonical plan."""
+    taxonomy = _windows_shaped_taxonomy()
+    rc = module.run(taxonomy, "test.json", tmp_path)
+    assert rc == module.EXIT_SANITY_CHECK_FAILED
+    out = capsys.readouterr().out
+    assert "SANITY CHECK FAILED" in out
+    assert "malformed_ratio" in out
+    # Output files are still written even on a failed sanity check —
+    # the data is real and worth having on disk to investigate.
+    assert (tmp_path / "KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json").exists()
+    assert (tmp_path / "KLPGA_MALFORMED_LEAF_REPORT.csv").exists()
+
+
+def test_run_returns_complete_on_a_clean_result(module, tmp_path):
+    taxonomy = _real_evidence_taxonomy()
+    rc = module.run(taxonomy, "test.json", tmp_path)
+    assert rc == module.EXIT_COMPLETE
+
+
 def test_main_reads_real_taxonomy_file_end_to_end(module, tmp_path):
     import sys
 

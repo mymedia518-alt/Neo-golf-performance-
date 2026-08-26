@@ -31,6 +31,8 @@ same confirmed-menu1-value check `sampler.py` uses.
 """
 from __future__ import annotations
 
+import csv
+import io
 import json
 from dataclasses import asdict, dataclass
 from typing import Optional
@@ -146,6 +148,148 @@ def build_canonical_plan(taxonomy: dict) -> tuple[CanonicalPlanCounts, list[dict
     ]
 
     return counts, plan
+
+
+_KNOWN_LEAF_KEYS = {
+    "menu1", "menu1_label", "menu2", "menu2_label", "menu3", "menu3_label",
+    "leaf_level", "source_metric_key", "label_resolution_method",
+    "is_menu3_collision", "node_type",
+}
+"""The complete set of keys `taxonomy_report.to_taxonomy_json` has
+EVER written, across every schema revision this project has shipped
+(the original Round 3 leaf shape had no `leaf_level`/`node_type`; both
+were added later — see canonical_plan.py's module docstring and
+docs/KLPGA_OFFICIAL_DATA_MAP.md's schema-audit section). Used only for
+diagnostic reporting (`classify_malformation_reason`), never to alter
+`_is_malformed`'s actual rejection rule."""
+
+
+def classify_malformation_reason(leaf: dict) -> str:
+    """Diagnostic-only classification of WHY a leaf is malformed —
+    never changes whether it's rejected (`_is_malformed` above remains
+    the single source of truth for that). Distinguishes a genuinely
+    unresolvable DOM leaf (this project's own Pass-1 "unknown"
+    ancestor-walk fallback — see menu_taxonomy.py) from a taxonomy
+    JSON produced by an older schema revision this session cannot
+    directly inspect."""
+    has_menu1 = bool(leaf.get("menu1"))
+    has_menu2 = bool(leaf.get("menu2"))
+    unknown_keys = set(leaf.keys()) - _KNOWN_LEAF_KEYS
+    if unknown_keys:
+        return f"unrecognized_fields:{','.join(sorted(unknown_keys))}"
+    if "leaf_level" not in leaf:
+        return "legacy_taxonomy_format_missing_leaf_level"
+    if not has_menu1 and not has_menu2:
+        return "missing_menu1_and_menu2"
+    if not has_menu1:
+        return "missing_menu1"
+    if not has_menu2:
+        return "missing_menu2"
+    if leaf.get("leaf_level") == "menu3" and not leaf.get("menu3"):
+        return "missing_menu3_when_required"
+    return "other"
+
+
+def build_malformed_leaf_report(taxonomy: dict) -> list[dict]:
+    """One row per rejected (`_is_malformed`) leaf, preserving enough
+    raw source information to identify a parser/serialization
+    mismatch — see Mission 2's required schema (Phase B1 CLASS 2
+    follow-up round)."""
+    rows = []
+    for index, leaf in enumerate(taxonomy.get("leaves", [])):
+        if not _is_malformed(leaf):
+            continue
+        rows.append(
+            {
+                "original_index": index,
+                "raw_menu1": leaf.get("menu1"),
+                "raw_menu2": leaf.get("menu2"),
+                "raw_menu3": leaf.get("menu3"),
+                "leaf_level": leaf.get("leaf_level"),
+                "label": _label(leaf),
+                "node_type": _node_type(leaf),
+                "identity_key": "::".join(str(part) for part in _identity_key_tuple(leaf)),
+                "rejection_reason": classify_malformation_reason(leaf),
+            }
+        )
+    return rows
+
+
+_MALFORMED_REPORT_CSV_FIELDS = [
+    "original_index", "raw_menu1", "raw_menu2", "raw_menu3", "leaf_level",
+    "label", "node_type", "identity_key", "rejection_reason",
+]
+
+
+def to_malformed_leaf_report_csv(rows: list[dict]) -> str:
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=_MALFORMED_REPORT_CSV_FIELDS)
+    writer.writeheader()
+    for row in rows:
+        writer.writerow({k: ("" if row.get(k) is None else row.get(k)) for k in _MALFORMED_REPORT_CSV_FIELDS})
+    return buf.getvalue()
+
+
+_CONFIRMED_STAT_FAMILIES = ("Sg", "Tee", "Approach", "Around", "Putt")
+
+
+def group_counts_by_family(taxonomy: dict) -> dict[str, dict[str, int]]:
+    """Per-menu1-family breakdown (the five confirmed stat families,
+    plus "other" for everything else — including "All" and any
+    genuinely unrecognized family) of: total nodes, malformed,
+    requestable menu2/menu3, navigation/container."""
+    families = {f: {"total": 0, "malformed": 0, "requestable_menu2": 0, "requestable_menu3": 0, "navigation_container": 0} for f in _CONFIRMED_STAT_FAMILIES}
+    families["other"] = {"total": 0, "malformed": 0, "requestable_menu2": 0, "requestable_menu3": 0, "navigation_container": 0}
+
+    for leaf in taxonomy.get("leaves", []):
+        menu1 = leaf.get("menu1") or ""
+        family = menu1 if menu1 in _CONFIRMED_STAT_FAMILIES else "other"
+        bucket = families[family]
+        bucket["total"] += 1
+        if _is_malformed(leaf):
+            bucket["malformed"] += 1
+            continue
+        node_type = _node_type(leaf)
+        if node_type == "NAVIGATION_CONTAINER":
+            bucket["navigation_container"] += 1
+        elif leaf.get("leaf_level") == "menu2":
+            bucket["requestable_menu2"] += 1
+        elif leaf.get("leaf_level") == "menu3":
+            bucket["requestable_menu3"] += 1
+
+    return families
+
+
+def check_sanity_invariants(counts: CanonicalPlanCounts) -> list[str]:
+    """Diagnostic safety guards, NOT assumptions about the true final
+    count (never used to fabricate or cap a number) — only to stop
+    script 28 from presenting a misleading canonical plan as if it
+    were trustworthy. Returns a list of violation messages; empty
+    means every invariant held."""
+    violations: list[str] = []
+    valid_leaf_count = counts.total_dom_discovered_nodes - counts.malformed_leaf_count
+    malformed_ratio = (
+        counts.malformed_leaf_count / counts.total_dom_discovered_nodes
+        if counts.total_dom_discovered_nodes
+        else 0.0
+    )
+    if malformed_ratio > 0.10:
+        violations.append(
+            f"malformed_ratio={malformed_ratio:.1%} exceeds the 10% safety threshold "
+            f"({counts.malformed_leaf_count}/{counts.total_dom_discovered_nodes} nodes) — "
+            "this taxonomy is likely reflecting a real DOM-resolution or schema problem, "
+            "not a small number of genuinely orphaned tags."
+        )
+    if valid_leaf_count > 0:
+        reduction_ratio = 1 - (counts.canonical_requestable_metric_count / valid_leaf_count)
+        if reduction_ratio > 0.80:
+            violations.append(
+                f"canonical_requestable_metric_count ({counts.canonical_requestable_metric_count}) is "
+                f"{reduction_ratio:.1%} smaller than valid-identity leaves ({valid_leaf_count}) — "
+                "implausibly large reduction relative to what navigation-container filtering and "
+                "exact-duplicate dedup alone should account for."
+            )
+    return violations
 
 
 def build_canonical_plan_json(taxonomy: dict, *, generated_at: str, source_taxonomy: str) -> str:
