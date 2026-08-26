@@ -1,0 +1,84 @@
+<!--
+  Regression fixture for the "272 malformed leaves" investigation
+  (Phase B1, 2026-08-26). Built from real evidence:
+
+  - KLPGA_MALFORMED_LEAF_REPORT.csv from a real Windows run reported
+    272 real menu3-level DOM nodes with CORRECT menu3 codes and labels
+    but BLANK menu1/menu2 — representative real rows directly quoted:
+      010101 / "Par4,5 티샷 비율"
+      010109 / "Par4,5 페어웨이 안착률"
+      010201 / "Par5 티샷 비율"
+      020101 / "그린 적중률"
+      020201 / "그린 적중 시 남은 거리"
+      020301 / "그린 적중률(페어웨이)"
+  - The user explicitly asked this fixture to model DOM relationships
+    that are NOT simple ancestor-nesting (siblings, preceding section
+    headers, separate anchor elements, DOM-ordering rather than
+    parent ancestry) — the exact shape used below: menu1/menu2
+    identifiers live on PRECEDING SIBLING header `<div>` elements, not
+    on any ancestor of the `<a data-menu3=...>` tags. This structure
+    is a hypothesis about the real page consistent with the reported
+    evidence (ancestor-walk finding almost nothing), NOT a literal
+    HTML capture — no raw page source has been available to this
+    session at any point in this project.
+  - Around/Putt codes (030101/040101) and their labels are the SAME
+    representative placeholders used consistently across this
+    project's earlier test taxonomies (Sg/Tee/Approach/Around/Putt as
+    the five confirmed family names) — not independently re-confirmed
+    this round, flagged here for transparency rather than presented as
+    equally strong evidence to the six Tee/Approach rows above.
+  - Sg::Total / Sg::TeeToGreen remain own_attrs (single-tag) leaves,
+    unchanged from every earlier round's confirmed evidence. An
+    All::Sg entry (own_attrs, matching the CONFIRMED real shape from
+    the All__Sg__2025.html navigation-page investigation) is included
+    to prove node_type=NAVIGATION_CONTAINER still holds unregressed.
+  - A single ORPHANED data-menu3 tag is placed before ANY menu1/menu2
+    context exists anywhere in the document, to prove a leaf with
+    genuinely no preceding context still correctly resolves to
+    "unknown" rather than fabricating one.
+-->
+<html>
+<body>
+
+<a data-menu3="999999">고아 항목 (no preceding context anywhere)</a>
+
+<a data-menu1="Sg" data-menu2="Total">SG : 전체</a>
+<a data-menu1="Sg" data-menu2="TeeToGreen">SG : 티투그린</a>
+<a data-menu1="All" data-menu2="Sg">전체기록보기</a>
+
+<div class="tab-header" data-menu1="Tee">티샷</div>
+<div class="sub-tab-header" data-menu2="Tee01">Par4,5 티샷 비율 그룹</div>
+<ul>
+  <li><a data-menu3="010101">Par4,5 티샷 비율</a></li>
+  <li><a data-menu3="010109">Par4,5 페어웨이 안착률</a></li>
+</ul>
+<div class="sub-tab-header" data-menu2="Tee02">Par5 티샷 비율 그룹</div>
+<ul>
+  <li><a data-menu3="010201">Par5 티샷 비율</a></li>
+</ul>
+
+<div class="tab-header" data-menu1="Approach">어프로치</div>
+<div class="sub-tab-header" data-menu2="Approach01">그린 적중률 그룹</div>
+<ul>
+  <li><a data-menu3="020101">그린 적중률</a></li>
+  <li><a data-menu3="020201">그린 적중 시 남은 거리</a></li>
+</ul>
+<div class="sub-tab-header" data-menu2="Approach02">페어웨이 그린 적중 그룹</div>
+<ul>
+  <li><a data-menu3="020301">그린 적중률(페어웨이)</a></li>
+</ul>
+
+<div class="tab-header" data-menu1="Around">어라운드그린</div>
+<div class="sub-tab-header" data-menu2="Around01">그린 주변 샷 그룹</div>
+<ul>
+  <li><a data-menu3="030101">그린 주변 샷 성공률</a></li>
+</ul>
+
+<div class="tab-header" data-menu1="Putt">퍼팅</div>
+<div class="sub-tab-header" data-menu2="Putt01">1퍼트 그룹</div>
+<ul>
+  <li><a data-menu3="040101">1퍼트 성공률</a></li>
+</ul>
+
+</body>
+</html>

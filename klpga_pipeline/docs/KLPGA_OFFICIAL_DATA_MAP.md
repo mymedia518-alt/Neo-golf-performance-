@@ -1806,6 +1806,151 @@ answers whether A's hypothesis (Pass-1 ancestor-resolution failure,
 is actually going on. That is the evidence needed before any parser
 fix can be made safely.
 
+## Round 3, Phase B1 — DOM ancestry fix: `preceding_context` resolution
+
+**Status: 2026-08-26.** `docs/discovery/KLPGA_MALFORMED_LEAF_REPORT.csv`
+from the real Windows run confirmed the hypothesis from the prior
+round with direct evidence: all 272 malformed rows have
+`rejection_reason=missing_menu1_and_menu2`, and representative real
+rows (`010101`/"Par4,5 티샷 비율", `010109`/"Par4,5 페어웨이 안착률",
+`010201`/"Par5 티샷 비율", `020101`/"그린 적중률",
+`020201`/"그린 적중 시 남은 거리", `020301`/"그린 적중률(페어웨이)")
+show menu3 and label were discovered CORRECTLY — only the menu1/menu2
+ancestry relationship failed to resolve. This is a genuine
+`inspect_menu_dom()` DOM-resolution gap, not a canonical-plan or
+serialization bug (confirmed already in the prior round's round-trip
+tests).
+
+### A. Exact DOM structural reason ancestry failed
+
+Not provable with certainty this session — the malformed-leaf CSV
+carries menu3 codes and labels only, never the surrounding raw HTML,
+and this session still has no access to the real page source. What
+IS certain from the evidence: `_find_ancestor_with_attr`'s PARENT-CHAIN
+walk (checking `tag.parents` only) found no ancestor carrying
+`data-menu1`/`data-menu2` for 272 of 283 real menu3-level tags. Per
+the mission's own list of structural hypotheses (siblings rather than
+ancestors, a preceding section header, separate anchor elements, DOM
+ordering rather than parent ancestry, a wrapper whose own attributes
+differ from the anchor) — all of these share one property: the
+identifying element is NOT an ancestor of the `data-menu3` tag, so a
+pure parent-chain walk can never find it regardless of which specific
+one of these shapes the real page actually uses.
+
+### B. Old resolver behavior
+
+Three tiers, in order: (1) `own_attrs` — all three identifiers on one
+tag; (2) `ancestor_walk` — `data-menu1`/`data-menu2` found by walking
+UP through `tag.parents` only; (3) `unknown` — blank identity,
+preserved rather than dropped. Tier 2 requires a true parent/ancestor
+DOM relationship, which the real page's markup evidently does not use
+for the vast majority of its menu3-level tags.
+
+### C. New resolver behavior
+
+New tier 2.5 (`preceding_context`), tried after `ancestor_walk` fails
+and before falling back to `unknown`: `_find_nearest_preceding_attr()`
+scans BACKWARD through the fully flattened document (in document
+order — siblings, cousins, anything, no ancestor relationship
+required) for the nearest EARLIER element carrying `data-menu1`
+(searched independently of `data-menu2`, since the mission's own
+hypotheses include "separate anchor elements"). This is a purely
+STRUCTURAL, DOM-order search — it never reads `menu3` codes, labels,
+or golf semantics, and never invents an identity when genuinely
+nothing precedes a tag (verified by two dedicated regression tests:
+the ORIGINAL single-tag Round-1 case, and a fresh orphaned-tag case
+placed before any context in the new fixture). `own_attrs` and
+`ancestor_walk` are completely unchanged and still tried first — this
+is purely additive.
+
+### D. Files changed
+
+`src/klpga/discovery/menu_taxonomy.py` (`_find_nearest_preceding_attr`,
+wired into Pass 1's fallback chain, `label_resolution_method`
+docstring updated), new fixture
+`tests/fixtures/record_menu_preceding_context_sample.html`, new
+`tests/test_preceding_context_resolution.py` (13 tests). No change to
+`taxonomy_report.py`, `canonical_plan.py`, `sampler.py`'s rejection
+logic, `response_parser.py`, or Pass 2 (menu2-level leaf detection,
+out of this round's scope — the malformed-leaf report covered only
+menu3-level rows).
+
+### E. Regression fixture source/shape
+
+`tests/fixtures/record_menu_preceding_context_sample.html` — built
+from the SIX real code/label pairs quoted above (Tee 010101/010109/
+010201, Approach 020101/020201/020301), plus the already-confirmed Sg
+own_attrs leaves and an All::Sg navigation entry, using a SIBLING
+section-header DOM shape (menu1/menu2 identifiers on preceding
+`<div>` headers, never wrapping the `<a data-menu3=...>` tags as an
+ancestor) — the structural pattern the mission specifically asked to
+be tested, not a simplified ancestor-nesting shape. Around/Putt
+entries reuse this project's existing placeholder codes/labels
+(030101/040101) for structural coverage only; the fixture's own header
+comment is explicit that only the six Tee/Approach rows are this
+round's real evidence. **This fixture is a constructed hypothesis
+about the real page, consistent with the evidence, not a literal HTML
+capture** — no raw page source has been available to this project at
+any point.
+
+### Mission 6 — structural validation, not hardcoded counts
+
+`test_malformed_ratio_collapses_dramatically_on_this_fixture` asserts
+the malformed ratio is small on the new fixture (1 genuinely orphaned
+leaf out of 12, ≈8%) — a structural target, never a specific expected
+count. The REAL validation is Mission 5 below: rerun Phase A against
+the live page and check whether the real malformed ratio actually
+collapses from 96%.
+
+### Mission 7 — collision preservation re-verified
+
+New test `test_same_menu3_code_under_different_parents_stays_distinct_not_deduplicated`
+constructs the same `menu3="010102"` collision shape as the real
+Round-1 finding, now resolved via `preceding_context` instead of
+`ancestor_walk` — confirms two leaves with the SAME menu3 code but
+different (menu1, menu2) resolve to two DISTINCT canonical identities
+and still appear in `collisions`, never silently deduplicated. Once
+ancestry is recovered for the real 272 nodes, the collision count
+computed over the (much larger) canonical set will very likely rise
+again from the current 0 — that is an expected, evidence-driven
+consequence of more leaves having real identities to collide on, not
+something this round predicts a specific number for.
+
+### Tests / safety
+
+539/539 tests passing. No change to Prediction #001, `predictions/`,
+model/inference/probability logic, the production DB, the archive, or
+the public website. No live requests made; Phase B1/B2 not started;
+no bulk metric sweep.
+
+### H. Exact Windows command to regenerate Phase A taxonomy
+
+```
+python scripts\26_discover_klpga_record_taxonomy.py ^
+    --source-url "https://klpga.co.kr/web/record/locationRecord"
+```
+
+This overwrites `docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json`/`.csv`
+and `KLPGA_METRIC_COLLISION_REPORT.md` with a fresh scrape using this
+round's fixed resolver. Zero-to-one HTTP request (the landing page
+itself), unchanged from every prior round.
+
+### I. Exact Windows command to rerun script 28
+
+```
+python scripts\28_build_canonical_metric_request_plan.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json
+```
+
+Fully offline. Compare its new `malformed leaves (blank identity)`
+count and `KLPGA_MALFORMED_LEAF_REPORT.csv` against this round's
+272/283 baseline — if the ratio collapses as expected, the sanity
+check should pass (`EXIT_COMPLETE`) instead of failing
+(`EXIT_SANITY_CHECK_FAILED`). If a meaningful number of nodes are
+STILL malformed after this fix, their `rejection_reason` rows are the
+next real evidence to investigate — still `missing_menu1_and_menu2`
+would mean a real page structure this new tier still doesn't cover.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
