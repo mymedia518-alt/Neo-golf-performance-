@@ -333,3 +333,74 @@ CREATE TABLE IF NOT EXISTS collection_runs (
 );
 
 CREATE INDEX IF NOT EXISTS idx_collection_runs_script ON collection_runs(script_name);
+
+-- ============================================================
+-- 8. official_metric_value — season-level KLPGA official record
+--    ("기록실") statistics from klpga.co.kr/load/record/
+--    loadLocationRecord, discovered/parsed/validated by
+--    src/klpga/discovery/*. See docs/HISTORICAL_METRICS_COLLECTION_
+--    DESIGN.md §2 for the architecture decision (a normalized fact
+--    table, chosen over ~250 additive typed columns or a JSON blob)
+--    and docs/KLPGA_OFFICIAL_DATA_MAP.md for the full evidence log.
+--
+--    ONE ROW PER (season, player_code, identity_key, official_label)
+--    — the canonical (menu1::menu2[::menu3], label) pair straight
+--    from src/klpga/discovery/canonical_plan.py, never a translated
+--    named column, so adding taxonomy coverage never requires a
+--    schema migration. `identity_key` is intentionally NOT a foreign
+--    key to any other table — this project's discovery taxonomy is
+--    its own source of truth, tracked in docs/discovery/, not in this
+--    database.
+--
+--    THESE ARE SEASON-LEVEL STATISTICS, NOT PER-TOURNAMENT RESULTS —
+--    confirmed directly from loadLocationRecord's own request form
+--    (season/menu1/menu2/menu3 only, no tournament/game identifier at
+--    all). Never join this table to tournament_master as if a row
+--    were scoped to one event; `related_event_id` does not exist here
+--    on purpose. A future point-in-time feature build must instead
+--    pick the most recent `acquired_at` snapshot at or before a given
+--    event's start_date — and even then, per `pit_status` below, only
+--    once PIT safety is independently verified with real evidence.
+--
+--    player_code IS NOT enforced as a foreign key to player_master —
+--    same rationale as tournament_entry.player_code above: whether
+--    loadLocationRecord's player_code shares player_master.player_id's
+--    identity space has NOT been independently confirmed (no real
+--    player_master data has ever been cross-checked against real
+--    loadLocationRecord evidence in this project). A row here must
+--    never be silently dropped for failing to match player_master.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS official_metric_value (
+    season               INTEGER NOT NULL,
+    player_code          TEXT NOT NULL,   -- loadLocationRecord's own player_code — identity-space
+                                           -- match against player_master.player_id NOT yet confirmed
+    identity_key         TEXT NOT NULL,   -- "menu1::menu2" or "menu1::menu2::menu3"
+    menu1                TEXT NOT NULL,
+    menu2                TEXT NOT NULL,
+    menu3                TEXT,
+    official_label       TEXT NOT NULL,   -- exact canonical taxonomy label this value is attributed to
+                                           -- (a colliding identity_key can carry more than one label/row)
+    field_name            TEXT NOT NULL,   -- "record" | "record1" | ... — which parsed response field
+                                           -- this value came from (see identity_mapping.MappingRecord)
+    value_raw             TEXT,            -- exactly as displayed in the response, no unit conversion,
+                                           -- no float parsing performed here
+    unit                  TEXT,            -- ONLY when directly confirmed from the response's own label
+                                           -- text (e.g. "yds", "%") — NULL, never guessed, otherwise
+    response_column_label TEXT,           -- the response's own display label for this field, verbatim
+
+    schema_fingerprint     TEXT,
+    parse_status           TEXT NOT NULL,  -- CONFIRMED | DISCOVERED_NOT_VALIDATED | EMPTY | AMBIGUOUS | FAILED
+    validation_status      TEXT NOT NULL CHECK (validation_status IN ('CLEAN', 'FLAGGED')),
+    pit_status              TEXT NOT NULL,  -- PIT_UNVERIFIED until real evidence changes this — see
+                                           -- response_schema.PIT_STATUS; never promoted here either
+
+    source_url             TEXT NOT NULL,
+    raw_sample_path         TEXT,
+    acquired_at              TEXT NOT NULL,  -- ISO-8601 UTC timestamp of the HTTP request
+
+    PRIMARY KEY (season, player_code, identity_key, official_label)
+);
+
+CREATE INDEX IF NOT EXISTS idx_official_metric_value_player ON official_metric_value(player_code);
+CREATE INDEX IF NOT EXISTS idx_official_metric_value_identity ON official_metric_value(identity_key);
+CREATE INDEX IF NOT EXISTS idx_official_metric_value_season ON official_metric_value(season);

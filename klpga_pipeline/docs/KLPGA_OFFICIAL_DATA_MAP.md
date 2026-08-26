@@ -3868,6 +3868,164 @@ the archive, the public website, request rate, or any parser/
 acquisition/safety logic — only the identity-key collision AUDIT's
 classification logic gained a new, real-evidence-backed category.
 
+## Round 12 — identity mapping, storage, and the season-level historical collector
+
+Building on Round 11's clean canonical plan (248 unique request
+identities), this round implements the full executable chain from
+identity_key to a queryable database row — mapping, storage schema,
+ingestion, and a season-level acquisition collector — plus a real
+parser bug this work surfaced and fixed.
+
+**Critical bug found and fixed: record VALUES were never actually
+extracted from real responses.** Building the identity-mapping layer
+and reading real `official_metric_value` rows for the first time
+surfaced that `response_parser._extract_rows` only ever read `data-
+record<N>` ATTRIBUTES on the `<tr>` itself — but every real record-
+family row (confirmed across all 32 evidenced identities) carries NO
+attributes on the `<tr>` at all; every value is the TEXT CONTENT of a
+child `<td class="record"/"record1"/...>` cell (e.g. `<td class=
+"record" data-rank="1">6.26 <!-- <span class="tb-rank-up">50</span>
+--></td>`). Every single `values["record*"]` this project had ever
+parsed from real evidence was silently `None` — a fact the Sg-family
+fixture's Round 9 comment (`values["record"] correctly None`) had
+already documented as an accepted, evidence-starved limitation, never
+as "working." Fixed with the same fallback pattern already used for
+player_name/player_code (`_extract_value_from_cell`, `_extract_rank_
+from_record_cell` in `response_parser.py`) — confirmed BeautifulSoup's
+own `get_text()` already excludes the trailing HTML comment's text,
+not assumed. 6 new tests in `test_record_response_parser.py`,
+including a real-evidence pin against `Approach::Approach02::020201`'s
+actual first row (고지우, playerCode=10112: record=6.26,
+record1=5,444.38, record2=870, record3=83, record4=0.0, rank=1). All
+24 pre-existing tests in that file continue to pass unmodified.
+
+**New `src/klpga/discovery/identity_mapping.py`** — resolves each of
+the 281 canonical `(identity_key, label)` pairs to the specific parsed
+response `field_name` that carries its value, reusing (never
+duplicating) `identity_key_audit`'s already-computed match/container/
+compound-title results for colliding identities, and the same matcher
+directly for the 218 non-colliding ones the audit never touches.
+Six honest statuses, never a guess: `MAPPED`, `UNMAPPED_CONTAINER_
+LABEL`, `UNMAPPED_NEEDS_REVIEW`, `UNMAPPED_COMPOUND_TITLE_COLUMN_
+UNCONFIRMED` (new — a compound-title pair where NEITHER half
+independently matched a response column, e.g. `Around::Around05::
+030401`: the collision is explained, but which of the 4 response
+columns holds the value is not, so `field_name` stays unset rather
+than assumed from the pattern every OTHER group in this batch happens
+to follow), `UNMAPPED_EMPTY_RESPONSE`, `UNMAPPED_PENDING_EVIDENCE`.
+Real run against the 32 evidenced identities: 48 `MAPPED`, 217
+`UNMAPPED_PENDING_EVIDENCE` (no raw sample yet — the other 216
+identities), 9 `UNMAPPED_NEEDS_REVIEW`, 3 `UNMAPPED_CONTAINER_LABEL`,
+2 `UNMAPPED_COMPOUND_TITLE_COLUMN_UNCONFIRMED`, 2 `UNMAPPED_EMPTY_
+RESPONSE`. 11 new tests, including real-evidence pins for `Approach::
+Approach02::020201` (mapped), `Around::Around05::030401` (column-
+unconfirmed), and `Around::Around01::030101` (needs-review).
+
+**Storage architecture decision — new `official_metric_value` table**
+(`schema.sql` section 8): a normalized fact table, one row per
+`(season, player_code, identity_key, official_label)`, chosen over
+~250 additive typed columns (brittle, migrates on every taxonomy
+change) or a JSON payload (loses queryability) — see `docs/
+HISTORICAL_METRICS_COLLECTION_DESIGN.md` §4 for the full three-way
+comparison. Purely additive: `player_stats_snapshot` and every other
+existing table are untouched. `identity_key`/`player_code` are
+deliberately NOT foreign keys — the taxonomy lives in `docs/
+discovery/`, and the player_code identity-space match against
+`player_master` is UNCONFIRMED (see below). New `upsert_official_
+metric_value` in `db/upsert.py`, idempotent by the same natural key.
+7 new tests against a real (in-memory) schema-built database.
+
+**New `src/klpga/discovery/season_metric_collector.py`** —
+`build_season_metric_request_plan` (the FULL 248-identity canonical
+set per season, not just the identity-key audit's narrower
+`UNRESOLVED_INSUFFICIENT_EVIDENCE` subset), `acquire_season_metrics`
+(reusing a newly-extracted shared core, `missing_evidence_acquisition.
+acquire_canonical_rows`, unchanged hard-stop/skip/PROGRESS-line
+behavior — `acquire_missing_evidence` itself is a pure internal
+refactor onto this core with an IDENTICAL external contract, verified
+by its full existing test suite passing unmodified), `build_official_
+metric_value_rows` (pure ingestion — reads whatever evidence exists on
+disk, resolves via `identity_mapping`, never fabricates a player
+identity for a row with no `player_code`), `ingest_official_metric_
+value_rows`, and `verify_player_code_identity_space` + `extract_
+player_codes_from_raw_samples` (pure set-comparison for the player-
+identity-space question — never fabricates either input set; see
+LOCAL_EXECUTION_REQUIRED below for why this can't be run against real
+data here). 21 new tests, including a real-evidence integration pin
+ingesting all 11,556 real rows into a real schema-built database with
+zero `None` values (confirming the parser fix above end to end).
+
+**New `scripts/run_klpga_season_metrics_collector.py`** — the
+one-click entry point: `python scripts\run_klpga_season_metrics_
+collector.py --taxonomy ... --seasons 2023,2024,2025 [--db-path ...]
+[--live]`. Chains, per season: live acquisition (if `--live`) →
+ingestion (if `--db-path` given, reading whatever evidence exists,
+this run's or prior) → one consolidated final report across every
+season, printed once at the end. Safe by default (no `--live` = zero
+HTTP requests). A hard stop in one season's live acquisition halts
+only that season's further live requests — every other season still
+gets processed (SKIP + LOG + CONTINUE at the season granularity, on
+top of the existing per-identity granularity). Requires the target
+`--db-path` to already exist (mirrors `scripts/01_collect_
+tournaments.py`'s own `db/init_db.py`-first convention exactly — a new
+table is picked up by simply re-running `init_db.py` WITHOUT
+`--reset`, since every `CREATE TABLE` there is already `IF NOT
+EXISTS`). 7 new tests, including a full real-evidence smoke test
+(manually run this round, not part of the automated suite): 11,556
+rows correctly ingested from the real 32-identity evidence set, with
+correct `unit` extraction (`yds`/`%`) and zero `None` values.
+
+**Tests**: 45 new across the files above (6 + 11 + 7 + 21) plus
+7 for the CLI script. **767/767 tests passing** (740 before this
+round's bug fix, 716 before the round). No live requests made. No
+change to Prediction #001, `predictions/`, model/inference/probability
+logic, the production DB (`data/klpga.sqlite` does not exist in this
+sandbox — nothing here has ever touched it), the archive, or the
+public website. `player_stats_snapshot` and every pre-existing table
+are byte-for-byte untouched by the schema change.
+
+**LOCAL_EXECUTION_REQUIRED — exact commands for the user's machine**
+(real network access to klpga.co.kr; a real, populated `data/
+klpga.sqlite` for the identity-verification step):
+
+```powershell
+# 1. Make sure the local DB has the new table (safe on an existing DB —
+#    every CREATE TABLE is IF NOT EXISTS; only run --reset if you
+#    actually want to wipe and rebuild from scratch):
+python src\klpga\db\init_db.py --db data\klpga.sqlite
+
+# 2. Preview first — zero HTTP requests:
+python scripts\run_klpga_season_metrics_collector.py `
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json `
+    --seasons 2025
+
+# 3. Live acquisition + ingestion for one or more seasons:
+python scripts\run_klpga_season_metrics_collector.py `
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json `
+    --seasons 2023,2024,2025 `
+    --db-path data\klpga.sqlite `
+    --live
+```
+
+Once real `player_master` data exists locally, the player-identity
+question can finally be checked directly:
+
+```python
+import sqlite3
+from klpga.discovery.season_metric_collector import (
+    extract_player_codes_from_raw_samples, verify_player_code_identity_space,
+)
+conn = sqlite3.connect("data/klpga.sqlite")
+player_master_ids = {row[0] for row in conn.execute("SELECT player_id FROM player_master")}
+llr_codes = extract_player_codes_from_raw_samples(Path("docs/discovery/raw_samples"))
+print(verify_player_code_identity_space(llr_codes, player_master_ids))
+```
+
+Paste back (or point to) the printed `=== FINAL REPORT ===` from step
+3 and the identity-verification result above so the real acquisition
+outcome and the player-identity question can both be closed out
+against real evidence.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

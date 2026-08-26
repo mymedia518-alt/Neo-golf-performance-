@@ -462,6 +462,43 @@ def _extract_player_code_from_favorite_checkbox(tr: Tag) -> Optional[str]:
     return _attr(input_tag, "_favoritplayercode")
 
 
+def _extract_value_from_cell(tr: Tag, field_name: str) -> Optional[str]:
+    """Fallback value source, used only when no `data-{field_name}`
+    attribute exists on the row itself. Round 12 real evidence (the
+    bounded missing-evidence acquisition's 13 identities, transferred
+    into this project 2026-08-26 — see docs/KLPGA_OFFICIAL_DATA_MAP.md's
+    Round 12 section) showed every real record-family `<tr>` carries
+    NO attributes at all: each value lives as the TEXT CONTENT of a
+    `<td class="record"/"record1"/...>` cell (e.g. `<td class="record"
+    data-rank="1">6.26 <!-- <span class="tb-rank-up">50</span>
+    --></td>`, `<td class="record1">5,444.38</td>`). BeautifulSoup's
+    own `get_text()` already excludes the trailing HTML-comment's
+    text — confirmed directly against this exact real markup, not
+    assumed. This is the SAME class of fix as `_extract_player_name_
+    from_cell`/`_extract_player_code_from_favorite_checkbox` above,
+    applied to the value columns themselves rather than player
+    identity — this project's Sg-family fixture explicitly deferred
+    this exact gap (`values["record"] correctly None`, Round 9) for
+    lack of un-truncated real evidence; Round 12's real, complete
+    Approach/Tee/Around/Putt responses supply it."""
+    cell = tr.find(class_=field_name)
+    if cell is None:
+        return None
+    text = cell.get_text(strip=True)
+    return text or None
+
+
+def _extract_rank_from_record_cell(tr: Tag) -> Optional[str]:
+    """Fallback rank source: real evidence shows `data-rank` lives on
+    the SAME `<td class="record">` cell as the primary value, not on
+    the `<tr>` itself — see `_extract_value_from_cell`'s docstring for
+    the exact real markup."""
+    cell = tr.find(class_="record")
+    if cell is None:
+        return None
+    return _attr(cell, "data-rank")
+
+
 def _extract_rows(soup: BeautifulSoup, record_fields: list[str]) -> list[PlayerRecordRow]:
     row_tags = soup.select("tbody tr") or [
         tr for tr in soup.find_all("tr") if _attr(tr, "data-playercode") or _attr(tr, "data-player-code")
@@ -487,11 +524,11 @@ def _extract_rows(soup: BeautifulSoup, record_fields: list[str]) -> list[PlayerR
                 player_code_source = "favorite_checkbox_attribute"
 
         player_name = _attr(tr, "data-name") or _attr(tr, "data-playername") or _extract_player_name_from_cell(tr)
-        rank = _attr(tr, "data-rank")
+        rank = _attr(tr, "data-rank") or _extract_rank_from_record_cell(tr)
 
         values: dict[str, Optional[str]] = {}
         for field_name in record_fields:
-            values[field_name] = _attr(tr, f"data-{field_name}")
+            values[field_name] = _attr(tr, f"data-{field_name}") or _extract_value_from_cell(tr, field_name)
 
         if player_code is None and player_name is None and not any(values.values()):
             # A <tr> with none of the expected data-* attributes at all

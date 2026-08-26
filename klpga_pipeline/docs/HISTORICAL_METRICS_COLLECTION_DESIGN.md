@@ -1,12 +1,17 @@
-# Historical Official-Metrics Collection — Design Proposal (Round 11 continued)
+# Historical Official-Metrics Collection — Design + Implementation (Round 11 continued / Round 12)
 
-**Status: DESIGN ONLY. Nothing in this document has been executed,
-implemented, or wired into any running script.** No schema migration,
-no new collector code, no live requests. This exists so the next round
-— once (a) the identity-key collision audit is genuinely clean and
-(b) explicit authorization is given — can implement against a plan
-instead of starting from scratch, per this project's standing "prepare,
-never silently execute" instruction.
+**Status as of Round 12: the mapping, storage schema, ingestion, and
+season-level collector described below are IMPLEMENTED and offline-
+tested** (see `docs/KLPGA_OFFICIAL_DATA_MAP.md`'s Round 12 section for
+the full change log) — `src/klpga/discovery/identity_mapping.py`,
+`src/klpga/discovery/season_metric_collector.py`, `official_metric_
+value` in `schema.sql`, `scripts/run_klpga_season_metrics_collector.
+py`. **No LIVE acquisition has been executed** — this sandbox still
+has no network route to klpga.co.kr; see that section's LOCAL_
+EXECUTION_REQUIRED note for the exact command to run for real. §2-§7
+below are kept as the original design record (still accurate); §4 is
+updated in place to state the actual chosen architecture, per Round
+12's explicit "prefer extensibility, document the decision" instruction.
 
 ## 1. What already exists (confirmed, already built and live-run)
 
@@ -152,16 +157,51 @@ snapshots point-in-time correctness requires per season (see §4).
   simply never been run against a real response, because none has
   existed in this sandbox.
 
-## 4. Proposed storage: reuse `player_stats_snapshot`, do not invent a new table
+## 4. Storage architecture decision (Round 12 — DECIDED, IMPLEMENTED)
 
-`player_stats_snapshot`'s existing shape already fits. The only schema
-change genuinely needed — **not applied in this round** — is additive:
-add columns for whichever canonical metrics don't already have a named
-column (the current 15 named group-(a) columns were guessed at an
-earlier round, before Phase A/B's real taxonomy existed, and may not
-exactly match the real discovered `menu1`/`menu2`/`menu3` set). Any
-such addition must be driven by the real, clean canonical plan, never
-guessed ahead of it.
+Three options were weighed, per explicit instruction, before writing
+any schema:
+
+  **A. ~250 additive typed columns on `player_stats_snapshot`.**
+  Rejected. Brittle by construction — every future taxonomy change
+  (a new metric, a corrected label) needs a migration; most columns
+  are NULL for most rows (no player has all 248 official stats
+  populated at once in practice); and Round 11's own finding
+  (§3 below) that the SAME generic label recurs across different
+  `menu3` contexts means a naive label→column mapping would silently
+  collapse genuinely distinct stats onto one column.
+
+  **B. A normalized fact table, one row per `(season, player_code,
+  identity_key, official_label)`.** CHOSEN. Every canonical metric —
+  present today or discovered later — fits the SAME four columns of
+  natural key without a migration; the taxonomy's own `menu1`/`menu2`/
+  `menu3`/label vocabulary IS the schema, so adding coverage for the
+  216 not-yet-evidenced identities never touches DDL. Matches this
+  project's own established pattern for entities that scale
+  unboundedly (`player_round`, `player_event` are already normalized-
+  row tables, not flattened per-stat columns). Full provenance
+  (`raw_sample_path`, `acquired_at`, `source_url`, `schema_
+  fingerprint`, `parse_status`, `validation_status`, `pit_status`) is
+  carried on every row, not bolted on separately.
+
+  **C. A JSON metric payload column.** Rejected. Loses SQL-level
+  queryability/indexing/typed validation; this project's schema.sql
+  has never used a JSON blob anywhere, for exactly this reason —
+  every other table spells out its columns explicitly, even where
+  that meant tables like `player_stats_snapshot` growing large.
+  A JSON blob would also make `official_metric_value`'s honest
+  per-row status fields (parse/validation/PIT) harder to query in
+  bulk than a real column.
+
+**Implemented as `official_metric_value`** (`schema.sql` section 8,
+`src/klpga/db/upsert.py`'s `upsert_official_metric_value`) — see that
+table's own extensive schema comment for the full field list and
+rationale, including why `identity_key` and `player_code` are
+deliberately NOT foreign keys (the taxonomy is tracked in `docs/
+discovery/`, not this database; the player_code identity-space match
+is unconfirmed — see §3). `player_stats_snapshot` itself is
+UNTOUCHED — its existing `derived_*`/group-(a) columns keep working
+exactly as before; this is a wholly additive table.
 
 ## 5. Proposed request architecture (once the canonical plan is clean)
 
@@ -211,14 +251,19 @@ guessed ahead of it.
 3. ✅ DONE — canonical plan rebuilt: 281 canonical metric entries, 248
    unique request identities, all 248 request-count-clean (see
    `docs/KLPGA_OFFICIAL_DATA_MAP.md` for the full numbers).
-4. NEXT — design the exact identity_key → `player_stats_snapshot`
-   column mapping (or additive schema columns for anything with no
-   existing match), applying the compound-title finding from §3 above
-   — grounded in the real, final canonical plan.
-5. Then: build and offline-test the season-level acquisition script
-   this document outlines in §5 — mirroring `run_klpga_collector.py`'s
-   already-proven checkpoint/skip-queue/heartbeat/report pattern.
-6. Verify PIT safety (§3) with real evidence before ever attaching a
-   collected value to a past event as a model feature.
-7. Only after all of the above, and explicit authorization: execute
-   the season-level live acquisition.
+4. ✅ DONE (Round 12) — `identity_mapping.py` built and tested: 248
+   identities → per-label `MAPPED`/`UNMAPPED_*` resolution, applying
+   the compound-title finding above; `official_metric_value` (§4)
+   implemented as the chosen normalized-fact-table architecture.
+5. ✅ DONE — `season_metric_collector.py` + `scripts/run_klpga_
+   season_metrics_collector.py` built and offline-tested: acquisition
+   (reusing `PoliteHttpClient`/`acquire_canonical_rows` unchanged),
+   ingestion, one consolidated final report, all in one command.
+6. STILL OPEN — verify PIT safety (§3) with real evidence before ever
+   attaching a collected value to a past event as a model feature. No
+   real evidence exists yet to do this with.
+7. STILL OPEN, LOCAL_EXECUTION_REQUIRED — execute the season-level
+   live acquisition for real (see `docs/KLPGA_OFFICIAL_DATA_MAP.md`'s
+   Round 12 section for the exact command); verify `loadLocationRecord`
+   player_code against a REAL, populated `player_master` (no database
+   file exists in this sandbox to check this against at all).
