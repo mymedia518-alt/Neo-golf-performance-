@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 295/295 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 304/304 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -228,6 +228,20 @@ data.
   6 real browser tests). 295/295 full suite passing. Generated output
   is a build artifact, not committed to git. See
   `docs/PREDICTIONS_SITE.md` and "NEO GOLF PREDICTIONS" below.
+- ✅ **Public-site v1.1 copy release, 2026-08-26** — removed all
+  reader-facing "M4"/model-version/calibration-limitation/internal-
+  docs references (the archive JSON's `model_id`/`model_version`/
+  `known_limitations` are untouched — only no longer rendered as
+  visible prose); added a "왜 이 선수의 우승확률이 높을까요?" section
+  (archived data only) and a public summary strip; simplified the
+  Prediction Record panel to 4 public facts. `prior_recent_form_10` is
+  never described as a per-round figure (it's a per-tournament
+  average — confirmed by re-reading the source formula, not assumed);
+  `prior_avg_round_score_to_par` is the only metric legitimately
+  labeled "per round." 9 new regression tests guard against SG/GIR/
+  driving/putting ever being claimed as inputs. 304/304 full suite
+  passing. Prediction #001's archive JSON/CSV are unmodified (byte-
+  identical, confirmed via `git diff`/hash).
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual

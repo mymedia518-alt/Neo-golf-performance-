@@ -232,4 +232,7 @@ def test_mobile_viewport_shows_rank_player_win_without_horizontal_scroll(page, s
 def test_home_page_title_and_status_badge(page, site_url):
     page.goto(site_url)
     assert "NEO GOLF PREDICTIONS" in page.title()
-    assert page.locator(".badge-status").inner_text() == "PRE-TOURNAMENT"
+    # PRE-TOURNAMENT legitimately appears twice as of v1.1 (the
+    # tournament header badge, and again in the simplified public
+    # Prediction Record panel) — assert the header's badge specifically.
+    assert page.locator(".tournament-header .badge-status").inner_text() == "PRE-TOURNAMENT"
