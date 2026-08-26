@@ -158,8 +158,9 @@ class PlayerRecordRow:
     (N is discovered per-response, not fixed at 4) — exactly as found,
     no unit conversion, no float parsing here."""
     player_code_source: Optional[str] = None
-    """"data_attribute" | "href_query_param" | None (no code found at
-    all) — which extraction method actually supplied player_code."""
+    """"data_attribute" | "href_query_param" | "favorite_checkbox_attribute"
+    | None (no code found at all) — which extraction method actually
+    supplied player_code."""
 
 
 @dataclass
@@ -441,6 +442,26 @@ def _extract_player_code_from_href(tag: Tag) -> Optional[str]:
     return None
 
 
+def _extract_player_code_from_favorite_checkbox(tr: Tag) -> Optional[str]:
+    """Third, lowest-precedence player-code fallback. Real evidence
+    (docs/discovery/raw_samples/Sg__Around__2025.html, pasted directly
+    by the user 2026-08-26 — see docs/KLPGA_OFFICIAL_DATA_MAP.md's
+    Round 9 section) showed 9 of 232 real Sg::Around rows have a
+    `td.player_name` cell with no nested `<a>` at all (so
+    `_extract_player_code_from_href` finds nothing, and no
+    `data-playercode`-style attribute exists on this real row shape
+    either), while every row — including those 9 — carries a
+    `_favoritPlayerCode="<code>"` attribute on the row's favorite-
+    toggle `<input>` (e.g. `<input class="form-check-input"
+    type="checkbox" _favoritPlayerCode="9134">`). Used ONLY when both
+    higher-precedence sources (data-playercode-style attribute, href
+    query param) found nothing, so it never overrides either."""
+    input_tag = tr.find("input", attrs={"_favoritplayercode": True})
+    if input_tag is None:
+        return None
+    return _attr(input_tag, "_favoritplayercode")
+
+
 def _extract_rows(soup: BeautifulSoup, record_fields: list[str]) -> list[PlayerRecordRow]:
     row_tags = soup.select("tbody tr") or [
         tr for tr in soup.find_all("tr") if _attr(tr, "data-playercode") or _attr(tr, "data-player-code")
@@ -459,6 +480,11 @@ def _extract_rows(soup: BeautifulSoup, record_fields: list[str]) -> list[PlayerR
             if href_code is not None:
                 player_code = href_code
                 player_code_source = "href_query_param"
+        if player_code is None:
+            checkbox_code = _extract_player_code_from_favorite_checkbox(tr)
+            if checkbox_code is not None:
+                player_code = checkbox_code
+                player_code_source = "favorite_checkbox_attribute"
 
         player_name = _attr(tr, "data-name") or _attr(tr, "data-playername") or _extract_player_name_from_cell(tr)
         rank = _attr(tr, "data-rank")

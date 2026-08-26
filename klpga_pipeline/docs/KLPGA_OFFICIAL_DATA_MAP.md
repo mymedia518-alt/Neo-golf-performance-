@@ -2776,6 +2776,56 @@ made. No change to Prediction #001, `predictions/`, model/inference/
 probability logic, the production DB, the archive, or the public
 website. Phase B2 not started, and remains unauthorized.
 
+### E. Live validation found a second identity-extraction gap: `missing_player_code=9/232`
+
+A targeted live rerun against exactly `Sg::Approach`/`Sg::Around`
+(after syncing the fix above to `4de11d5`) confirmed
+`missing_player_name=0/232` for both — the Round 9 fix above works
+against a real response, not just fixtures. But it also surfaced a
+NEW real gap: `missing_player_code=9/232`, `data_quality_any_
+flagged=true`, even though `missing_player_name=0`.
+
+**Root cause**: a PowerShell diagnostic scan (`-notmatch 'playerCode='`)
+appeared to contradict this — only 1 of 233 real `<tr>` elements (the
+header) seemed to lack a `playerCode=` reference. That diagnostic was
+misleading: PowerShell's `-match`/`-notmatch` are case-insensitive by
+default, so it also matched the checkbox's `_favoritPlayerCode="..."`
+attribute (present on every row) — a completely different thing from
+the `<a href=".../mainRecord?playerCode=...">` the Python parser's
+`_extract_player_code_from_href` actually requires. The real cause:
+9 of 232 rows have a `td.player_name` cell with no nested `<a>` at
+all (consistent with `missing_player_name=0`, since the Round 9 name
+fix falls back to the cell's plain text either way) — so there is
+nothing for the href-regex to match, and (as established this same
+round) no `data-playercode`-style attribute exists on this real row
+shape either. The player's actual code is not missing from the
+source; nothing was reading the one place it's still present for
+those rows: the checkbox's `_favoritPlayerCode` attribute.
+
+**The fix**: `_extract_player_code_from_favorite_checkbox(tr)`, a
+third, lowest-precedence `player_code` fallback in `_extract_rows` —
+reads `_favoritPlayerCode` off the row's nested favorite-toggle
+`<input>` (matched case-insensitively via the existing `_attr()`
+helper, since bs4's lxml-backed HTML parser lowercases attribute
+names). Used ONLY when both the existing `data-playercode`-style
+attribute and href-based lookups find nothing, so the 223/232 rows
+already resolved via `href_query_param` are unaffected. New
+`PlayerRecordRow.player_code_source` value: `"favorite_checkbox_
+attribute"`.
+
+**Tests**: two new cases in `tests/test_record_response_parser.py` —
+the exact real shape (no `<a>`, checkbox present) now resolves
+`player_code` from the checkbox, and a precedence test confirming the
+existing href-derived code still wins when both sources are present
+on the same row (no regression to the already-working 223/232).
+
+**602/602 tests passing** (600 before this fix). No live requests
+made by this fix itself (the triggering evidence came from a rerun
+the user already ran and pasted). No change to Prediction #001,
+`predictions/`, model/inference/probability logic, the production DB,
+the archive, or the public website. Phase B2 not started, and remains
+unauthorized.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
