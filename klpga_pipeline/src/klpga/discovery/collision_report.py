@@ -2,19 +2,19 @@
 
 Per explicit instruction: menu3 must never be treated as globally
 unique, and any collision must be preserved and reported, never
-silently deduplicated. This module answers exactly the questions
-Round 3 asked for:
+silently deduplicated. This module distinguishes:
 
-  - duplicate menu3 (same code under >1 distinct (menu1, menu2) pair)
-  - same menu3 under different menu2 (a subset of the above)
-  - same menu3 under different menu1 (a subset of the above)
-  - same Korean label mapped to multiple codes
-  - same code mapped to different labels
-  - identical response hashes across different source_metric_keys
-    (Phase B only — requires real response bodies; this module accepts
-    an optional response-hash map and reports that section as
-    "not applicable — Phase A only" when none is supplied, rather than
-    silently omitting the question)
+  A. same menu3 reused under different menu1/menu2 paths
+  B. same menu3 reused with different labels (the same code mapping to
+     more than one Korean label — the real Round-1 finding)
+  C. exact duplicate DOM entries — the SAME (menu1, menu2, menu3,
+     label) tuple appearing more than once, which is a markup/parsing
+     artifact rather than a real taxonomy ambiguity
+
+These are NOT automatically treated as equivalent — a caller reading
+this report can tell which situation it's looking at. Only
+menu3-level leaves participate in menu3-code collision analysis
+(a menu2-level leaf has no menu3 to collide on).
 """
 from __future__ import annotations
 
@@ -37,6 +37,13 @@ class CodeLabelCollision:
 
 
 @dataclass
+class ExactDuplicateEntry:
+    identity: tuple
+    label: str
+    count: int
+
+
+@dataclass
 class ResponseHashCollision:
     response_hash: str
     source_metric_keys: list[str]
@@ -45,19 +52,27 @@ class ResponseHashCollision:
 @dataclass
 class CollisionReport:
     menu3_collisions: dict[str, list[MenuLeaf]]
-    """menu3 -> the >1 distinct (menu1, menu2) leaves it appears
-    under, exactly as found — never deduplicated."""
+    """menu3 -> the >1 leaves it appears under, exactly as found —
+    never deduplicated. Category A+B combined; see the more specific
+    buckets below to tell them apart."""
 
     menu2_level_collisions: dict[str, list[MenuLeaf]]
-    """Subset of menu3_collisions where the collision is specifically
-    across different menu2 values (same menu1)."""
+    """Category A subset: same menu3 under different menu2 (same
+    menu1)."""
 
     menu1_level_collisions: dict[str, list[MenuLeaf]]
-    """Subset of menu3_collisions where the collision crosses
-    different menu1 values entirely."""
+    """Category A subset: same menu3 crossing different menu1
+    entirely."""
 
     label_to_codes: list[LabelCodeCollision]
     code_to_labels: list[CodeLabelCollision]
+    """Category B: same code, multiple labels — e.g. the real
+    menu3="010102" finding."""
+
+    exact_duplicates: list[ExactDuplicateEntry]
+    """Category C: the identical (menu1, menu2, menu3, label) tuple
+    appearing more than once — a markup/DOM artifact, not a semantic
+    taxonomy ambiguity."""
 
     response_hash_collisions: list[ResponseHashCollision]
     response_hash_check_performed: bool
@@ -66,16 +81,20 @@ class CollisionReport:
 
 
 def _label_code_maps(leaves: list[MenuLeaf]) -> tuple[list[LabelCodeCollision], list[CodeLabelCollision]]:
+    """Only meaningful for menu3-level leaves — a menu2-level leaf has
+    no menu3 code to collide on."""
     label_to_codes: dict[str, set[str]] = {}
     code_to_labels: dict[str, set[str]] = {}
     for leaf in leaves:
+        if leaf.leaf_level != "menu3":
+            continue
         label_to_codes.setdefault(leaf.menu3_label, set()).add(leaf.menu3)
         code_to_labels.setdefault(leaf.menu3, set()).add(leaf.menu3_label)
 
     label_collisions = [
         LabelCodeCollision(label=label, codes=sorted(codes))
         for label, codes in label_to_codes.items()
-        if len(codes) > 1 and label  # an empty/unresolved label isn't a meaningful collision
+        if len(codes) > 1 and label
     ]
     code_collisions = [
         CodeLabelCollision(code=code, labels=sorted(labels))
@@ -83,6 +102,22 @@ def _label_code_maps(leaves: list[MenuLeaf]) -> tuple[list[LabelCodeCollision], 
         if len(labels) > 1
     ]
     return label_collisions, code_collisions
+
+
+def _find_exact_duplicates(leaves: list[MenuLeaf]) -> list[ExactDuplicateEntry]:
+    by_full_tuple: dict[tuple, int] = {}
+    label_by_tuple: dict[tuple, str] = {}
+    for leaf in leaves:
+        label = leaf.menu3_label if leaf.leaf_level == "menu3" else leaf.menu2_label
+        full = (leaf.identity, label)
+        by_full_tuple[full] = by_full_tuple.get(full, 0) + 1
+        label_by_tuple[full] = label
+
+    return [
+        ExactDuplicateEntry(identity=key[0], label=label_by_tuple[key], count=count)
+        for key, count in by_full_tuple.items()
+        if count > 1
+    ]
 
 
 def build_collision_report(
@@ -105,6 +140,7 @@ def build_collision_report(
             menu2_level[menu3] = leaves
 
     label_collisions, code_collisions = _label_code_maps(dom_result.leaves)
+    exact_duplicates = _find_exact_duplicates(dom_result.leaves)
 
     hash_collisions: list[ResponseHashCollision] = []
     hash_check_performed = response_hashes is not None
@@ -124,6 +160,7 @@ def build_collision_report(
         menu1_level_collisions=menu1_level,
         label_to_codes=label_collisions,
         code_to_labels=code_collisions,
+        exact_duplicates=exact_duplicates,
         response_hash_collisions=hash_collisions,
         response_hash_check_performed=hash_check_performed,
     )
@@ -134,11 +171,12 @@ def render_collision_report_markdown(report: CollisionReport) -> str:
     lines.append(
         "Generated from the discovered menu taxonomy. Nothing here is "
         "silently deduplicated — every collision found is listed with "
-        "every leaf it involves."
+        "every leaf it involves. menu2-level leaves (no menu3) never "
+        "participate in menu3-code collision checks below."
     )
     lines.append("")
 
-    lines.append("## menu3 collisions (any level)")
+    lines.append("## A. menu3 collisions (any level)")
     lines.append("")
     if not report.menu3_collisions:
         lines.append("None found.")
@@ -152,7 +190,7 @@ def render_collision_report_markdown(report: CollisionReport) -> str:
                 )
     lines.append("")
 
-    lines.append("## Collisions across different menu2 (same menu1)")
+    lines.append("## A1. Collisions across different menu2 (same menu1)")
     lines.append("")
     if not report.menu2_level_collisions:
         lines.append("None found.")
@@ -161,7 +199,7 @@ def render_collision_report_markdown(report: CollisionReport) -> str:
             lines.append(f"- `menu3={menu3}`: {[l.source_metric_key for l in leaves]}")
     lines.append("")
 
-    lines.append("## Collisions across different menu1")
+    lines.append("## A2. Collisions across different menu1")
     lines.append("")
     if not report.menu1_level_collisions:
         lines.append("None found.")
@@ -170,7 +208,16 @@ def render_collision_report_markdown(report: CollisionReport) -> str:
             lines.append(f"- `menu3={menu3}`: {[l.source_metric_key for l in leaves]}")
     lines.append("")
 
-    lines.append("## Same label, multiple codes")
+    lines.append("## B. Same code, multiple labels")
+    lines.append("")
+    if not report.code_to_labels:
+        lines.append("None found.")
+    else:
+        for c in report.code_to_labels:
+            lines.append(f"- `{c.code}` -> {c.labels}")
+    lines.append("")
+
+    lines.append("## B1. Same label, multiple codes")
     lines.append("")
     if not report.label_to_codes:
         lines.append("None found.")
@@ -179,13 +226,20 @@ def render_collision_report_markdown(report: CollisionReport) -> str:
             lines.append(f"- {c.label!r} -> {c.codes}")
     lines.append("")
 
-    lines.append("## Same code, multiple labels")
+    lines.append("## C. Exact duplicate DOM entries")
     lines.append("")
-    if not report.code_to_labels:
+    lines.append(
+        "The IDENTICAL (menu1, menu2, menu3, label) tuple appearing more "
+        "than once — a markup/parsing artifact, not a semantic taxonomy "
+        "ambiguity. Distinct from B, where the CODE repeats but the "
+        "LABEL differs."
+    )
+    lines.append("")
+    if not report.exact_duplicates:
         lines.append("None found.")
     else:
-        for c in report.code_to_labels:
-            lines.append(f"- `{c.code}` -> {c.labels}")
+        for d in report.exact_duplicates:
+            lines.append(f"- {d.identity} ({d.label!r}) appears {d.count} times")
     lines.append("")
 
     lines.append("## Identical response hashes across different source_metric_keys")

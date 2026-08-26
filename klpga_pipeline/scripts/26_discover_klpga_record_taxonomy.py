@@ -70,12 +70,14 @@ def run(client: PoliteHttpClient, source_url: str, out_dir: Path) -> int:
 
     counts = compute_counts(dom_result)
     print("Taxonomy discovery counts:")
-    print(f"  menu1 categories found:            {counts.menu1_count}")
-    print(f"  menu2 families found:              {counts.menu2_count}")
-    print(f"  menu3 combinations (leaves) found: {counts.menu3_combination_count}")
-    print(f"  unique menu3 codes:                {counts.unique_menu3_count}")
-    print(f"  menu3 collisions:                  {counts.collision_count}")
-    print(f"  menu1 categories with NO resolved menu3 leaves: {counts.incomplete_menu1_count}")
+    print(f"  menu1 categories found:             {counts.menu1_count}")
+    print(f"  menu2 nodes found:                  {counts.menu2_node_count}")
+    print(f"  menu2-level metric leaves found:    {counts.menu2_level_leaf_count}")
+    print(f"  menu3-level metric leaves found:    {counts.menu3_level_leaf_count}  (OLD-style 'menu3 combinations')")
+    print(f"  total metric leaves found:          {counts.total_leaf_count}  (NEW — menu2-level + menu3-level)")
+    print(f"  unique menu3 codes:                 {counts.unique_menu3_count}")
+    print(f"  menu3 collisions:                   {counts.collision_count}")
+    print(f"  unresolved menu1 categories:        {counts.incomplete_menu1_count}")
     print()
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -101,11 +103,14 @@ def run(client: PoliteHttpClient, source_url: str, out_dir: Path) -> int:
     if dom_result.incomplete_menu1_categories:
         print()
         print("INCOMPLETE — the following menu1 categories were found in the DOM")
-        print("but had ZERO resolved menu3 leaves. This means their submenu is")
-        print("either lazily loaded via a request this project has not confirmed,")
-        print("or this parser's DOM-shape assumptions don't match how this")
-        print("specific category's markup is structured. NOT attempting any")
-        print("further request — per instruction, no second endpoint is guessed:")
+        print("but had ZERO resolved leaves at EITHER level (menu2 or menu3).")
+        print("A category is NOT flagged here merely for lacking menu3 leaves —")
+        print("a menu2-level leaf (e.g. the confirmed Sg/Total case) counts as")
+        print("fully resolved. This means the categories below need either a")
+        print("lazily-loaded request this project has not confirmed, or this")
+        print("parser's DOM-shape assumptions don't match their markup. NOT")
+        print("attempting any further request — per instruction, no second")
+        print("endpoint is guessed:")
         for c in dom_result.incomplete_menu1_categories:
             print(f"  - menu1={c.menu1!r} ({c.menu1_label!r})")
         print()
@@ -115,8 +120,8 @@ def run(client: PoliteHttpClient, source_url: str, out_dir: Path) -> int:
 
     print()
     print("COMPLETE — every discovered menu1 category has at least one resolved")
-    print("menu3 leaf. Phase A taxonomy discovery finished with zero requests")
-    print("beyond the single source-page fetch above.")
+    print("leaf, at menu2 or menu3 level. Phase A taxonomy discovery finished")
+    print("with zero requests beyond the single source-page fetch above.")
     return EXIT_COMPLETE
 
 

@@ -79,3 +79,47 @@ def test_markdown_report_says_none_found_when_taxonomy_is_clean():
     report = build_collision_report(dom_result)
     markdown = render_collision_report_markdown(report)
     assert "None found." in markdown
+
+
+# ---------------------------------------------------------------
+# Category C — exact duplicate DOM entries (distinct from category B,
+# where the code repeats but the label differs)
+# ---------------------------------------------------------------
+
+
+def test_no_exact_duplicates_in_a_clean_taxonomy():
+    dom_result = inspect_menu_dom(_read("record_menu_static_tree_sample.html"))
+    report = build_collision_report(dom_result)
+    assert report.exact_duplicates == []
+
+
+def test_true_duplicate_dom_entry_is_flagged_as_category_c_not_category_b():
+    """Two leaves with the IDENTICAL (menu1, menu2, menu3, label) —
+    a markup artifact — must land in exact_duplicates, NOT in
+    code_to_labels (which is for same-code-different-label, category B)."""
+    html = """
+    <a data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</a>
+    <a data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</a>
+    """
+    dom_result = inspect_menu_dom(html)
+    report = build_collision_report(dom_result)
+
+    assert len(report.exact_duplicates) == 1
+    assert report.exact_duplicates[0].identity == ("Tee", "Tee01", "010101")
+    assert report.exact_duplicates[0].count == 2
+    # Same label both times -> NOT a category-B (code -> multiple
+    # labels) collision.
+    assert report.code_to_labels == []
+
+
+def test_menu2_level_leaf_exact_duplicates_use_menu2_label():
+    html = """
+    <a data-menu1="Sg" data-menu2="Total">SG : 전체</a>
+    <a data-menu1="Sg" data-menu2="Total">SG : 전체</a>
+    """
+    dom_result = inspect_menu_dom(html)
+    report = build_collision_report(dom_result)
+
+    assert len(report.exact_duplicates) == 1
+    assert report.exact_duplicates[0].identity == ("Sg", "Total")
+    assert report.exact_duplicates[0].label == "SG : 전체"
