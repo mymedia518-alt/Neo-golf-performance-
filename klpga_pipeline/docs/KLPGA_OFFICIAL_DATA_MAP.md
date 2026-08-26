@@ -1,11 +1,44 @@
 # KLPGA Official Data Taxonomy Map — Phase 1
 
-**Status: research/discovery only, 2026-08-26.** Maps what the official
-KLPGA records interface exposes through the `loadLocationRecord` XHR
-family, based on evidence the user captured manually in Chrome
-DevTools. This document does not implement a collector, does not touch
-the database, the model, the archive, or Prediction #001. It is the
-"MAP FIRST" deliverable — the "COLLECT LATER" phase has not started.
+**Status: research/discovery only, 2026-08-26 (Round 1), updated
+2026-08-26 (Round 2).** Maps what the official KLPGA records interface
+exposes through the `loadLocationRecord` XHR family, based on evidence
+the user captured manually in Chrome DevTools. This document does not
+implement a collector, does not touch the database, the model, the
+archive, or Prediction #001. It is the "MAP FIRST" deliverable — the
+"COLLECT LATER" phase has not started.
+
+## Round 2 status — what could and couldn't be done this round
+
+Round 2 asked for five missions requiring live KLPGA capture (request
+mapping resolution, PIT/season testing, expanded metric discovery,
+data-rights evidence) plus three requiring only reasoning over
+already-confirmed evidence (raw-count schema gaps, a NEO
+transformation map, cross-tour portability). **This session re-verified
+the network block immediately before starting Round 2** — a fresh
+`curl` to both `klpga.co.kr` and `data.klpga.co.kr` still returns
+`403` at the egress proxy (`CONNECT tunnel failed`), identical to
+every prior check in this project's history. Nothing changed.
+
+Consequence, mission by mission:
+
+| Mission | Requires live capture? | Status this round |
+|---|---|---|
+| 1 — Resolve `loadLocationRecord` taxonomy (the `010102` ambiguity) | Yes | **Not executable this session.** No new request/response pairs to add. Open question below is unchanged from Round 1. |
+| 2 — PIT / historical availability (multi-season test) | Yes | **Not executable this session.** No season other than `2026` has ever been tested by anyone. |
+| 3 — Expand metric discovery (Approach/ATG/Putting/Player/Course/Location/Live) | Yes | **Not executable this session.** All still `UNKNOWN`, unchanged from Round 1. |
+| 4 — Raw counts + schema gaps | No — reasoning over existing evidence + repo schema | **Done** — expanded below. |
+| 5 — Data rights evidence | Yes (reading actual ToS/robots.txt text) | **Not executable this session.** `docs/NEO_DATA_RIGHTS_MATRIX.md` created as a framework only — every row is `UNKNOWN`, no real clause was read. |
+| 6 — NEO transformation map | No — uses only Round-1 CONFIRMED metrics | **Done** — see `docs/NEO_DERIVED_METRIC_MAP.md`. |
+| 7 — Cross-tour portability | No — general golf-statistics domain reasoning | **Done** — see `docs/NEO_DERIVED_METRIC_MAP.md`. |
+
+**No row in Table 1 or Table 2 below has moved status since Round 1.**
+Nothing has been upgraded from `DISCOVERED-NOT-VALIDATED`/`UNKNOWN` to
+`CONFIRMED` without new direct evidence, because no new direct evidence
+exists — this session cannot browse the live site. Missions 1, 2, 3,
+and 5 are still waiting on the user's own next DevTools round; see
+"Recommended next collection phase" at the end of this document, which
+is unchanged in substance from Round 1.
 
 ## Methodology limitation — read this before the tables
 
@@ -354,6 +387,41 @@ without any additional risk, in the same session as the data capture.
     to NEO's own win-probability output to explain *why* a player
     ranks where she does — that synthesis, not any individual raw
     statistic, is NEO's actual differentiation.
+
+---
+
+## Schema gap inventory (Mission 4) — raw counts NEO cannot currently store
+
+This is reasoning over already-confirmed Round-1 evidence and the
+existing `schema.sql`, not new capture — no live access was needed or
+used to produce this section.
+
+Every rate KLPGA has shown so far came paired with its denominator
+(measured rounds for SG; qualifying-shot count for both Tee distance
+buckets). NEO's current schema was not designed to keep that pairing:
+
+| KLPGA raw pair (rate + count) | NEO column for the rate | NEO column for the count | Gap |
+|---|---|---|---|
+| SG Total % + measured rounds | `player_stats_snapshot.sg_total` (exists, NULL) | **none** | No column anywhere stores an SG sample-size/measured-rounds figure |
+| SG Tee Shot + measured rounds | `sg_off_the_tee` (exists, NULL) | **none** | Same gap |
+| SG Approach + measured rounds | `sg_approach` (exists, NULL) | **none** | Same gap |
+| SG Around the Green + measured rounds | `sg_around_green` (exists, NULL) | **none** | Same gap |
+| SG Putting + measured rounds | `sg_putting` (exists, NULL) | **none** | Same gap |
+| 280yd+ tee-shot rate + qualifying count | **none** | **none** | No column reserved for any distance-bucket driving metric at all, rate or count |
+| Fairway-accuracy-bucket rate + qualifying count | `driving_accuracy` (exists, NULL — but this is a single scalar, not bucketed) | **none** | The single `driving_accuracy` column cannot hold a per-distance-band breakdown even if populated; would need a new table, not a new column |
+
+**Why this matters now, without changing anything now:** the existing
+16 official `player_stats_snapshot` columns (`scoring_average` through
+`scrambling`) were designed as flat, single-value-per-season scalars.
+Round 1's own confirmed evidence already shows KLPGA's real data is
+richer than that shape in two ways this schema has no slot for: (1) a
+sample-size/count companion for every rate, and (2) distance-bucketed
+sub-splits within a single stat family (driving alone has at least the
+6+ Tee subcategories observed). **Neither of these needs to be fixed
+now** — this is Mission 4's deliverable (documenting the gap), not
+Mission-in-a-later-round's deliverable (closing it). Any future schema
+change should design for count-paired, bucketed storage from the
+start rather than retrofitting flat scalar columns again.
 
 ---
 
