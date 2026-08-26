@@ -126,7 +126,7 @@ def build_site(predictions_root: Path, output_root: Path) -> BuildResult:
             )
         )
     written.append(_write(output_root / "predictions" / "history" / "index.html", templates.render_history_page(snapshots)))
-    written.append(_write(output_root / "methodology" / "index.html", templates.render_methodology_page()))
+    written.append(_write(output_root / "methodology" / "index.html", templates.render_methodology_page(latest)))
 
     static_out = output_root / "static"
     static_out.mkdir(parents=True, exist_ok=True)

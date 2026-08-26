@@ -118,25 +118,28 @@ constant, so it has one place to review and one place to change.
   unmapped label fails loudly at import time rather than rendering
   silently wrong.
 
-- **`prior_recent_form_10` — FLAGGED FOR REVIEW.** This is the mean of
+- **`prior_recent_form_10` — CONFIRMED, 2026-08-26** (was previously
+  flagged as a draft; the v1.1 public-copy audit re-derived this
+  directly from source before any public-facing number was written —
+  see `test_prior_avg_round_score_to_par_is_a_genuine_per_round_rate_by_formula`
+  in `tests/test_predictions_site_build.py`). This is the mean of
   each prior tournament's TOTAL score-to-par (not a per-round average,
   not raw strokes, not a finish position) across up to the player's
   10 most recent PRIOR tournaments (never padded — see
-  `klpga.backtest.point_in_time_features`'s module docstring). Per
-  explicit instruction, this is never labeled bare "average score."
-  Current wording (`RECENT_FORM_VALUE_LABEL_KO`):
+  `klpga.backtest.point_in_time_features`'s module docstring). It is
+  never labeled "per round" anywhere on the site — that would misstate
+  its unit. Current wording (`RECENT_FORM_VALUE_LABEL_KO`,
+  `WHY_RECENT_FORM_NOTE_KO`):
 
-  > 최근 최대 10개 대회의 대회 합계 스코어(파 대비) 평균
-  > ("the average of the total tournament score, relative to par,
-  > across up to the most recent 10 tournaments")
+  > 최근 최대 10개 대회의 대회 합계 스코어(파 대비) 평균 /
+  > 라운드 평균이 아닌 대회 전체 합산 스코어 기준입니다.
 
-  The primary detail-panel line shows availability first
-  (`RECENT_FORM_AVAILABLE_KO` / `RECENT_FORM_UNAVAILABLE_KO`, e.g.
-  "있음 (최근 최대 10개 대회 기준, 10개 대회 반영)"), with the raw
-  number shown as a secondary, fully-qualified line underneath —
-  never a bare "평균 스코어: -8.0" without the disambiguating context.
-  **This wording is a draft, not locked** — please confirm or propose
-  changes before treating it as final.
+  By contrast, **`prior_avg_round_score_to_par` IS a genuine per-round
+  rate** — `sum(score_to_par)/sum(rounds_played)`
+  (`point_in_time_features.py`) — so the "왜 이 선수의 우승확률이
+  높을까요?" section's `WHY_LONG_TERM_LABEL_KO` ("라운드당 평균
+  스코어") is the only place on the site that legitimately says "per
+  round." These two metrics must never be given the same unit framing.
 
 - **`player_master_matched = false`** ("배윤설 0908(A)"-style entrants):
   labeled "선수 데이터베이스 미매칭" with an explanatory note
@@ -144,12 +147,72 @@ constant, so it has one place to review and one place to change.
   매칭되지 않은 경우입니다...") — factual about what "unmatched"
   means, without speculating "rookie" or any other unverified claim.
 
-- **`provenance.source = "rerun_reconstruction"`** — never shown
-  prominently. It surfaces only inside the collapsed "Prediction
-  Record" panel, worded as a deterministic reconstruction
-  cross-checked against the real first run's recorded facts, and
-  explicitly never called "the original run"
-  (`RECONSTRUCTION_NOTE_KO`).
+- **`provenance.source = "rerun_reconstruction"` — REMOVED from
+  public UI, v1.1 (2026-08-26).** Previously surfaced inside the
+  collapsed "Prediction Record" panel; as of v1.1 that panel shows
+  only four fixed public facts (prediction number, cutoff, PRE-
+  TOURNAMENT status, LOCKED status — see "Public copy" below) and no
+  provenance/reconstruction language at all. The full provenance
+  object (`source`, `original_run_status`,
+  `original_machine_readable_snapshot_available`,
+  `reconstruction_reason`, `verification`) remains completely intact
+  in the archived JSON and in the page's transparency `<script
+  type="application/json">` blob — it is not deleted, only no longer
+  rendered as visible prose. `#001` must still never be called "the
+  original run" anywhere this project writes about it, even though
+  that specific disclosure is no longer public-facing.
+
+---
+
+## Public copy — model explanation, v1.1
+
+**Status: implemented 2026-08-26**, in response to an explicit
+public-release copy pass. Every constant referenced below lives in
+`src/klpga/site/templates.py`.
+
+**Removed from normal reader-facing UI**: the model name/version
+("M4", "M4 Production v1"), the calibration-limitation disclosure
+(`snapshot.known_limitations` — which also names an internal docs
+file — is intentionally never rendered), and any `docs/`-path
+reference. `model_id`/`model_version` remain in the page's embedded
+transparency JSON blob (`_embedded_data_json`) — that block is treated
+as internal/archive-provenance metadata, not reader-facing prose, the
+same distinction the archive JSON itself already draws.
+
+**Model explanation** (`_model_explanation_paragraphs`, rendered in
+the "모델은 어떻게 계산하나요?" panel and the standalone
+`/methodology/` page): a fixed three-sentence explanation, two of its
+numbers (`training_tournament_count`, `field_size`) drawn from the
+snapshot, one (`CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX = "11,850"`)
+FIXED editorial copy sourced from the real production coverage audit
+run 2026-08-26 — not recomputed at build time, since the archive
+schema has no player-target-row-count field and the site build never
+queries the database. **Must be re-verified before reuse for a
+prediction built against a materially different historical corpus.**
+
+**"왜 이 선수의 우승확률이 높을까요?" section** (`_why_section_html`):
+shown near the leaderboard, for the archive's rank-1 entrant only
+(dynamic — not hardcoded to any one player), using only archived
+values (`prior_events_n`, `prior_avg_round_score_to_par`,
+`prior_recent_form_10`/`_n`). Never claims SG/GIR/driving/putting were
+used — those inputs don't exist in this dataset at all (confirmed by
+a 2026-08-26 data-coverage audit: `player_round`'s birdie/eagle/bogey/
+GIR-adjacent columns are hardcoded NULL by the collector, and every
+`player_stats_snapshot` official-Data-Center column — SG ×5, GIR,
+driving, putting — has never been written by any code path in this
+project; that audit was conversational and is not itself committed as
+a doc, but its conclusion — SG/GIR/driving/putting are simply absent
+from every table this site could read — is the same conclusion
+`METHODOLOGY_EXCLUSION_KO` states).
+
+**Summary strip** (`_summary_strip_html`): four facts — historical
+tournament count, the fixed corpus-rows figure, field size, and the
+constant "100%" probability-sum fact — replacing the old metadata
+block (which named the model).
+
+**Simplified Prediction Record** (`_prediction_record_block_html`):
+exactly four items, no model name/version, no provenance detail —
+see the `provenance.source` bullet above.
 
 ---
 

@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import json
 from html import escape as h
-from typing import Optional
 
 from klpga.archive.prediction_archive import EntrantSnapshot, PredictionSnapshot
 from klpga.models.walk_forward_eval import ROOKIE_SLICES
@@ -53,22 +52,52 @@ PROBABILITY_EXPLANATION_KO = (
 PROBABILITY_SUM_NOTE_KO = "모든 선수의 우승확률 합은 100%입니다."
 PROBABILITY_NOT_GUARANTEE_KO = "이는 확률 추정치이며, 우승을 보장하는 예측이 아닙니다."
 
-METHODOLOGY_INTRO_KO = "NEO의 우승확률은 다음 원칙에 따라 계산됩니다."
-METHODOLOGY_POINTS_KO = (
-    "대회 시작 전(strictly pre-tournament)까지 확인된 정보만 사용합니다.",
-    "선수의 과거 대회 성적(스코어의 파 대비 기록)을 활용합니다.",
-    "선수의 최근 출전 흐름(최근 폼)을 반영합니다.",
-    "이번 대회 출전 선수 전체를 하나의 필드로 두고, 그 안에서의 상대적 우승 가능성을 계산합니다.",
-    "전체 출전 선수의 확률 합이 100%가 되도록 정규화합니다.",
+### v1.1 PUBLIC MODEL EXPLANATION ###
+# Reader-facing copy only — see docs/PREDICTIONS_SITE.md "Public copy
+# — model explanation, v1.1" for the reviewed wording log. No model
+# name, version, or calibration-limitation disclosure is rendered
+# anywhere in normal reader-facing UI (the underlying archive JSON's
+# model_id/model_version/known_limitations fields are untouched — see
+# `_embedded_data_json`'s docstring for where model_id still legitimately
+# appears, as a transparency artifact, not visible prose).
+#
+# CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX is FIXED editorial copy sourced
+# from the real production coverage audit run 2026-08-26 (100 usable
+# historical tournaments, 11,850 (target tournament, player) rows) —
+# it is NOT recomputed at build time (the archive schema has no
+# player-target-row-count field, and the site build never queries the
+# database). Must be re-verified before reuse for a prediction built
+# against a materially different historical corpus.
+CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX = "11,850"
+
+MODEL_EXPLANATION_INTRO_TEMPLATE_KO = (
+    "NEO는 과거 {tournament_count}개 KLPGA 대회의 약 {rows}개 선수-대회 기록을 분석합니다."
 )
+MODEL_EXPLANATION_METHOD_TEMPLATE_KO = (
+    "Prediction #{prediction_id}은 대회 시작 전까지 확인된 정보만 사용해 "
+    "선수의 장기적인 스코어 경기력과 최근 10개 대회의 경기 흐름을 평가하고, "
+    "이번 대회 출전선수 {field_size}명을 서로 비교해 우승 가능성을 계산했습니다."
+)
+MODEL_EXPLANATION_SUM_KO = "모든 출전선수의 우승확률 합은 100%입니다."
+
 METHODOLOGY_EXCLUSION_KO = (
-    "현재 M4 모델은 스트로크게인드(Strokes Gained), 그린적중률(GIR), 드라이빙 거리/정확도, "
-    "퍼팅, 코스 적합도 데이터를 사용하지 않습니다."
+    "NEO는 현재 스트로크게인드(Strokes Gained), 그린적중률(GIR), 드라이빙 거리/정확도, "
+    "퍼팅 데이터를 사용하지 않습니다."
 )
-METHODOLOGY_LIMITATION_KO = (
-    "M4는 알려진 보정(calibration) 한계가 있습니다: 특히 약 10~20% 구간의 확률이 "
-    "실제보다 다소 과신되어 있을 수 있습니다. 이 한계는 현재 보정하지 않고 그대로 공개합니다."
-)
+
+
+def _model_explanation_paragraphs(snapshot: PredictionSnapshot) -> tuple[str, str, str]:
+    return (
+        MODEL_EXPLANATION_INTRO_TEMPLATE_KO.format(
+            tournament_count=snapshot.training_tournament_count,
+            rows=CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX,
+        ),
+        MODEL_EXPLANATION_METHOD_TEMPLATE_KO.format(
+            prediction_id=snapshot.prediction_id,
+            field_size=snapshot.field_size,
+        ),
+        MODEL_EXPLANATION_SUM_KO,
+    )
 
 RECENT_FORM_LABEL_KO = "최근 폼 데이터"
 RECENT_FORM_AVAILABLE_KO = "있음 (최근 최대 10개 대회 기준, {n}개 대회 반영)"
@@ -89,12 +118,48 @@ PLAYER_UNMATCHED_NOTE_KO = (
     "예측 대상에서 제외되지 않으며, 과거 기록이 없는 선수와 동일한 방식으로 처리됩니다."
 )
 
-RECONSTRUCTION_NOTE_KO = (
-    "이 예측 기록은 최초로 성공한 대회 시작 전 운영(production) 실행 결과의 "
-    "결정론적(deterministic) 재구성본입니다. 최초 실행의 전체 원본 CMD 출력이 "
-    "자동으로 저장되지 않았기 때문입니다. 기록되어 있던 최초 실행 결과 값들과 "
-    "교차 검증을 거친 뒤에만 보관되었습니다."
+### v1.1 SUMMARY STRIP (near the top of every prediction page) ###
+SUMMARY_TOURNAMENTS_LABEL_KO = "분석"
+SUMMARY_ROWS_LABEL_KO = "선수-대회 기록"
+SUMMARY_FIELD_LABEL_KO = "비교"
+SUMMARY_PROB_SUM_LABEL_KO = "전체 우승확률 합"
+
+### v1.1 "WHY" SECTION (rank-1 entrant only, shown near the leaderboard) ###
+WHY_TITLE_KO = "왜 이 선수의 우승확률이 높을까요?"
+WHY_INTRO_TEMPLATE_KO = (
+    "{name} 선수의 우승확률은 대회 시작 전까지 확인된 장기적인 스코어 경기력과 "
+    "최근 경기 흐름을 이번 대회 출전선수 {field_size}명과 비교해 계산한 값입니다."
 )
+WHY_PARTICIPATION_LABEL_KO = "참가 이력"
+# prior_avg_round_score_to_par IS a genuine per-round rate
+# (sum(score_to_par)/sum(rounds_played) — see
+# point_in_time_features.py's module docstring) — safe to call
+# "per round."
+WHY_LONG_TERM_LABEL_KO = "라운드당 평균 스코어"
+# prior_recent_form_10 is the mean of each TOURNAMENT's total
+# score-to-par across up to the 10 most recent prior tournaments — a
+# per-EVENT average, NOT a per-round figure (see
+# point_in_time_features.py's module docstring and
+# player_stats.py's `_event_`/`_round_` naming-convention section).
+# Must never be described as "per round" or "per round X strokes
+# better" — that would misstate its unit.
+WHY_RECENT_FORM_LABEL_KO = "최근 10개 대회 흐름"
+WHY_RECENT_FORM_NOTE_KO = "라운드 평균이 아닌 대회 전체 합산 스코어 기준입니다."
+WHY_NO_DATA_KO = "데이터 없음"
+
+
+def _signed_strokes_ko(value: float) -> str:
+    """'-0.66' -> '파 대비 약 0.66타 언더'. Renders a signed to-par
+    float as plain Korean — never states a per-round/per-event unit
+    itself; callers pair this with the correct unit label."""
+    if value < 0:
+        direction = "언더"
+    elif value > 0:
+        direction = "오버"
+    else:
+        direction = "이븐"
+    return f"파 대비 약 {abs(value):.2f}타 {direction}"
+
 
 HISTORY_STUB_NOTE_KO = (
     "대회 종료 후 결과 평가 기능은 아직 준비 중입니다. 예측 기록은 대회 시작 전 "
@@ -128,8 +193,8 @@ def _recent_form_value_html(entrant: EntrantSnapshot) -> str:
         return h(RECENT_FORM_UNAVAILABLE_KO)
     return (
         f"{h(RECENT_FORM_AVAILABLE_KO.format(n=entrant.prior_recent_form_10_n))}"
-        f"<br><span class=\"detail-subvalue\">{h(RECENT_FORM_VALUE_LABEL_KO)}: "
-        f"{entrant.prior_recent_form_10:.2f}</span>"
+        f'<br><span class="detail-subvalue">{h(RECENT_FORM_VALUE_LABEL_KO)}: '
+        f"{_signed_strokes_ko(entrant.prior_recent_form_10)}</span>"
     )
 
 
@@ -173,7 +238,11 @@ def _embedded_data_json(snapshot: PredictionSnapshot) -> str:
     interactive JS operates on the rendered DOM's data-* attributes.
     Anyone can view-source this block and confirm it matches the
     visible table exactly, and that it is the archive's own data
-    verbatim (see docs/PREDICTIONS_SITE.md)."""
+    verbatim (see docs/PREDICTIONS_SITE.md). `model_id`/`model_version`
+    are included here deliberately even though v1.1 removed them from
+    visible prose (per the public-copy decision) — this block is
+    internal/archive-provenance metadata, not "normal reader-facing
+    UI," and that metadata must stay intact and inspectable."""
     payload = {
         "prediction_id": snapshot.prediction_id,
         "game_code": snapshot.game_code,
@@ -218,15 +287,56 @@ def _table_html(snapshot: PredictionSnapshot) -> str:
     )
 
 
-def _metadata_block_html(snapshot: PredictionSnapshot) -> str:
+def _summary_strip_html(snapshot: PredictionSnapshot) -> str:
+    items = (
+        (f"과거 {snapshot.training_tournament_count}개 대회", SUMMARY_TOURNAMENTS_LABEL_KO),
+        (f"약 {CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX}개", SUMMARY_ROWS_LABEL_KO),
+        (f"출전선수 {snapshot.field_size}명", SUMMARY_FIELD_LABEL_KO),
+        ("100%", SUMMARY_PROB_SUM_LABEL_KO),
+    )
+    tiles = "".join(
+        f'<div class="summary-item"><span class="summary-value">{h(value)}</span>'
+        f'<span class="summary-label">{h(label)}</span></div>'
+        for value, label in items
+    )
+    return f'<div class="summary-strip">{tiles}</div>'
+
+
+def _why_section_html(snapshot: PredictionSnapshot) -> str:
+    entrants = ordered_entrants(snapshot)
+    if not entrants:
+        return ""
+    top = entrants[0]
+    pct = _format_pct(top.win_probability)
+
+    long_term_html = (
+        h(_signed_strokes_ko(top.prior_avg_round_score_to_par))
+        if top.prior_avg_round_score_to_par is not None
+        else h(WHY_NO_DATA_KO)
+    )
+    if top.prior_recent_form_10 is not None and top.prior_recent_form_10_n:
+        recent_form_html = (
+            f"{h(_signed_strokes_ko(top.prior_recent_form_10))}"
+            f'<br><span class="detail-subvalue">{h(WHY_RECENT_FORM_NOTE_KO)}</span>'
+        )
+    else:
+        recent_form_html = h(WHY_NO_DATA_KO)
+
     return (
-        '<dl class="metadata">'
-        f'<dt>예측 번호</dt><dd>예측 #{h(snapshot.prediction_id)}</dd>'
-        f'<dt>모델</dt><dd>{h(snapshot.model_id)} Production {h(snapshot.model_version)}</dd>'
-        f'<dt>기준일</dt><dd>{h(snapshot.cutoff_date)}</dd>'
-        f'<dt>출전 선수</dt><dd>{snapshot.field_size}명</dd>'
-        f'<dt>참고 과거 대회 수</dt><dd>{snapshot.training_tournament_count}개</dd>'
+        '<section class="why-panel" aria-label="왜 이 선수의 우승확률이 높을까요?">'
+        f'<h2>{h(WHY_TITLE_KO)}</h2>'
+        '<div class="why-player">'
+        f'<span class="why-player-name">{h(top.player_name_display)}</span>'
+        f'<span class="why-player-prob">우승확률 {pct}</span>'
+        f'<span class="why-player-rank">예측순위 {top.rank}위</span>'
+        '</div>'
+        f'<p>{h(WHY_INTRO_TEMPLATE_KO.format(name=top.player_name_display, field_size=snapshot.field_size))}</p>'
+        '<dl class="why-stats">'
+        f'<dt>{h(WHY_PARTICIPATION_LABEL_KO)}</dt><dd>{top.prior_events_n}회</dd>'
+        f'<dt>{h(WHY_LONG_TERM_LABEL_KO)}</dt><dd>{long_term_html}</dd>'
+        f'<dt>{h(WHY_RECENT_FORM_LABEL_KO)}</dt><dd>{recent_form_html}</dd>'
         '</dl>'
+        '</section>'
     )
 
 
@@ -240,19 +350,15 @@ def _explanation_block_html() -> str:
     )
 
 
-def _methodology_content_html(snapshot: Optional[PredictionSnapshot]) -> str:
-    points = "".join(f"<li>{h(p)}</li>" for p in METHODOLOGY_POINTS_KO)
-    limitation = h(METHODOLOGY_LIMITATION_KO)
-    if snapshot is not None:
-        for note in snapshot.known_limitations:
-            if note not in METHODOLOGY_LIMITATION_KO:
-                limitation += f'<br>{h(note)}'
-    return (
-        f'<p>{h(METHODOLOGY_INTRO_KO)}</p>'
-        f'<ul class="methodology-points">{points}</ul>'
-        f'<p class="methodology-exclusion">{h(METHODOLOGY_EXCLUSION_KO)}</p>'
-        f'<p class="methodology-limitation">{limitation}</p>'
-    )
+def _methodology_content_html(snapshot: PredictionSnapshot) -> str:
+    """Reader-facing explanation only. Deliberately does NOT render
+    `snapshot.known_limitations` (the archived JSON's calibration-
+    limitation text, which also names an internal docs file) — that
+    field stays fully intact in the archive (see
+    `klpga.archive.prediction_archive`), it is simply not surfaced in
+    normal reader-facing UI. See docs/PREDICTIONS_SITE.md."""
+    paragraphs = "".join(f"<p>{h(p)}</p>" for p in _model_explanation_paragraphs(snapshot))
+    return f'{paragraphs}<p class="methodology-exclusion">{h(METHODOLOGY_EXCLUSION_KO)}</p>'
 
 
 def _methodology_block_html(snapshot: PredictionSnapshot) -> str:
@@ -265,20 +371,24 @@ def _methodology_block_html(snapshot: PredictionSnapshot) -> str:
 
 
 def _prediction_record_block_html(snapshot: PredictionSnapshot) -> str:
-    reconstruction_html = ""
-    if snapshot.provenance.get("source") == "rerun_reconstruction":
-        reconstruction_html = f'<p class="record-note">{h(RECONSTRUCTION_NOTE_KO)}</p>'
+    """The simplified v1.1 public Prediction Record: exactly four
+    facts (prediction number, cutoff, PRE-TOURNAMENT status, LOCKED
+    archive status) — no model name/version, no provenance/
+    reconstruction detail. Full provenance (including
+    `provenance.source`, the rerun_reconstruction verification
+    fields, etc.) stays completely intact in the archived JSON —
+    see `klpga.archive.prediction_archive` — this panel simply does
+    not surface it publicly (per the v1.1 public-copy decision)."""
     return (
         '<details class="panel">'
         '<summary>Prediction Record</summary>'
         '<div class="panel-body">'
         '<dl class="record-grid">'
-        f'<dt>Prediction ID</dt><dd>{h(snapshot.prediction_id)}</dd>'
-        f'<dt>Model version</dt><dd>{h(snapshot.model_id)} Production {h(snapshot.model_version)}</dd>'
-        f'<dt>Cutoff</dt><dd>{h(snapshot.cutoff_date)}</dd>'
-        '<dt>Archive status</dt><dd><span class="badge badge-locked">LOCKED</span> (수정 불가)</dd>'
+        f'<dt>예측 번호</dt><dd>Prediction #{h(snapshot.prediction_id)}</dd>'
+        f'<dt>기준일</dt><dd>{h(snapshot.cutoff_date)}</dd>'
+        '<dt>상태</dt><dd><span class="badge badge-status">PRE-TOURNAMENT</span></dd>'
+        '<dt>보관 상태</dt><dd><span class="badge badge-locked">LOCKED</span></dd>'
         '</dl>'
-        f'{reconstruction_html}'
         '</div></details>'
     )
 
@@ -332,7 +442,8 @@ def render_prediction_page(snapshot: PredictionSnapshot, *, is_home: bool) -> st
         f'<h1 class="tournament-name">{h(tournament_name)}</h1>'
         '<span class="badge badge-status">PRE-TOURNAMENT</span>'
         "</div>"
-        f"{_metadata_block_html(snapshot)}"
+        f"{_summary_strip_html(snapshot)}"
+        f"{_why_section_html(snapshot)}"
         f"{_table_html(snapshot)}"
         f"{_explanation_block_html()}"
         f"{_methodology_block_html(snapshot)}"
@@ -382,11 +493,14 @@ def render_history_page(snapshots: list[PredictionSnapshot]) -> str:
     return _shell(page_title=f"{SITE_TITLE} — 예측 기록 (결과 평가)", active_nav="predictions", body_html=body)
 
 
-def render_methodology_page() -> str:
+def render_methodology_page(snapshot: PredictionSnapshot) -> str:
+    """`snapshot` supplies the explanation's concrete numbers (corpus
+    size, field size, prediction id) — usually the latest prediction,
+    same as `build_site()` picks for `/`."""
     body = (
         '<section class="methodology-page">'
         "<h1>모델은 어떻게 계산하나요?</h1>"
-        f"{_methodology_content_html(None)}"
+        f"{_methodology_content_html(snapshot)}"
         f'<h2>우승확률이란?</h2>'
         f'<p>{h(PROBABILITY_EXPLANATION_KO)}</p>'
         f'<p class="explanation-note">{h(PROBABILITY_SUM_NOTE_KO)} {h(PROBABILITY_NOT_GUARANTEE_KO)}</p>'

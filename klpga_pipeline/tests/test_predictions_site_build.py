@@ -290,3 +290,187 @@ def test_build_writes_a_permalink_per_prediction_and_latest_as_home(tmp_path):
     home_table = re.search(r"<table.*?</table>", home_html, re.DOTALL).group(0)
     detail_table = re.search(r"<table.*?</table>", detail_html, re.DOTALL).group(0)
     assert home_table == detail_table
+
+
+# ----------------------------------------------------------------
+# v1.1 public-copy regression tests: normal reader-facing UI must
+# never expose model name/version, calibration-limitation text,
+# internal docs references, or a false SG/GIR/driving/putting usage
+# claim — while the archive JSON itself, and the page's transparency
+# JSON blob (explicitly internal/archive metadata, not prose), must
+# stay untouched. See docs/PREDICTIONS_SITE.md "Public copy — model
+# explanation, v1.1".
+# ----------------------------------------------------------------
+
+_EXCLUDED_STAT_TERMS = ("스트로크게인드", "Strokes Gained", "그린적중률", "GIR", "드라이빙", "퍼팅")
+
+
+def _visible_text_excluding_transparency_blob(html: str) -> str:
+    """The embedded `<script type="application/json" id="prediction-data">`
+    block is internal/archive-provenance metadata (see
+    `templates._embedded_data_json`'s docstring), not reader-facing
+    prose — strip it before asserting on what an ordinary reader
+    actually sees."""
+    return re.sub(
+        r'<script type="application/json" id="prediction-data">.*?</script>', "", html, flags=re.DOTALL
+    )
+
+
+def test_public_page_never_mentions_model_name_or_version_in_visible_text(predictions_root, tmp_path):
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+    visible = _visible_text_excluding_transparency_blob(html)
+
+    assert "M4" not in visible
+    assert "Production v1" not in visible
+    # The transparency blob is the ONE sanctioned place model_id/
+    # model_version legitimately appear — confirm they're actually
+    # there (not silently dropped from the archive-metadata artifact).
+    assert '"model_id": "M4"' in html
+    assert '"model_version": "v1"' in html
+
+
+def test_public_page_never_shows_calibration_limitation_or_internal_docs_reference(predictions_root, tmp_path):
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+    visible = _visible_text_excluding_transparency_blob(html)
+
+    assert "보정" not in visible
+    assert "calibration" not in visible.lower()
+    assert "SITE_STRUCTURE_TODO" not in html  # not even in the transparency blob
+    assert "docs/" not in visible
+
+
+def test_public_page_only_mentions_excluded_stats_inside_the_negative_disclaimer(predictions_root, tmp_path):
+    """SG/GIR/driving/putting terms may appear ONLY inside the fixed
+    'NEO does not currently use...' disclaimer — never anywhere that
+    could read as a claim they were used for this prediction."""
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+    visible = _visible_text_excluding_transparency_blob(html)
+
+    assert site_templates.METHODOLOGY_EXCLUSION_KO in visible
+    remainder = visible.replace(site_templates.METHODOLOGY_EXCLUSION_KO, "")
+    for term in _EXCLUDED_STAT_TERMS:
+        assert term not in remainder, f"{term!r} appears outside the negative disclaimer"
+
+
+def test_why_section_shows_rank1_player_with_archived_values(predictions_root, tmp_path):
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+
+    why_match = re.search(r'<section class="why-panel".*?</section>', html, re.DOTALL)
+    assert why_match is not None
+    why_html = why_match.group(0)
+
+    top = sorted(snapshot.predictions, key=lambda e: e.rank)[0]
+    assert top.player_name_display in why_html
+    assert f"우승확률 {top.win_probability * 100:.2f}%" in why_html
+    assert f"예측순위 {top.rank}위" in why_html
+    assert f"{top.prior_events_n}회" in why_html
+
+
+def test_recent_form_10_is_never_described_as_a_per_round_figure(predictions_root, tmp_path):
+    """prior_recent_form_10 is a per-EVENT (whole tournament) average,
+    not a per-round rate — see point_in_time_features.py's module
+    docstring. The page must state this explicitly and must never
+    pair the recent-form-10 value with '라운드당'/'per round' framing."""
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+
+    assert site_templates.WHY_RECENT_FORM_NOTE_KO in html
+    assert "라운드 평균이 아닌" in html
+    # The one metric that IS legitimately per-round keeps that label...
+    assert site_templates.WHY_LONG_TERM_LABEL_KO in html
+    # ...but recent-form-10's own label must never claim "per round."
+    why_match = re.search(r'<section class="why-panel".*?</section>', html, re.DOTALL)
+    recent_form_block = re.search(
+        r"최근 10개 대회 흐름</dt><dd>(.*?)</dd>", why_match.group(0), re.DOTALL
+    )
+    assert recent_form_block is not None
+    assert "라운드당" not in recent_form_block.group(1)
+
+
+def test_prior_avg_round_score_to_par_is_a_genuine_per_round_rate_by_formula():
+    """Ground the WHY section's 'per round' label in the actual
+    formula, not an assumption: point_in_time_features.py computes it
+    as sum(score_to_par)/sum(rounds_played) — this test fails loudly
+    if that source formula's identity ever changes without this test
+    (and the label it justifies) being revisited."""
+    import inspect as _inspect
+
+    from klpga.backtest import point_in_time_features
+
+    source = _inspect.getsource(point_in_time_features)
+    assert "rate_num / rate_den" in source or "sum(e.score_to_par" in source
+    assert "avg_round_score_to_par" in source
+
+
+def test_summary_strip_shows_the_four_required_facts(predictions_root, tmp_path):
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+
+    strip_match = re.search(r'<div class="summary-strip">.*?</div>\s*</div>', html, re.DOTALL)
+    assert strip_match is not None
+    strip_html = strip_match.group(0)
+    assert f"과거 {snapshot.training_tournament_count}개 대회" in strip_html
+    assert site_templates.CORPUS_PLAYER_TOURNAMENT_ROWS_APPROX in strip_html
+    assert f"출전선수 {snapshot.field_size}명" in strip_html
+    assert "100%" in strip_html
+
+
+def test_prediction_record_shows_only_the_simplified_public_fields(predictions_root, tmp_path):
+    root, snapshot = predictions_root
+    result = build_site(root, tmp_path / "dist")
+    html = (result.output_root / "index.html").read_text(encoding="utf-8")
+
+    record_match = re.search(r"<summary>Prediction Record</summary>.*?</details>", html, re.DOTALL)
+    assert record_match is not None
+    record_html = record_match.group(0)
+
+    assert f"Prediction #{snapshot.prediction_id}" in record_html
+    assert snapshot.cutoff_date in record_html
+    assert "PRE-TOURNAMENT" in record_html
+    assert "LOCKED" in record_html
+    # No model name/version and no reconstruction/provenance jargon in
+    # the simplified public panel — that stays internal to the archive.
+    assert "M4" not in record_html
+    assert "재구성" not in record_html
+    assert "CMD" not in record_html
+
+
+def test_archive_json_provenance_is_unaffected_by_the_site_build(tmp_path):
+    """The exact scenario this stage must never touch: a
+    rerun_reconstruction-provenance archive, built into the site,
+    must come out of the build with its ORIGINAL archive file
+    completely unchanged — full provenance intact on disk, even
+    though the public HTML no longer displays it."""
+    from klpga.archive.prediction_archive import build_rerun_reconstruction_provenance, read_prediction_snapshot
+
+    provenance = build_rerun_reconstruction_provenance(
+        original_run_status="successful_pre_tournament_run_observed",
+        original_machine_readable_snapshot_available=False,
+        reconstruction_reason="test reconstruction",
+        verification={"first_run_top_player_code": "11134"},
+    )
+    entrants = _sample_entrants()
+    snapshot = _snapshot(entrants)
+    import dataclasses
+
+    snapshot = dataclasses.replace(snapshot, provenance=provenance)
+    root = tmp_path / "predictions"
+    json_path, _ = _write_archive(root, snapshot)
+    original_bytes = json_path.read_bytes()
+
+    build_site(root, tmp_path / "dist")
+
+    assert json_path.read_bytes() == original_bytes
+    reread = read_prediction_snapshot(json_path)
+    assert reread.provenance["source"] == "rerun_reconstruction"
+    assert reread.provenance["verification"]["first_run_top_player_code"] == "11134"
