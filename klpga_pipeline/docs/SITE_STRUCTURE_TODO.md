@@ -1434,6 +1434,77 @@ archive never requires write access, deterministic serialization, and
 a partial/failed write never leaves a corrupt file at the final name.
 Full suite: **274/274 passing.**
 
+## 12. NEO GOLF PREDICTIONS — public static site
+
+**Status: implemented 2026-08-26.** Full detail in
+`docs/PREDICTIONS_SITE.md`; this section is the short pointer.
+
+`src/klpga/site/` + `scripts/25_build_predictions_site.py` is a
+static-site generator over the immutable archive (section 11) —
+Korean-first, mobile-first, editorial (no sportsbook/casino visual
+language). It reads ONLY `predictions/*/*.json` via the existing
+`klpga.archive.prediction_archive.read_prediction_snapshot`; it never
+opens the SQLite database and never imports
+`klpga.models.inference.run_inference` — enforced by a source-level
+test, not just documented intent.
+
+Routes: `/` (latest prediction), `/predictions/` (index),
+`/predictions/<id>/` (permalink), `/predictions/history/` (stub —
+"결과: 대회 진행 전", post-tournament evaluation not implemented),
+`/methodology/`. Every page embeds the rendered prediction's data as
+a `<script type="application/json">` block — a transparency artifact
+a viewer can compare against the visible table — though the
+interactive JS itself reads the already-rendered DOM's `data-*`
+attributes, not that blob.
+
+Hard integrity checks before any file is written (re-validated
+independently of trusting the archive's own write-time invariants,
+in case a JSON file were ever hand-edited): rendered player count
+must equal `field_size`; the `rank` sequence must be a dense,
+gap-free `1..N` permutation; `maximum_probability` must be strictly
+positive. Any violation raises `SiteBuildIntegrityError` and nothing
+is written. Percent rounding (2dp) and the relative probability-bar
+width are the only two places a probability is transformed, both at
+render time only — the embedded JSON and every `data-*` attribute
+keep the archive's full-precision float. Ranking is never recomputed
+client-side: search/filter only toggle a `row-hidden` class on
+already-rendered rows, so the DOM order can never change at runtime —
+verified at the DOM level with Playwright (`playwright>=1.40`, already
+a declared project dependency, not newly introduced).
+
+Every derived Korean label is a named constant in
+`src/klpga/site/templates.py`, documented with rationale in
+`docs/PREDICTIONS_SITE.md`. `prior_recent_form_10`'s wording is
+explicitly flagged there as a draft pending confirmation (per
+instruction, never locked in as final without review). History-slice
+labels are kept in lockstep with `klpga.models.walk_forward_eval.ROOKIE_SLICES`
+via a module-level assertion. Archived player names (including
+`player_code=13355`, stored as "배윤설 0908(A)") are rendered
+verbatim — the site layer never corrects or normalizes an archived
+name.
+
+The generated site (`web/dist/` by default) is a build artifact —
+`.gitignore`'d, not committed. Git preserves the archive, the
+generation source, the tests, and this documentation; the site is
+always reproducible from those four. "Automatic" (new prediction
+appears) means rebuild-and-redeploy, not a live push — there is no
+server, no file-watcher, no request-time database or archive access.
+
+**Tests**: 21 new — 15 Python-level
+(`tests/test_predictions_site_build.py`: all entrants rendered, no DB/
+inference import, ranking follows archive order, display rounding
+never touches the stored value, zero-history/unmatched entrants
+visible, reading needs no write access, hard-fail on field_size
+mismatch/rank gap/non-positive maximum_probability) plus 6 real
+Playwright browser tests (`tests/test_predictions_site_browser.py`:
+search/filter never reorder DOM rows, expand/collapse toggles, 360px
+mobile viewport needs no horizontal scroll) — these run for real in
+this sandbox (not skipped), confirmed by resolving a Chromium
+executable-path mismatch between the installed `playwright` package
+and the pre-provisioned browser cache; the fixture still skips
+gracefully rather than failing the suite if no Chromium is available
+at all. Full suite: **295/295 passing.**
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026

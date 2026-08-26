@@ -4,3 +4,8 @@ __pycache__/
 data/raw_cache/
 data/klpga.sqlite
 data/csv/*.csv
+
+# Generated NEO GOLF PREDICTIONS static site — a build artifact,
+# reproducible from predictions/ + src/klpga/site/ + scripts/25.
+# See docs/PREDICTIONS_SITE.md.
+web/dist/

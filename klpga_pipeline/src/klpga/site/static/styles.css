@@ -1,0 +1,207 @@
+/* NEO GOLF PREDICTIONS — mobile-first, editorial, Korean-first.
+   No sportsbook/casino visual language: one neutral accent color used
+   only for the probability bar fill and active controls, no
+   favorite/underdog color coding, no odds-style number formatting. */
+
+:root {
+  --neo-bg: #ffffff;
+  --neo-bg-subtle: #f6f5f2;
+  --neo-text: #17181a;
+  --neo-text-muted: #5b5f66;
+  --neo-border: #e4e2dd;
+  --neo-accent: #2f6b5e;
+  --neo-accent-soft: #d9ebe6;
+  --neo-badge-bg: #17181a;
+  --neo-badge-text: #ffffff;
+  --neo-radius: 6px;
+  --neo-font: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--neo-font);
+  color: var(--neo-text);
+  background: var(--neo-bg);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+
+.site-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border-bottom: 1px solid var(--neo-border);
+}
+
+.brand { text-decoration: none; display: block; }
+.brand-mark { display: block; font-weight: 700; font-size: 1.05rem; letter-spacing: 0.02em; }
+.brand-tagline { display: block; font-size: 0.75rem; color: var(--neo-text-muted); }
+
+.site-nav { display: flex; gap: 16px; }
+.nav-link { text-decoration: none; font-size: 0.85rem; color: var(--neo-text-muted); padding: 4px 0; }
+.nav-active { color: var(--neo-text); font-weight: 600; border-bottom: 2px solid var(--neo-accent); }
+
+.site-main { padding: 16px; max-width: 720px; margin: 0 auto; }
+
+.site-footer {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--neo-text-muted);
+  font-size: 0.75rem;
+  border-top: 1px solid var(--neo-border);
+}
+
+.tournament-header { margin-bottom: 12px; }
+.tournament-name { font-size: 1.4rem; margin: 0 0 8px; line-height: 1.3; }
+
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.badge-status { background: var(--neo-badge-bg); color: var(--neo-badge-text); }
+.badge-locked { background: var(--neo-badge-bg); color: var(--neo-badge-text); }
+.badge-unmatched {
+  background: var(--neo-bg-subtle);
+  color: var(--neo-text-muted);
+  border: 1px solid var(--neo-border);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.metadata {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+  margin: 0 0 20px;
+  padding: 12px;
+  background: var(--neo-bg-subtle);
+  border-radius: var(--neo-radius);
+  font-size: 0.8rem;
+}
+.metadata dt { color: var(--neo-text-muted); }
+.metadata dd { margin: 0; font-weight: 600; }
+
+.controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border: 1px solid var(--neo-border);
+  border-radius: var(--neo-radius);
+  font-family: inherit;
+}
+.filter-pills { display: flex; gap: 8px; }
+.filter-pill {
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  border: 1px solid var(--neo-border);
+  background: var(--neo-bg);
+  color: var(--neo-text);
+  border-radius: var(--neo-radius);
+  cursor: pointer;
+}
+.filter-pill.active { background: var(--neo-accent); border-color: var(--neo-accent); color: #fff; }
+
+.pred-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.pred-table th {
+  text-align: left;
+  font-size: 0.75rem;
+  color: var(--neo-text-muted);
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--neo-border);
+}
+.col-rank { width: 15%; }
+.col-player { width: 45%; }
+.col-prob { width: 40%; }
+
+.pred-row {
+  cursor: pointer;
+  min-height: 44px;
+}
+.pred-row td {
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--neo-border);
+  vertical-align: middle;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pred-row:hover, .pred-row:focus { background: var(--neo-bg-subtle); outline: none; }
+.pred-row.row-hidden, .pred-detail.row-hidden { display: none; }
+
+.col-prob { position: relative; }
+.prob-bar-wrap {
+  position: absolute;
+  inset: 4px 4px;
+  background: transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 0;
+}
+.prob-bar { height: 100%; background: var(--neo-accent-soft); }
+.prob-value { position: relative; z-index: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.pred-detail td { padding: 12px; background: var(--neo-bg-subtle); border-bottom: 1px solid var(--neo-border); }
+.detail-grid { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; font-size: 0.85rem; }
+.detail-grid dt { color: var(--neo-text-muted); }
+.detail-grid dd { margin: 0; }
+.detail-subvalue { color: var(--neo-text-muted); font-size: 0.8rem; }
+.detail-note { font-size: 0.78rem; color: var(--neo-text-muted); margin: 8px 0 0; }
+
+.explanation { margin: 24px 0; padding: 14px; border: 1px solid var(--neo-border); border-radius: var(--neo-radius); }
+.explanation h2 { font-size: 1rem; margin: 0 0 8px; }
+.explanation p { margin: 0 0 8px; font-size: 0.9rem; }
+.explanation-note { color: var(--neo-text-muted); font-size: 0.82rem; }
+
+.panel { margin: 12px 0; border: 1px solid var(--neo-border); border-radius: var(--neo-radius); padding: 4px 0; }
+.panel summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.panel-body { padding: 4px 14px 14px; font-size: 0.85rem; color: var(--neo-text-muted); }
+.panel-body h2 { color: var(--neo-text); font-size: 0.95rem; }
+.methodology-points { margin: 8px 0; padding-left: 20px; }
+.methodology-points li { margin-bottom: 4px; }
+.methodology-exclusion, .methodology-limitation { margin-top: 10px; }
+.record-grid { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; font-size: 0.85rem; }
+.record-note { margin-top: 10px; font-size: 0.8rem; }
+
+.prediction-list { list-style: none; margin: 0; padding: 0; }
+.prediction-list-item a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--neo-border);
+  text-decoration: none;
+}
+.prediction-list-name { font-weight: 600; }
+.prediction-list-meta { font-size: 0.78rem; color: var(--neo-text-muted); }
+.history-note { font-size: 0.85rem; color: var(--neo-text-muted); margin-bottom: 16px; }
+
+.methodology-page h1 { font-size: 1.2rem; }
+.methodology-page h2 { font-size: 1rem; margin-top: 24px; }
+
+@media (min-width: 640px) {
+  .site-header { flex-direction: row; align-items: center; justify-content: space-between; padding: 20px 32px; }
+  .site-main { padding: 32px 16px; }
+  .metadata { grid-template-columns: repeat(5, auto); }
+  .tournament-name { font-size: 1.8rem; }
+}
