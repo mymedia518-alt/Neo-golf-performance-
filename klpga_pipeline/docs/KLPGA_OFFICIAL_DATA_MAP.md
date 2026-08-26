@@ -3375,6 +3375,40 @@ made. No change to Prediction #001, `predictions/`, model/inference/
 probability logic, the production DB, the archive, or the public
 website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
 
+## Round 10 (continued) — internal Korean whitespace normalization
+
+The real diagnostic output (22 unresolved groups: 7 `PARTIAL_MATCH_
+NEEDS_REVIEW`, 1 `D_UNRESOLVED`, 14 `INSUFFICIENT_EVIDENCE`) showed
+`Putt::Putt02::040201`'s taxonomy label `평균 퍼트수` (no internal
+space) versus its response column `평균 퍼트 수` (with one) — the same
+Korean compound noun, written with inconsistent internal spacing, not
+a different metric. The previous normalizer only collapsed REPEATED
+whitespace to a single space; it never removed whitespace entirely, so
+these two strings stayed unequal.
+
+**Fix** (`klpga.discovery.identity_key_audit._normalize_label`):
+strips ALL whitespace, not just runs of it, after casefolding and the
+existing trailing-`(...)`-annotation strip. This is a pure formatting/
+spacing normalization — it only equates two labels that already
+consist of the identical non-whitespace characters, so it cannot merge
+two labels that differ by an actual character. Explicitly verified NOT
+to affect the still-open cases: Tee::Tee01::010101's `Par4,5 티샷 비율`
+vs `Par4,5 티샷 횟수` differ by a real character (비율 "rate" vs 횟수
+"count"), not spacing, and remain unmatched exactly as before; the
+Approach/Around `PARTIAL_MATCH_NEEDS_REVIEW` groups are untouched for
+the same reason — this round does not attempt to resolve either.
+
+**Tests**: 2 new in `tests/test_identity_key_audit.py` — the real
+`Putt::Putt02::040201` case now resolves to an `exact` match, and an
+explicit negative test confirming the Tee 비율/횟수 case stays
+unmatched under the same normalization. All 14 pre-existing tests in
+that file continue to pass unchanged.
+
+**654/654 tests passing** (652 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

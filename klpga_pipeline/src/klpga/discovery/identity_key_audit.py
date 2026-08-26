@@ -125,10 +125,25 @@ def derive_request_identity_key(entry: dict) -> str:
 
 
 def _normalize_label(label: Optional[str]) -> str:
+    """Real evidence (`Putt::Putt02::040201` — the taxonomy label
+    "평균 퍼트수" versus the response column "평균 퍼트 수") showed
+    Korean compound-noun spacing is inconsistent between the taxonomy
+    and the response for the SAME label: an internal space is
+    sometimes present, sometimes not, with no semantic difference.
+    ALL whitespace is therefore removed here — not just collapsed to
+    a single space — so "평균 퍼트수" and "평균 퍼트 수" normalize to
+    the identical string. This is a pure formatting/spacing
+    normalization: it does not merge two labels that differ in any
+    non-whitespace character, so it cannot itself equate two
+    different-meaning words (see the still-unresolved Tee::Tee01::
+    010101 "Par4,5 티샷 비율" vs "Par4,5 티샷 횟수" case, which differs
+    by a real character, not spacing, and remains unmatched under
+    this rule)."""
     if label is None:
         return ""
-    collapsed = re.sub(r"\s+", " ", label).strip().casefold()
-    return _TRAILING_PARENTHETICAL.sub("", collapsed).strip()
+    folded = label.strip().casefold()
+    without_suffix = _TRAILING_PARENTHETICAL.sub("", folded).strip()
+    return re.sub(r"\s+", "", without_suffix)
 
 
 _LABEL_MATCH_EXACT = "exact"
