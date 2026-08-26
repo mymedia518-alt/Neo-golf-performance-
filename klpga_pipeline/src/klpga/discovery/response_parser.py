@@ -56,8 +56,24 @@ records which layer actually supplied the answer:
      (see docs/KLPGA_OFFICIAL_DATA_MAP.md's Phase B1 dynamic-header
      section). A blank `var record4 = "";` is never stored as a label
      here — see `_extract_dynamic_header_labels`.
+  2b. `menu_switch_vars` — CONFIRMED against a real cached Sg-family
+     response (Round 7, docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 7
+     section): the Sg family uses a THIRD, distinct client-side
+     pattern neither layer 1 nor layer 2 recognizes — a
+     `var menu = "<identity>";` declaration followed by an
+     `if(menu == "X") { ... } else if(menu == "Y") { ... }` chain,
+     each branch assigning `menuName`/`recordNote`/`order` and up to
+     five `data1`.."data5" value-column labels. Only the ONE branch
+     whose condition matches the response's own `menu` value is
+     read — see `_extract_menu_switch_metadata`. The Nth `dataN` label
+     maps to the (N-1)th `record*` field position — the SAME
+     positional-correspondence principle layer 3 below already uses,
+     NOT independently confirmed by real `<td>`/`<tr>` row-markup
+     evidence for this family (this session has not been given one),
+     which is why this layer never sets `metadata.found = True` (kept
+     at the same honesty tier as layer 2, not layer 1).
   3. `table_header` — visible, NON-BLANK `<th>` text, in column order,
-     used only when neither layer 1 nor layer 2 supplied a label for
+     used only when neither layer 1, 2, nor 2b supplied a label for
      that column.
   4. `unknown` — none of the above found a non-blank label; the column
      is preserved in the parsed row but its semantic label is left
@@ -242,11 +258,98 @@ def _extract_dynamic_header_labels(html: str, record_fields: list[str]) -> dict[
     return found
 
 
+_MENU_SWITCH_VAR_RE = re.compile(r'var\s+menu\s*=\s*"([^"]*)"\s*;')
+_MENU_SWITCH_MENUNAME_RE = re.compile(r'\bmenuName\s*=\s*"([^"]*)"\s*;')
+_MENU_SWITCH_RECORDNOTE_RE = re.compile(r'\brecordNote\s*=\s*"([^"]*)"\s*;')
+_MENU_SWITCH_ORDER_RE = re.compile(r'\border\s*=\s*"([^"]*)"\s*;')
+_MENU_SWITCH_DATA_VAR_RE = re.compile(r'\bdata(\d+)\s*=\s*"([^"]*)"\s*;')
+
+
+def _find_matching_brace_block(html: str, open_brace_index: int) -> str:
+    """Returns the substring strictly between `html[open_brace_index]`
+    (must be `'{'`) and its matching closing brace — a simple depth
+    counter, sufficient for the plain assignment statements the real
+    evidence for this pattern shows (no nested object literals
+    observed). Returns the remainder of the string if no matching
+    close is found (malformed/truncated input degrades rather than
+    raising)."""
+    depth = 0
+    for i in range(open_brace_index, len(html)):
+        if html[i] == "{":
+            depth += 1
+        elif html[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return html[open_brace_index + 1 : i]
+    return html[open_brace_index + 1 :]
+
+
+def _extract_menu_switch_metadata(html: str) -> tuple[ResponseMetadata, dict[int, str]]:
+    """CONFIRMED against a real cached Sg-family response (Round 7 —
+    see docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 7 section): KLPGA's
+    Sg-family responses use a THIRD, distinct client-side templating
+    pattern that neither `_extract_metadata` (a JSON-object blob) nor
+    `_extract_dynamic_header_labels` (`var record<N> = "...";`)
+    recognizes — a `var menu = "<identity>";` declaration followed by
+    an `if(menu == "X") { ... } else if(menu == "Y") { ... }` chain,
+    each branch assigning `menuName`/`recordNote`/`order` and up to
+    five `data1`.."data5" value-column labels. The static HTML this
+    parser receives already has `menu` set to the CURRENT response's
+    own requested identity (e.g. `var menu = "Around";` for an
+    Sg::Around request) — only the ONE branch whose condition matches
+    that exact value is semantically relevant to THIS response; every
+    other branch describes a DIFFERENT Sg sub-metric and is never read
+    here. If no branch matches `menu`'s value (confirmed real case:
+    `var menu = "All";` with no `else if(menu == "All")` branch in the
+    switch at all — the real `Sg::All` response, which returns zero
+    rows), this returns not-found rather than fabricating anything.
+
+    Returns `(ResponseMetadata(..., found=False), {1: data1_label, 2:
+    data2_label, ...})`. `found` is deliberately kept `False` — this
+    layer's per-column mapping (the Nth `dataN` label to the (N-1)th
+    `record*` field position) mirrors the SAME positional-
+    correspondence principle `_extract_column_semantics`'s
+    `table_header` layer already uses, and is NOT independently
+    confirmed by real `<td>`/`<tr>` row-markup evidence for the Sg
+    family (this session has not been given one) — so this stays at
+    the same honesty tier as `dynamic_header_vars`, never claiming
+    layer-1 (`metadata`) confidence."""
+    menu_match = _MENU_SWITCH_VAR_RE.search(html)
+    if not menu_match or not menu_match.group(1):
+        return ResponseMetadata(found=False), {}
+    menu_value = menu_match.group(1)
+
+    branch_pattern = re.compile(r'menu\s*==\s*"' + re.escape(menu_value) + r'"\s*\)\s*\{')
+    branch_match = branch_pattern.search(html)
+    if not branch_match:
+        return ResponseMetadata(found=False), {}
+    block = _find_matching_brace_block(html, branch_match.end() - 1)
+
+    menu_name_match = _MENU_SWITCH_MENUNAME_RE.search(block)
+    record_note_match = _MENU_SWITCH_RECORDNOTE_RE.search(block)
+    order_match = _MENU_SWITCH_ORDER_RE.search(block)
+
+    data_labels: dict[int, str] = {}
+    for idx_str, label in _MENU_SWITCH_DATA_VAR_RE.findall(block):
+        if label:
+            data_labels[int(idx_str)] = label
+
+    metadata = ResponseMetadata(
+        menu=menu_value,
+        menu_name=menu_name_match.group(1) if menu_name_match else None,
+        record_note=record_note_match.group(1) if record_note_match else None,
+        order=order_match.group(1) if order_match else None,
+        found=False,
+    )
+    return metadata, data_labels
+
+
 def _extract_column_semantics(
     soup: BeautifulSoup,
     metadata: ResponseMetadata,
     record_fields: list[str],
     dynamic_labels: Optional[dict[str, str]] = None,
+    menu_switch_position_labels: Optional[list[Optional[str]]] = None,
 ) -> list[ColumnSemantics]:
     if metadata.found and metadata.record_note:
         # The recordNote is a single free-text description of the whole
@@ -256,6 +359,7 @@ def _extract_column_semantics(
         pass
 
     dynamic_labels = dynamic_labels or {}
+    menu_switch_position_labels = menu_switch_position_labels or []
 
     header_cells = soup.select("thead th") or soup.select("tr th")
     header_labels = [th.get_text(strip=True) for th in header_cells]
@@ -277,11 +381,18 @@ def _extract_column_semantics(
         # Priority: (1) a non-blank dynamic-header JS var — CONFIRMED
         # real evidence this label source exists and, per the same
         # evidence, is the ONLY source with real text for KLPGA's
-        # dynamic-header response shape; (2) the static table-header
-        # text, when non-blank; (3) unknown, never guessed.
+        # dynamic-header response shape; (1b) the Sg-family menu-switch
+        # JS vars (see _extract_menu_switch_metadata) — the SAME
+        # confidence tier as (1), just a different real client-side
+        # pattern; (2) the static table-header text, when non-blank;
+        # (3) unknown, never guessed.
         if field_name in dynamic_labels:
             semantics.append(
                 ColumnSemantics(field_name=field_name, label=dynamic_labels[field_name], source="dynamic_header_vars")
+            )
+        elif i < len(menu_switch_position_labels) and menu_switch_position_labels[i]:
+            semantics.append(
+                ColumnSemantics(field_name=field_name, label=menu_switch_position_labels[i], source="menu_switch_vars")
             )
         elif record_header_labels and i < len(record_header_labels) and record_header_labels[i]:
             semantics.append(
@@ -391,8 +502,16 @@ def parse_record_response(html: str) -> ParsedRecordResponse:
 
     record_fields = _discover_record_fields(soup)
     metadata = _extract_metadata(soup)
+    menu_switch_data_labels: dict[int, str] = {}
+    if not metadata.found:
+        menu_switch_metadata, menu_switch_data_labels = _extract_menu_switch_metadata(html)
+        if menu_switch_metadata.menu is not None:
+            metadata = menu_switch_metadata
+    menu_switch_position_labels = [menu_switch_data_labels.get(i) for i in range(1, len(record_fields) + 1)]
     dynamic_labels = _extract_dynamic_header_labels(html, record_fields)
-    column_semantics = _extract_column_semantics(soup, metadata, record_fields, dynamic_labels)
+    column_semantics = _extract_column_semantics(
+        soup, metadata, record_fields, dynamic_labels, menu_switch_position_labels
+    )
     rows = _extract_rows(soup, record_fields)
     sample_definition = _build_sample_definition(column_semantics, metadata)
 
@@ -410,6 +529,13 @@ def parse_record_response(html: str) -> ParsedRecordResponse:
         notes.append(
             "Rows found; semantics resolved from KLPGA's dynamic-header JS vars "
             "(var record/record1/.../recordN = \"...\"), not an embedded metadata block or static table-header text."
+        )
+    elif any(menu_switch_position_labels):
+        status = "DISCOVERED_NOT_VALIDATED"
+        notes.append(
+            "Rows found; semantics resolved from KLPGA's Sg-family menu-switch JS vars "
+            "(var menu = \"X\"; ... else if(menu == \"X\") { data1..dataN = \"...\"; }), not an embedded "
+            "metadata block or static table-header text — see _extract_menu_switch_metadata."
         )
     else:
         status = "DISCOVERED_NOT_VALIDATED"

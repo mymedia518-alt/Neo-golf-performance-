@@ -1,0 +1,99 @@
+<!--
+  Round 7 regression fixture. The <script> block below is VERBATIM
+  from the real saved Sg::Around response
+  (docs/discovery/raw_samples/Sg__Around__2025.html, first ~1500
+  chars, pasted directly by the user during the B2-gate audit,
+  2026-08-26; see docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 7 section).
+  It confirms KLPGA's Sg-family responses use a THIRD, distinct
+  client-side templating pattern: a "menu" JS variable set to the
+  requested identity, followed by an if/else-if chain keyed on that
+  value, each branch assigning
+  `menuName`/`recordNote`/`order` and up to five `data1`.."data5"
+  value-column labels — neither the JSON-object `metadata` layer nor
+  the `var record<N> = "...";` `dynamic_header_vars` layer this parser
+  already handled recognizes this shape, which is the confirmed root
+  cause of `Sg::Around`/`Sg::Approach` classifying AMBIGUOUS/
+  EMPTY_SCHEMA despite 223 real rows.
+
+  The real evidence was truncated mid-string inside the "Putt" branch
+  ("menuName = \"SG : " and no further) — the "Putt" branch is
+  DELIBERATELY OMITTED here rather than completed with invented text;
+  only the Total/TeeToGreen/Tee/Approach/Around branches, confirmed
+  complete, are reproduced.
+
+  The <table>/<tbody> row markup below was NOT part of the real
+  evidence session (only the <script> header block was captured) —
+  it reuses this project's already-CONFIRMED data-playercode/data-name
+  /data-rank/data-record row convention (see loadLocationRecord_
+  approach_020104_sample.html) as the most evidence-grounded working
+  assumption available for END-TO-END testing, exactly as this
+  module's own docstring already does for every other fixture that
+  predates real row-level evidence — NOT independently confirmed for
+  the Sg family specifically. See _extract_menu_switch_metadata's own
+  docstring for why this layer therefore never sets metadata.found.
+-->
+<html>
+<body>
+<script>
+	$(document).ready(function() {
+		setTalbeOrder(3);
+
+		var menu = "Around";
+		var data1 = "";
+		var data2 = "";
+		var data3 = "";
+		var data4 = "";
+		var data5 = "";
+
+		if(menu == "Total") {
+			menuName = "SG : 전체";
+			recordNote = "* SG : 티샷 to 그린 + SG : 퍼팅";
+			recordName = "SG : 전체";
+			data1 = "SG : 티샷";
+			data2 = "SG : 어프로치";
+			data3 = "SG : 그린주변";
+			data4 = "SG : 퍼팅";
+			data5 = "측정 라운드 수";
+			order = "desc";
+		} else if(menu == "TeeToGreen") {
+			menuName = "SG : 티샷 to 그린";
+			recordNote = "* SG : 티샷 + SG : 어프로치 + SG : 그린주변";
+			recordName = "SG : 티샷 to 그린";
+			data1 = "SG : 티샷";
+			data2 = "SG : 어프로치";
+			data3 = "SG : 그린주변";
+			data4 = "측정 라운드 수";
+			order = "desc";
+		} else if(menu == "Tee") {
+			menuName = "SG : 티샷";
+			recordNote = "* Par4,5에서 티샷으로 획득한 타수";
+			recordName = "SG : 티샷";
+			data1 = "총 SG : 티샷";
+			data2 = "측정 라운드 수";
+			order = "desc";
+		} else if(menu == "Approach") {
+			menuName = "SG : 어프로치";
+			recordNote = "* 티샷 후, 그린 주변, 그린에서의 샷을 제외한 구역에서 이루어진 샷으로 획득한 타수";
+			recordName = "SG : 어프로치";
+			data1 = "총 SG : 어프로치";
+			data2 = "측정 라운드 수";
+			order = "desc";
+		} else if(menu == "Around") {
+			menuName = "SG : 그린주변";
+			recordNote = "* 그린주변(핀 위치로부터 60야드 미만)에서의 샷으로 획득한 타수";
+			recordName = "SG : 그린주변";
+			data1 = "총 SG : 그린주변";
+			data2 = "측정 라운드 수";
+			order = "desc";
+		}
+	});
+</script>
+<table>
+<thead><tr><th></th><th></th></tr></thead>
+<tbody>
+<tr data-playercode="9807" data-name="김새로미" data-rank="1" data-record="1.42" data-record1="61"></tr>
+<tr data-playercode="9812" data-name="전예성" data-rank="2" data-record="0.98" data-record1="58"></tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -2516,6 +2516,114 @@ website. Phase B2 not started.
 
 ---
 
+## Round 7 — Sg-family parser gap: a third dynamic-header pattern (`var menu="X"` + branch-keyed `data1..data5`)
+
+### A. Context
+
+The bounded 20-request B1 rerun against the Round 6-fixed canonical
+plan came back 16 `PARSE_SUCCESS`, and — after a provenance-first
+audit of the taxonomy/canonical-plan/B1 outputs — 4 non-success cases,
+all traced to the Sg family specifically: `Sg::All` × 2 (a genuine
+duplicate canonical-plan entry — same identity, different label,
+untouched by this round) returning a legitimate empty response (no
+matching branch in the site's own JS switch), and `Sg::Approach` /
+`Sg::Around` both returning 223 real rows classified
+`AMBIGUOUS`/`EMPTY_SCHEMA`. The resolver itself audited clean — every
+one of the 281 canonical entries has a real, structurally valid
+`menu1`; this was a downstream parser gap only.
+
+### B. Root cause
+
+The real saved `Sg::Around` response body (pasted directly by the user
+from the actual raw-sample file) showed a THIRD, distinct client-side
+templating pattern `response_parser.py` had never seen: a `var menu =
+"<identity>";` declaration followed by an `if(menu == "X") { ... }
+else if(menu == "Y") { ... }` chain, each branch assigning
+`menuName`/`recordNote`/`order` and up to five `data1`.."data5"
+value-column labels. Neither the existing `metadata` layer (a
+JSON-object blob) nor `dynamic_header_vars` (`var record<N> =
+"...";`) recognizes this shape — hence real rows classifying
+`EMPTY_SCHEMA`. Both non-empty failures showed `missing_player_name:
+223` (100% of rows) in their data-quality flags, but this round's
+fix does not address that — no real `<td>`/`<tr>` row markup for an
+Sg-family response was available to this session, only the `<script>`
+header block, so the row/player-name extraction gap remains open
+pending that evidence.
+
+### C. The fix (`src/klpga/discovery/response_parser.py`)
+
+New `_extract_menu_switch_metadata(html)`: finds `var menu =
+"<value>";`, locates the ONE `if`/`else if(menu == "<value>")` block
+matching that exact value (a brace-depth counter, `_find_matching_
+brace_block`), and extracts `menuName`/`recordNote`/`order` plus the
+`data1`.."data5" labels from ONLY that block — every other branch
+describes a different Sg sub-metric and is never read. The Nth `dataN`
+label maps positionally to the `(N-1)`th `record*` field, the same
+correspondence principle the existing `table_header` layer already
+uses. Wired into `_extract_column_semantics` as a new `menu_switch_
+vars` tier (same priority rank as `dynamic_header_vars`) and into
+`parse_record_response` (only consulted when the layer-1 JSON
+metadata block wasn't found). Deliberately **never sets `metadata.
+found = True`** — the per-column mapping isn't confirmed by real
+row-level markup for this family, so it stays at the same honesty
+tier as `dynamic_header_vars`, landing on `DISCOVERED_NOT_VALIDATED`,
+never `CONFIRMED`. When `var menu` doesn't match any branch (the real
+confirmed `Sg::All` case — no `else if(menu == "All")` exists in the
+switch at all), the function returns not-found rather than fabricating
+anything; combined with that response's real zero rows, it still
+classifies `EMPTY`.
+
+### D. Tests
+
+New `tests/fixtures/loadLocationRecord_sg_menu_switch_sample.html` —
+its `<script>` block is VERBATIM from the real saved response (the
+`Total`/`TeeToGreen`/`Tee`/`Approach`/`Around` branches, all confirmed
+complete; the real evidence's `Putt` branch was truncated mid-string
+and is deliberately omitted rather than completed with invented text).
+Its `<table>` row markup was not part of the real evidence — it reuses
+this project's already-confirmed `data-playercode`/`data-name`/
+`data-rank`/`data-record` convention as a flagged working assumption,
+exactly as this module's own docstring already does for every other
+pre-real-evidence fixture. New `tests/test_menu_switch_metadata.py`
+(12 tests): branch-isolation (only the matching branch's labels are
+ever read), the real no-match `Sg::All` case (never fabricated, stays
+`EMPTY` with real zero rows), end-to-end `Sg::Around` now reaching
+`DISCOVERED_NOT_VALIDATED` with correct `record`/`record1` labels, and
+non-Sg fixtures (`020104`, the dynamic-header sample) proven completely
+unaffected.
+
+**596/596 tests passing** (584 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. Phase B2 not started.
+
+### E. What's still open (not fixed this round, flagged not hidden)
+
+The `missing_player_name: 223` row-extraction gap for Sg-family
+responses is unresolved — this round's evidence covered only the
+`<script>` header block, not real `<tbody>`/`<tr>` row markup. If the
+bounded B1 rerun below still shows `Sg::*` rows missing player names,
+that specific gap needs its own real row-markup evidence before a
+fix can be attempted (same discipline as every other fix this
+project has made — no guessing the attribute convention).
+
+### F. Windows command — bounded B1 rerun (unchanged canonical plan, no regeneration needed)
+
+```
+git pull
+
+python scripts\27_klpga_response_schema_sample.py --canonical-plan docs\discovery\KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json --season 2025
+```
+
+Paste back: the same `KLPGA_RESPONSE_SCHEMA_SAMPLES.json`-derived
+non-success listing as before (parse_status distribution + the
+`Sg::Approach`/`Sg::Around` entries' `parse_status`/`schema_
+fingerprint`/`column_labels`/`data_quality_flags`), so the fix can be
+verified against a fresh live response rather than the previously
+saved one. Still not Phase B2.
+
+---
+
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
 database, model, archive, or website changes were made to produce this
 document.*
