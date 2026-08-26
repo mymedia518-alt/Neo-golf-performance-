@@ -91,7 +91,14 @@ def run(client: PoliteHttpClient, source_url: str, out_dir: Path) -> int:
         to_taxonomy_json(dom_result, source_url=source_url, discovered_at=discovered_at),
         encoding="utf-8",
     )
-    csv_path.write_text(to_taxonomy_csv(dom_result), encoding="utf-8")
+    # newline="" — the returned string already carries csv.writer's own
+    # \r\n row terminators; without this, Path.write_text's default
+    # universal-newline translation on Windows (os.linesep="\r\n")
+    # doubles every \n it finds, turning \r\n into \r\r\n on disk (see
+    # docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 8 section — this is the
+    # exact confirmed root cause of a real Windows pytest run reporting
+    # extra blank lines in a written CSV).
+    csv_path.write_text(to_taxonomy_csv(dom_result), encoding="utf-8", newline="")
 
     collision_report = build_collision_report(dom_result)
     collision_path.write_text(render_collision_report_markdown(collision_report), encoding="utf-8")

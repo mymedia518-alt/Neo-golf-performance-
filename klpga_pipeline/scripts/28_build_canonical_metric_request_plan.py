@@ -105,7 +105,14 @@ def run(taxonomy: dict, source_taxonomy_path: str, out_dir: Path) -> int:
     print(f"Wrote {plan_path}")
 
     malformed_path = out_dir / "KLPGA_MALFORMED_LEAF_REPORT.csv"
-    malformed_path.write_text(to_malformed_leaf_report_csv(malformed_rows), encoding="utf-8")
+    # newline="" — the returned string already carries csv.writer's own
+    # \r\n row terminators; without this, Path.write_text's default
+    # universal-newline translation on Windows (os.linesep="\r\n")
+    # doubles every \n it finds, turning \r\n into \r\r\n on disk — the
+    # confirmed root cause of a real Windows pytest run reporting extra
+    # blank lines in this exact file (docs/KLPGA_OFFICIAL_DATA_MAP.md's
+    # Round 8 section).
+    malformed_path.write_text(to_malformed_leaf_report_csv(malformed_rows), encoding="utf-8", newline="")
     print(f"Wrote {malformed_path} ({len(malformed_rows)} rows)")
     print()
 

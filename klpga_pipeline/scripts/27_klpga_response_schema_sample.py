@@ -329,7 +329,11 @@ def run(
         write_samples_json(records, discovered_at=discovered_at, source_taxonomy=str(taxonomy.get("source_url", "unknown"))),
         encoding="utf-8",
     )
-    (out_dir / "KLPGA_RESPONSE_SCHEMA_SAMPLES.csv").write_text(write_samples_csv(records), encoding="utf-8")
+    # newline="" on every *.csv write below — see the Round 8 note in
+    # scripts/26's equivalent write for the confirmed root cause
+    # (csv.writer's own \r\n terminators getting doubled to \r\r\n by
+    # Path.write_text's default newline translation on Windows).
+    (out_dir / "KLPGA_RESPONSE_SCHEMA_SAMPLES.csv").write_text(write_samples_csv(records), encoding="utf-8", newline="")
     outcome_counts = build_request_outcome_counts(records, http_failure_count=http_failure_count)
     (out_dir / "KLPGA_RESPONSE_SCHEMA_REPORT.md").write_text(
         render_schema_report_markdown(
@@ -342,8 +346,8 @@ def run(
     )
     (out_dir / "KLPGA_RAW_FIELD_INVENTORY.md").write_text(render_raw_field_inventory_markdown(records), encoding="utf-8")
     (out_dir / "NEO_RAW_INPUT_CANDIDATES.md").write_text(render_neo_raw_input_candidates_markdown(records), encoding="utf-8")
-    (out_dir / "KLPGA_RAW_COUNT_METRICS.csv").write_text(write_raw_count_metrics_csv(records), encoding="utf-8")
-    (out_dir / "KLPGA_RESPONSE_FAILURES.csv").write_text(write_response_failures_csv(records), encoding="utf-8")
+    (out_dir / "KLPGA_RAW_COUNT_METRICS.csv").write_text(write_raw_count_metrics_csv(records), encoding="utf-8", newline="")
+    (out_dir / "KLPGA_RESPONSE_FAILURES.csv").write_text(write_response_failures_csv(records), encoding="utf-8", newline="")
 
     identity_overall, identity_records = build_player_identity_report(parsed_by_key)
     (out_dir / "KLPGA_PLAYER_IDENTITY_REPORT.md").write_text(
@@ -351,7 +355,7 @@ def run(
     )
 
     (out_dir / "KLPGA_PHASE_B1_REQUEST_LOG.json").write_text(to_log_jsonl(log_entries), encoding="utf-8")
-    (out_dir / "KLPGA_PHASE_B1_REQUEST_LOG.csv").write_text(to_log_csv(log_entries), encoding="utf-8")
+    (out_dir / "KLPGA_PHASE_B1_REQUEST_LOG.csv").write_text(to_log_csv(log_entries), encoding="utf-8", newline="")
 
     print()
     _log(f"Cross-metric playerCode identity consistency: {identity_overall}")
