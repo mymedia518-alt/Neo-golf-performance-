@@ -1,0 +1,114 @@
+<!--
+  Round 4 regression fixture — built directly from LITERAL real HTML
+  evidence (Windows PowerShell extraction of the actual cached Phase A
+  `locationRecord` source page, 2026-08-26; see
+  docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 4 section for the full
+  evidence trail), NOT a hypothesis like the fixture this one replaces
+  (tests/fixtures/record_menu_preceding_context_sample.html — deleted
+  this round after being directly disproven by the real page).
+
+  Confirmed verbatim shapes reproduced here:
+    - Top-level family navigation buttons, own_attrs, each carrying
+      data-menu1="All" data-menu2="<Family>" together (e.g. "티샷"/
+      "어프로치"/"그린 주변"/"퍼팅" buttons) — CONFIRMED, 6 real
+      occurrences of data-menu1="All" in the real page.
+    - `<div id="Sg" style="display: none">` wrapping Sg's own menu2-
+      level sub-tabs, each carrying ONLY data-menu2 (no own
+      data-menu1) — e.g. `<button data-menu2="Total">SG : 전체</button>`
+      — CONFIRMED verbatim.
+    - The Approach family's menu2-level sub-tab row: flat sibling
+      buttons each carrying own data-menu2 + data-menu3 but NO own
+      data-menu1 — e.g.
+      `<button data-menu2="Approach02" data-menu3="020201">그린 적중
+      시 남은 거리</button>` — CONFIRMED verbatim (all of
+      Approach01-Approach05 pasted directly from the real page).
+    - `<div id="Approach02" style="display: none">` and
+      `<div id="Tee01" style="display: none">` — subgroup-level detail
+      containers wrapping menu3-only buttons (no own data-menu1, no
+      own data-menu2 at all) — e.g.
+      `<button data-menu3="010102">280야드 이상(RTP)</button>` inside
+      `<div id="Tee01">` — CONFIRMED verbatim, including the exact real
+      failure case: this occurrence of data-menu3="010102" is the one
+      the OLD `preceding_context` resolver wrongly resolved as
+      `All::Putt08::010102` by independently borrowing menu1 from the
+      unrelated top-nav "All"/"Putt" button and menu2 from an unrelated
+      "Putt08" tab — neither of which is any ancestor of this button.
+
+  NOT independently, directly observed in the pasted evidence (used
+  here only by direct structural analogy with the CONFIRMED `id="Sg"`
+  family-container shape, since the fix is safe-by-construction even
+  if this analogy is incomplete for a given family — see
+  `_find_ancestor_ids`'s docstring in menu_taxonomy.py):
+    - `<div id="Tee" style="display: none">` and
+      `<div id="Approach" style="display: none">` as bare family-level
+      containers wrapping their family's own subgroup tab row AND
+      subgroup detail divs.
+
+  Simplification versus the real page (flagged, not hidden): the real
+  page's Approach02 detail div reuses "020201" as its own first item's
+  code (a genuine duplicate-DOM-entry-with-different-label shape,
+  confirmed by the real "2 occurrences" count) — this fixture instead
+  uses distinct codes (020203/020204) for Approach02's detail items to
+  keep this specific regression fixture focused on the container-id
+  resolution mechanism, not on duplicate/collision handling (which has
+  its own existing, unrelated test coverage).
+-->
+<html>
+<body>
+
+<button class="nav-link" data-menu1="All" data-menu2="Sg">전체기록보기</button>
+<button class="nav-link" data-menu1="All" data-menu2="Tee">티샷</button>
+<button class="nav-link" data-menu1="All" data-menu2="Approach">어프로치</button>
+<button class="nav-link" data-menu1="All" data-menu2="Around">그린 주변</button>
+<button class="nav-link" data-menu1="All" data-menu2="Putt">퍼팅</button>
+
+<div id="Sg" style="display: none">
+  <div class="nav-scroll">
+    <button class="nav-link" data-menu2="Total">SG : 전체</button>
+    <button class="nav-link" data-menu2="TeeToGreen">SG : 티샷 to 그린</button>
+  </div>
+</div>
+
+<div id="Tee" style="display: none">
+  <div class="nav-scroll">
+    <button class="nav-link" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</button>
+  </div>
+  <div id="Tee01" style="display: none">
+    <div class="nav-scroll">
+      <button class="nav-link" data-menu3="010101">평균 티샷 거리</button>
+      <button class="nav-link" data-menu3="010102">280야드 이상(RTP)</button>
+    </div>
+  </div>
+</div>
+
+<div id="Approach" style="display: none">
+  <div class="nav-scroll">
+    <button class="nav-link" data-menu2="Approach01" data-menu3="020101">그린 적중률</button>
+    <button class="nav-link" data-menu2="Approach02" data-menu3="020201">그린 적중 시 남은 거리</button>
+    <button class="nav-link" data-menu2="Approach03" data-menu3="020301">그린 적중률(페어웨이)</button>
+    <button class="nav-link" data-menu2="Approach04" data-menu3="020401">그린 적중 시 평균 남은 거리(페어웨이)</button>
+    <button class="nav-link" data-menu2="Approach05" data-menu3="020501">그린 적중률(러프)</button>
+  </div>
+  <div id="Approach02" style="display: none">
+    <div class="nav-scroll">
+      <button class="nav-link" data-menu3="020203">180~200야드 미만</button>
+      <button class="nav-link" data-menu3="020204">160~180야드 미만</button>
+    </div>
+  </div>
+</div>
+
+<div id="Around" style="display: none">
+  <div class="nav-scroll">
+    <button class="nav-link" data-menu2="Around01" data-menu3="030101">그린 주변 샷 성공률</button>
+  </div>
+</div>
+
+<div id="Putt" style="display: none">
+  <div class="nav-scroll">
+    <button class="nav-link" data-menu2="Putt01" data-menu3="040101">1퍼트 성공률</button>
+    <button class="nav-link" data-menu2="Putt08" data-menu3="080101">기타 퍼팅 지표</button>
+  </div>
+</div>
+
+</body>
+</html>
