@@ -318,6 +318,27 @@ def select_representative_sample_from_canonical_plan(
     return sample
 
 
+def select_full_canonical_plan(plan: list[dict]) -> list[SampledLeaf]:
+    """Phase B2 (Round 9 follow-up) — returns EVERY entry of the
+    canonical request plan as a `SampledLeaf`, with NO sampling and NO
+    `per_family_cap`: unlike `select_representative_sample_from_
+    canonical_plan` (a deliberately small, round-robin-capped
+    REPRESENTATIVE sample for Phase B1), this is the full-sweep source
+    of truth for `scripts/29_execute_phase_b2_full_sweep.py`. The
+    canonical plan is already malformed-free and navigation-free by
+    construction (see `canonical_plan.py`), so no rejection pass runs
+    here either.
+
+    Sorted by (menu1, menu2, menu3 or "") for deterministic order —
+    the same ordering `select_representative_sample` already uses
+    elsewhere in this module — so re-running against the same
+    canonical plan always produces the same request sequence, which
+    the B2 checkpoint's resume logic and this function's own tests
+    both depend on."""
+    leaves = [_leaf_from_dict(_canonical_entry_to_leaf_dict(entry)) for entry in plan]
+    return sorted(leaves, key=lambda leaf: (leaf.menu1, leaf.menu2, leaf.menu3 or ""))
+
+
 def find_duplicate_identities(sample: list[SampledLeaf]) -> list[tuple]:
     """Sample-level data-quality check: if the sampler itself ever
     selected the same canonical identity twice, that's a bug in the

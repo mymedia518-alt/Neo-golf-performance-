@@ -2826,6 +2826,133 @@ the user already ran and pasted). No change to Prediction #001,
 the archive, or the public website. Phase B2 not started, and remains
 unauthorized.
 
+## Round 10 — B2_GATE = GO; Phase B2 full-sweep tooling built (NOT executed)
+
+### A. B2_GATE decision
+
+A targeted live rerun against exactly `Sg::Approach`/`Sg::Around`
+(post Round 9-E fix) confirmed: `player_row_count=232`,
+`missing_player_code=0`, `missing_player_name=0`,
+`duplicate_player_rows=0`, `blank_values=0`,
+`data_quality_any_flagged=false` for both, plus
+`HTTP_SUCCESS=2/2, HTTP_FAILURE=0, PARSE_SUCCESS=2/2, PARSE_EMPTY=0,
+PARSE_AMBIGUOUS_OR_FAILED=0`, and cross-metric playerCode identity
+consistency CONFIRMED. Combined with the earlier bounded 20-request
+B1 run (`HTTP_SUCCESS=20/20, PARSE_AMBIGUOUS_OR_FAILED=0`, its 2
+`PARSE_EMPTY` cases independently confirmed legitimate — real
+zero-row `Sg::All` duplicate canonical entries, no matching branch,
+correctly not fabricated), every evidence-backed blocker raised
+across Rounds 7–9 is closed. **B2_GATE = GO.**
+
+### B. Phase B2 tooling — built this round, NOT executed
+
+No script in this repo could previously run a full, uncapped sweep:
+`scripts/27_klpga_response_schema_sample.py` is deliberately
+sample-only — `select_representative_sample`'s `per_family_cap`
+(default 4) caps how many leaves are picked *per family* regardless
+of `--sample-size`/`--max-requests`, by design (a REPRESENTATIVE
+sample tool, not a full-sweep tool). This round adds
+`scripts/29_execute_phase_b2_full_sweep.py`, the dedicated Phase B2
+runner, still requiring separate, explicit authorization to actually
+fire (this round authorizes the GATE and the tooling build, NOT a
+live execution).
+
+**Reuse, not duplication**: `fetch_and_analyze` (plus its
+`_request_form`/`_sanitize_identity_key_for_filename` helpers) was
+extracted verbatim from scripts/27 into a new shared module,
+`klpga.discovery.record_fetch` — scripts/27 now imports and thinly
+wraps the same functions (its own `_log`, which also updates
+`_LAST_MARKER` for its Ctrl+C diagnostics, is passed in as the `log`
+parameter) so Phase B1 and B2 can never diverge in how a single
+metric is fetched, parsed, and logged. Script 27's own 35 tests were
+re-run unchanged after this extraction and all still pass — the
+refactor is behavior-preserving. `klpga.discovery.sampler` gained one
+new function, `select_full_canonical_plan`, returning EVERY canonical
+entry (not a sample) in deterministic `(menu1, menu2, menu3)` order,
+with no `per_family_cap` and no rejection pass (the canonical plan is
+already malformed-free/navigation-free by construction).
+
+**Explicit checkpoint, independent of the HTTP cache**: new module
+`klpga.discovery.b2_checkpoint` — a JSON file keyed by `identity_key`,
+each entry recording `request_params`, `season`, `http_result`,
+`parse_status`, `schema_fingerprint`, `player_row_count`,
+`completion_status` (`SUCCESS` | `HTTP_FAILURE`), `timestamp`, and
+(for `SUCCESS` entries) the full `sample_record`/`log_entry` payloads
+so the human-facing output artifacts can be fully regenerated from
+the checkpoint alone across multiple runs. Writes are ATOMIC
+(temp file in the same directory + `os.replace`, which is atomic on
+both POSIX and Windows) — a crash mid-write leaves the previous
+checkpoint completely intact, never partially overwritten.
+`PoliteHttpClient`'s own disk cache (`data/raw_cache/http/`, the SAME
+directory Phase B1 already uses) remains a second, lower-level safety
+net underneath this checkpoint, not a replacement for it.
+
+**Safety behavior, matching the requested design exactly**:
+- Request count is read from the canonical plan file at run time
+  (`len(canonical_requestable_metrics)`), never hardcoded.
+- `--season` required, never guessed; mandatory `--dry-run` prints
+  the full plan and count with zero HTTP requests and zero files
+  written; `--max-requests` caps live requests for a single
+  invocation without changing the full count.
+- Rate limiting is `PoliteHttpClient`'s existing, unmodified 1.5s
+  minimum interval + jitter and 4-attempt retry/backoff.
+- A 401/403/429 (`RateLimitBlockedError`) halts the ENTIRE sweep
+  immediately — never retried, never bypassed — identical to Phase
+  B1's existing behavior.
+- A new consecutive-HTTP-failure circuit breaker (default 5) halts
+  the sweep as an additional safety net a 20-request B1 sample never
+  needed; it resets to 0 on the next successful request (in-memory
+  only — a fresh process invocation starts it back at 0 regardless of
+  checkpoint state, since a restart is itself already a strong enough
+  signal to re-attempt).
+- An individual metric's malformed/unexpected parse result
+  (AMBIGUOUS/FAILED) does NOT halt the sweep — recorded and the run
+  continues, exactly like Phase B1.
+- Every output path lives under `--out-dir` (default
+  `docs/discovery/phase_b2/`), never Phase B1's `docs/discovery/`
+  directory directly — a B2 run structurally cannot overwrite a B1
+  artifact.
+
+Deliberately narrower than Phase B1's full report set: no schema-
+report/raw-field-inventory/player-identity markdown output this
+round — not required for the B2_GATE scope, and can be added later
+against the accumulated checkpoint without any further live requests.
+
+### C. Tests
+
+`tests/test_sampler_canonical_plan.py` — 3 new tests for
+`select_full_canonical_plan` (returns every entry despite exceeding
+the B1 `per_family_cap`, deterministic order regardless of input
+order, no navigation-rejection pass). `tests/test_b2_checkpoint.py`
+(new, 7 tests) — round-trip, missing-file returns empty, atomic write
+leaves no leftover temp file, a simulated mid-write crash leaves the
+PREVIOUS checkpoint byte-for-byte intact, a genuinely corrupt file
+raises rather than silently discarding progress.
+`tests/test_execute_phase_b2_full_sweep_script.py` (new, 11 tests) —
+dry-run makes zero requests, the full sweep is not subject to the B1
+family cap, deterministic request ordering, `--max-requests`, already-
+`SUCCESS` identities skipped on resume (a `NeverCalledClient` proves
+zero requests), an `HTTP_FAILURE` identity remains visible and is the
+ONLY one retried on resume, a 401/403/429 halts immediately with no
+further attempts, 5 consecutive HTTP failures trip the circuit
+breaker (stopping at exactly 5, not all 8 leaves), a scripted
+fail/fail/success/fail/fail sequence proves the counter resets on
+success (all 5 leaves attempted, breaker never trips — a non-resetting
+implementation would have tripped early), a real B1 artifact file is
+byte-for-byte unchanged (and its mtime unchanged) after a B2 run
+against a sibling `phase_b2/` directory, and the output samples JSON
+reflects the FULL cumulative checkpoint across two separate runs, not
+just the latest one.
+
+**623/623 tests passing** (602 before this round). No live requests
+made — this round is tooling only. No change to Prediction #001,
+`predictions/`, model/inference/probability logic, the production DB,
+the archive, or the public website. **Phase B2 has NOT been
+executed** — only its dry-run has been exercised in this sandbox
+(against a synthetic canonical plan); a real invocation against the
+live site remains a separate, explicit authorization the user has not
+yet given.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
