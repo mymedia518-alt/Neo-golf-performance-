@@ -1,11 +1,17 @@
 """Tests for klpga.discovery.identity_key_audit — Round 10 continued
-(the "canonical metric identity vs HTTP request identity" audit).
-Fully offline; no network access. Synthetic taxonomy/raw-response
-fixtures, since no real KLPGA_RECORD_TAXONOMY_DISCOVERED.json or
-raw_samples/ directory exists in this repo."""
+(the "canonical metric identity vs HTTP request identity" audit), plus
+Round 11 continued's `CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED` addition.
+Mostly offline against synthetic taxonomy/raw-response fixtures; a few
+tests near the end additionally pin against the REAL evidence
+transferred into `docs/discovery/raw_samples/` this round (the first
+real KLPGA raw responses this repo has ever had) for the strongest
+possible regression pin."""
 from __future__ import annotations
 
+from pathlib import Path
+
 from klpga.discovery.identity_key_audit import (
+    CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED,
     CATEGORY_CONTAINER_CHILD,
     CATEGORY_EMPTY_SHARED_RESPONSE,
     CATEGORY_EXACT_DUPLICATE,
@@ -13,9 +19,13 @@ from klpga.discovery.identity_key_audit import (
     CATEGORY_MULTI_METRIC_CONFIRMED,
     CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW,
     CATEGORY_UNRESOLVED,
+    _extract_menu_name,
+    _resolve_via_compound_menu_title,
     audit_identity_key_collisions,
     derive_request_identity_key,
 )
+
+REAL_RAW_SAMPLES_DIR = Path(__file__).resolve().parents[1] / "docs" / "discovery" / "raw_samples"
 
 
 def _leaf(menu1, menu2, menu3, leaf_level, label):
@@ -343,3 +353,188 @@ def test_whitespace_normalization_does_not_merge_different_meaning_words(tmp_pat
     audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
     assert len(audits) == 1
     assert audits[0].unmatched_labels == ["Par4,5 티샷 비율"]
+
+
+# ---------------------------------------------------------------
+# CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED (Round 11 continued) —
+# discovered from the first real, bulk raw-evidence set this project
+# has ever had: `var menuName = "...";` in a real response is, for 13
+# of the 15 previously-unresolved groups, EXACTLY two of that group's
+# own taxonomy labels joined by " - ". See the category's own
+# docstring in identity_key_audit.py for the full real-evidence log.
+# ---------------------------------------------------------------
+
+
+def test_extract_menu_name_finds_the_top_level_var():
+    html = '<script>var menuName = "그린 적중 시 남은 거리 - 평균 남은 거리";</script>'
+    assert _extract_menu_name(html) == "그린 적중 시 남은 거리 - 평균 남은 거리"
+
+
+def test_extract_menu_name_returns_none_when_absent():
+    assert _extract_menu_name("<html><body>no menu name here</body></html>") is None
+
+
+def test_resolve_via_compound_menu_title_pairs_unmatched_with_matched_label():
+    still_unmatched, confirmed, pairs = _resolve_via_compound_menu_title(
+        unmatched=["그린 적중 시 남은 거리"],
+        all_labels=["그린 적중 시 남은 거리", "평균 남은 거리"],
+        menu_name="그린 적중 시 남은 거리 - 평균 남은 거리",
+    )
+    assert still_unmatched == []
+    assert confirmed == ["그린 적중 시 남은 거리"]
+    assert pairs == [("그린 적중 시 남은 거리", "평균 남은 거리")]
+
+
+def test_resolve_via_compound_menu_title_pairs_two_mutually_unmatched_labels():
+    """The real Around::Around05::030401 shape: BOTH labels are
+    unmatched against any response column, but menuName is exactly
+    those two labels joined by " - " — they resolve against EACH
+    OTHER, not against some third, already-matched label."""
+    still_unmatched, confirmed, pairs = _resolve_via_compound_menu_title(
+        unmatched=["그린 주변 샷 후 남은 거리", "60야드 미만"],
+        all_labels=["그린 주변 샷 후 남은 거리", "60야드 미만"],
+        menu_name="그린 주변 샷 후 남은 거리 - 60야드 미만",
+    )
+    assert still_unmatched == []
+    assert set(confirmed) == {"그린 주변 샷 후 남은 거리", "60야드 미만"}
+    assert set(pairs) == {("그린 주변 샷 후 남은 거리", "60야드 미만"), ("60야드 미만", "그린 주변 샷 후 남은 거리")}
+
+
+def test_resolve_via_compound_menu_title_leaves_unrelated_label_unmatched():
+    """The real Around::Around01::030101 shape: menuName exists but
+    does NOT contain the unmatched label at all — must not force a
+    match that isn't there."""
+    still_unmatched, confirmed, pairs = _resolve_via_compound_menu_title(
+        unmatched=["그린주변"],
+        all_labels=["그린주변", "샌드 세이브율"],
+        menu_name="샌드 세이브율 - 샌드 세이브율",
+    )
+    assert still_unmatched == ["그린주변"]
+    assert confirmed == []
+    assert pairs == []
+
+
+def test_resolve_via_compound_menu_title_no_menu_name_leaves_unchanged():
+    still_unmatched, confirmed, pairs = _resolve_via_compound_menu_title(
+        unmatched=["아무 라벨"], all_labels=["아무 라벨", "다른 라벨"], menu_name=None
+    )
+    assert still_unmatched == ["아무 라벨"]
+    assert confirmed == []
+    assert pairs == []
+
+
+def _table_response_html_with_menu_name(column_labels: list[str], menu_name: str) -> str:
+    ths = "".join(f"<th>{label}</th>" for label in column_labels)
+    record_attrs = " ".join(
+        f'data-record{"" if i == 0 else i}="{i + 1}"' for i in range(len(column_labels) - 2)
+    )
+    tds = "".join(f"<td>{i}</td>" for i in range(len(column_labels)))
+    return f"""
+    <script>var menuName = "{menu_name}";</script>
+    <table>
+      <thead><tr>{ths}</tr></thead>
+      <tbody><tr data-rank="1" data-name="테스트" {record_attrs}>{tds}</tr></tbody>
+    </table>
+    """
+
+
+def test_compound_menu_title_confirmed_classification_synthetic(tmp_path):
+    taxonomy = {
+        "leaves": [
+            _leaf("Approach", "Approach02", "020201", "menu3", "그린 적중 시 남은 거리"),
+            _leaf("Approach", "Approach02", "020201", "menu3", "평균 남은 거리"),
+        ]
+    }
+    html = _table_response_html_with_menu_name(
+        ["순위", "선수명", "평균 남은 거리(yds)", "전체 남은 거리(yds)"],
+        "그린 적중 시 남은 거리 - 평균 남은 거리",
+    )
+    (tmp_path / "Approach__Approach02__020201__2025.html").write_text(html, encoding="utf-8")
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED
+    assert a.unmatched_labels == []
+    assert a.compound_title_confirmed_labels == ["그린 적중 시 남은 거리"]
+    assert a.compound_title_pairs == [("그린 적중 시 남은 거리", "평균 남은 거리")]
+
+
+def test_real_approach02_evidence_resolves_via_compound_menu_title():
+    """Pinned to the REAL Approach::Approach02::020201 raw response —
+    the exact case that surfaced this category: previously
+    PARTIAL_MATCH_NEEDS_REVIEW (only "평균 남은 거리" matched a response
+    column), now resolved because the response's own real menuName is
+    literally "그린 적중 시 남은 거리 - 평균 남은 거리"."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Approach", "Approach02", "020201", "menu3", "그린 적중 시 남은 거리"),
+            _leaf("Approach", "Approach02", "020201", "menu3", "평균 남은 거리"),
+        ]
+    }
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=REAL_RAW_SAMPLES_DIR, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED
+    assert a.compound_title_confirmed_labels == ["그린 적중 시 남은 거리"]
+
+
+def test_real_around05_evidence_both_labels_resolve_via_compound_menu_title():
+    """Pinned to the REAL Around::Around05::030401 raw response — the
+    one group that was D_UNRESOLVED_REQUEST_IDENTITY_COLLISION (NEITHER
+    label matched any response column) before this round; now resolved
+    since both labels together form the real menuName."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Around", "Around05", "030401", "menu3", "그린 주변 샷 후 남은 거리"),
+            _leaf("Around", "Around05", "030401", "menu3", "60야드 미만"),
+        ]
+    }
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=REAL_RAW_SAMPLES_DIR, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED
+    assert set(a.compound_title_confirmed_labels) == {"그린 주변 샷 후 남은 거리", "60야드 미만"}
+
+
+def test_real_around01_evidence_remains_genuinely_unresolved():
+    """Negative pin: proves this round's fix does NOT force every
+    remaining group to resolve. Around::Around01::030101's real
+    menuName is "샌드 세이브율 - 샌드 세이브율" — it never mentions the
+    unmatched label "그린주변" at all, so this must stay
+    PARTIAL_MATCH_NEEDS_REVIEW, exactly as the real audit output shows."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Around", "Around01", "030101", "menu3", "그린주변"),
+            _leaf("Around", "Around01", "030101", "menu3", "샌드 세이브율"),
+        ]
+    }
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=REAL_RAW_SAMPLES_DIR, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW
+    assert a.unmatched_labels == ["그린주변"]
+    assert a.compound_title_confirmed_labels == []
+
+
+def test_compound_title_priority_over_container_child_when_a_compound_title_label_present():
+    """The real Tee::Tee01::010101 shape: 3 labels — "평균 티샷 거리"
+    matches a response column, "티샷" is a container-candidate, and
+    "Par4,5 티샷 비율" resolves via the compound-menuName mechanism
+    (paired with "평균 티샷 거리"). The overall group category reflects
+    the compound-title resolution."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee01", "010101", "menu3", "Par4,5 티샷 비율"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "티샷"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리"),
+        ]
+    }
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=REAL_RAW_SAMPLES_DIR, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED
+    assert a.matched_labels == ["평균 티샷 거리"]
+    assert a.container_candidate_labels == ["티샷"]
+    assert a.compound_title_confirmed_labels == ["Par4,5 티샷 비율"]
+    assert a.unmatched_labels == []

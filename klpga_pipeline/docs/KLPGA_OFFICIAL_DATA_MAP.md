@@ -3761,6 +3761,113 @@ Prediction #001, `predictions/`, model/inference/probability logic,
 the production DB, the archive, the public website, request rate, or
 any parser/classification/safety logic.
 
+## Round 11 continued — collision resolution with the FIRST real bulk evidence this project has had
+
+The user's bounded missing-evidence acquisition (13 identities) ran
+successfully on their Windows machine: 13/13 HTTP success, 13/13 raw
+samples saved, 13/13 parsed, 0 validation flags, 0 skip queue, no hard
+stop. They then force-added `docs/discovery/KLPGA_RECORD_TAXONOMY_
+DISCOVERED.json` and `docs/discovery/raw_samples/` (normally
+`.gitignore`d) and pushed — the first time this sandbox has ever had
+real KLPGA evidence on disk. Real audit result on pull: 30 colliding
+identity_key groups, 15 unresolved (14 `PARTIAL_MATCH_NEEDS_REVIEW` +
+1 `D_UNRESOLVED_REQUEST_IDENTITY_COLLISION`), exactly matching the
+user's reported BEFORE=21/AFTER=15 (21 included groups the whitespace
+fix and other earlier rounds had already been chipping away at).
+
+**Root-cause finding, from directly reading the real raw HTML (not
+inferred)**: every saved response carries `var menuName = "...";`.
+For 14 of the 15 unresolved groups, that string is EXACTLY two of the
+group's own taxonomy labels joined by `" - "` — e.g.
+`Approach::Approach02::020201`'s real menuName is literally `"그린 적중
+시 남은 거리 - 평균 남은 거리"`, its two colliding taxonomy labels
+verbatim. This explains, for the first time, why the string-matcher
+could never resolve the "context" half (e.g. "그린 적중 시", "어프로치
+후", "샌드 세이브 시", "스크램블링 시", "Par4,5 티샷 비율") against any
+response COLUMN — it was never meant to; it qualifies the ONE column
+the other half already matched, rather than naming a second one. Also
+explains `Around::Around05::030401`, the one `D_UNRESOLVED` group:
+BOTH its labels are unmatched against response columns, but menuName
+is exactly THOSE two labels joined by `" - "` — they resolve against
+each other.
+
+**New `identity_key_audit.CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED`**
+(`"E_COMPOUND_MENU_TITLE_SPLIT_CONFIRMED"`) — a real-evidence-backed
+category, deliberately named "CONFIRMED" only for the STRING
+relationship (a literal, directly-read concatenation), NOT a claim
+that the two labels are numerically identical (no value-level
+cross-check was performed). New `_extract_menu_name`/`_resolve_via_
+compound_menu_title` helpers; `GroupAudit` gained `compound_title_
+confirmed_labels`/`compound_title_pairs` fields. Applied AFTER the
+existing matched/container-candidate/unmatched computation, only to
+labels still unmatched at that point — never touches an already-
+matched or already-container-classified label. `scripts/31`'s
+`_CATEGORY_PRINT_ORDER` updated to include it.
+
+**Result**: 14 of 15 previously-unresolved groups now classify
+`E_COMPOUND_MENU_TITLE_SPLIT_CONFIRMED`. Exactly one,
+`Around::Around01::030101`, remains genuinely unresolved — its
+"그린주변" label (`label_resolution_method=own_attrs`) has no textual
+relationship to any response column AND is absent from this
+response's own menuName (`"샌드 세이브율 - 샌드 세이브율"`, which
+repeats only the OTHER label), and appears exactly once across the
+entire Around family (not a repeated family-level tab label the way
+`Tee`'s already-confirmed container label "티샷" is). Logged to
+`docs/discovery/local_collector/SKIP_QUEUE.json` (stage=
+`collision_classification`) with the exact reason, evidence path, and
+a recommended action (a live DevTools DOM capture of that specific
+menu item — not a guess).
+
+**Canonical plan rebuilt** (`scripts/28`, real taxonomy): 281 canonical
+requestable metrics, 248 unique request identities, 30 duplicate
+identity_key groups (unchanged counts — the canonical-plan dedup layer
+itself was never touched; only the AUDIT layer's explanation of the
+collisions changed). Of those 30: 9 `C_MULTI_METRIC_ONE_REQUEST_
+CONFIRMED`, 14 `E_COMPOUND_MENU_TITLE_SPLIT_CONFIRMED`, 4 `A_EXACT_
+DUPLICATE_DOM_REPRESENTATION`, 1 `B_CONTAINER_CHILD`, 1 `EMPTY_SHARED_
+RESPONSE`, 1 `PARTIAL_MATCH_NEEDS_REVIEW` (Around01). **All 30 groups
+collapse to exactly ONE physical HTTP request each regardless of
+classification** — Around01's open question is about what its SECOND
+canonical label means, not about how many requests are needed. **248
+is therefore the real, request-count-clean canonical B2 request
+total, read directly from the rebuilt plan's own `unique_identity_key_
+count` — never hardcoded.**
+
+**New finding relevant to future column-mapping work**: for the 14
+compound-title groups, the SAME generic "measured value" half (e.g.
+"평균 남은 거리") recurs across multiple different `menu3` codes
+(`Approach02`/`Approach08`/`Approach10`/`Around02`/`Around04`, etc.),
+each in a different context — it is NOT a single reusable stat name
+across the taxonomy. Any future identity_key → named-column mapping
+must key off the full compound title or the `menu3` code for these,
+never the generic half alone. See `docs/HISTORICAL_METRICS_
+COLLECTION_DESIGN.md` §3 (updated this round) for the full
+implication.
+
+**Tests**: 11 new in `tests/test_identity_key_audit.py` (regex
+extraction, the pairing helper for both the "pair with an already-
+matched label" and "pair with an equally-unmatched label" shapes, a
+synthetic integration test, and — pinned directly against the REAL,
+now-committed `docs/discovery/raw_samples/` files — positive pins for
+`Approach::Approach02::020201` and `Around::Around05::030401`, a
+NEGATIVE pin proving `Around::Around01::030101` correctly stays
+unresolved, and a mixed-signal pin for `Tee::Tee01::010101`
+demonstrating compound-title resolution alongside an existing
+container-candidate label in the same group), plus 1 new integration
+test in `tests/test_audit_identity_key_collisions_script.py` running
+the real script against the real, committed taxonomy/evidence end to
+end. All 16 + 8 pre-existing tests in those two files continue to pass
+unmodified. **716/716 tests passing** (704 before this round).
+
+**Note on repository state**: `docs/discovery/raw_samples/` and the
+taxonomy JSON are now committed to this branch (force-added by the
+user, overriding the normal `.gitignore`) — a deliberate one-time
+evidence transfer, not reverted. No change to Prediction #001,
+`predictions/`, model/inference/probability logic, the production DB,
+the archive, the public website, request rate, or any parser/
+acquisition/safety logic — only the identity-key collision AUDIT's
+classification logic gained a new, real-evidence-backed category.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

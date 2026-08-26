@@ -93,6 +93,37 @@ CATEGORY_INSUFFICIENT_EVIDENCE = "UNRESOLVED_INSUFFICIENT_EVIDENCE"
 classified without either finding cached evidence elsewhere or a new,
 separately-authorized request. Never guessed."""
 
+CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED = "E_COMPOUND_MENU_TITLE_SPLIT_CONFIRMED"
+"""Round 11 continued — discovered from the FIRST real, bulk raw-
+evidence set this project has ever had (13 identities acquired via the
+bounded missing-evidence acquisition, transferred from the user's
+Windows machine). Every response this project has ever saved embeds a
+`var menuName = "...";` JS assignment — a single, human-readable page
+title. For 13 of the 15 groups unresolved before this round, that
+title is EXACTLY `"<label A> - <label B>"` for two of the group's own
+taxonomy labels (e.g. `Approach::Approach02::020201`'s menuName is
+literally `"그린 적중 시 남은 거리 - 평균 남은 거리"` — the group's own
+two labels, joined by " - "). This is real, directly-read evidence
+(a literal string comparison, not an inference): the site itself
+treats these two labels as ONE combined title for what the response
+shows as a single measured-value column set, not two independent
+metrics — one half is the specific CONTEXT/scope qualifier (e.g. "at
+time of GIR", "after a sand save", "under 60 yards"), the other half
+names the MEASURED VALUE itself (e.g. "average remaining distance").
+This explains, for the first time, why the string-matcher could never
+resolve the context half against any response COLUMN: it was never
+meant to — it qualifies the ONE column the other label already
+matched, rather than naming a second one.
+
+Deliberately named "CONFIRMED" for the STRING relationship only (the
+menuName concatenation is a directly observed fact), and deliberately
+NOT a claim that the two labels are numerically/semantically identical
+values — that would require a live value-level cross-check this
+project has never performed. A caller that needs "are these the exact
+same number" must still do that check separately; this category only
+answers "does real evidence explain why these labels collide," which
+it does."""
+
 _MIN_SUBSTRING_MATCH_LENGTH = 3
 """Minimum character length (of the SHORTER of the two compared
 strings) for a substring relationship to count as a confirmed
@@ -102,6 +133,58 @@ chars) is a genuine, specific metric-name fragment and should count;
 "티샷"/"퍼팅" (2 chars each) are generic family names that substring-
 match every column in their own group and should NOT count as tied to
 one specific column."""
+
+_MENU_NAME_RE = re.compile(r'var\s+menuName\s*=\s*"([^"]*)"\s*;')
+"""Matches the plain, top-level `var menuName = "...";` assignment
+every confirmed `loadLocationRecord` response this project has saved
+carries (see `CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED`'s docstring for
+the real evidence). Deliberately a fresh, standalone regex here rather
+than reusing `response_parser.py`'s `_MENU_SWITCH_MENUNAME_RE` — that
+one is only ever applied inside an already-located `if(menu=="X"){...}`
+branch block for the Sg family's distinct templating pattern; this one
+searches the raw response directly, with no such restriction."""
+
+
+def _extract_menu_name(html: str) -> Optional[str]:
+    match = _MENU_NAME_RE.search(html)
+    return match.group(1) if match else None
+
+
+def _resolve_via_compound_menu_title(
+    unmatched: list[str], all_labels: list[str], menu_name: Optional[str]
+) -> tuple[list[str], list[str], list[tuple[str, str]]]:
+    """For each still-unmatched label, checks whether `menu_name`
+    (verbatim, no normalization — the real evidence matched byte-for-
+    byte) equals `"<other_label> - <this_label>"` or `"<this_label> -
+    <other_label>"` for some OTHER label in the SAME group (matched,
+    container-candidate, or another unmatched one — checked against
+    `all_labels`, not just already-resolved ones, so two mutually
+    unmatched labels can resolve against EACH OTHER — see
+    `Around::Around05::030401`'s real evidence, where menuName is
+    exactly the group's own two otherwise-unmatched labels joined by
+    " - "). Returns (still_unmatched, compound_title_confirmed,
+    pairs) — never mutates its inputs."""
+    if not menu_name:
+        return list(unmatched), [], []
+
+    still_unmatched: list[str] = []
+    confirmed: list[str] = []
+    pairs: list[tuple[str, str]] = []
+    for label in unmatched:
+        resolved_with = None
+        for other in all_labels:
+            if other == label:
+                continue
+            if menu_name in (f"{other} - {label}", f"{label} - {other}"):
+                resolved_with = other
+                break
+        if resolved_with is not None:
+            confirmed.append(label)
+            pairs.append((label, resolved_with))
+        else:
+            still_unmatched.append(label)
+    return still_unmatched, confirmed, pairs
+
 
 _TRAILING_PARENTHETICAL = re.compile(r"\s*\([^)]*\)\s*$")
 """Strips a trailing "(...)" annotation — e.g. "(yds)", "(%)" — that
@@ -203,6 +286,16 @@ class GroupAudit:
     resolved against and how — never just "matched: True"."""
     container_candidate_labels: list[str] = field(default_factory=list)
     unmatched_labels: list[str] = field(default_factory=list)
+    compound_title_confirmed_labels: list[str] = field(default_factory=list)
+    """Labels resolved via `CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED`'s
+    menuName-concatenation evidence rather than a response-column
+    match — see that category's docstring. Empty whenever this
+    mechanism found nothing, including for every group with no saved
+    `menuName` at all."""
+    compound_title_pairs: list[tuple[str, str]] = field(default_factory=list)
+    """One `(label, paired_with_label)` tuple per entry in
+    `compound_title_confirmed_labels`, naming which OTHER group label
+    it was found concatenated with in the real `menuName` string."""
     response_column_labels: list[str] = field(default_factory=list)
     raw_sample_path: Optional[str] = None
     notes: str = ""
@@ -295,8 +388,19 @@ def audit_identity_key_collisions(
             else:
                 unmatched.append(label)
 
+        menu_name = _extract_menu_name(html)
+        unmatched, compound_title_confirmed, compound_title_pairs = _resolve_via_compound_menu_title(
+            unmatched, labels, menu_name
+        )
+
         if unmatched:
-            category = CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW if (matched or container_candidates) else CATEGORY_UNRESOLVED
+            category = (
+                CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW
+                if (matched or container_candidates or compound_title_confirmed)
+                else CATEGORY_UNRESOLVED
+            )
+        elif compound_title_confirmed:
+            category = CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED
         elif container_candidates:
             category = CATEGORY_CONTAINER_CHILD if matched else CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW
         else:
@@ -307,6 +411,11 @@ def audit_identity_key_collisions(
             note_parts.append(f"{len(unmatched)} of {len(labels)} label(s) had no textual relationship to any response column")
         if container_candidates:
             note_parts.append(f"{len(container_candidates)} label(s) matched as a generic/container candidate: {container_candidates}")
+        if compound_title_confirmed:
+            note_parts.append(
+                f"{len(compound_title_confirmed)} label(s) confirmed via the response's own compound "
+                f"menuName ({compound_title_pairs})"
+            )
 
         audits.append(
             GroupAudit(
@@ -317,6 +426,8 @@ def audit_identity_key_collisions(
                 match_details=match_details,
                 container_candidate_labels=container_candidates,
                 unmatched_labels=unmatched,
+                compound_title_confirmed_labels=compound_title_confirmed,
+                compound_title_pairs=compound_title_pairs,
                 response_column_labels=response_labels,
                 raw_sample_path=str(raw_path),
                 notes="; ".join(note_parts),

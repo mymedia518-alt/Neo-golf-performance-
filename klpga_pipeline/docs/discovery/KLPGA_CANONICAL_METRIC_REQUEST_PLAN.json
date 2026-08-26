@@ -1,0 +1,2829 @@
+{
+  "generated_at": "2026-08-26T20:35:33.276165+00:00",
+  "source_taxonomy": "docs/discovery/KLPGA_RECORD_TAXONOMY_DISCOVERED.json",
+  "note": "Canonical REQUESTABLE metric request plan — navigation/container nodes (e.g. every menu1=\"All\" entry) and exact-duplicate DOM entries are excluded. This is Phase A/B1 discovery output only; it does not authorize firing all listed requests (Phase B2).",
+  "counts": {
+    "total_dom_discovered_nodes": 290,
+    "malformed_leaf_count": 0,
+    "requestable_menu2_leaf_count": 8,
+    "requestable_menu3_leaf_count": 276,
+    "navigation_container_count": 6,
+    "exact_duplicate_count": 3,
+    "canonical_requestable_metric_count": 281,
+    "menu3_collision_count": 29,
+    "unique_identity_key_count": 248,
+    "duplicate_identity_key_group_count": 30
+  },
+  "canonical_requestable_metrics": [
+    {
+      "menu1": "Sg",
+      "menu2": "All",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::All",
+      "label": "Strokes Gained",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::All"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "All",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::All",
+      "label": "전체",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::All"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "Total",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::Total",
+      "label": "SG : 전체",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::Total"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "TeeToGreen",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::TeeToGreen",
+      "label": "SG : 티샷 to 그린",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::TeeToGreen"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "Tee",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::Tee",
+      "label": "SG : 티샷",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::Tee"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "Approach",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::Approach",
+      "label": "SG : 어프로치",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::Approach"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "Around",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::Around",
+      "label": "SG : 그린주변",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::Around"
+    },
+    {
+      "menu1": "Sg",
+      "menu2": "Putt",
+      "menu3": null,
+      "leaf_level": "menu2",
+      "identity_key": "Sg::Putt",
+      "label": "SG : 퍼팅",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Sg::Putt"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010101",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010101",
+      "label": "티샷",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010101"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020101",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020101",
+      "label": "어프로치",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020101"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around01",
+      "menu3": "030101",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around01::030101",
+      "label": "그린주변",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around01::030101"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040101",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040101",
+      "label": "퍼팅",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040101"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010101",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010101",
+      "label": "Par4,5 티샷 비율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010101"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010109",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010109",
+      "label": "Par4,5 페어웨이 안착률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010109"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010201",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010201",
+      "label": "Par5 티샷 비율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010201"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010209",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010209",
+      "label": "Par5 페어웨이 안착률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010209"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010301",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010301",
+      "label": "Par4 티샷 비율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010301"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010309",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010309",
+      "label": "Par4 페어웨이 안착률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010309"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020101",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020101",
+      "label": "그린 적중률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020101"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020201",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020201",
+      "label": "그린 적중 시 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020201"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020301",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020301",
+      "label": "그린 적중률(페어웨이)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020301"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020401",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020401",
+      "label": "그린 적중 시 평균 남은 거리(페어웨이)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020401"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020501",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020501",
+      "label": "그린 적중률(러프)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020501"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020601",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020601",
+      "label": "그린 적중 시 평균 남은 거리(러프)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020601"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020701",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020701",
+      "label": "버디 이하 확률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020701"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020801",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach08::020801",
+      "label": "어프로치 후 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach08::020801"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010401",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010401",
+      "label": "Par3 그린 적중률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010401"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010408",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010408",
+      "label": "Par3 티샷 후 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010408"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020901",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020901",
+      "label": "Par5, 2nd 샷",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020901"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach12",
+      "menu3": "020908",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach12::020908",
+      "label": "Par5, 2nd 샷(거리)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach12::020908"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around01",
+      "menu3": "030101",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around01::030101",
+      "label": "샌드 세이브율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around01::030101"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around02",
+      "menu3": "030201",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around02::030201",
+      "label": "샌드 세이브 시 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around02::030201"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030301",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030301",
+      "label": "스크램블링",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030301"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around04",
+      "menu3": "030306",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around04::030306",
+      "label": "스크램블링 시 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around04::030306"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030401",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030401",
+      "label": "그린 주변 샷 후 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030401"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040101",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040101",
+      "label": "1퍼트 성공률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040101"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt02",
+      "menu3": "040201",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt02::040201",
+      "label": "라운드당 퍼트수",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt02::040201"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt03",
+      "menu3": "040206",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt03::040206",
+      "label": "라운드당 퍼트 성공 수",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt03::040206"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040301",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040301",
+      "label": "퍼팅 평균 성공 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040301"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt05",
+      "menu3": "040404",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt05::040404",
+      "label": "그린 적중 시 퍼팅 평균 성공 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt05::040404"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040501",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040501",
+      "label": "3퍼트율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040501"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040601",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040601",
+      "label": "퍼트 성공률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040601"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040801",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040801",
+      "label": "그린 적중 시 퍼트 성공률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040801"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010101",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010101",
+      "label": "평균 티샷 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010101"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010102",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010102",
+      "label": "280야드 이상(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010102"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010103",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010103",
+      "label": "260~280야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010103"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010104",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010104",
+      "label": "240~260야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010104"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010105",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010105",
+      "label": "220~240야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010105"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010106",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010106",
+      "label": "220~200야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010106"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010107",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010107",
+      "label": "200야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010107"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee01",
+      "menu3": "010108",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee01::010108",
+      "label": "전장 대비 비율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee01::010108"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010109",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010109",
+      "label": "페어웨이 안착률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010109"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010110",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010110",
+      "label": "280야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010110"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010111",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010111",
+      "label": "260~280야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010111"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010112",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010112",
+      "label": "240~260야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010112"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010113",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010113",
+      "label": "220~240야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010113"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010114",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010114",
+      "label": "200~220야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010114"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee02",
+      "menu3": "010115",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee02::010115",
+      "label": "200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee02::010115"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010201",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010201",
+      "label": "평균 티샷 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010201"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010202",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010202",
+      "label": "280야드 이상(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010202"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010203",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010203",
+      "label": "260~280야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010203"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010204",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010204",
+      "label": "240~260야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010204"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010205",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010205",
+      "label": "220~240야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010205"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010206",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010206",
+      "label": "200~220야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010206"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010207",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010207",
+      "label": "200야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010207"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee03",
+      "menu3": "010208",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee03::010208",
+      "label": "전장 대비 비율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee03::010208"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010209",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010209",
+      "label": "페어웨이 안착률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010209"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010210",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010210",
+      "label": "280야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010210"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010211",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010211",
+      "label": "260~280야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010211"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010212",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010212",
+      "label": "240~260야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010212"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010213",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010213",
+      "label": "220~240야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010213"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010214",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010214",
+      "label": "220~200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010214"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee04",
+      "menu3": "010215",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee04::010215",
+      "label": "200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee04::010215"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010301",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010301",
+      "label": "평균 티샷 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010301"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010302",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010302",
+      "label": "280야드 이상(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010302"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010303",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010303",
+      "label": "260~280야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010303"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010304",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010304",
+      "label": "240~260야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010304"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010305",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010305",
+      "label": "220~240야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010305"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010306",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010306",
+      "label": "200~220야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010306"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010307",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010307",
+      "label": "200야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010307"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010308",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee05::010308",
+      "label": "전장 대비 비율",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee05::010308"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010309",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010309",
+      "label": "페어웨이 안착률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010309"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010310",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010310",
+      "label": "280야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010310"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010311",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010311",
+      "label": "260~280야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010311"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010312",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010312",
+      "label": "240~260야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010312"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010313",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010313",
+      "label": "220~240야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010313"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010314",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010314",
+      "label": "200~220야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010314"
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010315",
+      "leaf_level": "menu3",
+      "identity_key": "Tee::Tee06::010315",
+      "label": "200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Tee::Tee06::010315"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020101",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020101",
+      "label": "그린 적중률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020101"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020103",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020103",
+      "label": "180~200야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020103"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020104",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020104",
+      "label": "160~180야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020104"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020105",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020105",
+      "label": "140~160야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020105"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020106",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020106",
+      "label": "120~140야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020106"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020107",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020107",
+      "label": "100~120야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020107"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020108",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020108",
+      "label": "80~100야드 미만 (RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020108"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020109",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020109",
+      "label": "60~80야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020109"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020110",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020110",
+      "label": "60야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020110"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020111",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020111",
+      "label": "100야드 이상(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020111"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020112",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach01::020112",
+      "label": "100야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach01::020112"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020201",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020201",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020201"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020203",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020203",
+      "label": "180~200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020203"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020204",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020204",
+      "label": "160~180야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020204"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020205",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020205",
+      "label": "140~160야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020205"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020206",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020206",
+      "label": "120~140야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020206"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020207",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020207",
+      "label": "100~120야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020207"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020208",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020208",
+      "label": "80~100야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020208"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020209",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020209",
+      "label": "60~80야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020209"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020210",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020210",
+      "label": "60야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020210"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020211",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020211",
+      "label": "100야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020211"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach02",
+      "menu3": "020212",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach02::020212",
+      "label": "100야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach02::020212"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020301",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020301",
+      "label": "그린 적중률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020301"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020303",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020303",
+      "label": "180~200야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020303"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020304",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020304",
+      "label": "160~180야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020304"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020305",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020305",
+      "label": "140~160야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020305"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020306",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020306",
+      "label": "120~140야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020306"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020307",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020307",
+      "label": "100~120야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020307"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020308",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020308",
+      "label": "80~100야 미만 (RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020308"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020309",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020309",
+      "label": "60~80야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020309"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020310",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020310",
+      "label": "60야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020310"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020311",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020311",
+      "label": "100야드 이상(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020311"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020312",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach03::020312",
+      "label": "100야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach03::020312"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020401",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020401",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020401"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020403",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020403",
+      "label": "180~200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020403"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020404",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020404",
+      "label": "160~180야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020404"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020405",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020405",
+      "label": "140~160야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020405"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020406",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020406",
+      "label": "120~140야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020406"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020407",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020407",
+      "label": "100~120야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020407"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020408",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020408",
+      "label": "80~100야 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020408"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020409",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020409",
+      "label": "60~80야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020409"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020410",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020410",
+      "label": "60야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020410"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020411",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020411",
+      "label": "100야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020411"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach04",
+      "menu3": "020412",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach04::020412",
+      "label": "100야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach04::020412"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020501",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020501",
+      "label": "그린적중률(러프)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020501"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020503",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020503",
+      "label": "180~200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020503"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020504",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020504",
+      "label": "160~180야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020504"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020505",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020505",
+      "label": "140~160야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020505"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020506",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020506",
+      "label": "120~140야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020506"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020507",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020507",
+      "label": "100~120야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020507"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020508",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020508",
+      "label": "80~100야 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020508"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020509",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020509",
+      "label": "60~80야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020509"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020510",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020510",
+      "label": "60야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020510"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020511",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020511",
+      "label": "100야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020511"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020512",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach05::020512",
+      "label": "100야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach05::020512"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020601",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020601",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020601"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020603",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020603",
+      "label": "180~200야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020603"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020604",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020604",
+      "label": "160~180야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020604"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020605",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020605",
+      "label": "140~160야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020605"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020606",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020606",
+      "label": "120~140야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020606"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020607",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020607",
+      "label": "100~120야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020607"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020608",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020608",
+      "label": "80~100야 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020608"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020609",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020609",
+      "label": "60~80야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020609"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020610",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020610",
+      "label": "60야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020610"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020611",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020611",
+      "label": "100야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020611"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach06",
+      "menu3": "020612",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach06::020612",
+      "label": "100야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach06::020612"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020701",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020701",
+      "label": "페어웨이(상황별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020701"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020702",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020702",
+      "label": "러프(상황별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020702"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020703",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020703",
+      "label": "페어웨이 벙커(상황별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020703"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020715",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020715",
+      "label": "그린 적중 시(상황별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020715"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020705",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020705",
+      "label": "180~200야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020705"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020706",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020706",
+      "label": "160~180야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020706"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020707",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020707",
+      "label": "140~160야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020707"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020708",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020708",
+      "label": "120~140야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020708"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020709",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020709",
+      "label": "100~120야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020709"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020710",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020710",
+      "label": "80~100야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020710"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020711",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020711",
+      "label": "60~80야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020711"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020712",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020712",
+      "label": "60야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020712"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020713",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020713",
+      "label": "100야드 이상(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020713"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020714",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach07::020714",
+      "label": "100야드 미만(거리별)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach07::020714"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020801",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach08::020801",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach08::020801"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020802",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach08::020802",
+      "label": "버디 이하",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach08::020802"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020803",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach08::020803",
+      "label": "파",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach08::020803"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020804",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach08::020804",
+      "label": "보기 이하",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach08::020804"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010401",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010401",
+      "label": "그린 적중률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010401"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010402",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010402",
+      "label": "180야드 이상(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010402"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010403",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010403",
+      "label": "170~180야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010403"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010404",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010404",
+      "label": "160~170야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010404"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010405",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010405",
+      "label": "150~160야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010405"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010406",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010406",
+      "label": "140~150야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010406"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach09",
+      "menu3": "010407",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach09::010407",
+      "label": "140야드 미만(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach09::010407"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010408",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010408",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010408"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010409",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010409",
+      "label": "180야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010409"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010410",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010410",
+      "label": "170~180야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010410"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010411",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010411",
+      "label": "160~170야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010411"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010412",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010412",
+      "label": "150~160야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010412"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010413",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010413",
+      "label": "140~150야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010413"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach10",
+      "menu3": "010414",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach10::010414",
+      "label": "140야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach10::010414"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020901",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020901",
+      "label": "페어웨이 안착률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020901"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020902",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020902",
+      "label": "러프 착지율(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020902"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020903",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020903",
+      "label": "그린 주변 벙커 착지율(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020903"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020904",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020904",
+      "label": "프린지 안착률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020904"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020905",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020905",
+      "label": "그린 적중률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020905"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020906",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020906",
+      "label": "30야드 이내 안착률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020906"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach11",
+      "menu3": "020907",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach11::020907",
+      "label": "50야드 이내 안착률(RTP)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach11::020907"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach12",
+      "menu3": "020908",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach12::020908",
+      "label": "평균 비거리(그린 공략)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach12::020908"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach12",
+      "menu3": "020909",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach12::020909",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach12::020909"
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach12",
+      "menu3": "020910",
+      "leaf_level": "menu3",
+      "identity_key": "Approach::Approach12::020910",
+      "label": "평균 남은 거리(그린 적중 시)",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Approach::Approach12::020910"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around01",
+      "menu3": "030102",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around01::030102",
+      "label": "30야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around01::030102"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around01",
+      "menu3": "030103",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around01::030103",
+      "label": "20~30야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around01::030103"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around01",
+      "menu3": "030104",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around01::030104",
+      "label": "10~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around01::030104"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around01",
+      "menu3": "030105",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around01::030105",
+      "label": "10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around01::030105"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around02",
+      "menu3": "030201",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around02::030201",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around02::030201"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around02",
+      "menu3": "030202",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around02::030202",
+      "label": "30야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around02::030202"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around02",
+      "menu3": "030203",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around02::030203",
+      "label": "20~30야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around02::030203"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around02",
+      "menu3": "030204",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around02::030204",
+      "label": "10~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around02::030204"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around02",
+      "menu3": "030205",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around02::030205",
+      "label": "10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around02::030205"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030311",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030311",
+      "label": "그린 주변 벙커",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030311"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030312",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030312",
+      "label": "러프",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030312"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030313",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030313",
+      "label": "프린지",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030313"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030302",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030302",
+      "label": "30야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030302"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030303",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030303",
+      "label": "20~30야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030303"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030304",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030304",
+      "label": "10~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030304"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around03",
+      "menu3": "030305",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around03::030305",
+      "label": "10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around03::030305"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around04",
+      "menu3": "030306",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around04::030306",
+      "label": "평균 남은 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around04::030306"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around04",
+      "menu3": "030307",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around04::030307",
+      "label": "30야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around04::030307"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around04",
+      "menu3": "030308",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around04::030308",
+      "label": "20~30야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around04::030308"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around04",
+      "menu3": "030309",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around04::030309",
+      "label": "10~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around04::030309"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around04",
+      "menu3": "030310",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around04::030310",
+      "label": "10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around04::030310"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030401",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030401",
+      "label": "60야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030401"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030402",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030402",
+      "label": "50~60야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030402"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030403",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030403",
+      "label": "40~50야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030403"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030404",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030404",
+      "label": "30~40야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030404"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030405",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030405",
+      "label": "20~30야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030405"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030406",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030406",
+      "label": "10~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030406"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030407",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030407",
+      "label": "10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030407"
+    },
+    {
+      "menu1": "Around",
+      "menu2": "Around05",
+      "menu3": "030408",
+      "leaf_level": "menu3",
+      "identity_key": "Around::Around05::030408",
+      "label": "그린 주변 벙커",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Around::Around05::030408"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040101",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040101",
+      "label": "1퍼트성공률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040101"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040102",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040102",
+      "label": "1야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040102"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040103",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040103",
+      "label": "1~2야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040103"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040104",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040104",
+      "label": "2~3야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040104"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040105",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040105",
+      "label": "3~5야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040105"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040106",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040106",
+      "label": "5~7야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040106"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040107",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040107",
+      "label": "7~10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040107"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040108",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040108",
+      "label": "10~15야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040108"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt01",
+      "menu3": "040109",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt01::040109",
+      "label": "15야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt01::040109"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt02",
+      "menu3": "040201",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt02::040201",
+      "label": "평균 퍼트수",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt02::040201"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt02",
+      "menu3": "040202",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt02::040202",
+      "label": "1라운드",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt02::040202"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt02",
+      "menu3": "040203",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt02::040203",
+      "label": "2라운드",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt02::040203"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt02",
+      "menu3": "040204",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt02::040204",
+      "label": "3라운드",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt02::040204"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt02",
+      "menu3": "040205",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt02::040205",
+      "label": "FINAL라운드",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt02::040205"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt03",
+      "menu3": "040206",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt03::040206",
+      "label": "1퍼트",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt03::040206"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt03",
+      "menu3": "040207",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt03::040207",
+      "label": "2퍼트",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt03::040207"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt03",
+      "menu3": "040208",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt03::040208",
+      "label": "3퍼트 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt03::040208"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040301",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040301",
+      "label": "평균 성공 거리",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040301"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040302",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040302",
+      "label": "이글 이하",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040302"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040303",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040303",
+      "label": "버디",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040303"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040304",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040304",
+      "label": "1퍼트",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040304"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040305",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040305",
+      "label": "2퍼트",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040305"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt04",
+      "menu3": "040306",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt04::040306",
+      "label": "3퍼트 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt04::040306"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt05",
+      "menu3": "040404",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt05::040404",
+      "label": "1퍼트",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt05::040404"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt05",
+      "menu3": "040405",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt05::040405",
+      "label": "2퍼트",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt05::040405"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt05",
+      "menu3": "040406",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt05::040406",
+      "label": "3퍼트 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt05::040406"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040502",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040502",
+      "label": "5야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040502"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040503",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040503",
+      "label": "5~10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040503"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040504",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040504",
+      "label": "10~15야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040504"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040505",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040505",
+      "label": "15~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040505"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040506",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040506",
+      "label": "20야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040506"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt06",
+      "menu3": "040507",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt06::040507",
+      "label": "라운드당",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt06::040507"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040601",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040601",
+      "label": "평균 성공률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040601"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040602",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040602",
+      "label": "1야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040602"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040603",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040603",
+      "label": "1~2야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040603"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040604",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040604",
+      "label": "2~3야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040604"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040605",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040605",
+      "label": "3~4야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040605"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040606",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040606",
+      "label": "4~5야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040606"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040607",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040607",
+      "label": "5~7야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040607"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040608",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040608",
+      "label": "7~10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040608"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040609",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040609",
+      "label": "10~15야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040609"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040610",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040610",
+      "label": "15~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040610"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040709",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040709",
+      "label": "20야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040709"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt07",
+      "menu3": "040710",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt07::040710",
+      "label": "평균 퍼트 수",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt07::040710"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040801",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040801",
+      "label": "평균 성공률",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040801"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040802",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040802",
+      "label": "1야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040802"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040803",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040803",
+      "label": "1~2야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040803"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040804",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040804",
+      "label": "2~3야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040804"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040805",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040805",
+      "label": "3~4야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040805"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040806",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040806",
+      "label": "4~5야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040806"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040807",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040807",
+      "label": "5~7야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040807"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040808",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040808",
+      "label": "7~10야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040808"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040809",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040809",
+      "label": "10~15야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040809"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040810",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040810",
+      "label": "15~20야드 미만",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040810"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040811",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040811",
+      "label": "20야드 이상",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040811"
+    },
+    {
+      "menu1": "Putt",
+      "menu2": "Putt08",
+      "menu3": "040812",
+      "leaf_level": "menu3",
+      "identity_key": "Putt::Putt08::040812",
+      "label": "그린 적중 시 평균 퍼트 수",
+      "node_type": "REQUESTABLE_METRIC_LEAF",
+      "evidence_source": "Putt::Putt08::040812"
+    }
+  ]
+}

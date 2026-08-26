@@ -98,10 +98,28 @@ snapshots point-in-time correctness requires per season (see §4).
   Nothing in this repo currently maps e.g. `Sg::Putting` (or whatever
   the real, evidence-confirmed identity_key turns out to be — this
   must come from the real canonical plan, never guessed) to `sg_
-  putting`. This mapping can only be built once the canonical plan is
-  clean (zero unresolved identity-key collisions) — mapping a
-  colliding, ambiguous identity_key to a named column would encode a
-  guess into the schema layer, which must never happen.
+  putting`. As of Round 11 continued (collision-audit resolution — see
+  `docs/KLPGA_OFFICIAL_DATA_MAP.md`), 248/248 unique request identities
+  are request-count-clean, so this mapping CAN now be started for
+  247 of them; one (`Around::Around01::030101`) has one still-
+  unexplained canonical label and stays unmapped in the SKIP_QUEUE
+  until resolved with real evidence.
+
+  **New finding from that round, relevant here**: for 14 of the
+  30 colliding identity_key groups, the response's own real `menuName`
+  is exactly `"<context label> - <measured-value label>"` — e.g.
+  `Approach::Approach02::020201`'s two canonical labels ("그린 적중 시
+  남은 거리" / "평균 남은 거리") are the two halves of ONE compound page
+  title for ONE displayed column. This means the generic half
+  ("평균 남은 거리", "평균 티샷 거리", etc.) is NOT a stable, reusable
+  column name across the whole taxonomy — the SAME generic phrase
+  recurs across `Approach02`/`Approach08`/`Approach10`/`Around02`/
+  `Around04` etc., each in a DIFFERENT context, each a DIFFERENT real
+  statistic. The identity_key → column mapping must key off the FULL
+  compound title (or the `menu3` code) for these groups, never the
+  generic half alone — using the generic half alone would silently
+  collapse several genuinely distinct per-context stats onto one
+  column.
 - **A season-level acquisition script**, structurally parallel to
   `scripts/29_execute_phase_b2_full_sweep.py`/`run_klpga_collector.py`
   but iterating over `(season, canonical_metric)` pairs instead of
@@ -183,23 +201,23 @@ guessed ahead of it.
 
 ## 7. Next executable step, in order
 
-1. Get the real, current `docs/discovery/KLPGA_RECORD_TAXONOMY_
-   DISCOVERED.json` and `docs/discovery/raw_samples/*.html` (all 13
-   newly-acquired files plus whatever already existed) into an
-   environment that can run `identity_key_audit.py` against them —
-   this round's actual blocker, see the main report.
-2. Classify the 15 remaining collision groups for real, with that
-   evidence.
-3. Rebuild the canonical plan; confirm `duplicate_identity_key_group_
-   count == 0` (or document exactly which groups remain and why).
-4. Only then: design the exact identity_key → `player_stats_snapshot`
-   column mapping (or the additive schema columns for anything with no
-   existing match) — grounded in the real, final canonical plan, never
-   before it.
-5. Only then: build and offline-test the season-level acquisition
-   script this document outlines in §5 — mirroring `run_klpga_
-   collector.py`'s already-proven checkpoint/skip-queue/heartbeat/
-   report pattern.
+1. ✅ DONE (Round 11 continued) — real `docs/discovery/KLPGA_RECORD_
+   TAXONOMY_DISCOVERED.json` and `docs/discovery/raw_samples/*.html`
+   transferred into this environment.
+2. ✅ DONE — 14 of 15 previously-unresolved collision groups classified
+   with real evidence (`CATEGORY_COMPOUND_MENU_TITLE_CONFIRMED`); one
+   (`Around::Around01::030101`) remains genuinely unresolved, logged in
+   `docs/discovery/local_collector/SKIP_QUEUE.json`.
+3. ✅ DONE — canonical plan rebuilt: 281 canonical metric entries, 248
+   unique request identities, all 248 request-count-clean (see
+   `docs/KLPGA_OFFICIAL_DATA_MAP.md` for the full numbers).
+4. NEXT — design the exact identity_key → `player_stats_snapshot`
+   column mapping (or additive schema columns for anything with no
+   existing match), applying the compound-title finding from §3 above
+   — grounded in the real, final canonical plan.
+5. Then: build and offline-test the season-level acquisition script
+   this document outlines in §5 — mirroring `run_klpga_collector.py`'s
+   already-proven checkpoint/skip-queue/heartbeat/report pattern.
 6. Verify PIT safety (§3) with real evidence before ever attaching a
    collected value to a past event as a model feature.
 7. Only after all of the above, and explicit authorization: execute
