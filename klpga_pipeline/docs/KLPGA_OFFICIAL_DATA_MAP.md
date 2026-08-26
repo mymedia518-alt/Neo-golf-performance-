@@ -3409,6 +3409,63 @@ made. No change to Prediction #001, `predictions/`, model/inference/
 probability logic, the production DB, the archive, or the public
 website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
 
+## Round 10 (continued) — bounded missing-evidence-only request plan (dry run only)
+
+The real audit, rerun after the whitespace fix, moved
+`Putt::Putt02::040201` from `D_UNRESOLVED` to `PARTIAL_MATCH_NEEDS_
+REVIEW` (confirming the fix), leaving 21 unresolved groups total.
+Per instruction, the matcher itself was not broadened further this
+round.
+
+New `scripts/32_bounded_missing_evidence_request_plan.py` — a
+DRY-RUN-ONLY script (`--dry-run` is required; omitting it prints an
+explanation and exits non-zero rather than doing anything) that
+builds a request plan covering ONLY the `identity_key` groups the
+audit classifies as `UNRESOLVED_INSUFFICIENT_EVIDENCE` right now —
+derived fresh from `audit_identity_key_collisions` every run, never
+hardcoded or assumed. Every `PARTIAL_MATCH_NEEDS_REVIEW`/`D_
+UNRESOLVED`/already-resolved group is excluded by construction — the
+script never even inspects their evidence.
+
+New `build_missing_evidence_request_plan(taxonomy, season, raw_
+samples_dir)`: for each missing-evidence `identity_key`, reuses
+`sampler._canonical_entry_to_leaf_dict`/`_leaf_from_dict` (the same
+adapters `select_full_canonical_plan` already uses) to build a
+`SampledLeaf`, then `record_fetch.request_form` to derive the EXACT
+POST body (`menu1`/`menu2`/`menu3`/`season`) — nothing reimplemented.
+`record_fetch.sanitize_identity_key_for_filename` derives the
+expected raw-sample path using the identical naming convention
+scripts/27/29 already save to, and a live `Path.exists()` check
+reports whether a sample now exists at that path (expected to always
+read `False` for a genuinely missing-evidence identity, since the
+audit's own classification uses the same live check moments earlier
+in the same run — printed as an explicit WARNING if it ever reads
+`True`, since that would signal a real inconsistency worth
+investigating rather than silently trusting the plan).
+
+The live-fire step — actually firing these requests, reusing
+`PoliteHttpClient`, its disk cache, `fetch_and_analyze`, and the
+existing 401/403/429 hard-stop / circuit-breaker behavior already
+proven in `scripts/29` — is architected for but deliberately NOT
+implemented in this script this round, per explicit instruction
+("First implement DRY RUN ONLY"). `--dry-run` omitted refuses to run
+at all rather than falling through to any live path.
+
+**Tests**: 10 new in `tests/test_bounded_missing_evidence_request_
+plan_script.py` — `--dry-run` is required, zero-HTTP-requests
+confirmation, the plan includes only the genuinely-missing identity
+and excludes the resolved/partial ones from the same taxonomy, every
+plan-row field matches the canonical request parameters exactly, the
+printed request count and identity match the plan, the count scales
+with real data (not hardcoded) when a second missing identity is
+added, missing-taxonomy-file handling, and a full CLI round-trip both
+with and without `--dry-run`.
+
+**664/664 tests passing** (654 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
