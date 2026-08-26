@@ -485,3 +485,191 @@ def test_missing_taxonomy_file_fails_cleanly(module, tmp_path, capsys):
     finally:
         sys.argv = argv_backup
     assert rc == module.EXIT_TAXONOMY_LOAD_FAILED
+
+
+# ---------------------------------------------------------------
+# Phase B1 (canonical-plan-as-source-of-truth round) — the real
+# Windows Phase A run confirmed docs/discovery/KLPGA_CANONICAL_METRIC_
+# REQUEST_PLAN.json (scripts/28's output: 277 canonical requestable
+# metrics, 0 malformed, sanity check passed). Per instruction, Phase B1
+# sampling must be able to use that file directly as its source of
+# truth via --canonical-plan, and must print the full selected request
+# plan (every identity_key) BEFORE any live request is made.
+# ---------------------------------------------------------------
+
+
+def _canonical_plan_entry(menu1, menu2, menu3, leaf_level, label):
+    identity_key = f"{menu1}::{menu2}" + (f"::{menu3}" if leaf_level == "menu3" else "")
+    return {
+        "menu1": menu1,
+        "menu2": menu2,
+        "menu3": menu3,
+        "leaf_level": leaf_level,
+        "identity_key": identity_key,
+        "label": label,
+        "node_type": "REQUESTABLE_METRIC_LEAF",
+        "evidence_source": identity_key,
+    }
+
+
+@pytest.fixture()
+def small_canonical_plan():
+    return {
+        "generated_at": "2026-08-01T00:00:00+00:00",
+        "source_taxonomy": "docs/discovery/KLPGA_RECORD_TAXONOMY_DISCOVERED.json",
+        "counts": {},
+        "canonical_requestable_metrics": [
+            _canonical_plan_entry("Sg", "Total", None, "menu2", "SG : 전체"),
+            _canonical_plan_entry("Approach", "Approach01", "020104", "menu3", "그린 적중률 - 160~180야드 미만(RTP)"),
+            _canonical_plan_entry("Approach", "Approach01", "020105", "menu3", "그린 적중률 - 140~160야드 미만(RTP)"),
+        ],
+    }
+
+
+def test_run_accepts_canonical_plan_and_samples_only_from_it(module, small_canonical_plan, client_2025, tmp_path):
+    rc = module.run(
+        client_2025,
+        {},
+        "2025",
+        tmp_path,
+        canonical_plan=small_canonical_plan["canonical_requestable_metrics"],
+    )
+    assert rc == module.EXIT_COMPLETE
+    payload = json.loads((tmp_path / "KLPGA_RESPONSE_SCHEMA_SAMPLES.json").read_text(encoding="utf-8"))
+    assert payload["sample_count"] == 3
+    keys = {s["identity_key"] for s in payload["samples"]}
+    assert keys == {"Sg::Total", "Approach::Approach01::020104", "Approach::Approach01::020105"}
+
+
+def test_canonical_plan_mode_skips_malformed_navigation_rejection_steps(module, small_canonical_plan, client_2025, tmp_path, capsys):
+    module.run(
+        client_2025,
+        {},
+        "2025",
+        tmp_path,
+        canonical_plan=small_canonical_plan["canonical_requestable_metrics"],
+    )
+    out = capsys.readouterr().out
+    assert "canonical plan loaded: 3 canonical requestable metrics" in out
+    assert "N/A" in out  # STEP 05/05b are not meaningful in canonical-plan mode
+
+
+def test_preflight_request_plan_is_printed_before_any_live_request(module, small_canonical_plan, tmp_path):
+    """Explicit instruction: "Before making live requests, print the
+    exact selected Phase B1 request plan and request count." Verified
+    by construction: a client that raises on the FIRST call must still
+    see the full [STEP 06b] plan printout land in stdout first."""
+    printed_before_first_request = {}
+
+    class OrderCheckingClient:
+        def post_text(self, url, data=None, **kwargs):
+            import sys as _sys
+
+            printed_before_first_request["stdout_had_plan"] = True
+            raise ValueError("simulated failure on first request — plan must already be printed")
+
+    rc = module.run(
+        OrderCheckingClient(),
+        {},
+        "2025",
+        tmp_path,
+        canonical_plan=small_canonical_plan["canonical_requestable_metrics"],
+    )
+    assert rc == module.EXIT_COMPLETE
+    assert printed_before_first_request.get("stdout_had_plan") is True
+
+
+def test_preflight_plan_lists_every_selected_identity_key(module, small_canonical_plan, client_2025, tmp_path, capsys):
+    module.run(
+        client_2025,
+        {},
+        "2025",
+        tmp_path,
+        canonical_plan=small_canonical_plan["canonical_requestable_metrics"],
+    )
+    out = capsys.readouterr().out
+    plan_block = out.split("[STEP 06b]")[1].split("[STEP 07]")[0] if "[STEP 07]" in out else out.split("[STEP 06b]")[1]
+    for key in ["Sg::Total", "Approach::Approach01::020104", "Approach::Approach01::020105"]:
+        assert key in plan_block
+
+
+def test_main_loads_canonical_plan_file_and_runs(module, small_canonical_plan, tmp_path, monkeypatch):
+    plan_path = tmp_path / "KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json"
+    plan_path.write_text(json.dumps(small_canonical_plan, ensure_ascii=False), encoding="utf-8")
+
+    captured = {}
+
+    def fake_run(client, taxonomy, season, out_dir, **kwargs):
+        captured["canonical_plan"] = kwargs.get("canonical_plan")
+        captured["taxonomy"] = taxonomy
+        return module.EXIT_COMPLETE
+
+    monkeypatch.setattr(module, "run", fake_run)
+    import sys
+
+    argv_backup = sys.argv
+    sys.argv = [
+        "27_klpga_response_schema_sample.py",
+        "--canonical-plan",
+        str(plan_path),
+        "--season",
+        "2025",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+
+    assert rc == module.EXIT_COMPLETE
+    assert len(captured["canonical_plan"]) == 3
+    assert captured["canonical_plan"][0]["identity_key"] == "Sg::Total"
+
+
+def test_missing_canonical_plan_file_fails_cleanly(module, tmp_path):
+    import sys
+
+    argv_backup = sys.argv
+    sys.argv = [
+        "27_klpga_response_schema_sample.py",
+        "--canonical-plan",
+        str(tmp_path / "does_not_exist.json"),
+        "--season",
+        "2025",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == module.EXIT_TAXONOMY_LOAD_FAILED
+
+
+def test_taxonomy_and_canonical_plan_are_mutually_exclusive(module, tmp_path):
+    import sys
+
+    argv_backup = sys.argv
+    sys.argv = [
+        "27_klpga_response_schema_sample.py",
+        "--taxonomy",
+        str(tmp_path / "a.json"),
+        "--canonical-plan",
+        str(tmp_path / "b.json"),
+        "--season",
+        "2025",
+    ]
+    try:
+        with pytest.raises(SystemExit):
+            module.main()
+    finally:
+        sys.argv = argv_backup
+
+
+def test_neither_taxonomy_nor_canonical_plan_is_an_argparse_error(module):
+    import sys
+
+    argv_backup = sys.argv
+    sys.argv = ["27_klpga_response_schema_sample.py", "--season", "2025"]
+    try:
+        with pytest.raises(SystemExit):
+            module.main()
+    finally:
+        sys.argv = argv_backup

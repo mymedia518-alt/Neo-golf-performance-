@@ -225,6 +225,99 @@ def select_representative_sample(
     return sample
 
 
+def _canonical_entry_to_leaf_dict(entry: dict) -> dict:
+    """Adapts one entry of `canonical_plan.build_canonical_plan`'s
+    `plan` list (`{menu1, menu2, menu3, leaf_level, identity_key,
+    label, node_type, evidence_source}`) into the taxonomy-leaf dict
+    shape `_leaf_from_dict`/`select_representative_sample` already
+    consume. Every field comes directly from the canonical-plan entry
+    — nothing here is inferred or guessed. `label` is placed on
+    whichever of menu2_label/menu3_label matches the entry's own
+    `leaf_level` (the canonical plan only ever populates one of the
+    two, per `canonical_plan._label`), never both."""
+    leaf_level = entry.get("leaf_level")
+    label = entry.get("label")
+    return {
+        "menu1": entry.get("menu1"),
+        "menu1_label": "",
+        "menu2": entry.get("menu2"),
+        "menu2_label": label if leaf_level == "menu2" else "",
+        "menu3": entry.get("menu3"),
+        "menu3_label": label if leaf_level == "menu3" else None,
+        "leaf_level": leaf_level,
+        "source_metric_key": entry.get("evidence_source") or entry.get("identity_key"),
+        "node_type": entry.get("node_type", "REQUESTABLE_METRIC_LEAF"),
+    }
+
+
+def select_representative_sample_from_canonical_plan(
+    plan: list[dict],
+    target_count: int = 20,
+    per_family_cap: int = 4,
+) -> list[SampledLeaf]:
+    """Phase B1 sampling sourced from the canonical request plan
+    (`docs/discovery/KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json`'s
+    `canonical_requestable_metrics` list) rather than a raw Phase A
+    taxonomy JSON. `plan` is already malformed-free and
+    navigation-free by construction (see `canonical_plan.py`'s
+    filtering order), so this reuses `select_representative_sample`'s
+    existing family round-robin strategy via `_canonical_entry_to_leaf_dict`
+    with no separate rejection pass needed.
+
+    On top of that base sample, this deterministically guarantees
+    coverage of BOTH a colliding menu3 identity (a menu3 code shared
+    by more than one canonical entry — see
+    `CanonicalPlanCounts.menu3_collision_count`) and a non-colliding
+    one, per explicit instruction that a Phase B1 sample must include
+    "collision/non-collision identities." If the base round-robin
+    sample already contains one of each, nothing is added. Otherwise
+    exactly one entry is appended per missing category — chosen
+    deterministically (sorted by (menu1, menu2, menu3)), never at
+    random, and never a duplicate of an identity already in the
+    sample. This can push the sample very slightly above
+    `target_count` (by at most 2), which is expected and stays well
+    within the instructed ~12-20 bound for realistic target_count
+    values."""
+    adapted_leaves = [_canonical_entry_to_leaf_dict(entry) for entry in plan]
+    sample = select_representative_sample(
+        {"leaves": adapted_leaves}, target_count=target_count, per_family_cap=per_family_cap
+    )
+
+    menu3_counts: dict[str, int] = {}
+    for entry in plan:
+        if entry.get("leaf_level") == "menu3" and entry.get("menu3"):
+            menu3_counts[entry["menu3"]] = menu3_counts.get(entry["menu3"], 0) + 1
+    colliding_codes = sorted(code for code, count in menu3_counts.items() if count > 1)
+    non_colliding_codes = sorted(code for code, count in menu3_counts.items() if count == 1)
+
+    def _has_coverage(colliding: bool) -> bool:
+        return any(
+            leaf.leaf_level == "menu3" and (menu3_counts.get(leaf.menu3, 0) > 1) == colliding
+            for leaf in sample
+        )
+
+    def _first_entry_for_menu3(code: str) -> Optional[dict]:
+        candidates = sorted(
+            (e for e in plan if e.get("leaf_level") == "menu3" and e.get("menu3") == code),
+            key=lambda e: (e.get("menu1") or "", e.get("menu2") or "", e.get("menu3") or ""),
+        )
+        return candidates[0] if candidates else None
+
+    sample_identities = {leaf.identity for leaf in sample}
+    for codes, want_colliding in ((colliding_codes, True), (non_colliding_codes, False)):
+        if not codes or _has_coverage(want_colliding):
+            continue
+        entry = _first_entry_for_menu3(codes[0])
+        if entry is None:
+            continue
+        leaf = _leaf_from_dict(_canonical_entry_to_leaf_dict(entry))
+        if leaf.identity not in sample_identities:
+            sample.append(leaf)
+            sample_identities.add(leaf.identity)
+
+    return sample
+
+
 def find_duplicate_identities(sample: list[SampledLeaf]) -> list[tuple]:
     """Sample-level data-quality check: if the sampler itself ever
     selected the same canonical identity twice, that's a bug in the

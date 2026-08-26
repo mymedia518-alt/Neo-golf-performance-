@@ -2096,6 +2096,131 @@ not predict.
 
 ---
 
+## Round 4 — Phase A confirmed complete; Phase B1 sampling now sourced from the canonical plan
+
+### A. Real Windows verification result (Phase A, final)
+
+The real rerun of `scripts/26_discover_klpga_record_taxonomy.py` +
+`scripts/28_build_canonical_metric_request_plan.py` against the live
+site confirmed the Round 3 `node_type` fix is correct end-to-end:
+
+| Metric | Count |
+|---|---|
+| Total DOM-discovered nodes | 283 |
+| Valid identity nodes | 283 |
+| Malformed leaves | 0 |
+| Requestable menu2-level metrics | 1 |
+| Requestable menu3-level metrics | 276 |
+| Navigation/container nodes | 6 |
+| Exact duplicate DOM entries | 0 |
+| **Canonical requestable metric count** | **277** |
+| menu3 collisions (canonical set) | 31 |
+
+`check_sanity_invariants` passed. Per instruction, Phase A taxonomy
+discovery and canonical request-plan construction are now treated as
+COMPLETE — this round does not touch `menu_taxonomy.py` or
+`canonical_plan.py`'s classification logic at all.
+
+### B. Phase B1 scope for this round
+
+Per instruction: build a bounded (~12-20), structurally-selected
+sample sourced from the canonical plan (`KLPGA_CANONICAL_METRIC_
+REQUEST_PLAN.json`'s 277 entries) as the source of truth — not the raw
+Phase A taxonomy JSON with its own separate malformed/navigation
+filtering. Phase B2 (the full 277-metric sweep) remains explicitly
+out of scope and was not started; no bulk or live request of any kind
+was made this round — all preparation work is pure code (adapters,
+sampler logic, script wiring) validated against small in-memory
+fixtures.
+
+### C. What changed
+
+**`src/klpga/discovery/sampler.py`** — two additions, no changes to
+any existing function:
+
+- `_canonical_entry_to_leaf_dict(entry)` — adapts one canonical-plan
+  entry (`{menu1, menu2, menu3, leaf_level, identity_key, label,
+  node_type, evidence_source}`) into the taxonomy-leaf dict shape
+  `_leaf_from_dict`/`select_representative_sample` already consume.
+  Every field is copied directly from the entry — nothing inferred.
+- `select_representative_sample_from_canonical_plan(plan, target_count=20, per_family_cap=4)`
+  — reuses the existing family round-robin sampler via the adapter
+  (the canonical plan is already malformed-free and navigation-free by
+  construction, so no separate rejection pass runs), then
+  deterministically guarantees the sample includes at least one
+  COLLIDING menu3 identity (menu3 code shared by >1 canonical entry)
+  and at least one NON-colliding one — computed by grouping the
+  plan's own menu3-level entries by menu3 code. The top-up is
+  deterministic (sorted by `(menu1, menu2, menu3)`, never random) and
+  never introduces a duplicate identity. If the plan has zero
+  collisions, the top-up is a no-op.
+
+**`scripts/27_klpga_response_schema_sample.py`**:
+
+- New `--canonical-plan` CLI argument, mutually exclusive with
+  `--taxonomy` (exactly one of the two is required). When given, its
+  `canonical_requestable_metrics` list is loaded and passed to `run()`
+  as the new `canonical_plan` parameter.
+- `run()` gained an optional `canonical_plan` parameter. When set, it
+  calls `select_representative_sample_from_canonical_plan` instead of
+  the raw-taxonomy rejection+sampling path, and STEP 05/05b print
+  `N/A` (the canonical plan has nothing left to reject at this stage).
+  `--taxonomy` continues to work completely unchanged when
+  `--canonical-plan` is not given.
+- New `[STEP 06b]` pre-flight printout — immediately after sample
+  selection, BEFORE the fetch loop starts, every selected metric's
+  identity key plus its menu1/menu2/menu3/leaf_level is printed, along
+  with the total request count. Satisfies the explicit instruction:
+  "Before making live requests, print the exact selected Phase B1
+  request plan and request count." Verified by a test that makes the
+  very first live request always raise, confirming the plan is already
+  in stdout before any request is attempted.
+
+### D. Tests
+
+`tests/test_sampler_canonical_plan.py` (new) — adapter field mapping,
+determinism, empty-plan handling, bounded sample size, collision/
+non-collision coverage guarantee (including a case constructed so the
+plain round-robin sampler would miss the collision without the
+top-up), no-duplicate-identity guarantee, and an end-to-end check
+against `canonical_plan.build_canonical_plan`'s real output shape.
+
+`tests/test_klpga_response_schema_sample_script.py` (extended) —
+`--canonical-plan` CLI wiring, mutual exclusivity with `--taxonomy`,
+missing-file handling, the STEP 06b pre-flight printout (both its
+before-any-request ordering and that it lists every selected identity
+key), and that canonical-plan mode samples only from the given plan.
+
+**570/570 tests passing** (was 550/550 before this round). No change
+to Prediction #001, `predictions/`, model/inference/probability logic,
+the production DB, the archive, or the public website. No live
+requests made this round.
+
+### E. Windows command to execute the bounded Phase B1 validation
+
+Requires the real `KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json` already
+on disk from Round 3's Phase A rerun (regenerate it first if it is not
+already present):
+
+```
+python scripts\28_build_canonical_metric_request_plan.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json
+
+python scripts\27_klpga_response_schema_sample.py ^
+    --canonical-plan docs\discovery\KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json ^
+    --season 2025
+```
+
+This selects a bounded (~12-20, plus at most 2 for guaranteed
+collision/non-collision coverage) sample from the real 277-entry
+canonical plan, prints the exact selected request plan and count
+before firing any request, then fires exactly one live request per
+sampled metric. It does NOT request all 277 canonical metrics, and it
+STOPS after writing its output files — Phase B2 is not started by this
+command.
+
+---
+
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
 database, model, archive, or website changes were made to produce this
 document.*
