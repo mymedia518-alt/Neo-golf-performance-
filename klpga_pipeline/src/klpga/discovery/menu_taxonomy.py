@@ -152,10 +152,14 @@ class MenuLeaf:
     descendant exists (see `_has_menu3_descendant`)."""
     label_resolution_method: str
     """How the labels were resolved: "own_attrs" (identifiers and
-    label were on the same tag), "ancestor_walk" (menu1/menu2 label
-    came from an ancestor element — menu3-level leaves only), or
-    "unknown" (could not be confidently resolved — left empty rather
-    than guessed)."""
+    label were on the same tag), "ancestor_walk" (menu1/menu2 came
+    from an ancestor element — menu3-level leaves only),
+    "preceding_context" (menu1/menu2 came from the nearest EARLIER
+    element in document order, no ancestor relationship required — a
+    tab/section-header DOM pattern; see
+    `_find_nearest_preceding_attr`'s docstring), or "unknown" (could
+    not be confidently resolved by any of the above — left empty
+    rather than guessed)."""
 
     @property
     def identity(self) -> tuple:
@@ -280,6 +284,41 @@ def _find_ancestor_with_attr(tag: Tag, attr_name: str) -> Optional[Tag]:
     return None
 
 
+def _find_nearest_preceding_attr(
+    all_tags: list[Tag], tag_index: dict[int, int], tag: Tag, attr_name: str
+) -> Optional[Tag]:
+    """Scans BACKWARD through the flattened document (in document
+    order, `all_tags`) from `tag`'s own position for the nearest
+    EARLIER element carrying `attr_name` as its own attribute — no
+    ancestor/descendant relationship required.
+
+    Real evidence (272 malformed leaves in a live Windows run — see
+    docs/KLPGA_OFFICIAL_DATA_MAP.md's follow-up investigation) proved
+    ancestor-walk alone misses the large majority of the real page's
+    menu3-level tags. This models a DOM pattern common to tab/
+    accordion-style navigation (a section header establishes context
+    for the FOLLOWING sibling content, rather than wrapping it as a
+    parent) — one of several concrete structural hypotheses named in
+    that investigation: siblings rather than ancestors, a preceding
+    section header, a separate anchor per identifier, or a wrapper
+    whose own attributes differ from the clickable anchor. All of
+    those are DOM-ORDER relationships, which this single, general
+    "nearest preceding element" search covers without needing to know
+    which specific shape the real page uses for any given tag.
+
+    Deliberately does NOT read menu3 codes, labels, or any golf
+    semantics — this is a purely structural (document-order) search,
+    never an inference from content."""
+    idx = tag_index.get(id(tag))
+    if idx is None:
+        return None
+    for i in range(idx - 1, -1, -1):
+        earlier = all_tags[i]
+        if _attr(earlier, attr_name) is not None:
+            return earlier
+    return None
+
+
 def _has_menu3_descendant(tag: Tag) -> bool:
     """True if ANY descendant carries a data-menu3 attribute at all
     (even blank) — used to tell a real menu2-level leaf apart from a
@@ -307,6 +346,7 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
     """
     soup = BeautifulSoup(html, "lxml")
     all_tags = soup.find_all(True)
+    tag_index = {id(t): i for i, t in enumerate(all_tags)}
 
     menu1_tags = [t for t in all_tags if _attr(t, _MENU1_ATTR) is not None]
 
@@ -348,6 +388,30 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
                     menu3_label=menu3_label,
                     leaf_level=LEAF_LEVEL_MENU3,
                     label_resolution_method="ancestor_walk",
+                )
+            )
+            continue
+
+        # Real evidence (272 malformed leaves in a live run) proved
+        # ancestor-walk alone is insufficient for most of the real
+        # page — try a DOM-ORDER search (nearest preceding element
+        # carrying the attribute, siblings included, no ancestor
+        # relationship required) before giving up. See
+        # _find_nearest_preceding_attr's own docstring for the
+        # structural reasoning; menu3/label content is never consulted.
+        menu1_preceding = _find_nearest_preceding_attr(all_tags, tag_index, tag, _MENU1_ATTR)
+        menu2_preceding = _find_nearest_preceding_attr(all_tags, tag_index, tag, _MENU2_ATTR)
+        if menu1_preceding is not None and menu2_preceding is not None:
+            leaves.append(
+                MenuLeaf(
+                    menu1=_attr(menu1_preceding, _MENU1_ATTR) or "",
+                    menu1_label=menu1_preceding.get_text(strip=True),
+                    menu2=_attr(menu2_preceding, _MENU2_ATTR) or "",
+                    menu2_label=menu2_preceding.get_text(strip=True),
+                    menu3=menu3,
+                    menu3_label=menu3_label,
+                    leaf_level=LEAF_LEVEL_MENU3,
+                    label_resolution_method="preceding_context",
                 )
             )
             continue
