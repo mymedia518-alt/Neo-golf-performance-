@@ -116,6 +116,25 @@ def _category_counts(audits: list) -> dict:
     return counts
 
 
+_CACHE_LIVE_SHORT_LABELS = {"CACHE_HIT": "CACHE", "LIVE_FETCH": "LIVE", "NOT_AVAILABLE": "N/A"}
+
+
+def _progress_line(
+    i: int, total: int, identity_key: str, cache_live: str, http_status: str, parse_status: str, saved_status: str
+) -> str:
+    """One line per identity, in the exact column order this project's
+    local-collector observability requirement specifies: `PROGRESS
+    [completed/expected] | identity_key | CACHE/LIVE | HTTP status |
+    PARSE status | SAVED/SKIPPED`. Pure formatting over values already
+    computed by the caller — never a new lookup, never a behavior
+    change to what gets requested or how."""
+    cache_live_short = _CACHE_LIVE_SHORT_LABELS.get(cache_live, cache_live)
+    return (
+        f"PROGRESS [{i}/{total}] | {identity_key} | {cache_live_short} | {http_status} | "
+        f"{parse_status} | {saved_status}"
+    )
+
+
 def _cache_live_distinction(client, leaf, season: str) -> str:
     """Best-effort, NEVER guessed: "CACHE_HIT" if `PoliteHttpClient`'s
     own disk cache already held this exact request's response before
@@ -188,6 +207,7 @@ def acquire_missing_evidence(
                     ),
                 }
             )
+            log(_progress_line(i, len(rows), identity_key, "NOT_AVAILABLE", "NOT_ATTEMPTED", "N/A", "SKIPPED"))
             continue
 
         entry = by_key.get(identity_key)
@@ -199,6 +219,7 @@ def acquire_missing_evidence(
                     "reason": row.get("warning") or "no matching canonical plan entry found",
                 }
             )
+            log(_progress_line(i, len(rows), identity_key, "NOT_AVAILABLE", "NOT_ATTEMPTED", "N/A", "SKIPPED"))
             continue
 
         if expected_path is not None and expected_path.exists():
@@ -212,6 +233,7 @@ def acquire_missing_evidence(
                     ),
                 }
             )
+            log(_progress_line(i, len(rows), identity_key, "NOT_AVAILABLE", "NOT_ATTEMPTED", "N/A", "SKIPPED"))
             continue
 
         leaf = _leaf_from_dict(_canonical_entry_to_leaf_dict(entry))
@@ -228,9 +250,11 @@ def acquire_missing_evidence(
             skipped.append(
                 {"identity_key": identity_key, "stage": "acquisition", "reason": f"hard safety stop: {exc}"}
             )
+            log(_progress_line(i, len(rows), identity_key, cache_live, "BLOCKED", "N/A", "SKIPPED"))
             continue
         except Exception as exc:  # noqa: BLE001 — a per-item HTTP failure must not abort the whole run.
             log(f"HTTP_FAILURE for {identity_key}: {exc}")
+            log(_progress_line(i, len(rows), identity_key, cache_live, "FAILURE", "N/A", "SKIPPED"))
             items.append(
                 {
                     "identity_key": identity_key,
@@ -283,6 +307,7 @@ def acquire_missing_evidence(
                 "data_quality_any_flagged": dq.any_flagged,
             }
         )
+        log(_progress_line(i, len(rows), identity_key, cache_live, "SUCCESS", parsed.parse_status, "SAVED"))
 
     audits_after = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
     after_counts = _category_counts(audits_after)

@@ -68,13 +68,20 @@ def _write_raw_samples(raw_dir: Path) -> None:
 
 class _FakeClient:
     """Minimal stand-in for `PoliteHttpClient` — same `post_text`
-    surface `record_fetch.fetch_and_analyze` calls. Never opens a
-    socket; every response is a canned string or a raised exception,
-    keyed by the identity_key the POST body (`data`) encodes."""
+    surface `record_fetch.fetch_and_analyze` calls, plus an `on_retry`
+    attribute (like the real client) so `run_local_collection`'s
+    rewiring of it can be exercised. Never opens a socket; every
+    response is a canned string or a raised exception, keyed by the
+    identity_key the POST body (`data`) encodes. `sleep_seconds`, if
+    given, sleeps briefly inside `post_text` — used only to give the
+    background heartbeat something to observe during a test; it never
+    changes what gets requested."""
 
-    def __init__(self, *, html_by_identity=None, raise_by_identity=None):
+    def __init__(self, *, html_by_identity=None, raise_by_identity=None, sleep_seconds=None, on_retry=None):
         self.html_by_identity = html_by_identity or {}
         self.raise_by_identity = raise_by_identity or {}
+        self.sleep_seconds = sleep_seconds
+        self.on_retry = on_retry
         self.calls: list[str] = []
 
     @staticmethod
@@ -83,6 +90,10 @@ class _FakeClient:
         return f"{menu1}::{menu2}::{menu3}" if menu3 else f"{menu1}::{menu2}"
 
     def post_text(self, url, data=None, use_cache=True, headers=None):
+        if self.sleep_seconds:
+            import time as _time
+
+            _time.sleep(self.sleep_seconds)
         key = self._identity_key_from_form(data or {})
         self.calls.append(key)
         if key in self.raise_by_identity:
@@ -361,3 +372,124 @@ def test_report_markdown_contains_required_observability_fields(tmp_path):
         "Runtime",
     ):
         assert required in text, f"missing required report field: {required}"
+
+
+# ---------------------------------------------------------------
+# Live progress reporting: elapsed-time-prefixed log lines, the
+# per-identity PROGRESS line passed through from `acquire_missing_
+# evidence`, a background heartbeat during a slow request, and
+# `on_retry` rewiring — all purely observational, no change to what
+# gets requested, when, or how many times.
+# ---------------------------------------------------------------
+
+
+def test_fmt_elapsed_formats_seconds_minutes_and_hours():
+    assert lc._fmt_elapsed(0) == "00:00"
+    assert lc._fmt_elapsed(5) == "00:05"
+    assert lc._fmt_elapsed(65) == "01:05"
+    assert lc._fmt_elapsed(3661) == "1:01:01"
+
+
+def test_live_run_log_lines_are_elapsed_time_prefixed(tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])})
+    lines = []
+
+    lc.run_local_collection(
+        client, taxonomy, "2025", raw_samples_dir=raw_dir,
+        checkpoint_path=tmp_path / "out" / "CHECKPOINT.json",
+        skip_queue_path=tmp_path / "out" / "SKIP_QUEUE.json",
+        report_path=tmp_path / "out" / "REPORT.md", live=True, log=lines.append,
+    )
+
+    # The acquisition-phase lines (before the final report dump) must
+    # carry the "[+MM:SS] " elapsed prefix — the plain report/markdown
+    # lines afterward are not required to.
+    acquisition_lines = lines[: lines.index("")] if "" in lines else lines
+    assert acquisition_lines, "expected at least one line during live acquisition"
+    assert all(l.startswith("[+") for l in acquisition_lines), acquisition_lines
+
+
+def test_live_run_progress_line_passes_through_with_elapsed_prefix(tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])})
+    lines = []
+
+    lc.run_local_collection(
+        client, taxonomy, "2025", raw_samples_dir=raw_dir,
+        checkpoint_path=tmp_path / "out" / "CHECKPOINT.json",
+        skip_queue_path=tmp_path / "out" / "SKIP_QUEUE.json",
+        report_path=tmp_path / "out" / "REPORT.md", live=True, log=lines.append,
+    )
+
+    progress_lines = [l for l in lines if "PROGRESS [1/1]" in l]
+    assert len(progress_lines) == 1
+    assert progress_lines[0].startswith("[+")
+    assert "Putt::Putt09::040901" in progress_lines[0]
+    assert "SAVED" in progress_lines[0]
+
+
+def test_heartbeat_fires_during_a_slow_request(tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+        sleep_seconds=0.2,
+    )
+    lines = []
+
+    lc.run_local_collection(
+        client, taxonomy, "2025", raw_samples_dir=raw_dir,
+        checkpoint_path=tmp_path / "out" / "CHECKPOINT.json",
+        skip_queue_path=tmp_path / "out" / "SKIP_QUEUE.json",
+        report_path=tmp_path / "out" / "REPORT.md", live=True, log=lines.append,
+        heartbeat_interval_seconds=0.03,
+    )
+
+    heartbeat_lines = [l for l in lines if "HEARTBEAT" in l]
+    assert heartbeat_lines, f"expected at least one heartbeat line during the slow request, got: {lines}"
+
+
+def test_on_retry_is_rewired_to_the_wrapped_elapsed_log(tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    sentinel_calls = []
+    client = _FakeClient(
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+        on_retry=lambda msg: sentinel_calls.append(msg),
+    )
+    lines = []
+
+    lc.run_local_collection(
+        client, taxonomy, "2025", raw_samples_dir=raw_dir,
+        checkpoint_path=tmp_path / "out" / "CHECKPOINT.json",
+        skip_queue_path=tmp_path / "out" / "SKIP_QUEUE.json",
+        report_path=tmp_path / "out" / "REPORT.md", live=True, log=lines.append,
+    )
+
+    # The original sentinel on_retry must have been replaced — calling
+    # it now routes through the wrapped, elapsed-time-stamped log.
+    client.on_retry("simulated retry diagnostic")
+    assert sentinel_calls == []  # the original callback was never invoked by this test
+    assert any("simulated retry diagnostic" in l and l.startswith("[+") for l in lines)
+
+
+def test_dry_run_never_touches_client_attributes(tmp_path):
+    """Preview mode passes `client=None` entirely — nothing to rewire,
+    nothing to touch."""
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    exit_code, _report = lc.run_local_collection(
+        None, taxonomy, "2025", raw_samples_dir=raw_dir,
+        checkpoint_path=tmp_path / "out" / "CHECKPOINT.json",
+        skip_queue_path=tmp_path / "out" / "SKIP_QUEUE.json",
+        report_path=tmp_path / "out" / "REPORT.md", live=False, log=lambda m: None,
+    )
+    assert exit_code == lc.EXIT_COMPLETE
