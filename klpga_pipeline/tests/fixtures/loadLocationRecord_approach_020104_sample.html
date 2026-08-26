@@ -9,6 +9,11 @@
   GIR%/successes/attempts/measured-rounds/RTP for THIS metric only —
   never assumed to generalize to any other metric.
 
+  A second row (배소현) is REAL evidence too, reported independently
+  in Round 3 Phase B for the same identity: 64.94%, 50, 77, 87, 0.04 —
+  arithmetic check 50/77*100=64.94(9...)%, consistent with the first
+  row's own confirmed formula.
+
   This fixture ALSO includes a synthetic embedded metadata <script>
   block (menu/menuName/recordNote/order) — the user's DevTools
   inspection surfaced these key NAMES as real, but did not report the
@@ -16,6 +21,13 @@
   klpga.discovery.response_parser's metadata-detection path has a
   fixture to test against; must be revalidated once a real response is
   captured (see the module's own docstring).
+
+  UPDATED, Round 3 Phase B: the table header text below now uses the
+  MORE PRECISE column labels the user's Phase B evidence directly
+  reported ("그린 적중률(%)", "그린 적중 횟수", "샷 시도 횟수",
+  "측정 라운드", "RTP") — superseding this fixture's earlier
+  abbreviated placeholders ("GIR"/"성공"/"시도"/"측정라운드"), which
+  predated that more exact evidence.
 -->
 <html>
 <body>
@@ -27,10 +39,10 @@ var recordMeta = {"menu": "Approach01", "menuName": "그린 적중률", "recordN
     <tr>
       <th>순위</th>
       <th>선수명</th>
-      <th>GIR</th>
-      <th>성공</th>
-      <th>시도</th>
-      <th>측정라운드</th>
+      <th>그린 적중률(%)</th>
+      <th>그린 적중 횟수</th>
+      <th>샷 시도 횟수</th>
+      <th>측정 라운드</th>
       <th>RTP</th>
     </tr>
   </thead>
@@ -38,6 +50,10 @@ var recordMeta = {"menu": "Approach01", "menuName": "그린 적중률", "recordN
     <tr data-playercode="P_KIMSJ" data-name="김수지" data-rank="1"
         data-record="70.49" data-record1="43" data-record2="61" data-record3="73" data-record4="-0.0465">
       <td>1</td><td>김수지</td><td>70.49%</td><td>43</td><td>61</td><td>73</td><td>-0.0465</td>
+    </tr>
+    <tr data-playercode="P_BAESH" data-name="배소현" data-rank="2"
+        data-record="64.94" data-record1="50" data-record2="77" data-record3="87" data-record4="0.04">
+      <td>2</td><td>배소현</td><td>64.94%</td><td>50</td><td>77</td><td>87</td><td>0.04</td>
     </tr>
   </tbody>
 </table>

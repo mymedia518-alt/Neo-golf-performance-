@@ -1,0 +1,53 @@
+<!--
+  Reconstructed from REAL reported evidence (an earlier manual DevTools
+  capture, see docs/KLPGA_OFFICIAL_DATA_MAP.md's Strokes Gained
+  section) — NOT independently captured by this session. For
+  season=2026, menu1=Sg, menu2=Total (no menu3), 서교림's row reported:
+    SG Total=2.38, SG Tee Shot=0.67, SG Approach=1.00,
+    SG Around the Green=0.17, SG Putting=0.54, measured rounds=61
+  0.67+1.00+0.17+0.54=2.38, the arithmetic check that originally
+  confirmed this evidence.
+
+  This fixture models SG Total's response as SIX named record columns
+  (record..record5) rather than the five-field record..record4 shape
+  seen for Approach/Tee metrics — the real reason response_parser.py's
+  record-field count is now discovered per-response instead of fixed.
+  The exact data-record<N> INDEX ASSIGNMENT below (which of the 6
+  values is record vs record1..5) is NOT independently confirmed by
+  this session — only the six VALUES and their real meanings are
+  confirmed; their attribute-level ordering is a reasonable working
+  guess (SG Total first, then the four components, then rounds) to be
+  verified against the real response in the next live round.
+
+  Player identity here uses the href-based playerCode fallback
+  (`/web/profile/mainRecord?playerCode=...`) instead of a
+  data-playercode attribute, per the user's own reported evidence for
+  that link pattern — exercising the OTHER supported extraction path
+  than the data-attribute fixtures already cover.
+-->
+<html>
+<body>
+<table id="recordTable">
+  <thead>
+    <tr>
+      <th>순위</th>
+      <th>선수명</th>
+      <th>SG Total</th>
+      <th>SG Tee Shot</th>
+      <th>SG Approach</th>
+      <th>SG Around the Green</th>
+      <th>SG Putting</th>
+      <th>측정 라운드</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-rank="1" data-name="서교림"
+        data-record="2.38" data-record1="0.67" data-record2="1.00" data-record3="0.17" data-record4="0.54" data-record5="61">
+      <td>1</td>
+      <td><a href="/web/profile/mainRecord?playerCode=11134">서교림</a></td>
+      <td>2.38</td><td>0.67</td><td>1.00</td><td>0.17</td><td>0.54</td><td>61</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

@@ -27,6 +27,16 @@ re-validated against real response HTML before Phase B ever runs**;
 if the real shape differs, this module's row/column extraction will
 need revising, not just its fixtures.
 
+**Round 3 Phase B correction**: the record-field count is discovered
+per-response (`_discover_record_fields`), not fixed at 5. Real SG
+evidence (season=2026 season, menu1=Sg, menu2=Total: 서교림's SG Total
+2.38 / SG Tee Shot 0.67 / SG Approach 1.00 / SG Around the Green 0.17 /
+SG Putting 0.54 / measured rounds 61 — six named values) proved the
+original fixed `record..record4` (5-field) assumption doesn't hold for
+every metric family. A response with more or fewer `data-record*`
+attributes than 5 is now handled correctly rather than silently
+truncated or padded.
+
 Column-semantics resolution is layered, most-trusted first, and always
 records which layer actually supplied the answer:
   1. `metadata` — an embedded per-response metadata block (matching the
@@ -49,7 +59,10 @@ from typing import Optional
 from bs4 import BeautifulSoup, Tag
 
 _RECORD_ATTRS = ["record", "record1", "record2", "record3", "record4"]
+"""Fallback field list, used only when no data-record* attribute is
+found anywhere in a response at all (see _discover_record_fields)."""
 _METADATA_KEYS = ["menu", "menuName", "recordNote", "order"]
+_RECORD_FIELD_PATTERN = re.compile(r"^data-record(\d*)$")
 
 
 def _attr(tag: Tag, name: str) -> Optional[str]:
@@ -57,6 +70,24 @@ def _attr(tag: Tag, name: str) -> Optional[str]:
         if key.lower() == name.lower():
             return value if isinstance(value, str) else " ".join(value)
     return None
+
+
+def _discover_record_fields(soup: BeautifulSoup) -> list[str]:
+    """Scans every tag's attributes for `data-record`/`data-record<N>`
+    and returns the field names actually present, in numeric order
+    (`record`, `record1`, `record2`, ...) — NOT a fixed count. Falls
+    back to the historical 5-field list only if no such attribute is
+    found anywhere in the response."""
+    found: dict[int, str] = {}
+    for tag in soup.find_all(True):
+        for key in tag.attrs:
+            match = _RECORD_FIELD_PATTERN.match(key.lower())
+            if match:
+                idx = int(match.group(1)) if match.group(1) else 0
+                found[idx] = "record" if idx == 0 else f"record{idx}"
+    if not found:
+        return list(_RECORD_ATTRS)
+    return [found[i] for i in sorted(found)]
 
 
 @dataclass
@@ -89,8 +120,12 @@ class PlayerRecordRow:
     player_name: Optional[str]
     rank: Optional[str]
     values: dict[str, Optional[str]] = field(default_factory=dict)
-    """Keyed by "record"/"record1".../"record4" -> raw string value,
-    exactly as found — no unit conversion, no float parsing here."""
+    """Keyed by "record"/"record1".../"record<N>" -> raw string value
+    (N is discovered per-response, not fixed at 4) — exactly as found,
+    no unit conversion, no float parsing here."""
+    player_code_source: Optional[str] = None
+    """"data_attribute" | "href_query_param" | None (no code found at
+    all) — which extraction method actually supplied player_code."""
 
 
 @dataclass
@@ -154,7 +189,9 @@ def _extract_metadata(soup: BeautifulSoup) -> ResponseMetadata:
     return ResponseMetadata(found=False)
 
 
-def _extract_column_semantics(soup: BeautifulSoup, metadata: ResponseMetadata) -> list[ColumnSemantics]:
+def _extract_column_semantics(
+    soup: BeautifulSoup, metadata: ResponseMetadata, record_fields: list[str]
+) -> list[ColumnSemantics]:
     if metadata.found and metadata.record_note:
         # The recordNote is a single free-text description of the whole
         # metric, not a per-column label — attach it to `record` (the
@@ -175,10 +212,10 @@ def _extract_column_semantics(soup: BeautifulSoup, metadata: ResponseMetadata) -
     # endpoint's confirmed shape, not something observed for
     # loadLocationRecord itself — must be re-verified against a real
     # response before Phase B trusts it.
-    record_header_labels = header_labels[-len(_RECORD_ATTRS):] if header_labels else []
+    record_header_labels = header_labels[-len(record_fields):] if header_labels else []
 
     semantics: list[ColumnSemantics] = []
-    for i, field_name in enumerate(_RECORD_ATTRS):
+    for i, field_name in enumerate(record_fields):
         if record_header_labels and i < len(record_header_labels):
             semantics.append(
                 ColumnSemantics(field_name=field_name, label=record_header_labels[i], source="table_header")
@@ -188,7 +225,20 @@ def _extract_column_semantics(soup: BeautifulSoup, metadata: ResponseMetadata) -
     return semantics
 
 
-def _extract_rows(soup: BeautifulSoup) -> list[PlayerRecordRow]:
+def _extract_player_code_from_href(tag: Tag) -> Optional[str]:
+    """Fallback player-code source: a profile link such as
+    `/web/profile/mainRecord?playerCode=9235`, per the user's directly
+    reported evidence — used only when no `data-playercode`-style
+    attribute is present on the row itself."""
+    for a in tag.find_all("a"):
+        href = _attr(a, "href") or ""
+        match = re.search(r"[?&]playerCode=([^&\"'#\s]+)", href, re.IGNORECASE)
+        if match:
+            return match.group(1)
+    return None
+
+
+def _extract_rows(soup: BeautifulSoup, record_fields: list[str]) -> list[PlayerRecordRow]:
     row_tags = soup.select("tbody tr") or [
         tr for tr in soup.find_all("tr") if _attr(tr, "data-playercode") or _attr(tr, "data-player-code")
     ]
@@ -200,11 +250,18 @@ def _extract_rows(soup: BeautifulSoup) -> list[PlayerRecordRow]:
             or _attr(tr, "data-player-code")
             or _attr(tr, "data-code")
         )
+        player_code_source = "data_attribute" if player_code is not None else None
+        if player_code is None:
+            href_code = _extract_player_code_from_href(tr)
+            if href_code is not None:
+                player_code = href_code
+                player_code_source = "href_query_param"
+
         player_name = _attr(tr, "data-name") or _attr(tr, "data-playername")
         rank = _attr(tr, "data-rank")
 
         values: dict[str, Optional[str]] = {}
-        for field_name in _RECORD_ATTRS:
+        for field_name in record_fields:
             values[field_name] = _attr(tr, f"data-{field_name}")
 
         if player_code is None and player_name is None and not any(values.values()):
@@ -213,7 +270,15 @@ def _extract_rows(soup: BeautifulSoup) -> list[PlayerRecordRow]:
             # rather than emit a garbage row (e.g. a header/footer tr).
             continue
 
-        rows.append(PlayerRecordRow(player_code=player_code, player_name=player_name, rank=rank, values=values))
+        rows.append(
+            PlayerRecordRow(
+                player_code=player_code,
+                player_name=player_name,
+                rank=rank,
+                values=values,
+                player_code_source=player_code_source,
+            )
+        )
 
     return rows
 
@@ -257,9 +322,10 @@ def parse_record_response(html: str) -> ParsedRecordResponse:
             notes=[f"HTML parse error: {exc}"],
         )
 
+    record_fields = _discover_record_fields(soup)
     metadata = _extract_metadata(soup)
-    column_semantics = _extract_column_semantics(soup, metadata)
-    rows = _extract_rows(soup)
+    column_semantics = _extract_column_semantics(soup, metadata, record_fields)
+    rows = _extract_rows(soup, record_fields)
     sample_definition = _build_sample_definition(column_semantics, metadata)
 
     notes: list[str] = []
