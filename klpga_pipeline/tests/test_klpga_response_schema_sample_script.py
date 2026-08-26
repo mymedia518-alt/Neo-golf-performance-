@@ -429,12 +429,14 @@ def test_raw_samples_skipped_when_disabled(module, small_taxonomy, client_2025, 
 
 
 def test_raw_sample_still_saved_for_a_zero_row_empty_response(module, tmp_path):
-    """The real live-run CLASS 2 case (All::* — 0 rows, EMPTY,
-    non-trivial byte count) must still get its raw HTML preserved —
-    evidence preservation must not depend on the response having rows."""
+    """A genuinely zero-row response for a real REQUESTABLE metric
+    (not a navigation container, which is now rejected before sampling
+    entirely — see the CLASS 2 tests below) must still get its raw
+    HTML preserved — evidence preservation must not depend on the
+    response having rows."""
     taxonomy = {
         "source_url": "https://example.test",
-        "leaves": [_leaf("All", "Approach", None, "menu2", "전체")],
+        "leaves": [_leaf("Putt", "Putt02", None, "menu2", "퍼팅 기타")],
     }
 
     class ZeroRowClient:
@@ -442,9 +444,29 @@ def test_raw_sample_still_saved_for_a_zero_row_empty_response(module, tmp_path):
             return "<html><body><table><thead><tr><th>없음</th></tr></thead><tbody></tbody></table></body></html>"
 
     module.run(ZeroRowClient(), taxonomy, "2025", tmp_path)
-    saved = tmp_path / "raw_samples" / "All__Approach__2025.html"
+    saved = tmp_path / "raw_samples" / "Putt__Putt02__2025.html"
     assert saved.exists()
     assert "없음" in saved.read_text(encoding="utf-8")
+
+
+# ---------------------------------------------------------------
+# Phase B1 CLASS 2 — navigation/container nodes (real evidence: a
+# menu1="All" request returned 0 rows and a body containing the full
+# navigation menu tree) must be rejected before sampling and never
+# fetched at all, at the full script-orchestration level.
+# ---------------------------------------------------------------
+
+
+def test_all_navigation_leaves_rejected_and_never_fetched(module, small_taxonomy, client_2025, tmp_path, capsys):
+    small_taxonomy["leaves"].append(_leaf("All", "Sg", None, "menu2", "전체기록보기"))
+    rc = module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    assert rc == module.EXIT_COMPLETE
+    out = capsys.readouterr().out
+    assert "[STEP 05b] navigation/container leaves rejected: 1" in out
+    assert "All::Sg" in out
+    # Only the 3 legitimate fixtures were ever fetched.
+    assert len(client_2025.requests) == 3
+    assert not any(r.get("menu1") == "All" for r in client_2025.requests)
 
 
 def test_missing_taxonomy_file_fails_cleanly(module, tmp_path, capsys):

@@ -79,6 +79,27 @@ _MENU3_ATTR = "data-menu3"
 LEAF_LEVEL_MENU2 = "menu2"
 LEAF_LEVEL_MENU3 = "menu3"
 
+NODE_TYPE_REQUESTABLE_METRIC_LEAF = "REQUESTABLE_METRIC_LEAF"
+NODE_TYPE_NAVIGATION_CONTAINER = "NAVIGATION_CONTAINER"
+
+CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES = frozenset({"All"})
+"""CONFIRMED by direct live-response evidence (Phase B1 — see
+docs/KLPGA_OFFICIAL_DATA_MAP.md's CLASS 2 root-cause section): a
+request with menu1="All" (e.g. menu2="Sg", menu3=None) returned HTTP
+200, 33543 bytes, ZERO player rows — and the response BODY ITSELF
+contained the full record navigation menu tree (data-menu1/menu2/menu3
+attributes spanning every confirmed family: Sg/Total, Sg/TeeToGreen,
+Tee/Tee01/010101, Tee/Tee01/010102, Tee/Tee01/010103, ...). That is a
+navigation/container page, not player data — "All" is not a
+requestable metric family at all, regardless of which menu2 value
+follows it.
+
+Scoped to EXACTLY this confirmed value. This is NOT an inference from
+the string "All" looking like a navigation label — it is grounded in
+the observed response shape (0 rows + the menu tree itself in the
+body) for this specific menu1 value. No other menu1 family has
+equivalent evidence, so no other family is classified this way."""
+
 
 def _attr(tag: Tag, name: str) -> Optional[str]:
     """Case-insensitive attribute lookup — browser captures and JS
@@ -150,6 +171,16 @@ class MenuLeaf:
     def source_metric_key(self) -> str:
         return build_source_metric_key(self.menu1, self.menu2, self.menu3 if self.leaf_level == LEAF_LEVEL_MENU3 else None)
 
+    @property
+    def node_type(self) -> str:
+        """REQUESTABLE_METRIC_LEAF or NAVIGATION_CONTAINER — see
+        `CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES`'s docstring for
+        the real evidence backing this classification. Derived purely
+        from `menu1`, never from `menu3` being fabricated or guessed."""
+        if self.menu1 in CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
+            return NODE_TYPE_NAVIGATION_CONTAINER
+        return NODE_TYPE_REQUESTABLE_METRIC_LEAF
+
 
 @dataclass
 class Menu1Coverage:
@@ -189,6 +220,17 @@ class DomInspectionResult:
     @property
     def menu3_level_leaves(self) -> list[MenuLeaf]:
         return [leaf for leaf in self.leaves if leaf.leaf_level == LEAF_LEVEL_MENU3]
+
+    @property
+    def requestable_leaves(self) -> list[MenuLeaf]:
+        """Leaves whose node_type is REQUESTABLE_METRIC_LEAF — see
+        MenuLeaf.node_type. Never includes a NAVIGATION_CONTAINER leaf
+        such as any menu1="All" entry."""
+        return [leaf for leaf in self.leaves if leaf.node_type == NODE_TYPE_REQUESTABLE_METRIC_LEAF]
+
+    @property
+    def navigation_container_leaves(self) -> list[MenuLeaf]:
+        return [leaf for leaf in self.leaves if leaf.node_type == NODE_TYPE_NAVIGATION_CONTAINER]
 
     @property
     def menu2_node_count(self) -> int:

@@ -1456,6 +1456,138 @@ self-identifying: `<menu1>__<menu2>__<menu3>__<season>.html`) or the
 cache JSON's own `params` field for whichever file contains the
 `playerCode=9807`/`전예성` evidence quoted above.
 
+## Round 3, Phase B1 — CLASS 2 root cause CONFIRMED, navigation/container node classification
+
+**Status: 2026-08-26.** Direct evidence from `docs/discovery/raw_samples/All__Sg__2025.html`
+(the request that produced it was `menu1="All" menu2="Sg" menu3=None`,
+returning HTTP 200, 33543 bytes, 0 rows) confirmed CLASS 2's root
+cause: that response's own BODY contains the full record navigation
+menu tree (`data-menu1="Sg" data-menu2="Total"`, `data-menu1="Sg"
+data-menu2="TeeToGreen"`, `data-menu1="Tee" data-menu2="Tee01"
+data-menu3="010101"/"010102"/"010103"`, and more) — the SAME kind of
+markup Phase A's own `inspect_menu_dom()` scrapes to build the
+taxonomy in the first place. `menu1="All"` is not a metric family at
+all; it is the site's own "show the full menu" navigation/container
+page.
+
+### A/B. CLASS 2 root cause: CONFIRMED. All::* were false metric leaves.
+
+Phase A's Pass 2 (menu2-level leaf detection) classifies a tag as a
+metric leaf whenever it carries its own `data-menu1`+`data-menu2`, a
+blank/absent `data-menu3`, and no menu3-bearing descendant — a purely
+STATIC-DOM rule, evaluated only against the landing/menu page. On that
+landing page, an `All`-family element apparently satisfies that
+shape (own attrs, no menu3 descendant in that markup), so Phase A
+correctly-by-its-own-rules recorded it as a menu2-level leaf. What
+Phase A's static-DOM rule cannot know — because it never fires a
+`loadLocationRecord` request itself — is that when that "leaf" is
+actually REQUESTED, the response returned is a navigation page, not
+player data. This is now proven, not inferred from the name "All": the
+classification is grounded in the observed response shape (0 rows +
+the menu tree itself in the body), scoped to exactly this evidenced
+value.
+
+### Mission 2 — taxonomy semantic classes
+
+New `node_type` on `MenuLeaf` (`src/klpga/discovery/menu_taxonomy.py`):
+`REQUESTABLE_METRIC_LEAF` (default) or `NAVIGATION_CONTAINER`
+(`menu1` in `CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES = frozenset({"All"})`
+— scoped to exactly this confirmed value, never a broader name-pattern
+guess). Canonical identity rules are UNCHANGED: `(menu1, menu2)` for a
+menu2-level metric, `(menu1, menu2, menu3)` for a menu3-level metric —
+`node_type` is an orthogonal classification, not a replacement for
+identity. `taxonomy_report.py`'s JSON/CSV output now includes
+`node_type` per leaf and new counts
+(`requestable_menu2_leaf_count`/`requestable_menu3_leaf_count`/`navigation_container_count`).
+
+### Mission 3 — the canonical request plan: REAL NUMBERS NOT YET COMPUTABLE
+
+**This session does not have `docs/discovery/KLPGA_RECORD_TAXONOMY_DISCOVERED.json`**
+(confirmed — `docs/discovery/` does not exist in this repo/session, as
+in every prior round; nothing from any Windows run has ever been
+pushed here). Per instruction ("do NOT assume the previous 283 number
+remains correct"), **items C–I below are NOT filled in with real
+numbers** — computing them requires your actual taxonomy file. What
+WAS built: `src/klpga/discovery/canonical_plan.py` (`build_canonical_plan`)
+and `scripts/28_build_canonical_metric_request_plan.py`, a fully
+OFFLINE script (reads your existing local
+`KLPGA_RECORD_TAXONOMY_DISCOVERED.json`, zero network access) that
+computes all of C–I and writes `docs/discovery/KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json`
+in exactly the schema Mission 3 specifies (menu1/menu2/menu3/leaf_level/
+identity_key/label/node_type/evidence_source per entry). It works
+whether or not your existing file already has `node_type` (falls back
+to the same confirmed-menu1-value rule if not — no re-run of script 26
+required).
+
+Run this locally to get the real answer to "how many REAL KLPGA metric
+requests exist after removing navigation/container nodes?":
+
+```
+python scripts\28_build_canonical_metric_request_plan.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json
+```
+
+### Mission 4 — sampler fix
+
+New `sampler.reject_navigation_container_leaves()`, parallel to (and
+kept distinct from — never silently merged with) the existing
+`reject_malformed_leaves()`: a malformed leaf has no usable identity
+at all, while a navigation container has a perfectly valid identity
+that simply doesn't point at player data. Wired into
+`select_representative_sample()` as defense-in-depth (a navigation
+leaf can never reach a live request even if a caller forgets the
+separate rejection step) and into `scripts/27_klpga_response_schema_sample.py`
+as an explicit `[STEP 05b]` pre-filter step, reported by name — mirroring
+the existing malformed-leaf pattern. The prior round's "All"-deprioritization
+heuristic (`_PRIORITY_FAMILIES`) is now largely moot for "All" specifically
+(it's rejected outright before family-grouping even happens) but is
+left in place, unchanged, for any other not-yet-classified family.
+
+### Mission 5 — verified locally against fixtures (no live requests)
+
+New regression tests in `tests/test_sampler.py` build a taxonomy
+mirroring the exact real evidence (`All::Sg`/`All::Tee`/`All::Approach`/
+`All::Around`/`All::Putt` alongside real Sg/Tee/Approach/Around/Putt
+leaves) and confirm: `select_representative_sample()` never selects
+any `All::*` leaf, while still covering all five confirmed families.
+Also covered end-to-end at the script-orchestration level
+(`tests/test_klpga_response_schema_sample_script.py`): an `All::Sg`
+leaf injected into the fixture taxonomy is rejected and never fetched
+(`client_2025.requests` never contains a `menu1="All"` request).
+
+### Mission 6 — dynamic-header (CLASS 1) fix verified unregressed
+
+Directly re-checked this round (not merely re-run via the suite):
+`parse_record_response()` over the real-evidence dynamic-header
+fixture still produces schema fingerprint `PERCENTAGE_COUNT_COUNT_ROUNDS`
+and both playerCodes (`9807`/`김새로미`, `9812`/`전예성`) intact. No
+line of `response_parser.py` was touched this round — this round is
+taxonomy/sampler-only, per Mission 2's scope.
+
+### Files changed
+
+`src/klpga/discovery/menu_taxonomy.py` (`node_type`, `CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES`,
+`requestable_leaves`/`navigation_container_leaves` properties),
+`src/klpga/discovery/taxonomy_report.py` (new counts, `node_type` in
+JSON/CSV output), `src/klpga/discovery/sampler.py`
+(`reject_navigation_container_leaves`, wired into
+`select_representative_sample`), `src/klpga/discovery/canonical_plan.py`
+(new — Mission 3), `scripts/27_klpga_response_schema_sample.py`
+(`[STEP 05b]` navigation-rejection reporting), `scripts/28_build_canonical_metric_request_plan.py`
+(new — Mission 3), new tests `tests/test_taxonomy_report.py` and
+`tests/test_canonical_plan.py` and `tests/test_build_canonical_metric_request_plan_script.py`,
+updates to `tests/test_menu_taxonomy.py`, `tests/test_sampler.py`,
+`tests/test_klpga_response_schema_sample_script.py`. `response_parser.py`
+untouched (Mission 6).
+
+### Tests / safety
+
+502/502 tests passing. No change to Prediction #001, `predictions/`,
+model/inference/probability logic, the production DB, the archive, or
+the public website. Phase B2 not started; no bulk canonical sweep
+performed — `scripts/28` only WRITES a plan file, it never fires any
+of the requests it lists.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

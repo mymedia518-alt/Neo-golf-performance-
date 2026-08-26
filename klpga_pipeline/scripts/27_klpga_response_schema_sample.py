@@ -83,6 +83,7 @@ from klpga.discovery.sampler import (  # noqa: E402
     SampledLeaf,
     find_duplicate_identities,
     reject_malformed_leaves,
+    reject_navigation_container_leaves,
     select_representative_sample,
 )
 from klpga.discovery.schema_report import (  # noqa: E402
@@ -201,10 +202,11 @@ def run(
     save_raw_responses: bool = True,
 ) -> int:
     raw_dir = (out_dir / "raw_samples") if save_raw_responses else None
-    _log("[STEP 03] taxonomy loading (rejecting malformed leaves)")
+    _log("[STEP 03] taxonomy loading (rejecting malformed leaves and navigation containers)")
     raw_leaves = taxonomy.get("leaves", [])
     valid_leaves, rejected_leaves = reject_malformed_leaves(raw_leaves)
-    _log(f"[STEP 04] taxonomy loaded: {len(raw_leaves)} leaves ({len(valid_leaves)} valid)")
+    valid_leaves, rejected_navigation = reject_navigation_container_leaves(valid_leaves)
+    _log(f"[STEP 04] taxonomy loaded: {len(raw_leaves)} leaves ({len(valid_leaves)} requestable)")
     if rejected_leaves:
         _log(
             f"[STEP 05] malformed leaves rejected: {len(rejected_leaves)} "
@@ -213,8 +215,17 @@ def run(
         )
     else:
         _log("[STEP 05] malformed leaves rejected: 0")
+    if rejected_navigation:
+        _log(
+            f"[STEP 05b] navigation/container leaves rejected: {len(rejected_navigation)} "
+            f"(e.g. menu1=\"All\" — confirmed by real evidence to return a navigation menu "
+            f"page, not player data, never a requestable metric): "
+            f"{[d.get('source_metric_key', d) for d in rejected_navigation]}"
+        )
+    else:
+        _log("[STEP 05b] navigation/container leaves rejected: 0")
     sample = select_representative_sample({**taxonomy, "leaves": valid_leaves}, target_count=sample_size)
-    _log(f"[STEP 06] representative sample selected: {len(sample)} (from {len(valid_leaves)} valid leaves)")
+    _log(f"[STEP 06] representative sample selected: {len(sample)} (from {len(valid_leaves)} requestable leaves)")
 
     duplicates = find_duplicate_identities(sample)
     if duplicates:
