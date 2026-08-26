@@ -896,6 +896,174 @@ by this amendment — same script, same flags, now with a slightly
 larger default sample and the additional output files written
 alongside the original five.
 
+## Round 3, Phase B1.1 — live Windows evidence, one confirmed defect fixed, three genuinely blocked
+
+**Status: 2026-08-26. The user's live Windows Phase B1 run produced
+real evidence** (13/20 sample selected — target reduced by malformed
+leaves and taxonomy shape; 4 named EMPTY_SCHEMA metrics with 215-232
+rows each; a duplicate-identity warning for `('', '', '010101')`;
+`Cross-metric playerCode identity consistency: NOT_AVAILABLE`). This
+was the first real live traffic this whole discovery track has ever
+received.
+
+**Critical scoping fact: this session never received the Windows
+run's raw response cache or output files.** `docs/discovery/` does not
+exist in this git checkout, and `data/raw_cache/http/` does not exist
+either (both confirmed via `git log`, `git status`, and directory
+listing at the start of this round) — this remote session is a fresh,
+ephemeral container, entirely separate from the user's Windows
+machine, and nothing was pushed. This matters because four of the
+seven missions requested this round (raw-HTML root-cause diagnosis,
+parser fixes validated against real structure, playerCode extraction
+validated against real structure, real-response regression fixtures)
+are **not possible without that HTML** — and per the round's own
+explicit instruction ("Do not modify parser behavior until the exact
+mismatch is identified"), no parser change was made on a guess.
+
+### What WAS fixed this round — real, code-level, no cache required
+
+**Mission 4 (malformed identity) — root-caused and fixed with full
+confidence**, because it is a defect in this project's own code, not a
+question about the live site's HTML:
+
+- Root cause: `('', '', '010101')` was never a *sampler* bug. It comes
+  from `menu_taxonomy.py`'s `inspect_menu_dom` Pass 1 fallback (lines
+  ~299-310): a tag carrying a non-blank `data-menu3` whose ancestor
+  chain never resolves a `data-menu1`/`data-menu2` identity is
+  preserved as a `MenuLeaf(menu1="", menu2="", ...,
+  label_resolution_method="unknown")` rather than dropped — correct
+  and already covered by an existing test
+  (`test_unresolvable_menu3_is_preserved_not_dropped`), since this
+  project's discipline is "preserve every discovered thing, never
+  silently drop it," and this *is* real discovery evidence (the DOM
+  scan found *something* referencing `010101` that it could not fully
+  identify). The report showing it TWICE (a genuine
+  `find_duplicate_identities` hit, which only fires on count > 1)
+  means at least two independent DOM tags shared this blank-identity
+  shape — plausibly a desktop+mobile duplicate of the same nav
+  element, though the exact real DOM cause is unconfirmed without the
+  cache.
+- The actual defect: nothing downstream ever rejected such a leaf
+  before it reached the sampler's candidate pool.
+- Fix: new `klpga.discovery.sampler.reject_malformed_leaves()` splits
+  `taxonomy["leaves"]` into (valid, rejected) BEFORE sampling — any
+  leaf with a blank/missing `menu1` or `menu2` is excluded and
+  reported by name/count (`scripts/27_klpga_response_schema_sample.py`
+  now prints `Rejected N malformed taxonomy leaf(ies)...` with their
+  `source_metric_key`s). `select_representative_sample` also filters
+  defensively itself (belt-and-suspenders), so a malformed leaf can
+  never reach a live request even if a future caller forgets the
+  separate rejection step.
+
+**Mission 5 (sample quality, partial) — the "All" navigation-family
+over-representation, fixed structurally:** the sampler's family
+round-robin was plain alphabetical (`sorted(per_family_candidates)`),
+and `"All"` sorts before `"Approach"`/`"Around"` — meaning it competed
+for an early slot on equal footing with genuine stat families in every
+round of the cycle. Added `_PRIORITY_FAMILIES = ["Sg", "Tee",
+"Approach", "Around", "Putt"]`; any other family (in particular `All`)
+now sorts after all five confirmed families. This is a **selection-
+order heuristic**, not a claim that `All`'s schema is uninteresting —
+determining that requires seeing its actual live response, which this
+session doesn't have.
+
+**Mission 7 (HTTP success ≠ parse success) — fully implemented:** new
+`build_request_outcome_counts()` in `schema_report.py` buckets every
+completed request into `http_success` / `http_failure` /
+`parse_success` (CONFIRMED or DISCOVERED_NOT_VALIDATED) /
+`parse_empty` / `parse_ambiguous_or_failed`, rendered as its own table
+in `KLPGA_RESPONSE_SCHEMA_REPORT.md` and printed in the script's final
+summary. "Metrics successfully sampled" was silently conflating HTTP
+success with parse success before this — the exact complaint in the
+mission brief. The script's broad `except Exception` around
+`fetch_and_analyze` is now explicitly labeled `HTTP_FAILURE` in logs
+(reasoned, not guessed: `parse_record_response` is documented and
+tested to never raise — it degrades to `parse_status="FAILED"`
+internally — so any exception reaching that catch in practice
+originates from the HTTP layer).
+
+### What is BLOCKED — genuinely need the real evidence, not guessed
+
+**Mission 1 (EMPTY_SCHEMA root cause) — HYPOTHESIS ONLY, NOT APPLIED.**
+Structural reasoning from the given Windows output text (not from any
+HTML this session has seen): `build_schema_fingerprint` returns
+`"EMPTY_SCHEMA"` only when every `ColumnSemantics.label` is falsy.
+`parse_status="DISCOVERED_NOT_VALIDATED"` (as reported for all four
+named metrics) requires rows to be non-empty AND NOT all columns
+`source="unknown"` AND no metadata block found — meaning at least one
+column *did* get a `table_header`-sourced label. The only way both
+facts hold simultaneously is if a `<th>` (or `tr th`) element exists
+structurally but its extracted text is an **empty string** — e.g.
+blank/icon-only header cells, or a real label living in a second
+header row / nested element the current `thead th`-then-`tr
+th`-fallback selector doesn't reach. Separately, the mission brief's
+own description of embedded JS variables (`recordName`, `record1`,
+`record2`, ...) does **not** match what `_extract_metadata()` actually
+looks for (`_METADATA_KEYS = ["menu", "menuName", "recordNote",
+"order"]`, and a regex requiring a JSON-object literal with a `"menu"`
+or `"menuName"` key) — if the real site instead emits separate
+`var recordName = "...";` assignments, `_extract_metadata` would never
+find them, which independently explains why every live-run metric
+came back `DISCOVERED_NOT_VALIDATED` and never `CONFIRMED`. **Both of
+these are plausible, evidence-consistent hypotheses, not confirmed
+root causes** — confirming either requires the actual response HTML.
+
+**Mission 2 (parser fix) — NOT DONE**, for the same reason: fixing
+`response_parser.py` against a guessed DOM/JS shape risks the same
+mistake Round 3 Phase A already made once (assuming a fixed 5-field
+shape that broke on real SG evidence) — this time with zero real
+evidence at all, only Mission 1's hypothesis above.
+
+**Mission 3 (playerCode on real data) — NOT VERIFIABLE THIS SESSION.**
+The dual-path extraction (`data-playercode` attribute, then href
+`?playerCode=` fallback) is unchanged and still passes its existing
+tests, but `Cross-metric playerCode identity consistency:
+NOT_AVAILABLE` in the live report could mean either "no player
+appeared in 2+ sampled metrics" (expected/benign — see
+`build_player_identity_report`'s own docstring) or "playerCode
+extraction failed on the real HTML shape" (a real defect) — these are
+indistinguishable without seeing the actual rows.
+
+**Mission 6 (real fixture regression tests) — NOT DONE**, because it
+requires sanitized copies of the real cached responses, which don't
+exist in this session.
+
+### What's needed to unblock Missions 1/2/3/6
+
+Either:
+1. Push the cache into this branch — even just the 4 named responses
+   (`Approach::Approach01::020101`, `Around::Around01::030101`,
+   `Putt::Putt01::040101`, `Tee::Tee01::010101`) from
+   `data\raw_cache\http\` (or wherever `PoliteHttpClient`'s cache
+   actually wrote them), plus `docs\discovery\KLPGA_RESPONSE_SCHEMA_SAMPLES.json`
+   for the full run's context; or
+2. Paste the raw HTML for at least one of those four responses
+   directly into chat.
+
+Once real HTML is available, Missions 1/2/3/6 can be done with the
+same evidence discipline as every other round of this project — a
+confirmed root cause, a parser fix validated against what the site
+actually returns, and regression fixtures built from sanitized real
+data (matching how `loadLocationRecord_sg_total_sample.html` and the
+Approach fixtures were built from directly reported real evidence,
+never invented).
+
+### Files changed this round
+
+`src/klpga/discovery/sampler.py` (`reject_malformed_leaves`, family
+priority ordering), `src/klpga/discovery/schema_report.py`
+(`build_request_outcome_counts`, outcome table in
+`render_schema_report_markdown`), `scripts/27_klpga_response_schema_sample.py`
+(malformed-leaf rejection wired in, HTTP_FAILURE vs parse-outcome
+counting/printing), `src/klpga/discovery/menu_taxonomy.py` (docstring
+cross-reference only, no behavior change), plus new/updated tests in
+`tests/test_sampler.py`, `tests/test_schema_report.py`,
+`tests/test_klpga_response_schema_sample_script.py`. `response_parser.py`
+was **not modified** (see Mission 2 above). Full suite: 448/448
+passing. No change to Prediction #001, `predictions/`, model/
+inference/probability logic, the production DB, the archive, or the
+public website.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

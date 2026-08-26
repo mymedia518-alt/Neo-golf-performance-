@@ -259,6 +259,47 @@ def test_max_requests_is_a_hard_cap(module, small_taxonomy, client_2025, tmp_pat
     assert payload["sample_count"] == 1
 
 
+# ---------------------------------------------------------------
+# Phase B1.1 — malformed leaf rejection + HTTP vs parse outcome
+# reporting, at the script's end-to-end orchestration level.
+# ---------------------------------------------------------------
+
+
+def test_malformed_leaf_is_rejected_and_never_fetched(module, small_taxonomy, client_2025, tmp_path, capsys):
+    """A taxonomy leaf with blank menu1/menu2 (the real live-run
+    finding — menu_taxonomy.py's Pass 1 fallback for an unresolvable
+    data-menu3 tag) must be rejected before sampling, never fetched,
+    and never silently absorbed into 'metrics successfully sampled'."""
+    small_taxonomy["leaves"].append(_leaf("", "", "010101", "menu3", "고아 항목"))
+    rc = module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    assert rc == module.EXIT_COMPLETE
+    out = capsys.readouterr().out
+    assert "Rejected 1 malformed taxonomy leaf" in out
+    # Only the 3 legitimate fixtures were ever fetched — RecordingFakeClient
+    # would have raised KeyError on an unrecognized (menu1, menu2, menu3)
+    # request, which it never received.
+    assert len(client_2025.requests) == 3
+
+
+def test_http_failure_counted_separately_from_parse_outcomes(module, small_taxonomy, tmp_path):
+    class FlakyClient:
+        def post_text(self, url, data=None, **kwargs):
+            if data.get("menu1") == "Sg":
+                raise ValueError("simulated network failure for one metric only")
+            if data.get("menu3") == "020104":
+                return _approach_020104_html()
+            return _approach_020105_html()
+
+    rc = module.run(FlakyClient(), small_taxonomy, "2025", tmp_path)
+    assert rc == module.EXIT_COMPLETE
+    report = (tmp_path / "KLPGA_RESPONSE_SCHEMA_REPORT.md").read_text(encoding="utf-8")
+    assert "Request outcome breakdown" in report
+    # 2 real HTTP successes (both parsed CONFIRMED), 1 HTTP failure —
+    # never folded into "successfully sampled."
+    payload = json.loads((tmp_path / "KLPGA_RESPONSE_SCHEMA_SAMPLES.json").read_text(encoding="utf-8"))
+    assert payload["sample_count"] == 2
+
+
 def test_missing_taxonomy_file_fails_cleanly(module, tmp_path, capsys):
     import sys
 

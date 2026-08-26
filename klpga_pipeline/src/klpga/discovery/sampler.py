@@ -45,6 +45,56 @@ def _leaf_from_dict(d: dict) -> SampledLeaf:
     )
 
 
+def _is_malformed_leaf_dict(d: dict) -> bool:
+    """A leaf with a blank/missing menu1 or menu2 cannot be issued as a
+    live request at all (menu1/menu2 are required POST form fields —
+    see menu_taxonomy.py's module docstring). This is NOT a sampler bug
+    in the sense of the sampler inventing bad data — it comes from
+    `inspect_menu_dom`'s Pass 1 fallback (menu_taxonomy.py): a tag
+    carrying a non-blank `data-menu3` whose ancestor chain never
+    resolves a `data-menu1`/`data-menu2` identity is still recorded as
+    a `MenuLeaf` (menu1="", menu2="", label_resolution_method="unknown")
+    rather than silently dropped, per this project's "preserve every
+    discovered thing rather than deduplicate/drop it away" evidence
+    discipline. That preservation is correct for the taxonomy's own
+    JSON output (an audit trail of exactly what the DOM scan found,
+    including what it could NOT resolve) — but such a leaf is never
+    safe to select into a live request, so the sampler must reject it
+    here rather than forward it as if it were a genuine, requestable
+    metric."""
+    return not d.get("menu1") or not d.get("menu2")
+
+
+def reject_malformed_leaves(raw_leaves: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Splits taxonomy["leaves"] into (valid, rejected) BEFORE any
+    sampling happens. Returned separately (rather than just filtering
+    silently) so a caller can report exactly how many — and which —
+    malformed leaves were excluded, per explicit instruction that this
+    must never be a silent drop."""
+    valid = [d for d in raw_leaves if not _is_malformed_leaf_dict(d)]
+    rejected = [d for d in raw_leaves if _is_malformed_leaf_dict(d)]
+    return valid, rejected
+
+
+_PRIORITY_FAMILIES = ["Sg", "Tee", "Approach", "Around", "Putt"]
+"""Round-robin family priority order — the five confirmed real stat
+families this project has directly reported evidence for (see
+docs/KLPGA_OFFICIAL_DATA_MAP.md). Any other menu1 family (in
+particular "All"/전체기록보기, a navigation/grouping aggregator rather
+than an independently useful metric — see the Phase B1.1 live-run
+finding) sorts after all five of these, so a small sample's scarce
+live-request slots go to substantive stat families first. This is a
+selection-order heuristic only — it does not claim "All" produces an
+uninteresting schema, only that it should not compete on equal footing
+with the five confirmed families for a slot in a small sample."""
+
+
+def _family_sort_key(menu1: str) -> tuple:
+    if menu1 in _PRIORITY_FAMILIES:
+        return (0, _PRIORITY_FAMILIES.index(menu1))
+    return (1, menu1)
+
+
 def select_representative_sample(
     taxonomy: dict,
     target_count: int = 16,
@@ -71,8 +121,16 @@ def select_representative_sample(
 
     Sorted by (menu1, menu2, menu3 or "") throughout for determinism —
     the input list's own order is not relied upon.
+
+    Malformed leaves (blank/missing menu1 or menu2 — see
+    `reject_malformed_leaves`) are defensively excluded here too, even
+    though the caller is expected to have already called
+    `reject_malformed_leaves` for its own reporting — belt-and-suspenders,
+    since a malformed leaf must never reach a live request regardless
+    of whether the caller remembered the separate reporting step.
     """
-    leaves = [_leaf_from_dict(d) for d in taxonomy.get("leaves", [])]
+    valid_leaf_dicts, _rejected = reject_malformed_leaves(taxonomy.get("leaves", []))
+    leaves = [_leaf_from_dict(d) for d in valid_leaf_dicts]
 
     by_family: dict[str, list[SampledLeaf]] = {}
     for leaf in leaves:
@@ -106,7 +164,7 @@ def select_representative_sample(
         per_family_candidates[menu1] = candidates[:per_family_cap]
 
     sample: list[SampledLeaf] = []
-    families = sorted(per_family_candidates)
+    families = sorted(per_family_candidates, key=_family_sort_key)
     cursors = {f: 0 for f in families}
     while len(sample) < target_count and any(cursors[f] < len(per_family_candidates[f]) for f in families):
         for f in families:

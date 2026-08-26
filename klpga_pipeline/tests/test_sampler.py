@@ -4,7 +4,7 @@ live Windows run's output was never pushed here), so these use small,
 representative synthetic taxonomies covering multiple families."""
 from __future__ import annotations
 
-from klpga.discovery.sampler import find_duplicate_identities, select_representative_sample
+from klpga.discovery.sampler import find_duplicate_identities, reject_malformed_leaves, select_representative_sample
 
 
 def _leaf(menu1, menu1_label, menu2, menu2_label, menu3, menu3_label, leaf_level):
@@ -106,3 +106,93 @@ def test_find_duplicate_identities_empty_when_sample_is_clean():
     taxonomy = _multi_family_taxonomy()
     sample = select_representative_sample(taxonomy, target_count=10)
     assert find_duplicate_identities(sample) == []
+
+
+# ---------------------------------------------------------------
+# Phase B1.1 Mission 4 — malformed leaf rejection. Root cause: the
+# live Windows run's reported `('', '', '010101')` "duplicate
+# identity" was never a sampler bug — it is menu_taxonomy.py's
+# `inspect_menu_dom` Pass 1 fallback (an unresolvable data-menu3 tag
+# with no discoverable menu1/menu2 ancestor is preserved with blank
+# identity, per test_unresolvable_menu3_is_preserved_not_dropped in
+# test_menu_taxonomy.py — correct at that layer, an audit trail of
+# what the DOM scan could not resolve). The defect was that nothing
+# downstream ever rejected such a leaf before it could be sampled into
+# a live request. These tests cover the fix: rejection happens here,
+# at the sampling boundary.
+# ---------------------------------------------------------------
+
+
+def _malformed_leaf(menu3="010101"):
+    return _leaf("", "", "", "", menu3, "고아 항목", "menu3")
+
+
+def test_reject_malformed_leaves_splits_blank_menu1_menu2_out():
+    leaves = [_leaf("Sg", "SG", "Total", "SG : 전체", None, None, "menu2"), _malformed_leaf()]
+    valid, rejected = reject_malformed_leaves(leaves)
+    assert len(valid) == 1
+    assert valid[0]["menu1"] == "Sg"
+    assert len(rejected) == 1
+    assert rejected[0]["menu3"] == "010101"
+
+
+def test_reject_malformed_leaves_catches_blank_menu1_or_menu2_alone():
+    only_blank_menu1 = _leaf("", "", "Total", "SG : 전체", None, None, "menu2")
+    only_blank_menu2 = _leaf("Sg", "SG", "", "", None, None, "menu2")
+    valid, rejected = reject_malformed_leaves([only_blank_menu1, only_blank_menu2])
+    assert valid == []
+    assert len(rejected) == 2
+
+
+def test_reject_malformed_leaves_empty_when_nothing_malformed():
+    leaves = [_leaf("Sg", "SG", "Total", "SG : 전체", None, None, "menu2")]
+    valid, rejected = reject_malformed_leaves(leaves)
+    assert len(valid) == 1
+    assert rejected == []
+
+
+def test_malformed_leaves_never_reach_the_sample_even_without_pre_filtering():
+    """Defense in depth: select_representative_sample must reject a
+    malformed leaf itself, even if the caller forgot to call
+    reject_malformed_leaves first."""
+    taxonomy = _multi_family_taxonomy()
+    taxonomy["leaves"].append(_malformed_leaf())
+    sample = select_representative_sample(taxonomy, target_count=20)
+    assert all(leaf.menu1 and leaf.menu2 for leaf in sample)
+    assert ("", "", "010101") not in {leaf.identity for leaf in sample}
+
+
+def test_duplicate_malformed_leaves_are_rejected_not_reported_as_sampler_duplicates():
+    """Two independently-orphaned DOM tags sharing the same menu3 code
+    (e.g. a desktop+mobile nav duplicate) must be rejected outright,
+    never surfacing as a find_duplicate_identities warning — that
+    warning is reserved for genuine sampler bugs, not malformed input."""
+    taxonomy = _multi_family_taxonomy()
+    taxonomy["leaves"].extend([_malformed_leaf(), _malformed_leaf()])
+    sample = select_representative_sample(taxonomy, target_count=20)
+    assert find_duplicate_identities(sample) == []
+
+
+# ---------------------------------------------------------------
+# Phase B1.1 Mission 5 — "All"/navigation families must not compete on
+# equal footing with the five confirmed stat families for a scarce
+# sample slot.
+# ---------------------------------------------------------------
+
+
+def test_confirmed_stat_families_are_prioritized_over_all_navigation_family():
+    taxonomy = {
+        "source_url": "https://example.test/record",
+        "leaves": [
+            _leaf("All", "전체기록보기", "AllTotal", "전체", None, None, "menu2"),
+            _leaf("Sg", "SG", "Total", "SG : 전체", None, None, "menu2"),
+            _leaf("Tee", "티샷", "Tee01", "Par4,5 티샷 비율", "010101", "평균 티샷 거리", "menu3"),
+        ],
+    }
+    # A sample too small to fit every family must still take the three
+    # confirmed families before "All" — with target_count=2, only the
+    # two priority families should be picked.
+    sample = select_representative_sample(taxonomy, target_count=2, per_family_cap=1)
+    families = {leaf.menu1 for leaf in sample}
+    assert "All" not in families
+    assert families == {"Sg", "Tee"}
