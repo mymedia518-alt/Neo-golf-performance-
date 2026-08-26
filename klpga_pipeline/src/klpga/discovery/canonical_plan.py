@@ -95,9 +95,47 @@ class CanonicalPlanCounts:
     exact_duplicate_count — the REAL answer to "how many distinct,
     requestable KLPGA metrics exist?"."""
     menu3_collision_count: int
-    """Distinct menu3 codes shared by more than one CANONICAL
-    (post-dedup) requestable menu3-level leaf — never assumed unique,
-    per this project's standing evidence discipline."""
+    """Distinct BARE menu3 codes shared by more than one CANONICAL
+    (post-dedup) requestable menu3-level leaf, REGARDLESS of menu1/
+    menu2 — never assumed unique, per this project's standing evidence
+    discipline. NOT the same thing as `duplicate_identity_key_group_
+    count` below: two entries can share a bare menu3 code while having
+    completely different `identity_key`s (different menu1/menu2), and
+    conversely `menu3_collision_count` says nothing about menu2-level
+    identity_key collisions at all (a menu2-level leaf has no menu3)."""
+    unique_identity_key_count: int
+    """Count of DISTINCT `identity_key` values across the full
+    canonical plan (menu2-level AND menu3-level entries combined).
+    Will be STRICTLY LESS than `canonical_requestable_metric_count`
+    whenever `duplicate_identity_key_group_count` > 0 — see that
+    field's docstring for why this is possible even though exact
+    (identity, label) duplicates are already deduplicated."""
+    duplicate_identity_key_group_count: int
+    """Round 10 (docs/KLPGA_OFFICIAL_DATA_MAP.md) — count of
+    `identity_key` values that appear on 2+ CANONICAL plan entries.
+    Because the exact-duplicate dedup key is `(identity_tuple, label)`
+    — not `identity_tuple` alone — two DOM leaves that share the exact
+    same menu1/menu2/menu3 but carry DIFFERENT labels are NOT
+    deduplicated: both survive into the canonical plan, both carrying
+    the SAME `identity_key` string (which is derived from
+    identity_tuple only, never label). This is structurally
+    equivalent to this project's already-established "never merge a
+    genuine collision" principle (see `menu3_collision_count` above,
+    and `collision_report.py`'s category B) — applied at the FULL
+    identity level rather than the bare-menu3-code level, and,
+    critically, at the POST-dedup canonical-plan layer, which had no
+    counter for this at all before this round. Because the dedup key
+    already includes label, a collision counted here is GUARANTEED
+    (by construction) to be a different-label collision — the same-
+    identity/same-label case is structurally impossible to reach this
+    count, since it would have been collapsed by the exact-duplicate
+    dedup step above. Whether a given collision reflects a genuine
+    site-side ambiguity (two tab labels really do resolve to the same
+    request) versus a Phase A DOM-resolution bug (two truly distinct
+    metrics wrongly resolved to the same menu1/menu2/menu3) cannot be
+    determined from this count alone — see
+    `build_identity_key_collision_report` for the per-group detail
+    needed to make that call."""
 
 
 def build_canonical_plan(taxonomy: dict) -> tuple[CanonicalPlanCounts, list[dict]]:
@@ -135,6 +173,13 @@ def build_canonical_plan(taxonomy: dict) -> tuple[CanonicalPlanCounts, list[dict
             by_menu3[code] = by_menu3.get(code, 0) + 1
     menu3_collision_count = sum(1 for count in by_menu3.values() if count > 1)
 
+    by_identity_key: dict[str, int] = {}
+    for leaf in canonical_entries:
+        identity_key = "::".join(str(part) for part in _identity_key_tuple(leaf))
+        by_identity_key[identity_key] = by_identity_key.get(identity_key, 0) + 1
+    unique_identity_key_count = len(by_identity_key)
+    duplicate_identity_key_group_count = sum(1 for count in by_identity_key.values() if count > 1)
+
     counts = CanonicalPlanCounts(
         total_dom_discovered_nodes=total,
         malformed_leaf_count=malformed_count,
@@ -144,6 +189,8 @@ def build_canonical_plan(taxonomy: dict) -> tuple[CanonicalPlanCounts, list[dict
         exact_duplicate_count=duplicate_count,
         canonical_requestable_metric_count=len(canonical_entries),
         menu3_collision_count=menu3_collision_count,
+        unique_identity_key_count=unique_identity_key_count,
+        duplicate_identity_key_group_count=duplicate_identity_key_group_count,
     )
 
     plan = [
@@ -161,6 +208,93 @@ def build_canonical_plan(taxonomy: dict) -> tuple[CanonicalPlanCounts, list[dict
     ]
 
     return counts, plan
+
+
+def build_identity_key_collision_report(taxonomy: dict) -> list[dict]:
+    """Round 10 diagnostic (docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 10
+    section) — one row per CANONICAL plan entry that shares its
+    `identity_key` with at least one other canonical entry (see
+    `CanonicalPlanCounts.duplicate_identity_key_group_count`'s
+    docstring for the exact mechanism). Rows for the same
+    `identity_key` are adjacent, sorted by identity_key then label, so
+    a reader can directly compare every field for a given group.
+
+    Every collision counted here is GUARANTEED (by construction) to
+    have a DIFFERENT `label` per row within its group — same-identity/
+    same-label duplicates are structurally impossible to reach this
+    report, since `build_canonical_plan`'s exact-duplicate dedup
+    (keyed by `(identity_tuple, label)`) already collapses those
+    before this function ever runs. This function does NOT decide
+    whether a given collision is a genuine site-side ambiguity (ok to
+    keep both) or a Phase A DOM-resolution bug (should not have
+    produced two entries at all) — that judgment needs the label
+    values themselves, which this report exists to surface, plus
+    (where retained) the ORIGINAL taxonomy leaf's own
+    `label_resolution_method`/`is_menu3_collision` fields for
+    additional provenance."""
+    _counts, plan = build_canonical_plan(taxonomy)
+
+    by_key: dict[str, list[dict]] = {}
+    for entry in plan:
+        by_key.setdefault(entry["identity_key"], []).append(entry)
+    colliding_keys = {key for key, entries in by_key.items() if len(entries) > 1}
+    if not colliding_keys:
+        return []
+
+    # Keyed by (identity_tuple, label) — NOT source_metric_key alone,
+    # which is ambiguous here: colliding raw leaves share the same
+    # identity and typically the same source_metric_key too (that's
+    # the nature of the collision). (identity_tuple, label) is the
+    # SAME join key build_canonical_plan's own dedup step already uses
+    # and is guaranteed unique per canonical (post-dedup) entry.
+    raw_by_identity_and_label: dict[tuple, dict] = {}
+    for leaf in taxonomy.get("leaves", []):
+        raw_by_identity_and_label.setdefault((_identity_key_tuple(leaf), _label(leaf)), leaf)
+
+    rows: list[dict] = []
+    for identity_key in sorted(colliding_keys):
+        group = sorted(by_key[identity_key], key=lambda e: e["label"] or "")
+        for entry in group:
+            entry_identity_tuple = (
+                (entry["menu1"], entry["menu2"], entry["menu3"])
+                if entry["leaf_level"] == "menu3"
+                else (entry["menu1"], entry["menu2"])
+            )
+            raw_leaf = raw_by_identity_and_label.get((entry_identity_tuple, entry["label"]), {})
+            rows.append(
+                {
+                    "identity_key": entry["identity_key"],
+                    "group_size": len(group),
+                    "menu1": entry["menu1"],
+                    "menu2": entry["menu2"],
+                    "menu3": entry["menu3"],
+                    "leaf_level": entry["leaf_level"],
+                    "label": entry["label"],
+                    "node_type": entry["node_type"],
+                    "evidence_source": entry["evidence_source"],
+                    "label_resolution_method": raw_leaf.get("label_resolution_method"),
+                    "is_menu3_collision": raw_leaf.get("is_menu3_collision"),
+                }
+            )
+    return rows
+
+
+_IDENTITY_KEY_COLLISION_REPORT_CSV_FIELDS = [
+    "identity_key", "group_size", "menu1", "menu2", "menu3", "leaf_level",
+    "label", "node_type", "evidence_source", "label_resolution_method",
+    "is_menu3_collision",
+]
+
+
+def to_identity_key_collision_report_csv(rows: list[dict]) -> str:
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=_IDENTITY_KEY_COLLISION_REPORT_CSV_FIELDS)
+    writer.writeheader()
+    for row in rows:
+        writer.writerow(
+            {k: ("" if row.get(k) is None else row.get(k)) for k in _IDENTITY_KEY_COLLISION_REPORT_CSV_FIELDS}
+        )
+    return buf.getvalue()
 
 
 _KNOWN_LEAF_KEYS = {

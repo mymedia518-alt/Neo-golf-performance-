@@ -50,9 +50,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from klpga.discovery.canonical_plan import (  # noqa: E402
     build_canonical_plan,
     build_canonical_plan_json,
+    build_identity_key_collision_report,
     build_malformed_leaf_report,
     check_sanity_invariants,
     group_counts_by_family,
+    to_identity_key_collision_report_csv,
     to_malformed_leaf_report_csv,
 )
 
@@ -82,6 +84,8 @@ def run(taxonomy: dict, source_taxonomy_path: str, out_dir: Path) -> int:
     print(f"  exact duplicate DOM entries:               {counts.exact_duplicate_count}")
     print(f"  CANONICAL requestable metric count:        {counts.canonical_requestable_metric_count}")
     print(f"  menu3 collisions (canonical set):          {counts.menu3_collision_count}")
+    print(f"  unique identity_key count:                 {counts.unique_identity_key_count}")
+    print(f"  duplicate identity_key groups:              {counts.duplicate_identity_key_group_count}")
     print()
 
     print("Counts by menu1 family:")
@@ -114,6 +118,19 @@ def run(taxonomy: dict, source_taxonomy_path: str, out_dir: Path) -> int:
     # Round 8 section).
     malformed_path.write_text(to_malformed_leaf_report_csv(malformed_rows), encoding="utf-8", newline="")
     print(f"Wrote {malformed_path} ({len(malformed_rows)} rows)")
+
+    if counts.duplicate_identity_key_group_count:
+        collision_rows = build_identity_key_collision_report(taxonomy)
+        collision_path = out_dir / "KLPGA_IDENTITY_KEY_COLLISION_REPORT.csv"
+        # newline="" — same Windows CSV-corruption fix as the other
+        # CSV writes above (docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 8
+        # section).
+        collision_path.write_text(to_identity_key_collision_report_csv(collision_rows), encoding="utf-8", newline="")
+        print(
+            f"Wrote {collision_path} ({len(collision_rows)} rows across "
+            f"{counts.duplicate_identity_key_group_count} duplicate identity_key groups) — "
+            "review before treating unique_identity_key_count as the real B2 request count."
+        )
     print()
 
     print(

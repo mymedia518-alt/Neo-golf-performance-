@@ -2953,6 +2953,144 @@ executed** — only its dry-run has been exercised in this sandbox
 live site remains a separate, explicit authorization the user has not
 yet given.
 
+## Round 10 (continued) — B2 Stage 1 STOP: canonical plan identity_key uniqueness
+
+### A. Context
+
+Before firing B2 Stage 1's authorized 10-request batch, the user
+independently verified the real canonical plan: **281 total canonical
+entries, 248 unique `identity_key` values, 30 duplicate groups, 33
+excess entries.** Per explicit instruction, B2 Stage 1 was NOT run;
+this became the single blocker to investigate first, offline, using
+only the existing plan/taxonomy artifacts and code.
+
+### B. Root cause (confirmed by reading `canonical_plan.py` directly — no live data needed)
+
+`build_canonical_plan`'s exact-duplicate dedup key is
+`(identity_tuple, label)` — **not** `identity_tuple` alone. Two DOM
+leaves sharing the exact same `(menu1, menu2, menu3)` but carrying
+DIFFERENT labels are therefore never deduplicated: both survive into
+`canonical_requestable_metrics`, both carrying the SAME `identity_key`
+string (derived from `identity_tuple` only — `identity_key` never
+incorporates `label`). This is a genuinely different mechanism from
+the pre-existing `menu3_collision_count`, which only tracks BARE menu3
+codes shared across DIFFERENT `menu1`/`menu2` paths — it is blind to
+menu2-level collisions entirely (no menu3 to collide on) and says
+nothing about two entries sharing the exact same full identity.
+**No counter anywhere in this codebase tracked this before this
+round** — a real, previously-invisible reporting gap, confirmed
+structurally rather than guessed.
+
+One thing provable from the code alone, without seeing the real data:
+**Category A (same `identity_key` AND same `label`) is structurally
+impossible.** If two leaves shared identity AND label, they would
+already have been collapsed by the exact-duplicate dedup step before
+ever reaching the output plan. Every one of the real 30 groups is
+therefore guaranteed to be Category B (different labels) by
+construction — never A. Whether any of those 30 are actually
+Category C (two genuinely distinct real-world metrics that Phase A's
+DOM resolver wrongly mapped to the same `menu1`/`menu2`/`menu3`,
+versus a genuine site-side ambiguity where two tab labels really do
+resolve to the same request) cannot be determined from the plan
+alone — it requires reviewing the actual label pairs, which the new
+diagnostic report below exists to surface.
+
+### C. The fix — reporting/diagnosis only this round, NOT a merge
+
+Per explicit instruction ("prefer fixing the canonical-plan
+construction/root cause rather than silently deduplicating in the B2
+runner"), and because forcibly merging or dropping either side of a
+genuine collision would violate this project's long-standing "never
+silently resolve a collision" principle, this round adds DETECTION
+and REPORTING at the canonical-plan layer — it does NOT change which
+entries `build_canonical_plan` includes, and does NOT touch
+`select_full_canonical_plan`/`scripts/29`'s B2 sampler.
+
+`CanonicalPlanCounts` gains two new, purely additive fields:
+`unique_identity_key_count` and `duplicate_identity_key_group_count`
+— computed over BOTH menu2- and menu3-level canonical entries
+combined (generalizing the narrower, menu3-only `menu3_collision_
+count`). New `build_identity_key_collision_report(taxonomy)`: one row
+per canonical entry that shares its `identity_key` with another,
+grouped and sorted for direct comparison, including `menu1`/`menu2`/
+`menu3`/`leaf_level`/`label`/`node_type`/`evidence_source`, `group_
+size`, and — where retained on the original raw taxonomy leaf —
+`label_resolution_method`/`is_menu3_collision` provenance. New
+`to_identity_key_collision_report_csv`. `scripts/28` now prints both
+new counts and, whenever `duplicate_identity_key_group_count > 0`,
+writes `KLPGA_IDENTITY_KEY_COLLISION_REPORT.csv` alongside its
+existing output.
+
+### D. Open design question — NOT resolved this round
+
+The user's requested invariant (`canonical_requestable_metric_count
+== len(canonical_requestable_metrics) == unique_identity_key_count`)
+is fundamentally in tension with the "never merge a genuine collision"
+principle as currently implemented: satisfying it exactly would
+require either (a) restructuring `canonical_requestable_metrics` to
+one row per `identity_key` with multiple labels attached as an
+explicit `label_candidates`-style field (preserves all evidence,
+changes the plan's schema), or (b) treating `unique_identity_key_
+count` — not `canonical_requestable_metric_count` — as the number
+that actually governs B2 sizing/execution (leaves the audit-oriented
+plan list untouched, but means a live request is fired once per
+`identity_key`, with the case of a genuine Category-B collision
+needing its own resolution for how the resulting single response gets
+attributed back to two candidate labels). This round intentionally
+did NOT choose between these — it is a design decision with real
+data-provenance trade-offs, not a "smallest evidence-backed bug fix,"
+and deserves the user's explicit direction once they have reviewed
+the real 30 groups via the new collision report.
+
+Also flagged, not yet touched: `scripts/29`'s B2 checkpoint
+(`klpga.discovery.b2_checkpoint`) is keyed by `identity_key`. If a
+Category-B collision identity is fired in a live B2 run, the
+checkpoint will record only ONE `sample_record` for it — correct from
+a "how many live HTTP requests were made" standpoint (firing the same
+`menu1`/`menu2`/`menu3` twice would be a wasted duplicate request,
+since the label is never part of the actual HTTP form), but it means
+the checkpoint alone does not preserve which of the colliding
+canonical-plan labels the one recorded response should be attributed
+to. Not a blocker for counting/bounding live requests correctly, but
+worth resolving before treating B2's output as fully evidence-
+complete for a colliding identity.
+
+### E. Tests
+
+Seven new tests in `tests/test_canonical_plan.py`: the exact
+mechanism (same identity, different label → not deduplicated, shares
+one `identity_key`, `duplicate_identity_key_group_count == 1`); proof
+that same-identity/same-label is structurally unreachable by this
+count (collapsed by exact-duplicate dedup first); a menu2-level
+collision (no menu3 at all) correctly detected by the new count
+despite being invisible to `menu3_collision_count`; confirmation that
+the shared fixture's pre-existing CROSS-FAMILY bare-menu3-code
+collision does NOT register as an identity_key duplicate (the two
+mechanisms are genuinely independent); `build_identity_key_collision_
+report`'s empty-case, full-field/grouping correctness (including
+provenance pass-through from the original raw leaf), and its CSV
+writer's required columns.
+
+**630/630 tests passing** (623 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. B2 Stage 1 remains STOPped pending the user's review of the
+real collision report and a decision on the open design question in
+section D.
+
+### F. Zero-HTTP verification command
+
+```
+python scripts\28_build_canonical_metric_request_plan.py --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json
+```
+
+This is the exact existing script 28 command (unchanged usage) —
+its output now additionally prints `unique identity_key count` and
+`duplicate identity_key groups`, and writes
+`KLPGA_IDENTITY_KEY_COLLISION_REPORT.csv` when any exist, alongside
+the already-existing `total DOM-discovered nodes`, `malformed leaves`,
+and `CANONICAL requestable metric count` lines.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
