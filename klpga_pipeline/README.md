@@ -271,7 +271,11 @@ data.
 - ✅ **KLPGA official record-taxonomy discovery, Rounds 1-3,
   2026-08-26** — a separate research track (not the tournament-results
   pipeline above): `docs/KLPGA_OFFICIAL_DATA_MAP.md`,
-  `docs/NEO_DERIVED_METRIC_MAP.md`, `docs/NEO_DATA_RIGHTS_MATRIX.md`
+  `docs/NEO_DERIVED_METRIC_MAP.md`, `docs/NEO_DATA_RIGHTS_MATRIX.md`,
+  and `docs/HISTORICAL_METRICS_COLLECTION_DESIGN.md` (design-only
+  proposal connecting this track's discovered `loadLocationRecord`
+  taxonomy to the `player_stats_snapshot` table below — not yet
+  implemented)
   document what the official `/load/record/loadLocationRecord` API
   (Strokes Gained, tee/approach/putting category stats) exposes,
   entirely from evidence the user captured manually in DevTools — this
