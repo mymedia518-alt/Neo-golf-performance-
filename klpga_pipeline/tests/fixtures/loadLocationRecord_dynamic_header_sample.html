@@ -1,0 +1,86 @@
+<!--
+  Sanitized fixture modeled on REAL cached KLPGA response evidence
+  (Phase B1 dynamic-header investigation, 2026-08-26) — reported
+  directly from a real Windows-side cache file inspection, not
+  independently captured by this session (no network access to
+  klpga.co.kr).
+
+  IDENTITY CAUTION: the real cache was found by searching for the
+  substring "040101" inside cached response bodies; per explicit
+  instruction this fixture does NOT assume the response's real
+  season/menu1/menu2/menu3 identity — see docs/KLPGA_OFFICIAL_DATA_MAP.md's
+  Mission 0 discussion (the true request identity could not be
+  independently verified by this session either). Only the STRUCTURAL
+  shape (the dynamic-header JS pattern) and the exact reported values
+  below are modeled as real evidence; the fixture's filename
+  deliberately avoids naming a menu1/menu2/menu3 it cannot confirm.
+
+  Reported real evidence:
+    playerCode=9807, player_name=김새로미: record=40, record1=36,
+      record2=90, record3=5, record4=0.0
+    playerCode=9812, player_name=전예성: record=33.33, record1=12,
+      record2=36, record3=5, record4=0.0
+    var record  = "그린 적중률(%)";
+    var record1 = "그린 적중 횟수";
+    var record2 = "샷 시도 횟수";
+    var record3 = "측정 라운드";
+    var record4 = "";
+    $(".recordName").html(record);
+    $(".record1Name").html(record1);
+    $(".record2Name").html(record2);
+    $(".record3Name").html(record3);
+    $(".record4Name").html(record4);
+
+  The exact markup carrying playerCode (a data-playercode attribute vs.
+  an href profile link) was NOT part of the reported evidence — this
+  fixture uses this project's already-CONFIRMED data-playercode
+  convention (see the Approach/SG fixtures) as the most evidence-
+  grounded modeling choice available, not a guess from nothing.
+
+  The <th class="recordName"> (etc.) cells below are intentionally
+  EMPTY — per the real evidence, KLPGA fills this text client-side via
+  jQuery from the `var record...` declarations, so the static HTML
+  this parser actually receives never carries real text in the <th>
+  itself. This is the fixture proving the confirmed EMPTY_SCHEMA root
+  cause (response_parser.py never looked at these `var` declarations
+  before this round) and its fix (_extract_dynamic_header_labels).
+-->
+<html>
+<body>
+<script>
+var record  = "그린 적중률(%)";
+var record1 = "그린 적중 횟수";
+var record2 = "샷 시도 횟수";
+var record3 = "측정 라운드";
+var record4 = "";
+$(".recordName").html(record);
+$(".record1Name").html(record1);
+$(".record2Name").html(record2);
+$(".record3Name").html(record3);
+$(".record4Name").html(record4);
+</script>
+<table id="recordTable">
+  <thead>
+    <tr>
+      <th>순위</th>
+      <th>선수명</th>
+      <th class="recordName"></th>
+      <th class="record1Name"></th>
+      <th class="record2Name"></th>
+      <th class="record3Name"></th>
+      <th class="record4Name"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-playercode="9807" data-name="김새로미" data-rank="1"
+        data-record="40" data-record1="36" data-record2="90" data-record3="5" data-record4="0.0">
+      <td>1</td><td>김새로미</td><td></td><td>36</td><td>90</td><td>5</td><td>0.0</td>
+    </tr>
+    <tr data-playercode="9812" data-name="전예성" data-rank="2"
+        data-record="33.33" data-record1="12" data-record2="36" data-record3="5" data-record4="0.0">
+      <td>2</td><td>전예성</td><td></td><td>12</td><td>36</td><td>5</td><td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

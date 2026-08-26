@@ -151,3 +151,105 @@ def test_row_with_no_recognizable_attributes_is_skipped_not_fabricated():
     result = parse_record_response(html)
     assert result.rows == []
     assert result.parse_status == "EMPTY"
+
+
+# ---------------------------------------------------------------
+# Phase B1 — CONFIRMED root cause for CLASS 1 (real 231-row responses
+# classifying as EMPTY_SCHEMA): KLPGA fills header text client-side via
+# jQuery from separate `var record = "...";` JS declarations, not the
+# JSON-object metadata shape this parser previously looked for. These
+# tests use a fixture modeled directly on real cached-response evidence
+# (see the fixture's own header comment for the exact reported values).
+# ---------------------------------------------------------------
+
+
+def _dynamic_header_html() -> str:
+    return _read("loadLocationRecord_dynamic_header_sample.html")
+
+
+def test_dynamic_header_response_schema_is_not_empty():
+    """The core regression: a real-shaped response with 231-row-style
+    evidence (here, 2 sanitized rows) must NOT classify as
+    EMPTY_SCHEMA merely because its <th> text is blank — the real
+    labels must be recovered from the `var record...` declarations."""
+    result = parse_record_response(_dynamic_header_html())
+    assert result.parse_status != "EMPTY"
+    assert result.parse_status != "AMBIGUOUS"
+    labels = {c.field_name: c.label for c in result.column_semantics}
+    assert labels["record"] == "그린 적중률(%)"
+
+
+def test_dynamic_header_recovers_all_four_nonblank_labels():
+    result = parse_record_response(_dynamic_header_html())
+    labels = {c.field_name: c.label for c in result.column_semantics}
+    assert labels["record"] == "그린 적중률(%)"
+    assert labels["record1"] == "그린 적중 횟수"
+    assert labels["record2"] == "샷 시도 횟수"
+    assert labels["record3"] == "측정 라운드"
+    sources = {c.field_name: c.source for c in result.column_semantics}
+    assert sources["record"] == "dynamic_header_vars"
+    assert sources["record1"] == "dynamic_header_vars"
+    assert sources["record2"] == "dynamic_header_vars"
+    assert sources["record3"] == "dynamic_header_vars"
+
+
+def test_dynamic_header_blank_record4_does_not_create_a_fake_metric():
+    """var record4 = ""; must NOT be stored as a real label — it must
+    resolve to label=None / source="unknown", exactly like no label
+    being found at all, never an empty-string "label" that could later
+    be mistaken for real evidence."""
+    result = parse_record_response(_dynamic_header_html())
+    record4 = next(c for c in result.column_semantics if c.field_name == "record4")
+    assert record4.label is None
+    assert record4.source == "unknown"
+
+
+def test_dynamic_header_values_map_to_the_correct_labeled_fields():
+    result = parse_record_response(_dynamic_header_html())
+    row1 = next(r for r in result.rows if r.player_name == "김새로미")
+    assert row1.values["record"] == "40"
+    assert row1.values["record1"] == "36"
+    assert row1.values["record2"] == "90"
+    assert row1.values["record3"] == "5"
+    assert row1.values["record4"] == "0.0"
+
+    row2 = next(r for r in result.rows if r.player_name == "전예성")
+    assert row2.values["record"] == "33.33"
+    assert row2.values["record1"] == "12"
+    assert row2.values["record2"] == "36"
+    assert row2.values["record3"] == "5"
+    assert row2.values["record4"] == "0.0"
+
+
+def test_dynamic_header_playercode_is_recovered():
+    result = parse_record_response(_dynamic_header_html())
+    codes = {r.player_name: (r.player_code, r.player_code_source) for r in result.rows}
+    assert codes["김새로미"] == ("9807", "data_attribute")
+    assert codes["전예성"] == ("9812", "data_attribute")
+
+
+def test_dynamic_header_static_table_th_text_is_never_used_when_blank():
+    """Documents WHY the old table-header fallback alone produced
+    EMPTY_SCHEMA for this real response shape: the <th> elements exist
+    (so header_labels is non-empty) but their text is blank, and blank
+    table-header text must never be treated as a found label."""
+    result = parse_record_response(_dynamic_header_html())
+    assert all(c.source != "table_header" for c in result.column_semantics)
+
+
+def test_static_blank_th_alone_without_dynamic_vars_is_unknown_not_a_fake_label():
+    """Isolates the table-header-blank-text behavior from the dynamic-
+    header fix: with NO `var record...` declarations at all, blank
+    <th> text must resolve to unknown, not an empty-string
+    "table_header" label (a real regression risk introduced by this
+    round's fix — a blank header must never silently become
+    "confirmed" evidence of anything)."""
+    html = """
+    <table><thead><tr><th></th><th></th></tr></thead>
+    <tbody><tr data-rank="1" data-name="테스트" data-record="1" data-record1="2">
+      <td>1</td><td>테스트</td><td></td><td></td>
+    </tr></tbody></table>
+    """
+    result = parse_record_response(html)
+    assert all(c.label is None and c.source == "unknown" for c in result.column_semantics)
+    assert result.parse_status == "AMBIGUOUS"

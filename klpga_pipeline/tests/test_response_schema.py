@@ -414,3 +414,52 @@ def test_identity_report_over_real_sg_and_approach_fixtures():
     approach = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
     overall, _records = build_player_identity_report({"Sg::Total": sg, "Approach::Approach01::020104": approach})
     assert overall == IDENTITY_CONSISTENCY_NOT_AVAILABLE
+
+
+# ---------------------------------------------------------------
+# Phase B1 — value-type classification / raw-pair detection over the
+# dynamic-header fixture, proving the schema.py analysis layer still
+# works correctly once response_parser.py recovers the real labels
+# (Mission 3's "value-type classification remains correct").
+# ---------------------------------------------------------------
+
+
+def test_dynamic_header_schema_fingerprint_is_not_empty_schema():
+    result = parse_record_response(_read("loadLocationRecord_dynamic_header_sample.html"))
+    fingerprint = build_schema_fingerprint(result.column_semantics)
+    assert fingerprint != "EMPTY_SCHEMA"
+    assert fingerprint == "PERCENTAGE_COUNT_COUNT_ROUNDS"
+
+
+def test_dynamic_header_confirmed_raw_pair_and_arithmetic_checks_out():
+    """record1/record2 (GIR count/attempts) are a real raw
+    numerator/denominator pair for the record (GIR%) column — the
+    exact same shape as the already-confirmed Approach fixtures. Both
+    real reported rows' arithmetic checks out (36/90*100=40.0,
+    12/36*100=33.33...), independently corroborating this is genuine
+    evidence, not a coincidence."""
+    result = parse_record_response(_read("loadLocationRecord_dynamic_header_sample.html"))
+    analysis = analyze_response(result)
+    assert analysis.raw_pair.status == "CONFIRMED_RAW_PAIR"
+    assert analysis.raw_pair.numerator_field == "record1"
+    assert analysis.raw_pair.denominator_field == "record2"
+    assert analysis.raw_pair.validation.checked_rows == 2
+    assert analysis.raw_pair.validation.matches_within_tolerance == 2
+
+
+def test_dynamic_header_rtp_absent_not_conflated_with_blank_record4():
+    """Unlike the already-confirmed Approach 020104/020105 metrics
+    (which DO have an RTP column), this response's blank record4 must
+    NOT be misread as an absent-but-present RTP field — RTP_ABSENT
+    here means "no RTP-labeled column was found," not "RTP is blank.\""""
+    result = parse_record_response(_read("loadLocationRecord_dynamic_header_sample.html"))
+    status, example = detect_rtp_status(result.column_semantics, result.rows)
+    assert status == "RTP_ABSENT"
+    assert example is None
+
+
+def test_dynamic_header_sample_size_fields_stay_distinct():
+    result = parse_record_response(_read("loadLocationRecord_dynamic_header_sample.html"))
+    fields = detect_sample_size_fields(result.column_semantics, result.rows)
+    types = {f.sample_size_type for f in fields}
+    assert types == {"그린 적중 횟수", "샷 시도 횟수", "측정 라운드"}

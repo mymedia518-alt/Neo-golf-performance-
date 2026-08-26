@@ -44,10 +44,24 @@ records which layer actually supplied the answer:
      the user's own DevTools inspection surfaced) if present anywhere
      in the response (a `<script>` block or `data-*` attributes on a
      metadata container).
-  2. `table_header` — visible `<th>` text, in column order, used only
-     when no metadata block is found.
-  3. `unknown` — neither found; the column is preserved in the parsed
-     row but its semantic label is left `None`, never invented.
+  2. `dynamic_header_vars` — CONFIRMED against a real cached response
+     (Phase B1): KLPGA populates header text client-side via jQuery
+     (`$(".recordName").html(record)`) from separate `var record =
+     "...";`/`var record1 = "...";` JS declarations. The static HTML
+     this parser receives has the `<th class="recordName">` (etc.)
+     elements present but EMPTY — the real label text exists only in
+     these `var` assignments, never in the JSON-object shape layer 1
+     looks for. This is the confirmed root cause of a real 231-row
+     response classifying as EMPTY_SCHEMA before this layer existed
+     (see docs/KLPGA_OFFICIAL_DATA_MAP.md's Phase B1 dynamic-header
+     section). A blank `var record4 = "";` is never stored as a label
+     here — see `_extract_dynamic_header_labels`.
+  3. `table_header` — visible, NON-BLANK `<th>` text, in column order,
+     used only when neither layer 1 nor layer 2 supplied a label for
+     that column.
+  4. `unknown` — none of the above found a non-blank label; the column
+     is preserved in the parsed row but its semantic label is left
+     `None`, never invented.
 """
 from __future__ import annotations
 
@@ -189,15 +203,59 @@ def _extract_metadata(soup: BeautifulSoup) -> ResponseMetadata:
     return ResponseMetadata(found=False)
 
 
+_DYNAMIC_HEADER_VAR_RE = re.compile(r'var\s+(record\d*)\s*=\s*"([^"]*)"\s*;')
+"""Matches KLPGA's confirmed dynamic-header JS pattern (Phase B1 real
+cached-response evidence):
+
+    var record  = "그린 적중률(%)";
+    var record1 = "그린 적중 횟수";
+    ...
+    $(".recordName").html(record);
+
+The site fills `<th class="recordName">` (etc.) client-side via
+jQuery — the static HTML this parser actually receives has those `<th>`
+elements present but EMPTY, which is the confirmed root cause of a
+231-real-row response classifying as EMPTY_SCHEMA (see
+docs/KLPGA_OFFICIAL_DATA_MAP.md's Phase B1 dynamic-header section):
+`_extract_metadata()`'s JSON-object regex never matches these separate
+`var` assignments, and the table-header fallback below reads only the
+(blank) static text, never the real label the `var` declarations carry.
+No escaping beyond a plain quoted string is handled — none was present
+in the real evidence; Mission instruction is explicit that escape
+handling must be evidence-based, not speculative."""
+
+
+def _extract_dynamic_header_labels(html: str, record_fields: list[str]) -> dict[str, str]:
+    """Scans the RAW response body (not the parsed DOM — script content
+    extraction via BeautifulSoup is unreliable across script tags with
+    mixed content) for `var record<N> = "...";` declarations. Returns
+    only NON-BLANK labels for field names that are actually in
+    `record_fields` — a blank `var record4 = "";` is deliberately
+    OMITTED from the returned dict (not stored as an empty string),
+    so it can never be mistaken for "a real label was found" by a
+    caller that only checks dict membership. This is the "blank
+    labels must not create a fake metric" requirement."""
+    found: dict[str, str] = {}
+    for field_name, label in _DYNAMIC_HEADER_VAR_RE.findall(html):
+        if field_name in record_fields and label:
+            found[field_name] = label
+    return found
+
+
 def _extract_column_semantics(
-    soup: BeautifulSoup, metadata: ResponseMetadata, record_fields: list[str]
+    soup: BeautifulSoup,
+    metadata: ResponseMetadata,
+    record_fields: list[str],
+    dynamic_labels: Optional[dict[str, str]] = None,
 ) -> list[ColumnSemantics]:
     if metadata.found and metadata.record_note:
         # The recordNote is a single free-text description of the whole
         # metric, not a per-column label — attach it to `record` (the
         # primary value column) only; other columns stay unknown from
-        # this source and fall through to the table-header layer below.
+        # this source and fall through to the layers below.
         pass
+
+    dynamic_labels = dynamic_labels or {}
 
     header_cells = soup.select("thead th") or soup.select("tr th")
     header_labels = [th.get_text(strip=True) for th in header_cells]
@@ -216,7 +274,16 @@ def _extract_column_semantics(
 
     semantics: list[ColumnSemantics] = []
     for i, field_name in enumerate(record_fields):
-        if record_header_labels and i < len(record_header_labels):
+        # Priority: (1) a non-blank dynamic-header JS var — CONFIRMED
+        # real evidence this label source exists and, per the same
+        # evidence, is the ONLY source with real text for KLPGA's
+        # dynamic-header response shape; (2) the static table-header
+        # text, when non-blank; (3) unknown, never guessed.
+        if field_name in dynamic_labels:
+            semantics.append(
+                ColumnSemantics(field_name=field_name, label=dynamic_labels[field_name], source="dynamic_header_vars")
+            )
+        elif record_header_labels and i < len(record_header_labels) and record_header_labels[i]:
             semantics.append(
                 ColumnSemantics(field_name=field_name, label=record_header_labels[i], source="table_header")
             )
@@ -324,7 +391,8 @@ def parse_record_response(html: str) -> ParsedRecordResponse:
 
     record_fields = _discover_record_fields(soup)
     metadata = _extract_metadata(soup)
-    column_semantics = _extract_column_semantics(soup, metadata, record_fields)
+    dynamic_labels = _extract_dynamic_header_labels(html, record_fields)
+    column_semantics = _extract_column_semantics(soup, metadata, record_fields, dynamic_labels)
     rows = _extract_rows(soup, record_fields)
     sample_definition = _build_sample_definition(column_semantics, metadata)
 
@@ -334,9 +402,15 @@ def parse_record_response(html: str) -> ParsedRecordResponse:
         notes.append("No player rows found — could be a genuinely empty result or an unrecognized row shape.")
     elif all(c.source == "unknown" for c in column_semantics):
         status = "AMBIGUOUS"
-        notes.append("Player rows found but no column-semantics source (metadata or table header) was found.")
+        notes.append("Player rows found but no column-semantics source (metadata, dynamic-header vars, or table header) was found.")
     elif metadata.found:
         status = "CONFIRMED"
+    elif dynamic_labels:
+        status = "DISCOVERED_NOT_VALIDATED"
+        notes.append(
+            "Rows found; semantics resolved from KLPGA's dynamic-header JS vars "
+            "(var record/record1/.../recordN = \"...\"), not an embedded metadata block or static table-header text."
+        )
     else:
         status = "DISCOVERED_NOT_VALIDATED"
         notes.append("Rows and header-derived labels found, but no embedded metadata block — semantics rely on table-header order only.")
