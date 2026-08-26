@@ -20,6 +20,9 @@ fields, RTP presence, data-quality checks), and writes:
   docs/discovery/KLPGA_PLAYER_IDENTITY_REPORT.md
   docs/discovery/KLPGA_RESPONSE_FAILURES.csv
   docs/discovery/KLPGA_PHASE_B1_REQUEST_LOG.json / .csv
+  docs/discovery/raw_samples/<identity_key>__<season>.html  (one per
+    sampled metric — Phase B1.1 raw-evidence preservation, see Mission
+    3; gitignored, never auto-committed; disable with --no-raw-samples)
 
 Then STOPS. This script does NOT proceed to a full 283-metric sweep —
 that is Phase B2, a separate, not-yet-authorized step. An optional
@@ -130,12 +133,31 @@ def _request_form(leaf: SampledLeaf, season: str) -> dict:
     return form
 
 
-def fetch_and_analyze(client: PoliteHttpClient, leaf: SampledLeaf, season: str, *, tag: str = "?"):
+def _sanitize_identity_key_for_filename(key: str) -> str:
+    """"Approach::Approach01::020101" -> "Approach__Approach01__020101"
+    — filesystem-safe, still human-readable and traceable back to the
+    exact canonical identity, unlike PoliteHttpClient's own hash-keyed
+    cache filenames."""
+    return key.replace("::", "__").replace("/", "_").replace("\\", "_")
+
+
+def fetch_and_analyze(
+    client: PoliteHttpClient, leaf: SampledLeaf, season: str, *, tag: str = "?", raw_dir: Path | None = None
+):
     """Returns (parsed, analysis, log_entry). Raises RateLimitBlockedError
     unmodified — the caller decides whether that halts the whole run.
     `tag` (e.g. "3/20" or "HIST 1/3") is purely for the REQUEST/
     RESPONSE/PARSE diagnostic markers below — it plays no role in the
-    request itself."""
+    request itself.
+
+    `raw_dir`, if given, saves the exact raw response body to
+    `raw_dir/<identity_key>__<season>.html` — Phase B1.1's raw-evidence
+    preservation (see Mission 3): PoliteHttpClient already caches every
+    response under data/raw_cache/http/ keyed by an opaque content
+    hash, which technically preserves the bytes but makes finding "the
+    Putt::Putt01::040101 response" by hand impractical. This writes a
+    second, small, human-named copy — bounded by the sample size (the
+    same hard cap already governing live requests), never unbounded."""
     form = _request_form(leaf, season)
     _log(f"[REQUEST {tag}] menu1={leaf.menu1!r} menu2={leaf.menu2!r} menu3={leaf.menu3!r} season={season!r}")
     timestamp = datetime.now(timezone.utc).isoformat()
@@ -143,6 +165,11 @@ def fetch_and_analyze(client: PoliteHttpClient, leaf: SampledLeaf, season: str, 
     html = client.post_text(config.RECORD_TAXONOMY_ENDPOINT, data=form)
     elapsed = time.perf_counter() - start
     _log(f"[RESPONSE {tag}] status=200(assumed — client raises on 401/403/429/5xx) bytes={len(html)} elapsed={elapsed:.2f}s")
+    if raw_dir is not None:
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        raw_path = raw_dir / f"{_sanitize_identity_key_for_filename(leaf.source_metric_key)}__{season}.html"
+        raw_path.write_text(html, encoding="utf-8")
+        _log(f"[RAW SAVED {tag}] {raw_path}")
     parsed = parse_record_response(html)
     _log(f"[PARSE {tag}] parse_status={parsed.parse_status} rows={len(parsed.rows)}")
     analysis = analyze_response(parsed)
@@ -171,7 +198,9 @@ def run(
     sample_size: int = DEFAULT_SAMPLE_SIZE,
     max_requests: int = DEFAULT_MAX_REQUESTS,
     historical_season: str | None = None,
+    save_raw_responses: bool = True,
 ) -> int:
+    raw_dir = (out_dir / "raw_samples") if save_raw_responses else None
     _log("[STEP 03] taxonomy loading (rejecting malformed leaves)")
     raw_leaves = taxonomy.get("leaves", [])
     valid_leaves, rejected_leaves = reject_malformed_leaves(raw_leaves)
@@ -203,7 +232,9 @@ def run(
             _log(f"Reached --max-requests={max_requests} — stopping before {leaf.source_metric_key}.")
             break
         try:
-            parsed, analysis, log_entry = fetch_and_analyze(client, leaf, season, tag=f"{i}/{len(sample)}")
+            parsed, analysis, log_entry = fetch_and_analyze(
+                client, leaf, season, tag=f"{i}/{len(sample)}", raw_dir=raw_dir
+            )
             request_count += 1
         except RateLimitBlockedError as exc:
             _log(f"BLOCKED on {leaf.source_metric_key}: {exc}")
@@ -235,7 +266,7 @@ def run(
                 break
             try:
                 hist_parsed, hist_analysis, hist_log = fetch_and_analyze(
-                    client, leaf, historical_season, tag=f"HIST {j}/{len(probe_leaves)}"
+                    client, leaf, historical_season, tag=f"HIST {j}/{len(probe_leaves)}", raw_dir=raw_dir
                 )
                 request_count += 1
             except RateLimitBlockedError as exc:
@@ -295,6 +326,8 @@ def run(
     )
     _log(f"Metrics with real parsed data (PARSE_SUCCESS): {outcome_counts['parse_success']}")
     _log(f"Output written to: {out_dir}")
+    if raw_dir is not None:
+        _log(f"Raw response HTML saved to: {raw_dir} (one file per sampled metric, human-named)")
 
     if blocked:
         return EXIT_BLOCKED
@@ -335,6 +368,14 @@ def main() -> int:
     parser.add_argument("--max-requests", type=int, default=DEFAULT_MAX_REQUESTS, help="Hard cap on live requests this run, independent of --sample-size")
     parser.add_argument("--cache-dir", default=str(ROOT / "data" / "raw_cache" / "http"))
     parser.add_argument("--out-dir", default=str(ROOT / "docs" / "discovery"))
+    parser.add_argument(
+        "--no-raw-samples",
+        action="store_true",
+        help=(
+            "Skip saving a human-named raw HTML copy per sampled metric to <out-dir>/raw_samples/ "
+            "(Phase B1.1 evidence preservation — on by default, bounded by --sample-size/--max-requests)."
+        ),
+    )
     args = parser.parse_args()
 
     _log(f"[STEP 03] taxonomy loading: {args.taxonomy}")
@@ -363,6 +404,7 @@ def main() -> int:
         sample_size=args.sample_size,
         max_requests=args.max_requests,
         historical_season=args.historical_season,
+        save_raw_responses=not args.no_raw_samples,
     )
 
 
