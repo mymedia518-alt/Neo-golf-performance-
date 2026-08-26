@@ -57,25 +57,57 @@ DOM markup artifact, not a real distinct metric. Checked BEFORE
 needing any raw response, since it is a pure taxonomy-label
 comparison."""
 
+CATEGORY_CONTAINER_CHILD = "B_CONTAINER_CHILD"
+"""At least one label is a CONFIRMED match (exact or substring) to a
+specific response column, and every OTHER label in the group is a
+"container-candidate" — a short/generic label whose only textual
+relationship to the response is an ambiguous substring hit (matches
+2+ columns) or falls below the minimum meaningful-match length (see
+`_MIN_SUBSTRING_MATCH_LENGTH`). Real example confirmed this round:
+Putt::Putt01::040101's "1퍼트 성공률" matches the response's
+"성공률(%)" column (substring, after stripping the trailing "(%)"
+annotation), while "퍼팅" — 2 characters, a substring of every column
+in the Putt family — is the generic parent label, not a distinct
+metric of its own."""
+
 CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW = "PARTIAL_MATCH_NEEDS_REVIEW"
-"""SOME (not all, not none) of the group's labels match a response
-column. Deliberately NOT auto-classified as B (container/child) or D
-(unresolved) — that call needs a human to look at which specific
-label(s) went unmatched (a real category-header label vs. a
-genuinely missing metric are indistinguishable from label-matching
-alone)."""
+"""At least one label is genuinely UNMATCHED (no exact/substring/
+container relationship to any response column at all), while at
+least one other label in the group DID resolve (matched or
+container-candidate). Deliberately left for human review rather than
+auto-classified as B or D — string comparison alone cannot prove
+whether the unmatched label is a derived metric (e.g. a rate computed
+from a returned count column — real example: Tee::Tee01::010101's
+"Par4,5 티샷 비율" versus the response's "Par4,5 티샷 횟수", which
+differ only in their final word, 비율 vs 횟수) or a genuine gap."""
 
 CATEGORY_UNRESOLVED = "D_UNRESOLVED_REQUEST_IDENTITY_COLLISION"
 """The saved response is non-empty, but NONE of the group's labels
-match any of its column labels — the strongest evidence this
-codebase can produce, without a new request, that this collision may
-be a genuine request-identity-model gap rather than a benign
-container/multi-metric case."""
+have even a container-candidate relationship to any of its column
+labels — the strongest evidence this codebase can produce, without a
+new request, that this collision may be a genuine request-identity-
+model gap rather than a benign container/multi-metric case."""
 
 CATEGORY_INSUFFICIENT_EVIDENCE = "UNRESOLVED_INSUFFICIENT_EVIDENCE"
 """No saved raw response exists for this identity at all — cannot be
 classified without either finding cached evidence elsewhere or a new,
 separately-authorized request. Never guessed."""
+
+_MIN_SUBSTRING_MATCH_LENGTH = 3
+"""Minimum character length (of the SHORTER of the two compared
+strings) for a substring relationship to count as a confirmed
+per-label match rather than a container-candidate signal. Derived
+directly from real evidence, not an arbitrary guess: "성공률" (3
+chars) is a genuine, specific metric-name fragment and should count;
+"티샷"/"퍼팅" (2 chars each) are generic family names that substring-
+match every column in their own group and should NOT count as tied to
+one specific column."""
+
+_TRAILING_PARENTHETICAL = re.compile(r"\s*\([^)]*\)\s*$")
+"""Strips a trailing "(...)" annotation — e.g. "(yds)", "(%)" — that
+real evidence (docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 10 section)
+showed response column labels carry but taxonomy labels do not.
+Applied to BOTH sides symmetrically; harmless when absent."""
 
 
 def derive_request_identity_key(entry: dict) -> str:
@@ -95,7 +127,38 @@ def derive_request_identity_key(entry: dict) -> str:
 def _normalize_label(label: Optional[str]) -> str:
     if label is None:
         return ""
-    return re.sub(r"\s+", " ", label).strip().casefold()
+    collapsed = re.sub(r"\s+", " ", label).strip().casefold()
+    return _TRAILING_PARENTHETICAL.sub("", collapsed).strip()
+
+
+_LABEL_MATCH_EXACT = "exact"
+_LABEL_MATCH_SUBSTRING = "substring"
+_LABEL_MATCH_CONTAINER_CANDIDATE = "container_candidate"
+_LABEL_MATCH_NONE = "none"
+
+
+def _classify_label_against_response(norm_label: str, normalized_response_labels: list[str]) -> str:
+    """Per-label match tier against the FULL list of the response's
+    normalized column labels (not a set — needed to detect an
+    AMBIGUOUS substring hit, i.e. a label that substring-matches more
+    than one column, which is exactly the generic/container-label
+    signature confirmed by real evidence this round)."""
+    if not norm_label:
+        return _LABEL_MATCH_NONE
+    if norm_label in normalized_response_labels:
+        return _LABEL_MATCH_EXACT
+
+    substring_hits = [
+        resp for resp in normalized_response_labels
+        if norm_label in resp or resp in norm_label
+    ]
+    if not substring_hits:
+        return _LABEL_MATCH_NONE
+
+    shorter_len = min(len(norm_label), min(len(resp) for resp in substring_hits))
+    if len(substring_hits) == 1 and shorter_len >= _MIN_SUBSTRING_MATCH_LENGTH:
+        return _LABEL_MATCH_SUBSTRING
+    return _LABEL_MATCH_CONTAINER_CANDIDATE
 
 
 @dataclass
@@ -104,6 +167,7 @@ class GroupAudit:
     labels: list[str]
     category: str
     matched_labels: list[str] = field(default_factory=list)
+    container_candidate_labels: list[str] = field(default_factory=list)
     unmatched_labels: list[str] = field(default_factory=list)
     response_column_labels: list[str] = field(default_factory=list)
     raw_sample_path: Optional[str] = None
@@ -160,7 +224,7 @@ def audit_identity_key_collisions(
         html = raw_path.read_text(encoding="utf-8")
         parsed = parse_record_response(html)
         response_labels = [c.label for c in parsed.column_semantics if c.label]
-        normalized_response_labels = {_normalize_label(label) for label in response_labels}
+        normalized_response_labels = [_normalize_label(label) for label in response_labels]
 
         if len(parsed.rows) == 0 and not response_labels:
             audits.append(
@@ -175,16 +239,28 @@ def audit_identity_key_collisions(
             )
             continue
 
-        matched, unmatched = [], []
+        matched, container_candidates, unmatched = [], [], []
         for label, norm in zip(labels, normalized):
-            (matched if norm in normalized_response_labels else unmatched).append(label)
+            tier = _classify_label_against_response(norm, normalized_response_labels)
+            if tier in (_LABEL_MATCH_EXACT, _LABEL_MATCH_SUBSTRING):
+                matched.append(label)
+            elif tier == _LABEL_MATCH_CONTAINER_CANDIDATE:
+                container_candidates.append(label)
+            else:
+                unmatched.append(label)
 
-        if not unmatched:
-            category = CATEGORY_MULTI_METRIC_CONFIRMED
-        elif not matched:
-            category = CATEGORY_UNRESOLVED
+        if unmatched:
+            category = CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW if (matched or container_candidates) else CATEGORY_UNRESOLVED
+        elif container_candidates:
+            category = CATEGORY_CONTAINER_CHILD if matched else CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW
         else:
-            category = CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW
+            category = CATEGORY_MULTI_METRIC_CONFIRMED
+
+        note_parts = []
+        if unmatched:
+            note_parts.append(f"{len(unmatched)} of {len(labels)} label(s) had no textual relationship to any response column")
+        if container_candidates:
+            note_parts.append(f"{len(container_candidates)} label(s) matched as a generic/container candidate: {container_candidates}")
 
         audits.append(
             GroupAudit(
@@ -192,10 +268,11 @@ def audit_identity_key_collisions(
                 labels=labels,
                 category=category,
                 matched_labels=matched,
+                container_candidate_labels=container_candidates,
                 unmatched_labels=unmatched,
                 response_column_labels=response_labels,
                 raw_sample_path=str(raw_path),
-                notes="" if not unmatched else f"{len(unmatched)} of {len(labels)} label(s) matched no response column.",
+                notes="; ".join(note_parts),
             )
         )
 

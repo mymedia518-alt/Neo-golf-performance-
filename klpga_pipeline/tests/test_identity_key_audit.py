@@ -6,6 +6,7 @@ raw_samples/ directory exists in this repo."""
 from __future__ import annotations
 
 from klpga.discovery.identity_key_audit import (
+    CATEGORY_CONTAINER_CHILD,
     CATEGORY_EMPTY_SHARED_RESPONSE,
     CATEGORY_EXACT_DUPLICATE,
     CATEGORY_INSUFFICIENT_EVIDENCE,
@@ -184,3 +185,82 @@ def test_multiple_independent_groups_classified_independently(tmp_path):
     assert len(audits) == 2
     assert by_key["Sg::All"].category == CATEGORY_EMPTY_SHARED_RESPONSE
     assert by_key["Around::Around04::030306"].category == CATEGORY_MULTI_METRIC_CONFIRMED
+
+
+# ---------------------------------------------------------------
+# Real evidence, pasted directly by the user (docs/KLPGA_OFFICIAL_
+# DATA_MAP.md's Round 10 section): the FIRST version of this matcher
+# (exact-normalized-equality only) misclassified BOTH of these real
+# groups as D_UNRESOLVED, because response column labels carry a
+# trailing "(yds)"/"(%)" annotation the taxonomy labels don't, and
+# because short generic family labels ("티샷", "퍼팅") don't equal any
+# single column's full text. These tests pin the corrected behavior
+# against the exact real label text reported.
+# ---------------------------------------------------------------
+
+
+def test_real_tee_evidence_partial_match_one_genuinely_unmatched_label(tmp_path):
+    """Real evidence for Tee::Tee01::010101. "평균 티샷 거리" matches
+    "평균 티샷 거리(yds)" once the trailing unit annotation is
+    stripped; "티샷" is a container-candidate (substring-matches all
+    3 columns); "Par4,5 티샷 비율" has NO textual relationship to
+    "Par4,5 티샷 횟수" (differs in its final word, rate vs count) and
+    must stay genuinely unresolved rather than be silently matched."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee01", "010101", "menu3", "Par4,5 티샷 비율"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "티샷"),
+            _leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "평균 티샷 거리(yds)", "티샷 거리 총 합(yds)", "Par4,5 티샷 횟수"])
+    (tmp_path / "Tee__Tee01__010101__2025.html").write_text(html, encoding="utf-8")
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW
+    assert a.matched_labels == ["평균 티샷 거리"]
+    assert a.container_candidate_labels == ["티샷"]
+    assert a.unmatched_labels == ["Par4,5 티샷 비율"]
+
+
+def test_real_putt_evidence_container_child_fully_resolved(tmp_path):
+    """Real evidence for Putt::Putt01::040101. "1퍼트 성공률" matches
+    "성공률(%)" via substring after stripping "(%)"; "퍼팅" is a
+    container-candidate (substring of "퍼팅 시도 홀 수", 2 chars,
+    below the minimum confirmed-match length). Both labels resolve —
+    one confirmed match plus one container/generic label — so the
+    WHOLE group classifies as B, not left as partial."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Putt", "Putt01", "040101", "menu3", "1퍼트 성공률"),
+            _leaf("Putt", "Putt01", "040101", "menu3", "퍼팅"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "성공률(%)", "1퍼트 성공 홀 수", "퍼팅 시도 홀 수"])
+    (tmp_path / "Putt__Putt01__040101__2025.html").write_text(html, encoding="utf-8")
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    a = audits[0]
+    assert a.category == CATEGORY_CONTAINER_CHILD
+    assert a.matched_labels == ["1퍼트 성공률"]
+    assert a.container_candidate_labels == ["퍼팅"]
+    assert a.unmatched_labels == []
+
+
+def test_trailing_unit_annotation_alone_yields_exact_match_after_normalization(tmp_path):
+    taxonomy = {
+        "leaves": [
+            _leaf("Tee", "Tee09", "010901", "menu3", "평균 드라이브 거리"),
+            _leaf("Tee", "Tee09", "010901", "menu3", "장타율"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "평균 드라이브 거리(yds)", "장타율(%)"])
+    (tmp_path / "Tee__Tee09__010901__2025.html").write_text(html, encoding="utf-8")
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    assert audits[0].category == CATEGORY_MULTI_METRIC_CONFIRMED
+    assert set(audits[0].matched_labels) == {"평균 드라이브 거리", "장타율"}

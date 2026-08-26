@@ -3221,6 +3221,102 @@ C/D/PARTIAL/insufficient-evidence breakdown across all 30 real
 groups, and declares `B2_REQUEST_COUNT` only if every group resolves
 cleanly.
 
+## Round 10 (continued) — fixed a false-negative in the matcher itself
+
+### A. Root cause of the matcher's own false negative
+
+The audit correctly ran with zero live requests, but its very first
+real result was wrong: `Around::Around04::030306`, `Tee::Tee01::010101`,
+and `Putt::Putt01::040101` — all three already confirmed by the user's
+manual check to be genuine shared multi-column responses — classified
+as `D_UNRESOLVED` instead of `C`/`B`. Traced (using the exact label
+text the user pasted, no new evidence needed) to the matcher requiring
+FULL-STRING equality after only whitespace-collapse/casefold
+normalization:
+- Response column labels carry a trailing `(yds)`/`(%)` unit
+  annotation the taxonomy labels never do (`평균 티샷 거리` vs.
+  `평균 티샷 거리(yds)`) — breaks exact equality even though it's the
+  same real quantity.
+- Some taxonomy labels are short, generic family names (`티샷`,
+  `퍼팅`) that never equal any single column's full text, but ARE a
+  substring of every column in their family — a container/parent
+  label, not something exact-matching can ever resolve.
+- One label genuinely has no textual relationship to any column at
+  all (`Par4,5 티샷 비율` vs. the response's `Par4,5 티샷 횟수` —
+  differ in their final word, rate vs. count) — this one is NOT a
+  matcher bug; text comparison alone cannot prove whether it's a
+  derived metric or a real gap, and the fix must not pretend it can.
+
+### B. The fix (`klpga.discovery.identity_key_audit`)
+
+`_normalize_label` now also strips a trailing `(...)` annotation
+(`_TRAILING_PARENTHETICAL`) before comparing — directly justified by
+the observed unit-suffix pattern, not a guess. Per-label matching is
+now tiered instead of one exact-equality check:
+1. **exact** (post-normalization) — unchanged, strongest evidence.
+2. **substring** — bidirectional containment, counted as a confirmed
+   match ONLY when it hits exactly one response column AND the
+   shorter string is ≥ `_MIN_SUBSTRING_MATCH_LENGTH` (3 characters —
+   picked because it's exactly the length of the real `성공률` match
+   and one character above the real `티샷`/`퍼팅` non-matches, so it's
+   derived from evidence, not arbitrary).
+3. **container-candidate** — a substring relationship that's either
+   ambiguous (hits 2+ columns) or below the length threshold — the
+   generic/parent-label signal.
+4. **none** — no relationship at all — left genuinely unresolved.
+
+New group category `B_CONTAINER_CHILD`: at least one label confirmed-
+matched (exact/substring) and every other label is a container-
+candidate — nothing left unmatched. `PARTIAL_MATCH_NEEDS_REVIEW` is
+now reserved for groups with a genuinely unmatched label alongside at
+least one resolved one (exactly the real `Tee::Tee01::010101` case).
+`D_UNRESOLVED` now only fires when NOTHING in the group — not even a
+container-candidate relationship — relates to the response at all.
+
+Re-running the fix against the real pasted evidence:
+`Putt::Putt01::040101` → `B_CONTAINER_CHILD` (`1퍼트 성공률` matched,
+`퍼팅` correctly identified as the container label) — fully resolved.
+`Tee::Tee01::010101` → `PARTIAL_MATCH_NEEDS_REVIEW` (`평균 티샷 거리`
+matched, `티샷` correctly identified as container, `Par4,5 티샷 비율`
+correctly left unresolved rather than silently matched) — honestly
+flags the one label the matcher genuinely cannot resolve from text
+alone, instead of either false-negative-D'ing the whole group or
+false-positive-C'ing it.
+
+### C. Tests
+
+3 new tests in `tests/test_identity_key_audit.py`, pinned against the
+EXACT real label text pasted by the user for both groups (not
+synthetic approximations): the `Tee::Tee01::010101` partial-match
+case with its one genuinely-unresolved label, the
+`Putt::Putt01::040101` fully-resolved container-child case, and a
+minimal trailing-unit-annotation-only case confirming plain exact
+matches still work post-normalization. All 10 pre-existing tests in
+that file continue to pass unchanged, confirming the fix didn't
+regress the earlier synthetic (empty-response, no-evidence, near-
+duplicate-label, fully-unrelated) cases.
+
+**648/648 tests passing** (645 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. `scripts/29`'s B2 runner untouched. Phase B2 not executed.
+
+### D. Next step — rerun against the real 30 groups
+
+The real breakdown you asked for (resolved from existing evidence /
+unresolved because matching logic was insufficient / unresolved
+because evidence is genuinely absent) can only be produced by rerunning
+the actual tool against your real taxonomy and raw_samples — I have
+neither. `C_MULTI_METRIC_ONE_REQUEST_CONFIRMED` + `B_CONTAINER_CHILD`
++ `EMPTY_SHARED_RESPONSE` counts = "resolved from existing evidence."
+`PARTIAL_MATCH_NEEDS_REVIEW` + `D_UNRESOLVED` = "unresolved because
+matching logic is insufficient" (or the labels are genuinely
+different metrics — string comparison can flag this but not decide
+it). `UNRESOLVED_INSUFFICIENT_EVIDENCE` = "raw/cache evidence
+genuinely absent" — the ONLY category that could justify a bounded,
+separately-authorized additional live request, per instruction. Not
+executing B2.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

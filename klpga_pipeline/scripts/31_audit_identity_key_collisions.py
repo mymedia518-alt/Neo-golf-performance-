@@ -13,12 +13,13 @@ Usage (fully offline — reads only local files already on disk):
         --season 2025
 
 Gate rule: if every colliding group classifies as
-C_MULTI_METRIC_ONE_REQUEST_CONFIRMED or EMPTY_SHARED_RESPONSE (i.e.
-zero D_UNRESOLVED / PARTIAL_MATCH_NEEDS_REVIEW / INSUFFICIENT_EVIDENCE
-groups remain), this script declares B2_REQUEST_COUNT = the
-canonical plan's own unique_identity_key_count and exits 0. Otherwise
-it lists exactly which groups are still unresolved and exits non-zero
-— this script does NOT authorize or execute Phase B2 either way.
+C_MULTI_METRIC_ONE_REQUEST_CONFIRMED, B_CONTAINER_CHILD, or
+EMPTY_SHARED_RESPONSE (i.e. zero D_UNRESOLVED /
+PARTIAL_MATCH_NEEDS_REVIEW / INSUFFICIENT_EVIDENCE groups remain),
+this script declares B2_REQUEST_COUNT = the canonical plan's own
+unique_identity_key_count and exits 0. Otherwise it lists exactly
+which groups are still unresolved and exits non-zero — this script
+does NOT authorize or execute Phase B2 either way.
 """
 from __future__ import annotations
 
@@ -31,6 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.discovery.canonical_plan import build_canonical_plan  # noqa: E402
 from klpga.discovery.identity_key_audit import (  # noqa: E402
+    CATEGORY_CONTAINER_CHILD,
     CATEGORY_EMPTY_SHARED_RESPONSE,
     CATEGORY_EXACT_DUPLICATE,
     CATEGORY_INSUFFICIENT_EVIDENCE,
@@ -48,6 +50,7 @@ EXIT_TAXONOMY_LOAD_FAILED = 5
 
 _CATEGORY_PRINT_ORDER = [
     CATEGORY_MULTI_METRIC_CONFIRMED,
+    CATEGORY_CONTAINER_CHILD,
     CATEGORY_EMPTY_SHARED_RESPONSE,
     CATEGORY_EXACT_DUPLICATE,
     CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW,
