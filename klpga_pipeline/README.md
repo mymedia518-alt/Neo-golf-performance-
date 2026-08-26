@@ -268,6 +268,26 @@ data.
   Prediction #001's archive JSON/CSV remain byte-identical (confirmed
   via `git diff`/hash). See `docs/PREDICTIONS_SITE.md` "Brand
   architecture, v1.2."
+- ✅ **KLPGA official record-taxonomy discovery, Rounds 1-3,
+  2026-08-26** — a separate research track (not the tournament-results
+  pipeline above): `docs/KLPGA_OFFICIAL_DATA_MAP.md`,
+  `docs/NEO_DERIVED_METRIC_MAP.md`, `docs/NEO_DATA_RIGHTS_MATRIX.md`
+  document what the official `/load/record/loadLocationRecord` API
+  (Strokes Gained, tee/approach/putting category stats) exposes,
+  entirely from evidence the user captured manually in DevTools — this
+  project's own environment has never once reached `klpga.co.kr`. Round
+  3 built (and 339/339-tested) `src/klpga/discovery/` — menu-taxonomy
+  discovery, a response parser, and collision detection — plus
+  `scripts/26_discover_klpga_record_taxonomy.py`, a **Phase A only**
+  tool (discovers the menu structure, never fires a live
+  `loadLocationRecord` request). Real regression value already paid
+  off during implementation: the collision-detection logic's first
+  draft would have missed the actual Round-1 finding (`menu3=010102`
+  reused under the same menu1/menu2 with a different label) until a
+  test built directly from that real evidence caught the bug. Not yet
+  run against the live site — awaiting the exact Windows command in
+  that doc. No SG/driving/approach/putting data has entered
+  `klpga.sqlite`, the prediction model, or the archive from this track.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual

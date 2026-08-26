@@ -64,6 +64,31 @@ ROUND_LEADERBOARD_ENDPOINT = f"{BASE_URL}/load/leaderboard/roundLeaderboard"
 #   user pasted verbatim, see tests/fixtures/entry_list_sample.html).
 ENTRY_LIST_ENDPOINT = f"{BASE_URL}/web/tourInfo/entry"
 
+# [4] Official record interface ("거리기록 / 전체기록보기" — SG, tee
+#   shot, approach, putting, etc.)
+#   POST https://klpga.co.kr/load/record/loadLocationRecord
+#   Content-Type: application/x-www-form-urlencoded (inferred from
+#   "form-data parameters" — exact method/content-type not literally
+#   confirmed, see docs/KLPGA_OFFICIAL_DATA_MAP.md)
+#   form: season=<year>, menu1=<code>, menu2=<code>, menu3=<code>
+#   response: text/html; charset=UTF-8 — a player-row table whose
+#   record/record1..4 columns mean something DIFFERENT per metric,
+#   never assumed to generalize — see klpga.discovery.response_parser.
+#   Confirmed via manual browser Network capture, 2026-08-26 — see
+#   docs/KLPGA_OFFICIAL_DATA_MAP.md Rounds 1-3 for the full evidence
+#   log, including the still-open menu3 collision (e.g. "010102").
+RECORD_TAXONOMY_ENDPOINT = f"{BASE_URL}/load/record/loadLocationRecord"
+
+# The landing page whose DOM carries the data-menu1/data-menu2/
+# data-menu3 attributes that RECORD_TAXONOMY_ENDPOINT's menu1/menu2/
+# menu3 form fields are drawn from — NOT confirmed. No URL is guessed
+# here; klpga.discovery.menu_taxonomy operates on whatever HTML it is
+# given, and scripts/26_discover_klpga_record_taxonomy.py requires
+# --source-url to be supplied explicitly rather than defaulting to an
+# unverified guess. See docs/KLPGA_OFFICIAL_DATA_MAP.md's "DOM
+# architecture" open question.
+RECORD_TAXONOMY_SOURCE_URL = None  # intentionally unset — see above
+
 # ============================================================
 # UNCONFIRMED / project-level assumptions — recheck against live
 # responses before trusting them. See docs/SITE_STRUCTURE_TODO.md.

@@ -1,0 +1,35 @@
+<!--
+  SYNTHETIC test fixture — NOT captured from the live site (this
+  project has no network access to klpga.co.kr). Constructed to
+  exercise klpga.discovery.menu_taxonomy's FLAT-pattern resolution
+  (all three data-menu1/2/3 attributes on one clickable element)
+  using the REAL confirmed (menu1, menu2, menu3, label) tuples
+  reported across docs/KLPGA_OFFICIAL_DATA_MAP.md Rounds 1-3:
+    Sg / Total / "" (blank menu3)          -> SG 전체
+    Tee / Tee01 / 010101                    -> 평균 티샷 거리
+    Approach / Approach01 / 020104          -> 그린 적중률 160~180야드 미만(RTP)
+    Approach / Approach01 / 020105          -> 그린 적중률 140~160야드 미만(RTP)
+  Every menu1 category here has at least one leaf, so this fixture
+  represents a "fully static tree" DOM shape.
+-->
+<html>
+<body>
+  <div id="recordMenu">
+    <ul class="menu1-tabs">
+      <li data-menu1="Sg">SG</li>
+      <li data-menu1="Tee">티샷</li>
+      <li data-menu1="Approach">어프로치</li>
+    </ul>
+    <div class="menu1-panel">
+      <a href="javascript:void(0)" data-menu1="Sg" data-menu2="Total" data-menu3="">SG 전체</a>
+    </div>
+    <div class="menu1-panel">
+      <a href="javascript:void(0)" data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</a>
+    </div>
+    <div class="menu1-panel">
+      <a href="javascript:void(0)" data-menu1="Approach" data-menu2="Approach01" data-menu3="020104">그린 적중률 - 160~180야드 미만(RTP)</a>
+      <a href="javascript:void(0)" data-menu1="Approach" data-menu2="Approach01" data-menu3="020105">그린 적중률 - 140~160야드 미만(RTP)</a>
+    </div>
+  </div>
+</body>
+</html>

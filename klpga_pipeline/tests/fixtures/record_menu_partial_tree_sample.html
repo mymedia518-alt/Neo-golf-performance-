@@ -1,0 +1,28 @@
+<!--
+  SYNTHETIC test fixture — NOT captured from the live site. Same base
+  content as record_menu_static_tree_sample.html, PLUS one additional
+  menu1 tab ("Putting") that has NO nested data-menu3 elements
+  anywhere — modeling the case where a top-level category's submenu is
+  lazily loaded via a request this project has not confirmed. Used to
+  test klpga.discovery.menu_taxonomy's missing-level detection.
+-->
+<html>
+<body>
+  <div id="recordMenu">
+    <ul class="menu1-tabs">
+      <li data-menu1="Sg">SG</li>
+      <li data-menu1="Tee">티샷</li>
+      <li data-menu1="Putting">퍼팅</li>
+    </ul>
+    <div class="menu1-panel">
+      <a href="javascript:void(0)" data-menu1="Sg" data-menu2="Total" data-menu3="">SG 전체</a>
+    </div>
+    <div class="menu1-panel">
+      <a href="javascript:void(0)" data-menu1="Tee" data-menu2="Tee01" data-menu3="010101">평균 티샷 거리</a>
+    </div>
+    <!-- "Putting" tab exists above (data-menu1="Putting") but no
+         data-menu2/data-menu3 buttons for it appear anywhere in this
+         DOM — its submenu is presumably loaded on click. -->
+  </div>
+</body>
+</html>
