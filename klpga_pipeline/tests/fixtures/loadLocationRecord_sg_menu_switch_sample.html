@@ -21,16 +21,34 @@
   only the Total/TeeToGreen/Tee/Approach/Around branches, confirmed
   complete, are reproduced.
 
-  The <table>/<tbody> row markup below was NOT part of the real
-  evidence session (only the <script> header block was captured) —
-  it reuses this project's already-CONFIRMED data-playercode/data-name
-  /data-rank/data-record row convention (see loadLocationRecord_
-  approach_020104_sample.html) as the most evidence-grounded working
-  assumption available for END-TO-END testing, exactly as this
-  module's own docstring already does for every other fixture that
-  predates real row-level evidence — NOT independently confirmed for
-  the Sg family specifically. See _extract_menu_switch_metadata's own
-  docstring for why this layer therefore never sets metadata.found.
+  The <table>/<tbody> row markup below was NOT part of the ORIGINAL
+  Round 7 evidence session (only the <script> header block was
+  captured then). Round 8 (docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 8
+  section) obtained real <tr> markup from this exact saved response
+  (docs/discovery/raw_samples/Sg__Around__2025.html, pasted directly
+  by the user via a targeted regex extraction, 2026-08-26) and it is
+  NOT the data-playercode/data-name/data-rank/data-record convention
+  this project had been assuming for the Sg family — the header row
+  below (<th class="data1Name sort-desc"> etc.) and the player row's
+  checkbox (`_favoritPlayerCode` attribute), rank cell (rank text plus
+  an HTML-comment-wrapped `<span class="tb-rank-up">`), country-flag
+  cell, and `<td class="text-start player_name">` container are all
+  VERBATIM/faithful to that real evidence. The exact `<a href=...>`
+  query-string form and the anchor's visible name text were cut off in
+  the captured evidence (it ended at "<a") — the href below reuses
+  this project's separately-already-confirmed
+  `/web/profile/mainRecord?playerCode=<code>` convention (see
+  response_parser.py's `_extract_player_code_from_href` docstring),
+  substituting the real `_favoritPlayerCode` values (9134, 8770) seen
+  in this evidence; the visible name text is an unconfirmed
+  placeholder, same as the rest of this project's pre-real-evidence
+  fixtures. The trailing data1..data5 value cells are NOT reproduced
+  here (never captured) and are intentionally omitted rather than
+  invented — this fixture exists to regression-test player-code/name
+  extraction only, not value-cell extraction, which remains open. See
+  _extract_menu_switch_metadata's own docstring for why the
+  menu_switch_vars column-label layer therefore never sets
+  metadata.found.
 -->
 <html>
 <body>
@@ -89,10 +107,45 @@
 	});
 </script>
 <table>
-<thead><tr><th></th><th></th></tr></thead>
+<thead>
+<tr>
+<th>FAV</th>
+<th class="text-start" style="width: 95px; min-width: 95px;">순위</th>
+<th style="width: 55px; min-width: 55px;">국적</th>
+<th class="text-start" style="min-width: 120px;">선수명</th>
+<th class="recordName active"></th>
+<th class="data1Name sort-desc"></th>
+<th class="data2Name sort-desc"></th>
+<th class="data3Name sort-desc"></th>
+<th class="data4Name sort-desc"></th>
+<th class="data5Name sort-desc"></th>
+</tr>
+</thead>
 <tbody>
-<tr data-playercode="9807" data-name="김새로미" data-rank="1" data-record="1.42" data-record1="61"></tr>
-<tr data-playercode="9812" data-name="전예성" data-rank="2" data-record="0.98" data-record1="58"></tr>
+<tr>
+<td class="td-like">
+<div class="form-check form-check-like">
+<input class="form-check-input" type="checkbox" _favoritPlayerCode="9134" onclick="favoritAction(this);">
+</div>
+</td>
+<td class="text-start">1<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+<td><span class="tb-flag" style="background-image: url('/resources/web/images/country/KOR.png');"></span></td>
+<td class="text-start player_name">
+<a href="/web/profile/mainRecord?playerCode=9134">김새로미</a>
+</td>
+</tr>
+<tr>
+<td class="td-like">
+<div class="form-check form-check-like">
+<input class="form-check-input" type="checkbox" _favoritPlayerCode="8770" onclick="favoritAction(this);">
+</div>
+</td>
+<td class="text-start">2<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+<td><span class="tb-flag" style="background-image: url('/resources/web/images/country/KOR.png');"></span></td>
+<td class="text-start player_name">
+<a href="/web/profile/mainRecord?playerCode=8770">전예성</a>
+</td>
+</tr>
 </tbody>
 </table>
 </body>

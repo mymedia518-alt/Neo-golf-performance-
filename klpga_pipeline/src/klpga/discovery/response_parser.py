@@ -67,11 +67,15 @@ records which layer actually supplied the answer:
      whose condition matches the response's own `menu` value is
      read — see `_extract_menu_switch_metadata`. The Nth `dataN` label
      maps to the (N-1)th `record*` field position — the SAME
-     positional-correspondence principle layer 3 below already uses,
-     NOT independently confirmed by real `<td>`/`<tr>` row-markup
-     evidence for this family (this session has not been given one),
-     which is why this layer never sets `metadata.found = True` (kept
-     at the same honesty tier as layer 2, not layer 1).
+     positional-correspondence principle layer 3 below already uses.
+     Round 8 (docs/KLPGA_OFFICIAL_DATA_MAP.md's Round 8 section)
+     obtained real `<td>`/`<tr>` row-markup evidence for this family
+     for the FIRST time, but only for player-identity extraction (see
+     `_extract_player_name_from_cell` below) — the dataN-label-to-
+     record*-value positional mapping itself remains unconfirmed by
+     row-level evidence, which is why this layer still never sets
+     `metadata.found = True` (kept at the same honesty tier as layer
+     2, not layer 1).
   3. `table_header` — visible, NON-BLANK `<th>` text, in column order,
      used only when neither layer 1, 2, nor 2b supplied a label for
      that column.
@@ -403,6 +407,27 @@ def _extract_column_semantics(
     return semantics
 
 
+def _extract_player_name_from_cell(tr: Tag) -> Optional[str]:
+    """Fallback player-name source, used only when no `data-name`/
+    `data-playername` attribute exists on the row. Real evidence
+    (docs/discovery/raw_samples/Sg__Around__2025.html, pasted directly
+    by the user 2026-08-26 — see docs/KLPGA_OFFICIAL_DATA_MAP.md's
+    Round 8 row-extraction section) showed the Sg family's real rows
+    carry NO name attribute on the `<tr>` at all: the name is the text
+    of a `<a href=".../mainRecord?playerCode=...">Name</a>` nested
+    inside a `<td class="text-start player_name">` cell — the same
+    anchor `_extract_player_code_from_href` already reads the
+    `playerCode` query param from. Falls back to the cell's own text
+    if no `<a>` is present, since the evidence-confirmed container is
+    the cell, not specifically its anchor child."""
+    cell = tr.find(class_="player_name")
+    if cell is None:
+        return None
+    anchor = cell.find("a")
+    text = anchor.get_text(strip=True) if anchor is not None else cell.get_text(strip=True)
+    return text or None
+
+
 def _extract_player_code_from_href(tag: Tag) -> Optional[str]:
     """Fallback player-code source: a profile link such as
     `/web/profile/mainRecord?playerCode=9235`, per the user's directly
@@ -435,7 +460,7 @@ def _extract_rows(soup: BeautifulSoup, record_fields: list[str]) -> list[PlayerR
                 player_code = href_code
                 player_code_source = "href_query_param"
 
-        player_name = _attr(tr, "data-name") or _attr(tr, "data-playername")
+        player_name = _attr(tr, "data-name") or _attr(tr, "data-playername") or _extract_player_name_from_cell(tr)
         rank = _attr(tr, "data-rank")
 
         values: dict[str, Optional[str]] = {}

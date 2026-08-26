@@ -16,6 +16,7 @@ whose <script> block is VERBATIM from the real saved response — not a
 hypothesis."""
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from klpga.discovery.response_parser import (
@@ -133,10 +134,25 @@ def test_end_to_end_sg_around_is_no_longer_ambiguous_empty_schema():
 
 
 def test_end_to_end_sg_around_rows_still_parse():
+    """Round 8: the row markup is now the REAL shape (checkbox
+    `_favoritPlayerCode` + `<td class="text-start player_name"><a
+    href=".../mainRecord?playerCode=...">Name</a>`), not the
+    data-playercode/data-name placeholder this fixture used before
+    real row evidence existed. player_code comes from the anchor's
+    href (the pre-existing `_extract_player_code_from_href` fallback);
+    player_name comes from the new `_extract_player_name_from_cell`
+    fallback. No data-record*/data-record attribute exists on this
+    real row shape, so record values are correctly None here — value-
+    cell extraction for this family remains unconfirmed/open, not
+    silently fabricated as present."""
     result = parse_record_response(_sg_html())
     assert len(result.rows) == 2
+    assert result.rows[0].player_code == "9134"
+    assert result.rows[0].player_code_source == "href_query_param"
     assert result.rows[0].player_name == "김새로미"
-    assert result.rows[0].values["record"] == "1.42"
+    assert result.rows[1].player_code == "8770"
+    assert result.rows[1].player_name == "전예성"
+    assert result.rows[0].values.get("record") is None
 
 
 def test_end_to_end_sg_all_with_zero_rows_stays_empty_not_fabricated():
@@ -144,11 +160,7 @@ def test_end_to_end_sg_all_with_zero_rows_stays_empty_not_fabricated():
     (per the real response) zero player rows — must classify EMPTY,
     never invent a schema from an unmatched branch."""
     html = _sg_html().replace('var menu = "Around";', 'var menu = "All";')
-    html = html.replace(
-        '<tbody>\n<tr data-playercode="9807" data-name="김새로미" data-rank="1" data-record="1.42" data-record1="61"></tr>\n'
-        '<tr data-playercode="9812" data-name="전예성" data-rank="2" data-record="0.98" data-record1="58"></tr>\n</tbody>',
-        "<tbody></tbody>",
-    )
+    html = re.sub(r"<tbody>.*?</tbody>", "<tbody></tbody>", html, flags=re.DOTALL)
     result = parse_record_response(html)
     assert result.parse_status == "EMPTY"
     assert result.rows == []

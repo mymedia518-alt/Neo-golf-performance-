@@ -142,6 +142,71 @@ def test_data_attribute_player_code_is_preferred_over_href_when_both_present():
     assert row.player_code_source == "data_attribute"
 
 
+# ---------------------------------------------------------------
+# Round 8 — real player_name row-markup evidence (Sg::Around,
+# docs/discovery/raw_samples/Sg__Around__2025.html, pasted directly by
+# the user via a targeted regex extraction, 2026-08-26): the Sg
+# family's real rows carry NO data-name/data-playername attribute on
+# the <tr> at all — the fresh bounded B1 rerun reported
+# missing_player_name=231/231 despite missing_player_code=0/231 (the
+# href-based playerCode fallback already worked). The name is the text
+# of a <a href=".../mainRecord?playerCode=...">Name</a> nested inside
+# a <td class="text-start player_name"> cell. See
+# _extract_player_name_from_cell in response_parser.py.
+# ---------------------------------------------------------------
+
+
+def test_player_name_extracted_from_player_name_cell_when_no_data_attribute():
+    html = """
+    <table><tbody>
+      <tr>
+        <td class="td-like">
+          <div class="form-check form-check-like">
+            <input class="form-check-input" type="checkbox" _favoritPlayerCode="9134">
+          </div>
+        </td>
+        <td class="text-start">1<!-- <span class="ms-2 tb-rank-up">1</span> --></td>
+        <td><span class="tb-flag" style="background-image: url('/resources/web/images/country/KOR.png');"></span></td>
+        <td class="text-start player_name">
+          <a href="/web/profile/mainRecord?playerCode=9134">김새로미</a>
+        </td>
+      </tr>
+    </tbody></table>
+    """
+    result = parse_record_response(html)
+    row = result.rows[0]
+    assert row.player_code == "9134"
+    assert row.player_code_source == "href_query_param"
+    assert row.player_name == "김새로미"
+
+
+def test_data_attribute_player_name_is_preferred_over_cell_fallback_when_both_present():
+    html = """
+    <table><tbody>
+      <tr data-name="데이터속성이름">
+        <td class="text-start player_name"><a href="/web/profile/mainRecord?playerCode=1">셀텍스트이름</a></td>
+      </tr>
+    </tbody></table>
+    """
+    result = parse_record_response(html)
+    row = result.rows[0]
+    assert row.player_name == "데이터속성이름"
+
+
+def test_player_name_cell_fallback_uses_cell_text_when_no_anchor_present():
+    html = """
+    <table><tbody>
+      <tr>
+        <td data-playercode="9812"></td>
+        <td class="text-start player_name">전예성</td>
+      </tr>
+    </tbody></table>
+    """
+    result = parse_record_response(html)
+    row = result.rows[0]
+    assert row.player_name == "전예성"
+
+
 def test_row_with_no_recognizable_attributes_is_skipped_not_fabricated():
     html = """
     <table><tbody>
