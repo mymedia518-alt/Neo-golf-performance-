@@ -2,7 +2,8 @@
 
 **Status: research/discovery only, 2026-08-26 (Round 1), updated
 2026-08-26 (Round 2), Phase A tooling implemented 2026-08-26 (Round
-3).** Maps what the official KLPGA records interface
+3), Phase A patched same day for 2-level/3-level metric leaves (Round
+3 patch).** Maps what the official KLPGA records interface
 exposes through the `loadLocationRecord` XHR family, based on evidence
 the user captured manually in Chrome DevTools. This document does not
 implement a collector, does not touch the database, the model, the
@@ -568,6 +569,141 @@ collection step in this project).
 If the run reports `INCOMPLETE`, it will name exactly which menu1
 categories had zero resolved submenu — that's the next thing to
 inspect directly in DevTools before Phase A can be called complete.
+
+---
+
+---
+
+## Round 3 patch — metric leaves can terminate at menu2, not only menu3
+
+**Status: code patched and tested, 2026-08-26. Still not re-run against
+the live site by this session** — corrected by the user's own live
+Windows Phase A run (the first real execution of this tooling) plus
+direct DevTools follow-up.
+
+### Why the original menu3-only leaf detection was wrong
+
+The first live Phase A run against `https://klpga.co.kr/web/record/locationRecord`
+returned real counts for the first time:
+
+- menu1 categories found: **6**
+- menu2 families found: **5**
+- menu3 combinations found: **276**
+- unique menu3 codes: **241**
+- menu3 collisions: **31**
+- menu1 categories with NO resolved menu3 leaves: **2** (`Sg`, `All`)
+
+That last number was the tell. The original implementation assumed
+every valid metric request needed all three of `menu1`/`menu2`/`menu3`
+— an assumption never actually stated as confirmed anywhere in Rounds
+1–3, just implicit in the code. Direct DevTools follow-up disproved it
+directly: the real request for SG Total is
+
+```
+POST https://klpga.co.kr/load/record/loadLocationRecord
+season=2025
+menu1=Sg
+menu2=Total
+```
+
+with **no `menu3` form field at all** — not a missing value, a
+legitimately shorter, valid request that KLPGA's own UI uses
+successfully. `Sg`/`All` weren't broken or lazily-loaded; the parser
+simply didn't know a metric could stop at menu2.
+
+### The fix
+
+`src/klpga/discovery/menu_taxonomy.py`'s `MenuLeaf` now carries a
+`leaf_level` field (`"menu2"` or `"menu3"`), with `menu3`/`menu3_label`
+`Optional[str]` — `None` for a menu2-level leaf, never fabricated.
+`inspect_menu_dom()` runs two independent detection passes over the
+same tag list: the original menu3-level detection (own-attrs then
+ancestor-walk, unchanged), plus a new menu2-level pass that recognizes
+a tag with its own `data-menu1`/`data-menu2`, a blank-or-absent
+`data-menu3`, **and no menu3-bearing descendant** (so a container
+wrapping real menu3-level buttons is never miscounted as an extra
+menu2-level leaf itself).
+
+**Canonical identity, per explicit instruction, is never menu3 alone**:
+`MenuLeaf.identity` is `(menu1, menu2)` for a menu2-level leaf,
+`(menu1, menu2, menu3)` for a menu3-level leaf — the live run's own 31
+collisions among 241 unique menu3 codes is the direct evidence for why
+identity must include the hierarchy. `source_metric_key` stays a
+string serialization of that same identity, for reporting only, never
+for deduplication.
+
+**Completeness logic changed**: `Menu1Coverage.has_resolved_leaves` is
+now true if EITHER `menu2_leaf_count` or `menu3_leaf_count` is
+positive. A category is only reported incomplete if neither level
+resolved anything — exactly the case this patch was written to stop
+over-reporting.
+
+### Real regression value already paid during implementation
+
+Nothing new this round — the same discipline that caught the Round 3
+`menu3=010102` collision-detection bug caught another edge case while
+writing this patch: the naive version of the menu2-level detection
+pass (checking only for own `data-menu1`/`data-menu2` with blank
+`data-menu3`) would have double-counted a container `<div>` wrapping
+real menu3-level buttons as an extra, spurious menu2-level leaf. Fixed
+by also requiring "no menu3-bearing descendant" before accepting a tag
+as a genuine leaf — covered by
+`test_menu3_container_with_no_own_menu3_is_not_a_spurious_menu2_leaf`.
+
+### Collision reporting now distinguishes three categories
+
+`collision_report.py` previously conflated "same code, different
+menu1/menu2" with "same code, different label." It now reports:
+
+- **A.** same menu3 reused under different menu1/menu2 paths (further
+  split into A1: different menu2 same menu1, A2: different menu1
+  entirely)
+- **B.** same menu3 reused with a different label — the real
+  `menu3=010102` finding lives here specifically, since both leaves
+  share the same menu1/menu2
+- **C.** exact duplicate DOM entries — the identical
+  `(menu1, menu2, menu3, label)` tuple appearing more than once, a
+  markup/parsing artifact, never conflated with category B
+
+### Regenerating the discovery output artifacts
+
+`docs/discovery/KLPGA_RECORD_TAXONOMY_DISCOVERED.json`/`.csv` and
+`KLPGA_METRIC_COLLISION_REPORT.md` from the user's first live run were
+never pushed to this repository (they exist only on the Windows
+machine's local filesystem) — there is nothing in git for this session
+to "regenerate." The next live run of the patched
+`scripts/26_discover_klpga_record_taxonomy.py` will produce fresh
+artifacts under the new schema (`leaf_level`, nullable `menu3`,
+`menu2_level_leaf_count`/`menu3_level_leaf_count`/`total_leaf_count`
+alongside the OLD-style `menu3_combination_count` for auditability). If
+those artifacts should be version-controlled going forward, that's the
+next thing to decide, not something this patch assumes.
+
+### What remains unverified without a live re-run
+
+- Whether `Sg` now resolves as `COMPLETE` in the real DOM — this
+  patch's logic is proven correct against fixtures built from the
+  directly-confirmed `season=2025&menu1=Sg&menu2=Total` request, but
+  the real page's actual markup (own-attrs vs. ancestor-nested) has
+  never been read by this session.
+  `record_menu_sg_menu2_leaf_sample.html` covers the own-attrs shape;
+  an ancestor-nested menu2-level leaf is an explicitly flagged gap (no
+  ancestor-walk variant exists yet for menu2-level detection).
+  Documented in the module docstring, not silently assumed.
+  Provisional evaluation: **likely** `COMPLETE` for `Sg`, since the
+  directly-confirmed request shape matches this patch's supported
+  case.
+  Confidence: **medium** — the confirmed evidence covers the request
+  parameters, not the DOM markup shape.
+- Whether `All` (전체기록보기) resolves at all — the user confirmed
+  its request also lacks menu3, but gave no confirmed menu2 value or
+  DOM structure for it. No fixture models "All" specifically; per
+  explicit instruction, this patch does not fabricate one. If the real
+  run still reports `All` incomplete, that is a legitimate finding to
+  investigate live, not a bug in this patch.
+- The real counts (menu2-level vs. menu3-level split, updated
+  collision categories A/B/C) across the actual live taxonomy — only a
+  fixture-scale version of this has been exercised.
 
 ---
 

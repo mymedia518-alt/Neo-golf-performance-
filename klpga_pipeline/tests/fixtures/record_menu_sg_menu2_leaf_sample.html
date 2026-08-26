@@ -1,0 +1,33 @@
+<!--
+  Reconstructed from REAL directly-confirmed DevTools evidence (Round 3
+  Phase A patch) — NOT independently captured by this session (no
+  network access). The user's live Windows Phase A run + direct
+  DevTools inspection confirmed the real request for SG Total carries
+  NO menu3 form field at all:
+    season=2025, menu1=Sg, menu2=Total   (menu3 absent entirely)
+
+  This fixture models that as a tag with data-menu1/data-menu2 and
+  NO data-menu3 attribute whatsoever (attribute fully absent, not
+  merely blank) — the strictest test of the "attribute absent" case,
+  distinct from the record_menu_static_tree_sample.html fixture's
+  Sg/Total entry which uses data-menu3="" (present but blank). Both
+  variants must resolve identically to a leaf_level="menu2" leaf.
+
+  The second entry below (menu2="__SYNTHETIC_PLACEHOLDER__") is
+  PURELY SYNTHETIC — invented for this test only, to exercise "a
+  menu1 category resolved via more than one menu2-level leaf." It is
+  NOT a real KLPGA menu2 code. Only "Total" is directly confirmed.
+-->
+<html>
+<body>
+  <div id="recordMenu">
+    <ul class="menu1-tabs">
+      <li data-menu1="Sg">SG</li>
+    </ul>
+    <div class="menu1-panel">
+      <a href="javascript:void(0)" data-menu1="Sg" data-menu2="Total">SG : 전체</a>
+      <a href="javascript:void(0)" data-menu1="Sg" data-menu2="__SYNTHETIC_PLACEHOLDER__">(synthetic — not a real KLPGA code)</a>
+    </div>
+  </div>
+</body>
+</html>

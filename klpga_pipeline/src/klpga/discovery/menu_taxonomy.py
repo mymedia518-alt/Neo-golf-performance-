@@ -6,29 +6,50 @@ Confirmed so far (see docs/KLPGA_OFFICIAL_DATA_MAP.md, Rounds 1-3):
   form: season, menu1, menu2, menu3
 
 The site's own `getRecord(menu1, menu2, menu3)` JS handler reads these
-three identifiers from `data-menu1`/`data-menu2`/`data-menu3` attributes
-on clickable menu elements (per the user's captured DevTools evidence).
+identifiers from `data-menu1`/`data-menu2`/`data-menu3` attributes on
+clickable menu elements (per the user's captured DevTools evidence).
+
+**Round 3 patch — metric leaves can terminate at menu2, not only
+menu3.** Directly confirmed via live DevTools capture: the real
+request for SG Total is
+
+    season=2025
+    menu1=Sg
+    menu2=Total
+
+with NO menu3 form field at all — not a missing value, a legitimately
+shorter request. The earlier version of this module implicitly assumed
+every valid metric required all three levels, which is why a live
+Phase A run reported the `Sg` and `All` categories as "incomplete"
+when they were actually just menu2-level leaves this module didn't
+know how to recognize. Fixed here: a tag with its own
+`data-menu1`/`data-menu2` and a blank-or-absent `data-menu3`, which
+also has no menu3-bearing descendant (i.e. it isn't a container
+wrapping real menu3-level buttons), is now recognized as a genuine
+`leaf_level="menu2"` metric leaf.
 
 NOT confirmed, and this module never guesses:
   - which page's HTML actually contains those data-menu* attributes
     (the caller supplies that HTML — this module has no hardcoded URL);
-  - whether the full three-level tree is present in one static DOM, or
-    whether some/all of it is built up via further AJAX calls as menu1
-    or menu2 items are clicked.
+  - whether the full tree is present in one static DOM, or whether
+    some/all of it is built up via further AJAX calls;
+  - whether "All" (전체기록보기) resolves as a menu2-level leaf, a
+    menu1-only leaf, or something this module still can't recognize —
+    that is for the next live run to show, not for this module to
+    assume.
 
-`inspect_menu_dom()` reports what it actually found, per menu1 category,
-rather than assuming a single global answer. A menu1 category with zero
-discovered menu3 descendants is reported as needing further
-investigation (a second, currently-unconfirmed endpoint) rather than
-silently treated as "this category has no metrics."
+`inspect_menu_dom()` reports what it actually found, per menu1
+category, rather than assuming a single global answer. A menu1
+category is only reported incomplete if NEITHER a menu2-level nor a
+menu3-level leaf could be resolved for it.
 
 Collision handling: per explicit instruction, `menu3` is NOT assumed
-globally unique (Round 1 found `menu3=010102` reused under two visibly
-different categories). The canonical identity for one discovered leaf
-is the full `(menu1, menu2, menu3)` triple; `source_metric_key` below
-is that triple joined for use as a dict/report key, and is deliberately
-NOT deduplicated against — every occurrence is preserved as its own
-`MenuLeaf`, even if two leaves share the same `source_metric_key`.
+globally unique (a live Round 3 run found 31 collisions among 241
+unique menu3 codes). The canonical identity for one discovered leaf is
+`(menu1, menu2)` for a menu2-level leaf, `(menu1, menu2, menu3)` for a
+menu3-level leaf — see `MenuLeaf.identity`. `source_metric_key` is a
+string serialization of that same identity for reporting/dict-keying
+only, never used to deduplicate.
 """
 from __future__ import annotations
 
@@ -41,6 +62,9 @@ _MENU1_ATTR = "data-menu1"
 _MENU2_ATTR = "data-menu2"
 _MENU3_ATTR = "data-menu3"
 
+LEAF_LEVEL_MENU2 = "menu2"
+LEAF_LEVEL_MENU3 = "menu3"
+
 
 def _attr(tag: Tag, name: str) -> Optional[str]:
     """Case-insensitive attribute lookup — browser captures and JS
@@ -52,35 +76,65 @@ def _attr(tag: Tag, name: str) -> Optional[str]:
     return None
 
 
-def build_source_metric_key(menu1: str, menu2: str, menu3: str) -> str:
-    """The `(menu1, menu2, menu3)` identity as a single string key, per
-    explicit instruction. NOT globally unique by design — see module
-    docstring. Never used to deduplicate discovered leaves."""
-    return f"{menu1}::{menu2}::{menu3}"
+def _has_value(tag: Tag, name: str) -> bool:
+    """True only if the attribute is present AND non-blank. An
+    attribute that's absent entirely and one that's present-but-empty
+    are treated identically as "no value" — per the directly confirmed
+    SG evidence, the real request for Sg/Total carries no menu3 form
+    field at all, so this module does not try to distinguish "attribute
+    missing" from "attribute empty" as two different signals."""
+    return bool(_attr(tag, name))
+
+
+def build_source_metric_key(menu1: str, menu2: str, menu3: Optional[str] = None) -> str:
+    """String serialization of the canonical identity, for
+    reporting/dict-keying only — never for deduplication. `menu3=None`
+    (or blank) produces a two-part key ("menu1::menu2"); a real menu3
+    value produces the full three-part key, unchanged from Round 3's
+    original format."""
+    parts = [menu1, menu2]
+    if menu3:
+        parts.append(menu3)
+    return "::".join(parts)
 
 
 @dataclass(frozen=True)
 class MenuLeaf:
-    """One discovered (menu1, menu2, menu3) combination with its
-    Korean labels, exactly as found in the DOM — no inferred/guessed
-    labels."""
+    """One discovered metric leaf, exactly as found in the DOM — no
+    inferred/guessed labels or codes. `menu3`/`menu3_label` are `None`
+    for a menu2-level leaf; leaf depth is never flattened away."""
 
     menu1: str
     menu1_label: str
     menu2: str
     menu2_label: str
-    menu3: str
-    menu3_label: str
+    menu3: Optional[str]
+    menu3_label: Optional[str]
+    leaf_level: str
+    """LEAF_LEVEL_MENU2 or LEAF_LEVEL_MENU3 — which level this metric
+    request actually terminates at. Never inferred from menu3 being
+    merely absent on one tag without confirming no menu3-bearing
+    descendant exists (see `_has_menu3_descendant`)."""
     label_resolution_method: str
-    """How menu1_label/menu2_label were resolved: "own_attrs" (all
-    three data-menu* attrs plus their labels were on the same tag),
-    "ancestor_walk" (menu1/menu2 label came from an ancestor element),
-    or "unknown" (a label could not be confidently resolved — left as
-    an empty string rather than guessed)."""
+    """How the labels were resolved: "own_attrs" (identifiers and
+    label were on the same tag), "ancestor_walk" (menu1/menu2 label
+    came from an ancestor element — menu3-level leaves only), or
+    "unknown" (could not be confidently resolved — left empty rather
+    than guessed)."""
+
+    @property
+    def identity(self) -> tuple:
+        """The structured canonical identity. `(menu1, menu2)` for a
+        menu2-level leaf, `(menu1, menu2, menu3)` for a menu3-level
+        leaf — never menu3 alone, which a live run already proved is
+        not globally unique (31 collisions among 241 unique codes)."""
+        if self.leaf_level == LEAF_LEVEL_MENU3:
+            return (self.menu1, self.menu2, self.menu3)
+        return (self.menu1, self.menu2)
 
     @property
     def source_metric_key(self) -> str:
-        return build_source_metric_key(self.menu1, self.menu2, self.menu3)
+        return build_source_metric_key(self.menu1, self.menu2, self.menu3 if self.leaf_level == LEAF_LEVEL_MENU3 else None)
 
 
 @dataclass
@@ -88,12 +142,21 @@ class Menu1Coverage:
     """Per-menu1-category completeness — the actionable unit for
     "which hierarchy level is missing," rather than one global flag,
     since different top-level categories may not all be at the same
-    DOM depth."""
+    DOM depth or even the same leaf depth."""
 
     menu1: str
     menu1_label: str
-    leaf_count: int
-    has_menu3_leaves: bool
+    menu2_leaf_count: int
+    menu3_leaf_count: int
+
+    @property
+    def has_resolved_leaves(self) -> bool:
+        """A category is resolved if it has AT LEAST ONE leaf at
+        either level — it is emphatically NOT incomplete merely
+        because it has zero menu3 leaves (that was the Round 3 bug:
+        Sg and All were both wrongly reported incomplete on that
+        basis alone)."""
+        return self.menu2_leaf_count > 0 or self.menu3_leaf_count > 0
 
 
 @dataclass
@@ -106,35 +169,50 @@ class DomInspectionResult:
         return len(self.menu1_coverage)
 
     @property
+    def menu2_level_leaves(self) -> list[MenuLeaf]:
+        return [leaf for leaf in self.leaves if leaf.leaf_level == LEAF_LEVEL_MENU2]
+
+    @property
+    def menu3_level_leaves(self) -> list[MenuLeaf]:
+        return [leaf for leaf in self.leaves if leaf.leaf_level == LEAF_LEVEL_MENU3]
+
+    @property
+    def menu2_node_count(self) -> int:
+        """Distinct (menu1, menu2) pairs across ALL leaves, both
+        levels — "menu2 nodes found," a structural count distinct from
+        "menu2-level leaves found" (a menu2 node can host menu3-level
+        leaves underneath it and never itself be a leaf)."""
+        return len({(leaf.menu1, leaf.menu2) for leaf in self.leaves})
+
+    @property
     def incomplete_menu1_categories(self) -> list[Menu1Coverage]:
-        """menu1 categories found in the DOM with zero discovered
-        menu3 leaves — these need a second (currently unconfirmed)
-        request to unfold, and this module will not guess one."""
-        return [c for c in self.menu1_coverage if not c.has_menu3_leaves]
+        """menu1 categories with NEITHER a resolved menu2-level NOR a
+        resolved menu3-level leaf — these need further live
+        investigation, and this module will not guess a second
+        endpoint or a fabricated leaf to fill the gap."""
+        return [c for c in self.menu1_coverage if not c.has_resolved_leaves]
 
     @property
     def is_fully_static(self) -> bool:
-        """True only if every discovered menu1 category also has at
-        least one discovered menu3 leaf — i.e. the whole tree was
-        present in one static DOM, zero additional requests needed."""
         return self.menu1_count > 0 and not self.incomplete_menu1_categories
 
     @property
     def unique_menu3_values(self) -> set[str]:
-        return {leaf.menu3 for leaf in self.leaves}
+        return {leaf.menu3 for leaf in self.menu3_level_leaves}
 
     @property
     def collisions(self) -> dict[str, list[MenuLeaf]]:
-        """menu3 codes that appear as more than one discovered leaf —
-        preserved explicitly, never silently deduplicated. This
+        """menu3 codes that appear as more than one discovered
+        menu3-level leaf — preserved explicitly, never silently
+        deduplicated. Only meaningful for menu3-level leaves (a
+        menu2-level leaf has no menu3 to collide on). This
         deliberately does NOT require the colliding leaves to differ
-        in menu1/menu2: the real Round-1 finding
-        (menu3="010102" appearing twice under the SAME menu1/menu2,
-        "Tee"/"Tee01", with two different labels) is exactly the case
-        this must catch — requiring a different (menu1, menu2) pair
-        would miss it entirely. Keyed by the bare menu3 code."""
+        in menu1/menu2: the real Round-1 finding (menu3="010102"
+        appearing twice under the SAME menu1/menu2 with two different
+        labels) is exactly the case this must catch. Keyed by the bare
+        menu3 code."""
         by_menu3: dict[str, list[MenuLeaf]] = {}
-        for leaf in self.leaves:
+        for leaf in self.menu3_level_leaves:
             by_menu3.setdefault(leaf.menu3, []).append(leaf)
         return {menu3: leaves for menu3, leaves in by_menu3.items() if len(leaves) > 1}
 
@@ -146,31 +224,40 @@ def _find_ancestor_with_attr(tag: Tag, attr_name: str) -> Optional[Tag]:
     return None
 
 
+def _has_menu3_descendant(tag: Tag) -> bool:
+    """True if ANY descendant carries a data-menu3 attribute at all
+    (even blank) — used to tell a real menu2-level leaf apart from a
+    container/wrapper element that merely groups menu3-level buttons
+    underneath it and is not itself a clickable metric."""
+    return tag.find(attrs={_MENU3_ATTR: True}) is not None
+
+
 def inspect_menu_dom(html: str) -> DomInspectionResult:
     """Parse the given HTML (the caller fetched it — this function
     never fetches anything itself) for `data-menu1/2/3` attributes and
-    build the discovered taxonomy tree.
+    build the discovered taxonomy tree, at whichever depth each metric
+    actually terminates.
 
-    Supports two DOM shapes without assuming either:
-      1. FLAT: a single clickable element carries all three
-         data-menu1/2/3 attributes at once (the most likely shape,
-         since the confirmed `getRecord(menu1, menu2, menu3)` handler
-         receives all three identifiers together).
-      2. NESTED: menu3 is on a leaf element whose menu1/menu2 must be
-         resolved by walking up to the nearest ancestor carrying that
-         attribute.
-
-    Every discovered leaf records which resolution strategy was used
-    (`label_resolution_method`) so ambiguity is visible in the output
-    rather than silently assumed.
+    Two independent detection passes, run over the same tag list:
+      1. menu3-level leaves — any tag with a NON-BLANK data-menu3,
+         resolved via own-attrs first then ancestor-walk (unchanged
+         from the original Round 3 implementation).
+      2. menu2-level leaves — any tag with its own data-menu1 and
+         data-menu2, a blank/absent data-menu3, and no menu3-bearing
+         descendant. No ancestor-walk variant exists for this pass
+         yet — an unresolved menu2-level leaf embedded via ancestor
+         nesting (rather than all attrs on one clickable tag) is a
+         known, explicitly flagged gap, not a silently guessed one.
     """
     soup = BeautifulSoup(html, "lxml")
     all_tags = soup.find_all(True)
 
     menu1_tags = [t for t in all_tags if _attr(t, _MENU1_ATTR) is not None]
-    menu3_tags = [t for t in all_tags if _attr(t, _MENU3_ATTR) is not None]
 
     leaves: list[MenuLeaf] = []
+
+    # --- Pass 1: menu3-level leaves ---
+    menu3_tags = [t for t in all_tags if _has_value(t, _MENU3_ATTR)]
     for tag in menu3_tags:
         menu3 = _attr(tag, _MENU3_ATTR) or ""
         menu3_label = tag.get_text(strip=True)
@@ -181,11 +268,12 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
             leaves.append(
                 MenuLeaf(
                     menu1=own_menu1,
-                    menu1_label="",  # not resolvable from this tag alone; see note below
+                    menu1_label="",
                     menu2=own_menu2,
                     menu2_label="",
                     menu3=menu3,
                     menu3_label=menu3_label,
+                    leaf_level=LEAF_LEVEL_MENU3,
                     label_resolution_method="own_attrs",
                 )
             )
@@ -202,13 +290,12 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
                     menu2_label=menu2_ancestor.get_text(strip=True),
                     menu3=menu3,
                     menu3_label=menu3_label,
+                    leaf_level=LEAF_LEVEL_MENU3,
                     label_resolution_method="ancestor_walk",
                 )
             )
             continue
 
-        # menu3 found but menu1/menu2 could not be resolved either way —
-        # do not guess; report the gap explicitly instead of dropping it.
         leaves.append(
             MenuLeaf(
                 menu1="",
@@ -217,13 +304,35 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
                 menu2_label="",
                 menu3=menu3,
                 menu3_label=menu3_label,
+                leaf_level=LEAF_LEVEL_MENU3,
                 label_resolution_method="unknown",
+            )
+        )
+
+    # --- Pass 2: menu2-level leaves ---
+    for tag in all_tags:
+        if not _has_value(tag, _MENU1_ATTR) or not _has_value(tag, _MENU2_ATTR):
+            continue
+        if _has_value(tag, _MENU3_ATTR):
+            continue  # already handled as a menu3-level leaf above
+        if _has_menu3_descendant(tag):
+            continue  # a container wrapping real menu3-level buttons, not a leaf itself
+        leaves.append(
+            MenuLeaf(
+                menu1=_attr(tag, _MENU1_ATTR) or "",
+                menu1_label="",
+                menu2=_attr(tag, _MENU2_ATTR) or "",
+                menu2_label=tag.get_text(strip=True),
+                menu3=None,
+                menu3_label=None,
+                leaf_level=LEAF_LEVEL_MENU2,
+                label_resolution_method="own_attrs",
             )
         )
 
     # menu1-level coverage: every distinct menu1 value seen anywhere,
     # cross-referenced against which ones have at least one resolved
-    # menu3 leaf.
+    # leaf at EITHER level.
     seen_menu1: dict[str, str] = {}
     for tag in menu1_tags:
         code = _attr(tag, _MENU1_ATTR) or ""
@@ -235,13 +344,14 @@ def inspect_menu_dom(html: str) -> DomInspectionResult:
 
     coverage = []
     for menu1, label in seen_menu1.items():
-        leaf_count = sum(1 for leaf in leaves if leaf.menu1 == menu1)
+        menu2_count = sum(1 for leaf in leaves if leaf.menu1 == menu1 and leaf.leaf_level == LEAF_LEVEL_MENU2)
+        menu3_count = sum(1 for leaf in leaves if leaf.menu1 == menu1 and leaf.leaf_level == LEAF_LEVEL_MENU3)
         coverage.append(
             Menu1Coverage(
                 menu1=menu1,
                 menu1_label=label,
-                leaf_count=leaf_count,
-                has_menu3_leaves=leaf_count > 0,
+                menu2_leaf_count=menu2_count,
+                menu3_leaf_count=menu3_count,
             )
         )
 
