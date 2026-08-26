@@ -3091,6 +3091,136 @@ its output now additionally prints `unique identity_key count` and
 the already-existing `total DOM-discovered nodes`, `malformed leaves`,
 and `CANONICAL requestable metric count` lines.
 
+## Round 10 (continued) — canonical metric identity vs HTTP request identity
+
+### A. Confirmed architectural finding
+
+The user checked already-saved raw evidence (no new HTTP requests)
+for representative collision groups against `parse_record_response`'s
+own `column_semantics`. Result: for `Around::Around04::030306`,
+`Tee::Tee01::010101`, and `Putt::Putt01::040101`, the SAME shared
+response genuinely contains a SEPARATE, distinctly-labeled value
+column matching EACH of that identity's multiple canonical taxonomy
+labels (e.g. `Around::Around04::030306`'s one response carries
+distinct columns for "평균 남은 거리", "전체 남은 거리", and
+"스크램블링수"). This directly confirms the hypothesis from this
+round's earlier analytical pass: a single `loadLocationRecord`
+response can legitimately serve MULTIPLE distinct canonical metrics
+at once — this is a real, intentional site behavior, not a Phase A
+resolver bug, for at least these representative cases.
+
+This also confirms `record_fetch.request_form()`'s parameter set
+(`{season, menu1, menu2, menu3-if-present}`) — already shown last
+round to equal `identity_key` — really is what determines "one HTTP
+request" independent of which/how-many canonical metric labels are
+attached to it. "Canonical metric identity" (one row per DOM-
+discovered label) and "HTTP request identity" (one row per distinct
+live request) are therefore genuinely different concepts that happen
+to share the same underlying `(menu1, menu2, menu3)` tuple.
+
+### B. Tooling — offline collision-group audit, still zero live requests
+
+New module `klpga.discovery.identity_key_audit` and
+`scripts/31_audit_identity_key_collisions.py`: classifies EVERY
+colliding `identity_key` group using ONLY already-saved raw responses
+under `--raw-samples-dir` (the same directory/naming convention
+scripts/27 and scripts/29 already use) — never fires a live request.
+New `derive_request_identity_key(entry)`: computed independently from
+`identity_key` (same value today, by design — both derive from
+`menu1`/`menu2`/`menu3` only) so "canonical metric identity" and
+"HTTP request identity" are two distinct concepts in the code, not
+just in this document.
+
+Per-group classification, in priority order:
+1. **`A_EXACT_DUPLICATE_DOM_REPRESENTATION`** — two or more labels in
+   the group normalize (whitespace-collapsed, case-folded) to
+   IDENTICAL text despite not being byte-identical. Checked before
+   any raw-response lookup — a pure taxonomy-label comparison. (Byte-
+   identical same-label duplicates were already proven structurally
+   impossible to reach a collision group at all, last round.)
+2. **`UNRESOLVED_INSUFFICIENT_EVIDENCE`** — no saved raw response
+   exists for this identity. Never guessed; excluded from the gate.
+3. **`EMPTY_SHARED_RESPONSE`** — a saved response exists but has zero
+   rows and no labeled columns (the confirmed `Sg::All` shape — no
+   data exists for ANY label in that group, so "which metric does
+   this belong to" doesn't apply).
+4. **`C_MULTI_METRIC_ONE_REQUEST_CONFIRMED`** — every label in the
+   group matches a distinct response column label. Direct evidence.
+5. **`D_UNRESOLVED_REQUEST_IDENTITY_COLLISION`** — response is
+   non-empty but NONE of the group's labels match any response
+   column — the strongest signal available without a new request that
+   this may be a genuine request-identity-model gap.
+6. **`PARTIAL_MATCH_NEEDS_REVIEW`** — some (not all, not none) labels
+   matched. Deliberately NOT auto-assigned to B or D — a real
+   container/parent-label case and a genuinely missing metric look
+   identical from label-matching alone; left for human review of the
+   specific unmatched label(s).
+
+The script prints `canonical taxonomy entry count`, `unique
+request_identity_key count`, `duplicate identity_key groups`,
+per-category counts, and a full per-group `request_identity_key ->
+labels` mapping with matched/unmatched detail. Gate rule: if zero
+groups land in `D_UNRESOLVED`/`PARTIAL_MATCH_NEEDS_REVIEW`/
+`UNRESOLVED_INSUFFICIENT_EVIDENCE`, it declares `B2_REQUEST_COUNT =
+<the canonical plan's unique_identity_key_count>` and exits 0 —
+otherwise it lists exactly which groups remain unresolved and exits
+non-zero. It does NOT authorize or execute Phase B2 either way, and
+does NOT modify `scripts/29`'s B2 runner.
+
+### C. Proposed minimum architectural fix — NOT yet implemented
+
+Contingent on the real audit (run by the user against all 30 groups)
+coming back clean: preserve all 281 canonical taxonomy entries exactly
+as they are today (no merging, no deletion — the taxonomy/label
+bookkeeping layer is untouched). In `scripts/29`'s B2 runner, group
+`canonical_requestable_metrics` by `request_identity_key` before
+firing anything; fire each DISTINCT `request_identity_key` exactly
+once; attach the one resulting parsed response (and its own
+`column_semantics`) to EVERY canonical metric entry that maps to that
+`request_identity_key`, rather than firing (and checkpointing) once
+per canonical entry. This directly changes `select_full_canonical_
+plan`'s consumer in `scripts/29` and `b2_checkpoint`'s per-identity
+provenance (today it silently collapses a colliding identity to one
+`sample_record` with no record of which labels it serves — this fix
+makes that mapping explicit instead of implicit/lost). Not
+implemented this round — the user's gate rule ("if D=0 and all 281
+canonical entries map deterministically onto the 248 unique request
+identities") has not yet been confirmed against the real 30 groups.
+
+### D. Tests
+
+10 new tests in `tests/test_identity_key_audit.py`: `derive_request_
+identity_key` for both leaf levels, non-colliding identities excluded
+from the audit entirely, near-duplicate-label detection without
+needing a raw sample, insufficient-evidence when no sample exists,
+the confirmed `Sg::All` empty-response shape, the confirmed
+`Around::Around04::030306` all-labels-matched shape, a no-labels-
+matched (`D`) case, a some-labels-matched (`PARTIAL_MATCH`) case, and
+independent classification of two separate collision groups in the
+same taxonomy. 5 new tests in `tests/test_audit_identity_key_
+collisions_script.py`: gate clean/not-clean end-to-end, the printed
+`B2_REQUEST_COUNT` value, missing-taxonomy-file handling, and a full
+CLI round-trip.
+
+**645/645 tests passing** (630 before this round). No live requests
+made — every classification in this round's tests and tooling reads
+only already-saved/synthetic local files. No change to Prediction
+#001, `predictions/`, model/inference/probability logic, the
+production DB, the archive, or the public website. `scripts/29`'s B2
+runner is untouched. Phase B2 has NOT been executed.
+
+### E. Zero-HTTP verification command
+
+```
+python scripts\31_audit_identity_key_collisions.py --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json --season 2025
+```
+
+Reads only the already-produced taxonomy and any raw samples already
+saved under `docs\discovery\raw_samples\`. Reports the full A/EMPTY/
+C/D/PARTIAL/insufficient-evidence breakdown across all 30 real
+groups, and declares `B2_REQUEST_COUNT` only if every group resolves
+cleanly.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
