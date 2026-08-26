@@ -1,6 +1,8 @@
 """Tests for scripts/32_bounded_missing_evidence_request_plan.py —
-fully offline, no network access, no live requests. DRY RUN ONLY this
-round: the script has no live-fire code path to test."""
+fully offline, no network access, no live requests: the `--live` mode
+tested below is exercised against fake in-process client doubles that
+never touch a socket, exactly like every other HTTP-adjacent test in
+this project (see e.g. tests/test_execute_phase_b2_full_sweep_script.py)."""
 from __future__ import annotations
 
 import importlib.util
@@ -8,6 +10,8 @@ import json
 from pathlib import Path
 
 import pytest
+
+from klpga.http_client import RateLimitBlockedError
 
 SCRIPT_PATH = Path(__file__).resolve().parents[1] / "scripts" / "32_bounded_missing_evidence_request_plan.py"
 
@@ -212,3 +216,333 @@ def test_main_without_dry_run_flag_refuses(module, tmp_path):
     finally:
         sys.argv = argv_backup
     assert rc == module.EXIT_DRY_RUN_REQUIRED
+
+
+# ---------------------------------------------------------------
+# --live mode — fully offline, exercised against fake in-process
+# client doubles (no socket ever touched). Reuses `_mixed_taxonomy`/
+# `_write_raw_samples`/`_table_response_html` above: the only
+# UNRESOLVED_INSUFFICIENT_EVIDENCE identity in that taxonomy is
+# Putt::Putt09::040901 (labels "라벨A"/"라벨B", no raw sample written).
+# ---------------------------------------------------------------
+
+
+class _FakeClient:
+    """Minimal stand-in for `PoliteHttpClient` — same `post_text`
+    surface `record_fetch.fetch_and_analyze` actually calls, plus an
+    optional `_cache_path` for exercising `_cache_live_distinction`.
+    Never opens a socket; every response is a canned string or a
+    raised exception, keyed by the exact identity_key the POST body
+    (`data`) encodes."""
+
+    def __init__(self, tmp_path, *, html_by_identity=None, raise_by_identity=None, precached_identities=None):
+        self._cache_dir = tmp_path / "fake_client_cache"
+        self._cache_dir.mkdir(parents=True, exist_ok=True)
+        self.html_by_identity = html_by_identity or {}
+        self.raise_by_identity = raise_by_identity or {}
+        self.calls: list[str] = []
+        for key in precached_identities or []:
+            self._cache_marker_path(key).write_text("{}", encoding="utf-8")
+
+    @staticmethod
+    def _identity_key_from_form(data: dict) -> str:
+        menu1, menu2, menu3 = data.get("menu1"), data.get("menu2"), data.get("menu3")
+        return f"{menu1}::{menu2}::{menu3}" if menu3 else f"{menu1}::{menu2}"
+
+    def _cache_marker_path(self, identity_key: str) -> Path:
+        return self._cache_dir / f"{identity_key.replace('::', '_')}.json"
+
+    def _cache_path(self, url, params):
+        data = (params or {}).get("data") or {}
+        return self._cache_marker_path(self._identity_key_from_form(data))
+
+    def post_text(self, url, data=None, use_cache=True, headers=None):
+        key = self._identity_key_from_form(data or {})
+        self.calls.append(key)
+        if key in self.raise_by_identity:
+            raise self.raise_by_identity[key]
+        return self.html_by_identity.get(
+            key,
+            "<html><body><table><thead><tr></tr></thead><tbody></tbody></table></body></html>",
+        )
+
+
+class _FakeClientNoCacheIntrospection:
+    """Same `post_text` surface as `_FakeClient` but deliberately has
+    NO `_cache_path` — exercises the honest NOT_AVAILABLE fallback."""
+
+    def __init__(self):
+        self.calls: list[str] = []
+
+    def post_text(self, url, data=None, use_cache=True, headers=None):
+        key = _FakeClient._identity_key_from_form(data or {})
+        self.calls.append(key)
+        return "<html><body><table><thead><tr></tr></thead><tbody></tbody></table></body></html>"
+
+
+def test_acquire_only_fires_for_the_insufficient_evidence_identity(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        tmp_path,
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert client.calls == ["Putt::Putt09::040901"]
+    assert len(result["items"]) == 1
+    assert result["items"][0]["identity_key"] == "Putt::Putt09::040901"
+    assert result["items"][0]["http_outcome"] == "HTTP_SUCCESS"
+
+
+def test_acquire_saves_raw_sample_and_records_parser_fields(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        tmp_path,
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    item = result["items"][0]
+    expected_path = raw_dir / "Putt__Putt09__040901__2025.html"
+    assert expected_path.exists()
+    assert item["raw_sample_path"] == str(expected_path)
+    assert item["response_size"] == expected_path.stat().st_size
+    assert item["parse_status"] in ("CONFIRMED", "DISCOVERED_NOT_VALIDATED")
+    assert item["player_row_count"] == 1
+    assert item["missing_player_code"] == 1  # the fixture row carries no player_code source at all
+    assert item["missing_player_name"] == 0
+    assert item["cache_live_distinction"] == "LIVE_FETCH"
+
+
+def test_acquire_never_touches_partial_or_resolved_groups(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(tmp_path)
+
+    module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert "Sg::All" not in client.calls
+    assert "Tee::Tee01::010101" not in client.calls
+
+
+def test_acquire_hard_stops_on_rate_limit_and_skips_remaining(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    raw_dir.mkdir(parents=True)
+    taxonomy = _mixed_taxonomy()
+    taxonomy["leaves"].append(_leaf("Around", "Around09", "030901", "menu3", "라벨C"))
+    taxonomy["leaves"].append(_leaf("Around", "Around09", "030901", "menu3", "라벨D"))
+
+    client = _FakeClient(
+        tmp_path,
+        raise_by_identity={"Around::Around09::030901": RateLimitBlockedError("403 from example — blocked")},
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    # The plan is sorted alphabetically by identity_key, so
+    # "Around::Around09::030901" is requested (and blocked) before
+    # "Putt::Putt09::040901" is ever attempted at all.
+    assert result["hard_stop"] is not None
+    assert result["hard_stop"]["identity_key"] == "Around::Around09::030901"
+    assert result["items"] == []
+    assert client.calls == ["Around::Around09::030901"]
+    skipped_reasons = {s["identity_key"]: s["reason"] for s in result["skipped"]}
+    assert "hard safety stop" in skipped_reasons["Around::Around09::030901"]
+    assert "not attempted" in skipped_reasons["Putt::Putt09::040901"]
+
+
+def test_acquire_records_http_failure_and_continues_to_next_identity(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    taxonomy["leaves"].append(_leaf("Around", "Around09", "030901", "menu3", "라벨C"))
+    taxonomy["leaves"].append(_leaf("Around", "Around09", "030901", "menu3", "라벨D"))
+
+    client = _FakeClient(
+        tmp_path,
+        raise_by_identity={"Around::Around09::030901": ConnectionError("simulated transient failure")},
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert result["hard_stop"] is None
+    outcomes = {it["identity_key"]: it["http_outcome"] for it in result["items"]}
+    assert outcomes["Around::Around09::030901"] == "HTTP_FAILURE"
+    assert outcomes["Putt::Putt09::040901"] == "HTTP_SUCCESS"
+    assert set(client.calls) == {"Around::Around09::030901", "Putt::Putt09::040901"}
+
+
+def test_acquire_never_overwrites_evidence_that_already_exists_at_call_time(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    # Simulate the exact evidence file appearing right before this run —
+    # the plan itself is built fresh inside acquire_missing_evidence, so
+    # writing it here (before the call) is equivalent to "already there".
+    existing_path = raw_dir / "Putt__Putt09__040901__2025.html"
+    existing_path.write_text("<html><body>already here</body></html>", encoding="utf-8")
+
+    client = _FakeClient(tmp_path)
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert client.calls == []
+    assert result["items"] == []
+    assert existing_path.read_text(encoding="utf-8") == "<html><body>already here</body></html>"
+
+
+def test_acquire_before_after_audit_counts_reflect_new_evidence(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        tmp_path,
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert result["before_counts"]["UNRESOLVED_INSUFFICIENT_EVIDENCE"] == 1
+    assert result["after_counts"].get("UNRESOLVED_INSUFFICIENT_EVIDENCE", 0) == 0
+    assert result["after_counts"]["total_unresolved"] < result["before_counts"]["total_unresolved"]
+
+
+def test_cache_live_distinction_reports_not_available_without_cache_path_support(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClientNoCacheIntrospection()
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert result["items"][0]["cache_live_distinction"] == "NOT_AVAILABLE"
+
+
+def test_cache_live_distinction_reports_cache_hit_when_precached(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(tmp_path, precached_identities=["Putt::Putt09::040901"])
+
+    result = module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lambda msg: None)
+
+    assert result["items"][0]["cache_live_distinction"] == "CACHE_HIT"
+
+
+def test_run_live_prints_consolidated_report_sections_and_returns_complete(module, tmp_path, capsys):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        tmp_path,
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+
+    rc = module.run_live(client, taxonomy, "2025", raw_dir)
+
+    out = capsys.readouterr().out
+    assert rc == module.EXIT_COMPLETE
+    for section in (
+        "=== EXECUTION SUMMARY ===",
+        "=== HTTP / CACHE ===",
+        "=== PARSER ===",
+        "=== COLLISION AUDIT ===",
+        "=== SKIPPED_ITEMS_REVIEW ===",
+        "=== HARD_STOPS ===",
+    ):
+        assert section in out
+    assert "EXPECTED_MISSING_EVIDENCE_IDENTITIES = 1" in out
+    assert "HTTP_SUCCESS = 1" in out
+    assert "UNRESOLVED_BEFORE = " in out
+    assert "UNRESOLVED_AFTER = " in out
+
+
+def test_run_live_returns_hard_stop_exit_code_on_block(module, tmp_path, capsys):
+    raw_dir = tmp_path / "raw_samples"
+    raw_dir.mkdir(parents=True)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        tmp_path,
+        raise_by_identity={"Putt::Putt09::040901": RateLimitBlockedError("429 from example — blocked")},
+    )
+
+    rc = module.run_live(client, taxonomy, "2025", raw_dir)
+
+    assert rc == module.EXIT_HARD_STOP
+
+
+def test_main_live_and_dry_run_together_refused(module, tmp_path):
+    import sys
+
+    taxonomy = _mixed_taxonomy()
+    taxonomy_path = tmp_path / "taxonomy.json"
+    taxonomy_path.write_text(json.dumps(taxonomy), encoding="utf-8")
+
+    argv_backup = sys.argv
+    sys.argv = [
+        "32_bounded_missing_evidence_request_plan.py",
+        "--taxonomy",
+        str(taxonomy_path),
+        "--season",
+        "2025",
+        "--dry-run",
+        "--live",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == module.EXIT_DRY_RUN_REQUIRED
+
+
+def test_main_live_end_to_end_with_zero_missing_evidence_makes_no_real_client_error(module, tmp_path):
+    """Uses the REAL `PoliteHttpClient` wiring (not a fake) — safe
+    offline only because this taxonomy has no colliding identity_key
+    groups at all, so the missing-evidence plan is empty and zero HTTP
+    calls are ever made. Proves --live's argument wiring and client
+    construction work without needing a fake for this one path."""
+    import sys
+
+    taxonomy = {
+        "leaves": [
+            {
+                "menu1": "Tee",
+                "menu1_label": "Tee",
+                "menu2": "Tee01",
+                "menu2_label": "",
+                "menu3": "010101",
+                "menu3_label": "평균 티샷 거리",
+                "leaf_level": "menu3",
+                "source_metric_key": "Tee::Tee01::010101",
+            }
+        ]
+    }
+    taxonomy_path = tmp_path / "taxonomy.json"
+    taxonomy_path.write_text(json.dumps(taxonomy), encoding="utf-8")
+
+    argv_backup = sys.argv
+    sys.argv = [
+        "32_bounded_missing_evidence_request_plan.py",
+        "--taxonomy",
+        str(taxonomy_path),
+        "--season",
+        "2025",
+        "--raw-samples-dir",
+        str(tmp_path / "raw_samples"),
+        "--cache-dir",
+        str(tmp_path / "http_cache"),
+        "--live",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == module.EXIT_COMPLETE
