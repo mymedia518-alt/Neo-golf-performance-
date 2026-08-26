@@ -11,11 +11,15 @@ Filters out, in order:
   1. Malformed leaves (blank/missing menu1 or menu2 — see
      `sampler.reject_malformed_leaves`'s docstring for why these
      exist at all).
-  2. Navigation/container nodes (node_type=NAVIGATION_CONTAINER, e.g.
-     every menu1="All" entry — CONFIRMED by real evidence: a live
-     request returned 0 rows and a body containing the entire
-     navigation menu tree itself, not player data. See
-     `klpga.discovery.menu_taxonomy.CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES`).
+  2. Navigation/container nodes (node_type=NAVIGATION_CONTAINER —
+     CONFIRMED by real evidence ONLY for a menu2-level ("All"/family,
+     no menu3) request: a live request of exactly that shape returned
+     0 rows and a body containing the entire navigation menu tree
+     itself, not player data. See
+     `klpga.discovery.menu_taxonomy.CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES`'s
+     docstring — scoped to leaf_level="menu2" precisely because a
+     menu3-level "All"-resolved leaf has no such confirming evidence
+     and must not be excluded on menu1 value alone).
   3. Exact-duplicate DOM entries (the identical (identity, label) tuple
      appearing more than once — a markup artifact, not a semantic
      collision; see `collision_report.py`'s Category C for the
@@ -27,7 +31,16 @@ exist after removing navigation/container nodes?"
 
 A taxonomy JSON produced BEFORE `node_type` existed (no such key on
 any leaf) is still handled correctly: `_node_type()` falls back to the
-same confirmed-menu1-value check `sampler.py` uses.
+same confirmed-menu1-value-AND-leaf_level check `menu_taxonomy.py`
+uses. A taxonomy JSON produced by an OLDER, buggier version of
+`MenuLeaf.node_type` (menu1-value-only, no leaf_level check) that
+already carries an explicit but WRONG `"node_type": "NAVIGATION_CONTAINER"`
+for a menu3-level leaf is NOT corrected here — the explicit stored
+value is still trusted as-is, matching this module's existing
+established fallback-only-when-missing pattern. Regenerate the
+taxonomy JSON via `scripts/26_discover_klpga_record_taxonomy.py`
+(which re-derives `node_type` fresh from the now-fixed
+`MenuLeaf.node_type`) to get the corrected classification.
 """
 from __future__ import annotations
 
@@ -46,7 +59,7 @@ def _node_type(leaf: dict) -> str:
     explicit = leaf.get("node_type")
     if explicit:
         return explicit
-    if leaf.get("menu1") in _CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
+    if leaf.get("leaf_level") == "menu2" and leaf.get("menu1") in _CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
         return "NAVIGATION_CONTAINER"
     return "REQUESTABLE_METRIC_LEAF"
 

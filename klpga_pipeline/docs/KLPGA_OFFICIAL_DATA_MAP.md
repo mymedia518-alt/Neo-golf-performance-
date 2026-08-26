@@ -1951,6 +1951,149 @@ STILL malformed after this fix, their `rejection_reason` rows are the
 next real evidence to investigate — still `missing_menu1_and_menu2`
 would mean a real page structure this new tier still doesn't cover.
 
+## Round 3, Phase B1 — scope the NAVIGATION_CONTAINER rule to the confirmed shape
+
+**Status: 2026-08-26.** The `preceding_context` fix worked exactly as
+intended against the real page: the real Windows rerun of script 26
+reported malformed leaves collapsed from 272 to **0** (283/283 valid
+identity nodes, 6/11/7/276/283/241/31/0/COMPLETE — matching the
+original Phase A summary numbers exactly). But script 28 then failed
+its sanity check for a NEW reason: 278 of those 283 valid nodes were
+classified `NAVIGATION_CONTAINER`, collapsing the canonical count to 5.
+
+### A. Exact root cause of the 278 navigation classifications
+
+`MenuLeaf.node_type` (menu_taxonomy.py) and `canonical_plan._node_type()`
+both checked ONLY `menu1 == "All"`, with no `leaf_level` restriction.
+The CONFIRMED navigation evidence (a live `All`/`Sg` request with NO
+menu3 — a menu2-level shape) never covered menu3-level leaves at all.
+Once `preceding_context` started resolving real menu3-level leaves'
+`menu1` field from a shared, page-level container that itself happens
+to be tagged `data-menu1="All"` (evidently how the real page's full
+metric-link listing is wrapped), 272 genuine menu3-level metrics
+inherited `menu1="All"` structurally — and the leaf_level-blind rule
+then wrongly excluded them as if they matched the confirmed evidence,
+which it never did.
+
+### B. Old classification rule
+
+```python
+if self.menu1 in CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
+    return NODE_TYPE_NAVIGATION_CONTAINER
+```
+
+Basis: `menu1` string value alone. Not DOM structure, not
+`leaf_level`, not descendants, not `label_resolution_method` — a
+name/value heuristic added when "All" was first confirmed navigation,
+which implicitly (and, it turns out, incorrectly) assumed EVERY leaf
+with that menu1 value shared the same confirmed shape.
+
+Five leaves escaped this bug only because they resolved via
+`own_attrs`/`ancestor_walk` directly to their true family (one each:
+Sg/Tee/Approach/Around/Putt) rather than via `preceding_context`
+finding the shared "All"-tagged container — these are almost certainly
+the same individually-confirmed DevTools examples from the earliest
+rounds of this project.
+
+### C. New classification rule
+
+```python
+if self.leaf_level == LEAF_LEVEL_MENU2 and self.menu1 in CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES:
+    return NODE_TYPE_NAVIGATION_CONTAINER
+```
+
+Scoped to the EXACT confirmed request shape (menu2-level, no menu3).
+A menu3-level leaf is never excluded on menu1 value alone, regardless
+of resolution method or DOM position — per Mission 2's own framing,
+"a navigation link may itself represent a real metric request," and
+the only affirmative evidence this project has is specifically about
+the menu2-level shape. Mirrored in `canonical_plan._node_type()`'s
+fallback and `sampler._is_navigation_container_leaf_dict()`'s fallback
+(both used only when a taxonomy JSON lacks an explicit `node_type` —
+an explicit stored value, e.g. from a STALE pre-fix JSON, is still
+trusted as-is; regenerate via script 26 to get the corrected value).
+
+### D. Files changed
+
+`src/klpga/discovery/menu_taxonomy.py` (`MenuLeaf.node_type`,
+`CONFIRMED_NAVIGATION_CONTAINER_MENU1_VALUES` docstring), `canonical_plan.py`
+(`_node_type()` fallback), `sampler.py`
+(`_is_navigation_container_leaf_dict()` fallback), new
+`tests/test_navigation_container_scope_fix.py`. `_find_nearest_preceding_attr`
+and every other part of the `preceding_context` resolution logic —
+untouched (Mission 8's item I: no behavior change there, none was
+needed).
+
+### E. Tests added
+
+`tests/test_navigation_container_scope_fix.py` (11 tests, matching
+Mission 4's A-E): confirmed menu2-level `All::*` still excluded
+(taxonomy-level AND full sampler/canonical-plan pipeline); a menu3-level
+`own_attrs` leaf with `menu1="All"` (the direct getRecord click shape)
+is requestable; SG menu2 leaves unaffected; a `preceding_context`-resolved
+menu3 leaf sharing an "All"-tagged container with other real leaves is
+requestable, including a multi-leaf case proving bulk-exclusion doesn't
+recur; exact-duplicate dedup and cross-parent menu3-collision
+preservation both re-verified unaffected by this fix.
+
+### F. Tests passed
+
+550/550.
+
+### G. Why All::* remains excluded
+
+The original evidence is unchanged and still applies exactly as
+confirmed: a real `menu1=All, menu2=Sg, menu3=None` request returned
+0 rows and the full navigation tree in its body. That evidence was
+always specifically about the menu2-level shape — nothing about this
+round's fix removes or weakens that exclusion; it only stops
+OVER-APPLYING it to a shape (menu3-level) the evidence never covered.
+
+### H. Why real menu3 metric links are now requestable
+
+Because the confirmed navigation evidence never said anything about
+menu3-level requests, and per Mission 2's own click-mechanism evidence
+(`getRecord(menu1, menu2, menu3)` firing from `data-menu1`/`data-menu2`/
+`data-menu3` on the clicked element), a menu3-bearing link represents
+a genuine, distinct metric request regardless of which container
+happens to structurally precede it in the DOM.
+
+### I. preceding_context behavior
+
+Unchanged — confirmed by diff (no function signature or logic touched)
+and by all 13 of last round's regression tests still passing unmodified.
+Only `node_type` classification (a separate, downstream concern) changed.
+
+### Tests / safety
+
+550/550 passing. No change to Prediction #001, `predictions/`,
+model/inference/probability logic, the production DB, the archive, or
+the public website. No live requests made; Phase B1/B2 not started; no
+bulk metric sweep. The sanity-check thresholds themselves
+(`check_sanity_invariants`) were NOT weakened — this round fixes the
+classifier feeding it, not the guard itself.
+
+### J. Expected Windows verification commands (unchanged from the prior round)
+
+```
+python scripts\26_discover_klpga_record_taxonomy.py ^
+    --source-url "https://klpga.co.kr/web/record/locationRecord"
+
+python scripts\28_build_canonical_metric_request_plan.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json
+```
+
+Per explicit instruction, the final canonical requestable-metric count
+is NOT predicted here. Expected direction only: malformed stays at or
+near 0 (unaffected by this round), navigation/container count should
+collapse from 278 to something close to the real number of genuine
+menu2-level `All::<family>` navigation entries (structurally, likely
+in the single digits — 6-7 menu2-level leaves existed in total per
+Phase A's own count), canonical requestable count should rise
+materially above 5, and menu3 collisions should be recomputed over
+that much larger canonical population — a real number this round does
+not predict.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
