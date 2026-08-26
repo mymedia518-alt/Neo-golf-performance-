@@ -143,6 +143,34 @@ def test_run_writes_malformed_leaf_report_csv(module, tmp_path):
     assert "missing_menu1_and_menu2" in report_path.read_text(encoding="utf-8")
 
 
+def test_malformed_leaf_report_csv_bytes_are_not_newline_translated(module, tmp_path):
+    """Round 8 regression (Windows-only bug, reasoned through from
+    Python/OS semantics since this sandbox can't reproduce it
+    directly): csv.writer's io.StringIO() output already carries its
+    own \\r\\n row terminators. Path.write_text's default
+    newline=None performs universal-newline translation, which on
+    Windows (os.linesep == "\\r\\n") rewrites every \\n it finds --
+    including the one inside each already-present \\r\\n pair --
+    doubling it to \\r\\r\\n on disk; on read-back that becomes an
+    extra blank line per row (28 lines read back as 55). The fix is
+    newline="" on the write_text call (scripts/28, ~line 115), which
+    disables that translation entirely. This test proves the fix by
+    checking the file's raw on-disk bytes are byte-identical to the
+    string the CSV builder actually produced -- true only when zero
+    newline translation happened, on any OS this runs on."""
+    from klpga.discovery.canonical_plan import build_malformed_leaf_report, to_malformed_leaf_report_csv
+
+    taxonomy = _windows_shaped_taxonomy()
+    module.run(taxonomy, "test.json", tmp_path)
+
+    malformed_rows = build_malformed_leaf_report(taxonomy)
+    expected_csv_text = to_malformed_leaf_report_csv(malformed_rows)
+
+    report_path = tmp_path / "KLPGA_MALFORMED_LEAF_REPORT.csv"
+    actual_bytes = report_path.read_bytes()
+    assert actual_bytes == expected_csv_text.encode("utf-8")
+
+
 def test_run_prints_per_family_breakdown(module, tmp_path, capsys):
     taxonomy = _windows_shaped_taxonomy()
     module.run(taxonomy, "test.json", tmp_path)

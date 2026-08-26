@@ -2597,6 +2597,94 @@ made. No change to Prediction #001, `predictions/`, model/inference/
 probability logic, the production DB, the archive, or the public
 website. Phase B2 not started.
 
+## Round 8 — Windows-only CSV newline corruption (`\r\n` doubled to `\r\r\n` by `Path.write_text`)
+
+### A. Context
+
+After syncing the Windows checkout to the Round 7 fix (commit
+`39bd812`) and rerunning both the targeted Round 7 tests and the full
+suite there, exactly one failure remained:
+`tests/test_build_canonical_metric_request_plan_script.py::
+test_run_writes_malformed_leaf_report_csv`, asserting `55 == (1 +
+27)` — the real Windows run produced 55 lines from
+`KLPGA_MALFORMED_LEAF_REPORT.csv` where 28 (1 header + 27 malformed
+rows) was expected. The same test, and the full 596-test suite, passed
+cleanly in this project's Linux sandbox. That Linux/Windows split was
+the first signal this was a platform-dependent bug, not a stale test
+expectation or a resolver/parser regression.
+
+### B. Root cause
+
+`git log -- src/klpga/discovery/canonical_plan.py` confirmed the
+module that builds this CSV (`to_malformed_leaf_report_csv`) has been
+untouched since commit `4a63951`, well before the Round 4-7 taxonomy/
+resolver work — ruling out a stale assertion or a resolver-driven
+regression. The actual defect: `to_malformed_leaf_report_csv` uses
+`csv.DictWriter` writing into an `io.StringIO()`, so its returned
+string already contains `csv.writer`'s own `\r\n` row terminators,
+untouched by `io.StringIO` (it performs no newline translation). Every
+one of scripts 26/27/28's CSV writes then passed that string to
+`Path.write_text(data, encoding="utf-8")` with the default
+`newline=None`, which enables Python's universal-newline *write*
+translation: every `\n` character in the string is rewritten to
+`os.linesep`. On Windows, `os.linesep == "\r\n"`, so the `\n` already
+sitting inside each pre-existing `\r\n` pair gets rewritten too,
+turning every row terminator into `\r\r\n` on disk. On read-back
+(`Path.read_text()`, universal-newline *read* mode), each `\r\r\n`
+(3 bytes: CR, CR, LF) is interpreted as `\r` immediately followed by
+`\r\n`, i.e. two line breaks — an extra blank line after every row.
+28 real lines therefore read back as `28 + 27 = 55` (27 data rows each
+gaining one extra blank line; the header/last-row boundary accounts
+for the exact arithmetic). This is a genuine, pre-existing,
+Windows-only production defect — not caused by, and not exposed by,
+any of the Round 4-7 taxonomy/resolver changes; it was simply never
+triggered by a Linux-only test run before a real Windows run existed.
+
+### C. The fix
+
+Added `newline=""` to every `Path.write_text(...)` call in the
+scripts directory that writes CSV content — the standard,
+`csv`-module-documented way to disable both write- and read-side
+newline translation so a string already carrying its own row
+terminators reaches disk (and is read back) unmodified. Six call
+sites across three scripts, found via `grep -rn "write_text(" scripts/
+*.py | grep -i "csv\|_csv"` and confirmed to be the only
+`write_text` calls susceptible (JSON/Markdown/HTML/plain-text writes
+never contain pre-embedded `\r\n` and are unaffected):
+
+- `scripts/26_discover_klpga_record_taxonomy.py` — `KLPGA_RECORD_
+  TAXONOMY_DISCOVERED.csv`
+- `scripts/27_klpga_response_schema_sample.py` — `KLPGA_RESPONSE_
+  SCHEMA_SAMPLES.csv`, `KLPGA_RAW_COUNT_METRICS.csv`,
+  `KLPGA_RESPONSE_FAILURES.csv`, `KLPGA_PHASE_B1_REQUEST_LOG.csv`
+- `scripts/28_build_canonical_metric_request_plan.py` —
+  `KLPGA_MALFORMED_LEAF_REPORT.csv`
+
+The existing test assertion (`len(lines) == 1 + 27`) was **not**
+changed — it was always correct; only the production write path was
+wrong. `canonical_plan.py` itself was not touched: the CSV-building
+logic was correct, only the write-to-disk step corrupted its output.
+
+### D. Tests
+
+Since this sandbox is Linux and cannot reproduce the Windows-only
+corruption directly, added a new regression test in
+`tests/test_build_canonical_metric_request_plan_script.py`,
+`test_malformed_leaf_report_csv_bytes_are_not_newline_translated`:
+it runs the script exactly as the existing test does, then asserts
+the report file's raw on-disk bytes (`Path.read_bytes()`) are
+byte-identical to the string `to_malformed_leaf_report_csv` actually
+returned, UTF-8 encoded — true only when zero newline translation
+occurred on the write, on any OS. This directly exercises the
+`newline=""` fix and would fail if it were ever reverted, regardless
+of which platform runs the test.
+
+**597/597 tests passing** (596 before this round). No live requests
+made. No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. Phase B1 not rerun. Phase B2 not started, and remains
+unauthorized.
+
 ### E. What's still open (not fixed this round, flagged not hidden)
 
 The `missing_player_name: 223` row-extraction gap for Sg-family
