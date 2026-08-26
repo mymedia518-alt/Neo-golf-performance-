@@ -207,6 +207,60 @@ def test_player_name_cell_fallback_uses_cell_text_when_no_anchor_present():
     assert row.player_name == "전예성"
 
 
+def test_player_code_recovered_from_favorite_checkbox_when_no_href_present():
+    """Round 9 follow-up: real evidence (docs/discovery/raw_samples/
+    Sg__Around__2025.html) showed 9 of 232 real Sg::Around rows have a
+    td.player_name cell with NO nested <a> at all — missing_player_name
+    stayed 0 (the cell-text fallback still supplies a name), but
+    missing_player_code was 9 (nothing previously read the row's
+    _favoritPlayerCode checkbox attribute). This is that exact shape:
+    no data-playercode attribute, no <a> anywhere in the row, only the
+    checkbox's _favoritPlayerCode value."""
+    html = """
+    <table><tbody>
+      <tr>
+        <td class="td-like">
+          <div class="form-check form-check-like">
+            <input class="form-check-input" type="checkbox" _favoritPlayerCode="9999">
+          </div>
+        </td>
+        <td class="text-start">3</td>
+        <td><span class="tb-flag" style="background-image: url('/resources/web/images/country/KOR.png');"></span></td>
+        <td class="text-start player_name">이름없는선수</td>
+      </tr>
+    </tbody></table>
+    """
+    result = parse_record_response(html)
+    row = result.rows[0]
+    assert row.player_code == "9999"
+    assert row.player_code_source == "favorite_checkbox_attribute"
+    assert row.player_name == "이름없는선수"
+
+
+def test_href_derived_player_code_is_preferred_over_favorite_checkbox_when_both_present():
+    """Precedence must not regress: the already-working href-based
+    extraction (223/232 real rows) must still win over the new
+    checkbox fallback when both sources are present on the same row."""
+    html = """
+    <table><tbody>
+      <tr>
+        <td class="td-like">
+          <div class="form-check form-check-like">
+            <input class="form-check-input" type="checkbox" _favoritPlayerCode="9134">
+          </div>
+        </td>
+        <td class="text-start player_name">
+          <a href="/web/profile/mainRecord?playerCode=1111">김새로미</a>
+        </td>
+      </tr>
+    </tbody></table>
+    """
+    result = parse_record_response(html)
+    row = result.rows[0]
+    assert row.player_code == "1111"
+    assert row.player_code_source == "href_query_param"
+
+
 def test_row_with_no_recognizable_attributes_is_skipped_not_fabricated():
     html = """
     <table><tbody>
