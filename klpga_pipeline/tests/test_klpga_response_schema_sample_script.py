@@ -129,6 +129,9 @@ def test_full_run_writes_all_required_output_files(module, small_taxonomy, clien
         "KLPGA_RESPONSE_SCHEMA_REPORT.md",
         "KLPGA_RAW_FIELD_INVENTORY.md",
         "NEO_RAW_INPUT_CANDIDATES.md",
+        "KLPGA_RAW_COUNT_METRICS.csv",
+        "KLPGA_PLAYER_IDENTITY_REPORT.md",
+        "KLPGA_RESPONSE_FAILURES.csv",
         "KLPGA_PHASE_B1_REQUEST_LOG.json",
         "KLPGA_PHASE_B1_REQUEST_LOG.csv",
     ]:
@@ -172,6 +175,32 @@ def test_request_log_has_exactly_one_entry_per_sampled_metric(module, small_taxo
     module.run(client_2025, small_taxonomy, "2025", tmp_path)
     log_lines = (tmp_path / "KLPGA_PHASE_B1_REQUEST_LOG.json").read_text(encoding="utf-8").splitlines()
     assert len(log_lines) == 3
+
+
+def test_raw_count_metrics_csv_includes_the_confirmed_approach_pair(module, small_taxonomy, client_2025, tmp_path):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    csv_text = (tmp_path / "KLPGA_RAW_COUNT_METRICS.csv").read_text(encoding="utf-8")
+    assert "Approach::Approach01::020104" in csv_text
+    assert "Approach::Approach01::020105" in csv_text
+    # Sg::Total has no raw numerator/denominator pair — excluded, not padded.
+    assert "Sg::Total" not in csv_text
+
+
+def test_response_failures_csv_is_empty_when_every_sampled_metric_parses_cleanly(module, small_taxonomy, client_2025, tmp_path):
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    csv_text = (tmp_path / "KLPGA_RESPONSE_FAILURES.csv").read_text(encoding="utf-8")
+    lines = csv_text.strip().splitlines()
+    assert len(lines) == 1  # header only — no FAILED/AMBIGUOUS/EMPTY metrics in this fixture set
+
+
+def test_player_identity_report_not_available_when_fixtures_share_no_player(module, small_taxonomy, client_2025, tmp_path):
+    """The bundled fixtures (Sg::Total=서교림, 020104=김수지/배소현,
+    020105=임희정) document different players — nobody is
+    cross-checkable, so the report must say NOT_AVAILABLE, never
+    fabricate a cross-metric match."""
+    module.run(client_2025, small_taxonomy, "2025", tmp_path)
+    report = (tmp_path / "KLPGA_PLAYER_IDENTITY_REPORT.md").read_text(encoding="utf-8")
+    assert "`NOT_AVAILABLE`" in report
 
 
 # ---------------------------------------------------------------

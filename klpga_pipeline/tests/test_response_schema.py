@@ -6,8 +6,12 @@ from pathlib import Path
 
 from klpga.discovery.response_parser import parse_record_response
 from klpga.discovery.response_schema import (
+    IDENTITY_CONSISTENCY_CONFIRMED,
+    IDENTITY_CONSISTENCY_NOT_AVAILABLE,
+    IDENTITY_CONSISTENCY_PARTIAL,
     PIT_STATUS,
     analyze_response,
+    build_player_identity_report,
     build_schema_fingerprint,
     classify_column_kind,
     classify_historical_availability,
@@ -29,19 +33,62 @@ def _read(name: str) -> str:
 
 def test_classify_column_kind_priority_order():
     assert classify_column_kind("RTP") == "RTP"
+    assert classify_column_kind("SG Total") == "SG"
     assert classify_column_kind("측정 라운드") == "ROUNDS"
-    assert classify_column_kind("그린 적중률(%)") == "RATE"
+    assert classify_column_kind("그린 적중률(%)") == "PERCENTAGE"
+    assert classify_column_kind("1퍼트 성공 비율") == "RATE"
+    assert classify_column_kind("1퍼트 횟수") == "PUTT_COUNT"
     assert classify_column_kind("샷 시도 횟수") == "COUNT"
     assert classify_column_kind("평균 티샷 거리") == "DISTANCE"
     assert classify_column_kind("평균") == "AVERAGE"
+    assert classify_column_kind("포지션 구분") == "TEXT"
     assert classify_column_kind("아무거나") == "UNKNOWN"
     assert classify_column_kind(None) == "UNKNOWN"
+
+
+# ---------------------------------------------------------------
+# NEW — expanded primary-value type taxonomy (SG/PERCENTAGE/PUTT_COUNT/
+# TEXT), added on top of the sample-based Phase B1 build per the
+# newest respecification. RTP-vs-SG non-conflation already covered by
+# test_rtp_never_treated_as_sg above.
+# ---------------------------------------------------------------
+
+
+def test_sg_labeled_column_classified_as_sg_not_unknown():
+    """Real SG Total fixture headers ("SG Total", "SG Tee Shot", ...)
+    must resolve to KIND_SG once column semantics fall back to the
+    table header (no metadata block in that fixture)."""
+    parsed = parse_record_response(_read("loadLocationRecord_sg_total_sample.html"))
+    kinds = {classify_column_kind(c.label) for c in parsed.column_semantics if c.field_name != "record5"}
+    assert kinds == {"SG"}
+
+
+def test_percentage_and_bare_rate_label_are_distinguished():
+    """An explicit "%" unit classifies as PERCENTAGE; a bare 률/비율
+    label with no "%" unit classifies as RATE — same underlying shape
+    for raw-pair purposes (see _RATE_KINDS) but reported distinctly."""
+    assert classify_column_kind("그린 적중률(%)") == "PERCENTAGE"
+    assert classify_column_kind("1퍼트 성공 비율") == "RATE"
+
+
+def test_putt_count_never_conflated_with_generic_count():
+    assert classify_column_kind("1퍼트 횟수") == "PUTT_COUNT"
+    assert classify_column_kind("샷 시도 횟수") == "COUNT"
+
+
+def test_percentage_still_counts_as_a_rate_field_for_raw_pair_detection():
+    """Splitting RATE into RATE/PERCENTAGE must not break raw-pair
+    numerator/denominator detection — the real Approach GIR% evidence
+    (an explicit "%" label) must still reach CONFIRMED_RAW_PAIR."""
+    parsed = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
+    analysis = analyze_response(parsed)
+    assert analysis.raw_pair.status == "CONFIRMED_RAW_PAIR"
 
 
 def test_approach_020104_fingerprint_matches_real_confirmed_column_order():
     parsed = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
     fingerprint = build_schema_fingerprint(parsed.column_semantics)
-    assert fingerprint == "RATE_COUNT_COUNT_ROUNDS_RTP"
+    assert fingerprint == "PERCENTAGE_COUNT_COUNT_ROUNDS_RTP"
 
 
 def test_two_metrics_with_identical_column_structure_get_the_same_fingerprint():
@@ -287,13 +334,13 @@ def test_historical_availability_confirmed_when_values_genuinely_differ():
     current = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
     historical_html = _read("loadLocationRecord_approach_020104_sample.html").replace("70.49", "65.00")
     historical = parse_record_response(historical_html)
-    assert classify_historical_availability(current, historical) == "HISTORICAL_SEASON_AVAILABLE"
+    assert classify_historical_availability(current, historical) == "HISTORICAL_SEASON_RESPONSE_CONFIRMED"
 
 
 def test_historical_availability_unknown_when_response_is_identical():
     """An endpoint that silently echoes the current season for any
     season value must NOT be misclassified as historically available —
-    identical values classify as UNKNOWN, not HISTORICAL_SEASON_AVAILABLE."""
+    identical values classify as UNKNOWN, not HISTORICAL_SEASON_RESPONSE_CONFIRMED."""
     current = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
     historical = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
     assert classify_historical_availability(current, historical) == "UNKNOWN"
@@ -303,3 +350,67 @@ def test_historical_availability_current_only_when_historical_response_is_empty(
     current = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
     historical = parse_record_response("<table><tbody></tbody></table>")
     assert classify_historical_availability(current, historical) == "CURRENT_ONLY"
+
+
+# ---------------------------------------------------------------
+# NEW — cross-metric playerCode identity-consistency classification.
+# Matching is by player_name across independently-sampled metrics'
+# already-parsed responses; a player seen in only one metric is not
+# cross-checkable and must not count toward CONFIRMED/PARTIAL.
+# ---------------------------------------------------------------
+
+
+def _row_html(name, code, record="1.0"):
+    return f"""
+    <table><tbody>
+      <tr data-rank="1" data-name="{name}" data-playercode="{code}" data-record="{record}">
+        <td>1</td><td>{name}</td><td>{record}</td>
+      </tr>
+    </tbody></table>
+    """
+
+
+def test_identity_confirmed_when_same_player_has_same_code_everywhere():
+    a = parse_record_response(_row_html("김수지", "111"))
+    b = parse_record_response(_row_html("김수지", "111"))
+    overall, records = build_player_identity_report({"metric_a": a, "metric_b": b})
+    assert overall == IDENTITY_CONSISTENCY_CONFIRMED
+    rec = next(r for r in records if r.player_name == "김수지")
+    assert rec.consistent is True
+    assert rec.codes_by_metric == {"metric_a": "111", "metric_b": "111"}
+
+
+def test_identity_partial_when_same_player_has_different_codes():
+    a = parse_record_response(_row_html("김수지", "111"))
+    b = parse_record_response(_row_html("김수지", "999"))
+    overall, records = build_player_identity_report({"metric_a": a, "metric_b": b})
+    assert overall == IDENTITY_CONSISTENCY_PARTIAL
+    rec = next(r for r in records if r.player_name == "김수지")
+    assert rec.consistent is False
+
+
+def test_identity_not_available_when_no_player_is_cross_checkable():
+    """Two different players, one metric each — nobody appears in 2+
+    sampled metrics, so there is nothing to cross-check."""
+    a = parse_record_response(_row_html("김수지", "111"))
+    b = parse_record_response(_row_html("배소현", "222"))
+    overall, records = build_player_identity_report({"metric_a": a, "metric_b": b})
+    assert overall == IDENTITY_CONSISTENCY_NOT_AVAILABLE
+    assert all(r.consistent for r in records)  # trivially consistent, just not cross-checkable
+
+
+def test_identity_not_available_when_no_rows_at_all():
+    empty = parse_record_response("<table><tbody></tbody></table>")
+    overall, records = build_player_identity_report({"metric_a": empty})
+    assert overall == IDENTITY_CONSISTENCY_NOT_AVAILABLE
+    assert records == []
+
+
+def test_identity_report_over_real_sg_and_approach_fixtures():
+    """No player overlaps across the real SG/Approach fixtures (they
+    document different players) — must resolve NOT_AVAILABLE, never
+    fabricate a match across unrelated evidence."""
+    sg = parse_record_response(_read("loadLocationRecord_sg_total_sample.html"))
+    approach = parse_record_response(_read("loadLocationRecord_approach_020104_sample.html"))
+    overall, _records = build_player_identity_report({"Sg::Total": sg, "Approach::Approach01::020104": approach})
+    assert overall == IDENTITY_CONSISTENCY_NOT_AVAILABLE

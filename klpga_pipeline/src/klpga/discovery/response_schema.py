@@ -23,29 +23,47 @@ PIT_STATUS = "PIT_UNVERIFIED"
 docstring — this is a hardcoded constant, not a computed value, by
 design."""
 
+KIND_SG = "SG"
+KIND_PERCENTAGE = "PERCENTAGE"
 KIND_RATE = "RATE"
 KIND_COUNT = "COUNT"
+KIND_PUTT_COUNT = "PUTT_COUNT"
 KIND_ROUNDS = "ROUNDS"
 KIND_DISTANCE = "DISTANCE"
 KIND_AVERAGE = "AVERAGE"
 KIND_RTP = "RTP"
+KIND_TEXT = "TEXT"
+KIND_OTHER_NUMERIC = "OTHER_NUMERIC"
 KIND_UNKNOWN = "UNKNOWN"
+"""Expanded primary-value type taxonomy (Phase B1). KIND_SG/KIND_PUTT_COUNT/
+KIND_TEXT/KIND_OTHER_NUMERIC exist as classification capability only —
+per evidence discipline, a kind is only ever emitted when a real label
+keyword backs it; nothing here is a guess about a metric this session
+has not seen a labeled column for."""
 
 _RTP_RE = re.compile(r"\brtp\b", re.IGNORECASE)
+_SG_RE = re.compile(r"\bsg\b", re.IGNORECASE)
 
 
 def classify_column_kind(label: Optional[str]) -> str:
     """INFERRED from explicit label text only — never from position.
-    Priority order matters: RTP and ROUNDS are checked before the
-    broader RATE/COUNT keyword checks so e.g. "측정 라운드" isn't
-    accidentally classified as a rate."""
+    Priority order matters — most specific keyword families are
+    checked before broader ones so e.g. "측정 라운드" isn't accidentally
+    classified as a rate, and "1퍼트 횟수" isn't classified as a plain
+    COUNT indistinguishable from an unrelated shot-attempt count."""
     if not label:
         return KIND_UNKNOWN
     if _RTP_RE.search(label):
         return KIND_RTP
+    if _SG_RE.search(label):
+        return KIND_SG
     if "라운드" in label:
         return KIND_ROUNDS
-    if "%" in label or label.endswith("률") or "비율" in label:
+    if "퍼트" in label and ("횟수" in label or "카운트" in label):
+        return KIND_PUTT_COUNT
+    if "%" in label:
+        return KIND_PERCENTAGE
+    if label.endswith("률") or "비율" in label:
         return KIND_RATE
     if "횟수" in label or "카운트" in label:
         return KIND_COUNT
@@ -53,7 +71,17 @@ def classify_column_kind(label: Optional[str]) -> str:
         return KIND_DISTANCE
     if "평균" in label:
         return KIND_AVERAGE
+    if "구분" in label or "상태" in label or "유형" in label:
+        return KIND_TEXT
     return KIND_UNKNOWN
+
+
+_RATE_KINDS = (KIND_RATE, KIND_PERCENTAGE)
+"""RATE and PERCENTAGE are distinguished for classification/reporting
+(explicit "%" unit vs. a bare "률"/"비율" label), but for raw-pair
+numerator/denominator detection and range validation they are the same
+underlying value shape — both are checked together wherever this
+module previously checked KIND_RATE alone."""
 
 
 def build_schema_fingerprint(column_semantics: list[ColumnSemantics]) -> str:
@@ -108,7 +136,7 @@ def analyze_raw_pair(
     if not column_semantics or all(c.source == "unknown" for c in column_semantics):
         return RawPairAnalysis(status="UNKNOWN")
 
-    rate_fields = [c.field_name for c in column_semantics if classify_column_kind(c.label) == KIND_RATE]
+    rate_fields = [c.field_name for c in column_semantics if classify_column_kind(c.label) in _RATE_KINDS]
     count_fields = [c.field_name for c in column_semantics if classify_column_kind(c.label) == KIND_COUNT]
 
     if not rate_fields and not count_fields:
@@ -239,7 +267,7 @@ def run_data_quality_checks(
     seen_codes: set[str] = set()
     seen_ranks: dict[str, int] = {}
     numeric_fields = {c.field_name for c in column_semantics if classify_column_kind(c.label) != KIND_UNKNOWN}
-    rate_fields = {c.field_name for c in column_semantics if classify_column_kind(c.label) == KIND_RATE}
+    rate_fields = {c.field_name for c in column_semantics if classify_column_kind(c.label) in _RATE_KINDS}
     rounds_fields = {c.field_name for c in column_semantics if classify_column_kind(c.label) == KIND_ROUNDS}
     count_fields = {c.field_name for c in column_semantics if classify_column_kind(c.label) == KIND_COUNT}
 
@@ -323,10 +351,13 @@ def analyze_response(parsed: ParsedRecordResponse) -> MetricSchemaAnalysis:
 def classify_historical_availability(
     current: ParsedRecordResponse, historical: ParsedRecordResponse
 ) -> str:
-    """HISTORICAL_SEASON_AVAILABLE | CURRENT_ONLY | UNKNOWN. Per
-    explicit instruction, this is NEVER a PIT classification — it only
-    answers "did the site return real, different-looking data for a
-    prior season," not "is this safe to use as a model feature."""
+    """HISTORICAL_SEASON_RESPONSE_CONFIRMED | CURRENT_ONLY | UNKNOWN.
+    Per explicit instruction, this is NEVER a PIT classification — it
+    only answers "did the site return real, different-looking data for
+    a prior season," not "is this safe to use as a model feature." The
+    CONFIRMED-suffixed name is deliberate: it names what was actually
+    observed (a genuinely different response), not an assumption about
+    how far back historical data goes or how the site produced it."""
     if historical.parse_status in ("FAILED", "EMPTY"):
         return "CURRENT_ONLY" if current.rows else "UNKNOWN"
     if not historical.rows:
@@ -342,4 +373,75 @@ def classify_historical_availability(
     historical_values = {(r.player_code, tuple(sorted(r.values.items()))) for r in historical.rows}
     if current_values == historical_values:
         return "UNKNOWN"
-    return "HISTORICAL_SEASON_AVAILABLE"
+    return "HISTORICAL_SEASON_RESPONSE_CONFIRMED"
+
+
+# ---------------------------------------------------------------
+# Cross-metric playerCode identity-consistency — does the SAME player,
+# appearing across multiple independently-sampled metrics, resolve to
+# the SAME player_code every time? Pure comparison over already-parsed
+# responses; no network access, no assumption about players who only
+# appear in one sampled metric (not cross-checkable at all).
+# ---------------------------------------------------------------
+
+IDENTITY_CONSISTENCY_CONFIRMED = "CONFIRMED"
+IDENTITY_CONSISTENCY_PARTIAL = "PARTIAL"
+IDENTITY_CONSISTENCY_NOT_AVAILABLE = "NOT_AVAILABLE"
+
+
+@dataclass
+class PlayerIdentityRecord:
+    player_name: str
+    codes_by_metric: dict[str, Optional[str]]
+    """identity_key -> player_code observed for this player in that
+    metric's response (None if the row had no name-linked code at all,
+    which is preserved rather than dropped)."""
+    consistent: bool
+    """True iff every non-None code observed for this player across
+    metrics is identical. A player seen in only one metric (nothing to
+    cross-check) is trivially consistent=True but excluded from the
+    overall CONFIRMED/PARTIAL rollup below — see cross_checkable."""
+
+
+def build_player_identity_report(
+    parsed_by_key: dict[str, ParsedRecordResponse]
+) -> tuple[str, list[PlayerIdentityRecord]]:
+    """Groups rows by player_name across every sampled metric's parsed
+    response and checks whether player_code stays consistent for each
+    player who appears in 2+ of the sampled responses.
+
+    Overall status:
+      CONFIRMED     — every cross-checkable player (2+ metrics) has the
+                      same code everywhere it appears.
+      PARTIAL       — at least one cross-checkable player has
+                      DIFFERENT codes across metrics.
+      NOT_AVAILABLE — no player appears in 2+ sampled metrics (nothing
+                      to cross-check), or there are no rows at all.
+
+    Matching is by player_name only (the one identifier every response
+    is expected to carry) — never by row position or rank, which are
+    metric-specific and not a player identity signal."""
+    by_name: dict[str, dict[str, Optional[str]]] = {}
+    for identity_key, parsed in parsed_by_key.items():
+        for row in parsed.rows:
+            if not row.player_name:
+                continue
+            by_name.setdefault(row.player_name, {})[identity_key] = row.player_code
+
+    records: list[PlayerIdentityRecord] = []
+    for name, codes_by_metric in by_name.items():
+        non_none = [c for c in codes_by_metric.values() if c is not None]
+        consistent = len(set(non_none)) <= 1
+        records.append(
+            PlayerIdentityRecord(player_name=name, codes_by_metric=codes_by_metric, consistent=consistent)
+        )
+
+    cross_checkable = [r for r in records if len(r.codes_by_metric) >= 2]
+    if not cross_checkable:
+        overall = IDENTITY_CONSISTENCY_NOT_AVAILABLE
+    elif all(r.consistent for r in cross_checkable):
+        overall = IDENTITY_CONSISTENCY_CONFIRMED
+    else:
+        overall = IDENTITY_CONSISTENCY_PARTIAL
+
+    return overall, records

@@ -811,6 +811,91 @@ sampled metric plus up to 3 for the optional historical probe — a hard
 partial results already collected are still written, but nothing
 further is attempted.
 
+## Round 3, Phase B1 amendment — scope conflict resolved, taxonomy/output additions
+
+A follow-up message re-specified Phase B1 with different script/output
+names and language suggesting the full 283-leaf set as the request
+plan (with dedup of exact-duplicate DOM entries only) — in direct
+conflict with every prior round's own definition of Phase B1 as a
+small representative sample, and with Phase B2 (a full 283-metric
+sweep) explicitly gated as "not yet authorized" in each version of the
+spec seen so far, including that same message's own historical
+framing. Rather than silently picking a side on a scope question with
+real consequences (283 live HTTP requests to an external site vs.
+~20), this was put back to the user directly. **Decision: keep the
+sample-based Phase B1 scope** (`scripts/27_klpga_response_schema_sample.py`,
+never a full sweep) and layer the new message's other requirements on
+top of it where they don't require bulk collection.
+
+Built this round, additive to the already-committed Phase B1 tooling,
+zero live requests made (still no network access in this session):
+
+- **Expanded primary-value type taxonomy** in `response_schema.py`:
+  `classify_column_kind` now distinguishes `SG` (a bare `sg`/`SG`
+  token — confirmed against the real SG Total fixture's table-header
+  labels, e.g. "SG Total"/"SG Tee Shot"), `PERCENTAGE` (an explicit
+  `%` unit — e.g. "그린 적중률(%)") from the narrower `RATE` (a bare
+  `률`/`비율` label with no `%` unit), and `PUTT_COUNT` (a `퍼트`-plus-
+  count label, checked before the generic `COUNT` bucket so a putt
+  count is never silently merged with an unrelated shot-attempt
+  count). `TEXT` exists as a classification target (`구분`/`상태`/
+  `유형` keywords) but nothing in the current fixture set actually
+  triggers it — per evidence discipline, the capability exists without
+  a fabricated example. `PERCENTAGE` and `RATE` are treated
+  identically by raw-pair detection and range validation (both are
+  "the displayed rate," just with/without an explicit unit) — see
+  `_RATE_KINDS` in the module.
+- **Cross-metric playerCode identity-consistency classification**
+  (`build_player_identity_report`, new in `response_schema.py`):
+  groups rows by `player_name` across every metric sampled in one run
+  and checks whether the SAME player resolves to the SAME
+  `player_code` everywhere they appear. `CONFIRMED` (every
+  cross-checkable player — one seen in 2+ sampled metrics — has one
+  consistent code), `PARTIAL` (at least one cross-checkable player has
+  different codes across metrics), or `NOT_AVAILABLE` (nobody in the
+  sample appears in more than one sampled metric — nothing to
+  cross-check, not a claim of failure). A player seen in only one
+  sampled metric is listed for completeness but never counted toward
+  the overall status.
+- **Historical-availability label renamed** for precision:
+  `classify_historical_availability` now returns
+  `HISTORICAL_SEASON_RESPONSE_CONFIRMED` (previously
+  `HISTORICAL_SEASON_AVAILABLE`) — the new name states what was
+  actually observed (a genuinely different parsed response for a prior
+  season parameter), not an assumption about how far back historical
+  data goes. Still never a PIT classification.
+- **Three new output files**, additive to the five already-implemented
+  ones (nothing renamed or removed, to avoid breaking the
+  already-tested Phase A/B1 pipeline for no functional gain):
+  `KLPGA_RAW_COUNT_METRICS.csv` (the subset of the sample carrying a
+  raw numerator/denominator pair or a bare count column — excludes
+  rate-only/not-applicable/unknown metrics rather than padding them),
+  `KLPGA_PLAYER_IDENTITY_REPORT.md` (renders the cross-metric identity
+  report above), `KLPGA_RESPONSE_FAILURES.csv` (isolates
+  FAILED/AMBIGUOUS/EMPTY-status sampled metrics from the main samples
+  file).
+- **Default sample size raised from 16 to 20** (`--sample-size`,
+  default `--max-requests` raised from 24 to 28 to keep the same
+  historical-probe headroom) — closer to the newest message's
+  20-item NEO raw-input candidate table language, while staying a
+  small representative sample, never the full 283.
+
+Test coverage: 21 new tests (`tests/test_response_schema.py` — value-
+type classification, identity-consistency CONFIRMED/PARTIAL/
+NOT_AVAILABLE; `tests/test_schema_report.py`, new file — the three new
+output-file writers in isolation; `tests/test_klpga_response_schema_sample_script.py`
+— end-to-end file presence and content). Two existing assertions
+changed as a direct, expected consequence of splitting `RATE` into
+`RATE`/`PERCENTAGE` (the Approach GIR% schema fingerprint is now
+`PERCENTAGE_COUNT_COUNT_ROUNDS_RTP`, not `RATE_COUNT_COUNT_ROUNDS_RTP`)
+and of the historical-label rename. Full suite: 437/437 passing.
+
+Still not run live: 0 real HTTP responses observed by this session for
+any `loadLocationRecord` call. The Windows command above is unchanged
+by this amendment — same script, same flags, now with a slightly
+larger default sample and the additional output files written
+alongside the original five.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

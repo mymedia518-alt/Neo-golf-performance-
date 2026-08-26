@@ -1,7 +1,8 @@
 """Phase B1 output artifacts: KLPGA_RESPONSE_SCHEMA_SAMPLES.json/.csv,
 KLPGA_RESPONSE_SCHEMA_REPORT.md, KLPGA_RAW_FIELD_INVENTORY.md,
-NEO_RAW_INPUT_CANDIDATES.md. Pure formatting over already-computed
-sample records — no network access.
+NEO_RAW_INPUT_CANDIDATES.md, KLPGA_RAW_COUNT_METRICS.csv,
+KLPGA_PLAYER_IDENTITY_REPORT.md, KLPGA_RESPONSE_FAILURES.csv. Pure
+formatting over already-computed sample records — no network access.
 """
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ from dataclasses import asdict
 from typing import Optional
 
 from klpga.discovery.response_parser import ParsedRecordResponse
-from klpga.discovery.response_schema import MetricSchemaAnalysis
+from klpga.discovery.response_schema import MetricSchemaAnalysis, PlayerIdentityRecord
 from klpga.discovery.sampler import SampledLeaf
 
 
@@ -215,6 +216,120 @@ _DIMENSION_BY_MENU1 = {
 """INFERRED default mapping only — a starting suggestion per family,
 never a final Player DNA formula. Any menu1 not listed here (e.g. an
 unconfirmed "Around Green"/"All" family) gets "UNKNOWN", not a guess."""
+
+
+_RAW_COUNT_CSV_FIELDS = [
+    "identity_key",
+    "menu1",
+    "metric_label",
+    "raw_pair_status",
+    "raw_pair_numerator_field",
+    "raw_pair_denominator_field",
+    "rate_validation_max_abs_difference",
+    "rate_validation_checked_rows",
+    "sample_size_field_types",
+]
+
+
+def write_raw_count_metrics_csv(records: list[dict]) -> str:
+    """One row per sampled metric that carries a raw numerator/
+    denominator pair or a bare count column — the subset relevant to
+    NEO raw-count-based features. A metric with raw_pair_status
+    RATE_ONLY/NOT_APPLICABLE/UNKNOWN (no raw count backing the
+    displayed value at all) is excluded, not padded with blanks."""
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=_RAW_COUNT_CSV_FIELDS)
+    writer.writeheader()
+    for r in records:
+        if r["raw_pair_status"] not in ("CONFIRMED_RAW_PAIR", "PARTIAL_RAW_PAIR", "COUNT_ONLY"):
+            continue
+        validation = r.get("rate_validation") or {}
+        writer.writerow(
+            {
+                "identity_key": r["identity_key"],
+                "menu1": r["menu1"],
+                "metric_label": r["metric_label"],
+                "raw_pair_status": r["raw_pair_status"],
+                "raw_pair_numerator_field": r["raw_pair_numerator_field"] or "",
+                "raw_pair_denominator_field": r["raw_pair_denominator_field"] or "",
+                "rate_validation_max_abs_difference": validation.get("max_abs_difference", ""),
+                "rate_validation_checked_rows": validation.get("checked_rows", ""),
+                "sample_size_field_types": "|".join(f["sample_size_type"] for f in r["sample_size_fields"]),
+            }
+        )
+    return buf.getvalue()
+
+
+_FAILURE_CSV_FIELDS = ["identity_key", "menu1", "menu2", "menu3", "metric_label", "parse_status", "notes"]
+
+
+def write_response_failures_csv(records: list[dict], notes_by_key: Optional[dict[str, list[str]]] = None) -> str:
+    """One row per sampled metric whose parse_status is FAILED/
+    AMBIGUOUS/EMPTY — isolated from the main samples file so a reader
+    doesn't have to filter 283 (or even 16) rows to find what didn't
+    come back cleanly. `notes_by_key` is optional free-text context
+    (e.g. the parser's own notes) keyed by identity_key."""
+    notes_by_key = notes_by_key or {}
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=_FAILURE_CSV_FIELDS)
+    writer.writeheader()
+    for r in records:
+        if r["parse_status"] not in ("FAILED", "AMBIGUOUS", "EMPTY"):
+            continue
+        writer.writerow(
+            {
+                "identity_key": r["identity_key"],
+                "menu1": r["menu1"],
+                "menu2": r["menu2"],
+                "menu3": r["menu3"] or "",
+                "metric_label": r["metric_label"],
+                "parse_status": r["parse_status"],
+                "notes": "; ".join(notes_by_key.get(r["identity_key"], [])),
+            }
+        )
+    return buf.getvalue()
+
+
+def render_player_identity_report_markdown(
+    overall_status: str, identity_records: list[PlayerIdentityRecord]
+) -> str:
+    """Cross-metric playerCode identity-consistency report (see
+    response_schema.build_player_identity_report). CONFIRMED/PARTIAL/
+    NOT_AVAILABLE — never a guess when fewer than 2 metrics share a
+    player."""
+    lines = ["# KLPGA Player Identity Report — Phase B1", ""]
+    lines.append(f"**Overall cross-metric playerCode consistency: `{overall_status}`**")
+    lines.append("")
+    lines.append(
+        "Matching is by player_name across the sampled metrics' "
+        "already-parsed responses. A player appearing in only one "
+        "sampled metric is not cross-checkable and is listed for "
+        "completeness only — it does not count toward the overall "
+        "status above."
+    )
+    lines.append("")
+
+    cross_checkable = [r for r in identity_records if len(r.codes_by_metric) >= 2]
+    single_metric = [r for r in identity_records if len(r.codes_by_metric) < 2]
+
+    lines.append(f"## Cross-checkable players ({len(cross_checkable)})")
+    lines.append("")
+    if not cross_checkable:
+        lines.append("None in this sample — no player appeared in 2+ sampled metrics.")
+    else:
+        lines.append("| Player | Consistent? | Codes by metric |")
+        lines.append("|---|---|---|")
+        for r in sorted(cross_checkable, key=lambda x: x.player_name):
+            codes = ", ".join(f"{k}={v or '—'}" for k, v in r.codes_by_metric.items())
+            lines.append(f"| {r.player_name} | {'yes' if r.consistent else 'NO'} | {codes} |")
+    lines.append("")
+
+    lines.append(f"## Single-metric players ({len(single_metric)}, not cross-checkable)")
+    lines.append("")
+    lines.append("Listed for completeness only — not evidence of consistency or inconsistency.")
+    lines.append("")
+
+    return "\n".join(lines)
 
 
 def render_neo_raw_input_candidates_markdown(records: list[dict]) -> str:
