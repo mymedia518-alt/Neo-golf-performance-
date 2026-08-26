@@ -1,0 +1,1083 @@
+
+
+
+
+
+
+<style>
+	:root {
+		scroll-behavior: auto;
+	}
+</style>
+<script>
+$(document).ready(function() {
+
+	$(".fullRanking").click(function(event) {
+		event.preventDefault();
+		
+		$('html, body').scrollTop(0);
+		menu1 = $(this).attr("data-menu1");
+		menu2 = $(this).attr("data-menu2");
+		getRecord(menu1, menu2, "");
+	});
+})
+</script>
+<section class="section-area section-recordslide">
+
+<div class="container">
+	<div class="row">
+		
+			
+				
+					
+					
+					
+				
+				
+				
+				
+			
+			
+			<div class="col-12 col-lg-4">
+				<div class="card ranking-card">
+					<div class="card-header"></div>
+					<div class="card-body" style="min-height:415.88px;">
+						<h2 class="underline-title m-4">SG : 전체</h2>
+						
+						
+						<!-- 1등 -->
+						<ul class="player-list list-top mb-3">
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-3 text-center">
+										<h2 class="font-sfpro">1</h2>
+									</div>
+									<div class="col-6">
+										<div class="avatar-lg bg-img-top mx-3" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01575.png');">
+											<a href="/web/profile/mainRecord?playerCode=10095"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name pt-3 fs-2">
+											<a href="/web/profile/mainRecord?playerCode=10095">
+											방신실
+											</a>
+											<small>KB금융그룹</small>
+										</span>
+									</div>
+									<div class="col-5 pt-3 fs-2 text-end font-sfpro">
+										
+										
+											
+											2.41
+										
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!-- 구분 -->
+						<div class="bg-lightblue fs-8 font-sfcompact">
+							<div class="row g-0">
+								<div class="col-2 keycolor text-center">순위</div>
+								<div class="col-7 keycolor text-center">선수명</div>
+								<div class="col-3 keycolor text-center">SG</div>
+							</div>
+						</div>
+						<!-- 2~5등 -->
+						<ul class="player-list">
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">2</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01637.png')">
+											<a href="/web/profile/mainRecord?playerCode=10146"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10146">
+											유현조
+											</a>
+											<small>롯데</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											2.36
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">3</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01395.png')">
+											<a href="/web/profile/mainRecord?playerCode=9750"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9750">
+											홍정민
+											</a>
+											<small>HJ중공업</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											2.33
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">4</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01240.png')">
+											<a href="/web/profile/mainRecord?playerCode=9130"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9130">
+											박현경
+											</a>
+											<small>메디힐</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.87
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">5</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01319.png')">
+											<a href="/web/profile/mainRecord?playerCode=9113"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9113">
+											노승희
+											</a>
+											<small>리쥬란</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.87
+										
+									</div>
+								</div>
+							</li>
+							
+						</ul>
+					
+					</div>
+					<div class="card-footer" style="min-height:46.19px;">
+						
+						<button class="btn keycolor font-sfcompact fs-6 fullRanking" type="button" data-menu1="Sg" data-menu2="Total">
+							FULL RANKING <span class="ps-3"><img src="/resources/web/images/icon-rankarrow.svg"></span>
+						</button>
+						
+					</div>
+				</div>
+			</div>
+		
+			
+				
+				
+					
+					
+					
+				
+				
+				
+			
+			
+			<div class="col-12 col-lg-4">
+				<div class="card ranking-card">
+					<div class="card-header"></div>
+					<div class="card-body" style="min-height:415.88px;">
+						<h2 class="underline-title m-4">SG : 티샷 to 그린</h2>
+						
+						
+						<!-- 1등 -->
+						<ul class="player-list list-top mb-3">
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-3 text-center">
+										<h2 class="font-sfpro">1</h2>
+									</div>
+									<div class="col-6">
+										<div class="avatar-lg bg-img-top mx-3" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01575.png');">
+											<a href="/web/profile/mainRecord?playerCode=10095"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name pt-3 fs-2">
+											<a href="/web/profile/mainRecord?playerCode=10095">
+											방신실
+											</a>
+											<small>KB금융그룹</small>
+										</span>
+									</div>
+									<div class="col-5 pt-3 fs-2 text-end font-sfpro">
+										
+										
+											
+											2.19
+										
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!-- 구분 -->
+						<div class="bg-lightblue fs-8 font-sfcompact">
+							<div class="row g-0">
+								<div class="col-2 keycolor text-center">순위</div>
+								<div class="col-7 keycolor text-center">선수명</div>
+								<div class="col-3 keycolor text-center">SG</div>
+							</div>
+						</div>
+						<!-- 2~5등 -->
+						<ul class="player-list">
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">2</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01395.png')">
+											<a href="/web/profile/mainRecord?playerCode=9750"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9750">
+											홍정민
+											</a>
+											<small>HJ중공업</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											2.14
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">3</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01585.png')">
+											<a href="/web/profile/mainRecord?playerCode=11649"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=11649">
+											이동은
+											</a>
+											<small>SBI저축은행</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.89
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">4</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01637.png')">
+											<a href="/web/profile/mainRecord?playerCode=10146"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10146">
+											유현조
+											</a>
+											<small>롯데</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.86
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">5</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01314.png')">
+											<a href="/web/profile/mainRecord?playerCode=9820"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9820">
+											정윤지
+											</a>
+											<small>NH투자증권</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.84
+										
+									</div>
+								</div>
+							</li>
+							
+						</ul>
+					
+					</div>
+					<div class="card-footer" style="min-height:46.19px;">
+						
+						<button class="btn keycolor font-sfcompact fs-6 fullRanking" type="button" data-menu1="Sg" data-menu2="TeeToGreen">
+							FULL RANKING <span class="ps-3"><img src="/resources/web/images/icon-rankarrow.svg"></span>
+						</button>
+						
+					</div>
+				</div>
+			</div>
+		
+			
+				
+				
+				
+					
+					
+					
+				
+				
+			
+			
+			<div class="col-12 col-lg-4">
+				<div class="card ranking-card">
+					<div class="card-header"></div>
+					<div class="card-body" style="min-height:415.88px;">
+						<h2 class="underline-title m-4">SG : 티샷</h2>
+						
+						
+						<!-- 1등 -->
+						<ul class="player-list list-top mb-3">
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-3 text-center">
+										<h2 class="font-sfpro">1</h2>
+									</div>
+									<div class="col-6">
+										<div class="avatar-lg bg-img-top mx-3" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01585.png');">
+											<a href="/web/profile/mainRecord?playerCode=11649"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name pt-3 fs-2">
+											<a href="/web/profile/mainRecord?playerCode=11649">
+											이동은
+											</a>
+											<small>SBI저축은행</small>
+										</span>
+									</div>
+									<div class="col-5 pt-3 fs-2 text-end font-sfpro">
+										
+										
+											
+											1.03
+										
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!-- 구분 -->
+						<div class="bg-lightblue fs-8 font-sfcompact">
+							<div class="row g-0">
+								<div class="col-2 keycolor text-center">순위</div>
+								<div class="col-7 keycolor text-center">선수명</div>
+								<div class="col-3 keycolor text-center">SG</div>
+							</div>
+						</div>
+						<!-- 2~5등 -->
+						<ul class="player-list">
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">2</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01019.png')">
+											<a href="/web/profile/mainRecord?playerCode=8300"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=8300">
+											김수지
+											</a>
+											<small>동부건설</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.82
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">3</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01637.png')">
+											<a href="/web/profile/mainRecord?playerCode=10146"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10146">
+											유현조
+											</a>
+											<small>롯데</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.81
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">4</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01395.png')">
+											<a href="/web/profile/mainRecord?playerCode=9750"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9750">
+											홍정민
+											</a>
+											<small>HJ중공업</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.78
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">5</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/00842.png')">
+											<a href="/web/profile/mainRecord?playerCode=8589"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=8589">
+											배소현
+											</a>
+											<small>메디힐</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.75
+										
+									</div>
+								</div>
+							</li>
+							
+						</ul>
+					
+					</div>
+					<div class="card-footer" style="min-height:46.19px;">
+						
+						<button class="btn keycolor font-sfcompact fs-6 fullRanking" type="button" data-menu1="Sg" data-menu2="Tee">
+							FULL RANKING <span class="ps-3"><img src="/resources/web/images/icon-rankarrow.svg"></span>
+						</button>
+						
+					</div>
+				</div>
+			</div>
+		
+	</div>
+</div>
+</section>
+<section class="section-area section-recordslide">
+<div class="container">
+	<div class="row">
+		
+			
+				
+					
+					
+					
+				
+				
+				
+				
+			
+			
+			<div class="col-12 col-lg-4">
+				<div class="card ranking-card">
+					<div class="card-header"></div>
+					<div class="card-body" style="min-height:415.88px;">
+						<h2 class="underline-title m-4">SG : 어프로치</h2>
+						
+						
+						<!-- 1등 -->
+						<ul class="player-list list-top mb-3">
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-3 text-center">
+										<h2 class="font-sfpro">1</h2>
+									</div>
+									<div class="col-6">
+										<div class="avatar-lg bg-img-top mx-3" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01395.png');">
+											<a href="/web/profile/mainRecord?playerCode=9750"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name pt-3 fs-2">
+											<a href="/web/profile/mainRecord?playerCode=9750">
+											홍정민
+											</a>
+											<small>HJ중공업</small>
+										</span>
+									</div>
+									<div class="col-5 pt-3 fs-2 text-end font-sfpro">
+										
+										
+											
+											1.39
+										
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!-- 구분 -->
+						<div class="bg-lightblue fs-8 font-sfcompact">
+							<div class="row g-0">
+								<div class="col-2 keycolor text-center">순위</div>
+								<div class="col-7 keycolor text-center">선수명</div>
+								<div class="col-3 keycolor text-center">SG</div>
+							</div>
+						</div>
+						<!-- 2~5등 -->
+						<ul class="player-list">
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">2</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01314.png')">
+											<a href="/web/profile/mainRecord?playerCode=9820"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9820">
+											정윤지
+											</a>
+											<small>NH투자증권</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.18
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">3</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01575.png')">
+											<a href="/web/profile/mainRecord?playerCode=10095"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10095">
+											방신실
+											</a>
+											<small>KB금융그룹</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.15
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">4</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01585.png')">
+											<a href="/web/profile/mainRecord?playerCode=11649"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=11649">
+											이동은
+											</a>
+											<small>SBI저축은행</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.10
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">5</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01161.png')">
+											<a href="/web/profile/mainRecord?playerCode=8772"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=8772">
+											박민지
+											</a>
+											<small>NH투자증권</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											1.07
+										
+									</div>
+								</div>
+							</li>
+							
+						</ul>
+					
+					</div>
+					<div class="card-footer" style="min-height:46.19px;">
+						
+						<button class="btn keycolor font-sfcompact fs-6 fullRanking" type="button" data-menu1="Sg" data-menu2="Approach">
+							FULL RANKING <span class="ps-3"><img src="/resources/web/images/icon-rankarrow.svg"></span>
+						</button>
+						
+					</div>
+				</div>
+			</div>
+		
+			
+				
+				
+					
+					
+					
+				
+				
+				
+			
+			
+			<div class="col-12 col-lg-4">
+				<div class="card ranking-card">
+					<div class="card-header"></div>
+					<div class="card-body" style="min-height:415.88px;">
+						<h2 class="underline-title m-4">SG : 그린주변</h2>
+						
+						
+						<!-- 1등 -->
+						<ul class="player-list list-top mb-3">
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-3 text-center">
+										<h2 class="font-sfpro">1</h2>
+									</div>
+									<div class="col-6">
+										<div class="avatar-lg bg-img-top mx-3" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01390.png');">
+											<a href="/web/profile/mainRecord?playerCode=9134"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name pt-3 fs-2">
+											<a href="/web/profile/mainRecord?playerCode=9134">
+											서어진
+											</a>
+											<small>대보건설</small>
+										</span>
+									</div>
+									<div class="col-5 pt-3 fs-2 text-end font-sfpro">
+										
+										
+											
+											0.49
+										
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!-- 구분 -->
+						<div class="bg-lightblue fs-8 font-sfcompact">
+							<div class="row g-0">
+								<div class="col-2 keycolor text-center">순위</div>
+								<div class="col-7 keycolor text-center">선수명</div>
+								<div class="col-3 keycolor text-center">SG</div>
+							</div>
+						</div>
+						<!-- 2~5등 -->
+						<ul class="player-list">
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">2</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01302.png')">
+											<a href="/web/profile/mainRecord?playerCode=8770"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=8770">
+											조아연
+											</a>
+											<small>HJ중공업</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.46
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">3</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01017.png')">
+											<a href="/web/profile/mainRecord?playerCode=9183"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9183">
+											박결
+											</a>
+											<small>두산건설 We've</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.46
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">4</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01384.png')">
+											<a href="/web/profile/mainRecord?playerCode=10022"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10022">
+											손예빈
+											</a>
+											<small>메디힐</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.43
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">5</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01575.png')">
+											<a href="/web/profile/mainRecord?playerCode=10095"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10095">
+											방신실
+											</a>
+											<small>KB금융그룹</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.35
+										
+									</div>
+								</div>
+							</li>
+							
+						</ul>
+					
+					</div>
+					<div class="card-footer" style="min-height:46.19px;">
+						
+						<button class="btn keycolor font-sfcompact fs-6 fullRanking" type="button" data-menu1="Sg" data-menu2="Around">
+							FULL RANKING <span class="ps-3"><img src="/resources/web/images/icon-rankarrow.svg"></span>
+						</button>
+						
+					</div>
+				</div>
+			</div>
+		
+			
+				
+				
+				
+					
+					
+					
+				
+				
+			
+			
+			<div class="col-12 col-lg-4">
+				<div class="card ranking-card">
+					<div class="card-header"></div>
+					<div class="card-body" style="min-height:415.88px;">
+						<h2 class="underline-title m-4">SG : 퍼팅</h2>
+						
+						
+						<!-- 1등 -->
+						<ul class="player-list list-top mb-3">
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-3 text-center">
+										<h2 class="font-sfpro">1</h2>
+									</div>
+									<div class="col-6">
+										<div class="avatar-lg bg-img-top mx-3" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/00866.png');">
+											<a href="/web/profile/mainRecord?playerCode=8764"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name pt-3 fs-2">
+											<a href="/web/profile/mainRecord?playerCode=8764">
+											김소이
+											</a>
+											<small>휴온스</small>
+										</span>
+									</div>
+									<div class="col-5 pt-3 fs-2 text-end font-sfpro">
+										
+										
+											
+											1.16
+										
+									</div>
+								</div>
+							</li>
+						</ul>
+						<!-- 구분 -->
+						<div class="bg-lightblue fs-8 font-sfcompact">
+							<div class="row g-0">
+								<div class="col-2 keycolor text-center">순위</div>
+								<div class="col-7 keycolor text-center">선수명</div>
+								<div class="col-3 keycolor text-center">SG</div>
+							</div>
+						</div>
+						<!-- 2~5등 -->
+						<ul class="player-list">
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">2</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01710.png')">
+											<a href="/web/profile/mainRecord?playerCode=11630"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=11630">
+											정지효
+											</a>
+											<small>메디힐</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.88
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">3</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01384.png')">
+											<a href="/web/profile/mainRecord?playerCode=10022"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10022">
+											손예빈
+											</a>
+											<small>메디힐</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.80
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">4</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01315.png')">
+											<a href="/web/profile/mainRecord?playerCode=10531"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=10531">
+											현세린
+											</a>
+											<small>대방건설</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.73
+										
+									</div>
+								</div>
+							</li>
+							
+							<li>
+								<div class="row g-0">
+									<div class="col-1 pt-2 text-center">
+										<span class="font-sfpro">5</span>
+									</div>
+									<div class="col-7">
+										<div class="avatar-lg bg-img-top mx-4" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01333.png')">
+											<a href="/web/profile/mainRecord?playerCode=9109"><img src="/resources/web/images/blank-square.png"></a>
+										</div>
+										<span class="player-name ">
+											<a href="/web/profile/mainRecord?playerCode=9109">
+											이제영
+											</a>
+											<small>MG새마을금고</small>
+										</span>
+									</div>
+									<div class="col-4 pt-2 text-end font-sfpro">
+										
+										
+											
+											0.69
+										
+									</div>
+								</div>
+							</li>
+							
+						</ul>
+					
+					</div>
+					<div class="card-footer" style="min-height:46.19px;">
+						
+						<button class="btn keycolor font-sfcompact fs-6 fullRanking" type="button" data-menu1="Sg" data-menu2="Putt">
+							FULL RANKING <span class="ps-3"><img src="/resources/web/images/icon-rankarrow.svg"></span>
+						</button>
+						
+					</div>
+				</div>
+			</div>
+		
+	</div>
+</div>
+</section>
