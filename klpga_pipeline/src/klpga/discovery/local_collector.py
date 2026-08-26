@@ -61,6 +61,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -429,6 +430,95 @@ def render_report_markdown(report: LocalCollectionReport, *, skip_queue: list[di
 
 
 # ---------------------------------------------------------------
+# Live-run progress observability: elapsed-time-stamped log lines plus
+# a background heartbeat, so a `--live` run's console never goes silent
+# long enough to look like a hang. Pure observation — this NEVER
+# changes request timing, retry counts, or any collection/parsing/
+# safety behavior; it only reads shared state that the real log calls
+# already produce and prints about it on its own schedule.
+# ---------------------------------------------------------------
+
+DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 15.0
+"""How often the background heartbeat checks in during a live run.
+Independent of `PoliteHttpClient`'s own throttle/retry timing — this
+number can change freely without affecting request rate at all."""
+
+
+def _fmt_elapsed(seconds: float) -> str:
+    total = max(0, int(seconds))
+    hours, rem = divmod(total, 3600)
+    minutes, secs = divmod(rem, 60)
+    if hours:
+        return f"{hours:d}:{minutes:02d}:{secs:02d}"
+    return f"{minutes:02d}:{secs:02d}"
+
+
+class _ActivityHeartbeat:
+    """Background daemon thread that periodically reports elapsed time
+    and time-since-last-activity, so a long quiet gap (a slow request,
+    a rate-limit backoff sleep, or a genuine hang) is always visible
+    instead of silent. Only ever reads/writes its own small bit of
+    state (`note()` records the last log line's timestamp/text) and
+    prints — it never touches the HTTP client, never sleeps in the
+    request path, and has zero effect on what gets requested or when."""
+
+    def __init__(self, log: Callable[[str], None], *, interval_seconds: float = DEFAULT_HEARTBEAT_INTERVAL_SECONDS):
+        self._log = log
+        self._interval = interval_seconds
+        self._start = time.perf_counter()
+        self._last_activity_ts = self._start
+        self._last_activity_desc = "run started"
+        self._lock = threading.Lock()
+        self._stop_event = threading.Event()
+        self._thread: Optional[threading.Thread] = None
+
+    def note(self, description: str) -> None:
+        with self._lock:
+            self._last_activity_ts = time.perf_counter()
+            self._last_activity_desc = description
+
+    def _tick(self) -> None:
+        with self._lock:
+            since_activity = time.perf_counter() - self._last_activity_ts
+            desc = self._last_activity_desc
+        elapsed = time.perf_counter() - self._start
+        self._log(
+            f"[HEARTBEAT +{_fmt_elapsed(elapsed)}] still running — {_fmt_elapsed(since_activity)} since last "
+            f"activity ({desc}). This can be normal rate-limit/backoff waiting or one slow request — "
+            "not necessarily a hang; PoliteHttpClient's own worst case for a single request is bounded "
+            "(see http_client.py's module docstring)."
+        )
+
+    def _run(self) -> None:
+        while not self._stop_event.wait(self._interval):
+            self._tick()
+
+    def start(self) -> None:
+        self._thread = threading.Thread(target=self._run, daemon=True, name="klpga-collector-heartbeat")
+        self._thread.start()
+
+    def stop(self) -> None:
+        self._stop_event.set()
+        if self._thread is not None:
+            self._thread.join(timeout=max(1.0, self._interval))
+
+
+def _make_elapsed_log(base_log: Callable[[str], None], heartbeat: _ActivityHeartbeat, start: float) -> Callable[[str], None]:
+    """Wraps `base_log` so every line — including every line `acquire_
+    missing_evidence`/`fetch_and_analyze`/`PoliteHttpClient.on_retry`
+    already produce, unmodified — gets an `[+MM:SS]` elapsed-time
+    prefix and marks the heartbeat's last-activity clock, all without
+    changing what any of those components actually do."""
+
+    def _log(msg: str) -> None:
+        heartbeat.note(msg)
+        elapsed = time.perf_counter() - start
+        base_log(f"[+{_fmt_elapsed(elapsed)}] {msg}")
+
+    return _log
+
+
+# ---------------------------------------------------------------
 # Orchestration entry point
 # ---------------------------------------------------------------
 
@@ -444,6 +534,7 @@ def run_local_collection(
     report_path: Path,
     live: bool,
     log: Callable[[str], None] = print,
+    heartbeat_interval_seconds: float = DEFAULT_HEARTBEAT_INTERVAL_SECONDS,
 ) -> tuple[int, LocalCollectionReport]:
     """The ONE orchestration function `scripts/run_klpga_collector.py`
     calls. Reuses, unmodified: `build_canonical_plan`,
@@ -462,7 +553,18 @@ def run_local_collection(
     `(exit_code, report)`; `exit_code` is `EXIT_HARD_STOP` if a
     401/403/429 halted live acquisition partway through this run,
     `EXIT_COMPLETE` otherwise (including a preview run, and a live run
-    that found zero remaining missing-evidence identities)."""
+    that found zero remaining missing-evidence identities).
+
+    During a `live=True` run, every log line is stamped with elapsed
+    time (`[+MM:SS] ...`) and a background heartbeat (every `heartbeat_
+    interval_seconds`, default 15s) prints how long it has been since
+    the last activity — so a normal rate-limit/backoff wait and a
+    genuine hang both stay visibly distinguishable instead of the
+    console going silent. `missing_evidence_acquisition.acquire_
+    missing_evidence` also emits one `PROGRESS [i/N] | identity_key |
+    CACHE/LIVE | HTTP status | PARSE status | SAVED/SKIPPED` line per
+    identity as it completes. None of this changes request timing,
+    retry counts, or what gets collected — it only observes and prints."""
     start = time.perf_counter()
     generated_at = datetime.now(timezone.utc).isoformat()
 
@@ -472,8 +574,23 @@ def run_local_collection(
     preview_rows = build_missing_evidence_request_plan(taxonomy, season=season, raw_samples_dir=raw_samples_dir)
 
     if live:
-        log("=== LOCAL COLLECTOR: live acquisition (bounded missing-evidence milestone) ===")
-        acquisition = acquire_missing_evidence(client, taxonomy, season, raw_samples_dir, log=log)
+        heartbeat = _ActivityHeartbeat(log, interval_seconds=heartbeat_interval_seconds)
+        wrapped_log = _make_elapsed_log(log, heartbeat, start)
+        # PoliteHttpClient's own retry/backoff diagnostic messages
+        # (`on_retry`) are routed through the SAME wrapped log — same
+        # timing, same content, just where the string is printed to —
+        # so a retry wait shows up on the heartbeat's activity clock
+        # too, instead of appearing to go silent. Never touched for a
+        # client double (tests) that has no `on_retry` attribute at all.
+        if hasattr(client, "on_retry"):
+            client.on_retry = wrapped_log
+
+        wrapped_log("=== LOCAL COLLECTOR: live acquisition (bounded missing-evidence milestone) ===")
+        heartbeat.start()
+        try:
+            acquisition = acquire_missing_evidence(client, taxonomy, season, raw_samples_dir, log=wrapped_log)
+        finally:
+            heartbeat.stop()
         _update_checkpoint_from_items(checkpoint, acquisition["items"], season)
         write_checkpoint_atomic(checkpoint_path, checkpoint)
 

@@ -24,7 +24,19 @@ WHAT THIS SCRIPT DOES THIS ROUND (the "FIRST MILESTONE"):
       never silently dropped, never blocking the rest of the run;
     - one consolidated, human-readable Markdown report plus a
       machine-readable checkpoint/skip-queue state, written to disk
-      AND printed, every run.
+      AND printed, every run;
+    - LIVE PROGRESS REPORTING (Round 11 continued): every `--live`
+      console line is stamped with elapsed time (`[+MM:SS] ...`); one
+      `PROGRESS [completed/expected] | identity_key | CACHE/LIVE |
+      HTTP status | PARSE status | SAVED/SKIPPED` line prints as each
+      identity finishes; and a background heartbeat (every 15s by
+      default, `--heartbeat-interval-seconds` to change it) reports how
+      long it has been since the last activity whenever a request or
+      retry backoff is taking a while — so normal rate-limit waiting
+      and an actual hang stay visibly distinguishable without needing
+      any separate diagnostic command. Purely observational: none of
+      it changes request timing, retry counts, parser logic, or safety
+      behavior.
   Safe by default: with no `--live` flag, this makes ZERO HTTP
   requests — it only inspects existing local state (taxonomy, raw
   evidence already on disk, the checkpoint, the skip queue, the
@@ -144,6 +156,15 @@ def main() -> int:
             "set only. Omit for a safe preview (zero HTTP requests) — the default."
         ),
     )
+    parser.add_argument(
+        "--heartbeat-interval-seconds",
+        type=float,
+        default=None,
+        help=(
+            "--live only: how often the background heartbeat reports elapsed/last-activity time "
+            "during quiet gaps (default 15s). Purely observational — never affects request timing."
+        ),
+    )
     args = parser.parse_args()
 
     taxonomy_path = Path(args.taxonomy)
@@ -160,6 +181,10 @@ def main() -> int:
             cache_dir=Path(args.cache_dir), on_retry=lambda msg: print(f"[HTTP RETRY] {msg}", flush=True)
         )
 
+    extra_kwargs = {}
+    if args.heartbeat_interval_seconds is not None:
+        extra_kwargs["heartbeat_interval_seconds"] = args.heartbeat_interval_seconds
+
     exit_code, _report = run_local_collection(
         client,
         taxonomy,
@@ -169,6 +194,7 @@ def main() -> int:
         skip_queue_path=Path(args.skip_queue_path),
         report_path=Path(args.report_path),
         live=args.live,
+        **extra_kwargs,
     )
     return exit_code
 

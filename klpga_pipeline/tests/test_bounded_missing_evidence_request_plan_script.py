@@ -546,3 +546,73 @@ def test_main_live_end_to_end_with_zero_missing_evidence_makes_no_real_client_er
     finally:
         sys.argv = argv_backup
     assert rc == module.EXIT_COMPLETE
+
+
+# ---------------------------------------------------------------
+# PROGRESS lines — `acquire_missing_evidence` (now in `klpga.discovery.
+# missing_evidence_acquisition`, re-exported here) emits one
+# `PROGRESS [i/N] | identity_key | CACHE/LIVE | HTTP status | PARSE
+# status | SAVED/SKIPPED` line per identity as it completes, purely as
+# an observability addition — no collection/request/parser behavior
+# changes. Reuses `_mixed_taxonomy`/`_write_raw_samples`/`_table_
+# response_html`/`_FakeClient`/`_leaf` from above.
+# ---------------------------------------------------------------
+
+
+def test_progress_line_emitted_on_http_success(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(
+        tmp_path,
+        html_by_identity={"Putt::Putt09::040901": _table_response_html(["순위", "선수명", "라벨A", "라벨B"])},
+    )
+    lines = []
+    module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lines.append)
+
+    progress_lines = [l for l in lines if l.startswith("PROGRESS ")]
+    assert len(progress_lines) == 1
+    assert progress_lines[0] == "PROGRESS [1/1] | Putt::Putt09::040901 | LIVE | SUCCESS | DISCOVERED_NOT_VALIDATED | SAVED"
+
+
+def test_progress_line_shows_cache_short_label_on_cache_hit(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(tmp_path, precached_identities=["Putt::Putt09::040901"])
+    lines = []
+    module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lines.append)
+
+    progress_line = next(l for l in lines if l.startswith("PROGRESS "))
+    assert " | CACHE | " in progress_line
+
+
+def test_progress_line_emitted_on_http_failure(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    client = _FakeClient(tmp_path, raise_by_identity={"Putt::Putt09::040901": ConnectionError("boom")})
+    lines = []
+    module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lines.append)
+
+    progress_line = next(l for l in lines if l.startswith("PROGRESS "))
+    assert progress_line == "PROGRESS [1/1] | Putt::Putt09::040901 | LIVE | FAILURE | N/A | SKIPPED"
+
+
+def test_progress_line_emitted_on_hard_stop_and_queued_skip(module, tmp_path):
+    raw_dir = tmp_path / "raw_samples"
+    _write_raw_samples(raw_dir)
+    taxonomy = _mixed_taxonomy()
+    taxonomy["leaves"].append(_leaf("Around", "Around09", "030901", "menu3", "라벨C"))
+    taxonomy["leaves"].append(_leaf("Around", "Around09", "030901", "menu3", "라벨D"))
+    client = _FakeClient(
+        tmp_path, raise_by_identity={"Around::Around09::030901": RateLimitBlockedError("429 blocked")}
+    )
+    lines = []
+    module.acquire_missing_evidence(client, taxonomy, "2025", raw_dir, log=lines.append)
+
+    progress_lines = [l for l in lines if l.startswith("PROGRESS ")]
+    assert progress_lines == [
+        "PROGRESS [1/2] | Around::Around09::030901 | LIVE | BLOCKED | N/A | SKIPPED",
+        "PROGRESS [2/2] | Putt::Putt09::040901 | N/A | NOT_ATTEMPTED | N/A | SKIPPED",
+    ]

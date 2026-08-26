@@ -128,3 +128,38 @@ def test_main_live_with_zero_missing_evidence_uses_real_client_safely(module, tm
 def test_default_paths_live_under_docs_discovery_local_collector(module):
     assert module.DEFAULT_OUT_DIR.name == "local_collector"
     assert module.DEFAULT_OUT_DIR.parent.name == "discovery"
+
+
+def test_main_accepts_heartbeat_interval_flag(module, tmp_path):
+    """--heartbeat-interval-seconds is optional CLI wiring for the new
+    live-progress observability — must not break the safe, real-
+    PoliteHttpClient zero-missing-evidence path."""
+    taxonomy_path = tmp_path / "taxonomy.json"
+    taxonomy_path.write_text(json.dumps(_ZERO_MISSING_EVIDENCE_TAXONOMY), encoding="utf-8")
+
+    argv_backup = sys.argv
+    sys.argv = [
+        "run_klpga_collector.py",
+        "--taxonomy",
+        str(taxonomy_path),
+        "--season",
+        "2025",
+        "--raw-samples-dir",
+        str(tmp_path / "raw_samples"),
+        "--cache-dir",
+        str(tmp_path / "http_cache"),
+        "--checkpoint-path",
+        str(tmp_path / "out" / "CHECKPOINT.json"),
+        "--skip-queue-path",
+        str(tmp_path / "out" / "SKIP_QUEUE.json"),
+        "--report-path",
+        str(tmp_path / "out" / "REPORT.md"),
+        "--live",
+        "--heartbeat-interval-seconds",
+        "5",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == module.EXIT_COMPLETE

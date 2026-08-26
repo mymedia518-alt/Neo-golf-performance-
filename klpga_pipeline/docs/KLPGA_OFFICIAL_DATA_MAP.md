@@ -3718,6 +3718,49 @@ idempotency guarantees. Paste back (or point to)
 live run so the BEFORE/AFTER collision-audit comparison and any
 genuine parser findings can be completed against real evidence.
 
+## Round 11 (continued) — live progress reporting for the local collector
+
+The one-command local collector had no visible progress feedback once
+`--live` started — nothing distinguished a normal rate-limit wait from
+a hang. Fixed purely by adding observability; request timing, retry
+counts, parser logic, and safety behavior are all unchanged.
+
+**`missing_evidence_acquisition.acquire_missing_evidence`** now emits
+one `PROGRESS [i/N] | identity_key | CACHE/LIVE | HTTP status | PARSE
+status | SAVED/SKIPPED` line as each identity completes (success,
+per-item HTTP failure, hard-stop block, or a pre-request skip) —
+benefits `scripts/32`'s own `--live` too, since it reuses this same
+function.
+
+**`local_collector.run_local_collection`** wraps the `log` callable
+passed into acquisition with an elapsed-time prefix (`[+MM:SS] ...`)
+and a background daemon heartbeat (`_ActivityHeartbeat`, default every
+15s, `--heartbeat-interval-seconds` to change it) that reports elapsed
+time and time-since-last-activity during any quiet gap — a slow
+request, a retry backoff sleep, or a genuine hang all become
+observable instead of silent. `PoliteHttpClient.on_retry` is rewired
+(the dataclass field is mutable) to route through the same wrapped log
+so retry diagnostics land on the same elapsed-time/heartbeat timeline,
+without touching retry count, backoff timing, or any request
+semantics — a client double with no `on_retry` attribute (test fakes)
+is left completely untouched.
+
+**Tests**: 10 new (4 in `tests/test_bounded_missing_evidence_request_
+plan_script.py` for the PROGRESS line's exact format across every
+outcome; 6 in `tests/test_local_collector.py` for elapsed-time
+prefixing, PROGRESS-line pass-through, a real heartbeat firing during
+an artificially slow fake request, `on_retry` rewiring, and dry-run
+never touching client attributes at all) plus 1 CLI-wiring test for
+`--heartbeat-interval-seconds`. All pre-existing tests continue to
+pass unmodified. **704/704 tests passing** (693 before this round).
+Manually smoke-tested against a synthetic slow fake client — confirmed
+`[+MM:SS]`-prefixed lines, per-identity `PROGRESS` lines, and
+`[HEARTBEAT ...]` lines all render correctly. Still no live requests
+made against the real site (unchanged constraint). No change to
+Prediction #001, `predictions/`, model/inference/probability logic,
+the production DB, the archive, the public website, request rate, or
+any parser/classification/safety logic.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No
