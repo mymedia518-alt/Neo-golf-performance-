@@ -11,6 +11,36 @@ Design goals (per project requirements):
    exponential backoff; do NOT retry 403/401/429 blindly (403/401 likely
    mean access is restricted and must be surfaced, not brute-forced; 429
    backs off much longer instead of retrying quickly).
+
+**Phase B1.1 diagnostic note** (added after a Windows run of
+scripts/27 produced no visible output and had to be Ctrl+C'd): every
+value below was ALREADY finite before this round — no timeout/retry
+value was weakened or newly added, only made visible via the optional
+`on_retry` callback (see `PoliteHttpClient.on_retry`).
+
+  - Connect timeout: `timeout_sec` (default 20.0s)
+  - Read timeout: `timeout_sec` (default 20.0s, the SAME value —
+    `requests` applies a single float to both phases separately, so
+    one attempt's HTTP call can take up to ~2x `timeout_sec` in the
+    worst case: slow connect, then a slow/stalled read)
+  - Retry count: `stop_after_attempt(4)` — 4 total attempts (1 initial
+    + 3 retries), only for `_retryable` exceptions (5xx, connection
+    errors, timeouts, chunked-encoding errors) — NEVER for
+    `RateLimitBlockedError` (401/403/429), which raises immediately
+  - Backoff: `wait_exponential_jitter(initial=2, max=30)` — waits
+    between attempts scale ~2s, ~4s, ~8s (+ random jitter), capped at
+    30s; 3 such waits occur across 4 attempts
+  - Rate-limit throttle: `min_interval_sec` (default 1.5s) +
+    `random.uniform(0, jitter_sec)` (default up to 0.8s) BEFORE each
+    top-level client call (get_json/get_text/post_text/post_json) —
+    this is once per call, not once per retry attempt
+  - Worst-case single top-level call, all 4 attempts exhausted and
+    every attempt fully timing out on both connect and read:
+    throttle (~2.3s) + 4 × (2 × 20.0s) [attempts] + (~2+4+8s) [backoff
+    waits] ≈ 2.3 + 160 + 14 ≈ **~176s (~3 minutes), bounded, not
+    infinite** — long enough to look like a hang without visible
+    progress, which is exactly what the `on_retry` callback and
+    scripts/27's REQUEST/RESPONSE markers now surface.
 """
 from __future__ import annotations
 
@@ -21,7 +51,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 import requests
 from tenacity import (
@@ -41,6 +71,26 @@ DEFAULT_UA = (
 
 class RateLimitBlockedError(RuntimeError):
     """Raised when the site itself returns 401/403/429 — do not brute force this."""
+
+
+def _before_sleep_log(retry_state) -> None:
+    """tenacity `before_sleep` hook — fires right before each retry's
+    backoff sleep. Only produces visible output for a client that
+    opted in via `on_retry` (see `PoliteHttpClient.on_retry`); every
+    other existing caller of this client is completely unaffected
+    (on_retry defaults to None). Added for scripts/27's hang
+    diagnostics — a request stuck retrying looks identical to a truly
+    hung request without this."""
+    self = retry_state.args[0] if retry_state.args else None
+    on_retry = getattr(self, "on_retry", None)
+    if on_retry is None:
+        return
+    exc = retry_state.outcome.exception() if retry_state.outcome else None
+    wait = retry_state.next_action.sleep if retry_state.next_action else 0.0
+    on_retry(
+        f"attempt {retry_state.attempt_number} failed ({exc!r}); "
+        f"sleeping {wait:.1f}s before retry"
+    )
 
 
 def _retryable(exc: BaseException) -> bool:
@@ -67,7 +117,22 @@ class PoliteHttpClient:
     min_interval_sec: float = 1.5
     jitter_sec: float = 0.8
     timeout_sec: float = 20.0
+    """Applied to BOTH the connect phase and the read phase (requests'
+    behavior when given a single float — see
+    https://requests.readthedocs.io/en/latest/user/advanced/#timeouts).
+    A single request attempt can therefore take up to ~2x this value
+    in the worst case (slow connect, then a slow/stalled read), not
+    just this value once. See PoliteHttpClient's module-level docstring
+    additions (Phase B1.1 diagnostic round) for the resulting
+    worst-case-per-request math."""
     user_agent: str = DEFAULT_UA
+    on_retry: Optional[Callable[[str], None]] = None
+    """Optional callback invoked with a diagnostic string before each
+    retry's backoff sleep. None (the default) means completely silent,
+    unchanged behavior — every existing caller of this client keeps
+    its current behavior exactly. Only a caller that explicitly wants
+    visible retry/backoff progress (e.g. scripts/27's hang
+    diagnostics) sets this."""
     session: requests.Session = field(default_factory=requests.Session)
     _last_request_ts: dict[str, float] = field(default_factory=dict)
 
@@ -103,6 +168,7 @@ class PoliteHttpClient:
         stop=stop_after_attempt(4),
         wait=wait_exponential_jitter(initial=2, max=30),
         retry=retry_if_exception(_retryable),
+        before_sleep=_before_sleep_log,
     )
     def _do_request(self, method: str, url: str, **kwargs: Any) -> requests.Response:
         resp = self.session.request(method, url, timeout=self.timeout_sec, **kwargs)

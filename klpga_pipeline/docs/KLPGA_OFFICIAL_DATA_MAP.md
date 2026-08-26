@@ -1064,6 +1064,124 @@ passing. No change to Prediction #001, `predictions/`, model/
 inference/probability logic, the production DB, the archive, or the
 public website.
 
+## Round 3, Phase B1.1 diagnostic patch — hang instrumentation
+
+**Status: 2026-08-26.** A Windows run of `scripts/27_klpga_response_schema_sample.py`
+produced **no visible output at all** and had to be Ctrl+C'd, with no
+traceback — leaving it unknown whether it hung during imports,
+taxonomy loading, HTTP setup, or a request. Per instruction, no root
+cause was guessed and no bulk requests were made; this round is pure
+instrumentation plus a review of the existing HTTP timeout/retry path.
+
+### A. Most likely hang locations, by code inspection
+
+1. **Most likely: stdout buffering hid real output that was already
+   there.** Every meaningful step in this script already printed
+   something (`"Selected N representative metrics..."` etc.) before
+   any HTTP request — if truly zero output appeared before Ctrl+C,
+   plain `print()` without `flush=True` writing to a non-interactive
+   or redirected stream on Windows is the single most consistent
+   explanation. This is now defeated: every print in the script's
+   execution path uses `flush=True` (via a new `_log()` helper).
+2. **Second: a genuinely slow/stalled request, stacking across
+   retries.** See B-F below — bounded, but the worst case (~3 minutes
+   for one metric) could look indistinguishable from a hang without
+   visible progress. Now surfaced via `[REQUEST i/N]`/`[RESPONSE
+   i/N]`/`[PARSE i/N]` markers and an `on_retry` callback that prints
+   before every backoff sleep.
+3. **Less likely but not ruled out**: a DNS/proxy-level stall that
+   `requests`' timeout parameter doesn't fully bound (rare, but
+   possible depending on the Windows machine's network stack) — the
+   instrumentation will show a `[REQUEST i/N]` marker with no matching
+   `[RESPONSE i/N]` for an extended period if this is happening, which
+   distinguishes it from both 1 and 2 above.
+
+None of these was picked as *the* cause — the next Windows run's
+output (all flushed, all timestamped via elapsed= on each RESPONSE
+line) will show which one it actually was.
+
+### B. Existing HTTP timeout values (unchanged)
+
+`PoliteHttpClient.timeout_sec = 20.0`, applied by `requests` to BOTH
+the connect phase and the read phase separately (a single float
+argument covers both) — so one attempt can take up to ~2×20s = ~40s
+in the worst case (slow connect, then a stalled read).
+
+### C. Existing retry/backoff values (unchanged)
+
+`stop_after_attempt(4)` (1 initial + 3 retries), `wait_exponential_jitter(initial=2, max=30)`
+(waits between attempts scale ~2s → ~4s → ~8s + jitter, capped at 30s)
+— only for retryable exceptions (5xx, connection errors, timeouts,
+chunked-encoding errors), never for `RateLimitBlockedError` (401/403/429),
+which raises immediately with no retry.
+
+### D. Existing rate-limit delay (unchanged)
+
+`min_interval_sec = 1.5s` + `random.uniform(0, jitter_sec=0.8)` before
+each top-level client call (`post_text` etc.) — once per call, not
+once per retry attempt.
+
+### E. Maximum theoretical wait per request, BEFORE this patch
+
+Already finite: throttle (~2.3s) + 4 attempts × up to ~40s each
+(worst-case connect+read stall) + ~14s of backoff waits between
+attempts ≈ **~176s (~3 minutes), bounded, never infinite.**
+
+### F. Maximum theoretical wait per request, AFTER this patch
+
+**Unchanged — no timeout/retry/rate-limit value was modified**, per
+instruction not to weaken rate-limit protection and because a finite
+timeout already existed (Mission 3's "if no finite timeout, add one"
+did not trigger). Same ~176s worst case, now fully visible via
+`[REQUEST]`/`[RESPONSE]`/`[HTTP RETRY]` markers instead of silent.
+
+### What was added
+
+- `_log()` in `scripts/27_klpga_response_schema_sample.py`: every
+  print in the script's execution path now uses `flush=True` and
+  records itself as the last-known execution point.
+- `[STEP 01]`–`[STEP 07]` markers covering script start, imports,
+  taxonomy loading, malformed-leaf rejection, sample selection, and
+  HTTP client init.
+- `[REQUEST i/N]` (menu1/menu2/menu3/season, printed BEFORE the
+  network call — so even a failed fetch leaves a trace of which
+  metric was being attempted), `[RESPONSE i/N]` (status/bytes/measured
+  elapsed time), `[PARSE i/N]` (parse_status/row count) for every
+  sampled metric and every historical-probe request (tagged `HIST
+  j/M`).
+- `PoliteHttpClient.on_retry` (new, optional, defaults to `None`):
+  fires with a diagnostic message before every retry's backoff sleep.
+  `None` by default so every OTHER existing caller of this client
+  (scripts 01, 02, 04, 07, 08, 13, 14, 15, 26, and 00) is completely
+  unaffected. Script 27 sets it to print `[HTTP RETRY] ...`.
+- Top-level `KeyboardInterrupt` handler in `if __name__ == "__main__":`:
+  prints the last-known `_LOG` marker, then re-raises unconditionally
+  — the interrupt is never swallowed.
+
+### G. Files changed
+
+`scripts/27_klpga_response_schema_sample.py` (instrumentation
+throughout — `_log()`, STEP/REQUEST/RESPONSE/PARSE markers,
+KeyboardInterrupt handler), `src/klpga/http_client.py` (`on_retry`
+callback, `_before_sleep_log`, docstring documenting the timeout/retry/
+throttle math above), `docs/KLPGA_OFFICIAL_DATA_MAP.md` (this
+section). New test file `tests/test_http_client_retry_instrumentation.py`;
+new tests added to `tests/test_klpga_response_schema_sample_script.py`.
+`response_parser.py`, the sampler logic, and every other collection
+script (01–26) are unchanged.
+
+### H. Tests passed
+
+458/458.
+
+### I. Confirmation
+
+No change to Prediction #001, `predictions/`, model/inference/
+probability logic, the production DB, the archive, or the public
+website. Phase B2 was not started; no bulk live requests were made
+(this session made zero live requests, as always — no network
+access).
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

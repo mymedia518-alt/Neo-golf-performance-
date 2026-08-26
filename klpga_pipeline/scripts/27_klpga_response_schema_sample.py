@@ -42,14 +42,29 @@ Usage (on a machine with real internet access to klpga.co.kr):
     python scripts\\27_klpga_response_schema_sample.py ^
         --taxonomy docs\\discovery\\KLPGA_RECORD_TAXONOMY_DISCOVERED.json ^
         --season 2025
+
+Phase B1.1 diagnostic instrumentation: every meaningful step prints a
+flushed `[STEP nn]`/`[REQUEST i/N]`/`[RESPONSE i/N]`/`[PARSE i/N]`
+marker (see `_log()` below) — added after a Windows run produced no
+visible output at all before it had to be Ctrl+C'd, so it was
+impossible to tell whether it hung during imports, taxonomy loading,
+HTTP setup, or a request. `flush=True` on every print defeats Python's
+default line-buffering-only-on-a-real-console behavior, which is the
+most likely single explanation for "zero output" when nothing in this
+script was actually silent before this round — see
+docs/KLPGA_OFFICIAL_DATA_MAP.md's Phase B1.1 diagnostic section for
+the full reasoning and the worst-case-per-request timing math.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+print("[STEP 01] script started (stdlib imports complete)", flush=True)
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -81,6 +96,8 @@ from klpga.discovery.schema_report import (  # noqa: E402
 )
 from klpga.http_client import PoliteHttpClient, RateLimitBlockedError  # noqa: E402
 
+print("[STEP 02] klpga package imports complete", flush=True)
+
 ROOT = Path(__file__).resolve().parents[1]
 
 EXIT_COMPLETE = 0
@@ -89,6 +106,19 @@ EXIT_TAXONOMY_LOAD_FAILED = 5
 
 DEFAULT_SAMPLE_SIZE = 20
 DEFAULT_MAX_REQUESTS = 28  # sample_size + headroom for the historical probe (<=3), a hard circuit breaker
+
+_LAST_MARKER = {"text": "no marker recorded yet"}
+"""Updated by every `_log()` call — read by the top-level
+KeyboardInterrupt handler so a Ctrl+C can report exactly where
+execution was, per Mission 4's diagnostic requirement."""
+
+
+def _log(msg: str) -> None:
+    """print() with flush=True, always — see module docstring. Also
+    records the message as the last-known execution point for the
+    top-level KeyboardInterrupt handler."""
+    _LAST_MARKER["text"] = msg
+    print(msg, flush=True)
 
 
 def _request_form(leaf: SampledLeaf, season: str) -> dict:
@@ -100,13 +130,21 @@ def _request_form(leaf: SampledLeaf, season: str) -> dict:
     return form
 
 
-def fetch_and_analyze(client: PoliteHttpClient, leaf: SampledLeaf, season: str):
+def fetch_and_analyze(client: PoliteHttpClient, leaf: SampledLeaf, season: str, *, tag: str = "?"):
     """Returns (parsed, analysis, log_entry). Raises RateLimitBlockedError
-    unmodified — the caller decides whether that halts the whole run."""
+    unmodified — the caller decides whether that halts the whole run.
+    `tag` (e.g. "3/20" or "HIST 1/3") is purely for the REQUEST/
+    RESPONSE/PARSE diagnostic markers below — it plays no role in the
+    request itself."""
     form = _request_form(leaf, season)
+    _log(f"[REQUEST {tag}] menu1={leaf.menu1!r} menu2={leaf.menu2!r} menu3={leaf.menu3!r} season={season!r}")
     timestamp = datetime.now(timezone.utc).isoformat()
+    start = time.perf_counter()
     html = client.post_text(config.RECORD_TAXONOMY_ENDPOINT, data=form)
+    elapsed = time.perf_counter() - start
+    _log(f"[RESPONSE {tag}] status=200(assumed — client raises on 401/403/429/5xx) bytes={len(html)} elapsed={elapsed:.2f}s")
     parsed = parse_record_response(html)
+    _log(f"[PARSE {tag}] parse_status={parsed.parse_status} rows={len(parsed.rows)}")
     analysis = analyze_response(parsed)
     log_entry = build_log_entry(
         timestamp=timestamp,
@@ -134,20 +172,24 @@ def run(
     max_requests: int = DEFAULT_MAX_REQUESTS,
     historical_season: str | None = None,
 ) -> int:
+    _log("[STEP 03] taxonomy loading (rejecting malformed leaves)")
     raw_leaves = taxonomy.get("leaves", [])
     valid_leaves, rejected_leaves = reject_malformed_leaves(raw_leaves)
+    _log(f"[STEP 04] taxonomy loaded: {len(raw_leaves)} leaves ({len(valid_leaves)} valid)")
     if rejected_leaves:
-        print(
-            f"Rejected {len(rejected_leaves)} malformed taxonomy leaf(ies) before sampling "
+        _log(
+            f"[STEP 05] malformed leaves rejected: {len(rejected_leaves)} "
             f"(blank/missing menu1 or menu2 — never a requestable metric): "
             f"{[d.get('source_metric_key', d) for d in rejected_leaves]}"
         )
+    else:
+        _log("[STEP 05] malformed leaves rejected: 0")
     sample = select_representative_sample({**taxonomy, "leaves": valid_leaves}, target_count=sample_size)
-    print(f"Selected {len(sample)} representative metrics from a taxonomy of {len(raw_leaves)} leaves ({len(valid_leaves)} valid).")
+    _log(f"[STEP 06] representative sample selected: {len(sample)} (from {len(valid_leaves)} valid leaves)")
 
     duplicates = find_duplicate_identities(sample)
     if duplicates:
-        print(f"WARNING: sampler produced duplicate identities (sampler bug, not a taxonomy finding): {duplicates}")
+        _log(f"WARNING: sampler produced duplicate identities (sampler bug, not a taxonomy finding): {duplicates}")
 
     records: list[dict] = []
     parsed_by_key = {}  # source_metric_key -> ParsedRecordResponse, kept for the historical comparison below
@@ -156,16 +198,16 @@ def run(
     http_failure_count = 0
     blocked = False
 
-    for leaf in sample:
+    for i, leaf in enumerate(sample, start=1):
         if request_count >= max_requests:
-            print(f"Reached --max-requests={max_requests} — stopping before {leaf.source_metric_key}.")
+            _log(f"Reached --max-requests={max_requests} — stopping before {leaf.source_metric_key}.")
             break
         try:
-            parsed, analysis, log_entry = fetch_and_analyze(client, leaf, season)
+            parsed, analysis, log_entry = fetch_and_analyze(client, leaf, season, tag=f"{i}/{len(sample)}")
             request_count += 1
         except RateLimitBlockedError as exc:
-            print(f"BLOCKED on {leaf.source_metric_key}: {exc}")
-            print("Not retrying, not bypassing — halting the run per instruction. Partial results below are still written.")
+            _log(f"BLOCKED on {leaf.source_metric_key}: {exc}")
+            _log("Not retrying, not bypassing — halting the run per instruction. Partial results below are still written.")
             blocked = True
             break
         except Exception as exc:  # noqa: BLE001 — an HTTP-layer failure must not abort the whole sample run.
@@ -173,7 +215,7 @@ def run(
             # parse_status="FAILED" internally per its own docstring),
             # so any exception reaching here is treated as an
             # HTTP_FAILURE, not a parse failure — see Mission 7.
-            print(f"HTTP_FAILURE fetching {leaf.source_metric_key}: {exc}")
+            _log(f"HTTP_FAILURE fetching {leaf.source_metric_key}: {exc}")
             request_count += 1
             http_failure_count += 1
             continue
@@ -182,24 +224,26 @@ def run(
         records.append(record)
         parsed_by_key[leaf.source_metric_key] = parsed
         log_entries.append(log_entry)
-        print(f"  [{parsed.parse_status}] {leaf.source_metric_key} — {len(parsed.rows)} rows, schema={analysis.schema_fingerprint}")
+        _log(f"  [{parsed.parse_status}] {leaf.source_metric_key} — {len(parsed.rows)} rows, schema={analysis.schema_fingerprint}")
 
     historical_probe_records: list[dict] = []
     if historical_season and not blocked and records:
         probe_leaves = _pick_historical_probe_leaves(sample, records)
-        for leaf, current_record in probe_leaves:
+        for j, (leaf, current_record) in enumerate(probe_leaves, start=1):
             if request_count >= max_requests:
-                print(f"Reached --max-requests={max_requests} — stopping historical probe.")
+                _log(f"Reached --max-requests={max_requests} — stopping historical probe.")
                 break
             try:
-                hist_parsed, hist_analysis, hist_log = fetch_and_analyze(client, leaf, historical_season)
+                hist_parsed, hist_analysis, hist_log = fetch_and_analyze(
+                    client, leaf, historical_season, tag=f"HIST {j}/{len(probe_leaves)}"
+                )
                 request_count += 1
             except RateLimitBlockedError as exc:
-                print(f"BLOCKED during historical probe on {leaf.source_metric_key}: {exc}")
+                _log(f"BLOCKED during historical probe on {leaf.source_metric_key}: {exc}")
                 blocked = True
                 break
             except Exception as exc:  # noqa: BLE001
-                print(f"FAILED historical probe for {leaf.source_metric_key}: {exc}")
+                _log(f"FAILED historical probe for {leaf.source_metric_key}: {exc}")
                 request_count += 1
                 continue
 
@@ -208,7 +252,7 @@ def run(
             classification = classify_historical_availability(current=current_parsed, historical=hist_parsed)
             current_record["historical_availability"] = classification
             historical_probe_records.append(current_record)
-            print(f"  [historical probe] {leaf.source_metric_key} @ {historical_season}: {classification}")
+            _log(f"  [historical probe] {leaf.source_metric_key} @ {historical_season}: {classification}")
 
     out_dir.mkdir(parents=True, exist_ok=True)
     discovered_at = datetime.now(timezone.utc).isoformat()
@@ -242,15 +286,15 @@ def run(
     (out_dir / "KLPGA_PHASE_B1_REQUEST_LOG.csv").write_text(to_log_csv(log_entries), encoding="utf-8")
 
     print()
-    print(f"Cross-metric playerCode identity consistency: {identity_overall}")
-    print(f"Live requests made: {request_count}")
-    print(
+    _log(f"Cross-metric playerCode identity consistency: {identity_overall}")
+    _log(f"Live requests made: {request_count}")
+    _log(
         f"HTTP_SUCCESS: {outcome_counts['http_success']}  HTTP_FAILURE: {outcome_counts['http_failure']}  "
         f"PARSE_SUCCESS: {outcome_counts['parse_success']}  PARSE_EMPTY: {outcome_counts['parse_empty']}  "
         f"PARSE_AMBIGUOUS_OR_FAILED: {outcome_counts['parse_ambiguous_or_failed']}"
     )
-    print(f"Metrics with real parsed data (PARSE_SUCCESS): {outcome_counts['parse_success']}")
-    print(f"Output written to: {out_dir}")
+    _log(f"Metrics with real parsed data (PARSE_SUCCESS): {outcome_counts['parse_success']}")
+    _log(f"Output written to: {out_dir}")
 
     if blocked:
         return EXIT_BLOCKED
@@ -293,14 +337,24 @@ def main() -> int:
     parser.add_argument("--out-dir", default=str(ROOT / "docs" / "discovery"))
     args = parser.parse_args()
 
+    _log(f"[STEP 03] taxonomy loading: {args.taxonomy}")
     taxonomy_path = Path(args.taxonomy)
     if not taxonomy_path.exists():
-        print(f"Taxonomy file not found: {taxonomy_path}")
-        print("Run scripts/26_discover_klpga_record_taxonomy.py first.")
+        _log(f"Taxonomy file not found: {taxonomy_path}")
+        _log("Run scripts/26_discover_klpga_record_taxonomy.py first.")
         return EXIT_TAXONOMY_LOAD_FAILED
     taxonomy = json.loads(taxonomy_path.read_text(encoding="utf-8"))
+    _log(f"[STEP 04] taxonomy loaded: {len(taxonomy.get('leaves', []))} leaves")
 
-    client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
+    client = PoliteHttpClient(cache_dir=Path(args.cache_dir), on_retry=lambda msg: _log(f"[HTTP RETRY] {msg}"))
+    _log(
+        f"[STEP 07] HTTP client initialized "
+        f"(timeout={client.timeout_sec}s, min_interval={client.min_interval_sec}s, cache_dir={client.cache_dir})"
+    )
+    # NOTE: STEP 05/06 (malformed-leaf rejection, representative sample
+    # selection) print from inside run() itself, since they operate on
+    # the taxonomy dict run() receives, not on anything main() computes
+    # separately.
     return run(
         client,
         taxonomy,
@@ -313,4 +367,10 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except KeyboardInterrupt:
+        # Diagnostic only — the interrupt is NEVER swallowed, it is
+        # re-raised immediately after reporting where execution was.
+        print(f"\n[INTERRUPTED] Last known step: {_LAST_MARKER['text']}", flush=True)
+        raise
