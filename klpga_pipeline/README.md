@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 256/256 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 274/274 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -190,6 +190,26 @@ data.
   displayed inside this sandbox** — see "Live tournament-field
   win-probability inference" below for the exact production command to
   run on the Windows machine.
+- ✅ **First production inference run completed, 2026-08-26** — the
+  Windows production run against gameCode=2026080001 (제15회 KG
+  레이디스 오픈) succeeded: field 120, cutoff 2026-08-27 (explicit_arg),
+  100 historical training tournaments, entrants predicted 120, dropped
+  0, probability sum 1.00000000, 5/5 required checks PASS. Its
+  complete 120-row output was not captured to a machine-readable file
+  at the time — see the **NEO Prediction Archive** below for how this
+  is honestly preserved (as a cross-checked `rerun_reconstruction`,
+  never labeled "original").
+- ✅ **NEO Prediction Archive: IMPLEMENTED, 2026-08-26** —
+  `src/klpga/archive/` + `scripts/24_archive_prediction.py`: an
+  immutable, append-only JSON+CSV snapshot of exactly what M4 predicted
+  before a tournament began. Computes nothing — only reshapes and
+  atomically persists an already-computed `InferenceResult`. A
+  duplicate `(prediction_id, game_code)` always aborts loudly before
+  any write; a `rerun_reconstruction` (for a run whose output wasn't
+  captured, like #001) is only ever archived after passing a hard
+  cross-check against independently-recorded facts from the real run.
+  18 new tests. 274/274 full suite passing. See
+  `docs/PREDICTION_ARCHIVE.md` and "NEO Prediction Archive" below.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -492,6 +512,43 @@ dropped entrants = 0, duplicate player_codes = 0, probability sum =
 1.000000 +/- 1e-6). Every entrant in `tournament_entry` is guaranteed
 to appear in the output — none is ever silently dropped.
 
+## NEO Prediction Archive — immutable pre-tournament records
+
+`src/klpga/archive/` + `scripts/24_archive_prediction.py` — runs
+`scripts/23`'s inference exactly once and archives the EXACT output as
+an immutable, append-only JSON+CSV snapshot under `predictions/`. See
+`docs/PREDICTION_ARCHIVE.md` for the full schema, the
+MODEL VERSION / PREDICTION ID / PREDICTION DATE-CUTOFF / POST-TOURNAMENT
+RESULT distinction, and the immutability/provenance guarantees.
+
+```bash
+# Live prediction (#002 onward) — the sanctioned command going forward.
+python scripts/24_archive_prediction.py --db data/klpga.sqlite --game-code 2026080001 \
+    --prediction-id 002 --source live_atomic_inference
+
+# Prediction #001 — a controlled RECONSTRUCTION of the first successful
+# pre-tournament run, whose complete 120-row output was never captured
+# to a machine-readable file. Requires cross-checking against facts
+# observed from that real run; aborts on any mismatch and never labels
+# the result "original."
+python scripts/24_archive_prediction.py --db data/klpga.sqlite --game-code 2026080001 \
+    --cutoff-date 2026-08-27 --tournament-name "제15회 KG 레이디스 오픈" \
+    --prediction-id 001 --source rerun_reconstruction \
+    --verify-training-tournament-count 100 --verify-field-size 120 \
+    --verify-dropped-entrants 0 --verify-probability-sum 1.000000 \
+    --verify-top-player-code 11134 --verify-top-player-name "서교림" \
+    --verify-top-player-display-pct 10.097
+```
+
+Read-only against the source DB (`mode=ro`, identical to `scripts/23`)
+and append-only against the archive: a duplicate `(prediction_id,
+game_code)` aborts loudly before anything is written — never
+overwritten, never regenerated from newer data. JSON is authoritative;
+the CSV is a regenerable convenience representation. Post-tournament
+evaluation (design only, not yet implemented) will always read an
+archived snapshot and write a separate file — never mutate the
+original.
+
 ## Setup
 
 ```bash
@@ -560,6 +617,11 @@ src/klpga/
                                     only, reuses walk_forward/point_in_time_features/candidates/
                                     math_utils unchanged; see "Live tournament-field win-probability
                                     inference" above
+  archive/
+    prediction_archive.py          immutable prediction snapshot schema, atomic append-only writer,
+                                    reader, and the rerun-reconstruction cross-check — computes
+                                    nothing, only reshapes/persists an InferenceResult; see
+                                    "NEO Prediction Archive" above and docs/PREDICTION_ARCHIVE.md
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -620,6 +682,10 @@ scripts/
                                                one upcoming tournament's live tournament_entry field —
                                                see "Live tournament-field win-probability inference"
                                                above; no DB writes, no probability table created
+  24_archive_prediction.py           runs scripts/23's inference exactly once and archives the exact
+                                      output atomically as an immutable JSON+CSV prediction snapshot
+                                      (plus an explicitly-labeled, cross-checked rerun_reconstruction
+                                      mode for Prediction #001) — see "NEO Prediction Archive" above
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -710,6 +776,14 @@ tests/
                                    run-to-run and entry-row-order determinism, target excluded from
                                    feature histories, no feature outside frozen M4) plus cutoff/
                                    tournament-name resolution and the read-only-DB guarantee
+  test_prediction_archive.py      the archive layer's required properties: duplicate prediction_id
+                                   cannot overwrite, every entrant preserved (incl. zero-history and
+                                   unmatched), field_size == row count, probability sum preserved
+                                   exactly, player_code uniqueness, a later DB mutation cannot modify
+                                   an already-written archive, reading never needs write access,
+                                   deterministic serialization, and a partial/failed CSV write never
+                                   leaves a corrupt file at the final name — plus the reconstruction
+                                   cross-check's match/mismatch/skip-unset-fields behavior
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`

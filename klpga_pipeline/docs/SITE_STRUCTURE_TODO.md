@@ -1377,6 +1377,63 @@ must come only from running `scripts/23_predict_tournament_win_probabilities.py`
 against the real production `data/klpga.sqlite` on the Windows machine
 — see README.md for the exact command.
 
+## 11. NEO Prediction Archive — immutable pre-tournament prediction records
+
+**Status: implemented 2026-08-26.** Full detail lives in
+`docs/PREDICTION_ARCHIVE.md`; this section is the short pointer.
+
+`src/klpga/archive/prediction_archive.py` + `scripts/24_archive_prediction.py`
+turn one already-computed `klpga.models.inference.InferenceResult`
+into an immutable, append-only JSON+CSV record under `predictions/`.
+The archive computes nothing — every number is copied unchanged from
+the frozen M4 inference layer (section 10); this module only
+reshapes and durably writes it.
+
+Key properties: JSON is authoritative, CSV is a regenerable
+convenience view; a duplicate `(prediction_id, game_code)` always
+aborts loudly via an atomic `os.link`-based claim, before any byte is
+written, never an overwrite; `created_at_utc` (archive time) is kept
+explicitly separate from `cutoff_date` (the strictly-prior boundary
+actually used) and from `provenance.source`.
+
+**Prediction #001** (제15회 KG 레이디스 오픈, gameCode=2026080001, run
+2026-08-26 on the Windows production DB: field 120, cutoff
+2026-08-27, 100 historical training tournaments, entrants predicted
+120, dropped 0, probability sum 1.00000000, 5/5 checks PASS) had its
+complete 120-row output displayed in CMD but never captured to a
+machine-readable file. Rather than fabricate the missing 119 rows,
+this is archived as a `provenance.source = "rerun_reconstruction"` —
+a deterministic re-execution of the same frozen, read-only inference,
+explicitly never labeled "original" — and is only ever written after
+`verify_against_observed_facts()` confirms the reconstruction matches
+independently-recorded facts from the real run (training tournament
+count, field size, dropped entrants, probability sum, and the rank-1
+player's code/name/3-decimal-place display probability). Any mismatch
+aborts before anything is written. No pre-run database checksum
+exists, so "the database is unchanged since the first run" is an
+operator-verified consistency check here, not a cryptographic proof —
+disclosed in both the CLI output and `docs/PREDICTION_ARCHIVE.md`,
+never assumed silently.
+
+Prediction #002 onward uses `--source live_atomic_inference`
+exclusively: `run_inference()` is called once, in the same process,
+immediately before archiving — no reconstruction, no gap to recover
+from.
+
+Post-tournament evaluation (winner probability/rank, Top1/3/5/10 hit,
+log loss, Brier) is designed but **not implemented** — it will read an
+archived snapshot and write a separate `*.evaluation.json`, never
+mutating the original prediction file.
+
+**Tests**: 18 new (`tests/test_prediction_archive.py`) — duplicate
+`prediction_id` rejection, every entrant preserved (including
+zero-history and unmatched), `field_size` equals row count,
+probability sum preserved exactly, `player_code` uniqueness, a later
+database mutation cannot modify an already-written archive, reading an
+archive never requires write access, deterministic serialization, and
+a partial/failed write never leaves a corrupt file at the final name.
+Full suite: **274/274 passing.**
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
