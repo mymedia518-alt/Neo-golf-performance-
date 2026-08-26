@@ -10,7 +10,7 @@ data.
 
 **Tests passing is NOT the same as real data collection succeeding.**
 
-- ✅ **Unit tests: 274/274 passing.** Most run against a synthetic HTML
+- ✅ **Unit tests: 295/295 passing.** Most run against a synthetic HTML
   fixture (`tests/fixtures/round_leaderboard_sample.html`) hand-built to
   match the confirmed `data-*`/`_playerCode`-style structure, and against
   fake in-process HTTP clients for the collector logic — they prove the
@@ -210,6 +210,24 @@ data.
   cross-check against independently-recorded facts from the real run.
   18 new tests. 274/274 full suite passing. See
   `docs/PREDICTION_ARCHIVE.md` and "NEO Prediction Archive" below.
+- ✅ **Prediction #001 archived, 2026-08-26** — as a cross-checked
+  `rerun_reconstruction` (never labeled "original") against the exact
+  first-run facts (top player 서교림/11134, ~10.097% display
+  probability, 100 training tournaments, field 120). See
+  `predictions/2026/prediction_001_2026080001.json`.
+- ✅ **NEO GOLF PREDICTIONS public site: IMPLEMENTED, 2026-08-26** —
+  `src/klpga/site/` + `scripts/25_build_predictions_site.py`: a static-
+  site generator reading ONLY the immutable archive — never the DB,
+  never `run_inference` (source-checked, not just intended).
+  Korean-first, mobile-first, no sportsbook visual language. The build
+  hard-fails on a field_size mismatch, a rank gap, or a non-positive
+  `maximum_probability` — never a partial/wrong-looking page.
+  Percent rounding is display-only; ranking can never be altered by
+  search/filter (verified at the DOM level with Playwright — already
+  a declared dependency, not a new one). 21 new tests (15 build-level +
+  6 real browser tests). 295/295 full suite passing. Generated output
+  is a build artifact, not committed to git. See
+  `docs/PREDICTIONS_SITE.md` and "NEO GOLF PREDICTIONS" below.
 
 Two endpoints and the HTML player-row structure behind them have been
 **confirmed** both via browser DevTools Network capture and by an actual
@@ -549,6 +567,39 @@ evaluation (design only, not yet implemented) will always read an
 archived snapshot and write a separate file — never mutate the
 original.
 
+## NEO GOLF PREDICTIONS — public site
+
+`src/klpga/site/` + `scripts/25_build_predictions_site.py` — a static-
+site generator over the immutable prediction archive. Read-only,
+Korean-first, mobile-first. See `docs/PREDICTIONS_SITE.md` for the
+full architecture, routes, data flow, and every derived Korean label
+(with rationale).
+
+```bash
+# Build the static site.
+python scripts/25_build_predictions_site.py --predictions-dir predictions --output-dir web/dist
+
+# Local preview (root-relative links require an HTTP server, not file://).
+python -m http.server 8000 --directory web/dist
+# then open http://localhost:8000/
+```
+
+Reads only `predictions/*/*.json` via the existing, unmodified
+`klpga.archive.prediction_archive.read_prediction_snapshot` — never
+opens the SQLite database, never calls
+`klpga.models.inference.run_inference`. The build hard-fails (writes
+nothing) if a rendered player count doesn't match the archive's
+`field_size`, the rank sequence has a gap, or `maximum_probability`
+isn't strictly positive — never a partial or silently-wrong page.
+Percent rounding happens only at render time; the embedded per-page
+JSON and every underlying value stay at the archive's full precision.
+Search/filter only toggle visibility of already-rendered rows — there
+is no client-side sort anywhere, so ranking can never be altered by
+user interaction (verified at the DOM level with Playwright, already
+declared in `requirements.txt`). The generated `web/dist/` output is a
+build artifact and is **not committed to git** — see
+`docs/PREDICTIONS_SITE.md`.
+
 ## Setup
 
 ```bash
@@ -622,6 +673,14 @@ src/klpga/
                                     reader, and the rerun-reconstruction cross-check — computes
                                     nothing, only reshapes/persists an InferenceResult; see
                                     "NEO Prediction Archive" above and docs/PREDICTION_ARCHIVE.md
+  site/
+    build.py                       static-site generator: loads archived predictions (read-only,
+                                    never the DB, never inference), hard-validates each one, writes
+                                    the full static site — see "NEO GOLF PREDICTIONS" above
+    templates.py                   HTML rendering + every derived Korean label, with rationale, for
+                                    the public site — see docs/PREDICTIONS_SITE.md
+    static/app.js, styles.css      vanilla JS (search/filter/expand — never re-sorts rows) and
+                                    mobile-first CSS
 
 scripts/
   00_discover_site.py           robots.txt + link discovery (recon only, writes nothing to the DB)
@@ -686,6 +745,8 @@ scripts/
                                       output atomically as an immutable JSON+CSV prediction snapshot
                                       (plus an explicitly-labeled, cross-checked rerun_reconstruction
                                       mode for Prediction #001) — see "NEO Prediction Archive" above
+  25_build_predictions_site.py       builds the static NEO GOLF PREDICTIONS site from predictions/
+                                      only — no DB, no inference; see "NEO GOLF PREDICTIONS" above
 
 tests/
   test_leaderboard_parser.py    parser tests against a synthetic fixture (see its header comment)
@@ -784,6 +845,17 @@ tests/
                                    deterministic serialization, and a partial/failed CSV write never
                                    leaves a corrupt file at the final name — plus the reconstruction
                                    cross-check's match/mismatch/skip-unset-fields behavior
+  test_predictions_site_build.py  the public site never reads the DB/inference (source-checked), all
+                                   entrants rendered/available, displayed ranking always follows
+                                   archive rank order, percent rounding is display-only (embedded
+                                   full-precision value asserted untouched), zero-history/unmatched
+                                   entrants remain visible, reading an archive needs no write access,
+                                   and the build hard-fails (writes nothing) on a field_size mismatch,
+                                   a rank gap, or a non-positive maximum_probability
+  test_predictions_site_browser.py  Playwright, DOM-level: search and TOP10/TOP20 filters never
+                                     reorder rows (only hide/show), expand/collapse toggles correctly,
+                                     a 360px mobile viewport needs no horizontal scroll — skips
+                                     gracefully (never fails the suite) if Chromium isn't available
 ```
 
 `tests/test_tournaments_collector.py` also covers the `gameMethod`
