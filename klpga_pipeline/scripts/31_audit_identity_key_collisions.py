@@ -65,6 +65,42 @@ _UNRESOLVED_CATEGORIES = {
 }
 
 
+def _print_diagnostic_block(a) -> None:
+    """One block, in the exact field order requested, for a
+    PARTIAL_MATCH_NEEDS_REVIEW or D_UNRESOLVED group — built entirely
+    from evidence the audit already loaded (taxonomy labels, the
+    parsed response's own column labels, and the match/container/
+    unmatched classification already computed). No new evidence, no
+    inference, no formula/semantic guessing."""
+    print(f"identity_key: {a.request_identity_key}  [{a.category}]")
+    print("taxonomy_labels:")
+    for label in a.labels:
+        print(f"  - {label}")
+    print("response_columns:")
+    for col in a.response_column_labels:
+        print(f"  - {col}")
+    print("confirmed_matches:")
+    if a.match_details:
+        for m in a.match_details:
+            print(f"  - {m.taxonomy_label} -> {m.response_column} [{m.method}]")
+    else:
+        print("  (none)")
+    print("container_candidates:")
+    if a.container_candidate_labels:
+        for label in a.container_candidate_labels:
+            print(f"  - {label}")
+    else:
+        print("  (none)")
+    print("unmatched_taxonomy_labels:")
+    if a.unmatched_labels:
+        for label in a.unmatched_labels:
+            print(f"  - {label}")
+    else:
+        print("  (none)")
+    print(f"raw_sample_path: {a.raw_sample_path}")
+    print()
+
+
 def run(taxonomy: dict, season: str, raw_samples_dir: Path) -> int:
     counts, _plan = build_canonical_plan(taxonomy)
     audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
@@ -98,7 +134,34 @@ def run(taxonomy: dict, season: str, raw_samples_dir: Path) -> int:
             print(f"  note: {a.notes}")
         print()
 
-    unresolved = [a for a in audits if a.category in _UNRESOLVED_CATEGORIES]
+    partial_groups = [a for a in audits if a.category == CATEGORY_PARTIAL_MATCH_NEEDS_REVIEW]
+    d_groups = [a for a in audits if a.category == CATEGORY_UNRESOLVED]
+    insufficient_groups = [a for a in audits if a.category == CATEGORY_INSUFFICIENT_EVIDENCE]
+
+    print("=== UNRESOLVED_COLLISION_DIAGNOSTIC ===")
+    print(
+        "Diagnostic output only — reuses evidence the audit already loaded above. "
+        "Does not resolve any collision, does not infer a formula or semantic "
+        "equivalence, does not change classification/matching behavior."
+    )
+    print()
+    for a in partial_groups + d_groups:
+        _print_diagnostic_block(a)
+
+    print("=== MISSING_EVIDENCE_IDENTITIES ===")
+    for a in insufficient_groups:
+        print(f"identity_key: {a.request_identity_key}")
+        print(f"expected_raw_sample_path: {a.raw_sample_path}")
+        print()
+
+    print("=== SUMMARY ===")
+    print(f"EXISTING_EVIDENCE_PARTIAL = {len(partial_groups)}")
+    print(f"EXISTING_EVIDENCE_D_UNRESOLVED = {len(d_groups)}")
+    print(f"MISSING_EVIDENCE_REQUESTS = {len(insufficient_groups)}")
+    print(f"TOTAL_UNRESOLVED = {len(partial_groups) + len(d_groups) + len(insufficient_groups)}")
+    print()
+
+    unresolved = partial_groups + d_groups + insufficient_groups
 
     print("=== GATE RULE ===")
     if not unresolved:

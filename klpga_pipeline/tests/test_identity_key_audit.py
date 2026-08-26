@@ -95,7 +95,12 @@ def test_no_raw_sample_classified_as_insufficient_evidence(tmp_path):
     audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
     assert len(audits) == 1
     assert audits[0].category == CATEGORY_INSUFFICIENT_EVIDENCE
-    assert audits[0].raw_sample_path is None
+    # Round 10 diagnostic follow-up: raw_sample_path is now the EXPECTED
+    # (not-yet-existing) path, so scripts/31's MISSING_EVIDENCE_IDENTITIES
+    # section can print it directly without re-deriving it.
+    expected_path = tmp_path / "Tee__Tee01__010101__2025.html"
+    assert audits[0].raw_sample_path == str(expected_path)
+    assert not expected_path.exists()
 
 
 def test_empty_saved_response_classified_as_empty_shared_response(tmp_path):
@@ -264,3 +269,27 @@ def test_trailing_unit_annotation_alone_yields_exact_match_after_normalization(t
     assert len(audits) == 1
     assert audits[0].category == CATEGORY_MULTI_METRIC_CONFIRMED
     assert set(audits[0].matched_labels) == {"평균 드라이브 거리", "장타율"}
+
+
+def test_match_details_record_the_specific_response_column_and_method(tmp_path):
+    """Round 10 diagnostic follow-up: a confirmed match must record
+    WHICH response column it resolved against and HOW (exact vs
+    substring) — not just that some match occurred — so scripts/31's
+    diagnostic output can print "label -> column [method]" directly
+    from already-loaded evidence."""
+    taxonomy = {
+        "leaves": [
+            _leaf("Putt", "Putt01", "040101", "menu3", "1퍼트 성공률"),
+            _leaf("Putt", "Putt01", "040101", "menu3", "퍼팅"),
+        ]
+    }
+    html = _table_response_html(["순위", "선수명", "성공률(%)", "1퍼트 성공 홀 수", "퍼팅 시도 홀 수"])
+    (tmp_path / "Putt__Putt01__040101__2025.html").write_text(html, encoding="utf-8")
+
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert len(audits) == 1
+    details = audits[0].match_details
+    assert len(details) == 1
+    assert details[0].taxonomy_label == "1퍼트 성공률"
+    assert details[0].response_column == "성공률(%)"
+    assert details[0].method == "substring"
