@@ -9,6 +9,9 @@ from pathlib import Path
 import pytest
 
 from klpga.neo_win.player_status import (
+    READINESS_GO,
+    READINESS_HARD_STOP,
+    READINESS_WARN,
     STARTED_UNDERIVABLE,
     STATUS_COLLECTION_MISSING,
     STATUS_COMPLETED,
@@ -17,6 +20,7 @@ from klpga.neo_win.player_status import (
     STATUS_DNS,
     STATUS_UNKNOWN,
     STATUS_WD,
+    assess_field_readiness,
     classify_player_round_status,
 )
 
@@ -54,6 +58,15 @@ def _player_round(conn, player_code, round_number, round_to_par=-1):
         "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
         "round_score, round_to_par) VALUES ('E1', 'G1', 2026, ?, ?, ?, ?, ?)",
         (round_number, player_code, player_code, 70 + round_to_par, round_to_par),
+    )
+    conn.commit()
+
+
+def _entry(conn, player_code):
+    conn.execute(
+        "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+        "VALUES ('G1', ?, ?, 'test', '2027-01-01T00:00:00Z')",
+        (player_code, player_code),
     )
     conn.commit()
 
@@ -157,3 +170,108 @@ def test_in_entry_field_detected_independently_of_player_event(conn):
     result = classify_player_round_status(conn, "G1", "p11", 1)
     assert result.in_entry_field is True
     assert result.classification == STATUS_UNKNOWN  # still no player_event row
+
+
+# ---------------------------------------------------------------
+# assess_field_readiness — status-aware readiness gate, replacing any
+# numeric "N% of the field must have a score" threshold.
+# Scenarios per the roadmap decision (ENTRY_FIELD != COMPLETED field).
+# ---------------------------------------------------------------
+
+
+def test_scenario_1_mostly_completed_plus_legitimate_wd_is_go(conn):
+    for code in ["p1", "p2", "p3"]:
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-2)
+    for code in ["p4", "p5"]:
+        _entry(conn, code)
+        _player_event(conn, code, withdrawn=1, finish_position="WD")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+    assert readiness.field_size == 5
+    assert readiness.unknown_players == ()
+    assert readiness.collection_missing_players == ()
+
+
+def test_scenario_2_mostly_completed_plus_legitimate_dq_is_go(conn):
+    for code in ["p1", "p2", "p3", "p4"]:
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-2)
+    _entry(conn, "p5")
+    _player_event(conn, "p5", disqualified=1, finish_position="DQ")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+
+
+def test_scenario_3_legitimate_dns_with_no_scoring_row_is_go(conn):
+    for code in ["p1", "p2", "p3", "p4"]:
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-2)
+    _entry(conn, "p5")
+    _player_event(conn, "p5", finish_position="DNS")  # text-only DNS, no score row at all
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+    statuses_by_code = {s.player_code: s for s in readiness.statuses}
+    assert statuses_by_code["p5"].classification == STATUS_DNS
+
+
+def test_scenario_4_unexplained_missing_player_is_warn(conn):
+    for code in ["p1", "p2", "p3", "p4"]:
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-2)
+    _entry(conn, "p5")  # no player_event row, no player_round row -> UNKNOWN
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_WARN
+    assert readiness.unknown_players == ("p5",)
+    assert readiness.collection_missing_players == ()
+
+
+def test_scenario_5_confirmed_collection_failure_is_hard_stop(conn):
+    for code in ["p1", "p2", "p3", "p4"]:
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-2)
+    _entry(conn, "p5")
+    # p5 has positive evidence of participation (rounds_played=4, no WD/DQ) but no round_number=2 row.
+    _player_event(conn, "p5", made_cut=1, rounds_played=4, finish_position="T10")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_HARD_STOP
+    assert readiness.collection_missing_players == ("p5",)
+
+
+def test_zero_real_round_rows_at_all_is_hard_stop(conn):
+    """Total non-ingestion (official round data has not arrived yet at
+    all) is a distinct HARD_STOP cause from a single player's gap."""
+    for code in ["p1", "p2", "p3"]:
+        _entry(conn, code)
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_HARD_STOP
+    assert readiness.collection_missing_players == ()
+
+
+def test_readiness_never_uses_a_numeric_percentage_threshold(conn):
+    """9 of 10 players complete + 1 legitimate WD is still GO — the gate
+    must never require a minimum count/percentage of the raw entry field."""
+    for i in range(9):
+        code = f"p{i}"
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-i)
+    _entry(conn, "p9")
+    _player_event(conn, "p9", withdrawn=1, finish_position="WD")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+    assert readiness.field_size == 10
+
+
+def test_readiness_reflects_every_entry_field_player_never_drops_one(conn):
+    for code in ["p1", "p2", "p3"]:
+        _entry(conn, code)
+        _player_round(conn, code, round_number=2, round_to_par=-1)
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert {s.player_code for s in readiness.statuses} == {"p1", "p2", "p3"}
+    assert readiness.field_size == 3

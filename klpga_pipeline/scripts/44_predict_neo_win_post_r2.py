@@ -11,10 +11,25 @@ are reported as the exact same real value as NEO_CUT_PCT (this
 tournament format has exactly one cut; there is no second, independent
 probability to compute).
 
-STOPS at READY_FOR_R2 (writes/freezes NOTHING) unless round_number=2
-`player_round` rows cover the WHOLE tournament_entry field for this
-game_code — never generates a prediction from a partially-completed
-round.
+======================================================================
+STATUS-AWARE READINESS (NOT a numeric coverage gate)
+======================================================================
+Readiness is decided by `klpga.neo_win.player_status.assess_field_
+readiness` — ENTRY_FIELD size and COMPLETED_R2 field size are NOT the
+same thing, and a legitimate WD/DNS/DQ player must never be treated as
+missing data or block generation. No numeric/percentage threshold
+(never "120/120", never "95%") is used anywhere in this decision:
+  - HARD_STOP: any player shows POSITIVE evidence of participation
+    (rounds_played>=2) with no round_number=2 row (a real ingestion
+    gap), or zero real round_number=2 rows exist at all (official R2
+    data hasn't arrived). Writes/freezes NOTHING.
+  - WARN: no ingestion failure, but at least one player is UNKNOWN
+    (no positive evidence either way) — still generates, but reports
+    every UNKNOWN player explicitly.
+  - GO: every entry-field player is accounted for by a legitimate,
+    evidence-backed state (COMPLETED_R2/WD/DQ/DNS) — generates.
+Also HARD STOPS if any round_number=3 data already exists (future-data
+leakage guard, same discipline as scripts/35's round_number=2 check).
 
 Freezing = recording klpga.neo_win.tournament_history's STAGE_R2 stage
 via write_or_supersede_history_stage (append-only; a real duplicate is
@@ -41,7 +56,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.neo_win.archive import archive_paths, read_neo_win_snapshot  # noqa: E402
 from klpga.neo_win.beta001c_archive import read_neo_win_c_snapshot  # noqa: E402
-from klpga.neo_win.player_status import classify_player_round_status  # noqa: E402
+from klpga.neo_win.player_status import (  # noqa: E402
+    READINESS_GO,
+    READINESS_HARD_STOP,
+    READINESS_WARN,
+    STATUS_COMPLETED,
+    assess_field_readiness,
+)
 from klpga.neo_win.round_update_r2 import (  # noqa: E402
     DEFAULT_N_SIMULATIONS,
     build_r2_sim_inputs_from_frozen_snapshot,
@@ -88,6 +109,12 @@ def _field_size(conn: sqlite3.Connection, game_code: str) -> int:
     ).fetchone()[0]
 
 
+def _r3_row_count(conn: sqlite3.Connection, game_code: str) -> int:
+    return conn.execute(
+        "SELECT COUNT(*) FROM player_round WHERE game_code = ? AND round_number = 3", (game_code,)
+    ).fetchone()[0]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
@@ -116,13 +143,22 @@ def main() -> int:
             print(f"R2 DATA: no tournament_entry field found for game_code={args.game_code!r} — nothing to check.")
             return 0
 
-        r2_scores = _read_round_scores(conn, args.game_code, 2)
-        if len(r2_scores) < field_size:
-            print("STATUS: READY_FOR_R2")
-            print(f"R2 DATA: INCOMPLETE — {len(r2_scores)}/{field_size} field players have a real round_number=2 "
-                  f"player_round row for game_code={args.game_code!r}. Not generating a prediction. STOP.")
+        r3_count = _r3_row_count(conn, args.game_code)
+        if r3_count > 0:
+            print("STATUS: HARD_STOP")
+            print(f"REASON: {r3_count} round_number=3 row(s) already exist for game_code={args.game_code!r} — "
+                  "this script only ever uses R1/R2-confirmed data. Generating a POST-R2 snapshot now would leak "
+                  "Round-3 information. Nothing written.")
             return 0
 
+        readiness = assess_field_readiness(conn, args.game_code, round_number=2)
+        status_by_code = {s.player_code: s for s in readiness.statuses}
+        if readiness.verdict == READINESS_HARD_STOP:
+            print("STATUS: HARD_STOP")
+            print(f"REASON: {readiness.reason}")
+            return 0
+
+        r2_scores = _read_round_scores(conn, args.game_code, 2)
         r1_scores = _read_round_scores(conn, args.game_code, 1)
         made_cut = _read_made_cut(conn, args.game_code)
 
@@ -144,9 +180,6 @@ def main() -> int:
             pre_source = pre_path
 
         sim_inputs, missing = build_r2_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores, r2_scores, made_cut)
-        # Evidence-only classification (klpga.neo_win.player_status, shared with scripts/45) — never
-        # changes the simulation, only explains WHY each excluded player has no round_number=2 result.
-        missing_classification = {code: classify_player_round_status(conn, args.game_code, code, round_number=2) for code in missing}
     finally:
         conn.close()
 
@@ -184,12 +217,15 @@ def main() -> int:
 
     print("=== BETA POST-R2 ===")
     print()
-    print(f"STATUS: DATA_COMPLETE")
-    print(f"R2 DATA: {len(r2_scores)}/{field_size} field players (full field), source: player_round round_number=2")
+    print(f"STATUS: DATA_COMPLETE (readiness verdict: {readiness.verdict})")
+    print(f"R2 DATA: {len(r2_scores)}/{field_size} entry-field players have a real round_number=2 score "
+          f"(field size != completed-round size — see klpga.neo_win.player_status)")
     print(f"PLAYERS: {len(entrants)}")
     print(f"WIN SUM: {win_sum:.4f}%  (over {len(win_values)} players with a real simulated value)")
     print(f"VALIDATION: duplicates={duplicate_count} nulls={null_count} non_field={non_field_count} "
           f"missing_r1_or_r2_or_cut={len(missing)}")
+    if readiness.verdict == READINESS_WARN:
+        print(f"WARN: {readiness.reason}")
     print()
 
     output_dir = Path(args.output_dir)
@@ -197,7 +233,7 @@ def main() -> int:
     csv_path = output_dir / "BETA_R2_FULL.csv"
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=[
-            "player_code", "player_name", "position", "score_to_par",
+            "player_code", "player_name", "player_status", "position", "score_to_par",
             "neo_win_pct", "neo_cut_pct", "neo_r3_pct", "neo_final_pct", "neo_top10_pct",
             "pre_win_pct", "pre_to_r2_win_change_pct",
         ])
@@ -205,8 +241,18 @@ def main() -> int:
         for e in entrants:
             pre_pct = pre_win_by_code.get(e.player_code)
             change = (e.win_pct - pre_pct) if (e.win_pct is not None and pre_pct is not None) else None
+            player_status_entry = status_by_code.get(e.player_code)
+            # ACTIVE is the display label for STATUS_COMPLETED here (a player with a real R2 score) —
+            # every other value (WD/DQ/DNS/UNKNOWN/COLLECTION_MISSING) is the classification as-is.
+            # Never fabricated: unresolved players simply carry "unavailable" probability fields below.
+            if player_status_entry is None:
+                player_status_label = "unavailable"
+            elif player_status_entry.classification == STATUS_COMPLETED:
+                player_status_label = "ACTIVE"
+            else:
+                player_status_label = player_status_entry.classification
             writer.writerow({
-                "player_code": e.player_code, "player_name": e.player_name,
+                "player_code": e.player_code, "player_name": e.player_name, "player_status": player_status_label,
                 "position": e.position if e.position is not None else "unavailable",
                 "score_to_par": e.score_to_par if e.score_to_par is not None else "unavailable",
                 "neo_win_pct": e.win_pct if e.win_pct is not None else "unavailable",
@@ -250,7 +296,7 @@ def main() -> int:
         print(f"Missing r1/r2/cut data (SKIP+LOG, excluded from simulation): {missing}")
         print("Evidence-only classification (never fabricated, never used to fill in a value):")
         for code in missing:
-            status = missing_classification.get(code)
+            status = status_by_code.get(code)
             if status is not None:
                 print(f"  - {code}: {status.classification} — {status.detail}")
     return 0

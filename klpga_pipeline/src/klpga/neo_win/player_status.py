@@ -44,6 +44,32 @@ never folded into the single `classification` value:
     literal STARTED_UNDERIVABLE string — the schema has no separate
     "teed off, no result captured" field, so this is never guessed
     True/False in that case.
+
+======================================================================
+FIELD READINESS — a semantic, evidence-based replacement for any
+numeric "N% of the field must have a score" gate
+======================================================================
+`assess_field_readiness` classifies EVERY tournament_entry player for
+`game_code` at `round_number` (via classify_player_round_status — no
+round-specific duplicated logic) and reduces the whole field to one of
+three verdicts:
+
+  READINESS_GO — every player is accounted for by a legitimate,
+    evidence-backed state (COMPLETED/WD/DQ/DNS/CUT). Safe to generate.
+  READINESS_WARN — no ingestion failure, but at least one player is
+    STATUS_UNKNOWN (no positive evidence either way). Still safe to
+    generate — the caller must report the UNKNOWN players explicitly,
+    never silently drop them.
+  READINESS_HARD_STOP — either at least one player is
+    STATUS_COLLECTION_MISSING (positive evidence of a real pipeline
+    gap), or zero real round_number rows exist for this game_code at
+    all (official ingestion for this round has not happened). Never
+    generate a prediction.
+
+Deliberately NO numeric/percentage threshold anywhere in this
+function — "120/120", "95%", or any other arbitrary minimum would
+conflate ENTRY_FIELD size with COMPLETED_ROUND field size, which this
+whole module exists to keep separate.
 """
 from __future__ import annotations
 
@@ -58,6 +84,10 @@ STATUS_DNS = "DNS"
 STATUS_CUT = "CUT"
 STATUS_UNKNOWN = "UNKNOWN"
 STATUS_COLLECTION_MISSING = "COLLECTION_MISSING"
+
+READINESS_GO = "GO"
+READINESS_WARN = "WARN"
+READINESS_HARD_STOP = "HARD_STOP"
 
 STARTED_UNDERIVABLE = (
     "UNKNOWN (not derivable from current schema — player_round only records a COMPLETED round's "
@@ -200,4 +230,74 @@ def classify_player_round_status(
         player_code=player_code, round_number=round_number, in_entry_field=in_entry, completed_this_round=False,
         started_this_round=STARTED_UNDERIVABLE, rounds_played_total=rounds_played, made_cut=made_cut,
         event_status=event_status, finish_position=finish_position, classification=classification, detail=detail,
+    )
+
+
+@dataclass(frozen=True)
+class FieldReadiness:
+    round_number: int
+    field_size: int
+    statuses: tuple  # tuple[PlayerRoundStatus, ...], one per ENTRY_FIELD player
+    verdict: str  # one of READINESS_GO / READINESS_WARN / READINESS_HARD_STOP
+    unknown_players: tuple
+    collection_missing_players: tuple
+    reason: str
+
+
+def _entry_field_codes(conn: sqlite3.Connection, game_code: str) -> list:
+    return [
+        code
+        for (code,) in conn.execute(
+            "SELECT player_code FROM tournament_entry WHERE game_code = ? ORDER BY player_code", (game_code,)
+        )
+    ]
+
+
+def assess_field_readiness(conn: sqlite3.Connection, game_code: str, round_number: int) -> FieldReadiness:
+    """The semantic, evidence-based replacement for any numeric
+    coverage gate. Classifies the WHOLE tournament_entry field (never
+    just the players who happen to have a score) and reduces it to one
+    verdict — see the module docstring's FIELD READINESS section for
+    the exact GO/WARN/HARD_STOP rules. No arbitrary percentage
+    threshold anywhere in this function."""
+    field_codes = _entry_field_codes(conn, game_code)
+    statuses = tuple(
+        classify_player_round_status(conn, game_code, code, round_number) for code in field_codes
+    )
+
+    collection_missing = tuple(s.player_code for s in statuses if s.classification == STATUS_COLLECTION_MISSING)
+    unknown = tuple(s.player_code for s in statuses if s.classification == STATUS_UNKNOWN)
+
+    real_round_rows = conn.execute(
+        "SELECT COUNT(*) FROM player_round WHERE game_code = ? AND round_number = ? AND round_to_par IS NOT NULL",
+        (game_code, round_number),
+    ).fetchone()[0]
+
+    if collection_missing:
+        verdict = READINESS_HARD_STOP
+        reason = (
+            f"{len(collection_missing)} player(s) show positive evidence of participation "
+            f"(rounds_played >= round_number) but no round_number={round_number} row exists: "
+            f"{collection_missing} — a real ingestion gap, not a tournament-status case."
+        )
+    elif field_codes and real_round_rows == 0:
+        verdict = READINESS_HARD_STOP
+        reason = (
+            f"zero real round_number={round_number} rows exist for game_code={game_code!r} at all — "
+            "official ingestion for this round has not happened yet."
+        )
+    elif unknown:
+        verdict = READINESS_WARN
+        reason = (
+            f"{len(unknown)} player(s) could not be positively classified (no player_event row, or no round "
+            f"score and no positive participation evidence either): {unknown}. No ingestion-failure evidence "
+            "exists, so generation may proceed — these players must be reported explicitly, never silently dropped."
+        )
+    else:
+        verdict = READINESS_GO
+        reason = f"every one of {len(field_codes)} entry-field player(s) is accounted for by a legitimate, evidence-backed state."
+
+    return FieldReadiness(
+        round_number=round_number, field_size=len(field_codes), statuses=statuses, verdict=verdict,
+        unknown_players=unknown, collection_missing_players=collection_missing, reason=reason,
     )
