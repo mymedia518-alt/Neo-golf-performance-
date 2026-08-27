@@ -70,14 +70,23 @@ consume a #001-C PRE exactly as they already consume a #001 one — no
 simulation math is touched.
 
 With `--pre-family beta001c --freeze`, this script ALSO attempts to
-record the result as tournament_history's STAGE_R1 (same append-only
-`klpga.neo_win.tournament_history.write_history_stage_atomic` used by
-scripts/42 and scripts/44) — a SKIP + LOG, never a crash, if that
-(game_code, R1) slot is already occupied (e.g. by an earlier
-HISTORICAL_SNAPSHOT_MISSING marker). The `--prediction-id`-identified
-round-update snapshot itself is written either way. The `beta001`
-(legacy) path is unchanged: still recorded via the separate
-scripts/42_record_tournament_history.py, exactly as before.
+record the result as tournament_history's STAGE_R1 via `klpga.neo_win.
+tournament_history.write_or_supersede_history_stage` (same helper
+scripts/42 uses) — one of:
+  - RECORDED: first-time write, the usual case.
+  - SUPERSEDED_MISSING_MARKER: that (game_code, R1) slot held an
+    earlier HISTORICAL_SNAPSHOT_MISSING marker (e.g. from a run before
+    this real R1 snapshot existed) — the marker is preserved untouched
+    and this real result is appended as a superseding event; the
+    effective R1 status becomes RECORDED (see tournament_history's
+    module docstring for the append-only correction design).
+  - ALREADY_RECORDED: a real R1 was already recorded (whether directly
+    or via an earlier superseding event) — SKIP + LOG, never a crash,
+    never a second correction.
+The `--prediction-id`-identified round-update snapshot itself is
+written either way. The `beta001` (legacy) path is unchanged: still
+recorded via the separate scripts/42_record_tournament_history.py,
+exactly as before.
 
 Usage (legacy BETA #001, unchanged default):
     python scripts/35_predict_neo_win_post_r1.py --db data/klpga.sqlite --game-code 2026080001 \\
@@ -122,9 +131,8 @@ from klpga.neo_win.tournament_history import (  # noqa: E402
     RECORD_KIND as HISTORY_RECORD_KIND,
     STAGE_R1,
     HistoryEntrant,
-    HistoryStageAlreadyRecordedError,
     HistoryStageSnapshot,
-    write_history_stage_atomic,
+    write_or_supersede_history_stage,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -508,11 +516,16 @@ def main() -> int:
                 tournament_name=pre_snapshot.tournament_name, field_size=len(entrants),
                 entrants=history_entrants,
             )
-            try:
-                history_path = write_history_stage_atomic(history_snapshot, Path(args.history_dir))
+            history_path, history_action = write_or_supersede_history_stage(history_snapshot, Path(args.history_dir))
+            if history_action == "RECORDED":
                 history_status = f"RECORDED at {history_path}"
-            except HistoryStageAlreadyRecordedError as exc:
-                history_status = f"SKIP + LOG — already recorded: {exc}"
+            elif history_action == "SUPERSEDED_MISSING_MARKER":
+                history_status = (
+                    f"SUPERSEDED a stale HISTORICAL_SNAPSHOT_MISSING marker — new event at {history_path} "
+                    "(the original marker file was preserved untouched)"
+                )
+            else:  # ALREADY_RECORDED
+                history_status = f"SKIP + LOG — already recorded at {history_path}"
 
     print(f"Freeze status: {freeze_status}")
     print(f"Tournament history (PRE->R1): {history_status}")

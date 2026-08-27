@@ -194,6 +194,85 @@ def test_script_rerun_after_r1_missing_is_idempotent(module, pre_only_root):
     assert rc2 == 0
 
 
+def _r1_c_json(game_code="G1"):
+    data = _r1_json(game_code)
+    data["prediction_id"] = "001-C-R1"
+    return data
+
+
+def test_script_supersedes_stale_missing_marker_once_real_r1_c_arrives(module, pre_only_root, capsys):
+    """RED TEAM follow-up scenario: an earlier run recorded R1 as
+    HISTORICAL_SNAPSHOT_MISSING (no frozen R1 existed yet); a real
+    #001-C-R1 snapshot is later frozen — the marker must be preserved
+    untouched and the real result recorded as a superseding event, not
+    silently dropped."""
+    predictions_dir = pre_only_root / "neo_win_predictions"
+    c_predictions_dir = pre_only_root / "neo_win_c_predictions"
+    history_dir = pre_only_root / "neo_tournament_history"
+
+    import sys as _sys
+
+    old_argv = _sys.argv
+    argv = [
+        "prog", "--game-code", "G1", "--predictions-dir", str(predictions_dir),
+        "--c-predictions-dir", str(c_predictions_dir), "--history-dir", str(history_dir),
+    ]
+    try:
+        _sys.argv = argv
+        rc1 = module.main()
+    finally:
+        _sys.argv = old_argv
+    assert rc1 == 0
+    marker_path = history_dir / "G1" / "R1.json"
+    assert marker_path.exists()
+    marker_bytes_before = marker_path.read_bytes()
+
+    # a real #001-C-R1 snapshot is now frozen (naming this script prefers)
+    r1_c_path = predictions_dir / "2026" / "neo_win_001-C-R1_G1.json"
+    r1_c_path.write_text(json.dumps(_r1_c_json()), encoding="utf-8")
+
+    try:
+        _sys.argv = argv
+        rc2 = module.main()
+    finally:
+        _sys.argv = old_argv
+    assert rc2 == 0
+
+    # the original MISSING marker file is byte-for-byte unchanged
+    assert marker_path.read_bytes() == marker_bytes_before
+
+    out = capsys.readouterr().out
+    assert "R1 STATUS: RECORDED" in out
+    assert "write: SUPERSEDED_MISSING_MARKER" in out
+    assert "R1 COUNT: 2" in out
+    assert "LINKED PLAYERS: 2" in out
+    assert "p1 (A): PRE 10.0 -> R1 15.0" in out
+
+    from klpga.neo_win.tournament_history import (
+        STAGE_R1,
+        STATUS_HISTORICAL_SNAPSHOT_MISSING,
+        STATUS_RECORDED,
+        read_effective_history_stage,
+        read_full_history_events,
+    )
+
+    events = read_full_history_events(history_dir, "G1", STAGE_R1)
+    assert len(events) == 2
+    assert events[0].status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+    assert events[1].status == STATUS_RECORDED
+    assert read_effective_history_stage(history_dir, "G1", STAGE_R1).status == STATUS_RECORDED
+
+    # a THIRD run (real R1 already recorded) must stay idempotent — SKIP + LOG, never a crash
+    try:
+        _sys.argv = argv
+        rc3 = module.main()
+    finally:
+        _sys.argv = old_argv
+    assert rc3 == 0
+    out3 = capsys.readouterr().out
+    assert "write: ALREADY_RECORDED" in out3
+
+
 def test_script_reports_error_when_no_frozen_files_exist(module, tmp_path, capsys):
     import sys as _sys
     old_argv = _sys.argv

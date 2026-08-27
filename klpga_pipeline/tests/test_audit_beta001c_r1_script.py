@@ -401,6 +401,90 @@ def test_audit_fails_when_pre_prediction_id_is_legacy_001(module, db_path, tmp_p
     assert "[FAIL] PRE SOURCE NOT CONFIRMED" in out
 
 
+def test_audit_reports_recorded_via_superseding_event_not_stale_marker(module, db_path_full, tmp_path, capsys):
+    """RED TEAM follow-up: once a stale MISSING marker has been
+    corrected by a superseding event, the audit must report the
+    EFFECTIVE (RECORDED) status, note it supersedes the marker, and no
+    longer WARN about a missing durable record."""
+    from klpga.neo_win.tournament_history import (
+        HistoryEntrant,
+        HistoryStageSnapshot,
+        RECORD_KIND as HIST_RECORD_KIND,
+        STAGE_R1,
+        build_missing_stage_marker,
+        write_history_stage_atomic,
+        write_superseding_stage_event_atomic,
+    )
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir, missing_players=())
+    _write_csv(output_dir, entrants)
+
+    write_history_stage_atomic(
+        build_missing_stage_marker(GAME_CODE, "R1", reason="stale, before real R1 existed", recorded_at_utc="2027-01-01T00:00:00Z"),
+        history_dir,
+    )
+    real_history_entrants = tuple(
+        HistoryEntrant(player_code=e.player_code, player_name=e.player_name, win_pct=e.post_r1_win_pct)
+        for e in entrants
+    )
+    write_superseding_stage_event_atomic(
+        HistoryStageSnapshot(
+            game_code=GAME_CODE, stage=STAGE_R1, record_kind=HIST_RECORD_KIND, recorded_at_utc="2027-01-02T00:00:00Z",
+            source_prediction_id="001-C-R1", source_model_version="001-C-FINAL",
+            source_generated_at_utc="2027-01-02T00:00:00Z", tournament_name="Live Test Open",
+            field_size=len(entrants), entrants=real_history_entrants,
+        ),
+        history_dir,
+    )
+
+    rc = _run(module, _base_argv(db_path_full, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "VERDICT: PASS" in out
+    assert "RECORDED (source_prediction_id='001-C-R1'" in out
+    assert "supersedes a MISSING marker recorded at '2027-01-01T00:00:00Z'" in out
+    assert "DURABLY RECORDED" in out
+    assert "[WARN] PRE->R1 movement is NOT durably recorded" not in out
+
+
+def test_audit_reports_provenance_when_db_gains_a_player_after_freeze(module, db_path, tmp_path, capsys):
+    """Item 7: a player the frozen snapshot marked missing_r1_data=True
+    (excluded at freeze time) later gets a real round_number=1 row in
+    the DB — the audit must surface this as provenance/audit info only,
+    never mutate the already-frozen snapshot."""
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing, matches db_path's 4/5 real R1 rows
+    _write_csv(output_dir, entrants)
+
+    # DB changes AFTER the freeze: E now has a real round_number=1 row.
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'E', 'E', 69, -1)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "PROVENANCE: DB CHANGED SINCE FREEZE" in out
+    assert "['E']" in out
+    assert "newly available since freeze" in out
+
+
 def test_audit_errors_cleanly_when_pre_snapshot_missing(module, db_path, tmp_path):
     predictions_dir = tmp_path / "neo_win_predictions"
     history_dir = tmp_path / "neo_tournament_history"

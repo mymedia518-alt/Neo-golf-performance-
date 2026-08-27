@@ -31,9 +31,13 @@ from klpga.neo_win.tournament_history import (
     history_entry_from_neo_win_pre_snapshot,
     history_entry_from_round_update_dict,
     join_final_to_stage,
+    read_effective_history_stage,
+    read_full_history_events,
     read_full_tournament_history,
     read_history_stage,
     write_history_stage_atomic,
+    write_or_supersede_history_stage,
+    write_superseding_stage_event_atomic,
 )
 
 SCHEMA_PATH = Path(__file__).resolve().parents[1] / "src" / "klpga" / "db" / "schema.sql"
@@ -319,3 +323,132 @@ def test_read_full_tournament_history_surfaces_missing_status(tmp_path):
     assert history[STAGE_PRE].status == STATUS_RECORDED
     assert history[STAGE_R1].status == STATUS_HISTORICAL_SNAPSHOT_MISSING
     assert history[STAGE_R1].entrants == ()
+
+
+# ---------------------------------------------------------------
+# Superseding events — correcting a stale MISSING marker without
+# ever overwriting or deleting it (RED TEAM follow-up).
+# ---------------------------------------------------------------
+
+
+def test_scenario_a_missing_marker_then_real_r1_arrives(tmp_path):
+    """A: MISSING marker exists -> real frozen R1 arrives later =>
+    original marker preserved, real R1 appended, effective RECORDED."""
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t1")
+    primary_path = write_history_stage_atomic(marker, tmp_path)
+    marker_bytes_before = primary_path.read_bytes()
+
+    real_entry = history_entry_from_round_update_dict(_round_update_dict(), recorded_at_utc="t2")
+    event_path = write_superseding_stage_event_atomic(real_entry, tmp_path)
+
+    # the original marker file is byte-for-byte unchanged and still present
+    assert primary_path.exists()
+    assert primary_path.read_bytes() == marker_bytes_before
+    assert read_history_stage(primary_path).status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+
+    # the superseding event is a SEPARATE file, referencing the marker
+    assert event_path != primary_path
+    assert event_path.exists()
+    superseding = read_history_stage(event_path)
+    assert superseding.status == STATUS_RECORDED
+    assert superseding.supersedes_recorded_at_utc == "t1"
+
+    # effective resolution picks the correction, not the stale marker
+    effective = read_effective_history_stage(tmp_path, "G1", STAGE_R1)
+    assert effective.status == STATUS_RECORDED
+    assert {e.player_code for e in effective.entrants} == {"p1", "p2"}
+
+    # read_full_tournament_history (used by scripts/42/43/44) surfaces the correction too
+    history = read_full_tournament_history(tmp_path, "G1")
+    assert history[STAGE_R1].status == STATUS_RECORDED
+
+
+def test_scenario_b_second_real_r1_after_correction_is_rejected_as_duplicate(tmp_path):
+    """B: real RECORDED R1 (via superseding) exists -> second real R1
+    attempt => rejected as duplicate, never a second correction."""
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t1")
+    write_history_stage_atomic(marker, tmp_path)
+    real_entry = history_entry_from_round_update_dict(_round_update_dict(), recorded_at_utc="t2")
+    write_superseding_stage_event_atomic(real_entry, tmp_path)
+
+    with pytest.raises(HistoryStageAlreadyRecordedError):
+        write_superseding_stage_event_atomic(real_entry, tmp_path)
+
+
+def test_second_real_r1_attempt_also_rejected_when_no_marker_ever_existed(tmp_path):
+    """The ordinary (non-corrective) duplicate case: a real RECORDED R1
+    was written directly (no MISSING marker ever existed) -> a second
+    real R1 attempt is still an append-only duplicate."""
+    real_entry = history_entry_from_round_update_dict(_round_update_dict(), recorded_at_utc="t1")
+    write_history_stage_atomic(real_entry, tmp_path)
+    with pytest.raises(HistoryStageAlreadyRecordedError):
+        write_superseding_stage_event_atomic(real_entry, tmp_path)
+
+
+def test_scenario_c_no_real_r1_ever_arrives_effective_status_stays_missing(tmp_path):
+    """C: no real R1 ever arrives => effective status remains
+    HISTORICAL_SNAPSHOT_MISSING."""
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t1")
+    write_history_stage_atomic(marker, tmp_path)
+
+    effective = read_effective_history_stage(tmp_path, "G1", STAGE_R1)
+    assert effective.status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+
+    history = read_full_tournament_history(tmp_path, "G1")
+    assert history[STAGE_R1].status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+
+
+def test_read_effective_history_stage_returns_none_when_nothing_recorded(tmp_path):
+    assert read_effective_history_stage(tmp_path, "G1", STAGE_R1) is None
+
+
+def test_read_effective_history_stage_is_unaffected_for_a_normal_recorded_stage(tmp_path):
+    """The overwhelming majority case (no correction ever needed): a
+    stage recorded once, directly RECORDED, with zero superseding
+    events — effective resolution returns exactly the primary."""
+    entry = history_entry_from_neo_win_pre_snapshot(_pre_snapshot(), recorded_at_utc="t1")
+    write_history_stage_atomic(entry, tmp_path)
+    effective = read_effective_history_stage(tmp_path, "G1", STAGE_PRE)
+    assert effective.status == STATUS_RECORDED
+    assert effective.recorded_at_utc == "t1"
+
+
+def test_write_superseding_raises_value_error_when_nothing_to_supersede(tmp_path):
+    real_entry = history_entry_from_round_update_dict(_round_update_dict(), recorded_at_utc="t1")
+    with pytest.raises(ValueError):
+        write_superseding_stage_event_atomic(real_entry, tmp_path)
+
+
+def test_read_full_history_events_preserves_complete_audit_trail(tmp_path):
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t1")
+    write_history_stage_atomic(marker, tmp_path)
+    real_entry = history_entry_from_round_update_dict(_round_update_dict(), recorded_at_utc="t2")
+    write_superseding_stage_event_atomic(real_entry, tmp_path)
+
+    events = read_full_history_events(tmp_path, "G1", STAGE_R1)
+    assert len(events) == 2
+    assert events[0].status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+    assert events[1].status == STATUS_RECORDED
+    assert events[1].supersedes_recorded_at_utc == "t1"
+
+
+def test_write_or_supersede_handles_all_three_cases(tmp_path):
+    # case 1: empty slot -> RECORDED (first-time write)
+    entry_g1 = history_entry_from_neo_win_pre_snapshot(_pre_snapshot(game_code="G1"), recorded_at_utc="t1")
+    path1, action1 = write_or_supersede_history_stage(entry_g1, tmp_path)
+    assert action1 == "RECORDED"
+    assert path1.exists()
+
+    # case 2: slot holds a MISSING marker -> SUPERSEDED_MISSING_MARKER
+    marker = build_missing_stage_marker("G2", STAGE_R1, reason="not found", recorded_at_utc="t1")
+    write_history_stage_atomic(marker, tmp_path)
+    real_entry = history_entry_from_round_update_dict(_round_update_dict(game_code="G2"), recorded_at_utc="t2")
+    path2, action2 = write_or_supersede_history_stage(real_entry, tmp_path)
+    assert action2 == "SUPERSEDED_MISSING_MARKER"
+    assert path2.exists()
+    assert read_history_stage(tmp_path / "G2" / "R1.json").status == STATUS_HISTORICAL_SNAPSHOT_MISSING  # untouched
+
+    # case 3: slot already has an effective RECORDED event -> ALREADY_RECORDED, nothing written
+    path3, action3 = write_or_supersede_history_stage(real_entry, tmp_path)
+    assert action3 == "ALREADY_RECORDED"
+    assert path3 == tmp_path / "G2" / "R1.json"

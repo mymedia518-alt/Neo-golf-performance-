@@ -403,10 +403,18 @@ def test_pre_family_beta001c_accepts_frozen_c_pre_and_records_history(module, db
     assert len(recorded.entrants) == len(PLAYERS)
 
 
-def test_pre_family_beta001c_history_write_is_skip_log_when_r1_already_marked_missing(module, db_path, tmp_path, capsys):
+def test_pre_family_beta001c_supersedes_stale_missing_marker_with_real_r1(module, db_path, tmp_path, capsys):
+    """RED TEAM follow-up: a stale HISTORICAL_SNAPSHOT_MISSING marker
+    from an earlier run (before this real R1 snapshot existed) must not
+    permanently block the real result — it is preserved untouched, and
+    the real result is recorded via a superseding event (see
+    klpga.neo_win.tournament_history.write_or_supersede_history_stage).
+    """
     from klpga.neo_win.tournament_history import (
         build_missing_stage_marker,
         history_stage_path,
+        read_effective_history_stage,
+        read_full_history_events,
         read_history_stage,
         write_history_stage_atomic,
     )
@@ -416,6 +424,8 @@ def test_pre_family_beta001c_history_write_is_skip_log_when_r1_already_marked_mi
         GAME_CODE, "R1", reason="test: pre-existing missing marker", recorded_at_utc="2027-01-01T00:00:00Z"
     )
     write_history_stage_atomic(marker, history_dir)
+    marker_path = history_stage_path(history_dir, GAME_CODE, "R1")
+    marker_bytes_before = marker_path.read_bytes()
 
     c_predictions_dir = tmp_path / "neo_win_c_predictions"
     _freeze_pre_c(c_predictions_dir)
@@ -435,16 +445,76 @@ def test_pre_family_beta001c_history_write_is_skip_log_when_r1_already_marked_mi
         rc = module.main()
     finally:
         sys.argv = argv_backup
-    assert rc == 0  # the round-update snapshot itself still freezes successfully
+    assert rc == 0
     out = capsys.readouterr().out
-    assert "SKIP + LOG" in out
+    assert "SUPERSEDED a stale HISTORICAL_SNAPSHOT_MISSING marker" in out
 
     round_update_json = predictions_dir / "2027" / "neo_win_001-C-R1_R1TEST.json"
     assert round_update_json.exists()
 
-    # the pre-existing MISSING marker must remain untouched — never silently overwritten.
-    still = read_history_stage(history_stage_path(history_dir, GAME_CODE, "R1"))
-    assert still.status == "HISTORICAL_SNAPSHOT_MISSING"
+    # the pre-existing MISSING marker file is byte-for-byte unchanged — never overwritten.
+    assert marker_path.read_bytes() == marker_bytes_before
+    assert read_history_stage(marker_path).status == "HISTORICAL_SNAPSHOT_MISSING"
+
+    # the EFFECTIVE R1 record is now the real, RECORDED result.
+    effective = read_effective_history_stage(history_dir, GAME_CODE, "R1")
+    assert effective.status == "RECORDED"
+    assert effective.source_prediction_id == "001-C-R1"
+
+    # the complete audit trail preserves both events, in order.
+    events = read_full_history_events(history_dir, GAME_CODE, "R1")
+    assert len(events) == 2
+    assert events[0].status == "HISTORICAL_SNAPSHOT_MISSING"
+    assert events[1].status == "RECORDED"
+
+
+def test_pre_family_beta001c_second_real_r1_rejected_after_marker_superseded(module, db_path, tmp_path, capsys):
+    """Once a MISSING marker has been superseded by a real R1, a SECOND
+    real R1 attempt for the same (game_code, R1) — even under a
+    different --prediction-id, so the round-update archive write itself
+    succeeds — is a plain append-only duplicate at the tournament_
+    history layer: SKIP + LOG, never a second correction."""
+    from klpga.neo_win.tournament_history import build_missing_stage_marker, write_history_stage_atomic
+
+    history_dir = tmp_path / "neo_tournament_history"
+    write_history_stage_atomic(
+        build_missing_stage_marker(GAME_CODE, "R1", reason="test", recorded_at_utc="2027-01-01T00:00:00Z"),
+        history_dir,
+    )
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    _freeze_pre_c(c_predictions_dir)
+    predictions_dir = tmp_path / "neo_win_predictions"
+
+    def _run_once(prediction_id, output_dir, seed):
+        argv_backup = sys.argv
+        sys.argv = [
+            "35_predict_neo_win_post_r1.py",
+            "--db", str(db_path), "--game-code", GAME_CODE,
+            "--pre-family", "beta001c", "--c-predictions-dir", str(c_predictions_dir),
+            "--pre-prediction-id", "001-C-FINAL", "--pre-cutoff-date", CUTOFF_DATE,
+            "--predictions-dir", str(predictions_dir), "--history-dir", str(history_dir),
+            "--n-simulations", "300", "--seed", str(seed), "--output-dir", str(output_dir),
+            "--freeze", "--prediction-id", prediction_id,
+        ]
+        try:
+            rc = module.main()
+        finally:
+            sys.argv = argv_backup
+        return rc
+
+    rc1 = _run_once("001-C-R1", tmp_path / "outputs" / "run1", 12)
+    assert rc1 == 0
+    out1 = capsys.readouterr().out
+    assert "SUPERSEDED a stale HISTORICAL_SNAPSHOT_MISSING marker" in out1
+
+    # a different --prediction-id avoids the (unrelated) round-update-archive-level
+    # append-only rejection, so this genuinely exercises tournament_history's own
+    # ALREADY_RECORDED duplicate protection rather than a different layer's.
+    rc2 = _run_once("001-C-R1-rerun", tmp_path / "outputs" / "run2", 13)
+    assert rc2 == 0
+    out2 = capsys.readouterr().out
+    assert "SKIP + LOG — already recorded" in out2
 
 
 def test_pre_family_beta001c_rejects_prediction_id_001(module, tmp_path):
