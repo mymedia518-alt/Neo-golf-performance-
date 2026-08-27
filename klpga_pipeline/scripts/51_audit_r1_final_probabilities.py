@@ -47,12 +47,18 @@ import sqlite3
 import statistics
 import sys
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from klpga.backtest.point_in_time_features import compute_point_in_time_features, load_corpus  # noqa: E402
+from klpga.backtest.temporal import effective_tournament_date  # noqa: E402
+from klpga.models.candidates import fit_shrinkage  # noqa: E402
 from klpga.neo_win.beta001c_archive import archive_paths as c_archive_paths, read_neo_win_c_snapshot  # noqa: E402
+from klpga.neo_win.consistency import compute_consistency_feature  # noqa: E402
+from klpga.neo_win.dataset import build_neo_win_live_training_rows  # noqa: E402
 from klpga.neo_win.round_update import (  # noqa: E402
     DEFAULT_N_SIMULATIONS,
     build_sim_inputs_from_frozen_snapshot,
@@ -64,6 +70,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 CUT_NAMES = ["이서윤4", "정수빈", "유아현", "서교림", "신지우", "백소원"]
 WIN_NAMES = ["이서윤4", "노승희", "박혜준", "성유진", "박현경", "최예림"]
+DEEP_DIVE_NAMES = ["이서윤4", "정수빈", "유아현", "서교림", "신지우", "백소원", "노승희"]
 
 
 @dataclass(frozen=True)
@@ -203,6 +210,91 @@ def _diagnostic_cutline_resim(sim_inputs, cut_fraction: float, n_simulations: in
     }
 
 
+def _shrunk_value(raw: Optional[float], n: Optional[int], params) -> Optional[float]:
+    """Same formula as klpga.models.candidates.apply_shrinkage_and_standardize,
+    but returns the shrunk value in ORIGINAL units (not the standardized
+    z-score that function returns) — for human-readable diagnostic
+    display only. weight = n/(n+k); shrunk = pop_mean + weight*(raw-pop_mean)."""
+    if raw is None or not n:
+        return None
+    weight = n / (n + params.k)
+    return round(params.pop_mean + weight * (raw - params.pop_mean), 3)
+
+
+def deep_dive_named_players(conn: sqlite3.Connection, game_code: str, cutoff_date_obj: date, csv_by_name: dict) -> None:
+    """Model-input diagnosis only — calls the REAL, unmodified
+    klpga.backtest.point_in_time_features.compute_point_in_time_features,
+    klpga.neo_win.consistency.compute_consistency_feature, and
+    klpga.models.candidates.fit_shrinkage for DEEP_DIVE_NAMES. Read-only;
+    does not touch round_update.py, does not recompute any probability."""
+    row = conn.execute(
+        "SELECT event_id, start_date, end_date FROM tournament_master WHERE game_code = ?", (game_code,)
+    ).fetchone()
+    if row is None:
+        print(f"CANNOT DEEP-DIVE: no tournament_master row for game_code={game_code!r}")
+        return
+    target_event_id, start_date, end_date = row
+    target_effective_date = effective_tournament_date(start_date, end_date).value
+
+    corpus = load_corpus(conn)
+    training_rows, training_tournament_count = build_neo_win_live_training_rows(conn, game_code, cutoff_date_obj)
+    params_avg = fit_shrinkage(training_rows, "prior_avg_round_score_to_par")
+    params_stddev = fit_shrinkage(training_rows, "neo_consistency_stddev")
+
+    print("=== MODEL INPUT DEEP DIVE (real DB, real point-in-time features, named players) ===")
+    print()
+    print(f"target_event_id={target_event_id!r}  target_effective_date={target_effective_date}  "
+          f"training_tournament_count={training_tournament_count}")
+    print(f"Shrinkage params fit on real training rows for THIS target (klpga.models.candidates.fit_shrinkage):")
+    print(f"  prior_avg_round_score_to_par: pop_mean={params_avg.pop_mean:.4f}  pop_std={params_avg.pop_std:.4f}  "
+          f"k(median training n)={params_avg.k}")
+    print(f"  neo_consistency_stddev: pop_mean={params_stddev.pop_mean:.4f}  pop_std={params_stddev.pop_std:.4f}  "
+          f"k(median training n)={params_stddev.k}")
+    print(f"NOTE: this shrinkage is what klpga.neo_win.model._combined_score applies for the PRE win_probability."
+          f" round_update.py's build_sim_inputs_from_frozen_snapshot does NOT apply it — it uses the RAW"
+          f" prior_avg_round_score_to_par / neo_consistency_stddev value verbatim whenever one is present,"
+          f" only substituting the field's population mean when the value is fully None.")
+    print()
+
+    for name in DEEP_DIVE_NAMES:
+        rows = csv_by_name.get(name, [])
+        if not rows:
+            print(f"{name}: NOT FOUND in R1 CSV")
+            print()
+            continue
+        for r in rows:
+            code = r["player_code"]
+            pit = compute_point_in_time_features(corpus, target_event_id, target_effective_date, code, name)
+            cons, cons_n = compute_consistency_feature(corpus, target_event_id, target_effective_date, code)
+
+            events_by_player = corpus.events_by_player.get(code, [])
+            events_by_id = {e.event_id: e for e in events_by_player}
+            recent10_ids = pit.recent_form_event_ids_used.get(10, ())
+            recent10_raw = [events_by_id[eid].score_to_par for eid in recent10_ids if eid in events_by_id]
+
+            rounds_by_player = corpus.rounds_by_player.get(code, [])
+            stddev_raw_values = [
+                rr.round_to_par for rr in rounds_by_player
+                if rr.event_id != target_event_id and rr.round_to_par is not None
+                and rr.effective_date is not None and target_effective_date is not None
+                and rr.effective_date < target_effective_date
+            ]
+
+            print(f"PLAYER: {name}  (player_code={code})")
+            print(f"  HISTORICAL EVENTS USED (prior_events_n, strictly before {target_effective_date}): {pit.prior_events_n}")
+            print(f"  HISTORICAL ROUNDS USED for avg-score-to-par rate (sum of rounds_played, prior_avg_round_score_to_par_n): {pit.prior_avg_round_score_to_par_n}")
+            print(f"  AVG SCORE TO PAR RAW: {pit.prior_avg_round_score_to_par!r}")
+            print(f"  AVG SCORE TO PAR AFTER SHRINKAGE (weight=n/(n+k), same formula as klpga.models.candidates): "
+                  f"{_shrunk_value(pit.prior_avg_round_score_to_par, pit.prior_avg_round_score_to_par_n, params_avg)!r}")
+            print(f"  RECENT FORM 10 RAW INPUTS (most recent {pit.prior_recent_form_10_n} events' real score_to_par, newest first): {recent10_raw}")
+            print(f"  RECENT FORM 10 RESULT: {pit.prior_recent_form_10!r}  (n={pit.prior_recent_form_10_n})")
+            print(f"  STDDEV RAW INPUTS (player_round.round_to_par, prior rounds only, n={cons_n}): {stddev_raw_values}")
+            print(f"  STDDEV RESULT (neo_consistency_stddev): {cons!r}")
+            print(f"  STDDEV AFTER SHRINKAGE (same formula, using neo_consistency_stddev's own pop_mean/k): "
+                  f"{_shrunk_value(cons, cons_n, params_stddev)!r}")
+            print()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
@@ -256,6 +348,13 @@ def main() -> int:
         csv_by_name.setdefault(r["player_name"], []).append(r)
 
     sim_by_code = {p.player_code: p for p in sim_inputs}
+
+    cutoff_date_obj = date.fromisoformat(args.pre_cutoff_date)
+    conn2 = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    try:
+        deep_dive_named_players(conn2, args.game_code, cutoff_date_obj, csv_by_name)
+    finally:
+        conn2.close()
 
     print("=== CHECKS 1-3 — CODE-VERIFIED CALCULATION PATH SUMMARY ===")
     print()
