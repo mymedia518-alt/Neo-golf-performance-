@@ -43,9 +43,10 @@ class NeoWinEntrantSnapshot:
     prior_recent_form_10_n: int
     neo_consistency_stddev: Optional[float]
     neo_consistency_stddev_n: int
-    neo_official_metric: Optional[float]
-    neo_official_metric_n: int
-    player_master_matched: bool
+    official_metrics: dict = field(default_factory=dict)
+    """{slot_name: value or None} — see klpga.neo_win.official_metrics.
+    OFFICIAL_METRIC_SLOTS for the slot names this run could use."""
+    player_master_matched: bool = True
 
 
 @dataclass(frozen=True)
@@ -113,8 +114,7 @@ def snapshot_to_dict(snapshot: NeoWinPredictionSnapshot) -> dict:
                 "prior_recent_form_10_n": e.prior_recent_form_10_n,
                 "neo_consistency_stddev": e.neo_consistency_stddev,
                 "neo_consistency_stddev_n": e.neo_consistency_stddev_n,
-                "neo_official_metric": e.neo_official_metric,
-                "neo_official_metric_n": e.neo_official_metric_n,
+                "official_metrics": dict(e.official_metrics),
                 "player_master_matched": e.player_master_matched,
             }
             for e in snapshot.predictions
@@ -126,6 +126,8 @@ def snapshot_to_json_text(snapshot: NeoWinPredictionSnapshot) -> str:
     return json.dumps(snapshot_to_dict(snapshot), indent=2, ensure_ascii=False) + "\n"
 
 
+_OFFICIAL_METRIC_SLOT_NAMES: tuple[str, ...] = ("overall_skill", "driving", "short_game", "putting")
+
 _CSV_FIELDNAMES: tuple[str, ...] = (
     "rank",
     "player_code",
@@ -135,9 +137,7 @@ _CSV_FIELDNAMES: tuple[str, ...] = (
     "prior_avg_round_score_to_par",
     "prior_recent_form_10",
     "neo_consistency_stddev",
-    "neo_official_metric",
-    "player_master_matched",
-)
+) + tuple(f"official_{slot}" for slot in _OFFICIAL_METRIC_SLOT_NAMES) + ("player_master_matched",)
 
 
 def _entrants_csv_bytes(snapshot: NeoWinPredictionSnapshot) -> bytes:
@@ -145,20 +145,21 @@ def _entrants_csv_bytes(snapshot: NeoWinPredictionSnapshot) -> bytes:
     writer = csv.DictWriter(buf, fieldnames=_CSV_FIELDNAMES)
     writer.writeheader()
     for e in snapshot.predictions:
-        writer.writerow(
-            {
-                "rank": e.rank,
-                "player_code": e.player_code,
-                "player_name": e.player_name,
-                "win_probability": e.win_probability,
-                "prior_events_n": e.prior_events_n,
-                "prior_avg_round_score_to_par": "" if e.prior_avg_round_score_to_par is None else e.prior_avg_round_score_to_par,
-                "prior_recent_form_10": "" if e.prior_recent_form_10 is None else e.prior_recent_form_10,
-                "neo_consistency_stddev": "" if e.neo_consistency_stddev is None else e.neo_consistency_stddev,
-                "neo_official_metric": "" if e.neo_official_metric is None else e.neo_official_metric,
-                "player_master_matched": e.player_master_matched,
-            }
-        )
+        row = {
+            "rank": e.rank,
+            "player_code": e.player_code,
+            "player_name": e.player_name,
+            "win_probability": e.win_probability,
+            "prior_events_n": e.prior_events_n,
+            "prior_avg_round_score_to_par": "" if e.prior_avg_round_score_to_par is None else e.prior_avg_round_score_to_par,
+            "prior_recent_form_10": "" if e.prior_recent_form_10 is None else e.prior_recent_form_10,
+            "neo_consistency_stddev": "" if e.neo_consistency_stddev is None else e.neo_consistency_stddev,
+            "player_master_matched": e.player_master_matched,
+        }
+        for slot in _OFFICIAL_METRIC_SLOT_NAMES:
+            value = e.official_metrics.get(slot)
+            row[f"official_{slot}"] = "" if value is None else value
+        writer.writerow(row)
     return buf.getvalue().encode("utf-8-sig")
 
 

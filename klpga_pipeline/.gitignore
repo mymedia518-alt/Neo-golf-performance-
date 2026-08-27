@@ -30,3 +30,8 @@ docs/discovery/KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json
 docs/discovery/KLPGA_IDENTITY_KEY_COLLISION_REPORT.csv
 docs/discovery/KLPGA_MALFORMED_LEAF_REPORT.csv
 docs/discovery/local_collector/
+
+# scripts/33_predict_neo_win.py's working output — regenerated fresh
+# every run (unlike neo_win_predictions/, which is the immutable,
+# append-only frozen-snapshot archive and stays tracked).
+outputs/
