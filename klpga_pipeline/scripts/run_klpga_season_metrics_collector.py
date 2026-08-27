@@ -95,6 +95,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from klpga.db.migrate import ensure_official_metric_value_schema  # noqa: E402
 from klpga.discovery.season_metric_collector import (  # noqa: E402
     acquire_season_metrics,
     build_official_metric_value_completeness_report,
@@ -108,6 +109,7 @@ from klpga.discovery.season_metric_collector import (  # noqa: E402
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+SCHEMA_PATH = ROOT / "src" / "klpga" / "db" / "schema.sql"
 
 EXIT_COMPLETE = 0
 EXIT_DB_NOT_INITIALIZED = 3
@@ -132,6 +134,8 @@ def run(
     if db_path is not None:
         conn = sqlite3.connect(str(db_path))
         conn.execute("PRAGMA foreign_keys = ON")
+        ensure_official_metric_value_schema(conn, SCHEMA_PATH)
+        conn.commit()
 
     if seasons is None:
         if conn is None:

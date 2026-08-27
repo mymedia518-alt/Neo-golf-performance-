@@ -251,6 +251,57 @@ def test_final_report_includes_player_identity_and_completeness_sections(module,
     assert "direct join safe: YES" in joined
 
 
+_PRE_OFFICIAL_METRIC_VALUE_SHAPE_SQL = """
+CREATE TABLE tournament_master (
+    event_id TEXT PRIMARY KEY, game_code TEXT NOT NULL UNIQUE,
+    event_name TEXT NOT NULL, season INTEGER NOT NULL,
+    start_date TEXT, end_date TEXT NOT NULL
+);
+CREATE TABLE player_master (
+    player_id TEXT PRIMARY KEY, player_name TEXT NOT NULL
+);
+"""
+
+
+def test_run_against_a_production_db_predating_official_metric_value(module, tmp_path):
+    """The real failure reported: a real 100-tournament production DB
+    initialized before official_metric_value existed in schema.sql
+    raised `sqlite3.OperationalError: no such table:
+    official_metric_value` on ingestion. run() must migrate the table
+    in additively (never dropping/touching tournament_master or
+    player_master) and then ingest successfully."""
+    taxonomy = {"leaves": [_leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리")]}
+    raw_dir = tmp_path / "raw"
+    raw_dir.mkdir()
+    raw_dir.joinpath("Tee__Tee01__010101__2023.html").write_text(
+        _html(["순위", "선수명", "평균 티샷 거리(yds)"]), encoding="utf-8"
+    )
+
+    db_path = tmp_path / "old_production.sqlite"
+    conn = sqlite3.connect(str(db_path))
+    conn.executescript(_PRE_OFFICIAL_METRIC_VALUE_SHAPE_SQL)
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, end_date) "
+        "VALUES ('E1', 'G1', 'Test Open', 2023, '2023-01-01')"
+    )
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('111', 'A')")
+    conn.commit()
+    conn.close()
+
+    lines = []
+    rc = module.run(
+        None, taxonomy, ["2023"], raw_samples_dir=raw_dir, db_path=db_path, live=False, log=lines.append,
+    )
+    assert rc == module.EXIT_COMPLETE
+
+    conn = sqlite3.connect(str(db_path))
+    assert conn.execute("SELECT COUNT(*) FROM official_metric_value WHERE season = 2023").fetchone()[0] == 1
+    # the pre-existing production data is untouched
+    assert conn.execute("SELECT COUNT(*) FROM tournament_master").fetchone()[0] == 1
+    assert conn.execute("SELECT COUNT(*) FROM player_master").fetchone()[0] == 1
+    conn.close()
+
+
 def test_main_parses_multiple_seasons(module, tmp_path):
     taxonomy_path = tmp_path / "taxonomy.json"
     taxonomy_path.write_text(json.dumps({"leaves": []}), encoding="utf-8")
