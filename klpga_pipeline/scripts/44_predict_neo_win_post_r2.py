@@ -41,6 +41,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.neo_win.archive import archive_paths, read_neo_win_snapshot  # noqa: E402
 from klpga.neo_win.beta001c_archive import read_neo_win_c_snapshot  # noqa: E402
+from klpga.neo_win.player_status import classify_player_round_status  # noqa: E402
 from klpga.neo_win.round_update_r2 import (  # noqa: E402
     DEFAULT_N_SIMULATIONS,
     build_r2_sim_inputs_from_frozen_snapshot,
@@ -141,10 +142,14 @@ def main() -> int:
                 return 4
             pre_snapshot = read_neo_win_snapshot(pre_path)
             pre_source = pre_path
+
+        sim_inputs, missing = build_r2_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores, r2_scores, made_cut)
+        # Evidence-only classification (klpga.neo_win.player_status, shared with scripts/45) — never
+        # changes the simulation, only explains WHY each excluded player has no round_number=2 result.
+        missing_classification = {code: classify_player_round_status(conn, args.game_code, code, round_number=2) for code in missing}
     finally:
         conn.close()
 
-    sim_inputs, missing = build_r2_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores, r2_scores, made_cut)
     rng = __import__("random").Random(args.seed) if args.seed is not None else None
     sim_result = simulate_post_round2(sim_inputs, n_simulations=args.n_simulations, rng=rng)
 
@@ -243,6 +248,11 @@ def main() -> int:
     print(f"PRE source: {pre_source}")
     if missing:
         print(f"Missing r1/r2/cut data (SKIP+LOG, excluded from simulation): {missing}")
+        print("Evidence-only classification (never fabricated, never used to fill in a value):")
+        for code in missing:
+            status = missing_classification.get(code)
+            if status is not None:
+                print(f"  - {code}: {status.classification} — {status.detail}")
     return 0
 
 

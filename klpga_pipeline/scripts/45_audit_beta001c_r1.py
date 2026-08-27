@@ -65,7 +65,6 @@ import csv
 import json
 import sqlite3
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
@@ -76,6 +75,7 @@ from klpga.neo_win.beta001c_archive import (  # noqa: E402
     archive_paths as c_archive_paths,
     read_neo_win_c_snapshot,
 )
+from klpga.neo_win.player_status import classify_player_round_status  # noqa: E402
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_R1,
     STATUS_HISTORICAL_SNAPSHOT_MISSING,
@@ -139,112 +139,12 @@ def _r1_row_detail(conn: sqlite3.Connection, game_code: str, player_code: str) -
     }
 
 
-@dataclass(frozen=True)
-class MissingPlayerStatus:
-    player_code: str
-    in_entry_field: bool
-    """ENTRY FIELD — confirmed real KLPGA entrant (tournament_entry)."""
-    completed_r1: bool
-    """COMPLETED R1 — a real round_number=1 player_round row with a
-    non-null round_to_par exists (this function is only ever called
-    for players where this is already known False — kept here for a
-    self-contained, honest record)."""
-    started_r1: str
-    """STARTED R1 — NOT DERIVABLE from the current schema when
-    completed_r1 is False: player_round only records a COMPLETED
-    round's score, with no separate "teed off but no result captured"
-    signal anywhere in schema.sql. Always the literal string below in
-    that case, never guessed True/False."""
-    rounds_played: "Optional[int]"
-    event_status: str
-    """One of 'DQ' / 'WD' / 'NO_FLAG_SET' / 'NO_PLAYER_EVENT_ROW' — read
-    straight from player_event's own confirmed withdrawn/disqualified
-    booleans, never inferred from anything else."""
-    finish_position: "Optional[str]"
-    classification: str
-    """Final decision: one of DQ / WD / UNKNOWN / COLLECTION_MISSING.
-    COLLECTION_MISSING is assigned ONLY when rounds_played>=1 (positive
-    evidence the player played at least one round, which in this
-    single-cut format requires having played R1) with no WD/DQ flag,
-    yet R1's own player_round row is specifically absent — every other
-    case is UNKNOWN, never guessed."""
-
-
-_STARTED_R1_UNDERIVABLE = (
-    "UNKNOWN (not derivable from current schema — player_round only records a COMPLETED round's "
-    "score; there is no separate 'started but result not captured' field anywhere in schema.sql)"
-)
-
-
-def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player_code: str) -> MissingPlayerStatus:
-    """Evidence-only classification of WHY a player has no real R1
-    score, keeping ENTRY FIELD / STARTED R1 / COMPLETED R1 / WD / DQ /
-    UNKNOWN / COLLECTION_MISSING as distinct fields (never collapsed
-    into one guess) — reads only player_event's confirmed withdrawn/
-    disqualified flags and tournament_entry. Never labels WD/DQ except
-    from the DB's own confirmed boolean; a legitimate WD/DNS/DQ is
-    never reported as COLLECTION_MISSING."""
-    in_entry = (
-        conn.execute(
-            "SELECT 1 FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
-        ).fetchone()
-        is not None
-    )
-    row = conn.execute(
-        "SELECT withdrawn, disqualified, made_cut, rounds_played, finish_position "
-        "FROM player_event WHERE game_code = ? AND player_id = ?",
-        (game_code, player_code),
-    ).fetchone()
-
-    if row is None:
-        return MissingPlayerStatus(
-            player_code=player_code, in_entry_field=in_entry, completed_r1=False,
-            started_r1=_STARTED_R1_UNDERIVABLE, rounds_played=None, event_status="NO_PLAYER_EVENT_ROW",
-            finish_position=None,
-            classification=(
-                "UNKNOWN — no player_event row exists for this game_code at all "
-                f"({'in tournament_entry' if in_entry else 'NOT in tournament_entry either'}); "
-                "consistent with DNS (never started, so no event row was ever created) but not positively "
-                "confirmed — never assumed"
-            ),
-        )
-
-    withdrawn, disqualified, made_cut, rounds_played, finish_position = row
-    if disqualified:
-        event_status = "DQ"
-    elif withdrawn:
-        event_status = "WD"
-    else:
-        event_status = "NO_FLAG_SET"
-
-    if event_status == "DQ":
-        classification = f"DQ — player_event.disqualified=1 (finish_position={finish_position!r})"
-    elif event_status == "WD":
-        classification = f"WD — player_event.withdrawn=1 (finish_position={finish_position!r})"
-    elif finish_position in ("WD", "DQ", "DNS"):
-        classification = (
-            f"{finish_position} — finish_position text says {finish_position!r} but the confirmed withdrawn/"
-            "disqualified boolean flag is NOT set; inconsistent evidence, flagged for manual review, not guessed"
-        )
-    elif rounds_played:
-        # Positive evidence of participation (this single-cut format requires R1 before any later
-        # round), no WD/DQ flag, yet R1's own player_round row is specifically absent.
-        classification = (
-            f"COLLECTION_MISSING — rounds_played={rounds_played} with no WD/DQ flag (positive evidence R1 was "
-            "played), but no round_number=1 player_round row exists — this is a pipeline gap, not a tournament-status case"
-        )
-    else:
-        classification = (
-            f"UNKNOWN — player_event row exists (made_cut={bool(made_cut)}, finish_position={finish_position!r}) "
-            f"but rounds_played={rounds_played!r} and no WD/DQ flag — no positive evidence either way, "
-            "not classified as COLLECTION_MISSING without it"
-        )
-
-    return MissingPlayerStatus(
-        player_code=player_code, in_entry_field=in_entry, completed_r1=False,
-        started_r1=_STARTED_R1_UNDERIVABLE, rounds_played=rounds_played, event_status=event_status,
-        finish_position=finish_position, classification=classification,
-    )
+def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player_code: str):
+    """Thin wrapper: R1-specific call into the shared, reusable
+    klpga.neo_win.player_status classifier (also used by scripts/44 for
+    R2, and any future R3/R4 script) — never a locally-duplicated copy
+    of the classification logic."""
+    return classify_player_round_status(conn, game_code, player_code, round_number=1)
 
 
 def main() -> int:
@@ -450,12 +350,12 @@ def main() -> int:
             )
             if status is not None:
                 print(f"      ENTRY_FIELD: {status.in_entry_field}")
-                print(f"      COMPLETED_R1: {status.completed_r1}")
-                print(f"      STARTED_R1: {status.started_r1}")
-                print(f"      rounds_played (whole tournament): {status.rounds_played!r}")
+                print(f"      COMPLETED_R1: {status.completed_this_round}")
+                print(f"      STARTED_R1: {status.started_this_round}")
+                print(f"      rounds_played (whole tournament): {status.rounds_played_total!r}")
                 print(f"      event_status (player_event flags): {status.event_status}")
                 print(f"      finish_position: {status.finish_position!r}")
-                print(f"      classification: {status.classification}")
+                print(f"      classification: {status.classification} — {status.detail}")
             else:
                 print("      classification: UNKNOWN — not classified")
     else:

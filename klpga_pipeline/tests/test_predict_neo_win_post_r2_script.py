@@ -207,6 +207,65 @@ def test_complete_r2_data_generates_freezes_and_records_history(module, tmp_path
     assert "SKIP + LOG" in out2
 
 
+def test_missing_player_reported_with_evidence_only_classification(module, tmp_path, capsys):
+    """R2-architecture player-state model: a player excluded from the
+    simulation (here, because player_event.made_cut was never
+    recorded) must be reported with a real, evidence-only
+    classification from klpga.neo_win.player_status — never a bare,
+    unexplained player_code."""
+    conn, db_path = _base_db(tmp_path)
+    for i, player_id in enumerate(PLAYERS):
+        conn.execute(
+            "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+            "round_score, round_to_par) VALUES (?, ?, 2026, 1, ?, ?, ?, ?)",
+            (GAME_CODE, GAME_CODE, player_id, player_id, 70 - i, -i),
+        )
+        conn.execute(
+            "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+            "round_score, round_to_par) VALUES (?, ?, 2026, 2, ?, ?, ?, ?)",
+            (GAME_CODE, GAME_CODE, player_id, player_id, 71 - i, -i - 1),
+        )
+    # Every player except E gets a real player_event row (made_cut known).
+    # E has REAL r1+r2 scores but no player_event row at all -> made_cut
+    # lookup is None -> excluded from the simulation despite complete round data.
+    for player_id in PLAYERS:
+        if player_id == "E":
+            continue
+        conn.execute(
+            "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+            "finish_position_numeric, made_cut, rounds_played, score_to_par) VALUES "
+            "(?, ?, 2026, ?, ?, '1', 1, 1, 4, -6)",
+            (GAME_CODE, GAME_CODE, player_id, player_id),
+        )
+    conn.commit()
+    conn.close()
+
+    predictions_dir = tmp_path / "neo_win_predictions"
+    _pre_freeze(db_path, predictions_dir)
+
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta_r2"
+    argv_backup = sys.argv
+    sys.argv = [
+        "44_predict_neo_win_post_r2.py", "--db", str(db_path), "--game-code", GAME_CODE,
+        "--predictions-dir", str(predictions_dir), "--pre-cutoff-date", CUTOFF_DATE,
+        "--output-dir", str(output_dir), "--history-dir", str(history_dir),
+        "--n-simulations", "300", "--seed", "3", "--freeze",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "Missing r1/r2/cut data" in out
+    assert "'E'" in out
+    assert "Evidence-only classification" in out
+    # E DOES have a real R2 score — the classifier honestly reports that, revealing the
+    # actual exclusion cause (missing made_cut fact) was separate from R2 score availability.
+    assert "  - E: COMPLETED —" in out
+
+
 def test_r2_supersedes_a_stale_missing_marker_same_architecture_as_r1(module, tmp_path):
     """The same append-only correction mechanism scripts/35 uses for
     R1 must also protect R2: a stale HISTORICAL_SNAPSHOT_MISSING marker
