@@ -341,6 +341,30 @@ def test_complete_r2_data_generates_freezes_and_records_history(module, tmp_path
     assert "SKIP + LOG" in out2
 
 
+def test_pre_auto_detect_uses_real_001_c_final_prediction_id(module):
+    """Regression test for the fixed bug: the PRE snapshot auto-detect
+    previously looked for a literal 'neo_win_c_001-C_<game_code>.json'
+    file — a prediction_id ('001-C') that no real frozen file has ever
+    used anywhere in this project. The real, project-wide BETA #001-C
+    PRE prediction_id is '001-C-FINAL' (see scripts/45_audit_beta001c_
+    r1.py's own --pre-prediction-id default, and every real
+    neo_win_c_predictions/*/neo_win_c_001-C-FINAL_*.json file this
+    pipeline actually writes) — with the old literal, NO CLI flag
+    combination could ever locate a real PRE snapshot. A source-level
+    check (not a full end-to-end run) is used deliberately: exercising
+    build_r2_sim_inputs_from_frozen_snapshot against a real
+    NeoWinCEntrantSnapshot hits a SEPARATE, pre-existing, out-of-scope
+    incompatibility (that function reads prior_avg_round_score_to_par/
+    neo_consistency_stddev as top-level entrant attributes, but
+    NeoWinCEntrantSnapshot only ever carries them inside feature_values)
+    — a real, already-reported, unauthorized-to-fix backlog item, not
+    something this narrow test should trip over."""
+    source = SCRIPT_PATH.read_text(encoding="utf-8")
+    assert 'neo_win_c_001-C-FINAL_{args.game_code}.json' in source
+    assert 'args.pre_prediction_id == "001-C-FINAL"' in source
+    assert 'neo_win_c_001-C_{args.game_code}.json' not in source
+
+
 def test_missing_player_reported_with_evidence_only_classification(module, tmp_path, capsys):
     """R2-architecture player-state model: a player excluded from the
     simulation (here, because player_event.made_cut was never
