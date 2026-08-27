@@ -531,7 +531,14 @@ def _classify_db(tmp_path, name="classify.sqlite"):
     return conn
 
 
-def test_classify_missing_player_wd_from_confirmed_flag(module, tmp_path):
+def test_classify_missing_r1_player_delegates_to_shared_module_with_round_1(module, tmp_path):
+    """scripts/45's classifier is now a thin round_number=1 wrapper
+    around klpga.neo_win.player_status.classify_player_round_status —
+    the full classification-logic test matrix (WD/DQ/DNS/CUT/
+    COLLECTION_MISSING/UNKNOWN) lives in tests/test_player_status.py;
+    this only proves the wrapper delegates correctly."""
+    from klpga.neo_win.player_status import STATUS_WD, classify_player_round_status
+
     conn = _classify_db(tmp_path)
     conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('9750', 'X')")
     conn.execute(
@@ -540,97 +547,12 @@ def test_classify_missing_player_wd_from_confirmed_flag(module, tmp_path):
         "('E1', 'G1', 2026, '9750', 'X', 'WD', NULL, 0, 1, 0, 1, NULL)"
     )
     conn.commit()
-    result = module._classify_missing_r1_player(conn, "G1", "9750")
-    assert result.event_status == "WD"
-    assert result.classification.startswith("WD —")
-    assert result.completed_r1 is False
-    assert result.started_r1.startswith("UNKNOWN (not derivable")
-    conn.close()
 
-
-def test_classify_missing_player_dq_from_confirmed_flag(module, tmp_path):
-    conn = _classify_db(tmp_path)
-    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('8392', 'Y')")
-    conn.execute(
-        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
-        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
-        "('E1', 'G1', 2026, '8392', 'Y', 'DQ', NULL, 0, 0, 1, 1, NULL)"
-    )
-    conn.commit()
-    result = module._classify_missing_r1_player(conn, "G1", "8392")
-    assert result.event_status == "DQ"
-    assert result.classification.startswith("DQ —")
-    conn.close()
-
-
-def test_classify_missing_player_unknown_when_no_player_event_row(module, tmp_path):
-    conn = _classify_db(tmp_path)
-    conn.execute(
-        "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
-        "VALUES ('G1', '9431', 'Z', 'test', '2027-01-01T00:00:00Z')"
-    )
-    conn.commit()
-    result = module._classify_missing_r1_player(conn, "G1", "9431")
-    assert result.event_status == "NO_PLAYER_EVENT_ROW"
-    assert result.in_entry_field is True
-    assert result.classification.startswith("UNKNOWN — no player_event row")
-    assert "in tournament_entry" in result.classification
-    conn.close()
-
-
-def test_classify_missing_player_unknown_when_no_round_data_at_all(module, tmp_path):
-    conn = _classify_db(tmp_path)
-    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('8424', 'W')")
-    conn.execute(
-        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
-        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
-        "('E1', 'G1', 2026, '8424', 'W', NULL, NULL, 0, 0, 0, 0, NULL)"
-    )
-    conn.commit()
-    result = module._classify_missing_r1_player(conn, "G1", "8424")
-    assert result.event_status == "NO_FLAG_SET"
-    assert result.rounds_played == 0
-    assert result.classification.startswith("UNKNOWN — player_event row exists")
-    assert "no positive evidence either way" in result.classification
-    assert not result.classification.startswith("COLLECTION_MISSING")
-    conn.close()
-
-
-def test_classify_missing_player_collection_missing_when_other_rounds_exist(module, tmp_path):
-    """Item 6: COLLECTION_MISSING requires POSITIVE evidence of
-    participation (rounds_played>=1, no WD/DQ flag) — never a
-    legitimate WD/DNS/DQ reported as a data-quality failure."""
-    conn = _classify_db(tmp_path)
-    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('9728', 'V')")
-    conn.execute(
-        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
-        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
-        "('E1', 'G1', 2026, '9728', 'V', '45', 45, 1, 0, 0, 4, -2)"
-    )
-    conn.commit()
-    result = module._classify_missing_r1_player(conn, "G1", "9728")
-    assert result.event_status == "NO_FLAG_SET"
-    assert result.rounds_played == 4
-    assert result.classification.startswith("COLLECTION_MISSING —")
-    assert "pipeline gap, not a tournament-status case" in result.classification
-    conn.close()
-
-
-def test_classify_missing_player_wd_dns_text_only_flagged_not_asserted(module, tmp_path):
-    """finish_position text alone (no confirmed boolean flag) must be
-    flagged for review, never silently upgraded to a confirmed WD/DQ."""
-    conn = _classify_db(tmp_path)
-    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('7777', 'U')")
-    conn.execute(
-        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
-        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
-        "('E1', 'G1', 2026, '7777', 'U', 'DNS', NULL, 0, 0, 0, 0, NULL)"
-    )
-    conn.commit()
-    result = module._classify_missing_r1_player(conn, "G1", "7777")
-    assert result.event_status == "NO_FLAG_SET"
-    assert result.classification.startswith("DNS —")
-    assert "not guessed" in result.classification
+    wrapper_result = module._classify_missing_r1_player(conn, "G1", "9750")
+    direct_result = classify_player_round_status(conn, "G1", "9750", round_number=1)
+    assert wrapper_result == direct_result
+    assert wrapper_result.round_number == 1
+    assert wrapper_result.classification == STATUS_WD
     conn.close()
 
 
