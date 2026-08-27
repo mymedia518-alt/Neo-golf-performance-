@@ -17,8 +17,12 @@ game_code — never generates a prediction from a partially-completed
 round.
 
 Freezing = recording klpga.neo_win.tournament_history's STAGE_R2 stage
-(append-only; a second run is a SKIP+LOG no-op, never an overwrite).
-Never touches the PRE/R1 frozen artifacts.
+via write_or_supersede_history_stage (append-only; a real duplicate is
+a SKIP+LOG no-op, never an overwrite — and if this slot ever held a
+HISTORICAL_SNAPSHOT_MISSING marker from an earlier run, that marker is
+preserved untouched and this real result is recorded as a superseding
+event instead of being silently dropped; see klpga.neo_win.tournament_
+history's module docstring). Never touches the PRE/R1 frozen artifacts.
 
 Usage:
     python scripts/44_predict_neo_win_post_r2.py --db data/klpga.sqlite --game-code 2026080001 \\
@@ -44,11 +48,10 @@ from klpga.neo_win.round_update_r2 import (  # noqa: E402
 )
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_R2,
-    HistoryStageAlreadyRecordedError,
     HistoryEntrant,
     HistoryStageSnapshot,
     RECORD_KIND,
-    write_history_stage_atomic,
+    write_or_supersede_history_stage,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -224,11 +227,16 @@ def main() -> int:
             tournament_name=getattr(pre_snapshot, "tournament_name", None),
             field_size=len(entrants), entrants=tuple(entrants),
         )
-        try:
-            path = write_history_stage_atomic(history_snapshot, Path(args.history_dir))
+        path, action = write_or_supersede_history_stage(history_snapshot, Path(args.history_dir))
+        if action == "RECORDED":
             freeze_status = f"FROZEN at {path}"
-        except HistoryStageAlreadyRecordedError as exc:
-            freeze_status = f"SKIP + LOG — already recorded: {exc}"
+        elif action == "SUPERSEDED_MISSING_MARKER":
+            freeze_status = (
+                f"SUPERSEDED a stale HISTORICAL_SNAPSHOT_MISSING marker — new event at {path} "
+                "(the original marker file was preserved untouched)"
+            )
+        else:  # ALREADY_RECORDED
+            freeze_status = f"SKIP + LOG — already recorded at {path}"
 
     print(f"FREEZE: {freeze_status}")
     print(f"HISTORY: stage=R2 game_code={args.game_code} (append-only, klpga.neo_win.tournament_history)")

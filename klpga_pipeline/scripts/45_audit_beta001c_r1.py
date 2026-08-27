@@ -41,6 +41,19 @@ WARN (soft, printed as [WARN]):
 VERDICT is FAIL if any [FAIL] fired, else WARN if any [WARN] fired,
 else PASS.
 
+======================================================================
+PROVENANCE — never changes the frozen snapshot
+======================================================================
+Two read-only, evidence-only cross-checks against the DB, reported
+purely as information (never used to alter the already-frozen R1
+result):
+  - which of the snapshot's own `missing_r1_data` players now have a
+    real round_number=1 row in the current DB (DB changed after freeze).
+  - for every `missing_r1_data` player, a WD / DQ / DNS-or-collection-
+    gap / UNKNOWN classification read from `player_event`'s confirmed
+    `withdrawn`/`disqualified` flags — never guessed, never WD/DQ
+    unless the DB's own boolean flag says so.
+
 Usage:
     python scripts/45_audit_beta001c_r1.py --db data/klpga.sqlite --game-code 2026080001 \\
         --pre-cutoff-date 2026-08-27 --pre-prediction-id 001-C-FINAL --r1-prediction-id 001-C-R1
@@ -100,6 +113,51 @@ def _field_size(conn: sqlite3.Connection, game_code: str) -> int:
     return conn.execute(
         "SELECT COUNT(DISTINCT player_code) FROM tournament_entry WHERE game_code = ?", (game_code,)
     ).fetchone()[0]
+
+
+def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player_code: str) -> str:
+    """Evidence-only classification of WHY a player has no real R1
+    score — reads player_event's confirmed withdrawn/disqualified flags
+    and tournament_entry, never guesses. Returns a human-readable
+    classification string; never WD/DQ unless the DB's own confirmed
+    boolean flag says so."""
+    in_entry = (
+        conn.execute(
+            "SELECT 1 FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
+        ).fetchone()
+        is not None
+    )
+    row = conn.execute(
+        "SELECT withdrawn, disqualified, made_cut, rounds_played, finish_position "
+        "FROM player_event WHERE game_code = ? AND player_id = ?",
+        (game_code, player_code),
+    ).fetchone()
+
+    if row is None:
+        entry_note = "present in tournament_entry (registered field member)" if in_entry else "NOT in tournament_entry"
+        return f"UNKNOWN — no player_event row for this game_code ({entry_note}); possible DNS or a collection gap, cannot distinguish from DB evidence alone"
+
+    withdrawn, disqualified, made_cut, rounds_played, finish_position = row
+    if disqualified:
+        return f"DQ — player_event.disqualified=1 (finish_position={finish_position!r})"
+    if withdrawn:
+        return f"WD — player_event.withdrawn=1 (finish_position={finish_position!r})"
+    if finish_position in ("WD", "DQ"):
+        return (
+            f"{finish_position} — finish_position text says {finish_position!r} but the confirmed withdrawn/"
+            "disqualified boolean flag is NOT set; inconsistent evidence, flagging for manual review rather than guessing"
+        )
+    if not rounds_played:
+        return (
+            f"UNKNOWN — player_event row exists (made_cut={bool(made_cut)}, finish_position={finish_position!r}) "
+            f"but rounds_played={rounds_played!r} and no WD/DQ flag — no round data recorded for any round, "
+            "reason not determinable from available evidence"
+        )
+    return (
+        f"UNKNOWN — player_event row exists (rounds_played={rounds_played}, made_cut={bool(made_cut)}, "
+        f"finish_position={finish_position!r}) but has no round_number=1 player_round row specifically — "
+        "possible collection gap limited to Round 1"
+    )
 
 
 def main() -> int:
@@ -195,6 +253,7 @@ def main() -> int:
         r1_db_count = _r1_row_count(conn, args.game_code)
         r1_db_codes = _r1_player_codes(conn, args.game_code)
         field_size_db = _field_size(conn, args.game_code)
+        missing_classification = {code: _classify_missing_r1_player(conn, args.game_code, code) for code in missing}
     finally:
         conn.close()
 
@@ -286,6 +345,7 @@ def main() -> int:
                 "Monte Carlo field, reported with null post-R1 probabilities (round_update.py's "
                 f"missing_r1_players).{newly_available_note}"
             )
+            print(f"      classification: {missing_classification.get(code, 'UNKNOWN — not classified')}")
     else:
         print("  (none)")
     print()

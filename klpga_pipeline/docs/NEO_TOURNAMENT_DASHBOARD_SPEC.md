@@ -63,6 +63,28 @@ this round's explicit instruction not to invent one, this field is
 dashboard must render the raw `CHANGE` value only and leave the
 RISING/STABLE/FALLING label blank — never a guessed cutoff.
 
+## 3a. Per-stage probability visibility (design rule, not yet implemented)
+
+Confirmed real evidence (`klpga.neo_win.round_update`, `round_update_r2.py`):
+this tournament format has exactly ONE cut, after Round 2 — so "make cut"
+and "advances to R3/FINAL" are the SAME real event, never two independent
+numbers (both modules already document and enforce this: `round_update_
+r2.py`'s `neo_r3_pct`/`neo_final_pct` are literal, documented aliases of
+`make_cut_pct`, never separately simulated). A future dashboard must never
+render both a "CUT %" column and an "R3 qualification %" column side by
+side as if they measured different things — pick ONE label per stage:
+
+| Stage | Show | Never show | Why |
+|---|---|---|---|
+| PRE | WIN % | anything cut-related | round 1 hasn't happened; no cut concept exists yet |
+| R1 | WIN %, CUT/R3-qualification % (one label, one number — `round_update.py`'s `post_r1_make_cut_pct`, still a genuine Monte Carlo probability since round 2 hasn't happened), CHANGE vs PRE | a separate "R3 %" alongside "CUT %" | same underlying simulated event |
+| R2 | WIN %, CHANGE vs R1 | CUT probability | the cut is now a REAL, KNOWN fact (`player_event.made_cut`) — not a probability any more; `round_update_r2.py` already returns 100/0 (a resolved outcome), never a genuine forecast, so a dashboard must not present it as one |
+| R3 | WIN %, final-round outcome probabilities where a real one is defined, CHANGE vs R2 | any recomputed cut/R3-qualification number | round 3 has already been played; nothing left to forecast about reaching it |
+
+No script in this repo computes a "final-round outcome probability"
+distinct from WIN % today — until one exists, R3's "final-round outcome
+probabilities where defined" resolves to WIN % only, never a placeholder.
+
 ## 4. Player detail
 
 Opens on row click (side panel or detail view). Shows:
@@ -159,10 +181,17 @@ was touched.
 table is fully real** (SKIP + LOG, not fixed here — out of this round's
 scope):
 1. CURRENT POS / SCORE — no live-leaderboard-to-prediction join exists.
-2. TOP 10 % / FINAL ROUND % — no script computes these; only WIN % (and,
-   for R1 only, MAKE CUT % via `round_update.py`) exist today.
+2. FINAL ROUND % (a genuinely distinct final-round-outcome probability,
+   not the make-cut alias) — no script computes this; only WIN % and,
+   for R1 (`round_update.py`) and R2 (`round_update_r2.py`), a real
+   MAKE CUT % / R1-forecast-vs-R2-fact per Section 3a, exist today.
+   TOP 10 % is now produced for R1 and R2 (both modules above); PRE and
+   R3 still have none.
 3. NEO SIGNAL's RISING/STABLE/FALLING threshold — undefined, needs a
    real, disclosed specification before implementation (Section 3).
+4. Section 3a's per-stage visibility rule is a design constraint only —
+   no dashboard code exists yet to enforce it (Section 9's own "not
+   built this round" still applies).
 
 ## 10. Roadmap guard
 

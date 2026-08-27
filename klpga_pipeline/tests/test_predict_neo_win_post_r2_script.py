@@ -205,3 +205,78 @@ def test_complete_r2_data_generates_freezes_and_records_history(module, tmp_path
     assert rc2 == 0
     out2 = capsys.readouterr().out
     assert "SKIP + LOG" in out2
+
+
+def test_r2_supersedes_a_stale_missing_marker_same_architecture_as_r1(module, tmp_path):
+    """The same append-only correction mechanism scripts/35 uses for
+    R1 must also protect R2: a stale HISTORICAL_SNAPSHOT_MISSING marker
+    from an earlier run must not permanently block a later real R2
+    result — it stays preserved, and the real result is recorded as a
+    superseding event."""
+    from klpga.neo_win.tournament_history import (
+        STAGE_R2,
+        build_missing_stage_marker,
+        read_effective_history_stage,
+        read_full_history_events,
+        write_history_stage_atomic,
+    )
+
+    conn, db_path = _base_db(tmp_path)
+    for i, player_id in enumerate(PLAYERS):
+        conn.execute(
+            "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+            "round_score, round_to_par) VALUES (?, ?, 2026, 1, ?, ?, ?, ?)",
+            (GAME_CODE, GAME_CODE, player_id, player_id, 70 - i, -i),
+        )
+        conn.execute(
+            "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+            "round_score, round_to_par) VALUES (?, ?, 2026, 2, ?, ?, ?, ?)",
+            (GAME_CODE, GAME_CODE, player_id, player_id, 71 - i, -i - 1),
+        )
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, rounds_played, score_to_par) VALUES "
+        "(?, ?, 2026, 'A', 'A', '1', 1, 1, 2, -6)",
+        (GAME_CODE, GAME_CODE),
+    )
+    for player_id in PLAYERS[1:]:
+        conn.execute(
+            "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+            "finish_position_numeric, made_cut, rounds_played, score_to_par) VALUES "
+            "(?, ?, 2026, ?, ?, 'CUT', NULL, 0, 2, -2)",
+            (GAME_CODE, GAME_CODE, player_id, player_id),
+        )
+    conn.commit()
+    conn.close()
+
+    predictions_dir = tmp_path / "neo_win_predictions"
+    _pre_freeze(db_path, predictions_dir)
+
+    history_dir = tmp_path / "neo_tournament_history"
+    marker = build_missing_stage_marker(GAME_CODE, STAGE_R2, reason="stale, before real R2 existed", recorded_at_utc="2027-01-01T00:00:00Z")
+    marker_path = write_history_stage_atomic(marker, history_dir)
+    marker_bytes_before = marker_path.read_bytes()
+
+    output_dir = tmp_path / "outputs" / "beta_r2"
+    argv_backup = sys.argv
+    sys.argv = [
+        "44_predict_neo_win_post_r2.py", "--db", str(db_path), "--game-code", GAME_CODE,
+        "--predictions-dir", str(predictions_dir), "--pre-cutoff-date", CUTOFF_DATE,
+        "--output-dir", str(output_dir), "--history-dir", str(history_dir),
+        "--n-simulations", "300", "--seed", "9", "--freeze",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0
+
+    assert marker_path.read_bytes() == marker_bytes_before  # marker untouched
+
+    effective = read_effective_history_stage(history_dir, GAME_CODE, STAGE_R2)
+    assert effective.status == "RECORDED"
+
+    events = read_full_history_events(history_dir, GAME_CODE, STAGE_R2)
+    assert len(events) == 2
+    assert events[0].status == "HISTORICAL_SNAPSHOT_MISSING"
+    assert events[1].status == "RECORDED"
