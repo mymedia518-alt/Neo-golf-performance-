@@ -136,19 +136,20 @@ def _f(v):
 
 
 def field_integrity_check(csv_rows: list[dict]) -> None:
-    print("=== STEP 6 — FIELD PROBABILITY INTEGRITY (from real BETA001_R1_FULL.csv) ===")
+    print("=== CHECKS 7-9 — FIELD PROBABILITY INTEGRITY (from real BETA001_R1_FULL.csv) ===")
     print()
     win_vals = [(_f(r["post_r1_win_pct"]), r) for r in csv_rows]
     win_present = [(v, r) for v, r in win_vals if v is not None]
     win_sum = sum(v for v, _ in win_present)
-    print(f"WIN SUM (present-only, N={len(win_present)}): {win_sum:.4f}%  "
+    print(f"CHECK 7 WIN SUM (present-only, N={len(win_present)}): {win_sum:.4f}%  "
           f"({'PASS' if 99.99 <= win_sum <= 100.01 else 'OUT OF TOLERANCE (99.99-100.01 expected)'})")
 
     cut_vals = [(_f(r["post_r1_make_cut_pct"]), r) for r in csv_rows]
     cut_present = [(v, r) for v, r in cut_vals if v is not None]
     out_of_range = [(v, r["player_name"]) for v, r in cut_present if v < 0 or v > 100]
-    print(f"MAKE CUT range: min={min((v for v, _ in cut_present), default=None)}  "
-          f"max={max((v for v, _ in cut_present), default=None)}  out_of_[0,100]={len(out_of_range)} {out_of_range[:10]}")
+    print(f"CHECK 8 MAKE CUT range [0,100]: min={min((v for v, _ in cut_present), default=None)}  "
+          f"max={max((v for v, _ in cut_present), default=None)}  out_of_[0,100]={len(out_of_range)} {out_of_range[:10]}"
+          f"  ({'PASS' if not out_of_range else 'FAIL'})")
 
     nan_negative = []
     for r in csv_rows:
@@ -156,15 +157,15 @@ def field_integrity_check(csv_rows: list[dict]) -> None:
             v = r.get(field_name, "")
             if v.strip() != "" and v.strip().lower() in ("nan", "-nan"):
                 nan_negative.append((r["player_name"], field_name, v))
-    print(f"NaN literal values found: {len(nan_negative)} {nan_negative[:10]}")
+    print(f"CHECK 9a NaN literal values found: {len(nan_negative)} {nan_negative[:10]}")
 
     negatives = [(r["player_name"], v) for v, r in win_present if v < 0] + \
                 [(r["player_name"], v) for v, r in cut_present if v < 0]
-    print(f"Negative probability values: {len(negatives)} {negatives[:10]}")
+    print(f"CHECK 9b Negative probability values: {len(negatives)} {negatives[:10]}")
 
     codes = [r["player_code"] for r in csv_rows]
     dupes = {c for c in codes if codes.count(c) > 1}
-    print(f"Duplicate player_code in output: {len(dupes)} {sorted(dupes)[:10]}")
+    print(f"CHECK 9c Duplicate player_code in output: {len(dupes)} {sorted(dupes)[:10]}")
 
     missing_flagged = [r for r in csv_rows if r.get("missing_r1_data", "").strip().lower() in ("true", "1")]
     missing_but_has_prob = [
@@ -256,18 +257,25 @@ def main() -> int:
 
     sim_by_code = {p.player_code: p for p in sim_inputs}
 
-    print("=== STEP 1/2/3 — CODE-VERIFIED CALCULATION SUMMARY ===")
+    print("=== CHECKS 1-3 — CODE-VERIFIED CALCULATION PATH SUMMARY ===")
     print()
     print("Script: scripts/35_predict_neo_win_post_r1.py -> src/klpga/neo_win/round_update.py")
     print(f"n_simulations used: {args.n_simulations}")
     print(f"Empirical cut_fraction (real player_event rounds_played=4 rate): {cut_fraction:.6f}")
+    print("CHECK 1 (post_r1_win_pct path): WIN% = fraction of Monte Carlo trials in which this player has"
+          " the lowest simulated 72-hole total (ACTUAL R1 + simulated R2/R3/R4, cutmakers only); ties split"
+          " win credit fractionally. See simulate_post_round1's `wins` accumulation.")
+    print("CHECK 2 (post_r1_make_cut_pct path): CUT% = fraction of trials in which this player's simulated"
+          " 36-hole total (ACTUAL R1 + simulated R2) is among the n_cutline lowest of the field that trial."
+          " See simulate_post_round1's `made_cut` accumulation.")
+    print("CHECK 3 (R1 actual FIXED, not resimulated): r1_score_to_par is read once into"
+          " PlayerSimInput.r1_score_to_par and added as a FIXED constant in every trial (never redrawn) for"
+          " both the 36-hole cut total and the 72-hole win total — confirmed by direct code reading of"
+          " simulate_post_round1 (r1_score_to_par never appears as an rng.normalvariate(...) call).")
     print("Expected per-round score for R2/R3/R4: PlayerSimInput.expected_round_score_to_par ="
           " prior_avg_round_score_to_par (population-mean-shrunk if missing). prior_recent_form_10 is"
           " present in the frozen snapshot's feature_values but is NOT read anywhere in round_update.py.")
     print("Spread: neo_consistency_stddev (population-mean-shrunk if missing), floored at 0.5.")
-    print("R1 actual: read once into PlayerSimInput.r1_score_to_par, added as a FIXED constant in every"
-          " trial (never resimulated) for both the 36-hole cut total and the 72-hole win total — confirmed"
-          " by direct code reading of simulate_post_round1.")
     print("Cutline: dynamic per-trial — n_cutline = round(field_size * cut_fraction); the n_cutline lowest"
           " thru-36 (actual R1 + simulated R2) totals make the cut. Not a fixed score threshold.")
     print()
@@ -293,9 +301,20 @@ def main() -> int:
             new_cut = new_sim.get(code, {}).get("make_cut_pct")
             print(f"PLAYER: {name}  (player_code={code})")
             print(f"  R1 ACTUAL: {r.get('r1_score_to_par')}")
-            print(f"  PRIOR AVG (prior_avg_round_score_to_par): {fv.get('prior_avg_round_score_to_par')!r}")
-            print(f"  RECENT FORM (prior_recent_form_10, NOT used by round_update.py): {fv.get('prior_recent_form_10')!r}")
-            print(f"  STDDEV (neo_consistency_stddev, spread used): {sim_p.spread if sim_p else 'N/A'}")
+            prior_avg = fv.get("prior_avg_round_score_to_par")
+            recent_form = fv.get("prior_recent_form_10")
+            print(f"  CHECK 4 PRIOR AVG (prior_avg_round_score_to_par): {prior_avg!r}")
+            if isinstance(prior_avg, (int, float)) and isinstance(recent_form, (int, float)):
+                if recent_form < prior_avg:
+                    polarity = "recent form BETTER (more under-par) than career avg — same lower-is-better polarity, no inversion"
+                elif recent_form > prior_avg:
+                    polarity = "recent form WORSE (less under-par) than career avg — same lower-is-better polarity, no inversion"
+                else:
+                    polarity = "recent form == career avg"
+            else:
+                polarity = "N/A (one or both values missing)"
+            print(f"  CHECK 5 RECENT FORM (prior_recent_form_10, NOT used by round_update.py): {recent_form!r}  [{polarity}]")
+            print(f"  CHECK 6 STDDEV (neo_consistency_stddev, spread used): {sim_p.spread if sim_p else 'N/A'}")
             print(f"  EXPECTED R2 MEAN (expected_round_score_to_par used): {sim_p.expected_round_score_to_par if sim_p else 'N/A'}")
             print(f"  OLD MAKE CUT%: {old_cut}")
             print(f"  NEW MAKE CUT% (fresh re-run, real code, same real inputs): {new_cut}")
@@ -319,10 +338,13 @@ def main() -> int:
             sim_p = sim_by_code.get(code)
             old_win = r.get("post_r1_win_pct", "")
             new_win = new_sim.get(code, {}).get("win_pct")
+            fv = fv_by_code.get(code, {})
             print(f"PLAYER: {name}  (player_code={code})")
             print(f"  R1 ACTUAL: {r.get('r1_score_to_par')}  CURRENT POSITION: {r.get('r1_position')}")
-            print(f"  PRIOR STRENGTH (expected_round_score_to_par): {sim_p.expected_round_score_to_par if sim_p else 'N/A'}")
-            print(f"  STDDEV (spread): {sim_p.spread if sim_p else 'N/A'}")
+            print(f"  CHECK 4 PRIOR AVG (prior_avg_round_score_to_par): {fv.get('prior_avg_round_score_to_par')!r}")
+            print(f"  CHECK 5 RECENT FORM (prior_recent_form_10, NOT used by round_update.py): {fv.get('prior_recent_form_10')!r}")
+            print(f"  PRIOR STRENGTH (expected_round_score_to_par used): {sim_p.expected_round_score_to_par if sim_p else 'N/A'}")
+            print(f"  CHECK 6 STDDEV (neo_consistency_stddev, spread used): {sim_p.spread if sim_p else 'N/A'}")
             print(f"  OLD WIN%: {old_win}")
             print(f"  NEW WIN% (fresh re-run, real code, same real inputs): {new_win}")
             print()
