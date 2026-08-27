@@ -130,6 +130,70 @@ def test_script_rerun_is_idempotent_via_skip_log(module, frozen_roots):
     assert rc2 == 0
 
 
+@pytest.fixture()
+def pre_only_root(tmp_path):
+    predictions_dir = tmp_path / "neo_win_predictions" / "2026"
+    predictions_dir.mkdir(parents=True)
+    (predictions_dir / "neo_win_001_G1.json").write_text(json.dumps(_pre_json()), encoding="utf-8")
+    return tmp_path
+
+
+def test_script_records_r1_as_missing_when_no_r1_artifact_exists(module, pre_only_root, capsys):
+    predictions_dir = pre_only_root / "neo_win_predictions"
+    c_predictions_dir = pre_only_root / "neo_win_c_predictions"
+    history_dir = pre_only_root / "neo_tournament_history"
+    pre_path = predictions_dir / "2026" / "neo_win_001_G1.json"
+    before_hash = hashlib.sha256(pre_path.read_bytes()).hexdigest()
+
+    import sys as _sys
+    old_argv = _sys.argv
+    _sys.argv = [
+        "prog", "--game-code", "G1", "--predictions-dir", str(predictions_dir),
+        "--c-predictions-dir", str(c_predictions_dir), "--history-dir", str(history_dir),
+    ]
+    try:
+        rc = module.main()
+    finally:
+        _sys.argv = old_argv
+
+    assert rc == 0  # a confirmed-missing R1 is a successful, disclosed outcome, not a failure
+    assert hashlib.sha256(pre_path.read_bytes()).hexdigest() == before_hash
+
+    out = capsys.readouterr().out
+    assert "PRE STATUS: RECORDED" in out
+    assert "PRE COUNT: 2" in out
+    assert "R1 STATUS: HISTORICAL_SNAPSHOT_MISSING" in out
+    assert "R1 MISSING REASON:" in out
+    assert "R1 COUNT: 0" in out
+    assert "LINKED PLAYERS: 0" in out
+    assert "N/A — R1 is HISTORICAL_SNAPSHOT_MISSING" in out
+    assert "FROZEN FILES MODIFIED: 0" in out
+    # never a fabricated 0% shown as a real value
+    assert "PRE 10.0 -> R1 0" not in out
+
+
+def test_script_rerun_after_r1_missing_is_idempotent(module, pre_only_root):
+    predictions_dir = pre_only_root / "neo_win_predictions"
+    c_predictions_dir = pre_only_root / "neo_win_c_predictions"
+    history_dir = pre_only_root / "neo_tournament_history"
+
+    import sys as _sys
+    old_argv = _sys.argv
+    argv = [
+        "prog", "--game-code", "G1", "--predictions-dir", str(predictions_dir),
+        "--c-predictions-dir", str(c_predictions_dir), "--history-dir", str(history_dir),
+    ]
+    try:
+        _sys.argv = argv
+        rc1 = module.main()
+        _sys.argv = argv
+        rc2 = module.main()
+    finally:
+        _sys.argv = old_argv
+    assert rc1 == 0
+    assert rc2 == 0
+
+
 def test_script_reports_error_when_no_frozen_files_exist(module, tmp_path, capsys):
     import sys as _sys
     old_argv = _sys.argv

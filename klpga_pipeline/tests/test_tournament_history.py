@@ -22,8 +22,11 @@ from klpga.neo_win.tournament_history import (
     STAGE_FINAL,
     STAGE_PRE,
     STAGE_R1,
+    STATUS_HISTORICAL_SNAPSHOT_MISSING,
+    STATUS_RECORDED,
     HistoryStageAlreadyRecordedError,
     build_final_stage_entry,
+    build_missing_stage_marker,
     history_entry_from_beta001c_snapshot,
     history_entry_from_neo_win_pre_snapshot,
     history_entry_from_round_update_dict,
@@ -265,3 +268,54 @@ def test_round_trip_write_then_read_preserves_all_fields(tmp_path):
     assert loaded.source_prediction_id == "001-C"
     assert loaded.source_model_version == "MODEL_B"
     assert {e.player_code for e in loaded.entrants} == {"p1", "p2"}
+
+
+# ---------------------------------------------------------------
+# build_missing_stage_marker — confirmed-absent stage, never a
+# fabricated 0%, never a silently-skipped stage.
+# ---------------------------------------------------------------
+
+
+def test_missing_marker_has_no_entrants_and_zero_field_size():
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t")
+    assert marker.status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+    assert marker.entrants == ()
+    assert marker.field_size == 0
+    assert marker.missing_reason == "not found"
+
+
+def test_recorded_snapshot_defaults_to_recorded_status():
+    entry = history_entry_from_neo_win_pre_snapshot(_pre_snapshot(), recorded_at_utc="t")
+    assert entry.status == STATUS_RECORDED
+    assert entry.missing_reason is None
+
+
+def test_missing_marker_round_trips_through_write_and_read(tmp_path):
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="no frozen R1 file found", recorded_at_utc="t")
+    path = write_history_stage_atomic(marker, tmp_path)
+    loaded = read_history_stage(path)
+    assert loaded.status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+    assert loaded.missing_reason == "no frozen R1 file found"
+    assert loaded.entrants == ()
+
+
+def test_missing_marker_occupies_the_stage_path_append_only(tmp_path):
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t")
+    write_history_stage_atomic(marker, tmp_path)
+    with pytest.raises(HistoryStageAlreadyRecordedError):
+        # A later real R1 recording must not silently overwrite a
+        # standing MISSING marker for the same (game_code, stage).
+        real_entry = history_entry_from_round_update_dict(_round_update_dict(), recorded_at_utc="t2")
+        write_history_stage_atomic(real_entry, tmp_path)
+
+
+def test_read_full_tournament_history_surfaces_missing_status(tmp_path):
+    pre_entry = history_entry_from_neo_win_pre_snapshot(_pre_snapshot(), recorded_at_utc="t1")
+    r1_marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t2")
+    write_history_stage_atomic(pre_entry, tmp_path)
+    write_history_stage_atomic(r1_marker, tmp_path)
+
+    history = read_full_tournament_history(tmp_path, "G1")
+    assert history[STAGE_PRE].status == STATUS_RECORDED
+    assert history[STAGE_R1].status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+    assert history[STAGE_R1].entrants == ()

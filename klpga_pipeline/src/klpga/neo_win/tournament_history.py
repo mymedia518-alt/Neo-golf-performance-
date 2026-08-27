@@ -55,6 +55,17 @@ STAGE_R3 = "R3"
 STAGE_FINAL = "FINAL"
 STAGE_ORDER: tuple[str, ...] = (STAGE_PRE, STAGE_R1, STAGE_R2, STAGE_R3, STAGE_FINAL)
 
+STATUS_RECORDED = "RECORDED"
+STATUS_HISTORICAL_SNAPSHOT_MISSING = "HISTORICAL_SNAPSHOT_MISSING"
+"""A stage that WAS searched for and confirmed absent — a real,
+disclosed negative result, distinct from a stage that simply hasn't
+happened yet (which stays absent from read_full_tournament_history's
+dict entirely, never a record of any kind, until a real artifact
+exists and is recorded normally). Once written, a MISSING marker
+occupies that (game_code, stage) path under the same append-only rule
+as a real recording — it is never silently replaced by a later
+"found it after all" write; see build_missing_stage_marker."""
+
 
 class HistoryStageAlreadyRecordedError(RuntimeError):
     """A (game_code, stage) history record already exists — the
@@ -92,6 +103,8 @@ class HistoryStageSnapshot:
     tournament_name: Optional[str]
     field_size: int
     entrants: tuple[HistoryEntrant, ...] = field(default_factory=tuple)
+    status: str = STATUS_RECORDED
+    missing_reason: Optional[str] = None
 
 
 def _entrant_to_dict(e: HistoryEntrant) -> dict:
@@ -142,6 +155,8 @@ def snapshot_to_dict(snapshot: HistoryStageSnapshot) -> dict:
         "tournament_name": snapshot.tournament_name,
         "field_size": snapshot.field_size,
         "entrants": [_entrant_to_dict(e) for e in snapshot.entrants],
+        "status": snapshot.status,
+        "missing_reason": snapshot.missing_reason,
     }
 
 
@@ -157,6 +172,35 @@ def snapshot_from_dict(data: dict) -> HistoryStageSnapshot:
         tournament_name=data.get("tournament_name"),
         field_size=data["field_size"],
         entrants=tuple(_entrant_from_dict(e) for e in data.get("entrants", [])),
+        status=data.get("status", STATUS_RECORDED),
+        missing_reason=data.get("missing_reason"),
+    )
+
+
+def build_missing_stage_marker(
+    game_code: str, stage: str, *, reason: str, recorded_at_utc: str
+) -> HistoryStageSnapshot:
+    """A confirmed-absent stage record — NEVER win_pct=0, NEVER any
+    fabricated entrant. `entrants` stays empty; `reason` must state
+    exactly what was searched and not found (never a guess at why).
+    Written through the same append-only `write_history_stage_atomic`
+    path as a real recording, so a stage already marked missing can
+    never be silently overwritten by a later "found it" write —
+    correcting a wrong MISSING marker is a deliberate, separate action
+    (delete the marker file), never an automatic one."""
+    return HistoryStageSnapshot(
+        game_code=game_code,
+        stage=stage,
+        record_kind=RECORD_KIND,
+        recorded_at_utc=recorded_at_utc,
+        source_prediction_id="",
+        source_model_version="",
+        source_generated_at_utc="",
+        tournament_name=None,
+        field_size=0,
+        entrants=(),
+        status=STATUS_HISTORICAL_SNAPSHOT_MISSING,
+        missing_reason=reason,
     )
 
 
