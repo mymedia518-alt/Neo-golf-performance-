@@ -75,6 +75,7 @@ from klpga.neo_win.beta001c_archive import (  # noqa: E402
     archive_paths as c_archive_paths,
     read_neo_win_c_snapshot,
 )
+from klpga.neo_win.identity_resolution import build_full_identity_crosswalk  # noqa: E402
 from klpga.neo_win.player_status import STATUS_WD, classify_player_round_status  # noqa: E402
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_R1,
@@ -203,6 +204,113 @@ def _final_provenance_classification(status, *, has_late_r1_row: bool) -> str:
     return PROVENANCE_OTHER  # STATUS_UNKNOWN, or anything not positively confirmed
 
 
+# Unexplained-player investigation taxonomy — for a real round_number=1
+# row whose player_code is not present anywhere in the frozen R1
+# snapshot at all (neither scored nor missing_r1_data). Distinct from
+# the FINAL PROVENANCE CLASSIFICATION taxonomy above, which only ever
+# applies to the snapshot's own disclosed missing_r1_data players.
+UNEXPLAINED_PLAYER_CODE_CHANGED = "PLAYER_CODE_CHANGED"
+UNEXPLAINED_DUPLICATE_IDENTITY = "DUPLICATE_IDENTITY"
+UNEXPLAINED_LATE_ENTRY_FIELD_CHANGE = "LATE_ENTRY_FIELD_CHANGE"
+UNEXPLAINED_DB_MAPPING_ERROR = "DB_MAPPING_ERROR"
+UNEXPLAINED_OTHER = "OTHER"
+UNEXPLAINED_UNRESOLVED = "UNRESOLVED"
+
+
+def _normalize_name(name) -> str:
+    return " ".join(str(name or "").split()).casefold()
+
+
+def _investigate_unexplained_player(
+    conn: sqlite3.Connection,
+    game_code: str,
+    player_code: str,
+    *,
+    pre_field_names_by_code: dict,
+    missing_names_by_code: dict,
+    identity_by_code: dict,
+) -> dict:
+    """Full, read-only evidence gathering + classification for one
+    player_code that has a real round_number=1 row but is absent from
+    the frozen R1 snapshot entirely. Never guesses: every field here is
+    a direct query result or a normalized-exact-string comparison —
+    never a fuzzy/approximate match."""
+    master_row = conn.execute(
+        "SELECT player_name FROM player_master WHERE player_id = ?", (player_code,)
+    ).fetchone()
+    player_name = master_row[0] if master_row else None
+
+    event_row = conn.execute(
+        "SELECT player_name, finish_position, finish_position_numeric, made_cut, withdrawn, disqualified, "
+        "rounds_played, score_to_par FROM player_event WHERE game_code = ? AND player_id = ?",
+        (game_code, player_code),
+    ).fetchone()
+    event_detail = None
+    if event_row is not None:
+        (ev_name, finish_position, finish_position_numeric, made_cut, withdrawn, disqualified,
+         rounds_played, score_to_par) = event_row
+        event_detail = {
+            "player_name": ev_name, "finish_position": finish_position,
+            "finish_position_numeric": finish_position_numeric, "made_cut": bool(made_cut),
+            "withdrawn": bool(withdrawn), "disqualified": bool(disqualified),
+            "rounds_played": rounds_played, "score_to_par": score_to_par,
+        }
+
+    in_entry_field = conn.execute(
+        "SELECT 1 FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
+    ).fetchone() is not None
+
+    all_rounds = _all_round_rows_for_player(conn, game_code, player_code)
+
+    identity_row = identity_by_code.get(player_code)
+
+    display_name = player_name or (event_detail or {}).get("player_name")
+    normalized = _normalize_name(display_name)
+    name_match_in_missing = [
+        code for code, name in missing_names_by_code.items() if _normalize_name(name) == normalized and normalized
+    ]
+    name_match_in_pre_field = [
+        code for code, name in pre_field_names_by_code.items()
+        if code != player_code and _normalize_name(name) == normalized and normalized
+    ]
+
+    # --- classification, evidence-only ---
+    if identity_row is not None and identity_row.get("identity_status") == "AMBIGUOUS":
+        # Real evidence: >=2 player_master rows share this exact name (identity_resolution.py's
+        # own STATUS_AMBIGUOUS condition) — a genuine duplicate-identity case, not a code change.
+        classification = UNEXPLAINED_DUPLICATE_IDENTITY
+    elif identity_row is not None and identity_row.get("identity_status") == "BROKEN":
+        # Real evidence: this code is in tournament_entry with NO player_master row at all
+        # (identity_resolution.py's own STATUS_BROKEN condition) — a structural DB inconsistency.
+        classification = UNEXPLAINED_DB_MAPPING_ERROR
+    elif name_match_in_missing or name_match_in_pre_field:
+        classification = UNEXPLAINED_PLAYER_CODE_CHANGED
+    elif not in_entry_field:
+        classification = UNEXPLAINED_LATE_ENTRY_FIELD_CHANGE
+    elif in_entry_field and player_name is not None:
+        # In the original ENTRY_FIELD, a real player_master identity exists, a real R1 score
+        # exists — yet entirely absent from round_update.py's own snapshot output. That is a
+        # real field-enumeration defect in the R1-generating code, not a data-provenance question.
+        classification = UNEXPLAINED_DB_MAPPING_ERROR
+    elif player_name is None and event_detail is None:
+        classification = UNEXPLAINED_UNRESOLVED
+    else:
+        classification = UNEXPLAINED_OTHER
+
+    return {
+        "player_code": player_code,
+        "player_name": player_name,
+        "player_master_row_exists": master_row is not None,
+        "player_event": event_detail,
+        "in_entry_field": in_entry_field,
+        "all_round_rows": all_rounds,
+        "identity_crosswalk": identity_row,
+        "name_match_in_missing_players": name_match_in_missing,
+        "name_match_in_pre_field": name_match_in_pre_field,
+        "classification": classification,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
@@ -276,6 +384,7 @@ def main() -> int:
     duplicates = len(codes) - len(set(codes))
     non_field = [c for c in codes if c not in pre_field_codes]
     missing = [p["player_code"] for p in r1_predictions if p.get("missing_r1_data")]
+    missing_names_by_code = {p["player_code"]: p.get("player_name") for p in r1_predictions if p.get("missing_r1_data")}
     win_values = [p["post_r1_win_pct"] for p in r1_predictions if p.get("post_r1_win_pct") is not None]
     win_sum = sum(win_values)
     nulls = sum(1 for p in r1_predictions if p.get("post_r1_win_pct") is None)
@@ -311,6 +420,22 @@ def main() -> int:
             newly_available_players = sorted(set(missing) & r1_db_codes)
             for code in newly_available_players:
                 newly_available_row_detail[code] = _r1_row_detail(conn, args.game_code, code)
+
+        # --- unexplained-player investigation (a real DB row for a player_code absent
+        # from the frozen snapshot entirely) — full identity/field/round evidence, never
+        # assumed to be one of the disclosed missing_r1_data players. ---
+        unexplained_investigations = {}
+        if unexplained_r1_db_codes:
+            identity_rows = build_full_identity_crosswalk(conn)
+            identity_by_code = {row["player_code"]: row for row in identity_rows}
+            pre_field_names_by_code = {e.player_code: e.player_name for e in pre_snapshot.predictions}
+            for code in unexplained_r1_db_codes:
+                unexplained_investigations[code] = _investigate_unexplained_player(
+                    conn, args.game_code, code,
+                    pre_field_names_by_code=pre_field_names_by_code,
+                    missing_names_by_code=missing_names_by_code,
+                    identity_by_code=identity_by_code,
+                )
     finally:
         conn.close()
 
@@ -465,6 +590,44 @@ def main() -> int:
               f"present anywhere in the frozen R1/PRE snapshot at all: {unexplained_r1_db_codes} — this is a "
               "SEPARATE anomaly from the count above, not automatically the same explanation.")
     if newly_available_players or unexplained_r1_db_codes:
+        print()
+    for code, inv in unexplained_investigations.items():
+        print(f"=== UNEXPLAINED PLAYER: {code} ===")
+        print()
+        print(f"player_name (player_master): {inv['player_name']!r}")
+        print(f"player_master row exists: {inv['player_master_row_exists']}")
+        ev = inv["player_event"]
+        if ev is not None:
+            print(
+                f"player_event: player_name={ev['player_name']!r} finish_position={ev['finish_position']!r} "
+                f"finish_position_numeric={ev['finish_position_numeric']!r} made_cut={ev['made_cut']} "
+                f"withdrawn={ev['withdrawn']} disqualified={ev['disqualified']} "
+                f"rounds_played={ev['rounds_played']!r} score_to_par={ev['score_to_par']!r}"
+            )
+        else:
+            print("player_event: no row exists")
+        print(f"in original ENTRY_FIELD (tournament_entry): {inv['in_entry_field']}")
+        if inv["all_round_rows"]:
+            rounds_str = ", ".join(
+                f"R{r['round_number']}(score={r['round_score']!r} to_par={r['round_to_par']!r} "
+                f"finish_position_after_round={r['finish_position_after_round']!r})"
+                for r in inv["all_round_rows"]
+            )
+            print(f"player_round rows (ALL round numbers): {rounds_str}")
+        else:
+            print("player_round rows (ALL round numbers): none at all")
+        idc = inv["identity_crosswalk"]
+        if idc is not None:
+            print(
+                f"identity crosswalk: canonical_player_id={idc.get('canonical_player_id')!r} "
+                f"identity_status={idc.get('identity_status')!r} evidence={idc.get('evidence')!r} "
+                f"resolution_method={idc.get('resolution_method')!r}"
+            )
+        else:
+            print("identity crosswalk: not found in klpga.neo_win.identity_resolution.build_full_identity_crosswalk")
+        print(f"name match vs the 5 missing_r1_data players (normalized exact): {inv['name_match_in_missing_players']}")
+        print(f"name match vs the frozen PRE 120-player field, other codes (normalized exact): {inv['name_match_in_pre_field']}")
+        print(f"CLASSIFICATION: {inv['classification']}")
         print()
     print("=== 115->116 PLAYER (exact responsible player_code, evidence-only) ===")
     print()
