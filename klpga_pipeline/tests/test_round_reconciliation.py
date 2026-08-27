@@ -136,6 +136,24 @@ def test_official_incomplete_sentinel_without_db_row_is_warn_not_fail():
 
 
 # ---------------------------------------------------------------
+# 3c. 999/INCOMPLETE must never be auto-inferred into DNS/WD/DQ — it
+#     means only "the fetched official response has no completed
+#     round result for this player right now", nothing more.
+# ---------------------------------------------------------------
+def test_incomplete_sentinel_never_auto_labeled_dns_wd_dq():
+    entry = {"8392": _np("8392", name="이다연")}
+    official = {"8392": _np("8392", name="이다연", position=None, position_display="999", round_score=None, score_to_par=None, status="INCOMPLETE")}
+    db = {}
+
+    result = reconcile_round(entry, official, db, round_number=1)
+    anomaly = next(a for a in result.anomalies if a["player_code"] == "8392")
+    assert anomaly["classification"] == CLASS_OFFICIAL_INCOMPLETE_NO_DB
+    for forbidden in ("DNS", "WD", "DQ"):
+        assert forbidden not in anomaly["classification"]
+        assert forbidden not in anomaly["detail"]
+
+
+# ---------------------------------------------------------------
 # 4. official score differs from DB score -> FAIL
 # ---------------------------------------------------------------
 def test_score_mismatch_is_fail():

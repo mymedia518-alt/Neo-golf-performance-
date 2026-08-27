@@ -72,7 +72,14 @@ def main() -> int:
     entry_normalized = normalize_entry_rows(entry_rows)
 
     try:
-        official_rows = fetch_round_leaderboard(client, args.game_code, args.round_number)
+        # ALWAYS bypass the disk cache for the round being validated. Round-leaderboard data is
+        # mutable while a round is in progress (a player can move from rank=999/INCOMPLETE to a
+        # real completed score between two fetches) — the whole point of this gate is to check
+        # the CURRENT official state, so a stale cached snapshot is never acceptable here, and no
+        # active/historical heuristic is needed: PoliteHttpClient.post_text always overwrites the
+        # cache file with whatever it fetches, so this is safe to do on every run (a genuinely
+        # completed historical round just returns the same final data again).
+        official_rows = fetch_round_leaderboard(client, args.game_code, args.round_number, use_cache=False)
     except RateLimitBlockedError as exc:
         print(f"ERROR: could not fetch official round {args.round_number} leaderboard: {exc}")
         return 5
@@ -86,25 +93,36 @@ def main() -> int:
 
     result = reconcile_round(entry_normalized, official_normalized, db_normalized, args.round_number)
 
+    official_completed = [c for c, p in result.official.items() if p.round_score is not None]
+    official_incomplete = [c for c, p in result.official.items() if p.round_score is None]
+    db_completed = [c for c, p in result.db.items() if p.round_score is not None]
+
     print("=== OFFICIAL LEADERBOARD VALIDATION ===")
     print()
     print(f"ENTRY COUNT: {len(result.entry)}")
-    print(f"OFFICIAL ROUND COUNT: {len(result.official)}")
-    print(f"DB ROUND COUNT: {len(result.db)}")
+    print(f"OFFICIAL ROUND COUNT: {len(result.official)} (COMPLETED: {len(official_completed)}, "
+          f"INCOMPLETE/999-sentinel: {len(official_incomplete)})")
+    print(f"DB ROUND COUNT: {len(result.db)} (COMPLETED: {len(db_completed)})")
     print()
     print(f"MATCHED: {len(result.entry_and_official_and_db)}")
     print(f"ENTRY ONLY: {len(result.entry_only)} {sorted(result.entry_only)}")
     print(f"OFFICIAL ONLY: {len(result.official_only)} {sorted(result.official_only)}")
     print(f"DB ONLY: {len(result.db_only)} {sorted(result.db_only)}")
+    print(f"OFFICIAL_NOT_IN_DB: {len(result.official_not_in_db)} {sorted(result.official_not_in_db)}")
+    print(f"DB_NOT_IN_OFFICIAL: {len(result.db_not_in_official)} {sorted(result.db_not_in_official)}")
     print()
     score_mismatches = [a for a in result.anomalies if a["classification"] == "SCORE_MISMATCH"]
     position_mismatches = [a for a in result.anomalies if a["classification"] == "POSITION_MISMATCH"]
     identity_mismatches = [
         a for a in result.anomalies if a["classification"] in ("NAME_MISMATCH", "POSSIBLE_IDENTITY_MISMATCH")
     ]
+    entry_absent = [a for a in result.anomalies if a["classification"] == "ENTRY_ABSENT_FROM_OFFICIAL_AND_DB"]
+    incomplete_official_anomalies = [a for a in result.anomalies if a["classification"] == "OFFICIAL_INCOMPLETE_NO_DB"]
     print(f"SCORE MISMATCH: {len(score_mismatches)}")
     print(f"POSITION MISMATCH: {len(position_mismatches)}")
     print(f"IDENTITY MISMATCH: {len(identity_mismatches)}")
+    print(f"ENTRY_ABSENT_FROM_OFFICIAL: {len(entry_absent)}")
+    print(f"INCOMPLETE_OFFICIAL: {len(incomplete_official_anomalies)}")
     print()
     print("=== ANOMALIES ===")
     print()
