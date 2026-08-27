@@ -23,7 +23,9 @@ from klpga.neo_win.beta001c_archive import read_neo_win_c_snapshot  # noqa: E402
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_PRE,
     STAGE_R1,
+    STATUS_HISTORICAL_SNAPSHOT_MISSING,
     HistoryStageAlreadyRecordedError,
+    build_missing_stage_marker,
     history_entry_from_beta001c_snapshot,
     history_entry_from_neo_win_pre_snapshot,
     history_entry_from_round_update_dict,
@@ -87,6 +89,7 @@ def main() -> int:
                        f"{c_predictions_dir} or {predictions_dir}")
 
     r1_entry = None
+    r1_missing_reason = None
     if r1_path is not None:
         import json
 
@@ -94,7 +97,16 @@ def main() -> int:
         r1_data = json.loads(r1_path.read_text(encoding="utf-8"))
         r1_entry = history_entry_from_round_update_dict(r1_data, recorded_at_utc="RUN_TIME")
     else:
-        errors.append(f"No frozen R1 snapshot found for game_code={args.game_code!r} under {predictions_dir}")
+        # A confirmed-absent stage, not an unattempted one: record it as
+        # such (never as a fabricated 0%, never silently skipped) — see
+        # klpga.neo_win.tournament_history.build_missing_stage_marker.
+        r1_missing_reason = (
+            f"No frozen R1 snapshot found for game_code={args.game_code!r} under {predictions_dir} "
+            f"(searched pattern: */neo_win_001-R1_{args.game_code}.json)"
+        )
+        r1_entry = build_missing_stage_marker(
+            args.game_code, STAGE_R1, reason=r1_missing_reason, recorded_at_utc="RUN_TIME"
+        )
 
     for entry in (pre_entry, r1_entry):
         if entry is None:
@@ -111,27 +123,39 @@ def main() -> int:
     frozen_modified = [str(p) for p, before_hash in frozen_files_checked.items() if _sha256(p) != before_hash]
 
     pre_codes = {e.player_code for e in recorded_pre.entrants} if recorded_pre else set()
-    r1_codes = {e.player_code for e in recorded_r1.entrants} if recorded_r1 else set()
+    r1_missing = bool(recorded_r1) and recorded_r1.status == STATUS_HISTORICAL_SNAPSHOT_MISSING
+    r1_codes = {e.player_code for e in recorded_r1.entrants} if recorded_r1 and not r1_missing else set()
     linked = sorted(pre_codes & r1_codes)
 
+    # Only an unattempted stage (recorded_pre missing) is a real failure;
+    # a confirmed-and-recorded MISSING R1 is a successful, disclosed outcome.
+    hard_errors = list(errors) if recorded_pre is None else []
+
     print("=== STATUS ===")
-    print("OK" if not errors else "INCOMPLETE")
+    print("OK" if not hard_errors else "INCOMPLETE")
     print()
-    print(f"PRE COUNT: {len(pre_codes)}  (source: {pre_source_path})")
-    print(f"R1 COUNT: {len(r1_codes)}  (source: {r1_path})")
+    print(f"PRE STATUS: {recorded_pre.status if recorded_pre else 'NOT_RECORDED'}  (source: {pre_source_path})")
+    print(f"PRE COUNT: {len(pre_codes)}")
+    print(f"R1 STATUS: {recorded_r1.status if recorded_r1 else 'NOT_RECORDED'}  (source: {r1_path})")
+    if r1_missing:
+        print(f"R1 MISSING REASON: {recorded_r1.missing_reason}")
+    print(f"R1 COUNT: {len(r1_codes)}")
     print(f"LINKED PLAYERS: {len(linked)}")
     print()
-    print("SAMPLE 5 PRE->R1 WIN%:")
-    pre_by_code = {e.player_code: e for e in recorded_pre.entrants} if recorded_pre else {}
-    r1_by_code = {e.player_code: e for e in recorded_r1.entrants} if recorded_r1 else {}
-    for code in linked[:5]:
-        p = pre_by_code[code]
-        r = r1_by_code[code]
-        print(f"  {code} ({p.player_name}): PRE {p.win_pct} -> R1 {r.win_pct}")
+    if r1_missing:
+        print("SAMPLE 5 PRE->R1 WIN%: N/A — R1 is HISTORICAL_SNAPSHOT_MISSING, no PRE->R1 movement is shown or implied")
+    else:
+        print("SAMPLE 5 PRE->R1 WIN%:")
+        pre_by_code = {e.player_code: e for e in recorded_pre.entrants} if recorded_pre else {}
+        r1_by_code = {e.player_code: e for e in recorded_r1.entrants} if recorded_r1 else {}
+        for code in linked[:5]:
+            p = pre_by_code[code]
+            r = r1_by_code[code]
+            print(f"  {code} ({p.player_name}): PRE {p.win_pct} -> R1 {r.win_pct}")
     print()
     print(f"FROZEN FILES MODIFIED: {len(frozen_modified)} {frozen_modified}")
-    print(f"ERRORS: {errors if errors else 'none'}")
-    return 0 if not errors else 4
+    print(f"ERRORS: {hard_errors if hard_errors else 'none'}")
+    return 0 if not hard_errors else 4
 
 
 if __name__ == "__main__":
