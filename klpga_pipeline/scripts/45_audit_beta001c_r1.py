@@ -221,6 +221,34 @@ def _normalize_name(name) -> str:
     return " ".join(str(name or "").split()).casefold()
 
 
+def _scan_raw_cache_for_player(cache_dir: Path, game_code: str, player_code: str) -> list[dict]:
+    """Read-only scan of the raw HTTP cache (klpga.http_client's
+    PoliteHttpClient, default data/raw_cache/http) for any cached
+    response referencing this game_code, checking whether player_code
+    also appears in that same cached response. Cache files are keyed
+    by sha256(url+params) (see http_client.py's own _cache_key), NOT
+    addressable by game_code directly — this is a full scan of every
+    cache file's own stored {url, params, body_text/body_json}, never
+    a fabricated direct lookup. Gracefully returns [] if the cache
+    directory doesn't exist (already cleared/rotated), never errors."""
+    if not cache_dir.exists():
+        return []
+    hits = []
+    for path in sorted(cache_dir.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        raw_text = json.dumps(data, ensure_ascii=False)
+        if game_code not in raw_text:
+            continue
+        hits.append({
+            "cache_file": str(path), "url": data.get("url"), "params": data.get("params"),
+            "player_code_found_in_body": player_code in raw_text,
+        })
+    return hits
+
+
 def _investigate_unexplained_player(
     conn: sqlite3.Connection,
     game_code: str,
@@ -229,12 +257,15 @@ def _investigate_unexplained_player(
     pre_field_names_by_code: dict,
     missing_names_by_code: dict,
     identity_by_code: dict,
+    pre_created_at_utc,
+    raw_cache_dir: Optional[Path] = None,
 ) -> dict:
     """Full, read-only evidence gathering + classification for one
     player_code that has a real round_number=1 row but is absent from
     the frozen R1 snapshot entirely. Never guesses: every field here is
-    a direct query result or a normalized-exact-string comparison —
-    never a fuzzy/approximate match."""
+    a direct query result, a real timestamp comparison, or a
+    normalized-exact-string comparison — never a fuzzy/approximate
+    match, never an assumption made without a specific evidence check."""
     master_row = conn.execute(
         "SELECT player_name FROM player_master WHERE player_id = ?", (player_code,)
     ).fetchone()
@@ -256,11 +287,14 @@ def _investigate_unexplained_player(
             "rounds_played": rounds_played, "score_to_par": score_to_par,
         }
 
-    in_entry_field = conn.execute(
-        "SELECT 1 FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
-    ).fetchone() is not None
+    entry_row = conn.execute(
+        "SELECT collected_at FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
+    ).fetchone()
+    in_entry_field = entry_row is not None
+    entry_collected_at = entry_row[0] if entry_row is not None else None
 
     all_rounds = _all_round_rows_for_player(conn, game_code, player_code)
+    raw_cache_hits = _scan_raw_cache_for_player(raw_cache_dir, game_code, player_code) if raw_cache_dir is not None else []
 
     identity_row = identity_by_code.get(player_code)
 
@@ -274,7 +308,16 @@ def _investigate_unexplained_player(
         if code != player_code and _normalize_name(name) == normalized and normalized
     ]
 
-    # --- classification, evidence-only ---
+    # --- classification, evidence-only: never assume, only conclude what a specific
+    # check above positively supports. See module docstring / item 8 discipline. ---
+    entered_after_pre = (
+        in_entry_field and entry_collected_at is not None and pre_created_at_utc is not None
+        and entry_collected_at > pre_created_at_utc
+    )
+    entered_at_or_before_pre = (
+        in_entry_field and entry_collected_at is not None and pre_created_at_utc is not None
+        and entry_collected_at <= pre_created_at_utc
+    )
     if identity_row is not None and identity_row.get("identity_status") == "AMBIGUOUS":
         # Real evidence: >=2 player_master rows share this exact name (identity_resolution.py's
         # own STATUS_AMBIGUOUS condition) — a genuine duplicate-identity case, not a code change.
@@ -285,17 +328,22 @@ def _investigate_unexplained_player(
         classification = UNEXPLAINED_DB_MAPPING_ERROR
     elif name_match_in_missing or name_match_in_pre_field:
         classification = UNEXPLAINED_PLAYER_CODE_CHANGED
-    elif not in_entry_field:
+    elif entered_after_pre:
+        # Real, positive evidence: tournament_entry.collected_at for this code is LATER than the
+        # PRE snapshot's own created_at_utc — this player entered the field AFTER PRE was frozen
+        # (a real substitute/late-entry case), not a code defect in round_update.py.
         classification = UNEXPLAINED_LATE_ENTRY_FIELD_CHANGE
-    elif in_entry_field and player_name is not None:
-        # In the original ENTRY_FIELD, a real player_master identity exists, a real R1 score
-        # exists — yet entirely absent from round_update.py's own snapshot output. That is a
-        # real field-enumeration defect in the R1-generating code, not a data-provenance question.
+    elif entered_at_or_before_pre:
+        # Real, positive evidence: this code was ALREADY a real ENTRY_FIELD member (with a real
+        # identity and a real R1 score) at or before the moment PRE was generated — yet entirely
+        # absent from round_update.py's own R1 snapshot output. A real field-enumeration defect
+        # in the R1-generating code, not a data-provenance question.
         classification = UNEXPLAINED_DB_MAPPING_ERROR
-    elif player_name is None and event_detail is None:
-        classification = UNEXPLAINED_UNRESOLVED
     else:
-        classification = UNEXPLAINED_OTHER
+        # No positive evidence either way: not in tournament_entry at all today, OR in it but
+        # with no comparable timestamp — never guessed into LATE_ENTRY_FIELD_CHANGE or
+        # DB_MAPPING_ERROR without a real timing/membership check to support it.
+        classification = UNEXPLAINED_UNRESOLVED
 
     return {
         "player_code": player_code,
@@ -303,7 +351,9 @@ def _investigate_unexplained_player(
         "player_master_row_exists": master_row is not None,
         "player_event": event_detail,
         "in_entry_field": in_entry_field,
+        "entry_collected_at": entry_collected_at,
         "all_round_rows": all_rounds,
+        "raw_cache_hits": raw_cache_hits,
         "identity_crosswalk": identity_row,
         "name_match_in_missing_players": name_match_in_missing,
         "name_match_in_pre_field": name_match_in_pre_field,
@@ -322,6 +372,12 @@ def main() -> int:
     parser.add_argument("--r1-prediction-id", default="001-C-R1")
     parser.add_argument("--full-csv", default=str(ROOT / "outputs" / "beta001_r1" / "BETA001_R1_FULL.csv"))
     parser.add_argument("--history-dir", default=str(ROOT / "neo_tournament_history"))
+    parser.add_argument(
+        "--raw-cache-dir", default=str(ROOT / "data" / "raw_cache" / "http"),
+        help="klpga.http_client.PoliteHttpClient's disk cache — scanned read-only for an unexplained "
+             "player's provenance (item 4/5 of the R1 provenance checkpoint). Missing/cleared cache "
+             "directories are handled gracefully, never an error.",
+    )
     args = parser.parse_args()
 
     fails: list[str] = []
@@ -429,12 +485,15 @@ def main() -> int:
             identity_rows = build_full_identity_crosswalk(conn)
             identity_by_code = {row["player_code"]: row for row in identity_rows}
             pre_field_names_by_code = {e.player_code: e.player_name for e in pre_snapshot.predictions}
+            raw_cache_dir_path = Path(args.raw_cache_dir)
             for code in unexplained_r1_db_codes:
                 unexplained_investigations[code] = _investigate_unexplained_player(
                     conn, args.game_code, code,
                     pre_field_names_by_code=pre_field_names_by_code,
                     missing_names_by_code=missing_names_by_code,
                     identity_by_code=identity_by_code,
+                    pre_created_at_utc=pre_snapshot.created_at_utc,
+                    raw_cache_dir=raw_cache_dir_path,
                 )
     finally:
         conn.close()
@@ -606,7 +665,18 @@ def main() -> int:
             )
         else:
             print("player_event: no row exists")
-        print(f"in original ENTRY_FIELD (tournament_entry): {inv['in_entry_field']}")
+        print(f"in ENTRY_FIELD (tournament_entry) TODAY: {inv['in_entry_field']}")
+        print(f"tournament_entry.collected_at: {inv['entry_collected_at']!r}  (PRE snapshot created_at_utc: {pre_snapshot.created_at_utc!r})")
+        if inv["raw_cache_hits"]:
+            print(f"raw HTTP cache hits referencing this game_code ({len(inv['raw_cache_hits'])}):")
+            for hit in inv["raw_cache_hits"]:
+                print(
+                    f"  - {hit['cache_file']}: url={hit['url']!r} params={hit['params']!r} "
+                    f"player_code_found_in_body={hit['player_code_found_in_body']}"
+                )
+        else:
+            print("raw HTTP cache hits referencing this game_code: none found "
+                  "(cache directory missing/cleared, or genuinely never cached — cannot distinguish the two)")
         if inv["all_round_rows"]:
             rounds_str = ", ".join(
                 f"R{r['round_number']}(score={r['round_score']!r} to_par={r['round_to_par']!r} "
@@ -642,12 +712,26 @@ def main() -> int:
             f"at freeze time. This is the sole explanation; no other anomaly (unexplained_r1_db_codes) exists."
         )
     elif len(newly_available_players) > 1 or unexplained_r1_db_codes:
+        arithmetic_total = len(newly_available_players) + len(unexplained_r1_db_codes)
+        arithmetic_consistent = entrants_scored + arithmetic_total == r1_db_count
         print(
             f"NOT a single, unambiguous player — {len(newly_available_players)} previously-missing player(s) "
             f"now have a real R1 row ({newly_available_players}), and "
             f"{len(unexplained_r1_db_codes)} row(s) belong to player_code(s) entirely absent from the frozen "
-            f"snapshot ({unexplained_r1_db_codes}). Real evidence does not support naming exactly one player — "
-            "reported honestly rather than guessed."
+            f"snapshot ({unexplained_r1_db_codes})."
+        )
+        print(
+            f"ARITHMETIC CHECK: entrants_scored ({entrants_scored}) + newly_available "
+            f"({len(newly_available_players)}) + unexplained ({len(unexplained_r1_db_codes)}) "
+            f"{'==' if arithmetic_consistent else '!='} DB row count ({r1_db_count}) -> "
+            f"{'consistent' if arithmetic_consistent else 'NOT consistent — re-run to confirm current state'}."
+        )
+        print(
+            "This arithmetic consistency does NOT mean any single unexplained code (e.g. one flagged "
+            "DB_MAPPING_ERROR/LATE_ENTRY_FIELD_CHANGE above) IS one of the 5 disclosed missing_r1_data "
+            "players — that is a SEPARATE identity question, answered only by the PLAYER_CODE_CHANGED/"
+            "DUPLICATE_IDENTITY checks above (name match + identity crosswalk), never assumed from "
+            "arithmetic sufficiency alone."
         )
     else:
         print(

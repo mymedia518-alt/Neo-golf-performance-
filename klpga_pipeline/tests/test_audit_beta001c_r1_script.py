@@ -648,7 +648,11 @@ def test_115_to_116_no_discrepancy_reports_nothing_to_attribute(module, db_path_
 # ---------------------------------------------------------------
 
 
-def test_unexplained_player_not_in_entry_field_is_late_entry_field_change(module, db_path, tmp_path, capsys):
+def test_unexplained_player_not_in_entry_field_at_all_is_unresolved(module, db_path, tmp_path, capsys):
+    """No positive field-membership evidence at all (never in
+    tournament_entry, today or at any recorded time) — never guessed
+    into LATE_ENTRY_FIELD_CHANGE without a real timing signal to
+    support it; the honest, evidence-disciplined answer is UNRESOLVED."""
     conn = sqlite3.connect(db_path)
     conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('ZZZ', 'Ghost')")
     conn.execute(
@@ -672,10 +676,11 @@ def test_unexplained_player_not_in_entry_field_is_late_entry_field_change(module
     out = capsys.readouterr().out
     assert "=== UNEXPLAINED PLAYER: ZZZ ===" in out
     assert "player_name (player_master): 'Ghost'" in out
-    assert "in original ENTRY_FIELD (tournament_entry): False" in out
-    assert "CLASSIFICATION: LATE_ENTRY_FIELD_CHANGE" in out
+    assert "in ENTRY_FIELD (tournament_entry) TODAY: False" in out
+    assert "CLASSIFICATION: UNRESOLVED" in out
     # never assumed to be the same as any of the disclosed missing_r1_data players.
     assert "name match vs the 5 missing_r1_data players (normalized exact): []" in out
+    assert "raw HTTP cache hits referencing this game_code: none found" in out
 
 
 def test_unexplained_player_name_matches_missing_player_is_player_code_changed(module, db_path, tmp_path, capsys):
@@ -747,8 +752,92 @@ def test_unexplained_player_real_field_member_never_in_snapshot_is_db_mapping_er
     assert rc == 0
     out = capsys.readouterr().out
     assert "=== UNEXPLAINED PLAYER: F ===" in out
-    assert "in original ENTRY_FIELD (tournament_entry): True" in out
+    assert "in ENTRY_FIELD (tournament_entry) TODAY: True" in out
     assert "CLASSIFICATION: DB_MAPPING_ERROR" in out
+
+
+def test_unexplained_player_entered_after_pre_snapshot_is_late_entry_field_change(module, db_path, tmp_path, capsys):
+    """Real evidence: tournament_entry.collected_at for this code is
+    AFTER the PRE snapshot's own created_at_utc (2027-01-01T00:00:00Z)
+    — a real late field addition/substitute, not a code defect in
+    round_update.py. Distinguished from DB_MAPPING_ERROR purely by this
+    real timestamp comparison, never assumed either way."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('G', 'G')")
+    conn.execute(
+        "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+        "VALUES (?, 'G', 'G', 'test', '2027-01-01T12:00:00Z')",
+        (GAME_CODE,),
+    )
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'G', 'G', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # G was never part of the frozen field at all
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== UNEXPLAINED PLAYER: G ===" in out
+    assert "in ENTRY_FIELD (tournament_entry) TODAY: True" in out
+    assert "tournament_entry.collected_at: '2027-01-01T12:00:00Z'  (PRE snapshot created_at_utc: '2027-01-01T00:00:00Z')" in out
+    assert "CLASSIFICATION: LATE_ENTRY_FIELD_CHANGE" in out
+
+
+def test_unexplained_player_raw_cache_hit_is_surfaced_when_found(module, db_path, tmp_path, capsys):
+    """Real evidence surfaced, not fabricated: a real cached HTTP
+    response file (the same {url, params, body_text} shape http_client.
+    PoliteHttpClient itself writes) referencing this game_code is found
+    by a full read-only directory scan and reported verbatim."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('ZZZ', 'Ghost')")
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'ZZZ', 'Ghost', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    raw_cache_dir = tmp_path / "raw_cache_http"
+    raw_cache_dir.mkdir(parents=True)
+    cache_file = raw_cache_dir / "deadbeef.json"
+    cache_file.write_text(
+        json.dumps({
+            "url": "https://example.klpga.co.kr/leaderboard",
+            "params": {"gameCode": GAME_CODE, "round": "1"},
+            "body_text": f"...player_code={'ZZZ'}...",
+        }),
+        encoding="utf-8",
+    )
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # ZZZ was never part of the frozen field at all
+    _write_csv(output_dir, entrants)
+
+    argv = _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir)
+    argv += ["--raw-cache-dir", str(raw_cache_dir)]
+    rc = _run(module, argv)
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== UNEXPLAINED PLAYER: ZZZ ===" in out
+    assert "raw HTTP cache hits referencing this game_code (1):" in out
+    assert str(cache_file) in out
+    assert "player_code_found_in_body=True" in out
 
 
 def test_unexplained_player_ambiguous_identity_is_duplicate_identity(module, db_path, tmp_path, capsys):
