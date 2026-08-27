@@ -17,7 +17,14 @@ compares:
                       picked subset, to avoid any hindsight selection
                       of "whichever one makes a particular player's
                       number look right."
-"""
+
+`_DomainFeatureSource` builds its pivot with `recover_rank_only_flags=
+True` (klpga.discovery.flag_recovery) — see feature_matrix.py's module
+docstring for the real-evidence root cause this fixes (a live run
+reported 0/N player coverage in every domain because BETA #001's own
+CLEAN-only default silently excludes the ~99.96% of official_metric_
+value rows that are FLAGGED, most of which are safely recoverable rank-
+column artifacts, not real value corruption)."""
 from __future__ import annotations
 
 import sqlite3
@@ -93,7 +100,7 @@ class _DomainFeatureSource:
             return {}
         if prior_season not in self._domain_features_cache:
             pivot = build_prior_season_official_metrics(
-                self._conn, prior_season, alias_map=self._alias_report["alias_map"]
+                self._conn, prior_season, alias_map=self._alias_report["alias_map"], recover_rank_only_flags=True
             )
             by_domain = self._usable_by_domain(prior_season)
             self._domain_features_cache[prior_season] = compute_domain_aggregate_features(pivot, by_domain)

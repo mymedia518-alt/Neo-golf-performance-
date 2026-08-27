@@ -11,6 +11,24 @@ archive.py, scripts/33) completely untouched (an explicit BETA #001-C
 requirement) while still delivering one score per real golf domain.
 
 ======================================================================
+recover_rank_only_flags=True — a deliberate, verified deviation from
+BETA #001's own conservative CLEAN-only default
+======================================================================
+Root-caused via real evidence (docs/discovery/raw_samples/ + a live
+production run reporting ~99.96% of official_metric_value rows
+FLAGGED): `official_metrics.py`'s CLEAN-only default, correct as BETA
+#001's own deliberate conservative choice, silently excludes nearly
+every real row when passed straight through — producing 0/N player
+coverage in every domain even when the season genuinely has tens of
+thousands of ingested rows. `klpga.discovery.flag_recovery` already
+proved (Phase 3) that a response whose ONLY nonzero DataQualityFlags
+field is `duplicate_ranks` has its VALUE safely recoverable — this
+module is the one place in the codebase actually built to use that
+recovery, so it passes `recover_rank_only_flags=True` here. BETA
+#001's own `dataset.py` is deliberately left untouched, still CLEAN-
+only, per its own documented rationale.
+
+======================================================================
 neo_scoring IS DELIBERATELY ALWAYS None/EXCLUDED
 ======================================================================
 The release's Phase 5 field list names `neo_scoring` alongside the
@@ -154,7 +172,9 @@ def build_beta001c_feature_matrix(
     prior_season = live_field["official_metric_context"]["prior_season"]
 
     alias_report = build_identity_alias_map(conn)
-    pivot = build_prior_season_official_metrics(conn, prior_season, alias_map=alias_report["alias_map"])
+    pivot = build_prior_season_official_metrics(
+        conn, prior_season, alias_map=alias_report["alias_map"], recover_rank_only_flags=True
+    )
     by_domain = usable_metrics_by_domain(taxonomy, raw_samples_dir=raw_samples_dir, season=str(prior_season))
     domain_features = compute_domain_aggregate_features(pivot, by_domain, min_metric_coverage=min_metric_coverage)
 
