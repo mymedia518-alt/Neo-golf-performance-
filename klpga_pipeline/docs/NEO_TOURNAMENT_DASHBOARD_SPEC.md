@@ -81,9 +81,11 @@ side as if they measured different things — pick ONE label per stage:
 | R2 | WIN %, CHANGE vs R1 | CUT probability | the cut is now a REAL, KNOWN fact (`player_event.made_cut`) — not a probability any more; `round_update_r2.py` already returns 100/0 (a resolved outcome), never a genuine forecast, so a dashboard must not present it as one |
 | R3 | WIN %, final-round outcome probabilities where a real one is defined, CHANGE vs R2 | any recomputed cut/R3-qualification number | round 3 has already been played; nothing left to forecast about reaching it |
 
-No script in this repo computes a "final-round outcome probability"
-distinct from WIN % today — until one exists, R3's "final-round outcome
-probabilities where defined" resolves to WIN % only, never a placeholder.
+`round_update_r3.py` (scripts/46) now computes real TOP5/TOP10/TOP20 %
+over the single remaining round (R4) — these ARE the "final-round
+outcome probabilities where a real one is defined" this row refers to,
+alongside WIN %. No cut/qualification-style column exists at R3 (there
+is nothing left to forecast about reaching R4 — see the table above).
 
 ## 4. Player detail
 
@@ -182,11 +184,11 @@ table is fully real** (SKIP + LOG, not fixed here — out of this round's
 scope):
 1. CURRENT POS / SCORE — no live-leaderboard-to-prediction join exists.
 2. FINAL ROUND % (a genuinely distinct final-round-outcome probability,
-   not the make-cut alias) — no script computes this; only WIN % and,
-   for R1 (`round_update.py`) and R2 (`round_update_r2.py`), a real
-   MAKE CUT % / R1-forecast-vs-R2-fact per Section 3a, exist today.
-   TOP 10 % is now produced for R1 and R2 (both modules above); PRE and
-   R3 still have none.
+   not the make-cut alias) — WIN % exists for every stage; MAKE CUT % /
+   R1-forecast-vs-R2-fact exists for R1 (`round_update.py`) and R2
+   (`round_update_r2.py`) per Section 3a. TOP 10 % is now produced for
+   R1, R2, AND R3 (`round_update_r3.py`, scripts/46 — also TOP5/TOP20).
+   PRE still has none (no cut concept exists before Round 1).
 3. NEO SIGNAL's RISING/STABLE/FALLING threshold — undefined, needs a
    real, disclosed specification before implementation (Section 3).
 4. Section 3a's per-stage visibility rule is a design constraint only —

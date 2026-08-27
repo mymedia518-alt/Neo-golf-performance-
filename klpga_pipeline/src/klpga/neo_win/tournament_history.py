@@ -22,10 +22,12 @@ MISSING METRICS ARE EXPLICIT None, NEVER FABRICATED
 PRE has no position/score/cut%/top10% at all (the tournament hasn't
 started) — those fields are None for every PRE entrant, never a
 default or an estimate. R1 (klpga.neo_win.round_update) has cut%/
-top5/top10/top20% but not FINAL's actual result. R2/R3 have no
-producing script in this repo yet (see docs/NEO_TOURNAMENT_DASHBOARD_
-SPEC.md Section 9) — recording a R2/R3 stage before one exists is
-simply not attempted here; nothing fabricates a placeholder.
+top5/top10/top20% but not FINAL's actual result. R2 (round_update_r2.py)
+adds win%/cut% (a real, resolved fact, not a probability) plus top5/
+top10/top20% (scripts/44's own CSV output only surfaces top10%). R3
+(round_update_r3.py, scripts/46) has win%/top5/top10/top20% but no
+cut%-style field at all — the cut is long-decided by R3, nothing left
+to forecast about reaching R4.
 
 ======================================================================
 FINAL — real DB results, never inferred from score alone
