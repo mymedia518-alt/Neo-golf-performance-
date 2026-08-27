@@ -7,7 +7,7 @@ See docs/NEO_WIN_V0_1_METHODOLOGY.md for the full design writeup.
 from __future__ import annotations
 
 import sqlite3
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from typing import Optional
 
@@ -20,7 +20,8 @@ from klpga.neo_win.leakage import (
     validate_pit_feature_leakage,
     validate_probability_sum,
 )
-from klpga.neo_win.model import MODEL_ID, fit_neo_win_model, predict_neo_win_model
+from klpga.neo_win.model import MODEL_ID, build_feature_columns, fit_neo_win_model, predict_neo_win_model
+from klpga.neo_win.official_metrics import FEATURE_NAME_BY_SLOT
 
 
 @dataclass(frozen=True)
@@ -35,9 +36,13 @@ class NeoWinEntrantPrediction:
     prior_recent_form_10_n: int
     neo_consistency_stddev: Optional[float]
     neo_consistency_stddev_n: int
-    neo_official_metric: Optional[float]
-    neo_official_metric_n: int
-    is_unmatched: bool
+    official_metrics: dict = field(default_factory=dict)
+    """{slot_name: value or None} for every slot in klpga.neo_win.
+    official_metrics.OFFICIAL_METRIC_SLOTS — None means either omitted
+    run-wide (no candidate had coverage) or missing for this specific
+    player (shrunk to the training mean, per klpga.models.candidates'
+    established convention)."""
+    is_unmatched: bool = False
 
 
 @dataclass(frozen=True)
@@ -81,12 +86,13 @@ def run_neo_win_inference(
     cutoff_date_obj = date.fromisoformat(cutoff_date_str)
     tournament_name, tournament_name_source = resolve_tournament_name(conn, game_code, tournament_name_arg)
 
-    training_rows, training_tournament_count = build_neo_win_live_training_rows(conn, game_code, cutoff_date_obj)
-    fitted = fit_neo_win_model(training_rows)
-
     field_data = build_neo_win_live_field(conn, game_code, cutoff_date_obj)
     field_rows = field_data["field_rows"]
     official_metric_context = field_data["official_metric_context"]
+    feature_columns = build_feature_columns(official_metric_context["selected_slots"])
+
+    training_rows, training_tournament_count = build_neo_win_live_training_rows(conn, game_code, cutoff_date_obj)
+    fitted = fit_neo_win_model(training_rows, feature_columns=feature_columns)
 
     raw_probs = predict_neo_win_model(fitted, field_rows)
 
@@ -123,18 +129,21 @@ def run_neo_win_inference(
     predictions: list[NeoWinEntrantPrediction] = []
     zero_history_count = 0
     unmatched_count = 0
-    missing_official_metric_count = 0
     missing_consistency_count = 0
+    missing_slot_counts: dict[str, int] = {slot: 0 for slot in FEATURE_NAME_BY_SLOT}
     for rank, row in enumerate(ordered, start=1):
         n = row["prior_events_n"]
         if n == 0:
             zero_history_count += 1
         if not row["in_player_master"]:
             unmatched_count += 1
-        if row["neo_official_metric_n"] == 0:
-            missing_official_metric_count += 1
         if row["neo_consistency_stddev_n"] < 2:
             missing_consistency_count += 1
+        official_metrics: dict = {}
+        for slot, feature_name in FEATURE_NAME_BY_SLOT.items():
+            official_metrics[slot] = row.get(feature_name)
+            if row.get(f"{feature_name}_n", 0) == 0:
+                missing_slot_counts[slot] += 1
         predictions.append(
             NeoWinEntrantPrediction(
                 rank=rank,
@@ -147,8 +156,7 @@ def run_neo_win_inference(
                 prior_recent_form_10_n=row["prior_recent_form_10_n"],
                 neo_consistency_stddev=row["neo_consistency_stddev"],
                 neo_consistency_stddev_n=row["neo_consistency_stddev_n"],
-                neo_official_metric=row["neo_official_metric"],
-                neo_official_metric_n=row["neo_official_metric_n"],
+                official_metrics=official_metrics,
                 is_unmatched=not row["in_player_master"],
             )
         )
@@ -156,8 +164,10 @@ def run_neo_win_inference(
     missing_data_report = {
         "zero_prior_events_count": zero_history_count,
         "missing_consistency_feature_count": missing_consistency_count,
-        "missing_official_metric_count": missing_official_metric_count,
-        "official_metric_feature_omitted_entirely": official_metric_context["official_metric_label"] is None,
+        "official_metric_slots_used": sorted(official_metric_context["selected_slots"]),
+        "official_metric_slots_omitted_run_wide": sorted(official_metric_context["omitted_slots"]),
+        "official_metric_missing_per_player_by_slot": missing_slot_counts,
+        "identity_resolution": official_metric_context["identity_resolution"],
         "unmatched_player_master_count": unmatched_count,
         "field_size": len(field_rows),
     }

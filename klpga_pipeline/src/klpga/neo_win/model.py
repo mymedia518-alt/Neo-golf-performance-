@@ -9,30 +9,38 @@ dict.
 ======================================================================
 MODEL FORM (deliberately simpler than the M3-M6 2-feature form)
 ======================================================================
-  combined_score_i = sum(z_f_i for f in NEO_WIN_FEATURES)   (EQUAL weight,
+  combined_score_i = sum(z_f_i for f in feature_columns)    (EQUAL weight,
                                                                no fitted beta)
   P(i) = softmax(-combined_score_i / tau)                    over the field
+
+`feature_columns` is `BASE_FEATURES` (always 3: career scoring, recent
+form, consistency) plus whichever official-metric slots
+`klpga.neo_win.official_metrics.select_validated_official_metrics`
+resolved for this run (0-4 more — see `build_feature_columns`), so the
+feature count varies run to run with what real data is actually
+available, never a fixed guess.
 
 `tau` is the ONLY free parameter, fit by the same conditional-logit MLE
 (`grid_refine_search` over log-tau) already used for every M0-M6
 candidate. Equal-weighting (rather than fitting a separate beta per
 feature, as M3-M6 do for their 2nd feature) is a deliberate v0.1
-choice: 4 features means up to 3 free beta ratios, and this project's
-"prefer simplicity" evaluation philosophy (docs/WIN_PROBABILITY_MODEL_
-EVALUATION_SPEC.md Section 6.1) plus a modest training-tournament count
-argue for keeping v0.1 to its single free parameter — a per-feature-
-weight variant is a natural, disclosed future refinement, evaluated the
-same promotion-gate way M0-M6 were, not silently assumed better without
-evidence.
+choice: up to 7 features means up to 6 free beta ratios, and this
+project's "prefer simplicity" evaluation philosophy (docs/WIN_
+PROBABILITY_MODEL_EVALUATION_SPEC.md Section 6.1) plus a modest
+training-tournament count argue for keeping v0.1 to its single free
+parameter — a per-feature-weight variant is a natural, disclosed future
+refinement, evaluated the same promotion-gate way M0-M6 were, not
+silently assumed better without evidence.
 
 Each `z_f_i` uses the exact same shrink-toward-training-mean +
 standardize formula as `klpga.models.candidates.apply_shrinkage_and_
 standardize` — a zero-history/missing-metric player gets z=0 (the
 training fold's average), never a dropped row or a fabricated
-non-zero value. `neo_official_metric` rows must already be oriented
-(see klpga.neo_win.official_metrics.oriented_value) before reaching
-this module — model.py treats every feature identically, "lower z is
-more winning-favorable," with no per-feature sign logic of its own.
+non-zero value. Every `neo_official_metric_<slot>` value must already
+be oriented (see klpga.neo_win.official_metrics.oriented_value) before
+reaching this module — model.py treats every feature identically,
+"lower z is more winning-favorable," with no per-feature sign logic of
+its own.
 """
 from __future__ import annotations
 
@@ -45,12 +53,25 @@ from klpga.models.math_utils import clip_and_renormalize, grid_refine_search, so
 
 MODEL_ID = "NEO_WIN_V0_1"
 
-NEO_WIN_FEATURES: tuple[str, ...] = (
+BASE_FEATURES: tuple[str, ...] = (
     "prior_avg_round_score_to_par",
     "prior_recent_form_10",
     "neo_consistency_stddev",
-    "neo_official_metric",
 )
+"""Always present — reused, unmodified point-in-time features plus the
+new consistency feature. Never includes an official-metric feature
+directly: which of those are available varies run to run (see
+klpga.neo_win.official_metrics.OFFICIAL_METRIC_SLOTS), so callers build
+the full feature_columns tuple via `build_feature_columns` below."""
+
+
+def build_feature_columns(selected_slots: dict) -> tuple[str, ...]:
+    """`selected_slots` is `official_metric_context["selected_slots"]`
+    from klpga.neo_win.dataset.build_neo_win_live_field — one fixed,
+    deterministic feature list per run, never per-player."""
+    from klpga.neo_win.official_metrics import FEATURE_NAME_BY_SLOT
+
+    return BASE_FEATURES + tuple(FEATURE_NAME_BY_SLOT[slot] for slot in FEATURE_NAME_BY_SLOT if slot in selected_slots)
 
 _TAU_LOG_BOUNDS = (math.log(0.02), math.log(50.0))
 _GRID_POINTS = 25
@@ -72,11 +93,12 @@ def _combined_score(row: dict, feature_columns: tuple[str, ...], shrinkage: dict
     )
 
 
-def fit_neo_win_model(training_rows: list[dict], feature_columns: tuple[str, ...] = NEO_WIN_FEATURES) -> FittedNeoWinModel:
+def fit_neo_win_model(training_rows: list[dict], feature_columns: tuple[str, ...] = BASE_FEATURES) -> FittedNeoWinModel:
     """Fits tau using ONLY `training_rows` — callers are responsible for
     ensuring these are strictly-prior, usable training tournaments (see
-    klpga.neo_win.dataset.build_neo_win_training_rows, the intended
-    caller)."""
+    klpga.neo_win.dataset.build_neo_win_live_training_rows, the intended
+    caller) and for passing `feature_columns=build_feature_columns(...)`
+    when official-metric slots were resolved for this run."""
     shrinkage = {f: fit_shrinkage(training_rows, f) for f in feature_columns}
 
     by_target: dict[str, list[dict]] = {}

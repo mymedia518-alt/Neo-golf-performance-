@@ -27,11 +27,11 @@ from klpga.neo_win.leakage import (
     validate_pit_feature_leakage,
     validate_probability_sum,
 )
-from klpga.neo_win.model import NEO_WIN_FEATURES, fit_neo_win_model, predict_neo_win_model
+from klpga.neo_win.model import BASE_FEATURES, build_feature_columns, fit_neo_win_model, predict_neo_win_model
 from klpga.neo_win.official_metrics import (
     build_prior_season_official_metrics,
     oriented_value,
-    select_validated_official_metric,
+    select_validated_official_metrics,
 )
 
 SCHEMA_PATH = Path(__file__).resolve().parents[1] / "src" / "klpga" / "db" / "schema.sql"
@@ -104,6 +104,17 @@ def conn(tmp_path):
     for player_code in ["A", "B", "C", "D", "E", "ROOKIE1", "UNMATCHED1"]:
         _insert_entry(connection, LIVE_GAME_CODE, player_code, player_code)
 
+    # Extra players purely to clear select_validated_official_metrics's
+    # MIN_PLAYER_COVERAGE=20 floor. Each also gets a real player_master
+    # row so klpga.neo_win.identity_resolution's alias map treats them
+    # as a direct match (the realistic case — most official_metric_value.
+    # player_code values DO match player_master.player_id directly;
+    # this test's UNMATCHED1/UNRESOLVED-style cases are exercised
+    # separately below, not via these coverage-filler players).
+    for i in range(16):
+        code = f"X{i}"
+        connection.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES (?, ?)", (code, code))
+
     # 2025 official metrics (prior season for the historical 2026
     # tournaments) AND 2026 official metrics (prior season for the
     # live LIVE_GAME_CODE target, whose cutoff is 2027-01-01 and thus
@@ -163,16 +174,16 @@ def test_prior_season_pivot_includes_flagged_when_requested(conn):
     assert "그린 적중률" in pivot.get("A", {})
 
 
-def test_select_validated_official_metric_picks_allowlisted_label_with_coverage(conn):
+def test_select_validated_official_metrics_picks_driving_slot_with_coverage(conn):
     pivot = build_prior_season_official_metrics(conn, 2025)
-    selection = select_validated_official_metric(pivot)
-    assert selection == ("평균 티샷 거리", "higher_is_better")
+    selection = select_validated_official_metrics(pivot)
+    assert selection == {"driving": ("평균 티샷 거리", "higher_is_better")}
 
 
-def test_select_validated_official_metric_returns_none_when_no_coverage():
-    assert select_validated_official_metric({}) is None
+def test_select_validated_official_metrics_returns_empty_when_no_coverage():
+    assert select_validated_official_metrics({}) == {}
     sparse_pivot = {"p1": {"평균 티샷 거리": 220.0}}
-    assert select_validated_official_metric(sparse_pivot, min_coverage=20) is None
+    assert select_validated_official_metrics(sparse_pivot, min_coverage=20) == {}
 
 
 def test_oriented_value_flips_sign_only_for_higher_is_better():
@@ -252,7 +263,13 @@ def test_fit_neo_win_model_produces_a_real_tau():
     assert fitted.tau is not None
     assert fitted.tau > 0
     assert fitted.training_tournament_count == 6
-    assert fitted.feature_columns == NEO_WIN_FEATURES
+    assert fitted.feature_columns == BASE_FEATURES
+
+
+def test_build_feature_columns_appends_only_selected_slots():
+    assert build_feature_columns({}) == BASE_FEATURES
+    cols = build_feature_columns({"driving": ("평균 티샷 거리", "higher_is_better")})
+    assert cols == BASE_FEATURES + ("neo_official_metric_driving",)
 
 
 def test_predict_neo_win_model_sums_to_one():
@@ -310,7 +327,7 @@ def test_augment_rows_with_neo_features_adds_expected_keys(conn):
     row = augmented[0]
     assert row["target_season"] == 2026
     assert "neo_consistency_stddev" in row
-    assert "neo_official_metric" in row
+    assert "neo_official_metric_driving" in row
     assert row["official_metric_season"] in (None, 2025)
 
 
@@ -333,7 +350,9 @@ def test_build_neo_win_live_field_covers_every_entrant(conn):
     assert codes == {"A", "B", "C", "D", "E", "ROOKIE1", "UNMATCHED1"}
     rookie_row = next(r for r in field_data["field_rows"] if r["player_code"] == "ROOKIE1")
     assert rookie_row["prior_events_n"] == 0
-    assert field_data["official_metric_context"]["official_metric_label"] == "평균 티샷 거리"
+    assert field_data["official_metric_context"]["selected_slots"] == {"driving": "평균 티샷 거리"}
+    assert set(field_data["official_metric_context"]["omitted_slots"]) == {"overall_skill", "short_game", "putting"}
+    assert "identity_resolution" in field_data["official_metric_context"]
 
 
 # ---------------------------------------------------------------
@@ -363,4 +382,6 @@ def test_run_neo_win_inference_missing_data_report_reflects_rookie(conn):
     result = run_neo_win_inference(conn, LIVE_GAME_CODE, CUTOFF_DATE)
     assert result.missing_data_report["zero_prior_events_count"] >= 1
     assert result.missing_data_report["unmatched_player_master_count"] == 1
-    assert result.missing_data_report["official_metric_feature_omitted_entirely"] is False
+    assert result.missing_data_report["official_metric_slots_used"] == ["driving"]
+    assert "identity_resolution" in result.missing_data_report
+    assert all("driving" in p.official_metrics for p in result.predictions)

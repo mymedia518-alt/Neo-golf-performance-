@@ -33,8 +33,7 @@ def _snapshot(prediction_id="001", game_code="G1") -> NeoWinPredictionSnapshot:
         prior_recent_form_10_n=10,
         neo_consistency_stddev=2.0,
         neo_consistency_stddev_n=10,
-        neo_official_metric=-220.0,
-        neo_official_metric_n=1,
+        official_metrics={"driving": -220.0, "overall_skill": None, "short_game": None, "putting": None},
         player_master_matched=True,
     )
     return NeoWinPredictionSnapshot(

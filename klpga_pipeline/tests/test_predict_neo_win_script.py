@@ -1,5 +1,7 @@
 """Tests for scripts/33_predict_neo_win.py — offline, against a small
-synthetic DB (mirrors tests/test_neo_win.py's fixture shape)."""
+synthetic DB (mirrors tests/test_neo_win.py's fixture shape). Every
+invocation passes --output-dir under tmp_path so tests never write into
+the real repo's outputs/beta001/."""
 from __future__ import annotations
 
 import importlib.util
@@ -69,21 +71,63 @@ def db_path(tmp_path):
     return path
 
 
-def test_main_prints_report_without_freezing(module, db_path, tmp_path, capsys):
+def test_main_prints_report_and_writes_output_files(module, db_path, tmp_path, capsys):
+    output_dir = tmp_path / "outputs" / "beta001"
     argv_backup = sys.argv
-    sys.argv = ["33_predict_neo_win.py", "--db", str(db_path), "--game-code", "LIVE1", "--cutoff-date", "2027-01-01"]
+    sys.argv = [
+        "33_predict_neo_win.py",
+        "--db", str(db_path),
+        "--game-code", "LIVE1",
+        "--cutoff-date", "2027-01-01",
+        "--output-dir", str(output_dir),
+    ]
     try:
         rc = module.main()
     finally:
         sys.argv = argv_backup
     assert rc == 0
     out = capsys.readouterr().out
-    assert "NEO WIN % v0.1 (BETA #001)" in out
-    assert "TOP 10 NEO WIN %" in out
+    assert "NEO GOLF BETA #001" in out
+    assert "TOP 10 WIN %" in out
+    assert "DATA QUALITY" in out
+    assert "PROBABILITY CHECK" in out
+    assert "FREEZE" in out
+    assert "NOT FROZEN" in out
+
+    assert (output_dir / "BETA001_WIN_FULL.csv").exists()
+    assert (output_dir / "BETA001_WIN_TOP10.csv").exists()
+    assert (output_dir / "BETA001_MODEL_REPORT.md").exists()
+    assert (output_dir / "BETA001_THREADS.txt").exists()
+    assert not (output_dir / "BETA001_FREEZE.json").exists()  # --freeze not passed
 
 
-def test_main_freeze_writes_snapshot(module, db_path, tmp_path):
+def test_full_csv_has_one_row_per_field_player(module, db_path, tmp_path):
+    import csv as csv_module
+
+    output_dir = tmp_path / "outputs" / "beta001"
+    argv_backup = sys.argv
+    sys.argv = [
+        "33_predict_neo_win.py",
+        "--db", str(db_path),
+        "--game-code", "LIVE1",
+        "--cutoff-date", "2027-01-01",
+        "--output-dir", str(output_dir),
+    ]
+    try:
+        assert module.main() == 0
+    finally:
+        sys.argv = argv_backup
+
+    with open(output_dir / "BETA001_WIN_FULL.csv", encoding="utf-8-sig") as f:
+        rows = list(csv_module.DictReader(f))
+    assert len(rows) == 3
+    codes = {r["player_code"] for r in rows}
+    assert codes == {"A", "B", "C"}
+
+
+def test_main_freeze_writes_snapshot_and_freeze_copy(module, db_path, tmp_path):
     predictions_dir = tmp_path / "neo_win_predictions"
+    output_dir = tmp_path / "outputs" / "beta001"
     argv_backup = sys.argv
     sys.argv = [
         "33_predict_neo_win.py",
@@ -93,6 +137,7 @@ def test_main_freeze_writes_snapshot(module, db_path, tmp_path):
         "--freeze",
         "--prediction-id", "001",
         "--predictions-dir", str(predictions_dir),
+        "--output-dir", str(output_dir),
     ]
     try:
         rc = module.main()
@@ -105,10 +150,18 @@ def test_main_freeze_writes_snapshot(module, db_path, tmp_path):
     assert data["game_code"] == "LIVE1"
     assert len(data["predictions"]) == 3
 
+    freeze_copy = output_dir / "BETA001_FREEZE.json"
+    assert freeze_copy.exists()
+    copy_data = json.loads(freeze_copy.read_text(encoding="utf-8"))
+    assert copy_data["game_code"] == "LIVE1"
 
-def test_main_freeze_without_prediction_id_fails_cleanly(module, db_path):
+
+def test_main_freeze_without_prediction_id_fails_cleanly(module, db_path, tmp_path):
     argv_backup = sys.argv
-    sys.argv = ["33_predict_neo_win.py", "--db", str(db_path), "--game-code", "LIVE1", "--freeze"]
+    sys.argv = [
+        "33_predict_neo_win.py", "--db", str(db_path), "--game-code", "LIVE1", "--freeze",
+        "--output-dir", str(tmp_path / "outputs"),
+    ]
     try:
         rc = module.main()
     finally:
@@ -118,7 +171,10 @@ def test_main_freeze_without_prediction_id_fails_cleanly(module, db_path):
 
 def test_main_db_not_found_fails_cleanly(module, tmp_path):
     argv_backup = sys.argv
-    sys.argv = ["33_predict_neo_win.py", "--db", str(tmp_path / "nope.sqlite"), "--game-code", "LIVE1"]
+    sys.argv = [
+        "33_predict_neo_win.py", "--db", str(tmp_path / "nope.sqlite"), "--game-code", "LIVE1",
+        "--output-dir", str(tmp_path / "outputs"),
+    ]
     try:
         rc = module.main()
     finally:
@@ -128,6 +184,7 @@ def test_main_db_not_found_fails_cleanly(module, tmp_path):
 
 def test_main_refuses_to_reopen_an_already_frozen_snapshot(module, db_path, tmp_path):
     predictions_dir = tmp_path / "neo_win_predictions"
+    output_dir = tmp_path / "outputs" / "beta001"
     argv = [
         "33_predict_neo_win.py",
         "--db", str(db_path),
@@ -136,6 +193,7 @@ def test_main_refuses_to_reopen_an_already_frozen_snapshot(module, db_path, tmp_
         "--freeze",
         "--prediction-id", "001",
         "--predictions-dir", str(predictions_dir),
+        "--output-dir", str(output_dir),
     ]
     argv_backup = sys.argv
     try:
