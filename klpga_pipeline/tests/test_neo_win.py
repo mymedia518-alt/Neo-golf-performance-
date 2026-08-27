@@ -165,19 +165,19 @@ def test_consistency_feature_computes_real_stdev_from_prior_rounds(conn):
 
 def test_prior_season_pivot_excludes_flagged_by_default(conn):
     pivot = build_prior_season_official_metrics(conn, 2025)
-    assert "그린 적중률" not in pivot.get("A", {})
-    assert "평균 티샷 거리" in pivot.get("A", {})
+    assert ("Tee::Tee01::010101", "그린 적중률") not in pivot.get("A", {})
+    assert ("Tee::Tee01::010101", "평균 티샷 거리") in pivot.get("A", {})
 
 
 def test_prior_season_pivot_includes_flagged_when_requested(conn):
     pivot = build_prior_season_official_metrics(conn, 2025, exclude_flagged=False)
-    assert "그린 적중률" in pivot.get("A", {})
+    assert ("Tee::Tee01::010101", "그린 적중률") in pivot.get("A", {})
 
 
 def test_select_validated_official_metrics_picks_driving_slot_with_coverage(conn):
     pivot = build_prior_season_official_metrics(conn, 2025)
     selection = select_validated_official_metrics(pivot)
-    assert selection == {"driving": ("평균 티샷 거리", "higher_is_better")}
+    assert selection == {"driving": ("Tee::Tee01::010101", "평균 티샷 거리", "higher_is_better")}
 
 
 def test_select_validated_official_metrics_returns_empty_when_no_coverage():
