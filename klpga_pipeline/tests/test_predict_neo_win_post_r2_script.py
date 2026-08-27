@@ -550,3 +550,160 @@ def test_r2_supersedes_a_stale_missing_marker_same_architecture_as_r1(module, tm
     assert len(events) == 2
     assert events[0].status == "HISTORICAL_SNAPSHOT_MISSING"
     assert events[1].status == "RECORDED"
+
+
+# ---------------------------------------------------------------
+# Real production scale (120-player field) — end-to-end: status-aware
+# readiness, terminal players never get a fabricated probability, and
+# the frozen PRE artifact stays byte-for-byte unchanged, all at the
+# real field size (not just the 5-player fixture above).
+# ---------------------------------------------------------------
+
+SCALE_GAME_CODE = "R2SCALE"
+SCALE_PLAYERS = [f"P{i:03d}" for i in range(120)]
+
+
+def _base_db_120(tmp_path):
+    path = tmp_path / "scale.sqlite"
+    conn = sqlite3.connect(path)
+    conn.execute("PRAGMA foreign_keys = ON")
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+
+    for t in range(8):
+        event_id = f"T{t:02d}"
+        ranked = SCALE_PLAYERS[t * 5:] + SCALE_PLAYERS[: t * 5]
+        conn.execute(
+            "INSERT INTO tournament_master (event_id, game_code, event_name, season, start_date, end_date) "
+            "VALUES (?, ?, ?, 2026, ?, ?)",
+            (event_id, event_id, event_id, f"2026-0{(t % 9) + 1:01d}-01", f"2026-0{(t % 9) + 1:01d}-01"),
+        )
+        for rank, player_id in enumerate(ranked, start=1):
+            conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES (?, ?)", (player_id, player_id))
+            conn.execute(
+                "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+                "finish_position_numeric, made_cut, rounds_played, score_to_par) VALUES "
+                "(?, ?, 2026, ?, ?, ?, ?, 1, 4, ?)",
+                (event_id, event_id, player_id, player_id, str(rank), rank, -120 + rank),
+            )
+            for rn in range(1, 5):
+                conn.execute(
+                    "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+                    "round_score, round_to_par) VALUES (?, ?, 2026, ?, ?, ?, ?, ?)",
+                    (event_id, event_id, rn, player_id, player_id, 70 - (rank % 20), -(rank % 20)),
+                )
+    for player_id in SCALE_PLAYERS:
+        conn.execute(
+            "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+            "VALUES (?, ?, ?, 'test', '2027-01-01T00:00:00Z')",
+            (SCALE_GAME_CODE, player_id, player_id),
+        )
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, start_date, end_date) "
+        "VALUES (?, ?, 'Scale Test Open', 2026, '2027-01-01', '2027-01-04')",
+        (SCALE_GAME_CODE, SCALE_GAME_CODE),
+    )
+    conn.commit()
+    return conn, path
+
+
+def _scale_pre_freeze(db_path, predictions_dir):
+    predict_module = _load(PREDICT_SCRIPT_PATH, "predict_neo_win_script_for_r2_scale")
+    argv_backup = sys.argv
+    sys.argv = [
+        "33_predict_neo_win.py", "--db", str(db_path), "--game-code", SCALE_GAME_CODE, "--cutoff-date", CUTOFF_DATE,
+        "--freeze", "--prediction-id", "001", "--predictions-dir", str(predictions_dir),
+        "--output-dir", str(predictions_dir.parent / "pre_outputs_scale"),
+    ]
+    try:
+        assert predict_module.main() == 0
+    finally:
+        sys.argv = argv_backup
+
+
+def test_120_player_field_118_completed_2_wd_terminal_players_never_fabricated(module, tmp_path, capsys):
+    """The exact real-scale scenario: 118 players complete R1+R2 and
+    make the cut, 2 players are real, confirmed WD — status-aware
+    readiness must be GO, every one of the 120 ENTRY_FIELD players must
+    appear in the output, the 2 WD players must show 'unavailable' for
+    every probability field (never a fabricated number, not even 0),
+    and the frozen PRE artifact must remain byte-for-byte unchanged."""
+    conn, db_path = _base_db_120(tmp_path)
+    completed = SCALE_PLAYERS[:118]
+    wd_players = SCALE_PLAYERS[118:]
+    for i, player_id in enumerate(completed):
+        conn.execute(
+            "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+            "round_score, round_to_par) VALUES (?, ?, 2026, 1, ?, ?, ?, ?)",
+            (SCALE_GAME_CODE, SCALE_GAME_CODE, player_id, player_id, 70 - (i % 15), -(i % 15)),
+        )
+        conn.execute(
+            "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+            "round_score, round_to_par) VALUES (?, ?, 2026, 2, ?, ?, ?, ?)",
+            (SCALE_GAME_CODE, SCALE_GAME_CODE, player_id, player_id, 71 - (i % 15), -(i % 15) - 1),
+        )
+        conn.execute(
+            "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+            "finish_position_numeric, made_cut, rounds_played, score_to_par) VALUES "
+            "(?, ?, 2026, ?, ?, ?, ?, 1, 4, ?)",
+            (SCALE_GAME_CODE, SCALE_GAME_CODE, player_id, player_id, str(i + 1), i + 1, -6 + (i % 15)),
+        )
+    for player_id in wd_players:
+        conn.execute(
+            "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+            "finish_position_numeric, made_cut, withdrawn, rounds_played, score_to_par) VALUES "
+            "(?, ?, 2026, ?, ?, 'WD', NULL, 0, 1, 1, NULL)",
+            (SCALE_GAME_CODE, SCALE_GAME_CODE, player_id, player_id),
+        )
+    conn.commit()
+    conn.close()
+
+    predictions_dir = tmp_path / "neo_win_predictions"
+    _scale_pre_freeze(db_path, predictions_dir)
+    pre_json = predictions_dir / "2027" / f"neo_win_001_{SCALE_GAME_CODE}.json"
+    assert pre_json.exists()
+    pre_hash_before = hashlib.sha256(pre_json.read_bytes()).hexdigest()
+
+    output_dir = tmp_path / "outputs" / "beta_r2_scale"
+    history_dir = tmp_path / "neo_tournament_history"
+    argv_backup = sys.argv
+    sys.argv = [
+        "44_predict_neo_win_post_r2.py", "--db", str(db_path), "--game-code", SCALE_GAME_CODE,
+        "--predictions-dir", str(predictions_dir), "--pre-cutoff-date", CUTOFF_DATE,
+        "--output-dir", str(output_dir), "--history-dir", str(history_dir),
+        "--n-simulations", "300", "--seed", "11", "--freeze",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "readiness verdict: GO" in out
+    assert "WARN" not in out
+    assert "HARD_STOP" not in out
+    # The 2 WD players are real, evidence-classified exclusions (no r1/r2 data
+    # because they never played) — never an unexplained/leakage case.
+    assert "missing_r1_or_r2_or_cut=2" in out
+    for player_id in wd_players:
+        assert f"{player_id}: WD" in out
+
+    assert hashlib.sha256(pre_json.read_bytes()).hexdigest() == pre_hash_before  # frozen PRE untouched
+
+    csv_path = output_dir / "BETA_R2_FULL.csv"
+    assert csv_path.exists()
+    with open(csv_path, encoding="utf-8-sig") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 120  # every ENTRY_FIELD player preserved, none dropped
+    row_by_code = {r["player_code"]: r for r in rows}
+
+    for player_id in completed:
+        assert row_by_code[player_id]["player_status"] == "ACTIVE"
+
+    for player_id in wd_players:
+        assert row_by_code[player_id]["player_status"] == "WD"
+        for field in ("neo_win_pct", "neo_cut_pct", "neo_r3_pct", "neo_final_pct", "neo_top10_pct"):
+            assert row_by_code[player_id][field] == "unavailable"  # never fabricated, not even 0
+
+    # real, simulated win probabilities among the 118 live players sum to ~100%.
+    win_values = [float(row_by_code[p]["neo_win_pct"]) for p in completed]
+    assert abs(sum(win_values) - 100.0) < 0.5

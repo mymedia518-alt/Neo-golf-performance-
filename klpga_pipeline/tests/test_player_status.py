@@ -275,3 +275,104 @@ def test_readiness_reflects_every_entry_field_player_never_drops_one(conn):
     readiness = assess_field_readiness(conn, "G1", round_number=2)
     assert {s.player_code for s in readiness.statuses} == {"p1", "p2", "p3"}
     assert readiness.field_size == 3
+
+
+# ---------------------------------------------------------------
+# Real production scale (120-player field) — the exact literal
+# scenarios required for the R2 status-aware readiness checkpoint.
+# ---------------------------------------------------------------
+
+
+def _bulk_completed(conn, codes, round_number=2):
+    for i, code in enumerate(codes):
+        _entry(conn, code)
+        _player_round(conn, code, round_number=round_number, round_to_par=-(i % 10))
+
+
+def test_120_field_118_completed_plus_2_wd_is_go(conn):
+    completed = [f"p{i}" for i in range(118)]
+    wd = [f"wd{i}" for i in range(2)]
+    _bulk_completed(conn, completed)
+    for code in wd:
+        _entry(conn, code)
+        _player_event(conn, code, withdrawn=1, finish_position="WD")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+    assert readiness.field_size == 120
+    assert readiness.unknown_players == ()
+    assert readiness.collection_missing_players == ()
+    statuses_by_code = {s.player_code: s for s in readiness.statuses}
+    for code in wd:
+        assert statuses_by_code[code].classification == STATUS_WD
+
+
+def test_120_field_119_completed_plus_1_dq_is_go(conn):
+    completed = [f"p{i}" for i in range(119)]
+    _bulk_completed(conn, completed)
+    _entry(conn, "dq0")
+    _player_event(conn, "dq0", disqualified=1, finish_position="DQ")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+    assert readiness.field_size == 120
+    statuses_by_code = {s.player_code: s for s in readiness.statuses}
+    assert statuses_by_code["dq0"].classification == STATUS_DQ
+
+
+def test_120_field_dns_without_score_is_go(conn):
+    completed = [f"p{i}" for i in range(119)]
+    _bulk_completed(conn, completed)
+    _entry(conn, "dns0")
+    _player_event(conn, "dns0", finish_position="DNS")  # text-only DNS, no round_2 row, no confirmed boolean
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_GO
+    assert readiness.field_size == 120
+    statuses_by_code = {s.player_code: s for s in readiness.statuses}
+    assert statuses_by_code["dns0"].classification == STATUS_DNS
+
+
+def test_120_field_unexplained_missing_is_warn(conn):
+    completed = [f"p{i}" for i in range(119)]
+    _bulk_completed(conn, completed)
+    _entry(conn, "unk0")  # no player_event row, no player_round row -> genuinely UNKNOWN
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_WARN
+    assert readiness.field_size == 120
+    assert readiness.unknown_players == ("unk0",)
+    assert readiness.collection_missing_players == ()
+
+
+def test_120_field_collection_failure_is_hard_stop(conn):
+    completed = [f"p{i}" for i in range(119)]
+    _bulk_completed(conn, completed)
+    _entry(conn, "cm0")
+    # positive evidence of participation (rounds_played covers round 2), no WD/DQ/DNS explanation,
+    # yet no round_number=2 row exists -> a real ingestion gap, never confused with a legitimate absence.
+    _player_event(conn, "cm0", made_cut=1, rounds_played=4, finish_position="T20")
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.verdict == READINESS_HARD_STOP
+    assert readiness.field_size == 120
+    assert readiness.collection_missing_players == ("cm0",)
+
+
+def test_120_field_all_entry_field_players_always_represented(conn):
+    completed = [f"p{i}" for i in range(115)]
+    _bulk_completed(conn, completed)
+    terminal_codes = ["wd0", "wd1", "dq0", "dns0", "unk0"]
+    for code in terminal_codes:
+        _entry(conn, code)
+    _player_event(conn, "wd0", withdrawn=1, finish_position="WD")
+    _player_event(conn, "wd1", withdrawn=1, finish_position="WD")
+    _player_event(conn, "dq0", disqualified=1, finish_position="DQ")
+    _player_event(conn, "dns0", finish_position="DNS")
+    # unk0: no player_event row at all -> UNKNOWN, WARN, but still represented.
+
+    readiness = assess_field_readiness(conn, "G1", round_number=2)
+    assert readiness.field_size == 120
+    assert len(readiness.statuses) == 120
+    assert {s.player_code for s in readiness.statuses} == set(completed) | set(terminal_codes)
+    assert readiness.verdict == READINESS_WARN  # unk0 is genuinely unexplained
