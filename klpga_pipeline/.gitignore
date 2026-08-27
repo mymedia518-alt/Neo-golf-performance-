@@ -14,3 +14,19 @@ web/dist/
 # B1.1 evidence preservation) — local diagnostic evidence only, never
 # auto-committed; hand specific files over deliberately when needed.
 docs/discovery/raw_samples/
+
+# Round 14 fix: these are pure, deterministic OUTPUTS of scripts 28/31
+# (fully reproducible from the already-tracked taxonomy JSON, zero
+# network calls) plus run_klpga_collector.py's per-machine checkpoint/
+# skip-queue/report state. Tracking them in git meant every machine
+# that ran these scripts locally before pulling would generate an
+# untracked file at the exact same path git later tries to write,
+# aborting the pull ("untracked working tree files would be
+# overwritten by merge"). Regenerate locally with scripts/28, 31, or
+# run_klpga_collector.py; hand a specific file over deliberately (git
+# add -f) only when it needs to be shared as evidence, same convention
+# as raw_samples/ above.
+docs/discovery/KLPGA_CANONICAL_METRIC_REQUEST_PLAN.json
+docs/discovery/KLPGA_IDENTITY_KEY_COLLISION_REPORT.csv
+docs/discovery/KLPGA_MALFORMED_LEAF_REPORT.csv
+docs/discovery/local_collector/
