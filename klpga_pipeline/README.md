@@ -631,6 +631,25 @@ evaluation (design only, not yet implemented) will always read an
 archived snapshot and write a separate file — never mutate the
 original.
 
+## NEO WIN % v0.1 — BETA #001 (new, separate from Prediction #001)
+
+`src/klpga/neo_win/` + `src/klpga/analytics/neo_performance_dataset.py`
++ `scripts/33_predict_neo_win.py` — a second, standalone win-probability
+pipeline, reusing the M0-M6 ladder's already-validated pure math
+(shrinkage, softmax, MLE fitting) but with its OWN feature set (career
+scoring + recent form + a new point-in-time consistency/downside-risk
+feature + a validated prior-season official KLPGA metric) and its OWN
+frozen-snapshot archive at `neo_win_predictions/` — never touching
+`klpga.models`, `predictions/`, or the frozen M4 model in any way. See
+`docs/NEO_WIN_V0_1_METHODOLOGY.md` for the full design writeup
+(feature definitions, leakage validation, missing-data treatment,
+orientation allowlist for the official-metric feature).
+
+```
+python scripts/33_predict_neo_win.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD
+python scripts/33_predict_neo_win.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD --freeze --prediction-id 001
+```
+
 ## NEO Predictions — public site
 
 `src/klpga/site/` + `scripts/25_build_predictions_site.py` — a static-
