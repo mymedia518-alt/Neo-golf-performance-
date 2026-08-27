@@ -194,6 +194,84 @@ def test_main_freeze_writes_immutable_snapshot(module, db_path, tmp_path):
     assert pre_data["prediction_id"] == "001"
 
 
+def test_hard_stop_when_round_2_data_already_exists(module, db_path, tmp_path, capsys):
+    predictions_dir = tmp_path / "neo_win_predictions"
+    _freeze_pre(db_path, predictions_dir)
+
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 2, 'A', 'A', 68, -2)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    argv_backup = sys.argv
+    sys.argv = [
+        "35_predict_neo_win_post_r1.py",
+        "--db", str(db_path), "--game-code", GAME_CODE, "--predictions-dir", str(predictions_dir),
+        "--pre-prediction-id", "001", "--pre-cutoff-date", CUTOFF_DATE,
+        "--n-simulations", "300", "--seed", "42", "--output-dir", str(output_dir),
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 7
+    out = capsys.readouterr().out
+    assert "HARD STOP" in out
+    assert "round_number=2" in out
+    assert not output_dir.exists() or not any(output_dir.iterdir())
+
+
+def test_neo_r3_and_final_pct_are_aliases_of_make_cut_pct(module, db_path, tmp_path):
+    import csv as csv_module
+
+    predictions_dir = tmp_path / "neo_win_predictions"
+    _freeze_pre(db_path, predictions_dir)
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    argv_backup = sys.argv
+    sys.argv = [
+        "35_predict_neo_win_post_r1.py",
+        "--db", str(db_path), "--game-code", GAME_CODE, "--predictions-dir", str(predictions_dir),
+        "--pre-prediction-id", "001", "--pre-cutoff-date", CUTOFF_DATE,
+        "--n-simulations", "300", "--seed", "9", "--output-dir", str(output_dir),
+    ]
+    try:
+        assert module.main() == 0
+    finally:
+        sys.argv = argv_backup
+
+    with open(output_dir / "BETA001_R1_FULL.csv", encoding="utf-8-sig") as f:
+        rows = list(csv_module.DictReader(f))
+    assert rows
+    for row in rows:
+        assert row["neo_r3_pct"] == row["post_r1_make_cut_pct"]
+        assert row["neo_final_pct"] == row["post_r1_make_cut_pct"]
+
+
+def test_r2_absence_reported_in_console_output(module, db_path, tmp_path, capsys):
+    predictions_dir = tmp_path / "neo_win_predictions"
+    _freeze_pre(db_path, predictions_dir)
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    argv_backup = sys.argv
+    sys.argv = [
+        "35_predict_neo_win_post_r1.py",
+        "--db", str(db_path), "--game-code", GAME_CODE, "--predictions-dir", str(predictions_dir),
+        "--pre-prediction-id", "001", "--pre-cutoff-date", CUTOFF_DATE,
+        "--n-simulations", "300", "--seed", "3", "--output-dir", str(output_dir),
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "R2 DATA: 0 round_number=2 rows found" in out
+
+
 def test_main_fails_cleanly_when_no_r1_data(module, tmp_path):
     path = tmp_path / "empty.sqlite"
     conn = sqlite3.connect(path)

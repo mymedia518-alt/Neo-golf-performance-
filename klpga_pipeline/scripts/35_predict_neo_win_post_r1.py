@@ -23,6 +23,28 @@ PREREQUISITE: Round 1's leaderboard must already be collected into
 request itself. Use the existing single-tournament collector:
     python scripts/04_collect_single_tournament.py --season 2026 --game-code <code>
 
+======================================================================
+HARD STOP ON ANY ROUND-2 DATA (LEAKAGE GUARD)
+======================================================================
+Before doing anything else, this script queries `player_round` for
+round_number=2 rows for this game_code. If even ONE such row exists,
+it HARD STOPS and writes nothing — this script must never use Round-2
+(or later) data. Once Round 2 has genuinely concluded, use
+scripts/44_predict_neo_win_post_r2.py instead (which correctly reads
+the cut as a real, known fact rather than simulating it).
+
+======================================================================
+NEO R3 % / NEO FINAL % ARE ALIASES OF POST_R1_MAKE_CUT %
+======================================================================
+Verified real evidence (docs/SITE_STRUCTURE_TODO.md): this tournament
+format has exactly ONE cut, after Round 2, and no subsequent cut — a
+cutmaker automatically plays both remaining rounds. There is no
+independent "advances to R3" vs "advances to FINAL" event to model, so
+`neo_r3_pct`/`neo_final_pct` are reported as the literal same simulated
+value as `post_r1_make_cut_pct` (still a Monte Carlo estimate at this
+stage, since Round 2 has not happened yet) — never a second,
+independently-derived number. Same convention as round_update_r2.py.
+
 Usage:
     python scripts/35_predict_neo_win_post_r1.py --db data/klpga.sqlite --game-code 2026080001 \\
         --pre-prediction-id 001 --freeze --prediction-id 001-R1
@@ -85,6 +107,13 @@ def _r1_positions(r1_scores: dict) -> dict:
     return positions
 
 
+def _r2_row_count(conn: sqlite3.Connection, game_code: str) -> int:
+    return conn.execute(
+        "SELECT COUNT(*) FROM player_round WHERE game_code = ? AND round_number = 2",
+        (game_code,),
+    ).fetchone()[0]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
@@ -112,6 +141,15 @@ def main() -> int:
 
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
+        r2_row_count = _r2_row_count(conn, args.game_code)
+        r2_check_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        if r2_row_count > 0:
+            print(f"HARD STOP: {r2_row_count} round_number=2 player_round row(s) already exist for "
+                  f"game_code={args.game_code!r} (checked at {r2_check_utc}). This script only ever "
+                  "uses R1-confirmed data — generating a POST-R1 snapshot now would leak Round-2 "
+                  "information. Use scripts/44_predict_neo_win_post_r2.py instead. Nothing written.")
+            return 7
+
         r1_scores = _read_r1_scores(conn, args.game_code)
         if not r1_scores:
             print(f"ERROR: no round_number=1 player_round rows found for game_code={args.game_code!r}. "
@@ -165,6 +203,8 @@ def main() -> int:
         "rounds_used": [1],
         "cut_rounds_simulated_only": [2, 3, 4],
         "post_r1_real_data_used": False,
+        "round_number_2_rows_found_at_generation_time": r2_row_count,
+        "round_2_absence_checked_at_utc": r2_check_utc,
         "status": "PASS",
     }
 
@@ -174,7 +214,7 @@ def main() -> int:
     full_fieldnames = [
         "rank", "player_code", "player_name", "pre_win_probability_pct", "r1_score_to_par", "r1_position",
         "strokes_behind_leader", "post_r1_win_pct", "post_r1_top5_pct", "post_r1_top10_pct", "post_r1_top20_pct",
-        "post_r1_make_cut_pct", "probability_change_from_pre", "missing_r1_data",
+        "post_r1_make_cut_pct", "neo_r3_pct", "neo_final_pct", "probability_change_from_pre", "missing_r1_data",
     ]
 
     def _row(rank, e):
@@ -189,6 +229,10 @@ def main() -> int:
             "post_r1_top10_pct": "" if e.post_r1_top10_pct is None else e.post_r1_top10_pct,
             "post_r1_top20_pct": "" if e.post_r1_top20_pct is None else e.post_r1_top20_pct,
             "post_r1_make_cut_pct": "" if e.post_r1_make_cut_pct is None else e.post_r1_make_cut_pct,
+            # Single-cut format (see module docstring): R3/FINAL advancement IS the make-cut event —
+            # a documented alias, never a second, independently-simulated probability.
+            "neo_r3_pct": "" if e.post_r1_make_cut_pct is None else e.post_r1_make_cut_pct,
+            "neo_final_pct": "" if e.post_r1_make_cut_pct is None else e.post_r1_make_cut_pct,
             "probability_change_from_pre": "" if e.probability_change_from_pre is None else round(e.probability_change_from_pre, 4),
             "missing_r1_data": e.missing_r1_data,
         }
@@ -236,6 +280,10 @@ def main() -> int:
     (output_dir / "BETA001_R1_MODEL_REPORT.md").write_text("\n".join(report_lines) + "\n", encoding="utf-8")
 
     print("=== NEO GOLF BETA #001 — AFTER R1 ===")
+    print()
+    print(f"R1 DATA: {len(r1_scores)} player_round round_number=1 rows found for game_code={args.game_code!r}")
+    print(f"R2 DATA: 0 round_number=2 rows found (actively checked at {r2_check_utc}, before this snapshot "
+          "was generated) — safe to proceed, no future-round leakage.")
     print()
     leader_code = min(r1_scores, key=r1_scores.get) if r1_scores else None
     leader_name = next((e.player_name for e in entrants if e.player_code == leader_code), leader_code)
