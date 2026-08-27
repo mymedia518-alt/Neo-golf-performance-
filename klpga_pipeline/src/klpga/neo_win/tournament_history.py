@@ -42,7 +42,7 @@ from __future__ import annotations
 import os
 import sqlite3
 import tempfile
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Optional
 
@@ -62,9 +62,30 @@ disclosed negative result, distinct from a stage that simply hasn't
 happened yet (which stays absent from read_full_tournament_history's
 dict entirely, never a record of any kind, until a real artifact
 exists and is recorded normally). Once written, a MISSING marker
-occupies that (game_code, stage) path under the same append-only rule
-as a real recording — it is never silently replaced by a later
-"found it after all" write; see build_missing_stage_marker."""
+occupies that (game_code, stage) PRIMARY path under the same
+append-only rule as a real recording — the marker FILE is never
+overwritten or deleted, and is never silently replaced in place by a
+later "found it after all" write; see build_missing_stage_marker.
+
+If a real snapshot later becomes available, `write_superseding_stage_
+event_atomic` appends a NEW, separate, append-only event file
+referencing the marker, WITHOUT touching the marker itself — see
+"SUPERSEDING EVENTS" below. This is still not automatic or silent: it
+only ever fires when a caller explicitly hands it a real, freshly-built
+RECORDED snapshot to record; nothing here guesses, backfills, or
+deletes anything on its own."""
+
+_SUPERSEDING_EVENT_GLOB_TEMPLATE = "{stage}__event*.json"
+_SUPERSEDING_EVENT_FILENAME_TEMPLATE = "{stage}__event{index}.json"
+"""Superseding events live as SIBLING files next to the stage's
+PRIMARY `<stage>.json` file — never inside it, never replacing it. The
+first correction is `<stage>__event2.json` (event 1 is implicitly the
+primary file itself); a second correction (if the append-only rule in
+write_superseding_stage_event_atomic ever allowed one) would be
+`<stage>__event3.json`, and so on. Every existing (game_code, stage)
+history file written before this feature existed is completely
+unaffected: with zero sibling event files, `read_effective_history_
+stage` resolves to exactly the same primary snapshot it always did."""
 
 
 class HistoryStageAlreadyRecordedError(RuntimeError):
@@ -105,6 +126,13 @@ class HistoryStageSnapshot:
     entrants: tuple[HistoryEntrant, ...] = field(default_factory=tuple)
     status: str = STATUS_RECORDED
     missing_reason: Optional[str] = None
+    supersedes_recorded_at_utc: Optional[str] = None
+    """Set only on a superseding event (see write_superseding_stage_
+    event_atomic): the `recorded_at_utc` of the HISTORICAL_SNAPSHOT_
+    MISSING marker this RECORDED event corrects — a stable reference
+    back to the immutable original event, never a pointer that could
+    dangle if the marker were ever deleted (it never is, by this
+    module's own writers)."""
 
 
 def _entrant_to_dict(e: HistoryEntrant) -> dict:
@@ -157,6 +185,7 @@ def snapshot_to_dict(snapshot: HistoryStageSnapshot) -> dict:
         "entrants": [_entrant_to_dict(e) for e in snapshot.entrants],
         "status": snapshot.status,
         "missing_reason": snapshot.missing_reason,
+        "supersedes_recorded_at_utc": snapshot.supersedes_recorded_at_utc,
     }
 
 
@@ -174,6 +203,7 @@ def snapshot_from_dict(data: dict) -> HistoryStageSnapshot:
         entrants=tuple(_entrant_from_dict(e) for e in data.get("entrants", [])),
         status=data.get("status", STATUS_RECORDED),
         missing_reason=data.get("missing_reason"),
+        supersedes_recorded_at_utc=data.get("supersedes_recorded_at_utc"),
     )
 
 
@@ -388,16 +418,147 @@ def read_history_stage(path: Path) -> HistoryStageSnapshot:
     return snapshot_from_dict(json.loads(Path(path).read_text(encoding="utf-8")))
 
 
+def _superseding_event_paths(history_root: Path, game_code: str, stage: str) -> list[Path]:
+    primary_dir = history_stage_path(history_root, game_code, stage).parent
+    if not primary_dir.exists():
+        return []
+    return sorted(primary_dir.glob(_SUPERSEDING_EVENT_GLOB_TEMPLATE.format(stage=stage)))
+
+
+def write_superseding_stage_event_atomic(entry: HistoryStageSnapshot, history_root: Path) -> Path:
+    """Corrects a stale HISTORICAL_SNAPSHOT_MISSING marker WITHOUT
+    touching it: appends a new, separate, append-only event file
+    (never the primary `<stage>.json`) carrying `entry` with
+    `supersedes_recorded_at_utc` set to the marker's own
+    `recorded_at_utc`. The marker file itself is never opened for
+    writing here.
+
+    Only valid when the (game_code, stage) slot's CURRENT effective
+    status (see read_effective_history_stage) is
+    STATUS_HISTORICAL_SNAPSHOT_MISSING — this is a correction path, not
+    a general multi-event mechanism:
+      - no primary record at all yet -> ValueError (nothing to
+        supersede; use write_history_stage_atomic for a first recording).
+      - an effective RECORDED event already exists (whether the
+        primary itself, or an earlier superseding event) ->
+        HistoryStageAlreadyRecordedError (append-only duplicate
+        protection, same exception every other writer in this module
+        raises for "this is already recorded")."""
+    import json
+
+    primary_path = history_stage_path(history_root, entry.game_code, entry.stage)
+    if not primary_path.exists():
+        raise ValueError(
+            f"{primary_path} does not exist — nothing to supersede. Use write_history_stage_atomic for a "
+            "first-time recording."
+        )
+
+    effective = read_effective_history_stage(history_root, entry.game_code, entry.stage)
+    if effective is None or effective.status != STATUS_HISTORICAL_SNAPSHOT_MISSING:
+        raise HistoryStageAlreadyRecordedError(
+            f"(game_code={entry.game_code!r}, stage={entry.stage!r}) already has an effective "
+            f"{effective.status if effective else 'UNKNOWN'} event — tournament history is append-only; "
+            "a superseding event may only correct a HISTORICAL_SNAPSHOT_MISSING marker."
+        )
+
+    marker = read_history_stage(primary_path)
+    corrected_entry = replace(entry, supersedes_recorded_at_utc=marker.recorded_at_utc)
+
+    existing_events = _superseding_event_paths(history_root, entry.game_code, entry.stage)
+    next_index = len(existing_events) + 2  # event 1 is implicitly the primary file
+    event_path = primary_path.parent / _SUPERSEDING_EVENT_FILENAME_TEMPLATE.format(
+        stage=entry.stage, index=next_index
+    )
+    content = (json.dumps(snapshot_to_dict(corrected_entry), indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+    _atomic_claim(content, event_path)
+    return event_path
+
+
+def read_effective_history_stage(history_root: Path, game_code: str, stage: str) -> Optional[HistoryStageSnapshot]:
+    """Resolves the CURRENT effective record for (game_code, stage):
+    the newest RECORDED superseding event if one exists, else the
+    primary file as-is (which is then either a real RECORDED stage
+    that was never superseded, or a still-uncorrected
+    HISTORICAL_SNAPSHOT_MISSING marker). Returns None only if no
+    primary file exists at all yet — the normal "this stage hasn't
+    happened" case, unchanged from before superseding events existed.
+
+    For any (game_code, stage) with zero superseding event files (the
+    entire history of this project until now), this returns exactly
+    what `read_history_stage(primary_path)` always returned — fully
+    backward compatible."""
+    primary_path = history_stage_path(history_root, game_code, stage)
+    if not primary_path.exists():
+        return None
+    events = [read_history_stage(p) for p in _superseding_event_paths(history_root, game_code, stage)]
+    recorded_events = [e for e in events if e.status == STATUS_RECORDED]
+    if recorded_events:
+        return recorded_events[-1]  # filenames are index-ordered (event2, event3, ...) -> last is newest
+    return read_history_stage(primary_path)
+
+
+def read_full_history_events(history_root: Path, game_code: str, stage: str) -> list[HistoryStageSnapshot]:
+    """The COMPLETE audit trail for (game_code, stage): the primary
+    event first (even if it is a HISTORICAL_SNAPSHOT_MISSING marker),
+    followed by every superseding event in order. Returns [] if no
+    primary file exists. Use `read_effective_history_stage` for the
+    single current-state record; use this when the full provenance
+    (e.g. "what did we believe before, and when did it change")
+    matters."""
+    primary_path = history_stage_path(history_root, game_code, stage)
+    if not primary_path.exists():
+        return []
+    events = [read_history_stage(primary_path)]
+    events.extend(read_history_stage(p) for p in _superseding_event_paths(history_root, game_code, stage))
+    return events
+
+
+def write_or_supersede_history_stage(entry: HistoryStageSnapshot, history_root: Path) -> tuple[Path, str]:
+    """The recommended entry point for callers (scripts/35, scripts/42)
+    that don't know in advance whether a (game_code, stage) slot is
+    empty, already correctly RECORDED, or occupied by a
+    HISTORICAL_SNAPSHOT_MISSING marker that `entry` (a real, freshly
+    built RECORDED snapshot) can now correct. Never overwrites,
+    deletes, or silently replaces any existing file. Returns
+    (path, action) where action is one of:
+      - "RECORDED": first-time write; the primary file was created.
+      - "SUPERSEDED_MISSING_MARKER": the slot held a MISSING marker,
+        preserved untouched; a new superseding RECORDED event was
+        appended (see write_superseding_stage_event_atomic).
+      - "ALREADY_RECORDED": the slot already has an effective RECORDED
+        event (whether the primary or an earlier superseding event) —
+        nothing was written; this is the append-only duplicate case
+        (e.g. a second real R1 snapshot arriving after one was already
+        recorded)."""
+    try:
+        path = write_history_stage_atomic(entry, history_root)
+        return path, "RECORDED"
+    except HistoryStageAlreadyRecordedError:
+        pass
+
+    effective = read_effective_history_stage(history_root, entry.game_code, entry.stage)
+    if effective is not None and effective.status == STATUS_HISTORICAL_SNAPSHOT_MISSING:
+        path = write_superseding_stage_event_atomic(entry, history_root)
+        return path, "SUPERSEDED_MISSING_MARKER"
+
+    return history_stage_path(history_root, entry.game_code, entry.stage), "ALREADY_RECORDED"
+
+
 def read_full_tournament_history(history_root: Path, game_code: str) -> dict[str, HistoryStageSnapshot]:
     """Returns {stage: HistoryStageSnapshot} for every stage that has
     actually been recorded for `game_code`, in STAGE_ORDER — a stage
     with no file yet is simply absent from the dict, never a
-    fabricated placeholder entry."""
+    fabricated placeholder entry. Each entry is the EFFECTIVE record
+    (see read_effective_history_stage): a corrected stage resolves to
+    its superseding RECORDED event, not a stale MISSING marker — every
+    caller of this function (scripts/42, scripts/43's accuracy
+    evaluation, scripts/44) gets the correction automatically, with no
+    changes required on their side."""
     result: dict[str, HistoryStageSnapshot] = {}
     for stage in STAGE_ORDER:
-        path = history_stage_path(history_root, game_code, stage)
-        if path.exists():
-            result[stage] = read_history_stage(path)
+        entry = read_effective_history_stage(history_root, game_code, stage)
+        if entry is not None:
+            result[stage] = entry
     return result
 
 

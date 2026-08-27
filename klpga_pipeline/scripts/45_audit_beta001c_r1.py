@@ -66,7 +66,7 @@ from klpga.neo_win.tournament_history import (  # noqa: E402
     STATUS_HISTORICAL_SNAPSHOT_MISSING,
     STATUS_RECORDED,
     history_stage_path,
-    read_history_stage,
+    read_effective_history_stage,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,6 +83,17 @@ def _r1_row_count(conn: sqlite3.Connection, game_code: str) -> int:
         "SELECT COUNT(*) FROM player_round WHERE game_code = ? AND round_number = 1 AND round_to_par IS NOT NULL",
         (game_code,),
     ).fetchone()[0]
+
+
+def _r1_player_codes(conn: sqlite3.Connection, game_code: str) -> set:
+    return {
+        player_id
+        for (player_id,) in conn.execute(
+            "SELECT DISTINCT player_id FROM player_round WHERE game_code = ? AND round_number = 1 "
+            "AND round_to_par IS NOT NULL",
+            (game_code,),
+        )
+    }
 
 
 def _field_size(conn: sqlite3.Connection, game_code: str) -> int:
@@ -177,11 +188,12 @@ def main() -> int:
     if missing:
         warns.append(f"{len(missing)} player(s) missing R1 data (disclosed, not fabricated): {missing}")
 
-    # --- DB cross-check (leakage + real field counts, read-only) ---
+    # --- DB cross-check (leakage + real field counts + provenance, read-only) ---
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
         r2_count = _r2_row_count(conn, args.game_code)
         r1_db_count = _r1_row_count(conn, args.game_code)
+        r1_db_codes = _r1_player_codes(conn, args.game_code)
         field_size_db = _field_size(conn, args.game_code)
     finally:
         conn.close()
@@ -193,26 +205,39 @@ def main() -> int:
         )
 
     entrants_scored = r1_data.get("entrants_scored")
+    newly_available_players: list[str] = []
     if entrants_scored is not None and entrants_scored != r1_db_count:
+        # provenance only — this never changes the frozen snapshot, it only reports which of the
+        # snapshot's OWN missing_r1_data players now have a real DB row that arrived after the freeze.
+        newly_available_players = sorted(set(missing) & r1_db_codes)
         warns.append(
             f"entrants_scored in snapshot ({entrants_scored}) != real round_number=1 row count in DB now "
-            f"({r1_db_count}) — DB rows may have changed since the snapshot was frozen."
+            f"({r1_db_count}) — DB rows changed since the snapshot was frozen"
+            + (f"; newly available since freeze: {newly_available_players}" if newly_available_players else "")
         )
 
-    # --- tournament_history ---
+    # --- tournament_history (effective status: resolves a superseding RECORDED
+    # event over a stale HISTORICAL_SNAPSHOT_MISSING marker — see
+    # klpga.neo_win.tournament_history.read_effective_history_stage) ---
     history_path = history_stage_path(Path(args.history_dir), args.game_code, STAGE_R1)
-    history_entry = read_history_stage(history_path) if history_path.exists() else None
+    history_entry = read_effective_history_stage(Path(args.history_dir), args.game_code, STAGE_R1)
 
     if history_entry is None:
-        history_status_line = f"NOT RECORDED — no R1.json found at {history_path}"
+        history_status_line = f"NOT RECORDED — no R1 history record found under {args.history_dir}"
         durable_status = "NOT DURABLY RECORDED anywhere yet — only the append-only round-update JSON/CSV snapshot exists."
         warns.append("PRE->R1 movement is not durably recorded in tournament_history.")
     elif history_entry.status == STATUS_RECORDED:
-        history_status_line = (
-            f"RECORDED at {history_path} (source_prediction_id={history_entry.source_prediction_id!r}, "
-            f"field_size={history_entry.field_size})"
+        supersede_note = (
+            f" (supersedes a MISSING marker recorded at {history_entry.supersedes_recorded_at_utc!r} — "
+            "that marker is preserved untouched)"
+            if history_entry.supersedes_recorded_at_utc
+            else ""
         )
-        durable_status = f"DURABLY RECORDED at {history_path}."
+        history_status_line = (
+            f"RECORDED (source_prediction_id={history_entry.source_prediction_id!r}, "
+            f"field_size={history_entry.field_size}){supersede_note}"
+        )
+        durable_status = f"DURABLY RECORDED under {args.history_dir}/{args.game_code}/R1*.json{supersede_note}."
     elif history_entry.status == STATUS_HISTORICAL_SNAPSHOT_MISSING:
         history_status_line = (
             f"NOT RECORDED — slot occupied by a HISTORICAL_SNAPSHOT_MISSING marker "
@@ -255,13 +280,24 @@ def main() -> int:
         by_code = {p["player_code"]: p for p in r1_predictions}
         for code in missing:
             name = by_code[code].get("player_name")
+            newly_available_note = " [PROVENANCE: DB now has a real R1 row for this player — see below]" if code in newly_available_players else ""
             print(
-                f"  - {name} ({code}): no Round-1 score found in player_round — excluded from the Monte Carlo "
-                "field, reported with null post-R1 probabilities (round_update.py's missing_r1_players)."
+                f"  - {name} ({code}): no Round-1 score found in player_round at freeze time — excluded from the "
+                "Monte Carlo field, reported with null post-R1 probabilities (round_update.py's "
+                f"missing_r1_players).{newly_available_note}"
             )
     else:
         print("  (none)")
     print()
+    if newly_available_players:
+        print("=== PROVENANCE: DB CHANGED SINCE FREEZE (audit info only, frozen snapshot NOT modified) ===")
+        print()
+        print(f"{len(newly_available_players)} player(s) the frozen snapshot marked missing_r1_data=True now "
+              f"have a real round_number=1 row in the current DB: {newly_available_players}")
+        print("This does not change the already-frozen snapshot — it only explains why "
+              f"entrants_scored ({entrants_scored}) differs from the DB's current round_number=1 row count "
+              f"({r1_db_count}).")
+        print()
     print("=== TOP 20 — PRE WIN% -> R1 WIN% (delta) ===")
     print()
     for i, p in enumerate(ranked, start=1):

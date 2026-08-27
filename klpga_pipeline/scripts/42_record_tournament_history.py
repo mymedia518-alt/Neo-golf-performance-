@@ -6,6 +6,18 @@ handling, and proves the source frozen files were not modified (SHA256
 before/after). Read-only against every frozen file; append-only
 against neo_tournament_history/.
 
+R1 discovery prefers the current BETA #001-C round-update naming
+(`neo_win_001-C-R1_<game_code>.json`) and falls back to the legacy
+BETA #001 naming (`neo_win_001-R1_<game_code>.json`) — same "prefer
+#001-C" convention this script already uses for PRE.
+
+Both writes go through `klpga.neo_win.tournament_history.write_or_
+supersede_history_stage`: if a real frozen R1 becomes available after
+an earlier run recorded R1 as HISTORICAL_SNAPSHOT_MISSING, that marker
+is preserved untouched and the real result is appended as a
+superseding event (see that module for the append-only correction
+design) rather than being silently dropped.
+
 Usage:
     python scripts/42_record_tournament_history.py --game-code 2026080001
 """
@@ -24,14 +36,12 @@ from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_PRE,
     STAGE_R1,
     STATUS_HISTORICAL_SNAPSHOT_MISSING,
-    HistoryStageAlreadyRecordedError,
     build_missing_stage_marker,
     history_entry_from_beta001c_snapshot,
     history_entry_from_neo_win_pre_snapshot,
     history_entry_from_round_update_dict,
-    history_stage_path,
     read_full_tournament_history,
-    write_history_stage_atomic,
+    write_or_supersede_history_stage,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,7 +78,11 @@ def main() -> int:
     # Prefer BETA #001-C's own PRE if frozen; else fall back to BETA #001's.
     pre_c_path = _find_one(c_predictions_dir, args.game_code, "neo_win_c_001-C")
     pre_001_path = _find_one(predictions_dir, args.game_code, "neo_win_001")
-    r1_path = _find_one(predictions_dir, args.game_code, "neo_win_001-R1")
+    # Same "prefer #001-C" convention: current production R1 snapshots use the
+    # 001-C-R1 prediction_id; the legacy 001-R1 naming is only a fallback.
+    r1_c_path = _find_one(predictions_dir, args.game_code, "neo_win_001-C-R1")
+    r1_legacy_path = _find_one(predictions_dir, args.game_code, "neo_win_001-R1")
+    r1_path = r1_c_path or r1_legacy_path
 
     pre_entry = None
     pre_source_path = None
@@ -102,19 +116,22 @@ def main() -> int:
         # klpga.neo_win.tournament_history.build_missing_stage_marker.
         r1_missing_reason = (
             f"No frozen R1 snapshot found for game_code={args.game_code!r} under {predictions_dir} "
-            f"(searched pattern: */neo_win_001-R1_{args.game_code}.json)"
+            f"(searched patterns: */neo_win_001-C-R1_{args.game_code}.json, "
+            f"*/neo_win_001-R1_{args.game_code}.json)"
         )
         r1_entry = build_missing_stage_marker(
             args.game_code, STAGE_R1, reason=r1_missing_reason, recorded_at_utc="RUN_TIME"
         )
 
-    for entry in (pre_entry, r1_entry):
+    write_actions: dict[str, str] = {}
+    for label, entry in (("PRE", pre_entry), ("R1", r1_entry)):
         if entry is None:
             continue
-        try:
-            write_history_stage_atomic(entry, history_dir)
-        except HistoryStageAlreadyRecordedError:
-            pass  # SKIP + LOG: already recorded, read back below for verification.
+        # RECORDED (first time) / SUPERSEDED_MISSING_MARKER (a real snapshot corrects an
+        # earlier confirmed-absent marker, which stays untouched) / ALREADY_RECORDED
+        # (SKIP + LOG duplicate) — see klpga.neo_win.tournament_history's module docstring.
+        _path, action = write_or_supersede_history_stage(entry, history_dir)
+        write_actions[label] = action
 
     history = read_full_tournament_history(history_dir, args.game_code)
     recorded_pre = history.get(STAGE_PRE)
@@ -134,9 +151,11 @@ def main() -> int:
     print("=== STATUS ===")
     print("OK" if not hard_errors else "INCOMPLETE")
     print()
-    print(f"PRE STATUS: {recorded_pre.status if recorded_pre else 'NOT_RECORDED'}  (source: {pre_source_path})")
+    print(f"PRE STATUS: {recorded_pre.status if recorded_pre else 'NOT_RECORDED'}  (source: {pre_source_path})  "
+          f"write: {write_actions.get('PRE', 'NOT_ATTEMPTED')}")
     print(f"PRE COUNT: {len(pre_codes)}")
-    print(f"R1 STATUS: {recorded_r1.status if recorded_r1 else 'NOT_RECORDED'}  (source: {r1_path})")
+    print(f"R1 STATUS: {recorded_r1.status if recorded_r1 else 'NOT_RECORDED'}  (source: {r1_path})  "
+          f"write: {write_actions.get('R1', 'NOT_ATTEMPTED')}")
     if r1_missing:
         print(f"R1 MISSING REASON: {recorded_r1.missing_reason}")
     print(f"R1 COUNT: {len(r1_codes)}")

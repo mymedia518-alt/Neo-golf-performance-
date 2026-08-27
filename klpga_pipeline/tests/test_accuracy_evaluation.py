@@ -11,6 +11,7 @@ from klpga.neo_win.accuracy_evaluation import (
     build_tournament_prediction,
     evaluate_all_stages,
     evaluate_stage,
+    load_tournament_histories,
 )
 from klpga.neo_win.tournament_history import (
     RECORD_KIND,
@@ -22,6 +23,8 @@ from klpga.neo_win.tournament_history import (
     HistoryEntrant,
     HistoryStageSnapshot,
     build_missing_stage_marker,
+    write_history_stage_atomic,
+    write_superseding_stage_event_atomic,
 )
 
 
@@ -185,3 +188,38 @@ def test_evaluate_all_stages_covers_pre_r1_r2_r3_never_final():
     assert STAGE_FINAL not in result
     for stage_result in result.values():
         assert stage_result.status == "INSUFFICIENT_EVIDENCE"
+
+
+# ---------------------------------------------------------------
+# RED TEAM follow-up (test D): evaluation must use the real
+# superseding snapshot, never a stale HISTORICAL_SNAPSHOT_MISSING
+# marker that a later real recording has since corrected. This is an
+# end-to-end test against real files (load_tournament_histories reads
+# neo_tournament_history/ from disk) — evaluate_stage's own dict-based
+# tests above never see write_or_supersede_history_stage's file-level
+# resolution, so it needs coverage of its own.
+# ---------------------------------------------------------------
+
+
+def test_load_tournament_histories_evaluates_superseding_event_not_stale_marker(tmp_path):
+    marker = build_missing_stage_marker("G1", STAGE_R1, reason="not found", recorded_at_utc="t1")
+    write_history_stage_atomic(marker, tmp_path)
+
+    real_r1 = HistoryStageSnapshot(
+        game_code="G1", stage=STAGE_R1, record_kind=RECORD_KIND, recorded_at_utc="t2",
+        source_prediction_id="001-C-R1", source_model_version="round_update",
+        source_generated_at_utc="2026-08-28T00:00:00Z", tournament_name="T", field_size=1,
+        entrants=(_e("p1", "A", win_pct=50.0),),
+    )
+    write_superseding_stage_event_atomic(real_r1, tmp_path)
+
+    final = _final_stage("G1", [_e("p1", "A", confirmed_winner=True)], generated="2026-08-31T00:00:00Z")
+    write_history_stage_atomic(final, tmp_path)
+
+    histories = load_tournament_histories(tmp_path, ["G1"])
+    assert histories["G1"][STAGE_R1].status == STATUS_RECORDED  # not HISTORICAL_SNAPSHOT_MISSING
+
+    result = evaluate_stage(histories, STAGE_R1)
+    assert result.status == "EVALUATED"
+    assert result.sample_size == 1
+    assert result.exclusions == ()
