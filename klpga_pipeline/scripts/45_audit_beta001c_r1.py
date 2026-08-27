@@ -147,6 +147,62 @@ def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player
     return classify_player_round_status(conn, game_code, player_code, round_number=1)
 
 
+def _all_round_rows_for_player(conn: sqlite3.Connection, game_code: str, player_code: str) -> list[dict]:
+    """Every real player_round row for this player across ALL round
+    numbers (not just round_number=1) — the R1 provenance checkpoint's
+    own item A explicitly asks whether ANY round data exists and which
+    round_number(s), not just R1's own absence. Read-only, no filter on
+    round_to_par being non-null: a bare status row (if one ever existed)
+    would show here too, distinct from a real completed score."""
+    rows = conn.execute(
+        "SELECT round_number, round_score, round_to_par, finish_position_after_round "
+        "FROM player_round WHERE game_code = ? AND player_id = ? ORDER BY round_number",
+        (game_code, player_code),
+    ).fetchall()
+    return [
+        {
+            "round_number": round_number, "round_score": round_score, "round_to_par": round_to_par,
+            "finish_position_after_round": finish_position_after_round,
+            "is_completed_score": round_to_par is not None,
+        }
+        for round_number, round_score, round_to_par, finish_position_after_round in rows
+    ]
+
+
+# Final-provenance-checkpoint taxonomy, mapped from the shared classifier's
+# real-evidence-only STATUS_* result (never re-derived independently — this
+# is presentation-only remapping of the SAME evidence already gathered).
+PROVENANCE_CONFIRMED_WD = "CONFIRMED_WD"
+PROVENANCE_CONFIRMED_DQ = "CONFIRMED_DQ"
+PROVENANCE_CONFIRMED_DNS = "CONFIRMED_DNS"
+PROVENANCE_LATE_R1_DATA = "LATE_R1_DATA"
+PROVENANCE_DATA_MISSING = "DATA_MISSING"
+PROVENANCE_OTHER = "OTHER"
+
+
+def _final_provenance_classification(status, *, has_late_r1_row: bool) -> str:
+    """Maps the shared classifier's STATUS_* result (plus the separate,
+    already-computed 'does this player now have a real R1 row in the
+    DB that didn't exist at freeze time' fact) onto the R1 provenance
+    checkpoint's own six-value taxonomy. LATE_R1_DATA takes priority
+    over the classifier's own STATUS_* value when a real R1 row has
+    since appeared — a player with a genuinely real R1 score today was
+    never actually WD/DQ/DNS at R1, whatever player_event still says."""
+    if has_late_r1_row:
+        return PROVENANCE_LATE_R1_DATA
+    if status is None:
+        return PROVENANCE_OTHER
+    if status.classification == STATUS_WD:
+        return PROVENANCE_CONFIRMED_WD
+    if status.classification == "DQ":
+        return PROVENANCE_CONFIRMED_DQ
+    if status.classification == "DNS":
+        return PROVENANCE_CONFIRMED_DNS
+    if status.classification == "COLLECTION_MISSING":
+        return PROVENANCE_DATA_MISSING
+    return PROVENANCE_OTHER  # STATUS_UNKNOWN, or anything not positively confirmed
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
@@ -241,6 +297,7 @@ def main() -> int:
         r1_db_codes = _r1_player_codes(conn, args.game_code)
         field_size_db = _field_size(conn, args.game_code)
         missing_classification = {code: _classify_missing_r1_player(conn, args.game_code, code) for code in missing}
+        all_rounds_by_code = {code: _all_round_rows_for_player(conn, args.game_code, code) for code in missing}
         newly_available_row_detail = {}  # filled below, inside this same connection
         snapshot_all_codes = {p["player_code"] for p in r1_predictions}
         unexplained_r1_db_codes = sorted(r1_db_codes - snapshot_all_codes)
@@ -337,17 +394,27 @@ def main() -> int:
     print(f"PRE field size (real DB tournament_entry): {field_size_db}")
     print()
     print(f"Missing/skipped players ({len(missing)}):")
+    final_provenance: dict[str, str] = {}
     if missing:
         by_code = {p["player_code"]: p for p in r1_predictions}
         for code in missing:
             name = by_code[code].get("player_name")
-            newly_available_note = " [PROVENANCE: DB now has a real R1 row for this player — see below]" if code in newly_available_players else ""
+            is_late = code in newly_available_players
+            newly_available_note = " [PROVENANCE: DB now has a real R1 row for this player — see below]" if is_late else ""
             status = missing_classification.get(code)
             print(
                 f"  - {name} ({code}): no Round-1 score found in player_round at freeze time — excluded from the "
                 "Monte Carlo field, reported with null post-R1 probabilities (round_update.py's "
                 f"missing_r1_players).{newly_available_note}"
             )
+            all_rounds = all_rounds_by_code.get(code, [])
+            if all_rounds:
+                rounds_str = ", ".join(
+                    f"R{r['round_number']}(score={r['round_score']!r} to_par={r['round_to_par']!r})" for r in all_rounds
+                )
+                print(f"      player_round rows (ALL round numbers, this tournament): {rounds_str}")
+            else:
+                print("      player_round rows (ALL round numbers, this tournament): none at all")
             if status is not None:
                 print(f"      ENTRY_FIELD: {status.in_entry_field}")
                 print(f"      COMPLETED_R1: {status.completed_this_round}")
@@ -366,6 +433,8 @@ def main() -> int:
                     )
             else:
                 print("      classification: UNKNOWN — not classified")
+            final_provenance[code] = _final_provenance_classification(status, has_late_r1_row=is_late)
+            print(f"      FINAL PROVENANCE CLASSIFICATION: {final_provenance[code]}")
     else:
         print("  (none)")
     print()
@@ -397,6 +466,44 @@ def main() -> int:
               "SEPARATE anomaly from the count above, not automatically the same explanation.")
     if newly_available_players or unexplained_r1_db_codes:
         print()
+    print("=== 115->116 PLAYER (exact responsible player_code, evidence-only) ===")
+    print()
+    if entrants_scored is None or entrants_scored == r1_db_count:
+        print("No entrants_scored/DB row-count discrepancy at this run — nothing to attribute.")
+    elif len(newly_available_players) == 1 and not unexplained_r1_db_codes:
+        code = newly_available_players[0]
+        detail = newly_available_row_detail.get(code, {})
+        print(
+            f"EXACTLY ONE player accounts for the change: {detail.get('player_name')} ({code}) — a real "
+            f"round_number=1 row now exists (round_to_par={detail.get('round_to_par')!r}) that did not exist "
+            f"at freeze time. This is the sole explanation; no other anomaly (unexplained_r1_db_codes) exists."
+        )
+    elif len(newly_available_players) > 1 or unexplained_r1_db_codes:
+        print(
+            f"NOT a single, unambiguous player — {len(newly_available_players)} previously-missing player(s) "
+            f"now have a real R1 row ({newly_available_players}), and "
+            f"{len(unexplained_r1_db_codes)} row(s) belong to player_code(s) entirely absent from the frozen "
+            f"snapshot ({unexplained_r1_db_codes}). Real evidence does not support naming exactly one player — "
+            "reported honestly rather than guessed."
+        )
+    else:
+        print(
+            f"entrants_scored ({entrants_scored}) != DB row count ({r1_db_count}), but no newly-available or "
+            "unexplained player_code was found to explain it — re-run to confirm this is still current; "
+            "not attributed to any specific player without positive evidence."
+        )
+    print()
+    print("=== FROZEN SNAPSHOT VALIDITY ===")
+    print()
+    print(
+        "The frozen 001-C-R1 snapshot remains historically valid: it captured the real, best-available state "
+        "of round_number=1 data AT THE MOMENT it was generated. A player's R1 data arriving in the DB later "
+        "does not retroactively invalidate that snapshot — it is a NEW fact about a LATER point in time, not "
+        "evidence the original snapshot was wrong when it was made. Per this project's append-only/frozen-"
+        "artifact discipline, this script never rewrites or regenerates the frozen snapshot on account of "
+        "later-arriving DB data; only a future stage (R2/R3/FINAL) captures what happened after R1 was frozen."
+    )
+    print()
     print("=== TOP 20 — PRE WIN% -> R1 WIN% (delta) ===")
     print()
     for i, p in enumerate(ranked, start=1):

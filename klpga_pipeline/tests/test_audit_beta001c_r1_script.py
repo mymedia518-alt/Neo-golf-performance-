@@ -520,6 +520,126 @@ def test_audit_reports_provenance_when_db_gains_a_player_after_freeze(module, db
     assert "COMPLETED R1 score (round_to_par is not null): True" in out
 
 
+def test_115_to_116_attribution_names_exactly_one_player(module, db_path, tmp_path, capsys):
+    """The final R1 provenance checkpoint: when exactly one previously-
+    missing player gains a real R1 row and no unexplained row exists,
+    the audit must name that exact player, never leave it ambiguous."""
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing
+    _write_csv(output_dir, entrants)
+
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'E', 'E', 69, -1)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "115->116 PLAYER" in out
+    assert "EXACTLY ONE player accounts for the change: E (E)" in out
+    assert "FINAL PROVENANCE CLASSIFICATION: LATE_R1_DATA" in out
+    assert "FROZEN SNAPSHOT VALIDITY" in out
+    assert "remains historically valid" in out
+    assert "never rewrites or regenerates the frozen snapshot" in out
+
+
+def test_missing_player_round_rows_across_all_rounds_are_listed(module, db_path, tmp_path, capsys):
+    """A missing-R1 player who has real player_round data for OTHER
+    round numbers (a real, if unusual, case) must show those round
+    numbers — never just 'no Round-1 score', which would hide real
+    evidence the player did participate in later rounds."""
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing
+    _write_csv(output_dir, entrants)
+
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 2, 'E', 'E', 70, -2)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "player_round rows (ALL round numbers, this tournament): R2(score=70 to_par=-2)" in out
+
+
+def test_missing_player_with_no_round_data_at_all_shows_none(module, db_path, tmp_path, capsys):
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing, no round data added
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "player_round rows (ALL round numbers, this tournament): none at all" in out
+
+
+def test_final_provenance_classification_maps_dq_to_confirmed_dq(module, db_path, tmp_path, capsys):
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        f"({GAME_CODE!r}, {GAME_CODE!r}, 2026, 'E', 'E', 'DQ', NULL, 0, 0, 1, 1, NULL)"
+    )
+    conn.commit()
+    conn.close()
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "classification: DQ —" in out
+    assert "FINAL PROVENANCE CLASSIFICATION: CONFIRMED_DQ" in out
+
+
+def test_115_to_116_no_discrepancy_reports_nothing_to_attribute(module, db_path_full, tmp_path, capsys):
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir, missing_players=())
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path_full, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "No entrants_scored/DB row-count discrepancy at this run" in out
+
+
 def _classify_db(tmp_path, name="classify.sqlite"):
     conn = sqlite3.connect(tmp_path / name)
     conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
