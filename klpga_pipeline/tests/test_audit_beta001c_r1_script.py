@@ -640,6 +640,177 @@ def test_115_to_116_no_discrepancy_reports_nothing_to_attribute(module, db_path_
     assert "No entrants_scored/DB row-count discrepancy at this run" in out
 
 
+# ---------------------------------------------------------------
+# Unexplained-player investigation (a real R1 row for a player_code
+# absent from the frozen snapshot entirely) — full identity/field/
+# round evidence and the PLAYER_CODE_CHANGED/DUPLICATE_IDENTITY/
+# LATE_ENTRY_FIELD_CHANGE/DB_MAPPING_ERROR/OTHER/UNRESOLVED taxonomy.
+# ---------------------------------------------------------------
+
+
+def test_unexplained_player_not_in_entry_field_is_late_entry_field_change(module, db_path, tmp_path, capsys):
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('ZZZ', 'Ghost')")
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'ZZZ', 'Ghost', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== UNEXPLAINED PLAYER: ZZZ ===" in out
+    assert "player_name (player_master): 'Ghost'" in out
+    assert "in original ENTRY_FIELD (tournament_entry): False" in out
+    assert "CLASSIFICATION: LATE_ENTRY_FIELD_CHANGE" in out
+    # never assumed to be the same as any of the disclosed missing_r1_data players.
+    assert "name match vs the 5 missing_r1_data players (normalized exact): []" in out
+
+
+def test_unexplained_player_name_matches_missing_player_is_player_code_changed(module, db_path, tmp_path, capsys):
+    """A real, evidence-grounded PLAYER_CODE_CHANGED case: the
+    unexplained code's player_master name normalizes to an EXACT match
+    with one of the frozen snapshot's own disclosed missing_r1_data
+    player names — never a fuzzy/approximate guess. A trailing space is
+    used so identity_resolution.py's own exact-string name_counts check
+    does NOT collide (name_counts stays 1 for each spelling) and this
+    scenario is distinguishable from the separate DUPLICATE_IDENTITY
+    case (which fires when two player_master rows share the identical
+    string), while still normalizing equal under this module's own
+    whitespace/case-insensitive comparison."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('E2', 'E ')")  # same normalized name as missing player "E"
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'E2', 'E', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== UNEXPLAINED PLAYER: E2 ===" in out
+    assert "CLASSIFICATION: PLAYER_CODE_CHANGED" in out
+    assert "name match vs the 5 missing_r1_data players (normalized exact): ['E']" in out
+
+
+def test_unexplained_player_real_field_member_never_in_snapshot_is_db_mapping_error(module, db_path, tmp_path, capsys):
+    """A genuine field-enumeration defect: a real ENTRY_FIELD member,
+    with a real player_master identity and a real R1 score, entirely
+    absent from round_update.py's own snapshot output (neither scored
+    nor missing_r1_data) — a real code bug, never a provenance question."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('F', 'F')")
+    conn.execute(
+        "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+        "VALUES (?, 'F', 'F', 'test', '2027-01-01T00:00:00Z')",
+        (GAME_CODE,),
+    )
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'F', 'F', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # F was never part of the frozen field at all
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== UNEXPLAINED PLAYER: F ===" in out
+    assert "in original ENTRY_FIELD (tournament_entry): True" in out
+    assert "CLASSIFICATION: DB_MAPPING_ERROR" in out
+
+
+def test_unexplained_player_ambiguous_identity_is_duplicate_identity(module, db_path, tmp_path, capsys):
+    """Real evidence: two player_master rows share the exact same
+    name — identity_resolution.py's own STATUS_AMBIGUOUS condition."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('DUP1', 'Twin')")
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('DUP2', 'Twin')")
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'DUP1', 'Twin', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== UNEXPLAINED PLAYER: DUP1 ===" in out
+    assert "CLASSIFICATION: DUPLICATE_IDENTITY" in out
+    assert "identity_status='AMBIGUOUS'" in out
+
+
+def test_115_to_116_reports_ambiguity_never_assumes_unexplained_code_is_the_cause(module, db_path, tmp_path, capsys):
+    """Core requirement: an unexplained player_code must NEVER be
+    silently assumed to be the explanation for entrants_scored != DB
+    row count — even when it would be arithmetically sufficient."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('ZZZ', 'Ghost')")
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'ZZZ', 'Ghost', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # entrants_scored=4, missing=['E']
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "=== 115->116 PLAYER" in out
+    assert "NOT a single, unambiguous player" in out
+    assert "['ZZZ']" in out
+
+
 def _classify_db(tmp_path, name="classify.sqlite"):
     conn = sqlite3.connect(tmp_path / name)
     conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
