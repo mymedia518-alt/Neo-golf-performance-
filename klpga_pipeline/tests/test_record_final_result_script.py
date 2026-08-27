@@ -159,3 +159,55 @@ def test_no_db_writes_read_only(module, tmp_path):
     """This script only ever opens the DB in read-only mode."""
     source = SCRIPT_PATH.read_text(encoding="utf-8")
     assert "mode=ro" in source
+
+
+# ---------------------------------------------------------------
+# Real production scale (120-player field) — every real ENTRY_FIELD
+# player recorded as a real result, one confirmed winner, never a
+# fabricated probability of any kind (FINAL never has one).
+# ---------------------------------------------------------------
+
+
+def test_120_player_field_final_result_records_every_player(module, tmp_path, capsys):
+    scale_players = [f"P{i:03d}" for i in range(120)]
+    conn, db_path = _base_db(tmp_path, winner="P000")
+    for i, player_id in enumerate(scale_players):
+        conn.execute(
+            "INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES (?, ?)", (player_id, player_id)
+        )
+        made_cut = 1 if i < 115 else 0
+        conn.execute(
+            "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+            "finish_position_numeric, made_cut, rounds_played, score_to_par) VALUES "
+            "(?, ?, 2026, ?, ?, ?, ?, ?, ?, ?)",
+            (GAME_CODE, GAME_CODE, player_id, player_id, str(i + 1), i + 1, made_cut, 4 if made_cut else 2, -10 + i),
+        )
+    conn.commit()
+    conn.close()
+
+    history_dir = tmp_path / "neo_tournament_history"
+    argv_backup = sys.argv
+    sys.argv = [
+        "47_record_final_result.py", "--db", str(db_path), "--game-code", GAME_CODE,
+        "--history-dir", str(history_dir), "--freeze",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "STATUS: FINAL_CONFIRMED" in out
+    assert "ENTRANTS RECORDED: 120" in out
+    assert "['P000']" in out
+
+    from klpga.neo_win.tournament_history import STAGE_FINAL, read_effective_history_stage
+
+    effective = read_effective_history_stage(history_dir, GAME_CODE, STAGE_FINAL)
+    assert len(effective.entrants) == 120  # every ENTRY_FIELD player recorded, none dropped
+    winner_entry = next(e for e in effective.entrants if e.player_code == "P000")
+    assert winner_entry.actual_confirmed_winner is True
+    assert winner_entry.actual_finish_position_numeric == 1
+    # FINAL is a real result — never a probability field of any kind.
+    for e in effective.entrants:
+        assert e.win_pct is None
