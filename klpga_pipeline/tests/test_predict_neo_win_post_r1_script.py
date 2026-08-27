@@ -21,6 +21,11 @@ CUTOFF_DATE = "2027-01-01"
 def _load(path, name):
     spec = importlib.util.spec_from_file_location(name, path)
     module = importlib.util.module_from_spec(spec)
+    # Register in sys.modules BEFORE exec: scripts/35 now defines its own
+    # @dataclass classes under `from __future__ import annotations` —
+    # dataclasses' string-annotation resolution needs sys.modules[name]
+    # to already point at this module, or it fails with an AttributeError.
+    sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -270,6 +275,190 @@ def test_r2_absence_reported_in_console_output(module, db_path, tmp_path, capsys
     assert rc == 0
     out = capsys.readouterr().out
     assert "R2 DATA: 0 round_number=2 rows found" in out
+
+
+PLAYERS = ["A", "B", "C", "D", "E"]
+
+
+def _freeze_pre_c(c_predictions_dir):
+    """Freezes a synthetic BETA #001-C PRE snapshot directly (not via
+    scripts/38, which needs a full taxonomy/backtest pipeline) — same
+    shape scripts/38 itself writes: feature_values holds RAW
+    prior_avg_round_score_to_par / neo_consistency_stddev, exactly as
+    verified in scripts/38 (feature_values={f: row_by_code[code].get(f)
+    ...}, read straight off the live-field row before standardization)."""
+    from klpga.neo_win.beta001c_archive import (
+        NeoWinCEntrantSnapshot,
+        NeoWinCPredictionSnapshot,
+        RECORD_KIND as C_RECORD_KIND,
+        write_neo_win_c_snapshot_atomic,
+    )
+
+    entrants = tuple(
+        NeoWinCEntrantSnapshot(
+            rank=i + 1, player_code=p, player_name=p, win_probability=1.0 / len(PLAYERS),
+            prior_events_n=10,
+            feature_values={
+                "prior_avg_round_score_to_par": -1.0 - i * 0.2,
+                "prior_recent_form_10": -1.0,
+                "neo_consistency_stddev": 2.0,
+            },
+        )
+        for i, p in enumerate(PLAYERS)
+    )
+    snapshot = NeoWinCPredictionSnapshot(
+        prediction_id="001-C-FINAL", created_at_utc="2027-01-01T00:00:00Z", record_kind=C_RECORD_KIND,
+        game_code=GAME_CODE, tournament_name="Live Test Open", cutoff_date=CUTOFF_DATE,
+        cutoff_source="explicit_arg", selected_model_id="MODEL_A",
+        model_features=("prior_avg_round_score_to_par", "prior_recent_form_10", "neo_consistency_stddev"),
+        selection_decision={"selected_model_id": "MODEL_A"}, training_tournament_count=8,
+        field_size=len(PLAYERS), entrants_predicted=len(PLAYERS), probability_sum=1.0,
+        minimum_probability=1.0 / len(PLAYERS), maximum_probability=1.0 / len(PLAYERS),
+        duplicate_count=0, null_count=0, non_field_count=0, known_limitations=(),
+        predictions=entrants,
+    )
+    write_neo_win_c_snapshot_atomic(snapshot, c_predictions_dir)
+    return snapshot
+
+
+def test_adapt_beta001c_snapshot_maps_feature_values_to_raw_attrs(module):
+    from klpga.neo_win.beta001c_archive import (
+        NeoWinCEntrantSnapshot,
+        NeoWinCPredictionSnapshot,
+        RECORD_KIND as C_RECORD_KIND,
+    )
+
+    c_snapshot = NeoWinCPredictionSnapshot(
+        prediction_id="001-C-FINAL", created_at_utc="t", record_kind=C_RECORD_KIND, game_code="G",
+        tournament_name="T", cutoff_date="2027-01-01", cutoff_source="explicit_arg", selected_model_id="MODEL_A",
+        model_features=("prior_avg_round_score_to_par", "neo_consistency_stddev"), selection_decision={},
+        training_tournament_count=5, field_size=1, entrants_predicted=1, probability_sum=0.3,
+        minimum_probability=0.3, maximum_probability=0.3, duplicate_count=0, null_count=0, non_field_count=0,
+        known_limitations=(),
+        predictions=(
+            NeoWinCEntrantSnapshot(
+                rank=1, player_code="p1", player_name="A", win_probability=0.3, prior_events_n=5,
+                feature_values={"prior_avg_round_score_to_par": -1.2, "neo_consistency_stddev": 2.5},
+            ),
+        ),
+    )
+    adapted = module._adapt_beta001c_snapshot(c_snapshot)
+    assert adapted.prediction_id == "001-C-FINAL"
+    assert adapted.tournament_name == "T"
+    assert adapted.cutoff_date == "2027-01-01"
+    e = adapted.predictions[0]
+    assert e.player_code == "p1" and e.player_name == "A"
+    assert e.win_probability == 0.3
+    assert e.prior_avg_round_score_to_par == -1.2
+    assert e.neo_consistency_stddev == 2.5
+
+
+def test_pre_family_beta001c_accepts_frozen_c_pre_and_records_history(module, db_path, tmp_path, capsys):
+    import csv as csv_module
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    _freeze_pre_c(c_predictions_dir)
+
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1_c"
+    argv_backup = sys.argv
+    sys.argv = [
+        "35_predict_neo_win_post_r1.py",
+        "--db", str(db_path), "--game-code", GAME_CODE,
+        "--pre-family", "beta001c", "--c-predictions-dir", str(c_predictions_dir),
+        "--pre-prediction-id", "001-C-FINAL", "--pre-cutoff-date", CUTOFF_DATE,
+        "--predictions-dir", str(predictions_dir), "--history-dir", str(history_dir),
+        "--n-simulations", "400", "--seed", "11", "--output-dir", str(output_dir),
+        "--freeze", "--prediction-id", "001-C-R1",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "Tournament history (PRE->R1): RECORDED at" in out
+
+    with open(output_dir / "BETA001_R1_FULL.csv", encoding="utf-8-sig") as f:
+        rows = list(csv_module.DictReader(f))
+    assert len(rows) == len(PLAYERS)
+    total_win = sum(float(r["post_r1_win_pct"]) for r in rows if r["post_r1_win_pct"])
+    assert total_win == pytest.approx(100.0, abs=1.0)
+    codes = [r["player_code"] for r in rows]
+    assert len(codes) == len(set(codes))
+
+    round_update_json = predictions_dir / "2027" / "neo_win_001-C-R1_R1TEST.json"
+    assert round_update_json.exists()
+    data = json.loads(round_update_json.read_text(encoding="utf-8"))
+    assert data["pre_prediction_id"] == "001-C-FINAL"
+
+    from klpga.neo_win.tournament_history import history_stage_path, read_history_stage
+
+    history_path = history_stage_path(history_dir, GAME_CODE, "R1")
+    assert history_path.exists()
+    recorded = read_history_stage(history_path)
+    assert recorded.status == "RECORDED"
+    assert recorded.source_prediction_id == "001-C-R1"
+    assert len(recorded.entrants) == len(PLAYERS)
+
+
+def test_pre_family_beta001c_history_write_is_skip_log_when_r1_already_marked_missing(module, db_path, tmp_path, capsys):
+    from klpga.neo_win.tournament_history import (
+        build_missing_stage_marker,
+        history_stage_path,
+        read_history_stage,
+        write_history_stage_atomic,
+    )
+
+    history_dir = tmp_path / "neo_tournament_history"
+    marker = build_missing_stage_marker(
+        GAME_CODE, "R1", reason="test: pre-existing missing marker", recorded_at_utc="2027-01-01T00:00:00Z"
+    )
+    write_history_stage_atomic(marker, history_dir)
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    _freeze_pre_c(c_predictions_dir)
+    predictions_dir = tmp_path / "neo_win_predictions"
+    output_dir = tmp_path / "outputs" / "beta001_r1_c2"
+    argv_backup = sys.argv
+    sys.argv = [
+        "35_predict_neo_win_post_r1.py",
+        "--db", str(db_path), "--game-code", GAME_CODE,
+        "--pre-family", "beta001c", "--c-predictions-dir", str(c_predictions_dir),
+        "--pre-prediction-id", "001-C-FINAL", "--pre-cutoff-date", CUTOFF_DATE,
+        "--predictions-dir", str(predictions_dir), "--history-dir", str(history_dir),
+        "--n-simulations", "300", "--seed", "12", "--output-dir", str(output_dir),
+        "--freeze", "--prediction-id", "001-C-R1",
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 0  # the round-update snapshot itself still freezes successfully
+    out = capsys.readouterr().out
+    assert "SKIP + LOG" in out
+
+    round_update_json = predictions_dir / "2027" / "neo_win_001-C-R1_R1TEST.json"
+    assert round_update_json.exists()
+
+    # the pre-existing MISSING marker must remain untouched — never silently overwritten.
+    still = read_history_stage(history_stage_path(history_dir, GAME_CODE, "R1"))
+    assert still.status == "HISTORICAL_SNAPSHOT_MISSING"
+
+
+def test_pre_family_beta001c_rejects_prediction_id_001(module, tmp_path):
+    argv_backup = sys.argv
+    sys.argv = [
+        "35_predict_neo_win_post_r1.py",
+        "--db", str(tmp_path / "nope.sqlite"), "--game-code", GAME_CODE,
+        "--pre-family", "beta001c", "--pre-cutoff-date", CUTOFF_DATE,
+    ]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == 2
 
 
 def test_main_fails_cleanly_when_no_r1_data(module, tmp_path):
