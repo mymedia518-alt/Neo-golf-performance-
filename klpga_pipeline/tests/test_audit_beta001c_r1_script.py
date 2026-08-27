@@ -581,6 +581,9 @@ def test_audit_prints_classification_for_each_missing_player(module, db_path, tm
     assert rc == 0
     out = capsys.readouterr().out
     assert "classification: WD —" in out
+    # WD_BEFORE_R1 vs WD_DURING_R1 timing is honestly disclosed as not derivable
+    # from the DB alone, never guessed.
+    assert "WD TIMING (before R1 started vs during R1): NOT DERIVABLE" in out
 
 
 def test_audit_errors_cleanly_when_pre_snapshot_missing(module, db_path, tmp_path):

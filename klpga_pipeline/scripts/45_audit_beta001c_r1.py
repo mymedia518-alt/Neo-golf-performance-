@@ -75,7 +75,7 @@ from klpga.neo_win.beta001c_archive import (  # noqa: E402
     archive_paths as c_archive_paths,
     read_neo_win_c_snapshot,
 )
-from klpga.neo_win.player_status import classify_player_round_status  # noqa: E402
+from klpga.neo_win.player_status import STATUS_WD, classify_player_round_status  # noqa: E402
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_R1,
     STATUS_HISTORICAL_SNAPSHOT_MISSING,
@@ -356,6 +356,14 @@ def main() -> int:
                 print(f"      event_status (player_event flags): {status.event_status}")
                 print(f"      finish_position: {status.finish_position!r}")
                 print(f"      classification: {status.classification} — {status.detail}")
+                if status.classification == STATUS_WD:
+                    print(
+                        "      WD TIMING (before R1 started vs during R1): NOT DERIVABLE from available DB "
+                        "fields — player_event.withdrawn is a confirmed boolean with no accompanying "
+                        "timestamp or started/teed-off signal (see klpga.neo_win.player_status."
+                        "STARTED_UNDERIVABLE). A finer WD_BEFORE_R1/WD_DURING_R1 split requires real, "
+                        "directly-inspected raw-cache/leaderboard evidence beyond this schema — never guessed."
+                    )
             else:
                 print("      classification: UNKNOWN — not classified")
     else:
