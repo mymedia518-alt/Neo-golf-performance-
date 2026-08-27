@@ -163,10 +163,13 @@ def main() -> int:
         made_cut = _read_made_cut(conn, args.game_code)
 
         # Prefer BETA #001-C's own PRE if a --pre-prediction-id wasn't forced.
+        # "001-C-FINAL" is the real, project-wide BETA #001-C PRE prediction_id
+        # (see scripts/45_audit_beta001c_r1.py's own --pre-prediction-id default) —
+        # not "001-C", which no real frozen file ever used.
         pre_snapshot = None
         pre_source = None
-        if args.pre_prediction_id is None or args.pre_prediction_id == "001-C":
-            c_path = Path(args.c_predictions_dir) / args.pre_cutoff_date[:4] / f"neo_win_c_001-C_{args.game_code}.json"
+        if args.pre_prediction_id is None or args.pre_prediction_id == "001-C-FINAL":
+            c_path = Path(args.c_predictions_dir) / args.pre_cutoff_date[:4] / f"neo_win_c_001-C-FINAL_{args.game_code}.json"
             if c_path.exists():
                 pre_snapshot = read_neo_win_c_snapshot(c_path)
                 pre_source = c_path
