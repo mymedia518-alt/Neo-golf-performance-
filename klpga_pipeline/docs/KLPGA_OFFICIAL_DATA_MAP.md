@@ -4026,6 +4026,52 @@ Paste back (or point to) the printed `=== FINAL REPORT ===` from step
 outcome and the player-identity question can both be closed out
 against real evidence.
 
+## Round 13 — one-command season collection, season auto-derivation, integrated verification
+
+The Round 12 collector required `--seasons` to be typed manually and
+required the external `sqlite3` CLI (not installed on the reporting
+Windows machine) to inspect `tournament_master`. Both are now closed:
+
+- `season_metric_collector.derive_seasons_from_tournament_master(db_path)`
+  reads the DISTINCT `season` values already in `tournament_master`
+  using Python's built-in `sqlite3` module — no external CLI anywhere
+  in this project. `scripts/run_klpga_season_metrics_collector.py`'s
+  `--seasons` flag is now optional: omit it and pass `--db-path` and
+  the seasons are derived automatically.
+- Player identity verification (`verify_player_code_identity_space` +
+  `read_player_master_ids`, reading the real `player_master.player_id`
+  column — confirmed by direct schema read to be named `player_id`,
+  not `player_code`) now runs automatically at the end of every
+  `run_klpga_season_metrics_collector.py` invocation that has
+  `--db-path`, printing matched/unmatched counts, match rate, sample
+  unmatched codes, and an explicit join-safety verdict.
+- Post-acquisition validation (`build_post_acquisition_validation_report`)
+  re-runs the canonical-plan sanity invariants and the identity-key
+  collision audit per season, reusing `canonical_plan.check_sanity_
+  invariants` and `identity_key_audit.audit_identity_key_collisions`
+  unchanged — no new classification logic invented.
+- Database completeness (`build_official_metric_value_completeness_
+  report`) is a plain read-only tally over `official_metric_value`:
+  total rows, seasons present, distinct identities/players, NULL-value
+  rows, FLAGGED rows.
+- Checkpoint/resume remains the existing raw-sample-file-on-disk
+  pattern (already idempotent by construction) — no new, redundant
+  checkpoint file was added, per the standing "don't duplicate
+  infrastructure" rule.
+
+The ONE Windows command (seasons auto-derived, no manual typing):
+
+```
+python scripts\run_klpga_season_metrics_collector.py ^
+    --taxonomy docs\discovery\KLPGA_RECORD_TAXONOMY_DISCOVERED.json ^
+    --db-path data\klpga.sqlite ^
+    --live
+```
+
+14 new tests this round (9 in `test_season_metric_collector.py`, 5 in
+`test_run_klpga_season_metrics_collector_script.py`); full suite: 782
+passed, 0 failed.
+
 ---
 
 *Numbers · Evidence · Oracle — Golf Intelligence. Research only. No

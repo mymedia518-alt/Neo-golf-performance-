@@ -16,10 +16,14 @@ from klpga.discovery.season_metric_collector import (
     STATUS_MATCH_PARTIAL,
     _extract_confirmed_unit,
     acquire_season_metrics,
+    build_official_metric_value_completeness_report,
     build_official_metric_value_rows,
+    build_post_acquisition_validation_report,
     build_season_metric_request_plan,
+    derive_seasons_from_tournament_master,
     extract_player_codes_from_raw_samples,
     ingest_official_metric_value_rows,
+    read_player_master_ids,
     verify_player_code_identity_space,
 )
 from klpga.http_client import RateLimitBlockedError
@@ -321,3 +325,132 @@ def test_extract_player_codes_from_real_raw_samples_returns_real_codes():
     assert len(codes) > 0
     assert "10112" in codes  # 고지우, confirmed real evidence from Approach::Approach02::020201
     assert all(isinstance(c, str) and c for c in codes)
+
+
+# ---------------------------------------------------------------
+# derive_seasons_from_tournament_master — real DB read, stdlib
+# sqlite3 only, never the external sqlite3 CLI.
+# ---------------------------------------------------------------
+
+
+def _init_test_db(db_path: Path) -> sqlite3.Connection:
+    conn = sqlite3.connect(str(db_path))
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    return conn
+
+
+def test_derive_seasons_from_tournament_master_returns_sorted_distinct_seasons(tmp_path):
+    db_path = tmp_path / "test.sqlite"
+    conn = _init_test_db(db_path)
+    for event_id, season in [("E1", 2024), ("E2", 2023), ("E3", 2024), ("E4", 2025)]:
+        conn.execute(
+            "INSERT INTO tournament_master (event_id, game_code, event_name, season, end_date) "
+            "VALUES (?, ?, ?, ?, ?)",
+            (event_id, f"G{event_id}", "Test Open", season, "2025-01-01"),
+        )
+    conn.commit()
+    conn.close()
+
+    assert derive_seasons_from_tournament_master(db_path) == [2023, 2024, 2025]
+
+
+def test_derive_seasons_from_tournament_master_empty_table_returns_empty_list(tmp_path):
+    db_path = tmp_path / "test.sqlite"
+    _init_test_db(db_path).close()
+    assert derive_seasons_from_tournament_master(db_path) == []
+
+
+# ---------------------------------------------------------------
+# read_player_master_ids — real DB read of player_master.player_id.
+# ---------------------------------------------------------------
+
+
+def test_read_player_master_ids_returns_real_ids(tmp_path):
+    db_path = tmp_path / "test.sqlite"
+    conn = _init_test_db(db_path)
+    conn.execute(
+        "INSERT INTO player_master (player_id, player_name) VALUES (?, ?)", ("P1", "선수1")
+    )
+    conn.execute(
+        "INSERT INTO player_master (player_id, player_name) VALUES (?, ?)", ("P2", "선수2")
+    )
+    conn.commit()
+
+    assert read_player_master_ids(conn) == {"P1", "P2"}
+    conn.close()
+
+
+def test_read_player_master_ids_empty_table_returns_empty_set(tmp_path):
+    db_path = tmp_path / "test.sqlite"
+    conn = _init_test_db(db_path)
+    assert read_player_master_ids(conn) == set()
+    conn.close()
+
+
+# ---------------------------------------------------------------
+# build_post_acquisition_validation_report — reuses canonical_plan's
+# sanity invariants and identity_key_audit's collision audit, never a
+# reimplementation.
+# ---------------------------------------------------------------
+
+
+def test_post_acquisition_validation_report_synthetic_no_collision(tmp_path):
+    taxonomy = {"leaves": [_leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리")]}
+    report = build_post_acquisition_validation_report(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert report["collision_group_count"] == 0
+    assert report["collision_category_totals"] == {}
+    assert report["canonical_requestable_metric_count"] == 1
+    assert report["sanity_invariant_warnings"] == []
+
+
+def test_post_acquisition_validation_report_synthetic_collision_reports_category(tmp_path):
+    taxonomy = {
+        "leaves": [
+            _leaf("Around", "Around05", "030401", "menu3", "그린 적중 시 남은 거리"),
+            _leaf("Around", "Around05", "030401", "menu3", "평균 남은 거리"),
+        ]
+    }
+    report = build_post_acquisition_validation_report(taxonomy, raw_samples_dir=tmp_path, season="2025")
+    assert report["collision_group_count"] == 1
+    assert sum(report["collision_category_totals"].values()) == 1
+
+
+def test_post_acquisition_validation_report_real_taxonomy_and_evidence():
+    with open(REAL_TAXONOMY_PATH, encoding="utf-8") as f:
+        taxonomy = json.load(f)
+    report = build_post_acquisition_validation_report(taxonomy, raw_samples_dir=REAL_RAW_SAMPLES_DIR, season="2025")
+    assert report["collision_group_count"] == 30
+    assert sum(report["collision_category_totals"].values()) == 30
+
+
+# ---------------------------------------------------------------
+# build_official_metric_value_completeness_report — plain read-only
+# tally over official_metric_value.
+# ---------------------------------------------------------------
+
+
+def test_completeness_report_on_empty_table_returns_zero_counts(tmp_path):
+    db_path = tmp_path / "test.sqlite"
+    conn = _init_test_db(db_path)
+    report = build_official_metric_value_completeness_report(conn)
+    conn.close()
+    assert report["total_rows"] == 0
+    assert report["seasons_present"] == []
+    assert report["null_value_raw_rows"] == 0
+    assert report["flagged_rows"] == 0
+
+
+def test_completeness_report_counts_real_ingested_rows():
+    db_path_conn = sqlite3.connect(":memory:")
+    db_path_conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    with open(REAL_TAXONOMY_PATH, encoding="utf-8") as f:
+        taxonomy = json.load(f)
+    rows, _mapping = build_official_metric_value_rows(taxonomy, season="2025", raw_samples_dir=REAL_RAW_SAMPLES_DIR)
+    ingest_official_metric_value_rows(db_path_conn, rows)
+
+    report = build_official_metric_value_completeness_report(db_path_conn)
+    db_path_conn.close()
+
+    assert report["total_rows"] == len(rows)
+    assert report["seasons_present"] == [2025]
+    assert report["null_value_raw_rows"] == 0  # confirms the parser fix: no real value is ever None
