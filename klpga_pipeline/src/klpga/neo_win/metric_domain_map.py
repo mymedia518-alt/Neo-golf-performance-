@@ -50,21 +50,34 @@ DOMAIN_SCORING = "SCORING"
 DOMAIN_OVERALL = "OVERALL"
 DOMAIN_UNKNOWN = "UNKNOWN"
 
-# (identity_key, label)-in-allowlist -> (domain, orientation) — the
-# identity_key+label pair is copied verbatim from OFFICIAL_METRIC_SLOTS
-# (single source of truth for orientation; this module never re-derives
-# a direction independently, and never matches on label alone — see
-# that module's docstring for why a bare label match is unsafe).
+# (identity_key, label)-in-allowlist -> orientation — copied verbatim
+# from OFFICIAL_METRIC_SLOTS (single source of truth for orientation;
+# this module never re-derives a direction independently, and never
+# matches on label alone — see that module's docstring for why a bare
+# label match is unsafe).
 _KEY_LABEL_TO_SLOT: dict[tuple[str, str], tuple[str, str]] = {}
 for _slot, _candidates in OFFICIAL_METRIC_SLOTS.items():
     for _identity_key, _label, _orientation in _candidates:
         _KEY_LABEL_TO_SLOT[(_identity_key, _label)] = (_slot.upper(), _orientation)
 
-_SLOT_TO_DOMAIN = {
-    "OVERALL_SKILL": DOMAIN_OVERALL,
-    "DRIVING": DOMAIN_DRIVING,
-    "SHORT_GAME": DOMAIN_SHORT_GAME,
-    "PUTTING": DOMAIN_PUTTING,
+# (identity_key, label) -> DOMAIN, hardcoded per real, confirmed golf
+# terminology — deliberately NOT derived from OFFICIAL_METRIC_SLOTS's
+# slot names. That module's "short_game" slot groups SG:Approach,
+# SG:Around, AND 그린 적중률(GIR) together (a v0.1 model-simplicity
+# choice: one combined "around the pin" feature slot), but SG:Approach
+# and GIR are genuinely APPROACH-domain metrics, not AROUND-GREEN —
+# using the slot name as the domain would have mis-tagged both. This
+# table is this module's own, independent, correct domain ground truth.
+_ALLOWLISTED_DOMAIN_OVERRIDE: dict[tuple[str, str], str] = {
+    ("Sg::Total", "SG : 전체"): DOMAIN_OVERALL,
+    ("Sg::Tee", "SG : 티샷"): DOMAIN_DRIVING,
+    ("Tee::Tee01::010101", "평균 티샷 거리"): DOMAIN_DRIVING,
+    ("Sg::Approach", "SG : 어프로치"): DOMAIN_APPROACH,
+    ("Approach::Approach01::020101", "그린 적중률"): DOMAIN_APPROACH,
+    ("Sg::Around", "SG : 그린주변"): DOMAIN_SHORT_GAME,
+    ("Sg::Putt", "SG : 퍼팅"): DOMAIN_PUTTING,
+    ("Putt::Putt07::040710", "평균 퍼트 수"): DOMAIN_PUTTING,
+    ("Putt::Putt02::040201", "평균 퍼트수"): DOMAIN_PUTTING,
 }
 
 
@@ -75,9 +88,8 @@ def classify_metric_domain(menu1: str, official_label: str, identity_key: "str |
     label) pair exactly, uses that slot's domain directly — a label
     match alone is NOT sufficient (see module docstring: the same
     label can appear at multiple, semantically different identity_keys)."""
-    if identity_key is not None and (identity_key, official_label) in _KEY_LABEL_TO_SLOT:
-        slot, _orientation = _KEY_LABEL_TO_SLOT[(identity_key, official_label)]
-        return _SLOT_TO_DOMAIN.get(slot, DOMAIN_UNKNOWN)
+    if identity_key is not None and (identity_key, official_label) in _ALLOWLISTED_DOMAIN_OVERRIDE:
+        return _ALLOWLISTED_DOMAIN_OVERRIDE[(identity_key, official_label)]
     if menu1 == "Sg":
         if "전체" in official_label:
             return DOMAIN_OVERALL

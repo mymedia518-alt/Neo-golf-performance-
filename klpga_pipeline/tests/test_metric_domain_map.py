@@ -81,6 +81,27 @@ def test_allowlisted_identity_key_wins_over_menu1_heuristic():
     assert classify_metric_domain("Tee", "평균 티샷 거리", identity_key="Tee::Tee01::010101") == DOMAIN_DRIVING
 
 
+def test_sg_approach_allowlisted_candidate_is_approach_not_short_game():
+    # Real bug fixed in this module: official_metrics.py's "short_game"
+    # SLOT groups SG:Approach + SG:Around + GIR together (a v0.1 model-
+    # simplicity choice), but SG:Approach is genuinely an APPROACH-
+    # domain metric — using the slot name as the domain would mis-tag
+    # it SHORT_GAME. The allowlist domain override must disagree with
+    # the slot name here.
+    assert classify_metric_domain("Sg", "SG : 어프로치", identity_key="Sg::Approach") == DOMAIN_APPROACH
+
+
+def test_gir_allowlisted_candidate_is_approach_not_short_game():
+    assert (
+        classify_metric_domain("Approach", "그린 적중률", identity_key="Approach::Approach01::020101")
+        == DOMAIN_APPROACH
+    )
+
+
+def test_sg_around_allowlisted_candidate_is_short_game():
+    assert classify_metric_domain("Sg", "SG : 그린주변", identity_key="Sg::Around") == DOMAIN_SHORT_GAME
+
+
 def test_same_label_different_identity_key_not_forced_into_allowlist_domain():
     # The real collision this module's fix addresses: "평균 티샷 거리"
     # also appears at Tee03/Tee05 (Par5/Par4-specific sub-tabs), which
