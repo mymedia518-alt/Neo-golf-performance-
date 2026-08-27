@@ -126,6 +126,56 @@ def snapshot_to_json_text(snapshot: NeoWinPredictionSnapshot) -> str:
     return json.dumps(snapshot_to_dict(snapshot), indent=2, ensure_ascii=False) + "\n"
 
 
+def read_neo_win_snapshot(path: Path) -> NeoWinPredictionSnapshot:
+    """Read-only: opens `path` for reading only, never writes back to
+    it — used by klpga.neo_win.audit to load an already-frozen
+    prediction without ever re-deriving it."""
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    entrants = tuple(
+        NeoWinEntrantSnapshot(
+            rank=row["rank"],
+            player_code=row["player_code"],
+            player_name=row["player_name"],
+            win_probability=row["win_probability"],
+            prior_events_n=row["prior_events_n"],
+            prior_avg_round_score_to_par=row["prior_avg_round_score_to_par"],
+            prior_recent_form_10=row["prior_recent_form_10"],
+            prior_recent_form_10_n=row["prior_recent_form_10_n"],
+            neo_consistency_stddev=row["neo_consistency_stddev"],
+            neo_consistency_stddev_n=row["neo_consistency_stddev_n"],
+            official_metrics=row.get("official_metrics", {}),
+            player_master_matched=row["player_master_matched"],
+        )
+        for row in data["predictions"]
+    )
+    return NeoWinPredictionSnapshot(
+        prediction_id=data["prediction_id"],
+        created_at_utc=data["created_at_utc"],
+        record_kind=data["record_kind"],
+        game_code=data["game_code"],
+        tournament_name=data["tournament_name"],
+        cutoff_date=data["cutoff_date"],
+        cutoff_source=data["cutoff_source"],
+        model_id=data["model_id"],
+        model_version=data["model_version"],
+        model_features=tuple(data["model_features"]),
+        training_tournament_count=data["training_tournament_count"],
+        field_size=data["field_size"],
+        entrants_predicted=data["entrants_predicted"],
+        dropped_entrants=data["dropped_entrants"],
+        probability_sum=data["probability_sum"],
+        minimum_probability=data["minimum_probability"],
+        maximum_probability=data["maximum_probability"],
+        zero_history_count=data["zero_history_count"],
+        unmatched_count=data["unmatched_count"],
+        official_metric_context=data["official_metric_context"],
+        leakage_validation=data["leakage_validation"],
+        missing_data_report=data["missing_data_report"],
+        known_limitations=tuple(data["known_limitations"]),
+        predictions=entrants,
+    )
+
+
 _OFFICIAL_METRIC_SLOT_NAMES: tuple[str, ...] = ("overall_skill", "driving", "short_game", "putting")
 
 _CSV_FIELDNAMES: tuple[str, ...] = (
