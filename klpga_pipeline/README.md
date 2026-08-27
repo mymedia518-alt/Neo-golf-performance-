@@ -645,6 +645,22 @@ frozen-snapshot archive at `neo_win_predictions/` — never touching
 (feature definitions, leakage validation, missing-data treatment,
 orientation allowlist for the official-metric feature).
 
+`scripts/34_audit_neo_win_player.py` — read-only diagnostic audit of an
+already-frozen prediction (identity trace, DB-confirmed season/win
+reconstruction, refit-and-verify feature decomposition, TOP10 sanity
+sweep, rule-based verdict) — never modifies the frozen artifact.
+
+`scripts/35_predict_neo_win_post_r1.py` (`src/klpga/neo_win/round_
+update.py`) — BETA #001-R1: combines the frozen PRE prediction with the
+real, already-collected Round-1 leaderboard via a Monte Carlo
+tournament simulation over the remaining rounds, producing WIN/TOP5/
+TOP10/TOP20/MAKE_CUT probabilities for the full field. Verified from
+real evidence that KLPGA tournaments in this dataset use a single
+36-hole cut with no subsequent cut (docs/SITE_STRUCTURE_TODO.md) —
+never simulates an R3/R4 cut. Writes its own separate, append-only
+`neo_win_001-R1_<game_code>.json` snapshot alongside (never overwriting)
+the PRE snapshot.
+
 ```
 python scripts/33_predict_neo_win.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD
 python scripts/33_predict_neo_win.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD --freeze --prediction-id 001
