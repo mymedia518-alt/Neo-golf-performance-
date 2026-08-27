@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NEO GOLF Tournament Dashboard — data interface (v0.1, design-only)",
+  "description": "Describes how a future dashboard reads EXISTING, already-produced artifacts read-only. Every field is traced to its real producing module/script; a field with no current producer is marked available:false with the reason, never invented. No field here implies a new script, table, or migration.",
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "description": "Source: the loaded stage's frozen snapshot file (BETA #001: klpga.neo_win.archive.NeoWinPredictionSnapshot; BETA #001-C: klpga.neo_win.beta001c_archive.NeoWinCPredictionSnapshot).",
+      "properties": {
+        "tournament_name": {"type": ["string", "null"], "source": "snapshot.tournament_name"},
+        "game_code": {"type": "string", "source": "snapshot.game_code"},
+        "stage": {"type": "string", "enum": ["PRE", "R1", "R2", "R3", "FINAL"], "source": "derived from prediction_id suffix — '001'/'001-C'=PRE, '001-R1'=R1; R2/R3/FINAL have no producing script yet (available: false)"},
+        "last_updated_utc": {"type": "string", "source": "snapshot.created_at_utc"},
+        "field_size": {"type": "integer", "source": "snapshot.field_size"},
+        "model_version": {"type": "string", "source": "BETA #001: snapshot.model_version ('v0.1'); BETA #001-C: snapshot.selected_model_id ('MODEL_A'|'MODEL_B'|'MODEL_C') + selection_decision"}
+      },
+      "required": ["game_code", "stage", "field_size"]
+    },
+    "main_table_row": {
+      "type": "object",
+      "description": "One per field player for the loaded stage. Source is per-property below; a property with available:false must render '--', never a computed guess.",
+      "properties": {
+        "rank": {"type": "integer", "source": "snapshot.predictions[i].rank"},
+        "player_code": {"type": "string", "source": "snapshot.predictions[i].player_code", "note": "the ONLY safe join key across stages/artifacts — never join by player_name (see klpga.neo_win.identity_resolution)"},
+        "player_name": {"type": "string", "source": "snapshot.predictions[i].player_name"},
+        "current_position": {"available": false, "reason": "no live-leaderboard-to-prediction join exists in this repo today"},
+        "current_score_to_par": {"available": false, "reason": "same gap as current_position"},
+        "neo_win_pct": {"type": "number", "source": "snapshot.predictions[i].win_probability * 100"},
+        "change_pct_points": {
+          "type": ["number", "null"],
+          "source": "current_stage neo_win_pct - prior_stage neo_win_pct, matched by player_code (klpga.neo_win.comparison.compare_beta001_to_beta001c is the existing precedent for this exact computation, though it compares 001 vs 001-C specifically)",
+          "null_reason": "player absent from the prior stage's frozen snapshot"
+        },
+        "neo_signal": {
+          "type": "null",
+          "available": false,
+          "reason": "NO existing NEO SIGNAL RISING/STABLE/FALLING threshold specification found anywhere in this repository as of this schema version — not implemented, not guessed. change_pct_points alone may be shown."
+        },
+        "make_cut_pct": {"available": "R1 stage only", "source": "klpga.neo_win.round_update — PRE/#001-C have no cut-probability field"},
+        "top10_pct": {"available": false, "reason": "no script in this repo computes a TOP-10 probability today — only WIN %"},
+        "final_round_pct": {"available": false, "reason": "no script in this repo computes this today"},
+        "identity_status": {"type": "string", "enum": ["CLEAN", "PARTIAL", "AMBIGUOUS", "BROKEN", "UNMATCHED"], "source": "klpga.neo_win.identity_resolution.build_full_identity_crosswalk, joined by player_code — shown, never hidden, for non-CLEAN rows"}
+      },
+      "required": ["rank", "player_code", "player_name", "neo_win_pct"]
+    },
+    "player_detail": {
+      "type": "object",
+      "description": "Superset of main_table_row for one player, plus the Performance Profile.",
+      "properties": {
+        "performance_profile": {
+          "type": "object",
+          "description": "Source (BETA #001-C only, snapshot.predictions[i].feature_values): a key absent or null means the model itself had no data for that player/domain that season — render exactly 'N/A', never estimated.",
+          "properties": {
+            "driving": {"type": ["number", "null"], "source": "feature_values.neo_driving"},
+            "approach": {"type": ["number", "null"], "source": "feature_values.neo_approach"},
+            "short_game": {"type": ["number", "null"], "source": "feature_values.neo_short_game"},
+            "putting": {"type": ["number", "null"], "source": "feature_values.neo_putting"},
+            "recent_form": {"type": ["number", "null"], "source": "feature_values.prior_recent_form_10"},
+            "consistency": {"type": ["number", "null"], "source": "feature_values.neo_consistency_stddev"}
+          },
+          "note": "feature_values.neo_scoring is intentionally never surfaced here — always None by design (duplicate representation of career scoring), per klpga.neo_win.feature_matrix's documented exclusion."
+        }
+      }
+    },
+    "validation_result": {
+      "type": "object",
+      "description": "Computed once per loaded stage, before any row renders as valid model output (spec Section 6).",
+      "properties": {
+        "field_player_only": {"type": "boolean"},
+        "duplicate_player_count": {"type": "integer"},
+        "null_probability_count": {"type": "integer"},
+        "probability_sum_ok": {"type": "boolean", "source": "klpga.neo_win.leakage.validate_probability_sum"},
+        "identity_clean_preferred": {"type": "boolean", "note": "non-CLEAN rows are still shown (identity_status field), this flag only gates the overall stage banner"},
+        "overall_status": {"type": "string", "enum": ["VALID", "DATA_VALIDATION_REQUIRED"]},
+        "failed_checks": {"type": "array", "items": {"type": "string"}}
+      },
+      "required": ["overall_status"]
+    },
+    "threads_card": {
+      "type": "object",
+      "description": "Section 8 — MUST be derived from the same already-validated main_table_row list the dashboard rendered, never re-queried or hand-typed.",
+      "properties": {
+        "top10": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {"$ref": "#/properties/main_table_row"},
+          "source": "main_table[] sorted by neo_win_pct desc, first 10, taken AFTER validation_result.overall_status == 'VALID'"
+        }
+      }
+    }
+  },
+  "required": ["header", "validation_result"]
+}
