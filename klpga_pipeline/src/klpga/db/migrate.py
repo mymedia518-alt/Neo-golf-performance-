@@ -3,6 +3,8 @@
     src/klpga/analytics/player_stats.py for what they are).
   - the tournament_entry table (see klpga.collectors.entry_list and
     docs/SITE_STRUCTURE_TODO.md section 7).
+  - the official_metric_value table (see klpga.discovery.season_
+    metric_collector and docs/HISTORICAL_METRICS_COLLECTION_DESIGN.md).
 
 Never touches tournament_master / player_master / player_event /
 player_round — the validated raw dataset — under any circumstance.
@@ -98,6 +100,22 @@ def ensure_tournament_entry_schema(conn: sqlite3.Connection, schema_path: Path) 
     mirroring ensure_player_stats_snapshot_schema's role for the other
     additive schema change in this project."""
     existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(tournament_entry)")}
+    if existing_cols:
+        return
+    conn.executescript(schema_path.read_text(encoding="utf-8"))
+
+
+def ensure_official_metric_value_schema(conn: sqlite3.Connection, schema_path: Path) -> None:
+    """Additively create official_metric_value (+ its indexes) on an
+    already-existing DB that predates this table — the exact same
+    situation as ensure_tournament_entry_schema above (a brand-new,
+    purely additive table, never any existing row to migrate or drop-
+    and-recreate decision to make). Confirmed necessary in practice:
+    a production data/klpga.sqlite initialized before this table was
+    added to schema.sql raises `sqlite3.OperationalError: no such
+    table: official_metric_value` on ingestion, because init_db.py's
+    executescript is idempotent but is never re-run automatically."""
+    existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(official_metric_value)")}
     if existing_cols:
         return
     conn.executescript(schema_path.read_text(encoding="utf-8"))
