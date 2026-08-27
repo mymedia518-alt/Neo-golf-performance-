@@ -53,15 +53,26 @@ from klpga.http_client import PoliteHttpClient
 from klpga.parsers.leaderboard_parser import PlayerRoundRow, parse_round_leaderboard_html
 
 
-def fetch_round_leaderboard_html(client: PoliteHttpClient, game_code: str, round_number: int) -> str:
+def fetch_round_leaderboard_html(
+    client: PoliteHttpClient, game_code: str, round_number: int, *, use_cache: bool = True
+) -> str:
+    """`use_cache=True` (default) preserves existing behavior for bulk/
+    historical collection (scripts 02/04/05) — a completed round's
+    leaderboard never changes, so reusing the disk cache is correct and
+    saves a real request. Pass `use_cache=False` only for a round that
+    may still be in progress (see klpga.neo_win.round_reconciliation /
+    scripts/50_validate_official_round.py): PoliteHttpClient.post_text
+    unconditionally overwrites the cache file with the fresh response
+    in that case, so a stale rank=999/INCOMPLETE snapshot is never
+    permanently treated as authoritative once a real fetch is forced."""
     payload = {"gameCode": game_code, "round": str(round_number)}
-    return client.post_text(config.ROUND_LEADERBOARD_ENDPOINT, data=payload)
+    return client.post_text(config.ROUND_LEADERBOARD_ENDPOINT, data=payload, use_cache=use_cache)
 
 
 def fetch_round_leaderboard(
-    client: PoliteHttpClient, game_code: str, round_number: int
+    client: PoliteHttpClient, game_code: str, round_number: int, *, use_cache: bool = True
 ) -> list[PlayerRoundRow]:
-    html = fetch_round_leaderboard_html(client, game_code, round_number)
+    html = fetch_round_leaderboard_html(client, game_code, round_number, use_cache=use_cache)
     return parse_round_leaderboard_html(html, game_code=game_code, round_number=round_number)
 
 
