@@ -208,6 +208,59 @@ def test_feature_matrix_neo_scoring_always_none_across_field(conn):
     assert result["coverage"][DOMAIN_SCORING]["metrics_used"] == []
 
 
+def test_feature_matrix_recovers_rank_only_flagged_rows_real_evidence(tmp_path):
+    # Regression pin for the real root cause of a live 0/N-every-domain
+    # coverage bug: build_prior_season_official_metrics's CLEAN-only
+    # default (BETA #001's own conservative choice) silently excludes
+    # a FLAGGED response even when klpga.discovery.flag_recovery proves
+    # its VALUE is safe (rank-column-only artifact) — feature_matrix.py
+    # must pass recover_rank_only_flags=True to actually use it.
+    #
+    # Tee::Tee01::010101 / "평균 티샷 거리" (DRIVING) is used because it's
+    # independently confirmed usable_for_model=True against the real
+    # taxonomy/raw_samples evidence (metric_domain_map.py) — isolating
+    # this test to the flag-recovery wiring alone, not identity-mapping
+    # confirmation (a separate concern, tested in test_metric_domain_
+    # map.py). The rank-only-flagged raw HTML file is real, committed
+    # evidence (pinned in test_flag_recovery.py) — recover_value_
+    # validity() only inspects that file's OWN DataQualityFlags, so
+    # reusing it here as generic "a real rank-only response" evidence
+    # for a different identity_key's DB row is valid.
+    connection = _new_conn(tmp_path / "test.sqlite")
+    # target_season=2026 -> prior_season=2025, matching BOTH the real
+    # production scenario (game_code 2026080001, cutoff 2026-08-27)
+    # AND the only season the committed raw_samples evidence covers.
+    connection.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, start_date, end_date) "
+        "VALUES ('LIVE', 'LIVE', 'LIVE', 2026, '2026-08-27', '2026-08-27')"
+    )
+    real_rank_only_raw_sample_path = str(REAL_RAW_SAMPLES_DIR / "Approach__Approach01__020101__2025.html")
+    for i in range(21):
+        code = f"X{i}"
+        connection.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES (?, ?)", (code, code))
+        connection.execute(
+            "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+            "VALUES ('LIVE', ?, ?, 'test', '2026-08-27T00:00:00Z')",
+            (code, code),
+        )
+        connection.execute(
+            "INSERT INTO official_metric_value (season, player_code, identity_key, menu1, menu2, official_label, "
+            "field_name, value_raw, parse_status, validation_status, pit_status, source_url, raw_sample_path, "
+            "acquired_at) VALUES (2025, ?, 'Tee::Tee01::010101', 'Tee', 'x', '평균 티샷 거리', "
+            "'record', ?, 'PARSE_SUCCESS', 'FLAGGED', 'PIT_UNVERIFIED', 'https://x', ?, '2026-08-27T00:00:00Z')",
+            (code, str(220.0 + i), real_rank_only_raw_sample_path),
+        )
+    connection.commit()
+
+    taxonomy = json.loads(REAL_TAXONOMY_PATH.read_text(encoding="utf-8"))
+    result = build_beta001c_feature_matrix(
+        connection, "LIVE", date.fromisoformat("2026-08-27"), taxonomy=taxonomy, raw_samples_dir=REAL_RAW_SAMPLES_DIR
+    )
+    field_rows = {row["player_code"]: row for row in result["field_rows"]}
+    assert any(row.get("neo_driving") is not None for row in field_rows.values())
+    assert result["coverage"][DOMAIN_DRIVING]["players_with_data"] >= 20
+
+
 def test_feature_matrix_preserves_base_features_from_live_field(conn):
     taxonomy = json.loads(REAL_TAXONOMY_PATH.read_text(encoding="utf-8"))
     result = build_beta001c_feature_matrix(
