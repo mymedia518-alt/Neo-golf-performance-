@@ -131,3 +131,28 @@ def test_official_complete_missing_in_db_fails_and_blocks(module, tmp_path, caps
     assert "OFFICIAL_COMPLETE_MISSING_IN_DB" in out
     assert "BLOCKED: FAIL verdict" in out
     assert "PREDICTION ELIGIBLE: 0" in out
+
+
+def test_official_incomplete_sentinel_without_db_row_is_warn_not_fail(module, tmp_path, capsys, monkeypatch):
+    """Reproduces the OTHER real 2026080001 R1 finding: the official
+    roundLeaderboard fetch itself returns the confirmed rank=999
+    (INCOMPLETE) sentinel for a player — no real score anywhere in the
+    fetch — and the DB has no row either. This must be WARN, not FAIL:
+    there is no real completed official result being missed, only an
+    unresolved/incomplete state (possibly a stale cached fetch, never
+    assumed either way)."""
+    db_path = _db(tmp_path)  # no player_round rows at all
+
+    client = FakeClient(
+        entry_html=_entry_html([("8392", "이다연")]),
+        leaderboard_html=_leaderboard_html([
+            _leaderboard_row("8392", "이다연", rank="999", round_score="0", to_par="0")
+        ]),
+    )
+    rc = _run(module, client, ["--db", str(db_path), "--cache-dir", str(tmp_path / "cache")], monkeypatch)
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "VERDICT: WARN" in out
+    assert "OFFICIAL_INCOMPLETE_NO_DB" in out
+    assert "OFFICIAL_COMPLETE_MISSING_IN_DB" not in out
+    assert "PERMITTED WITH WARNINGS" in out

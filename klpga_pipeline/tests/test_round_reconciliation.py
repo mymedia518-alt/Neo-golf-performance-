@@ -10,6 +10,7 @@ from klpga.neo_win.round_reconciliation import (
     CLASS_DB_NOT_IN_OFFICIAL,
     CLASS_ENTRY_ABSENT,
     CLASS_NAME_MISMATCH,
+    CLASS_OFFICIAL_INCOMPLETE_NO_DB,
     CLASS_OFFICIAL_MISSING_IN_DB,
     CLASS_POSITION_MISMATCH,
     CLASS_POSSIBLE_IDENTITY_MISMATCH,
@@ -110,6 +111,28 @@ def test_official_complete_but_missing_in_db_is_fail():
     anomaly = next(a for a in result.anomalies if a["player_code"] == "9431")
     assert anomaly["classification"] == CLASS_OFFICIAL_MISSING_IN_DB
     assert "69" in anomaly["detail"] or "-3" in anomaly["detail"]
+
+
+# ---------------------------------------------------------------
+# 3b. REAL 2026080001 R1 finding: the official round FETCH itself has
+#     no real completed score (the confirmed rank=999/INCOMPLETE
+#     sentinel), and DB also has nothing. This must NOT be treated the
+#     same as "official has a real completed result the DB is missing"
+#     -- there is no real completed result anywhere to be missing. FAIL
+#     would be a false alarm here; WARN correctly reports it without
+#     blocking on unproven evidence.
+# ---------------------------------------------------------------
+def test_official_incomplete_sentinel_without_db_row_is_warn_not_fail():
+    entry = {"8392": _np("8392", name="이다연")}
+    official = {"8392": _np("8392", name="이다연", position=None, position_display="999", round_score=None, score_to_par=None, status="INCOMPLETE")}
+    db = {}
+
+    result = reconcile_round(entry, official, db, round_number=1)
+    assert result.verdict == VERDICT_WARN
+    anomaly = next(a for a in result.anomalies if a["player_code"] == "8392")
+    assert anomaly["classification"] == CLASS_OFFICIAL_INCOMPLETE_NO_DB
+    assert "8392" in result.unresolved
+    assert "8392" not in result.eligible
 
 
 # ---------------------------------------------------------------

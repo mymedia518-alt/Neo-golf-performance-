@@ -81,6 +81,7 @@ VERDICT_FAIL = "FAIL"
 CLASS_MATCHED = "MATCHED"
 CLASS_ENTRY_ABSENT = "ENTRY_ABSENT_FROM_OFFICIAL_AND_DB"
 CLASS_OFFICIAL_MISSING_IN_DB = "OFFICIAL_COMPLETE_MISSING_IN_DB"
+CLASS_OFFICIAL_INCOMPLETE_NO_DB = "OFFICIAL_INCOMPLETE_NO_DB"
 CLASS_SCORE_MISMATCH = "SCORE_MISMATCH"
 CLASS_NAME_MISMATCH = "NAME_MISMATCH"
 CLASS_POSITION_MISMATCH = "POSITION_MISMATCH"
@@ -88,7 +89,10 @@ CLASS_DB_NOT_IN_OFFICIAL = "DB_NOT_IN_OFFICIAL"
 CLASS_POSSIBLE_IDENTITY_MISMATCH = "POSSIBLE_IDENTITY_MISMATCH"
 
 _FAIL_CLASSES = {CLASS_OFFICIAL_MISSING_IN_DB, CLASS_SCORE_MISMATCH, CLASS_NAME_MISMATCH}
-_WARN_CLASSES = {CLASS_ENTRY_ABSENT, CLASS_POSITION_MISMATCH, CLASS_DB_NOT_IN_OFFICIAL, CLASS_POSSIBLE_IDENTITY_MISMATCH}
+_WARN_CLASSES = {
+    CLASS_ENTRY_ABSENT, CLASS_OFFICIAL_INCOMPLETE_NO_DB, CLASS_POSITION_MISMATCH,
+    CLASS_DB_NOT_IN_OFFICIAL, CLASS_POSSIBLE_IDENTITY_MISMATCH,
+}
 
 
 def _normalize_name(name) -> str:
@@ -237,13 +241,28 @@ def reconcile_round(
             continue
 
         if o is not None and d is None:
-            # Official shows this player with a real round result but DB has no row at all.
-            anomalies.append({
-                "player_code": code, "classification": CLASS_OFFICIAL_MISSING_IN_DB,
-                "detail": f"official round_score={o.round_score!r} score_to_par={o.score_to_par!r} "
-                          f"position={o.position_display!r} status={o.status!r} — no DB row for round {round_number}",
-            })
-            unresolved.append(code)
+            if o.round_score is not None:
+                # Official shows this player with a REAL, completed round score but DB has no row at all.
+                anomalies.append({
+                    "player_code": code, "classification": CLASS_OFFICIAL_MISSING_IN_DB,
+                    "detail": f"official round_score={o.round_score!r} score_to_par={o.score_to_par!r} "
+                              f"position={o.position_display!r} status={o.status!r} — no DB row for round {round_number}",
+                })
+                unresolved.append(code)
+            else:
+                # Official fetch has NO real completed score for this code (e.g. the confirmed
+                # rank=999/INCOMPLETE sentinel) — this is NOT proof of a real collection gap, only
+                # that neither source has a real completed result. Could also mean the cached
+                # official fetch is stale (a round in progress when it was captured) — never
+                # assumed either way, never a fabricated score, never escalated to FAIL.
+                anomalies.append({
+                    "player_code": code, "classification": CLASS_OFFICIAL_INCOMPLETE_NO_DB,
+                    "detail": f"official status={o.status!r} position={o.position_display!r}, no real "
+                              f"round_score in the official fetch, no DB row for round {round_number} — "
+                              "not a proven collection gap (official fetch itself has no completed result; "
+                              "could also be a stale cached fetch — re-fetch to confirm)",
+                })
+                unresolved.append(code)
             continue
 
         if o is None and d is not None:
