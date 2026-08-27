@@ -168,6 +168,89 @@ def test_main_db_path_not_initialized_fails_cleanly(module, tmp_path):
     assert rc == module.EXIT_DB_NOT_INITIALIZED
 
 
+def _insert_tournament(conn, event_id, season):
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, end_date) VALUES (?, ?, ?, ?, ?)",
+        (event_id, f"G{event_id}", "Test Open", season, "2025-01-01"),
+    )
+
+
+def test_seasons_auto_derived_from_tournament_master_when_omitted(module, tmp_path):
+    taxonomy = {"leaves": [_leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리")]}
+    client = _FakeClient(html_by_identity={"Tee::Tee01::010101": _html(["순위", "선수명", "평균 티샷 거리(yds)"])})
+    db_path = tmp_path / "test.sqlite"
+    conn = sqlite3.connect(str(db_path))
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    _insert_tournament(conn, "E1", 2024)
+    _insert_tournament(conn, "E2", 2025)
+    conn.commit()
+    conn.close()
+
+    lines = []
+    rc = module.run(
+        client, taxonomy, None, raw_samples_dir=tmp_path / "raw", db_path=db_path, live=True, log=lines.append,
+    )
+    assert rc == module.EXIT_COMPLETE
+    assert len(client.calls) == 2  # one per auto-derived season
+    assert any("auto-derived" in line for line in lines)
+
+
+def test_seasons_none_and_no_db_path_fails_cleanly(module, tmp_path):
+    taxonomy = {"leaves": []}
+    rc = module.run(
+        None, taxonomy, None, raw_samples_dir=tmp_path / "raw", db_path=None, live=False, log=lambda m: None,
+    )
+    assert rc == module.EXIT_SEASONS_NOT_DERIVABLE
+
+
+def test_seasons_none_and_empty_tournament_master_fails_cleanly(module, tmp_path):
+    taxonomy = {"leaves": []}
+    db_path = tmp_path / "test.sqlite"
+    conn = sqlite3.connect(str(db_path))
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    conn.close()
+
+    rc = module.run(
+        None, taxonomy, None, raw_samples_dir=tmp_path / "raw", db_path=db_path, live=False, log=lambda m: None,
+    )
+    assert rc == module.EXIT_SEASONS_NOT_DERIVABLE
+
+
+def test_main_seasons_omitted_and_no_db_path_fails_cleanly(module, tmp_path):
+    taxonomy_path = tmp_path / "taxonomy.json"
+    taxonomy_path.write_text(json.dumps({"leaves": []}), encoding="utf-8")
+    argv_backup = sys.argv
+    sys.argv = ["run_klpga_season_metrics_collector.py", "--taxonomy", str(taxonomy_path)]
+    try:
+        rc = module.main()
+    finally:
+        sys.argv = argv_backup
+    assert rc == module.EXIT_SEASONS_NOT_DERIVABLE
+
+
+def test_final_report_includes_player_identity_and_completeness_sections(module, tmp_path):
+    taxonomy = {"leaves": [_leaf("Tee", "Tee01", "010101", "menu3", "평균 티샷 거리")]}
+    client = _FakeClient(html_by_identity={"Tee::Tee01::010101": _html(["순위", "선수명", "평균 티샷 거리(yds)"])})
+    db_path = tmp_path / "test.sqlite"
+    conn = sqlite3.connect(str(db_path))
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('111', 'A')")
+    conn.commit()
+    conn.close()
+
+    lines = []
+    rc = module.run(
+        client, taxonomy, ["2025"], raw_samples_dir=tmp_path / "raw", db_path=db_path, live=True, log=lines.append,
+    )
+    assert rc == module.EXIT_COMPLETE
+    joined = "\n".join(lines)
+    assert "=== PLAYER IDENTITY VERIFICATION ===" in joined
+    assert "=== DATABASE COMPLETENESS ===" in joined
+    assert "=== POST-ACQUISITION VALIDATION (per season) ===" in joined
+    assert "verdict: PLAYER_CODE_IDENTITY_CONFIRMED" in joined
+    assert "direct join safe: YES" in joined
+
+
 def test_main_parses_multiple_seasons(module, tmp_path):
     taxonomy_path = tmp_path / "taxonomy.json"
     taxonomy_path.write_text(json.dumps({"leaves": []}), encoding="utf-8")

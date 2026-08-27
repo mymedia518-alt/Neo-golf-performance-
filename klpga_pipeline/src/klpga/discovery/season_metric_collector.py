@@ -14,12 +14,15 @@ DATA_MAP.md` for the evidence log this module builds on.
 """
 from __future__ import annotations
 
+import sqlite3
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable, Optional
 
 from klpga import config
-from klpga.discovery.canonical_plan import build_canonical_plan
+from klpga.discovery.canonical_plan import build_canonical_plan, check_sanity_invariants
+from klpga.discovery.identity_key_audit import audit_identity_key_collisions
 from klpga.discovery.identity_mapping import STATUS_MAPPED, build_identity_metric_mapping
 from klpga.discovery.missing_evidence_acquisition import acquire_canonical_rows
 from klpga.discovery.record_fetch import request_form, sanitize_identity_key_for_filename
@@ -256,3 +259,99 @@ def extract_player_codes_from_raw_samples(raw_samples_dir: Path) -> set[str]:
         parsed = parse_record_response(path.read_text(encoding="utf-8"))
         codes.update(row.player_code for row in parsed.rows if row.player_code)
     return codes
+
+
+def read_player_master_ids(conn: sqlite3.Connection) -> set[str]:
+    """Real `player_master.player_id` values from the production DB —
+    a plain read, no join, no assumption that this identity space
+    matches `loadLocationRecord`'s `player_code` (schema.sql section 8
+    is explicit that this has never been confirmed; that is exactly
+    what `verify_player_code_identity_space` checks)."""
+    return {row[0] for row in conn.execute("SELECT DISTINCT player_id FROM player_master")}
+
+
+# ---------------------------------------------------------------
+# Season auto-derivation — removes any dependency on a human typing
+# season values, and on the external `sqlite3` CLI: uses Python's
+# built-in `sqlite3` module directly against the already-collected
+# `tournament_master` table (the 100-tournament corpus this project's
+# earlier phases already built).
+# ---------------------------------------------------------------
+
+
+def derive_seasons_from_tournament_master(db_path: Path) -> list[int]:
+    """Real, distinct `season` values already present in `tournament_
+    master` — read-only, stdlib `sqlite3` only (no external CLI
+    dependency). Returns an empty list (never a fabricated default
+    range) if the table has zero rows."""
+    conn = sqlite3.connect(str(db_path))
+    try:
+        rows = conn.execute("SELECT DISTINCT season FROM tournament_master ORDER BY season").fetchall()
+    finally:
+        conn.close()
+    return [row[0] for row in rows]
+
+
+# ---------------------------------------------------------------
+# Post-acquisition validation — re-runs the two READ-ONLY diagnostics
+# this project already relies on (script 28's canonical-plan sanity
+# invariants, script 31's identity-key collision audit) so a caller
+# never has to shell out to those scripts separately. Pure, no live
+# request, no DB write.
+# ---------------------------------------------------------------
+
+
+def build_post_acquisition_validation_report(taxonomy: dict, *, raw_samples_dir: Path, season: str) -> dict:
+    """Re-derives the canonical plan and identity-key collision audit
+    against whatever evidence is on disk for `season` right now.
+    `collision_category_totals` mirrors script 31's own category
+    tally — never a new, separately-invented classification."""
+    counts, _plan = build_canonical_plan(taxonomy)
+    invariant_warnings = check_sanity_invariants(counts)
+    audits = audit_identity_key_collisions(taxonomy, raw_samples_dir=raw_samples_dir, season=season)
+    category_totals = Counter(a.category for a in audits)
+    return {
+        "season": season,
+        "canonical_requestable_metric_count": counts.canonical_requestable_metric_count,
+        "unique_identity_key_count": counts.unique_identity_key_count,
+        "menu3_collision_count": counts.menu3_collision_count,
+        "duplicate_identity_key_group_count": counts.duplicate_identity_key_group_count,
+        "sanity_invariant_warnings": invariant_warnings,
+        "collision_group_count": len(audits),
+        "collision_category_totals": dict(sorted(category_totals.items())),
+    }
+
+
+# ---------------------------------------------------------------
+# Database completeness check — a plain, read-only tally over
+# `official_metric_value` itself (the table this collector writes
+# to). Never a claim about coverage of the full 248-identity canonical
+# set beyond what is literally counted here.
+# ---------------------------------------------------------------
+
+
+def build_official_metric_value_completeness_report(conn: sqlite3.Connection) -> dict:
+    """Real counts from `official_metric_value` — total rows, seasons
+    present, distinct identities/players covered, rows with a NULL
+    `value_raw` (parsed but empty), and rows `validation_status =
+    'FLAGGED'`. Read-only; never mutates the table."""
+    total_rows = conn.execute("SELECT COUNT(*) FROM official_metric_value").fetchone()[0]
+    seasons = [row[0] for row in conn.execute("SELECT DISTINCT season FROM official_metric_value ORDER BY season")]
+    distinct_identities = conn.execute(
+        "SELECT COUNT(DISTINCT identity_key) FROM official_metric_value"
+    ).fetchone()[0]
+    distinct_players = conn.execute("SELECT COUNT(DISTINCT player_code) FROM official_metric_value").fetchone()[0]
+    null_value_rows = conn.execute(
+        "SELECT COUNT(*) FROM official_metric_value WHERE value_raw IS NULL"
+    ).fetchone()[0]
+    flagged_rows = conn.execute(
+        "SELECT COUNT(*) FROM official_metric_value WHERE validation_status = 'FLAGGED'"
+    ).fetchone()[0]
+    return {
+        "total_rows": total_rows,
+        "seasons_present": seasons,
+        "distinct_identity_keys_present": distinct_identities,
+        "distinct_players_present": distinct_players,
+        "null_value_raw_rows": null_value_rows,
+        "flagged_rows": flagged_rows,
+    }
