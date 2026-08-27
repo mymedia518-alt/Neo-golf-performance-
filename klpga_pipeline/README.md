@@ -666,6 +666,60 @@ python scripts/33_predict_neo_win.py --db data/klpga.sqlite --game-code <code> -
 python scripts/33_predict_neo_win.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD --freeze --prediction-id 001
 ```
 
+## BETA #001-C — data integrity + official metric integration
+
+A corrected, evidence-driven rebuild of BETA #001's identity resolution
+and official-metric feature layer, triggered by a real bug the Seo
+Gyo-rim diagnostic exposed and a follow-up audit confirmed: the label
+"평균 티샷 거리" is not globally unique across identity_keys (it names
+three semantically different driving-distance metrics), so BETA #001's
+original label-only pivot could non-deterministically pick the wrong
+one. `klpga.neo_win.official_metrics`/`metric_domain_map.py` now pin
+every candidate to `(identity_key, label)`, never a bare label — BETA
+#001's own pipeline is otherwise completely unmodified.
+
+New, parallel modules (never touching `klpga.neo_win.dataset`/
+`official_metrics.py`'s existing 4-slot design, `klpga.neo_win.archive`,
+or `predictions/`):
+
+- `klpga.neo_win.identity_resolution.build_full_identity_crosswalk` —
+  CLEAN/PARTIAL/AMBIGUOUS/BROKEN/UNMATCHED classification for every
+  player identity seen anywhere in the DB.
+- `klpga.discovery.flag_recovery` — separates VALUE_VALIDITY from
+  RANK_VALIDITY for a FLAGGED `official_metric_value` response (a pure
+  rank-column artifact never proven to corrupt the paired value).
+- `klpga.neo_win.metric_domain_map` — classifies every canonical
+  metric into DRIVING/APPROACH/SHORT_GAME/PUTTING/SCORING/OVERALL and
+  gates `usable_for_model`.
+- `klpga.neo_win.feature_matrix` / `beta001c_dataset` — domain-
+  aggregate official-metric features (`neo_driving`, `neo_approach`,
+  `neo_short_game`, `neo_putting`, `neo_overall_skill`; `neo_scoring`
+  is always excluded — duplicate representation of the existing
+  `prior_avg_round_score_to_par` base feature) plus five win-feature
+  candidates (`klpga.neo_win.win_features`).
+- `klpga.neo_win.backtest_eval` — a NEW, standalone walk-forward
+  evaluator (never `klpga.models.walk_forward_eval`, which is
+  hard-coded to the frozen M0-M6 ladder) comparing MODEL_A (base),
+  MODEL_B (+ official-metric domains), and MODEL_C (+ win features).
+  `select_best_beta001c_model` applies the SAME evidence-only
+  complexity tie-break `docs/WIN_PROBABILITY_MODEL_EVALUATION_SPEC.md`
+  already established for M0-M6: a more complex model is promoted only
+  on a statistically significant paired-log-loss improvement.
+- `klpga.neo_win.beta001c_archive` — a separate, append-only frozen
+  archive at `neo_win_c_predictions/` (never `neo_win_predictions/`,
+  never `predictions/`; `prediction_id="001"` is refused outright).
+- `klpga.neo_win.comparison` / `redteam` — BETA #001 vs #001-C
+  per-player comparison and a TOP20 red-team audit
+  (CLEAN/DATA_WARNING/IDENTITY_WARNING/MODEL_WARNING).
+
+```
+python scripts/36_build_beta001c_feature_matrix.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD
+python scripts/37_beta001c_model_backtest.py --db data/klpga.sqlite --threshold 10
+python scripts/38_predict_beta001c.py --db data/klpga.sqlite --game-code <code> --cutoff-date YYYY-MM-DD --freeze --prediction-id 001-C
+python scripts/39_compare_beta001_vs_c.py --pre-001-json neo_win_predictions/<year>/neo_win_001_<code>.json --c-json neo_win_c_predictions/<year>/neo_win_c_001-C_<code>.json --highlight <exact real player names>
+python scripts/40_redteam_beta001c_top20.py --db data/klpga.sqlite --c-json neo_win_c_predictions/<year>/neo_win_c_001-C_<code>.json
+```
+
 ## NEO Predictions — public site
 
 `src/klpga/site/` + `scripts/25_build_predictions_site.py` — a static-
