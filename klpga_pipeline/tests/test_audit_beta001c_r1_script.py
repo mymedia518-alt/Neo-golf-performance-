@@ -485,6 +485,115 @@ def test_audit_reports_provenance_when_db_gains_a_player_after_freeze(module, db
     assert "newly available since freeze" in out
 
 
+def _classify_db(tmp_path, name="classify.sqlite"):
+    conn = sqlite3.connect(tmp_path / name)
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, start_date, end_date) "
+        "VALUES ('E1', 'G1', 'T', 2026, '2027-01-01', '2027-01-04')"
+    )
+    conn.commit()
+    return conn
+
+
+def test_classify_missing_player_wd_from_confirmed_flag(module, tmp_path):
+    conn = _classify_db(tmp_path)
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('9750', 'X')")
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        "('E1', 'G1', 2026, '9750', 'X', 'WD', NULL, 0, 1, 0, 1, NULL)"
+    )
+    conn.commit()
+    result = module._classify_missing_r1_player(conn, "G1", "9750")
+    assert result.startswith("WD —")
+    conn.close()
+
+
+def test_classify_missing_player_dq_from_confirmed_flag(module, tmp_path):
+    conn = _classify_db(tmp_path)
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('8392', 'Y')")
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        "('E1', 'G1', 2026, '8392', 'Y', 'DQ', NULL, 0, 0, 1, 1, NULL)"
+    )
+    conn.commit()
+    result = module._classify_missing_r1_player(conn, "G1", "8392")
+    assert result.startswith("DQ —")
+    conn.close()
+
+
+def test_classify_missing_player_unknown_when_no_player_event_row(module, tmp_path):
+    conn = _classify_db(tmp_path)
+    conn.execute(
+        "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+        "VALUES ('G1', '9431', 'Z', 'test', '2027-01-01T00:00:00Z')"
+    )
+    conn.commit()
+    result = module._classify_missing_r1_player(conn, "G1", "9431")
+    assert result.startswith("UNKNOWN — no player_event row")
+    assert "present in tournament_entry" in result
+    conn.close()
+
+
+def test_classify_missing_player_unknown_when_no_round_data_at_all(module, tmp_path):
+    conn = _classify_db(tmp_path)
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('8424', 'W')")
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        "('E1', 'G1', 2026, '8424', 'W', NULL, NULL, 0, 0, 0, 0, NULL)"
+    )
+    conn.commit()
+    result = module._classify_missing_r1_player(conn, "G1", "8424")
+    assert result.startswith("UNKNOWN — player_event row exists")
+    assert "no round data recorded" in result
+    conn.close()
+
+
+def test_classify_missing_player_unknown_collection_gap_when_other_rounds_exist(module, tmp_path):
+    conn = _classify_db(tmp_path)
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('9728', 'V')")
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        "('E1', 'G1', 2026, '9728', 'V', '45', 45, 1, 0, 0, 4, -2)"
+    )
+    conn.commit()
+    result = module._classify_missing_r1_player(conn, "G1", "9728")
+    assert result.startswith("UNKNOWN — player_event row exists")
+    assert "collection gap limited to Round 1" in result
+    conn.close()
+
+
+def test_audit_prints_classification_for_each_missing_player(module, db_path, tmp_path, capsys):
+    """Integration: the audit report includes a classification line for
+    every missing_r1_data player, sourced from real player_event data."""
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        f"({GAME_CODE!r}, {GAME_CODE!r}, 2026, 'E', 'E', 'WD', NULL, 0, 1, 0, 1, NULL)"
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)  # E missing
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "classification: WD —" in out
+
+
 def test_audit_errors_cleanly_when_pre_snapshot_missing(module, db_path, tmp_path):
     predictions_dir = tmp_path / "neo_win_predictions"
     history_dir = tmp_path / "neo_tournament_history"
