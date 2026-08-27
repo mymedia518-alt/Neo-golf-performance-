@@ -319,6 +319,38 @@ def test_audit_warns_when_r1_history_slot_holds_missing_marker(module, db_path, 
     assert "NOT DURABLY RECORDED — a stale MISSING marker" in out
 
 
+def test_audit_fails_when_db_has_r1_row_for_player_not_in_frozen_snapshot_at_all(module, db_path, tmp_path, capsys):
+    """A round_number=1 DB row for a player_code absent from the frozen
+    R1 snapshot entirely (neither scored nor missing_r1_data) is a
+    SEPARATE anomaly from the ordinary 'a missing player now scored'
+    provenance case — must FAIL, not be silently folded into a WARN."""
+    conn = sqlite3.connect(db_path)
+    conn.execute("INSERT OR IGNORE INTO player_master (player_id, player_name) VALUES ('ZZZ', 'Ghost')")
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, "
+        "round_score, round_to_par) VALUES (?, ?, 2026, 1, 'ZZZ', 'Ghost', 68, -4)",
+        (GAME_CODE, GAME_CODE),
+    )
+    conn.commit()
+    conn.close()
+
+    c_predictions_dir = tmp_path / "neo_win_c_predictions"
+    predictions_dir = tmp_path / "neo_win_predictions"
+    history_dir = tmp_path / "neo_tournament_history"
+    output_dir = tmp_path / "outputs" / "beta001_r1"
+
+    _freeze_pre_c(c_predictions_dir)
+    _snapshot, entrants = _freeze_r1(predictions_dir)
+    _write_csv(output_dir, entrants)
+
+    rc = _run(module, _base_argv(db_path, c_predictions_dir, predictions_dir, output_dir / "BETA001_R1_FULL.csv", history_dir))
+    assert rc == 0
+    out = capsys.readouterr().out
+    assert "VERDICT: FAIL" in out
+    assert "[FAIL] DB has real round_number=1 row(s) for player_code(s) not present" in out
+    assert "'ZZZ'" in out
+
+
 def test_audit_fails_on_r2_leakage(module, db_path, tmp_path, capsys):
     conn = sqlite3.connect(db_path)
     conn.execute(
@@ -483,6 +515,9 @@ def test_audit_reports_provenance_when_db_gains_a_player_after_freeze(module, db
     assert "PROVENANCE: DB CHANGED SINCE FREEZE" in out
     assert "['E']" in out
     assert "newly available since freeze" in out
+    assert "round_to_par=-1" in out
+    assert "represents a COMPLETED R1 score" in out
+    assert "COMPLETED R1 score (round_to_par is not null): True" in out
 
 
 def _classify_db(tmp_path, name="classify.sqlite"):
@@ -506,7 +541,10 @@ def test_classify_missing_player_wd_from_confirmed_flag(module, tmp_path):
     )
     conn.commit()
     result = module._classify_missing_r1_player(conn, "G1", "9750")
-    assert result.startswith("WD —")
+    assert result.event_status == "WD"
+    assert result.classification.startswith("WD —")
+    assert result.completed_r1 is False
+    assert result.started_r1.startswith("UNKNOWN (not derivable")
     conn.close()
 
 
@@ -520,7 +558,8 @@ def test_classify_missing_player_dq_from_confirmed_flag(module, tmp_path):
     )
     conn.commit()
     result = module._classify_missing_r1_player(conn, "G1", "8392")
-    assert result.startswith("DQ —")
+    assert result.event_status == "DQ"
+    assert result.classification.startswith("DQ —")
     conn.close()
 
 
@@ -532,8 +571,10 @@ def test_classify_missing_player_unknown_when_no_player_event_row(module, tmp_pa
     )
     conn.commit()
     result = module._classify_missing_r1_player(conn, "G1", "9431")
-    assert result.startswith("UNKNOWN — no player_event row")
-    assert "present in tournament_entry" in result
+    assert result.event_status == "NO_PLAYER_EVENT_ROW"
+    assert result.in_entry_field is True
+    assert result.classification.startswith("UNKNOWN — no player_event row")
+    assert "in tournament_entry" in result.classification
     conn.close()
 
 
@@ -547,12 +588,18 @@ def test_classify_missing_player_unknown_when_no_round_data_at_all(module, tmp_p
     )
     conn.commit()
     result = module._classify_missing_r1_player(conn, "G1", "8424")
-    assert result.startswith("UNKNOWN — player_event row exists")
-    assert "no round data recorded" in result
+    assert result.event_status == "NO_FLAG_SET"
+    assert result.rounds_played == 0
+    assert result.classification.startswith("UNKNOWN — player_event row exists")
+    assert "no positive evidence either way" in result.classification
+    assert not result.classification.startswith("COLLECTION_MISSING")
     conn.close()
 
 
-def test_classify_missing_player_unknown_collection_gap_when_other_rounds_exist(module, tmp_path):
+def test_classify_missing_player_collection_missing_when_other_rounds_exist(module, tmp_path):
+    """Item 6: COLLECTION_MISSING requires POSITIVE evidence of
+    participation (rounds_played>=1, no WD/DQ flag) — never a
+    legitimate WD/DNS/DQ reported as a data-quality failure."""
     conn = _classify_db(tmp_path)
     conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('9728', 'V')")
     conn.execute(
@@ -562,8 +609,28 @@ def test_classify_missing_player_unknown_collection_gap_when_other_rounds_exist(
     )
     conn.commit()
     result = module._classify_missing_r1_player(conn, "G1", "9728")
-    assert result.startswith("UNKNOWN — player_event row exists")
-    assert "collection gap limited to Round 1" in result
+    assert result.event_status == "NO_FLAG_SET"
+    assert result.rounds_played == 4
+    assert result.classification.startswith("COLLECTION_MISSING —")
+    assert "pipeline gap, not a tournament-status case" in result.classification
+    conn.close()
+
+
+def test_classify_missing_player_wd_dns_text_only_flagged_not_asserted(module, tmp_path):
+    """finish_position text alone (no confirmed boolean flag) must be
+    flagged for review, never silently upgraded to a confirmed WD/DQ."""
+    conn = _classify_db(tmp_path)
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('7777', 'U')")
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, finish_position, "
+        "finish_position_numeric, made_cut, withdrawn, disqualified, rounds_played, score_to_par) VALUES "
+        "('E1', 'G1', 2026, '7777', 'U', 'DNS', NULL, 0, 0, 0, 0, NULL)"
+    )
+    conn.commit()
+    result = module._classify_missing_r1_player(conn, "G1", "7777")
+    assert result.event_status == "NO_FLAG_SET"
+    assert result.classification.startswith("DNS —")
+    assert "not guessed" in result.classification
     conn.close()
 
 

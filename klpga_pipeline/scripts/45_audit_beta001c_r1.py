@@ -65,7 +65,9 @@ import csv
 import json
 import sqlite3
 import sys
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -115,12 +117,73 @@ def _field_size(conn: sqlite3.Connection, game_code: str) -> int:
     ).fetchone()[0]
 
 
-def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player_code: str) -> str:
+def _r1_row_detail(conn: sqlite3.Connection, game_code: str, player_code: str) -> Optional[dict]:
+    """Full real detail for a player's round_number=1 player_round row
+    — used only for provenance reporting (item 7's 115-vs-116
+    investigation), never to alter the already-frozen snapshot."""
+    row = conn.execute(
+        "SELECT player_name, round_score, round_to_par, finish_position_after_round "
+        "FROM player_round WHERE game_code = ? AND round_number = 1 AND player_id = ?",
+        (game_code, player_code),
+    ).fetchone()
+    if row is None:
+        return None
+    player_name, round_score, round_to_par, finish_position_after_round = row
+    return {
+        "player_name": player_name, "round_score": round_score, "round_to_par": round_to_par,
+        "finish_position_after_round": finish_position_after_round,
+        # round_to_par IS NOT NULL is exactly the condition _r1_player_codes/_r1_row_count already
+        # require — so any row reaching this helper already represents a completed R1 score, never
+        # a bare status-only record with no score.
+        "is_completed_score": round_to_par is not None,
+    }
+
+
+@dataclass(frozen=True)
+class MissingPlayerStatus:
+    player_code: str
+    in_entry_field: bool
+    """ENTRY FIELD — confirmed real KLPGA entrant (tournament_entry)."""
+    completed_r1: bool
+    """COMPLETED R1 — a real round_number=1 player_round row with a
+    non-null round_to_par exists (this function is only ever called
+    for players where this is already known False — kept here for a
+    self-contained, honest record)."""
+    started_r1: str
+    """STARTED R1 — NOT DERIVABLE from the current schema when
+    completed_r1 is False: player_round only records a COMPLETED
+    round's score, with no separate "teed off but no result captured"
+    signal anywhere in schema.sql. Always the literal string below in
+    that case, never guessed True/False."""
+    rounds_played: "Optional[int]"
+    event_status: str
+    """One of 'DQ' / 'WD' / 'NO_FLAG_SET' / 'NO_PLAYER_EVENT_ROW' — read
+    straight from player_event's own confirmed withdrawn/disqualified
+    booleans, never inferred from anything else."""
+    finish_position: "Optional[str]"
+    classification: str
+    """Final decision: one of DQ / WD / UNKNOWN / COLLECTION_MISSING.
+    COLLECTION_MISSING is assigned ONLY when rounds_played>=1 (positive
+    evidence the player played at least one round, which in this
+    single-cut format requires having played R1) with no WD/DQ flag,
+    yet R1's own player_round row is specifically absent — every other
+    case is UNKNOWN, never guessed."""
+
+
+_STARTED_R1_UNDERIVABLE = (
+    "UNKNOWN (not derivable from current schema — player_round only records a COMPLETED round's "
+    "score; there is no separate 'started but result not captured' field anywhere in schema.sql)"
+)
+
+
+def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player_code: str) -> MissingPlayerStatus:
     """Evidence-only classification of WHY a player has no real R1
-    score — reads player_event's confirmed withdrawn/disqualified flags
-    and tournament_entry, never guesses. Returns a human-readable
-    classification string; never WD/DQ unless the DB's own confirmed
-    boolean flag says so."""
+    score, keeping ENTRY FIELD / STARTED R1 / COMPLETED R1 / WD / DQ /
+    UNKNOWN / COLLECTION_MISSING as distinct fields (never collapsed
+    into one guess) — reads only player_event's confirmed withdrawn/
+    disqualified flags and tournament_entry. Never labels WD/DQ except
+    from the DB's own confirmed boolean; a legitimate WD/DNS/DQ is
+    never reported as COLLECTION_MISSING."""
     in_entry = (
         conn.execute(
             "SELECT 1 FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
@@ -134,29 +197,53 @@ def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player
     ).fetchone()
 
     if row is None:
-        entry_note = "present in tournament_entry (registered field member)" if in_entry else "NOT in tournament_entry"
-        return f"UNKNOWN — no player_event row for this game_code ({entry_note}); possible DNS or a collection gap, cannot distinguish from DB evidence alone"
+        return MissingPlayerStatus(
+            player_code=player_code, in_entry_field=in_entry, completed_r1=False,
+            started_r1=_STARTED_R1_UNDERIVABLE, rounds_played=None, event_status="NO_PLAYER_EVENT_ROW",
+            finish_position=None,
+            classification=(
+                "UNKNOWN — no player_event row exists for this game_code at all "
+                f"({'in tournament_entry' if in_entry else 'NOT in tournament_entry either'}); "
+                "consistent with DNS (never started, so no event row was ever created) but not positively "
+                "confirmed — never assumed"
+            ),
+        )
 
     withdrawn, disqualified, made_cut, rounds_played, finish_position = row
     if disqualified:
-        return f"DQ — player_event.disqualified=1 (finish_position={finish_position!r})"
-    if withdrawn:
-        return f"WD — player_event.withdrawn=1 (finish_position={finish_position!r})"
-    if finish_position in ("WD", "DQ"):
-        return (
+        event_status = "DQ"
+    elif withdrawn:
+        event_status = "WD"
+    else:
+        event_status = "NO_FLAG_SET"
+
+    if event_status == "DQ":
+        classification = f"DQ — player_event.disqualified=1 (finish_position={finish_position!r})"
+    elif event_status == "WD":
+        classification = f"WD — player_event.withdrawn=1 (finish_position={finish_position!r})"
+    elif finish_position in ("WD", "DQ", "DNS"):
+        classification = (
             f"{finish_position} — finish_position text says {finish_position!r} but the confirmed withdrawn/"
-            "disqualified boolean flag is NOT set; inconsistent evidence, flagging for manual review rather than guessing"
+            "disqualified boolean flag is NOT set; inconsistent evidence, flagged for manual review, not guessed"
         )
-    if not rounds_played:
-        return (
+    elif rounds_played:
+        # Positive evidence of participation (this single-cut format requires R1 before any later
+        # round), no WD/DQ flag, yet R1's own player_round row is specifically absent.
+        classification = (
+            f"COLLECTION_MISSING — rounds_played={rounds_played} with no WD/DQ flag (positive evidence R1 was "
+            "played), but no round_number=1 player_round row exists — this is a pipeline gap, not a tournament-status case"
+        )
+    else:
+        classification = (
             f"UNKNOWN — player_event row exists (made_cut={bool(made_cut)}, finish_position={finish_position!r}) "
-            f"but rounds_played={rounds_played!r} and no WD/DQ flag — no round data recorded for any round, "
-            "reason not determinable from available evidence"
+            f"but rounds_played={rounds_played!r} and no WD/DQ flag — no positive evidence either way, "
+            "not classified as COLLECTION_MISSING without it"
         )
-    return (
-        f"UNKNOWN — player_event row exists (rounds_played={rounds_played}, made_cut={bool(made_cut)}, "
-        f"finish_position={finish_position!r}) but has no round_number=1 player_round row specifically — "
-        "possible collection gap limited to Round 1"
+
+    return MissingPlayerStatus(
+        player_code=player_code, in_entry_field=in_entry, completed_r1=False,
+        started_r1=_STARTED_R1_UNDERIVABLE, rounds_played=rounds_played, event_status=event_status,
+        finish_position=finish_position, classification=classification,
     )
 
 
@@ -254,6 +341,19 @@ def main() -> int:
         r1_db_codes = _r1_player_codes(conn, args.game_code)
         field_size_db = _field_size(conn, args.game_code)
         missing_classification = {code: _classify_missing_r1_player(conn, args.game_code, code) for code in missing}
+        newly_available_row_detail = {}  # filled below, inside this same connection
+        snapshot_all_codes = {p["player_code"] for p in r1_predictions}
+        unexplained_r1_db_codes = sorted(r1_db_codes - snapshot_all_codes)
+        entrants_scored = r1_data.get("entrants_scored")
+        newly_available_players: list[str] = []
+        if entrants_scored is not None and entrants_scored != r1_db_count:
+            # provenance only — never changes the frozen snapshot. First: which of the snapshot's OWN
+            # missing_r1_data players now have a real DB row (per item 6, POSITIVE evidence required —
+            # `_r1_player_codes` already only returns rows with round_to_par IS NOT NULL, i.e. a real
+            # completed score, never a bare status marker).
+            newly_available_players = sorted(set(missing) & r1_db_codes)
+            for code in newly_available_players:
+                newly_available_row_detail[code] = _r1_row_detail(conn, args.game_code, code)
     finally:
         conn.close()
 
@@ -263,16 +363,18 @@ def main() -> int:
             "snapshot must never have been generated once R2 data existed."
         )
 
-    entrants_scored = r1_data.get("entrants_scored")
-    newly_available_players: list[str] = []
     if entrants_scored is not None and entrants_scored != r1_db_count:
-        # provenance only — this never changes the frozen snapshot, it only reports which of the
-        # snapshot's OWN missing_r1_data players now have a real DB row that arrived after the freeze.
-        newly_available_players = sorted(set(missing) & r1_db_codes)
         warns.append(
             f"entrants_scored in snapshot ({entrants_scored}) != real round_number=1 row count in DB now "
             f"({r1_db_count}) — DB rows changed since the snapshot was frozen"
             + (f"; newly available since freeze: {newly_available_players}" if newly_available_players else "")
+        )
+    if unexplained_r1_db_codes:
+        fails.append(
+            f"DB has real round_number=1 row(s) for player_code(s) not present anywhere in the frozen R1 "
+            f"snapshot (neither scored nor missing_r1_data): {unexplained_r1_db_codes} — NOT explained by a "
+            "previously-missing player now scoring; this needs separate investigation as a possible field/"
+            "identity mismatch, not assumed to be the same thing as the entrants_scored count change above."
         )
 
     # --- tournament_history (effective status: resolves a superseding RECORDED
@@ -340,23 +442,52 @@ def main() -> int:
         for code in missing:
             name = by_code[code].get("player_name")
             newly_available_note = " [PROVENANCE: DB now has a real R1 row for this player — see below]" if code in newly_available_players else ""
+            status = missing_classification.get(code)
             print(
                 f"  - {name} ({code}): no Round-1 score found in player_round at freeze time — excluded from the "
                 "Monte Carlo field, reported with null post-R1 probabilities (round_update.py's "
                 f"missing_r1_players).{newly_available_note}"
             )
-            print(f"      classification: {missing_classification.get(code, 'UNKNOWN — not classified')}")
+            if status is not None:
+                print(f"      ENTRY_FIELD: {status.in_entry_field}")
+                print(f"      COMPLETED_R1: {status.completed_r1}")
+                print(f"      STARTED_R1: {status.started_r1}")
+                print(f"      rounds_played (whole tournament): {status.rounds_played!r}")
+                print(f"      event_status (player_event flags): {status.event_status}")
+                print(f"      finish_position: {status.finish_position!r}")
+                print(f"      classification: {status.classification}")
+            else:
+                print("      classification: UNKNOWN — not classified")
     else:
         print("  (none)")
     print()
-    if newly_available_players:
+    if newly_available_players or unexplained_r1_db_codes:
         print("=== PROVENANCE: DB CHANGED SINCE FREEZE (audit info only, frozen snapshot NOT modified) ===")
         print()
+    if newly_available_players:
         print(f"{len(newly_available_players)} player(s) the frozen snapshot marked missing_r1_data=True now "
-              f"have a real round_number=1 row in the current DB: {newly_available_players}")
+              f"have a real round_number=1 row in the current DB — never assumed to be 'a previously missing "
+              "score', shown here with the actual row so you can judge:")
+        for code in newly_available_players:
+            detail = newly_available_row_detail.get(code)
+            if detail is None:
+                print(f"  - {code}: row disappeared between the two queries — re-run to confirm")
+                continue
+            print(
+                f"  - {detail['player_name']} ({code}): round_score={detail['round_score']!r} "
+                f"round_to_par={detail['round_to_par']!r} finish_position_after_round="
+                f"{detail['finish_position_after_round']!r} — represents a COMPLETED R1 score "
+                f"(round_to_par is not null): {detail['is_completed_score']}"
+            )
         print("This does not change the already-frozen snapshot — it only explains why "
               f"entrants_scored ({entrants_scored}) differs from the DB's current round_number=1 row count "
-              f"({r1_db_count}).")
+              f"({r1_db_count}). When/where this row was inserted (a specific collection run) is not recorded "
+              "anywhere in the schema — collected_at exists on tournament_entry, not on player_round.")
+    if unexplained_r1_db_codes:
+        print(f"{len(unexplained_r1_db_codes)} round_number=1 row(s) in the DB belong to player_code(s) not "
+              f"present anywhere in the frozen R1/PRE snapshot at all: {unexplained_r1_db_codes} — this is a "
+              "SEPARATE anomaly from the count above, not automatically the same explanation.")
+    if newly_available_players or unexplained_r1_db_codes:
         print()
     print("=== TOP 20 — PRE WIN% -> R1 WIN% (delta) ===")
     print()
