@@ -45,9 +45,48 @@ value as `post_r1_make_cut_pct` (still a Monte Carlo estimate at this
 stage, since Round 2 has not happened yet) — never a second,
 independently-derived number. Same convention as round_update_r2.py.
 
-Usage:
+======================================================================
+--pre-family {beta001, beta001c} — READING THE #001-C PRE BASELINE
+======================================================================
+Default `beta001` preserves every existing behavior byte-for-byte
+(reads `neo_win_predictions/`, same as always). Pass `--pre-family
+beta001c --c-predictions-dir neo_win_c_predictions --pre-prediction-id
+<id>` to source PRE from the current BETA #001-C production baseline
+instead (e.g. `neo_win_c_001-C-FINAL_<game_code>.json`) — '001' is
+rejected as `--pre-prediction-id` in this mode (that id is BETA #001's
+own, never to be reused for a #001-C snapshot).
+
+`_adapt_beta001c_snapshot` below is a PURE FIELD-MAPPING adapter, not a
+model change: `klpga.neo_win.model.BASE_FEATURES` (reused unmodified by
+every BETA #001-C model A/B/C) always stores the RAW
+`prior_avg_round_score_to_par` / `neo_consistency_stddev` values in a
+#001-C entrant's `feature_values` dict (verified: scripts/38 populates
+`feature_values` straight from the live-field row, before any
+standardization) — the exact same real quantities BETA #001's own
+snapshot already exposes as dedicated fields. The adapter only renames
+where these live so the UNCHANGED `klpga.neo_win.round_update.
+build_sim_inputs_from_frozen_snapshot` / `simulate_post_round1` can
+consume a #001-C PRE exactly as they already consume a #001 one — no
+simulation math is touched.
+
+With `--pre-family beta001c --freeze`, this script ALSO attempts to
+record the result as tournament_history's STAGE_R1 (same append-only
+`klpga.neo_win.tournament_history.write_history_stage_atomic` used by
+scripts/42 and scripts/44) — a SKIP + LOG, never a crash, if that
+(game_code, R1) slot is already occupied (e.g. by an earlier
+HISTORICAL_SNAPSHOT_MISSING marker). The `--prediction-id`-identified
+round-update snapshot itself is written either way. The `beta001`
+(legacy) path is unchanged: still recorded via the separate
+scripts/42_record_tournament_history.py, exactly as before.
+
+Usage (legacy BETA #001, unchanged default):
     python scripts/35_predict_neo_win_post_r1.py --db data/klpga.sqlite --game-code 2026080001 \\
         --pre-prediction-id 001 --freeze --prediction-id 001-R1
+
+Usage (current BETA #001-C production baseline):
+    python scripts/35_predict_neo_win_post_r1.py --db data/klpga.sqlite --game-code 2026080001 \\
+        --pre-family beta001c --pre-prediction-id 001-C-FINAL --pre-cutoff-date 2026-08-27 \\
+        --freeze --prediction-id 001-C-R1
 """
 from __future__ import annotations
 
@@ -57,12 +96,18 @@ import json
 import random
 import sqlite3
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.neo_win.archive import NeoWinAlreadyArchivedError, archive_paths, read_neo_win_snapshot  # noqa: E402
+from klpga.neo_win.beta001c_archive import (  # noqa: E402
+    archive_paths as c_archive_paths,
+    read_neo_win_c_snapshot,
+)
 from klpga.neo_win.round_update import (  # noqa: E402
     DEFAULT_N_SIMULATIONS,
     build_sim_inputs_from_frozen_snapshot,
@@ -72,6 +117,14 @@ from klpga.neo_win.round_update import (  # noqa: E402
 from klpga.neo_win.round_update_archive import (  # noqa: E402
     RECORD_KIND, MODEL_VERSION, RoundUpdateEntrantSnapshot, RoundUpdateSnapshot,
     snapshot_to_dict, write_round_update_snapshot_atomic,
+)
+from klpga.neo_win.tournament_history import (  # noqa: E402
+    RECORD_KIND as HISTORY_RECORD_KIND,
+    STAGE_R1,
+    HistoryEntrant,
+    HistoryStageAlreadyRecordedError,
+    HistoryStageSnapshot,
+    write_history_stage_atomic,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -114,11 +167,61 @@ def _r2_row_count(conn: sqlite3.Connection, game_code: str) -> int:
     ).fetchone()[0]
 
 
+@dataclass(frozen=True)
+class _AdaptedPreEntrant:
+    player_code: str
+    player_name: str
+    win_probability: Optional[float]
+    prior_avg_round_score_to_par: Optional[float]
+    neo_consistency_stddev: Optional[float]
+
+
+@dataclass(frozen=True)
+class _AdaptedPreSnapshot:
+    prediction_id: str
+    tournament_name: Optional[str]
+    cutoff_date: str
+    predictions: tuple
+
+
+def _adapt_beta001c_snapshot(c_snapshot) -> _AdaptedPreSnapshot:
+    """Pure field-mapping adapter — see module docstring. Reads the RAW
+    prior_avg_round_score_to_par / neo_consistency_stddev values out of
+    a NeoWinCEntrantSnapshot's feature_values dict (present because
+    klpga.neo_win.model.BASE_FEATURES is always the first 3 columns of
+    every BETA #001-C model) so the untouched round_update.py Monte
+    Carlo simulation can consume it exactly like a BETA #001 snapshot.
+    Never computes, guesses, or renormalizes a value — a feature absent
+    from feature_values stays None (round_update.py's own existing
+    population-mean shrink handles that, unchanged)."""
+    entrants = tuple(
+        _AdaptedPreEntrant(
+            player_code=e.player_code,
+            player_name=e.player_name,
+            win_probability=e.win_probability,
+            prior_avg_round_score_to_par=e.feature_values.get("prior_avg_round_score_to_par"),
+            neo_consistency_stddev=e.feature_values.get("neo_consistency_stddev"),
+        )
+        for e in c_snapshot.predictions
+    )
+    return _AdaptedPreSnapshot(
+        prediction_id=c_snapshot.prediction_id,
+        tournament_name=c_snapshot.tournament_name,
+        cutoff_date=c_snapshot.cutoff_date,
+        predictions=entrants,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
     parser.add_argument("--game-code", required=True)
     parser.add_argument("--predictions-dir", default=str(ROOT / "neo_win_predictions"))
+    parser.add_argument("--pre-family", choices=["beta001", "beta001c"], default="beta001",
+                         help="Which frozen PRE archive family to read. Default 'beta001' preserves existing "
+                              "behavior; 'beta001c' reads the current BETA #001-C production baseline instead.")
+    parser.add_argument("--c-predictions-dir", default=str(ROOT / "neo_win_c_predictions"))
+    parser.add_argument("--history-dir", default=str(ROOT / "neo_tournament_history"))
     parser.add_argument("--pre-prediction-id", default="001")
     parser.add_argument("--pre-cutoff-date", required=True, help="cutoff_date of the PRE snapshot, to locate its archive path")
     parser.add_argument("--freeze", action="store_true")
@@ -128,16 +231,31 @@ def main() -> int:
     parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR))
     args = parser.parse_args()
 
+    if args.pre_family == "beta001c" and args.pre_prediction_id == "001":
+        print("ERROR: --pre-family beta001c requires an explicit --pre-prediction-id (e.g. '001-C-FINAL') — "
+              "'001' is BETA #001's own legacy id and must never be reused for a #001-C snapshot.")
+        return 2
+
     db_path = Path(args.db)
     if not db_path.exists():
         print(f"ERROR: {db_path} does not exist.")
         return 3
 
-    pre_json_path, _c = archive_paths(Path(args.predictions_dir), args.pre_prediction_id, args.game_code, args.pre_cutoff_date)
-    if not pre_json_path.exists():
-        print(f"ERROR: frozen PRE snapshot not found at {pre_json_path}. Run scripts/33_predict_neo_win.py --freeze first.")
-        return 5
-    pre_snapshot = read_neo_win_snapshot(pre_json_path)
+    if args.pre_family == "beta001c":
+        pre_json_path, _c = c_archive_paths(
+            Path(args.c_predictions_dir), args.pre_prediction_id, args.game_code, args.pre_cutoff_date
+        )
+        if not pre_json_path.exists():
+            print(f"ERROR: frozen BETA #001-C PRE snapshot not found at {pre_json_path}. "
+                  "Run scripts/38_predict_beta001c.py --freeze first.")
+            return 5
+        pre_snapshot = _adapt_beta001c_snapshot(read_neo_win_c_snapshot(pre_json_path))
+    else:
+        pre_json_path, _c = archive_paths(Path(args.predictions_dir), args.pre_prediction_id, args.game_code, args.pre_cutoff_date)
+        if not pre_json_path.exists():
+            print(f"ERROR: frozen PRE snapshot not found at {pre_json_path}. Run scripts/33_predict_neo_win.py --freeze first.")
+            return 5
+        pre_snapshot = read_neo_win_snapshot(pre_json_path)
 
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
@@ -259,7 +377,7 @@ def main() -> int:
         "# NEO GOLF BETA #001-R1 — Model Report",
         "",
         f"- Tournament: {pre_snapshot.tournament_name} (`{args.game_code}`)",
-        f"- PRE prediction_id: {args.pre_prediction_id}  cutoff: {pre_snapshot.cutoff_date}",
+        f"- PRE family: {args.pre_family}  prediction_id: {args.pre_prediction_id}  cutoff: {pre_snapshot.cutoff_date}",
         f"- Cut format: single 36-hole cut, no subsequent cut (verified, see threads log)",
         f"- Empirical cut_fraction: {cut_fraction:.4f}",
         f"- n_simulations: {args.n_simulations}",
@@ -350,6 +468,8 @@ def main() -> int:
     print(f"Leakage: {leakage_check['status']}")
 
     freeze_status = "NOT FROZEN (pass --freeze to freeze 001-R1 permanently)"
+    history_status = "NOT ATTEMPTED (tournament history is only recorded here for --pre-family beta001c; " \
+                      "the legacy beta001 path is recorded separately by scripts/42_record_tournament_history.py)"
     if args.freeze:
         created_at_utc = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         snapshot = RoundUpdateSnapshot(
@@ -371,7 +491,31 @@ def main() -> int:
         freeze_copy.write_text(json.dumps(snapshot_to_dict(snapshot), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         freeze_status = f"FROZEN at {json_path} / {csv_path} (+ convenience copy {freeze_copy})"
 
+        if args.pre_family == "beta001c":
+            history_entrants = tuple(
+                HistoryEntrant(
+                    player_code=e.player_code, player_name=e.player_name,
+                    win_pct=e.post_r1_win_pct, make_cut_pct=e.post_r1_make_cut_pct,
+                    top5_pct=e.post_r1_top5_pct, top10_pct=e.post_r1_top10_pct, top20_pct=e.post_r1_top20_pct,
+                    position=e.r1_position, score_to_par=e.r1_score_to_par,
+                )
+                for e in entrants
+            )
+            history_snapshot = HistoryStageSnapshot(
+                game_code=args.game_code, stage=STAGE_R1, record_kind=HISTORY_RECORD_KIND,
+                recorded_at_utc=created_at_utc, source_prediction_id=args.prediction_id,
+                source_model_version=pre_snapshot.prediction_id, source_generated_at_utc=created_at_utc,
+                tournament_name=pre_snapshot.tournament_name, field_size=len(entrants),
+                entrants=history_entrants,
+            )
+            try:
+                history_path = write_history_stage_atomic(history_snapshot, Path(args.history_dir))
+                history_status = f"RECORDED at {history_path}"
+            except HistoryStageAlreadyRecordedError as exc:
+                history_status = f"SKIP + LOG — already recorded: {exc}"
+
     print(f"Freeze status: {freeze_status}")
+    print(f"Tournament history (PRE->R1): {history_status}")
     print()
     print(f"Wrote: {full_path}")
     print(f"Wrote: {top20_path}")
