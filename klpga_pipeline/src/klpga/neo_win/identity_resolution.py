@@ -44,10 +44,20 @@ def find_unmatched_official_metric_player_codes(conn: sqlite3.Connection) -> set
     return metric_codes - player_master_ids
 
 
-def resolve_unmatched_player_codes(conn: sqlite3.Connection, unmatched_codes: set[str]) -> dict[str, Optional[str]]:
-    """Returns {official_metric_value.player_code: resolved_player_master_id or None}.
-    None means "attempted, evidence insufficient to resolve deterministically" —
-    never removed from the report, never silently dropped."""
+REASON_RESOLVED = "RESOLVED_BY_EXACT_NAME"
+REASON_NO_RAW_SAMPLE = "NO_RAW_SAMPLE_TO_CHECK"
+REASON_NAME_NOT_FOUND = "NAME_NOT_IN_PLAYER_MASTER"
+REASON_AMBIGUOUS_NAME = "AMBIGUOUS_NAME_MULTIPLE_PLAYER_MASTER_MATCHES"
+
+
+def resolve_unmatched_player_codes(conn: sqlite3.Connection, unmatched_codes: set[str]) -> dict[str, dict]:
+    """Returns {official_metric_value.player_code: {"resolved_id": str
+    or None, "reason": str, "candidate_ids": [...]}}. `reason` is one
+    of REASON_RESOLVED / REASON_NO_RAW_SAMPLE / REASON_NAME_NOT_FOUND /
+    REASON_AMBIGUOUS_NAME — the LAST one is deliberately distinct from
+    "not found at all": 2+ player_master rows sharing the exact same
+    name is a genuine ambiguity (never silently resolved to either),
+    not the same failure mode as no match existing."""
     if not unmatched_codes:
         return {}
 
@@ -55,7 +65,7 @@ def resolve_unmatched_player_codes(conn: sqlite3.Connection, unmatched_codes: se
     for player_id, player_name in conn.execute("SELECT player_id, player_name FROM player_master"):
         player_master_by_name.setdefault(player_name, []).append(player_id)
 
-    resolved: dict[str, Optional[str]] = {}
+    resolved: dict[str, dict] = {}
     for code in unmatched_codes:
         row = conn.execute(
             "SELECT raw_sample_path FROM official_metric_value "
@@ -63,19 +73,24 @@ def resolve_unmatched_player_codes(conn: sqlite3.Connection, unmatched_codes: se
             (code,),
         ).fetchone()
         if row is None:
-            resolved[code] = None
+            resolved[code] = {"resolved_id": None, "reason": REASON_NO_RAW_SAMPLE, "candidate_ids": []}
             continue
         raw_path = Path(row[0])
         if not raw_path.exists():
-            resolved[code] = None
+            resolved[code] = {"resolved_id": None, "reason": REASON_NO_RAW_SAMPLE, "candidate_ids": []}
             continue
         parsed = parse_record_response(raw_path.read_text(encoding="utf-8"))
         player_name = next((r.player_name for r in parsed.rows if r.player_code == code), None)
         if player_name is None:
-            resolved[code] = None
+            resolved[code] = {"resolved_id": None, "reason": REASON_NO_RAW_SAMPLE, "candidate_ids": []}
             continue
         candidates = player_master_by_name.get(player_name, [])
-        resolved[code] = candidates[0] if len(candidates) == 1 else None
+        if len(candidates) == 1:
+            resolved[code] = {"resolved_id": candidates[0], "reason": REASON_RESOLVED, "candidate_ids": candidates}
+        elif len(candidates) == 0:
+            resolved[code] = {"resolved_id": None, "reason": REASON_NAME_NOT_FOUND, "candidate_ids": []}
+        else:
+            resolved[code] = {"resolved_id": None, "reason": REASON_AMBIGUOUS_NAME, "candidate_ids": candidates}
     return resolved
 
 
@@ -89,6 +104,7 @@ def build_identity_alias_map(conn: sqlite3.Connection) -> dict:
 
     Returns {"alias_map": {metric_code: player_master_id}  (direct
     matches map to themselves), "unresolved_codes": [...],
+    "unresolved_detail": {code: {"reason", "candidate_ids"}},
     "resolved_by_name_count": int, "direct_match_count": int}."""
     unmatched = find_unmatched_official_metric_player_codes(conn)
     resolution = resolve_unmatched_player_codes(conn, unmatched)
@@ -99,17 +115,148 @@ def build_identity_alias_map(conn: sqlite3.Connection) -> dict:
 
     alias_map: dict[str, str] = {code: code for code in direct}
     unresolved_codes: list[str] = []
+    unresolved_detail: dict[str, dict] = {}
     resolved_by_name_count = 0
-    for code, resolved_id in resolution.items():
-        if resolved_id is not None:
-            alias_map[code] = resolved_id
+    for code, info in resolution.items():
+        if info["resolved_id"] is not None:
+            alias_map[code] = info["resolved_id"]
             resolved_by_name_count += 1
         else:
             unresolved_codes.append(code)
+            unresolved_detail[code] = {"reason": info["reason"], "candidate_ids": info["candidate_ids"]}
 
     return {
         "alias_map": alias_map,
         "unresolved_codes": sorted(unresolved_codes),
+        "unresolved_detail": unresolved_detail,
         "resolved_by_name_count": resolved_by_name_count,
         "direct_match_count": len(direct),
     }
+
+
+# ---------------------------------------------------------------
+# Phase 1/2 — full, DB-wide identity crosswalk (not just official_
+# metric_value vs player_master): one row per canonical identity seen
+# ANYWHERE (player_master, player_event, player_round, tournament_
+# entry, official_metric_value), classified CLEAN / PARTIAL /
+# AMBIGUOUS / BROKEN / UNMATCHED. player_event/player_round already
+# share player_master's identity space by a real schema FK
+# (player_event.player_id REFERENCES player_master.player_id) — the
+# only genuinely uncertain relationship is official_metric_value.
+# player_code, which is why build_identity_alias_map (above) exists.
+# ---------------------------------------------------------------
+
+STATUS_CLEAN = "CLEAN"
+STATUS_PARTIAL = "PARTIAL"
+STATUS_AMBIGUOUS = "AMBIGUOUS"
+STATUS_BROKEN = "BROKEN"
+STATUS_UNMATCHED = "UNMATCHED"
+
+
+def build_full_identity_crosswalk(conn: sqlite3.Connection) -> list[dict]:
+    """One row per canonical player_master.player_id PLUS one row per
+    orphan code (a code appearing in tournament_entry or official_
+    metric_value with no player_master row at all — tournament_entry
+    has no FK to player_master by design, so this is a real, expected
+    case, not a defect). Never merges two player_master rows just
+    because their names match (STATUS_AMBIGUOUS exists precisely to
+    flag that case instead)."""
+    player_master = {row[0]: row[1] for row in conn.execute("SELECT player_id, player_name FROM player_master")}
+    name_counts: dict[str, int] = {}
+    for name in player_master.values():
+        name_counts[name] = name_counts.get(name, 0) + 1
+
+    player_event_ids = {row[0] for row in conn.execute("SELECT DISTINCT player_id FROM player_event")}
+    player_round_ids = {row[0] for row in conn.execute("SELECT DISTINCT player_id FROM player_round")}
+    tournament_entry_codes = {row[0] for row in conn.execute("SELECT DISTINCT player_code FROM tournament_entry")}
+    official_metric_codes = {row[0] for row in conn.execute("SELECT DISTINCT player_code FROM official_metric_value")}
+
+    alias_report = build_identity_alias_map(conn)
+    alias_map = alias_report["alias_map"]
+    unresolved_detail = alias_report["unresolved_detail"]
+    resolved_to_by_id: dict[str, list[str]] = {}
+    for code, resolved_id in alias_map.items():
+        if code != resolved_id:
+            resolved_to_by_id.setdefault(resolved_id, []).append(code)
+
+    rows: list[dict] = []
+    seen_official_codes_covered: set[str] = set()
+
+    for player_id, player_name in sorted(player_master.items()):
+        om_direct = player_id in official_metric_codes
+        om_resolved_aliases = resolved_to_by_id.get(player_id, [])
+        for c in ([player_id] if om_direct else []) + om_resolved_aliases:
+            seen_official_codes_covered.add(c)
+        official_metric_match = om_direct or bool(om_resolved_aliases)
+
+        evidence = []
+        resolution_method = "direct_id"
+        if name_counts.get(player_name, 0) > 1:
+            status = STATUS_AMBIGUOUS
+            evidence.append(f"{name_counts[player_name]} player_master rows share the name {player_name!r}")
+        elif not official_metric_match and player_id in tournament_entry_codes:
+            status = STATUS_PARTIAL
+            evidence.append("in current tournament field but no official_metric_value coverage")
+        elif om_resolved_aliases:
+            status = STATUS_PARTIAL
+            resolution_method = "resolved_by_exact_name"
+            evidence.append(f"official_metric_value code(s) {om_resolved_aliases} resolved to this player by exact name match")
+        else:
+            status = STATUS_CLEAN
+            evidence.append("player_master id used consistently everywhere it appears")
+
+        rows.append(
+            {
+                "canonical_player_id": player_id,
+                "player_code": player_id,
+                "player_name": player_name,
+                "player_master_match": True,
+                "player_event_match": player_id in player_event_ids,
+                "player_round_match": player_id in player_round_ids,
+                "official_metric_match": official_metric_match,
+                "tournament_entry_match": player_id in tournament_entry_codes,
+                "identity_status": status,
+                "evidence": "; ".join(evidence),
+                "resolution_method": resolution_method,
+            }
+        )
+
+    # Orphan tournament_entry codes with no player_master row at all.
+    for code in sorted(tournament_entry_codes - set(player_master)):
+        rows.append(
+            {
+                "canonical_player_id": None,
+                "player_code": code,
+                "player_name": None,
+                "player_master_match": False,
+                "player_event_match": code in player_event_ids,
+                "player_round_match": code in player_round_ids,
+                "official_metric_match": code in official_metric_codes,
+                "tournament_entry_match": True,
+                "identity_status": STATUS_BROKEN,
+                "evidence": "in tournament_entry with no player_master row at all",
+                "resolution_method": "none",
+            }
+        )
+
+    # Genuinely unmatched official_metric_value codes (not already covered above).
+    for code in sorted(official_metric_codes - seen_official_codes_covered - tournament_entry_codes):
+        detail = unresolved_detail.get(code, {"reason": "NOT_ATTEMPTED", "candidate_ids": []})
+        status = STATUS_AMBIGUOUS if detail["reason"] == REASON_AMBIGUOUS_NAME else STATUS_UNMATCHED
+        rows.append(
+            {
+                "canonical_player_id": None,
+                "player_code": code,
+                "player_name": None,
+                "player_master_match": False,
+                "player_event_match": code in player_event_ids,
+                "player_round_match": code in player_round_ids,
+                "official_metric_match": True,
+                "tournament_entry_match": False,
+                "identity_status": status,
+                "evidence": f"resolution attempt: {detail['reason']} (candidates={detail['candidate_ids']})",
+                "resolution_method": "attempted_unresolved",
+            }
+        )
+
+    return rows

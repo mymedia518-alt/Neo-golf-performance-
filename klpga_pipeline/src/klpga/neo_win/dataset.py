@@ -72,9 +72,10 @@ class _OfficialMetricSource:
         player_metrics = pivot.get(player_code, {})
         for slot, feature_name in FEATURE_NAME_BY_SLOT.items():
             if slot in selection:
-                label, orientation = selection[slot]
-                if label in player_metrics:
-                    out[feature_name] = oriented_value(player_metrics[label], orientation)
+                identity_key, label, orientation = selection[slot]
+                metric_key = (identity_key, label)
+                if metric_key in player_metrics:
+                    out[feature_name] = oriented_value(player_metrics[metric_key], orientation)
                     out[f"{feature_name}_n"] = 1
                     continue
             out[feature_name] = None
@@ -186,7 +187,7 @@ def build_neo_win_live_field(conn: sqlite3.Connection, game_code: str, cutoff_da
         "official_metric_context": {
             "target_season": target_season,
             "prior_season": prior_season,
-            "selected_slots": {slot: label for slot, (label, _orientation) in selection.items()},
+            "selected_slots": {slot: label for slot, (_identity_key, label, _orientation) in selection.items()},
             "omitted_slots": [slot for slot in FEATURE_NAME_BY_SLOT if slot not in selection],
             "identity_resolution": {
                 "direct_match_count": official_source.alias_report["direct_match_count"],
