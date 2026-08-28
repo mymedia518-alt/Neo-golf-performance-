@@ -34,7 +34,16 @@
     font-family: "Noto Sans KR", sans-serif;
   }
   header, main, section.hero, section.calibration, section.forecast, footer { max-width: 980px; margin-left: auto; margin-right: auto; }
-  header { margin-bottom: 28px; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .header-main { flex: 1 1 auto; min-width: 0; }
+  .next-update { flex-shrink: 0; text-align: right; font-family: "Roboto Mono", monospace; }
+  .next-update-label { font-size: 11px; letter-spacing: 0.06em; color: var(--text-dim); }
+  .next-update-value { font-size: 12px; color: var(--text); margin-top: 2px; }
+  .round-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .round-nav-link { color: var(--accent-blue); text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .round-nav-link:hover, .round-nav-link:focus-visible { text-decoration: underline; }
+  .round-nav-divider { color: var(--text-dim); font-size: 12px; }
+  .round-nav-active { white-space: nowrap; }
 
   .wordmark { --row: clamp(12px, 3vw, 16px); display: flex; align-items: center; gap: clamp(12px, 3.2vw, 20px); margin-bottom: 10px; }
   .wordmark-letters { display: flex; flex-direction: column; gap: calc(var(--row) * 0.15); flex-shrink: 0; }
@@ -80,6 +89,8 @@
     section.hero { padding: 20px 16px; }
     .wordmark { --row: 8px; }
     .wordmark-name { white-space: normal; line-height: 1.05; }
+    header { flex-direction: column; align-items: flex-start; }
+    .next-update { text-align: left; margin-top: 4px; }
   }
 </style>
 <style>
@@ -135,6 +146,7 @@
   }
   .player-name-btn:hover, .player-name-btn:focus-visible { text-decoration-color: currentColor; }
 </style><script>
+document.addEventListener('DOMContentLoaded', function () {
 (function() {
   var backdrop = document.createElement('div');
   backdrop.className = 'pc-backdrop';
@@ -191,20 +203,31 @@
     }
   });
 })();
+});
 </script>
 
 <header>
-  <div class="wordmark">
-    <div class="wordmark-letters">
-      <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
-      <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
-      <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+  <div class="header-main">
+    <div class="wordmark">
+      <div class="wordmark-letters">
+        <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
+        <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
+        <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+      </div>
+      <div class="wordmark-name">TOURNAMENT PREDICTION</div>
     </div>
-    <div class="wordmark-name">TOURNAMENT PREDICTION</div>
+    <div class="meta">
+      <span class="tournament-name">제15회 KG 레이디스 오픈</span>
+      <nav class="round-nav" aria-label="라운드 진행 상황">
+        <a class="round-nav-link" href="/tournaments/2026/kg-ladies-open/r1/">1라운드 종료</a>
+        <span class="round-nav-divider">|</span>
+        <span class="status-pill round-nav-active" aria-current="step">2라운드 종료</span>
+      </nav>
+    </div>
   </div>
-  <div class="meta">
-    <span class="tournament-name">제15회 KG 레이디스 오픈</span>
-    <span class="status-pill">2라운드 종료</span>
+  <div class="next-update">
+    <div class="next-update-label">NEXT UPDATE</div>
+    <div class="next-update-value">3R 종료 후 업데이트 예정</div>
   </div>
 </header>
 
@@ -219,11 +242,9 @@
   <ul class="hero-metrics">
     <li>평가 대상 110명</li>
     <li>50% 기준 분류 정확도 68.2%</li>
-    <li>Brier Score 0.2074</li>
   </ul>
   <p class="hero-compare">평균 예측 30.4% | 실제 컷 통과율 56.4%</p>
-  <p class="hero-note">높은 확률을 부여한 선수들의 생존은 잘 포착했지만, 전체적으로 컷 통과 가능성을 낮게 평가했다.
-    BETA #001에서 확인된 첫 번째 개선 과제다.</p>
+  <p class="hero-note">NEO GOLF DATA는 출전 선수들의 축적된 경기력을 바탕으로 검증된 예측 시스템을 통해 대회 결과의 가능성을 계산합니다.</p>
 </section>
   <section class="calibration">
   <h2>예측 확률별 실제 컷 통과율</h2>
