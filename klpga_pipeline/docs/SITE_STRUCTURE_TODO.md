@@ -1584,10 +1584,55 @@ text alongside real Round 3 grouping presence, or a "missed-cut
 candidate" whose score actually beats the derived cut line). A parse
 failure aborts the whole diagnostic run rather than silently falling
 back to an empty Round 3 dataset, the same hard-fail discipline as a
-fetch failure. This is a read-only diagnostic module — it does not
-touch `r1_to_r2_reconciliation.py`, `cut_evaluation.py`,
-`r2_pipeline_orchestrator.py`, the frozen R1 predictions, or the
-historical R1 HTML.
+fetch failure. This module itself is still read-only and does not
+import or modify `r1_to_r2_reconciliation.py`, `cut_evaluation.py`,
+or `r2_pipeline_orchestrator.py` directly — see the bridge below for
+how its output now feeds R1 CUT evaluation without touching any of
+those modules' own logic.
+
+**R1 CUT evaluation against this ground truth, 2026-08-28**:
+`klpga.neo_win.ground_truth_cut_evaluation` bridges a
+`GroundTruthRow` list into the exact `PlayerR2Reconciled` shape
+`klpga.neo_win.r1_to_r2_reconciliation.reconcile_r1_to_r2` already
+produces (`MADE_CUT_CONFIRMED` -> `MADE_CUT`, `MISSED_CUT_CANDIDATE`
+-> `MISSED_CUT`, `REVIEW_REQUIRED` -> `UNRESOLVED`), so
+`klpga.neo_win.cut_evaluation`'s existing, unmodified metrics
+(threshold accuracy, Brier score, log loss, calibration, auto-selected
+best/biggest-miss predictions) and `klpga.neo_win.r2_pipeline_validation`'s
+existing hard gates apply completely unchanged. Also accepts
+`explicit_status_overrides` — a plain `{player_code: "WD"|"DQ"}` map
+of REAL, human-verified evidence (e.g. explicit "WD" status text a
+human directly observed on the official leaderboard, for a player
+whose Round 2 row was otherwise the ambiguous 999/INCOMPLETE
+sentinel). An overridden player is classified the NEW
+`CUT_OUTCOME_WD_AFTER_R1_START` (added to `cut_evaluation.py`'s
+outcome vocabulary, treated identically to WD for scoring, counted
+separately) — never folded into a generic WD, and never conflated
+with the entirely separate population of players who had no frozen R1
+prediction at all (`r1_r2_evaluation_report.build_player_cut_evaluation_rows`
+already excludes those mechanically, since it only ever iterates
+`frozen_r1`). An override that conflicts with real Round 3 grouping
+presence is never silently trusted — it is kept `UNRESOLVED` and
+surfaced in `override_conflicts` for a human to resolve.
+
+Three new hard-validation checks (`r2_pipeline_validation.py`):
+`check_made_plus_missed_equals_n_evaluated`,
+`check_no_wd_dq_unresolved_enters_scoring`, and
+`check_eligibility_population_is_mechanical` (proves the evaluated
+population is exactly "frozen R1 players with a real
+r1_make_cut_probability_pct value" — never hand-picked).
+
+`scripts/evaluate_r1_cut_ground_truth.py` is the runnable ONE-COMMAND
+entry point: real GROUND TRUTH CHECK A/B (reusing the same collectors/
+parser as `diagnose_r2_r3_ground_truth.py`), `--explicit-status-json`
+for the human-verified override, the full metrics report, the R1 WIN%
+interim check (`klpga.neo_win.win_interim_check`, still labeled
+`"INTERIM CHECK — NOT FINAL WIN PROBABILITY EVALUATION"`, untouched),
+and the hard-validation gate. Read-only: never opens the real DB,
+never writes to `predictions/`, `neo_win_predictions/`,
+`neo_win_c_predictions/`, `neo_tournament_history/`, `docs/`, or the
+historical R1 HTML — writes only under `--output-dir`. Prints "DO NOT
+PUBLISH" on every run; nothing here writes to the production site.
 
 **Real-data validation, 2026080001**: parsing the real captured page
 found 62 real Round 3 continuers (`round-three`'s real grouping table,

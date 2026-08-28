@@ -16,6 +16,7 @@ from klpga.neo_win.cut_evaluation import (
     CUT_OUTCOME_MISSED,
     CUT_OUTCOME_UNRESOLVED,
     CUT_OUTCOME_WD,
+    CUT_OUTCOME_WD_AFTER_R1_START,
     PlayerCutEvaluationRow,
     actual_cut_from_outcome,
     best_and_worst_predictions,
@@ -56,6 +57,18 @@ def test_wd_and_dq_and_unresolved_map_to_none_never_zero():
 def test_unknown_outcome_raises_never_silently_accepted():
     with pytest.raises(ValueError):
         actual_cut_from_outcome("SOME_UNKNOWN_STATUS")
+
+
+def test_wd_after_r1_start_maps_to_none_and_is_reported_separately():
+    assert actual_cut_from_outcome(CUT_OUTCOME_WD_AFTER_R1_START) is None
+    rows = [
+        _row("p1", "A", 80.0, CUT_OUTCOME_MADE),
+        _row("p2", "B", 20.0, CUT_OUTCOME_WD_AFTER_R1_START),
+    ]
+    summary = summarize_cut_evaluation(rows)
+    assert summary["n_evaluated"] == 1  # only p1
+    assert summary["wd_after_r1_start_count"] == 1
+    assert summary["wd_count"] == 0  # never folded into generic WD
 
 
 def test_wd_dq_excluded_from_evaluated_set_not_counted_as_missed():

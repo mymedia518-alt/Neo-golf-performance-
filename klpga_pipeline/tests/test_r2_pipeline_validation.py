@@ -5,14 +5,25 @@ from __future__ import annotations
 
 import hashlib
 
-from klpga.neo_win.cut_evaluation import CUT_OUTCOME_MADE, CUT_OUTCOME_MISSED, PlayerCutEvaluationRow
+from klpga.neo_win.cut_evaluation import (
+    CUT_OUTCOME_DQ,
+    CUT_OUTCOME_MADE,
+    CUT_OUTCOME_MISSED,
+    CUT_OUTCOME_UNRESOLVED,
+    CUT_OUTCOME_WD_AFTER_R1_START,
+    PlayerCutEvaluationRow,
+    summarize_cut_evaluation,
+)
 from klpga.neo_win.r1_frozen_snapshot import PlayerR1Frozen
 from klpga.neo_win.r2_pipeline_validation import (
     check_calibration_buckets_sum_to_evaluated,
     check_cut_probability_in_0_100_range,
+    check_eligibility_population_is_mechanical,
     check_frozen_r1_values_unchanged,
+    check_made_plus_missed_equals_n_evaluated,
     check_missed_cut_count_plausible_after_completed_cut,
     check_no_null_cut_probability_among_evaluated,
+    check_no_wd_dq_unresolved_enters_scoring,
     check_player_codes_unique,
     check_r1_historical_html_unchanged,
     check_r2_path_never_overwrites_r1,
@@ -223,3 +234,68 @@ def test_missed_cut_count_passes_when_nothing_evaluated_yet():
     cut_summary = {"n_evaluated": 0, "actual_missed_cut_count": 0, "actual_made_cut_count": 0}
     result = check_missed_cut_count_plausible_after_completed_cut(cut_summary)
     assert result["passed"] is True
+
+
+# ---------------------------------------------------------------
+# check_made_plus_missed_equals_n_evaluated
+# ---------------------------------------------------------------
+
+
+def test_made_plus_missed_equals_n_evaluated_passes_by_construction():
+    rows = [_cut_row("p1", 80.0, CUT_OUTCOME_MADE), _cut_row("p2", 20.0, CUT_OUTCOME_MISSED)]
+    summary = summarize_cut_evaluation(rows)
+    assert check_made_plus_missed_equals_n_evaluated(summary)["passed"] is True
+
+
+def test_made_plus_missed_equals_n_evaluated_fails_on_tampered_summary():
+    result = check_made_plus_missed_equals_n_evaluated(
+        {"n_evaluated": 10, "actual_made_cut_count": 5, "actual_missed_cut_count": 3}
+    )
+    assert result["passed"] is False
+
+
+# ---------------------------------------------------------------
+# check_no_wd_dq_unresolved_enters_scoring
+# ---------------------------------------------------------------
+
+
+def test_no_wd_dq_unresolved_enters_scoring_passes_for_correctly_excluded_rows():
+    rows = [
+        _cut_row("p1", 80.0, CUT_OUTCOME_MADE),
+        _cut_row("p2", 20.0, CUT_OUTCOME_WD_AFTER_R1_START),
+        _cut_row("p3", 30.0, CUT_OUTCOME_DQ),
+        _cut_row("p4", 40.0, CUT_OUTCOME_UNRESOLVED),
+    ]
+    assert check_no_wd_dq_unresolved_enters_scoring(rows)["passed"] is True
+
+
+def test_no_wd_dq_unresolved_enters_scoring_fails_if_a_wd_row_carries_a_real_outcome():
+    row = _cut_row("p1", 20.0, CUT_OUTCOME_WD_AFTER_R1_START)
+    object.__setattr__(row, "actual_cut", 0)  # simulate a regression bypassing cut_evaluation's own mapping
+    result = check_no_wd_dq_unresolved_enters_scoring([row])
+    assert result["passed"] is False
+    assert "p1" in result["detail"]
+
+
+# ---------------------------------------------------------------
+# check_eligibility_population_is_mechanical
+# ---------------------------------------------------------------
+
+
+def test_eligibility_population_is_mechanical_passes_when_matching():
+    frozen = [_frozen("p1"), _frozen("p2"), PlayerR1Frozen(
+        tournament_id="t", player_code="p3", player_name="C", r1_actual_rank=3,
+        r1_actual_score_to_par=0.0, r1_win_probability_pct=1.0, r1_make_cut_probability_pct=None,
+        model_version="v", prediction_generated_at="t",
+    )]
+    eval_rows = [_cut_row("p1", 80.0, CUT_OUTCOME_MADE), _cut_row("p2", 20.0, CUT_OUTCOME_MISSED)]
+    result = check_eligibility_population_is_mechanical(eval_rows, frozen)
+    assert result["passed"] is True  # p3 correctly excluded (no real cut probability)
+
+
+def test_eligibility_population_is_mechanical_fails_when_hand_curated():
+    frozen = [_frozen("p1"), _frozen("p2")]
+    eval_rows = [_cut_row("p1", 80.0, CUT_OUTCOME_MADE)]  # p2 dropped without a real reason
+    result = check_eligibility_population_is_mechanical(eval_rows, frozen)
+    assert result["passed"] is False
+    assert "p2" in result["detail"]
