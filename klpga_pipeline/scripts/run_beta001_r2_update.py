@@ -1,15 +1,23 @@
 """BETA #001 R1 -> R2 evaluation pipeline — Section J's ONE-COMMAND
 workflow. Two modes:
 
-REAL MODE (default): reads the real, already-collected official R2
-leaderboard and the real DB (--db) to run the actual pipeline against
-a real tournament. Requires the real official R2 leaderboard to
-already be reachable (network) and the frozen PRE snapshot for
---game-code to exist on disk. NEVER commits/pushes, NEVER writes to
-the real docs/index.html production page or the R1 historical snapshot
-— those are STEP9's job, and STEP9 only ever runs when explicitly
-requested via --write-production AND only after STEP10's validation
-gate passes (see klpga.neo_win.r2_pipeline_orchestrator).
+REAL MODE (default): STEP1 itself collects the real official Round 2
+leaderboard live (network access required) and writes it into --db —
+it does NOT assume round_number=2 already exists in player_round.
+Reuses the same, already-established, CUT/WD/DQ-correct collection
+routine scripts/04_collect_single_tournament.py itself uses
+(klpga.collectors.leaderboard.collect_all_rounds_for_game +
+klpga.collectors.aggregate.build_rows + klpga.db.upsert), with a
+targeted cache-bypass fix (force_refresh_rounds={2}) for the real bug
+this project hit: if Round 2 was ever probed before it had actually
+been played, the site's real (empty) response at the time got cached,
+and a plain re-run would keep serving that stale empty page forever.
+Requires the frozen PRE snapshot for --game-code to exist on disk.
+NEVER commits/pushes, NEVER writes to the real docs/index.html
+production page or the R1 historical snapshot — those are STEP9's
+job, and STEP9 only ever runs when explicitly requested via
+--write-production AND only after STEP10's validation gate passes
+(see klpga.neo_win.r2_pipeline_orchestrator).
 
 DRY RUN MODE (--dry-run-fixture <path.json>): NEVER touches the
 network, the real DB, or any real production/history file. Seeds an
@@ -119,26 +127,75 @@ def run_dry_run(args) -> int:
     return 0 if result["status"] == "OK" else 5
 
 
+def _collect_and_upsert_round2(conn: sqlite3.Connection, args) -> tuple[list, int]:
+    """STEP1 — real official R2 collection. Reuses the SAME, already-
+    established, CUT/WD/DQ-correct multi-round collection routine
+    scripts/04_collect_single_tournament.py itself uses
+    (klpga.collectors.leaderboard.collect_all_rounds_for_game +
+    klpga.collectors.aggregate.build_rows), never a second, duplicate
+    collector. `force_refresh_rounds={2}` is the fix for the real,
+    confirmed bug: a prior collection run (before Round 2 existed)
+    would have cached an EMPTY Round 2 response, and without this fix
+    a later run would keep serving that stale empty page forever —
+    silently never obtaining the real, now-complete Round 2 data (see
+    klpga.collectors.leaderboard.collect_all_rounds_for_game's own
+    docstring for the full mechanism). Writes real, freshly-collected
+    rows via the same klpga.db.upsert functions 04 uses — never a
+    second, parallel write path. Returns (round2_rows, final_round_
+    collected) where round2_rows are the real PlayerRoundRow objects
+    just fetched (reused directly for reconciliation — no second live
+    fetch of the same data)."""
+    from klpga.collectors.aggregate import build_rows, merge_player_rows
+    from klpga.collectors.leaderboard import collect_all_rounds_for_game
+    from klpga.db.upsert import upsert_player, upsert_player_event, upsert_player_round
+    from klpga.http_client import PoliteHttpClient
+
+    client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
+    rounds_data = collect_all_rounds_for_game(client, args.game_code, force_refresh_rounds=frozenset({2}))
+    if 2 not in rounds_data or not rounds_data[2]:
+        raise RuntimeError(
+            f"official Round 2 leaderboard for game_code={args.game_code!r} is still empty after a forced, "
+            "cache-bypassing fetch — Round 2 is not actually available on the official site yet. Nothing written."
+        )
+
+    season = int(args.season) if args.season else int(args.game_code[:4])
+    final_round_collected = max(rounds_data.keys())
+    merged = merge_player_rows(rounds_data)
+    player_rows, player_event_rows, player_round_rows = build_rows(
+        args.game_code, season, args.game_code, merged, final_round_collected
+    )
+    for row in player_rows:
+        upsert_player(conn, row)
+    for row in player_event_rows:
+        upsert_player_event(conn, row)
+    for row in player_round_rows:
+        upsert_player_round(conn, row)
+    conn.commit()
+
+    return rounds_data[2], final_round_collected
+
+
 def run_real(args) -> int:
     db_path = Path(args.db)
     if not db_path.exists():
         print(f"ERROR: {db_path} does not exist.")
         return 3
 
-    conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    conn = sqlite3.connect(db_path)  # read-write — STEP1 writes real, freshly-collected Round 2 rows
     try:
-        r2_rows = conn.execute(
-            "SELECT player_id, round_to_par FROM player_round WHERE game_code = ? AND round_number = 2 "
-            "AND round_to_par IS NOT NULL",
-            (args.game_code,),
-        ).fetchall()
-        if not r2_rows:
+        try:
+            official_round2_rows, final_round_collected = _collect_and_upsert_round2(conn, args)
+        except RuntimeError as exc:
             print("STATUS: NOT_READY")
-            print(f"REASON: no real round_number=2 player_round rows exist yet for game_code={args.game_code!r} "
-                  "— official R2 collection has not happened. Nothing written.")
+            print(f"REASON: {exc}")
             return 0
+        print(f"STEP1: official R2 collection OK — {len(official_round2_rows)} Round 2 player rows fetched live "
+              f"(cache bypassed) and upserted; final round collected so far: {final_round_collected}.")
 
-        r2_scores = dict(r2_rows)
+        r2_scores = dict(conn.execute(
+            "SELECT player_id, round_to_par FROM player_round WHERE game_code = ? AND round_number = 2 "
+            "AND round_to_par IS NOT NULL", (args.game_code,),
+        ).fetchall())
         r1_scores = dict(conn.execute(
             "SELECT player_id, round_to_par FROM player_round WHERE game_code = ? AND round_number = 1 "
             "AND round_to_par IS NOT NULL", (args.game_code,),
@@ -181,13 +238,10 @@ def run_real(args) -> int:
                 "make_cut_pct": sim["make_cut_pct"] if sim else None,
             })
 
-        from klpga.collectors.leaderboard import fetch_round_leaderboard
-        from klpga.http_client import PoliteHttpClient
         from klpga.neo_win.round_reconciliation import normalize_official_round
 
-        client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
-        official_rows = fetch_round_leaderboard(client, args.game_code, 2, use_cache=False)
-        official_r2 = normalize_official_round(official_rows, round_number=2)
+        # Reuses the SAME real Round 2 rows STEP1 just fetched live — never a second request.
+        official_r2 = normalize_official_round(official_round2_rows, round_number=2)
     finally:
         conn.close()
 
@@ -219,6 +273,9 @@ def main() -> int:
     parser.add_argument("--output-root", default=str(DEFAULT_OUTPUT_ROOT))
     parser.add_argument("--dry-run-fixture", default=None, help="Path to a JSON fixture; if set, runs in dry-run mode (no network/DB/production access).")
     parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
+    parser.add_argument("--season", default=None, type=int,
+                         help="Defaults to the first 4 digits of --game-code (the real, established game_code "
+                              "convention, e.g. 2026080001 -> season 2026) — override only if that ever doesn't hold.")
     parser.add_argument("--pre-cutoff-date", default=None)
     parser.add_argument("--pre-prediction-id", default=None)
     parser.add_argument("--predictions-dir", default=str(DEFAULT_PREDICTIONS_DIR))
