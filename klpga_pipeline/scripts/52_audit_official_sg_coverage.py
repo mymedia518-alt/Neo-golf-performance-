@@ -9,13 +9,23 @@ see this project's own docstring for the exact command), does NOT
 write to the DB (opened mode=ro), does NOT create any new table.
 
 What this prints, precisely:
-  STEP 1 — per SG identity_key: row count, distinct player count,
-    season coverage, NULL value_raw count, FLAGGED count, and — since
-    the DB stores only a single aggregate FLAGGED/CLEAN status per row,
-    not a reason — a recomputed recoverable-rank-only-flag vs real-
-    value-issue split via the REAL, unmodified klpga.discovery.
+  STEP 1 — per SG identity_key, BROKEN DOWN BY SEASON: row count,
+    distinct player count, NULL value_raw count, FLAGGED count, and —
+    since the DB stores only a single aggregate FLAGGED/CLEAN status
+    per row, not a reason — a recomputed recoverable-rank-only-flag vs
+    real-value-issue split via the REAL, unmodified klpga.discovery.
     flag_recovery.recover_value_validity (re-parses each row's own
     raw_sample_path exactly once per distinct path).
+  UNMATCHED PLAYER CODE INVESTIGATION — recomputes the FULL (not just
+    a 10-row sample) official_metric_value-vs-player_master mismatch
+    set using the REAL, unmodified verify_player_code_identity_space
+    over the WHOLE table (every identity_key, matching the real
+    collector run's own full-table check, not just the SG subset), then
+    for each unmatched code: checks whether a normalized variant
+    (strip leading zeros / whitespace) matches player_master, lists
+    every identity_key/season it appears under, and recovers a real
+    player_name by re-parsing one of its own raw_sample_path files
+    (official_metric_value itself has no player_name column).
   STEP 4 — PIT signal: for every pair of collected seasons (per
     identity_key), calls the REAL, unmodified klpga.discovery.
     response_schema.classify_historical_availability on the two
@@ -90,8 +100,31 @@ def _resolve_raw_sample_path(stored_path: str) -> Path | None:
     return None
 
 
+def _recoverable_split(flagged_rows: list, label: str) -> tuple[int, int, list]:
+    """Recompute recoverable-rank-only vs real-value-issue counts (once
+    per distinct raw_sample_path) for a set of FLAGGED rows, via the
+    real, unmodified flag_recovery.recover_value_validity."""
+    distinct_flagged_paths = sorted({r[4] for r in flagged_rows if r[4]})
+    recoverable, value_issue, unreadable = 0, 0, []
+    for raw_path_str in distinct_flagged_paths:
+        resolved = _resolve_raw_sample_path(raw_path_str)
+        if resolved is None:
+            unreadable.append(raw_path_str)
+            continue
+        try:
+            result = recover_value_validity(resolved)
+        except Exception as exc:  # noqa: BLE001 — report, never silently drop
+            unreadable.append(f"{raw_path_str} (ERROR: {exc})")
+            continue
+        if result.get("reason") == "RANK_ONLY":
+            recoverable += 1
+        else:
+            value_issue += 1
+    return recoverable, value_issue, unreadable
+
+
 def step1_step5_coverage(conn: sqlite3.Connection) -> dict:
-    print("=== STEP 1 — REAL LOCAL DB COVERAGE (per SG identity_key) ===")
+    print("=== STEP 1 — REAL LOCAL DB COVERAGE, BY SEASON (per SG identity_key) ===")
     print()
     per_identity: dict[str, dict] = {}
     for key in SG_IDENTITY_KEYS:
@@ -100,47 +133,45 @@ def step1_step5_coverage(conn: sqlite3.Connection) -> dict:
             "FROM official_metric_value WHERE identity_key = ?",
             (key,),
         ).fetchall()
-        row_count = len(rows)
-        distinct_players = len({r[1] for r in rows})
         seasons = sorted({r[0] for r in rows})
-        null_count = sum(1 for r in rows if r[2] is None or str(r[2]).strip() == "")
-        flagged_rows = [r for r in rows if r[3] == "FLAGGED"]
-        flagged_count = len(flagged_rows)
 
-        # STEP 1 recoverable-vs-value-issue split: recompute once per distinct raw_sample_path
-        # among the FLAGGED rows (the real per-row recovery classification lives in the raw HTML,
-        # not as a stored DB column) via the real, unmodified flag_recovery.recover_value_validity.
-        distinct_flagged_paths = sorted({r[4] for r in flagged_rows if r[4]})
-        recoverable_paths, value_issue_paths, unreadable_paths = [], [], []
-        for raw_path_str in distinct_flagged_paths:
-            resolved = _resolve_raw_sample_path(raw_path_str)
-            if resolved is None:
-                unreadable_paths.append(raw_path_str)
-                continue
-            try:
-                result = recover_value_validity(resolved)
-            except Exception as exc:  # noqa: BLE001 — report, never silently drop
-                unreadable_paths.append(f"{raw_path_str} (ERROR: {exc})")
-                continue
-            if result.get("reason") == "RANK_ONLY":
-                recoverable_paths.append(raw_path_str)
-            else:
-                value_issue_paths.append(raw_path_str)
+        print(f"{key}  ({SG_LABELS[key]})")
+        if not seasons:
+            print("  NO ROWS COLLECTED YET for this identity_key.")
+            print()
+            per_identity[key] = {"row_count": 0, "seasons": [], "player_codes": set()}
+            continue
 
-        # Duplicate-row integrity check (STEP 5): should be structurally impossible given the
-        # real PRIMARY KEY (season, player_code, identity_key, official_label), checked directly.
+        identity_all_player_codes: set = set()
+        identity_row_count = 0
+        for season in seasons:
+            season_rows = [r for r in rows if r[0] == season]
+            row_count = len(season_rows)
+            distinct_players = len({r[1] for r in season_rows})
+            null_count = sum(1 for r in season_rows if r[2] is None or str(r[2]).strip() == "")
+            flagged_rows = [r for r in season_rows if r[3] == "FLAGGED"]
+            flagged_count = len(flagged_rows)
+            recoverable, value_issue, unreadable = _recoverable_split(flagged_rows, key)
+
+            identity_all_player_codes |= {r[1] for r in season_rows}
+            identity_row_count += row_count
+
+            print(f"  season {season}: ROW COUNT={row_count}  DISTINCT PLAYERS={distinct_players}  "
+                  f"NULL={null_count}  FLAGGED={flagged_count}  "
+                  f"(recoverable rank-only={recoverable}, real value-issue={value_issue}"
+                  f"{', unreadable=' + str(len(unreadable)) if unreadable else ''})")
+
+        # STEP 5 integrity checks, over the FULL identity_key (all seasons combined) — duplicate
+        # (season, player_code) should be structurally impossible given the real PRIMARY KEY
+        # (season, player_code, identity_key, official_label), checked directly against real rows.
         seen = set()
         dupes = []
+        non_numeric, out_of_range = [], []
         for r in rows:
             dk = (r[0], r[1])
             if dk in seen:
                 dupes.append(dk)
             seen.add(dk)
-
-        # Non-numeric / out-of-range value check (STEP 5). SG values are strokes-gained totals —
-        # a generous [-15, 15] sanity band, never a silent filter, only a reported flag.
-        non_numeric, out_of_range = [], []
-        for r in rows:
             v = r[2]
             if v is None or str(v).strip() == "":
                 continue
@@ -153,24 +184,9 @@ def step1_step5_coverage(conn: sqlite3.Connection) -> dict:
                 out_of_range.append((r[1], fv))
 
         per_identity[key] = {
-            "row_count": row_count, "distinct_players": distinct_players, "seasons": seasons,
-            "null_count": null_count, "flagged_count": flagged_count,
-            "recoverable_count": len(recoverable_paths), "value_issue_count": len(value_issue_paths),
-            "unreadable_count": len(unreadable_paths), "duplicates": dupes,
-            "non_numeric": non_numeric, "out_of_range": out_of_range,
-            "player_codes": {r[1] for r in rows},
+            "row_count": identity_row_count, "seasons": seasons, "player_codes": identity_all_player_codes,
         }
 
-        print(f"{key}  ({SG_LABELS[key]})")
-        print(f"  ROW COUNT: {row_count}")
-        print(f"  DISTINCT PLAYER COUNT: {distinct_players}")
-        print(f"  SEASON COVERAGE: {seasons}")
-        print(f"  NULL value_raw COUNT: {null_count}")
-        print(f"  QUALITY FLAG COUNT (validation_status=FLAGGED): {flagged_count}")
-        print(f"  RECOVERABLE RANK-ONLY FLAG COUNT (distinct raw_sample_path, reason=RANK_ONLY): {len(recoverable_paths)}")
-        print(f"  REAL VALUE-ISSUE FLAG COUNT (distinct raw_sample_path, reason=VALUE_ISSUE): {len(value_issue_paths)}")
-        if unreadable_paths:
-            print(f"  UNREADABLE raw_sample_path (could not re-verify): {len(unreadable_paths)} {unreadable_paths[:5]}")
         print(f"  STEP 5 duplicate (season, player_code) rows: {len(dupes)} {dupes[:5]}")
         print(f"  STEP 5 non-numeric value_raw: {len(non_numeric)} {non_numeric[:5]}")
         print(f"  STEP 5 out-of-[-15,15]-range values: {len(out_of_range)} {out_of_range[:5]}")
@@ -251,6 +267,78 @@ def step4_pit_safety(conn: sqlite3.Connection) -> None:
     print()
 
 
+def _normalized_variants(code: str) -> set[str]:
+    """Candidate alternate forms of a player_code that could plausibly
+    still refer to the same real player_master.player_id — never a
+    guess at IDENTITY, only at STRING FORMAT (leading zeros, whitespace,
+    a stray non-digit character). Used only to report whether a
+    format-level explanation exists, never to silently merge codes."""
+    variants = {code, code.strip()}
+    stripped = code.strip()
+    if stripped.isdigit():
+        variants.add(stripped.lstrip("0") or "0")
+        variants.add(stripped.zfill(5))
+        variants.add(stripped.zfill(6))
+    return variants
+
+
+def investigate_unmatched_player_codes(conn: sqlite3.Connection) -> None:
+    print("=== UNMATCHED PLAYER CODE INVESTIGATION (full official_metric_value table, all identity_keys) ===")
+    print()
+    all_metric_player_codes = {
+        row[0] for row in conn.execute("SELECT DISTINCT player_code FROM official_metric_value")
+    }
+    player_master_ids = read_player_master_ids(conn)
+    full_result = verify_player_code_identity_space(all_metric_player_codes, player_master_ids)
+    print("Full-table player_code identity check (matches the real collector run's own scope):")
+    for k, v in full_result.items():
+        print(f"  {k}: {v}")
+    print()
+
+    unmatched = sorted(all_metric_player_codes - player_master_ids)
+    print(f"FULL unmatched set ({len(unmatched)} codes): {unmatched}")
+    print()
+
+    for code in unmatched:
+        variants = _normalized_variants(code) - {code}
+        variant_matches = sorted(v for v in variants if v in player_master_ids)
+
+        occurrence_rows = conn.execute(
+            "SELECT DISTINCT identity_key, season, raw_sample_path FROM official_metric_value "
+            "WHERE player_code = ? ORDER BY season, identity_key",
+            (code,),
+        ).fetchall()
+        identity_seasons = sorted({(r[0], r[1]) for r in occurrence_rows})
+
+        real_name = None
+        for _identity_key, _season, raw_path_str in occurrence_rows:
+            if not raw_path_str:
+                continue
+            resolved = _resolve_raw_sample_path(raw_path_str)
+            if resolved is None:
+                continue
+            try:
+                parsed = parse_record_response(resolved.read_text(encoding="utf-8"))
+            except Exception:  # noqa: BLE001 — try the next occurrence rather than abort
+                continue
+            match = next((row for row in parsed.rows if row.player_code == code), None)
+            if match is not None and match.player_name:
+                real_name = match.player_name
+                break
+
+        print(f"player_code={code!r}")
+        print(f"  real player_name recovered from raw HTML: {real_name!r}")
+        print(f"  normalized-variant format match in player_master: "
+              f"{variant_matches if variant_matches else 'NONE — not a leading-zero/whitespace formatting issue'}")
+        print(f"  appears under {len(identity_seasons)} (identity_key, season) combination(s): "
+              f"{identity_seasons[:10]}{' ...' if len(identity_seasons) > 10 else ''}")
+        print()
+
+    print("NOTE: no player identity was modified, merged, or inferred by this investigation — this is "
+          "read-only diagnostic evidence for the mission's explicit 'do not modify player identities yet'.")
+    print()
+
+
 def step6_step7_summary(conn: sqlite3.Connection, per_identity: dict) -> None:
     print("=== STEP 6 — EXISTING STRUCTURE CONFIRMATION ===")
     print()
@@ -296,6 +384,7 @@ def main() -> int:
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
         per_identity = step1_step5_coverage(conn)
+        investigate_unmatched_player_codes(conn)
         step4_pit_safety(conn)
         step6_step7_summary(conn, per_identity)
     finally:
