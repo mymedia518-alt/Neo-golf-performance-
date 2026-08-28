@@ -8,11 +8,15 @@ from pathlib import Path
 
 import pytest
 
+from klpga.models.candidates import ShrinkageParams
 from klpga.neo_win.archive import NeoWinEntrantSnapshot
 from klpga.neo_win.round_update import (
     PlayerSimInput,
+    build_post_r1_n_lookup,
     build_sim_inputs_from_frozen_snapshot,
     estimate_cut_fraction,
+    fit_post_r1_shrink_params,
+    shrink_to_original_units,
     simulate_post_round1,
 )
 
@@ -93,6 +97,128 @@ def test_build_sim_inputs_reports_missing_r1_players():
     assert missing == ["p2"]
     p2 = next(s for s in sim_inputs if s.player_code == "p2")
     assert p2.r1_score_to_par is None
+
+
+# ---------------------------------------------------------------
+# shrink_to_original_units (BETA #001 R1 FINAL calibration fix)
+# ---------------------------------------------------------------
+
+
+def test_shrink_to_original_units_returns_raw_when_value_missing():
+    params = ShrinkageParams(pop_mean=0.0, pop_std=1.0, k=5.0)
+    assert shrink_to_original_units(None, 10, params) is None
+
+
+def test_shrink_to_original_units_returns_raw_when_n_missing_or_zero():
+    params = ShrinkageParams(pop_mean=0.0, pop_std=1.0, k=5.0)
+    assert shrink_to_original_units(3.0, None, params) == 3.0
+    assert shrink_to_original_units(3.0, 0, params) == 3.0
+
+
+def test_shrink_to_original_units_matches_hand_computed_weight_formula():
+    # weight = n/(n+k); shrunk = pop_mean + weight*(raw-pop_mean) — same formula as
+    # klpga.models.candidates.apply_shrinkage_and_standardize, before the final /pop_std step.
+    params = ShrinkageParams(pop_mean=2.0, pop_std=1.5, k=4.0)
+    result = shrink_to_original_units(raw=10.0, n=4, params=params)
+    expected_weight = 4 / (4 + 4)
+    expected = 2.0 + expected_weight * (10.0 - 2.0)
+    assert result == pytest.approx(expected)
+    assert result == pytest.approx(6.0)  # halfway toward pop_mean when n == k
+
+
+def test_shrink_to_original_units_large_n_stays_close_to_raw():
+    params = ShrinkageParams(pop_mean=0.0, pop_std=1.0, k=2.0)
+    result = shrink_to_original_units(raw=100.0, n=10_000, params=params)
+    assert result == pytest.approx(100.0, abs=0.05)  # weight ~= 1 for n >> k
+
+
+# ---------------------------------------------------------------
+# build_sim_inputs_from_frozen_snapshot — opt-in shrinkage
+# ---------------------------------------------------------------
+
+
+def test_build_sim_inputs_without_shrink_args_is_byte_identical_to_before():
+    """Omitting n_lookup/avg_shrink_params/stddev_shrink_params (every
+    pre-existing caller/test) must preserve the exact prior behavior."""
+    snapshot = _FakeSnapshot([_entrant("p1", "A", 0.5, -1.0, 2.0)])
+    sim_inputs, _ = build_sim_inputs_from_frozen_snapshot(snapshot, {"p1": -3.0})
+    assert sim_inputs[0].expected_round_score_to_par == -1.0
+    assert sim_inputs[0].spread == 2.0
+
+
+def test_build_sim_inputs_applies_shrinkage_when_all_three_args_given():
+    snapshot = _FakeSnapshot([_entrant("p1", "A", 0.5, raw_score := -6.0, raw_stddev := 8.0)])
+    avg_params = ShrinkageParams(pop_mean=0.0, pop_std=1.0, k=1.0)
+    stddev_params = ShrinkageParams(pop_mean=3.0, pop_std=1.0, k=1.0)
+    n_lookup = {"p1": (1, 1)}  # n == k for both -> weight 0.5
+
+    sim_inputs, _ = build_sim_inputs_from_frozen_snapshot(
+        snapshot, {"p1": -1.0},
+        n_lookup=n_lookup, avg_shrink_params=avg_params, stddev_shrink_params=stddev_params,
+    )
+    p1 = sim_inputs[0]
+    assert p1.expected_round_score_to_par == pytest.approx(0.0 + 0.5 * (raw_score - 0.0))  # -3.0
+    assert p1.spread == pytest.approx(3.0 + 0.5 * (raw_stddev - 3.0))  # 5.5
+
+
+def test_build_sim_inputs_shrinkage_skips_players_with_missing_raw_value():
+    """A player with NO raw frozen value still falls back to the simple
+    population mean (unchanged fallback), never crashes on a missing
+    n_lookup entry."""
+    snapshot = _FakeSnapshot([
+        _entrant("p1", "A", 0.5, -2.0, 3.0),
+        _entrant("p2", "B", 0.5, None, None),
+    ])
+    avg_params = ShrinkageParams(pop_mean=0.0, pop_std=1.0, k=1.0)
+    stddev_params = ShrinkageParams(pop_mean=3.0, pop_std=1.0, k=1.0)
+    n_lookup = {"p1": (5, 5)}  # p2 deliberately absent from the lookup
+
+    sim_inputs, _ = build_sim_inputs_from_frozen_snapshot(
+        snapshot, {"p1": -1.0, "p2": 0.0},
+        n_lookup=n_lookup, avg_shrink_params=avg_params, stddev_shrink_params=stddev_params,
+    )
+    p2 = next(s for s in sim_inputs if s.player_code == "p2")
+    assert p2.expected_round_score_to_par == -2.0  # population mean of the only known raw value
+    assert p2.spread == 3.0
+
+
+# ---------------------------------------------------------------
+# fit_post_r1_shrink_params / build_post_r1_n_lookup — real DB wiring
+# ---------------------------------------------------------------
+
+
+def test_fit_post_r1_shrink_params_and_n_lookup_use_real_prior_history(conn):
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, end_date) "
+        "VALUES ('E1','G1','Prior Event',2026,'2026-01-01')"
+    )
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, end_date) "
+        "VALUES ('E2','TARGET','Target Event',2026,'2026-06-01')"
+    )
+    conn.execute("INSERT INTO player_master (player_id, player_name) VALUES ('p1','Player One')")
+    conn.execute(
+        "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, rounds_played, score_to_par) "
+        "VALUES ('E1','G1',2026,'p1','Player One',4,-2)"
+    )
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, round_to_par) "
+        "VALUES ('E1','G1',2026,1,'p1','Player One',-1)"
+    )
+    conn.execute(
+        "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, player_name, round_to_par) "
+        "VALUES ('E1','G1',2026,4,'p1','Player One',-1)"
+    )
+    conn.commit()
+
+    import datetime
+    n_lookup = build_post_r1_n_lookup(conn, "TARGET", datetime.date(2026, 6, 1), ["p1", "p2"])
+    assert n_lookup["p1"] == (4, 2)  # 4 rounds_played toward the rate, 2 real round_to_par values
+    assert n_lookup["p2"] == (0, 0)  # no history at all — real zero, not missing
+
+    avg_params, stddev_params = fit_post_r1_shrink_params(conn, "TARGET", datetime.date(2026, 6, 1))
+    assert isinstance(avg_params, ShrinkageParams)
+    assert isinstance(stddev_params, ShrinkageParams)
 
 
 # ---------------------------------------------------------------

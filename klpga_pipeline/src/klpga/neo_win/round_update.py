@@ -44,6 +44,39 @@ Disclosed simplifications (BETA, not claimed final): round scores are
 drawn i.i.d. Normal per player (no course-difficulty-by-round
 correlation, no playoff modeling — ties for the win split the win
 credit fractionally rather than simulating a playoff).
+
+======================================================================
+SAMPLE-SIZE SHRINKAGE FOR expected_round_score_to_par / spread
+======================================================================
+Real R1 audit evidence (BETA #001 R1 FINAL validation) confirmed the
+frozen snapshot's raw prior_avg_round_score_to_par / neo_consistency_
+stddev were being used AS-IS regardless of how many historical rounds
+each value was actually computed from — a player with a real but tiny
+sample got their raw average used exactly like a player with a large
+one, while the codebase already had a backtested, n-weighted shrinkage
+formula (`klpga.models.candidates.fit_shrinkage` /
+`apply_shrinkage_and_standardize`, `weight = n / (n + k)`, k = the
+median training sample size) that was only ever applied to the
+SEPARATE PRE win_probability path (`klpga.neo_win.model._combined_
+score`), never to this module's remaining-round expectation.
+
+`build_sim_inputs_from_frozen_snapshot` below now accepts OPTIONAL
+`n_lookup` / `avg_shrink_params` / `stddev_shrink_params` — when the
+caller supplies all three (scripts/35 does, using the real per-player
+sample sizes recomputed fresh from the live DB via the same point-in-
+time functions the PRE path itself uses, since the frozen snapshot
+does not retain `_n` companions), `expected_round_score_to_par` and
+`spread` are shrunk toward the SAME real, backtested population mean
+already fit for the PRE path — using `shrink_to_original_units` below,
+which applies the identical `weight = n/(n+k)` formula but stops
+BEFORE `apply_shrinkage_and_standardize`'s final z-score division: this
+module needs an expected SCORE in real to-par/stroke units (it is added
+directly to `r1_score_to_par`), not a unit-less z-score, so calling
+`apply_shrinkage_and_standardize` itself here would silently corrupt
+the simulation's units. When the three arguments are omitted (every
+existing caller/test), behavior is BYTE-IDENTICAL to before this
+change — this is a strictly opt-in extension, not a default behavior
+change.
 """
 from __future__ import annotations
 
@@ -53,7 +86,22 @@ import statistics
 from dataclasses import dataclass
 from typing import Optional
 
+from klpga.models.candidates import ShrinkageParams
+
 DEFAULT_N_SIMULATIONS = 5000
+
+
+def shrink_to_original_units(raw: Optional[float], n: Optional[int], params: ShrinkageParams) -> Optional[float]:
+    """Same `weight = n / (n + k)` shrinkage formula as `klpga.models.
+    candidates.apply_shrinkage_and_standardize`, but returns the shrunk
+    value in the feature's OWN original units (score-to-par / stroke
+    stddev) instead of a standardized z-score — see module docstring
+    for why round_update.py needs the former, never the latter. Returns
+    `raw` unchanged if `raw` or `n` is missing (nothing to shrink)."""
+    if raw is None or not n:
+        return raw
+    weight = n / (n + params.k)
+    return params.pop_mean + weight * (raw - params.pop_mean)
 
 
 def estimate_cut_fraction(conn: sqlite3.Connection) -> float:
@@ -69,6 +117,57 @@ def estimate_cut_fraction(conn: sqlite3.Connection) -> float:
     if total == 0:
         return 0.65
     return made_cut / total
+
+
+def fit_post_r1_shrink_params(conn: sqlite3.Connection, game_code: str, cutoff_date) -> tuple[ShrinkageParams, ShrinkageParams]:
+    """(avg_params, stddev_params) — fit via the SAME real, unmodified
+    `klpga.models.candidates.fit_shrinkage` the PRE path already uses,
+    over the SAME leakage-safe training rows (`klpga.neo_win.dataset.
+    build_neo_win_live_training_rows`: every tournament strictly before
+    `cutoff_date`, excluding `game_code` itself). No new fitting logic —
+    reuses the existing implementation verbatim."""
+    from klpga.models.candidates import fit_shrinkage
+    from klpga.neo_win.dataset import build_neo_win_live_training_rows
+
+    training_rows, _training_tournament_count = build_neo_win_live_training_rows(conn, game_code, cutoff_date)
+    avg_params = fit_shrinkage(training_rows, "prior_avg_round_score_to_par")
+    stddev_params = fit_shrinkage(training_rows, "neo_consistency_stddev")
+    return avg_params, stddev_params
+
+
+def build_post_r1_n_lookup(
+    conn: sqlite3.Connection, game_code: str, cutoff_date, player_codes: list[str]
+) -> dict[str, tuple[Optional[int], Optional[int]]]:
+    """{player_code: (prior_avg_round_score_to_par_n, neo_consistency_
+    stddev_n)} — the real sample size behind each player's frozen raw
+    value, recomputed fresh via the SAME real, unmodified point-in-time
+    functions the live PRE field itself uses (`klpga.backtest.
+    point_in_time_features.compute_point_in_time_features`, `klpga.
+    neo_win.consistency.compute_consistency_feature`), for the SAME
+    (target tournament, cutoff date) — reproducible from the DB's
+    already-collected history, never a new query or a new formula. The
+    frozen PRE snapshot does not retain these `_n` values itself (only
+    the raw feature value), which is why this must be recomputed rather
+    than read back from the snapshot."""
+    from klpga.backtest.point_in_time_features import compute_point_in_time_features, load_corpus
+    from klpga.backtest.temporal import effective_tournament_date
+    from klpga.neo_win.consistency import compute_consistency_feature
+
+    row = conn.execute(
+        "SELECT event_id, start_date, end_date FROM tournament_master WHERE game_code = ?", (game_code,)
+    ).fetchone()
+    if row is None:
+        return {}
+    target_event_id, start_date, end_date = row
+    target_effective_date = effective_tournament_date(start_date, end_date).value
+
+    corpus = load_corpus(conn)
+    lookup: dict[str, tuple[Optional[int], Optional[int]]] = {}
+    for code in player_codes:
+        pit = compute_point_in_time_features(corpus, target_event_id, target_effective_date, code, code)
+        _cons, cons_n = compute_consistency_feature(corpus, target_event_id, target_effective_date, code)
+        lookup[code] = (pit.prior_avg_round_score_to_par_n, cons_n)
+    return lookup
 
 
 @dataclass(frozen=True)
@@ -89,18 +188,38 @@ class PlayerSimInput:
     this player (SKIP + LOG — see missing_r1_players in the result)."""
 
 
-def build_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores: dict[str, float]) -> tuple[list[PlayerSimInput], list[str]]:
+def build_sim_inputs_from_frozen_snapshot(
+    pre_snapshot,
+    r1_scores: dict[str, float],
+    *,
+    n_lookup: Optional[dict[str, tuple[Optional[int], Optional[int]]]] = None,
+    avg_shrink_params: Optional[ShrinkageParams] = None,
+    stddev_shrink_params: Optional[ShrinkageParams] = None,
+) -> tuple[list[PlayerSimInput], list[str]]:
     """`r1_scores` is {player_code: round_1_score_to_par} from the real
     acquired Round-1 leaderboard. Players in the frozen PRE field with
     no R1 score are reported in `missing_r1_players`, never silently
     dropped from the eventual output (they still appear in results with
     every probability explicitly null, per the release's own "null
     probabilities = 0 unless truly unavailable, but never silently
-    hidden" requirement)."""
+    hidden" requirement).
+
+    `n_lookup` is OPTIONAL: {player_code: (prior_avg_round_score_to_par_n,
+    neo_consistency_stddev_n)} — the real sample sizes behind each raw
+    frozen value, since the frozen snapshot itself does not retain them.
+    When `n_lookup` and both `*_shrink_params` are provided, a player's
+    RAW (non-missing) expected_round_score_to_par/spread is additionally
+    shrunk via `shrink_to_original_units` toward the same real,
+    backtested population mean the PRE path already uses for these two
+    features — see module docstring. Omitting these three arguments
+    (the default) preserves the exact prior behavior: the raw value
+    used verbatim, or the field's population mean when fully missing."""
     known_scores = [e.prior_avg_round_score_to_par for e in pre_snapshot.predictions if e.prior_avg_round_score_to_par is not None]
     pop_mean_score = statistics.mean(known_scores) if known_scores else 0.0
     known_spreads = [e.neo_consistency_stddev for e in pre_snapshot.predictions if e.neo_consistency_stddev is not None]
     pop_mean_spread = statistics.mean(known_spreads) if known_spreads else 3.0
+
+    apply_shrinkage = n_lookup is not None and avg_shrink_params is not None and stddev_shrink_params is not None
 
     sim_inputs = []
     missing_r1: list[str] = []
@@ -110,6 +229,12 @@ def build_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores: dict[str, flo
             missing_r1.append(e.player_code)
         expected = e.prior_avg_round_score_to_par if e.prior_avg_round_score_to_par is not None else pop_mean_score
         spread = e.neo_consistency_stddev if e.neo_consistency_stddev is not None else pop_mean_spread
+        if apply_shrinkage:
+            avg_n, stddev_n = n_lookup.get(e.player_code, (None, None))
+            if e.prior_avg_round_score_to_par is not None:
+                expected = shrink_to_original_units(e.prior_avg_round_score_to_par, avg_n, avg_shrink_params)
+            if e.neo_consistency_stddev is not None:
+                spread = shrink_to_original_units(e.neo_consistency_stddev, stddev_n, stddev_shrink_params)
         sim_inputs.append(
             PlayerSimInput(
                 player_code=e.player_code, player_name=e.player_name,

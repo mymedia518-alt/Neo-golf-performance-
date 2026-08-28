@@ -1,37 +1,33 @@
 """READ-ONLY audit of the real post-R1 WIN%/MAKE CUT% calculation
 (src/klpga/neo_win/round_update.py, invoked by
 scripts/35_predict_neo_win_post_r1.py) for BETA #001 R1 FINAL
-validation.
+validation — now focused on verifying the sample-size shrinkage fix
+applied to round_update.py this round (expected_round_score_to_par /
+spread now shrunk via the same real, backtested formula the PRE path
+already uses).
 
-Does NOT modify any model/inference/probability code, the production
-DB (opened mode=ro), predictions/, or any frozen archive. Writes
-nothing except stdout.
+Does NOT itself modify any model/inference/probability code, the
+production DB (opened mode=ro), predictions/, or any frozen archive.
+Writes nothing except stdout — it does NOT regenerate
+outputs/beta001_r1/BETA001_R1_FULL.csv (re-run scripts/35 for that).
 
 What this script does, precisely:
   1. Loads the REAL frozen PRE snapshot (neo_win_c_predictions) and the
      REAL Round-1 leaderboard scores from the DB, using the SAME
      adapter logic scripts/35 uses for --pre-family beta001c.
-  2. Calls the REAL, unmodified klpga.neo_win.round_update functions
-     (build_sim_inputs_from_frozen_snapshot / estimate_cut_fraction /
-     simulate_post_round1) to produce a FRESH Monte Carlo re-run —
-     this checks whether the OLD numbers in BETA001_R1_FULL.csv
-     reproduce (within Monte Carlo noise) from the real, unmodified
-     model code and real, unmodified inputs.
-  3. For a fixed list of named players, prints PRIOR AVG / RECENT FORM
-     (present in the frozen snapshot's feature_values, confirmed NOT
-     read by round_update.py at all) / STDDEV / EXPECTED R2 MEAN /
-     OLD vs NEW WIN%/MAKE CUT%.
-  4. A DIAGNOSTIC-ONLY instrumented re-simulation (faithfully mirrors
-     round_update.simulate_post_round1's own R2/cutline formula line
-     for line — does not call a different formula) that additionally
-     records the per-trial cutline threshold thru-36 total, something
-     the production function does not return. Used only to answer
-     "how bad would this player's real R2 have needed to be to miss
-     the cut" from the model's own actual dynamics — never a separate,
-     independently-invented cutline rule.
-  5. Field-integrity checks (STEP 6) computed directly from
-     BETA001_R1_FULL.csv: WIN% sum, MAKE CUT% range, NaN/negative/
-     >100, player_code duplicates, missing_r1_data consistency.
+  2. Builds TWO sets of Monte Carlo sim inputs from the REAL,
+     unmodified klpga.neo_win.round_update.build_sim_inputs_from_
+     frozen_snapshot: OLD (no shrinkage, the prior behavior) and NEW
+     (shrinkage applied via the same real, backtested params scripts/35
+     now uses in production) — then runs simulate_post_round1 on both
+     with an IDENTICAL seed, so any WIN%/CUT% difference is
+     attributable only to the shrinkage fix, not Monte Carlo noise.
+  3. Prints a per-player model-input deep dive (real historical
+     event/round counts, raw values, shrunk values) for DEEP_DIVE_NAMES.
+  4. Prints the OLD vs NEW comparison table for FINAL_COMPARE_NAMES,
+     integrity checks on the NEW run (WIN sum, CUT range, null/dupe
+     counts), and the specific sanity-check comparisons requested for
+     BETA #001 R1 FINAL validation.
 
 Usage:
     python scripts/51_audit_r1_final_probabilities.py --db data/klpga.sqlite \\
@@ -55,22 +51,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.backtest.point_in_time_features import compute_point_in_time_features, load_corpus  # noqa: E402
 from klpga.backtest.temporal import effective_tournament_date  # noqa: E402
-from klpga.models.candidates import fit_shrinkage  # noqa: E402
 from klpga.neo_win.beta001c_archive import archive_paths as c_archive_paths, read_neo_win_c_snapshot  # noqa: E402
 from klpga.neo_win.consistency import compute_consistency_feature  # noqa: E402
-from klpga.neo_win.dataset import build_neo_win_live_training_rows  # noqa: E402
 from klpga.neo_win.round_update import (  # noqa: E402
     DEFAULT_N_SIMULATIONS,
+    build_post_r1_n_lookup,
     build_sim_inputs_from_frozen_snapshot,
     estimate_cut_fraction,
+    fit_post_r1_shrink_params,
+    shrink_to_original_units,
     simulate_post_round1,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
 
-CUT_NAMES = ["이서윤4", "정수빈", "유아현", "서교림", "신지우", "백소원"]
-WIN_NAMES = ["이서윤4", "노승희", "박혜준", "성유진", "박현경", "최예림"]
 DEEP_DIVE_NAMES = ["이서윤4", "정수빈", "유아현", "서교림", "신지우", "백소원", "노승희"]
+FINAL_COMPARE_NAMES = ["이서윤4", "정수빈", "유아현", "노승희", "서교림", "신지우", "백소원", "박현경"]
 
 
 @dataclass(frozen=True)
@@ -123,110 +119,30 @@ def _read_r1_scores(conn: sqlite3.Connection, game_code: str) -> dict:
     return {player_id: round_to_par for player_id, round_to_par in rows}
 
 
-def _feature_values_by_code(c_snapshot) -> dict:
-    return {e.player_code: e.feature_values for e in c_snapshot.predictions}
-
-
 def _load_csv_rows(csv_path: Path) -> list[dict]:
     with open(csv_path, encoding="utf-8-sig") as f:
         return list(csv.DictReader(f))
 
 
-def _f(v):
-    v = (v or "").strip() if isinstance(v, str) else v
-    if v in ("", None):
-        return None
-    try:
-        return float(v)
-    except (TypeError, ValueError):
-        return None
-
-
-def field_integrity_check(csv_rows: list[dict]) -> None:
-    print("=== CHECKS 7-9 — FIELD PROBABILITY INTEGRITY (from real BETA001_R1_FULL.csv) ===")
-    print()
-    win_vals = [(_f(r["post_r1_win_pct"]), r) for r in csv_rows]
-    win_present = [(v, r) for v, r in win_vals if v is not None]
-    win_sum = sum(v for v, _ in win_present)
-    print(f"CHECK 7 WIN SUM (present-only, N={len(win_present)}): {win_sum:.4f}%  "
-          f"({'PASS' if 99.99 <= win_sum <= 100.01 else 'OUT OF TOLERANCE (99.99-100.01 expected)'})")
-
-    cut_vals = [(_f(r["post_r1_make_cut_pct"]), r) for r in csv_rows]
-    cut_present = [(v, r) for v, r in cut_vals if v is not None]
-    out_of_range = [(v, r["player_name"]) for v, r in cut_present if v < 0 or v > 100]
-    print(f"CHECK 8 MAKE CUT range [0,100]: min={min((v for v, _ in cut_present), default=None)}  "
-          f"max={max((v for v, _ in cut_present), default=None)}  out_of_[0,100]={len(out_of_range)} {out_of_range[:10]}"
-          f"  ({'PASS' if not out_of_range else 'FAIL'})")
-
-    nan_negative = []
-    for r in csv_rows:
-        for field_name in ("post_r1_win_pct", "post_r1_make_cut_pct"):
-            v = r.get(field_name, "")
-            if v.strip() != "" and v.strip().lower() in ("nan", "-nan"):
-                nan_negative.append((r["player_name"], field_name, v))
-    print(f"CHECK 9a NaN literal values found: {len(nan_negative)} {nan_negative[:10]}")
-
-    negatives = [(r["player_name"], v) for v, r in win_present if v < 0] + \
-                [(r["player_name"], v) for v, r in cut_present if v < 0]
-    print(f"CHECK 9b Negative probability values: {len(negatives)} {negatives[:10]}")
-
-    codes = [r["player_code"] for r in csv_rows]
-    dupes = {c for c in codes if codes.count(c) > 1}
-    print(f"CHECK 9c Duplicate player_code in output: {len(dupes)} {sorted(dupes)[:10]}")
-
-    missing_flagged = [r for r in csv_rows if r.get("missing_r1_data", "").strip().lower() in ("true", "1")]
-    missing_but_has_prob = [
-        r["player_name"] for r in missing_flagged
-        if _f(r["post_r1_win_pct"]) is not None or _f(r["post_r1_make_cut_pct"]) is not None
-    ]
-    print(f"missing_r1_data=True rows: {len(missing_flagged)}  "
-          f"(of these, rows that STILL carry a non-null win/cut probability — should be 0: "
-          f"{len(missing_but_has_prob)} {missing_but_has_prob})")
-    print()
-
-
-def _diagnostic_cutline_resim(sim_inputs, cut_fraction: float, n_simulations: int, rng: random.Random) -> dict:
-    """Faithfully mirrors round_update.simulate_post_round1's own R2 /
-    cutline formula (same Normal draw, same sort, same n_cutline slice)
-    — the ONLY difference is this additionally records, per trial, the
-    thru-36 total of the LAST player who makes the cut (the empirical
-    cutline threshold for that trial), which the production function
-    does not return. Does not call, replace, or modify round_update.py;
-    used only to report an average cutline threshold for the STEP 4
-    'how bad would R2 need to be to miss the cut' sanity check."""
-    playable = [p for p in sim_inputs if p.r1_score_to_par is not None]
-    n_cutline = max(1, round(len(playable) * cut_fraction))
-    thresholds = []
-    for _ in range(n_simulations):
-        r2 = {p.player_code: rng.normalvariate(p.expected_round_score_to_par, p.spread) for p in playable}
-        thru36 = sorted(playable, key=lambda p: p.r1_score_to_par + r2[p.player_code])
-        cutline_player = thru36[n_cutline - 1]
-        thresholds.append(cutline_player.r1_score_to_par + r2[cutline_player.player_code])
-    return {
-        "n_cutline": n_cutline,
-        "field_size": len(playable),
-        "avg_cutline_thru36_total": statistics.mean(thresholds),
-        "stdev_cutline_thru36_total": statistics.pstdev(thresholds),
-    }
-
-
 def _shrunk_value(raw: Optional[float], n: Optional[int], params) -> Optional[float]:
-    """Same formula as klpga.models.candidates.apply_shrinkage_and_standardize,
-    but returns the shrunk value in ORIGINAL units (not the standardized
-    z-score that function returns) — for human-readable diagnostic
-    display only. weight = n/(n+k); shrunk = pop_mean + weight*(raw-pop_mean)."""
-    if raw is None or not n:
-        return None
-    weight = n / (n + params.k)
-    return round(params.pop_mean + weight * (raw - params.pop_mean), 3)
+    """Display wrapper around the real klpga.neo_win.round_update.
+    shrink_to_original_units (the SAME function main() uses to build the
+    actual, production-applied NEW sim inputs) — rounds for readability."""
+    result = shrink_to_original_units(raw, n, params)
+    return None if result is None else round(result, 3)
 
 
-def deep_dive_named_players(conn: sqlite3.Connection, game_code: str, cutoff_date_obj: date, csv_by_name: dict) -> None:
+def deep_dive_named_players(
+    conn: sqlite3.Connection, game_code: str, cutoff_date_obj: date, csv_by_name: dict,
+    params_avg, params_stddev,
+) -> None:
     """Model-input diagnosis only — calls the REAL, unmodified
-    klpga.backtest.point_in_time_features.compute_point_in_time_features,
-    klpga.neo_win.consistency.compute_consistency_feature, and
-    klpga.models.candidates.fit_shrinkage for DEEP_DIVE_NAMES. Read-only;
-    does not touch round_update.py, does not recompute any probability."""
+    klpga.backtest.point_in_time_features.compute_point_in_time_features
+    and klpga.neo_win.consistency.compute_consistency_feature for
+    DEEP_DIVE_NAMES. `params_avg`/`params_stddev` are the SAME
+    fit_post_r1_shrink_params() result main() also uses for the actual
+    fix, so these numbers match production exactly. Read-only; does not
+    touch round_update.py, does not recompute any probability."""
     row = conn.execute(
         "SELECT event_id, start_date, end_date FROM tournament_master WHERE game_code = ?", (game_code,)
     ).fetchone()
@@ -237,23 +153,16 @@ def deep_dive_named_players(conn: sqlite3.Connection, game_code: str, cutoff_dat
     target_effective_date = effective_tournament_date(start_date, end_date).value
 
     corpus = load_corpus(conn)
-    training_rows, training_tournament_count = build_neo_win_live_training_rows(conn, game_code, cutoff_date_obj)
-    params_avg = fit_shrinkage(training_rows, "prior_avg_round_score_to_par")
-    params_stddev = fit_shrinkage(training_rows, "neo_consistency_stddev")
 
     print("=== MODEL INPUT DEEP DIVE (real DB, real point-in-time features, named players) ===")
     print()
-    print(f"target_event_id={target_event_id!r}  target_effective_date={target_effective_date}  "
-          f"training_tournament_count={training_tournament_count}")
-    print(f"Shrinkage params fit on real training rows for THIS target (klpga.models.candidates.fit_shrinkage):")
+    print(f"target_event_id={target_event_id!r}  target_effective_date={target_effective_date}")
+    print(f"Shrinkage params fit on real training rows for THIS target (klpga.models.candidates.fit_shrinkage,"
+          f" via klpga.neo_win.round_update.fit_post_r1_shrink_params — same params now applied in production):")
     print(f"  prior_avg_round_score_to_par: pop_mean={params_avg.pop_mean:.4f}  pop_std={params_avg.pop_std:.4f}  "
           f"k(median training n)={params_avg.k}")
     print(f"  neo_consistency_stddev: pop_mean={params_stddev.pop_mean:.4f}  pop_std={params_stddev.pop_std:.4f}  "
           f"k(median training n)={params_stddev.k}")
-    print(f"NOTE: this shrinkage is what klpga.neo_win.model._combined_score applies for the PRE win_probability."
-          f" round_update.py's build_sim_inputs_from_frozen_snapshot does NOT apply it — it uses the RAW"
-          f" prior_avg_round_score_to_par / neo_consistency_stddev value verbatim whenever one is present,"
-          f" only substituting the field's population mean when the value is fully None.")
     print()
 
     for name in DEEP_DIVE_NAMES:
@@ -325,7 +234,8 @@ def main() -> int:
         return 5
     c_snapshot = read_neo_win_c_snapshot(pre_json_path)
     pre_snapshot = _adapt_beta001c_snapshot(c_snapshot)
-    fv_by_code = _feature_values_by_code(c_snapshot)
+
+    cutoff_date_obj = date.fromisoformat(pre_snapshot.cutoff_date)
 
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
@@ -334,128 +244,137 @@ def main() -> int:
             print(f"ERROR: no round_number=1 player_round rows for game_code={args.game_code!r}.")
             return 6
         cut_fraction = estimate_cut_fraction(conn)
+        # Same real, backtested shrinkage now applied in production (scripts/35 + round_update.py) —
+        # computed here identically so this comparison matches what --freeze will actually produce.
+        avg_shrink_params, stddev_shrink_params = fit_post_r1_shrink_params(conn, args.game_code, cutoff_date_obj)
+        n_lookup = build_post_r1_n_lookup(
+            conn, args.game_code, cutoff_date_obj, [e.player_code for e in pre_snapshot.predictions]
+        )
     finally:
         conn.close()
 
-    sim_inputs, missing_r1 = build_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores)
+    sim_inputs_old, missing_r1 = build_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores)
+    sim_inputs_new, _missing_r1_new = build_sim_inputs_from_frozen_snapshot(
+        pre_snapshot, r1_scores,
+        n_lookup=n_lookup, avg_shrink_params=avg_shrink_params, stddev_shrink_params=stddev_shrink_params,
+    )
 
-    rng = random.Random(args.seed) if args.seed is not None else random.Random()
-    new_sim = simulate_post_round1(sim_inputs, cut_fraction=cut_fraction, n_simulations=args.n_simulations, rng=rng)
+    # Same seed for both runs — any WIN%/CUT% difference below is attributable ONLY to the shrinkage
+    # fix (different expected_round_score_to_par/spread inputs), not to independent Monte Carlo noise.
+    common_seed = args.seed if args.seed is not None else 20260827
+    old_result = simulate_post_round1(
+        sim_inputs_old, cut_fraction=cut_fraction, n_simulations=args.n_simulations, rng=random.Random(common_seed)
+    )
+    new_result = simulate_post_round1(
+        sim_inputs_new, cut_fraction=cut_fraction, n_simulations=args.n_simulations, rng=random.Random(common_seed)
+    )
 
     csv_rows = _load_csv_rows(csv_path)
     csv_by_name: dict[str, list[dict]] = {}
     for r in csv_rows:
         csv_by_name.setdefault(r["player_name"], []).append(r)
 
-    sim_by_code = {p.player_code: p for p in sim_inputs}
+    old_by_code = {p.player_code: p for p in sim_inputs_old}
+    new_by_code = {p.player_code: p for p in sim_inputs_new}
 
-    cutoff_date_obj = date.fromisoformat(args.pre_cutoff_date)
     conn2 = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
-        deep_dive_named_players(conn2, args.game_code, cutoff_date_obj, csv_by_name)
+        deep_dive_named_players(conn2, args.game_code, cutoff_date_obj, csv_by_name, avg_shrink_params, stddev_shrink_params)
     finally:
         conn2.close()
 
-    print("=== CHECKS 1-3 — CODE-VERIFIED CALCULATION PATH SUMMARY ===")
+    print("=== CHECKS 1-3 — CODE-VERIFIED CALCULATION PATH SUMMARY (POST-FIX) ===")
     print()
     print("Script: scripts/35_predict_neo_win_post_r1.py -> src/klpga/neo_win/round_update.py")
-    print(f"n_simulations used: {args.n_simulations}")
+    print(f"n_simulations used: {args.n_simulations}  (both OLD and NEW runs use the same seed={common_seed})")
     print(f"Empirical cut_fraction (real player_event rounds_played=4 rate): {cut_fraction:.6f}")
     print("CHECK 1 (post_r1_win_pct path): WIN% = fraction of Monte Carlo trials in which this player has"
           " the lowest simulated 72-hole total (ACTUAL R1 + simulated R2/R3/R4, cutmakers only); ties split"
-          " win credit fractionally. See simulate_post_round1's `wins` accumulation.")
+          " win credit fractionally. Unchanged this round.")
     print("CHECK 2 (post_r1_make_cut_pct path): CUT% = fraction of trials in which this player's simulated"
           " 36-hole total (ACTUAL R1 + simulated R2) is among the n_cutline lowest of the field that trial."
-          " See simulate_post_round1's `made_cut` accumulation.")
-    print("CHECK 3 (R1 actual FIXED, not resimulated): r1_score_to_par is read once into"
-          " PlayerSimInput.r1_score_to_par and added as a FIXED constant in every trial (never redrawn) for"
-          " both the 36-hole cut total and the 72-hole win total — confirmed by direct code reading of"
-          " simulate_post_round1 (r1_score_to_par never appears as an rng.normalvariate(...) call).")
-    print("Expected per-round score for R2/R3/R4: PlayerSimInput.expected_round_score_to_par ="
-          " prior_avg_round_score_to_par (population-mean-shrunk if missing). prior_recent_form_10 is"
-          " present in the frozen snapshot's feature_values but is NOT read anywhere in round_update.py.")
-    print("Spread: neo_consistency_stddev (population-mean-shrunk if missing), floored at 0.5.")
-    print("Cutline: dynamic per-trial — n_cutline = round(field_size * cut_fraction); the n_cutline lowest"
-          " thru-36 (actual R1 + simulated R2) totals make the cut. Not a fixed score threshold.")
+          " Unchanged this round.")
+    print("CHECK 3 (R1 actual FIXED, not resimulated): unchanged — still added as a fixed constant every trial.")
+    print("FIX APPLIED THIS ROUND: expected_round_score_to_par / spread are now shrunk toward the real,"
+          " backtested population mean via klpga.neo_win.round_update.shrink_to_original_units (weight ="
+          " n/(n+k), same k/pop_mean klpga.models.candidates.fit_shrinkage already fits for the PRE path)"
+          " whenever a player's raw prior_avg_round_score_to_par / neo_consistency_stddev is present. A"
+          " fully-missing value still falls back to the simple field population mean, unchanged."
+          " prior_recent_form_10 is still NOT added to the model this round, per explicit instruction.")
+    print("Cutline: dynamic per-trial — unchanged.")
     print()
 
-    print("=== STEP 4 — MAKE CUT SANITY CHECK (real inputs + fresh re-run + cutline threshold) ===")
+    print("=== SHRINKAGE FIX — OLD vs NEW (real DB, real frozen PRE snapshot, real R1 scores) ===")
     print()
-    cutline_info = _diagnostic_cutline_resim(sim_inputs, cut_fraction, args.n_simulations, random.Random(args.seed))
-    print(f"n_cutline={cutline_info['n_cutline']} of field_size={cutline_info['field_size']}  "
-          f"avg cutline thru-36 total={cutline_info['avg_cutline_thru36_total']:.3f}  "
-          f"stdev={cutline_info['stdev_cutline_thru36_total']:.3f}")
-    print()
-    for name in CUT_NAMES:
+    print(f"{'PLAYER':<8} {'R1':>4} {'N(avg/std)':>11} {'OLD EXP':>8} {'NEW EXP':>8} {'OLD SD':>7} {'NEW SD':>7} "
+          f"{'OLD WIN%':>9} {'NEW WIN%':>9} {'OLD CUT%':>9} {'NEW CUT%':>9}")
+    for name in FINAL_COMPARE_NAMES:
         rows = csv_by_name.get(name, [])
         if not rows:
-            print(f"{name}: NOT FOUND in {csv_path.name}")
-            print()
+            print(f"{name}: NOT FOUND in R1 CSV")
             continue
         for r in rows:
             code = r["player_code"]
-            sim_p = sim_by_code.get(code)
-            fv = fv_by_code.get(code, {})
-            old_cut = r.get("post_r1_make_cut_pct", "")
-            new_cut = new_sim.get(code, {}).get("make_cut_pct")
-            print(f"PLAYER: {name}  (player_code={code})")
-            print(f"  R1 ACTUAL: {r.get('r1_score_to_par')}")
-            prior_avg = fv.get("prior_avg_round_score_to_par")
-            recent_form = fv.get("prior_recent_form_10")
-            print(f"  CHECK 4 PRIOR AVG (prior_avg_round_score_to_par): {prior_avg!r}")
-            if isinstance(prior_avg, (int, float)) and isinstance(recent_form, (int, float)):
-                if recent_form < prior_avg:
-                    polarity = "recent form BETTER (more under-par) than career avg — same lower-is-better polarity, no inversion"
-                elif recent_form > prior_avg:
-                    polarity = "recent form WORSE (less under-par) than career avg — same lower-is-better polarity, no inversion"
-                else:
-                    polarity = "recent form == career avg"
-            else:
-                polarity = "N/A (one or both values missing)"
-            print(f"  CHECK 5 RECENT FORM (prior_recent_form_10, NOT used by round_update.py): {recent_form!r}  [{polarity}]")
-            print(f"  CHECK 6 STDDEV (neo_consistency_stddev, spread used): {sim_p.spread if sim_p else 'N/A'}")
-            print(f"  EXPECTED R2 MEAN (expected_round_score_to_par used): {sim_p.expected_round_score_to_par if sim_p else 'N/A'}")
-            print(f"  OLD MAKE CUT%: {old_cut}")
-            print(f"  NEW MAKE CUT% (fresh re-run, real code, same real inputs): {new_cut}")
-            if sim_p is not None:
-                required_r2_total = cutline_info["avg_cutline_thru36_total"] - float(r.get("r1_score_to_par", 0) or 0)
-                z = (required_r2_total - sim_p.expected_round_score_to_par) / sim_p.spread if sim_p.spread else None
-                print(f"  R2 SCORE NEEDED TO MISS CUT (approx, vs avg cutline threshold): worse than {required_r2_total:.2f}"
-                      f" to-par  (z={z:.3f} stddevs from this player's own expected R2 mean)" if z is not None else "  z: N/A")
-            print()
-
-    print("=== STEP 5 — WIN SANITY CHECK (real inputs + fresh re-run) ===")
+            op = old_by_code.get(code)
+            npi = new_by_code.get(code)
+            avg_n, stddev_n = n_lookup.get(code, (None, None))
+            old_win = old_result.get(code, {}).get("win_pct")
+            new_win = new_result.get(code, {}).get("win_pct")
+            old_cut = old_result.get(code, {}).get("make_cut_pct")
+            new_cut = new_result.get(code, {}).get("make_cut_pct")
+            print(
+                f"{name:<8} {r.get('r1_score_to_par'):>4} {f'{avg_n}/{stddev_n}':>11} "
+                f"{(op.expected_round_score_to_par if op else float('nan')):>8.3f} "
+                f"{(npi.expected_round_score_to_par if npi else float('nan')):>8.3f} "
+                f"{(op.spread if op else float('nan')):>7.3f} {(npi.spread if npi else float('nan')):>7.3f} "
+                f"{(old_win if old_win is not None else float('nan')):>9.4f} "
+                f"{(new_win if new_win is not None else float('nan')):>9.4f} "
+                f"{(old_cut if old_cut is not None else float('nan')):>9.4f} "
+                f"{(new_cut if new_cut is not None else float('nan')):>9.4f}"
+            )
     print()
-    for name in WIN_NAMES:
+
+    print("=== INTEGRITY CHECK (NEW / shrinkage-applied run) ===")
+    print()
+    new_win_values = [v["win_pct"] for v in new_result.values()]
+    new_cut_values = [v["make_cut_pct"] for v in new_result.values()]
+    new_win_sum = sum(new_win_values)
+    out_of_range = [(code, v["make_cut_pct"]) for code, v in new_result.items() if not (0 <= v["make_cut_pct"] <= 100)]
+    null_count = sum(1 for p in sim_inputs_new if p.r1_score_to_par is not None and p.player_code not in new_result)
+    codes = [p.player_code for p in sim_inputs_new]
+    dup_count = len(codes) - len(set(codes))
+    print(f"WIN SUM: {new_win_sum:.4f}%  ({'PASS' if 99.99 <= new_win_sum <= 100.01 else 'OUT OF TOLERANCE'})")
+    print(f"CUT MIN/MAX: {min(new_cut_values):.4f} / {max(new_cut_values):.4f}  "
+          f"out_of_[0,100]={len(out_of_range)} {out_of_range[:10]}")
+    print(f"NULL COUNT (playable player missing from result): {null_count}")
+    print(f"DUPLICATE COUNT (player_code): {dup_count}")
+    print(f"Missing R1 (excluded from simulation, unaffected by this fix): {len(missing_r1)} {missing_r1}")
+    print()
+
+    print("=== SANITY CHECK ===")
+    print()
+    for name in ("이서윤4", "정수빈", "유아현"):
         rows = csv_by_name.get(name, [])
-        if not rows:
-            print(f"{name}: NOT FOUND in {csv_path.name}")
-            print()
-            continue
         for r in rows:
             code = r["player_code"]
-            sim_p = sim_by_code.get(code)
-            old_win = r.get("post_r1_win_pct", "")
-            new_win = new_sim.get(code, {}).get("win_pct")
-            fv = fv_by_code.get(code, {})
-            print(f"PLAYER: {name}  (player_code={code})")
-            print(f"  R1 ACTUAL: {r.get('r1_score_to_par')}  CURRENT POSITION: {r.get('r1_position')}")
-            print(f"  CHECK 4 PRIOR AVG (prior_avg_round_score_to_par): {fv.get('prior_avg_round_score_to_par')!r}")
-            print(f"  CHECK 5 RECENT FORM (prior_recent_form_10, NOT used by round_update.py): {fv.get('prior_recent_form_10')!r}")
-            print(f"  PRIOR STRENGTH (expected_round_score_to_par used): {sim_p.expected_round_score_to_par if sim_p else 'N/A'}")
-            print(f"  CHECK 6 STDDEV (neo_consistency_stddev, spread used): {sim_p.spread if sim_p else 'N/A'}")
-            print(f"  OLD WIN%: {old_win}")
-            print(f"  NEW WIN% (fresh re-run, real code, same real inputs): {new_win}")
-            print()
-
-    field_integrity_check(csv_rows)
-
-    win_sum_new = sum(v["win_pct"] for v in new_sim.values())
-    print("=== NEW RUN MODEL CHECK ===")
-    print(f"Players simulated: {len(sim_inputs)}  Missing R1: {len(missing_r1)}")
-    print(f"NEW WIN sum: {win_sum_new:.4f}%")
+            old_cut = old_result.get(code, {}).get("make_cut_pct")
+            new_cut = new_result.get(code, {}).get("make_cut_pct")
+            print(f"{name} (R1 {r.get('r1_score_to_par')}): CUT% OLD={old_cut}  NEW={new_cut}  "
+                  f"DELTA={None if old_cut is None or new_cut is None else round(new_cut - old_cut, 4)}")
     print()
-    print("Done. No model/prediction/frozen file was modified by this script.")
+    lsy_code = next((r["player_code"] for r in csv_by_name.get("이서윤4", [])), None)
+    nsh_code = next((r["player_code"] for r in csv_by_name.get("노승희", [])), None)
+    if lsy_code and nsh_code:
+        old_gap = old_result.get(lsy_code, {}).get("win_pct"), old_result.get(nsh_code, {}).get("win_pct")
+        new_gap = new_result.get(lsy_code, {}).get("win_pct"), new_result.get(nsh_code, {}).get("win_pct")
+        print(f"이서윤4 vs 노승희 WIN%: OLD {old_gap[0]} vs {old_gap[1]}  "
+              f"(ratio {None if not old_gap[1] else round(old_gap[1]/old_gap[0], 2) if old_gap[0] else None}x)")
+        print(f"이서윤4 vs 노승희 WIN%: NEW {new_gap[0]} vs {new_gap[1]}  "
+              f"(ratio {None if not new_gap[1] else round(new_gap[1]/new_gap[0], 2) if new_gap[0] else None}x)")
+    print()
+    print("Done. round_update.py / scripts/35 were modified this round (the authorized shrinkage fix only).")
+    print("This script itself writes nothing — re-run scripts/35 (without --freeze) to regenerate the real"
+          " outputs/beta001_r1/BETA001_R1_FULL.csv with these NEW, shrinkage-applied probabilities.")
     return 0
 
 
