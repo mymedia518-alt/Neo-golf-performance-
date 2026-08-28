@@ -53,6 +53,33 @@ __all__ = [
 ]
 
 
+def _feature(e, name: str) -> Optional[float]:
+    """Real-data-shape fix (BETA #001 R1->R2 pipeline preparation): a
+    frozen PRE snapshot's `predictions` entries are EITHER a legacy
+    `NeoWinEntrantSnapshot` (klpga.neo_win.archive) — which stores
+    `prior_avg_round_score_to_par` / `neo_consistency_stddev` as real
+    top-level attributes — OR a `NeoWinCEntrantSnapshot` (klpga.neo_win.
+    beta001c_archive, the current BETA #001-C production shape) — which
+    stores the exact same two quantities only inside its `feature_values`
+    dict (confirmed: both are in `klpga.neo_win.model.BASE_FEATURES`,
+    always present regardless of which of Model A/B/C was selected).
+    `build_r2_sim_inputs_from_frozen_snapshot` previously read `e.name`
+    directly, which raises AttributeError for the #001-C shape (the
+    default/preferred path in scripts/44) since it has no such top-level
+    field at all. This is a pure data-access correction — the SAME
+    dual-shape accessor convention scripts/44_predict_neo_win_post_r2.py
+    already uses elsewhere (`getattr(x, "model_version", None) or
+    getattr(x, "selected_model_id", "")`) — not a change to any
+    simulation formula, weight, or feature."""
+    value = getattr(e, name, None)
+    if value is not None:
+        return value
+    feature_values = getattr(e, "feature_values", None)
+    if feature_values is not None:
+        return feature_values.get(name)
+    return None
+
+
 @dataclass(frozen=True)
 class PlayerR2SimInput:
     player_code: str
@@ -79,9 +106,9 @@ def build_r2_sim_inputs_from_frozen_snapshot(
     excluded from simulation) if ANY of r1_score, r2_score, or a real
     made_cut fact is unavailable — never partially simulated on
     incomplete real data."""
-    known_scores = [e.prior_avg_round_score_to_par for e in pre_snapshot.predictions if e.prior_avg_round_score_to_par is not None]
+    known_scores = [v for e in pre_snapshot.predictions if (v := _feature(e, "prior_avg_round_score_to_par")) is not None]
     pop_mean_score = statistics.mean(known_scores) if known_scores else 0.0
-    known_spreads = [e.neo_consistency_stddev for e in pre_snapshot.predictions if e.neo_consistency_stddev is not None]
+    known_spreads = [v for e in pre_snapshot.predictions if (v := _feature(e, "neo_consistency_stddev")) is not None]
     pop_mean_spread = statistics.mean(known_spreads) if known_spreads else 3.0
 
     sim_inputs = []
@@ -92,8 +119,10 @@ def build_r2_sim_inputs_from_frozen_snapshot(
         made_cut = made_cut_by_player.get(e.player_code)
         if r1 is None or r2 is None or made_cut is None:
             missing.append(e.player_code)
-        expected = e.prior_avg_round_score_to_par if e.prior_avg_round_score_to_par is not None else pop_mean_score
-        spread = e.neo_consistency_stddev if e.neo_consistency_stddev is not None else pop_mean_spread
+        prior_avg = _feature(e, "prior_avg_round_score_to_par")
+        consistency = _feature(e, "neo_consistency_stddev")
+        expected = prior_avg if prior_avg is not None else pop_mean_score
+        spread = consistency if consistency is not None else pop_mean_spread
         sim_inputs.append(
             PlayerR2SimInput(
                 player_code=e.player_code, player_name=e.player_name,
