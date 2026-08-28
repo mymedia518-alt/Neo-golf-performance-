@@ -112,21 +112,43 @@ def collect_all_rounds_for_game(
     client: PoliteHttpClient,
     game_code: str,
     final_round: Optional[int] = None,
+    force_refresh_rounds: frozenset[int] = frozenset(),
 ) -> dict[int, list[PlayerRoundRow]]:
     """Collect per-round rows for a completed tournament. See the module
     docstring for why this fetches round 1 unconditionally and expands
     to every intermediate round when the field doesn't match — this is
     a correctness fix for CUT/WD/DQ players being silently dropped, not
-    just a request-count optimization anymore."""
+    just a request-count optimization anymore.
+
+    `force_refresh_rounds`: round numbers to fetch with `use_cache=
+    False` (real-data fix). If this function (or `discover_final_round`,
+    which it calls when `final_round` is None) was ever run BEFORE a
+    given round had actually been played, the site's real response for
+    that round at the time was empty — and `PoliteHttpClient` cached
+    that empty response. A later re-run with default caching would keep
+    serving that stale empty page even after the round has genuinely
+    been played, silently hiding real data that now exists. Passing the
+    now-real round number here forces a fresh fetch that overwrites the
+    stale cache entry before it can mislead `discover_final_round`'s own
+    (cached) probing or the round-1/intermediate-round fetches below.
+    Every round NOT listed here is fetched exactly as before
+    (`use_cache=True`) — the default empty set makes this function's
+    behavior for every existing caller byte-for-byte unchanged."""
+
+    def _fetch(rnd: int) -> list[PlayerRoundRow]:
+        return fetch_round_leaderboard(client, game_code, rnd, use_cache=(rnd not in force_refresh_rounds))
+
     if final_round is None:
+        for rnd in sorted(force_refresh_rounds):
+            _fetch(rnd)  # overwrite any stale cached-empty response before discovery probes it
         final_round, final_rows = discover_final_round(client, game_code)
     else:
-        final_rows = fetch_round_leaderboard(client, game_code, final_round)
+        final_rows = _fetch(final_round)
 
     results: dict[int, list[PlayerRoundRow]] = {final_round: final_rows}
 
     if final_round != 1:
-        results[1] = fetch_round_leaderboard(client, game_code, 1)
+        results[1] = _fetch(1)
 
     round1_players = _player_codes(results.get(1, []))
     final_players = _player_codes(final_rows)
@@ -155,6 +177,6 @@ def collect_all_rounds_for_game(
 
     for rnd in sorted(rounds_to_fetch):
         if rnd not in results:
-            results[rnd] = fetch_round_leaderboard(client, game_code, rnd)
+            results[rnd] = _fetch(rnd)
 
     return results
