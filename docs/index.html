@@ -1,0 +1,212 @@
+<title>NEO R1 Tournament Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;family=Roboto+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d10;
+    --bg-alt: #14171c;
+    --border: #22262d;
+    --text: #f2f4f6;
+    --text-dim: #8b93a1;
+    --accent: #4fd1c5;
+    --pill-bg: #163a2e;
+    --pill-text: #4ade80;
+    --row-alt: #101317;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  header { max-width: 960px; margin: 0 auto 20px; }
+
+  .wordmark {
+    --row: clamp(12px, 3vw, 16px);
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 3.2vw, 20px);
+    margin-bottom: 10px;
+  }
+  .wordmark-letters {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--row) * 0.15);
+    flex-shrink: 0;
+  }
+  .letter-row {
+    display: flex;
+    align-items: baseline;
+    gap: calc(var(--row) * 0.42);
+    white-space: nowrap;
+  }
+  .letter {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 800;
+    font-size: calc(var(--row) * 1.15);
+    line-height: 1;
+    color: var(--accent);
+  }
+  .letter-word {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 600;
+    font-size: calc(var(--row) * 0.72);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .wordmark-name {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 800;
+    font-size: calc(var(--row) * 3.75);
+    line-height: 1;
+    letter-spacing: 0.015em;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .next-update {
+    flex-shrink: 0;
+    margin-left: auto;
+    text-align: right;
+  }
+  .next-update-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    opacity: 0.7;
+  }
+  .next-update-text {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+  .meta .tournament-name { font-size: clamp(14px, 3.5vw, 18px); color: var(--text-dim); }
+  .status-pill {
+    background: var(--pill-bg);
+    color: var(--pill-text);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  main { max-width: 960px; margin: 0 auto; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 480px; }
+  thead th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: var(--bg-alt);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-family: "Roboto Mono", monospace;
+    white-space: nowrap;
+  }
+  tbody td.c-name { font-family: "Noto Sans KR", sans-serif; }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+
+  .unavailable { max-width: 960px; margin: 24px auto 0; }
+  .unavailable h2 { font-size: 15px; color: var(--text-dim); margin-bottom: 8px; }
+  .unavailable ul { list-style: none; margin: 0; padding: 0; }
+  .unavailable li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .unavailable .m-code { color: var(--text-dim); font-family: "Roboto Mono", monospace; }
+
+  footer {
+    max-width: 960px;
+    margin: 48px auto 0;
+    padding-bottom: 8px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.7;
+  }
+  .footer-line { margin: 0; }
+
+  @media (max-width: 480px) {
+    body { padding: 16px 10px 40px; }
+    table { font-size: 13px; }
+    .header-top { flex-direction: column; align-items: stretch; }
+    .next-update { align-self: flex-end; margin-top: 8px; margin-left: 0; }
+  }
+</style>
+
+<header>
+  <div class="header-top">
+    <div class="wordmark">
+      <div class="wordmark-letters">
+        <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
+        <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
+        <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+      </div>
+      <div class="wordmark-name">TOURNAMENT PREDICTION</div>
+    </div>
+    <div class="next-update">
+      <div class="next-update-label">NEXT UPDATE</div>
+      <div class="next-update-text">2R 종료 후 업데이트 예정</div>
+    </div>
+  </div>
+  <div class="meta">
+    <span class="tournament-name">제15회 KG 레이디스 오픈</span>
+    <span class="status-pill">Round 1 Complete</span>
+  </div>
+</header>
+
+<main>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>순위</th>
+          <th>선수</th>
+          <th>스코어</th>
+          <th>우승확률</th>
+          <th>컷 통과확률</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="c-pos">1</td><td class="c-name">이서윤4</td><td class="c-score">-8</td><td class="c-pct">2.56%</td><td class="c-pct">87.22%</td></tr><tr><td class="c-pos">2</td><td class="c-name">정수빈</td><td class="c-score">-7</td><td class="c-pct">2.34%</td><td class="c-pct">67.98%</td></tr><tr><td class="c-pos">3</td><td class="c-name">짜라위 분짠(I)</td><td class="c-score">-7</td><td class="c-pct">4.16%</td><td class="c-pct">88.90%</td></tr><tr><td class="c-pos">4</td><td class="c-name">장은수</td><td class="c-score">-7</td><td class="c-pct">4.50%</td><td class="c-pct">84.64%</td></tr><tr><td class="c-pos">5</td><td class="c-name">유아현</td><td class="c-score">-7</td><td class="c-pct">1.90%</td><td class="c-pct">84.24%</td></tr><tr><td class="c-pos">6</td><td class="c-name">최은우</td><td class="c-score">-6</td><td class="c-pct">4.76%</td><td class="c-pct">86.44%</td></tr><tr><td class="c-pos">7</td><td class="c-name">박혜준</td><td class="c-score">-6</td><td class="c-pct">5.90%</td><td class="c-pct">88.84%</td></tr><tr><td class="c-pos">8</td><td class="c-name">이주미</td><td class="c-score">-6</td><td class="c-pct">3.16%</td><td class="c-pct">75.66%</td></tr><tr><td class="c-pos">9</td><td class="c-name">고지원</td><td class="c-score">-6</td><td class="c-pct">4.70%</td><td class="c-pct">80.64%</td></tr><tr><td class="c-pos">10</td><td class="c-name">노승희</td><td class="c-score">-6</td><td class="c-pct">9.54%</td><td class="c-pct">90.50%</td></tr><tr><td class="c-pos">11</td><td class="c-name">안재희</td><td class="c-score">-5</td><td class="c-pct">1.18%</td><td class="c-pct">63.08%</td></tr><tr><td class="c-pos">12</td><td class="c-name">성유진</td><td class="c-score">-5</td><td class="c-pct">6.06%</td><td class="c-pct">83.06%</td></tr><tr><td class="c-pos">13</td><td class="c-name">한아름</td><td class="c-score">-5</td><td class="c-pct">1.72%</td><td class="c-pct">64.68%</td></tr><tr><td class="c-pos">14</td><td class="c-name">김나영</td><td class="c-score">-5</td><td class="c-pct">1.66%</td><td class="c-pct">66.54%</td></tr><tr><td class="c-pos">15</td><td class="c-name">양효리</td><td class="c-score">-5</td><td class="c-pct">0.96%</td><td class="c-pct">58.06%</td></tr><tr><td class="c-pos">16</td><td class="c-name">정소이</td><td class="c-score">-5</td><td class="c-pct">1.96%</td><td class="c-pct">66.34%</td></tr><tr><td class="c-pos">17</td><td class="c-name">현세린</td><td class="c-score">-4</td><td class="c-pct">0.94%</td><td class="c-pct">53.62%</td></tr><tr><td class="c-pos">18</td><td class="c-name">서교림</td><td class="c-score">-4</td><td class="c-pct">3.14%</td><td class="c-pct">64.84%</td></tr><tr><td class="c-pos">19</td><td class="c-name">유서연2</td><td class="c-score">-4</td><td class="c-pct">1.42%</td><td class="c-pct">54.86%</td></tr><tr><td class="c-pos">20</td><td class="c-name">전우리</td><td class="c-score">-4</td><td class="c-pct">0.80%</td><td class="c-pct">53.10%</td></tr><tr><td class="c-pos">21</td><td class="c-name">신지우</td><td class="c-score">-4</td><td class="c-pct">0.54%</td><td class="c-pct">49.98%</td></tr><tr><td class="c-pos">22</td><td class="c-name">김나현2</td><td class="c-score">-4</td><td class="c-pct">0.32%</td><td class="c-pct">46.30%</td></tr><tr><td class="c-pos">23</td><td class="c-name">마서영</td><td class="c-score">-4</td><td class="c-pct">0.44%</td><td class="c-pct">44.06%</td></tr><tr><td class="c-pos">24</td><td class="c-name">이승연</td><td class="c-score">-4</td><td class="c-pct">2.54%</td><td class="c-pct">63.90%</td></tr><tr><td class="c-pos">25</td><td class="c-name">김효문</td><td class="c-score">-4</td><td class="c-pct">0.74%</td><td class="c-pct">48.56%</td></tr><tr><td class="c-pos">26</td><td class="c-name">양효진</td><td class="c-score">-4</td><td class="c-pct">1.26%</td><td class="c-pct">56.10%</td></tr><tr><td class="c-pos">27</td><td class="c-name">최가빈</td><td class="c-score">-3</td><td class="c-pct">1.44%</td><td class="c-pct">46.64%</td></tr><tr><td class="c-pos">28</td><td class="c-name">양윤서 0801(A)</td><td class="c-score">-3</td><td class="c-pct">0.32%</td><td class="c-pct">34.52%</td></tr><tr><td class="c-pos">29</td><td class="c-name">최정원</td><td class="c-score">-3</td><td class="c-pct">0.66%</td><td class="c-pct">39.12%</td></tr><tr><td class="c-pos">30</td><td class="c-name">이채은2</td><td class="c-score">-3</td><td class="c-pct">0.90%</td><td class="c-pct">44.40%</td></tr><tr><td class="c-pos">31</td><td class="c-name">박현경</td><td class="c-score">-3</td><td class="c-pct">2.58%</td><td class="c-pct">63.56%</td></tr><tr><td class="c-pos">32</td><td class="c-name">박서현</td><td class="c-score">-3</td><td class="c-pct">0.32%</td><td class="c-pct">37.20%</td></tr><tr><td class="c-pos">33</td><td class="c-name">방신실</td><td class="c-score">-3</td><td class="c-pct">3.74%</td><td class="c-pct">58.50%</td></tr><tr><td class="c-pos">34</td><td class="c-name">이소영</td><td class="c-score">-3</td><td class="c-pct">1.06%</td><td class="c-pct">43.86%</td></tr><tr><td class="c-pos">35</td><td class="c-name">지한솔</td><td class="c-score">-3</td><td class="c-pct">1.10%</td><td class="c-pct">52.30%</td></tr><tr><td class="c-pos">36</td><td class="c-name">정윤지</td><td class="c-score">-3</td><td class="c-pct">2.86%</td><td class="c-pct">57.74%</td></tr><tr><td class="c-pos">37</td><td class="c-name">김하은2</td><td class="c-score">-3</td><td class="c-pct">0.74%</td><td class="c-pct">40.30%</td></tr><tr><td class="c-pos">38</td><td class="c-name">홍현지</td><td class="c-score">-2</td><td class="c-pct">0.48%</td><td class="c-pct">32.12%</td></tr><tr><td class="c-pos">39</td><td class="c-name">신다인</td><td class="c-score">-2</td><td class="c-pct">0.34%</td><td class="c-pct">32.72%</td></tr><tr><td class="c-pos">40</td><td class="c-name">윤혜림</td><td class="c-score">-2</td><td class="c-pct">0.14%</td><td class="c-pct">23.24%</td></tr><tr><td class="c-pos">41</td><td class="c-name">이재윤</td><td class="c-score">-2</td><td class="c-pct">0.56%</td><td class="c-pct">31.18%</td></tr><tr><td class="c-pos">42</td><td class="c-name">배수연</td><td class="c-score">-2</td><td class="c-pct">0.10%</td><td class="c-pct">22.68%</td></tr><tr><td class="c-pos">43</td><td class="c-name">백소원</td><td class="c-score">-2</td><td class="c-pct">0.06%</td><td class="c-pct">22.24%</td></tr><tr><td class="c-pos">44</td><td class="c-name">최예림</td><td class="c-score">-2</td><td class="c-pct">0.86%</td><td class="c-pct">40.72%</td></tr><tr><td class="c-pos">45</td><td class="c-name">문정민</td><td class="c-score">-2</td><td class="c-pct">0.72%</td><td class="c-pct">35.86%</td></tr><tr><td class="c-pos">46</td><td class="c-name">황민정</td><td class="c-score">-2</td><td class="c-pct">0.28%</td><td class="c-pct">26.84%</td></tr><tr><td class="c-pos">47</td><td class="c-name">유지나</td><td class="c-score">-2</td><td class="c-pct">0.46%</td><td class="c-pct">29.86%</td></tr><tr><td class="c-pos">48</td><td class="c-name">강채연</td><td class="c-score">-2</td><td class="c-pct">0.36%</td><td class="c-pct">30.72%</td></tr><tr><td class="c-pos">49</td><td class="c-name">이율린</td><td class="c-score">-2</td><td class="c-pct">0.66%</td><td class="c-pct">25.74%</td></tr><tr><td class="c-pos">50</td><td class="c-name">최예본</td><td class="c-score">-2</td><td class="c-pct">0.48%</td><td class="c-pct">30.96%</td></tr><tr><td class="c-pos">51</td><td class="c-name">임진영</td><td class="c-score">-2</td><td class="c-pct">0.62%</td><td class="c-pct">33.28%</td></tr><tr><td class="c-pos">52</td><td class="c-name">김민주</td><td class="c-score">-1</td><td class="c-pct">0.86%</td><td class="c-pct">28.04%</td></tr><tr><td class="c-pos">53</td><td class="c-name">김재희</td><td class="c-score">-1</td><td class="c-pct">0.28%</td><td class="c-pct">21.66%</td></tr><tr><td class="c-pos">54</td><td class="c-name">박예지</td><td class="c-score">-1</td><td class="c-pct">0.32%</td><td class="c-pct">20.08%</td></tr><tr><td class="c-pos">55</td><td class="c-name">송은아</td><td class="c-score">-1</td><td class="c-pct">0.48%</td><td class="c-pct">21.54%</td></tr><tr><td class="c-pos">56</td><td class="c-name">김새로미</td><td class="c-score">-1</td><td class="c-pct">0.28%</td><td class="c-pct">20.18%</td></tr><tr><td class="c-pos">57</td><td class="c-name">강가율</td><td class="c-score">-1</td><td class="c-pct">0.08%</td><td class="c-pct">16.32%</td></tr><tr><td class="c-pos">58</td><td class="c-name">김서윤2</td><td class="c-score">-1</td><td class="c-pct">0.26%</td><td class="c-pct">19.82%</td></tr><tr><td class="c-pos">59</td><td class="c-name">강지선</td><td class="c-score">-1</td><td class="c-pct">0.12%</td><td class="c-pct">18.20%</td></tr><tr><td class="c-pos">60</td><td class="c-name">황연서</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">13.88%</td></tr><tr><td class="c-pos">61</td><td class="c-name">박단유</td><td class="c-score">-1</td><td class="c-pct">0.02%</td><td class="c-pct">12.84%</td></tr><tr><td class="c-pos">62</td><td class="c-name">구래현</td><td class="c-score">-1</td><td class="c-pct">0.04%</td><td class="c-pct">14.26%</td></tr><tr><td class="c-pos">63</td><td class="c-name">노원경</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">15.12%</td></tr><tr><td class="c-pos">64</td><td class="c-name">이지민</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">15.04%</td></tr><tr><td class="c-pos">65</td><td class="c-name">한지원</td><td class="c-score">-1</td><td class="c-pct">0.26%</td><td class="c-pct">21.06%</td></tr><tr><td class="c-pos">66</td><td class="c-name">홍진영2</td><td class="c-score">-1</td><td class="c-pct">0.36%</td><td class="c-pct">21.00%</td></tr><tr><td class="c-pos">67</td><td class="c-name">고지우</td><td class="c-score">-1</td><td class="c-pct">1.18%</td><td class="c-pct">27.16%</td></tr><tr><td class="c-pos">68</td><td class="c-name">김우정</td><td class="c-score">-1</td><td class="c-pct">0.14%</td><td class="c-pct">18.72%</td></tr><tr><td class="c-pos">69</td><td class="c-name">김소정</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">15.50%</td></tr><tr><td class="c-pos">70</td><td class="c-name">윤수아</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">16.30%</td></tr><tr><td class="c-pos">71</td><td class="c-name">조혜림</td><td class="c-score">-1</td><td class="c-pct">0.26%</td><td class="c-pct">20.66%</td></tr><tr><td class="c-pos">72</td><td class="c-name">최민경</td><td class="c-score">-1</td><td class="c-pct">0.28%</td><td class="c-pct">22.96%</td></tr><tr><td class="c-pos">73</td><td class="c-name">이세영</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">16.08%</td></tr><tr><td class="c-pos">74</td><td class="c-name">이윤서</td><td class="c-score">-1</td><td class="c-pct">0.10%</td><td class="c-pct">13.08%</td></tr><tr><td class="c-pos">75</td><td class="c-name">김지윤2</td><td class="c-score">E</td><td class="c-pct">0.02%</td><td class="c-pct">8.74%</td></tr><tr><td class="c-pos">76</td><td class="c-name">박결</td><td class="c-score">E</td><td class="c-pct">0.02%</td><td class="c-pct">10.82%</td></tr><tr><td class="c-pos">77</td><td class="c-name">전예성</td><td class="c-score">E</td><td class="c-pct">0.68%</td><td class="c-pct">18.98%</td></tr><tr><td class="c-pos">78</td><td class="c-name">양서후</td><td class="c-score">E</td><td class="c-pct">0.00%</td><td class="c-pct">7.96%</td></tr><tr><td class="c-pos">79</td><td class="c-name">한진선</td><td class="c-score">E</td><td class="c-pct">0.52%</td><td class="c-pct">19.16%</td></tr><tr><td class="c-pos">80</td><td class="c-name">왕 즈쉬엔</td><td class="c-score">E</td><td class="c-pct">0.02%</td><td class="c-pct">9.66%</td></tr><tr><td class="c-pos">81</td><td class="c-name">홍지원</td><td class="c-score">E</td><td class="c-pct">0.08%</td><td class="c-pct">11.78%</td></tr><tr><td class="c-pos">82</td><td class="c-name">윤화영</td><td class="c-score">E</td><td class="c-pct">0.08%</td><td class="c-pct">10.16%</td></tr><tr><td class="c-pos">83</td><td class="c-name">김아현</td><td class="c-score">E</td><td class="c-pct">0.10%</td><td class="c-pct">8.78%</td></tr><tr><td class="c-pos">84</td><td class="c-name">유다겸(I)</td><td class="c-score">E</td><td class="c-pct">0.02%</td><td class="c-pct">6.98%</td></tr><tr><td class="c-pos">85</td><td class="c-name">황유나</td><td class="c-score">E</td><td class="c-pct">0.00%</td><td class="c-pct">8.38%</td></tr><tr><td class="c-pos">86</td><td class="c-name">황정미</td><td class="c-score">E</td><td class="c-pct">0.04%</td><td class="c-pct">9.58%</td></tr><tr><td class="c-pos">87</td><td class="c-name">김희지</td><td class="c-score">E</td><td class="c-pct">0.12%</td><td class="c-pct">8.16%</td></tr><tr><td class="c-pos">88</td><td class="c-name">정영화</td><td class="c-score">E</td><td class="c-pct">0.06%</td><td class="c-pct">10.88%</td></tr><tr><td class="c-pos">89</td><td class="c-name">이수정</td><td class="c-score">E</td><td class="c-pct">0.04%</td><td class="c-pct">11.04%</td></tr><tr><td class="c-pos">90</td><td class="c-name">김시현</td><td class="c-score">+1</td><td class="c-pct">0.18%</td><td class="c-pct">8.78%</td></tr><tr><td class="c-pos">91</td><td class="c-name">임희정</td><td class="c-score">+1</td><td class="c-pct">0.08%</td><td class="c-pct">8.04%</td></tr><tr><td class="c-pos">92</td><td class="c-name">김지수</td><td class="c-score">+1</td><td class="c-pct">0.06%</td><td class="c-pct">5.82%</td></tr><tr><td class="c-pos">93</td><td class="c-name">조은채</td><td class="c-score">+1</td><td class="c-pct">0.00%</td><td class="c-pct">3.96%</td></tr><tr><td class="c-pos">94</td><td class="c-name">리 슈잉</td><td class="c-score">+1</td><td class="c-pct">0.08%</td><td class="c-pct">7.24%</td></tr><tr><td class="c-pos">95</td><td class="c-name">안지현</td><td class="c-score">+1</td><td class="c-pct">0.02%</td><td class="c-pct">7.18%</td></tr><tr><td class="c-pos">96</td><td class="c-name">에리카 윤 스미스(I)</td><td class="c-score">+1</td><td class="c-pct">0.02%</td><td class="c-pct">5.02%</td></tr><tr><td class="c-pos">97</td><td class="c-name">김수지</td><td class="c-score">+1</td><td class="c-pct">0.46%</td><td class="c-pct">13.90%</td></tr><tr><td class="c-pos">98</td><td class="c-name">성은정</td><td class="c-score">+1</td><td class="c-pct">0.02%</td><td class="c-pct">5.16%</td></tr><tr><td class="c-pos">99</td><td class="c-name">장수연</td><td class="c-score">+2</td><td class="c-pct">0.02%</td><td class="c-pct">3.46%</td></tr><tr><td class="c-pos">100</td><td class="c-name">조정민</td><td class="c-score">+2</td><td class="c-pct">0.00%</td><td class="c-pct">1.98%</td></tr><tr><td class="c-pos">101</td><td class="c-name">배윤설 0908(A)</td><td class="c-score">+2</td><td class="c-pct">0.02%</td><td class="c-pct">2.78%</td></tr><tr><td class="c-pos">102</td><td class="c-name">김민별</td><td class="c-score">+2</td><td class="c-pct">0.12%</td><td class="c-pct">5.98%</td></tr><tr><td class="c-pos">103</td><td class="c-name">이가영</td><td class="c-score">+2</td><td class="c-pct">0.08%</td><td class="c-pct">5.14%</td></tr><tr><td class="c-pos">104</td><td class="c-name">마다솜</td><td class="c-score">+2</td><td class="c-pct">0.04%</td><td class="c-pct">5.66%</td></tr><tr><td class="c-pos">105</td><td class="c-name">조아연</td><td class="c-score">+2</td><td class="c-pct">0.02%</td><td class="c-pct">2.46%</td></tr><tr><td class="c-pos">106</td><td class="c-name">김소이</td><td class="c-score">+2</td><td class="c-pct">0.00%</td><td class="c-pct">2.76%</td></tr><tr><td class="c-pos">107</td><td class="c-name">깐 반나부디(I)</td><td class="c-score">+3</td><td class="c-pct">0.00%</td><td class="c-pct">1.22%</td></tr><tr><td class="c-pos">108</td><td class="c-name">김가희2</td><td class="c-score">+3</td><td class="c-pct">0.02%</td><td class="c-pct">1.44%</td></tr><tr><td class="c-pos">109</td><td class="c-name">빳차라쭈타 콩끄라판(I)</td><td class="c-score">+3</td><td class="c-pct">0.00%</td><td class="c-pct">1.36%</td></tr><tr><td class="c-pos">110</td><td class="c-name">박효담 1102(A)</td><td class="c-score">+4</td><td class="c-pct">0.00%</td><td class="c-pct">0.40%</td></tr><tr><td class="c-pos">112</td><td class="c-name">손예빈</td><td class="c-score">+4</td><td class="c-pct">0.00%</td><td class="c-pct">1.02%</td></tr><tr><td class="c-pos">113</td><td class="c-name">김지영2</td><td class="c-score">+5</td><td class="c-pct">0.00%</td><td class="c-pct">0.22%</td></tr><tr><td class="c-pos">114</td><td class="c-name">이슬기2</td><td class="c-score">+6</td><td class="c-pct">0.00%</td><td class="c-pct">0.02%</td></tr><tr><td class="c-pos">115</td><td class="c-name">윤서정</td><td class="c-score">+8</td><td class="c-pct">0.00%</td><td class="c-pct">0.00%</td></tr><tr><td class="c-pos">116</td><td class="c-name">정지효</td><td class="c-score">+11</td><td class="c-pct">0.00%</td><td class="c-pct">0.00%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<section class="unavailable">
+  <h2>R1 DATA UNAVAILABLE (5명 — 공식 1R 리더보드에 데이터 없음)</h2>
+  <ul>
+    <li><span class="m-name">이다연</span><span class="m-code">player_code=8392</span></li><li><span class="m-name">홍정민</span><span class="m-code">player_code=9750</span></li><li><span class="m-name">박보겸</span><span class="m-code">player_code=9431</span></li><li><span class="m-name">정슬기</span><span class="m-code">player_code=8424</span></li><li><span class="m-name">허윤서</span><span class="m-code">player_code=9728</span></li>
+  </ul>
+</section>
+
+<footer>
+  <div class="footer-line">&copy; 2026 NEO GOLF DATA. All Rights Reserved.</div>
+  <div class="footer-line">Predictions and probability models are proprietary to NEO GOLF DATA.</div>
+  <div class="footer-line">Tournament results and player information are based on publicly available data.</div>
+</footer>
