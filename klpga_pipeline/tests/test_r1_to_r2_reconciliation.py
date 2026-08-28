@@ -74,6 +74,51 @@ def test_unrecognized_status_text_maps_to_unresolved_never_crashes():
 
 
 # ---------------------------------------------------------------
+# outcome_from_official_r2 — real-site fix: no Round 2 row at all,
+# fall back to Round 1 presence/absence evidence (never rank-based)
+# ---------------------------------------------------------------
+
+
+def test_absent_from_r2_but_completed_r1_maps_to_missed_cut():
+    r1 = _official("p1", round_score=72, score_to_par=1, status=None)
+    assert outcome_from_official_r2(None, r1) == CUT_OUTCOME_MISSED
+
+
+def test_absent_from_r2_and_r1_shows_wd_maps_to_wd_not_missed():
+    r1 = _official("p1", round_score=None, score_to_par=None, status="WD")
+    assert outcome_from_official_r2(None, r1) == CUT_OUTCOME_WD
+
+
+def test_absent_from_r2_and_r1_shows_dq_maps_to_dq_not_missed():
+    r1 = _official("p1", round_score=None, score_to_par=None, status="DQ")
+    assert outcome_from_official_r2(None, r1) == CUT_OUTCOME_DQ
+
+
+def test_absent_from_r2_and_r1_also_has_no_score_stays_unresolved():
+    r1 = _official("p1", round_score=None, score_to_par=None, status=None)
+    assert outcome_from_official_r2(None, r1) == CUT_OUTCOME_UNRESOLVED
+
+
+def test_absent_from_r2_with_no_r1_evidence_at_all_stays_unresolved():
+    assert outcome_from_official_r2(None, None) == CUT_OUTCOME_UNRESOLVED
+
+
+def test_r2_row_present_but_ambiguous_never_falls_back_to_r1():
+    """A genuine (if ambiguous) Round 2 row always wins over Round 1
+    fallback reasoning — the fallback is ONLY for a player missing
+    from Round 2 entirely."""
+    o = _official("p1", status="INCOMPLETE")
+    r1 = _official("p1", round_score=70, score_to_par=-1, status=None)
+    assert outcome_from_official_r2(o, r1) == CUT_OUTCOME_UNRESOLVED
+
+
+def test_r2_made_cut_never_falls_back_to_r1_even_if_r1_looks_odd():
+    o = _official("p1", status=None, round_score=68)
+    r1 = _official("p1", round_score=None, score_to_par=None, status="WD")
+    assert outcome_from_official_r2(o, r1) == CUT_OUTCOME_MADE
+
+
+# ---------------------------------------------------------------
 # reconcile_r1_to_r2 — full field reconciliation + summary
 # ---------------------------------------------------------------
 
@@ -134,3 +179,45 @@ def test_reconcile_empty_official_r2_reports_all_frozen_players_unresolved():
     assert summary["r2_players"] == 0
     assert summary["missing"] == 2
     assert all(r.r2_outcome == CUT_OUTCOME_UNRESOLVED for r in rows)
+
+
+def test_reconcile_with_official_r1_correctly_classifies_real_missed_cuts():
+    """Regression test for the real Windows bug: on the live site, CUT
+    players have NO Round 2 row at all (never a "CUT"-status row) — so
+    reconciliation must consult official_r1 to tell "genuinely missed
+    the cut" apart from "no data yet". Without official_r1 (the
+    previous, pre-fix behavior) every one of p2..p5 would incorrectly
+    fall into UNRESOLVED/excluded rather than a real missed-cut count."""
+    frozen = [_frozen("p1"), _frozen("p2"), _frozen("p3"), _frozen("p4"), _frozen("p5")]
+    official_r1 = {
+        "p1": _official("p1", round_score=70, score_to_par=-2, status=None),
+        "p2": _official("p2", round_score=75, score_to_par=3, status=None),
+        "p3": _official("p3", round_score=76, score_to_par=4, status=None),
+        "p4": _official("p4", round_score=None, score_to_par=None, status="WD"),
+        # p5 has no Round 1 evidence at all either.
+    }
+    official_r2 = {
+        "p1": _official("p1", round_score=68, score_to_par=-4, status=None),
+        # p2, p3, p4, p5 all absent from Round 2 entirely (the real, confirmed site behavior).
+    }
+    rows, summary = reconcile_r1_to_r2(frozen, official_r2, official_r1)
+
+    assert summary["made_cut"] == 1  # p1
+    assert summary["cut"] == 2  # p2, p3 — real Round 1 completion, absent from Round 2
+    assert summary["new_wd"] == 1  # p4
+    assert summary["missing"] == 1  # p5 — no evidence anywhere, never guessed
+    by_code = {r.player_code: r.r2_outcome for r in rows}
+    assert by_code["p2"] == CUT_OUTCOME_MISSED
+    assert by_code["p3"] == CUT_OUTCOME_MISSED
+    assert by_code["p4"] == CUT_OUTCOME_WD
+    assert by_code["p5"] == CUT_OUTCOME_UNRESOLVED
+
+
+def test_reconcile_omitting_official_r1_preserves_old_conservative_behavior():
+    frozen = [_frozen("p1"), _frozen("p2")]
+    official_r2 = {"p1": _official("p1", round_score=68)}
+    rows, summary = reconcile_r1_to_r2(frozen, official_r2)  # no official_r1 passed
+    assert summary["cut"] == 0
+    assert summary["missing"] == 1
+    p2 = next(r for r in rows if r.player_code == "p2")
+    assert p2.r2_outcome == CUT_OUTCOME_UNRESOLVED

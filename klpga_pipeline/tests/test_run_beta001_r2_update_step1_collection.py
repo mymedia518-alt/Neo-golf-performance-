@@ -91,10 +91,11 @@ def test_step1_fetches_and_upserts_real_round2_data(module, tmp_path):
     with patch(
         "klpga.collectors.leaderboard.collect_all_rounds_for_game", return_value={2: round2_rows, 1: []}
     ) as fake:
-        official_round2_rows, final_round_collected = module._collect_and_upsert_round2(conn, args)
+        official_round2_rows, official_round1_rows, final_round_collected = module._collect_and_upsert_round2(conn, args)
 
     assert final_round_collected == 2
     assert official_round2_rows == round2_rows
+    assert official_round1_rows == []  # the fake returned {1: []} here
     fake.assert_called_once()
     assert fake.call_args.kwargs["force_refresh_rounds"] == frozenset({2})
 
@@ -154,9 +155,10 @@ def test_step1_detects_a_real_wd_player_absent_from_round2(module, tmp_path):
         "klpga.collectors.leaderboard.collect_all_rounds_for_game",
         return_value={2: round2_rows, 1: round1_rows},
     ):
-        official_round2_rows, _final = module._collect_and_upsert_round2(conn, args)
+        official_round2_rows, official_round1_rows, _final = module._collect_and_upsert_round2(conn, args)
 
     assert {r.player_code for r in official_round2_rows} == {"p1"}
+    assert {r.player_code for r in official_round1_rows} == {"p1", "p2"}
     written_p2 = conn.execute(
         "SELECT withdrawn FROM player_event WHERE game_code = ? AND player_id = 'p2'", (GAME_CODE,)
     ).fetchone()

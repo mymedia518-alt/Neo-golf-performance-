@@ -15,7 +15,7 @@ fetch_round_leaderboard), never this module's.
 ======================================================================
 STATUS -> CUT OUTCOME MAPPING — real, observed evidence only
 ======================================================================
-The official round-2 leaderboard's own `data-rank` text is the single
+The official round-2 leaderboard's own `data-rank` text is the primary
 source of truth (klpga.parsers.leaderboard_parser.parse_rank already
 extracts this into NormalizedPlayer.status):
   status == "CUT"                              -> CUT_OUTCOME_MISSED
@@ -23,17 +23,37 @@ extracts this into NormalizedPlayer.status):
   status == "DQ"                               -> CUT_OUTCOME_DQ
   status == "INCOMPLETE" (the real 999 sentinel) -> CUT_OUTCOME_UNRESOLVED
   status is None AND a real round_score exists  -> CUT_OUTCOME_MADE
-  status is None AND no round_score at all      -> CUT_OUTCOME_UNRESOLVED
-    (present in the frozen R1 field but genuinely no R2 row yet —
-    never guessed as WD/DQ/CUT; docs/SITE_STRUCTURE_TODO.md's own
-    documented finding is that the site gives no way to distinguish an
-    unresolved 999/INCOMPLETE row from a real WD/DQ, so this module
-    never tries to.)
-No other mapping is ever applied; an unrecognized status string is
-also reported as CUT_OUTCOME_UNRESOLVED rather than crashing, since a
-new, previously-unseen status text on the real site is a real
-possibility this evaluation must survive (SKIP + LOG, never HARD STOP,
-per this project's own local-failure discipline).
+No other mapping is ever applied to a player who DOES have a Round 2
+row; an unrecognized status string on that row is also reported as
+CUT_OUTCOME_UNRESOLVED rather than crashing, since a new, previously-
+unseen status text on the real site is a real possibility this
+evaluation must survive (SKIP + LOG, never HARD STOP, per this
+project's own local-failure discipline).
+
+======================================================================
+A PLAYER WITH NO ROUND 2 ROW AT ALL — real, confirmed site behavior
+======================================================================
+Real Windows execution against the live site confirmed CUT/WD/DQ
+players simply have NO ROW in the Round 2 leaderboard response at all
+— never a "CUT"/"WD"/"DQ" status-text row (matching leaderboard_
+parser.py's own module docstring: no literal WD/DQ text has ever been
+observed live). This is the SAME "player entirely absent from a
+round's response" pattern klpga.collectors.leaderboard.
+collect_all_rounds_for_game's own dropped-player detection already
+relies on for exactly this reason.
+
+So when a player has NO Round 2 row (`o is None`), this module now
+falls back to their OFFICIAL Round 1 row (`r1`, optional, backward
+compatible — omitting it preserves the original, conservative
+UNRESOLVED result):
+  r1 shows an explicit WD/DQ status                -> that status
+  r1 shows a real round_score (Round 1 genuinely
+    completed) AND no Round 2 row exists at all     -> CUT_OUTCOME_MISSED
+    (the tournament's own real single-cut-after-Round-2 outcome — see
+    klpga.neo_win.round_update_r2's own docstring — never a rank/
+    position-based inference; only real presence-vs-absence evidence
+    across the two official rounds is used.)
+  r1 is also unavailable, or has no real round_score -> CUT_OUTCOME_UNRESOLVED
 """
 from __future__ import annotations
 
@@ -53,16 +73,23 @@ from klpga.neo_win.round_reconciliation import NormalizedPlayer
 _KNOWN_STATUS_OUTCOMES = {"CUT": CUT_OUTCOME_MISSED, "WD": CUT_OUTCOME_WD, "DQ": CUT_OUTCOME_DQ}
 
 
-def outcome_from_official_r2(o: Optional[NormalizedPlayer]) -> str:
-    """See module docstring's STATUS -> CUT OUTCOME MAPPING. `o` is
-    None when this player has no row at all in the official R2
-    leaderboard fetch."""
-    if o is None:
-        return CUT_OUTCOME_UNRESOLVED
-    if o.status in _KNOWN_STATUS_OUTCOMES:
-        return _KNOWN_STATUS_OUTCOMES[o.status]
-    if o.status is None and o.round_score is not None:
-        return CUT_OUTCOME_MADE
+def outcome_from_official_r2(o: Optional[NormalizedPlayer], r1: Optional[NormalizedPlayer] = None) -> str:
+    """See module docstring's STATUS -> CUT OUTCOME MAPPING and "A
+    PLAYER WITH NO ROUND 2 ROW AT ALL" sections. `o` is None when this
+    player has no row at all in the official R2 leaderboard fetch;
+    `r1` (optional, default None) is that same player's official Round
+    1 row, consulted ONLY when `o` is None."""
+    if o is not None:
+        if o.status in _KNOWN_STATUS_OUTCOMES:
+            return _KNOWN_STATUS_OUTCOMES[o.status]
+        if o.status is None and o.round_score is not None:
+            return CUT_OUTCOME_MADE
+        return CUT_OUTCOME_UNRESOLVED  # a Round 2 row exists but is ambiguous (e.g. INCOMPLETE/999) — never guessed further
+    if r1 is not None:
+        if r1.status in _KNOWN_STATUS_OUTCOMES:
+            return _KNOWN_STATUS_OUTCOMES[r1.status]
+        if r1.round_score is not None:
+            return CUT_OUTCOME_MISSED
     return CUT_OUTCOME_UNRESOLVED
 
 
@@ -79,12 +106,19 @@ class PlayerR2Reconciled:
 
 
 def reconcile_r1_to_r2(
-    frozen_r1: list[PlayerR1Frozen], official_r2: dict[str, NormalizedPlayer]
+    frozen_r1: list[PlayerR1Frozen], official_r2: dict[str, NormalizedPlayer],
+    official_r1: Optional[dict[str, NormalizedPlayer]] = None,
 ) -> tuple[list[PlayerR2Reconciled], dict]:
     """Pure function — no I/O, no fabrication. `player_code` is the
     ONLY join key (project-wide identity rule); a code present on only
     one side still appears, with the other side's fields None/False,
-    never dropped and never merged by name."""
+    never dropped and never merged by name.
+
+    `official_r1` (optional, default None — fully backward compatible)
+    is the official Round 1 leaderboard, normalized the same way as
+    `official_r2`; see module docstring's "A PLAYER WITH NO ROUND 2
+    ROW AT ALL" section for why this is needed."""
+    official_r1 = official_r1 or {}
     frozen_by_code = {r.player_code: r for r in frozen_r1}
     all_codes = set(frozen_by_code) | set(official_r2)
 
@@ -92,7 +126,8 @@ def reconcile_r1_to_r2(
     for code in sorted(all_codes):
         f = frozen_by_code.get(code)
         o = official_r2.get(code)
-        outcome = outcome_from_official_r2(o)
+        r1o = official_r1.get(code)
+        outcome = outcome_from_official_r2(o, r1o)
         name = (o.player_name if o else None) or (f.player_name if f else None) or ""
         rows.append(
             PlayerR2Reconciled(

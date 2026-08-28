@@ -60,6 +60,46 @@ def test_r1_historical_html_unchanged_fails_when_missing(tmp_path):
     assert result["passed"] is False
 
 
+def test_r1_historical_html_unchanged_tolerates_raw_certutil_output(tmp_path):
+    """Real-world fix: Windows `certutil -hashfile <path> SHA256` prints
+    the hash surrounded by header/footer lines. Pasting that raw output
+    in must not produce a false mismatch when the file genuinely never
+    changed."""
+    path = tmp_path / "r1.html"
+    path.write_text("frozen content", encoding="utf-8")
+    expected = hashlib.sha256(path.read_bytes()).hexdigest()
+    raw_certutil_output = (
+        f"SHA256 hash of {path}:\n{expected}\nCertUtil: -hashfile command completed successfully."
+    )
+    result = check_r1_historical_html_unchanged(path, raw_certutil_output)
+    assert result["passed"] is True
+
+
+def test_r1_historical_html_unchanged_tolerates_uppercase_and_whitespace(tmp_path):
+    path = tmp_path / "r1.html"
+    path.write_text("frozen content", encoding="utf-8")
+    expected = hashlib.sha256(path.read_bytes()).hexdigest()
+    result = check_r1_historical_html_unchanged(path, f"  {expected.upper()}  \r\n")
+    assert result["passed"] is True
+
+
+def test_r1_historical_html_unchanged_reports_distinct_failure_for_malformed_expected(tmp_path):
+    path = tmp_path / "r1.html"
+    path.write_text("frozen content", encoding="utf-8")
+    result = check_r1_historical_html_unchanged(path, "not-a-real-hash")
+    assert result["passed"] is False
+    assert "no real 64-character SHA-256" in result["detail"]
+
+
+def test_r1_historical_html_unchanged_still_fails_on_a_genuinely_different_hash(tmp_path):
+    """The tolerant parsing must never mask a real difference."""
+    path = tmp_path / "r1.html"
+    path.write_text("frozen content", encoding="utf-8")
+    wrong_hash = "0" * 64
+    result = check_r1_historical_html_unchanged(path, wrong_hash)
+    assert result["passed"] is False
+
+
 def test_frozen_r1_values_unchanged_passes_for_identical_rows():
     rows = [_frozen("p1")]
     result = check_frozen_r1_values_unchanged(rows, rows)

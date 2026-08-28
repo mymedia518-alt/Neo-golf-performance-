@@ -12,7 +12,12 @@ INPUTS THIS FUNCTION NEVER COLLECTS ITSELF
 ======================================================================
 `official_r2` (Section B's real official R2 leaderboard, already
 normalized via klpga.neo_win.round_reconciliation.normalize_official_
-round) and `r2_model_entrants` (Section G's real R2 model calculation,
+round), `official_r1` (that same normalization for Round 1 — optional,
+but required for correct real-site CUT classification; see klpga.
+neo_win.r1_to_r2_reconciliation's own docstring for why a player who
+missed the cut has NO Round 2 row at all on the real site, so Round 1
+presence/absence evidence is what classifies them), and
+`r2_model_entrants` (Section G's real R2 model calculation,
 already produced via klpga.neo_win.round_update_r2.
 simulate_post_round2 against the real DB) are both supplied by the
 caller. This keeps collection/DB/model-simulation concerns OUT of this
@@ -130,6 +135,7 @@ def run_r2_evaluation_pipeline(
     output_root: Path,
     r1_html_path: Optional[Path] = None,
     r1_html_expected_sha256: Optional[str] = None,
+    official_r1: Optional[dict] = None,
 ) -> dict:
     """Runs STEP1-STEP8 and STEP10 (STEP9, the real production update,
     is never performed here — see module docstring). Returns
@@ -156,7 +162,7 @@ def run_r2_evaluation_pipeline(
         html_rows = parse_published_r1_html(Path(r1_html_path).read_text(encoding="utf-8"))
         steps["STEP_A_HTML_CROSS_CHECK"] = validate_rows_against_published_html(frozen_r1, html_rows)
 
-    reconciled_rows, reconciliation_summary = reconcile_r1_to_r2(frozen_r1, official_r2)
+    reconciled_rows, reconciliation_summary = reconcile_r1_to_r2(frozen_r1, official_r2, official_r1)
     steps["STEP2_RECONCILIATION"] = reconciliation_summary
 
     eval_rows, excluded = build_player_cut_evaluation_rows(frozen_r1, reconciled_rows)

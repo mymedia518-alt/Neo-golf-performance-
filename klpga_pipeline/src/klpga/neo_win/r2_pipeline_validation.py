@@ -9,22 +9,51 @@ before it is ever allowed to touch the real production docs/index.html
 from __future__ import annotations
 
 import hashlib
+import re
 from pathlib import Path
+
+_SHA256_HEX_RE = re.compile(r"[0-9a-fA-F]{64}")
+"""Matches a bare SHA-256 hex digest anywhere in a string. Real-world
+fix: Windows' `certutil -hashfile <path> SHA256` prints the hash
+surrounded by a "SHA256 hash of ..." header line and a "CertUtil:
+... completed successfully." footer line — pasting that raw multi-line
+output into --r1-html-expected-sha256 would otherwise make this check
+report a false mismatch even when the file genuinely never changed.
+Extracting the hex substring keeps the check's real guarantee (the
+extracted 64 hex characters must still match exactly) while tolerating
+that copy-paste noise."""
 
 
 def check_r1_historical_html_unchanged(r1_html_path: Path, expected_sha256: str) -> dict:
     """The R1 historical snapshot (docs/tournaments/.../r1/index.html)
     must NEVER be modified by this pipeline. `expected_sha256` is the
     hash recorded BEFORE the pipeline ran; this re-hashes the file
-    AFTER to prove nothing touched it."""
+    AFTER to prove nothing touched it. Only a real 64-hex-character
+    SHA-256 digest found anywhere in `expected_sha256` is compared
+    (see _SHA256_HEX_RE) — if none is found at all, that is reported
+    as its own distinct failure, never silently treated as a match or
+    folded into an ordinary hash-mismatch message."""
     path = Path(r1_html_path)
     if not path.exists():
         return {"check": "R1_HISTORICAL_HTML_UNCHANGED", "passed": False, "detail": f"{path} does not exist"}
     actual = hashlib.sha256(path.read_bytes()).hexdigest()
+
+    match = _SHA256_HEX_RE.search(expected_sha256 or "")
+    if match is None:
+        return {
+            "check": "R1_HISTORICAL_HTML_UNCHANGED",
+            "passed": False,
+            "detail": (
+                f"--r1-html-expected-sha256={expected_sha256!r} contains no real 64-character SHA-256 hex "
+                f"value — pass ONLY the hash itself (e.g. from `certutil -hashfile <path> SHA256`, not its "
+                f"header/footer lines). actual sha256={actual}"
+            ),
+        }
+    expected_hex = match.group(0).lower()
     return {
         "check": "R1_HISTORICAL_HTML_UNCHANGED",
-        "passed": actual == expected_sha256,
-        "detail": f"expected sha256={expected_sha256} actual sha256={actual}",
+        "passed": actual == expected_hex,
+        "detail": f"expected sha256={expected_hex} actual sha256={actual}",
     }
 
 
