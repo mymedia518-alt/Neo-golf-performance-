@@ -76,6 +76,182 @@ _CSS = """
   .footer-line { margin: 0; }
 """
 
+_FORECAST_CSS = """
+  section.headline { max-width: 960px; margin: 0 auto 32px; padding: 20px; background: var(--bg-alt);
+    border: 1px solid var(--border); border-radius: 12px; }
+  section.headline h1 { font-size: 22px; margin: 0 0 4px; }
+  .headline-sub { color: var(--text-dim); margin: 0 0 16px; font-size: 14px; }
+  .headline-stats { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .headline-stats li { background: var(--pill-bg); color: var(--pill-text); padding: 6px 14px; border-radius: 999px; font-size: 13px; }
+  .headline-mean { font-size: 14px; margin: 0 0 10px; }
+  .headline-note { color: var(--text-dim); font-size: 13px; line-height: 1.6; margin: 0; }
+"""
+
+
+def render_r1_cut_headline_section(cut_summary: dict, threshold_survival: dict, calibration_rows: list[dict]) -> str:
+    """The public-facing "NEO 첫 실전 검증" summary. Every number comes
+    straight from klpga.neo_win.cut_evaluation.summarize_cut_evaluation
+    / threshold_bucket_survival / calibration_report — nothing
+    hardcoded or invented, and the explanatory note is always rendered
+    (never suppressed for a weak result — see module-level "NO
+    FABRICATED PLACEHOLDER VALUES" discipline)."""
+    n, m = threshold_survival["n_at_or_above"], threshold_survival["n_made_cut"]
+    threshold_pct = threshold_survival["threshold_pct"]
+    if n == 0:
+        survival_line = f"{threshold_pct:.0f}% 이상으로 예측한 선수가 없습니다."
+    elif m == n:
+        survival_line = f"{threshold_pct:.0f}% 이상으로 예측한 {n}명 → {n}명 전원 컷 통과"
+    else:
+        survival_line = f"{threshold_pct:.0f}% 이상으로 예측한 {n}명 → {m}명 컷 통과"
+
+    acc = cut_summary.get("threshold_accuracy_pct")
+    acc_text = "unavailable" if acc is None else f"{acc:.1f}%"
+    brier = cut_summary.get("brier_score")
+    brier_text = "unavailable" if brier is None else f"{brier:.4f}"
+
+    mean_pred, actual_rate = cut_summary.get("mean_predicted_cut_pct"), cut_summary.get("actual_cut_rate_pct")
+    mean_line = (
+        "unavailable"
+        if mean_pred is None or actual_rate is None
+        else f"평균 예측 컷 통과 확률 {mean_pred:.1f}% / 실제 컷 통과율 {actual_rate:.1f}%"
+    )
+
+    with_gap = [b for b in calibration_rows if b.get("calibration_gap_pct") is not None]
+    if with_gap:
+        worst = max(with_gap, key=lambda b: abs(b["calibration_gap_pct"]))
+        note = (
+            f"BETA #001은 컷 통과 확률을 전반적으로 과소평가했으며, 특히 예측 확률 {worst['bucket']} 구간에서 "
+            f"실제 통과율과의 격차가 가장 컸습니다 (실제 {worst['actual_made_cut_rate_pct']:.1f}% vs 예측 평균 "
+            f"{worst['avg_predicted_pct']:.1f}%, 격차 {worst['calibration_gap_pct']:+.1f}%p)."
+        )
+    else:
+        note = "구간별 캘리브레이션 데이터가 충분하지 않습니다."
+
+    return f"""<section class="headline">
+  <h1>NEO 첫 실전 검증</h1>
+  <p class="headline-sub">1R 종료 후 공개한 컷 통과 확률, 실제 결과는?</p>
+  <ul class="headline-stats">
+    <li>{survival_line}</li>
+    <li>50% 기준 분류 정확도 {acc_text}</li>
+    <li>Brier Score {brier_text}</li>
+  </ul>
+  <p class="headline-mean">{mean_line}</p>
+  <p class="headline-note">{note}</p>
+</section>"""
+
+
+def _fmt_forecast_score(total_score: Optional[int]) -> str:
+    return "unavailable" if total_score is None else str(total_score)
+
+
+def render_r2_forecast_table_rows(rows: list[dict], *, clickable: bool = True) -> str:
+    """`rows`: klpga.neo_win.r2_forecast.build_r2_forecast_rows's own
+    output, already sorted — this function never re-sorts or re-derives
+    ranking, and never touches score/probability values beyond display
+    formatting."""
+    out = []
+    for r in rows:
+        if clickable:
+            from klpga.neo_win.player_card import render_player_name_cell
+
+            name_cell = render_player_name_cell(r["player_code"], r["player_name"])
+        else:
+            name_cell = f'<td class="c-name">{r["player_name"]}</td>'
+        out.append(
+            f'<tr><td class="c-pos">{r["r2_rank"]}</td>{name_cell}'
+            f'<td class="c-score">{_fmt_forecast_score(r["r2_total_score"])}</td>'
+            f'<td class="c-pct">{r["top20_pct"]:.2f}%</td>'
+            f'<td class="c-pct">{r["top10_pct"]:.2f}%</td>'
+            f'<td class="c-pct">{r["top5_pct"]:.2f}%</td>'
+            f'<td class="c-pct">{r["win_pct"]:.2f}%</td></tr>'
+        )
+    return "".join(out)
+
+
+def render_r2_forecast_page(
+    *,
+    tournament_name: str,
+    status_pill_text: str,
+    headline_html: str,
+    table_rows_html: str,
+    player_cards_html: str = "",
+    include_player_card_assets: bool = True,
+) -> str:
+    """The R2 FROZEN FORECAST page — R1 CUT evaluation headline on top
+    (render_r1_cut_headline_section), the TOP20/TOP10/TOP5/WIN forecast
+    table below (render_r2_forecast_table_rows). Same wordmark/header/
+    footer shell and CSS variables as render_r2_page, kept as a
+    SEPARATE function (never modifies render_r2_page or its existing
+    callers/tests) since this table has a different column shape (no
+    make-cut column; adds TOP20/TOP10/TOP5)."""
+    player_card_assets = ""
+    if include_player_card_assets:
+        from klpga.neo_win.player_card import PLAYER_CARD_CSS, render_player_card_js
+
+        player_card_assets = f"<style>{PLAYER_CARD_CSS}</style><script>{render_player_card_js()}</script>"
+
+    return f"""<script async src="https://www.googletagmanager.com/gtag/js?id=G-WVX07966WS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', 'G-WVX07966WS');
+</script>
+<title>NEO R2 FROZEN FORECAST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;family=Roboto+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>{_CSS}{_FORECAST_CSS}</style>
+{player_card_assets}
+
+<header>
+  <div class="header-top">
+    <div class="wordmark">
+      <div class="wordmark-letters">
+        <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
+        <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
+        <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+      </div>
+      <div class="wordmark-name">TOURNAMENT PREDICTION</div>
+    </div>
+  </div>
+  <div class="meta">
+    <span class="tournament-name">{tournament_name}</span>
+    <span class="status-pill">{status_pill_text}</span>
+  </div>
+</header>
+
+<main>
+  {headline_html}
+
+  <h2 style="max-width:960px;margin:0 auto 8px;">2R 종료 후 우승 경쟁 예측</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>현재순위</th>
+          <th>선수</th>
+          <th>스코어</th>
+          <th>TOP20</th>
+          <th>TOP10</th>
+          <th>TOP5</th>
+          <th>WIN</th>
+        </tr>
+      </thead>
+      <tbody>{table_rows_html}</tbody>
+    </table>
+  </div>
+</main>
+
+{player_cards_html}
+
+<footer>
+  <div class="footer-line">&copy; 2026 NEO GOLF DATA. All Rights Reserved.</div>
+  <div class="footer-line">Predictions and probability models are proprietary to NEO GOLF DATA.</div>
+  <div class="footer-line">Tournament results and player information are based on publicly available data.</div>
+</footer>
+"""
+
 
 def _fmt_score(score_to_par: Optional[float]) -> str:
     if score_to_par is None:

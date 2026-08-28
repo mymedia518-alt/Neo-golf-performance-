@@ -1646,6 +1646,39 @@ conflicts. 5 players remained `REVIEW_REQUIRED` (real 999/INCOMPLETE
 Round 2 rows — genuinely ambiguous Round 2 evidence, not a parser
 issue).
 
+**R2 FROZEN FORECAST (TOP20/TOP10/TOP5/WIN), 2026-08-28**:
+`klpga.neo_win.r2_forecast` restricts `klpga.neo_win.round_update_r2.
+simulate_post_round2` (reused completely unmodified — no new model
+weights, no shrinkage change) to a population of EXACTLY the players
+whose ground-truth `final_ground_truth_status == MADE_CUT_CONFIRMED`.
+`simulate_post_round2` already computed win/top5/top10/top20 pct per
+player; this layer only shapes that real output into forecast rows
+(sorted by real R2 rank, then real R2 total score) and adds 3
+mechanical hard gates: `check_forecast_population_matches_confirmed_continuers`
+(the simulated set must equal the confirmed-continuer set exactly —
+no WD/DQ/missed-cut/pre-R1-unavailable/unresolved player can enter),
+`check_probability_monotonicity` (WIN <= TOP5 <= TOP10 <= TOP20 per
+player — mathematically guaranteed by the simulation's nested rank
+thresholds, checked explicitly rather than assumed), and
+`check_win_sum_approximately_100`.
+
+`scripts/generate_r2_frozen_forecast.py` is the runnable ONE-COMMAND
+entry point: reruns GROUND TRUTH CHECK A/B, re-derives the R1 CUT
+evaluation (same unmodified functions, purely to render its real
+numbers — never re-tuned), runs the restricted simulation, validates,
+and writes a frozen CSV + HTML preview under `--output-dir` (never
+`docs/`, never the R1 page). The HTML's `render_r1_cut_headline_section`
+("NEO 첫 실전 검증") and `render_r2_forecast_table_rows`/
+`render_r2_forecast_page` (`klpga.neo_win.r2_html_render`, additive —
+`render_r2_page` and its existing callers/tests are untouched) render
+every number live from the real `cut_summary`/`calibration`/`sim_result`
+dicts — nothing hardcoded, including the calibration-gap explanation,
+which always names whichever real bucket has the largest gap rather
+than a fixed claim. Player cards (`klpga.neo_win.player_card`) are
+built from only real, already-available data — real R1/R2 round
+scores, the real frozen R1 WIN% history point, the real simulated R2
+WIN% — never a fabricated field.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026

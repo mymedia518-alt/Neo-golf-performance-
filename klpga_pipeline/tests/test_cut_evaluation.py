@@ -25,6 +25,7 @@ from klpga.neo_win.cut_evaluation import (
     calibration_report,
     summarize_cut_evaluation,
     threshold_accuracy,
+    threshold_bucket_survival,
 )
 
 
@@ -288,3 +289,39 @@ def test_summarize_all_none_when_no_evaluated_players():
     assert summary["brier_score"] is None
     assert summary["log_loss"] is None
     assert summary["threshold_accuracy_pct"] is None
+
+
+# ---------------------------------------------------------------
+# threshold_bucket_survival
+# ---------------------------------------------------------------
+
+
+def test_threshold_bucket_survival_counts_real_players_at_or_above():
+    rows = [
+        _row("p1", "A", 80.0, CUT_OUTCOME_MADE),
+        _row("p2", "B", 45.0, CUT_OUTCOME_MADE),
+        _row("p3", "C", 40.0, CUT_OUTCOME_MISSED),
+        _row("p4", "D", 20.0, CUT_OUTCOME_MISSED),
+    ]
+    result = threshold_bucket_survival(rows, 40.0)
+    assert result["threshold_pct"] == 40.0
+    assert result["n_at_or_above"] == 3  # p1, p2, p3
+    assert result["n_made_cut"] == 2  # p1, p2
+
+
+def test_threshold_bucket_survival_excludes_wd_dq_unresolved():
+    rows = [
+        _row("p1", "A", 80.0, CUT_OUTCOME_MADE),
+        _row("p2", "B", 80.0, CUT_OUTCOME_WD),
+        _row("p3", "C", 80.0, CUT_OUTCOME_UNRESOLVED),
+    ]
+    result = threshold_bucket_survival(rows, 40.0)
+    assert result["n_at_or_above"] == 1
+    assert result["n_made_cut"] == 1
+
+
+def test_threshold_bucket_survival_zero_when_nothing_at_or_above():
+    rows = [_row("p1", "A", 10.0, CUT_OUTCOME_MISSED)]
+    result = threshold_bucket_survival(rows, 40.0)
+    assert result["n_at_or_above"] == 0
+    assert result["n_made_cut"] == 0

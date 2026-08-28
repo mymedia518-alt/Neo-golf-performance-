@@ -220,6 +220,18 @@ def best_and_worst_predictions(
     return best, worst
 
 
+def threshold_bucket_survival(rows: list[PlayerCutEvaluationRow], threshold_pct: float) -> dict:
+    """Real count of evaluated players whose frozen R1 make-cut
+    prediction was >= threshold_pct, and how many of THOSE actually
+    made the cut — for headline reporting (e.g. "predicted 40%+, N
+    players, M survived"). Never a fabricated count; n_made_cut is 0
+    (not None) when n_at_or_above is 0."""
+    evaluated = _evaluated(rows)
+    at_or_above = [r for r in evaluated if r.r1_make_cut_pct >= threshold_pct]
+    made = sum(1 for r in at_or_above if r.actual_cut == 1)
+    return {"threshold_pct": threshold_pct, "n_at_or_above": len(at_or_above), "n_made_cut": made}
+
+
 def summarize_cut_evaluation(rows: list[PlayerCutEvaluationRow]) -> dict:
     evaluated = _evaluated(rows)
     made = sum(1 for r in evaluated if r.actual_cut == 1)

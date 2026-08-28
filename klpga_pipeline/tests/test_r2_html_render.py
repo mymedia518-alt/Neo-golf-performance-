@@ -13,7 +13,10 @@ from klpga.neo_win.cut_evaluation import PlayerCutEvaluationRow
 from klpga.neo_win.r1_r2_evaluation_report import top5_best_and_biggest_misses
 from klpga.neo_win.r2_html_render import (
     R1_FROZEN_DISCLOSURE_SENTENCE,
+    render_r1_cut_headline_section,
     render_r1_model_scorecard_section,
+    render_r2_forecast_page,
+    render_r2_forecast_table_rows,
     render_r2_page,
     render_r2_table_rows,
 )
@@ -125,3 +128,87 @@ def test_render_r2_page_includes_ga4_exactly_once_and_scorecard():
     assert "STUB" in page
     assert "Test Open" in page
     assert "Round 2 Complete" in page
+
+
+# ---------------------------------------------------------------
+# render_r1_cut_headline_section — R2 FROZEN FORECAST's public headline
+# ---------------------------------------------------------------
+
+
+def _cut_summary(**overrides):
+    base = {
+        "n_evaluated": 110, "n_r1_players": 115, "actual_made_cut_count": 62, "actual_missed_cut_count": 48,
+        "wd_count": 0, "wd_after_r1_start_count": 5, "dq_count": 0, "unresolved_count": 0,
+        "threshold_accuracy_pct": 68.1818, "brier_score": 0.207404, "log_loss": 0.892103,
+        "mean_predicted_cut_pct": 30.3664, "actual_cut_rate_pct": 56.3636,
+    }
+    base.update(overrides)
+    return base
+
+
+def test_headline_renders_all_survivors_phrasing_when_100pct():
+    threshold_survival = {"threshold_pct": 40.0, "n_at_or_above": 35, "n_made_cut": 35}
+    html = render_r1_cut_headline_section(_cut_summary(), threshold_survival, [])
+    assert "NEO 첫 실전 검증" in html
+    assert "1R 종료 후 공개한 컷 통과 확률, 실제 결과는?" in html
+    assert "40% 이상으로 예측한 35명 → 35명 전원 컷 통과" in html
+    assert "68.2%" in html
+    assert "0.2074" in html
+    assert "평균 예측 컷 통과 확률 30.4% / 실제 컷 통과율 56.4%" in html
+
+
+def test_headline_renders_partial_survival_phrasing_when_not_100pct():
+    threshold_survival = {"threshold_pct": 40.0, "n_at_or_above": 10, "n_made_cut": 7}
+    html = render_r1_cut_headline_section(_cut_summary(), threshold_survival, [])
+    assert "10명 → 7명 컷 통과" in html
+    assert "전원" not in html
+
+
+def test_headline_never_hides_the_worst_calibration_gap():
+    calibration = [
+        {"bucket": "0-20%", "n": 48, "avg_predicted_pct": 10.0, "actual_made_cut_rate_pct": 18.75, "calibration_gap_pct": 8.75},
+        {"bucket": "40-60%", "n": 16, "avg_predicted_pct": 50.0, "actual_made_cut_rate_pct": 100.0, "calibration_gap_pct": 50.0},
+    ]
+    html = render_r1_cut_headline_section(_cut_summary(), {"threshold_pct": 40.0, "n_at_or_above": 0, "n_made_cut": 0}, calibration)
+    assert "40-60%" in html  # the worse gap, not the smaller 0-20% one
+    assert "50.0%p" in html or "+50.0%p" in html
+
+
+# ---------------------------------------------------------------
+# render_r2_forecast_table_rows / render_r2_forecast_page
+# ---------------------------------------------------------------
+
+
+def _forecast_row(code="p1", name="A", rank="1", score=140, top20=80.0, top10=50.0, top5=30.0, win=10.0):
+    return {
+        "player_code": code, "player_name": name, "r2_rank": rank, "r2_total_score": score,
+        "top20_pct": top20, "top10_pct": top10, "top5_pct": top5, "win_pct": win,
+    }
+
+
+def test_forecast_table_rows_render_all_seven_columns_worth_of_data():
+    html = render_r2_forecast_table_rows([_forecast_row()], clickable=False)
+    assert "<td class=\"c-pos\">1</td>" in html
+    assert "140" in html
+    assert "80.00%" in html and "50.00%" in html and "30.00%" in html and "10.00%" in html
+
+
+def test_forecast_table_rows_clickable_uses_player_name_cell():
+    html = render_r2_forecast_table_rows([_forecast_row()], clickable=True)
+    assert "player-card-trigger" in html or "button" in html.lower()
+
+
+def test_forecast_page_includes_headline_and_table_and_player_cards():
+    headline = "<section class=\"headline\">STUB HEADLINE</section>"
+    table = render_r2_forecast_table_rows([_forecast_row()], clickable=False)
+    page = render_r2_forecast_page(
+        tournament_name="Test Open", status_pill_text="2라운드 종료", headline_html=headline,
+        table_rows_html=table, player_cards_html="<div>STUB CARD</div>", include_player_card_assets=True,
+    )
+    assert "STUB HEADLINE" in page
+    assert "TOP20" in page and "TOP10" in page and "TOP5" in page and "WIN" in page
+    assert "현재순위" in page
+    assert "STUB CARD" in page
+    assert "player-card-trigger" in page or "PLAYER_CARD" in page.upper()
+    assert "Test Open" in page
+    assert "2라운드 종료" in page
