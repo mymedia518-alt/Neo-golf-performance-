@@ -76,6 +76,7 @@ from klpga.neo_win.player_card import (  # noqa: E402
 )
 from klpga.neo_win.r1_frozen_snapshot import SOURCE_NONE, load_frozen_r1_snapshot  # noqa: E402
 from klpga.neo_win.r2_pipeline_validation import check_r1_historical_html_unchanged, run_all_validations  # noqa: E402
+from klpga.neo_win.r2_html_render import derive_score_to_par  # noqa: E402
 from klpga.neo_win.r2_production_page import (  # noqa: E402
     render_calibration_section,
     render_production_hero_section,
@@ -91,6 +92,7 @@ from klpga.neo_win.r2_production_validation import (  # noqa: E402
     check_no_fabricated_extra_rows,
     check_player_card_present_for_every_row,
     check_probabilities_render_exactly,
+    check_score_to_par_matches_par_arithmetic,
     check_win_sum_from_source,
 )
 
@@ -101,6 +103,7 @@ DEFAULT_C_PREDICTIONS_DIR = ROOT / "neo_win_c_predictions"
 DEFAULT_HISTORY_DIR = ROOT / "neo_tournament_history"
 DEFAULT_OUTPUTS_CSV = ROOT / "outputs" / "beta001_r1" / "BETA001_R1_FULL.csv"
 CUT_HEADLINE_THRESHOLD_PCT = 40.0
+DEFAULT_COURSE_PAR = 72  # KG 레이디스 오픈, user-confirmed; override with --course-par for a different course.
 
 
 def _load_pre_snapshot(args):
@@ -178,6 +181,12 @@ def main() -> int:
     parser.add_argument("--r2-html-path", default=None, help="Defaults to <repo-root>/docs/tournaments/2026/kg-ladies-open/r2/index.html")
     parser.add_argument("--root-index-path", default=None, help="Defaults to <repo-root>/docs/index.html")
     parser.add_argument("--expected-population", type=int, default=None)
+    parser.add_argument(
+        "--course-par", type=int, default=DEFAULT_COURSE_PAR,
+        help="Per-round course par, used only to derive the R2 to-par '스코어' column/player-card field "
+        "from the already-official cumulative r2_total_score (par_total = course_par * 2). "
+        f"Defaults to {DEFAULT_COURSE_PAR} (KG 레이디스 오픈).",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Run every gate and print the report, but write nothing.")
     args = parser.parse_args()
 
@@ -228,11 +237,13 @@ def main() -> int:
         for e in pre_snapshot.predictions:
             pre_win_pct_by_code[e.player_code] = e.win_probability * 100.0
 
+    r2_par_total = args.course_par * 2
+
     # === render (in memory) -- nothing is written to disk yet ===
     hero_html = render_production_hero_section(cut_summary, threshold_survival, calibration)
     calibration_html = render_calibration_section(calibration)
-    table_rows_html = render_r2_forecast_table_rows(forecast_rows, clickable=True)
-    forecast_section_html = render_r2_forecast_section(table_rows_html)
+    table_rows_html = render_r2_forecast_table_rows(forecast_rows, clickable=True, par_total=r2_par_total)
+    forecast_section_html = render_r2_forecast_section(table_rows_html, show_score_to_par=True)
 
     player_cards_html_parts = []
     for row in forecast_rows:
@@ -245,10 +256,14 @@ def main() -> int:
             probability_history.append(ProbabilityHistoryPoint(stage="R1", win_pct=f.r1_win_probability_pct))
         probability_history.append(ProbabilityHistoryPoint(stage="R2", win_pct=row["win_pct"]))
 
+        total_strokes = row["r2_total_score"]
+        score_to_par = derive_score_to_par(total_strokes, r2_par_total)
+
         data = PlayerCardData(
             player_code=code, player_name=row["player_name"], tournament_name=args.tournament_name,
             stage_display="2라운드", win_pct=row["win_pct"], current_position=row["r2_rank"],
-            current_score_to_par=None, cut_status=CUT_OUTCOME_MADE, cut_pct=None,
+            current_score_to_par=score_to_par, total_strokes=total_strokes,
+            cut_status=CUT_OUTCOME_MADE, cut_pct=None,
             probability_history=tuple(probability_history), round_scores=(),
             total_score_to_par=None, sample_size_rounds=None, expected_round_score=None, consistency_stddev=None,
             why_text=build_why_text("R2"), tournament_id=args.game_code, stage="R2",
@@ -272,6 +287,7 @@ def main() -> int:
         check_no_fabricated_extra_rows(forecast_rows, page_html),
         check_ga4_present_exactly_once(page_html),
         check_player_card_present_for_every_row(forecast_rows, page_html),
+        check_score_to_par_matches_par_arithmetic(forecast_rows, r2_par_total, page_html),
     ]
     validation = run_all_validations(checks)
 
@@ -307,6 +323,7 @@ def main() -> int:
     print("=== RESULT ===")
     print(f"Production player count: {len(forecast_rows)}")
     print(f"WIN sum: {sum(r['win_pct'] for r in forecast_rows):.4f}")
+    print(f"Course par: {args.course_par} (R2 par total: {r2_par_total})")
     print(f"R1 SHA-256 before: {r1_sha_before}")
     print(f"R1 SHA-256 after:  {r1_sha_after}")
     print(f"Root homepage: {root_index_path}")

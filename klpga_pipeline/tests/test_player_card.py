@@ -165,6 +165,26 @@ def test_missing_round_scores_omits_tournament_result_section():
     assert "이번 대회 성적" not in html
 
 
+def test_total_strokes_none_leaves_current_position_block_unchanged():
+    html_without = render_player_card_html(_card(current_position="1", current_score_to_par=-9))
+    html_with_default = render_player_card_html(_card(current_position="1", current_score_to_par=-9, total_strokes=None))
+    assert html_without == html_with_default
+    assert "합계타수" not in html_without
+
+
+def test_total_strokes_present_adds_score_summary_field():
+    html = render_player_card_html(_card(current_position="1", current_score_to_par=-9, total_strokes=135))
+    assert "합계타수" in html
+    assert '<span class="pc-value">135</span>' in html
+    assert '<span class="pc-value">-9</span>' in html
+
+
+def test_total_strokes_alone_renders_current_position_block():
+    html = render_player_card_html(_card(total_strokes=138))
+    assert "합계타수" in html
+    assert '<span class="pc-value">138</span>' in html
+
+
 def test_round_scores_and_total_render():
     data = _card(
         round_scores=(RoundScoreRow(1, 69, -3), RoundScoreRow(2, 71, -1)),

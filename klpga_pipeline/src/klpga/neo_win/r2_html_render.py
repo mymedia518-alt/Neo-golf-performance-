@@ -144,11 +144,38 @@ def _fmt_forecast_score(total_score: Optional[int]) -> str:
     return "unavailable" if total_score is None else str(total_score)
 
 
-def render_r2_forecast_table_rows(rows: list[dict], *, clickable: bool = True) -> str:
+def derive_score_to_par(total_score: Optional[int], par_total: Optional[int]) -> Optional[int]:
+    """Pure arithmetic derivation of a to-par score from an official
+    cumulative stroke total — `total_score - par_total`. Never guesses:
+    returns None (never a fabricated 0/E) whenever either input is
+    missing, so a caller with no confirmed par constant simply gets no
+    to-par value rather than a wrong one."""
+    if total_score is None or par_total is None:
+        return None
+    return total_score - par_total
+
+
+def _fmt_score_to_par(value: Optional[int]) -> str:
+    if value is None:
+        return "unavailable"
+    if value == 0:
+        return "E"
+    return f"+{value}" if value > 0 else str(value)
+
+
+def render_r2_forecast_table_rows(rows: list[dict], *, clickable: bool = True, par_total: Optional[int] = None) -> str:
     """`rows`: klpga.neo_win.r2_forecast.build_r2_forecast_rows's own
     output, already sorted — this function never re-sorts or re-derives
     ranking, and never touches score/probability values beyond display
-    formatting."""
+    formatting.
+
+    `par_total`: when provided (e.g. 144 for a two-round, par-72
+    tournament), an additional to-par "스코어" column is rendered right
+    after the existing raw "합계타수" column, derived via
+    `derive_score_to_par` — pure Par-total subtraction on the same
+    already-official `r2_total_score`, never a separately estimated
+    value. Omitted (default None): output is byte-identical to before
+    this column existed, so existing callers/pages are unaffected."""
     out = []
     for r in rows:
         if clickable:
@@ -157,9 +184,14 @@ def render_r2_forecast_table_rows(rows: list[dict], *, clickable: bool = True) -
             name_cell = render_player_name_cell(r["player_code"], r["player_name"])
         else:
             name_cell = f'<td class="c-name">{r["player_name"]}</td>'
+        score_to_par_cell = ""
+        if par_total is not None:
+            score_to_par = derive_score_to_par(r["r2_total_score"], par_total)
+            score_to_par_cell = f'<td class="c-topar">{_fmt_score_to_par(score_to_par)}</td>'
         out.append(
             f'<tr><td class="c-pos">{r["r2_rank"]}</td>{name_cell}'
             f'<td class="c-score">{_fmt_forecast_score(r["r2_total_score"])}</td>'
+            f"{score_to_par_cell}"
             f'<td class="c-pct">{r["top20_pct"]:.2f}%</td>'
             f'<td class="c-pct">{r["top10_pct"]:.2f}%</td>'
             f'<td class="c-pct">{r["top5_pct"]:.2f}%</td>'

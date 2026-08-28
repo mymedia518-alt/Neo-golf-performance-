@@ -91,6 +91,12 @@ class PlayerCardData:
     win_pct: Optional[float] = None
     current_position: Optional[str] = None
     current_score_to_par: Optional[int] = None
+    total_strokes: Optional[int] = None
+    """합계타수 — raw cumulative stroke total through the current stage
+    (e.g. R1 actual strokes + R2 actual strokes). Shown alongside
+    `current_score_to_par` (스코어) only when provided; omitted (None)
+    renders nothing extra, same graceful-degradation rule as every
+    other optional field on this dataclass."""
     cut_status: str = CUT_STATUS_PENDING
     """CUT_STATUS_PENDING or one of cut_evaluation.CUT_OUTCOME_*."""
     cut_pct: Optional[float] = None
@@ -132,12 +138,19 @@ def _fmt_score_to_par(value: Optional[int]) -> str:
 
 
 def _render_current_position_block(data: PlayerCardData) -> str:
-    if data.current_position is None and data.current_score_to_par is None:
+    if data.current_position is None and data.current_score_to_par is None and data.total_strokes is None:
         return ""
+    total_strokes_col = ""
+    if data.total_strokes is not None:
+        total_strokes_col = (
+            f'<div><span class="pc-label">합계타수</span>'
+            f'<span class="pc-value">{data.total_strokes}</span></div>'
+        )
     return (
         f'<div class="pc-row-2col">'
         f'<div><span class="pc-label">{KOREAN_LABELS["current_position"]}</span>'
         f'<span class="pc-value">{data.current_position or ""}</span></div>'
+        f"{total_strokes_col}"
         f'<div><span class="pc-label">{KOREAN_LABELS["score"]}</span>'
         f'<span class="pc-value">{_fmt_score_to_par(data.current_score_to_par)}</span></div>'
         f"</div>"
@@ -328,7 +341,7 @@ PLAYER_CARD_CSS = """
   .pc-player-name { font-size: 20px; margin: 0; }
   .pc-close { background: none; border: none; color: var(--text-dim, #8b93a1); font-size: 28px; line-height: 1; padding: 8px; min-width: 44px; min-height: 44px; cursor: pointer; }
   .pc-meta { color: var(--text-dim, #8b93a1); font-size: 13px; margin: 4px 0 16px; }
-  .pc-row-2col { display: flex; gap: 24px; margin-bottom: 16px; }
+  .pc-row-2col { display: flex; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; row-gap: 8px; }
   .pc-label { display: block; font-size: 12px; color: var(--text-dim, #8b93a1); }
   .pc-value { display: block; font-size: 18px; font-weight: 700; }
   .pc-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border, #22262d); }

@@ -178,11 +178,21 @@ def render_calibration_section(calibration_rows: list[dict], highlight_threshold
 </section>"""
 
 
-def render_r2_forecast_section(table_rows_html: str) -> str:
+def render_r2_forecast_section(table_rows_html: str, *, show_score_to_par: bool = False) -> str:
     """Section 3 — 2R 종료 후 우승 경쟁 예측. `table_rows_html` is
     klpga.neo_win.r2_html_render.render_r2_forecast_table_rows's own
     output (reused unmodified) — this function only wraps it with the
-    required title/subtitle and the production table shell."""
+    required title/subtitle and the production table shell.
+
+    `show_score_to_par`: when True, renders separate "합계타수"/"스코어"
+    headers (matching a `table_rows_html` built with
+    `render_r2_forecast_table_rows(..., par_total=...)`, which adds the
+    matching `c-topar` cell to every row). Defaults to False so existing
+    callers/pages (a single "스코어" header over the raw-strokes column)
+    are unaffected."""
+    score_headers = (
+        "<th>합계타수</th>\n          <th>스코어</th>" if show_score_to_par else "<th>스코어</th>"
+    )
     return f"""<section class="forecast">
   <h2>2R 종료 후 우승 경쟁 예측</h2>
   <p class="forecast-sub">3R 시작 전 동결된 예측입니다. 이후 결과에 따라 수정하지 않습니다.</p>
@@ -192,7 +202,7 @@ def render_r2_forecast_section(table_rows_html: str) -> str:
         <tr>
           <th>현재 순위</th>
           <th>선수</th>
-          <th>스코어</th>
+          {score_headers}
           <th>TOP20</th>
           <th>TOP10</th>
           <th>TOP5</th>
