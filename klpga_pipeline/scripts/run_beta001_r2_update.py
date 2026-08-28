@@ -127,7 +127,7 @@ def run_dry_run(args) -> int:
     return 0 if result["status"] == "OK" else 5
 
 
-def _collect_and_upsert_round2(conn: sqlite3.Connection, args) -> tuple[list, int]:
+def _collect_and_upsert_round2(conn: sqlite3.Connection, args) -> tuple[list, list, int]:
     """STEP1 — real official R2 collection. Reuses the SAME, already-
     established, CUT/WD/DQ-correct multi-round collection routine
     scripts/04_collect_single_tournament.py itself uses
@@ -141,10 +141,14 @@ def _collect_and_upsert_round2(conn: sqlite3.Connection, args) -> tuple[list, in
     klpga.collectors.leaderboard.collect_all_rounds_for_game's own
     docstring for the full mechanism). Writes real, freshly-collected
     rows via the same klpga.db.upsert functions 04 uses — never a
-    second, parallel write path. Returns (round2_rows, final_round_
-    collected) where round2_rows are the real PlayerRoundRow objects
-    just fetched (reused directly for reconciliation — no second live
-    fetch of the same data)."""
+    second, parallel write path. Returns (round2_rows, round1_rows,
+    final_round_collected) — real PlayerRoundRow objects just fetched
+    (reused directly for reconciliation — no second live fetch of the
+    same data). round1_rows is needed by Section B's CUT classification
+    fix: on the real site, a player who missed the cut has NO Round 2
+    row at all, so Round 1 presence/absence is the real evidence used
+    to tell "missed the cut" apart from "no data yet" — see klpga.
+    neo_win.r1_to_r2_reconciliation's own docstring."""
     from klpga.collectors.aggregate import build_rows, merge_player_rows
     from klpga.collectors.leaderboard import collect_all_rounds_for_game
     from klpga.db.upsert import upsert_player, upsert_player_event, upsert_player_round
@@ -172,7 +176,7 @@ def _collect_and_upsert_round2(conn: sqlite3.Connection, args) -> tuple[list, in
         upsert_player_round(conn, row)
     conn.commit()
 
-    return rounds_data[2], final_round_collected
+    return rounds_data[2], rounds_data.get(1, []), final_round_collected
 
 
 def run_real(args) -> int:
@@ -184,7 +188,7 @@ def run_real(args) -> int:
     conn = sqlite3.connect(db_path)  # read-write — STEP1 writes real, freshly-collected Round 2 rows
     try:
         try:
-            official_round2_rows, final_round_collected = _collect_and_upsert_round2(conn, args)
+            official_round2_rows, official_round1_rows, final_round_collected = _collect_and_upsert_round2(conn, args)
         except RuntimeError as exc:
             print("STATUS: NOT_READY")
             print(f"REASON: {exc}")
@@ -240,12 +244,14 @@ def run_real(args) -> int:
 
         from klpga.neo_win.round_reconciliation import normalize_official_round
 
-        # Reuses the SAME real Round 2 rows STEP1 just fetched live — never a second request.
+        # Reuses the SAME real Round 1/2 rows STEP1 just fetched live — never a second request.
         official_r2 = normalize_official_round(official_round2_rows, round_number=2)
+        official_r1 = normalize_official_round(official_round1_rows, round_number=1) if official_round1_rows else None
     finally:
         conn.close()
 
     result = run_r2_evaluation_pipeline(
+        official_r1=official_r1,
         game_code=args.game_code, tournament_name=args.tournament_name,
         history_dir=Path(args.history_dir), predictions_dir=Path(args.predictions_dir),
         outputs_csv_path=Path(args.outputs_csv_path), official_r2=official_r2,
@@ -285,7 +291,12 @@ def main() -> int:
     parser.add_argument("--cache-dir", default=str(ROOT / "cache" / "http"))
     parser.add_argument("--n-simulations", type=int, default=DEFAULT_N_SIMULATIONS)
     parser.add_argument("--r1-html-path", default=None, help="Real docs/tournaments/.../r1/index.html path, for the unchanged-hash validation check.")
-    parser.add_argument("--r1-html-expected-sha256", default=None)
+    parser.add_argument(
+        "--r1-html-expected-sha256", default=None,
+        help="SHA-256 of --r1-html-path computed BEFORE this run (any 64-hex-char substring is extracted, so "
+             "pasting certutil's full multi-line output is fine — e.g. "
+             "`certutil -hashfile <path> SHA256` on Windows, or `sha256sum <path>` elsewhere).",
+    )
     args = parser.parse_args()
 
     if args.dry_run_fixture:
