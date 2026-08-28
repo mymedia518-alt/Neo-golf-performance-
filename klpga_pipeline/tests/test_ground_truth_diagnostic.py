@@ -1,13 +1,15 @@
 """Tests for klpga.neo_win.ground_truth_diagnostic — the double-
-verification CUT-status diagnostic. Never asserts MISSED_CUT from row
-absence; only WD/DQ status text or real Round 3 grouping presence
-ever produce a non-UNRESOLVED classification."""
+verification CUT-status diagnostic. Never asserts MISSED_CUT_CANDIDATE
+purely from Round 2/3 row absence without a valid completed Round 2
+score, and never finalizes it past a REVIEW_REQUIRED conflict when it
+disagrees with the derived cut line."""
 from __future__ import annotations
 
 from klpga.neo_win.ground_truth_diagnostic import (
-    STATUS_CONFIRMED_CONTINUING,
     STATUS_DQ,
-    STATUS_UNRESOLVED,
+    STATUS_MADE_CUT,
+    STATUS_MISSED_CUT_CANDIDATE,
+    STATUS_REVIEW_REQUIRED,
     STATUS_WD,
     R3GroupingRow,
     build_ground_truth_table,
@@ -27,8 +29,8 @@ def _row(code, name, round_number, *, round2=None, status=None, rank=1, total_st
     )
 
 
-def _r3(code, name="A", group="1조", tee_time="08:00"):
-    return R3GroupingRow(player_code=code, player_name=name, group=group, tee_time=tee_time)
+def _r3(code, name="A", group="1조", tee_time="08:00", starting_tee=None):
+    return R3GroupingRow(player_code=code, player_name=name, group=group, tee_time=tee_time, starting_tee=starting_tee)
 
 
 # ---------------------------------------------------------------
@@ -36,60 +38,109 @@ def _r3(code, name="A", group="1조", tee_time="08:00"):
 # ---------------------------------------------------------------
 
 
-def test_r3_grouping_present_means_confirmed_continuing():
-    r2 = [_row("p1", "A", 2, round2=68)]
-    r3 = [_r3("p1")]
+def test_r3_grouping_present_means_made_cut_confirmed():
+    r2 = [_row("p1", "A", 2, round2=68, total_strokes=140)]
+    r3 = [_r3("p1", starting_tee="1")]
     rows, _summary = build_ground_truth_table([], r2, r3)
     row = rows[0]
-    assert row.proposed_cut_status == STATUS_CONFIRMED_CONTINUING
+    assert row.final_ground_truth_status == STATUS_MADE_CUT
     assert row.r3_grouping_present is True
     assert row.r3_group == "1조"
     assert row.r3_tee_time == "08:00"
+    assert row.r3_starting_tee == "1"
 
 
 def test_r2_explicit_wd_status_is_honored():
     r2 = [_row("p1", "A", 2, status="WD")]
     rows, _summary = build_ground_truth_table([], r2, [])
-    assert rows[0].proposed_cut_status == STATUS_WD
-    assert "Round 2 status text" in rows[0].reason
+    assert rows[0].final_ground_truth_status == STATUS_WD
+    assert "Round 2" in rows[0].reason
 
 
 def test_r1_explicit_dq_status_is_honored_when_absent_from_r2():
     r1 = [_row("p1", "A", 1, status="DQ")]
     rows, _summary = build_ground_truth_table(r1, [], [])
-    assert rows[0].proposed_cut_status == STATUS_DQ
-    assert "Round 1 status text" in rows[0].reason
+    assert rows[0].final_ground_truth_status == STATUS_DQ
+    assert "Round 1" in rows[0].reason
 
 
-def test_r3_grouping_present_wins_over_r2_ambiguous_status():
-    """Real R3 grouping evidence is the strongest tier — it wins even
-    if Round 2's own status text looks ambiguous (e.g. the 999/
-    INCOMPLETE sentinel)."""
-    r2 = [_row("p1", "A", 2, status="INCOMPLETE")]
+def test_wd_status_conflicting_with_r3_presence_is_review_required():
+    """A real evidence conflict: official status says withdrawn, but
+    the player is found in the real Round 3 grouping list. The hard
+    gate says REVIEW_REQUIRED, never a silent pick of one source."""
+    r2 = [_row("p1", "A", 2, status="WD")]
     r3 = [_r3("p1")]
     rows, _summary = build_ground_truth_table([], r2, r3)
-    assert rows[0].proposed_cut_status == STATUS_CONFIRMED_CONTINUING
+    assert rows[0].final_ground_truth_status == STATUS_REVIEW_REQUIRED
+    assert "conflict" in rows[0].reason
 
 
-def test_absent_from_r3_with_real_r3_data_available_is_unresolved_never_missed():
-    """The core rule this diagnostic exists to enforce: absence from
-    Round 3 grouping, even with real R3 data available for other
-    players, is NEVER auto-classified as MISSED_CUT."""
+def test_absent_from_r3_with_valid_r2_score_is_missed_cut_candidate():
+    r2 = [
+        _row("p1", "A", 2, round2=68, total_strokes=140),  # confirmed continuer
+        _row("p2", "B", 2, round2=75, total_strokes=147),  # absent from r3, worse score
+    ]
+    r3 = [_r3("p1")]
+    rows, summary = build_ground_truth_table([], r2, r3)
+    p2 = next(r for r in rows if r.player_code == "p2")
+    assert p2.final_ground_truth_status == STATUS_MISSED_CUT_CANDIDATE
+    assert summary["missed_cut_candidate_count"] == 1
+    assert summary["derived_cut_line"] == 140
+
+
+def test_missed_cut_candidate_beating_cut_line_becomes_review_required():
+    """The core hard gate this diagnostic exists to enforce: a
+    candidate whose real Round 2 score is as good as or better than
+    the derived cut line conflicts with the real Round 3 field and
+    must never be finalized as a missed-cut candidate."""
+    r2 = [
+        _row("p1", "A", 2, round2=70, total_strokes=140),  # confirmed continuer, cut line = 140
+        _row("p2", "B", 2, round2=68, total_strokes=138),  # scored better than the cut line, absent from r3
+    ]
+    r3 = [_r3("p1")]
+    rows, summary = build_ground_truth_table([], r2, r3)
+    p2 = next(r for r in rows if r.player_code == "p2")
+    assert p2.final_ground_truth_status == STATUS_REVIEW_REQUIRED
+    assert "cut-line conflict" in p2.reason
+    assert summary["cut_line_exceptions"] == ["p2"]
+    assert summary["missed_cut_candidate_count"] == 0
+
+
+def test_missed_cut_candidate_worse_than_cut_line_stays_candidate():
+    r2 = [
+        _row("p1", "A", 2, round2=70, total_strokes=140),
+        _row("p2", "B", 2, round2=80, total_strokes=150),  # worse than the cut line
+    ]
+    r3 = [_r3("p1")]
+    rows, summary = build_ground_truth_table([], r2, r3)
+    p2 = next(r for r in rows if r.player_code == "p2")
+    assert p2.final_ground_truth_status == STATUS_MISSED_CUT_CANDIDATE
+    assert summary["cut_line_exceptions"] == []
+
+
+def test_no_valid_r2_score_and_no_r3_membership_is_review_required():
     r1 = [_row("p1", "A", 1)]
-    r2 = [_row("p1", "A", 2, round2=75)]
-    r3 = [_r3("p9", name="Someone Else")]  # real R3 data exists, but p1 isn't in it
-    rows, summary = build_ground_truth_table(r1, r2, r3)
+    r3 = [_r3("p9", name="Someone Else")]  # real R3 data exists, but p1 has no R2 row at all
+    rows, summary = build_ground_truth_table(r1, [], r3)
     p1 = next(r for r in rows if r.player_code == "p1")
-    assert p1.proposed_cut_status == STATUS_UNRESOLVED
-    assert "insufficient to assert MISSED_CUT" in p1.reason
-    assert summary["unexplained_count"] == 1
+    assert p1.final_ground_truth_status == STATUS_REVIEW_REQUIRED
+    assert "insufficient evidence" in p1.reason
+    assert summary["review_required_count"] >= 1
 
 
-def test_no_r3_data_collected_yet_reports_distinct_reason():
-    r2 = [_row("p1", "A", 2, round2=75)]
-    rows, _summary = build_ground_truth_table([], r2, [])
-    assert rows[0].proposed_cut_status == STATUS_UNRESOLVED
+def test_no_r3_data_collected_yet_reports_distinct_reason_for_review_required_player():
+    r1 = [_row("p1", "A", 1)]  # no r2 row, no r3 data at all
+    rows, _summary = build_ground_truth_table(r1, [], [])
+    assert rows[0].final_ground_truth_status == STATUS_REVIEW_REQUIRED
     assert "not collected yet" in rows[0].reason
+
+
+def test_no_r3_data_collected_yet_still_produces_tentative_candidate():
+    r2 = [_row("p1", "A", 2, round2=75, total_strokes=147)]
+    rows, summary = build_ground_truth_table([], r2, [])
+    assert rows[0].final_ground_truth_status == STATUS_MISSED_CUT_CANDIDATE
+    assert "not collected yet" in rows[0].reason
+    assert summary["derived_cut_line"] is None
 
 
 def test_raw_r2_fields_preserved_in_comparison_row():
@@ -103,7 +154,7 @@ def test_raw_r2_fields_preserved_in_comparison_row():
 
 def test_player_code_is_the_only_join_key_never_name():
     r1 = [_row("p1", "Same Name", 1)]
-    r2 = [_row("p2", "Same Name", 2, round2=70)]
+    r2 = [_row("p2", "Same Name", 2, round2=70, total_strokes=140)]
     rows, summary = build_ground_truth_table(r1, r2, [])
     codes = {r.player_code for r in rows}
     assert codes == {"p1", "p2"}  # never collapsed by matching names
@@ -117,7 +168,10 @@ def test_player_code_is_the_only_join_key_never_name():
 
 def test_summary_counts_are_accurate():
     r1 = [_row("p1", "A", 1), _row("p2", "B", 1), _row("p3", "C", 1, status="DQ")]
-    r2 = [_row("p1", "A", 2, round2=68), _row("p4", "D", 2, status="WD")]
+    r2 = [
+        _row("p1", "A", 2, round2=68, total_strokes=140),
+        _row("p4", "D", 2, status="WD"),
+    ]
     r3 = [_r3("p1")]
     rows, summary = build_ground_truth_table(r1, r2, r3)
     assert summary["total_tournament_players"] == 4  # p1, p2, p3, p4
@@ -125,7 +179,8 @@ def test_summary_counts_are_accurate():
     assert summary["r3_absent_count"] == 3
     assert summary["explicit_wd_count"] == 1  # p4
     assert summary["explicit_dq_count"] == 1  # p3
-    assert summary["unexplained_count"] == 1  # p2 — no evidence anywhere
+    assert summary["made_cut_confirmed_count"] == 1  # p1
+    assert summary["review_required_count"] == 1  # p2 — no R2 row, no WD/DQ, no R3 membership
 
 
 # ---------------------------------------------------------------
