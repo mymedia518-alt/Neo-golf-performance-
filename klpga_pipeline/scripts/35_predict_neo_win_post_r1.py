@@ -106,7 +106,7 @@ import random
 import sqlite3
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -119,8 +119,10 @@ from klpga.neo_win.beta001c_archive import (  # noqa: E402
 )
 from klpga.neo_win.round_update import (  # noqa: E402
     DEFAULT_N_SIMULATIONS,
+    build_post_r1_n_lookup,
     build_sim_inputs_from_frozen_snapshot,
     estimate_cut_fraction,
+    fit_post_r1_shrink_params,
     simulate_post_round1,
 )
 from klpga.neo_win.round_update_archive import (  # noqa: E402
@@ -283,10 +285,23 @@ def main() -> int:
                   f"--game-code {args.game_code}")
             return 6
         cut_fraction = estimate_cut_fraction(conn)
+
+        # Sample-size shrinkage for expected_round_score_to_par / spread (BETA #001 R1 FINAL fix):
+        # reuse the SAME real, backtested shrinkage the PRE path already fits/applies for these two
+        # features, via the real per-player sample sizes recomputed fresh from the DB (the frozen
+        # snapshot itself does not retain them). See klpga.neo_win.round_update module docstring.
+        cutoff_date_obj = date.fromisoformat(pre_snapshot.cutoff_date)
+        avg_shrink_params, stddev_shrink_params = fit_post_r1_shrink_params(conn, args.game_code, cutoff_date_obj)
+        n_lookup = build_post_r1_n_lookup(
+            conn, args.game_code, cutoff_date_obj, [e.player_code for e in pre_snapshot.predictions]
+        )
     finally:
         conn.close()
 
-    sim_inputs, missing_r1 = build_sim_inputs_from_frozen_snapshot(pre_snapshot, r1_scores)
+    sim_inputs, missing_r1 = build_sim_inputs_from_frozen_snapshot(
+        pre_snapshot, r1_scores,
+        n_lookup=n_lookup, avg_shrink_params=avg_shrink_params, stddev_shrink_params=stddev_shrink_params,
+    )
     rng = random.Random(args.seed) if args.seed is not None else random.Random()
     sim_result = simulate_post_round1(sim_inputs, cut_fraction=cut_fraction, n_simulations=args.n_simulations, rng=rng)
 
