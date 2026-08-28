@@ -167,6 +167,47 @@ def check_r2_path_never_overwrites_r1(r1_path: Path, r2_path: Path) -> dict:
     }
 
 
+def check_made_plus_missed_equals_n_evaluated(cut_summary: dict) -> dict:
+    """Every scored player is either MADE_CUT or MISSED_CUT — nothing
+    else can carry a real actual_cut value (see
+    klpga.neo_win.cut_evaluation.actual_cut_from_outcome). True by
+    construction, but checked explicitly rather than only assumed, per
+    the "do not manually choose the denominator" requirement."""
+    n_evaluated = cut_summary.get("n_evaluated", 0)
+    made = cut_summary.get("actual_made_cut_count", 0)
+    missed = cut_summary.get("actual_missed_cut_count", 0)
+    return {
+        "check": "MADE_PLUS_MISSED_EQUALS_N_EVALUATED",
+        "passed": made + missed == n_evaluated,
+        "detail": f"made={made} missed={missed} sum={made + missed} n_evaluated={n_evaluated}",
+    }
+
+
+def check_no_wd_dq_unresolved_enters_scoring(rows) -> dict:
+    """Every row whose r2_outcome is WD / WD_AFTER_R1_START / DQ /
+    UNRESOLVED must have actual_cut is None (excluded from scoring) —
+    the reverse of check_made_plus_missed_equals_n_evaluated: no
+    unresolved or excluded-status player may silently carry a real 0/1
+    outcome into the metrics."""
+    bad = [r.player_code for r in rows if r.r2_outcome not in ("MADE_CUT", "MISSED_CUT") and r.actual_cut is not None]
+    return {"check": "NO_WD_DQ_UNRESOLVED_ENTERS_SCORING", "passed": len(bad) == 0, "detail": f"bad={bad}"}
+
+
+def check_eligibility_population_is_mechanical(eval_rows, frozen_r1) -> dict:
+    """The evaluated population must be EXACTLY the frozen R1 players
+    with a real r1_make_cut_probability_pct value — never a smaller or
+    larger set chosen by hand. Compares eval_rows' player_codes against
+    that mechanical definition applied to frozen_r1 directly."""
+    expected = {f.player_code for f in frozen_r1 if f.r1_make_cut_probability_pct is not None}
+    actual = {r.player_code for r in eval_rows}
+    passed = expected == actual
+    return {
+        "check": "ELIGIBILITY_POPULATION_IS_MECHANICAL",
+        "passed": passed,
+        "detail": f"expected_only={sorted(expected - actual)} actual_only={sorted(actual - expected)}",
+    }
+
+
 def run_all_validations(checks: list[dict]) -> dict:
     """Aggregates already-run checks (never runs them itself — the
     caller decides which checks apply, since not every check has

@@ -52,9 +52,23 @@ CUT_OUTCOME_MISSED = "MISSED_CUT"
 CUT_OUTCOME_WD = "WD"
 CUT_OUTCOME_DQ = "DQ"
 CUT_OUTCOME_UNRESOLVED = "UNRESOLVED"
+CUT_OUTCOME_WD_AFTER_R1_START = "WD_AFTER_R1_START"
+"""A player who withdrew after Round 1 had already started (real,
+human-verified evidence — e.g. explicit "WD" status text observed
+directly on the official leaderboard, not inferred from a missing/
+ambiguous Round 2 row). Treated identically to CUT_OUTCOME_WD for
+scoring purposes (excluded from every headline metric — see
+actual_cut_from_outcome), but tracked as its own count so it is never
+conflated with a generic WD and never with the SEPARATE population of
+players who were already unavailable/excluded before Round 1 even
+began (no frozen R1 prediction exists for those at all, so they never
+reach this module in the first place)."""
 
 _VALID_OUTCOMES = frozenset(
-    {CUT_OUTCOME_MADE, CUT_OUTCOME_MISSED, CUT_OUTCOME_WD, CUT_OUTCOME_DQ, CUT_OUTCOME_UNRESOLVED}
+    {
+        CUT_OUTCOME_MADE, CUT_OUTCOME_MISSED, CUT_OUTCOME_WD, CUT_OUTCOME_DQ,
+        CUT_OUTCOME_UNRESOLVED, CUT_OUTCOME_WD_AFTER_R1_START,
+    }
 )
 
 DEFAULT_CUT_THRESHOLD_PCT = 50.0
@@ -217,6 +231,7 @@ def summarize_cut_evaluation(rows: list[PlayerCutEvaluationRow]) -> dict:
         "actual_made_cut_count": made,
         "actual_missed_cut_count": missed,
         "wd_count": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_WD),
+        "wd_after_r1_start_count": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_WD_AFTER_R1_START),
         "dq_count": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_DQ),
         "unresolved_count": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_UNRESOLVED),
         "threshold_accuracy_pct": round(100 * acc["accuracy"], 4) if acc else None,
