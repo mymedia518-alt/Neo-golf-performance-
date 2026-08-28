@@ -1505,61 +1505,101 @@ and the pre-provisioned browser cache; the fixture still skips
 gracefully rather than failing the suite if no Chromium is available
 at all. Full suite: **295/295 passing.**
 
-## 13. Round grouping / tee-time page — `group` (URL confirmed, DOM structure NOT yet confirmed)
+## 13. Round grouping / tee-time page — `group` (URL + DOM structure both confirmed, real parser implemented)
 
-**Status: endpoint confirmed 2026-08-28, fetch-only collector implemented.
-No parser yet — see below.**
+**Status: fully closed, 2026-08-28.** Endpoint, DOM structure, and a
+real parser (built and tested against an actual Windows-run capture)
+are all confirmed.
 
 - [x] Endpoint: `GET https://klpga.co.kr/web/tourInfo/group?gameCode=<code>`
       — confirmed via a real, human-captured browser DevTools Network
       request, 2026-08-28, `gameCode=2026080001`. Response: HTTP 200,
-      `text/html; charset=UTF-8`. At capture time the page was
-      displaying the official Round 3 grouping for that gameCode.
+      `text/html; charset=UTF-8`, 1,357,468 bytes.
 - [x] Only `gameCode` is a confirmed query parameter — no other
-      parameter (e.g. a `round` value for the 1R/2R/3R tabs) has been
-      observed or is assumed. `klpga.collectors.group_page.fetch_group_page_html`
-      sends only `gameCode`.
-- [ ] **How the page represents the 1R/2R/3R tabs is NOT confirmed** —
-      specifically whether switching tabs fires a distinct request (a
-      `round` query/form parameter, a different endpoint) or whether
-      all three rounds' groupings are already embedded in one HTML
-      response and the tabs are a client-side JS/CSS toggle. This
-      project's standing rule against ever guessing DOM relationships
-      means no parser has been written against this page yet.
-- [ ] `player_code`-bearing markup on this page (the real per-player
-      identity anchor, matching the `_playerCode`/`data-*` precedent
-      from section 2) — not yet inspected.
-- [ ] Group/tee-time/starting-tee field names and their real markup —
-      not yet inspected.
+      parameter (e.g. a `round` value for the 1R/2R/3R tabs) exists.
+      `klpga.collectors.group_page.fetch_group_page_html` sends only
+      `gameCode`.
+- [x] **How the page represents the 1R/2R/3R tabs — CONFIRMED from the
+      real capture**: ALL rounds' groupings (공식연습일 practice day,
+      1R, 2R, 3R, and FR once published) are already embedded in ONE
+      HTML response as sibling Bootstrap tab panes
+      (`<div class="tab-pane" id="round-one">` / `id="round-two"` /
+      `id="round-three"` / `id="round-four"`), switched client-side via
+      `data-bs-toggle="pill"`. No separate request per round. A round
+      not yet published has no corresponding tab-pane div at all — in
+      the 2026080001 capture, `round-four-tab`'s button exists but
+      `id="round-four"` does not (Round 4 not grouped yet).
+- [x] `player_code`-bearing markup — CONFIRMED: each real grouping
+      row's player cell is `a[href="/web/profile/mainRecord?playerCode=<code>"]`
+      with the display name in a nested `span.name`.
+- [x] Group/tee-time/starting-tee field names — CONFIRMED. Each
+      round's tab-pane holds exactly TWO `table.table-teetimes`
+      elements: (1) a `div.section-favorit[style="display:none"]`
+      "즐겨찾기 선수" table that, like the entry-list page's identical
+      pattern (section 7), lists every entrant again purely for a
+      client-side favorite-toggle and must be excluded entirely; (2)
+      the real grouping table (its `<h2>조 편성표</h2>` heading is
+      HTML-commented out, so `klpga.parsers.group_page_parser` locates
+      it structurally instead — the `table.table-teetimes` NOT nested
+      inside `div.section-favorit`). Each real row: `td.fixed-start`
+      = starting tee (e.g. "1", "10"), the next `<td>` = tee time (e.g.
+      "09:10 ", sometimes with a trailing unconfirmed "*" preserved
+      verbatim, never interpreted), then a variable number of
+      `td.text-start` player cells sharing that tee/time (3 on the
+      round-three table, 4 on round-one/round-two/practice-day — never
+      assumed fixed).
+- [x] **No explicit "조" (group) number exists anywhere on the page** —
+      confirmed absent, not assumed. Players sharing a table row share
+      a real starting tee + tee time (that IS their real grouping), but
+      `GroupingRow.group` is intentionally always `None` rather than
+      inventing a label the site never provides.
 
-**Collector implemented, fetch-only**: `klpga.collectors.group_page.
-fetch_group_page_html(client, game_code)` performs the real GET above
-and returns the raw HTML text unmodified — no parsing. `scripts/
-diagnose_r2_r3_ground_truth.py` calls it as part of its GROUND TRUTH
-CHECK B step and saves the raw response to `outputs/
-ground_truth_diagnostic/raw_group_page.html` for inspection. A real
-parser (`klpga.parsers.group_page_parser`, matching the
-`klpga.parsers.entry_list_parser` precedent — see section 7, which
-required a real pasted HTML fixture, `tests/fixtures/
-entry_list_sample.html`, before any parsing code was written) can only
-be written once that raw HTML has been captured and reviewed, e.g.
-saved as `tests/fixtures/group_page_sample.html`.
+**Collector**: `klpga.collectors.group_page.fetch_group_page_html(client,
+game_code)` performs the real GET and returns `(status_code, html)`,
+always live (never cache-served). `scripts/diagnose_r2_r3_ground_truth.py`
+saves the raw response to `outputs/ground_truth_diagnostic/raw_group_page.html`
+and, by default, parses it immediately afterward.
+
+**Parser**: `klpga.parsers.group_page_parser.parse_round_grouping(html,
+round_number)` — built and tested (`tests/test_group_page_parser.py`,
+8 tests) against `tests/fixtures/group_page_sample.html`, a trimmed but
+byte-faithful excerpt of the real 2026080001 capture (matching the
+`klpga.parsers.entry_list_parser` / `tests/fixtures/entry_list_sample.html`
+precedent from section 7 exactly: real markup captured and reviewed
+before any parsing code was written). Raises `ValueError` — never
+returns a fabricated empty result — if the requested round's tab-pane,
+or its real (non-favorites) grouping table, is not present.
 
 **Ground-truth diagnostic**: `klpga.neo_win.ground_truth_diagnostic`
-consumes Round 3 grouping data as a plain `R3GroupingRow` list from an
-already-structured real source (`--r3-grouping-json`) until the parser
-above exists. It classifies each player's `final_ground_truth_status`
-as `MADE_CUT_CONFIRMED` (found in real Round 3 grouping),
+consumes Round 3 grouping data parsed automatically from the fetched
+page by default (`--r3-grouping-json` remains available as an explicit
+override). It classifies each player's `final_ground_truth_status` as
+`MADE_CUT_CONFIRMED` (found in real Round 3 grouping),
 `MISSED_CUT_CANDIDATE` (absent from Round 3 with a valid completed
 Round 2 score, subject to an empirical cut-line consistency check
 derived from confirmed Round 3 continuers' own Round 2 totals), `WD`/
 `DQ` (explicit official status text), or `REVIEW_REQUIRED` (missing/
 ambiguous evidence, or a real R2/R3 conflict — e.g. explicit WD/DQ
 text alongside real Round 3 grouping presence, or a "missed-cut
-candidate" whose score actually beats the derived cut line). This is a
-read-only diagnostic module — it does not touch `r1_to_r2_reconciliation.py`,
-`cut_evaluation.py`, `r2_pipeline_orchestrator.py`, the frozen R1
-predictions, or the historical R1 HTML.
+candidate" whose score actually beats the derived cut line). A parse
+failure aborts the whole diagnostic run rather than silently falling
+back to an empty Round 3 dataset, the same hard-fail discipline as a
+fetch failure. This is a read-only diagnostic module — it does not
+touch `r1_to_r2_reconciliation.py`, `cut_evaluation.py`,
+`r2_pipeline_orchestrator.py`, the frozen R1 predictions, or the
+historical R1 HTML.
+
+**Real-data validation, 2026080001**: parsing the real captured page
+found 62 real Round 3 continuers (`round-three`'s real grouping table,
+21 tee-time rows) out of a 116-player Round 2 field. Cross-checked
+against real Round 2 total-score evidence: derived cut line = 143
+(worst Round 2 total among the 62 confirmed continuers), zero cut-line
+exceptions — every one of the 49 players absent from Round 3 scored
+strictly worse than 143, and every one of the 62 confirmed continuers
+scored 143 or better. Fully self-consistent, no unexplained R2/R3
+conflicts. 5 players remained `REVIEW_REQUIRED` (real 999/INCOMPLETE
+Round 2 rows — genuinely ambiguous Round 2 evidence, not a parser
+issue).
 
 ## Next steps
 

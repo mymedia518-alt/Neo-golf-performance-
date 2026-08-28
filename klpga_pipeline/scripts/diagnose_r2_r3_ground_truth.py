@@ -18,17 +18,17 @@ A real, human-captured browser Network request confirmed:
     GET https://klpga.co.kr/web/tourInfo/group?gameCode=<code>
     response: HTTP 200, text/html; charset=UTF-8
 (see klpga.config.GROUP_PAGE_ENDPOINT). This script fetches that page
-for real (klpga.collectors.group_page.fetch_group_page_html) and saves
-the raw HTML to disk — but it does NOT parse it: the page's DOM
-structure (in particular how the 1R/2R/3R tabs are represented) has
-NOT been confirmed against real markup, and this project never guesses
-DOM relationships. Once a real parser exists (built from the saved raw
-HTML, matching the klpga.parsers.entry_list_parser precedent), pass
---r3-grouping-json pointing to a JSON file (a list of
-{"player_code", "player_name", "group", "tee_time", "starting_tee"}
-objects) built from real, already-structured data. Omitting it is a
-real, honest "not parseable yet" state — the comparison table and
-printed counts say so explicitly, never silently filling in a guess.
+for real (klpga.collectors.group_page.fetch_group_page_html), saves
+the raw HTML to disk, then parses Round 3's real grouping table out of
+it (klpga.parsers.group_page_parser.parse_round_grouping — built and
+tested against a real captured page; see that module's docstring and
+docs/SITE_STRUCTURE_TODO.md section 13 for the confirmed structure).
+A parse failure — Round 3 not published yet, or the page's structure
+having changed — aborts the run rather than silently continuing with
+"R3 not collected", the same hard-fail discipline as the fetch itself.
+Pass --r3-grouping-json to override the parsed result with an
+already-structured JSON file instead (a list of {"player_code",
+"player_name", "group", "tee_time", "starting_tee"} objects).
 
 Usage:
     python scripts/diagnose_r2_r3_ground_truth.py --game-code 2026080001
@@ -54,10 +54,12 @@ from klpga.neo_win.ground_truth_diagnostic import (  # noqa: E402
     build_ground_truth_table,
     raw_round_row_to_dict,
 )
+from klpga.parsers.group_page_parser import parse_round_grouping  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT_DIR = ROOT / "outputs" / "ground_truth_diagnostic"
 DEFAULT_CACHE_DIR = ROOT / "cache" / "http"
+ROUND_NUMBER_FOR_CHECK_B = 3
 
 _RAW_CSV_FIELDNAMES = (
     "game_code", "player_code", "player_name", "player_eng_name", "round_number",
@@ -110,6 +112,16 @@ def _load_r3_grouping(path: str) -> list[R3GroupingRow]:
     ]
 
 
+def _grouping_rows_to_r3_rows(rows) -> list[R3GroupingRow]:
+    return [
+        R3GroupingRow(
+            player_code=r.player_code, player_name=r.player_name,
+            group=r.group, tee_time=r.tee_time, starting_tee=r.starting_tee,
+        )
+        for r in rows
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--game-code", required=True)
@@ -148,6 +160,7 @@ def main() -> int:
     print()
 
     print("=== GROUND TRUTH CHECK B: official Round 3 grouping/tee-time page (real, live) ===")
+    parsed_r3_rows = None
     if not args.skip_group_page_fetch:
         try:
             status_code, group_page_html = fetch_group_page_html(client, args.game_code)
@@ -172,21 +185,31 @@ def main() -> int:
         byte_size = out_html_path.stat().st_size
         print(f"HTTP {status_code} — {byte_size} bytes")
         print(f"Saved: {out_html_path}")
-        print("NOT parsed — the page's DOM structure (how the 1R/2R/3R tabs are represented) has not "
-              "been confirmed against real markup yet, so no fields were extracted. Send this file back "
-              "(or inspect it directly) so a real parser can be built from it, matching the "
-              "entry_list_parser precedent.")
+
+        if not args.r3_grouping_json:
+            try:
+                parsed_r3_rows = parse_round_grouping(group_page_html, round_number=ROUND_NUMBER_FOR_CHECK_B)
+            except ValueError as exc:
+                print(f"FATAL: could not parse Round {ROUND_NUMBER_FOR_CHECK_B} grouping from the real "
+                      f"group-page HTML just saved to {out_html_path}: {exc}")
+                print("Aborting rather than silently continuing as if Round 3 data were simply "
+                      "'not collected yet'. The raw HTML above is preserved for inspection.")
+                return 5
+            print(f"Parsed {len(parsed_r3_rows)} real Round {ROUND_NUMBER_FOR_CHECK_B} grouping/tee-time rows "
+                  "from the fetched HTML (klpga.parsers.group_page_parser).")
     else:
         print("Skipped (--skip-group-page-fetch).")
 
     if args.r3_grouping_json:
         r3_grouping_rows = _load_r3_grouping(args.r3_grouping_json)
         print(f"Loaded {len(r3_grouping_rows)} real, already-structured Round 3 grouping/tee-time rows from "
-              f"{args.r3_grouping_json}")
+              f"{args.r3_grouping_json} (overrides the parsed group-page result, if any).")
+    elif parsed_r3_rows is not None:
+        r3_grouping_rows = _grouping_rows_to_r3_rows(parsed_r3_rows)
     else:
         r3_grouping_rows = []
-        print("No --r3-grouping-json supplied — no parser exists yet for the raw group-page HTML above. "
-              "Proceeding with an empty structured Round 3 dataset for this run's classification.")
+        print("No group-page fetch/parse ran and no --r3-grouping-json supplied — proceeding with an "
+              "empty structured Round 3 dataset for this run's classification.")
     print()
 
     rows, summary = build_ground_truth_table(r1_rows, r2_rows, r3_grouping_rows)
