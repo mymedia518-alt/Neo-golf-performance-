@@ -223,6 +223,26 @@ class PoliteHttpClient:
         )
         return text
 
+    def get_text_with_status(
+        self,
+        url: str,
+        params: Optional[dict] = None,
+        headers: Optional[dict] = None,
+    ) -> tuple[int, str]:
+        """Always-live GET (never served from the disk cache) that
+        returns `(status_code, body_text)`. Added for a caller that
+        needs to report the real, current HTTP status of a single
+        fetch (e.g. a diagnostic script proving a real network call
+        actually happened) rather than just the body text `get_text`
+        returns. Same throttle/retry/timeout behavior as every other
+        method on this client; a non-2xx response still raises via
+        `_do_request`'s `raise_for_status()` (or `RateLimitBlockedError`
+        for 401/403/429) rather than being swallowed here."""
+        host = requests.utils.urlparse(url).netloc
+        self._throttle(host)
+        resp = self._do_request("GET", url, params=params, headers=headers)
+        return resp.status_code, resp.text
+
     def post_text(
         self,
         url: str,

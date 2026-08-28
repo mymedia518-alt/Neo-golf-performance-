@@ -150,19 +150,32 @@ def main() -> int:
     print("=== GROUND TRUTH CHECK B: official Round 3 grouping/tee-time page (real, live) ===")
     if not args.skip_group_page_fetch:
         try:
-            group_page_html = fetch_group_page_html(client, args.game_code)
-            out_html_path = output_dir / "raw_group_page.html"
+            status_code, group_page_html = fetch_group_page_html(client, args.game_code)
+        except Exception as exc:
+            print(f"FATAL: real fetch of GET web/tourInfo/group?gameCode={args.game_code} failed: {exc!r}")
+            print("Nothing was written for GROUND TRUTH CHECK B. Aborting rather than silently continuing "
+                  "as if Round 3 data were simply 'not collected yet'.")
+            return 4
+
+        out_html_path = (output_dir / "raw_group_page.html").resolve()
+        try:
             out_html_path.parent.mkdir(parents=True, exist_ok=True)
             out_html_path.write_text(group_page_html, encoding="utf-8")
-            print(f"Confirmed endpoint GET web/tourInfo/group?gameCode={args.game_code} fetched for real, "
-                  f"{len(group_page_html)} bytes -> {out_html_path}")
-            print("NOT parsed — the page's DOM structure (how the 1R/2R/3R tabs are represented) has not "
-                  "been confirmed against real markup yet, so no fields were extracted. Send this file back "
-                  "(or inspect it directly) so a real parser can be built from it, matching the "
-                  "entry_list_parser precedent.")
-        except Exception as exc:  # SKIP+LOG+CONTINUE — this is a real, live network fetch, not core to Check A
-            print(f"WARNING: real group-page fetch failed ({exc!r}) — continuing without it. This is a "
-                  "non-fatal collection failure, not a fabricated result.")
+        except OSError as exc:
+            print(f"FATAL: failed to write {out_html_path}: {exc!r}")
+            return 4
+
+        if not out_html_path.is_file():
+            print(f"FATAL: wrote {out_html_path} but it does not exist immediately afterward — aborting.")
+            return 4
+
+        byte_size = out_html_path.stat().st_size
+        print(f"HTTP {status_code} — {byte_size} bytes")
+        print(f"Saved: {out_html_path}")
+        print("NOT parsed — the page's DOM structure (how the 1R/2R/3R tabs are represented) has not "
+              "been confirmed against real markup yet, so no fields were extracted. Send this file back "
+              "(or inspect it directly) so a real parser can be built from it, matching the "
+              "entry_list_parser precedent.")
     else:
         print("Skipped (--skip-group-page-fetch).")
 

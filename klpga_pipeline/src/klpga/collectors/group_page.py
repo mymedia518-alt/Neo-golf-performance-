@@ -23,7 +23,13 @@ from klpga import config
 from klpga.http_client import PoliteHttpClient
 
 
-def fetch_group_page_html(client: PoliteHttpClient, game_code: str) -> str:
-    """Real GET against the confirmed group-page endpoint. Returns the
-    raw HTML text unparsed — see module docstring for why."""
-    return client.get_text(config.GROUP_PAGE_ENDPOINT, params={"gameCode": game_code})
+def fetch_group_page_html(client: PoliteHttpClient, game_code: str) -> tuple[int, str]:
+    """Real, always-live GET against the confirmed group-page endpoint
+    — never served from the disk cache, so every call proves a real
+    network round-trip happened. Returns `(status_code, raw_html_text)`
+    unparsed — see module docstring for why nothing is extracted from
+    it. Raises (never swallows) on a real fetch failure — a non-2xx
+    response, timeout, or connection error — so a caller that needs to
+    fail loudly on a broken fetch gets a real exception to catch,
+    rather than a silently empty/cached result."""
+    return client.get_text_with_status(config.GROUP_PAGE_ENDPOINT, params={"gameCode": game_code})
