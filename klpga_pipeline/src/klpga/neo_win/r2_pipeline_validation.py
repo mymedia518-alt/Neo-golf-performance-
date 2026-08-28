@@ -103,6 +103,29 @@ def check_win_sums_to_100_among_cutmakers(entrants: list[dict], tolerance: float
     return {"check": "WIN_SUMS_TO_100_AMONG_CUTMAKERS", "passed": passed, "detail": f"sum={total} over {len(values)} cutmakers"}
 
 
+def check_missed_cut_count_plausible_after_completed_cut(cut_summary: dict) -> dict:
+    """BETA #001's tournament format has exactly one real cut, after
+    Round 2 (klpga.neo_win.round_update_r2's own docstring). Once real,
+    completed official R2 data has actually been evaluated
+    (`n_evaluated > 0`), a real field that shows ZERO missed-cut
+    players is an impossible outcome — it means the CUT classification
+    itself failed to find real missed-cut evidence (see klpga.neo_win.
+    r1_to_r2_reconciliation's "A PLAYER WITH NO ROUND 2 ROW AT ALL"
+    section), never that literally every evaluated player advanced.
+    Real, confirmed regression: a live Windows run reported
+    actual_missed_cut_count=0 with n_evaluated=110 and STEP10 wrongly
+    passed it — this check exists specifically so that can never
+    happen silently again."""
+    n_evaluated = cut_summary.get("n_evaluated", 0)
+    actual_missed = cut_summary.get("actual_missed_cut_count", 0)
+    passed = n_evaluated == 0 or actual_missed > 0
+    return {
+        "check": "MISSED_CUT_COUNT_PLAUSIBLE_AFTER_COMPLETED_CUT",
+        "passed": passed,
+        "detail": f"n_evaluated={n_evaluated} actual_missed_cut_count={actual_missed}",
+    }
+
+
 def check_wd_dq_explicitly_handled(reconciliation_summary: dict) -> dict:
     required_keys = {"new_wd", "new_dq", "cut", "made_cut", "missing"}
     missing_keys = required_keys - set(reconciliation_summary)
