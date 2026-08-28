@@ -12,6 +12,7 @@ from klpga.neo_win.r2_production_validation import (
     check_no_fabricated_extra_rows,
     check_player_card_present_for_every_row,
     check_probabilities_render_exactly,
+    check_score_to_par_matches_par_arithmetic,
     check_win_sum_from_source,
 )
 
@@ -158,3 +159,31 @@ def test_player_card_present_check_fails_when_a_row_is_missing_its_card():
     result = check_player_card_present_for_every_row(rows, html)
     assert result["passed"] is False
     assert "p2" in result["detail"]
+
+
+def test_score_to_par_check_passes_for_correct_arithmetic():
+    rows = [_fc_row("p1", score=138), _fc_row("p2", score=144), _fc_row("p3", score=147)]
+    html = render_r2_forecast_table_rows(rows, clickable=False, par_total=144)
+    result = check_score_to_par_matches_par_arithmetic(rows, 144, html)
+    assert result["passed"] is True
+
+
+def test_score_to_par_check_fails_when_value_is_wrong():
+    rows = [_fc_row("p1", score=138)]
+    html = '<td class="c-topar">-5</td>'  # wrong: should be -6
+    result = check_score_to_par_matches_par_arithmetic(rows, 144, html)
+    assert result["passed"] is False
+    assert "p1" in result["detail"]
+
+
+def test_score_to_par_check_even_par_requires_e_not_plus_zero():
+    rows = [_fc_row("p1", score=144)]
+    html = '<td class="c-topar">+0</td>'  # wrong: even par must render as E
+    result = check_score_to_par_matches_par_arithmetic(rows, 144, html)
+    assert result["passed"] is False
+
+
+def test_score_to_par_check_skips_rows_with_no_total_score():
+    rows = [_fc_row("p1", score=None)]
+    result = check_score_to_par_matches_par_arithmetic(rows, 144, "")
+    assert result["passed"] is True

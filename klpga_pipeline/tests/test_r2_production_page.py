@@ -97,6 +97,16 @@ def test_forecast_section_has_required_title_subtitle_and_columns():
     assert "3R 시작 전 동결된 예측입니다. 이후 결과에 따라 수정하지 않습니다." in html
     assert "현재 순위" in html
     assert all(col in html for col in ("TOP20", "TOP10", "TOP5", "WIN"))
+    assert html.count("<th>스코어</th>") == 1
+    assert "합계타수" not in html
+
+
+def test_forecast_section_show_score_to_par_adds_total_strokes_header():
+    table_html = render_r2_forecast_table_rows([_forecast_row(score=138)], clickable=False, par_total=144)
+    html = render_r2_forecast_section(table_html, show_score_to_par=True)
+    assert "<th>합계타수</th>" in html
+    assert "<th>스코어</th>" in html
+    assert '<td class="c-topar">-6</td>' in html
 
 
 # ---------------------------------------------------------------

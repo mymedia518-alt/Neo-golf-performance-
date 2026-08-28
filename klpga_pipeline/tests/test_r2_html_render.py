@@ -13,6 +13,7 @@ from klpga.neo_win.cut_evaluation import PlayerCutEvaluationRow
 from klpga.neo_win.r1_r2_evaluation_report import top5_best_and_biggest_misses
 from klpga.neo_win.r2_html_render import (
     R1_FROZEN_DISCLOSURE_SENTENCE,
+    derive_score_to_par,
     render_r1_cut_headline_section,
     render_r1_model_scorecard_section,
     render_r2_forecast_page,
@@ -196,6 +197,39 @@ def test_forecast_table_rows_render_all_seven_columns_worth_of_data():
 def test_forecast_table_rows_clickable_uses_player_name_cell():
     html = render_r2_forecast_table_rows([_forecast_row()], clickable=True)
     assert "player-card-trigger" in html or "button" in html.lower()
+
+
+def test_forecast_table_rows_without_par_total_has_no_topar_column():
+    html = render_r2_forecast_table_rows([_forecast_row(score=138)], clickable=False)
+    assert "c-topar" not in html
+
+
+def test_forecast_table_rows_with_par_total_adds_topar_column():
+    html = render_r2_forecast_table_rows([_forecast_row(score=138)], clickable=False, par_total=144)
+    assert '<td class="c-topar">-6</td>' in html
+
+
+def test_forecast_table_rows_topar_even_par_renders_as_e():
+    html = render_r2_forecast_table_rows([_forecast_row(score=144)], clickable=False, par_total=144)
+    assert '<td class="c-topar">E</td>' in html
+
+
+def test_forecast_table_rows_topar_over_par_renders_with_plus():
+    html = render_r2_forecast_table_rows([_forecast_row(score=147)], clickable=False, par_total=144)
+    assert '<td class="c-topar">+3</td>' in html
+
+
+def test_forecast_table_rows_topar_missing_total_score_renders_unavailable():
+    html = render_r2_forecast_table_rows([_forecast_row(score=None)], clickable=False, par_total=144)
+    assert '<td class="c-topar">unavailable</td>' in html
+
+
+def test_derive_score_to_par_pure_arithmetic():
+    assert derive_score_to_par(138, 144) == -6
+    assert derive_score_to_par(144, 144) == 0
+    assert derive_score_to_par(147, 144) == 3
+    assert derive_score_to_par(None, 144) is None
+    assert derive_score_to_par(138, None) is None
 
 
 def test_forecast_page_includes_headline_and_table_and_player_cards():

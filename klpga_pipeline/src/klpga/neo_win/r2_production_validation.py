@@ -103,3 +103,32 @@ def check_no_fabricated_extra_rows(forecast_rows: list[dict], rendered_html: str
         "passed": actual == expected,
         "detail": f"expected_pct_cells={expected} actual_pct_cells={actual}",
     }
+
+
+def _fmt_score_to_par_for_check(value: int) -> str:
+    if value == 0:
+        return "E"
+    return f"+{value}" if value > 0 else str(value)
+
+
+def check_score_to_par_matches_par_arithmetic(forecast_rows: list[dict], par_total: int, rendered_html: str) -> dict:
+    """스코어 (to-par) is never a separately estimated value -- it must
+    equal the already-official cumulative r2_total_score (합계타수) minus
+    par_total, for every real row, and that exact E/-N/+N string must
+    appear verbatim in the rendered page. Also confirms 0 always renders
+    as 'E', never '+0'."""
+    bad = []
+    for r in forecast_rows:
+        total = r["r2_total_score"]
+        if total is None:
+            continue
+        expected_score_to_par = total - par_total
+        expected_str = _fmt_score_to_par_for_check(expected_score_to_par)
+        needle = f'<td class="c-topar">{expected_str}</td>'
+        if needle not in rendered_html:
+            bad.append(f"{r['player_code']}:total={total}:expected_score_to_par={expected_str}")
+    return {
+        "check": "SCORE_TO_PAR_MATCHES_PAR_ARITHMETIC",
+        "passed": len(bad) == 0,
+        "detail": f"par_total={par_total} mismatches={bad}",
+    }
