@@ -79,9 +79,13 @@ def test_unrecognized_status_text_maps_to_unresolved_never_crashes():
 # ---------------------------------------------------------------
 
 
-def test_absent_from_r2_but_completed_r1_maps_to_missed_cut():
+def test_absent_from_r2_but_completed_r1_stays_unresolved_never_guessed_missed():
+    """R1-presence + R2-absence alone is NOT treated as sufficient
+    evidence of a missed cut — this was tried and disproven against a
+    real Windows run (see module docstring's "A PLAYER WITH NO ROUND 2
+    ROW AT ALL" section)."""
     r1 = _official("p1", round_score=72, score_to_par=1, status=None)
-    assert outcome_from_official_r2(None, r1) == CUT_OUTCOME_MISSED
+    assert outcome_from_official_r2(None, r1) == CUT_OUTCOME_UNRESOLVED
 
 
 def test_absent_from_r2_and_r1_shows_wd_maps_to_wd_not_missed():
@@ -181,13 +185,12 @@ def test_reconcile_empty_official_r2_reports_all_frozen_players_unresolved():
     assert all(r.r2_outcome == CUT_OUTCOME_UNRESOLVED for r in rows)
 
 
-def test_reconcile_with_official_r1_correctly_classifies_real_missed_cuts():
-    """Regression test for the real Windows bug: on the live site, CUT
-    players have NO Round 2 row at all (never a "CUT"-status row) — so
-    reconciliation must consult official_r1 to tell "genuinely missed
-    the cut" apart from "no data yet". Without official_r1 (the
-    previous, pre-fix behavior) every one of p2..p5 would incorrectly
-    fall into UNRESOLVED/excluded rather than a real missed-cut count."""
+def test_reconcile_with_official_r1_still_defers_r2_absent_players_to_unresolved():
+    """R1-presence + R2-absence alone (p2, p3) stays UNRESOLVED — see
+    module docstring's "A PLAYER WITH NO ROUND 2 ROW AT ALL" section
+    for why this inference was tried and reverted. An explicit WD/DQ
+    status in official_r1 (p4) is still real, direct evidence and is
+    still honored. p5 has no evidence anywhere."""
     frozen = [_frozen("p1"), _frozen("p2"), _frozen("p3"), _frozen("p4"), _frozen("p5")]
     official_r1 = {
         "p1": _official("p1", round_score=70, score_to_par=-2, status=None),
@@ -203,12 +206,12 @@ def test_reconcile_with_official_r1_correctly_classifies_real_missed_cuts():
     rows, summary = reconcile_r1_to_r2(frozen, official_r2, official_r1)
 
     assert summary["made_cut"] == 1  # p1
-    assert summary["cut"] == 2  # p2, p3 — real Round 1 completion, absent from Round 2
+    assert summary["cut"] == 0  # never asserted without proven evidence
     assert summary["new_wd"] == 1  # p4
-    assert summary["missing"] == 1  # p5 — no evidence anywhere, never guessed
+    assert summary["missing"] == 3  # p2, p3, p5 — real evidence still needed
     by_code = {r.player_code: r.r2_outcome for r in rows}
-    assert by_code["p2"] == CUT_OUTCOME_MISSED
-    assert by_code["p3"] == CUT_OUTCOME_MISSED
+    assert by_code["p2"] == CUT_OUTCOME_UNRESOLVED
+    assert by_code["p3"] == CUT_OUTCOME_UNRESOLVED
     assert by_code["p4"] == CUT_OUTCOME_WD
     assert by_code["p5"] == CUT_OUTCOME_UNRESOLVED
 
