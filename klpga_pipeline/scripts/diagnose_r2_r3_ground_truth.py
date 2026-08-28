@@ -1,9 +1,9 @@
 """BETA #001 R1 -> R2 ground-truth CUT-status diagnostic — DOUBLE
 VERIFICATION phase. Read-only against everything: no DB is opened, no
 model/prediction/evaluation logic runs, docs/ is never touched. Only
-collects real official Round 1/Round 2 leaderboard data live, writes
-it to disk in full (every raw field), and builds the comparison table
-requested for establishing real CUT/MISSED_CUT ground truth.
+collects real official data live, writes it to disk in full (every raw
+field), and builds the comparison table requested for establishing
+real MADE_CUT / MISSED_CUT ground truth.
 
 GROUND TRUTH CHECK A (Round 2, real, always run by this script):
 reuses klpga.collectors.leaderboard.collect_all_rounds_for_game with
@@ -13,19 +13,22 @@ empty Round 2 response) against the real, confirmed roundLeaderboard
 endpoint. Writes raw_r1.csv and raw_r2.csv preserving EVERY raw
 PlayerRoundRow field.
 
-GROUND TRUTH CHECK B (Round 3 grouping/tee-time): NO CONFIRMED
-ENDPOINT EXISTS in this codebase for this page — every other endpoint
-this project uses was discovered from a real, human-captured browser
-Network-tab request before any collector was written against it (see
-docs/SITE_STRUCTURE_TODO.md). This script therefore NEVER guesses a
-URL for it. Pass --r3-grouping-json pointing to a JSON file (a list of
+GROUND TRUTH CHECK B (Round 3 grouping/tee-time):
+A real, human-captured browser Network request confirmed:
+    GET https://klpga.co.kr/web/tourInfo/group?gameCode=<code>
+    response: HTTP 200, text/html; charset=UTF-8
+(see klpga.config.GROUP_PAGE_ENDPOINT). This script fetches that page
+for real (klpga.collectors.group_page.fetch_group_page_html) and saves
+the raw HTML to disk — but it does NOT parse it: the page's DOM
+structure (in particular how the 1R/2R/3R tabs are represented) has
+NOT been confirmed against real markup, and this project never guesses
+DOM relationships. Once a real parser exists (built from the saved raw
+HTML, matching the klpga.parsers.entry_list_parser precedent), pass
+--r3-grouping-json pointing to a JSON file (a list of
 {"player_code", "player_name", "group", "tee_time", "starting_tee"}
-objects) built from real data once the real endpoint/page is confirmed
-(the same "capture it, then build a real parser" precedent
-klpga.parsers.entry_list_parser followed for the entry-list page).
-Omitting it is a real, honest "not collected yet" state — the
-comparison table and printed counts say so explicitly, never silently
-filling in a guess.
+objects) built from real, already-structured data. Omitting it is a
+real, honest "not parseable yet" state — the comparison table and
+printed counts say so explicitly, never silently filling in a guess.
 
 Usage:
     python scripts/diagnose_r2_r3_ground_truth.py --game-code 2026080001
@@ -42,10 +45,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from klpga.collectors.group_page import fetch_group_page_html  # noqa: E402
 from klpga.collectors.leaderboard import collect_all_rounds_for_game  # noqa: E402
 from klpga.http_client import PoliteHttpClient  # noqa: E402
 from klpga.neo_win.ground_truth_diagnostic import (  # noqa: E402
-    STATUS_UNRESOLVED,
+    STATUS_REVIEW_REQUIRED,
     R3GroupingRow,
     build_ground_truth_table,
     raw_round_row_to_dict,
@@ -65,9 +69,9 @@ _RAW_CSV_FIELDNAMES = (
 )
 
 _COMPARISON_CSV_FIELDNAMES = (
-    "player_code", "official_name", "R1_present", "R2_present", "R2_raw_rank", "R2_raw_status",
-    "R2_round_score", "R2_total_score", "R3_grouping_present", "R3_group", "R3_tee_time",
-    "proposed_cut_status", "reason",
+    "player_code", "official_name", "R2_present", "R2_raw_rank", "R2_raw_status", "R2_round_score",
+    "R2_total_score", "R3_grouping_present", "R3_group", "R3_tee_time", "R3_starting_tee",
+    "final_ground_truth_status", "reason",
 )
 
 
@@ -88,9 +92,9 @@ def _write_comparison_csv(rows, out_path: Path) -> None:
         for r in rows:
             writer.writerow(
                 [
-                    r.player_code, r.official_name, r.r1_present, r.r2_present, r.r2_raw_rank, r.r2_raw_status,
+                    r.player_code, r.official_name, r.r2_present, r.r2_raw_rank, r.r2_raw_status,
                     r.r2_round_score, r.r2_total_score, r.r3_grouping_present, r.r3_group, r.r3_tee_time,
-                    r.proposed_cut_status, r.reason,
+                    r.r3_starting_tee, r.final_ground_truth_status, r.reason,
                 ]
             )
 
@@ -113,18 +117,23 @@ def main() -> int:
     parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument(
         "--r3-grouping-json", default=None,
-        help="Path to a real Round 3 grouping/tee-time JSON file (see module docstring). Omit if not yet collected.",
+        help="Path to a real, already-structured Round 3 grouping/tee-time JSON file (see module "
+        "docstring). Omit until a real parser exists for the raw group-page HTML this script saves.",
+    )
+    parser.add_argument(
+        "--skip-group-page-fetch", action="store_true",
+        help="Skip the real fetch of the group-page HTML (GROUND TRUTH CHECK B's raw-capture step).",
     )
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
+    client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
 
     print("=== GROUND TRUTH DIAGNOSTIC — BETA #001 R1 -> R2 (double verification) ===")
     print("Read-only: no DB opened, no model/evaluation logic runs, docs/ never touched.")
     print()
 
     print("=== GROUND TRUTH CHECK A: official Round 2 leaderboard (real, live) ===")
-    client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
     rounds_data = collect_all_rounds_for_game(client, args.game_code, force_refresh_rounds=frozenset({2}))
     if 2 not in rounds_data or not rounds_data[2]:
         print(f"ERROR: official Round 2 leaderboard for game_code={args.game_code!r} is empty even after a "
@@ -138,16 +147,33 @@ def main() -> int:
     print(f"Round 2 rows collected: {len(r2_rows)} -> {output_dir / 'raw_r2.csv'}")
     print()
 
-    print("=== GROUND TRUTH CHECK B: official Round 3 grouping/tee-time list ===")
+    print("=== GROUND TRUTH CHECK B: official Round 3 grouping/tee-time page (real, live) ===")
+    if not args.skip_group_page_fetch:
+        try:
+            group_page_html = fetch_group_page_html(client, args.game_code)
+            out_html_path = output_dir / "raw_group_page.html"
+            out_html_path.parent.mkdir(parents=True, exist_ok=True)
+            out_html_path.write_text(group_page_html, encoding="utf-8")
+            print(f"Confirmed endpoint GET web/tourInfo/group?gameCode={args.game_code} fetched for real, "
+                  f"{len(group_page_html)} bytes -> {out_html_path}")
+            print("NOT parsed — the page's DOM structure (how the 1R/2R/3R tabs are represented) has not "
+                  "been confirmed against real markup yet, so no fields were extracted. Send this file back "
+                  "(or inspect it directly) so a real parser can be built from it, matching the "
+                  "entry_list_parser precedent.")
+        except Exception as exc:  # SKIP+LOG+CONTINUE — this is a real, live network fetch, not core to Check A
+            print(f"WARNING: real group-page fetch failed ({exc!r}) — continuing without it. This is a "
+                  "non-fatal collection failure, not a fabricated result.")
+    else:
+        print("Skipped (--skip-group-page-fetch).")
+
     if args.r3_grouping_json:
         r3_grouping_rows = _load_r3_grouping(args.r3_grouping_json)
-        print(f"Loaded {len(r3_grouping_rows)} real Round 3 grouping/tee-time rows from {args.r3_grouping_json}")
+        print(f"Loaded {len(r3_grouping_rows)} real, already-structured Round 3 grouping/tee-time rows from "
+              f"{args.r3_grouping_json}")
     else:
         r3_grouping_rows = []
-        print("NOT AVAILABLE — no confirmed KLPGA endpoint exists in this codebase for Round 3 grouping/tee-time "
-              "data (see this script's own module docstring). Pass --r3-grouping-json once a real capture is "
-              "available. Proceeding with an empty Round 3 dataset — every player will report "
-              f"proposed_cut_status={STATUS_UNRESOLVED!r} unless explicit WD/DQ evidence exists.")
+        print("No --r3-grouping-json supplied — no parser exists yet for the raw group-page HTML above. "
+              "Proceeding with an empty structured Round 3 dataset for this run's classification.")
     print()
 
     rows, summary = build_ground_truth_table(r1_rows, r2_rows, r3_grouping_rows)
@@ -161,20 +187,37 @@ def main() -> int:
     print(f"R3 absent count: {summary['r3_absent_count']}")
     print(f"explicit WD count: {summary['explicit_wd_count']}")
     print(f"explicit DQ count: {summary['explicit_dq_count']}")
-    print(f"unexplained count: {summary['unexplained_count']}")
+    print(f"MADE_CUT_CONFIRMED count: {summary['made_cut_confirmed_count']}")
+    print(f"MISSED_CUT_CANDIDATE count: {summary['missed_cut_candidate_count']}")
+    print(f"REVIEW_REQUIRED count: {summary['review_required_count']}")
+    print()
+    print(f"derived cut line (worst R2 total score among confirmed Round 3 continuers): "
+          f"{summary['derived_cut_line']}")
+    if summary["cut_line_exceptions"]:
+        print(f"CUT-LINE EXCEPTIONS ({len(summary['cut_line_exceptions'])}) — these were downgraded from "
+              f"MISSED_CUT_CANDIDATE to REVIEW_REQUIRED because their Round 2 score beats the derived cut "
+              f"line: {summary['cut_line_exceptions']}")
+    else:
+        print("CUT-LINE EXCEPTIONS: none.")
     print()
 
-    unresolved = [r for r in rows if r.proposed_cut_status == STATUS_UNRESOLVED]
-    if unresolved:
-        print(f"=== FULL RAW ROUND 2 EVIDENCE FOR ALL {len(unresolved)} UNRESOLVED PLAYERS ===")
-        for r in unresolved:
+    review_required = [r for r in rows if r.final_ground_truth_status == STATUS_REVIEW_REQUIRED]
+    if review_required:
+        print(f"=== FULL RAW EVIDENCE FOR ALL {len(review_required)} REVIEW_REQUIRED PLAYERS ===")
+        for r in review_required:
             print(
                 f"  player_code={r.player_code} name={r.official_name!r} "
-                f"R1_present={r.r1_present} R2_present={r.r2_present} "
-                f"R2_raw_rank={r.r2_raw_rank!r} R2_raw_status={r.r2_raw_status!r} "
-                f"R2_round_score={r.r2_round_score!r} R2_total_score={r.r2_total_score!r} "
+                f"R2_present={r.r2_present} R2_raw_rank={r.r2_raw_rank!r} R2_raw_status={r.r2_raw_status!r} "
+                f"R2_total_score={r.r2_total_score!r} R3_grouping_present={r.r3_grouping_present} "
                 f"reason={r.reason!r}"
             )
+        print()
+        print("HARD GATE: unexplained R2/R3 conflicts and insufficient-evidence players remain above. "
+              "Do not score predictions (Accuracy/Brier/Log Loss/calibration) until every REVIEW_REQUIRED "
+              "row is resolved.")
+    else:
+        print("No REVIEW_REQUIRED players — no unexplained R2/R3 conflicts detected in this run.")
+
     print()
     print("No CUT status was guessed. Nothing was written to any DB, model, prediction, or docs/ file.")
     return 0

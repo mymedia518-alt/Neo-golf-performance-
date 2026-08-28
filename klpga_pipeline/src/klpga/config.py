@@ -79,6 +79,26 @@ ENTRY_LIST_ENDPOINT = f"{BASE_URL}/web/tourInfo/entry"
 #   log, including the still-open menu3 collision (e.g. "010102").
 RECORD_TAXONOMY_ENDPOINT = f"{BASE_URL}/load/record/loadLocationRecord"
 
+# [5] Round grouping / tee-time page ("조편성")
+#   GET https://klpga.co.kr/web/tourInfo/group?gameCode=<code>
+#   response: HTTP 200, text/html; charset=UTF-8
+#   Confirmed via manual browser Network capture, 2026-08-28
+#   (gameCode=2026080001) — the page is displaying the official Round 3
+#   grouping for that gameCode at capture time.
+#   ONLY the URL, HTTP method, and response content-type are confirmed.
+#   The page's DOM structure — in particular how the 1R/2R/3R tabs are
+#   represented (a `round` query parameter producing a distinct request
+#   per tab, a client-side JS toggle with all three rounds already
+#   embedded in one HTML response, or something else entirely) — has
+#   NOT been confirmed against real markup. No query parameter beyond
+#   gameCode is assumed or added here. See
+#   klpga.collectors.group_page, which fetches this page's raw HTML and
+#   deliberately does not parse it until a real markup sample (e.g.
+#   tests/fixtures/group_page_sample.html, matching the
+#   entry_list_sample.html precedent for klpga.parsers.entry_list_parser)
+#   has been captured and reviewed.
+GROUP_PAGE_ENDPOINT = f"{BASE_URL}/web/tourInfo/group"
+
 # The landing page whose DOM carries the data-menu1/data-menu2/
 # data-menu3 attributes that RECORD_TAXONOMY_ENDPOINT's menu1/menu2/
 # menu3 form fields are drawn from — NOT confirmed. No URL is guessed

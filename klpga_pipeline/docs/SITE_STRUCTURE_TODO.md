@@ -1505,6 +1505,62 @@ and the pre-provisioned browser cache; the fixture still skips
 gracefully rather than failing the suite if no Chromium is available
 at all. Full suite: **295/295 passing.**
 
+## 13. Round grouping / tee-time page — `group` (URL confirmed, DOM structure NOT yet confirmed)
+
+**Status: endpoint confirmed 2026-08-28, fetch-only collector implemented.
+No parser yet — see below.**
+
+- [x] Endpoint: `GET https://klpga.co.kr/web/tourInfo/group?gameCode=<code>`
+      — confirmed via a real, human-captured browser DevTools Network
+      request, 2026-08-28, `gameCode=2026080001`. Response: HTTP 200,
+      `text/html; charset=UTF-8`. At capture time the page was
+      displaying the official Round 3 grouping for that gameCode.
+- [x] Only `gameCode` is a confirmed query parameter — no other
+      parameter (e.g. a `round` value for the 1R/2R/3R tabs) has been
+      observed or is assumed. `klpga.collectors.group_page.fetch_group_page_html`
+      sends only `gameCode`.
+- [ ] **How the page represents the 1R/2R/3R tabs is NOT confirmed** —
+      specifically whether switching tabs fires a distinct request (a
+      `round` query/form parameter, a different endpoint) or whether
+      all three rounds' groupings are already embedded in one HTML
+      response and the tabs are a client-side JS/CSS toggle. This
+      project's standing rule against ever guessing DOM relationships
+      means no parser has been written against this page yet.
+- [ ] `player_code`-bearing markup on this page (the real per-player
+      identity anchor, matching the `_playerCode`/`data-*` precedent
+      from section 2) — not yet inspected.
+- [ ] Group/tee-time/starting-tee field names and their real markup —
+      not yet inspected.
+
+**Collector implemented, fetch-only**: `klpga.collectors.group_page.
+fetch_group_page_html(client, game_code)` performs the real GET above
+and returns the raw HTML text unmodified — no parsing. `scripts/
+diagnose_r2_r3_ground_truth.py` calls it as part of its GROUND TRUTH
+CHECK B step and saves the raw response to `outputs/
+ground_truth_diagnostic/raw_group_page.html` for inspection. A real
+parser (`klpga.parsers.group_page_parser`, matching the
+`klpga.parsers.entry_list_parser` precedent — see section 7, which
+required a real pasted HTML fixture, `tests/fixtures/
+entry_list_sample.html`, before any parsing code was written) can only
+be written once that raw HTML has been captured and reviewed, e.g.
+saved as `tests/fixtures/group_page_sample.html`.
+
+**Ground-truth diagnostic**: `klpga.neo_win.ground_truth_diagnostic`
+consumes Round 3 grouping data as a plain `R3GroupingRow` list from an
+already-structured real source (`--r3-grouping-json`) until the parser
+above exists. It classifies each player's `final_ground_truth_status`
+as `MADE_CUT_CONFIRMED` (found in real Round 3 grouping),
+`MISSED_CUT_CANDIDATE` (absent from Round 3 with a valid completed
+Round 2 score, subject to an empirical cut-line consistency check
+derived from confirmed Round 3 continuers' own Round 2 totals), `WD`/
+`DQ` (explicit official status text), or `REVIEW_REQUIRED` (missing/
+ambiguous evidence, or a real R2/R3 conflict — e.g. explicit WD/DQ
+text alongside real Round 3 grouping presence, or a "missed-cut
+candidate" whose score actually beats the derived cut line). This is a
+read-only diagnostic module — it does not touch `r1_to_r2_reconciliation.py`,
+`cut_evaluation.py`, `r2_pipeline_orchestrator.py`, the frozen R1
+predictions, or the historical R1 HTML.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
