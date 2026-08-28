@@ -1679,6 +1679,45 @@ built from only real, already-available data — real R1/R2 round
 scores, the real frozen R1 WIN% history point, the real simulated R2
 WIN% — never a fabricated field.
 
+**R2 PRODUCTION DEPLOYMENT (real docs/index.html + immutable R2 page),
+2026-08-28**: the real production files live at the REPO ROOT's
+`docs/` (i.e. `docs/index.html`, `docs/tournaments/2026/kg-ladies-open/
+r1/index.html`) — one level ABOVE `klpga_pipeline/`, not inside it.
+`klpga.neo_win.r2_production_page` renders a SEPARATE, brighter theme
+(deep navy `#101a2c`, not the R1 page's near-black `#0b0d10`) for the
+new R2 pages only — the R1 page's own markup/CSS is never read or
+modified. `scripts/deploy_r2_production_homepage.py` reads ONLY two
+already-frozen real CSVs from a prior real run (`--cut-eval-csv`,
+`--forecast-csv` — the outputs of `evaluate_r1_cut_ground_truth.py` /
+`generate_r2_frozen_forecast.py`) plus the real R1 immutable page (for
+a before/after SHA-256 proof it was never touched) — it runs no
+simulation and recomputes no probability. `klpga.neo_win.
+r2_production_validation` implements the cross-CSV integrity gates
+(exact population count if `--expected-population` is given, WIN sum
+≈100%, WIN<=TOP5<=TOP10<=TOP20, no WD/missed-cut player leaking into
+the forecast, every rendered percentage round-trips exactly to its
+source CSV value, GA4 present exactly twice — script src + one config
+call, a player card for every row); `check_r1_historical_html_unchanged`
+(existing, unmodified) proves R1 immutability. Nothing is written
+unless every gate passes.
+
+A real, automated mobile-overflow check (Playwright, 360px viewport —
+`tests/test_r2_production_page_browser.py`, this project's established
+Chromium-fallback pattern) caught a genuine bug during development:
+the wordmark's "TOURNAMENT PREDICTION" lockup (`white-space: nowrap`,
+inherited from the real R1 page's own CSS) overflowed to 708px at a
+360px viewport. Fixed in the NEW production theme only (a `@media
+(max-width: 480px)` override shrinking `--row` and allowing the
+wordmark name to wrap) — the R1 page's own CSS was never touched.
+
+This sandbox has no access to the real `outputs/` CSVs (git-ignored,
+Windows-only) or the real frozen R1/PRE prediction sources, so the
+deployment script itself has only been run against synthetic fixtures
+(`tests/test_deploy_r2_production_homepage_script.py`) — the real
+`docs/index.html` / `docs/tournaments/2026/kg-ladies-open/r2/index.html`
+write, and the `git add`/`commit`/`push` of those two files, must
+happen on the machine where the real CSVs exist.
+
 ## Next steps
 
 1. ~~Run `scripts/04_collect_single_tournament.py --season 2026
