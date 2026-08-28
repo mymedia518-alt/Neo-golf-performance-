@@ -103,6 +103,9 @@ class PlayerR2Reconciled:
     """One of klpga.neo_win.cut_evaluation.CUT_OUTCOME_*."""
     in_frozen_r1: bool
     in_official_r2: bool
+    in_official_r1: bool = False
+    official_r1_status: Optional[str] = None
+    official_r1_round_score: Optional[int] = None
 
 
 def reconcile_r1_to_r2(
@@ -138,11 +141,33 @@ def reconcile_r1_to_r2(
                 r2_outcome=outcome,
                 in_frozen_r1=f is not None,
                 in_official_r2=o is not None,
+                in_official_r1=r1o is not None,
+                official_r1_status=r1o.status if r1o else None,
+                official_r1_round_score=r1o.round_score if r1o else None,
             )
         )
 
     only_in_frozen_r1 = sorted(set(frozen_by_code) - set(official_r2))
     only_in_official_r2 = sorted(set(official_r2) - set(frozen_by_code))
+
+    missing_rows = [r for r in rows if r.r2_outcome == CUT_OUTCOME_UNRESOLVED]
+    missing_player_diagnostics = [
+        {
+            "player_code": r.player_code,
+            "player_name": r.player_name,
+            "in_frozen_r1": r.in_frozen_r1,
+            "in_official_r1": r.in_official_r1,
+            "official_r1_status": r.official_r1_status,
+            "official_r1_round_score": r.official_r1_round_score,
+            "in_official_r2": r.in_official_r2,
+        }
+        for r in missing_rows
+    ]
+    """Real, per-player forensic detail for every UNRESOLVED player —
+    exactly why each one is unresolved (absent from official_r1 too?
+    present in official_r1 but with no real round_score? found under a
+    player_code that simply never matched anything?) is visible here,
+    rather than requiring a second investigation pass to discover."""
 
     summary = {
         "r1_players": len(frozen_by_code),
@@ -151,7 +176,8 @@ def reconcile_r1_to_r2(
         "new_dq": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_DQ),
         "cut": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_MISSED),
         "made_cut": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_MADE),
-        "missing": sum(1 for r in rows if r.r2_outcome == CUT_OUTCOME_UNRESOLVED),
+        "missing": len(missing_rows),
+        "missing_player_diagnostics": missing_player_diagnostics,
         "unmatched_player_codes": {
             "only_in_frozen_r1": only_in_frozen_r1,
             "only_in_official_r2": only_in_official_r2,

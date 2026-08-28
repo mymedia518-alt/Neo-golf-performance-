@@ -67,6 +67,7 @@ from klpga.neo_win.r2_pipeline_validation import (
     check_calibration_buckets_sum_to_evaluated,
     check_cut_probability_in_0_100_range,
     check_frozen_r1_values_unchanged,
+    check_missed_cut_count_plausible_after_completed_cut,
     check_no_null_cut_probability_among_evaluated,
     check_player_codes_unique,
     check_r1_historical_html_unchanged,
@@ -213,6 +214,7 @@ def run_r2_evaluation_pipeline(
         check_unavailable_players_explicitly_handled(excluded, reconciliation_summary),
         check_calibration_buckets_sum_to_evaluated(calibration, cut_summary["n_evaluated"]),
         check_frozen_r1_values_unchanged(frozen_r1, frozen_r1_reload),
+        check_missed_cut_count_plausible_after_completed_cut(cut_summary),
     ]
     if r1_html_path is not None:
         checks.append(check_r2_path_never_overwrites_r1(r1_html_path, r2_html_path))

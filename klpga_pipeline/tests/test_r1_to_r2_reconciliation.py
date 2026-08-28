@@ -213,6 +213,34 @@ def test_reconcile_with_official_r1_correctly_classifies_real_missed_cuts():
     assert by_code["p5"] == CUT_OUTCOME_UNRESOLVED
 
 
+def test_reconcile_missing_player_diagnostics_shows_why_each_is_unresolved():
+    """Real-world diagnostic requirement: a genuinely unresolved player
+    (no evidence in official_r1 OR official_r2) must be individually
+    explainable, not just a bare count."""
+    frozen = [_frozen("p1"), _frozen("p2"), _frozen("p3")]
+    official_r1 = {
+        "p2": _official("p2", round_score=None, score_to_par=None, status=None),  # in R1 field but no real score
+        # p3 has no Round 1 evidence at all either.
+    }
+    official_r2 = {}  # no one has a Round 2 row
+    _rows, summary = reconcile_r1_to_r2(frozen, official_r2, official_r1)
+
+    assert summary["missing"] == 3
+    diag_by_code = {d["player_code"]: d for d in summary["missing_player_diagnostics"]}
+    assert set(diag_by_code) == {"p1", "p2", "p3"}
+    assert diag_by_code["p1"]["in_official_r1"] is False
+    assert diag_by_code["p2"]["in_official_r1"] is True
+    assert diag_by_code["p2"]["official_r1_round_score"] is None
+    assert diag_by_code["p3"]["in_official_r1"] is False
+
+
+def test_reconcile_missing_player_diagnostics_empty_when_nothing_unresolved():
+    frozen = [_frozen("p1")]
+    official_r2 = {"p1": _official("p1", round_score=68)}
+    _rows, summary = reconcile_r1_to_r2(frozen, official_r2)
+    assert summary["missing_player_diagnostics"] == []
+
+
 def test_reconcile_omitting_official_r1_preserves_old_conservative_behavior():
     frozen = [_frozen("p1"), _frozen("p2")]
     official_r2 = {"p1": _official("p1", round_score=68)}

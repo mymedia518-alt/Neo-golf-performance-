@@ -11,6 +11,7 @@ from klpga.neo_win.r2_pipeline_validation import (
     check_calibration_buckets_sum_to_evaluated,
     check_cut_probability_in_0_100_range,
     check_frozen_r1_values_unchanged,
+    check_missed_cut_count_plausible_after_completed_cut,
     check_no_null_cut_probability_among_evaluated,
     check_player_codes_unique,
     check_r1_historical_html_unchanged,
@@ -198,3 +199,27 @@ def test_run_all_validations_all_pass():
     result = run_all_validations(checks)
     assert result["all_passed"] is True
     assert result["failed"] == []
+
+
+def test_missed_cut_count_fails_when_zero_missed_among_a_real_evaluated_field():
+    """Regression test for the real Windows bug: a completed-R2
+    evaluation reporting 0 missed cuts among a real, non-trivial
+    evaluated field is an impossible state and must fail STEP10."""
+    cut_summary = {"n_evaluated": 110, "actual_missed_cut_count": 0, "actual_made_cut_count": 110}
+    result = check_missed_cut_count_plausible_after_completed_cut(cut_summary)
+    assert result["passed"] is False
+
+
+def test_missed_cut_count_passes_when_real_missed_cuts_present():
+    cut_summary = {"n_evaluated": 110, "actual_missed_cut_count": 40, "actual_made_cut_count": 70}
+    result = check_missed_cut_count_plausible_after_completed_cut(cut_summary)
+    assert result["passed"] is True
+
+
+def test_missed_cut_count_passes_when_nothing_evaluated_yet():
+    """Zero evaluated players (e.g. Round 2 hasn't been reconciled at
+    all) is a genuinely different, already-reported state — this
+    check must not fire for it."""
+    cut_summary = {"n_evaluated": 0, "actual_missed_cut_count": 0, "actual_made_cut_count": 0}
+    result = check_missed_cut_count_plausible_after_completed_cut(cut_summary)
+    assert result["passed"] is True
