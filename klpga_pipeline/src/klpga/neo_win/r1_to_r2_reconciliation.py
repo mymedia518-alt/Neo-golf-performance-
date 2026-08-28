@@ -31,29 +31,37 @@ evaluation must survive (SKIP + LOG, never HARD STOP, per this
 project's own local-failure discipline).
 
 ======================================================================
-A PLAYER WITH NO ROUND 2 ROW AT ALL — real, confirmed site behavior
+A PLAYER WITH NO ROUND 2 ROW AT ALL — evidence is NOT yet conclusive
 ======================================================================
-Real Windows execution against the live site confirmed CUT/WD/DQ
-players simply have NO ROW in the Round 2 leaderboard response at all
-— never a "CUT"/"WD"/"DQ" status-text row (matching leaderboard_
-parser.py's own module docstring: no literal WD/DQ text has ever been
-observed live). This is the SAME "player entirely absent from a
-round's response" pattern klpga.collectors.leaderboard.
-collect_all_rounds_for_game's own dropped-player detection already
-relies on for exactly this reason.
+A first hypothesis (since reverted) treated "present with a real score
+in official Round 1, but entirely absent from the official Round 2
+fetch" as sufficient evidence of a missed cut on its own. A real
+Windows run disproved this being a *complete* explanation: after that
+rule was applied, `cut` (missed-cut count) stayed at 0 even though the
+evaluated field was ~92% "made cut" — implausibly high for a real
+36-hole cut — meaning genuine cut-line dropouts were NOT reliably
+producing "R1-present, R2-absent" at all. The real KLPGA round=2
+endpoint's actual behavior for an eliminated player (a normal-looking
+row with a lower rank? the INCOMPLETE/999 sentinel? something else?)
+has not been directly confirmed by inspecting the live site, so this
+module no longer infers CUT_OUTCOME_MISSED from R1-presence/R2-absence
+alone — that would be exactly the kind of unproven, rank-adjacent
+guess this project's identity/evidence discipline forbids.
 
-So when a player has NO Round 2 row (`o is None`), this module now
-falls back to their OFFICIAL Round 1 row (`r1`, optional, backward
-compatible — omitting it preserves the original, conservative
-UNRESOLVED result):
-  r1 shows an explicit WD/DQ status                -> that status
-  r1 shows a real round_score (Round 1 genuinely
-    completed) AND no Round 2 row exists at all     -> CUT_OUTCOME_MISSED
-    (the tournament's own real single-cut-after-Round-2 outcome — see
-    klpga.neo_win.round_update_r2's own docstring — never a rank/
-    position-based inference; only real presence-vs-absence evidence
-    across the two official rounds is used.)
-  r1 is also unavailable, or has no real round_score -> CUT_OUTCOME_UNRESOLVED
+So when a player has NO Round 2 row (`o is None`), this module
+consults their OFFICIAL Round 1 row (`r1`, optional, backward
+compatible — omitting it preserves the original UNRESOLVED result)
+ONLY for explicit, already-proven evidence:
+  r1 shows an explicit WD/DQ status -> that status (a real, direct
+    site signal, wherever it appears — never guessed).
+  Anything else (including "r1 shows a real round_score but Round 2
+    is simply absent") -> CUT_OUTCOME_UNRESOLVED. This is deliberately
+    conservative: every such player is still surfaced via
+    `missing_player_diagnostics` (see reconcile_r1_to_r2) with their
+    real official_r1_status/official_r1_round_score, so a human with
+    real site access can determine the actual missed-cut signal by
+    inspecting one of these players directly — once that's confirmed,
+    the real rule can be added here with real evidence behind it.
 """
 from __future__ import annotations
 
@@ -85,11 +93,14 @@ def outcome_from_official_r2(o: Optional[NormalizedPlayer], r1: Optional[Normali
         if o.status is None and o.round_score is not None:
             return CUT_OUTCOME_MADE
         return CUT_OUTCOME_UNRESOLVED  # a Round 2 row exists but is ambiguous (e.g. INCOMPLETE/999) — never guessed further
-    if r1 is not None:
-        if r1.status in _KNOWN_STATUS_OUTCOMES:
-            return _KNOWN_STATUS_OUTCOMES[r1.status]
-        if r1.round_score is not None:
-            return CUT_OUTCOME_MISSED
+    if r1 is not None and r1.status in _KNOWN_STATUS_OUTCOMES:
+        return _KNOWN_STATUS_OUTCOMES[r1.status]  # a real, direct WD/DQ signal — never guessed
+    # r1 present with a real round_score but no explicit status, and o is
+    # entirely absent: NOT treated as CUT_OUTCOME_MISSED — see module
+    # docstring's "A PLAYER WITH NO ROUND 2 ROW AT ALL" section. This was
+    # tried and disproven against a real Windows run (missed-cut count
+    # stayed 0 for an implausibly-high-made-cut-rate field), so
+    # presence/absence alone is not treated as sufficient evidence.
     return CUT_OUTCOME_UNRESOLVED
 
 
