@@ -99,6 +99,24 @@ RECORD_TAXONOMY_ENDPOINT = f"{BASE_URL}/load/record/loadLocationRecord"
 #   has been captured and reviewed.
 GROUP_PAGE_ENDPOINT = f"{BASE_URL}/web/tourInfo/group"
 
+# [6] Player profile page ("선수 프로필" — 소속/team-sponsor, birth
+#   year, member number, join year, grade)
+#   GET https://klpga.co.kr/web/profile/mainRecord?playerCode=<code>
+#   NOT independently confirmed by a live fetch in this project/session
+#   — this sandbox has no network access to klpga.co.kr. The URL and
+#   the field ORDER ("PLAYER → 선수명 → 등급 → 소속 → 출생년도 →
+#   회원번호 → 입회년도") were reported by the user in chat, with two
+#   claimed examples (playerCode=9788 박혜준 → 두산건설 We've;
+#   playerCode=11134 서교림 → 삼천리) that are plausible (both
+#   player_codes match this project's own independently-verified
+#   roster for game_code=2026080001) but have NOT been cross-checked
+#   against a real HTTP response by this project. Follow the
+#   GROUP_PAGE_ENDPOINT precedent exactly: fetch only, do not parse,
+#   until a real HTML sample has been captured — see
+#   klpga.collectors.player_profile and
+#   scripts/53_fetch_player_profile_sample.py.
+PLAYER_PROFILE_ENDPOINT = f"{BASE_URL}/web/profile/mainRecord"
+
 # The landing page whose DOM carries the data-menu1/data-menu2/
 # data-menu3 attributes that RECORD_TAXONOMY_ENDPOINT's menu1/menu2/
 # menu3 form fields are drawn from — NOT confirmed. No URL is guessed
