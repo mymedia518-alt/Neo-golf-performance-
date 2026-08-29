@@ -1,0 +1,46 @@
+{
+  "_comment": "SYNTHETIC FIXTURE ONLY — no real player names/codes/scores. Used exclusively to prove scripts/run_beta001_r3_update.py's dry-run path works end-to-end without any real DB/network/production access. Never used to generate a real prediction or touch any real production/history file.",
+  "frozen_r2_entrants": [
+    {"player_code": "dryrun_p1", "player_name": "Dry Run Player 1", "win_pct": 45.0, "top5_pct": 80.0, "top10_pct": 90.0, "top20_pct": 95.0, "position": 1, "score_to_par": -10.0},
+    {"player_code": "dryrun_p2", "player_name": "Dry Run Player 2", "win_pct": 30.0, "top5_pct": 70.0, "top10_pct": 85.0, "top20_pct": 92.0, "position": 2, "score_to_par": -9.0},
+    {"player_code": "dryrun_p3", "player_name": "Dry Run Player 3", "win_pct": 15.0, "top5_pct": 50.0, "top10_pct": 70.0, "top20_pct": 85.0, "position": 3, "score_to_par": -7.0},
+    {"player_code": "dryrun_p4", "player_name": "Dry Run Player 4", "win_pct": 10.0, "top5_pct": 40.0, "top10_pct": 60.0, "top20_pct": 80.0, "position": 4, "score_to_par": -6.0},
+    {"player_code": "dryrun_p5", "player_name": "Dry Run Player 5", "win_pct": 0.0, "top5_pct": 0.0, "top10_pct": 0.0, "top20_pct": 0.0, "position": null, "score_to_par": null},
+    {"player_code": "dryrun_p6", "player_name": "Dry Run Player 6", "win_pct": 0.0, "top5_pct": 0.0, "top10_pct": 0.0, "top20_pct": 0.0, "position": null, "score_to_par": null}
+  ],
+  "entry_r3": [
+    {"player_code": "dryrun_p1", "player_name": "Dry Run Player 1"},
+    {"player_code": "dryrun_p2", "player_name": "Dry Run Player 2"},
+    {"player_code": "dryrun_p3", "player_name": "Dry Run Player 3"},
+    {"player_code": "dryrun_p4", "player_name": "Dry Run Player 4"},
+    {"player_code": "dryrun_p5", "player_name": "Dry Run Player 5"},
+    {"player_code": "dryrun_p6", "player_name": "Dry Run Player 6"},
+    {"player_code": "dryrun_p7", "player_name": "Dry Run Player 7"}
+  ],
+  "official_r3": [
+    {"player_code": "dryrun_p1", "player_name": "Dry Run Player 1", "position": 1, "round_score": 69, "score_to_par": -13, "status": null},
+    {"player_code": "dryrun_p2", "player_name": "Dry Run Player 2", "position": 2, "round_score": 70, "score_to_par": -11, "status": null},
+    {"player_code": "dryrun_p3", "player_name": "Dry Run Player 3", "position": 3, "round_score": 71, "score_to_par": -9, "status": null},
+    {"player_code": "dryrun_p4", "player_name": "Dry Run Player 4", "position": 4, "round_score": 72, "score_to_par": -8, "status": null},
+    {"player_code": "dryrun_p5", "player_name": "Dry Run Player 5", "position": null, "round_score": null, "score_to_par": null, "status": "CUT"},
+    {"player_code": "dryrun_p6", "player_name": "Dry Run Player 6", "position": null, "round_score": null, "score_to_par": null, "status": "CUT"},
+    {"player_code": "dryrun_p7", "player_name": "Dry Run Player 7", "position": null, "round_score": null, "score_to_par": null, "status": "WD"}
+  ],
+  "db_r3": [
+    {"player_code": "dryrun_p1", "player_name": "Dry Run Player 1", "position": 1, "round_score": 69, "score_to_par": -13, "status": null},
+    {"player_code": "dryrun_p2", "player_name": "Dry Run Player 2", "position": 2, "round_score": 70, "score_to_par": -11, "status": null},
+    {"player_code": "dryrun_p3", "player_name": "Dry Run Player 3", "position": 3, "round_score": 71, "score_to_par": -9, "status": null},
+    {"player_code": "dryrun_p4", "player_name": "Dry Run Player 4", "position": 4, "round_score": 72, "score_to_par": -8, "status": null},
+    {"player_code": "dryrun_p5", "player_name": "Dry Run Player 5", "position": null, "round_score": null, "score_to_par": null, "status": "CUT"},
+    {"player_code": "dryrun_p6", "player_name": "Dry Run Player 6", "position": null, "round_score": null, "score_to_par": null, "status": "CUT"},
+    {"player_code": "dryrun_p7", "player_name": "Dry Run Player 7", "position": null, "round_score": null, "score_to_par": null, "status": "WD"}
+  ],
+  "r3_model_entrants": [
+    {"player_code": "dryrun_p1", "player_name": "Dry Run Player 1", "position": 1, "score_to_par": -13.0, "win_pct": 42.0, "top5_pct": 78.0, "top10_pct": 88.0, "top20_pct": 94.0},
+    {"player_code": "dryrun_p2", "player_name": "Dry Run Player 2", "position": 2, "score_to_par": -11.0, "win_pct": 28.0, "top5_pct": 65.0, "top10_pct": 82.0, "top20_pct": 90.0},
+    {"player_code": "dryrun_p3", "player_name": "Dry Run Player 3", "position": 3, "score_to_par": -9.0, "win_pct": 18.0, "top5_pct": 55.0, "top10_pct": 72.0, "top20_pct": 85.0},
+    {"player_code": "dryrun_p4", "player_name": "Dry Run Player 4", "position": 4, "score_to_par": -8.0, "win_pct": 12.0, "top5_pct": 42.0, "top10_pct": 60.0, "top20_pct": 78.0},
+    {"player_code": "dryrun_p5", "player_name": "Dry Run Player 5", "position": null, "score_to_par": null, "win_pct": 0.0, "top5_pct": 0.0, "top10_pct": 0.0, "top20_pct": 0.0},
+    {"player_code": "dryrun_p6", "player_name": "Dry Run Player 6", "position": null, "score_to_par": null, "win_pct": 0.0, "top5_pct": 0.0, "top10_pct": 0.0, "top20_pct": 0.0}
+  ]
+}
