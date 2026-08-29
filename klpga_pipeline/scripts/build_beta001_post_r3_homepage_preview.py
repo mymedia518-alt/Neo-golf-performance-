@@ -315,7 +315,7 @@ def main() -> int:
 
     active_sorted = sort_active_rows_by_rank_then_win(rows)
     print()
-    print("=== TOP 10 (공식 R3 현재 순위 기준, 동순위는 WIN% descending) ===")
+    print("=== TOP 10 (R3 POSITION ascending / tied WIN% descending) ===")
     for r in active_sorted[:10]:
         win_str = "unavailable" if r.win_pct is None else f"{r.win_pct:.2f}%"
         print(f"{r.current_rank_display}. {r.player_name} ({r.player_code}) — WIN {win_str} "
