@@ -1,9 +1,9 @@
 """BETA #001 POST-R3 homepage preview — pure logic (no I/O). Joins
 three already-loaded sources by `player_code`:
 
-  1. DB-verified R1-R3 official data (current rank, 54-hole cumulative
-     score, per-player status) -- the caller reads this from the real
-     DB; this module never queries it itself.
+  1. DB-verified R1-R3 official data (current rank, round-3 score,
+     54-hole cumulative total, per-player status) -- the caller reads
+     this from the real DB; this module never queries it itself.
   2. The frozen STAGE_R3 `klpga.neo_win.tournament_history.
      HistoryEntrant` tuple (WIN/TOP5/TOP10/TOP20%) -- used EXACTLY as
      frozen, never recomputed here.
@@ -30,6 +30,7 @@ class PreviewRow:
     status: str
     current_rank: Optional[int]
     current_rank_display: str  # always "T{rank}" (e.g. "T1", "T23") or "unavailable" -- display only
+    r3_round_score_to_par: Optional[float]  # round 3 alone, real DB round_to_par
     cumulative_score_to_par: Optional[float]
     win_pct: Optional[float]
     top5_pct: Optional[float]
@@ -43,7 +44,8 @@ class DbPlayerRow:
     player_code: str
     player_name: str
     status: str  # one of STATUS_ACTIVE / _NON_ADVANCING_STATUSES
-    cumulative_score_to_par: Optional[float]  # r1+r2+r3, only when status == ACTIVE and all three real
+    r3_round_score_to_par: Optional[float] = None  # round 3 alone, real DB round_to_par
+    cumulative_score_to_par: Optional[float] = None  # r1+r2+r3, only when status == ACTIVE and all three real
 
 
 def compute_current_ranks(db_rows: list[DbPlayerRow]) -> dict[str, int]:
@@ -107,6 +109,7 @@ def build_preview_rows(
             PreviewRow(
                 player_code=db_row.player_code, player_name=db_row.player_name, status=db_row.status,
                 current_rank=rank, current_rank_display=rank_display,
+                r3_round_score_to_par=db_row.r3_round_score_to_par,
                 cumulative_score_to_par=db_row.cumulative_score_to_par,
                 win_pct=win_pct, top5_pct=top5, top10_pct=top10, top20_pct=top20,
                 r2_to_r3_win_change_pct=change,
@@ -384,6 +387,7 @@ def render_preview_html(
         table_rows.append(
             f'<tr><td class="c-pos">{r.current_rank_display}</td>'
             f'<td class="c-name">{r.player_name}</td>'
+            f'<td class="c-score">{_fmt_score(r.r3_round_score_to_par)}</td>'
             f'<td class="c-score">{_fmt_score(r.cumulative_score_to_par)}</td>'
             f'<td class="c-pct">{_fmt_pct(r.win_pct)}</td>'
             f'<td class="c-pct">{_fmt_pct(r.top5_pct)}</td>'
@@ -435,7 +439,7 @@ def render_preview_html(
       <table>
         <thead>
           <tr>
-            <th>현재 순위</th><th>선수</th><th>54홀 누적</th>
+            <th>현재 순위</th><th>선수</th><th>3R</th><th>합계</th>
             <th>WIN</th><th>TOP5</th><th>TOP10</th><th>TOP20</th>
             <th>R2→R3 WIN 변화</th>
           </tr>

@@ -6,9 +6,9 @@ file, NEVER touches BETA_R3_FULL.csv, NEVER touches any frozen PRE/R1/
 R2/R3 artifact, NEVER recomputes a probability.
 
 Source-of-truth split (fixed, never mixed):
-  - current rank / 54-hole cumulative score / player status: the
-    verified DB's real round_number 1-3 data (klpga.neo_win.
-    player_status.classify_player_round_status for status).
+  - current rank / round-3 score / 54-hole cumulative total / player
+    status: the verified DB's real round_number 1-3 data (klpga.
+    neo_win.player_status.classify_player_round_status for status).
   - WIN/TOP5/TOP10/TOP20%: the frozen STAGE_R3 record, read via
     klpga.neo_win.tournament_history.read_effective_history_stage,
     used EXACTLY as frozen.
@@ -222,9 +222,13 @@ def main() -> int:
             if status_obj.classification == STATUS_COMPLETED:
                 has_full = code in r1_scores and code in r2_scores and code in r3_scores
                 cumulative = (r1_scores[code] + r2_scores[code] + r3_scores[code]) if has_full else None
-                db_rows.append(DbPlayerRow(player_code=code, player_name=name, status=STATUS_ACTIVE, cumulative_score_to_par=cumulative))
+                r3_round = r3_scores.get(code)
+                db_rows.append(DbPlayerRow(
+                    player_code=code, player_name=name, status=STATUS_ACTIVE,
+                    r3_round_score_to_par=r3_round, cumulative_score_to_par=cumulative,
+                ))
             else:
-                db_rows.append(DbPlayerRow(player_code=code, player_name=name, status=status_obj.classification, cumulative_score_to_par=None))
+                db_rows.append(DbPlayerRow(player_code=code, player_name=name, status=status_obj.classification))
     finally:
         conn.close()
 
