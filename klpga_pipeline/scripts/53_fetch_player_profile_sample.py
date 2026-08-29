@@ -112,6 +112,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--player-code", action="append", help="playerCode to fetch (repeatable). Default: the two reported examples.")
     parser.add_argument("--expect-name", action="append", help="Expected player name for the matching --player-code (same order, repeatable).")
+    parser.add_argument("--cache-dir", default=str(ROOT / "data" / "raw_cache" / "http"), help="PoliteHttpClient's on-disk cache dir (same convention as the other scripts/ diagnostics) — irrelevant here since fetch_player_profile_html always fetches live, but required by the client's constructor.")
     args = parser.parse_args()
 
     if args.player_code:
@@ -125,7 +126,7 @@ def main() -> int:
         targets = DEFAULT_TARGETS
 
     print(f"[STEP 02] targets: {targets}", flush=True)
-    client = PoliteHttpClient()
+    client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
 
     exit_code = 0
     for player_code, expect_name in targets:
