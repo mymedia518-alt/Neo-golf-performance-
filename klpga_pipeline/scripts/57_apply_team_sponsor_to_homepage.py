@@ -38,23 +38,23 @@ SPONSOR_CSV_PATH = ROOT / "data" / "sponsor" / "2026080001_team_sponsor_snapshot
 CSS_INSERTIONS = [
     (
         '.c-name { font-family: "Noto Sans KR", sans-serif; }',
-        '.c-name { font-family: "Noto Sans KR", sans-serif; }\n'
-        '  .c-sponsor { display: block; font-family: "Noto Sans KR", sans-serif; font-size: 11px; font-weight: 400; color: var(--text-dim); margin-top: 2px; }',
+        '.c-name { font-family: "Noto Sans KR", sans-serif; font-weight: 700; }\n'
+        '  .c-sponsor { display: block; font-family: "Noto Sans KR", sans-serif; font-size: 11px; font-weight: 700; color: var(--text-dim); margin-top: 2px; }',
     ),
     (
         '.pj-name { font-size: 14px; }',
         '.pj-name { font-size: 14px; }\n'
-        '  .pj-sponsor { flex-basis: 100%; font-family: "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 400; color: var(--text-dim); }',
+        '  .pj-sponsor { flex-basis: 100%; font-family: "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; color: var(--text-dim); }',
     ),
     (
         '.dd-name { font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 2px; }',
         '.dd-name { font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 2px; }\n'
-        '  .dd-sponsor { font-family: "Noto Sans KR", sans-serif; font-size: 11px; font-weight: 400; color: var(--text-dim); margin: 0 0 4px; }',
+        '  .dd-sponsor { font-family: "Noto Sans KR", sans-serif; font-size: 11px; font-weight: 700; color: var(--text-dim); margin: 0 0 4px; }',
     ),
     (
         '.hm-name { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(20px, 5vw, 26px); margin: 0 0 6px; }',
-        '.hm-name { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(20px, 5vw, 26px); margin: 0 0 6px; }\n'
-        '  .hm-sponsor { font-family: "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 400; color: var(--text-dim); margin: -4px 0 10px; }',
+        '.hm-name { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(20px, 5vw, 26px); font-weight: 700; margin: 0 0 6px; }\n'
+        '  .hm-sponsor { font-family: "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; color: var(--text-dim); margin: -4px 0 10px; }',
     ),
 ]
 
