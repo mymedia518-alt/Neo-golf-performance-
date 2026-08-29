@@ -234,8 +234,10 @@ def test_end_to_end_success_writes_html_and_matches_top10(module, tmp_path, caps
     assert rc == 0
     assert "STATUS: VALIDATION_PASSED" in out
     assert "=== TOP 10 (R3 POSITION ascending / tied WIN% descending) ===" in out
-    assert "T1. Player One" in out
-    assert "T2. Player Two" in out
+    # Player One (-6) and Player Two (-2) have distinct scores -- no real
+    # tie, so neither gets a T-prefix.
+    assert "1. Player One" in out and "T1. Player One" not in out
+    assert "2. Player Two" in out and "T2. Player Two" not in out
 
     html_path = tmp_path / "out" / GAME_CODE / "preview.html"
     assert html_path.exists()
@@ -243,10 +245,47 @@ def test_end_to_end_success_writes_html_and_matches_top10(module, tmp_path, caps
     assert "Player One" in html and "Player Two" in html
     assert "Player Three" in html  # in non-advancing section
     assert "60.00%" in html
-    assert '<td class="c-pos">T1</td>' in html  # every position T-prefixed, tied or not
+    assert '<td class="c-pos">1</td>' in html  # solo rank -- no T-prefix
     # Player One: r1=-3, r2=-2, r3=-1, cumulative=-6 -- 3R and 합계 must render as separate cells.
     assert '<td class="c-score">-1</td><td class="c-score">-6</td>' in html
     assert "Probabilities represent NEO model estimates for the final tournament result after Round 4." in html
+
+
+def test_end_to_end_real_tie_shows_t_prefix_only_for_tied_players(module, tmp_path, capsys, monkeypatch):
+    """End-to-end confirmation of the fixed rule: p1/p2 share the same
+    real cumulative score (-6) and must both show T1; p3, alone at -2,
+    must show plain '3' (competition ranking skips to 3 after the
+    2-way tie) -- no T -- even though it's a genuine STAGE_R3 ACTIVE
+    player."""
+    import sys
+
+    players = [
+        ("p1", "Tied One", -3, -2, -1, True, False, 3),   # cumulative -6
+        ("p2", "Tied Two", -1, -3, -2, True, False, 3),   # cumulative -6
+        ("p3", "Solo Three", -1, -1, 0, True, False, 3),  # cumulative -2
+    ]
+    db_path = _base_db(tmp_path, players=players)
+    entrants = [
+        {"player_code": "p1", "player_name": "Tied One", "win_pct": 55.0, "top5_pct": 70.0, "top10_pct": 85.0, "top20_pct": 95.0},
+        {"player_code": "p2", "player_name": "Tied Two", "win_pct": 40.0, "top5_pct": 65.0, "top10_pct": 80.0, "top20_pct": 92.0},
+        {"player_code": "p3", "player_name": "Solo Three", "win_pct": 5.0, "top5_pct": 10.0, "top10_pct": 20.0, "top20_pct": 40.0},
+    ]
+    history_dir = _seed_stage_r3(tmp_path, module, entrants)
+    recovery_csv = _seed_recovery_csv(tmp_path, [
+        _recovery_row("p1", "Tied One", 3.0), _recovery_row("p2", "Tied Two", 2.0), _recovery_row("p3", "Solo Three", 0.0),
+    ])
+    monkeypatch.setattr(sys, "argv", _argv(db_path, history_dir, recovery_csv, tmp_path))
+    rc = module.main()
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "STATUS: VALIDATION_PASSED" in out
+    assert "T1. Tied One" in out
+    assert "T1. Tied Two" in out
+    assert "3. Solo Three" in out and "T3. Solo Three" not in out
+
+    html = (tmp_path / "out" / GAME_CODE / "preview.html").read_text(encoding="utf-8")
+    assert html.count('<td class="c-pos">T1</td>') == 2
+    assert '<td class="c-pos">3</td>' in html
 
 
 def test_readonly_never_modifies_sources(module, tmp_path, monkeypatch):
