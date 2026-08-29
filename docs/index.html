@@ -33,7 +33,7 @@
     color: var(--text);
     font-family: "Noto Sans KR", sans-serif;
   }
-  header, main, p.contest-status, section.validation-timeline, section.hero, section.calibration, section.forecast, section.forecast-change, section.frozen-status, section.deep-dive, section.non-advancing, footer { max-width: 980px; margin-left: auto; margin-right: auto; }
+  header, main, p.contest-status, section.validation-timeline, section.hero, section.calibration, section.forecast, section.forecast-change, section.frozen-status, section.r1-cut-validation, section.deep-dive, section.non-advancing, footer { max-width: 980px; margin-left: auto; margin-right: auto; }
   header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
   .header-main { flex: 1 1 auto; min-width: 0; }
   .next-update { flex-shrink: 0; text-align: right; font-family: "Roboto Mono", monospace; }
@@ -72,7 +72,36 @@
 
   section.calibration { margin-bottom: 24px; }
   section.calibration h2, section.forecast h2 { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(18px, 4.5vw, 22px); margin: 0 0 4px; }
-  section.forecast-change, section.frozen-status { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); }
+  section.forecast-change, section.frozen-status, section.r1-cut-validation { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); }
+  p.hero-frozen-note { color: var(--text-dim); font-size: 12px; font-weight: 600; margin: 0 0 18px; }
+  .hero-mover { background: var(--bg-alt); border-radius: 12px; padding: 20px; text-align: center; }
+  .hm-eyebrow { color: var(--text-dim); font-size: 12px; font-weight: 700; margin: 0 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .hm-name { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(20px, 5vw, 26px); margin: 0 0 6px; }
+  .hm-change { font-family: "Roboto Mono", monospace; font-size: clamp(20px, 6vw, 30px); font-weight: 700; color: var(--accent); margin: 0; }
+  .hm-delta { font-family: "Roboto Mono", monospace; font-size: 15px; font-weight: 700; margin: 4px 0 8px; }
+  .hm-delta-pos { color: var(--accent); }
+  .hm-delta-neg { color: #b23a3a; }
+  .hm-caption { color: var(--text-dim); font-size: 12px; margin: 0 0 16px; }
+  .hm-cta { background: var(--accent); color: #fff; border: none; border-radius: 999px; padding: 9px 20px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .hm-cta:hover, .hm-cta:focus-visible { opacity: 0.85; }
+  .fc-subtitle { font-size: 12px; font-weight: 700; color: var(--text-dim); margin: 14px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .fc-subtitle-drop { color: #b23a3a; }
+  .fc-mover-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .fc-mover-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; background: var(--bg-alt); border-radius: 8px; padding: 8px 12px; }
+  .fc-name { font-weight: 700; font-size: 13px; }
+  .fc-change { font-family: "Roboto Mono", monospace; font-size: 13px; color: var(--text-dim); }
+  .fc-delta { font-family: "Roboto Mono", monospace; font-weight: 700; font-size: 13px; }
+  .fc-delta-pos { color: var(--accent); }
+  .fc-delta-neg { color: #b23a3a; }
+  .fc-drop-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; background: #fdf1e0; border-radius: 8px; padding: 10px 12px; }
+  section.r1-cut-validation summary { cursor: pointer; list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  section.r1-cut-validation summary::-webkit-details-marker { display: none; }
+  .r1cv-title { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(15px, 3.5vw, 18px); }
+  .r1cv-summary { color: var(--text-dim); font-size: 12px; }
+  .r1cv-toggle { color: var(--accent-blue); font-size: 12px; font-weight: 600; margin-left: auto; }
+  .r1cv-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .r1cv-body .hero-metrics { margin-top: 14px; }
+  .r1cv-body h2 { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(16px, 4vw, 19px); margin: 20px 0 4px; }
   p.contest-status { display: block; color: var(--text-dim); font-size: 13px; margin: 0 0 14px; text-align: center; }
   p.contest-status strong { color: var(--accent); }
   section.validation-timeline { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 6px; margin-bottom: 24px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 18px 14px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); }
@@ -286,6 +315,22 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function() { card.hidden = true; }, 200);
   }
 
+  function openPlayerJourneyByName(name) {
+    var row = document.querySelector('tr[data-player-journey-trigger][data-player-name="' + name + '"]');
+    if (!row) return;
+    if (row.hidden) {
+      var groupKey = row.getAttribute('data-rank-group-member');
+      var header = document.querySelector('tr[data-rank-group-header][data-rank-group-key="' + groupKey + '"]');
+      if (header && header.getAttribute('aria-expanded') !== 'true') {
+        toggleRankGroup(header);
+      }
+    }
+    if (row.getAttribute('aria-expanded') !== 'true') {
+      togglePlayerJourney(row);
+    }
+    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   function toggleRankGroup(headerRow) {
     var key = headerRow.getAttribute('data-rank-group-key');
     var members = document.querySelectorAll('tr[data-rank-group-member="' + key + '"]');
@@ -407,6 +452,11 @@ document.addEventListener('DOMContentLoaded', function () {
       if (notifyPanel) notifyPanel.hidden = false;
       return;
     }
+    var moverCta = e.target.closest('[data-open-player-journey]');
+    if (moverCta) {
+      openPlayerJourneyByName(moverCta.getAttribute('data-player-name'));
+      return;
+    }
     var notifyBtn = e.target.closest('[data-deep-dive-notify]');
     if (notifyBtn && !notifyBtn.disabled) {
       if (typeof gtag === 'function') {
@@ -507,46 +557,62 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="vt-stage vt-active"><span class="vt-marker">●</span><span class="vt-label">FINAL</span><span class="vt-sub">진행 중 — 최종 결과 확정 후 R3 동결 예측을 평가합니다.</span></div>
   </section>
   <section class="hero">
-  <h1>NEO BETA #001 — 3R 종료</h1>
-  <p class="hero-sub">라운드가 끝날 때마다 예측을 동결하고, 다음 실제 결과와 비교합니다.</p>
-  <h2 class="vh-title">R1 → CUT 검증 <span class="vh-badge vh-badge-done">완료</span></h2>
-  <div class="hero-primary-stat">
-    <div class="big">40% 이상으로 예측한 35명</div>
-    <div class="small">35명 전원 컷 통과</div>
-  </div>
-  <ul class="hero-metrics">
-    <li>평가 대상 110명</li>
-    <li>실제 컷 통과 62명</li>
-    <li>50% 기준 분류 정확도 68.2%</li>
-  </ul>
-  <p class="hero-compare">평균 예측 30.4% | 실제 컷 통과율 56.4%</p>
-  <p class="hero-note">NEO GOLF DATA는 출전 선수들의 축적된 경기력을 바탕으로 검증된 예측 시스템을 통해 대회 결과의 가능성을 계산합니다.</p>
-</section>
-  <section class="calibration">
-  <h2>예측 확률별 실제 컷 통과율</h2>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>예측 구간</th><th>인원</th><th>실제 통과</th><th>평균 예측</th><th>실제 통과율</th></tr></thead>
-      <tbody><tr><td>0-20%</td><td>48</td><td>9</td><td>7.2%</td><td>18.8%</td></tr><tr><td>20-40%</td><td>27</td><td>18</td><td>28.0%</td><td>66.7%</td></tr><tr class="cal-bucket-highlight"><td>40-60%</td><td>16</td><td>16</td><td>50.1%</td><td>100.0%</td></tr><tr class="cal-bucket-highlight"><td>60-80%</td><td>12</td><td>12</td><td>68.2%</td><td>100.0%</td></tr><tr class="cal-bucket-highlight"><td>80-100%</td><td>7</td><td>7</td><td>88.6%</td><td>100.0%</td></tr></tbody>
-    </table>
+  <h1>NEO BETA #001 — FINAL ROUND 진행 중</h1>
+  <p class="hero-sub">4R 시작 전 마지막 예측을 동결했습니다. 2R에서 3R으로 넘어오며 NEO의 평가가 가장 크게 바뀐 선수들을 확인합니다.</p>
+  <p class="hero-frozen-note">아래 확률은 실시간이 아니라 4R 시작 전 동결된 POST-R3 forecast입니다.</p>
+  <div class="hero-mover">
+    <p class="hm-eyebrow">한 라운드 만에 우승확률 6.3배</p>
+    <p class="hm-name">박혜준</p>
+    <p class="hm-change">1.84% → 11.56%</p>
+    <p class="hm-delta hm-delta-pos">▲ +9.72%p</p>
+    <p class="hm-caption">2R → 3R, NEO 우승확률이 가장 크게 상승한 선수</p>
+    <button type="button" class="hm-cta" data-open-player-journey data-player-name="박혜준">박혜준 Player Journey 보기</button>
   </div>
 </section>
   <section class="forecast-change">
   <h2 class="vh-title">R2 → R3 예측 변화 <span class="vh-badge vh-badge-progress">진행중</span></h2>
-  <p class="vh-desc">같은 최종 결과를 바라보는 NEO의 우승확률이 3라운드 결과 이후 어떻게 움직였는지 보여줍니다.</p>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>선수</th><th>R2 WIN</th><th>R3 WIN</th><th>변화</th></tr></thead>
-      <tbody>
-        <tr><td class="c-name">박혜준</td><td class="c-pct">1.84%</td><td class="c-pct">11.56%</td><td class="c-change-pos">+9.72%p</td></tr>
-        <tr><td class="c-name">신다인</td><td class="c-pct">0.50%</td><td class="c-pct">7.40%</td><td class="c-change-pos">+6.90%p</td></tr>
-        <tr><td class="c-name">서교림</td><td class="c-pct">2.64%</td><td class="c-pct">8.40%</td><td class="c-change-pos">+5.76%p</td></tr>
-        <tr><td class="c-name">최예림</td><td class="c-pct">0.96%</td><td class="c-pct">6.30%</td><td class="c-change-pos">+5.34%p</td></tr>
-        <tr><td class="c-name">양효진</td><td class="c-pct">0.20%</td><td class="c-pct">4.66%</td><td class="c-change-pos">+4.46%p</td></tr>
-        <tr><td class="c-name">노승희</td><td class="c-pct">27.26%</td><td class="c-pct">15.04%</td><td class="c-change-neg">-12.22%p</td></tr>
-      </tbody>
-    </table>
+  <p class="vh-desc">같은 최종 결과를 바라보는 NEO의 우승확률이 3라운드 결과 이후 어떻게 움직였는지 보여줍니다. 이것은 정확도 검증이 아니라 예측 변화입니다.</p>
+  <p class="fc-subtitle">상승</p>
+  <ul class="fc-mover-list">
+    <li><span class="fc-name">박혜준</span><span class="fc-change">1.84% → 11.56%</span><span class="fc-delta fc-delta-pos">▲ +9.72%p</span></li>
+    <li><span class="fc-name">신다인</span><span class="fc-change">0.50% → 7.40%</span><span class="fc-delta fc-delta-pos">▲ +6.90%p</span></li>
+    <li><span class="fc-name">서교림</span><span class="fc-change">2.64% → 8.40%</span><span class="fc-delta fc-delta-pos">▲ +5.76%p</span></li>
+    <li><span class="fc-name">최예림</span><span class="fc-change">0.96% → 6.30%</span><span class="fc-delta fc-delta-pos">▲ +5.34%p</span></li>
+    <li><span class="fc-name">양효진</span><span class="fc-change">0.20% → 4.66%</span><span class="fc-delta fc-delta-pos">▲ +4.46%p</span></li>
+  </ul>
+  <p class="fc-subtitle fc-subtitle-drop">BIGGEST DROP</p>
+  <div class="fc-drop-card">
+    <span class="fc-name">노승희</span><span class="fc-change">27.26% → 15.04%</span><span class="fc-delta fc-delta-neg">▼ -12.22%p</span>
   </div>
+</section>
+  <section class="r1-cut-validation">
+  <details>
+    <summary>
+      <span class="r1cv-title">R1 → CUT 검증 <span class="vh-badge vh-badge-done">✓</span></span>
+      <span class="r1cv-summary">40% 이상 예측 35명 → 35명 전원 컷 통과</span>
+      <span class="r1cv-toggle">검증 결과 자세히 보기 ▾</span>
+    </summary>
+    <div class="r1cv-body">
+      <div class="hero-primary-stat">
+        <div class="big">40% 이상으로 예측한 35명</div>
+        <div class="small">35명 전원 컷 통과</div>
+      </div>
+      <ul class="hero-metrics">
+        <li>평가 대상 110명</li>
+        <li>실제 컷 통과 62명</li>
+        <li>50% 기준 분류 정확도 68.2%</li>
+      </ul>
+      <p class="hero-compare">평균 예측 30.4% | 실제 컷 통과율 56.4%</p>
+      <p class="hero-note">NEO GOLF DATA는 출전 선수들의 축적된 경기력을 바탕으로 검증된 예측 시스템을 통해 대회 결과의 가능성을 계산합니다.</p>
+      <h2>예측 확률별 실제 컷 통과율</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>예측 구간</th><th>인원</th><th>실제 통과</th><th>평균 예측</th><th>실제 통과율</th></tr></thead>
+          <tbody><tr><td>0-20%</td><td>48</td><td>9</td><td>7.2%</td><td>18.8%</td></tr><tr><td>20-40%</td><td>27</td><td>18</td><td>28.0%</td><td>66.7%</td></tr><tr class="cal-bucket-highlight"><td>40-60%</td><td>16</td><td>16</td><td>50.1%</td><td>100.0%</td></tr><tr class="cal-bucket-highlight"><td>60-80%</td><td>12</td><td>12</td><td>68.2%</td><td>100.0%</td></tr><tr class="cal-bucket-highlight"><td>80-100%</td><td>7</td><td>7</td><td>88.6%</td><td>100.0%</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </details>
 </section>
   <section class="frozen-status">
   <h2 class="vh-title">R3 → FINAL <span class="vh-badge vh-badge-frozen">예측 동결 완료</span></h2>
