@@ -234,8 +234,8 @@ def test_end_to_end_success_writes_html_and_matches_top10(module, tmp_path, caps
     assert rc == 0
     assert "STATUS: VALIDATION_PASSED" in out
     assert "=== TOP 10 (R3 POSITION ascending / tied WIN% descending) ===" in out
-    assert "1. Player One" in out
-    assert "2. Player Two" in out
+    assert "T1. Player One" in out
+    assert "T2. Player Two" in out
 
     html_path = tmp_path / "out" / GAME_CODE / "preview.html"
     assert html_path.exists()
@@ -243,6 +243,7 @@ def test_end_to_end_success_writes_html_and_matches_top10(module, tmp_path, caps
     assert "Player One" in html and "Player Two" in html
     assert "Player Three" in html  # in non-advancing section
     assert "60.00%" in html
+    assert '<td class="c-pos">T1</td>' in html  # every position T-prefixed, tied or not
     assert "Probabilities represent NEO model estimates for the final tournament result after Round 4." in html
 
 

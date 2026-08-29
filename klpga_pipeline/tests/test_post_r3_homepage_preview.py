@@ -94,7 +94,11 @@ def test_non_advancing_player_never_gets_probabilities_even_if_present_in_stage_
     assert warnings == []
 
 
-def test_current_rank_display_tied_gets_t_prefix_untied_does_not():
+def test_current_rank_display_always_gets_t_prefix():
+    """Every current position is shown with a leading 'T', tied or not
+    (T1, T5, T10, T23, ...) -- the underlying rank NUMBER still reflects
+    real ties (see test_ranks_ties_share_rank_and_next_rank_skips);
+    only the display string changed."""
     db_rows = [
         _db("p1", "A", STATUS_ACTIVE, -9.0),
         _db("p2", "B", STATUS_ACTIVE, -9.0),
@@ -104,7 +108,13 @@ def test_current_rank_display_tied_gets_t_prefix_untied_does_not():
     by_code = {r.player_code: r for r in rows}
     assert by_code["p1"].current_rank_display == "T1"
     assert by_code["p2"].current_rank_display == "T1"
-    assert by_code["p3"].current_rank_display == "3"
+    assert by_code["p3"].current_rank_display == "T3"  # untied, but still T-prefixed
+
+
+def test_current_rank_display_unavailable_stays_unavailable():
+    db_rows = [_db("p1", "A", STATUS_ACTIVE, None)]  # no real cumulative score -> no rank
+    rows, _w = build_preview_rows(db_rows, {}, {})
+    assert rows[0].current_rank_display == "unavailable"
 
 
 def test_recovery_missing_for_active_player_is_warned_and_unavailable():
