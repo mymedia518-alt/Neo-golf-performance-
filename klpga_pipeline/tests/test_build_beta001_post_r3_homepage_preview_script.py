@@ -233,6 +233,7 @@ def test_end_to_end_success_writes_html_and_matches_top10(module, tmp_path, caps
 
     assert rc == 0
     assert "STATUS: VALIDATION_PASSED" in out
+    assert "=== TOP 10 (R3 POSITION ascending / tied WIN% descending) ===" in out
     assert "1. Player One" in out
     assert "2. Player Two" in out
 
