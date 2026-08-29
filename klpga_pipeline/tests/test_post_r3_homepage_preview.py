@@ -13,6 +13,8 @@ from klpga.neo_win.post_r3_homepage_preview import (
     format_win_change,
     reconcile_codes,
     render_preview_html,
+    select_one_stroke_back_inversion,
+    select_tied_leaders,
     sort_active_rows_by_rank_then_win,
 )
 
@@ -204,6 +206,149 @@ def test_render_html_separates_active_and_non_advancing():
     assert "PREVIEW ONLY" in html
     # Cut Player's name must appear only in the non-advancing pill list, never inside a probability <td>.
     assert "<td class=\"c-pct\">42.00%</td>" in html
+    assert "R2→R3 WIN 변화" in html  # renamed header
+    assert "현재 순위가 같아도 선수별 경기력 평가에 따라 우승확률은 다릅니다." in html  # added description
+
+
+def test_render_html_non_advancing_is_collapsed_by_default():
+    rows, _w = build_preview_rows(
+        [_db("p1", "Active Player", STATUS_ACTIVE, -6.0), _db("p2", "Cut Player", "CUT", None)],
+        {"p1": _FakeEntrant("p1", "Active Player", 42.0, 78.0, 88.0, 94.0)},
+        {},
+    )
+    html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
+    assert "<details>" in html
+    assert "<summary>최종라운드 비진출 선수 1명 보기</summary>" in html
+    assert "<h3>" not in html  # old always-visible heading is gone
+    # CUT/WD/DQ status data itself is unchanged, just wrapped in <details>.
+    assert "컷 탈락" in html
+
+
+def test_render_html_mobile_title_fix_media_query_present():
+    """Regression guard for the reported left/right title clipping on
+    narrow viewports -- the wordmark title must shrink/wrap instead of
+    overflowing with white-space: nowrap at all widths."""
+    rows, _w = build_preview_rows([_db("p1", "A", STATUS_ACTIVE, -1.0)], {}, {})
+    html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
+    assert "@media (max-width: 480px)" in html
+    assert ".wordmark-name { --row: 10px; white-space: normal;" in html
+
+
+# ---------------------------------------------------------------
+# NEO DEEP DIVE selection (select_tied_leaders / select_one_stroke_back_inversion)
+# ---------------------------------------------------------------
+
+
+def _t1_field_rows():
+    """Mirrors the real, user-confirmed T1 example: four tied leaders
+    at -9 with distinct WIN%, plus one player at -8 (one shot back)
+    whose WIN% beats two of them."""
+    db_rows = [
+        _db("p1", "노승희", STATUS_ACTIVE, -9.0),
+        _db("p2", "박혜준", STATUS_ACTIVE, -9.0),
+        _db("p3", "신다인", STATUS_ACTIVE, -9.0),
+        _db("p4", "유아현", STATUS_ACTIVE, -9.0),
+        _db("p5", "서교림", STATUS_ACTIVE, -8.0),
+    ]
+    stage = {
+        "p1": _FakeEntrant("p1", "노승희", 15.04, 30, 50, 70),
+        "p2": _FakeEntrant("p2", "박혜준", 11.56, 25, 45, 65),
+        "p3": _FakeEntrant("p3", "신다인", 7.40, 20, 40, 60),
+        "p4": _FakeEntrant("p4", "유아현", 0.24, 5, 15, 30),
+        "p5": _FakeEntrant("p5", "서교림", 8.40, 22, 42, 62),
+    }
+    rows, _w = build_preview_rows(db_rows, stage, {})
+    return rows
+
+
+def test_select_tied_leaders_returns_all_tied_sorted_by_win_desc():
+    leaders = select_tied_leaders(_t1_field_rows())
+    assert [r.player_name for r in leaders] == ["노승희", "박혜준", "신다인", "유아현"]
+    assert all(r.current_rank == 1 for r in leaders)
+
+
+def test_select_tied_leaders_empty_when_solo_leader():
+    rows, _w = build_preview_rows(
+        [_db("p1", "Solo", STATUS_ACTIVE, -9.0), _db("p2", "Second", STATUS_ACTIVE, -3.0)],
+        {"p1": _FakeEntrant("p1", "Solo", 80.0, 90, 95, 99), "p2": _FakeEntrant("p2", "Second", 20.0, 40, 60, 80)},
+        {},
+    )
+    assert select_tied_leaders(rows) == []
+
+
+def test_select_one_stroke_back_inversion_matches_known_real_pairing():
+    """The generic nearest-margin rule must reproduce the exact real
+    pairing the user confirmed: 서교림 (8.40%) vs 신다인 (7.40%), not
+    유아현 (0.24%) -- because 8.40-7.40 is the smallest margin among
+    the T1 leaders 서교림's WIN% actually beats."""
+    cand, leader = select_one_stroke_back_inversion(_t1_field_rows())
+    assert cand.player_name == "서교림"
+    assert leader.player_name == "신다인"
+
+
+def test_select_one_stroke_back_inversion_none_when_no_inversion_exists():
+    rows, _w = build_preview_rows(
+        [_db("p1", "Leader", STATUS_ACTIVE, -9.0), _db("p2", "OneBack", STATUS_ACTIVE, -8.0)],
+        {"p1": _FakeEntrant("p1", "Leader", 80.0, 90, 95, 99), "p2": _FakeEntrant("p2", "OneBack", 10.0, 20, 30, 40)},
+        {},
+    )
+    assert select_one_stroke_back_inversion(rows) is None
+
+
+def test_select_one_stroke_back_inversion_none_when_no_leader_at_all():
+    rows, _w = build_preview_rows([_db("p1", "OnlyPlayer", STATUS_ACTIVE, -3.0)], {}, {})
+    assert select_one_stroke_back_inversion(rows) is None
+
+
+# ---------------------------------------------------------------
+# NEO DEEP DIVE rendering
+# ---------------------------------------------------------------
+
+
+def test_deep_dive_renders_both_cards_and_inert_cta_for_real_example():
+    html = render_preview_html(_t1_field_rows(), tournament_name="Test Open", game_code="2026080099")
+    assert "NEO DEEP DIVE" in html
+    assert "같은 공동선두 -9, 그런데 우승확률은 왜 다를까?" in html
+    assert "네 선수 모두 공동선두에서 최종라운드를 시작하지만" in html
+    assert "한 타 뒤인데 우승확률은 더 높다" in html
+    assert "현재 순위만으로는 설명되지 않는 차이입니다." in html
+    assert "왜 이런 차이가 날까? → NEO DEEP DIVE" in html
+    # CTA must be inert text, never a real link/anchor.
+    assert "<a " not in html.split('class="deep-dive-cta"')[1][:200]
+    # exact known-verified values must appear, formatted to 2 decimals.
+    for pct in ("15.04%", "11.56%", "7.40%", "0.24%", "8.40%"):
+        assert pct in html
+
+
+def test_deep_dive_omitted_entirely_when_no_tie_and_no_inversion():
+    rows, _w = build_preview_rows(
+        [_db("p1", "Solo", STATUS_ACTIVE, -9.0)],
+        {"p1": _FakeEntrant("p1", "Solo", 100.0, 100, 100, 100)},
+        {},
+    )
+    html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
+    assert "NEO DEEP DIVE" not in html
+    assert '<section class="deep-dive">' not in html  # CSS rules for the class may still be present, unused
+
+
+def test_deep_dive_card1_description_matches_actual_tie_count():
+    """3 tied leaders -> '세 선수', not the hardcoded '네 선수' from the
+    4-player example -- the description must stay accurate for any
+    real tie size, not just today's."""
+    db_rows = [
+        _db("p1", "A", STATUS_ACTIVE, -5.0),
+        _db("p2", "B", STATUS_ACTIVE, -5.0),
+        _db("p3", "C", STATUS_ACTIVE, -5.0),
+    ]
+    stage = {
+        "p1": _FakeEntrant("p1", "A", 40.0, 60, 80, 95),
+        "p2": _FakeEntrant("p2", "B", 35.0, 55, 75, 90),
+        "p3": _FakeEntrant("p3", "C", 25.0, 45, 65, 85),
+    }
+    rows, _w = build_preview_rows(db_rows, stage, {})
+    html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
+    assert "세 선수 모두 공동선두에서" in html
+    assert "네 선수 모두" not in html
 
 
 def test_render_html_sorts_by_current_rank_ascending():
