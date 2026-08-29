@@ -162,6 +162,8 @@
     line-height: 1.7;
   }
   .footer-line { margin: 0; }
+  .footer-link { color: var(--text-dim); text-decoration: underline; text-decoration-color: transparent; }
+  .footer-link:hover, .footer-link:focus-visible { text-decoration-color: currentColor; }
 
   @media (max-width: 480px) {
     body { padding: 16px 10px 40px; }
@@ -228,4 +230,5 @@
   <div class="footer-line">&copy; 2026 NEO GOLF DATA. All Rights Reserved.</div>
   <div class="footer-line">Predictions and probability models are proprietary to NEO GOLF DATA.</div>
   <div class="footer-line">Tournament results and player information are based on publicly available data.</div>
+  <div class="footer-line"><a class="footer-link" href="/about/">NEO GOLF DATA 소개</a></div>
 </footer>
