@@ -19,8 +19,11 @@ HARD STOPS (writes nothing) on: any real round_number=4 row already
 existing, STAGE_R3 not found, the recovery CSV not found/malformed, a
 duplicate player_code, WIN SUM among ACTIVE players not ~100%, any
 WIN<=TOP5<=TOP10<=TOP20 (0-100) violation, an ACTIVE-in-DB player
-entirely absent from STAGE_R3, or klpga.neo_win.player_status.
-assess_field_readiness reporting a real ingestion gap at round_number=3.
+entirely absent from STAGE_R3, klpga.neo_win.player_status.
+assess_field_readiness reporting a real ingestion gap at round_number=3,
+or (only for game_code 2026080001) a known-verified STAGE_R3 WIN%
+disagreeing with `_GOLDEN_WIN_PCT_2026080001` -- a one-off regression
+guard for this specific tournament, see that constant's comment.
 
 Usage (once R3 has officially concluded and both source artifacts exist):
     python scripts/build_beta001_post_r3_homepage_preview.py --db data/klpga.sqlite \\
@@ -76,6 +79,33 @@ _RECOVERY_CSV_FIELDNAMES = (
     "r2_win_pct", "r2_top5_pct", "r2_top10_pct", "r2_top20_pct",
     "r3_win_pct", "r3_top5_pct", "r3_top10_pct", "r3_top20_pct", "r2_to_r3_win_change_pct",
 )
+
+# One-off regression guard: known-verified STAGE_R3 WIN% for specific
+# named players in THIS tournament (game_code 2026080001), confirmed
+# by the user on 2026-08-29 against the real frozen artifact. Enforced
+# ONLY for this exact game_code -- not a general pattern, never applied
+# to any other tournament's preview run. Exists purely to HARD_STOP if
+# a stale or wrong artifact were ever loaded for this specific run; can
+# be removed once this tournament concludes and the check is no longer
+# relevant. Never used to recompute or override anything -- comparison
+# only, against the same frozen STAGE_R3 value already displayed.
+_GOLDEN_WIN_PCT_2026080001 = {
+    "노승희": 15.04, "박혜준": 11.56, "신다인": 7.40, "유아현": 0.24, "서교림": 8.40,
+}
+
+
+def _check_golden_values(rows, game_code: str) -> list[str]:
+    if game_code != "2026080001":
+        return []
+    problems = []
+    by_name = {r.player_name: r for r in rows if r.status == STATUS_ACTIVE}
+    for name, expected in _GOLDEN_WIN_PCT_2026080001.items():
+        row = by_name.get(name)
+        if row is None or row.win_pct is None:
+            continue
+        if round(row.win_pct, 2) != expected:
+            problems.append(f"{name}: STAGE_R3 win_pct={row.win_pct} (rounds to {round(row.win_pct, 2)}) != known-verified {expected}")
+    return problems
 
 
 def _r4_row_count(conn: sqlite3.Connection, game_code: str) -> int:
@@ -264,6 +294,10 @@ def main() -> int:
             hard_stops.append(f"ACTIVE-in-DB but absent from STAGE_R3: {recon_db_stage['db_active_only']}")
         if recon_db_stage["stage_r3_only"]:
             warnings.append(f"in STAGE_R3 but not ACTIVE in DB (expected for confirmed CUT/WD/DQ players): {len(recon_db_stage['stage_r3_only'])}")
+
+        golden_problems = _check_golden_values(rows, args.game_code)
+        if golden_problems:
+            hard_stops.append(f"golden-value mismatch for game_code {args.game_code}: {golden_problems}")
 
         recovery_codes = set(recovery_change_by_code)
         recon_recovery_stage = reconcile_codes("recovery", recovery_codes, "stage_r3", stage_r3_codes)

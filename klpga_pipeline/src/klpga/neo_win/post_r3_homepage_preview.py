@@ -131,6 +131,54 @@ def sort_active_rows_by_rank_then_win(rows: list[PreviewRow]) -> list[PreviewRow
 
 
 # ---------------------------------------------------------------
+# NEO DEEP DIVE teaser selection -- pure selection over already-frozen
+# fields (current_rank, cumulative_score_to_par, win_pct). Nothing is
+# recomputed, estimated, or interpreted; each function either finds a
+# real pattern already present in the data or returns nothing.
+# ---------------------------------------------------------------
+
+
+def select_tied_leaders(rows: list[PreviewRow]) -> list[PreviewRow]:
+    """ACTIVE players sharing current_rank == 1, WIN% descending.
+    Returns [] unless there are at least 2 (a genuine tie) -- with a
+    single outright leader there is no "공동선두" (tied lead) story."""
+    leaders = [r for r in sort_active_rows_by_rank_then_win(rows) if r.current_rank == 1]
+    return leaders if len(leaders) >= 2 else []
+
+
+def select_one_stroke_back_inversion(rows: list[PreviewRow]) -> Optional[tuple[PreviewRow, PreviewRow]]:
+    """Finds a real (candidate, leader) pair already present in the
+    frozen values where candidate is exactly one stroke behind a
+    current_rank==1 leader (candidate.cumulative_score_to_par ==
+    leader.cumulative_score_to_par + 1) yet candidate.win_pct >
+    leader.win_pct -- a genuine numeric rank/WIN-probability inversion.
+    Returns None when no such pair exists. Among multiple qualifying
+    pairs, picks the one with the SMALLEST WIN% margin (the closest,
+    most directly comparable pair); ties broken by player_code for
+    determinism. No value is computed or altered -- pure selection."""
+    active = sort_active_rows_by_rank_then_win(rows)
+    leaders = [r for r in active if r.current_rank == 1 and r.win_pct is not None and r.cumulative_score_to_par is not None]
+    if not leaders:
+        return None
+    candidates = [
+        r for r in active
+        if r.current_rank is not None and r.current_rank > 1
+        and r.win_pct is not None and r.cumulative_score_to_par is not None
+    ]
+    pairs = [
+        (cand.win_pct - leader.win_pct, cand.player_code, leader.player_code, cand, leader)
+        for cand in candidates
+        for leader in leaders
+        if cand.cumulative_score_to_par == leader.cumulative_score_to_par + 1 and cand.win_pct > leader.win_pct
+    ]
+    if not pairs:
+        return None
+    pairs.sort(key=lambda t: (t[0], t[1], t[2]))
+    _, _, _, cand, leader = pairs[0]
+    return cand, leader
+
+
+# ---------------------------------------------------------------
 # Validation — every check reports, never corrects
 # ---------------------------------------------------------------
 
@@ -210,7 +258,7 @@ _PREVIEW_CSS = """
   }
   * { box-sizing: border-box; }
   body { margin: 0; padding: 32px 18px 72px; background: var(--bg); color: var(--text); font-family: "Noto Sans KR", sans-serif; }
-  header, main, section.forecast, section.non-advancing, footer { max-width: 980px; margin-left: auto; margin-right: auto; }
+  header, main, section.forecast, section.non-advancing, section.deep-dive, footer { max-width: 980px; margin-left: auto; margin-right: auto; }
   header { margin-bottom: 28px; }
   .wordmark { --row: clamp(12px, 3vw, 16px); display: flex; align-items: center; gap: clamp(12px, 3.2vw, 20px); margin-bottom: 10px; }
   .wordmark-letters { display: flex; flex-direction: column; gap: calc(var(--row) * 0.15); flex-shrink: 0; }
@@ -234,13 +282,89 @@ _PREVIEW_CSS = """
   tbody td.c-change-pos { color: var(--accent); font-weight: 700; }
   tbody td.c-change-neg { color: #b23a3a; font-weight: 700; }
   section.non-advancing { margin-top: 28px; }
-  section.non-advancing h3 { font-family: "Big Shoulders Display", sans-serif; font-size: 16px; color: var(--text-dim); margin: 0 0 8px; }
-  .non-advancing-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  section.non-advancing summary { cursor: pointer; font-family: "Big Shoulders Display", sans-serif; font-size: 16px; color: var(--text-dim); list-style: none; }
+  section.non-advancing summary::-webkit-details-marker { display: none; }
+  section.non-advancing summary::before { content: "▸ "; }
+  section.non-advancing details[open] summary::before { content: "▾ "; }
+  .non-advancing-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
   .non-advancing-list li { background: var(--bg-alt); color: var(--text-dim); font-size: 12px; padding: 5px 12px; border-radius: 999px; }
+  section.deep-dive { margin-top: 28px; padding: 18px 20px 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 1px 3px rgba(22,33,62,0.08); }
+  section.deep-dive h2 { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(16px, 4vw, 20px); letter-spacing: 0.04em; color: var(--accent); margin: 0 0 14px; }
+  .deep-dive-card + .deep-dive-card { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
+  .deep-dive-headline { font-weight: 700; font-size: 15px; margin: 0 0 12px; }
+  .deep-dive-compare, .deep-dive-vs { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .dd-vs-label { font-weight: 700; color: var(--text-dim); font-size: 12px; padding: 0 4px; }
+  .deep-dive-player { flex: 1 1 130px; background: var(--bg-alt); border-radius: 8px; padding: 10px 12px; }
+  .dd-name { font-family: "Noto Sans KR", sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+  .dd-rank { font-family: "Roboto Mono", monospace; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; }
+  .dd-win { font-family: "Roboto Mono", monospace; font-weight: 700; color: var(--accent-blue); font-size: 15px; }
+  .deep-dive-desc { color: var(--text-dim); font-size: 13px; margin: 0; }
+  .deep-dive-cta { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 13px; font-weight: 600; text-align: center; }
   footer { margin-top: 56px; padding-bottom: 8px; text-align: center; color: var(--text-dim); font-size: 11px; line-height: 1.7; }
   .footer-line { margin: 0; }
   .disclaimer { font-weight: 600; }
+  @media (max-width: 480px) {
+    .wordmark { flex-wrap: wrap; row-gap: 4px; }
+    .wordmark-name { --row: 10px; white-space: normal; font-size: calc(var(--row) * 2.4); line-height: 1.05; }
+  }
 """
+
+
+def _dd_player_card(r: PreviewRow) -> str:
+    return (
+        '<div class="deep-dive-player">'
+        f'<div class="dd-name">{r.player_name}</div>'
+        f'<div class="dd-rank">{r.current_rank_display} / {_fmt_score(r.cumulative_score_to_par)}</div>'
+        f'<div class="dd-win">WIN {_fmt_pct(r.win_pct)}</div>'
+        "</div>"
+    )
+
+
+_DEEP_DIVE_COUNT_KO = {2: "두", 3: "세", 4: "네", 5: "다섯", 6: "여섯"}
+
+
+def _render_deep_dive_section(rows: list[PreviewRow]) -> str:
+    """Teaser only -- no model explanation, no new interpretation. Each
+    card renders only when the real, already-frozen data supports its
+    premise (see `select_tied_leaders` / `select_one_stroke_back_
+    inversion`); otherwise that card (or the whole section) is omitted
+    rather than fabricated. The CTA is inert text, never a fabricated
+    link -- there is no detail page yet."""
+    leaders = select_tied_leaders(rows)
+    inversion = select_one_stroke_back_inversion(rows)
+
+    cards = []
+    if leaders:
+        count_word = _DEEP_DIVE_COUNT_KO.get(len(leaders), str(len(leaders)))
+        cards.append(
+            '<div class="deep-dive-card">'
+            '<p class="deep-dive-headline">같은 공동선두 '
+            f'{_fmt_score(leaders[0].cumulative_score_to_par)}, 그런데 우승확률은 왜 다를까?</p>'
+            f'<div class="deep-dive-compare">{"".join(_dd_player_card(r) for r in leaders)}</div>'
+            f'<p class="deep-dive-desc">{count_word} 선수 모두 공동선두에서 최종라운드를 시작하지만 '
+            'NEO가 계산한 우승확률은 서로 다릅니다.</p>'
+            "</div>"
+        )
+    if inversion:
+        cand, leader = inversion
+        cards.append(
+            '<div class="deep-dive-card">'
+            '<p class="deep-dive-headline">한 타 뒤인데 우승확률은 더 높다</p>'
+            f'<div class="deep-dive-vs">{_dd_player_card(cand)}<div class="dd-vs-label">VS</div>{_dd_player_card(leader)}</div>'
+            '<p class="deep-dive-desc">현재 순위만으로는 설명되지 않는 차이입니다.</p>'
+            "</div>"
+        )
+
+    if not cards:
+        return ""
+
+    return (
+        '<section class="deep-dive">'
+        "<h2>NEO DEEP DIVE</h2>"
+        f'{"".join(cards)}'
+        '<div class="deep-dive-cta" aria-disabled="true">왜 이런 차이가 날까? → NEO DEEP DIVE</div>'
+        "</section>"
+    )
 
 
 def render_preview_html(
@@ -271,6 +395,8 @@ def render_preview_html(
     non_advancing_items = "".join(
         f'<li>{r.player_name} — {_NON_ADVANCING_LABEL_KO.get(r.status, r.status)}</li>' for r in non_advancing
     )
+
+    deep_dive_html = _render_deep_dive_section(rows)
 
     return f"""<!doctype html>
 <html lang="ko">
@@ -304,13 +430,14 @@ def render_preview_html(
   <section class="forecast">
     <h2>3R 종료 후 우승 경쟁 예측</h2>
     <p class="forecast-sub">4R 시작 전 동결된 예측입니다. 이후 결과에 따라 수정하지 않습니다.</p>
+    <p class="forecast-sub">현재 순위가 같아도 선수별 경기력 평가에 따라 우승확률은 다릅니다.</p>
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
             <th>현재 순위</th><th>선수</th><th>54홀 누적</th>
             <th>WIN</th><th>TOP5</th><th>TOP10</th><th>TOP20</th>
-            <th>R2→R3 변화</th>
+            <th>R2→R3 WIN 변화</th>
           </tr>
         </thead>
         <tbody>
@@ -320,9 +447,13 @@ def render_preview_html(
     </div>
   </section>
 
+  {deep_dive_html}
+
   <section class="non-advancing">
-    <h3>최종라운드 비진출 선수 ({len(non_advancing)}명)</h3>
-    <ul class="non-advancing-list">{non_advancing_items}</ul>
+    <details>
+      <summary>최종라운드 비진출 선수 {len(non_advancing)}명 보기</summary>
+      <ul class="non-advancing-list">{non_advancing_items}</ul>
+    </details>
   </section>
 </main>
 

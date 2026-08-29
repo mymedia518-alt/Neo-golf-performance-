@@ -280,3 +280,124 @@ def test_no_png_flag_skips_capture(module, tmp_path, capsys, monkeypatch):
     assert rc == 0
     assert "PNG: skipped (--no-png)" in out
     assert not (tmp_path / "out" / GAME_CODE / "preview.png").exists()
+
+
+def test_deep_dive_and_collapsed_non_advancing_present_in_end_to_end_output(module, tmp_path, capsys, monkeypatch):
+    """DEFAULT_ENTRANTS has no real tie and no one-stroke-back inversion,
+    so NEO DEEP DIVE correctly stays absent; the non-advancing section
+    must always render as a collapsed <details>/<summary>, regardless."""
+    import sys
+
+    db_path = _base_db(tmp_path)
+    history_dir = _seed_stage_r3(tmp_path, module, DEFAULT_ENTRANTS)
+    recovery_csv = _seed_recovery_csv(tmp_path, [_recovery_row("p1", "Player One", -3.0), _recovery_row("p2", "Player Two", 9.72)])
+    monkeypatch.setattr(sys, "argv", _argv(db_path, history_dir, recovery_csv, tmp_path))
+    rc = module.main()
+    assert rc == 0
+
+    html = (tmp_path / "out" / GAME_CODE / "preview.html").read_text(encoding="utf-8")
+    assert "<summary>최종라운드 비진출 선수 1명 보기</summary>" in html
+    assert "<h3>" not in html
+
+
+# ---------------------------------------------------------------
+# Golden-value regression guard (game_code 2026080001 only)
+# ---------------------------------------------------------------
+
+GOLDEN_GAME_CODE = "2026080001"
+
+
+def _golden_db(tmp_path, *, srihee_win_pct):
+    db_path = tmp_path / "golden.sqlite"
+    conn = sqlite3.connect(db_path)
+    conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+    conn.execute(
+        "INSERT INTO tournament_master (event_id, game_code, event_name, season, start_date, end_date) "
+        "VALUES (?, ?, 'Golden Open', 2026, '2026-08-27', '2026-08-31')",
+        (GOLDEN_GAME_CODE, GOLDEN_GAME_CODE),
+    )
+    players = [("g1", "노승희", -9, -9, -9, True, False, 3)]
+    for code, name, r1, r2, r3, made_cut, withdrawn, rounds_played in players:
+        conn.execute("INSERT INTO player_master (player_id, player_name) VALUES (?, ?)", (code, name))
+        conn.execute(
+            "INSERT INTO tournament_entry (game_code, player_code, player_name_display, source, collected_at) "
+            "VALUES (?, ?, ?, 'test', '2026-08-25T00:00:00Z')",
+            (GOLDEN_GAME_CODE, code, name),
+        )
+        conn.execute(
+            "INSERT INTO player_event (event_id, game_code, season, player_id, player_name, made_cut, withdrawn, rounds_played) "
+            "VALUES (?, ?, 2026, ?, ?, ?, ?, ?)",
+            (GOLDEN_GAME_CODE, GOLDEN_GAME_CODE, code, name, int(made_cut), int(withdrawn), rounds_played),
+        )
+        for rn, val in [(1, r1), (2, r2), (3, r3)]:
+            conn.execute(
+                "INSERT INTO player_round (event_id, game_code, season, round_number, player_id, "
+                "player_name, round_score, round_to_par) VALUES (?, ?, 2026, ?, ?, ?, 70, ?)",
+                (GOLDEN_GAME_CODE, GOLDEN_GAME_CODE, rn, code, name, val),
+            )
+    conn.commit()
+    conn.close()
+    return db_path
+
+
+def _golden_stage_r3(tmp_path, module, *, srihee_win_pct):
+    import sys
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+    from klpga.neo_win.tournament_history import STAGE_R3, HistoryEntrant, HistoryStageSnapshot, RECORD_KIND, write_history_stage_atomic
+
+    entrant = HistoryEntrant(player_code="g1", player_name="노승희", win_pct=srihee_win_pct, top5_pct=30.0, top10_pct=50.0, top20_pct=70.0)
+    snap = HistoryStageSnapshot(
+        game_code=GOLDEN_GAME_CODE, stage=STAGE_R3, record_kind=RECORD_KIND, recorded_at_utc="2026-08-29T00:00:00Z",
+        source_prediction_id="001-C", source_model_version="MODEL_B", source_generated_at_utc="2026-08-29T00:00:00Z",
+        tournament_name="Golden Open", field_size=1, entrants=(entrant,),
+    )
+    history_dir = tmp_path / "golden_history"
+    write_history_stage_atomic(snap, history_dir)
+    return history_dir
+
+
+def _golden_argv(db_path, history_dir, recovery_csv, tmp_path):
+    return [
+        "build_beta001_post_r3_homepage_preview.py", "--db", str(db_path), "--game-code", GOLDEN_GAME_CODE,
+        "--history-dir", str(history_dir), "--r2-recovery-csv", str(recovery_csv),
+        "--tournament-name", "Golden Open", "--output-dir", str(tmp_path / "out"), "--no-png",
+    ]
+
+
+def test_golden_value_mismatch_hard_stops_for_2026080001(module, tmp_path, capsys, monkeypatch):
+    import sys
+
+    db_path = _golden_db(tmp_path, srihee_win_pct=99.99)
+    history_dir = _golden_stage_r3(tmp_path, module, srihee_win_pct=99.99)  # wrong value -- known-verified is 15.04
+    recovery_csv = _seed_recovery_csv(tmp_path, [{
+        "player_code": "g1", "player_name": "노승희", "match_status": "BOTH", "r2_rank": 1, "r2_total_score": -9,
+        "r2_win_pct": 10.0, "r2_top5_pct": 20, "r2_top10_pct": 30, "r2_top20_pct": 40,
+        "r3_win_pct": 99.99, "r3_top5_pct": 30, "r3_top10_pct": 50, "r3_top20_pct": 70, "r2_to_r3_win_change_pct": 0.0,
+    }])
+    monkeypatch.setattr(sys, "argv", _golden_argv(db_path, history_dir, recovery_csv, tmp_path))
+    rc = module.main()
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "STATUS: HARD_STOP" in out
+    assert "golden-value mismatch" in out
+    assert not (tmp_path / "out").exists()
+
+
+def test_golden_value_check_skipped_for_other_game_codes(module, tmp_path, capsys, monkeypatch):
+    """The exact same 'wrong' 99.99% value for 노승희 must NOT trigger a
+    HARD_STOP under a different game_code -- the guard is scoped to
+    2026080001 only, never a general check applied to every tournament."""
+    import sys
+
+    db_path = _base_db(tmp_path, players=[("p1", "노승희", -9, -9, -9, True, False, 3)])
+    history_dir = _seed_stage_r3(tmp_path, module, [
+        {"player_code": "p1", "player_name": "노승희", "win_pct": 99.99, "top5_pct": 100.0, "top10_pct": 100.0, "top20_pct": 100.0},
+    ])
+    recovery_csv = _seed_recovery_csv(tmp_path, [_recovery_row("p1", "노승희", 0.0)])
+    monkeypatch.setattr(sys, "argv", _argv(db_path, history_dir, recovery_csv, tmp_path))
+    rc = module.main()
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "STATUS: VALIDATION_PASSED" in out
+    assert "golden-value" not in out
