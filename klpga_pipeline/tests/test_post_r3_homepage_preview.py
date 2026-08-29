@@ -29,8 +29,8 @@ class _FakeEntrant:
         self.top20_pct = top20_pct
 
 
-def _db(code, name, status, cum=None):
-    return DbPlayerRow(player_code=code, player_name=name, status=status, cumulative_score_to_par=cum)
+def _db(code, name, status, cum=None, r3=None):
+    return DbPlayerRow(player_code=code, player_name=name, status=status, r3_round_score_to_par=r3, cumulative_score_to_par=cum)
 
 
 # ---------------------------------------------------------------
@@ -208,6 +208,18 @@ def test_render_html_separates_active_and_non_advancing():
     assert "<td class=\"c-pct\">42.00%</td>" in html
     assert "R2→R3 WIN 변화" in html  # renamed header
     assert "현재 순위가 같아도 선수별 경기력 평가에 따라 우승확률은 다릅니다." in html  # added description
+
+
+def test_render_html_shows_r3_round_score_and_total_as_separate_columns():
+    rows, _w = build_preview_rows(
+        [_db("p1", "Active Player", STATUS_ACTIVE, cum=-6.0, r3=-1.0)],
+        {"p1": _FakeEntrant("p1", "Active Player", 42.0, 78.0, 88.0, 94.0)},
+        {"p1": -3.0},
+    )
+    html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
+    assert "<th>3R</th><th>합계</th>" in html
+    assert "54홀 누적" not in html
+    assert '<td class="c-score">-1</td><td class="c-score">-6</td>' in html
 
 
 def test_render_html_non_advancing_is_collapsed_by_default():

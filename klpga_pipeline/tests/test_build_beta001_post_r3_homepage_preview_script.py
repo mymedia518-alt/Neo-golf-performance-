@@ -244,6 +244,8 @@ def test_end_to_end_success_writes_html_and_matches_top10(module, tmp_path, caps
     assert "Player Three" in html  # in non-advancing section
     assert "60.00%" in html
     assert '<td class="c-pos">T1</td>' in html  # every position T-prefixed, tied or not
+    # Player One: r1=-3, r2=-2, r3=-1, cumulative=-6 -- 3R and 합계 must render as separate cells.
+    assert '<td class="c-score">-1</td><td class="c-score">-6</td>' in html
     assert "Probabilities represent NEO model estimates for the final tournament result after Round 4." in html
 
 
