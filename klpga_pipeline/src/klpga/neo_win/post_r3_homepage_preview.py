@@ -16,6 +16,7 @@ function reports mismatches/violations, never silently corrects them.
 """
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 from typing import Optional
 
@@ -29,6 +30,7 @@ class PreviewRow:
     player_name: str
     status: str
     current_rank: Optional[int]
+    current_rank_display: str  # "1" / "T1" (tied) / "unavailable" -- display only
     cumulative_score_to_par: Optional[float]
     win_pct: Optional[float]
     top5_pct: Optional[float]
@@ -46,15 +48,26 @@ class DbPlayerRow:
 
 
 def compute_current_ranks(db_rows: list[DbPlayerRow]) -> dict[str, int]:
-    """Plain 1-based rank by ascending cumulative_score_to_par among
-    ACTIVE players only -- the SAME convention run_beta001_r3_update.py
-    itself uses (no tie-string formatting, matching that established
-    precedent)."""
+    """Standard competition ranking (1224 style) by ascending
+    cumulative_score_to_par among ACTIVE players only: players tied on
+    score share the same rank number, and the next distinct score skips
+    ahead by the number of players tied at the rank above it (e.g.
+    -9, -9, -4 -> 1, 1, 3). This is the real, DB-sourced official
+    current rank -- no probability or model value is involved. Tie
+    NOTATION ("T1") is applied at render/display time only, see
+    `current_rank_display` in `build_preview_rows`."""
     active_with_score = sorted(
         (r for r in db_rows if r.status == STATUS_ACTIVE and r.cumulative_score_to_par is not None),
         key=lambda r: r.cumulative_score_to_par,
     )
-    return {r.player_code: i + 1 for i, r in enumerate(active_with_score)}
+    ranks: dict[str, int] = {}
+    prev_score: Optional[float] = None
+    prev_rank = 0
+    for i, r in enumerate(active_with_score, start=1):
+        rank = prev_rank if (prev_score is not None and r.cumulative_score_to_par == prev_score) else i
+        ranks[r.player_code] = rank
+        prev_score, prev_rank = r.cumulative_score_to_par, rank
+    return ranks
 
 
 def build_preview_rows(
@@ -67,6 +80,7 @@ def build_preview_rows(
     status group; ACTIVE and non-advancing rows must never be
     interleaved in the win-probability table (see module docstring)."""
     ranks = compute_current_ranks(db_rows)
+    tie_counts = Counter(ranks.values())
     warnings: list[str] = []
     rows: list[PreviewRow] = []
 
@@ -87,15 +101,39 @@ def build_preview_rows(
         if db_row.status == STATUS_ACTIVE and db_row.player_code not in recovery_change_by_code:
             warnings.append(f"{db_row.player_code} ({db_row.player_name}): ACTIVE but absent from R2_R3_RECOVERY_COMPARISON.csv")
 
+        rank = ranks.get(db_row.player_code)
+        if rank is None:
+            rank_display = "unavailable"
+        elif tie_counts[rank] > 1:
+            rank_display = f"T{rank}"
+        else:
+            rank_display = str(rank)
+
         rows.append(
             PreviewRow(
                 player_code=db_row.player_code, player_name=db_row.player_name, status=db_row.status,
-                current_rank=ranks.get(db_row.player_code), cumulative_score_to_par=db_row.cumulative_score_to_par,
+                current_rank=rank, current_rank_display=rank_display,
+                cumulative_score_to_par=db_row.cumulative_score_to_par,
                 win_pct=win_pct, top5_pct=top5, top10_pct=top10, top20_pct=top20,
                 r2_to_r3_win_change_pct=change,
             )
         )
     return rows, warnings
+
+
+def sort_active_rows_by_rank_then_win(rows: list[PreviewRow]) -> list[PreviewRow]:
+    """Presentation ordering only -- no field value is changed. Primary:
+    official current rank ascending (unavailable ranks sort last).
+    Secondary: among players sharing the same current rank, WIN%
+    descending. Used identically by the HTML table and the console
+    TOP-10 summary so both show the same order."""
+    return sorted(
+        (r for r in rows if r.status == STATUS_ACTIVE),
+        key=lambda r: (
+            r.current_rank if r.current_rank is not None else float("inf"),
+            -(r.win_pct if r.win_pct is not None else -1.0),
+        ),
+    )
 
 
 # ---------------------------------------------------------------
@@ -214,14 +252,11 @@ _PREVIEW_CSS = """
 def render_preview_html(
     rows: list[PreviewRow], *, tournament_name: str, game_code: str,
 ) -> str:
-    """Pure string template -- no I/O. `rows` is sorted here by WIN%
-    descending among ACTIVE rows; non-advancing rows are rendered in a
-    SEPARATE section, never interleaved with ACTIVE rows."""
-    active = sorted(
-        (r for r in rows if r.status == STATUS_ACTIVE),
-        key=lambda r: (r.win_pct if r.win_pct is not None else -1.0),
-        reverse=True,
-    )
+    """Pure string template -- no I/O. `rows` is sorted here by official
+    current rank ascending, then WIN% descending within a tied rank
+    (see `sort_active_rows_by_rank_then_win`); non-advancing rows are
+    rendered in a SEPARATE section, never interleaved with ACTIVE rows."""
+    active = sort_active_rows_by_rank_then_win(rows)
     non_advancing = [r for r in rows if r.status != STATUS_ACTIVE]
 
     table_rows = []
@@ -229,7 +264,7 @@ def render_preview_html(
         change = r.r2_to_r3_win_change_pct
         change_cls = "c-change-pos" if (change is not None and change > 0) else ("c-change-neg" if (change is not None and change < 0) else "")
         table_rows.append(
-            f'<tr><td class="c-pos">{r.current_rank if r.current_rank is not None else "unavailable"}</td>'
+            f'<tr><td class="c-pos">{r.current_rank_display}</td>'
             f'<td class="c-name">{r.player_name}</td>'
             f'<td class="c-score">{_fmt_score(r.cumulative_score_to_par)}</td>'
             f'<td class="c-pct">{_fmt_pct(r.win_pct)}</td>'

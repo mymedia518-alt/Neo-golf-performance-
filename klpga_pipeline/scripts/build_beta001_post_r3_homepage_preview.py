@@ -59,6 +59,7 @@ from klpga.neo_win.post_r3_homepage_preview import (  # noqa: E402
     check_win_sum,
     reconcile_codes,
     render_preview_html,
+    sort_active_rows_by_rank_then_win,
 )
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_R3,
@@ -312,14 +313,12 @@ def main() -> int:
         else:
             print(f"PNG: NOT captured — {reason}")
 
-    active_sorted = sorted(
-        (r for r in rows if r.status == STATUS_ACTIVE),
-        key=lambda r: (r.win_pct if r.win_pct is not None else -1.0), reverse=True,
-    )
+    active_sorted = sort_active_rows_by_rank_then_win(rows)
     print()
-    print("=== TOP 10 (WIN% descending) ===")
-    for i, r in enumerate(active_sorted[:10], start=1):
-        print(f"{i}. {r.player_name} ({r.player_code}) — WIN {r.win_pct:.2f}% "
+    print("=== TOP 10 (공식 R3 현재 순위 기준, 동순위는 WIN% descending) ===")
+    for r in active_sorted[:10]:
+        win_str = "unavailable" if r.win_pct is None else f"{r.win_pct:.2f}%"
+        print(f"{r.current_rank_display}. {r.player_name} ({r.player_code}) — WIN {win_str} "
               f"(R2->R3 {r.r2_to_r3_win_change_pct if r.r2_to_r3_win_change_pct is None else f'{r.r2_to_r3_win_change_pct:+.2f}%p'})")
     return 0
 
