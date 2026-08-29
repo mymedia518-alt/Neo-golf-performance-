@@ -13,6 +13,7 @@ from klpga.neo_win.post_r3_homepage_preview import (
     format_win_change,
     reconcile_codes,
     render_preview_html,
+    sort_active_rows_by_rank_then_win,
 )
 
 
@@ -43,6 +44,16 @@ def test_ranks_only_among_active_ascending_score():
     ]
     ranks = compute_current_ranks(db_rows)
     assert ranks == {"p2": 1, "p1": 2}  # p3 excluded entirely
+
+
+def test_ranks_ties_share_rank_and_next_rank_skips():
+    db_rows = [
+        _db("p1", "A", STATUS_ACTIVE, -9.0),
+        _db("p2", "B", STATUS_ACTIVE, -9.0),
+        _db("p3", "C", STATUS_ACTIVE, -4.0),
+    ]
+    ranks = compute_current_ranks(db_rows)
+    assert ranks == {"p1": 1, "p2": 1, "p3": 3}
 
 
 # ---------------------------------------------------------------
@@ -81,6 +92,19 @@ def test_non_advancing_player_never_gets_probabilities_even_if_present_in_stage_
     assert rows[0].win_pct is None
     assert rows[0].status == "CUT"
     assert warnings == []
+
+
+def test_current_rank_display_tied_gets_t_prefix_untied_does_not():
+    db_rows = [
+        _db("p1", "A", STATUS_ACTIVE, -9.0),
+        _db("p2", "B", STATUS_ACTIVE, -9.0),
+        _db("p3", "C", STATUS_ACTIVE, -4.0),
+    ]
+    rows, _w = build_preview_rows(db_rows, {}, {})
+    by_code = {r.player_code: r for r in rows}
+    assert by_code["p1"].current_rank_display == "T1"
+    assert by_code["p2"].current_rank_display == "T1"
+    assert by_code["p3"].current_rank_display == "3"
 
 
 def test_recovery_missing_for_active_player_is_warned_and_unavailable():
@@ -172,11 +196,49 @@ def test_render_html_separates_active_and_non_advancing():
     assert "<td class=\"c-pct\">42.00%</td>" in html
 
 
-def test_render_html_sorts_by_win_pct_descending():
+def test_render_html_sorts_by_current_rank_ascending():
+    """Better (lower) 54-hole score -> better rank -> earlier in the
+    table, even though WIN% alone would have ordered them the other way."""
     rows, _w = build_preview_rows(
-        [_db("p1", "Low", STATUS_ACTIVE, -1.0), _db("p2", "High", STATUS_ACTIVE, -2.0)],
-        {"p1": _FakeEntrant("p1", "Low", 5.0, 10, 20, 30), "p2": _FakeEntrant("p2", "High", 50.0, 60, 70, 80)},
+        [_db("p1", "BetterRankLowerWin", STATUS_ACTIVE, -2.0), _db("p2", "WorseRankHigherWin", STATUS_ACTIVE, -1.0)],
+        {
+            "p1": _FakeEntrant("p1", "BetterRankLowerWin", 5.0, 10, 20, 30),
+            "p2": _FakeEntrant("p2", "WorseRankHigherWin", 50.0, 60, 70, 80),
+        },
         {},
     )
     html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
-    assert html.index("High") < html.index("Low")
+    assert html.index("BetterRankLowerWin") < html.index("WorseRankHigherWin")
+
+
+def test_render_html_ties_broken_by_win_pct_descending_and_shows_t_prefix():
+    rows, _w = build_preview_rows(
+        [_db("p1", "TiedLowerWin", STATUS_ACTIVE, -5.0), _db("p2", "TiedHigherWin", STATUS_ACTIVE, -5.0)],
+        {
+            "p1": _FakeEntrant("p1", "TiedLowerWin", 20.0, 40, 60, 80),
+            "p2": _FakeEntrant("p2", "TiedHigherWin", 30.0, 50, 70, 90),
+        },
+        {},
+    )
+    html = render_preview_html(rows, tournament_name="Test Open", game_code="2026080099")
+    assert html.index("TiedHigherWin") < html.index("TiedLowerWin")
+    assert html.count(">T1<") == 2  # both tied players show "T1"
+
+
+def test_sort_active_rows_by_rank_then_win_orders_and_excludes_non_active():
+    rows, _w = build_preview_rows(
+        [
+            _db("p1", "A", STATUS_ACTIVE, -5.0),
+            _db("p2", "B", STATUS_ACTIVE, -5.0),
+            _db("p3", "C", STATUS_ACTIVE, -1.0),
+            _db("p4", "D", "CUT", None),
+        ],
+        {
+            "p1": _FakeEntrant("p1", "A", 20.0, 40, 60, 80),
+            "p2": _FakeEntrant("p2", "B", 30.0, 50, 70, 90),
+            "p3": _FakeEntrant("p3", "C", 50.0, 60, 80, 95),
+        },
+        {},
+    )
+    ordered = sort_active_rows_by_rank_then_win(rows)
+    assert [r.player_code for r in ordered] == ["p2", "p1", "p3"]
