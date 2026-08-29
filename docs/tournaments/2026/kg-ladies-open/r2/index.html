@@ -75,10 +75,12 @@
   .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--card-bg); box-shadow: 0 1px 3px rgba(22,33,62,0.08); }
   table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 480px; }
   thead th { text-align: left; font-weight: 600; color: var(--text-dim); background: var(--bg-alt); padding: 5px 5px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  thead th:first-child { text-align: center; }
+  tbody td.c-pos { text-align: center; }
   tbody td { padding: 3px 5px; border-bottom: 1px solid var(--border); font-family: "Roboto Mono", monospace; white-space: nowrap; }
   tbody td.c-name { font-family: "Noto Sans KR", sans-serif; }
   tbody tr:nth-child(even) { background: var(--row-alt); }
-  tbody td.c-pct { color: var(--accent-blue); font-weight: 600; }
+  tbody td.c-pct { color: var(--accent-blue); font-weight: 600; font-size: 12px; padding-left: 4px; padding-right: 4px; }
   .cal-bucket-highlight td { color: var(--accent) !important; font-weight: 700; }
 
   footer { margin-top: 56px; padding-bottom: 8px; text-align: center; color: var(--text-dim); font-size: 11px; line-height: 1.7; }
