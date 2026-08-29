@@ -16,6 +16,7 @@ function reports mismatches/violations, never silently corrects them.
 """
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import dataclass
 from typing import Optional
 
@@ -29,7 +30,7 @@ class PreviewRow:
     player_name: str
     status: str
     current_rank: Optional[int]
-    current_rank_display: str  # always "T{rank}" (e.g. "T1", "T23") or "unavailable" -- display only
+    current_rank_display: str  # "T{rank}" only when 2+ ACTIVE players share current_rank, else "{rank}", else "unavailable" -- display only
     r3_round_score_to_par: Optional[float]  # round 3 alone, real DB round_to_par
     cumulative_score_to_par: Optional[float]
     win_pct: Optional[float]
@@ -54,9 +55,10 @@ def compute_current_ranks(db_rows: list[DbPlayerRow]) -> dict[str, int]:
     score share the same rank number, and the next distinct score skips
     ahead by the number of players tied at the rank above it (e.g.
     -9, -9, -4 -> 1, 1, 3). This is the real, DB-sourced official
-    current rank -- no probability or model value is involved. Display
-    formatting (every position shown with a "T" prefix, e.g. "T1",
-    "T23") is applied at render time only, see `current_rank_display`
+    current rank -- no probability or model value is involved. Tie
+    NOTATION ("T1") is applied at render/display time only, based
+    strictly on whether 2+ ACTIVE players share that same rank number
+    -- never on WIN% or any model value -- see `current_rank_display`
     in `build_preview_rows`."""
     active_with_score = sorted(
         (r for r in db_rows if r.status == STATUS_ACTIVE and r.cumulative_score_to_par is not None),
@@ -82,6 +84,11 @@ def build_preview_rows(
     status group; ACTIVE and non-advancing rows must never be
     interleaved in the win-probability table (see module docstring)."""
     ranks = compute_current_ranks(db_rows)
+    # Tie detection uses ONLY the real DB-sourced rank numbers above --
+    # never WIN%/model probability -- per the fixed rule: 2+ ACTIVE
+    # players sharing the same official current_rank is what makes it
+    # a tie, nothing else.
+    rank_occurrence_counts = Counter(ranks.values())
     warnings: list[str] = []
     rows: list[PreviewRow] = []
 
@@ -103,7 +110,12 @@ def build_preview_rows(
             warnings.append(f"{db_row.player_code} ({db_row.player_name}): ACTIVE but absent from R2_R3_RECOVERY_COMPARISON.csv")
 
         rank = ranks.get(db_row.player_code)
-        rank_display = "unavailable" if rank is None else f"T{rank}"
+        if rank is None:
+            rank_display = "unavailable"
+        elif rank_occurrence_counts[rank] >= 2:
+            rank_display = f"T{rank}"
+        else:
+            rank_display = str(rank)
 
         rows.append(
             PreviewRow(

@@ -96,11 +96,12 @@ def test_non_advancing_player_never_gets_probabilities_even_if_present_in_stage_
     assert warnings == []
 
 
-def test_current_rank_display_always_gets_t_prefix():
-    """Every current position is shown with a leading 'T', tied or not
-    (T1, T5, T10, T23, ...) -- the underlying rank NUMBER still reflects
-    real ties (see test_ranks_ties_share_rank_and_next_rank_skips);
-    only the display string changed."""
+def test_current_rank_display_t_prefix_only_for_real_ties():
+    """T-notation appears ONLY when 2+ ACTIVE players share the same
+    real, DB-sourced current_rank (T1); a solo rank shows the plain
+    number (3), never a fabricated T-prefix. Tie detection uses only
+    the rank number derived from cumulative_score_to_par -- never
+    WIN%/model probability."""
     db_rows = [
         _db("p1", "A", STATUS_ACTIVE, -9.0),
         _db("p2", "B", STATUS_ACTIVE, -9.0),
@@ -110,7 +111,37 @@ def test_current_rank_display_always_gets_t_prefix():
     by_code = {r.player_code: r for r in rows}
     assert by_code["p1"].current_rank_display == "T1"
     assert by_code["p2"].current_rank_display == "T1"
-    assert by_code["p3"].current_rank_display == "T3"  # untied, but still T-prefixed
+    assert by_code["p3"].current_rank_display == "3"  # solo rank -- no T
+
+
+def test_current_rank_display_solo_leader_no_tie_prefix():
+    db_rows = [_db("p1", "Solo", STATUS_ACTIVE, -9.0), _db("p2", "Second", STATUS_ACTIVE, -3.0)]
+    rows, _w = build_preview_rows(db_rows, {}, {})
+    by_code = {r.player_code: r for r in rows}
+    assert by_code["p1"].current_rank_display == "1"
+    assert by_code["p2"].current_rank_display == "2"
+
+
+def test_current_rank_display_tie_ignores_win_pct_entirely():
+    """Two players tied on real score but with wildly different WIN%
+    must BOTH show T -- and a solo-ranked player with a WIN% that
+    happens to equal a tied player's must NOT show T. Confirms tie
+    detection never looks at win_pct."""
+    db_rows = [
+        _db("p1", "TiedHighWin", STATUS_ACTIVE, -5.0),
+        _db("p2", "TiedLowWin", STATUS_ACTIVE, -5.0),
+        _db("p3", "SoloSameWin", STATUS_ACTIVE, -1.0),
+    ]
+    stage = {
+        "p1": _FakeEntrant("p1", "TiedHighWin", 40.0, 60, 80, 95),
+        "p2": _FakeEntrant("p2", "TiedLowWin", 5.0, 10, 20, 30),
+        "p3": _FakeEntrant("p3", "SoloSameWin", 40.0, 60, 80, 95),  # same WIN% as p1
+    }
+    rows, _w = build_preview_rows(db_rows, stage, {})
+    by_code = {r.player_code: r for r in rows}
+    assert by_code["p1"].current_rank_display == "T1"
+    assert by_code["p2"].current_rank_display == "T1"
+    assert by_code["p3"].current_rank_display == "3"  # solo rank (competition ranking skips to 3 after the 2-way tie), identical WIN% must not create a T
 
 
 def test_current_rank_display_unavailable_stays_unavailable():
