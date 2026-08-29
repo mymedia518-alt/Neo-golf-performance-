@@ -38,7 +38,7 @@
   .header-main { flex: 1 1 auto; min-width: 0; }
   .next-update { flex-shrink: 0; text-align: right; font-family: "Roboto Mono", monospace; }
   .next-update-label { font-size: 11px; letter-spacing: 0.06em; color: var(--text-dim); }
-  .next-update-value { font-size: 12px; color: var(--text); margin-top: 2px; }
+  .next-update-value { font-size: 12px; color: var(--text); margin-top: 2px; font-weight: 700; }
   .round-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .round-nav-link { color: var(--accent-blue); text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap; }
   .round-nav-link:hover, .round-nav-link:focus-visible { text-decoration: underline; }
@@ -52,6 +52,8 @@
   .letter { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 1.15); line-height: 1; color: var(--accent); }
   .letter-word { font-family: "Big Shoulders Display", sans-serif; font-weight: 600; font-size: calc(var(--row) * 0.72); line-height: 1; letter-spacing: 0.04em; color: var(--text-dim); white-space: nowrap; }
   .wordmark-name { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 3.75); line-height: 1; letter-spacing: 0.015em; color: var(--text); white-space: nowrap; }
+  .header-about-link { display: inline-block; margin: 6px 0 0; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; }
+  .header-about-link:hover, .header-about-link:focus-visible { text-decoration: underline; }
 
   .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; }
   .meta .tournament-name { font-size: clamp(14px, 3.5vw, 18px); color: var(--text-dim); }
@@ -96,7 +98,7 @@
     .wordmark { --row: 8px; }
     .wordmark-name { white-space: normal; line-height: 1.05; }
     header { flex-direction: column; align-items: flex-start; }
-    .next-update { text-align: left; margin-top: 4px; }
+    .next-update { text-align: right; margin-top: 4px; align-self: flex-end; }
   }
 </style>
 <style>
@@ -223,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
       <div class="wordmark-name">TOURNAMENT PREDICTION</div>
     </div>
+    <a class="header-about-link" href="/about/">NEO GOLF DATA 소개</a>
     <div class="meta">
       <span class="tournament-name">제15회 KG 레이디스 오픈</span>
       <nav class="round-nav" aria-label="라운드 진행 상황">

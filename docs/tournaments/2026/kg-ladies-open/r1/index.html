@@ -76,6 +76,8 @@
     color: var(--text);
     white-space: nowrap;
   }
+  .header-about-link { display: inline-block; margin: 6px 0 0; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; }
+  .header-about-link:hover, .header-about-link:focus-visible { text-decoration: underline; }
 
   .header-top {
     display: flex;
@@ -101,6 +103,7 @@
     font-size: 12px;
     color: var(--text-dim);
     margin-top: 2px;
+    font-weight: 700;
   }
 
   .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
@@ -191,6 +194,7 @@
       <div class="next-update-text">2R 종료 후 업데이트 예정</div>
     </div>
   </div>
+  <a class="header-about-link" href="/about/">NEO GOLF DATA 소개</a>
   <div class="meta">
     <span class="tournament-name">제15회 KG 레이디스 오픈</span>
     <nav class="round-nav" aria-label="라운드 진행 상황">
