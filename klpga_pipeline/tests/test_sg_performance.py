@@ -28,3 +28,11 @@ def test_canonical_historical_series_has_official_scope_and_coverage():
     assert d["validation"]["valid"] and len(d["records"])==467
     assert {r["scope"] for r in d["records"]}=={"tournament_cumulative","single_round"}
     assert all(r["source"].startswith("https://klpga.co.kr/") for r in d["records"])
+
+def test_multi_event_warehouse_has_real_multi_season_coverage():
+    root=Path(__file__).resolve().parents[1]; p=root/"content/website_v2/historical_sg_warehouse.json"
+    assert p.exists(); d=json.loads(p.read_text(encoding="utf-8")); rows=d["records"]
+    assert d["events"] >= 10 and len(set(r["season"] for r in rows)) >= 2
+    assert len(set(r["game_code"] for r in rows)) == d["events"]
+    assert all(r.get("player_id") and r.get("source","").startswith("https://klpga.co.kr/") for r in rows)
+    assert any(r["scope"]=="single_round" and r["round"] in (1,2,3,4) for r in rows)

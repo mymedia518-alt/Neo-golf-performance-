@@ -15,6 +15,20 @@ SCOPES = {"tournament_cumulative", "single_round", "season_average"}
 TREND_THRESHOLD = 0.25
 MIN_TREND_SAMPLES = 3
 
+def standardize_player_name(name: Any, player_id: Any, *, trusted_names: dict[str, str] | None = None) -> dict:
+    """Keep player_id canonical and classify display-name encoding safely.
+
+    Replacement characters are never silently repaired or used for identity.
+    A trusted ID→name mapping may provide a display name; otherwise the raw
+    value is preserved with an explicit encoding status.
+    """
+    pid=str(player_id or "")
+    raw="" if name is None else str(name)
+    if trusted_names and pid in trusted_names:
+        return {"player_id":pid,"player_name":trusted_names[pid],"raw_player_name":raw,"encoding_status":"standardized_by_canonical_id"}
+    status="encoding_corrupted" if "�" in raw else "clean"
+    return {"player_id":pid,"player_name":raw,"raw_player_name":raw,"encoding_status":status}
+
 
 def _number(value: Any) -> float | None:
     if value is None or str(value).strip() == "":
