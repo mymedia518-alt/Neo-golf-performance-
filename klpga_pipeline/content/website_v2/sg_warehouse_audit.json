@@ -1,0 +1,28 @@
+{
+  "seasons": [
+    2025,
+    2026
+  ],
+  "events_attempted": 49,
+  "events_with_sg": 48,
+  "events_without_sg": 1,
+  "no_row_reason_breakdown": {
+    "OFFICIAL_SG_NOT_AVAILABLE": 1
+  },
+  "players": 220,
+  "total_rows": 14245,
+  "cumulative_rows": 3112,
+  "round_rows": 11133,
+  "component_missingness": {
+    "total": 0,
+    "tee_to_green": 0,
+    "off_the_tee": 0,
+    "approach": 0,
+    "around_green": 0,
+    "putting": 0
+  },
+  "recent5_eligible_players": 144,
+  "recent10_eligible_players": 112,
+  "season_profile_eligible_players": 220,
+  "provenance": "official KLPGA public endpoints; resumable candidate-only collection"
+}
