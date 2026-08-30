@@ -34,6 +34,41 @@ main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
 .kicker, .tournament-context__eyebrow { margin: 0; color: var(--neo-green); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
 .text-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--neo-green); font-weight: 750; }
 
+.hero-v2 { display: grid; gap: 1.5rem; padding-block: clamp(1rem, 4vw, 3.5rem); border-bottom: 1px solid var(--neo-line); }
+.hero-v2 h1 { max-width: 15ch; margin: 0; font-size: clamp(2.7rem, 9vw, 6.5rem); line-height: 0.94; letter-spacing: -0.055em; }
+.hero-v2 p { max-width: 44rem; margin: 0; color: var(--neo-muted); font-size: clamp(1rem, 2vw, 1.2rem); }
+.section-v2 { padding-block: clamp(2rem, 5vw, 4rem); border-bottom: 1px solid var(--neo-line); }
+.section-v2__head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+.section-v2 h2 { margin: 0; font-size: clamp(1.5rem, 4vw, 2.6rem); line-height: 1.05; letter-spacing: -0.035em; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1rem; }
+.data-card { padding: 1.3rem; border: 1px solid var(--neo-line); background: #fff; }
+.data-card h3 { margin: 0.25rem 0 0.7rem; font-size: 1.3rem; }
+.data-card p { margin: 0.35rem 0; color: var(--neo-muted); }
+.status-label { display: inline-flex; align-items: center; min-height: 28px; padding: 0.2rem 0.55rem; background: var(--neo-green-soft); color: var(--neo-green); font-size: 0.7rem; font-weight: 850; letter-spacing: 0.08em; }
+.result-card { display: grid; grid-template-columns: minmax(10rem, 1fr) 2fr; gap: 1.5rem; padding: clamp(1.25rem, 4vw, 2.4rem); background: var(--neo-green); color: var(--neo-paper); }
+.result-card__winner { font-size: clamp(2rem, 7vw, 4.5rem); font-weight: 850; line-height: 1; }
+.result-card__score { font-size: clamp(1.7rem, 5vw, 3.4rem); font-weight: 800; }
+.rounds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 1rem; }
+.rounds span { min-height: 52px; padding: 0.55rem; border: 1px solid rgba(255,255,255,0.35); text-align: center; }
+.timeline { display: grid; grid-template-columns: repeat(5, minmax(8rem, 1fr)); gap: 0; overflow-x: auto; }
+.timeline a { min-height: 74px; padding: 1rem; border-top: 3px solid var(--neo-green); border-bottom: 1px solid var(--neo-line); text-decoration: none; }
+.timeline strong, .timeline span { display: block; }
+.timeline span { color: var(--neo-muted); font-size: 0.78rem; }
+.provenance { padding: 1rem 1.2rem; border-left: 4px solid var(--neo-gold); background: #fff8dc; }
+.provenance strong { display: block; margin-bottom: 0.3rem; }
+.evidence-frame { display: block; width: 100%; min-height: 72vh; border: 1px solid var(--neo-line); background: #fff; }
+.table-scroll { width: 100%; overflow-x: auto; }
+.evidence-table { width: 100%; min-width: 42rem; border-collapse: collapse; background: #fff; }
+.evidence-table th, .evidence-table td { padding: 0.75rem; border-bottom: 1px solid var(--neo-line); text-align: left; }
+.evidence-table th { color: var(--neo-muted); font-size: 0.72rem; letter-spacing: 0.05em; }
+.evidence-table td:first-child, .evidence-table td:last-child { font-variant-numeric: tabular-nums; }
+.route-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.route-list a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.45rem 0.8rem; border: 1px solid var(--neo-line); text-decoration: none; }
+.deep-dive-cta { display: inline-flex; align-items: center; min-height: 48px; padding: 0.65rem 1rem; background: var(--neo-green); color: #fff; font-weight: 800; text-decoration: none; }
+.definition-list { display: grid; grid-template-columns: minmax(8rem, 0.4fr) 1fr; gap: 0.75rem 1.5rem; }
+.definition-list dt { color: var(--neo-muted); }
+.definition-list dd { margin: 0; }
+
 .tournament-context { border-bottom: 1px solid var(--neo-line); }
 .tournament-context h1 { margin: 0.35rem 0 0; font-size: clamp(2rem, 6vw, 4.25rem); line-height: 1; letter-spacing: -0.04em; }
 .tournament-context h1 a { text-decoration: none; }
@@ -59,6 +94,9 @@ main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
   .stage-nav { overflow-x: auto; }
   .stage-nav__list { white-space: nowrap; }
   .stage-nav__link, .stage-nav__disabled { min-height: 44px; }
+  .result-card { grid-template-columns: 1fr; }
+  .rounds { grid-template-columns: repeat(2, 1fr); }
+  .definition-list { grid-template-columns: 1fr; gap: 0.2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

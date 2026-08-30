@@ -6,7 +6,6 @@ import shutil
 from dataclasses import dataclass
 from html import escape
 from pathlib import Path
-from typing import Iterable
 
 STAGES = ("overview", "pre", "r1", "r2", "r3", "final")
 STAGE_LABELS = {
@@ -130,12 +129,13 @@ def render_page(
     body_html: str,
     tournament: TournamentMetadata | None = None,
     current_stage: str | None = None,
+    lang: str = "en",
 ) -> str:
     if tournament is not None and current_stage not in STAGES:
         raise ValueError(f"current_stage must be one of {STAGES}")
     tournament_html = _tournament_header(tournament, current_stage) if tournament else ""
     return (
-        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+        f'<!doctype html><html lang="{escape(lang)}"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         f'<title>{escape(title)} · NEO GOLF DATA</title>'
         '<link rel="stylesheet" href="/assets/neo-site.css">'

@@ -133,9 +133,11 @@ def test_fixture_pages_cannot_be_mistaken_for_historical_evidence(preview: Path)
         assert "not historical prediction evidence" in html
 
 
-def test_deep_dive_contract_is_not_fired_or_renamed(preview: Path):
+def test_deep_dive_contract_is_preserved_without_page_load_fire(preview: Path):
     javascript = (preview / "assets" / "neo-site.js").read_text(encoding="utf-8")
-    assert "deep_dive_interest" not in javascript
+    assert 'event: "deep_dive_interest"' in javascript
+    assert 'addEventListener("click"' in javascript
+    assert "trackDeepDiveInterest();" not in javascript
     assert "gtag(" not in javascript
 
 
