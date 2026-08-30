@@ -37,6 +37,6 @@ The repository currently contains one fully normalized event artifact rather tha
 Populate additional historical game codes through the existing official collector/checkpoint path, then build point-in-time-safe multi-event SG windows and calibration/backtest joins without changing forecast formulas.
 
 BRANCH: neo-website-v2
-COMMIT: pending
+COMMIT: 95dad5b — feat: add historical KLPGA SG performance foundation
 REMOTE: origin/neo-website-v2
 PRODUCTION: not modified; not deployed
