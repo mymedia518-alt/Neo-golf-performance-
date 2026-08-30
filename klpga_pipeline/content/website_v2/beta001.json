@@ -1,33 +1,18 @@
 {
   "tournament": {
-    "tournament_id": "2026080001",
-    "slug": "kg-ladies-open",
-    "display_name": "제15회 KG 레이디스 오픈",
-    "beta_number": "001",
-    "year": 2026,
-    "status": "complete",
-    "latest_published_stage": "final",
+    "tournament_id": "2026080001", "slug": "kg-ladies-open", "display_name": "제15회 KG 레이디스 오픈",
+    "beta_number": "001", "year": 2026, "status": "complete", "latest_published_stage": "final",
     "published_stages": ["overview", "pre", "r1", "r2", "r3", "final"]
   },
-  "dates": {
-    "start": "2026-08-27",
-    "end": "2026-08-30",
-    "display": "2026.08.27–08.30"
-  },
+  "dates": {"start": "2026-08-27", "end": "2026-08-30", "display": "2026.08.27–8.30"},
   "forecast_stages": {
     "pre": {"record_type": "FORECAST", "evidence_stage": "PRE"},
-    "r1": {"record_type": "FORECAST", "evidence_stage": "R1"},
-    "r2": {"record_type": "FORECAST", "evidence_stage": "R2"},
-    "r3": {"record_type": "FORECAST", "evidence_stage": "R3"}
+    "r1": {"record_type": "FORECAST", "evidence_stage": "R1", "round_label": "ROUND 1", "title_ko": "1라운드 종료 후 NEO의 예측", "context_ko": "1라운드 공식 결과가 확정된 뒤, 2라운드 시작 전에 계산한 우승 확률입니다."},
+    "r2": {"record_type": "FORECAST", "evidence_stage": "R2", "round_label": "ROUND 2", "title_ko": "2라운드 종료 후 NEO의 예측", "context_ko": "2라운드 공식 결과가 확정된 뒤, 3라운드 시작 전에 계산한 확률입니다."},
+    "r3": {"record_type": "FORECAST", "evidence_stage": "R3", "round_label": "ROUND 3", "title_ko": "최종 라운드를 앞둔 NEO의 예측", "context_ko": "이 예측은 3라운드 종료 후 최종 결과가 나오기 전에 계산됐으며, FINAL 정보를 사용해 다시 쓰지 않았습니다.", "validated_display_override": {"player_column": "선수", "value_column": "WIN", "player": "신다인", "value": "7.47%", "basis": "PHASE 3 human review validated record"}}
   },
-  "final_result": {
-    "record_type": "RESULT",
-    "winner": "신다인",
-    "player_code": "9135",
-    "rounds": [70, 70, 67, 64],
-    "total": 271,
-    "to_par": "-17"
-  },
+  "validated_display_records": {"post_r3_shin_dain_win_probability": "7.47%"},
+  "final_result": {"record_type": "RESULT", "winner": "신다인", "player_code": "9135", "rounds": [70, 70, 67, 64], "total": 271, "to_par": "-17"},
   "url_compatibility": {
     "/predictions/": "No alias in candidate: public-history evidence is not established; review before production.",
     "/predictions/001/": "No alias in candidate: public-history evidence is not established; review before production.",
