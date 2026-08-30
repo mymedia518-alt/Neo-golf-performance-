@@ -128,3 +128,45 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
 def accessible_series_table(player: str, title: str, series: list[dict], unit: str) -> str:
     cells = "".join(f'<tr><th scope="row">{escape(str(item["stage"]))}</th><td>{"자료 없음" if item["value"] is None else escape(str(item["value"])) + escape(unit)}</td></tr>' for item in series)
     return f'<table class="sr-data"><caption>{escape(player)} {escape(title)}</caption><thead><tr><th>시점</th><th>값</th></tr></thead><tbody>{cells}</tbody></table>'
+
+
+def multi_line_chart_svg(*, title: str, series_by_player: dict[str, list[dict]], unit: str = "%") -> str:
+    """Responsive accessible multi-player chart; missing points break lines."""
+    width, height, left, right, top, bottom = 760, 330, 62, 28, 34, 58
+    stages = next(iter(series_by_player.values()))
+    values = [float(p["value"]) for series in series_by_player.values() for p in series if p["value"] is not None]
+    high = max(values) if values else 1.0
+    colors = ("#0f5c46", "#b08b3e", "#537da6", "#9b493f")
+    plot_w, plot_h = width-left-right, height-top-bottom
+    parts = [f'<svg class="line-chart multi-line-chart" viewBox="0 0 {width} {height}" role="img" aria-label="{escape(title)}">']
+    for tick in range(4):
+        value=high*tick/3; y=top+plot_h*(1-tick/3)
+        parts.append(f'<line class="chart-grid" x1="{left}" y1="{y:.1f}" x2="{width-right}" y2="{y:.1f}"/><text class="chart-y-label" x="{left-9}" y="{y+4:.1f}">{value:.1f}{unit}</text>')
+    for index,item in enumerate(stages):
+        x=left+plot_w*index/max(len(stages)-1,1); parts.append(f'<text class="chart-x-label" x="{x:.1f}" y="{height-22}">{escape(item["stage"])}</text>')
+    for color,(player,series) in zip(colors,series_by_player.items()):
+        segments=[]; current=[]
+        for i,item in enumerate(series):
+            if item["value"] is None:
+                if len(current)>1: segments.append(current)
+                current=[]; continue
+            x=left+plot_w*i/max(len(series)-1,1); y=top+plot_h*(1-float(item["value"])/high); current.append((x,y,item))
+        if len(current)>1: segments.append(current)
+        for segment in segments: parts.append(f'<polyline fill="none" stroke="{color}" stroke-width="3" points="{" ".join(f"{x:.1f},{y:.1f}" for x,y,_ in segment)}"/>')
+        for i,item in enumerate(series):
+            if item["value"] is None: continue
+            x=left+plot_w*i/max(len(series)-1,1); y=top+plot_h*(1-float(item["value"])/high)
+            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="white" stroke="{color}" stroke-width="3"><title>{escape(player)} {item["stage"]}: {item["value"]}{unit}</title></circle>')
+        ly=16+22*list(series_by_player).index(player); parts.append(f'<text x="{left+8}" y="{ly}" fill="{color}" class="chart-legend">{escape(player)}</text>')
+    payload={p:s for p,s in series_by_player.items()}; parts.append(f'<script type="application/json" data-chart-series>{chart_json(payload).replace("<","\\u003c")}</script></svg>')
+    return "".join(parts)
+
+
+def bar_chart_svg(title: str, values: dict[str, float], unit: str = "") -> str:
+    width,height,left,right,top,bottom=760,300,120,28,30,36
+    peak=max(abs(v) for v in values.values()) or 1; row=(height-top-bottom)/len(values); zero=left+(width-left-right)/2
+    parts=[f'<svg class="bar-chart" viewBox="0 0 {width} {height}" role="img" aria-label="{escape(title)}">']
+    for i,(label,value) in enumerate(values.items()):
+        y=top+i*row+5; span=(width-left-right)/2*abs(value)/peak; x=zero if value>=0 else zero-span
+        parts.append(f'<text class="bar-label" x="{left-10}" y="{y+15}">{escape(label)}</text><rect x="{x:.1f}" y="{y:.1f}" width="{span:.1f}" height="20" class="bar-value"/><text class="bar-number" x="{(x+span+7 if value>=0 else x-7):.1f}" y="{y+15:.1f}">{value:+.2f}{escape(unit)}</text>')
+    parts.append('</svg>'); return ''.join(parts)

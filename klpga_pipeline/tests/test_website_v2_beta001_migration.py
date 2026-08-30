@@ -29,9 +29,9 @@ def pages(root: Path):
 
 def test_data_availability_matrix_is_machine_readable_and_omits_missing_modules(candidate):
     matrix=json.loads(AVAILABILITY.read_text(encoding="utf-8"))
-    assert matrix["stage_forecast"]["r3_win_probability"] is True
-    assert matrix["hole_by_hole"]["available"] is False
-    assert set(matrix["omitted_modules"]) == {"hole difficulty chart","hole score distribution","tournament score composition","player score composition"}
+    assert matrix["stage_forecast"]["status"] == "AVAILABLE"
+    assert matrix["hole_by_hole"]["available"] is True
+    assert matrix["hole_by_hole"]["status"] == "PARTIAL"
     assert json.loads((candidate/"data/availability.json").read_text(encoding="utf-8")) == matrix
 
 
@@ -54,7 +54,7 @@ def test_all_tournament_stages_and_final_are_always_discoverable(candidate):
 
 def test_home_is_dense_data_hub_not_marketing_or_beta(candidate):
     html=(candidate/"index.html").read_text(encoding="utf-8")
-    for value in ("결과가 나오기 전","최근 대회","최근 데이터","R3 주요 우승 확률","15.04%","11.56%","8.40%","7.47%","가장 큰 상승","가장 큰 하락"):
+    for value in ("신다인은 어떻게","최근 대회","최근 데이터","R3 주요 우승 확률","15.04%","11.56%","8.40%","7.47%","가장 큰 상승","가장 큰 하락"):
         assert value in html
     assert "BETA #001" not in html and "LATEST TOURNAMENT" not in html and "OFFICIAL WINNER" not in html
     assert "<table" not in html
@@ -92,24 +92,25 @@ def test_r3_exact_probability_and_no_posthoc_result(candidate):
 def test_final_is_richest_page_with_three_real_charts(candidate):
     root=candidate/"tournaments/2026/kg-ladies-open"
     final=(root/"final/index.html").read_text(encoding="utf-8")
-    assert final.count('<svg class="line-chart"') == 3
-    for value in ("FINAL · 결과","70","67","64","271","(-17)","우승 확률 변화","순위 변화","라운드 스코어","7.47%"):
+    assert final.count('<svg class="line-chart"') >= 4
+    for value in ("FINAL · 결과","70","67","64","271","(-17)","우승 가능성의 변화","리더보드의 변화","라운드 스코어의 변화","7.47%"):
         assert value in final
-    assert "71 / 67 / 68 / 73" not in final and "279" not in final and "-9" not in final
+    assert "71 / 67 / 68 / 73" not in final
+    assert '<p class="result-score">271 <small>(-17)</small></p>' in final
     assert len(final) > max(len((root/s/"index.html").read_text(encoding="utf-8")) for s in ("r1","r2","r3")) / 2
 
 
-def test_missing_hole_data_is_disclosed_without_synthetic_counts(candidate):
+def test_validated_hole_data_is_rendered_without_example_counts(candidate):
     final=(candidate/"tournaments/2026/kg-ladies-open/final/index.html").read_text(encoding="utf-8")
-    assert "홀별 분석은 이번 대회에서 제공하지 않습니다" in final
-    assert "검증된 입력이 없어 생략" in final
+    assert "18홀은 어떻게 플레이됐나" in final
+    assert "신다인 스코어 구성" in final
     assert "Eagle        1" not in final and "Birdie      18" not in final
 
 
 def test_deep_dive_real_data_and_click_only_ga4(candidate):
     deep=(candidate/"deep-dive/index.html").read_text(encoding="utf-8")
     js=(candidate/"assets/neo-site.js").read_text(encoding="utf-8")
-    for value in ("15.04%","11.56%","7.47%","0.24%","평균 라운드 스코어","최근 경기력"):
+    for value in ("15.04%","11.56%","7.47%","0.24%","대회 전 평균 라운드 대비 파","최근 10개 대회 폼"):
         assert value in deep
     assert 'event: "deep_dive_interest"' in js and 'addEventListener("click", trackDeepDiveInterest)' in js
     assert "trackDeepDiveInterest();" not in js and "gtag(" not in js
