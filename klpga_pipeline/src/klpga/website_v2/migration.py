@@ -175,6 +175,8 @@ def _context_and_next(official: dict) -> str:
 
 def _home(data,meta,snapshots):
     r3=snapshots["R3"]; rises=[x for x in r3 if x["change"] is not None]; rise=max(rises,key=lambda x:x["change"]); fall=min(rises,key=lambda x:x["change"])
+    compare_players=("노승희","박혜준","신다인","유아현")
+    compare_strip=''.join(f'<span>{escape(player)} <b>{next((row["win"] for row in r3 if row["player"]==player),0):.2f}%</b></span>' for player in compare_players)
     return ('<section class="product-hero completed-hero"><div><p class="section-label">대회 종료 · FINAL 분석</p><h1>신다인은 어떻게<br>우승까지 갔을까?</h1><p>결과부터 우승까지의 변화, 실제 경기력까지 KLPGA 공식 데이터로 이어서 봅니다.</p>'
             f'<div class="actions"><a class="primary-action" href="{meta.stage_url("final")}">FINAL 분석 보기</a><a class="secondary-action" href="{meta.stage_url("r3")}">마지막 예측 보기</a></div></div>'
             '<aside class="hero-data"><span>우승</span><strong>신다인</strong><p>271 (-17) · 70 → 70 → 67 → 64</p></aside></section>'
@@ -182,7 +184,7 @@ def _home(data,meta,snapshots):
             '<div class="latest-grid"><div><span>우승</span><strong>신다인</strong><small>271 (-17)</small></div><div><span>R3 종료 후 우승 확률</span><strong>7.47%</strong><small>→ 실제 우승</small></div><a href="'+meta.base_url+'">대회 분석 보기</a></div></section>'
             '<section class="product-section"><div class="section-heading"><div><p class="section-label">최근 데이터</p><h2>R3 주요 우승 확률</h2></div><a href="'+meta.stage_url('r3')+'">전체 예측 보기</a></div>'+_watch(r3)+
             f'<div class="movement-grid"><article><span>R2 → R3 가장 큰 상승</span><strong>{escape(rise["player"])}</strong><b>+{rise["change"]:.2f}%p</b></article><article><span>R2 → R3 가장 큰 하락</span><strong>{escape(fall["player"])}</strong><b>{fall["change"]:.2f}%p</b></article><article><span>FINAL 핵심 데이터</span><strong>신다인</strong><b>64타 · 우승</b></article></div></section>'
-            '<section class="product-section deep-question"><p class="section-label">DEEP DIVE</p><h2>같은 공동선두인데<br>왜 15.04%와 0.24%였을까?</h2><div class="compare-strip"><span>노승희 <b>15.04%</b></span><span>박혜준 <b>11.56%</b></span><span>신다인 <b>7.47%</b></span><span>유아현 <b>0.24%</b></span></div>'+_cta(meta,'home')+'</section>')
+            '<section class="product-section deep-question"><p class="section-label">DEEP DIVE</p><h2>같은 공동선두인데<br>왜 확률은 이렇게 달랐을까?</h2><div class="compare-strip">'+compare_strip+'</div>'+_cta(meta,'home')+'</section>')
 
 
 def _tournaments(data,meta):
@@ -251,9 +253,12 @@ def _deep(meta,snapshots,official,pre_archive):
         rows=[r for r in official["holes"] if r["player"]==player and r["round"]<=3]
         counts={label:sum(classify_hole_score(r["strokes"],r["par"])==label for r in rows) for label in ("Eagle","Birdie","Par","Bogey","Double Bogey","Triple Bogey+")}
         composition.append('<tr><td>'+player+'</td>'+''.join(f'<td>{counts[label]}</td>' for label in counts)+'</tr>')
+    r3_values={p:trends[p][-1]["value"] for p in players}
+    max_player=max(players,key=lambda p:r3_values[p] or -1); min_player=min(players,key=lambda p:r3_values[p] or 999)
     return ('<section class="page-head"><p class="section-label">DEEP DIVE</p><h1>같은 스코어인데<br>왜 우승 확률은 다를까?</h1><p>R3 종료 시점 공동 선두 네 명의 실제 확정 확률을 비교합니다.</p></section><section class="product-section">'
-            '<div class="comparison-table four"><div><span>노승희 · T1 · -9</span><strong>15.04%</strong></div><div><span>박혜준 · T1 · -9</span><strong>11.56%</strong></div><div><span>신다인 · T1 · -9</span><strong>7.47%</strong></div><div><span>유아현 · T1 · -9</span><strong>0.24%</strong></div></div>'
-            '<h2>무엇이 15.04%와 0.24%를 갈라놓았나?</h2></section><section class="product-section"><p class="section-label">LAYER A · NEO MODEL</p><h2>모델이 실제로 사용한 입력</h2><div class="table-scroll"><table class="data-table"><thead><tr><th>선수</th><th>대회 전 평균 라운드 대비 파</th><th>최근 10개 대회 폼</th><th>R3 결과</th><th>우승 확률</th></tr></thead><tbody>'+model_rows+'</tbody></table></div><div class="chart-full">'+multi_line_chart_svg(title="네 선수 우승 확률 변화",series_by_player=trends)+'</div><p class="note">SG는 이 모델 버전의 입력이 아닙니다. 누락된 체크포인트는 연결하거나 재구성하지 않습니다.</p></section>'
+            '<div class="comparison-table four">'+''.join(f'<div><span>{escape(p)} · T1 · -9</span><strong>{r3_values[p]:.2f}%</strong></div>' for p in players)+'</div>'
+            f'<h2>무엇이 {r3_values[max_player]:.2f}%와 {r3_values[min_player]:.2f}%를 갈라놓았나?</h2></section><section class="product-section"><p class="section-label">LAYER A · NEO MODEL</p><h2>모델이 실제로 사용한 입력</h2><div class="table-scroll"><table class="data-table"><thead><tr><th>선수</th><th>대회 전 평균 라운드 대비 파</th><th>최근 10개 대회 폼</th><th>R3 결과</th><th>우승 확률</th></tr></thead><tbody>'+model_rows+'</tbody></table></div>'
+            f'<div class="chart-full chart-feature"><h3>R3 공동선두 4명의 우승확률 변화</h3><p class="chart-subhead">같은 -9 공동선두였지만, R3 종료 시점 NEO의 우승확률은 크게 달랐습니다. 범위: {r3_values[min_player]:.2f}% → {r3_values[max_player]:.2f}%</p><p class="chart-insight">R2에서 노승희의 확률은 {trends["노승희"][2]["value"]:.2f}%까지 올랐다가 R3에 {r3_values["노승희"]:.2f}%로 내려왔습니다. 이 변화는 다음 분석에서 모델 입력과 함께 확인합니다.</p>'+multi_line_chart_svg(title="R3 공동선두 4명의 우승확률 변화",series_by_player=trends)+'</div><p class="note methodology-note"><b>분석 기준 ⓘ</b> SG는 이 모델 버전의 입력이 아닙니다. 누락된 체크포인트는 연결하거나 재구성하지 않습니다.</p></section>'
             '<section class="product-section"><p class="section-label">LAYER B · PERFORMANCE ANALYSIS</p><h2>같은 -9, 경기 내용도 같았을까?</h2><p class="sg-explainer"><b>SG</b>는 필드와 비교해 어느 영역에서 타수를 벌거나 잃었는지를 보여줍니다. +는 벌고, −는 잃었다는 뜻입니다.</p><div class="table-scroll"><table class="data-table"><thead><tr><th>선수</th><th>SG 전체</th><th>티샷→그린</th><th>티샷</th><th>어프로치</th><th>그린주변</th><th>퍼팅</th></tr></thead><tbody>'+sg_table+'</tbody></table></div><p class="note">KLPGA 공식 R3 단일 라운드 SG입니다. 경기 내용을 설명하지만 NEO 확률의 원인으로 사용하지 않습니다.</p><h3>R3까지 스코어 구성</h3><div class="table-scroll"><table class="data-table"><thead><tr><th>선수</th><th>이글 이하</th><th>버디</th><th>파</th><th>보기</th><th>더블보기</th><th>트리플보기+</th></tr></thead><tbody>'+''.join(composition)+'</tbody></table></div>'
             f'<a class="secondary-action" href="{meta.stage_url("r3")}">R3 전체 예측 보기</a></section>')
 
