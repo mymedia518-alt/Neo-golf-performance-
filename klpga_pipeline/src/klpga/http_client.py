@@ -243,6 +243,16 @@ class PoliteHttpClient:
         resp = self._do_request("GET", url, params=params, headers=headers)
         return resp.status_code, resp.text
 
+    def post_cache_path(self, url: str, data: Optional[dict] = None) -> Path:
+        """Public accessor for the exact on-disk cache path `post_text`
+        would read/write for this (url, data) — never fetches, never
+        creates the file. For a diagnostic tool (e.g. scripts/
+        final_close_preflight.py's stale-cache check) that needs to
+        inspect a cache entry without risking an accidental live
+        request; reuses this client's own real cache-key derivation so
+        there is no second, potentially-drifting hash implementation."""
+        return self._cache_path(url, {"data": data})
+
     def post_text(
         self,
         url: str,
