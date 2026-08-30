@@ -1,0 +1,90 @@
+{
+  "schema_version": "neo_forecast_evidence_manifest_v1",
+  "evidence_set_id": "beta001",
+  "game_code": "2026080001",
+  "tournament_name": "제15회 KG 레이디스 오픈",
+  "forecast_only": true,
+  "final_result_record": null,
+  "stages": [
+    {
+      "stage": "PRE",
+      "stable_intended_url": "/tournaments/2026/kg-ladies-open/pre/",
+      "source_artifact": "klpga_pipeline/evidence/beta001/artifacts/pre_prediction_001.json",
+      "artifact_type": "byte_exact_git_snapshot_of_immutable_prediction_archive_json",
+      "publication_provenance": {
+        "classification": "reconstructed",
+        "git_commit": "6aa44cbb0d25b96fc849ec99fb0c26cfc91134d8",
+        "commit_timestamp": "2026-08-26T09:51:08+09:00",
+        "publication_timestamp": null,
+        "build_timestamp": "2026-08-26T00:30:29Z",
+        "evidence_basis": "The archive itself declares provenance.source=rerun_reconstruction and original_machine_readable_snapshot_available=false. It is registered honestly and is not an original publication capture."
+      },
+      "prediction_id": "001",
+      "model_version": "M4/v1",
+      "data_cutoff": "2026-08-27",
+      "sha256": "0e1fbd013d1e5280887636fc7d504b537f71833dfca918bb876e7ce0fd5301ea",
+      "immutability_status": "protected_existing_append_only_archive",
+      "notes": "Byte-exact snapshot from Git commit 6aa44cbb of the append-only PRE archive. The archive is a rerun reconstruction cross-checked against observed facts from the successful pre-tournament run. Never describe this artifact as original."
+    },
+    {
+      "stage": "R1",
+      "stable_intended_url": "/tournaments/2026/kg-ladies-open/r1/",
+      "source_artifact": "docs/tournaments/2026/kg-ladies-open/r1/index.html",
+      "artifact_type": "published_historical_html",
+      "publication_provenance": {
+        "classification": "published_original",
+        "git_commit": "7ec9cde346ba74591d74a00f94c1a701511bab37",
+        "commit_timestamp": "2026-08-29T06:46:27Z",
+        "publication_timestamp": "2026-08-28T09:21:55+09:00",
+        "build_timestamp": "2026-08-27T15:28:38Z",
+        "evidence_basis": "The stable R1 URL was first published by f8f6a2e5e724e5a9e8d4323c6eff48726ffaf9f7. The protected bytes are the existing production artifact after navigation/GA4 presentation-only commits, last changed by 7ec9cde."
+      },
+      "prediction_id": "001-C-R1",
+      "model_version": "neo_win_beta_round_update_v1 (PRE source 001-C-FINAL / MODEL_A)",
+      "data_cutoff": "after official R1 completion; exact source cutoff timestamp not embedded in published HTML",
+      "sha256": "be9b5fb56090667aea7924abdd7f481d079579687dc1eb1a561134f353b3400c",
+      "immutability_status": "protected_existing_public_url_artifact",
+      "notes": "Prediction values and historical claims at the existing public URL are protected. Publication/build details are retained without claiming a more precise cutoff than the available evidence supports."
+    },
+    {
+      "stage": "R2",
+      "stable_intended_url": "/tournaments/2026/kg-ladies-open/r2/",
+      "source_artifact": "docs/tournaments/2026/kg-ladies-open/r2/index.html",
+      "artifact_type": "published_historical_html",
+      "publication_provenance": {
+        "classification": "published_original",
+        "git_commit": "7ec9cde346ba74591d74a00f94c1a701511bab37",
+        "commit_timestamp": "2026-08-29T06:46:27Z",
+        "publication_timestamp": "2026-08-28T22:53:27+09:00",
+        "build_timestamp": null,
+        "evidence_basis": "The stable R2 URL and frozen forecast were first published by d479a998e7955cda5f5a0fb496444861bbdf4370. The protected bytes are the existing production artifact after presentation-only commits, last changed by 7ec9cde."
+      },
+      "prediction_id": "BETA001_R2_FORECAST_2026080001",
+      "model_version": "R2 remaining-round simulation using frozen BETA #001-C PRE source",
+      "data_cutoff": "after official R2 completion and before R3 start; exact source cutoff timestamp not embedded in published HTML",
+      "sha256": "531cac52a7c122e0a0a161f18704570f4972eb744b928128c1317fd06a49eeae",
+      "immutability_status": "protected_existing_public_url_artifact",
+      "notes": "The published page states that the forecast was frozen before R3 and will not be changed after later results. No unavailable build timestamp is invented."
+    },
+    {
+      "stage": "R3",
+      "stable_intended_url": "/tournaments/2026/kg-ladies-open/r3/",
+      "source_artifact": "klpga_pipeline/evidence/beta001/artifacts/post_r3_published_index.html",
+      "artifact_type": "byte_exact_git_publication_snapshot_html",
+      "publication_provenance": {
+        "classification": "published_original",
+        "git_commit": "c8b0a16fccf9817394397845a024bb62ef70a9d3",
+        "commit_timestamp": "2026-08-30T01:31:39+09:00",
+        "publication_timestamp": "2026-08-30T01:31:39+09:00",
+        "build_timestamp": null,
+        "evidence_basis": "Exact bytes of docs/index.html from the first commit explicitly publishing the KG Ladies Open POST-R3 update. This predates later presentation enhancements and preserves the pre-FINAL forecast as first committed for production."
+      },
+      "prediction_id": "001-C POST-R3 remaining-round forecast",
+      "model_version": "POST-R3 remaining-round simulation using 001-C / MODEL_A source features",
+      "data_cutoff": "after official R3 completion and before FINAL (R4) start; exact source cutoff timestamp not embedded in published HTML",
+      "sha256": "30797700f3e2e6530c1de02575723d94dbb67da860ade493068d891294ffde15",
+      "immutability_status": "protected_byte_exact_snapshot",
+      "notes": "Authentic publication artifact, not a reconstruction. Extracted byte-for-byte from Git commit c8b0a16. FINAL results are intentionally absent from this forecast evidence record."
+    }
+  ]
+}
