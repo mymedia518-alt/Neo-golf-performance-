@@ -157,6 +157,65 @@ def test_cli_final_close_defaults_and_dispatch(module, tmp_path):
     assert captured["expected_final_round"] == "4"
 
 
+def test_cli_db_and_finalists_default_from_neo_data_root(module, monkeypatch):
+    external_root = "/mnt/external/neo_data"
+    monkeypatch.setenv("NEO_DATA_ROOT", external_root)
+    captured = {}
+
+    def fake_run_final_close(**kwargs):
+        captured.update(kwargs)
+        return 0
+
+    argv = ["neo_ops.py", "final-close"]
+    with patch(f"{MODULE_NAME}.run_final_close", side_effect=fake_run_final_close):
+        with patch("sys.argv", argv):
+            module.main()
+
+    assert captured["db"] == f"{external_root}/klpga.sqlite"
+    assert captured["finalists"] == f"{external_root}/roster/r3_finalists_2026080001.csv"
+
+
+def test_cli_db_and_finalists_default_legacy_repo_local_when_unset(module, monkeypatch):
+    monkeypatch.delenv("NEO_DATA_ROOT", raising=False)
+    captured = {}
+
+    def fake_run_final_close(**kwargs):
+        captured.update(kwargs)
+        return 0
+
+    argv = ["neo_ops.py", "final-close"]
+    with patch(f"{MODULE_NAME}.run_final_close", side_effect=fake_run_final_close):
+        with patch("sys.argv", argv):
+            module.main()
+
+    assert captured["db"] == str(module.ROOT / "data" / "klpga.sqlite")
+    assert captured["finalists"] == str(module.ROOT / "data" / "roster" / "r3_finalists_2026080001.csv")
+
+
+def test_outputs_stay_worktree_local_even_with_external_neo_data_root(module, tmp_path, monkeypatch):
+    """CODE/DATA separation must never leak into where AUTO OPS's OWN
+    outputs go -- outputs/neo_ops/<game_code> always lives next to the
+    code that produced it (module.ROOT), never inside NEO_DATA_ROOT."""
+    worktree_root = tmp_path / "worktree"
+    worktree_root.mkdir()
+    external_data_root = tmp_path / "external_data_root"
+    external_data_root.mkdir()
+    monkeypatch.setenv("NEO_DATA_ROOT", str(external_data_root))
+    monkeypatch.setattr(module, "ROOT", worktree_root)
+
+    with patch(f"{MODULE_NAME}.subprocess.Popen", side_effect=_make_fake_popen_factory(verdict="GO")):
+        with patch(f"{MODULE_NAME}.send_discord_notification", return_value=False):
+            module.run_final_close(
+                db="fake.sqlite", season="2026", game_code=GAME_CODE, expected_final_round="4",
+                finalists="fake_finalists.csv",
+            )
+
+    expected_out_dir = worktree_root / "outputs" / "neo_ops" / GAME_CODE
+    assert (expected_out_dir / "latest.txt").exists()
+    assert (expected_out_dir / "latest.json").exists()
+    assert not (external_data_root / "outputs").exists()
+
+
 def test_module_never_imports_history_or_homepage_writers():
     """Mirrors the equivalent guard in
     test_final_close_preflight_script.py -- neo_ops.py only ever

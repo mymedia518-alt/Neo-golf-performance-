@@ -105,6 +105,47 @@ def test_expected_final_round_hard_stop_never_prints_success(module, tmp_path, c
     assert "HARD_STOP_BELOW_EXPECTED_FINAL_ROUND" in out
 
 
+def test_db_and_cache_dir_defaults_honor_neo_data_root(module, monkeypatch, tmp_path):
+    external_root = tmp_path / "external_data_root"
+    db_path = external_root / "klpga.sqlite"
+    external_root.mkdir()
+    db_path.write_text("")
+    monkeypatch.setenv("NEO_DATA_ROOT", str(external_root))
+
+    with patch("sys.argv", ["04_collect_single_tournament.py", "--season", "2026", "--game-code", GAME_CODE]):
+        with patch(f"{MODULE_NAME}.collect_and_persist_tournament", return_value=_success_result()) as fake:
+            with patch(f"{MODULE_NAME}.fetch_round_leaderboard_html", return_value="<html></html>"):
+                rc = module.main()
+
+    # rc == 0 (rather than the "DB does not exist" exit 2 the script prints when a --db
+    # default resolves to the wrong path) is itself proof --db picked up the external
+    # NEO_DATA_ROOT db_path.write_text("") above, not the (nonexistent) repo-local default.
+    assert rc == 0
+    fake.assert_called_once()
+
+
+def test_db_and_cache_dir_defaults_legacy_repo_local_when_unset(module, monkeypatch):
+    monkeypatch.delenv("NEO_DATA_ROOT", raising=False)
+    import argparse
+
+    captured = {}
+    real_add_argument = argparse.ArgumentParser.add_argument
+
+    def spy_add_argument(self, *a, **kw):
+        if a and a[0] in ("--db", "--cache-dir"):
+            captured[a[0]] = kw.get("default")
+        return real_add_argument(self, *a, **kw)
+
+    with patch.object(argparse.ArgumentParser, "add_argument", spy_add_argument):
+        with patch("sys.argv", ["04_collect_single_tournament.py", "--season", "2026", "--game-code", GAME_CODE]):
+            with patch(f"{MODULE_NAME}.collect_and_persist_tournament", return_value=_success_result()):
+                with patch(f"{MODULE_NAME}.fetch_round_leaderboard_html", return_value="<html></html>"):
+                    module.main()
+
+    assert captured["--db"] == str(module.ROOT / "data" / "klpga.sqlite")
+    assert captured["--cache-dir"] == str(module.ROOT / "data" / "raw_cache" / "http")
+
+
 def test_legacy_no_new_flags_still_reports_success(module, tmp_path, capsys):
     db_path = tmp_path / "test.sqlite"
     db_path.write_text("")

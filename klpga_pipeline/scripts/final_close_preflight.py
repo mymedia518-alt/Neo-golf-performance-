@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sqlite3
 import sys
 from datetime import datetime, timezone
@@ -66,6 +67,7 @@ from klpga.http_client import PoliteHttpClient, RateLimitBlockedError  # noqa: E
 from klpga.neo_win.finalist_reconciliation import load_roster_csv, reconcile_finalists  # noqa: E402
 from klpga.neo_win.player_status import READINESS_HARD_STOP, READINESS_WARN, assess_field_readiness  # noqa: E402
 from klpga.neo_win.round_reconciliation import VERDICT_FAIL, normalize_db_round, normalize_official_round  # noqa: E402
+from klpga.ops import paths  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -89,12 +91,20 @@ def _write_json(json_out: str | None, summary: dict) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
+    parser.add_argument(
+        "--db", default=str(paths.db_path()),
+        help="Defaults to $NEO_DATA_ROOT/klpga.sqlite if NEO_DATA_ROOT is set, else data/klpga.sqlite "
+             "under this repo checkout.",
+    )
     parser.add_argument("--season", type=int, required=True)
     parser.add_argument("--game-code", required=True, dest="game_code")
     parser.add_argument("--expected-final-round", type=int, required=True, dest="expected_final_round")
     parser.add_argument("--finalists", required=True, help="roster CSV: player_code,player_name")
-    parser.add_argument("--cache-dir", default=str(ROOT / "data" / "raw_cache" / "http"))
+    parser.add_argument(
+        "--cache-dir", default=str(paths.cache_dir()),
+        help="Defaults to $NEO_DATA_ROOT/raw_cache/http if NEO_DATA_ROOT is set, else "
+             "data/raw_cache/http under this repo checkout.",
+    )
     parser.add_argument("--predictions-dir", default=str(ROOT / "neo_win_predictions"))
     parser.add_argument("--c-predictions-dir", default=str(ROOT / "neo_win_c_predictions"))
     parser.add_argument(
@@ -109,8 +119,32 @@ def main() -> int:
     }
 
     db_path = Path(args.db)
+    cache_dir_path = Path(args.cache_dir)
+
+    # --- STEP 0: ENVIRONMENT CHECK (read-only, BEFORE contacting KLPGA) ---
+    print("=== BETA #001 FINAL CLOSE PREFLIGHT ===")
+    print(f"game_code={args.game_code} season={args.season} expected_final_round={args.expected_final_round}")
+    print()
+    print("=== STEP 0: ENVIRONMENT CHECK ===")
+    print(f"CODE ROOT:    {paths.code_root()}")
+    print(f"DATA ROOT:    {paths.data_root()}")
+    print(f"DB PATH:      {db_path}")
+    print(f"CACHE PATH:   {cache_dir_path}")
+    print(f"DB EXISTS:    {db_path.exists()}")
+    print(f"NETWORK MODE: LIVE (https://klpga.co.kr, HTTP responses cached under CACHE PATH)")
+    print()
+
+    summary["environment"] = {
+        "code_root": str(paths.code_root()), "data_root": str(paths.data_root()),
+        "db_path": str(db_path), "cache_path": str(cache_dir_path),
+        "db_exists": db_path.exists(), "network_mode": "LIVE",
+    }
+
     if not db_path.exists():
         print(f"ERROR: {db_path} does not exist.")
+        if paths.ENV_VAR in os.environ:
+            print(f"  ({paths.ENV_VAR} is set to {os.environ[paths.ENV_VAR]!r} — "
+                  f"the DB is expected there, not under this repo checkout.)")
         summary["verdict"] = HARD_STOP
         summary["hard_stop_reasons"] = [f"--db {db_path} does not exist"]
         _write_json(args.json_out, summary)
@@ -125,15 +159,13 @@ def main() -> int:
         return 3
     roster_rows = load_roster_csv(finalists_path)
 
-    client = PoliteHttpClient(cache_dir=Path(args.cache_dir))
+    client = PoliteHttpClient(cache_dir=cache_dir_path)
     conn = sqlite3.connect(str(db_path))
 
     hard_stop_reasons: list[str] = []
     warn_reasons: list[str] = []
 
-    print("=== BETA #001 FINAL CLOSE PREFLIGHT ===")
-    print(f"game_code={args.game_code} season={args.season} expected_final_round={args.expected_final_round} "
-          f"finalists={len(roster_rows)}")
+    print(f"finalists={len(roster_rows)}")
     print()
 
     # --- STEP 1: stale-cache evidence (read-only, BEFORE collecting) ---

@@ -23,9 +23,23 @@ REM defaults baked into scripts\neo_ops.py's own argparse -- any
 REM argument you pass to THIS .bat is forwarded straight through, so
 REM a future tournament can be run without editing any file:
 REM     NEO_FINAL_CLOSE.bat --game-code 2026080002 --season 2026
+REM
+REM CODE/DATA SEPARATION: this launcher's own folder is the CODE ROOT
+REM (whatever worktree it was double-clicked from -- copy/clone it
+REM anywhere and it still works). The DATA ROOT -- klpga.sqlite, the
+REM HTTP cache, roster files -- is set below via NEO_DATA_ROOT to the
+REM one canonical, gitignored data directory, so a different worktree
+REM checkout never needs its own copy of the production DB. Nothing in
+REM the Python code hardcodes this path; only this launcher does. If
+REM NEO_DATA_ROOT is already set in your environment, that value wins
+REM and the line below is skipped.
 REM ============================================================
 
 cd /d "%~dp0"
+
+if not defined NEO_DATA_ROOT (
+    set "NEO_DATA_ROOT=C:\Users\user\Desktop\Neo-golf-performance-\klpga_pipeline\data"
+)
 
 if exist ".venv\Scripts\activate.bat" (
     call ".venv\Scripts\activate.bat"

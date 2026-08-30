@@ -59,9 +59,16 @@ from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
+from klpga.ops import paths  # noqa: E402
 from klpga.ops.discord_notify import send_discord_notification  # noqa: E402
 from klpga.ops.exception_agent import trigger_exception_agent  # noqa: E402
 
+# ROOT is this SCRIPT's own worktree (code location) -- used only for
+# locating final_close_preflight.py and for where AUTO OPS's own
+# outputs/ go. It is NEVER used to resolve klpga.sqlite/the HTTP
+# cache/roster files -- those go through klpga.ops.paths, which
+# resolves from $NEO_DATA_ROOT when set (see paths.py's module
+# docstring for why outputs and operational data are kept separate).
 ROOT = Path(__file__).resolve().parents[1]
 PREFLIGHT_SCRIPT = ROOT / "scripts" / "final_close_preflight.py"
 
@@ -146,12 +153,23 @@ def main() -> int:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     fc = subparsers.add_parser("final-close", help="Run the real FINAL CLOSE preflight for one tournament.")
-    fc.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
+    fc.add_argument(
+        "--db", default=str(paths.db_path()),
+        help="Defaults to $NEO_DATA_ROOT/klpga.sqlite if NEO_DATA_ROOT is set, else data/klpga.sqlite "
+             "under this repo checkout.",
+    )
     fc.add_argument("--season", default="2026")
     fc.add_argument("--game-code", default="2026080001", dest="game_code")
     fc.add_argument("--expected-final-round", default="4", dest="expected_final_round")
-    fc.add_argument("--finalists", default=str(ROOT / "data" / "roster" / "r3_finalists_2026080001.csv"))
-    fc.add_argument("--cache-dir", default=None)
+    fc.add_argument(
+        "--finalists", default=str(paths.roster_dir() / "r3_finalists_2026080001.csv"),
+        help="Defaults to $NEO_DATA_ROOT/roster/r3_finalists_2026080001.csv if NEO_DATA_ROOT is set, "
+             "else data/roster/r3_finalists_2026080001.csv under this repo checkout.",
+    )
+    fc.add_argument(
+        "--cache-dir", default=None,
+        help="If omitted, final_close_preflight.py resolves its own default from NEO_DATA_ROOT/data.",
+    )
 
     args = parser.parse_args()
 
