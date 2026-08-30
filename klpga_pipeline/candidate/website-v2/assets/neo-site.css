@@ -7,13 +7,14 @@
   --neo-green: #175c49;
   --neo-green-soft: #dcece5;
   --neo-gold: #b69445;
-  --neo-max: 72rem;
+  --neo-max: 68rem;
   --neo-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }
 html { color-scheme: light; }
 body { margin: 0; background: var(--neo-paper); color: var(--neo-ink); font-family: var(--neo-font); line-height: 1.55; }
+img, table { max-width: 100%; }
 a { color: inherit; text-underline-offset: 0.2em; }
 a:focus-visible { outline: 3px solid var(--neo-gold); outline-offset: 3px; }
 
@@ -34,10 +35,12 @@ main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
 .kicker, .tournament-context__eyebrow { margin: 0; color: var(--neo-green); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
 .text-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--neo-green); font-weight: 750; }
 
-.hero-v2 { display: grid; gap: 1.5rem; padding-block: clamp(1rem, 4vw, 3.5rem); border-bottom: 1px solid var(--neo-line); }
-.hero-v2 h1 { max-width: 15ch; margin: 0; font-size: clamp(2.7rem, 9vw, 6.5rem); line-height: 0.94; letter-spacing: -0.055em; }
+.hero-v2 { display: grid; gap: 1.25rem; padding-block: clamp(1.5rem, 5vw, 4rem); border-bottom: 1px solid var(--neo-line); }
+.hero-v2 h1 { max-width: 19ch; margin: 0; font-size: clamp(2.25rem, 6vw, 4.6rem); line-height: 1.02; letter-spacing: -0.045em; }
+.hero-v2--home h1 { max-width: 21ch; }
 .hero-v2 p { max-width: 44rem; margin: 0; color: var(--neo-muted); font-size: clamp(1rem, 2vw, 1.2rem); }
-.section-v2 { padding-block: clamp(2rem, 5vw, 4rem); border-bottom: 1px solid var(--neo-line); }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; }
+.section-v2 { min-width: 0; padding-block: clamp(2.25rem, 5vw, 4.25rem); border-bottom: 1px solid var(--neo-line); }
 .section-v2__head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
 .section-v2 h2 { margin: 0; font-size: clamp(1.5rem, 4vw, 2.6rem); line-height: 1.05; letter-spacing: -0.035em; }
 .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: 1rem; }
@@ -56,11 +59,11 @@ main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
 .timeline span { color: var(--neo-muted); font-size: 0.78rem; }
 .provenance { padding: 1rem 1.2rem; border-left: 4px solid var(--neo-gold); background: #fff8dc; }
 .provenance strong { display: block; margin-bottom: 0.3rem; }
-.evidence-frame { display: block; width: 100%; min-height: 72vh; border: 1px solid var(--neo-line); background: #fff; }
-.table-scroll { width: 100%; overflow-x: auto; }
+.table-scroll { width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
 .evidence-table { width: 100%; min-width: 42rem; border-collapse: collapse; background: #fff; }
 .evidence-table th, .evidence-table td { padding: 0.75rem; border-bottom: 1px solid var(--neo-line); text-align: left; }
 .evidence-table th { color: var(--neo-muted); font-size: 0.72rem; letter-spacing: 0.05em; }
+.evidence-table tbody tr:hover { background: var(--neo-panel); }
 .evidence-table td:first-child, .evidence-table td:last-child { font-variant-numeric: tabular-nums; }
 .route-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .route-list a { display: inline-flex; align-items: center; min-height: 44px; padding: 0.45rem 0.8rem; border: 1px solid var(--neo-line); text-decoration: none; }
@@ -68,6 +71,21 @@ main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
 .definition-list { display: grid; grid-template-columns: minmax(8rem, 0.4fr) 1fr; gap: 0.75rem 1.5rem; }
 .definition-list dt { color: var(--neo-muted); }
 .definition-list dd { margin: 0; }
+.comparison-card { display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(1rem, 3vw, 2.5rem); align-items: center; margin-top: 1.5rem; padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid var(--neo-line); background: #fff; }
+.comparison-card p { font-size: clamp(1.05rem, 2vw, 1.3rem); }
+.comparison-card strong, .probability-callout { color: var(--neo-green); font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1; }
+.comparison-arrow { color: var(--neo-gold); font-size: 2rem; }
+.plain-trust { color: var(--neo-muted); }
+.trust-note, .evidence-summary, .evidence-reference { color: var(--neo-muted); }
+.evidence-reference h2 { color: var(--neo-ink); font-size: clamp(1.25rem, 3vw, 1.8rem); }
+.evidence-reference details { margin-top: 1rem; font-size: 0.82rem; overflow-wrap: anywhere; }
+.evidence-reference summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--neo-green); font-weight: 750; }
+.forecast-stage > p { max-width: 48rem; }
+.forecast-tools { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 0.75rem; }
+.forecast-tools button { min-height: 44px; padding: 0.5rem 0.9rem; border: 1px solid var(--neo-line); background: #fff; color: var(--neo-ink); font: inherit; font-weight: 750; cursor: pointer; }
+.forecast-tools button[aria-pressed="true"] { border-color: var(--neo-green); background: var(--neo-green); color: #fff; }
+.forecast-followup { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+.evaluation-block { padding-inline: clamp(1.25rem, 4vw, 2.5rem); background: var(--neo-green-soft); }
 
 .tournament-context { border-bottom: 1px solid var(--neo-line); }
 .tournament-context h1 { margin: 0.35rem 0 0; font-size: clamp(2rem, 6vw, 4.25rem); line-height: 1; letter-spacing: -0.04em; }
@@ -97,6 +115,9 @@ main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
   .result-card { grid-template-columns: 1fr; }
   .rounds { grid-template-columns: repeat(2, 1fr); }
   .definition-list { grid-template-columns: 1fr; gap: 0.2rem; }
+  .comparison-card { grid-template-columns: 1fr; }
+  .comparison-arrow { transform: rotate(90deg); justify-self: start; }
+  .hero-v2 h1 { font-size: clamp(2rem, 11vw, 3.2rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {

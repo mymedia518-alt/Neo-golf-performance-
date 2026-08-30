@@ -25,8 +25,22 @@
     });
   }
 
+  function filterForecastRows(event) {
+    var button = event.target.closest("[data-row-limit]");
+    if (!button) return;
+    var section = button.closest("[data-forecast-stage]");
+    var table = section && section.querySelector("[data-forecast-table]");
+    if (!table) return;
+    var limit = button.dataset.rowLimit === "all" ? Infinity : Number(button.dataset.rowLimit);
+    table.querySelectorAll("tbody tr").forEach(function (row, index) { row.hidden = index >= limit; });
+    section.querySelectorAll("[data-row-limit]").forEach(function (item) {
+      item.setAttribute("aria-pressed", item === button ? "true" : "false");
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     revealActiveStage();
     document.addEventListener("click", trackDeepDiveInterest);
+    document.addEventListener("click", filterForecastRows);
   });
 })();
