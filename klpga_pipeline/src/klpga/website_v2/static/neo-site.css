@@ -1,0 +1,66 @@
+:root {
+  --neo-ink: #17201d;
+  --neo-muted: #606b66;
+  --neo-paper: #fbfcf9;
+  --neo-panel: #f0f4ef;
+  --neo-line: #d7ded8;
+  --neo-green: #175c49;
+  --neo-green-soft: #dcece5;
+  --neo-gold: #b69445;
+  --neo-max: 72rem;
+  --neo-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin: 0; background: var(--neo-paper); color: var(--neo-ink); font-family: var(--neo-font); line-height: 1.55; }
+a { color: inherit; text-underline-offset: 0.2em; }
+a:focus-visible { outline: 3px solid var(--neo-gold); outline-offset: 3px; }
+
+.site-header { border-bottom: 1px solid var(--neo-line); background: rgba(251, 252, 249, 0.96); }
+.site-header__inner, .site-footer__inner, main { width: min(100% - 2rem, var(--neo-max)); margin-inline: auto; }
+.site-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 4.5rem; }
+.wordmark { color: var(--neo-green); font-weight: 850; letter-spacing: 0.08em; text-decoration: none; white-space: nowrap; }
+.global-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.25rem 1.25rem; }
+.global-nav__link { display: inline-flex; align-items: center; min-height: 44px; color: var(--neo-muted); font-size: 0.78rem; font-weight: 750; letter-spacing: 0.05em; text-decoration: none; }
+.global-nav__link[aria-current="page"] { color: var(--neo-green); box-shadow: inset 0 -2px var(--neo-green); }
+
+main { min-height: 65vh; padding-block: clamp(2rem, 5vw, 4.5rem); }
+.fixture-notice { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-bottom: 2rem; padding: 0.8rem 1rem; border: 1px solid #d8c68f; background: #fff8dc; font-size: 0.82rem; }
+.fixture-notice strong { letter-spacing: 0.06em; }
+.page-intro, .stage-placeholder { max-width: 48rem; padding-block: clamp(1.5rem, 4vw, 3rem); }
+.page-intro h1, .stage-placeholder h2 { margin: 0.35rem 0 1rem; font-size: clamp(2rem, 6vw, 4.5rem); line-height: 1.02; letter-spacing: -0.045em; }
+.stage-placeholder h2 { font-size: clamp(1.8rem, 5vw, 3.4rem); }
+.kicker, .tournament-context__eyebrow { margin: 0; color: var(--neo-green); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.text-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--neo-green); font-weight: 750; }
+
+.tournament-context { border-bottom: 1px solid var(--neo-line); }
+.tournament-context h1 { margin: 0.35rem 0 0; font-size: clamp(2rem, 6vw, 4.25rem); line-height: 1; letter-spacing: -0.04em; }
+.tournament-context h1 a { text-decoration: none; }
+.tournament-context__meta { margin: 0.9rem 0 1.5rem; color: var(--neo-muted); font-size: 0.82rem; font-weight: 750; letter-spacing: 0.08em; }
+.stage-nav { width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+.stage-nav__list { display: flex; width: max-content; min-width: 100%; margin: 0; padding: 0; list-style: none; white-space: nowrap; }
+.stage-nav__item { flex: 1 0 auto; }
+.stage-nav__link, .stage-nav__disabled { display: inline-flex; align-items: center; justify-content: center; min-width: 5.5rem; min-height: 44px; padding: 0.65rem 1rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-decoration: none; }
+.stage-nav__link { color: var(--neo-muted); }
+.stage-nav__link:hover { color: var(--neo-green); background: var(--neo-panel); }
+.stage-nav__link[aria-current="page"], .stage-nav__disabled[aria-current="page"] { color: var(--neo-paper); background: var(--neo-green); }
+.stage-nav__disabled { color: #8c9591; cursor: not-allowed; }
+
+.site-footer { border-top: 1px solid var(--neo-line); background: var(--neo-panel); color: var(--neo-muted); font-size: 0.82rem; }
+.site-footer__inner { padding-block: 2rem; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+.site-footer nav a { min-height: 44px; display: inline-flex; align-items: center; }
+
+@media (max-width: 700px) {
+  .site-header__inner { align-items: flex-start; flex-direction: column; gap: 0; padding-block: 0.8rem; }
+  .global-nav { width: 100%; justify-content: flex-start; gap: 0 1rem; overflow-x: auto; white-space: nowrap; flex-wrap: nowrap; }
+  .global-nav__link { flex: 0 0 auto; }
+  .stage-nav { overflow-x: auto; }
+  .stage-nav__list { white-space: nowrap; }
+  .stage-nav__link, .stage-nav__disabled { min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}

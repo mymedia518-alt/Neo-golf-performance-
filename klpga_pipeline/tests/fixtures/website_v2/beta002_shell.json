@@ -1,0 +1,10 @@
+{
+  "tournament_id": "fixture-beta002-2027",
+  "slug": "fixture-open",
+  "display_name": "NEO FIXTURE OPEN",
+  "beta_number": "002",
+  "year": 2027,
+  "status": "complete",
+  "latest_published_stage": "final",
+  "published_stages": ["overview", "pre", "r1", "r2", "r3", "final"]
+}
