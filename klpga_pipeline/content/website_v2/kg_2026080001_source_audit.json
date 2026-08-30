@@ -1,0 +1,14 @@
+{
+  "audited_at": "2026-08-31",
+  "official_klpga": {
+    "leaderboard_page": "https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026080001",
+    "leaderboard_endpoint": {"url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard", "method": "POST", "parameters": ["gameCode", "round"], "scope": "round checkpoint/final leaderboard"},
+    "sg_page": "https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026080001",
+    "sg_endpoint": {"url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail", "method": "POST", "parameters": ["gameCode", "round"], "scope": "blank round=tournament cumulative; numbered round=single round"},
+    "hole_endpoint": {"url": "https://klpga.co.kr/load/leaderboard/playerDetail", "method": "POST", "scope": "public player scorecard with exact par/strokes"},
+    "location_record_endpoint": {"url": "https://klpga.co.kr/load/profile/locationRecordMajorDetail", "decision": "not used; it is a player profile/location record surface, not the authoritative tournament scorecard source"}
+  },
+  "sg_definition_validation": {"tolerance": 0.06, "relationships": ["SG Total ≈ OTT + APP + ARG + Putting", "SG Tee-to-Green ≈ OTT + APP + ARG"], "round_and_cumulative_kept_separate": true},
+  "pga_tour_reference": {"url": "https://www.pgatour.com/stats/detail", "used_for": ["SG category hierarchy", "numeric-first comparison", "scoring distribution patterns"], "copied_design_or_assets": false},
+  "collection_policy": "Public official endpoints only; no authentication bypass, CAPTCHA bypass, or third-party data."
+}

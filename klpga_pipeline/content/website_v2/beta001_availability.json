@@ -1,54 +1,12 @@
 {
   "tournament_id": "2026080001",
-  "audited_at": "2026-08-31",
-  "sources": {
-    "pre": "protected PRE archive",
-    "r1": "published historical R1 HTML",
-    "r2": "published historical R2 HTML",
-    "r3": "byte-exact POST-R3 publication snapshot",
-    "final": "validated official winner record",
-    "course": "KLPGA official tournament information page"
-  },
-  "player_round": {
-    "r1_score": "winner_only_validated_final_record; stage-relative scores available in R1 snapshot",
-    "r2_score": "winner_only_validated_final_record; cumulative values available in R2 snapshot",
-    "r3_score": "winner_only_validated_final_record; stage-relative scores available in R3 snapshot",
-    "r4_score": "winner_only",
-    "cumulative_score": "R2/R3 stage tables; winner FINAL",
-    "round_rank": "unavailable",
-    "cumulative_rank": "R1/R2/R3 stage tables",
-    "final_rank": "winner_only"
-  },
-  "stage_forecast": {
-    "pre_win_probability": true,
-    "r1_win_probability": true,
-    "r2_win_probability": true,
-    "r3_win_probability": true,
-    "top5": ["R2", "R3"],
-    "top10": ["R2", "R3"],
-    "top20": ["R2", "R3"],
-    "exact_frozen_timestamp": {"PRE": false, "R1": true, "R2": true, "R3": true},
-    "model_version": {"PRE": true, "R1": true, "R2": true, "R3": true}
-  },
-  "hole_by_hole": {
-    "available": false,
-    "fields": ["hole", "par", "strokes", "relative_to_par"],
-    "reason": "No validated KG Ladies Open player-round-hole records exist in the repository candidate sources."
-  },
-  "tournament_hole_analytics": {
-    "available": false,
-    "reason": "Omitted because validated hole-level input is unavailable."
-  },
-  "player_trends": {
-    "win_probability": "available_at_existing_frozen_checkpoints_only",
-    "rank": "R1/R2/R3 plus winner-only FINAL",
-    "round_score": "winner_only_R1_to_R4",
-    "cumulative_score": "winner_only"
-  },
-  "omitted_modules": [
-    "hole difficulty chart",
-    "hole score distribution",
-    "tournament score composition",
-    "player score composition"
-  ]
+  "audited_at": "2026-08-31T00:00:00+09:00",
+  "official_final_leaderboard": {"status": "AVAILABLE", "players": 119, "finalists": 62, "withdrawn": 3, "source": "/load/leaderboard/roundLeaderboard"},
+  "strokes_gained": {"status": "AVAILABLE", "scopes": ["single_round", "tournament_cumulative"], "categories": ["total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting"], "source": "/load/leaderboard/strokesGained_detail"},
+  "hole_by_hole": {"status": "PARTIAL", "available": true, "records": 6318, "fields": ["player", "round", "hole", "par", "strokes", "relative_to_par"], "reason": "Exact public KLPGA scorecards were validated for 351 player-rounds; eight expected player-round scorecards were not returned as complete rows."},
+  "tournament_hole_analytics": {"status": "AVAILABLE", "scope": "validated scorecard records only"},
+  "stage_forecast": {"status": "AVAILABLE", "checkpoints": ["PRE", "R1", "R2", "R3"], "missing_points": "preserved_as_null_without_interpolation"},
+  "model_inputs": {"status": "AVAILABLE", "version": "M4 v1", "features": ["prior_avg_round_score_to_par", "prior_recent_form_10", "completed_round_results", "remaining_round_simulation"]},
+  "unavailable": ["complete scorecards for eight player-rounds"],
+  "blocked": []
 }
