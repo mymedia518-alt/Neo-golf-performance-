@@ -1,0 +1,130 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WVX07966WS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WVX07966WS');
+</script>
+<title>NEO R3 Tournament Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;family=Roboto+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #dde5f3;
+    --bg-alt: #cfdaef;
+    --card-bg: #ffffff;
+    --border: #b8c6e2;
+    --text: #16213e;
+    --text-dim: #5b6b85;
+    --accent: #0f9488;
+    --pill-bg: #dff5f0;
+    --pill-text: #0b7d6f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  header { max-width: 960px; margin: 0 auto 20px; }
+
+  .wordmark {
+    --row: clamp(12px, 3vw, 16px);
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 3.2vw, 20px);
+    margin-bottom: 10px;
+  }
+  .wordmark-letters { display: flex; flex-direction: column; gap: calc(var(--row) * 0.15); flex-shrink: 0; }
+  .letter-row { display: flex; align-items: baseline; gap: calc(var(--row) * 0.42); white-space: nowrap; }
+  .letter { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 1.15); line-height: 1; color: var(--accent); }
+  .letter-word { font-family: "Big Shoulders Display", sans-serif; font-weight: 600; font-size: calc(var(--row) * 0.72); line-height: 1; letter-spacing: 0.04em; color: var(--text-dim); white-space: nowrap; }
+  .wordmark-name { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 3.75); line-height: 1; letter-spacing: 0.015em; color: var(--text); white-space: nowrap; }
+  .header-about-link { display: inline-block; margin: 6px 0 0; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; }
+  .header-about-link:hover, .header-about-link:focus-visible { text-decoration: underline; }
+  .round-nav-home-link { display: inline-block; margin: 0 0 6px; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 700; }
+  .round-nav-home-link:hover, .round-nav-home-link:focus-visible { text-decoration: underline; }
+
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .next-update { flex-shrink: 0; margin-left: auto; text-align: right; }
+  .next-update-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); opacity: 0.7; }
+  .next-update-text { font-size: 12px; color: var(--text-dim); margin-top: 2px; font-weight: 700; }
+
+  .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+  .meta .tournament-name { font-size: clamp(14px, 3.5vw, 18px); color: var(--text-dim); }
+  .status-pill { background: var(--pill-bg); color: var(--pill-text); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+  .round-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .round-nav-link { color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .round-nav-link:hover, .round-nav-link:focus-visible { text-decoration: underline; }
+  .round-nav-divider { color: var(--text-dim); font-size: 12px; }
+  .round-nav-active { white-space: nowrap; }
+
+  main { max-width: 960px; margin: 0 auto; }
+  section.stage-summary { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; box-shadow: 0 1px 3px rgba(22,33,62,0.08); }
+  section.stage-summary h1 { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(20px, 5vw, 26px); margin: 0 0 10px; }
+  section.stage-summary p { color: var(--text-dim); font-size: 14px; line-height: 1.6; margin: 0 0 16px; }
+  .stage-cta { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; border-radius: 999px; padding: 10px 22px; font-size: 13px; font-weight: 700; }
+  .stage-cta:hover, .stage-cta:focus-visible { opacity: 0.9; }
+
+  footer { max-width: 960px; margin: 48px auto 0; padding-bottom: 8px; text-align: center; color: var(--text-dim); font-size: 11px; line-height: 1.7; }
+  .footer-line { margin: 0; }
+  .footer-link { color: var(--text-dim); text-decoration: underline; text-decoration-color: transparent; }
+  .footer-link:hover, .footer-link:focus-visible { text-decoration-color: currentColor; }
+
+  @media (max-width: 480px) {
+    body { padding: 16px 10px 40px; }
+    .header-top { flex-direction: column; align-items: stretch; }
+    .next-update { align-self: flex-end; margin-top: 8px; margin-left: 0; }
+    .wordmark { --row: 8px; }
+    .wordmark-name { white-space: normal; line-height: 1.05; }
+  }
+</style>
+
+<header>
+  <div class="header-top">
+    <div class="wordmark">
+      <div class="wordmark-letters">
+        <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
+        <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
+        <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+      </div>
+      <div class="wordmark-name">TOURNAMENT PREDICTION</div>
+    </div>
+    <div class="next-update">
+      <div class="next-update-label">STATUS</div>
+      <div class="next-update-text">FINAL 종료 및 업데이트 완료</div>
+    </div>
+  </div>
+  <a class="header-about-link" href="/about/">NEO GOLF DATA 소개</a>
+  <a class="round-nav-home-link" href="/">← 대회 홈</a>
+  <div class="meta">
+    <span class="tournament-name">제15회 KG 레이디스 오픈</span>
+    <nav class="round-nav" aria-label="라운드 진행 상황">
+      <a class="round-nav-link" href="../r1/">1라운드 종료</a>
+      <span class="round-nav-divider">|</span>
+      <a class="round-nav-link" href="../r2/">2라운드 종료</a>
+      <span class="round-nav-divider">|</span>
+      <span class="status-pill round-nav-active" aria-current="step">3라운드 종료</span>
+      <span class="round-nav-divider">|</span>
+      <a class="round-nav-link" href="../final/">FINAL 종료</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="stage-summary">
+    <h1>3라운드 종료 — 우승 경쟁 예측</h1>
+    <p>제3라운드 종료 시점 전체 순위와 NEO의 우승확률(WIN/TOP5/TOP10/TOP20) 예측은 대회 홈의 전체 순위표에서 확인하실 수 있습니다. 이 예측은 4R 시작 전 동결된 POST-R3 forecast이며, 최종 결과 발표 이후에도 수정하지 않습니다.</p>
+    <a class="stage-cta" href="/#leaderboard">전체 순위표 보기</a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-line">&copy; 2026 NEO GOLF DATA. All Rights Reserved.</div>
+  <div class="footer-line">Predictions and probability models are proprietary to NEO GOLF DATA.</div>
+  <div class="footer-line">Tournament results and player information are based on publicly available data.</div>
+  <div class="footer-line"><a class="footer-link" href="/about/">NEO GOLF DATA 소개</a></div>
+</footer>
