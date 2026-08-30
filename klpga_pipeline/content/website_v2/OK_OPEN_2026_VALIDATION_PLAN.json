@@ -1,0 +1,49 @@
+{
+  "schema_version": "neo_ok_open_validation_plan_v1",
+  "game_code": "2026120001",
+  "frozen_before_start": "2026-09-04T00:00:00+09:00",
+  "dimensions": {
+    "level": {
+      "supports": "post-event SG remains in the same validated baseline direction",
+      "contradicts": "post-event SG reverses materially versus baseline",
+      "insufficient": "fewer than 5 pre-cutoff events",
+      "window": "recent5 vs all pre-cutoff events",
+      "minimum_sample": 5,
+      "baseline": "all pre-cutoff cumulative SG"
+    },
+    "direction": {
+      "supports": "recent3/5/10 and season agree on direction",
+      "contradicts": "recent windows materially disagree with season",
+      "insufficient": "fewer than 3 events",
+      "window": "recent3, recent5, recent10, season",
+      "minimum_sample": 3,
+      "baseline": "2026 season"
+    },
+    "consistency": {
+      "supports": "dispersion remains within historical band",
+      "contradicts": "bad-tail frequency materially exceeds historical distribution",
+      "insufficient": "N<5; N>=10 is hypothesis only",
+      "window": "all pre-cutoff events",
+      "minimum_sample": 5,
+      "baseline": "player event SG Total"
+    },
+    "composition": {
+      "supports": "component ordering repeats in recent5 and recent10/season",
+      "contradicts": "leading component changes across windows",
+      "insufficient": "component missing or fewer than 5 events",
+      "window": "recent5, recent10, season",
+      "minimum_sample": 5,
+      "baseline": "same-scope SG components"
+    },
+    "result_divergence": {
+      "supports": "future result and SG can be joined without leakage",
+      "contradicts": "identity/scope conflict",
+      "insufficient": "no post-event result",
+      "window": "post-event only",
+      "minimum_sample": 1,
+      "baseline": "official result + SG"
+    }
+  },
+  "no_composite_performance_index": true,
+  "no_winner_prediction": true
+}

@@ -1,0 +1,1213 @@
+{
+  "schema_version": "neo_ok_open_entry_v1",
+  "game_code": "2026120001",
+  "retrieved_at": "2026-08-30T23:51:36Z",
+  "source_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026120001",
+  "player_count": 120,
+  "parser_unparsed_rows": 0,
+  "duplicate_player_ids": [],
+  "unresolved_player_ids": [],
+  "withdrawals_marked_by_source": [],
+  "entries": [
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "강가율"
+    },
+    {
+      "player_id": "11446",
+      "player_name": "강민진",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "강민진"
+    },
+    {
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "고은혜"
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "고지우"
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "고지원"
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "구래현"
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김가희2"
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김나현2"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김리안"
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "김민별"
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "김민선7"
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "김민솔 0606(A)"
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "김민주"
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "김새로미"
+    },
+    {
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김서윤2"
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "김소정"
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2023 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "김수지"
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "김시현"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "김아현"
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "김우정"
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "김재희"
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "김지수"
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "김지영2"
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김지윤2"
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김하은2"
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김효문"
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "김희지"
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "노승희"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "노원경"
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "entry_status": "listed",
+      "nationality": "CHN",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "리 슈잉"
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "마다솜"
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "마서영"
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "박결"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "박단유"
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "박보겸"
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "박서현"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "박예지"
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "박현경"
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "박혜준"
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "방신실"
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "배소현"
+    },
+    {
+      "player_id": "9981",
+      "player_name": "배수연",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "배수연"
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "서어진"
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "성유진"
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "성은정"
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "손예빈"
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "송은아"
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "신다인"
+    },
+    {
+      "player_id": "10155",
+      "player_name": "신유진2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "신유진2"
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "영구시드권 선수",
+      "identity_match": true,
+      "canonical_name": "안선주"
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "안송이"
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "안재희"
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "안지현"
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "양서후"
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "양효리"
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "양효진"
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "오경은"
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)",
+      "entry_status": "listed",
+      "nationality": "USA",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "유다겸(I)"
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "유서연2"
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "유지나"
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "윤수아"
+    },
+    {
+      "player_id": "8863",
+      "player_name": "윤혜림",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "윤혜림"
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "윤화영"
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "이가영"
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "이동은"
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "이서윤4"
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "이세영"
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "이세희"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "K-10 클럽 가입자 또는 생애 누적 상금 25억 이상자",
+      "identity_match": true,
+      "canonical_name": "이소영"
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "이슬기2"
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "이승연"
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2023 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "이예원"
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "이윤서"
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "이율린"
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "이재윤"
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "이정민"
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "부상선수 시드권",
+      "identity_match": true,
+      "canonical_name": "이주미"
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "이지민"
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "이지현3"
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "이채은2"
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "임희정"
+    },
+    {
+      "player_id": "8355",
+      "player_name": "장수연",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "K-10 클럽 가입자 또는 생애 누적 상금 25억 이상자",
+      "identity_match": true,
+      "canonical_name": "장수연"
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "장은수"
+    },
+    {
+      "player_id": "11374",
+      "player_name": "전승희",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "전승희"
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "전예성"
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "전우리"
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "정소이"
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "정수빈"
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "정윤지"
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "조아연"
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "조은채"
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "조정민"
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "조혜림"
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "entry_status": "listed",
+      "nationality": "THA",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "짜라위 분짠(I)"
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "최가빈"
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "최민경"
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "최예림"
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "최예본"
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자",
+      "identity_match": true,
+      "canonical_name": "최은우"
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "최정원"
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "한아름"
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "한지원"
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "한진선"
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "허윤서"
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "현세린"
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "홍정민"
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2023 메이저대회 우승자",
+      "identity_match": true,
+      "canonical_name": "홍지원"
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내",
+      "identity_match": true,
+      "canonical_name": "홍진영2"
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "홍현지"
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "황민정"
+    },
+    {
+      "player_id": "10157",
+      "player_name": "황연서",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "황연서"
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내",
+      "identity_match": true,
+      "canonical_name": "황유나"
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자",
+      "identity_match": true,
+      "canonical_name": "황정미"
+    },
+    {
+      "player_id": "8320",
+      "player_name": "김아림",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "초청자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "김아림"
+    },
+    {
+      "player_id": "8764",
+      "player_name": "김소이",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "김소이"
+    },
+    {
+      "player_id": "11365",
+      "player_name": "박서진 0804(A)",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "박서진 0804(A)"
+    },
+    {
+      "player_id": "11944",
+      "player_name": "오수민 0809(A)",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "오수민 0809(A)"
+    },
+    {
+      "player_id": "8436",
+      "player_name": "유현주",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "유현주"
+    },
+    {
+      "player_id": "7963",
+      "player_name": "장하나",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "장하나"
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서",
+      "entry_status": "listed",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null,
+      "identity_match": true,
+      "canonical_name": "정민서 0612(A)"
+    }
+  ]
+}
