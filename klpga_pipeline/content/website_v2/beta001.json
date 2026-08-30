@@ -5,6 +5,7 @@
     "published_stages": ["overview", "pre", "r1", "r2", "r3", "final"]
   },
   "dates": {"start": "2026-08-27", "end": "2026-08-30", "display": "2026.08.27–8.30"},
+  "course": {"name": "써닝포인트", "routing": "Sun(OUT) · Point(IN)", "par": 72, "location": "경기도 용인시"},
   "forecast_stages": {
     "pre": {"record_type": "FORECAST", "evidence_stage": "PRE"},
     "r1": {"record_type": "FORECAST", "evidence_stage": "R1", "round_label": "ROUND 1", "title_ko": "1라운드 종료 후 NEO의 예측", "context_ko": "1라운드 공식 결과가 확정된 뒤, 2라운드 시작 전에 계산한 우승 확률입니다."},
