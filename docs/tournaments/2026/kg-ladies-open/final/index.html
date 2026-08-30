@@ -1,0 +1,157 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WVX07966WS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WVX07966WS');
+</script>
+<title>NEO FINAL Tournament Result</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;family=Roboto+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #dde5f3;
+    --bg-alt: #cfdaef;
+    --card-bg: #ffffff;
+    --border: #b8c6e2;
+    --text: #16213e;
+    --text-dim: #5b6b85;
+    --accent: #0f9488;
+    --pill-bg: #dff5f0;
+    --pill-text: #0b7d6f;
+    --gold: #b8860b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  header { max-width: 960px; margin: 0 auto 20px; }
+
+  .wordmark {
+    --row: clamp(12px, 3vw, 16px);
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 3.2vw, 20px);
+    margin-bottom: 10px;
+  }
+  .wordmark-letters { display: flex; flex-direction: column; gap: calc(var(--row) * 0.15); flex-shrink: 0; }
+  .letter-row { display: flex; align-items: baseline; gap: calc(var(--row) * 0.42); white-space: nowrap; }
+  .letter { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 1.15); line-height: 1; color: var(--accent); }
+  .letter-word { font-family: "Big Shoulders Display", sans-serif; font-weight: 600; font-size: calc(var(--row) * 0.72); line-height: 1; letter-spacing: 0.04em; color: var(--text-dim); white-space: nowrap; }
+  .wordmark-name { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 3.75); line-height: 1; letter-spacing: 0.015em; color: var(--text); white-space: nowrap; }
+  .header-about-link { display: inline-block; margin: 6px 0 0; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; }
+  .header-about-link:hover, .header-about-link:focus-visible { text-decoration: underline; }
+  .round-nav-home-link { display: inline-block; margin: 0 0 6px; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 700; }
+  .round-nav-home-link:hover, .round-nav-home-link:focus-visible { text-decoration: underline; }
+
+  .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .next-update { flex-shrink: 0; margin-left: auto; text-align: right; }
+  .next-update-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); opacity: 0.7; }
+  .next-update-text { font-size: 12px; color: var(--text-dim); margin-top: 2px; font-weight: 700; }
+
+  .meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+  .meta .tournament-name { font-size: clamp(14px, 3.5vw, 18px); color: var(--text-dim); }
+  .status-pill { background: var(--pill-bg); color: var(--pill-text); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+  .round-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .round-nav-link { color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .round-nav-link:hover, .round-nav-link:focus-visible { text-decoration: underline; }
+  .round-nav-divider { color: var(--text-dim); font-size: 12px; }
+  .round-nav-active { white-space: nowrap; }
+
+  main { max-width: 720px; margin: 0 auto; }
+  section.final-result { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); text-align: center; }
+  section.final-result h1 { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(20px, 5vw, 26px); margin: 0 0 20px; }
+
+  .tournament-winner-card { background: var(--bg-alt); border: 2px solid var(--gold); border-radius: 14px; padding: 28px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; max-width: 440px; margin: 0 auto; }
+  .tw-trophy { font-size: 34px; margin: 0 0 6px; line-height: 1; }
+  .tw-eyebrow { color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 8px; }
+  .tw-name { font-family: "Big Shoulders Display", sans-serif; font-size: clamp(26px, 7vw, 34px); font-weight: 800; margin: 0 0 4px; color: var(--text); }
+  .tw-sponsor { font-family: "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; color: var(--text-dim); margin: 0 0 14px; }
+  .tw-score { font-family: "Roboto Mono", monospace; font-size: clamp(22px, 6vw, 28px); font-weight: 800; color: var(--accent); margin: 0 0 16px; }
+  .tw-rounds { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 0 0 16px; }
+  .tw-round { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; min-width: 62px; }
+  .tw-round-total { border-color: var(--gold); }
+  .tw-round-label { display: block; font-size: 11px; color: var(--text-dim); font-weight: 700; }
+  .tw-round-value { display: block; font-family: "Roboto Mono", monospace; font-size: 15px; font-weight: 700; margin-top: 2px; }
+  .tw-pre-final-note { color: var(--text-dim); font-size: 12px; margin: 0; }
+  .final-cta { display: inline-block; margin-top: 20px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 700; }
+  .final-cta:hover, .final-cta:focus-visible { text-decoration: underline; }
+
+  footer { max-width: 960px; margin: 48px auto 0; padding-bottom: 8px; text-align: center; color: var(--text-dim); font-size: 11px; line-height: 1.7; }
+  .footer-line { margin: 0; }
+  .footer-link { color: var(--text-dim); text-decoration: underline; text-decoration-color: transparent; }
+  .footer-link:hover, .footer-link:focus-visible { text-decoration-color: currentColor; }
+
+  @media (max-width: 480px) {
+    body { padding: 16px 10px 40px; }
+    .header-top { flex-direction: column; align-items: stretch; }
+    .next-update { align-self: flex-end; margin-top: 8px; margin-left: 0; }
+    .wordmark { --row: 8px; }
+    .wordmark-name { white-space: normal; line-height: 1.05; }
+  }
+</style>
+
+<header>
+  <div class="header-top">
+    <div class="wordmark">
+      <div class="wordmark-letters">
+        <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
+        <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
+        <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+      </div>
+      <div class="wordmark-name">TOURNAMENT PREDICTION</div>
+    </div>
+    <div class="next-update">
+      <div class="next-update-label">STATUS</div>
+      <div class="next-update-text">FINAL 종료 및 업데이트 완료</div>
+    </div>
+  </div>
+  <a class="header-about-link" href="/about/">NEO GOLF DATA 소개</a>
+  <a class="round-nav-home-link" href="/">← 대회 홈</a>
+  <div class="meta">
+    <span class="tournament-name">제15회 KG 레이디스 오픈</span>
+    <nav class="round-nav" aria-label="라운드 진행 상황">
+      <a class="round-nav-link" href="../r1/">1라운드 종료</a>
+      <span class="round-nav-divider">|</span>
+      <a class="round-nav-link" href="../r2/">2라운드 종료</a>
+      <span class="round-nav-divider">|</span>
+      <a class="round-nav-link" href="../r3/">3라운드 종료</a>
+      <span class="round-nav-divider">|</span>
+      <span class="status-pill round-nav-active" aria-current="step">FINAL 종료</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="final-result">
+    <h1>제15회 KG 레이디스 오픈 — 최종 결과</h1>
+    <div class="tournament-winner-card">
+      <div class="tw-trophy" aria-hidden="true">🏆</div>
+      <p class="tw-eyebrow">TOURNAMENT WINNER</p>
+      <p class="tw-name">신다인</p>
+      <p class="tw-sponsor">요진건설산업</p>
+      <p class="tw-score">최종 스코어 -17 (271타)</p>
+      <div class="tw-rounds">
+        <div class="tw-round"><span class="tw-round-label">R1</span><span class="tw-round-value">70 (-2)</span></div>
+        <div class="tw-round"><span class="tw-round-label">R2</span><span class="tw-round-value">70 (-2)</span></div>
+        <div class="tw-round"><span class="tw-round-label">R3</span><span class="tw-round-value">67 (-5)</span></div>
+        <div class="tw-round"><span class="tw-round-label">R4</span><span class="tw-round-value">64 (-8)</span></div>
+        <div class="tw-round tw-round-total"><span class="tw-round-label">TOTAL</span><span class="tw-round-value">271 (-17)</span></div>
+      </div>
+      <p class="tw-pre-final-note">NEO 4R 시작 전 우승확률: 7.40% (4R 시작 전 동결된 POST-R3 forecast)</p>
+    </div>
+    <a class="final-cta" href="/#leaderboard">POST-R3 예측 전체 보기</a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-line">&copy; 2026 NEO GOLF DATA. All Rights Reserved.</div>
+  <div class="footer-line">Predictions and probability models are proprietary to NEO GOLF DATA.</div>
+  <div class="footer-line">Tournament results and player information are based on publicly available data.</div>
+  <div class="footer-line"><a class="footer-link" href="/about/">NEO GOLF DATA 소개</a></div>
+</footer>
