@@ -78,6 +78,24 @@ def chart_json(series: list[dict]) -> str:
     return json.dumps(series, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
 
 
+def nice_ticks(maximum: float, minimum: float = 0.0, target: int = 6) -> list[float]:
+    """Return human-readable 1/2/5-step ticks for editorial charts."""
+    if maximum <= minimum:
+        maximum = minimum + 1
+    raw = (maximum - minimum) / max(target - 1, 1)
+    magnitude = 10 ** math.floor(math.log10(raw))
+    normalized = raw / magnitude
+    step = 1 if normalized <= 1 else 2 if normalized <= 2 else 5 if normalized <= 5 else 10
+    step *= magnitude
+    start = math.floor(minimum / step) * step
+    end = math.ceil(maximum / step) * step
+    ticks = []
+    value = start
+    while value <= end + step * 0.001:
+        ticks.append(round(value, 6)); value += step
+    return ticks
+
+
 def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, invert: bool = False) -> str:
     """Render a dependency-free, accessible line chart with gaps for missing values."""
     width, height = 680, 260
@@ -104,9 +122,10 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
              f'<desc id="{chart_id}-desc">' + ", ".join(f'{escape(str(x["stage"]))} {"자료 없음" if x["value"] is None else escape(str(x["value"])) + unit}' for x in series) + '</desc>',
              f'<line class="chart-axis" x1="{left}" y1="{top}" x2="{left}" y2="{height-bottom}"/>',
              f'<line class="chart-axis" x1="{left}" y1="{height-bottom}" x2="{width-right}" y2="{height-bottom}"/>']
-    for tick in range(3):
-        value = low + (high - low) * tick / 2
-        y = top + (plot_h * tick / 2 if invert else plot_h * (1 - tick / 2))
+    ticks = nice_ticks(high, low, target=5)
+    for value in ticks:
+        ratio = (value - low) / (high - low)
+        y = top + (plot_h * ratio if invert else plot_h * (1 - ratio))
         parts.append(f'<line class="chart-grid" x1="{left}" y1="{y:.1f}" x2="{width-right}" y2="{y:.1f}"/><text class="chart-y-label" x="{left-8}" y="{y+4:.1f}">{value:.1f}{escape(unit)}</text>')
     segment: list[str] = []
     for index, item in enumerate(series):
@@ -132,16 +151,19 @@ def accessible_series_table(player: str, title: str, series: list[dict], unit: s
 
 def multi_line_chart_svg(*, title: str, series_by_player: dict[str, list[dict]], unit: str = "%") -> str:
     """Responsive accessible multi-player chart; missing points break lines."""
-    width, height, left, right, top, bottom = 760, 330, 62, 28, 34, 58
+    width, height, left, right, top, bottom = 920, 390, 62, 170, 34, 58
     stages = next(iter(series_by_player.values()))
     values = [float(p["value"]) for series in series_by_player.values() for p in series if p["value"] is not None]
     high = max(values) if values else 1.0
+    ticks = nice_ticks(high, 0, target=7)
+    high = ticks[-1]
     colors = ("#0f5c46", "#b08b3e", "#537da6", "#9b493f")
     plot_w, plot_h = width-left-right, height-top-bottom
     parts = [f'<svg class="line-chart multi-line-chart" viewBox="0 0 {width} {height}" role="img" aria-label="{escape(title)}">']
-    for tick in range(4):
-        value=high*tick/3; y=top+plot_h*(1-tick/3)
-        parts.append(f'<line class="chart-grid" x1="{left}" y1="{y:.1f}" x2="{width-right}" y2="{y:.1f}"/><text class="chart-y-label" x="{left-9}" y="{y+4:.1f}">{value:.1f}{unit}</text>')
+    for value in ticks:
+        y=top+plot_h*(1-value/high)
+        label=f"{value:g}{unit}"
+        parts.append(f'<line class="chart-grid" x1="{left}" y1="{y:.1f}" x2="{width-right}" y2="{y:.1f}"/><text class="chart-y-label" x="{left-9}" y="{y+4:.1f}">{label}</text>')
     for index,item in enumerate(stages):
         x=left+plot_w*index/max(len(stages)-1,1); parts.append(f'<text class="chart-x-label" x="{x:.1f}" y="{height-22}">{escape(item["stage"])}</text>')
     for color,(player,series) in zip(colors,series_by_player.items()):
@@ -157,7 +179,23 @@ def multi_line_chart_svg(*, title: str, series_by_player: dict[str, list[dict]],
             if item["value"] is None: continue
             x=left+plot_w*i/max(len(series)-1,1); y=top+plot_h*(1-float(item["value"])/high)
             parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="white" stroke="{color}" stroke-width="3"><title>{escape(player)} {item["stage"]}: {item["value"]}{unit}</title></circle>')
-        ly=16+22*list(series_by_player).index(player); parts.append(f'<text x="{left+8}" y="{ly}" fill="{color}" class="chart-legend">{escape(player)}</text>')
+    # Direct labels at the latest available checkpoint make identity independent of color.
+    endpoints=[]
+    for color,(player,series) in zip(colors,series_by_player.items()):
+        index=next((i for i in range(len(series)-1,-1,-1) if series[i]["value"] is not None),None)
+        if index is None: continue
+        value=float(series[index]["value"]); y=top+plot_h*(1-value/high)
+        endpoints.append([y, color, player, value, index])
+    endpoints.sort(key=lambda item:item[0])
+    min_gap=25
+    for i,item in enumerate(endpoints):
+        if i and item[0] < endpoints[i-1][0]+min_gap: item[0]=endpoints[i-1][0]+min_gap
+    if endpoints and endpoints[-1][0] > top+plot_h:
+        shift=endpoints[-1][0]-(top+plot_h)
+        for item in endpoints: item[0]-=shift
+    for y,color,player,value,index in endpoints:
+        x=left+plot_w*index/max(len(stages)-1,1); label_x=width-right+12
+        parts.append(f'<path class="chart-label-leader" d="M{x:.1f},{top+plot_h*(1-value/high):.1f} L{label_x-5},{y:.1f}" stroke="{color}"/><text class="chart-end-label" x="{label_x}" y="{y+5:.1f}">{escape(player)} {value:g}{escape(unit)}</text>')
     payload={p:s for p,s in series_by_player.items()}; parts.append(f'<script type="application/json" data-chart-series>{chart_json(payload).replace("<","\\u003c")}</script></svg>')
     return "".join(parts)
 

@@ -1,0 +1,401 @@
+{
+  "game_code": "2026080001",
+  "round": 4,
+  "scope": "official exact scorecards; reference validation",
+  "players": [
+    "노승희",
+    "박혜준",
+    "신다인",
+    "유아현"
+  ],
+  "target_player": "신다인",
+  "timeline": [
+    {
+      "hole": 1,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": 0,
+        "신다인": 0,
+        "유아현": 0
+      },
+      "leader_score": 0,
+      "leader_names": [
+        "노승희",
+        "박혜준",
+        "신다인",
+        "유아현"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 0,
+      "nearest_challenger": "노승희",
+      "sole_lead_seen": false
+    },
+    {
+      "hole": 2,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": 0,
+        "신다인": 0,
+        "유아현": 0
+      },
+      "leader_score": 0,
+      "leader_names": [
+        "노승희",
+        "박혜준",
+        "신다인",
+        "유아현"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 0,
+      "nearest_challenger": "노승희",
+      "sole_lead_seen": false
+    },
+    {
+      "hole": 3,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": 0,
+        "신다인": -1,
+        "유아현": -1
+      },
+      "leader_score": -1,
+      "leader_names": [
+        "신다인",
+        "유아현"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 0,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": false
+    },
+    {
+      "hole": 4,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": 0,
+        "신다인": -2,
+        "유아현": -2
+      },
+      "leader_score": -2,
+      "leader_names": [
+        "신다인",
+        "유아현"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 0,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": false
+    },
+    {
+      "hole": 5,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -1,
+        "신다인": -3,
+        "유아현": -2
+      },
+      "leader_score": -3,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 1,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 6,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -2,
+        "신다인": -4,
+        "유아현": -3
+      },
+      "leader_score": -4,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 1,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 7,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -2,
+        "신다인": -5,
+        "유아현": -4
+      },
+      "leader_score": -5,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 1,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 8,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -2,
+        "신다인": -5,
+        "유아현": -3
+      },
+      "leader_score": -5,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 2,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 9,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -2,
+        "신다인": -4,
+        "유아현": -3
+      },
+      "leader_score": -4,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 1,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 10,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -2,
+        "신다인": -5,
+        "유아현": -3
+      },
+      "leader_score": -5,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 2,
+      "nearest_challenger": "유아현",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 11,
+      "cumulative_relative_to_par": {
+        "노승희": 0,
+        "박혜준": -3,
+        "신다인": -6,
+        "유아현": -3
+      },
+      "leader_score": -6,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 3,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 12,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -3,
+        "신다인": -6,
+        "유아현": -3
+      },
+      "leader_score": -6,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 3,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 13,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -4,
+        "신다인": -6,
+        "유아현": -3
+      },
+      "leader_score": -6,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 2,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 14,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -4,
+        "신다인": -6,
+        "유아현": -3
+      },
+      "leader_score": -6,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 2,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 15,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -4,
+        "신다인": -7,
+        "유아현": -3
+      },
+      "leader_score": -7,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 3,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 16,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -4,
+        "신다인": -7,
+        "유아현": -3
+      },
+      "leader_score": -7,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 3,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 17,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -4,
+        "신다인": -8,
+        "유아현": -3
+      },
+      "leader_score": -8,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 4,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    },
+    {
+      "hole": 18,
+      "cumulative_relative_to_par": {
+        "노승희": -1,
+        "박혜준": -5,
+        "신다인": -8,
+        "유아현": -3
+      },
+      "leader_score": -8,
+      "leader_names": [
+        "신다인"
+      ],
+      "target_margin_vs_leader": 0,
+      "target_margin_vs_nearest_challenger": 3,
+      "nearest_challenger": "박혜준",
+      "sole_lead_seen": true
+    }
+  ],
+  "field_relative_hole_value_holes_3_7": [
+    {
+      "hole": 3,
+      "par": 5.0,
+      "field_average_strokes": 4.838,
+      "field_average_to_par": -0.162,
+      "birdie_or_better_rate": 0.236,
+      "bogey_or_worse_rate": 0.066,
+      "player_strokes": 5,
+      "player_to_par": 0,
+      "player_minus_field_average": 0.162,
+      "metric": "field_relative_hole_value"
+    },
+    {
+      "hole": 4,
+      "par": 4.0,
+      "field_average_strokes": 3.917,
+      "field_average_to_par": -0.083,
+      "birdie_or_better_rate": 0.174,
+      "bogey_or_worse_rate": 0.077,
+      "player_strokes": 4,
+      "player_to_par": 0,
+      "player_minus_field_average": 0.083,
+      "metric": "field_relative_hole_value"
+    },
+    {
+      "hole": 5,
+      "par": 3.0,
+      "field_average_strokes": 3.02,
+      "field_average_to_par": 0.02,
+      "birdie_or_better_rate": 0.114,
+      "bogey_or_worse_rate": 0.128,
+      "player_strokes": 4,
+      "player_to_par": 1,
+      "player_minus_field_average": 0.98,
+      "metric": "field_relative_hole_value"
+    },
+    {
+      "hole": 6,
+      "par": 4.0,
+      "field_average_strokes": 3.969,
+      "field_average_to_par": -0.031,
+      "birdie_or_better_rate": 0.154,
+      "bogey_or_worse_rate": 0.108,
+      "player_strokes": 4,
+      "player_to_par": 0,
+      "player_minus_field_average": 0.031,
+      "metric": "field_relative_hole_value"
+    },
+    {
+      "hole": 7,
+      "par": 4.0,
+      "field_average_strokes": 3.889,
+      "field_average_to_par": -0.111,
+      "birdie_or_better_rate": 0.191,
+      "bogey_or_worse_rate": 0.068,
+      "player_strokes": 3,
+      "player_to_par": -1,
+      "player_minus_field_average": -0.889,
+      "metric": "field_relative_hole_value"
+    }
+  ],
+  "separation_source": {
+    "comparison_scope": "신다인 vs 박혜준 R4",
+    "winner_birdies": 9,
+    "challenger_birdies": 5,
+    "winner_bogeys": 1,
+    "challenger_bogeys": 0,
+    "score_difference": 3,
+    "interpretation": "descriptive; no field-wide causal generalization"
+  },
+  "provenance": "KLPGA public playerDetail responses normalized by 60_collect_kg_official_analytics.py",
+  "interpretation": "descriptive only; no causal inference"
+}
