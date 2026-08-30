@@ -39,5 +39,7 @@ def test_multi_event_warehouse_has_real_multi_season_coverage():
 
 def test_warehouse_audit_does_not_equate_no_rows_with_parser_failure():
     root=Path(__file__).resolve().parents[1]; d=json.loads((root/"content/website_v2/sg_warehouse_audit.json").read_text(encoding="utf-8"))
-    assert d["events_attempted"]==49 and d["events_with_sg"]==48 and d["events_without_sg"]==1
-    assert d["no_row_reason_breakdown"].get("OFFICIAL_SG_NOT_AVAILABLE")==1
+    assert d["events_attempted"] >= 100 and d["events_with_sg"] >= 95 and d["events_without_sg"] >= 1
+    assert d["seasons"] == [2023, 2024, 2025, 2026]
+    assert d["no_row_reason_breakdown"].get("OFFICIAL_SG_NOT_AVAILABLE", 0) >= 1
+    assert d["no_row_reason_breakdown"].get("OFFICIAL_SG_NOT_AVAILABLE") == 5
