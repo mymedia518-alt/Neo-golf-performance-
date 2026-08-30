@@ -73,6 +73,6 @@ def test_performance_direction_requires_multi_event_thresholds():
 
 def test_deep_dive_shows_model_performance_and_hole_composition_layers():
     deep=(CANDIDATE/"deep-dive/index.html").read_text(encoding="utf-8")
-    assert "네 선수 우승 확률 변화" in deep and "R3까지 스코어 구성" in deep
+    assert "R3 공동선두 4명의 우승확률 변화" in deep and "R3까지 스코어 구성" in deep
     assert "SG는 이 모델 버전의 입력이 아닙니다" in deep
     assert "KLPGA 공식 R3 단일 라운드 SG" in deep
