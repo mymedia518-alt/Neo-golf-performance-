@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-08-30T22:31:05Z",
+  "event_series_rows": 6609,
+  "cumulative_rows": 6609,
+  "round_rows": 23203,
+  "players": 305,
+  "events": 102,
+  "history_depth": {
+    "1_plus": 305,
+    "3_plus": 219,
+    "5_plus": 194,
+    "10_plus": 161,
+    "20_plus": 109,
+    "30_plus": 84,
+    "multi_season": 180
+  },
+  "component_missingness": {
+    "total": 0,
+    "tee_to_green": 0,
+    "off_the_tee": 0,
+    "approach": 0,
+    "around_green": 0,
+    "putting": 0
+  },
+  "event_status_counts": {
+    "ROUND-SELECTION_ISSUE": 1,
+    "OFFICIAL_SG_NOT_AVAILABLE": 5,
+    "SG_AVAILABLE": 102
+  },
+  "artifacts": [
+    "bad_tail_distributions.json",
+    "between_player_distributions.json",
+    "export_summary.json",
+    "incremental_windows.json",
+    "participation_sg_coverage.json",
+    "player_event_series.json",
+    "player_history_depth.json",
+    "result_performance_join.json"
+  ]
+}
