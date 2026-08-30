@@ -30,18 +30,27 @@ def collect(seasons: list[int], checkpoint: Path, output: Path) -> dict:
         events.extend(listings)
     for listing in sorted({e.game_code:e for e in events}.values(), key=lambda e:(e.end_date or 0,e.game_code or "")):
         code=str(listing.game_code)
-        if state.get(code,{}).get("status")=="success": continue
+        if state.get(code,{}).get("status")=="success" and state.get(code,{}).get("records"): continue
         try:
-            lb=parse_leaderboard_html(_post(LB_PATH,{"gameCode":code,"round":"4"}))
+            lb=[]; latest_round=0
+            for candidate_round in (4,3,2,1):
+                parsed_lb=parse_leaderboard_html(_post(LB_PATH,{"gameCode":code,"round":str(candidate_round)}))
+                if parsed_lb:
+                    lb=parsed_lb; latest_round=candidate_round; break
+            if not lb: raise ValueError("roundLeaderboard returned no rows for rounds 4..1")
             ids={str(x.get("player")):str(x.get("player_id")) for x in lb}
-            rows=[]
-            for rnd in (None,1,2,3,4):
+            rows=[]; sg_response_rows=0; parsed_rows=0
+            for rnd in (None,*range(1,latest_round+1)):
                 html=_post(SG_PATH,{"gameCode":code,"round":"" if rnd is None else str(rnd)})
+                from bs4 import BeautifulSoup
+                sg_response_rows += len(BeautifulSoup(html,"html.parser").select("table tbody tr"))
                 parsed=parse_sg_html(html,scope="tournament_cumulative" if rnd is None else "single_round",round_number=rnd)
+                parsed_rows += len(parsed)
                 for row in parsed:
                     row.update({"player_id":ids.get(str(row.get("player"))),"season":listing.season,"game_code":code,"tournament":listing.game_title,"date":(listing.end_date.isoformat() if listing.end_date else None),"source":f"{BASE}{SG_PATH} POST gameCode={code}, round blank/1..4","retrieved_at":datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"),"validation":validate_sg_record(row)})
                     if row["player_id"]: rows.append(row)
-            state[code]={"status":"success","season":listing.season,"event":listing.game_title,"rows":len(rows),"records":rows}
+            reason = None if rows else ("OFFICIAL_SG_NOT_AVAILABLE" if sg_response_rows == 0 else "PARSER/HTML_STRUCTURE_ISSUE" if parsed_rows == 0 else "UNKNOWN")
+            state[code]={"status":"success","season":listing.season,"event":listing.game_title,"rows":len(rows),"records":rows,"no_row_reason":reason,"sg_response_rows":sg_response_rows,"parsed_rows":parsed_rows}
         except Exception as exc:
             state[code]={"status":"error","season":listing.season,"event":listing.game_title,"error":f"{type(exc).__name__}: {exc}"}
         checkpoint.parent.mkdir(parents=True,exist_ok=True); checkpoint.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
