@@ -1,0 +1,37 @@
+{
+  "tournament": {
+    "tournament_id": "2026080001",
+    "slug": "kg-ladies-open",
+    "display_name": "제15회 KG 레이디스 오픈",
+    "beta_number": "001",
+    "year": 2026,
+    "status": "complete",
+    "latest_published_stage": "final",
+    "published_stages": ["overview", "pre", "r1", "r2", "r3", "final"]
+  },
+  "dates": {
+    "start": "2026-08-27",
+    "end": "2026-08-30",
+    "display": "2026.08.27–08.30"
+  },
+  "forecast_stages": {
+    "pre": {"record_type": "FORECAST", "evidence_stage": "PRE"},
+    "r1": {"record_type": "FORECAST", "evidence_stage": "R1"},
+    "r2": {"record_type": "FORECAST", "evidence_stage": "R2"},
+    "r3": {"record_type": "FORECAST", "evidence_stage": "R3"}
+  },
+  "final_result": {
+    "record_type": "RESULT",
+    "winner": "신다인",
+    "player_code": "9135",
+    "rounds": [70, 70, 67, 64],
+    "total": 271,
+    "to_par": "-17"
+  },
+  "url_compatibility": {
+    "/predictions/": "No alias in candidate: public-history evidence is not established; review before production.",
+    "/predictions/001/": "No alias in candidate: public-history evidence is not established; review before production.",
+    "/predictions/history/": "No alias in candidate: public-history evidence is not established; review before production.",
+    "/methodology/": "No alias in candidate; methodology lives at /about/#methodology. Review redirect before production."
+  }
+}
