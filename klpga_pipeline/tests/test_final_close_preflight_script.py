@@ -143,6 +143,84 @@ def test_go_verdict_when_everything_clean(module, db_path, finalists_path, tmp_p
     assert "VERDICT: GO" in out
 
 
+def test_environment_check_prints_code_data_db_cache_network(module, db_path, finalists_path, tmp_path, capsys):
+    predictions_dir = tmp_path / "neo_win_predictions" / "2026"
+    predictions_dir.mkdir(parents=True)
+    (predictions_dir / f"neo_win_001_{GAME_CODE}.json").write_text("{}", encoding="utf-8")
+
+    argv = [
+        "final_close_preflight.py", "--db", str(db_path), "--season", "2026", "--game-code", GAME_CODE,
+        "--expected-final-round", "4", "--finalists", str(finalists_path),
+        "--predictions-dir", str(tmp_path / "neo_win_predictions"),
+        "--c-predictions-dir", str(tmp_path / "neo_win_c_predictions"),
+    ]
+    with patch("sys.argv", argv):
+        with _patched(module, snapshot_found=True):
+            rc = module.main()
+
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "STEP 0: ENVIRONMENT CHECK" in out
+    assert "CODE ROOT:" in out
+    assert "DATA ROOT:" in out
+    assert f"DB PATH:      {db_path}" in out
+    assert "CACHE PATH:" in out
+    assert "DB EXISTS:    True" in out
+    assert "NETWORK MODE: LIVE" in out
+
+
+def test_environment_check_included_in_json_summary(module, db_path, finalists_path, tmp_path, capsys):
+    import json
+
+    predictions_dir = tmp_path / "neo_win_predictions" / "2026"
+    predictions_dir.mkdir(parents=True)
+    (predictions_dir / f"neo_win_001_{GAME_CODE}.json").write_text("{}", encoding="utf-8")
+    json_out = tmp_path / "out" / "summary.json"
+
+    argv = [
+        "final_close_preflight.py", "--db", str(db_path), "--season", "2026", "--game-code", GAME_CODE,
+        "--expected-final-round", "4", "--finalists", str(finalists_path),
+        "--predictions-dir", str(tmp_path / "neo_win_predictions"),
+        "--c-predictions-dir", str(tmp_path / "neo_win_c_predictions"),
+        "--json-out", str(json_out),
+    ]
+    with patch("sys.argv", argv):
+        with _patched(module, snapshot_found=True):
+            module.main()
+
+    data = json.loads(json_out.read_text(encoding="utf-8"))
+    env = data["environment"]
+    assert env["db_exists"] is True
+    assert env["db_path"] == str(db_path)
+    assert env["network_mode"] == "LIVE"
+    assert "code_root" in env and "data_root" in env and "cache_path" in env
+
+
+def test_missing_db_under_external_neo_data_root_hard_stops(module, finalists_path, tmp_path, capsys, monkeypatch):
+    """Reproduces the real reported failure: a worktree that does NOT
+    contain the production DB (klpga.sqlite is gitignored) must
+    HARD_STOP immediately, quoting NEO_DATA_ROOT in the explanation --
+    never silently proceed or fabricate a result."""
+    external_root = tmp_path / "external_data_root_without_db"
+    external_root.mkdir()
+    monkeypatch.setenv("NEO_DATA_ROOT", str(external_root))
+    missing_db = external_root / "klpga.sqlite"
+
+    argv = [
+        "final_close_preflight.py", "--db", str(missing_db), "--season", "2026", "--game-code", GAME_CODE,
+        "--expected-final-round", "4", "--finalists", str(finalists_path),
+    ]
+    with patch("sys.argv", argv):
+        rc = module.main()
+
+    out = capsys.readouterr().out
+    assert rc == 3
+    assert "DB EXISTS:    False" in out
+    assert str(missing_db) in out
+    assert "NEO_DATA_ROOT" in out
+    assert str(external_root) in out
+
+
 def test_json_out_written_with_verdict_and_key_counts(module, db_path, finalists_path, tmp_path, capsys):
     import json
 

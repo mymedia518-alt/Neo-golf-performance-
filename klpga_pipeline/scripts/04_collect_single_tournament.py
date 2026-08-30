@@ -47,6 +47,8 @@ from klpga.collectors.single_tournament import (  # noqa: E402
     collect_and_persist_tournament,
 )
 from klpga.http_client import PoliteHttpClient, RateLimitBlockedError  # noqa: E402
+from klpga.ops.paths import cache_dir as default_cache_dir  # noqa: E402
+from klpga.ops.paths import db_path as default_db_path  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -55,8 +57,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--season", type=int, required=True, help="season to look this gameCode up under")
     parser.add_argument("--game-code", required=True, dest="game_code")
-    parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"))
-    parser.add_argument("--cache-dir", default=str(ROOT / "data" / "raw_cache" / "http"))
+    parser.add_argument(
+        "--db", default=str(default_db_path()),
+        help="Defaults to $NEO_DATA_ROOT/klpga.sqlite if NEO_DATA_ROOT is set, else data/klpga.sqlite "
+             "under this repo checkout.",
+    )
+    parser.add_argument(
+        "--cache-dir", default=str(default_cache_dir()),
+        help="Defaults to $NEO_DATA_ROOT/raw_cache/http if NEO_DATA_ROOT is set, else "
+             "data/raw_cache/http under this repo checkout.",
+    )
     parser.add_argument(
         "--force-refresh-round", type=int, action="append", dest="force_refresh_round",
         help="Round number to bypass the HTTP cache for and always fetch live (repeatable). Use this "
