@@ -1,0 +1,29 @@
+{
+  "schema_version": "neo_ok_open_datacenter_publication_gate_v1",
+  "game_code": "2026120001",
+  "player_id": "7963",
+  "identity": {
+    "historical_official_name": "장하나",
+    "entry_identity": "장하나",
+    "validated_current_official_name": "장하나",
+    "source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=7963",
+    "validation_state": "PASS"
+  },
+  "datacenter_profile_state": "PROFILE_ACCESS_FAILURE",
+  "datacenter_source": "https://k-rankings.klpga.co.kr/playerprofile.jsp?player_code=7963",
+  "datacenter_recheck": {
+    "attempts": 3,
+    "result": "SOURCE_TEMPORARILY_UNAVAILABLE",
+    "http_status": 500
+  },
+  "independent_official_evidence": {
+    "current_name": "장하나",
+    "status": "정회원",
+    "source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=7963",
+    "validated": true
+  },
+  "publication_decision": "SAFE_CONTINUE_WITH_EXPLICIT_NULL_PROFILE_FIELDS",
+  "blocked_fields": ["current_k_ranking", "ranking_points", "total_points", "events_played", "current_team"],
+  "gate_classification": "SOURCE_TEMPORARILY_UNAVAILABLE",
+  "future_data_excluded": true
+}
