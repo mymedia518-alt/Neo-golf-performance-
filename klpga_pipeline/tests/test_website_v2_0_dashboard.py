@@ -52,3 +52,8 @@ def test_candidate_is_utf8_and_contains_no_literal_escape_or_replacement_glyphs(
     assert "\ufffd" not in html
     assert "OK\uc800\ucd95\uc740\ud589 \uc74f\ub9e8 \uc624\ud508" in html
     assert "\ub300\ud68c \uc804 \uc0c1\ud0dc" in html
+
+def test_empty_player_state_is_explicit():
+    html = mod.render_dashboard({"game_code":"x","name":"OK","start_date":"2026-01-01","end_date":"2026-01-03","venue":"코스","holes":54,"rounds":3,"format":"스트로크 플레이"}, [], {})
+    assert "현재 표시할 선수가 없습니다." in html
+    assert "선수 경기력 데이터가 준비되면" in html
