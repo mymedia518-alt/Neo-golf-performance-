@@ -1,16 +1,18 @@
 {
-  "entrant_count": 120,
+  "entry_count": 120,
   "identity_count": 120,
-  "current_name_coverage": 120,
-  "current_status_coverage": 120,
-  "sponsor_coverage": 97,
-  "klpga_rank_coverage": 119,
-  "neo_rank_coverage": 0,
-  "sg_total_rank_coverage": 117,
-  "top20_coverage": 0,
-  "top10_coverage": 0,
-  "top5_coverage": 0,
   "win_coverage": 120,
-  "neo_pre_rank_status": "PENDING_INDEPENDENT_METHOD_APPROVAL",
-  "website_generation": "NOT RUN"
+  "klpga_rank_coverage": 119,
+  "sg_total_rank_coverage": 117,
+  "band_distribution": {
+    "VERY_HIGH": 9,
+    "HIGH": 19,
+    "TYPICAL": 48,
+    "LOW": 23,
+    "VERY_LOW": 10,
+    "INSUFFICIENT_EVIDENCE": 11
+  },
+  "methodology": "field_median_standard_error",
+  "future_data_excluded": true,
+  "website_generation": "PENDING_MASTER_VALIDATION"
 }
