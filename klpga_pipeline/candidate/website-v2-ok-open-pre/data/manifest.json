@@ -1,0 +1,11 @@
+{
+  "source_master": "content/website_v2/OK_OPEN_2026_PRE_PUBLIC_MASTER.json",
+  "entry_count": 120,
+  "public_columns": [
+    "선수",
+    "KLPGA K-RANKING",
+    "NEO 경기력 구간",
+    "SG Total 순위",
+    "우승확률"
+  ]
+}
