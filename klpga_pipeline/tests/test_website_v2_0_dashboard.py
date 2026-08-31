@@ -43,3 +43,12 @@ def test_72_hole_routes_include_r3_but_never_r4():
     html = mod.render_dashboard({"game_code":"x","name":"대회","start_date":"2026-01-01","end_date":"2026-01-04","venue":"코스","holes":72,"rounds":4,"format":"스트로크 플레이"}, [], {})
     assert 'href="/r3/index.html"' in html
     assert "R4" not in html
+
+
+def test_candidate_is_utf8_and_contains_no_literal_escape_or_replacement_glyphs():
+    out = ROOT / "candidate" / "website-v2-0"
+    html = (out / "index.html").read_text(encoding="utf-8")
+    assert "\\u" not in html
+    assert "\ufffd" not in html
+    assert "OK\uc800\ucd95\uc740\ud589 \uc74f\ub9e8 \uc624\ud508" in html
+    assert "\ub300\ud68c \uc804 \uc0c1\ud0dc" in html

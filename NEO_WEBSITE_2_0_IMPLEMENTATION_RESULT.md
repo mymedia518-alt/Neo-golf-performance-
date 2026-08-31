@@ -27,3 +27,11 @@ PUSH: PASS — origin/neo-website-v2 matches local HEAD; no deployment.
 PRODUCTION STATUS: NOT DEPLOYED.
 NEXT ACTIVE TASK: Human browser review of the corrected isolated candidate, then separately authorize integration.
 USER ACTION REQUIRED: NONE
+
+## Unicode hotfix and R2 readiness follow-up
+
+UNICODE HOTFIX: PASS — candidate HTML is valid UTF-8, contains no literal `\\uXXXX` escapes or replacement glyphs, and renders Korean schedule/UI text.
+
+R2 ZERO-CLICK READINESS: PASS (WAIT state before event) — the format-aware gate derives 54-hole stages as PRE → R1 → R2 → FINAL, refuses future R3 rows, requires official CUT publication, preserves WD/DQ separately, and refuses overwrite of an existing freeze. Current decision is `WAIT` because official R2 data is not yet available; CUT is not inferred.
+
+R2 ARTIFACT: `klpga_pipeline/content/website_v2/OK_OPEN_2026_R2_READINESS.json`

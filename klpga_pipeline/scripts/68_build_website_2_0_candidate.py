@@ -1,6 +1,6 @@
 """Build an isolated, data-driven Website 2.0 candidate."""
 from __future__ import annotations
-import json, sys
+import json, re, sys
 from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
@@ -19,6 +19,11 @@ def stage_route(label: str) -> str:
 def _clean_name(name: object, player_id: str) -> str:
     value = str(name or "").strip()
     return f"\uc120\uc218 {player_id}" if ("\ufffd" in value or "?" in value or not value) else value
+
+def _decode_unicode_escapes(value: str) -> str:
+    """Repair literal \\uXXXX sequences emitted by legacy candidate tooling."""
+    needle = chr(92) + "u"
+    return re.sub(re.escape(needle) + r"([0-9a-fA-F]{4})", lambda m: chr(int(m.group(1), 16)), value)
 
 def _metric(window: dict, key: str) -> object:
     return ((window or {}).get("components") or {}).get(key, {}).get("mean")
@@ -73,9 +78,11 @@ def render_dashboard(schedule: dict, entries: list[dict], profiles: dict, curren
 
 def build():
     schedule, entries, profiles = load_inputs(); (OUT / "assets").mkdir(parents=True, exist_ok=True)
+    schedule = {k: _decode_unicode_escapes(str(v)) if isinstance(v, str) else v for k, v in schedule.items()}
     for stage in stage_labels(schedule["rounds"]):
         target = OUT if stage == "\ub300\ud68c" else OUT / stage.lower(); target.mkdir(parents=True, exist_ok=True)
-        (target / "index.html").write_text(render_dashboard(schedule, entries, profiles, stage), encoding="utf-8")
+        html = _decode_unicode_escapes(render_dashboard(schedule, entries, profiles, stage))
+        (target / "index.html").write_text(html, encoding="utf-8")
     (OUT / "data").mkdir(exist_ok=True); (OUT / "data/tournament.json").write_text(json.dumps(schedule, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     return OUT
 
