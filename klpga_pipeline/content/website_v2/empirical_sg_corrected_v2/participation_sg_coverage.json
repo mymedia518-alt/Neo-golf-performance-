@@ -1,0 +1,875 @@
+{
+  "generated_at": "2026-08-31T20:38:12Z",
+  "coverage": {
+    "events": [
+      {
+        "game_code": "2022120002",
+        "season": 2023,
+        "tournament": "하나금융그룹 싱가포르 여자오픈",
+        "status": "REQUEST/PARAMETER_ISSUE",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2022120003",
+        "season": 2023,
+        "tournament": "PLK 퍼시픽링스코리아 챔피언십 with SBS Golf",
+        "status": "UNKNOWN",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2023040001",
+        "season": 2023,
+        "tournament": "롯데렌터카 여자오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 476,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023040002",
+        "season": 2023,
+        "tournament": "메디힐 · 한국일보 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 486,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023040003",
+        "season": 2023,
+        "tournament": "넥센 · 세인트나인 마스터즈 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 430,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023040004",
+        "season": 2023,
+        "tournament": "크리스에프앤씨 제45회 KLPGA 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 508,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023050001",
+        "season": 2023,
+        "tournament": "제9회 교촌 1991 레이디스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 369,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023050002",
+        "season": 2023,
+        "tournament": "2023 NH투자증권 레이디스 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 456,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023050004",
+        "season": 2023,
+        "tournament": "제11회 E1 채리티 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 486,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023060001",
+        "season": 2023,
+        "tournament": "롯데 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 532,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023060002",
+        "season": 2023,
+        "tournament": "셀트리온 퀸즈 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 432,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023060003",
+        "season": 2023,
+        "tournament": "DB그룹 제37회 한국여자오픈골프선수권대회",
+        "status": "UNKNOWN",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2023060004",
+        "season": 2023,
+        "tournament": "BC카드 · 한경 레이디스컵 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 453,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023060005",
+        "season": 2023,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 450,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023070001",
+        "season": 2023,
+        "tournament": "대유위니아 · MBN 여자오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 428,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023070002",
+        "season": 2023,
+        "tournament": "에버콜라겐 · 더시에나 퀸즈크라운 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 480,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023070003",
+        "season": 2023,
+        "tournament": "두산건설 We’ve 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 416,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023080001",
+        "season": 2023,
+        "tournament": "제10회 제주삼다수 마스터스",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 510,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023080003",
+        "season": 2023,
+        "tournament": "하이원리조트 여자오픈 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 488,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023080004",
+        "season": 2023,
+        "tournament": "한화 클래식 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 477,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023090001",
+        "season": 2023,
+        "tournament": "제12회 KG 레이디스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 419,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023090002",
+        "season": 2023,
+        "tournament": "KB금융 스타챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 462,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023090003",
+        "season": 2023,
+        "tournament": "OK금융그룹 읏맨 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 419,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023090004",
+        "season": 2023,
+        "tournament": "하나금융그룹 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 439,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023090005",
+        "season": 2023,
+        "tournament": "대보 하우스디 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 381,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023100001",
+        "season": 2023,
+        "tournament": "제23회 하이트진로 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 435,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023100003",
+        "season": 2023,
+        "tournament": "상상인 · 한국경제TV 오픈 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 449,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023100004",
+        "season": 2023,
+        "tournament": "SK네트웍스 · 서울경제 레이디스 클래식",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 438,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023110001",
+        "season": 2023,
+        "tournament": "S-OIL 챔피언십 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 343,
+        "sg_available": true
+      },
+      {
+        "game_code": "2023110002",
+        "season": 2023,
+        "tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 306,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024030016",
+        "season": 2024,
+        "tournament": "하나금융그룹 싱가포르 여자오픈",
+        "status": "UNKNOWN",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2024030017",
+        "season": 2024,
+        "tournament": "블루캐니언 레이디스 챔피언십",
+        "status": "UNKNOWN",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2024040017",
+        "season": 2024,
+        "tournament": "두산건설 We’ve 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 505,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024040018",
+        "season": 2024,
+        "tournament": "메디힐 · 한국일보 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 479,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024040019",
+        "season": 2024,
+        "tournament": "넥센 · 세인트나인 마스터즈 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 416,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024040020",
+        "season": 2024,
+        "tournament": "크리스에프앤씨 제46회 KLPGA 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 518,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024050014",
+        "season": 2024,
+        "tournament": "제10회 교촌 1991 레이디스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 462,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024050015",
+        "season": 2024,
+        "tournament": "2024 NH투자증권 레이디스 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 450,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024050017",
+        "season": 2024,
+        "tournament": "제12회 E1 채리티 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 485,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024050018",
+        "season": 2024,
+        "tournament": "Sh수협은행 MBN 여자오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 418,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024060013",
+        "season": 2024,
+        "tournament": "2024 셀트리온 퀸즈 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 419,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024060014",
+        "season": 2024,
+        "tournament": "DB그룹 제38회 한국여자오픈골프선수권대회",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 498,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024060015",
+        "season": 2024,
+        "tournament": "BC카드 · 한경 레이디스컵 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 519,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024060016",
+        "season": 2024,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 451,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024070016",
+        "season": 2024,
+        "tournament": "롯데 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 511,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024070017",
+        "season": 2024,
+        "tournament": "하이원리조트 여자오픈 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 474,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024080014",
+        "season": 2024,
+        "tournament": "제11회 제주삼다수 마스터스",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 507,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024080015",
+        "season": 2024,
+        "tournament": "한화 클래식 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 477,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024080016",
+        "season": 2024,
+        "tournament": "제13회 KG 레이디스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 419,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024080018",
+        "season": 2024,
+        "tournament": "더헤븐 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 428,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024090006",
+        "season": 2024,
+        "tournament": "KB금융 스타챔피언십",
+        "status": "REQUEST/PARAMETER_ISSUE",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2024090007",
+        "season": 2024,
+        "tournament": "OK저축은행 읏맨 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 421,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024090008",
+        "season": 2024,
+        "tournament": "대보 하우스디 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 385,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024090009",
+        "season": 2024,
+        "tournament": "하나금융그룹 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 448,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024100008",
+        "season": 2024,
+        "tournament": "제24회 하이트진로 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 441,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024100010",
+        "season": 2024,
+        "tournament": "상상인 · 한경 와우넷 오픈 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 444,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024100011",
+        "season": 2024,
+        "tournament": "덕신EPC · 서울경제 레이디스 클래식",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 449,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024100012",
+        "season": 2024,
+        "tournament": "S-OIL 챔피언십 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 329,
+        "sg_available": true
+      },
+      {
+        "game_code": "2024110007",
+        "season": 2024,
+        "tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 240,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025030001",
+        "season": 2025,
+        "tournament": "블루캐니언 레이디스 챔피언십",
+        "status": "UNKNOWN",
+        "sg_rows": 0,
+        "sg_available": false
+      },
+      {
+        "game_code": "2025040001",
+        "season": 2025,
+        "tournament": "두산건설 We’ve 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 492,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025040002",
+        "season": 2025,
+        "tournament": "iM금융오픈 2025",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 477,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025040003",
+        "season": 2025,
+        "tournament": "넥센 · 세인트나인 마스터즈 2025",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 431,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025040004",
+        "season": 2025,
+        "tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 520,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025040005",
+        "season": 2025,
+        "tournament": "덕신EPC 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 476,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025050001",
+        "season": 2025,
+        "tournament": "2025 NH투자증권 레이디스 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 448,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025050003",
+        "season": 2025,
+        "tournament": "제13회 E1 채리티 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 499,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025050004",
+        "season": 2025,
+        "tournament": "Sh수협은행 MBN 여자오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 412,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025060001",
+        "season": 2025,
+        "tournament": "2025 셀트리온 퀸즈 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 414,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025060002",
+        "season": 2025,
+        "tournament": "DB그룹 제39회 한국여자오픈골프선수권대회",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 510,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025060003",
+        "season": 2025,
+        "tournament": "BC카드 · 한경 레이디스컵 2025",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 482,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025060004",
+        "season": 2025,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 463,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025070001",
+        "season": 2025,
+        "tournament": "제15회 롯데 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 512,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025070002",
+        "season": 2025,
+        "tournament": "하이원리조트 여자오픈 2025",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 445,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025070003",
+        "season": 2025,
+        "tournament": "더헤븐 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 421,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025070004",
+        "season": 2025,
+        "tournament": "2025 오로라월드 레이디스 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 494,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025070005",
+        "season": 2025,
+        "tournament": "제12회 제주삼다수 마스터스",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 524,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025080001",
+        "season": 2025,
+        "tournament": "메디힐 · 한국일보 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 496,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025080003",
+        "season": 2025,
+        "tournament": "제14회 KG 레이디스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 413,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025090001",
+        "season": 2025,
+        "tournament": "KB금융 스타챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 484,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025090002",
+        "season": 2025,
+        "tournament": "OK저축은행 읏맨 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 423,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025090003",
+        "season": 2025,
+        "tournament": "하나금융그룹 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 447,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025090004",
+        "season": 2025,
+        "tournament": "제25회 하이트진로 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 453,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025100002",
+        "season": 2025,
+        "tournament": "대보 하우스디 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 236,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025100003",
+        "season": 2025,
+        "tournament": "상상인 · 한경 와우넷 오픈 2025",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 452,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025100004",
+        "season": 2025,
+        "tournament": "광남일보 · 해피니스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 366,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025100005",
+        "season": 2025,
+        "tournament": "S-OIL 챔피언십 2025",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 404,
+        "sg_available": true
+      },
+      {
+        "game_code": "2025100012",
+        "season": 2025,
+        "tournament": "K-FOOD 놀부·화미 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 379,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026030001",
+        "season": 2026,
+        "tournament": "리쥬란 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 507,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026040001",
+        "season": 2026,
+        "tournament": "iM금융오픈 2026",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 476,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026040002",
+        "season": 2026,
+        "tournament": "제2회 덕신EPC 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 413,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026040003",
+        "season": 2026,
+        "tournament": "더 시에나 오픈 2026",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 480,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026040004",
+        "season": 2026,
+        "tournament": "넥센 · 세인트나인 Masters 2026",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 426,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026040005",
+        "season": 2026,
+        "tournament": "제1회 DB 위민스 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 486,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026050001",
+        "season": 2026,
+        "tournament": "2026 NH투자증권 레이디스 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 463,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026050003",
+        "season": 2026,
+        "tournament": "제14회 E1 채리티 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 469,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026050004",
+        "season": 2026,
+        "tournament": "Sh수협은행 MBN 여자오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 418,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026060001",
+        "season": 2026,
+        "tournament": "2026 셀트리온 퀸즈 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 427,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026060002",
+        "season": 2026,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 438,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026060003",
+        "season": 2026,
+        "tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 505,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026060004",
+        "season": 2026,
+        "tournament": "인카금융 더헤븐 마스터즈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 429,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026070001",
+        "season": 2026,
+        "tournament": "2026 오로라월드 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 472,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026070002",
+        "season": 2026,
+        "tournament": "하이원리조트 여자오픈 2026",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 449,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026070003",
+        "season": 2026,
+        "tournament": "제16회 롯데 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 530,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026080001",
+        "season": 2026,
+        "tournament": "제15회 KG 레이디스 오픈",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 467,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026080002",
+        "season": 2026,
+        "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 497,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026080003",
+        "season": 2026,
+        "tournament": "메디힐 · 한국일보 챔피언십",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 499,
+        "sg_available": true
+      },
+      {
+        "game_code": "2026080004",
+        "season": 2026,
+        "tournament": "제13회 제주삼다수 마스터스",
+        "status": "SG_AVAILABLE",
+        "sg_rows": 516,
+        "sg_available": true
+      }
+    ],
+    "player_sg_event_rows": 11934,
+    "zero_sample_players": 0,
+    "low_sample_players": 231,
+    "survivorship_bias_note": "Participation records are limited to official tournament listings and SG response availability; no absent-start is converted to zero."
+  }
+}

@@ -5,13 +5,13 @@ converts missing starts to zero, or writes public website content.
 """
 from __future__ import annotations
 
-import csv, json, math, statistics
+import csv, json, math, statistics, os
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "content" / "website_v2" / "empirical_sg"
+OUT = ROOT / "content" / "website_v2" / os.environ.get("NEO_SG_EXPORT_DIR", "empirical_sg")
 COMPONENTS = ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")
 
 def _quantile(values, q):
@@ -36,8 +36,10 @@ def _window(rows, n=None, season=None):
     return rows[-n:] if n else rows
 
 def main():
-    warehouse = json.loads((ROOT/"content/website_v2/historical_sg_warehouse.json").read_text(encoding="utf-8"))
-    checkpoint = json.loads((ROOT/"content/website_v2/sg_warehouse_checkpoint.json").read_text(encoding="utf-8"))
+    warehouse_name = os.environ.get("NEO_SG_WAREHOUSE", "historical_sg_warehouse.json")
+    checkpoint_name = os.environ.get("NEO_SG_CHECKPOINT", "sg_warehouse_checkpoint.json")
+    warehouse = json.loads((ROOT/"content/website_v2"/warehouse_name).read_text(encoding="utf-8"))
+    checkpoint = json.loads((ROOT/"content/website_v2"/checkpoint_name).read_text(encoding="utf-8"))
     rows = warehouse["records"]
     cumulative = [r for r in rows if r.get("scope") == "tournament_cumulative"]
     rounds = [r for r in rows if r.get("scope") == "single_round"]

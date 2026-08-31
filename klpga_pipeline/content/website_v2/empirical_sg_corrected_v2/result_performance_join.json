@@ -1,0 +1,2385 @@
+{
+  "generated_at": "2026-08-31T20:38:12Z",
+  "rows": [
+    {
+      "game_code": "2026080001",
+      "player_id": "9135",
+      "player": "신다인",
+      "rank": 1,
+      "rounds": [
+        70,
+        70,
+        67,
+        64
+      ],
+      "total": 3.71,
+      "to_par": "-17",
+      "status": "FINISHED",
+      "tee_to_green": 2.24,
+      "off_the_tee": 0.86,
+      "approach": 1.11,
+      "around_green": 0.27,
+      "putting": 1.47
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9788",
+      "player": "박혜준",
+      "rank": 2,
+      "rounds": [
+        66,
+        74,
+        67,
+        67
+      ],
+      "total": 2.69,
+      "to_par": "-14",
+      "status": "FINISHED",
+      "tee_to_green": 2.5,
+      "off_the_tee": 0.63,
+      "approach": 1.75,
+      "around_green": 0.11,
+      "putting": 0.2
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8243",
+      "player": "장은수",
+      "rank": 3,
+      "rounds": [
+        65,
+        71,
+        73,
+        66
+      ],
+      "total": 2.59,
+      "to_par": "-13",
+      "status": "FINISHED",
+      "tee_to_green": 1.78,
+      "off_the_tee": -0.11,
+      "approach": 1.54,
+      "around_green": 0.35,
+      "putting": 0.81
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8284",
+      "player": "최예림",
+      "rank": 3,
+      "rounds": [
+        70,
+        71,
+        67,
+        67
+      ],
+      "total": 2.24,
+      "to_par": "-13",
+      "status": "FINISHED",
+      "tee_to_green": 1.65,
+      "off_the_tee": 0.35,
+      "approach": 0.71,
+      "around_green": 0.59,
+      "putting": 0.59
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11134",
+      "player": "서교림",
+      "rank": 5,
+      "rounds": [
+        68,
+        72,
+        68,
+        68
+      ],
+      "total": 2.28,
+      "to_par": "-12",
+      "status": "FINISHED",
+      "tee_to_green": 2.08,
+      "off_the_tee": 1.11,
+      "approach": 0.87,
+      "around_green": 0.1,
+      "putting": 0.19
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9235",
+      "player": "최은우",
+      "rank": 5,
+      "rounds": [
+        66,
+        74,
+        69,
+        67
+      ],
+      "total": 2.48,
+      "to_par": "-12",
+      "status": "FINISHED",
+      "tee_to_green": 1.72,
+      "off_the_tee": 0.41,
+      "approach": 1.1,
+      "around_green": 0.22,
+      "putting": 0.76
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10821",
+      "player": "유아현",
+      "rank": 5,
+      "rounds": [
+        65,
+        74,
+        68,
+        69
+      ],
+      "total": 2.44,
+      "to_par": "-12",
+      "status": "FINISHED",
+      "tee_to_green": 1.23,
+      "off_the_tee": 0.35,
+      "approach": 1.11,
+      "around_green": -0.23,
+      "putting": 1.21
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11060",
+      "player": "안재희",
+      "rank": 8,
+      "rounds": [
+        67,
+        69,
+        73,
+        68
+      ],
+      "total": 2.06,
+      "to_par": "-11",
+      "status": "FINISHED",
+      "tee_to_green": 1.93,
+      "off_the_tee": 0.59,
+      "approach": 1.17,
+      "around_green": 0.18,
+      "putting": 0.13
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10095",
+      "player": "방신실",
+      "rank": 8,
+      "rounds": [
+        69,
+        72,
+        69,
+        67
+      ],
+      "total": 2.62,
+      "to_par": "-11",
+      "status": "FINISHED",
+      "tee_to_green": 2.14,
+      "off_the_tee": -0.01,
+      "approach": 1.71,
+      "around_green": 0.44,
+      "putting": 0.47
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "1521",
+      "player": "지한솔",
+      "rank": 10,
+      "rounds": [
+        69,
+        70,
+        71,
+        68
+      ],
+      "total": 1.7,
+      "to_par": "-10",
+      "status": "FINISHED",
+      "tee_to_green": 0.88,
+      "off_the_tee": -0.23,
+      "approach": 0.62,
+      "around_green": 0.49,
+      "putting": 0.82
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8859",
+      "player": "이승연",
+      "rank": 10,
+      "rounds": [
+        68,
+        71,
+        69,
+        70
+      ],
+      "total": 1.64,
+      "to_par": "-10",
+      "status": "FINISHED",
+      "tee_to_green": 1.76,
+      "off_the_tee": 0.37,
+      "approach": 1.44,
+      "around_green": -0.05,
+      "putting": -0.12
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11045",
+      "player": "양효진",
+      "rank": 10,
+      "rounds": [
+        68,
+        75,
+        65,
+        70
+      ],
+      "total": 1.89,
+      "to_par": "-10",
+      "status": "FINISHED",
+      "tee_to_green": 0.53,
+      "off_the_tee": 0.84,
+      "approach": -0.26,
+      "around_green": -0.04,
+      "putting": 1.36
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11066",
+      "player": "유서연2",
+      "rank": 10,
+      "rounds": [
+        68,
+        71,
+        70,
+        69
+      ],
+      "total": 1.89,
+      "to_par": "-10",
+      "status": "FINISHED",
+      "tee_to_green": 0.44,
+      "off_the_tee": -0.27,
+      "approach": 0.61,
+      "around_green": 0.1,
+      "putting": 1.45
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9113",
+      "player": "노승희",
+      "rank": 10,
+      "rounds": [
+        66,
+        69,
+        72,
+        71
+      ],
+      "total": 1.86,
+      "to_par": "-10",
+      "status": "FINISHED",
+      "tee_to_green": 2.3,
+      "off_the_tee": 0.12,
+      "approach": 2.36,
+      "around_green": -0.19,
+      "putting": -0.44
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10109",
+      "player": "고지원",
+      "rank": 10,
+      "rounds": [
+        66,
+        72,
+        71,
+        69
+      ],
+      "total": 1.93,
+      "to_par": "-10",
+      "status": "FINISHED",
+      "tee_to_green": 2.77,
+      "off_the_tee": 0.31,
+      "approach": 2.2,
+      "around_green": 0.25,
+      "putting": -0.84
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10727",
+      "player": "황민정",
+      "rank": 16,
+      "rounds": [
+        70,
+        71,
+        70,
+        68
+      ],
+      "total": 1.5,
+      "to_par": "-9",
+      "status": "FINISHED",
+      "tee_to_green": -0.78,
+      "off_the_tee": -0.22,
+      "approach": -0.81,
+      "around_green": 0.26,
+      "putting": 2.28
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10296",
+      "player": "문정민",
+      "rank": 16,
+      "rounds": [
+        70,
+        70,
+        71,
+        68
+      ],
+      "total": 1.68,
+      "to_par": "-9",
+      "status": "FINISHED",
+      "tee_to_green": 2.12,
+      "off_the_tee": 0.97,
+      "approach": 1.19,
+      "around_green": -0.03,
+      "putting": -0.44
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11057",
+      "player": "송은아",
+      "rank": 16,
+      "rounds": [
+        71,
+        68,
+        70,
+        70
+      ],
+      "total": 1.5,
+      "to_par": "-9",
+      "status": "FINISHED",
+      "tee_to_green": 2.03,
+      "off_the_tee": 1.36,
+      "approach": 0.63,
+      "around_green": 0.04,
+      "putting": -0.53
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11056",
+      "player": "박예지",
+      "rank": 16,
+      "rounds": [
+        71,
+        70,
+        68,
+        70
+      ],
+      "total": 1.64,
+      "to_par": "-9",
+      "status": "FINISHED",
+      "tee_to_green": 1.7,
+      "off_the_tee": 0.9,
+      "approach": 0.57,
+      "around_green": 0.24,
+      "putting": -0.06
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11391",
+      "player": "양윤서 0801(A)",
+      "rank": 20,
+      "rounds": [
+        69,
+        73,
+        71,
+        67
+      ],
+      "total": 1.58,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 1.02,
+      "off_the_tee": 0.17,
+      "approach": 1.17,
+      "around_green": -0.32,
+      "putting": 0.57
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11042",
+      "player": "홍현지",
+      "rank": 20,
+      "rounds": [
+        70,
+        69,
+        72,
+        69
+      ],
+      "total": 1.36,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 1.45,
+      "off_the_tee": 0.47,
+      "approach": 1.01,
+      "around_green": -0.04,
+      "putting": -0.09
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8811",
+      "player": "이채은2",
+      "rank": 20,
+      "rounds": [
+        69,
+        72,
+        69,
+        70
+      ],
+      "total": 1.38,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 0.63,
+      "off_the_tee": 0.38,
+      "approach": 0.28,
+      "around_green": -0.03,
+      "putting": 0.75
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10083",
+      "player": "마서영",
+      "rank": 20,
+      "rounds": [
+        68,
+        72,
+        70,
+        70
+      ],
+      "total": 1.42,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 0.47,
+      "off_the_tee": 0.65,
+      "approach": -0.44,
+      "around_green": 0.25,
+      "putting": 0.96
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9820",
+      "player": "정윤지",
+      "rank": 20,
+      "rounds": [
+        69,
+        71,
+        71,
+        69
+      ],
+      "total": 1.26,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 1.84,
+      "off_the_tee": 1.24,
+      "approach": 0.81,
+      "around_green": -0.22,
+      "putting": -0.58
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11770",
+      "player": "짜라위 분짠(I)",
+      "rank": 20,
+      "rounds": [
+        65,
+        71,
+        72,
+        72
+      ],
+      "total": 1.3,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 1.11,
+      "off_the_tee": 0.46,
+      "approach": -0.02,
+      "around_green": 0.68,
+      "putting": 0.19
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8840",
+      "player": "정수빈",
+      "rank": 20,
+      "rounds": [
+        65,
+        74,
+        71,
+        70
+      ],
+      "total": 1.07,
+      "to_par": "-8",
+      "status": "FINISHED",
+      "tee_to_green": 1.09,
+      "off_the_tee": 0.03,
+      "approach": 0.73,
+      "around_green": 0.33,
+      "putting": -0.02
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9752",
+      "player": "김나현2",
+      "rank": 27,
+      "rounds": [
+        68,
+        74,
+        72,
+        67
+      ],
+      "total": 1.08,
+      "to_par": "-7",
+      "status": "FINISHED",
+      "tee_to_green": 1.39,
+      "off_the_tee": 1.12,
+      "approach": 0.59,
+      "around_green": -0.32,
+      "putting": -0.31
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10577",
+      "player": "최예본",
+      "rank": 27,
+      "rounds": [
+        70,
+        69,
+        74,
+        68
+      ],
+      "total": 1.36,
+      "to_par": "-7",
+      "status": "FINISHED",
+      "tee_to_green": 0.87,
+      "off_the_tee": -0.56,
+      "approach": 1.03,
+      "around_green": 0.4,
+      "putting": 0.49
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9111",
+      "player": "박서현",
+      "rank": 27,
+      "rounds": [
+        69,
+        72,
+        70,
+        70
+      ],
+      "total": 1.1,
+      "to_par": "-7",
+      "status": "FINISHED",
+      "tee_to_green": 0.3,
+      "off_the_tee": -0.18,
+      "approach": 0.33,
+      "around_green": 0.16,
+      "putting": 0.8
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9765",
+      "player": "정소이",
+      "rank": 27,
+      "rounds": [
+        67,
+        72,
+        72,
+        70
+      ],
+      "total": 1.08,
+      "to_par": "-7",
+      "status": "FINISHED",
+      "tee_to_green": 0.39,
+      "off_the_tee": 0.13,
+      "approach": 0.82,
+      "around_green": -0.56,
+      "putting": 0.69
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "12038",
+      "player": "이지민",
+      "rank": 31,
+      "rounds": [
+        71,
+        71,
+        71,
+        69
+      ],
+      "total": 0.7,
+      "to_par": "-6",
+      "status": "FINISHED",
+      "tee_to_green": -0.41,
+      "off_the_tee": 0.22,
+      "approach": -0.96,
+      "around_green": 0.33,
+      "putting": 1.11
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9708",
+      "player": "이재윤",
+      "rank": 31,
+      "rounds": [
+        70,
+        72,
+        70,
+        70
+      ],
+      "total": 0.72,
+      "to_par": "-6",
+      "status": "FINISHED",
+      "tee_to_green": 1.17,
+      "off_the_tee": 1.06,
+      "approach": 0.27,
+      "around_green": -0.16,
+      "putting": -0.45
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10790",
+      "player": "김하은2",
+      "rank": 31,
+      "rounds": [
+        69,
+        71,
+        72,
+        70
+      ],
+      "total": 0.78,
+      "to_par": "-6",
+      "status": "FINISHED",
+      "tee_to_green": 1.04,
+      "off_the_tee": 0.22,
+      "approach": 1.45,
+      "around_green": -0.63,
+      "putting": -0.26
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9130",
+      "player": "박현경",
+      "rank": 31,
+      "rounds": [
+        69,
+        72,
+        71,
+        70
+      ],
+      "total": 0.61,
+      "to_par": "-6",
+      "status": "FINISHED",
+      "tee_to_green": 0.33,
+      "off_the_tee": 0.1,
+      "approach": 0.45,
+      "around_green": -0.21,
+      "putting": 0.28
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8234",
+      "player": "이주미",
+      "rank": 31,
+      "rounds": [
+        66,
+        76,
+        67,
+        73
+      ],
+      "total": 0.5,
+      "to_par": "-6",
+      "status": "FINISHED",
+      "tee_to_green": -0.06,
+      "off_the_tee": 0.04,
+      "approach": 0.03,
+      "around_green": -0.13,
+      "putting": 0.56
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8881",
+      "player": "성유진",
+      "rank": 31,
+      "rounds": [
+        67,
+        72,
+        70,
+        73
+      ],
+      "total": 0.61,
+      "to_par": "-6",
+      "status": "FINISHED",
+      "tee_to_green": 0.74,
+      "off_the_tee": 0.42,
+      "approach": 0.32,
+      "around_green": 0.0,
+      "putting": -0.14
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9391",
+      "player": "최가빈",
+      "rank": 37,
+      "rounds": [
+        69,
+        72,
+        73,
+        69
+      ],
+      "total": 0.59,
+      "to_par": "-5",
+      "status": "FINISHED",
+      "tee_to_green": -0.75,
+      "off_the_tee": 0.04,
+      "approach": -0.69,
+      "around_green": -0.11,
+      "putting": 1.34
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10114",
+      "player": "김나영",
+      "rank": 37,
+      "rounds": [
+        67,
+        74,
+        71,
+        71
+      ],
+      "total": 0.65,
+      "to_par": "-5",
+      "status": "FINISHED",
+      "tee_to_green": 0.66,
+      "off_the_tee": 0.42,
+      "approach": 0.27,
+      "around_green": -0.03,
+      "putting": -0.01
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10081",
+      "player": "김민주",
+      "rank": 37,
+      "rounds": [
+        71,
+        72,
+        70,
+        70
+      ],
+      "total": 0.62,
+      "to_par": "-5",
+      "status": "FINISHED",
+      "tee_to_green": 1.14,
+      "off_the_tee": 0.29,
+      "approach": 0.56,
+      "around_green": 0.28,
+      "putting": -0.52
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8863",
+      "player": "윤혜림",
+      "rank": 37,
+      "rounds": [
+        70,
+        70,
+        71,
+        72
+      ],
+      "total": 0.59,
+      "to_par": "-5",
+      "status": "FINISHED",
+      "tee_to_green": 0.15,
+      "off_the_tee": 0.23,
+      "approach": -0.01,
+      "around_green": -0.07,
+      "putting": 0.44
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9981",
+      "player": "배수연",
+      "rank": 41,
+      "rounds": [
+        70,
+        70,
+        72,
+        72
+      ],
+      "total": 0.23,
+      "to_par": "-4",
+      "status": "FINISHED",
+      "tee_to_green": -0.78,
+      "off_the_tee": 0.54,
+      "approach": -0.83,
+      "around_green": -0.5,
+      "putting": 1.01
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9990",
+      "player": "윤수아",
+      "rank": 41,
+      "rounds": [
+        71,
+        71,
+        67,
+        75
+      ],
+      "total": 0.28,
+      "to_par": "-4",
+      "status": "FINISHED",
+      "tee_to_green": 0.16,
+      "off_the_tee": 0.18,
+      "approach": 0.22,
+      "around_green": -0.24,
+      "putting": 0.12
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9136",
+      "player": "조혜림",
+      "rank": 43,
+      "rounds": [
+        71,
+        70,
+        75,
+        69
+      ],
+      "total": 0.1,
+      "to_par": "-3",
+      "status": "FINISHED",
+      "tee_to_green": 0.92,
+      "off_the_tee": 0.38,
+      "approach": 0.59,
+      "around_green": -0.06,
+      "putting": -0.82
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8246",
+      "player": "이소영",
+      "rank": 43,
+      "rounds": [
+        69,
+        74,
+        71,
+        71
+      ],
+      "total": -0.24,
+      "to_par": "-3",
+      "status": "FINISHED",
+      "tee_to_green": -1.76,
+      "off_the_tee": 0.17,
+      "approach": -2.43,
+      "around_green": 0.5,
+      "putting": 1.52
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11447",
+      "player": "한아름",
+      "rank": 43,
+      "rounds": [
+        67,
+        72,
+        73,
+        73
+      ],
+      "total": 0.18,
+      "to_par": "-3",
+      "status": "FINISHED",
+      "tee_to_green": 0.73,
+      "off_the_tee": -0.38,
+      "approach": 1.01,
+      "around_green": 0.1,
+      "putting": -0.55
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8386",
+      "player": "성은정",
+      "rank": 43,
+      "rounds": [
+        73,
+        70,
+        70,
+        72
+      ],
+      "total": 0.04,
+      "to_par": "-3",
+      "status": "FINISHED",
+      "tee_to_green": -0.18,
+      "off_the_tee": -0.37,
+      "approach": -0.39,
+      "around_green": 0.57,
+      "putting": 0.22
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8271",
+      "player": "김효문",
+      "rank": 43,
+      "rounds": [
+        68,
+        74,
+        70,
+        73
+      ],
+      "total": 0.12,
+      "to_par": "-3",
+      "status": "FINISHED",
+      "tee_to_green": 0.74,
+      "off_the_tee": 0.18,
+      "approach": 1.02,
+      "around_green": -0.45,
+      "putting": -0.63
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11485",
+      "player": "신지우",
+      "rank": 43,
+      "rounds": [
+        68,
+        69,
+        76,
+        72
+      ],
+      "total": -0.28,
+      "to_par": "-3",
+      "status": "FINISHED",
+      "tee_to_green": -1.0,
+      "off_the_tee": 0.41,
+      "approach": -1.46,
+      "around_green": 0.04,
+      "putting": 0.73
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10138",
+      "player": "임진영",
+      "rank": 49,
+      "rounds": [
+        70,
+        72,
+        73,
+        71
+      ],
+      "total": 0.1,
+      "to_par": "-2",
+      "status": "FINISHED",
+      "tee_to_green": 0.5,
+      "off_the_tee": -0.07,
+      "approach": 0.45,
+      "around_green": 0.12,
+      "putting": -0.4
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10481",
+      "player": "이서윤4",
+      "rank": 50,
+      "rounds": [
+        64,
+        76,
+        73,
+        74
+      ],
+      "total": -0.14,
+      "to_par": "-1",
+      "status": "FINISHED",
+      "tee_to_green": 0.21,
+      "off_the_tee": -0.32,
+      "approach": 0.8,
+      "around_green": -0.28,
+      "putting": -0.35
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9436",
+      "player": "구래현",
+      "rank": 50,
+      "rounds": [
+        71,
+        72,
+        71,
+        73
+      ],
+      "total": -0.26,
+      "to_par": "-1",
+      "status": "FINISHED",
+      "tee_to_green": -0.97,
+      "off_the_tee": -0.93,
+      "approach": -0.51,
+      "around_green": 0.46,
+      "putting": 0.71
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8838",
+      "player": "김우정",
+      "rank": 50,
+      "rounds": [
+        71,
+        72,
+        73,
+        71
+      ],
+      "total": -0.51,
+      "to_par": "-1",
+      "status": "FINISHED",
+      "tee_to_green": -0.37,
+      "off_the_tee": -0.5,
+      "approach": 0.01,
+      "around_green": 0.12,
+      "putting": -0.14
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10531",
+      "player": "현세린",
+      "rank": 50,
+      "rounds": [
+        68,
+        72,
+        74,
+        73
+      ],
+      "total": -0.65,
+      "to_par": "-1",
+      "status": "FINISHED",
+      "tee_to_green": -1.14,
+      "off_the_tee": -1.06,
+      "approach": -0.68,
+      "around_green": 0.59,
+      "putting": 0.49
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10139",
+      "player": "양효리",
+      "rank": 50,
+      "rounds": [
+        67,
+        74,
+        72,
+        74
+      ],
+      "total": -0.55,
+      "to_par": "-1",
+      "status": "FINISHED",
+      "tee_to_green": -1.81,
+      "off_the_tee": -0.3,
+      "approach": -2.2,
+      "around_green": 0.7,
+      "putting": 1.25
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9714",
+      "player": "유지나",
+      "rank": 55,
+      "rounds": [
+        70,
+        72,
+        74,
+        72
+      ],
+      "total": -0.7,
+      "to_par": "E",
+      "status": "FINISHED",
+      "tee_to_green": 0.39,
+      "off_the_tee": -0.01,
+      "approach": 0.51,
+      "around_green": -0.11,
+      "putting": -1.09
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8764",
+      "player": "김소이",
+      "rank": 55,
+      "rounds": [
+        74,
+        68,
+        75,
+        71
+      ],
+      "total": -1.35,
+      "to_par": "E",
+      "status": "FINISHED",
+      "tee_to_green": -3.46,
+      "off_the_tee": -1.3,
+      "approach": -2.37,
+      "around_green": 0.2,
+      "putting": 2.11
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9145",
+      "player": "임희정",
+      "rank": 55,
+      "rounds": [
+        73,
+        70,
+        74,
+        71
+      ],
+      "total": -0.69,
+      "to_par": "E",
+      "status": "FINISHED",
+      "tee_to_green": 1.43,
+      "off_the_tee": 0.48,
+      "approach": 0.88,
+      "around_green": 0.07,
+      "putting": -2.12
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9389",
+      "player": "전우리",
+      "rank": 58,
+      "rounds": [
+        68,
+        73,
+        77,
+        72
+      ],
+      "total": -1.06,
+      "to_par": "+2",
+      "status": "FINISHED",
+      "tee_to_green": -0.46,
+      "off_the_tee": 0.26,
+      "approach": -0.57,
+      "around_green": -0.15,
+      "putting": -0.6
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10143",
+      "player": "정영화",
+      "rank": 58,
+      "rounds": [
+        72,
+        69,
+        74,
+        75
+      ],
+      "total": -1.66,
+      "to_par": "+2",
+      "status": "FINISHED",
+      "tee_to_green": -1.71,
+      "off_the_tee": -0.33,
+      "approach": -1.21,
+      "around_green": -0.17,
+      "putting": 0.05
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9487",
+      "player": "김재희",
+      "rank": 58,
+      "rounds": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "total": -1.62,
+      "to_par": "+2",
+      "status": "FINISHED",
+      "tee_to_green": -1.26,
+      "off_the_tee": 0.42,
+      "approach": -1.47,
+      "around_green": -0.2,
+      "putting": -0.36
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "13502",
+      "player": "왕 즈쉬엔",
+      "rank": 58,
+      "rounds": [
+        72,
+        71,
+        70,
+        77
+      ],
+      "total": -1.17,
+      "to_par": "+2",
+      "status": "FINISHED",
+      "tee_to_green": 0.03,
+      "off_the_tee": 0.25,
+      "approach": -0.03,
+      "around_green": -0.19,
+      "putting": -1.2
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10159",
+      "player": "강채연",
+      "rank": 62,
+      "rounds": [
+        70,
+        70,
+        80,
+        72
+      ],
+      "total": -1.94,
+      "to_par": "+4",
+      "status": "FINISHED",
+      "tee_to_green": -2.15,
+      "off_the_tee": -0.24,
+      "approach": -2.08,
+      "around_green": 0.17,
+      "putting": 0.21
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9401",
+      "player": "마다솜",
+      "rank": 63,
+      "rounds": [
+        74,
+        70,
+        null,
+        null
+      ],
+      "total": -0.02,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": -0.97,
+      "off_the_tee": -0.11,
+      "approach": -0.76,
+      "around_green": -0.1,
+      "putting": 0.96
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9000",
+      "player": "김지수",
+      "rank": 63,
+      "rounds": [
+        73,
+        71,
+        null,
+        null
+      ],
+      "total": -0.23,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": 0.34,
+      "off_the_tee": -0.47,
+      "approach": 0.93,
+      "around_green": -0.13,
+      "putting": -0.57
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8884",
+      "player": "윤화영",
+      "rank": 63,
+      "rounds": [
+        72,
+        72,
+        null,
+        null
+      ],
+      "total": -0.13,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": 0.79,
+      "off_the_tee": 0.63,
+      "approach": 0.18,
+      "around_green": -0.03,
+      "putting": -0.92
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9277",
+      "player": "김아현",
+      "rank": 63,
+      "rounds": [
+        72,
+        72,
+        null,
+        null
+      ],
+      "total": -0.22,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": 0.68,
+      "off_the_tee": 0.37,
+      "approach": 0.02,
+      "around_green": 0.29,
+      "putting": -0.91
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10563",
+      "player": "백소원",
+      "rank": 63,
+      "rounds": [
+        70,
+        74,
+        null,
+        null
+      ],
+      "total": -0.07,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": -0.01,
+      "off_the_tee": -0.56,
+      "approach": 0.31,
+      "around_green": 0.24,
+      "putting": -0.05
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9089",
+      "player": "김소정",
+      "rank": 63,
+      "rounds": [
+        71,
+        73,
+        null,
+        null
+      ],
+      "total": -0.22,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": 3.56,
+      "off_the_tee": 0.56,
+      "approach": 3.12,
+      "around_green": -0.12,
+      "putting": -3.78
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8277",
+      "player": "최민경",
+      "rank": 63,
+      "rounds": [
+        71,
+        73,
+        null,
+        null
+      ],
+      "total": -0.39,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": -1.08,
+      "off_the_tee": -0.84,
+      "approach": 0.0,
+      "around_green": -0.24,
+      "putting": 0.69
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11073",
+      "player": "최정원",
+      "rank": 63,
+      "rounds": [
+        69,
+        75,
+        null,
+        null
+      ],
+      "total": -0.66,
+      "to_par": "E",
+      "status": "CUT",
+      "tee_to_green": -0.73,
+      "off_the_tee": 0.81,
+      "approach": -1.83,
+      "around_green": 0.29,
+      "putting": 0.07
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9183",
+      "player": "박결",
+      "rank": 71,
+      "rounds": [
+        72,
+        73,
+        null,
+        null
+      ],
+      "total": -0.72,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": -1.62,
+      "off_the_tee": -0.13,
+      "approach": -1.55,
+      "around_green": 0.06,
+      "putting": 0.9
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9465",
+      "player": "안지현",
+      "rank": 71,
+      "rounds": [
+        73,
+        72,
+        null,
+        null
+      ],
+      "total": -0.75,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": -0.32,
+      "off_the_tee": -0.93,
+      "approach": -0.24,
+      "around_green": 0.85,
+      "putting": -0.43
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9705",
+      "player": "홍지원",
+      "rank": 71,
+      "rounds": [
+        72,
+        73,
+        null,
+        null
+      ],
+      "total": -0.48,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": 2.32,
+      "off_the_tee": 0.13,
+      "approach": 2.35,
+      "around_green": -0.16,
+      "putting": -2.8
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9483",
+      "player": "한지원",
+      "rank": 71,
+      "rounds": [
+        71,
+        74,
+        null,
+        null
+      ],
+      "total": -0.74,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": -1.73,
+      "off_the_tee": -0.83,
+      "approach": -0.89,
+      "around_green": -0.01,
+      "putting": 0.99
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11469",
+      "player": "이윤서",
+      "rank": 71,
+      "rounds": [
+        71,
+        74,
+        null,
+        null
+      ],
+      "total": -0.63,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": -1.56,
+      "off_the_tee": -1.15,
+      "approach": -0.07,
+      "around_green": -0.35,
+      "putting": 0.93
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10586",
+      "player": "홍진영2",
+      "rank": 71,
+      "rounds": [
+        71,
+        74,
+        null,
+        null
+      ],
+      "total": -0.27,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": -1.17,
+      "off_the_tee": -0.05,
+      "approach": -0.56,
+      "around_green": -0.56,
+      "putting": 0.9
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9426",
+      "player": "한진선",
+      "rank": 71,
+      "rounds": [
+        72,
+        73,
+        null,
+        null
+      ],
+      "total": -1.03,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": 0.45,
+      "off_the_tee": 0.39,
+      "approach": 0.54,
+      "around_green": -0.48,
+      "putting": -1.48
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11216",
+      "player": "김지윤2",
+      "rank": 71,
+      "rounds": [
+        72,
+        73,
+        null,
+        null
+      ],
+      "total": -0.01,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": -0.75,
+      "off_the_tee": -1.21,
+      "approach": 0.29,
+      "around_green": 0.17,
+      "putting": 0.73
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10112",
+      "player": "고지우",
+      "rank": 71,
+      "rounds": [
+        71,
+        74,
+        null,
+        null
+      ],
+      "total": -0.54,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": 0.92,
+      "off_the_tee": 0.09,
+      "approach": 1.48,
+      "around_green": -0.65,
+      "putting": -1.46
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11040",
+      "player": "이세영",
+      "rank": 71,
+      "rounds": [
+        71,
+        74,
+        null,
+        null
+      ],
+      "total": -0.82,
+      "to_par": "+1",
+      "status": "CUT",
+      "tee_to_green": 1.35,
+      "off_the_tee": 0.71,
+      "approach": 0.45,
+      "around_green": 0.19,
+      "putting": -2.17
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8430",
+      "player": "조은채",
+      "rank": 81,
+      "rounds": [
+        73,
+        73,
+        null,
+        null
+      ],
+      "total": -1.25,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": 0.36,
+      "off_the_tee": 0.41,
+      "approach": -0.04,
+      "around_green": -0.02,
+      "putting": -1.61
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11926",
+      "player": "유다겸(I)",
+      "rank": 81,
+      "rounds": [
+        72,
+        74,
+        null,
+        null
+      ],
+      "total": -1.29,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": 0.09,
+      "off_the_tee": -0.12,
+      "approach": 0.06,
+      "around_green": 0.16,
+      "putting": -1.38
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10080",
+      "player": "이수정",
+      "rank": 81,
+      "rounds": [
+        72,
+        74,
+        null,
+        null
+      ],
+      "total": -1.35,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": -0.45,
+      "off_the_tee": -0.08,
+      "approach": -0.61,
+      "around_green": 0.23,
+      "putting": -0.89
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10178",
+      "player": "김희지",
+      "rank": 81,
+      "rounds": [
+        72,
+        74,
+        null,
+        null
+      ],
+      "total": -1.09,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": -2.35,
+      "off_the_tee": -2.32,
+      "approach": -0.8,
+      "around_green": 0.77,
+      "putting": 1.26
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10867",
+      "player": "양서후",
+      "rank": 81,
+      "rounds": [
+        72,
+        74,
+        null,
+        null
+      ],
+      "total": -1.18,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": 0.6,
+      "off_the_tee": 0.08,
+      "approach": 0.73,
+      "around_green": -0.22,
+      "putting": -1.79
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9174",
+      "player": "강가율",
+      "rank": 81,
+      "rounds": [
+        71,
+        75,
+        null,
+        null
+      ],
+      "total": -1.77,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": -1.65,
+      "off_the_tee": 0.07,
+      "approach": -2.16,
+      "around_green": 0.44,
+      "putting": -0.11
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9759",
+      "player": "이율린",
+      "rank": 81,
+      "rounds": [
+        70,
+        76,
+        null,
+        null
+      ],
+      "total": -0.68,
+      "to_par": "+2",
+      "status": "CUT",
+      "tee_to_green": -0.59,
+      "off_the_tee": -1.55,
+      "approach": 0.45,
+      "around_green": 0.51,
+      "putting": -0.1
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10022",
+      "player": "손예빈",
+      "rank": 88,
+      "rounds": [
+        76,
+        71,
+        null,
+        null
+      ],
+      "total": -0.96,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -2.3,
+      "off_the_tee": -1.93,
+      "approach": -0.15,
+      "around_green": -0.22,
+      "putting": 1.34
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10002",
+      "player": "김민별",
+      "rank": 88,
+      "rounds": [
+        74,
+        73,
+        null,
+        null
+      ],
+      "total": -1.89,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -1.52,
+      "off_the_tee": 0.74,
+      "approach": -1.47,
+      "around_green": -0.79,
+      "putting": -0.38
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8380",
+      "player": "김새로미",
+      "rank": 88,
+      "rounds": [
+        71,
+        76,
+        null,
+        null
+      ],
+      "total": -2.62,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -3.01,
+      "off_the_tee": -1.39,
+      "approach": -1.1,
+      "around_green": -0.52,
+      "putting": 0.4
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10789",
+      "player": "리 슈잉",
+      "rank": 88,
+      "rounds": [
+        73,
+        74,
+        null,
+        null
+      ],
+      "total": -1.48,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -1.89,
+      "off_the_tee": -0.55,
+      "approach": -0.18,
+      "around_green": -1.16,
+      "putting": 0.41
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9723",
+      "player": "노원경",
+      "rank": 88,
+      "rounds": [
+        71,
+        76,
+        null,
+        null
+      ],
+      "total": -2.94,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -1.99,
+      "off_the_tee": 0.37,
+      "approach": -3.25,
+      "around_green": 0.89,
+      "putting": -0.95
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "13386",
+      "player": "에리카 윤 스미스(I)",
+      "rank": 88,
+      "rounds": [
+        73,
+        74,
+        null,
+        null
+      ],
+      "total": -1.47,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": 0.83,
+      "off_the_tee": 0.97,
+      "approach": 0.85,
+      "around_green": -0.99,
+      "putting": -2.3
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10157",
+      "player": "황연서",
+      "rank": 88,
+      "rounds": [
+        71,
+        76,
+        null,
+        null
+      ],
+      "total": -1.61,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -0.47,
+      "off_the_tee": -0.21,
+      "approach": -0.06,
+      "around_green": -0.2,
+      "putting": -1.15
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8318",
+      "player": "박단유",
+      "rank": 88,
+      "rounds": [
+        71,
+        76,
+        null,
+        null
+      ],
+      "total": -2.23,
+      "to_par": "+3",
+      "status": "CUT",
+      "tee_to_green": -1.48,
+      "off_the_tee": 0.78,
+      "approach": -2.06,
+      "around_green": -0.2,
+      "putting": -0.75
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10726",
+      "player": "김가희2",
+      "rank": 96,
+      "rounds": [
+        75,
+        73,
+        null,
+        null
+      ],
+      "total": -2.14,
+      "to_par": "+4",
+      "status": "CUT",
+      "tee_to_green": -0.84,
+      "off_the_tee": -0.12,
+      "approach": -0.65,
+      "around_green": -0.07,
+      "putting": -1.3
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8355",
+      "player": "장수연",
+      "rank": 96,
+      "rounds": [
+        74,
+        74,
+        null,
+        null
+      ],
+      "total": -2.58,
+      "to_par": "+4",
+      "status": "CUT",
+      "tee_to_green": -2.03,
+      "off_the_tee": -0.33,
+      "approach": -1.72,
+      "around_green": 0.02,
+      "putting": -0.55
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10623",
+      "player": "강지선",
+      "rank": 96,
+      "rounds": [
+        71,
+        77,
+        null,
+        null
+      ],
+      "total": -2.51,
+      "to_par": "+4",
+      "status": "CUT",
+      "tee_to_green": -3.54,
+      "off_the_tee": -2.69,
+      "approach": -0.91,
+      "around_green": 0.07,
+      "putting": 1.03
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9807",
+      "player": "김서윤2",
+      "rank": 96,
+      "rounds": [
+        71,
+        77,
+        null,
+        null
+      ],
+      "total": -2.51,
+      "to_par": "+4",
+      "status": "CUT",
+      "tee_to_green": -3.71,
+      "off_the_tee": -1.57,
+      "approach": -2.07,
+      "around_green": -0.08,
+      "putting": 1.2
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9937",
+      "player": "황유나",
+      "rank": 96,
+      "rounds": [
+        72,
+        76,
+        null,
+        null
+      ],
+      "total": -2.79,
+      "to_par": "+4",
+      "status": "CUT",
+      "tee_to_green": -1.71,
+      "off_the_tee": -1.37,
+      "approach": -0.57,
+      "around_green": 0.23,
+      "putting": -1.08
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11143",
+      "player": "김시현",
+      "rank": 101,
+      "rounds": [
+        73,
+        76,
+        null,
+        null
+      ],
+      "total": -3.03,
+      "to_par": "+5",
+      "status": "CUT",
+      "tee_to_green": -0.03,
+      "off_the_tee": -1.11,
+      "approach": -0.28,
+      "around_green": 1.36,
+      "putting": -3.0
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "13355",
+      "player": "배윤설 0908(A)",
+      "rank": 102,
+      "rounds": [
+        74,
+        76,
+        null,
+        null
+      ],
+      "total": -3.35,
+      "to_par": "+6",
+      "status": "CUT",
+      "tee_to_green": -0.27,
+      "off_the_tee": -0.56,
+      "approach": 0.44,
+      "around_green": -0.16,
+      "putting": -3.07
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "10776",
+      "player": "윤서정",
+      "rank": 103,
+      "rounds": [
+        80,
+        71,
+        null,
+        null
+      ],
+      "total": -3.41,
+      "to_par": "+7",
+      "status": "CUT",
+      "tee_to_green": -3.46,
+      "off_the_tee": -1.57,
+      "approach": -0.54,
+      "around_green": -1.35,
+      "putting": 0.05
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9384",
+      "player": "김하니",
+      "rank": 103,
+      "rounds": [
+        76,
+        75,
+        null,
+        null
+      ],
+      "total": -3.63,
+      "to_par": "+7",
+      "status": "CUT",
+      "tee_to_green": 0.72,
+      "off_the_tee": -0.23,
+      "approach": 1.48,
+      "around_green": -0.53,
+      "putting": -4.35
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9503",
+      "player": "이슬기2",
+      "rank": 103,
+      "rounds": [
+        78,
+        73,
+        null,
+        null
+      ],
+      "total": -3.77,
+      "to_par": "+7",
+      "status": "CUT",
+      "tee_to_green": -3.4,
+      "off_the_tee": -1.57,
+      "approach": -2.03,
+      "around_green": 0.2,
+      "putting": -0.37
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8770",
+      "player": "조아연",
+      "rank": 103,
+      "rounds": [
+        74,
+        77,
+        null,
+        null
+      ],
+      "total": -4.01,
+      "to_par": "+7",
+      "status": "CUT",
+      "tee_to_green": -3.34,
+      "off_the_tee": -0.19,
+      "approach": -3.0,
+      "around_green": -0.15,
+      "putting": -0.67
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8972",
+      "player": "조정민",
+      "rank": 103,
+      "rounds": [
+        74,
+        77,
+        null,
+        null
+      ],
+      "total": -3.46,
+      "to_par": "+7",
+      "status": "CUT",
+      "tee_to_green": -5.22,
+      "off_the_tee": -2.13,
+      "approach": -2.23,
+      "around_green": -0.86,
+      "putting": 1.76
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "12479",
+      "player": "박효담 1102(A)",
+      "rank": 108,
+      "rounds": [
+        76,
+        76,
+        null,
+        null
+      ],
+      "total": -4.44,
+      "to_par": "+8",
+      "status": "CUT",
+      "tee_to_green": -2.81,
+      "off_the_tee": 0.09,
+      "approach": -1.95,
+      "around_green": -0.95,
+      "putting": -1.63
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "12571",
+      "player": "깐 반나부디(I)",
+      "rank": 109,
+      "rounds": [
+        75,
+        78,
+        null,
+        null
+      ],
+      "total": -4.75,
+      "to_par": "+9",
+      "status": "CUT",
+      "tee_to_green": -3.94,
+      "off_the_tee": -0.52,
+      "approach": -2.43,
+      "around_green": -0.99,
+      "putting": -0.81
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8434",
+      "player": "김지영2",
+      "rank": 110,
+      "rounds": [
+        77,
+        77,
+        null,
+        null
+      ],
+      "total": -6.6,
+      "to_par": "+10",
+      "status": "CUT",
+      "tee_to_green": -7.44,
+      "off_the_tee": -0.61,
+      "approach": -6.37,
+      "around_green": -0.46,
+      "putting": 0.84
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "11630",
+      "player": "정지효",
+      "rank": 111,
+      "rounds": [
+        83,
+        76,
+        null,
+        null
+      ],
+      "total": -6.64,
+      "to_par": "+15",
+      "status": "CUT",
+      "tee_to_green": -5.3,
+      "off_the_tee": -3.69,
+      "approach": -1.6,
+      "around_green": -0.01,
+      "putting": -1.34
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9082",
+      "player": "전예성",
+      "rank": null,
+      "rounds": [
+        72,
+        null,
+        null,
+        null
+      ],
+      "total": -1.3,
+      "to_par": "",
+      "status": "CUT",
+      "tee_to_green": -4.09,
+      "off_the_tee": 0.82,
+      "approach": -3.29,
+      "around_green": -1.62,
+      "putting": 2.79
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8240",
+      "player": "황정미",
+      "rank": null,
+      "rounds": [
+        72,
+        null,
+        null,
+        null
+      ],
+      "total": -0.98,
+      "to_par": "",
+      "status": "CUT",
+      "tee_to_green": 0.13,
+      "off_the_tee": 0.65,
+      "approach": -0.02,
+      "around_green": -0.49,
+      "putting": -1.11
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8883",
+      "player": "이가영",
+      "rank": null,
+      "rounds": [
+        74,
+        null,
+        null,
+        null
+      ],
+      "total": -2.63,
+      "to_par": "",
+      "status": "CUT",
+      "tee_to_green": -3.47,
+      "off_the_tee": -3.06,
+      "approach": 0.54,
+      "around_green": -0.94,
+      "putting": 0.83
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "1485",
+      "player": "빳차라쭈타 콩끄라판(I)",
+      "rank": null,
+      "rounds": [
+        75,
+        null,
+        null,
+        null
+      ],
+      "total": -5.7,
+      "to_par": "",
+      "status": "CUT",
+      "tee_to_green": -4.05,
+      "off_the_tee": 0.63,
+      "approach": -4.33,
+      "around_green": -0.35,
+      "putting": -1.65
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8300",
+      "player": "김수지",
+      "rank": null,
+      "rounds": [
+        73,
+        null,
+        null,
+        null
+      ],
+      "total": -2.39,
+      "to_par": "",
+      "status": "CUT",
+      "tee_to_green": 0.15,
+      "off_the_tee": 0.85,
+      "approach": 0.34,
+      "around_green": -1.04,
+      "putting": -2.54
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "8392",
+      "player": "이다연",
+      "rank": null,
+      "rounds": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "total": null,
+      "to_par": "",
+      "status": "WD",
+      "tee_to_green": null,
+      "off_the_tee": null,
+      "approach": null,
+      "around_green": null,
+      "putting": null
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9431",
+      "player": "박보겸",
+      "rank": null,
+      "rounds": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "total": null,
+      "to_par": "",
+      "status": "WD",
+      "tee_to_green": null,
+      "off_the_tee": null,
+      "approach": null,
+      "around_green": null,
+      "putting": null
+    },
+    {
+      "game_code": "2026080001",
+      "player_id": "9750",
+      "player": "홍정민",
+      "rank": null,
+      "rounds": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "total": null,
+      "to_par": "",
+      "status": "WD",
+      "tee_to_green": null,
+      "off_the_tee": null,
+      "approach": null,
+      "around_green": null,
+      "putting": null
+    }
+  ]
+}

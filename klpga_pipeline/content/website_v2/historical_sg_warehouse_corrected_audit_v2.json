@@ -1,0 +1,1056 @@
+{
+  "schema_version": "neo_sg_row_retention_audit_v2",
+  "generated_at": "2026-08-31T20:48:31Z",
+  "legacy": {
+    "rows": 29812,
+    "sha256": "f3f2a4e515c31ff82ce2236cb24d604652ea9064ffb8e6f3aac6b926b2761e50"
+  },
+  "corrected": {
+    "rows": 45501,
+    "sha256": "cac227fd663129d92f228963081daf85bba707c5fb4701354ee28495e80ff410",
+    "retained": 44338,
+    "unresolved": 1163
+  },
+  "recovered": {
+    "source_key_rows": 16049,
+    "retained": 14886,
+    "unresolved": 1163,
+    "status_by_official_status": "not available in SG response; no CUT/WD/DQ inferred"
+  },
+  "round_means": {
+    "R1": {
+      "rows": 11934,
+      "players": 478,
+      "components": {
+        "total": -0.00046170604994134434,
+        "tee_to_green": -2.178649237472752e-05,
+        "off_the_tee": 7.541478129714261e-06,
+        "approach": -1.843472431707557e-05,
+        "around_green": -9.217362158538762e-06,
+        "putting": -0.0004608681079269307
+      }
+    },
+    "R2": {
+      "rows": 11592,
+      "players": 476,
+      "components": {
+        "total": -0.000565044858523118,
+        "tee_to_green": 2.587991718426377e-06,
+        "off_the_tee": 1.2077294685990978e-05,
+        "approach": 4.054520358868193e-05,
+        "around_green": 1.6390614216700874e-05,
+        "putting": -0.0005762594893029679
+      }
+    },
+    "R3": {
+      "rows": 6533,
+      "players": 300,
+      "components": {
+        "total": -0.0007347313638450926,
+        "tee_to_green": -2.7552426144190658e-05,
+        "off_the_tee": -1.6837593754782993e-05,
+        "approach": -7.347313638450908e-05,
+        "around_green": -6.27583039951015e-05,
+        "putting": -0.0006367671819990812
+      }
+    },
+    "R4": {
+      "rows": 3508,
+      "players": 273,
+      "components": {
+        "total": -0.0009122006841505135,
+        "tee_to_green": -5.7012542759406486e-05,
+        "off_the_tee": 4.846066134549819e-05,
+        "approach": -2.565564424173384e-05,
+        "around_green": -8.83694412770814e-05,
+        "putting": -0.0007981755986316992
+      }
+    }
+  },
+  "events": [
+    {
+      "game_code": "2022120002",
+      "season": 2023,
+      "event": "하나금융그룹 싱가포르 여자오픈",
+      "status": "ROUND-SELECTION_ISSUE",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2022120003",
+      "season": 2023,
+      "event": "PLK 퍼시픽링스코리아 챔피언십 with SBS Golf",
+      "status": "UNKNOWN",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2023040001",
+      "season": 2023,
+      "event": "롯데렌터카 여자오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 476,
+      "retained_rows": 463,
+      "unresolved_rows": 13
+    },
+    {
+      "game_code": "2023040002",
+      "season": 2023,
+      "event": "메디힐 · 한국일보 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 486,
+      "retained_rows": 464,
+      "unresolved_rows": 22
+    },
+    {
+      "game_code": "2023040003",
+      "season": 2023,
+      "event": "넥센 · 세인트나인 마스터즈 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 430,
+      "retained_rows": 420,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2023040004",
+      "season": 2023,
+      "event": "크리스에프앤씨 제45회 KLPGA 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 508,
+      "retained_rows": 500,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2023050001",
+      "season": 2023,
+      "event": "제9회 교촌 1991 레이디스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 369,
+      "retained_rows": 357,
+      "unresolved_rows": 12
+    },
+    {
+      "game_code": "2023050002",
+      "season": 2023,
+      "event": "2023 NH투자증권 레이디스 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 456,
+      "retained_rows": 439,
+      "unresolved_rows": 17
+    },
+    {
+      "game_code": "2023050004",
+      "season": 2023,
+      "event": "제11회 E1 채리티 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 486,
+      "retained_rows": 471,
+      "unresolved_rows": 15
+    },
+    {
+      "game_code": "2023060001",
+      "season": 2023,
+      "event": "롯데 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 532,
+      "retained_rows": 511,
+      "unresolved_rows": 21
+    },
+    {
+      "game_code": "2023060002",
+      "season": 2023,
+      "event": "셀트리온 퀸즈 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 432,
+      "retained_rows": 413,
+      "unresolved_rows": 19
+    },
+    {
+      "game_code": "2023060003",
+      "season": 2023,
+      "event": "DB그룹 제37회 한국여자오픈골프선수권대회",
+      "status": "UNKNOWN",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2023060004",
+      "season": 2023,
+      "event": "BC카드 · 한경 레이디스컵 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 453,
+      "retained_rows": 437,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2023060005",
+      "season": 2023,
+      "event": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "status": "SG_AVAILABLE",
+      "source_rows": 450,
+      "retained_rows": 434,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2023070001",
+      "season": 2023,
+      "event": "대유위니아 · MBN 여자오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 428,
+      "retained_rows": 417,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2023070002",
+      "season": 2023,
+      "event": "에버콜라겐 · 더시에나 퀸즈크라운 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 480,
+      "retained_rows": 461,
+      "unresolved_rows": 19
+    },
+    {
+      "game_code": "2023070003",
+      "season": 2023,
+      "event": "두산건설 We’ve 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 416,
+      "retained_rows": 400,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2023080001",
+      "season": 2023,
+      "event": "제10회 제주삼다수 마스터스",
+      "status": "SG_AVAILABLE",
+      "source_rows": 510,
+      "retained_rows": 500,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2023080003",
+      "season": 2023,
+      "event": "하이원리조트 여자오픈 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 488,
+      "retained_rows": 479,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2023080004",
+      "season": 2023,
+      "event": "한화 클래식 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 477,
+      "retained_rows": 458,
+      "unresolved_rows": 19
+    },
+    {
+      "game_code": "2023090001",
+      "season": 2023,
+      "event": "제12회 KG 레이디스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 419,
+      "retained_rows": 405,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2023090002",
+      "season": 2023,
+      "event": "KB금융 스타챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 462,
+      "retained_rows": 450,
+      "unresolved_rows": 12
+    },
+    {
+      "game_code": "2023090003",
+      "season": 2023,
+      "event": "OK금융그룹 읏맨 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 419,
+      "retained_rows": 402,
+      "unresolved_rows": 17
+    },
+    {
+      "game_code": "2023090004",
+      "season": 2023,
+      "event": "하나금융그룹 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 439,
+      "retained_rows": 412,
+      "unresolved_rows": 27
+    },
+    {
+      "game_code": "2023090005",
+      "season": 2023,
+      "event": "대보 하우스디 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 381,
+      "retained_rows": 363,
+      "unresolved_rows": 18
+    },
+    {
+      "game_code": "2023100001",
+      "season": 2023,
+      "event": "제23회 하이트진로 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 435,
+      "retained_rows": 419,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2023100003",
+      "season": 2023,
+      "event": "상상인 · 한국경제TV 오픈 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 449,
+      "retained_rows": 438,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2023100004",
+      "season": 2023,
+      "event": "SK네트웍스 · 서울경제 레이디스 클래식",
+      "status": "SG_AVAILABLE",
+      "source_rows": 438,
+      "retained_rows": 429,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2023110001",
+      "season": 2023,
+      "event": "S-OIL 챔피언십 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 343,
+      "retained_rows": 327,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2023110002",
+      "season": 2023,
+      "event": "SK쉴더스 · SK텔레콤 챔피언십 2023",
+      "status": "SG_AVAILABLE",
+      "source_rows": 306,
+      "retained_rows": 298,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2024030016",
+      "season": 2024,
+      "event": "하나금융그룹 싱가포르 여자오픈",
+      "status": "UNKNOWN",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2024030017",
+      "season": 2024,
+      "event": "블루캐니언 레이디스 챔피언십",
+      "status": "UNKNOWN",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2024040017",
+      "season": 2024,
+      "event": "두산건설 We’ve 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 505,
+      "retained_rows": 489,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2024040018",
+      "season": 2024,
+      "event": "메디힐 · 한국일보 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 479,
+      "retained_rows": 465,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2024040019",
+      "season": 2024,
+      "event": "넥센 · 세인트나인 마스터즈 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 416,
+      "retained_rows": 407,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2024040020",
+      "season": 2024,
+      "event": "크리스에프앤씨 제46회 KLPGA 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 518,
+      "retained_rows": 509,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2024050014",
+      "season": 2024,
+      "event": "제10회 교촌 1991 레이디스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 462,
+      "retained_rows": 449,
+      "unresolved_rows": 13
+    },
+    {
+      "game_code": "2024050015",
+      "season": 2024,
+      "event": "2024 NH투자증권 레이디스 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 450,
+      "retained_rows": 436,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2024050017",
+      "season": 2024,
+      "event": "제12회 E1 채리티 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 485,
+      "retained_rows": 468,
+      "unresolved_rows": 17
+    },
+    {
+      "game_code": "2024050018",
+      "season": 2024,
+      "event": "Sh수협은행 MBN 여자오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 418,
+      "retained_rows": 408,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2024060013",
+      "season": 2024,
+      "event": "2024 셀트리온 퀸즈 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 419,
+      "retained_rows": 399,
+      "unresolved_rows": 20
+    },
+    {
+      "game_code": "2024060014",
+      "season": 2024,
+      "event": "DB그룹 제38회 한국여자오픈골프선수권대회",
+      "status": "SG_AVAILABLE",
+      "source_rows": 498,
+      "retained_rows": 453,
+      "unresolved_rows": 45
+    },
+    {
+      "game_code": "2024060015",
+      "season": 2024,
+      "event": "BC카드 · 한경 레이디스컵 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 519,
+      "retained_rows": 505,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2024060016",
+      "season": 2024,
+      "event": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "status": "SG_AVAILABLE",
+      "source_rows": 451,
+      "retained_rows": 444,
+      "unresolved_rows": 7
+    },
+    {
+      "game_code": "2024070016",
+      "season": 2024,
+      "event": "롯데 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 511,
+      "retained_rows": 496,
+      "unresolved_rows": 15
+    },
+    {
+      "game_code": "2024070017",
+      "season": 2024,
+      "event": "하이원리조트 여자오픈 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 474,
+      "retained_rows": 469,
+      "unresolved_rows": 5
+    },
+    {
+      "game_code": "2024080014",
+      "season": 2024,
+      "event": "제11회 제주삼다수 마스터스",
+      "status": "SG_AVAILABLE",
+      "source_rows": 507,
+      "retained_rows": 498,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2024080015",
+      "season": 2024,
+      "event": "한화 클래식 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 477,
+      "retained_rows": 471,
+      "unresolved_rows": 6
+    },
+    {
+      "game_code": "2024080016",
+      "season": 2024,
+      "event": "제13회 KG 레이디스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 419,
+      "retained_rows": 409,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2024080018",
+      "season": 2024,
+      "event": "더헤븐 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 428,
+      "retained_rows": 418,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2024090006",
+      "season": 2024,
+      "event": "KB금융 스타챔피언십",
+      "status": "REQUEST/PARAMETER_ISSUE",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2024090007",
+      "season": 2024,
+      "event": "OK저축은행 읏맨 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 421,
+      "retained_rows": 414,
+      "unresolved_rows": 7
+    },
+    {
+      "game_code": "2024090008",
+      "season": 2024,
+      "event": "대보 하우스디 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 385,
+      "retained_rows": 377,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2024090009",
+      "season": 2024,
+      "event": "하나금융그룹 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 448,
+      "retained_rows": 419,
+      "unresolved_rows": 29
+    },
+    {
+      "game_code": "2024100008",
+      "season": 2024,
+      "event": "제24회 하이트진로 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 441,
+      "retained_rows": 428,
+      "unresolved_rows": 13
+    },
+    {
+      "game_code": "2024100010",
+      "season": 2024,
+      "event": "상상인 · 한경 와우넷 오픈 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 444,
+      "retained_rows": 439,
+      "unresolved_rows": 5
+    },
+    {
+      "game_code": "2024100011",
+      "season": 2024,
+      "event": "덕신EPC · 서울경제 레이디스 클래식",
+      "status": "SG_AVAILABLE",
+      "source_rows": 449,
+      "retained_rows": 439,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2024100012",
+      "season": 2024,
+      "event": "S-OIL 챔피언십 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 329,
+      "retained_rows": 315,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2024110007",
+      "season": 2024,
+      "event": "SK텔레콤 · SK쉴더스 챔피언십 2024",
+      "status": "SG_AVAILABLE",
+      "source_rows": 240,
+      "retained_rows": 232,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2025030001",
+      "season": 2025,
+      "event": "블루캐니언 레이디스 챔피언십",
+      "status": "UNKNOWN",
+      "source_rows": 0,
+      "retained_rows": 0,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2025040001",
+      "season": 2025,
+      "event": "두산건설 We’ve 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 492,
+      "retained_rows": 477,
+      "unresolved_rows": 15
+    },
+    {
+      "game_code": "2025040002",
+      "season": 2025,
+      "event": "iM금융오픈 2025",
+      "status": "SG_AVAILABLE",
+      "source_rows": 477,
+      "retained_rows": 458,
+      "unresolved_rows": 19
+    },
+    {
+      "game_code": "2025040003",
+      "season": 2025,
+      "event": "넥센 · 세인트나인 마스터즈 2025",
+      "status": "SG_AVAILABLE",
+      "source_rows": 431,
+      "retained_rows": 414,
+      "unresolved_rows": 17
+    },
+    {
+      "game_code": "2025040004",
+      "season": 2025,
+      "event": "크리스에프앤씨 제47회 KLPGA 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 520,
+      "retained_rows": 511,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2025040005",
+      "season": 2025,
+      "event": "덕신EPC 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 476,
+      "retained_rows": 467,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2025050001",
+      "season": 2025,
+      "event": "2025 NH투자증권 레이디스 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 448,
+      "retained_rows": 437,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025050003",
+      "season": 2025,
+      "event": "제13회 E1 채리티 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 499,
+      "retained_rows": 484,
+      "unresolved_rows": 15
+    },
+    {
+      "game_code": "2025050004",
+      "season": 2025,
+      "event": "Sh수협은행 MBN 여자오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 412,
+      "retained_rows": 401,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025060001",
+      "season": 2025,
+      "event": "2025 셀트리온 퀸즈 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 414,
+      "retained_rows": 405,
+      "unresolved_rows": 9
+    },
+    {
+      "game_code": "2025060002",
+      "season": 2025,
+      "event": "DB그룹 제39회 한국여자오픈골프선수권대회",
+      "status": "SG_AVAILABLE",
+      "source_rows": 510,
+      "retained_rows": 469,
+      "unresolved_rows": 41
+    },
+    {
+      "game_code": "2025060003",
+      "season": 2025,
+      "event": "BC카드 · 한경 레이디스컵 2025",
+      "status": "SG_AVAILABLE",
+      "source_rows": 482,
+      "retained_rows": 471,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025060004",
+      "season": 2025,
+      "event": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "status": "SG_AVAILABLE",
+      "source_rows": 463,
+      "retained_rows": 457,
+      "unresolved_rows": 6
+    },
+    {
+      "game_code": "2025070001",
+      "season": 2025,
+      "event": "제15회 롯데 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 512,
+      "retained_rows": 496,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2025070002",
+      "season": 2025,
+      "event": "하이원리조트 여자오픈 2025",
+      "status": "SG_AVAILABLE",
+      "source_rows": 445,
+      "retained_rows": 434,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025070003",
+      "season": 2025,
+      "event": "더헤븐 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 421,
+      "retained_rows": 411,
+      "unresolved_rows": 10
+    },
+    {
+      "game_code": "2025070004",
+      "season": 2025,
+      "event": "2025 오로라월드 레이디스 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 494,
+      "retained_rows": 481,
+      "unresolved_rows": 13
+    },
+    {
+      "game_code": "2025070005",
+      "season": 2025,
+      "event": "제12회 제주삼다수 마스터스",
+      "status": "SG_AVAILABLE",
+      "source_rows": 524,
+      "retained_rows": 516,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2025080001",
+      "season": 2025,
+      "event": "메디힐 · 한국일보 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 496,
+      "retained_rows": 477,
+      "unresolved_rows": 19
+    },
+    {
+      "game_code": "2025080003",
+      "season": 2025,
+      "event": "제14회 KG 레이디스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 413,
+      "retained_rows": 399,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2025090001",
+      "season": 2025,
+      "event": "KB금융 스타챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 484,
+      "retained_rows": 468,
+      "unresolved_rows": 16
+    },
+    {
+      "game_code": "2025090002",
+      "season": 2025,
+      "event": "OK저축은행 읏맨 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 423,
+      "retained_rows": 417,
+      "unresolved_rows": 6
+    },
+    {
+      "game_code": "2025090003",
+      "season": 2025,
+      "event": "하나금융그룹 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 447,
+      "retained_rows": 436,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025090004",
+      "season": 2025,
+      "event": "제25회 하이트진로 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 453,
+      "retained_rows": 442,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025100002",
+      "season": 2025,
+      "event": "대보 하우스디 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 236,
+      "retained_rows": 232,
+      "unresolved_rows": 4
+    },
+    {
+      "game_code": "2025100003",
+      "season": 2025,
+      "event": "상상인 · 한경 와우넷 오픈 2025",
+      "status": "SG_AVAILABLE",
+      "source_rows": 452,
+      "retained_rows": 449,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2025100004",
+      "season": 2025,
+      "event": "광남일보 · 해피니스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 366,
+      "retained_rows": 362,
+      "unresolved_rows": 4
+    },
+    {
+      "game_code": "2025100005",
+      "season": 2025,
+      "event": "S-OIL 챔피언십 2025",
+      "status": "SG_AVAILABLE",
+      "source_rows": 404,
+      "retained_rows": 393,
+      "unresolved_rows": 11
+    },
+    {
+      "game_code": "2025100012",
+      "season": 2025,
+      "event": "K-FOOD 놀부·화미 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 379,
+      "retained_rows": 376,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2026030001",
+      "season": 2026,
+      "event": "리쥬란 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 507,
+      "retained_rows": 493,
+      "unresolved_rows": 14
+    },
+    {
+      "game_code": "2026040001",
+      "season": 2026,
+      "event": "iM금융오픈 2026",
+      "status": "SG_AVAILABLE",
+      "source_rows": 476,
+      "retained_rows": 463,
+      "unresolved_rows": 13
+    },
+    {
+      "game_code": "2026040002",
+      "season": 2026,
+      "event": "제2회 덕신EPC 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 413,
+      "retained_rows": 406,
+      "unresolved_rows": 7
+    },
+    {
+      "game_code": "2026040003",
+      "season": 2026,
+      "event": "더 시에나 오픈 2026",
+      "status": "SG_AVAILABLE",
+      "source_rows": 480,
+      "retained_rows": 472,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2026040004",
+      "season": 2026,
+      "event": "넥센 · 세인트나인 Masters 2026",
+      "status": "SG_AVAILABLE",
+      "source_rows": 426,
+      "retained_rows": 423,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2026040005",
+      "season": 2026,
+      "event": "제1회 DB 위민스 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 486,
+      "retained_rows": 478,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2026050001",
+      "season": 2026,
+      "event": "2026 NH투자증권 레이디스 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 463,
+      "retained_rows": 459,
+      "unresolved_rows": 4
+    },
+    {
+      "game_code": "2026050003",
+      "season": 2026,
+      "event": "제14회 E1 채리티 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 469,
+      "retained_rows": 466,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2026050004",
+      "season": 2026,
+      "event": "Sh수협은행 MBN 여자오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 418,
+      "retained_rows": 414,
+      "unresolved_rows": 4
+    },
+    {
+      "game_code": "2026060001",
+      "season": 2026,
+      "event": "2026 셀트리온 퀸즈 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 427,
+      "retained_rows": 423,
+      "unresolved_rows": 4
+    },
+    {
+      "game_code": "2026060002",
+      "season": 2026,
+      "event": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "status": "SG_AVAILABLE",
+      "source_rows": 438,
+      "retained_rows": 435,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2026060003",
+      "season": 2026,
+      "event": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+      "status": "SG_AVAILABLE",
+      "source_rows": 505,
+      "retained_rows": 497,
+      "unresolved_rows": 8
+    },
+    {
+      "game_code": "2026060004",
+      "season": 2026,
+      "event": "인카금융 더헤븐 마스터즈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 429,
+      "retained_rows": 425,
+      "unresolved_rows": 4
+    },
+    {
+      "game_code": "2026070001",
+      "season": 2026,
+      "event": "2026 오로라월드 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 472,
+      "retained_rows": 472,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2026070002",
+      "season": 2026,
+      "event": "하이원리조트 여자오픈 2026",
+      "status": "SG_AVAILABLE",
+      "source_rows": 449,
+      "retained_rows": 446,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2026070003",
+      "season": 2026,
+      "event": "제16회 롯데 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 530,
+      "retained_rows": 527,
+      "unresolved_rows": 3
+    },
+    {
+      "game_code": "2026080001",
+      "season": 2026,
+      "event": "제15회 KG 레이디스 오픈",
+      "status": "SG_AVAILABLE",
+      "source_rows": 467,
+      "retained_rows": 467,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2026080002",
+      "season": 2026,
+      "event": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 497,
+      "retained_rows": 497,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2026080003",
+      "season": 2026,
+      "event": "메디힐 · 한국일보 챔피언십",
+      "status": "SG_AVAILABLE",
+      "source_rows": 499,
+      "retained_rows": 499,
+      "unresolved_rows": 0
+    },
+    {
+      "game_code": "2026080004",
+      "season": 2026,
+      "event": "제13회 제주삼다수 마스터스",
+      "status": "SG_AVAILABLE",
+      "source_rows": 516,
+      "retained_rows": 513,
+      "unresolved_rows": 3
+    }
+  ],
+  "event_status_counts": {
+    "ROUND-SELECTION_ISSUE": 1,
+    "UNKNOWN": 5,
+    "SG_AVAILABLE": 101,
+    "REQUEST/PARAMETER_ISSUE": 1
+  },
+  "arithmetic_validation": {
+    "checked": 45501,
+    "exceptions": 0,
+    "tolerance": 0.03
+  },
+  "cumulative_semantics": "official tournament_cumulative values retained; no round summation performed; single-round arithmetic reconciliation validated"
+}

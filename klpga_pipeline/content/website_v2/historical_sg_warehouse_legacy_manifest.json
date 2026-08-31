@@ -1,0 +1,27 @@
+{
+  "status": "LEGACY_DEFECTIVE_PRESERVED",
+  "artifacts": [
+    {
+      "path": "historical_sg_warehouse.json",
+      "sha256": "f3f2a4e515c31ff82ce2236cb24d604652ea9064ffb8e6f3aac6b926b2761e50",
+      "bytes": 27327013
+    },
+    {
+      "path": "sg_warehouse_checkpoint.json",
+      "sha256": "3cc3e8b0426a31d9ef728f784f0d6b466e4272e85e2f67b4efb062184927a906",
+      "bytes": 25635427
+    },
+    {
+      "path": "historical_sg_series.json",
+      "sha256": "ce326676de313e24187cc2a2652fa0c28947607124dd5a0c4fe68a6a3011ecbd",
+      "bytes": 359358
+    },
+    {
+      "path": "sg_warehouse_audit.json",
+      "sha256": "cec297aac25e41c9682a694436b675882d263cc86c2a20d49e42299e4668c9f7",
+      "bytes": 720
+    }
+  ],
+  "rows": 29812,
+  "events": 102
+}

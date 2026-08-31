@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-08-31T20:38:12Z",
+  "threshold_status": "NOT_SELECTED",
+  "data": {
+    "event_sg": {
+      "total": {
+        "sample_count": 11934,
+        "percentiles": {
+          "p01": -7.74,
+          "p05": -4.49,
+          "p10": -3.27
+        }
+      },
+      "tee_to_green": {
+        "sample_count": 11934,
+        "percentiles": {
+          "p01": -6.9467,
+          "p05": -3.97,
+          "p10": -2.817
+        }
+      },
+      "off_the_tee": {
+        "sample_count": 11934,
+        "percentiles": {
+          "p01": -3.4034,
+          "p05": -1.74,
+          "p10": -1.18
+        }
+      },
+      "approach": {
+        "sample_count": 11934,
+        "percentiles": {
+          "p01": -4.636699999999999,
+          "p05": -2.75,
+          "p10": -2.01
+        }
+      },
+      "around_green": {
+        "sample_count": 11934,
+        "percentiles": {
+          "p01": -1.8467,
+          "p05": -1.13,
+          "p10": -0.82
+        }
+      },
+      "putting": {
+        "sample_count": 11934,
+        "percentiles": {
+          "p01": -3.47,
+          "p05": -2.31,
+          "p10": -1.73
+        }
+      }
+    },
+    "round_sg": {
+      "total": {
+        "sample_count": 33567,
+        "percentiles": {
+          "p01": -8.2368,
+          "p05": -5.37,
+          "p10": -3.91
+        }
+      },
+      "tee_to_green": {
+        "sample_count": 33567,
+        "percentiles": {
+          "p01": -7.3834,
+          "p05": -4.59,
+          "p10": -3.2639999999999962
+        }
+      },
+      "off_the_tee": {
+        "sample_count": 33567,
+        "percentiles": {
+          "p01": -3.79,
+          "p05": -2.08,
+          "p10": -1.39
+        }
+      },
+      "approach": {
+        "sample_count": 33567,
+        "percentiles": {
+          "p01": -5.4,
+          "p05": -3.43,
+          "p10": -2.47
+        }
+      },
+      "around_green": {
+        "sample_count": 33567,
+        "percentiles": {
+          "p01": -2.5233999999999996,
+          "p05": -1.53,
+          "p10": -1.11
+        }
+      },
+      "putting": {
+        "sample_count": 33567,
+        "percentiles": {
+          "p01": -4.45,
+          "p05": -3.06,
+          "p10": -2.36
+        }
+      }
+    }
+  }
+}
