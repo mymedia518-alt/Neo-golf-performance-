@@ -1,0 +1,2669 @@
+{
+  "schema_version": "neo_ok_open_pre_performance_classifier_diff_v2",
+  "original_artifact_sha256": "d4b0bd6ceaa1dbbba10c15d95f2cf182b4bdef2de1b9057a2e813a55fdaf964b",
+  "profiles": [
+    {
+      "player_id": "9174",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "11446",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10075",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10112",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "10109",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9436",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "10726",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9752",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9702",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "10002",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10097",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10725",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10081",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8380",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9807",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9089",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8300",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "11143",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "CONTRADICTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "CONTRADICTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9277",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8838",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9487",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9000",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8434",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "11216",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10790",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8271",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10178",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9113",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9723",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10789",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "9401",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10083",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9183",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8318",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9431",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9111",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11056",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9130",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9788",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10095",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8589",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9981",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9134",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8881",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8386",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10022",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11057",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9135",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10155",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "4905",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "6916",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11060",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9465",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10867",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "INSUFFICIENT",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10139",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11045",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8799",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11926",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "11066",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9714",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9990",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8863",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8884",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8883",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "11649",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "10481",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11040",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9652",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8246",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9503",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "CONTRADICTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "CONTRADICTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8859",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9784",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "11469",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "9759",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9708",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "7434",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8234",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "12038",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9449",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8811",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9145",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8355",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8243",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "11374",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9082",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9389",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9765",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8840",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9820",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8770",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "CONTRADICTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "CONTRADICTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8430",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "composition",
+          "original": "INSUFFICIENT",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8972",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9136",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11770",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9391",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8277",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8284",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "10577",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9235",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11073",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "11447",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9483",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9426",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9728",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "10531",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9750",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "9705",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "10586",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "11042",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10727",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "10157",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "9937",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8240",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8320",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "PARTIALLY_SUPPORTED",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "CONTRADICTED",
+        "composition": "PARTIALLY_SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "PARTIALLY_SUPPORTED",
+          "v2": "CONTRADICTED",
+          "reason": "window agreement/conflict retained"
+        },
+        {
+          "dimension": "composition",
+          "original": "INSUFFICIENT",
+          "v2": "PARTIALLY_SUPPORTED",
+          "reason": "cross-window component agreement"
+        }
+      ]
+    },
+    {
+      "player_id": "8764",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "11365",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "CONTRADICTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "CONTRADICTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "11944",
+      "original_classification": {
+        "level": "SUPPORTED",
+        "direction": "SUPPORTED",
+        "composition": "SUPPORTED"
+      },
+      "v2_classification": {
+        "level": "SUPPORTED",
+        "direction": "CONTRADICTED",
+        "composition": "SUPPORTED"
+      },
+      "what_changed": [
+        {
+          "dimension": "direction",
+          "original": "SUPPORTED",
+          "v2": "CONTRADICTED",
+          "reason": "window agreement/conflict retained"
+        }
+      ]
+    },
+    {
+      "player_id": "8436",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "7963",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    },
+    {
+      "player_id": "10698",
+      "original_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "v2_classification": {
+        "level": "INSUFFICIENT",
+        "direction": "INSUFFICIENT",
+        "composition": "INSUFFICIENT"
+      },
+      "what_changed": []
+    }
+  ],
+  "summary": {
+    "total": 0,
+    "direction": 104,
+    "composition": 40,
+    "variance_group": 0,
+    "window_conflict": 80,
+    "entrants": 120,
+    "supported_to_partially_supported": 135,
+    "supported_to_contradicted": 5,
+    "supported_to_insufficient": 0
+  }
+}
