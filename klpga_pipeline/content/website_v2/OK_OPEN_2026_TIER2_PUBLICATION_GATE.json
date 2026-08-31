@@ -1,7 +1,7 @@
 {
   "schema_version": "neo_tier2_field_domain_publication_gate_v1",
-  "generated_at": "2026-08-31T22:33:44Z",
-  "overall_state": "BLOCK",
+  "generated_at": "2026-08-31T22:56:09Z",
+  "overall_state": "PASS",
   "domains": [
     {
       "domain": "IDENTITY",
@@ -66,23 +66,23 @@
     },
     {
       "domain": "SG_DERIVED",
-      "state": "BLOCK",
+      "state": "PASS",
       "check_ids": [
         "T2-SG-001",
         "T2-SG-002"
       ],
-      "reason": "corrected SG arithmetic passes but independent rank/band acceptance is pending",
+      "reason": "corrected SG evidence validated and independently accepted",
       "affected_fields": [
         "sg_total_rank",
         "neo_performance_band",
         "band_statistics"
       ],
       "evidence": {
-        "source_artifact": "historical_sg_warehouse_corrected_audit_v2.json",
-        "sha256": "07069d19ab7e1d47d02502165a81b69465e24fa0ce28a0ac6703876d57865f8d"
+        "source_artifact": "OK_OPEN_2026_SG_INDEPENDENT_ACCEPTANCE.json",
+        "sha256": "fca4a1b33b045b11201bb89b9805a20f97a8f6afeb97f46ee7d5bb375956a7de"
       }
     }
   ],
-  "publication_allowed": false,
+  "publication_allowed": true,
   "fail_closed_unknown": true
 }

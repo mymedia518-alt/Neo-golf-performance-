@@ -3,16 +3,15 @@
   "identity_count": 120,
   "win_coverage": 120,
   "klpga_rank_coverage": 119,
-  "sg_total_rank_coverage": 117,
+  "sg_total_rank_coverage": 120,
   "band_distribution": {
-    "VERY_HIGH": 9,
-    "HIGH": 19,
-    "TYPICAL": 48,
-    "LOW": 23,
-    "VERY_LOW": 10,
-    "INSUFFICIENT_EVIDENCE": 11
+    "VERY_HIGH": 15,
+    "HIGH": 15,
+    "TYPICAL": 59,
+    "LOW": 17,
+    "VERY_LOW": 11,
+    "INSUFFICIENT_EVIDENCE": 3
   },
-  "methodology": "field_median_standard_error",
-  "future_data_excluded": true,
-  "website_generation": "PENDING_MASTER_VALIDATION"
+  "tier2": "PASS",
+  "website_generation": "NOT_RUN"
 }

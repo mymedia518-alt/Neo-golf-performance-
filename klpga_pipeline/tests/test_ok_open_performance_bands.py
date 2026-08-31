@@ -10,7 +10,7 @@ def test_approved_field_median_se_band_distribution_and_coverage():
     counts = {}
     for row in d["records"]:
         counts[row["neo_performance_band"]] = counts.get(row["neo_performance_band"], 0) + 1
-    assert counts == {"VERY_HIGH": 9, "HIGH": 19, "TYPICAL": 48, "LOW": 23, "VERY_LOW": 10, "INSUFFICIENT_EVIDENCE": 11}
+    assert counts == {"VERY_HIGH": 15, "HIGH": 15, "TYPICAL": 59, "LOW": 17, "VERY_LOW": 11, "INSUFFICIENT_EVIDENCE": 3}
 
 
 def test_bands_have_no_ordinal_neo_rank_and_keep_nulls_honest():
@@ -18,4 +18,3 @@ def test_bands_have_no_ordinal_neo_rank_and_keep_nulls_honest():
     assert all(row.get("neo_pre_rank") is None for row in d["records"])
     assert any(row["neo_performance_band"] == "INSUFFICIENT_EVIDENCE" for row in d["records"])
     assert all("field_median" in row["band_statistics"] for row in d["records"])
-

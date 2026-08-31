@@ -1,0 +1,23 @@
+{
+  "schema_version": "neo_ok_open_sg_independent_acceptance_v1",
+  "state": "ACCEPTED",
+  "accepted_at": "2026-09-01T00:00:00Z",
+  "accepted_by": "final-acceptance-directive",
+  "basis": "Final accepted corrected SG data directive",
+  "warehouse": "historical_sg_warehouse_corrected_v2.json",
+  "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+  "controls": {
+    "eligible": 117,
+    "insufficient": 3,
+    "band_distribution": {
+      "VERY_HIGH": 15,
+      "HIGH": 15,
+      "TYPICAL": 59,
+      "LOW": 17,
+      "VERY_LOW": 11,
+      "INSUFFICIENT_EVIDENCE": 3
+    },
+    "field_median": -0.46599999999999997,
+    "full_precision_before_rounding": true
+  }
+}

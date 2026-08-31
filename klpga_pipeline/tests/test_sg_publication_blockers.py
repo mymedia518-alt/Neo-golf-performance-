@@ -28,3 +28,11 @@ def test_corrected_rank_provenance_cannot_point_at_legacy_warehouse():
     assert d["warehouse"] == "historical_sg_warehouse_corrected_v2.json"
     assert d["warehouse_sha256"] == "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62"
     assert all(r["sg_total_rank"] is None or r["sample_count"] >= 1 for r in d["records"])
+
+
+def test_public_master_is_single_tier2_gated_120_player_artifact():
+    d = json.loads((C / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json").read_text(encoding="utf-8"))
+    assert d["schema_version"] == "neo_ok_open_pre_public_master_v3"
+    assert d["entry_count"] == 120
+    assert len({r["player_id"] for r in d["records"]}) == 120
+    assert all(r.get("neo_pre_rank") is None for r in d["records"])
