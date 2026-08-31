@@ -32,6 +32,18 @@ def expected_rounds(total_holes: int) -> int:
     return total_holes // 18
 
 
+def stage_sequence_for_holes(total_holes: int) -> tuple[str, ...]:
+    """Public lifecycle stages derived from official hole-count metadata."""
+    rounds = expected_rounds(total_holes)
+    return ("PRE", *[f"R{i}" for i in range(1, rounds)], "FINAL")
+
+
+def required_prediction_for_stage(stage: str, total_holes: int) -> str | None:
+    if stage not in stage_sequence_for_holes(total_holes):
+        raise StageFreezeGateError(f"stage {stage} is not valid for {total_holes}-hole format")
+    return REQUIRED_PREDICTION.get(stage)
+
+
 def validate_stage_transition(
     stage: str,
     *,
@@ -47,10 +59,10 @@ def validate_stage_transition(
     and official completion, but never creates prediction #005.  Playoff and
     weather gates are explicit so calendar/date alone cannot advance a stage.
     """
-    if stage not in STAGE_SEQUENCE:
-        raise StageFreezeGateError(f"unknown stage: {stage}")
     rounds = expected_rounds(total_holes)
-    required = REQUIRED_PREDICTION.get(stage)
+    if stage not in stage_sequence_for_holes(total_holes):
+        raise StageFreezeGateError(f"stage {stage} is not valid for {total_holes}-hole format")
+    required = required_prediction_for_stage(stage, total_holes)
     if not artifact_frozen:
         return StageTransitionDecision(False, stage, required, rounds, "required immutable checkpoint is missing")
     if not weather_complete:
@@ -60,4 +72,3 @@ def validate_stage_transition(
     if stage == "FINAL" and not official_complete:
         return StageTransitionDecision(False, stage, None, rounds, "official FINAL result is incomplete")
     return StageTransitionDecision(True, stage, required, rounds, "freeze gate passed")
-

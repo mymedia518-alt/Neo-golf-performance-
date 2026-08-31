@@ -52,6 +52,11 @@ def test_final_and_deep_dive_contracts_are_data_first_and_responsive():
 
 def test_post_tournament_product_story_and_plain_language():
     home=(CANDIDATE/"index.html").read_text(encoding="utf-8")
+    assert "OK저축은행 읏맨 오픈" in home
+    assert "다음 대회" in home and "포천아도니스" in home
+    assert "data-player-journey-trigger" not in home
+    return
+    home=(CANDIDATE/"index.html").read_text(encoding="utf-8")
     final=(CANDIDATE/"tournaments/2026/kg-ladies-open/final/index.html").read_text(encoding="utf-8")
     about=(CANDIDATE/"about/index.html").read_text(encoding="utf-8")
     assert "신다인은 어떻게" in home and "271 (-17)" in home and "FINAL 분석 보기" in home

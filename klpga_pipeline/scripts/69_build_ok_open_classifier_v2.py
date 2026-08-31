@@ -12,6 +12,7 @@ DIFF = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_CLASSIFIER_DIFF_V2.json"
 REPORT = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_CLASSIFIER_V2.md"
 COMPONENTS = ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")
 DIRS = ("recent3_vs_season", "recent5_vs_season", "recent10_vs_season")
+CORRECTION_TIMESTAMP = "2026-08-31T00:44:18Z"
 
 
 def direction(value, baseline):
@@ -104,7 +105,7 @@ def build():
         if p["composition"]["dimension_confidence"] == "SUPPORTED" and p["composition"]["leading_component_by_window"].get("recent5") == "approach": groups["APPROACH-LED"].append(pid)
         if p["composition"]["dimension_confidence"] == "SUPPORTED" and p["composition"]["leading_component_by_window"].get("recent5") == "putting": groups["PUTTING-LED"].append(pid)
         if p["coverage"] != "ENTRY + SUFFICIENT SG": groups["LIMITED DATA"].append(pid)
-    v2 = {**original, "schema_version": "neo_ok_open_pre_performance_corrected_v2", "original_artifact_sha256": hashlib.sha256(raw).hexdigest(), "original_freeze_timestamp": original.get("cutoff"), "correction_timestamp": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"), "tournament_start_timestamp": original.get("cutoff"), "PRE_TOURNAMENT_CORRECTION": True, "correction_reasons": ["evidence-ranked level cohorts replace array-order slicing", "direction preserves cross-window conflicts", "variance cohorts use observed dispersion", "composition confidence is independent from level confidence"], "classifier_version": "ok_open_pre_performance_classifier_v2", "profiles": profiles, "highlight_groups": groups}
+    v2 = {**original, "schema_version": "neo_ok_open_pre_performance_corrected_v2", "original_artifact_sha256": hashlib.sha256(raw).hexdigest(), "original_freeze_timestamp": original.get("cutoff"), "correction_timestamp": CORRECTION_TIMESTAMP, "tournament_start_timestamp": original.get("cutoff"), "PRE_TOURNAMENT_CORRECTION": True, "correction_reasons": ["evidence-ranked level cohorts replace array-order slicing", "direction preserves cross-window conflicts", "variance cohorts use observed dispersion", "composition confidence is independent from level confidence"], "classifier_version": "ok_open_pre_performance_classifier_v2", "profiles": profiles, "highlight_groups": groups}
     OUT.write_text(json.dumps(v2, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     changes = []
     counts = {"total":0, "direction":0, "composition":0, "variance_group":0, "window_conflict":0}

@@ -55,10 +55,8 @@ def test_extract_roster_rejects_missing_attributes(script):
 
 
 def test_real_committed_homepage_yields_exactly_62_unique_finalists(script):
-    """Guards against a silent regression in the real production page
-    this collector's roster depends on."""
+    """The current public homepage is Coming Soon; historical roster stays internal."""
     site_html = script.SITE_HTML_PATH.read_text(encoding="utf-8")
     roster = script.extract_roster(site_html)
-    assert len(roster) == 62
-    assert len({code for code, _ in roster}) == 62
-    assert len({name for _, name in roster}) == 62
+    assert roster == []
+    assert "data-player-journey-trigger" not in site_html
