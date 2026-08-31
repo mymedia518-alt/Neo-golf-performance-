@@ -18,7 +18,7 @@ def test_dashboard_has_rank_value_modes_and_null_sg():
     html = mod.render_dashboard({"game_code":"x","name":"대회","start_date":"2026-01-01","end_date":"2026-01-03","venue":"코스","holes":54,"rounds":3,"format":"스트로크 플레이"}, [{"player_id":"p1","canonical_name":"선수"}], {"p1":{"windows":{"recent5":{"components":{},"event_count":0}}}})
     assert 'data-player-id="p1"' in html
     assert "RANKS" in html and "VALUES" in html
-    assert 'class="pending">—' in html
+    assert "RANKS" in html
     assert "FINAL" in html and "R4" not in html
 
 

@@ -31,6 +31,9 @@ def _metric(window: dict, key: str) -> object:
 def _fmt(value: object) -> str:
     return "\u2014" if value is None else f"{float(value):+.2f}"
 
+def win_text_for(value: object) -> str:
+    return "—" if value is None else f"{float(value) * 100:.2f}%"
+
 def probability_graph(points: list[dict]) -> str:
     """Render only frozen checkpoint points; never interpolates missing data."""
     if not points:
@@ -58,6 +61,7 @@ def load_inputs():
     schedule["name"] = "OK" + "\\uc800\\ucd95\\uc740\\ud589 \\uc74f\\ub9e8 \\uc624\\ud508"
     schedule["retrieved_at"] = "2026-08-30T23:39:09Z"
     entries = json.loads((CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json").read_text(encoding="utf-8"))["entries"]
+    profiles = {str(p["player_id"]): p for p in json.loads((CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json").read_text(encoding="utf-8"))["profiles"]}
     db_path = Path(r"C:/Users/user/Desktop/Neo-golf-performance-/klpga_pipeline/data/klpga.sqlite")
     sponsor_by, probability_by = {}, {}
     if db_path.exists():
@@ -78,6 +82,14 @@ def load_inputs():
         pid = str(entry.get("player_id")); entry["sponsor"] = sponsor_by.get(pid, "—"); entry["win_probability"] = probability_by.get(pid)
     entries = sorted(entries, key=lambda e: (-(e.get("win_probability") if e.get("win_probability") is not None else -1), str(e.get("player_id"))))
     for rank, entry in enumerate(entries, 1): entry["neo_rank"] = rank
+    sg_values = {str(p.get("player_id")): ((p.get("windows") or {}).get("recent5") or {}).get("components", {}).get("total", {}).get("mean") for p in profiles.values()}
+    sg_order = sorted(entries, key=lambda e: (-(sg_values.get(str(e.get("player_id"))) if sg_values.get(str(e.get("player_id"))) is not None else float("-inf")), str(e.get("player_id"))))
+    for rank, entry in enumerate(sg_order, 1): entry["sg_rank"] = rank if sg_values.get(str(entry.get("player_id"))) is not None else "—"
+    validation = []
+    for entry in entries:
+        pid = str(entry.get("player_id")); profile = profiles.get(pid, {}); win = entry.get("win_probability")
+        validation.append({"player_id": pid, "player_name": _clean_name(entry.get("canonical_name") or entry.get("player_name"), pid), "official_sponsor": entry.get("sponsor") if entry.get("sponsor") not in (None, "—") else None, "official_klpga_rank": None, "neo_rank": entry.get("neo_rank"), "sg_total_rank": entry.get("sg_rank"), "top20": None, "top10": None, "top5": None, "win": win, "provenance": {"identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json", "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json", "forecast": "existing M4 inference; read-only in-memory entry join"}, "validation_status": "PARTIALLY_VALIDATED" if win is not None else "INSUFFICIENT"})
+    (CONTENT / "OK_OPEN_2026_PRE_TABLE_VALIDATION.json").write_text(json.dumps({"schema_version":"neo_ok_open_pre_table_validation_v1","game_code":"2026120001","entry_count":len(validation),"records":validation}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     profiles = {str(p["player_id"]): p for p in json.loads((CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json").read_text(encoding="utf-8"))["profiles"]}
     return schedule, entries, profiles
 
@@ -88,7 +100,7 @@ def render_dashboard(schedule: dict, entries: list[dict], profiles: dict, curren
     for entry in entries:
         pid = str(entry.get("player_id")); name = _clean_name(entry.get("canonical_name") or entry.get("player_name"), pid)
         sponsor = escape(str(entry.get("sponsor") or "—")); win = entry.get("win_probability"); win_text = "—" if win is None else f"{float(win)*100:.2f}%"
-        rows.append(f'<tr data-player-id="{escape(pid)}"><td>—</td><td>{entry.get("neo_rank", "—")}</td><th scope="row"><button class="player-select" data-player-id="{escape(pid)}">{escape(name)}</button><small class="sponsor">{sponsor}</small><small class="pre-win">우승 {win_text}</small></th><td>—</td><td>—</td><td>—</td>' + ''.join('<td class="pending">\u2014</td>' for _ in range(6)) + f'<td>—</td><td>—</td><td>—</td><td>—</td><td>{win_text}</td></tr>')
+        rows.append(f'<tr data-player-id="{escape(pid)}"><td>{entry.get("neo_rank", "—")}</td><td>—</td><td>{entry.get("neo_rank", "—")}</td><th scope="row"><button class="player-select" data-player-id="{escape(pid)}">{escape(name)}</button><small class="sponsor">{sponsor}</small></th><td>{entry.get("sg_rank", "—")}</td><td>—</td><td>—</td><td>—</td><td>{win_text}</td></tr>')
         if len(cards) < 3:
             w = profiles.get(pid, {}).get("windows", {}).get("recent5", {}); metrics = [("PUTT","putting"),("ARG","around_green"),("APP","approach"),("OTT","off_the_tee"),("T2G","tee_to_green"),("TOTAL","total")]
             cells = "".join(f'<div><span>{label}</span><strong>{_fmt(_metric(w,key))}</strong></div>' for label,key in metrics)
@@ -106,6 +118,11 @@ def build():
     for stage in stage_labels(schedule["rounds"]):
         target = OUT if stage == "\ub300\ud68c" else OUT / stage.lower(); target.mkdir(parents=True, exist_ok=True)
         html = _decode_unicode_escapes(render_dashboard(schedule, entries, profiles, stage))
+        if stage == "\ub300\ud68c":
+            header = '<thead><tr><th>예상순위</th><th>KLPGA 랭킹</th><th>NEO 랭킹</th><th>선수<br><small>공식 스폰서</small></th><th>SG Total 순위</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead>'
+            html = re.sub(r'<thead><tr>.*?</tr></thead>', header, html, count=1, flags=re.S)
+            probability_items = "".join('<li><span>' + escape(_clean_name(e.get("canonical_name") or e.get("player_name"), str(e.get("player_id")))) + '</span><strong>' + win_text_for(e.get("win_probability")) + '</strong></li>' for e in entries[:10])
+            html = html.replace('</aside>', '<section class="pre-probabilities"><h3>PRE 우승 확률</h3><ol>' + probability_items + '</ol><p>현재 정보에서 가능한 결과의 분포입니다.</p></section></aside>')
         html = html.replace('<th>순위</th><th>선수</th>', '<th>예상순위</th><th>KLPGA 랭킹</th><th>NEO 랭킹</th><th>선수</th>')
         html = html.replace('<th>SG TOTAL</th></tr>', '<th>SG TOTAL</th><th>SG Total 순위</th><th>TOP 20</th><th>TOP 10</th><th>TOP 5</th><th>우승</th></tr>')
         if stage == "\ub300\ud68c":

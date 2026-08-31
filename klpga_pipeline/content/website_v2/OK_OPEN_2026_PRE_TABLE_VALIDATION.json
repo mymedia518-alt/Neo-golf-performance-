@@ -1,0 +1,2167 @@
+{
+  "schema_version": "neo_ok_open_pre_table_validation_v1",
+  "game_code": "2026120001",
+  "entry_count": 120,
+  "records": [
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 1,
+      "sg_total_rank": 20,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.07002515732194536,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 2,
+      "sg_total_rank": 1,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.056219763238423134,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔 0606(A)",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 3,
+      "sg_total_rank": 8,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.05550691510378016,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 4,
+      "sg_total_rank": 25,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.04683242704463381,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 5,
+      "sg_total_rank": 13,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.03616797576225473,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 6,
+      "sg_total_rank": 2,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.03503797447352099,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 7,
+      "sg_total_rank": 10,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.034764160626733674,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 8,
+      "sg_total_rank": 28,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.03472709568639826,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 9,
+      "sg_total_rank": 3,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.03263410516069013,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 10,
+      "sg_total_rank": 18,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.028400836766567714,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 11,
+      "sg_total_rank": 23,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.025554860166271065,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 12,
+      "sg_total_rank": 9,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.023842203472694147,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 13,
+      "sg_total_rank": 5,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.02379169981586542,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 14,
+      "sg_total_rank": 6,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.020453994695772557,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 15,
+      "sg_total_rank": 24,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.018554601227034898,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 16,
+      "sg_total_rank": 12,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.017952981878203777,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 17,
+      "sg_total_rank": 16,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.017172447553533515,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 18,
+      "sg_total_rank": 17,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.017147255763935908,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 19,
+      "sg_total_rank": 45,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.016332117163047152,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 20,
+      "sg_total_rank": 39,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.014481811628458411,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 21,
+      "sg_total_rank": 11,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0137549273403203,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 22,
+      "sg_total_rank": 71,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.01329906969338197,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 23,
+      "sg_total_rank": 26,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.013242784709806006,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 24,
+      "sg_total_rank": 42,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.01207409792755438,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8320",
+      "player_name": "김아림",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 25,
+      "sg_total_rank": 15,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.011698792427891836,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 26,
+      "sg_total_rank": 7,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.011576460005865952,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 27,
+      "sg_total_rank": 29,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.011568139899979638,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 28,
+      "sg_total_rank": 35,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.011000108913790198,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 29,
+      "sg_total_rank": 30,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.010143118162937725,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 30,
+      "sg_total_rank": 4,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.008430567134735749,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 31,
+      "sg_total_rank": 53,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.008418310497901179,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 32,
+      "sg_total_rank": 54,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.008115648812759071,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 33,
+      "sg_total_rank": 37,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007956245646413741,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 34,
+      "sg_total_rank": 49,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007878718209717497,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 35,
+      "sg_total_rank": 34,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007833867626386779,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 36,
+      "sg_total_rank": 43,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0076085453976702175,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 37,
+      "sg_total_rank": 31,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007603809931392595,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 38,
+      "sg_total_rank": 46,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007484522756299133,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 39,
+      "sg_total_rank": 21,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007407590723976439,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 40,
+      "sg_total_rank": 58,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007291032931711295,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 41,
+      "sg_total_rank": 14,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.007154944335210036,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 42,
+      "sg_total_rank": 66,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0069924674408382076,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 43,
+      "sg_total_rank": 65,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.006482553673681929,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 44,
+      "sg_total_rank": 47,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.006141443839440426,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 45,
+      "sg_total_rank": 67,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.005731552038113346,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 46,
+      "sg_total_rank": 44,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.005605270334097747,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 47,
+      "sg_total_rank": 70,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.005603249361155764,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 48,
+      "sg_total_rank": 80,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0052331621439887606,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 49,
+      "sg_total_rank": 60,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0051503097172545115,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 50,
+      "sg_total_rank": 62,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.004976250540737112,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 51,
+      "sg_total_rank": 64,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0048411817004541955,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 52,
+      "sg_total_rank": 61,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.004809491907030824,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 53,
+      "sg_total_rank": 41,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.00457923399937782,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 54,
+      "sg_total_rank": 76,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.004537045832792341,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 55,
+      "sg_total_rank": 63,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.004234826619387144,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 56,
+      "sg_total_rank": 74,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.004192101950942305,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 57,
+      "sg_total_rank": 86,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0038000780581821697,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 58,
+      "sg_total_rank": 69,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.00346439881633771,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 59,
+      "sg_total_rank": 77,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0032620119430361327,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 60,
+      "sg_total_rank": 90,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.003174928076303439,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 61,
+      "sg_total_rank": 84,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0031557972457826313,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 62,
+      "sg_total_rank": 36,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.003129232462483686,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 63,
+      "sg_total_rank": 32,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0030012100071285675,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 64,
+      "sg_total_rank": 33,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0029129389909541346,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 65,
+      "sg_total_rank": 38,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.002815284461817759,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 66,
+      "sg_total_rank": 93,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.002763336080413679,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8764",
+      "player_name": "김소이",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 67,
+      "sg_total_rank": 109,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0025479200709327444,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 68,
+      "sg_total_rank": 59,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0025396803346137238,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 69,
+      "sg_total_rank": 81,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0023912906416840873,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 70,
+      "sg_total_rank": 85,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0022574308745898163,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 71,
+      "sg_total_rank": 50,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.002250149972090042,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 72,
+      "sg_total_rank": 106,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0020381864527272723,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 73,
+      "sg_total_rank": 72,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.001941480487587575,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 74,
+      "sg_total_rank": 78,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.001815191033617113,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11374",
+      "player_name": "전승희",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 75,
+      "sg_total_rank": 40,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.001807849845089904,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 76,
+      "sg_total_rank": 55,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0016395930990768563,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 77,
+      "sg_total_rank": 56,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0015536048539623196,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 78,
+      "sg_total_rank": 22,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0015324534839114938,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 79,
+      "sg_total_rank": "—",
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0015314328574895313,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 80,
+      "sg_total_rank": 57,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0015163791858856526,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 81,
+      "sg_total_rank": 27,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0014708400432191055,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11944",
+      "player_name": "오수민 0809(A)",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 82,
+      "sg_total_rank": 68,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0014148353460339803,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 83,
+      "sg_total_rank": 19,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0014058625192105861,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 84,
+      "sg_total_rank": 101,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.001391354917333344,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 85,
+      "sg_total_rank": 107,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.001362536140647318,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 86,
+      "sg_total_rank": 98,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0013241444019485426,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 87,
+      "sg_total_rank": 97,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0012934520947683924,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 88,
+      "sg_total_rank": 111,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0012768806455864942,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 89,
+      "sg_total_rank": 48,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.001257430316357461,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 90,
+      "sg_total_rank": 52,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0012154767570267673,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 91,
+      "sg_total_rank": 95,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0012020161381162261,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 92,
+      "sg_total_rank": 79,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0011822637373813789,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9981",
+      "player_name": "배수연",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 93,
+      "sg_total_rank": 96,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0011428079497556132,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8863",
+      "player_name": "윤혜림",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 94,
+      "sg_total_rank": 83,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0011400711504074104,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 95,
+      "sg_total_rank": 75,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0011127104669866933,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10157",
+      "player_name": "황연서",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 96,
+      "sg_total_rank": 88,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0010740377724132505,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서 0612(A)",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 97,
+      "sg_total_rank": "—",
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.000993731586274316,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11365",
+      "player_name": "박서진 0804(A)",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 98,
+      "sg_total_rank": 73,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0009793354260562031,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 99,
+      "sg_total_rank": 110,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0009747124793722782,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 100,
+      "sg_total_rank": 102,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0009551711741543865,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 101,
+      "sg_total_rank": 87,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.000948616164419918,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 102,
+      "sg_total_rank": 113,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0009399094762008323,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10155",
+      "player_name": "신유진2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 103,
+      "sg_total_rank": "—",
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0009378290951009535,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 104,
+      "sg_total_rank": 89,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0009042492555418686,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 105,
+      "sg_total_rank": 116,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0008641788604808871,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 106,
+      "sg_total_rank": 108,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0008607632383510378,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 107,
+      "sg_total_rank": 94,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0007767168621215996,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 108,
+      "sg_total_rank": 112,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0006001122709381031,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 109,
+      "sg_total_rank": 51,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0005294883139926326,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 110,
+      "sg_total_rank": 91,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0005287864997104486,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11446",
+      "player_name": "강민진",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 111,
+      "sg_total_rank": 114,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0004821911209893779,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 112,
+      "sg_total_rank": 105,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.00045863177412440605,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8436",
+      "player_name": "유현주",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 113,
+      "sg_total_rank": 103,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.00044438290017758693,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8355",
+      "player_name": "장수연",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 114,
+      "sg_total_rank": 104,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0004062956378523535,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 115,
+      "sg_total_rank": 115,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.000386765750073383,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 116,
+      "sg_total_rank": 92,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.00037107254662635325,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 117,
+      "sg_total_rank": 99,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 0.0001631448481374473,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 118,
+      "sg_total_rank": 82,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 5.583038719426709e-05,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "7963",
+      "player_name": "장하나",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 119,
+      "sg_total_rank": 117,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 4.1844637769192236e-05,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)",
+      "official_sponsor": null,
+      "official_klpga_rank": null,
+      "neo_rank": 120,
+      "sg_total_rank": 100,
+      "top20": null,
+      "top10": null,
+      "top5": null,
+      "win": 3.583122669063039e-05,
+      "provenance": {
+        "identity": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+        "performance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+        "forecast": "existing M4 inference; read-only in-memory entry join"
+      },
+      "validation_status": "PARTIALLY_VALIDATED"
+    }
+  ]
+}
