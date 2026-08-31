@@ -1,16 +1,17 @@
 {
-  "schema_version": "neo_ok_open_pre_public_master_v2",
+  "schema_version": "neo_ok_open_pre_public_master_v3",
   "game_code": "2026120001",
   "cutoff": "2026-09-04T00:00:00+09:00",
-  "classifier_version": "field_median_se_1.0",
-  "methodology": "Field-median comparison using each player's validated standard error; z boundaries ±1.00 and ±1.96; no within-band performance ordering.",
+  "entry_count": 120,
+  "generated_at": "2026-08-31T22:42:53Z",
+  "tier2_gate": "OK_OPEN_2026_TIER2_PUBLICATION_GATE.json",
   "source_artifacts": [
     "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
-    "OK_OPEN_2026_PRE_PERFORMANCE_CORRECTED_V2.json",
-    "OK_OPEN_2026_NEO_PRE_RANKING_EVIDENCE.json"
+    "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+    "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+    "OK_OPEN_2026_PRE_WIN_FORECAST.json"
   ],
-  "generated_at": "2026-08-31T18:34:52Z",
-  "entry_count": 120,
+  "no_unsupported_top_probabilities": true,
   "records": [
     {
       "player_id": "9174",
@@ -25,7 +26,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 114,
       "neo_pre_rank": null,
-      "sg_total_rank": 105,
+      "sg_total_rank": 116,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -82,12 +83,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6409465250705397,
-        "z_vs_field_median": -1.6756468098205235,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.872874190311912,
+        "z_vs_field_median": -3.663758231707172,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -95,6 +96,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -110,7 +117,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 163,
       "neo_pre_rank": null,
-      "sg_total_rank": 114,
+      "sg_total_rank": 101,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -167,12 +174,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6820454544969857,
-        "z_vs_field_median": -2.524758414041465,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7196079179355627,
+        "z_vs_field_median": -1.4646864962572306,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -180,6 +187,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -195,7 +208,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 137,
       "neo_pre_rank": null,
-      "sg_total_rank": 48,
+      "sg_total_rank": 74,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -255,9 +268,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6233263094078413,
-        "z_vs_field_median": 0.34973656126772434,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.0672408477990731,
+        "z_vs_field_median": -0.305460572158849,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -265,6 +278,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -280,7 +299,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 15,
       "neo_pre_rank": null,
-      "sg_total_rank": 31,
+      "sg_total_rank": 78,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -340,9 +359,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7398701723951304,
-        "z_vs_field_median": 0.6379497614723769,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9548317769431179,
+        "z_vs_field_median": -0.4482464977969593,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -350,6 +369,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -365,7 +390,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 11,
       "neo_pre_rank": null,
-      "sg_total_rank": 14,
+      "sg_total_rank": 41,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -422,12 +447,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6815982409014859,
-        "z_vs_field_median": 1.5492997731380997,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8739505861773579,
+        "z_vs_field_median": 0.7460376024825782,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -435,6 +460,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -450,7 +481,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 147,
       "neo_pre_rank": null,
-      "sg_total_rank": 113,
+      "sg_total_rank": 86,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -507,12 +538,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5095104493531021,
-        "z_vs_field_median": -2.940077091455003,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6289182378189072,
+        "z_vs_field_median": -0.9540190821636915,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -520,6 +551,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -535,7 +572,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 59,
       "neo_pre_rank": null,
-      "sg_total_rank": 33,
+      "sg_total_rank": 77,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -595,9 +632,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4875969831736041,
-        "z_vs_field_median": 0.9516055595339834,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7810032684074746,
+        "z_vs_field_median": -0.522404984081492,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -605,6 +642,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -620,7 +663,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 74,
       "neo_pre_rank": null,
-      "sg_total_rank": 22,
+      "sg_total_rank": 70,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -680,9 +723,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 1.0037261937401056,
-        "z_vs_field_median": 0.8607925202993308,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.1057898132606896,
+        "z_vs_field_median": -0.2514040160853441,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -690,6 +733,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -705,7 +754,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 128,
       "neo_pre_rank": null,
-      "sg_total_rank": 55,
+      "sg_total_rank": 76,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -765,9 +814,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5256548601506505,
-        "z_vs_field_median": 0.06087644655435859,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.930264945425156,
+        "z_vs_field_median": -0.41708547861348655,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -775,6 +824,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -790,7 +845,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 45,
       "neo_pre_rank": null,
-      "sg_total_rank": 71,
+      "sg_total_rank": 30,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -847,12 +902,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6414384600255896,
-        "z_vs_field_median": -0.45210884297213916,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7824435339239857,
+        "z_vs_field_median": 1.211589027064665,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -860,6 +915,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -875,7 +936,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 10,
       "neo_pre_rank": null,
-      "sg_total_rank": 25,
+      "sg_total_rank": 8,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -932,12 +993,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6229238171718914,
-        "z_vs_field_median": 1.3163728491275952,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7710621019362347,
+        "z_vs_field_median": 2.5497297754138413,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -945,6 +1006,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -961,7 +1028,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 1,
       "neo_pre_rank": null,
-      "sg_total_rank": 8,
+      "sg_total_rank": 3,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1018,12 +1085,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7554332055185289,
-        "z_vs_field_median": 1.6996870016041499,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8041848081412388,
+        "z_vs_field_median": 3.021693490600259,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1031,6 +1098,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1046,7 +1119,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 24,
       "neo_pre_rank": null,
-      "sg_total_rank": 2,
+      "sg_total_rank": 4,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1106,9 +1179,9 @@
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6412148532278397,
-        "z_vs_field_median": 2.635622040713241,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9071149697347254,
+        "z_vs_field_median": 2.5421253941761774,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1116,6 +1189,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1131,7 +1210,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 73,
       "neo_pre_rank": null,
-      "sg_total_rank": 29,
+      "sg_total_rank": 73,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1188,12 +1267,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6071818986102928,
-        "z_vs_field_median": 1.044168150353441,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8403354650057007,
+        "z_vs_field_median": -0.3736602976739414,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1201,6 +1280,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1216,7 +1301,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 64,
       "neo_pre_rank": null,
-      "sg_total_rank": 21,
+      "sg_total_rank": 47,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1273,12 +1358,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5754744546893458,
-        "z_vs_field_median": 1.5117960370102714,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8040956578188175,
+        "z_vs_field_median": 0.5496858435959785,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1286,6 +1371,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1301,7 +1392,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 94,
       "neo_pre_rank": null,
-      "sg_total_rank": 50,
+      "sg_total_rank": 96,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1358,12 +1449,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.3741388939952648,
-        "z_vs_field_median": 0.5559432695672438,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7529911319665696,
+        "z_vs_field_median": -1.229762158794071,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1371,6 +1462,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1386,7 +1483,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 19,
       "neo_pre_rank": null,
-      "sg_total_rank": 13,
+      "sg_total_rank": 24,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1443,12 +1540,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_HIGH",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5666196254984467,
-        "z_vs_field_median": 1.990753495358929,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6682033815416093,
+        "z_vs_field_median": 1.5893364645205237,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1456,6 +1553,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1471,7 +1574,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 23,
       "neo_pre_rank": null,
-      "sg_total_rank": 66,
+      "sg_total_rank": 39,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1531,9 +1634,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7569984531027788,
-        "z_vs_field_median": -0.23249717258815095,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8677159837001933,
+        "z_vs_field_median": 0.762922445172716,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1541,6 +1644,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1556,7 +1665,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 136,
       "neo_pre_rank": null,
-      "sg_total_rank": 110,
+      "sg_total_rank": 60,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1613,12 +1722,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5709575973747962,
-        "z_vs_field_median": -2.23133907992068,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7856143890532596,
+        "z_vs_field_median": 0.0,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1626,6 +1735,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1641,7 +1756,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 79,
       "neo_pre_rank": null,
-      "sg_total_rank": 81,
+      "sg_total_rank": 91,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1701,9 +1816,9 @@
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5350463456561496,
-        "z_vs_field_median": -1.0989702196337987,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6880841043427197,
+        "z_vs_field_median": -1.0492903344856046,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1711,6 +1826,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1726,7 +1847,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 55,
       "neo_pre_rank": null,
-      "sg_total_rank": 86,
+      "sg_total_rank": 94,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1786,9 +1907,9 @@
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5997134315654435,
-        "z_vs_field_median": -1.1172002572146602,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6725432384233542,
+        "z_vs_field_median": -1.2489903280705275,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1796,6 +1917,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1811,7 +1938,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 77,
       "neo_pre_rank": null,
-      "sg_total_rank": 62,
+      "sg_total_rank": 61,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1871,9 +1998,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5016842114318527,
-        "z_vs_field_median": -0.17939571935726625,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6636797659544444,
+        "z_vs_field_median": -0.024108012358927736,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1881,6 +2008,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1896,7 +2029,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 153,
       "neo_pre_rank": null,
-      "sg_total_rank": 82,
+      "sg_total_rank": 120,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -1953,12 +2086,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5619686041052471,
-        "z_vs_field_median": -1.0925877273475022,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.3386410516069023,
+        "z_vs_field_median": -4.975194800731195,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -1966,6 +2099,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -1981,7 +2120,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 67,
       "neo_pre_rank": null,
-      "sg_total_rank": 19,
+      "sg_total_rank": 81,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2038,12 +2177,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7716223376756274,
-        "z_vs_field_median": 1.1534139909440204,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8707768288799868,
+        "z_vs_field_median": -0.5902775349007837,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2051,6 +2190,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2066,7 +2211,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 110,
       "neo_pre_rank": null,
-      "sg_total_rank": 38,
+      "sg_total_rank": 50,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2126,9 +2271,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.701409803182134,
-        "z_vs_field_median": 0.5474688238714099,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7373952662284499,
+        "z_vs_field_median": 0.5207519190678318,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2136,6 +2281,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2151,7 +2302,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 133,
       "neo_pre_rank": null,
-      "sg_total_rank": 101,
+      "sg_total_rank": 69,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2208,12 +2359,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.47972602389280483,
-        "z_vs_field_median": -2.005311265362914,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8104380552748199,
+        "z_vs_field_median": -0.3380887634985088,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2221,6 +2372,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2236,7 +2393,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 334,
       "neo_pre_rank": null,
-      "sg_total_rank": 94,
+      "sg_total_rank": 110,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2296,9 +2453,9 @@
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4878653113309041,
-        "z_vs_field_median": -1.7094882145337105,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.963610020382101,
+        "z_vs_field_median": -1.959298845036242,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2306,6 +2463,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2321,7 +2484,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 6,
       "neo_pre_rank": null,
-      "sg_total_rank": 28,
+      "sg_total_rank": 11,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2378,12 +2541,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5935866053070941,
-        "z_vs_field_median": 1.1253623212309651,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7596058200509574,
+        "z_vs_field_median": 2.4381066483610674,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2391,6 +2554,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2406,7 +2575,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 164,
       "neo_pre_rank": null,
-      "sg_total_rank": 112,
+      "sg_total_rank": 107,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2463,12 +2632,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.435586042016959,
-        "z_vs_field_median": -3.0258086184237403,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.0024923702357802,
+        "z_vs_field_median": -1.5002607946495077,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2476,6 +2645,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2491,7 +2666,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 53,
       "neo_pre_rank": null,
-      "sg_total_rank": null,
+      "sg_total_rank": 109,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2551,9 +2726,9 @@
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": null,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.3546986201144729,
+        "z_vs_field_median": -4.813476107638425,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2561,6 +2736,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2576,7 +2757,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 38,
       "neo_pre_rank": null,
-      "sg_total_rank": 34,
+      "sg_total_rank": 51,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2636,9 +2817,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6180044676213918,
-        "z_vs_field_median": 0.7443311886894153,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8704796559717373,
+        "z_vs_field_median": 0.43194576394810996,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2646,6 +2827,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2661,7 +2848,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 84,
       "neo_pre_rank": null,
-      "sg_total_rank": 32,
+      "sg_total_rank": 52,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2721,9 +2908,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6345513706548903,
-        "z_vs_field_median": 0.740680773433576,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.870805984924473,
+        "z_vs_field_median": 0.3330248126684066,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2731,6 +2918,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2746,7 +2939,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 71,
       "neo_pre_rank": null,
-      "sg_total_rank": 69,
+      "sg_total_rank": 82,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2806,9 +2999,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5746247488578959,
-        "z_vs_field_median": -0.44202760236979277,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6813487281454609,
+        "z_vs_field_median": -0.7661275033429849,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2816,6 +3009,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2831,7 +3030,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 140,
       "neo_pre_rank": null,
-      "sg_total_rank": 72,
+      "sg_total_rank": 66,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2891,9 +3090,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4361226983315589,
-        "z_vs_field_median": -0.8071123134535748,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7794937883253052,
+        "z_vs_field_median": -0.2668398428765869,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2901,6 +3100,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -2916,7 +3121,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 44,
       "neo_pre_rank": null,
-      "sg_total_rank": 54,
+      "sg_total_rank": 23,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -2973,12 +3178,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7267668140469816,
-        "z_vs_field_median": 0.09081317242938035,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.0191499662856633,
+        "z_vs_field_median": 1.1342786029941136,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -2986,6 +3191,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3001,7 +3212,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 101,
       "neo_pre_rank": null,
-      "sg_total_rank": 106,
+      "sg_total_rank": 80,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3058,12 +3269,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5125962231620518,
-        "z_vs_field_median": -2.1966607421608475,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6076828224480372,
+        "z_vs_field_median": -0.7635562218638762,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3071,6 +3282,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3086,7 +3303,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 62,
       "neo_pre_rank": null,
-      "sg_total_rank": 65,
+      "sg_total_rank": 31,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3146,9 +3363,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6013234005092434,
-        "z_vs_field_median": -0.24612379939756726,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.090987774206123,
+        "z_vs_field_median": 0.8524385167164054,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3156,6 +3373,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3171,7 +3394,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 12,
       "neo_pre_rank": null,
-      "sg_total_rank": 10,
+      "sg_total_rank": 55,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3228,12 +3451,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4814701569152547,
-        "z_vs_field_median": 2.567137302795597,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6228664056608558,
+        "z_vs_field_median": 0.16054807112915473,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3241,6 +3464,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3256,7 +3485,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 13,
       "neo_pre_rank": null,
-      "sg_total_rank": 9,
+      "sg_total_rank": 14,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3316,9 +3545,9 @@
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5299928320270001,
-        "z_vs_field_median": 2.4189006388952246,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7301152716591468,
+        "z_vs_field_median": 2.0846023348358935,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3326,6 +3555,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3341,7 +3576,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 5,
       "neo_pre_rank": null,
-      "sg_total_rank": 23,
+      "sg_total_rank": 16,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3401,9 +3636,9 @@
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6580748057781881,
-        "z_vs_field_median": 1.2886073020182274,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7986649035684694,
+        "z_vs_field_median": 1.790488092829293,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3411,6 +3646,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3426,7 +3667,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 37,
       "neo_pre_rank": null,
-      "sg_total_rank": 45,
+      "sg_total_rank": 18,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3483,12 +3724,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5905008314981445,
-        "z_vs_field_median": 0.4572389835844767,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6594573080146805,
+        "z_vs_field_median": 2.1472201199239387,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3496,6 +3737,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3511,7 +3758,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 165,
       "neo_pre_rank": null,
-      "sg_total_rank": 96,
+      "sg_total_rank": 99,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3571,9 +3818,9 @@
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7285109470694314,
-        "z_vs_field_median": -1.17499950198884,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.901510046331356,
+        "z_vs_field_median": -1.084846479503934,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3581,6 +3828,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3596,7 +3849,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 42,
       "neo_pre_rank": null,
-      "sg_total_rank": 24,
+      "sg_total_rank": 7,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3653,12 +3906,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5485521962402483,
-        "z_vs_field_median": 1.5167198412520995,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6148253683256032,
+        "z_vs_field_median": 3.217173691753848,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3666,6 +3919,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3681,7 +3940,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 9,
       "neo_pre_rank": null,
-      "sg_total_rank": 20,
+      "sg_total_rank": 13,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3738,12 +3997,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5656357555883468,
-        "z_vs_field_median": 1.5557715213471024,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7954016881290168,
+        "z_vs_field_median": 2.263007517917204,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3751,6 +4010,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3766,7 +4031,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 122,
       "neo_pre_rank": null,
-      "sg_total_rank": 87,
+      "sg_total_rank": 104,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3826,9 +4091,9 @@
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5587039448580975,
-        "z_vs_field_median": -1.3101751056830595,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.030365260075261,
+        "z_vs_field_median": -1.354859343664238,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3836,6 +4101,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3851,7 +4122,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 104,
       "neo_pre_rank": null,
-      "sg_total_rank": 27,
+      "sg_total_rank": 100,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3908,12 +4179,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5466291777795985,
-        "z_vs_field_median": 1.229352598281812,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8412908037769384,
+        "z_vs_field_median": -1.1838950283641534,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -3921,6 +4192,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -3936,7 +4213,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 57,
       "neo_pre_rank": null,
-      "sg_total_rank": 58,
+      "sg_total_rank": 45,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -3996,9 +4273,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.573730321666896,
-        "z_vs_field_median": -0.04531745842621762,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8778450927143815,
+        "z_vs_field_median": 0.5308453665316771,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4006,6 +4283,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4021,7 +4304,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 28,
       "neo_pre_rank": null,
-      "sg_total_rank": 17,
+      "sg_total_rank": 12,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4078,12 +4361,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5003425706453529,
-        "z_vs_field_median": 1.878712816276191,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6826460837620587,
+        "z_vs_field_median": 2.689534216444654,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4091,6 +4374,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4106,12 +4395,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 497,
       "neo_pre_rank": null,
-      "sg_total_rank": null,
+      "sg_total_rank": 102,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 0.0009378290951009535,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10155",
@@ -4163,12 +4452,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": null,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.5387299880273976,
+        "z_vs_field_median": -2.1235127530005267,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4176,6 +4465,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4191,7 +4486,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 149,
       "neo_pre_rank": null,
-      "sg_total_rank": 95,
+      "sg_total_rank": 111,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4248,12 +4543,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7461758840916798,
-        "z_vs_field_median": -1.1284202799249765,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9621803318458505,
+        "z_vs_field_median": -2.0017037724156697,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4261,6 +4556,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4276,7 +4577,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 72,
       "neo_pre_rank": null,
-      "sg_total_rank": 76,
+      "sg_total_rank": 44,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4336,9 +4637,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4859870142298043,
-        "z_vs_field_median": -0.987680711511824,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7501305424531141,
+        "z_vs_field_median": 0.775864955580551,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4346,6 +4647,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4361,7 +4668,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 92,
       "neo_pre_rank": null,
-      "sg_total_rank": 85,
+      "sg_total_rank": 58,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4418,12 +4725,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6142925947787422,
-        "z_vs_field_median": -1.0581276830044142,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9483549666960905,
+        "z_vs_field_median": 0.04217829969231169,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4431,6 +4738,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4446,7 +4759,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 50,
       "neo_pre_rank": null,
-      "sg_total_rank": 70,
+      "sg_total_rank": 32,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4506,9 +4819,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5138931425890017,
-        "z_vs_field_median": -0.5098336177051127,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.1309165872714613,
+        "z_vs_field_median": 0.7197701485340495,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4516,6 +4829,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4531,12 +4850,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 277,
       "neo_pre_rank": null,
-      "sg_total_rank": 52,
+      "sg_total_rank": 87,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 0.0012154767570267673,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10867",
@@ -4588,12 +4907,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.9750295405781303,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8263473450314478,
+        "z_vs_field_median": -0.7623912677737524,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4601,6 +4920,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4616,7 +4941,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 108,
       "neo_pre_rank": null,
-      "sg_total_rank": 36,
+      "sg_total_rank": 71,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4676,9 +5001,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.8772541889327174,
-        "z_vs_field_median": 0.5015650031096592,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.1287169064201659,
+        "z_vs_field_median": -0.2693323704738022,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4686,6 +5011,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4701,7 +5032,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 36,
       "neo_pre_rank": null,
-      "sg_total_rank": 44,
+      "sg_total_rank": 33,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4758,12 +5089,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.44573779063480806,
-        "z_vs_field_median": 0.7134239157669641,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.5849183028873618,
+        "z_vs_field_median": 1.3471966873154009,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4771,6 +5102,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4786,7 +5123,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 100,
       "neo_pre_rank": null,
-      "sg_total_rank": 59,
+      "sg_total_rank": 46,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -4846,9 +5183,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.42556845747775995,
-        "z_vs_field_median": -0.07049394632723177,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7044580168902727,
+        "z_vs_field_median": 0.635949892340825,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4856,6 +5193,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4871,12 +5214,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 484,
       "neo_pre_rank": null,
-      "sg_total_rank": 100,
+      "sg_total_rank": 119,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 3.583122669063039e-05,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11926",
@@ -4928,12 +5271,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": null,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.3729512475704038,
+        "z_vs_field_median": -3.1712706534226234,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -4941,6 +5284,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -4956,7 +5305,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 30,
       "neo_pre_rank": null,
-      "sg_total_rank": 39,
+      "sg_total_rank": 10,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5013,12 +5362,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7018570167776339,
-        "z_vs_field_median": 0.5442704010481202,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8993625388546022,
+        "z_vs_field_median": 2.1014884636033875,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5026,6 +5375,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5041,7 +5396,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 69,
       "neo_pre_rank": null,
-      "sg_total_rank": 80,
+      "sg_total_rank": 63,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5098,12 +5453,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5136248144317017,
-        "z_vs_field_median": -1.1253350378710305,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7352190437233799,
+        "z_vs_field_median": -0.06528666580358554,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5111,6 +5466,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5126,7 +5487,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 82,
       "neo_pre_rank": null,
-      "sg_total_rank": 47,
+      "sg_total_rank": 38,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5186,9 +5547,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7800746746305766,
-        "z_vs_field_median": 0.30253513884650024,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8093003312472704,
+        "z_vs_field_median": 0.8550595783564173,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5196,6 +5557,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5211,7 +5578,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 111,
       "neo_pre_rank": null,
-      "sg_total_rank": 83,
+      "sg_total_rank": 54,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5268,12 +5635,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.33514186846766847,
-        "z_vs_field_median": -1.867865697778047,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.5743395751475299,
+        "z_vs_field_median": 0.2855453586980724,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5281,6 +5648,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5296,7 +5669,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 135,
       "neo_pre_rank": null,
-      "sg_total_rank": 111,
+      "sg_total_rank": 93,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5353,12 +5726,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6320469745200905,
-        "z_vs_field_median": -2.0188372881127377,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6273727873011934,
+        "z_vs_field_median": -1.2177767596304965,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5366,6 +5739,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5381,7 +5760,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 27,
       "neo_pre_rank": null,
-      "sg_total_rank": 26,
+      "sg_total_rank": 59,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5438,12 +5817,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4904144288252539,
-        "z_vs_field_median": 1.606804273454162,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6696579558435275,
+        "z_vs_field_median": 0.002986599326637915,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5451,6 +5830,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5466,7 +5851,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 20,
       "neo_pre_rank": null,
-      "sg_total_rank": 6,
+      "sg_total_rank": 29,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5526,9 +5911,9 @@
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6917499895193349,
-        "z_vs_field_median": 1.9197687316522631,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8520218124151333,
+        "z_vs_field_median": 1.1149949287180085,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5536,6 +5921,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5551,7 +5942,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 151,
       "neo_pre_rank": null,
-      "sg_total_rank": 115,
+      "sg_total_rank": 98,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5608,12 +5999,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5218535445889009,
-        "z_vs_field_median": -3.5642183890218604,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8975039950065021,
+        "z_vs_field_median": -1.074089926466585,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5621,6 +6012,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5636,7 +6033,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 131,
       "neo_pre_rank": null,
-      "sg_total_rank": 102,
+      "sg_total_rank": 105,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5693,12 +6090,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6306606123740406,
-        "z_vs_field_median": -1.5348984556940837,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6148441536953355,
+        "z_vs_field_median": -2.309528343833991,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5706,6 +6103,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5721,7 +6124,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 47,
       "neo_pre_rank": null,
-      "sg_total_rank": 49,
+      "sg_total_rank": 21,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5778,12 +6181,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5553051215322977,
-        "z_vs_field_median": 0.3781704721550743,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6949428196532024,
+        "z_vs_field_median": 1.9512396727498893,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5791,6 +6194,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5806,7 +6215,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 120,
       "neo_pre_rank": null,
-      "sg_total_rank": 107,
+      "sg_total_rank": 108,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5866,9 +6275,9 @@
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6181833530595918,
-        "z_vs_field_median": -1.8441130683279756,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9575500606762071,
+        "z_vs_field_median": -1.6897288888033628,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5876,6 +6285,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5891,7 +6306,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 183,
       "neo_pre_rank": null,
-      "sg_total_rank": 91,
+      "sg_total_rank": 115,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -5948,12 +6363,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6577617562613381,
-        "z_vs_field_median": -1.167596006744519,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.755463019236272,
+        "z_vs_field_median": -4.050496082645419,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -5961,6 +6376,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -5976,7 +6397,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 56,
       "neo_pre_rank": null,
-      "sg_total_rank": 37,
+      "sg_total_rank": 28,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6033,12 +6454,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5004320133644529,
-        "z_vs_field_median": 0.7873197347050199,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6470222249629138,
+        "z_vs_field_median": 1.4744470331829507,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6046,6 +6467,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6061,7 +6488,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 7,
       "neo_pre_rank": null,
-      "sg_total_rank": 5,
+      "sg_total_rank": 9,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6121,9 +6548,9 @@
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6984581934518344,
-        "z_vs_field_median": 2.116089429340945,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7733840211429996,
+        "z_vs_field_median": 2.5343166478967034,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6131,6 +6558,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6146,12 +6579,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 248,
       "neo_pre_rank": null,
-      "sg_total_rank": 92,
+      "sg_total_rank": 72,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 0.00037107254662635325,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11469",
@@ -6203,12 +6636,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.09537826447012619,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9173258873626815,
+        "z_vs_field_median": -0.33793878955193585,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6216,6 +6649,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6231,7 +6670,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 43,
       "neo_pre_rank": null,
-      "sg_total_rank": 97,
+      "sg_total_rank": 103,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6288,12 +6727,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.8233202293154225,
-        "z_vs_field_median": -1.0469802262926775,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.3446808631576692,
+        "z_vs_field_median": -0.8611708783307194,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6301,6 +6740,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6316,7 +6761,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 61,
       "neo_pre_rank": null,
-      "sg_total_rank": 78,
+      "sg_total_rank": 91,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6376,9 +6821,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.648906927070439,
-        "z_vs_field_median": -0.8599076026498158,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9897208326338752,
+        "z_vs_field_median": -0.7294986385995247,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6386,6 +6831,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6461,9 +6912,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7198797246762823,
-        "z_vs_field_median": -0.78346421029377,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8645640051962139,
+        "z_vs_field_median": -0.5297467824791715,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6471,6 +6922,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6486,7 +6943,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 113,
       "neo_pre_rank": null,
-      "sg_total_rank": 74,
+      "sg_total_rank": 40,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6546,9 +7003,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6402757046772898,
-        "z_vs_field_median": -0.6653383798385909,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7343421143742768,
+        "z_vs_field_median": 0.8987636512749608,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6556,6 +7013,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6571,7 +7034,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 132,
       "neo_pre_rank": null,
-      "sg_total_rank": 89,
+      "sg_total_rank": 49,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6628,12 +7091,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7264090431705816,
-        "z_vs_field_median": -1.0434892119342736,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8862819373735537,
+        "z_vs_field_median": 0.43778394169897666,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6641,6 +7104,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6656,7 +7125,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 35,
       "neo_pre_rank": null,
-      "sg_total_rank": 3,
+      "sg_total_rank": 1,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6716,9 +7185,9 @@
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4940368589488035,
-        "z_vs_field_median": 3.3803145853395935,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6753171630008745,
+        "z_vs_field_median": 4.107699540277207,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6726,6 +7195,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6741,7 +7216,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 51,
       "neo_pre_rank": null,
-      "sg_total_rank": 42,
+      "sg_total_rank": 20,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6798,12 +7273,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6235946375651413,
-        "z_vs_field_median": 0.5805053125752466,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8991695955803674,
+        "z_vs_field_median": 1.519179481506287,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6811,6 +7286,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6826,7 +7307,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 40,
       "neo_pre_rank": null,
-      "sg_total_rank": 60,
+      "sg_total_rank": 53,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6886,9 +7367,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.627709002643741,
-        "z_vs_field_median": -0.04779284648403658,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7849280328277958,
+        "z_vs_field_median": 0.3414325757158888,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6896,6 +7377,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6911,7 +7398,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 91,
       "neo_pre_rank": null,
-      "sg_total_rank": 104,
+      "sg_total_rank": 118,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -6968,12 +7455,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6344619279357904,
-        "z_vs_field_median": -1.6549456378196794,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8959388338652997,
+        "z_vs_field_median": -4.560579188617145,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -6981,6 +7468,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -6996,7 +7489,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 16,
       "neo_pre_rank": null,
-      "sg_total_rank": 7,
+      "sg_total_rank": 17,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7056,9 +7549,9 @@
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6909002836878849,
-        "z_vs_field_median": 1.907655896397646,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9109877237311536,
+        "z_vs_field_median": 1.560943098306398,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7066,6 +7559,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7081,7 +7580,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 96,
       "neo_pre_rank": null,
-      "sg_total_rank": 40,
+      "sg_total_rank": 34,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7141,9 +7640,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.691347497283385,
-        "z_vs_field_median": 0.5496512267610584,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.849791418258301,
+        "z_vs_field_median": 0.9178722957671864,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7151,6 +7650,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7166,7 +7671,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 21,
       "neo_pre_rank": null,
-      "sg_total_rank": 18,
+      "sg_total_rank": 19,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7226,9 +7731,9 @@
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6361613395986901,
-        "z_vs_field_median": 1.4587494433179649,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7158870753262877,
+        "z_vs_field_median": 1.9444407476773524,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7236,6 +7741,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7251,7 +7762,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 63,
       "neo_pre_rank": null,
-      "sg_total_rank": 67,
+      "sg_total_rank": 68,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7311,9 +7822,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5652332633523969,
-        "z_vs_field_median": -0.428141823368106,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7778053316997888,
+        "z_vs_field_median": -0.3497018970101177,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7321,6 +7832,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7336,7 +7853,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 65,
       "neo_pre_rank": null,
-      "sg_total_rank": 63,
+      "sg_total_rank": 25,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7393,12 +7910,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6339699929807403,
-        "z_vs_field_median": -0.1451172784494786,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9333647710934708,
+        "z_vs_field_median": 1.1292476774811206,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7406,6 +7923,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7421,7 +7944,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 118,
       "neo_pre_rank": null,
-      "sg_total_rank": 51,
+      "sg_total_rank": 36,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7481,9 +8004,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.4590200344211568,
-        "z_vs_field_median": 0.35292577197483027,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.9712757649334962,
+        "z_vs_field_median": 0.36524570169627696,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7491,6 +8014,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7506,7 +8035,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 29,
       "neo_pre_rank": null,
-      "sg_total_rank": 16,
+      "sg_total_rank": 42,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7563,12 +8092,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6220741113404414,
-        "z_vs_field_median": 1.5592997398812336,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6924140831271184,
+        "z_vs_field_median": 0.9156370666764814,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7576,6 +8105,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7591,7 +8126,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 70,
       "neo_pre_rank": null,
-      "sg_total_rank": 56,
+      "sg_total_rank": 84,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7651,9 +8186,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5799018692847954,
-        "z_vs_field_median": 0.0517328906647594,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7913089665574556,
+        "z_vs_field_median": -0.7279078392171583,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7661,6 +8196,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7676,12 +8217,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 234,
       "neo_pre_rank": null,
-      "sg_total_rank": 99,
+      "sg_total_rank": 112,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 0.0001631448481374473,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8430",
@@ -7733,12 +8274,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.28521103297967515,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.0351261976490056,
+        "z_vs_field_median": -2.059652248046886,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7746,6 +8287,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7761,7 +8308,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 225,
       "neo_pre_rank": null,
-      "sg_total_rank": 116,
+      "sg_total_rank": 106,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7818,12 +8365,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6016364500260933,
-        "z_vs_field_median": -3.098216539106228,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8447768737285335,
+        "z_vs_field_median": -1.7661468328493208,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7831,6 +8378,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7846,7 +8399,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 86,
       "neo_pre_rank": null,
-      "sg_total_rank": 77,
+      "sg_total_rank": 35,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7906,9 +8459,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6040961248013431,
-        "z_vs_field_median": -0.8210613835059934,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8422523253703944,
+        "z_vs_field_median": 0.8738473944566811,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -7916,6 +8469,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -7931,7 +8490,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 33,
       "neo_pre_rank": null,
-      "sg_total_rank": 4,
+      "sg_total_rank": 27,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -7988,12 +8547,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_HIGH",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5514143632514481,
-        "z_vs_field_median": 2.818207329306304,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.681811667123178,
+        "z_vs_field_median": 1.475480764717177,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8001,6 +8560,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8016,7 +8581,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 54,
       "neo_pre_rank": null,
-      "sg_total_rank": 43,
+      "sg_total_rank": 56,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8076,9 +8641,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.562863031296247,
-        "z_vs_field_median": 0.5898415449943828,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.786309837501318,
+        "z_vs_field_median": 0.11445869771386277,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8086,6 +8651,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8101,7 +8672,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 60,
       "neo_pre_rank": null,
-      "sg_total_rank": 61,
+      "sg_total_rank": 37,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8161,9 +8732,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5578095176670975,
-        "z_vs_field_median": -0.09680724026696766,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7230225006140382,
+        "z_vs_field_median": 0.9626256436126276,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8171,6 +8742,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8186,7 +8763,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 17,
       "neo_pre_rank": null,
-      "sg_total_rank": 1,
+      "sg_total_rank": 2,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8246,9 +8823,9 @@
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5456453078694986,
-        "z_vs_field_median": 3.709369384853352,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.683560421364752,
+        "z_vs_field_median": 3.7246158794811777,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8256,6 +8833,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8271,7 +8854,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 49,
       "neo_pre_rank": null,
-      "sg_total_rank": 41,
+      "sg_total_rank": 43,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8331,9 +8914,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.520064690206901,
-        "z_vs_field_median": 0.6999129278613152,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7743921618032589,
+        "z_vs_field_median": 0.7541398645359356,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8341,6 +8924,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8356,7 +8945,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 26,
       "neo_pre_rank": null,
-      "sg_total_rank": 11,
+      "sg_total_rank": 6,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8416,9 +9005,9 @@
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5807962964757953,
-        "z_vs_field_median": 2.0420240404363983,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6401547728091299,
+        "z_vs_field_median": 3.1054989893713514,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8426,6 +9015,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8441,7 +9036,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 58,
       "neo_pre_rank": null,
-      "sg_total_rank": 84,
+      "sg_total_rank": 48,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8498,12 +9093,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.46259774318515645,
-        "z_vs_field_median": -1.3964616332800313,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.652814857440636,
+        "z_vs_field_median": 0.6403040544125651,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8511,6 +9106,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8526,7 +9127,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 90,
       "neo_pre_rank": null,
-      "sg_total_rank": 46,
+      "sg_total_rank": 22,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8583,12 +9184,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6349091415312902,
-        "z_vs_field_median": 0.40320729889409473,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.0333090050899585,
+        "z_vs_field_median": 1.2639007243397646,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8596,6 +9197,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8611,7 +9218,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 80,
       "neo_pre_rank": null,
-      "sg_total_rank": 93,
+      "sg_total_rank": 62,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8668,12 +9275,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.521138002836101,
-        "z_vs_field_median": -1.5965060990987945,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8361881857677396,
+        "z_vs_field_median": -0.04305250972536393,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8681,6 +9288,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8696,7 +9309,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 32,
       "neo_pre_rank": null,
-      "sg_total_rank": 12,
+      "sg_total_rank": 15,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8753,12 +9366,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6195697152056416,
-        "z_vs_field_median": 1.865811016305585,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.697870887296336,
+        "z_vs_field_median": 2.1178702635469002,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8766,6 +9379,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8781,12 +9400,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 150,
       "neo_pre_rank": null,
-      "sg_total_rank": 75,
+      "sg_total_rank": 95,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 0.0011127104669866933,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9728",
@@ -8838,12 +9457,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.48885,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7477030010490647,
+        "z_vs_field_median": -1.2357847951707857,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8851,6 +9470,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8866,7 +9491,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 87,
       "neo_pre_rank": null,
-      "sg_total_rank": 108,
+      "sg_total_rank": 113,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -8923,12 +9548,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6492199765872889,
-        "z_vs_field_median": -1.7682758408553827,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9259790255193441,
+        "z_vs_field_median": -2.6199297534189343,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -8936,6 +9561,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -8951,7 +9582,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 8,
       "neo_pre_rank": null,
-      "sg_total_rank": 35,
+      "sg_total_rank": 64,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9011,9 +9642,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6615630718230878,
-        "z_vs_field_median": 0.6953229700871377,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9134419180318234,
+        "z_vs_field_median": -0.0897703492485696,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9021,6 +9652,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9036,7 +9673,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 83,
       "neo_pre_rank": null,
-      "sg_total_rank": 53,
+      "sg_total_rank": 26,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9093,12 +9730,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5257890242293005,
-        "z_vs_field_median": 0.15595608927020727,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6242730474443128,
+        "z_vs_field_median": 1.656326513266995,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9106,6 +9743,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9121,7 +9764,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 41,
       "neo_pre_rank": null,
-      "sg_total_rank": 30,
+      "sg_total_rank": 65,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9178,12 +9821,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "HIGH",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.48746281909495415,
-        "z_vs_field_median": 1.1611141974907164,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7170736637021734,
+        "z_vs_field_median": -0.2761222591522152,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9191,6 +9834,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9206,7 +9855,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 75,
       "neo_pre_rank": null,
-      "sg_total_rank": 64,
+      "sg_total_rank": 67,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9266,9 +9915,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5085713008025521,
-        "z_vs_field_median": -0.2674157975202,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7129015677901728,
+        "z_vs_field_median": -0.2973762572260154,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9276,6 +9925,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9291,7 +9946,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 95,
       "neo_pre_rank": null,
-      "sg_total_rank": 57,
+      "sg_total_rank": 97,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9348,12 +10003,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "TYPICAL",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5058432978700024,
-        "z_vs_field_median": 0.0,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6878453121664693,
+        "z_vs_field_median": -1.3636786984062332,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9361,6 +10016,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9376,7 +10037,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 130,
       "neo_pre_rank": null,
-      "sg_total_rank": 88,
+      "sg_total_rank": 89,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9433,12 +10094,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.46653322282555604,
-        "z_vs_field_median": -1.5775939718556804,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7640289856094474,
+        "z_vs_field_median": -0.9083425014908472,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9446,6 +10107,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9461,7 +10128,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 112,
       "neo_pre_rank": null,
-      "sg_total_rank": 90,
+      "sg_total_rank": 75,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9518,12 +10185,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.45978029753350674,
-        "z_vs_field_median": -1.6573132952580876,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.5635771153827708,
+        "z_vs_field_median": -0.6139355033339198,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9531,6 +10198,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9546,7 +10219,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 154,
       "neo_pre_rank": null,
-      "sg_total_rank": 98,
+      "sg_total_rank": 88,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9603,12 +10276,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "LOW",
+      "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6405440328345897,
-        "z_vs_field_median": -1.3519757512496113,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.8274381981254985,
+        "z_vs_field_median": -0.8145623461992673,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9616,6 +10289,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9631,7 +10310,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 204,
       "neo_pre_rank": null,
-      "sg_total_rank": 15,
+      "sg_total_rank": 5,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9691,9 +10370,9 @@
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.2979,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.2979093821953246,
+        "z_vs_field_median": 7.102831016623176,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9701,6 +10380,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9716,7 +10401,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 146,
       "neo_pre_rank": null,
-      "sg_total_rank": 109,
+      "sg_total_rank": 90,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9773,12 +10458,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "VERY_LOW",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.5111204182969019,
-        "z_vs_field_median": -2.3008276678097412,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.6794106734206453,
+        "z_vs_field_median": -1.053854506575732,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9786,6 +10471,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9801,7 +10492,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 254,
       "neo_pre_rank": null,
-      "sg_total_rank": 73,
+      "sg_total_rank": 85,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9861,9 +10552,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.7129926353055829,
-        "z_vs_field_median": -0.5526003783070422,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9411432173455617,
+        "z_vs_field_median": -0.6353974495896846,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9871,6 +10562,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9886,7 +10583,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 166,
       "neo_pre_rank": null,
-      "sg_total_rank": 68,
+      "sg_total_rank": 57,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -9946,9 +10643,9 @@
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": 0.6321811385987405,
-        "z_vs_field_median": -0.39229262763154216,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.9275174804124114,
+        "z_vs_field_median": 0.08409545010981138,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -9956,6 +10653,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -9971,12 +10674,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 667,
       "neo_pre_rank": null,
-      "sg_total_rank": 103,
+      "sg_total_rank": 117,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 0.00044438290017758693,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8436",
@@ -10028,12 +10731,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": null,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 0.7175424177093095,
+        "z_vs_field_median": -4.640840621841883,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -10041,6 +10744,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -10056,12 +10765,12 @@
       "identity_validation": "PASS",
       "official_klpga_rank": null,
       "neo_pre_rank": null,
-      "sg_total_rank": 117,
+      "sg_total_rank": 114,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": 4.1844637769192236e-05,
-      "validation_status": "INSUFFICIENT_EVIDENCE",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=7963",
@@ -10113,12 +10822,12 @@
           "validation_state": "PASS"
         }
       },
-      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
-        "standard_error": null,
-        "z_vs_field_median": null,
+        "field_median": -0.46599999999999997,
+        "standard_error": 1.6323590472700666,
+        "z_vs_field_median": -1.5940120553450217,
         "boundaries": {
           "very_high": "z >= 1.96",
           "high": "1.00 < z < 1.96",
@@ -10126,6 +10835,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     },
     {
@@ -10142,7 +10857,7 @@
       "identity_validation": "PASS",
       "official_klpga_rank": 161,
       "neo_pre_rank": null,
-      "sg_total_rank": null,
+      "sg_total_rank": 83,
       "top20_probability": null,
       "top10_probability": null,
       "top5_probability": null,
@@ -10202,7 +10917,7 @@
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
-        "field_median": 0.68,
+        "field_median": -0.46599999999999997,
         "standard_error": null,
         "z_vs_field_median": null,
         "boundaries": {
@@ -10212,6 +10927,12 @@
           "low": "-1.96 < z < -1.00",
           "very_low": "z <= -1.96"
         }
+      },
+      "source_artifacts": {
+        "identity": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+        "sg_rank": "OK_OPEN_2026_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+        "sg_band": "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+        "win": "OK_OPEN_2026_PRE_WIN_FORECAST.json"
       }
     }
   ]

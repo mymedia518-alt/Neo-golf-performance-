@@ -39,6 +39,7 @@ def evaluate(base: Path, *, sg_accepted: bool | None = None) -> dict[str, Any]:
     sg_path = base / "historical_sg_warehouse_corrected_v2.json"
     sg_audit_path = base / "historical_sg_warehouse_corrected_audit_v2.json"
     profile_audit_path = base / "OK_OPEN_2026_DATA_CENTER_PROFILE_AUDIT.json"
+    sg_acceptance_path = base / "OK_OPEN_2026_SG_INDEPENDENT_ACCEPTANCE.json"
     required = (current_path, rank_path, win_path, sg_path, sg_audit_path, profile_audit_path)
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     domains = []
@@ -58,9 +59,10 @@ def evaluate(base: Path, *, sg_accepted: bool | None = None) -> dict[str, Any]:
         domains.append(_result("K_RANKING", "PASS" if rank_ok else "BLOCK", ["T2-RANK-001"], "same-week official ranking snapshot validated" if rank_ok else "ranking evidence incomplete", ["official_klpga_rank"], rank_path))
         win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]; win_ok = len(wr) == 120 and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
         domains.append(_result("WIN_PROBABILITY", "PASS" if win_ok else "BLOCK", ["T2-WIN-001"], "120 pre-cutoff WIN probabilities validated" if win_ok else "forecast coverage/range failure", ["win_probability"], win_path))
-        sg_audit = json.loads(sg_audit_path.read_text(encoding="utf-8")); arithmetic = sg_audit.get("arithmetic_validation", {}); accepted = sg_accepted if sg_accepted is not None else bool(sg_audit.get("claude_acceptance") or sg_audit.get("acceptance_state") == "ACCEPTED")
+        sg_audit = json.loads(sg_audit_path.read_text(encoding="utf-8")); arithmetic = sg_audit.get("arithmetic_validation", {}); acceptance = json.loads(sg_acceptance_path.read_text(encoding="utf-8")) if sg_acceptance_path.exists() else {}; accepted = sg_accepted if sg_accepted is not None else bool(sg_audit.get("claude_acceptance") or sg_audit.get("acceptance_state") == "ACCEPTED" or acceptance.get("state") == "ACCEPTED")
+        sg_evidence_path = sg_acceptance_path if acceptance.get("state") == "ACCEPTED" else sg_audit_path
         sg_ok = arithmetic.get("exceptions") == 0 and accepted
-        domains.append(_result("SG_DERIVED", "PASS" if sg_ok else "BLOCK", ["T2-SG-001", "T2-SG-002"], "corrected SG evidence validated and independently accepted" if sg_ok else "corrected SG arithmetic passes but independent rank/band acceptance is pending", ["sg_total_rank", "neo_performance_band", "band_statistics"], sg_audit_path))
+        domains.append(_result("SG_DERIVED", "PASS" if sg_ok else "BLOCK", ["T2-SG-001", "T2-SG-002"], "corrected SG evidence validated and independently accepted" if sg_ok else "corrected SG arithmetic passes but independent rank/band acceptance is pending", ["sg_total_rank", "neo_performance_band", "band_statistics"], sg_evidence_path))
     overall = "HARD_STOP" if any(d["state"] == "HARD_STOP" for d in domains) else "BLOCK" if any(d["state"] == "BLOCK" for d in domains) else "WARN" if any(d["state"] == "WARN" for d in domains) else "PASS"
     return {"schema_version": "neo_tier2_field_domain_publication_gate_v1", "generated_at": now, "overall_state": overall, "domains": domains, "publication_allowed": overall in {"PASS", "WARN"}, "fail_closed_unknown": True}
 
