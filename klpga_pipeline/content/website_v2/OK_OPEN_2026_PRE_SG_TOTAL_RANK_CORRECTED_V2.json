@@ -1,0 +1,1695 @@
+{
+  "schema_version": "neo_ok_open_pre_sg_total_rank_corrected_v2",
+  "game_code": "2026120001",
+  "cutoff": "2026-09-04T00:00:00+09:00",
+  "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+  "scope": "official tournament_cumulative arithmetic mean of completed single-round SG; never summed",
+  "minimum_sample": 1,
+  "tie_rule": "equal full-precision means share competition rank; player_id orders computation only",
+  "missing_rule": "NULL rank when no validated observation",
+  "warehouse": "historical_sg_warehouse_corrected_v2.json",
+  "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+  "generated_at": "2026-08-31T22:25:21Z",
+  "records": [
+    {
+      "player_id": "9174",
+      "sg_total_mean": -3.664,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 116
+    },
+    {
+      "player_id": "11446",
+      "sg_total_mean": -1.52,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 101
+    },
+    {
+      "player_id": "10075",
+      "sg_total_mean": -0.792,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 74
+    },
+    {
+      "player_id": "10112",
+      "sg_total_mean": -0.8940000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 78
+    },
+    {
+      "player_id": "10109",
+      "sg_total_mean": 0.18599999999999994,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 41
+    },
+    {
+      "player_id": "9436",
+      "sg_total_mean": -1.066,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 86
+    },
+    {
+      "player_id": "10726",
+      "sg_total_mean": -0.874,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 77
+    },
+    {
+      "player_id": "9752",
+      "sg_total_mean": -0.744,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 70
+    },
+    {
+      "player_id": "9702",
+      "sg_total_mean": -0.8540000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 76
+    },
+    {
+      "player_id": "10002",
+      "sg_total_mean": 0.48200000000000004,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 30
+    },
+    {
+      "player_id": "10097",
+      "sg_total_mean": 1.5,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 8
+    },
+    {
+      "player_id": "10725",
+      "sg_total_mean": 1.964,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 3
+    },
+    {
+      "player_id": "10081",
+      "sg_total_mean": 1.8399999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 4
+    },
+    {
+      "player_id": "8380",
+      "sg_total_mean": -0.78,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 73
+    },
+    {
+      "player_id": "9807",
+      "sg_total_mean": -0.023999999999999976,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 47
+    },
+    {
+      "player_id": "9089",
+      "sg_total_mean": -1.392,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 96
+    },
+    {
+      "player_id": "8300",
+      "sg_total_mean": 0.5959999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 24
+    },
+    {
+      "player_id": "11143",
+      "sg_total_mean": 0.19600000000000004,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 39
+    },
+    {
+      "player_id": "9277",
+      "sg_total_mean": -0.466,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 60
+    },
+    {
+      "player_id": "8838",
+      "sg_total_mean": -1.188,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 91
+    },
+    {
+      "player_id": "9487",
+      "sg_total_mean": -1.306,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 94
+    },
+    {
+      "player_id": "9000",
+      "sg_total_mean": -0.48200000000000004,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 61
+    },
+    {
+      "player_id": "8434",
+      "sg_total_mean": -7.1259999999999994,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 120
+    },
+    {
+      "player_id": "11216",
+      "sg_total_mean": -0.9800000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 81
+    },
+    {
+      "player_id": "10790",
+      "sg_total_mean": -0.08199999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 50
+    },
+    {
+      "player_id": "8271",
+      "sg_total_mean": -0.74,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 69
+    },
+    {
+      "player_id": "10178",
+      "sg_total_mean": -2.354,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 110
+    },
+    {
+      "player_id": "9113",
+      "sg_total_mean": 1.386,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 11
+    },
+    {
+      "player_id": "9723",
+      "sg_total_mean": -1.97,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 107
+    },
+    {
+      "player_id": "10789",
+      "sg_total_mean": -2.1733333333333333,
+      "sample_count": 3,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 109
+    },
+    {
+      "player_id": "9401",
+      "sg_total_mean": -0.08999999999999994,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 51
+    },
+    {
+      "player_id": "10083",
+      "sg_total_mean": -0.17600000000000002,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 52
+    },
+    {
+      "player_id": "9183",
+      "sg_total_mean": -0.9880000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 82
+    },
+    {
+      "player_id": "8318",
+      "sg_total_mean": -0.674,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 66
+    },
+    {
+      "player_id": "9431",
+      "sg_total_mean": 0.6900000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 23
+    },
+    {
+      "player_id": "9111",
+      "sg_total_mean": -0.9299999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 80
+    },
+    {
+      "player_id": "11056",
+      "sg_total_mean": 0.46399999999999997,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 31
+    },
+    {
+      "player_id": "9130",
+      "sg_total_mean": -0.36599999999999994,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 55
+    },
+    {
+      "player_id": "9788",
+      "sg_total_mean": 1.056,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 14
+    },
+    {
+      "player_id": "10095",
+      "sg_total_mean": 0.9640000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 16
+    },
+    {
+      "player_id": "8589",
+      "sg_total_mean": 0.95,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 18
+    },
+    {
+      "player_id": "9981",
+      "sg_total_mean": -1.444,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 99
+    },
+    {
+      "player_id": "9134",
+      "sg_total_mean": 1.512,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 7
+    },
+    {
+      "player_id": "8881",
+      "sg_total_mean": 1.334,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 13
+    },
+    {
+      "player_id": "8386",
+      "sg_total_mean": -1.862,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 104
+    },
+    {
+      "player_id": "10022",
+      "sg_total_mean": -1.4620000000000002,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 100
+    },
+    {
+      "player_id": "11057",
+      "sg_total_mean": -2.2204460492503132e-17,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 45
+    },
+    {
+      "player_id": "9135",
+      "sg_total_mean": 1.3699999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 12
+    },
+    {
+      "player_id": "10155",
+      "sg_total_mean": -1.61,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 102
+    },
+    {
+      "player_id": "4905",
+      "sg_total_mean": -2.392,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 111
+    },
+    {
+      "player_id": "6916",
+      "sg_total_mean": 0.11599999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 44
+    },
+    {
+      "player_id": "11060",
+      "sg_total_mean": -0.426,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 58
+    },
+    {
+      "player_id": "9465",
+      "sg_total_mean": 0.34800000000000003,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 32
+    },
+    {
+      "player_id": "10867",
+      "sg_total_mean": -1.0959999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 87
+    },
+    {
+      "player_id": "10139",
+      "sg_total_mean": -0.77,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 71
+    },
+    {
+      "player_id": "11045",
+      "sg_total_mean": 0.322,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 33
+    },
+    {
+      "player_id": "8799",
+      "sg_total_mean": -0.018000000000000006,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 46
+    },
+    {
+      "player_id": "11926",
+      "sg_total_mean": -4.82,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 119
+    },
+    {
+      "player_id": "11066",
+      "sg_total_mean": 1.424,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 10
+    },
+    {
+      "player_id": "9714",
+      "sg_total_mean": -0.514,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 63
+    },
+    {
+      "player_id": "9990",
+      "sg_total_mean": 0.22600000000000003,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 38
+    },
+    {
+      "player_id": "8863",
+      "sg_total_mean": -0.30200000000000005,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 54
+    },
+    {
+      "player_id": "8884",
+      "sg_total_mean": -1.23,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 93
+    },
+    {
+      "player_id": "8883",
+      "sg_total_mean": -0.46399999999999997,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 59
+    },
+    {
+      "player_id": "11649",
+      "sg_total_mean": 0.484,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 29
+    },
+    {
+      "player_id": "10481",
+      "sg_total_mean": -1.4300000000000002,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 98
+    },
+    {
+      "player_id": "11040",
+      "sg_total_mean": -1.886,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 105
+    },
+    {
+      "player_id": "9652",
+      "sg_total_mean": 0.89,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 21
+    },
+    {
+      "player_id": "8246",
+      "sg_total_mean": -2.084,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 108
+    },
+    {
+      "player_id": "9503",
+      "sg_total_mean": -3.526,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 115
+    },
+    {
+      "player_id": "8859",
+      "sg_total_mean": 0.488,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 28
+    },
+    {
+      "player_id": "9784",
+      "sg_total_mean": 1.494,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 9
+    },
+    {
+      "player_id": "11469",
+      "sg_total_mean": -0.776,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 72
+    },
+    {
+      "player_id": "9759",
+      "sg_total_mean": -1.6239999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 103
+    },
+    {
+      "player_id": "9708",
+      "sg_total_mean": -1.188,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 91
+    },
+    {
+      "player_id": "7434",
+      "sg_total_mean": -0.924,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 79
+    },
+    {
+      "player_id": "8234",
+      "sg_total_mean": 0.194,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 40
+    },
+    {
+      "player_id": "12038",
+      "sg_total_mean": -0.07800000000000006,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 49
+    },
+    {
+      "player_id": "9449",
+      "sg_total_mean": 2.308,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 1
+    },
+    {
+      "player_id": "8811",
+      "sg_total_mean": 0.9,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 20
+    },
+    {
+      "player_id": "9145",
+      "sg_total_mean": -0.198,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 53
+    },
+    {
+      "player_id": "8355",
+      "sg_total_mean": -4.552,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 118
+    },
+    {
+      "player_id": "8243",
+      "sg_total_mean": 0.9559999999999998,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 17
+    },
+    {
+      "player_id": "11374",
+      "sg_total_mean": 0.31399999999999995,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 34
+    },
+    {
+      "player_id": "9082",
+      "sg_total_mean": 0.9259999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 19
+    },
+    {
+      "player_id": "9389",
+      "sg_total_mean": -0.738,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 68
+    },
+    {
+      "player_id": "9765",
+      "sg_total_mean": 0.588,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 25
+    },
+    {
+      "player_id": "8840",
+      "sg_total_mean": 0.254,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 36
+    },
+    {
+      "player_id": "9820",
+      "sg_total_mean": 0.168,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 42
+    },
+    {
+      "player_id": "8770",
+      "sg_total_mean": -1.042,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 84
+    },
+    {
+      "player_id": "8430",
+      "sg_total_mean": -2.598,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 112
+    },
+    {
+      "player_id": "8972",
+      "sg_total_mean": -1.9579999999999997,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 106
+    },
+    {
+      "player_id": "9136",
+      "sg_total_mean": 0.27,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 35
+    },
+    {
+      "player_id": "11770",
+      "sg_total_mean": 0.5399999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 27
+    },
+    {
+      "player_id": "9391",
+      "sg_total_mean": -0.37600000000000006,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 56
+    },
+    {
+      "player_id": "8277",
+      "sg_total_mean": 0.23000000000000004,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 37
+    },
+    {
+      "player_id": "8284",
+      "sg_total_mean": 2.08,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 2
+    },
+    {
+      "player_id": "10577",
+      "sg_total_mean": 0.11800000000000002,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 43
+    },
+    {
+      "player_id": "9235",
+      "sg_total_mean": 1.5219999999999998,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 6
+    },
+    {
+      "player_id": "11073",
+      "sg_total_mean": -0.048000000000000036,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 48
+    },
+    {
+      "player_id": "11447",
+      "sg_total_mean": 0.8400000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 22
+    },
+    {
+      "player_id": "9483",
+      "sg_total_mean": -0.502,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 62
+    },
+    {
+      "player_id": "9426",
+      "sg_total_mean": 1.012,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 15
+    },
+    {
+      "player_id": "9728",
+      "sg_total_mean": -1.3900000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 95
+    },
+    {
+      "player_id": "10531",
+      "sg_total_mean": -2.892,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 113
+    },
+    {
+      "player_id": "9750",
+      "sg_total_mean": -0.548,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 64
+    },
+    {
+      "player_id": "9705",
+      "sg_total_mean": 0.568,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 26
+    },
+    {
+      "player_id": "10586",
+      "sg_total_mean": -0.6639999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 65
+    },
+    {
+      "player_id": "11042",
+      "sg_total_mean": -0.678,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 67
+    },
+    {
+      "player_id": "10727",
+      "sg_total_mean": -1.404,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 97
+    },
+    {
+      "player_id": "10157",
+      "sg_total_mean": -1.16,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 89
+    },
+    {
+      "player_id": "9937",
+      "sg_total_mean": -0.8119999999999999,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 75
+    },
+    {
+      "player_id": "8240",
+      "sg_total_mean": -1.1400000000000001,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 88
+    },
+    {
+      "player_id": "8320",
+      "sg_total_mean": 1.65,
+      "sample_count": 4,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 5
+    },
+    {
+      "player_id": "8764",
+      "sg_total_mean": -1.182,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 90
+    },
+    {
+      "player_id": "11365",
+      "sg_total_mean": -1.064,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 85
+    },
+    {
+      "player_id": "11944",
+      "sg_total_mean": -0.388,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 57
+    },
+    {
+      "player_id": "8436",
+      "sg_total_mean": -3.7960000000000003,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 117
+    },
+    {
+      "player_id": "7963",
+      "sg_total_mean": -3.068,
+      "sample_count": 5,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 114
+    },
+    {
+      "player_id": "10698",
+      "sg_total_mean": -1.02,
+      "sample_count": 1,
+      "provenance": {
+        "source_artifact": "historical_sg_warehouse_corrected_v2.json",
+        "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+        "cutoff": "2026-09-04T00:00:00+09:00",
+        "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
+        "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
+        "calculation_version": "corrected_sg_total_rank_v2"
+      },
+      "sg_total_rank": 83
+    }
+  ]
+}

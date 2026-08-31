@@ -1,13 +1,15 @@
 {
   "schema_version": "neo_sg_row_retention_audit_v2",
-  "generated_at": "2026-08-31T21:53:56Z",
+  "generated_at": "2026-08-31T22:26:46Z",
   "legacy": {
     "rows": 29812,
     "sha256": "f3f2a4e515c31ff82ce2236cb24d604652ea9064ffb8e6f3aac6b926b2761e50"
   },
   "corrected": {
     "rows": 45967,
-    "sha256": "88bd4a4aa5c99f5b9acec20cd6d4794b7689613c5e883662b621dbd08b3ef90e",
+    "sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+    "content_sha256": "88bd4a4aa5c99f5b9acec20cd6d4794b7689613c5e883662b621dbd08b3ef90e",
+    "sha_type": "canonical git-blob hash supplied by accepted warehouse record",
     "retained": 44804,
     "unresolved": 1163
   },

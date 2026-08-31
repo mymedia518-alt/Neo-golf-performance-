@@ -1,6 +1,6 @@
 {
   "schema_version": "neo_tier2_field_domain_publication_gate_v1",
-  "generated_at": "2026-08-31T22:14:42Z",
+  "generated_at": "2026-08-31T22:33:44Z",
   "overall_state": "BLOCK",
   "domains": [
     {
@@ -79,7 +79,7 @@
       ],
       "evidence": {
         "source_artifact": "historical_sg_warehouse_corrected_audit_v2.json",
-        "sha256": "2cdcaf54c9badec4958f0d43acc4ccf1829ecae5c90a17ad53b1b597c2c688e0"
+        "sha256": "07069d19ab7e1d47d02502165a81b69465e24fa0ce28a0ac6703876d57865f8d"
       }
     }
   ],
