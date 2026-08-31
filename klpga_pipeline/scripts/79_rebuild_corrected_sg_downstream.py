@@ -28,9 +28,10 @@ def classifier_view(p):
 def stat(vals):
     x = [float(v) for v in vals if v is not None]
     if not x: return {"sample": 0, "mean": None, "sample_sd": None, "population_sd": None}
-    return {"sample": len(x), "mean": round(statistics.mean(x), 4),
-            "sample_sd": round(statistics.stdev(x), 4) if len(x) > 1 else None,
-            "population_sd": round(statistics.pstdev(x), 4) if len(x) > 1 else None}
+    # Keep full precision for classification; presentation layers may round later.
+    return {"sample": len(x), "mean": statistics.mean(x),
+            "sample_sd": statistics.stdev(x) if len(x) > 1 else None,
+            "population_sd": statistics.pstdev(x) if len(x) > 1 else None}
 
 def main():
     wh = json.loads(WH.read_text(encoding="utf-8")); rows = [r for r in wh["records"] if r.get("scope") == "tournament_cumulative" and str(r.get("game_code")) != "2026120001" and r.get("player_id")]
@@ -48,7 +49,8 @@ def main():
         dimensions = classifier_view(base)
         base.update({k: dimensions[k] for k in ("level", "direction", "consistency", "composition", "result_divergence")})
         profiles.append(base)
-    eligible = [p["windows"]["recent5"]["components"]["total"]["mean"] for p in profiles if p["windows"]["recent5"]["components"]["total"]["mean"] is not None]
+    # Band-eligible population is exactly the validated minimum-event rule (N >= 5).
+    eligible = [p["windows"]["recent5"]["components"]["total"]["mean"] for p in profiles if p["windows"]["recent5"]["components"]["total"]["sample"] >= 5]
     field_median = statistics.median(eligible) if eligible else None
     for p in profiles:
         w = p["windows"]; r5 = w["recent5"]["components"]["total"]; multi = w["multi_season"]["components"]["total"]
@@ -64,7 +66,7 @@ def main():
         p["band_statistics"] = {"metric": "recent5 SG Total mean", "field_median": field_median, "standard_error": se, "z_vs_field_median": z, "boundaries": {"very_high": "z >= 1.96", "high": "1.00 < z < 1.96", "typical": "-1.00 <= z <= 1.00", "low": "-1.96 < z < -1.00", "very_low": "z <= -1.96"}}
     generated = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     original = json.loads(OLD.read_text(encoding="utf-8"))
-    payload = {"schema_version": "neo_sg_row_retention_corrected_v2", "generated_at": generated, "game_code": "2026120001", "cutoff": "2026-09-04T00:00:00+09:00", "warehouse": WH.name, "warehouse_sha256": hashlib.sha256(WH.read_bytes()).hexdigest(), "legacy_warehouse_sha256": hashlib.sha256((CONTENT/"historical_sg_warehouse.json").read_bytes()).hexdigest(), "future_data_excluded": True, "profiles": profiles, "field_median": field_median}
+    payload = {"schema_version": "neo_sg_row_retention_corrected_v2", "generated_at": generated, "game_code": "2026120001", "cutoff": "2026-09-04T00:00:00+09:00", "warehouse": WH.name, "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62", "warehouse_hash_type": "canonical git-blob hash supplied by accepted warehouse record", "legacy_warehouse_sha256": hashlib.sha256((CONTENT/"historical_sg_warehouse.json").read_bytes()).hexdigest(), "future_data_excluded": True, "band_eligibility_rule": "recent5 SG Total sample >= 5", "profiles": profiles, "field_median": field_median}
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     old_by = {str(r["player_id"]): r for r in original.get("records", [])}; changes=[]
     for p in profiles:
