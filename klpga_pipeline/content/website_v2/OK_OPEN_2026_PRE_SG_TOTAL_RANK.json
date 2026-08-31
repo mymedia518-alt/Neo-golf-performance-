@@ -1,0 +1,732 @@
+{
+  "schema_version": "neo_ok_open_pre_sg_total_rank_v1",
+  "game_code": "2026120001",
+  "cutoff": "2026-09-04T00:00:00+09:00",
+  "window": "recent5 cumulative SG",
+  "scope": "tournament_cumulative arithmetic mean of completed single-round SG",
+  "minimum_sample": 1,
+  "tie_rule": "ascending player_id after equal mean",
+  "missing_rule": "NULL when no validated recent5 total mean",
+  "records": [
+    {
+      "player_id": "10002",
+      "sg_total_mean": 0.39,
+      "sg_total_rank": 71,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10022",
+      "sg_total_mean": 1.352,
+      "sg_total_rank": 27,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10075",
+      "sg_total_mean": 0.898,
+      "sg_total_rank": 48,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10081",
+      "sg_total_mean": 2.37,
+      "sg_total_rank": 2,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10083",
+      "sg_total_mean": 1.15,
+      "sg_total_rank": 32,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10095",
+      "sg_total_mean": 1.528,
+      "sg_total_rank": 23,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10097",
+      "sg_total_mean": 1.5,
+      "sg_total_rank": 25,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10109",
+      "sg_total_mean": 1.736,
+      "sg_total_rank": 14,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10112",
+      "sg_total_mean": 1.152,
+      "sg_total_rank": 31,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10139",
+      "sg_total_mean": 1.12,
+      "sg_total_rank": 36,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10155",
+      "sg_total_mean": null,
+      "sg_total_rank": null,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10157",
+      "sg_total_mean": -0.056,
+      "sg_total_rank": 88,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10178",
+      "sg_total_mean": -0.154,
+      "sg_total_rank": 94,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10481",
+      "sg_total_mean": -1.18,
+      "sg_total_rank": 115,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10531",
+      "sg_total_mean": -0.468,
+      "sg_total_rank": 108,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10577",
+      "sg_total_mean": 1.044,
+      "sg_total_rank": 41,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10586",
+      "sg_total_mean": 1.246,
+      "sg_total_rank": 30,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10698",
+      "sg_total_mean": null,
+      "sg_total_rank": null,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10725",
+      "sg_total_mean": 1.964,
+      "sg_total_rank": 8,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10726",
+      "sg_total_mean": 1.144,
+      "sg_total_rank": 33,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10727",
+      "sg_total_mean": 0.68,
+      "sg_total_rank": 57,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10789",
+      "sg_total_mean": null,
+      "sg_total_rank": null,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10790",
+      "sg_total_mean": 1.064,
+      "sg_total_rank": 38,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "10867",
+      "sg_total_mean": 0.825,
+      "sg_total_rank": 52,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11040",
+      "sg_total_mean": -0.288,
+      "sg_total_rank": 102,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11042",
+      "sg_total_mean": 0.544,
+      "sg_total_rank": 64,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11045",
+      "sg_total_mean": 0.998,
+      "sg_total_rank": 44,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11056",
+      "sg_total_mean": 0.532,
+      "sg_total_rank": 65,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11057",
+      "sg_total_mean": 0.654,
+      "sg_total_rank": 58,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11060",
+      "sg_total_mean": 0.03,
+      "sg_total_rank": 85,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11066",
+      "sg_total_mean": 1.062,
+      "sg_total_rank": 39,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11073",
+      "sg_total_mean": 0.034,
+      "sg_total_rank": 84,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11143",
+      "sg_total_mean": 0.504,
+      "sg_total_rank": 66,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11216",
+      "sg_total_mean": 1.57,
+      "sg_total_rank": 19,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11365",
+      "sg_total_mean": 0.286,
+      "sg_total_rank": 73,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11374",
+      "sg_total_mean": 1.06,
+      "sg_total_rank": 40,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11446",
+      "sg_total_mean": -1.042,
+      "sg_total_rank": 114,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11447",
+      "sg_total_mean": 0.936,
+      "sg_total_rank": 46,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11469",
+      "sg_total_mean": -0.1,
+      "sg_total_rank": 92,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11649",
+      "sg_total_mean": 2.008,
+      "sg_total_rank": 6,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11770",
+      "sg_total_mean": 2.234,
+      "sg_total_rank": 4,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11926",
+      "sg_total_mean": -0.27,
+      "sg_total_rank": 100,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "11944",
+      "sg_total_mean": 0.432,
+      "sg_total_rank": 68,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "12038",
+      "sg_total_mean": -0.078,
+      "sg_total_rank": 89,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "4905",
+      "sg_total_mean": -0.162,
+      "sg_total_rank": 95,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "6916",
+      "sg_total_mean": 0.2,
+      "sg_total_rank": 76,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "7434",
+      "sg_total_mean": 0.116,
+      "sg_total_rank": 79,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "7963",
+      "sg_total_mean": -9.14,
+      "sg_total_rank": 117,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8234",
+      "sg_total_mean": 0.254,
+      "sg_total_rank": 74,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8240",
+      "sg_total_mean": -0.186,
+      "sg_total_rank": 98,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8243",
+      "sg_total_mean": 1.998,
+      "sg_total_rank": 7,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8246",
+      "sg_total_mean": -0.46,
+      "sg_total_rank": 107,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8271",
+      "sg_total_mean": -0.282,
+      "sg_total_rank": 101,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8277",
+      "sg_total_mean": 0.626,
+      "sg_total_rank": 61,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8284",
+      "sg_total_mean": 2.704,
+      "sg_total_rank": 1,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8300",
+      "sg_total_mean": 1.808,
+      "sg_total_rank": 13,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8318",
+      "sg_total_mean": 0.328,
+      "sg_total_rank": 72,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8320",
+      "sg_total_mean": 1.65,
+      "sg_total_rank": 15,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8355",
+      "sg_total_mean": -0.37,
+      "sg_total_rank": 104,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8380",
+      "sg_total_mean": 1.314,
+      "sg_total_rank": 29,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8386",
+      "sg_total_mean": -0.052,
+      "sg_total_rank": 87,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8430",
+      "sg_total_mean": -0.2067,
+      "sg_total_rank": 99,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8434",
+      "sg_total_mean": 0.066,
+      "sg_total_rank": 82,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8436",
+      "sg_total_mean": -0.35,
+      "sg_total_rank": 103,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8589",
+      "sg_total_mean": 0.95,
+      "sg_total_rank": 45,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8764",
+      "sg_total_mean": -0.496,
+      "sg_total_rank": 109,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8770",
+      "sg_total_mean": 0.71,
+      "sg_total_rank": 56,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8799",
+      "sg_total_mean": 0.65,
+      "sg_total_rank": 59,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8811",
+      "sg_total_mean": 1.042,
+      "sg_total_rank": 42,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8838",
+      "sg_total_mean": 0.092,
+      "sg_total_rank": 81,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8840",
+      "sg_total_mean": 0.842,
+      "sg_total_rank": 51,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8859",
+      "sg_total_mean": 1.074,
+      "sg_total_rank": 37,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8863",
+      "sg_total_mean": 0.054,
+      "sg_total_rank": 83,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8881",
+      "sg_total_mean": 1.56,
+      "sg_total_rank": 20,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8883",
+      "sg_total_mean": 1.468,
+      "sg_total_rank": 26,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8884",
+      "sg_total_mean": -0.596,
+      "sg_total_rank": 111,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "8972",
+      "sg_total_mean": -1.184,
+      "sg_total_rank": 116,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9000",
+      "sg_total_mean": 0.59,
+      "sg_total_rank": 62,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9082",
+      "sg_total_mean": 1.608,
+      "sg_total_rank": 18,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9089",
+      "sg_total_mean": 0.888,
+      "sg_total_rank": 50,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9111",
+      "sg_total_mean": -0.446,
+      "sg_total_rank": 106,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9113",
+      "sg_total_mean": 1.348,
+      "sg_total_rank": 28,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9130",
+      "sg_total_mean": 1.916,
+      "sg_total_rank": 10,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9134",
+      "sg_total_mean": 1.512,
+      "sg_total_rank": 24,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9135",
+      "sg_total_mean": 1.62,
+      "sg_total_rank": 17,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9136",
+      "sg_total_mean": 0.184,
+      "sg_total_rank": 77,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9145",
+      "sg_total_mean": 0.65,
+      "sg_total_rank": 60,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9174",
+      "sg_total_mean": -0.394,
+      "sg_total_rank": 105,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9183",
+      "sg_total_mean": 0.426,
+      "sg_total_rank": 69,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9235",
+      "sg_total_mean": 1.866,
+      "sg_total_rank": 11,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9277",
+      "sg_total_mean": -0.594,
+      "sg_total_rank": 110,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9389",
+      "sg_total_mean": 0.438,
+      "sg_total_rank": 67,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9391",
+      "sg_total_mean": 1.012,
+      "sg_total_rank": 43,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9401",
+      "sg_total_mean": 1.14,
+      "sg_total_rank": 34,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9426",
+      "sg_total_mean": 1.836,
+      "sg_total_rank": 12,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9431",
+      "sg_total_mean": 0.746,
+      "sg_total_rank": 54,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9436",
+      "sg_total_mean": -0.818,
+      "sg_total_rank": 113,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9449",
+      "sg_total_mean": 2.35,
+      "sg_total_rank": 3,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9465",
+      "sg_total_mean": 0.418,
+      "sg_total_rank": 70,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9483",
+      "sg_total_mean": -0.152,
+      "sg_total_rank": 93,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9487",
+      "sg_total_mean": 0.01,
+      "sg_total_rank": 86,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9503",
+      "sg_total_mean": -0.088,
+      "sg_total_rank": 91,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9652",
+      "sg_total_mean": 0.89,
+      "sg_total_rank": 49,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9702",
+      "sg_total_mean": 0.712,
+      "sg_total_rank": 55,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9705",
+      "sg_total_mean": 0.762,
+      "sg_total_rank": 53,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9708",
+      "sg_total_mean": 0.122,
+      "sg_total_rank": 78,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9714",
+      "sg_total_mean": 0.102,
+      "sg_total_rank": 80,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9723",
+      "sg_total_mean": -0.638,
+      "sg_total_rank": 112,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9728",
+      "sg_total_mean": 0.2525,
+      "sg_total_rank": 75,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9750",
+      "sg_total_mean": 1.14,
+      "sg_total_rank": 35,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9752",
+      "sg_total_mean": 1.544,
+      "sg_total_rank": 22,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9759",
+      "sg_total_mean": -0.182,
+      "sg_total_rank": 97,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9765",
+      "sg_total_mean": 0.588,
+      "sg_total_rank": 63,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9784",
+      "sg_total_mean": 2.158,
+      "sg_total_rank": 5,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9788",
+      "sg_total_mean": 1.962,
+      "sg_total_rank": 9,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9807",
+      "sg_total_mean": 1.55,
+      "sg_total_rank": 21,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9820",
+      "sg_total_mean": 1.65,
+      "sg_total_rank": 16,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9937",
+      "sg_total_mean": -0.082,
+      "sg_total_rank": 90,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9981",
+      "sg_total_mean": -0.176,
+      "sg_total_rank": 96,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    },
+    {
+      "player_id": "9990",
+      "sg_total_mean": 0.916,
+      "sg_total_rank": 47,
+      "provenance": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+    }
+  ]
+}

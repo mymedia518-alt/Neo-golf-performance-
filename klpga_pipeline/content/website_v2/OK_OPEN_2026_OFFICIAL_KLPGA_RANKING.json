@@ -1,0 +1,609 @@
+{
+  "schema_version": "neo_ok_open_official_klpga_ranking_v1",
+  "ranking_category": "K-RANKING (official weekly KLPGA ranking)",
+  "ranking_date": "2026-W35",
+  "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+  "retrieved_at": "2026-08-31T15:58:02Z",
+  "records": [
+    {
+      "player_id": "10002",
+      "official_rank": 45,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10022",
+      "official_rank": 104,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10075",
+      "official_rank": 137,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10081",
+      "official_rank": 24,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10083",
+      "official_rank": 84,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10095",
+      "official_rank": 5,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10097",
+      "official_rank": 10,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10109",
+      "official_rank": 11,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10112",
+      "official_rank": 15,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10139",
+      "official_rank": 108,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10155",
+      "official_rank": 497,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10157",
+      "official_rank": 130,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10178",
+      "official_rank": 334,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10481",
+      "official_rank": 151,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10531",
+      "official_rank": 87,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10577",
+      "official_rank": 49,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10586",
+      "official_rank": 41,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10698",
+      "official_rank": 161,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10725",
+      "official_rank": 1,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10726",
+      "official_rank": 59,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10727",
+      "official_rank": 95,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10789",
+      "official_rank": 53,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10790",
+      "official_rank": 110,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "10867",
+      "official_rank": 277,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11040",
+      "official_rank": 131,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11042",
+      "official_rank": 75,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11045",
+      "official_rank": 36,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11056",
+      "official_rank": 62,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11057",
+      "official_rank": 57,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11060",
+      "official_rank": 92,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11066",
+      "official_rank": 30,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11073",
+      "official_rank": 58,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11143",
+      "official_rank": 23,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11216",
+      "official_rank": 67,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11365",
+      "official_rank": 254,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11374",
+      "official_rank": 96,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11446",
+      "official_rank": 163,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11447",
+      "official_rank": 90,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11469",
+      "official_rank": 248,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11649",
+      "official_rank": 20,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11770",
+      "official_rank": 33,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11926",
+      "official_rank": 484,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "11944",
+      "official_rank": 166,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "12038",
+      "official_rank": 132,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "4905",
+      "official_rank": 149,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "6916",
+      "official_rank": 72,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "7434",
+      "official_rank": 174,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "7963",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8234",
+      "official_rank": 113,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8240",
+      "official_rank": 154,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8243",
+      "official_rank": 16,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8246",
+      "official_rank": 120,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8271",
+      "official_rank": 133,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8277",
+      "official_rank": 60,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8284",
+      "official_rank": 17,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8300",
+      "official_rank": 19,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8318",
+      "official_rank": 140,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8320",
+      "official_rank": 204,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8355",
+      "official_rank": 91,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8380",
+      "official_rank": 73,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8386",
+      "official_rank": 122,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8430",
+      "official_rank": 234,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8434",
+      "official_rank": 153,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8436",
+      "official_rank": 667,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8589",
+      "official_rank": 37,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8764",
+      "official_rank": 146,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8770",
+      "official_rank": 70,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8799",
+      "official_rank": 100,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8811",
+      "official_rank": 51,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8838",
+      "official_rank": 79,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8840",
+      "official_rank": 118,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8859",
+      "official_rank": 56,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8863",
+      "official_rank": 111,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8881",
+      "official_rank": 9,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8883",
+      "official_rank": 27,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8884",
+      "official_rank": 135,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "8972",
+      "official_rank": 225,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9000",
+      "official_rank": 77,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9082",
+      "official_rank": 21,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9089",
+      "official_rank": 94,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9111",
+      "official_rank": 101,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9113",
+      "official_rank": 6,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9130",
+      "official_rank": 12,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9134",
+      "official_rank": 42,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9135",
+      "official_rank": 28,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9136",
+      "official_rank": 86,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9145",
+      "official_rank": 40,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9174",
+      "official_rank": 114,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9183",
+      "official_rank": 71,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9235",
+      "official_rank": 26,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9277",
+      "official_rank": 136,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9389",
+      "official_rank": 63,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9391",
+      "official_rank": 54,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9401",
+      "official_rank": 38,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9426",
+      "official_rank": 32,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9431",
+      "official_rank": 44,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9436",
+      "official_rank": 147,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9449",
+      "official_rank": 35,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9465",
+      "official_rank": 50,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9483",
+      "official_rank": 80,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9487",
+      "official_rank": 55,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9503",
+      "official_rank": 183,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9652",
+      "official_rank": 47,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9702",
+      "official_rank": 128,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9705",
+      "official_rank": 83,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9708",
+      "official_rank": 61,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9714",
+      "official_rank": 69,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9723",
+      "official_rank": 164,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9728",
+      "official_rank": 150,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9750",
+      "official_rank": 8,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9752",
+      "official_rank": 74,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9759",
+      "official_rank": 43,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9765",
+      "official_rank": 65,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9784",
+      "official_rank": 7,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9788",
+      "official_rank": 13,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9807",
+      "official_rank": 64,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9820",
+      "official_rank": 29,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9937",
+      "official_rank": 112,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9981",
+      "official_rank": 165,
+      "validation_state": "PASS"
+    },
+    {
+      "player_id": "9990",
+      "official_rank": 82,
+      "validation_state": "PASS"
+    }
+  ]
+}
