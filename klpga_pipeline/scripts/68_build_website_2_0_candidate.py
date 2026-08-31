@@ -66,8 +66,11 @@ def load_inputs():
         try:
             sys.path.insert(0, str(Path(r"C:/Users/user/Desktop/Neo-golf-performance-/klpga_pipeline/src")))
             from klpga.models.inference import run_inference
-            with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as conn:
-                inferred = run_inference(conn, "2026120001", cutoff_date_arg="2026-09-04", tournament_name_arg=schedule["name"])
+            with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as source_conn:
+                with sqlite3.connect(":memory:") as conn:
+                    source_conn.backup(conn)
+                    conn.executemany("INSERT OR REPLACE INTO tournament_entry (game_code, player_code, player_name_display, nationality, qualification_category, qualification_reason, source, collected_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [("2026120001", str(e.get("player_id")), str(e.get("player_name") or ""), e.get("nationality"), e.get("qualification_category"), e.get("qualification_reason"), "frozen_entry_snapshot", "2026-08-30T00:00:00Z") for e in entries])
+                    inferred = run_inference(conn, "2026120001", cutoff_date_arg="2026-09-04", tournament_name_arg=schedule["name"])
             probability_by = {str(p.player_code): p.win_probability for p in inferred.predictions}
         except (ImportError, RuntimeError, ValueError):
             probability_by = {}
