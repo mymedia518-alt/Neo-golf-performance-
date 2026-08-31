@@ -26,3 +26,10 @@ def test_manifest_points_to_canonical_master():
     manifest = json.loads((out / "data" / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["source_master"].endswith("OK_OPEN_2026_PRE_PUBLIC_MASTER.json")
     assert manifest["entry_count"] == 120
+
+
+def test_mobile_table_containment_contract():
+    out = builder.build()
+    css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
+    assert ".grid > *,.panel{min-width:0}" in css
+    assert ".table-wrap{width:100%;max-width:100%;overflow-x:auto" in css
