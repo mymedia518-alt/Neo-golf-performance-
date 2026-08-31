@@ -21,9 +21,9 @@ TEST RESULT: Focused Website 2.0 tests 5 passed. Full repository suite: 1647 pas
 
 PROTECTED EVIDENCE: PASS — PHASE 0 PRE/R1/R2/R3 hashes unchanged. Website 2.0, OK Open PRE snapshot, Classifier V2, SG warehouse, model and production Coming Soon homepage remain unmodified by this correction.
 
-GIT STATUS: Candidate correction files only; commit/push pending.
-COMMIT: pending
-PUSH: pending, no deployment.
+GIT STATUS: Candidate correction files only; committed and pushed.
+COMMIT: a682c7d09901c5354dea3ee5b7dc1d0835f8cf31
+PUSH: PASS — origin/neo-website-v2 matches local HEAD; no deployment.
 PRODUCTION STATUS: NOT DEPLOYED.
 NEXT ACTIVE TASK: Human browser review of the corrected isolated candidate, then separately authorize integration.
 USER ACTION REQUIRED: NONE
