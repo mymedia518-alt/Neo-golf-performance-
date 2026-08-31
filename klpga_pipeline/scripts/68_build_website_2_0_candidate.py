@@ -88,7 +88,7 @@ def render_dashboard(schedule: dict, entries: list[dict], profiles: dict, curren
     for entry in entries:
         pid = str(entry.get("player_id")); name = _clean_name(entry.get("canonical_name") or entry.get("player_name"), pid)
         sponsor = escape(str(entry.get("sponsor") or "—")); win = entry.get("win_probability"); win_text = "—" if win is None else f"{float(win)*100:.2f}%"
-        rows.append(f'<tr data-player-id="{escape(pid)}"><td>{entry.get("neo_rank", "—")}</td><th scope="row"><button class="player-select" data-player-id="{escape(pid)}">{escape(name)}</button><small class="sponsor">{sponsor}</small><small class="pre-win">우승 {win_text}</small></th><td>\u2014</td><td>\u2014</td><td>\u2014</td>' + ''.join('<td class="pending">\u2014</td>' for _ in range(6)) + '</tr>')
+        rows.append(f'<tr data-player-id="{escape(pid)}"><td>—</td><td>{entry.get("neo_rank", "—")}</td><th scope="row"><button class="player-select" data-player-id="{escape(pid)}">{escape(name)}</button><small class="sponsor">{sponsor}</small><small class="pre-win">우승 {win_text}</small></th><td>—</td><td>—</td><td>—</td>' + ''.join('<td class="pending">\u2014</td>' for _ in range(6)) + f'<td>—</td><td>—</td><td>—</td><td>—</td><td>{win_text}</td></tr>')
         if len(cards) < 3:
             w = profiles.get(pid, {}).get("windows", {}).get("recent5", {}); metrics = [("PUTT","putting"),("ARG","around_green"),("APP","approach"),("OTT","off_the_tee"),("T2G","tee_to_green"),("TOTAL","total")]
             cells = "".join(f'<div><span>{label}</span><strong>{_fmt(_metric(w,key))}</strong></div>' for label,key in metrics)
@@ -106,6 +106,8 @@ def build():
     for stage in stage_labels(schedule["rounds"]):
         target = OUT if stage == "\ub300\ud68c" else OUT / stage.lower(); target.mkdir(parents=True, exist_ok=True)
         html = _decode_unicode_escapes(render_dashboard(schedule, entries, profiles, stage))
+        html = html.replace('<th>순위</th><th>선수</th>', '<th>예상순위</th><th>KLPGA 랭킹</th><th>NEO 랭킹</th><th>선수</th>')
+        html = html.replace('<th>SG TOTAL</th></tr>', '<th>SG TOTAL</th><th>SG Total 순위</th><th>TOP 20</th><th>TOP 10</th><th>TOP 5</th><th>우승</th></tr>')
         if stage == "\ub300\ud68c":
             """
             items = "".join(f'<li><span>{escape(_clean_name(e.get("canonical_name") or e.get("player_name"), str(e.get("player_id"))))}</span><strong>{(f"{float(e[\"win_probability\"])*100:.2f}%" if e.get("win_probability") is not None else "—")}</strong></li>' for e in entries[:10])
