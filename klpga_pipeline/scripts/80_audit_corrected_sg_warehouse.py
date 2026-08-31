@@ -14,10 +14,12 @@ def main():
         rows=[r for r in corr if r.get("scope")=="single_round" and r.get("round")==rnd]
         means[f"R{rnd}"]={"rows":len(rows),"players":len({r.get("player_id") for r in rows if r.get("player_id")}),"components":{c:statistics.mean([float(r[c]) for r in rows if r.get(c) is not None]) if rows else None for c in ("total","tee_to_green","off_the_tee","approach","around_green","putting")}}
     cp=json.loads((C/"sg_warehouse_checkpoint_corrected_v2.json").read_text(encoding="utf-8"))
+    legacy_cp=json.loads((C/"sg_warehouse_checkpoint.json").read_text(encoding="utf-8"))
     events=[]
     for code,e in sorted(cp.items()):
         if e.get("status")=="success" and e.get("records"): reason="SG_AVAILABLE"
         elif "no round leaderboard" in str(e.get("error","")): reason="ROUND-SELECTION_ISSUE"
+        elif legacy_cp.get(code,{}).get("no_row_reason"): reason=legacy_cp[code]["no_row_reason"]
         elif e.get("error"): reason="REQUEST/PARAMETER_ISSUE"
         else: reason="UNKNOWN"
         events.append({"game_code":code,"season":e.get("season"),"event":e.get("event"),"status":reason,"source_rows":e.get("source_sg_rows",0),"retained_rows":e.get("retained_rows",0),"unresolved_rows":e.get("unresolved_rows",0)})

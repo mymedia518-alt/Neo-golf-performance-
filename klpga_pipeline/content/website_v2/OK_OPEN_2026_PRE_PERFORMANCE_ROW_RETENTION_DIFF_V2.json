@@ -1,6 +1,6 @@
 {
   "schema_version": "neo_sg_row_retention_diff_v2",
-  "generated_at": "2026-08-31T20:50:25Z",
+  "generated_at": "2026-08-31T21:53:03Z",
   "profiles": [
     {
       "player_id": "9174",
@@ -18,7 +18,7 @@
           "metric": "recent5 SG Total mean",
           "value": -3.664,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.2536,
+          "baseline_value": -1.2738,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -70,8 +70,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.9584,
-          "population_sd_research": 1.9443,
+          "sample_sd": 1.9518,
+          "population_sd_research": 1.938,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -196,7 +196,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.792,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.8458,
+          "baseline_value": -1.9588,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -248,8 +248,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.2755,
-          "population_sd_research": 2.2517,
+          "sample_sd": 2.3864,
+          "population_sd_research": 2.3619,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -285,7 +285,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.894,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.3372,
+          "baseline_value": 0.3322,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -337,8 +337,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.1461,
-          "population_sd_research": 2.1345,
+          "sample_sd": 2.1351,
+          "population_sd_research": 2.1237,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -819,7 +819,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.482,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.9431,
+          "baseline_value": 0.932,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -871,8 +871,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7558,
-          "population_sd_research": 1.7463,
+          "sample_sd": 1.7496,
+          "population_sd_research": 1.7403,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -908,7 +908,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.5,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.976,
+          "baseline_value": 0.9802,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -960,8 +960,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.733,
-          "population_sd_research": 1.7237,
+          "sample_sd": 1.7241,
+          "population_sd_research": 1.715,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1086,7 +1086,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.84,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.5581,
+          "baseline_value": 0.5596,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1138,8 +1138,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0385,
-          "population_sd_research": 2.0283,
+          "sample_sd": 2.0284,
+          "population_sd_research": 2.0183,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1175,7 +1175,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.78,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.7245,
+          "baseline_value": -0.7053,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1227,8 +1227,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8896,
-          "population_sd_research": 1.8732,
+          "sample_sd": 1.879,
+          "population_sd_research": 1.8631,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1264,7 +1264,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.024,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.0042,
+          "baseline_value": -0.1029,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1316,8 +1316,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.6251,
-          "population_sd_research": 1.6123,
+          "sample_sd": 1.798,
+          "population_sd_research": 1.7841,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1442,7 +1442,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.596,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.7206,
+          "baseline_value": 1.7421,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1494,8 +1494,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4898,
-          "population_sd_research": 1.4809,
+          "sample_sd": 1.4941,
+          "population_sd_research": 1.4853,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1709,7 +1709,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.188,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.0178,
+          "baseline_value": -0.0111,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1761,8 +1761,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5454,
-          "population_sd_research": 1.5372,
+          "sample_sd": 1.5386,
+          "population_sd_research": 1.5306,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1798,7 +1798,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.306,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.4324,
+          "baseline_value": 0.4634,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1850,8 +1850,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.4824,
-          "population_sd_research": 1.4743,
+          "sample_sd": 1.5039,
+          "population_sd_research": 1.4957,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1887,7 +1887,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.482,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.054,
+          "baseline_value": 0.0415,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1939,8 +1939,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4883,
-          "population_sd_research": 1.4795,
+          "sample_sd": 1.484,
+          "population_sd_research": 1.4754,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2332,7 +2332,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.354,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.3749,
+          "baseline_value": -1.3887,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2384,8 +2384,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.1626,
-          "population_sd_research": 2.1507,
+          "sample_sd": 2.1547,
+          "population_sd_research": 2.143,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2421,7 +2421,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.386,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.3285,
+          "baseline_value": 1.333,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2473,8 +2473,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7067,
-          "population_sd_research": 1.6979,
+          "sample_sd": 1.6985,
+          "population_sd_research": 1.6899,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2688,7 +2688,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.09,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.6556,
+          "baseline_value": 0.65,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2740,8 +2740,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.9567,
-          "population_sd_research": 1.9457,
+          "sample_sd": 1.9465,
+          "population_sd_research": 1.9356,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2866,7 +2866,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.988,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.1032,
+          "baseline_value": 0.0827,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2918,8 +2918,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5192,
-          "population_sd_research": 1.5108,
+          "sample_sd": 1.5235,
+          "population_sd_research": 1.5152,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2955,7 +2955,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.674,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1694,
+          "baseline_value": -1.1917,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3007,8 +3007,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7524,
-          "population_sd_research": 1.7354,
+          "sample_sd": 1.743,
+          "population_sd_research": 1.7265,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3044,7 +3044,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.69,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.0654,
+          "baseline_value": -0.0756,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3096,8 +3096,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.2886,
-          "population_sd_research": 2.2767,
+          "sample_sd": 2.2789,
+          "population_sd_research": 2.2671,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3222,7 +3222,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.464,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.5874,
+          "baseline_value": -0.6057,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3274,8 +3274,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.4654,
-          "population_sd_research": 2.4365,
+          "sample_sd": 2.4395,
+          "population_sd_research": 2.4116,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3311,7 +3311,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.366,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.7904,
+          "baseline_value": 1.7861,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3363,8 +3363,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.4001,
-          "population_sd_research": 1.3922,
+          "sample_sd": 1.3928,
+          "population_sd_research": 1.385,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3400,7 +3400,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.056,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.0445,
+          "baseline_value": 1.0551,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3452,8 +3452,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.6411,
-          "population_sd_research": 1.63,
+          "sample_sd": 1.6326,
+          "population_sd_research": 1.6217,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3489,7 +3489,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.964,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.5281,
+          "baseline_value": 1.5063,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3541,8 +3541,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7842,
-          "population_sd_research": 1.774,
+          "sample_sd": 1.7859,
+          "population_sd_research": 1.7758,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3578,7 +3578,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.95,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.0273,
+          "baseline_value": 1.049,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3630,8 +3630,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4676,
-          "population_sd_research": 1.4596,
+          "sample_sd": 1.4746,
+          "population_sd_research": 1.4666,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3756,7 +3756,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.512,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.7747,
+          "baseline_value": 0.7706,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3808,8 +3808,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.3813,
-          "population_sd_research": 1.3742,
+          "sample_sd": 1.3748,
+          "population_sd_research": 1.3678,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3845,7 +3845,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.334,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.4258,
+          "baseline_value": 1.4582,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3897,8 +3897,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7716,
-          "population_sd_research": 1.7584,
+          "sample_sd": 1.7786,
+          "population_sd_research": 1.7654,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4023,7 +4023,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.462,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.3271,
+          "baseline_value": -0.3524,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4075,8 +4075,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.8772,
-          "population_sd_research": 1.8663,
+          "sample_sd": 1.8812,
+          "population_sd_research": 1.8703,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4201,7 +4201,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.37,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.0242,
+          "baseline_value": -0.0318,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4253,8 +4253,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5356,
-          "population_sd_research": 1.5251,
+          "sample_sd": 1.5264,
+          "population_sd_research": 1.5161,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4379,7 +4379,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.392,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.5153,
+          "baseline_value": -0.5307,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4431,8 +4431,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.162,
-          "population_sd_research": 2.1474,
+          "sample_sd": 2.1515,
+          "population_sd_research": 2.1371,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4468,7 +4468,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.116,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.1779,
+          "baseline_value": 0.1911,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4520,8 +4520,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6825,
-          "population_sd_research": 1.6728,
+          "sample_sd": 1.6773,
+          "population_sd_research": 1.6678,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4646,7 +4646,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.348,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.9393,
+          "baseline_value": -0.9617,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4698,8 +4698,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.5407,
-          "population_sd_research": 2.5219,
+          "sample_sd": 2.5288,
+          "population_sd_research": 2.5104,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5180,7 +5180,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.424,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.1167,
+          "baseline_value": 0.1009,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5232,8 +5232,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0219,
-          "population_sd_research": 2.0068,
+          "sample_sd": 2.011,
+          "population_sd_research": 1.9962,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5269,7 +5269,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.514,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.2015,
+          "baseline_value": -0.2133,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5321,8 +5321,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6526,
-          "population_sd_research": 1.641,
+          "sample_sd": 1.644,
+          "population_sd_research": 1.6325,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5625,7 +5625,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.464,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.063,
+          "baseline_value": 1.0574,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5677,8 +5677,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5042,
-          "population_sd_research": 1.4964,
+          "sample_sd": 1.4974,
+          "population_sd_research": 1.4897,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5714,7 +5714,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.484,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.2044,
+          "baseline_value": 1.1818,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5766,8 +5766,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.9152,
-          "population_sd_research": 1.8977,
+          "sample_sd": 1.9052,
+          "population_sd_research": 1.8881,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6070,7 +6070,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.084,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.2181,
+          "baseline_value": -0.2082,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6122,8 +6122,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.1505,
-          "population_sd_research": 2.139,
+          "sample_sd": 2.1411,
+          "population_sd_research": 2.1298,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6248,7 +6248,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.488,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.5056,
+          "baseline_value": 0.5097,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6300,8 +6300,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4536,
-          "population_sd_research": 1.4462,
+          "sample_sd": 1.4468,
+          "population_sd_research": 1.4395,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6337,7 +6337,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.494,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.7709,
+          "baseline_value": 1.7737,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6389,8 +6389,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7393,
-          "population_sd_research": 1.7291,
+          "sample_sd": 1.7293,
+          "population_sd_research": 1.7194,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6515,7 +6515,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.624,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.5983,
+          "baseline_value": -1.6131,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6567,8 +6567,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 3.0259,
-          "population_sd_research": 3.0042,
+          "sample_sd": 3.0068,
+          "population_sd_research": 2.9855,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6693,7 +6693,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.924,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.6775,
+          "baseline_value": -0.6858,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6745,8 +6745,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.9445,
-          "population_sd_research": 1.9319,
+          "sample_sd": 1.9332,
+          "population_sd_research": 1.9208,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6782,7 +6782,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.194,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.1569,
+          "baseline_value": -0.1384,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6834,8 +6834,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6458,
-          "population_sd_research": 1.6343,
+          "sample_sd": 1.642,
+          "population_sd_research": 1.6308,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7049,7 +7049,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.9,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.1146,
+          "baseline_value": -0.1157,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7101,8 +7101,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0208,
-          "population_sd_research": 2.0106,
+          "sample_sd": 2.0106,
+          "population_sd_research": 2.0005,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7138,7 +7138,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.198,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.6762,
+          "baseline_value": 0.6509,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7190,8 +7190,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.7491,
-          "population_sd_research": 1.739,
+          "sample_sd": 1.7552,
+          "population_sd_research": 1.7452,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7227,7 +7227,7 @@
           "metric": "recent5 SG Total mean",
           "value": -4.552,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.2619,
+          "baseline_value": -0.2425,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7279,8 +7279,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.0089,
-          "population_sd_research": 1.996,
+          "sample_sd": 2.0034,
+          "population_sd_research": 1.9907,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7316,7 +7316,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.956,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.3305,
+          "baseline_value": -0.3134,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7368,8 +7368,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0509,
-          "population_sd_research": 2.0329,
+          "sample_sd": 2.037,
+          "population_sd_research": 2.0194,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7481,8 +7481,8 @@
     {
       "player_id": "9082",
       "old_band": "HIGH",
-      "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "corrected_band": "HIGH",
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -7494,7 +7494,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.926,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.1387,
+          "baseline_value": 1.1088,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7546,8 +7546,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5844,
-          "population_sd_research": 1.5755,
+          "sample_sd": 1.6008,
+          "population_sd_research": 1.5919,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7583,7 +7583,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.738,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.45,
+          "baseline_value": -0.4593,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7635,8 +7635,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7458,
-          "population_sd_research": 1.7368,
+          "sample_sd": 1.7392,
+          "population_sd_research": 1.7303,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7672,7 +7672,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.588,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.4127,
+          "baseline_value": -0.4467,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7724,8 +7724,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.07,
-          "population_sd_research": 2.0594,
+          "sample_sd": 2.0871,
+          "population_sd_research": 2.0765,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7761,7 +7761,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.254,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -3.7102,
+          "baseline_value": -3.6684,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7813,8 +7813,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 4.4498,
-          "population_sd_research": 4.399,
+          "sample_sd": 4.4079,
+          "population_sd_research": 4.3587,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7850,7 +7850,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.168,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.3024,
+          "baseline_value": 1.2998,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7902,8 +7902,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.557,
-          "population_sd_research": 1.5481,
+          "sample_sd": 1.5483,
+          "population_sd_research": 1.5396,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7939,7 +7939,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.042,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.1286,
+          "baseline_value": -0.1452,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7991,8 +7991,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.772,
-          "population_sd_research": 1.7622,
+          "sample_sd": 1.7694,
+          "population_sd_research": 1.7598,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8206,7 +8206,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.27,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.2905,
+          "baseline_value": -0.2833,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8258,8 +8258,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8917,
-          "population_sd_research": 1.882,
+          "sample_sd": 1.8833,
+          "population_sd_research": 1.8738,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8384,7 +8384,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.376,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.3857,
+          "baseline_value": 0.4031,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8437,7 +8437,7 @@
         },
         "consistency": {
           "sample_sd": 1.7582,
-          "population_sd_research": 1.7494,
+          "population_sd_research": 1.7496,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8473,7 +8473,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.23,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.3186,
+          "baseline_value": 0.3234,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8525,8 +8525,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6247,
-          "population_sd_research": 1.6161,
+          "sample_sd": 1.6167,
+          "population_sd_research": 1.6082,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8562,7 +8562,7 @@
           "metric": "recent5 SG Total mean",
           "value": 2.08,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.2031,
+          "baseline_value": 1.198,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8614,8 +8614,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5357,
-          "population_sd_research": 1.5277,
+          "sample_sd": 1.5285,
+          "population_sd_research": 1.5206,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8740,7 +8740,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.522,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.9237,
+          "baseline_value": 0.9109,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8792,8 +8792,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4338,
-          "population_sd_research": 1.426,
+          "sample_sd": 1.4314,
+          "population_sd_research": 1.4238,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9096,7 +9096,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.012,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.9689,
+          "baseline_value": 0.953,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9148,8 +9148,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5618,
-          "population_sd_research": 1.5531,
+          "sample_sd": 1.5605,
+          "population_sd_research": 1.5519,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9274,7 +9274,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.892,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.3567,
+          "baseline_value": -0.3326,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9326,8 +9326,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.0679,
-          "population_sd_research": 2.057,
+          "sample_sd": 2.0706,
+          "population_sd_research": 2.0597,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9363,7 +9363,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.548,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.1281,
+          "baseline_value": 1.1425,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9415,8 +9415,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0517,
-          "population_sd_research": 2.0385,
+          "sample_sd": 2.0425,
+          "population_sd_research": 2.0295,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9452,7 +9452,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.568,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.0622,
+          "baseline_value": 0.0529,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9504,8 +9504,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4,
-          "population_sd_research": 1.3928,
+          "sample_sd": 1.3959,
+          "population_sd_research": 1.3888,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9541,7 +9541,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.664,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.0514,
+          "baseline_value": 0.0671,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9593,8 +9593,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.6042,
-          "population_sd_research": 1.5959,
+          "sample_sd": 1.6034,
+          "population_sd_research": 1.5952,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9630,7 +9630,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.678,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.0519,
+          "baseline_value": 0.0189,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9682,8 +9682,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.5799,
-          "population_sd_research": 1.5689,
+          "sample_sd": 1.5941,
+          "population_sd_research": 1.5831,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9897,7 +9897,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.812,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.9517,
+          "baseline_value": -0.9469,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9949,8 +9949,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.2715,
-          "population_sd_research": 1.2597,
+          "sample_sd": 1.2602,
+          "population_sd_research": 1.2487,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9986,7 +9986,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.14,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.4539,
+          "baseline_value": -0.4478,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10038,8 +10038,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8586,
-          "population_sd_research": 1.8492,
+          "sample_sd": 1.8502,
+          "population_sd_research": 1.8409,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10164,7 +10164,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.182,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.0391,
+          "baseline_value": -0.0276,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10216,8 +10216,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5261,
-          "population_sd_research": 1.5159,
+          "sample_sd": 1.5192,
+          "population_sd_research": 1.5092,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10685,12 +10685,12 @@
   ],
   "summary": {
     "entrants": 120,
-    "band_changed": 67,
-    "band_unchanged": 53,
+    "band_changed": 66,
+    "band_unchanged": 54,
     "insufficient_to_eligible": 8,
     "corrected_distribution": {
-      "VERY_HIGH": 17,
-      "HIGH": 13,
+      "VERY_HIGH": 16,
+      "HIGH": 14,
       "TYPICAL": 59,
       "LOW": 17,
       "VERY_LOW": 11,
