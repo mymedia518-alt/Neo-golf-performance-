@@ -1,0 +1,43 @@
+{
+  "schema_version": "neo_ok_open_r2_readiness_v1",
+  "retrieved_at": "2026-08-31T01:47:07Z",
+  "tournament": {
+    "game_code": "2026120001",
+    "total_holes": 54
+  },
+  "decision": "WAIT",
+  "reason": "official R2 leaderboard unavailable",
+  "official_r2_available": false,
+  "cut_inferred": false,
+  "future_checkpoint_rows": 0,
+  "expected_player_count": 120,
+  "stage_sequence": [
+    "PRE",
+    "R1",
+    "R2",
+    "FINAL"
+  ],
+  "operator_action_count": 0,
+  "fast_lane": [
+    "official R2 leaderboard",
+    "completion/status/rank validation",
+    "immutable R2 scoring freeze",
+    "R2 prediction checkpoint"
+  ],
+  "deep_lane_optional": [
+    "official SG enrichment",
+    "hole analytics"
+  ],
+  "failure_recovery": {
+    "page_unavailable": "WAIT",
+    "partial_or_suspended": "WAIT",
+    "identity_conflict": "HARD_STOP",
+    "duplicate_player": "HARD_STOP",
+    "freeze_exists": "HARD_STOP",
+    "SG_unavailable": "SAFE_CONTINUE"
+  },
+  "provenance": {
+    "entry_snapshot_sha256": "8e34b2b685646986eaa218b59d78cc3c7107ac03d1629de78baf3f59c2d574b6",
+    "source_state": "pre-event; no official R2 evidence exists"
+  }
+}
