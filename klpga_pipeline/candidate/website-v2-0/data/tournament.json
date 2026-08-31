@@ -1,6 +1,6 @@
 {
   "game_code": "2026120001",
-  "name": "OK저축은행 읏맨 오픈",
+  "name": "OK\\uc800\\ucd95\\uc740\\ud589 \\uc74f\\ub9e8 \\uc624\\ud508",
   "start_date": "2026-09-04",
   "end_date": "2026-09-06",
   "venue": "포천아도니스",
@@ -9,5 +9,5 @@
   "format": "스트로크 플레이",
   "purse": 1000000000,
   "source": "https://klpga.co.kr/ajax/tourInfo/getGameList",
-  "retrieved_at": "2026-08-31T00:14:24.244855+00:00"
+  "retrieved_at": "2026-08-30T23:39:09Z"
 }
