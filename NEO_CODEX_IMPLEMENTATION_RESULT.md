@@ -45,3 +45,9 @@ All PASS. Website publication gate remains **BLOCKED** until the corrected downs
 - Full repository suite: 1,674 passed, 11 skipped, 0 failed.
 - Evidence verifier: PASS for PRE/R1/R2/R3.
 - Production `docs/`, database, model, AUTO OPS, and protected forecast artifacts: not modified by this repair.
+
+## Git / gate
+
+- Commit: `b475c51a785194bf318da6b58733d49faebeb3e8`
+- Push: normal push to `origin/neo-website-v2`; local and remote HEAD match.
+- Publication gate: **BLOCKED** (remaining official no-row classification and corrected field-strength replay are not complete).
