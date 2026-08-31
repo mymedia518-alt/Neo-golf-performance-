@@ -1,69 +1,69 @@
 {
   "schema_version": "neo_sg_row_retention_audit_v2",
-  "generated_at": "2026-08-31T20:48:31Z",
+  "generated_at": "2026-08-31T21:53:56Z",
   "legacy": {
     "rows": 29812,
     "sha256": "f3f2a4e515c31ff82ce2236cb24d604652ea9064ffb8e6f3aac6b926b2761e50"
   },
   "corrected": {
-    "rows": 45501,
-    "sha256": "cac227fd663129d92f228963081daf85bba707c5fb4701354ee28495e80ff410",
-    "retained": 44338,
+    "rows": 45967,
+    "sha256": "88bd4a4aa5c99f5b9acec20cd6d4794b7689613c5e883662b621dbd08b3ef90e",
+    "retained": 44804,
     "unresolved": 1163
   },
   "recovered": {
-    "source_key_rows": 16049,
-    "retained": 14886,
+    "source_key_rows": 16155,
+    "retained": 14992,
     "unresolved": 1163,
     "status_by_official_status": "not available in SG response; no CUT/WD/DQ inferred"
   },
   "round_means": {
     "R1": {
-      "rows": 11934,
-      "players": 478,
+      "rows": 12042,
+      "players": 479,
       "components": {
-        "total": -0.00046170604994134434,
-        "tee_to_green": -2.178649237472752e-05,
-        "off_the_tee": 7.541478129714261e-06,
-        "approach": -1.843472431707557e-05,
-        "around_green": -9.217362158538762e-06,
-        "putting": -0.0004608681079269307
+        "total": -0.0004583956153462882,
+        "tee_to_green": -2.159109782428157e-05,
+        "off_the_tee": 4.1521341969780854e-06,
+        "approach": -1.9930244145489176e-05,
+        "around_green": -7.473841554559182e-06,
+        "putting": -0.00045673476166749647
       }
     },
     "R2": {
-      "rows": 11592,
-      "players": 476,
+      "rows": 11698,
+      "players": 477,
       "components": {
-        "total": -0.000565044858523118,
-        "tee_to_green": 2.587991718426377e-06,
-        "off_the_tee": 1.2077294685990978e-05,
-        "approach": 4.054520358868193e-05,
-        "around_green": 1.6390614216700874e-05,
-        "putting": -0.0005762594893029679
+        "total": -0.0005659087023422793,
+        "tee_to_green": 4.274234911950554e-06,
+        "off_the_tee": 8.54846982390211e-06,
+        "approach": 4.2742349119507526e-05,
+        "around_green": 1.7096939647802818e-05,
+        "putting": -0.0005770217131133531
       }
     },
     "R3": {
-      "rows": 6533,
+      "rows": 6605,
       "players": 300,
       "components": {
-        "total": -0.0007347313638450926,
-        "tee_to_green": -2.7552426144190658e-05,
-        "off_the_tee": -1.6837593754782993e-05,
-        "approach": -7.347313638450908e-05,
-        "around_green": -6.27583039951015e-05,
-        "putting": -0.0006367671819990812
+        "total": -0.0007221801665404982,
+        "tee_to_green": -2.5738077214231235e-05,
+        "off_the_tee": -1.514004542013592e-05,
+        "approach": -7.115821347464004e-05,
+        "around_green": -6.358819076457206e-05,
+        "putting": -0.0006298258894776682
       }
     },
     "R4": {
-      "rows": 3508,
+      "rows": 3580,
       "players": 273,
       "components": {
-        "total": -0.0009122006841505135,
-        "tee_to_green": -5.7012542759406486e-05,
-        "off_the_tee": 4.846066134549819e-05,
-        "approach": -2.565564424173384e-05,
-        "around_green": -8.83694412770814e-05,
-        "putting": -0.0007981755986316992
+        "total": -0.0008938547486033529,
+        "tee_to_green": -5.865921787709417e-05,
+        "off_the_tee": 4.7486033519555064e-05,
+        "approach": -2.5139664804469925e-05,
+        "around_green": -0.00010055865921787752,
+        "putting": -0.0007821229050279335
       }
     }
   },
@@ -81,7 +81,7 @@
       "game_code": "2022120003",
       "season": 2023,
       "event": "PLK 퍼시픽링스코리아 챔피언십 with SBS Golf",
-      "status": "UNKNOWN",
+      "status": "OFFICIAL_SG_NOT_AVAILABLE",
       "source_rows": 0,
       "retained_rows": 0,
       "unresolved_rows": 0
@@ -171,7 +171,7 @@
       "game_code": "2023060003",
       "season": 2023,
       "event": "DB그룹 제37회 한국여자오픈골프선수권대회",
-      "status": "UNKNOWN",
+      "status": "OFFICIAL_SG_NOT_AVAILABLE",
       "source_rows": 0,
       "retained_rows": 0,
       "unresolved_rows": 0
@@ -342,7 +342,7 @@
       "game_code": "2024030016",
       "season": 2024,
       "event": "하나금융그룹 싱가포르 여자오픈",
-      "status": "UNKNOWN",
+      "status": "OFFICIAL_SG_NOT_AVAILABLE",
       "source_rows": 0,
       "retained_rows": 0,
       "unresolved_rows": 0
@@ -351,7 +351,7 @@
       "game_code": "2024030017",
       "season": 2024,
       "event": "블루캐니언 레이디스 챔피언십",
-      "status": "UNKNOWN",
+      "status": "OFFICIAL_SG_NOT_AVAILABLE",
       "source_rows": 0,
       "retained_rows": 0,
       "unresolved_rows": 0
@@ -522,9 +522,9 @@
       "game_code": "2024090006",
       "season": 2024,
       "event": "KB금융 스타챔피언십",
-      "status": "REQUEST/PARAMETER_ISSUE",
-      "source_rows": 0,
-      "retained_rows": 0,
+      "status": "SG_AVAILABLE",
+      "source_rows": 466,
+      "retained_rows": 466,
       "unresolved_rows": 0
     },
     {
@@ -603,7 +603,7 @@
       "game_code": "2025030001",
       "season": 2025,
       "event": "블루캐니언 레이디스 챔피언십",
-      "status": "UNKNOWN",
+      "status": "OFFICIAL_SG_NOT_AVAILABLE",
       "source_rows": 0,
       "retained_rows": 0,
       "unresolved_rows": 0
@@ -1043,12 +1043,11 @@
   ],
   "event_status_counts": {
     "ROUND-SELECTION_ISSUE": 1,
-    "UNKNOWN": 5,
-    "SG_AVAILABLE": 101,
-    "REQUEST/PARAMETER_ISSUE": 1
+    "OFFICIAL_SG_NOT_AVAILABLE": 5,
+    "SG_AVAILABLE": 102
   },
   "arithmetic_validation": {
-    "checked": 45501,
+    "checked": 45967,
     "exceptions": 0,
     "tolerance": 0.03
   },

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T20:38:12Z",
+  "generated_at": "2026-08-31T21:52:57Z",
   "coverage": {
     "events": [
       {
@@ -406,9 +406,9 @@
         "game_code": "2024090006",
         "season": 2024,
         "tournament": "KB금융 스타챔피언십",
-        "status": "REQUEST/PARAMETER_ISSUE",
-        "sg_rows": 0,
-        "sg_available": false
+        "status": "SG_AVAILABLE",
+        "sg_rows": 466,
+        "sg_available": true
       },
       {
         "game_code": "2024090007",
@@ -867,9 +867,9 @@
         "sg_available": true
       }
     ],
-    "player_sg_event_rows": 11934,
+    "player_sg_event_rows": 12042,
     "zero_sample_players": 0,
-    "low_sample_players": 231,
+    "low_sample_players": 232,
     "survivorship_bias_note": "Participation records are limited to official tournament listings and SG response availability; no absent-start is converted to zero."
   }
 }

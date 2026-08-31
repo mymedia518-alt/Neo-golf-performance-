@@ -1,50 +1,50 @@
 {
-  "generated_at": "2026-08-31T20:38:12Z",
+  "generated_at": "2026-08-31T21:52:57Z",
   "threshold_status": "NOT_SELECTED",
   "data": {
     "event_sg": {
       "total": {
-        "sample_count": 11934,
+        "sample_count": 12042,
         "percentiles": {
-          "p01": -7.74,
+          "p01": -7.78,
           "p05": -4.49,
           "p10": -3.27
         }
       },
       "tee_to_green": {
-        "sample_count": 11934,
+        "sample_count": 12042,
         "percentiles": {
-          "p01": -6.9467,
+          "p01": -6.9658999999999995,
           "p05": -3.97,
-          "p10": -2.817
+          "p10": -2.8189999999999986
         }
       },
       "off_the_tee": {
-        "sample_count": 11934,
+        "sample_count": 12042,
         "percentiles": {
-          "p01": -3.4034,
-          "p05": -1.74,
+          "p01": -3.4159,
+          "p05": -1.7494999999999994,
           "p10": -1.18
         }
       },
       "approach": {
-        "sample_count": 11934,
+        "sample_count": 12042,
         "percentiles": {
-          "p01": -4.636699999999999,
-          "p05": -2.75,
+          "p01": -4.64,
+          "p05": -2.7494999999999994,
           "p10": -2.01
         }
       },
       "around_green": {
-        "sample_count": 11934,
+        "sample_count": 12042,
         "percentiles": {
-          "p01": -1.8467,
+          "p01": -1.8459,
           "p05": -1.13,
           "p10": -0.82
         }
       },
       "putting": {
-        "sample_count": 11934,
+        "sample_count": 12042,
         "percentiles": {
           "p01": -3.47,
           "p05": -2.31,
@@ -54,50 +54,50 @@
     },
     "round_sg": {
       "total": {
-        "sample_count": 33567,
+        "sample_count": 33925,
         "percentiles": {
-          "p01": -8.2368,
-          "p05": -5.37,
+          "p01": -8.25,
+          "p05": -5.367999999999999,
           "p10": -3.91
         }
       },
       "tee_to_green": {
-        "sample_count": 33567,
+        "sample_count": 33925,
         "percentiles": {
-          "p01": -7.3834,
-          "p05": -4.59,
-          "p10": -3.2639999999999962
+          "p01": -7.3876,
+          "p05": -4.597999999999999,
+          "p10": -3.265999999999999
         }
       },
       "off_the_tee": {
-        "sample_count": 33567,
+        "sample_count": 33925,
         "percentiles": {
-          "p01": -3.79,
+          "p01": -3.7975999999999996,
           "p05": -2.08,
-          "p10": -1.39
+          "p10": -1.4
         }
       },
       "approach": {
-        "sample_count": 33567,
+        "sample_count": 33925,
         "percentiles": {
-          "p01": -5.4,
+          "p01": -5.4176,
           "p05": -3.43,
           "p10": -2.47
         }
       },
       "around_green": {
-        "sample_count": 33567,
+        "sample_count": 33925,
         "percentiles": {
-          "p01": -2.5233999999999996,
+          "p01": -2.52,
           "p05": -1.53,
           "p10": -1.11
         }
       },
       "putting": {
-        "sample_count": 33567,
+        "sample_count": 33925,
         "percentiles": {
           "p01": -4.45,
-          "p05": -3.06,
+          "p05": -3.07,
           "p10": -2.36
         }
       }

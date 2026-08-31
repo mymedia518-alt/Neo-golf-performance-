@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-08-31T20:38:12Z",
-  "event_series_rows": 11934,
-  "cumulative_rows": 11934,
-  "round_rows": 33567,
-  "players": 479,
-  "events": 101,
+  "generated_at": "2026-08-31T21:52:57Z",
+  "event_series_rows": 12042,
+  "cumulative_rows": 12042,
+  "round_rows": 33925,
+  "players": 480,
+  "events": 102,
   "history_depth": {
-    "1_plus": 479,
+    "1_plus": 480,
     "3_plus": 298,
     "5_plus": 248,
     "10_plus": 222,
     "20_plus": 191,
     "30_plus": 143,
-    "multi_season": 266
+    "multi_season": 267
   },
   "component_missingness": {
     "total": 0,
@@ -23,9 +23,9 @@
     "putting": 0
   },
   "event_status_counts": {
-    "REQUEST/PARAMETER_ISSUE": 2,
+    "REQUEST/PARAMETER_ISSUE": 1,
     "UNKNOWN": 5,
-    "SG_AVAILABLE": 101
+    "SG_AVAILABLE": 102
   },
   "artifacts": [
     "bad_tail_distributions.json",
