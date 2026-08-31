@@ -18,8 +18,8 @@ DESKTOP RESULT: PASS by HTTP/layout contract; browser runtime unavailable.
 PROTECTED EVIDENCE STATUS: PASS — PRE/R1/R2/R3 hashes verified unchanged.
 TEST RESULT: Focused 3 passed. Full suite 1641 passed, 11 skipped, 2 pre-existing unrelated legacy homepage failures.
 GIT STATUS: Candidate-only files; docs/, evidence, model, database and Coming Soon files unchanged.
-COMMIT: merge pending (remote candidate commit preserved).
-PUSH STATUS: merge pending; no deployment.
+COMMIT: 8a714ccb197e4088b5b920cb69d6dc15d478baaa (merge preserving remote Website 2.0 candidate).
+PUSH STATUS: PASS — origin/neo-website-v2 matches local HEAD; no deployment.
 PRODUCTION STATUS: NOT DEPLOYED. Current Coming Soon homepage remains intact.
 NEXT SAFE ACTION: Human review of isolated candidate, then separately authorize integration/deployment.
 USER ACTION REQUIRED: NONE
