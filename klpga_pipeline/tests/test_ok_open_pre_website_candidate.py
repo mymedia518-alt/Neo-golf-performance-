@@ -62,3 +62,10 @@ def test_info_control_is_interactive_in_generated_html():
     assert "addEventListener('click'" in html
     assert "지금의 경기력" not in html
     assert "지금 경기력" not in html
+
+
+def test_mobile_popover_is_viewport_safe():
+    out = builder.build()
+    css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
+    assert "@media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px" in css
+    assert "max-width:none" in css
