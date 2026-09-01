@@ -14,11 +14,13 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     out = builder.build()
     html = (out / "index.html").read_text(encoding="utf-8")
     assert html.count("<tr>") - 1 == 120
-    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력 구간", "SG Total 순위", "우승확률"]:
+    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "SG Total 순위", "우승확률"]:
         assert label in html
     for forbidden in ["SCORE", "THRU", "현재 라운드", "TOP20", "TOP10", "TOP5", "player_id", "VERY_HIGH", "INSUFFICIENT_EVIDENCE"]:
         assert forbidden not in html
     assert "K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다." in html
+    assert "★★★★★" in html and "평가 보류" in html
+    assert "aria-label='NEO 경기력" in html
 
 
 def test_manifest_points_to_canonical_master():
