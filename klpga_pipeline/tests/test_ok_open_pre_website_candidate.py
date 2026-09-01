@@ -69,3 +69,30 @@ def test_mobile_popover_is_viewport_safe():
     css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
     assert "@media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px" in css
     assert "max-width:none" in css
+
+
+def test_canonical_pre_route_and_stage_navigation_are_generated():
+    out = builder.build()
+    route = out / "tournaments" / "2026" / "ok-savings-bank-open" / "pre" / "index.html"
+    assert route.exists()
+    html = route.read_text(encoding="utf-8")
+    for stage in ["PRE", "R1", "R2", "FINAL"]:
+        assert stage in html
+    assert "tournaments/2026/ok-savings-bank-open/pre/" in html
+    assert "tournaments/2026/ok-savings-bank-open/r3/" not in html
+
+
+def test_public_ui_contract_generated_route():
+    out = builder.build()
+    html = (out / "tournaments/2026/ok-savings-bank-open/pre/index.html").read_text(encoding="utf-8")
+    assert html.count("<tr>") - 1 == 120
+    assert "<th>선수</th>" in html
+    assert "KLPGA K-RANKING" in html and "SG Total" in html and "우승확률" in html
+    assert all(x not in html for x in ["VERY_HIGH", "HIGH", "TYPICAL", "LOW", "VERY_LOW", "INSUFFICIENT_EVIDENCE", "TOP20", "TOP10", "TOP5", "player_id"])
+    assert sum(html.count(c) for c in "★☆") == 0
+    assert len(re.findall(r"<span class='band'[^>]*>데이터 부족</span>", html)) == 3
+    assert "평가 보류" not in html
+    assert "지금의 경기력" not in html and "지금 경기력" not in html
+    assert "최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다." in html
+    assert ".player,.sponsor{text-align:center}" not in html  # style contract is in linked CSS
+    assert "aria-label='NEO 경기력" in html
