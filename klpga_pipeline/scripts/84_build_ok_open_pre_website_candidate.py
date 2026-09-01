@@ -4,6 +4,7 @@ from __future__ import annotations
 import html
 import json
 import hashlib
+import subprocess
 import shutil
 from pathlib import Path
 
@@ -38,7 +39,14 @@ def value(value):
 
 def build() -> Path:
     master = json.loads(MASTER.read_text(encoding="utf-8"))
-    master_sha = hashlib.sha256(MASTER.read_bytes()).hexdigest().upper()
+    # Use the repository's canonical blob bytes so Windows newline conversion
+    # cannot produce a stale provenance hash for the consumed master.
+    rel_master = MASTER.relative_to(ROOT.parent).as_posix()
+    try:
+        source_bytes = subprocess.check_output(["git", "cat-file", "-p", f"HEAD:{rel_master}"], cwd=ROOT.parent)
+    except (OSError, subprocess.CalledProcessError):
+        source_bytes = MASTER.read_bytes()
+    master_sha = hashlib.sha256(source_bytes).hexdigest().upper()
     records = list(master["records"])
     if len(records) != 120:
         raise ValueError(f"canonical master must contain 120 records, got {len(records)}")
@@ -54,9 +62,10 @@ def build() -> Path:
         rows.append(f"<tr><th scope='row'><span class='player'>{name}</span><span class='sponsor'>{sponsor}</span></th><td>{value(r.get('official_klpga_rank'))}</td><td><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td><td>{value(r.get('sg_total_rank'))}</td><td class='win'>{pct(r.get('win_probability'))}</td></tr>")
     html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · OK저축은행 읏맨 오픈</title><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header><a class=\"brand\" href=\"./\">NEO GOLF DATA</a><nav><a href=\"#tournament\">대회</a><a href=\"#pre\">예측 기록</a><a href=\"#about\">NEO 소개</a></nav></header><main><section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>OK저축은행 읏맨 오픈</h1><p class=\"meta\">2026.09.04 — 09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><strong class=\"status\">예측 확정 전</strong></section><div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다.</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>SG Total 순위</th><th>우승확률</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div><div class=\"help\">K-RANKING이 ‘쌓아온 성과’를 보여준다면, NEO는 ‘지금의 경기력’을 봅니다. 두 지표는 서로 다른 시간축과 평가 기준을 사용합니다.</div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">참가 선수별 우승확률은 표에서 확인할 수 있습니다.</p></div></aside></div></main></body></html>"""
     html_doc = html_doc.replace("NEO 경기력 구간", "NEO 경기력 ⓘ")
+    html_doc = html_doc.replace('href="tournaments/2026/ok-savings-bank-open/', 'href="/tournaments/2026/ok-savings-bank-open/')
     html_doc = html_doc.replace("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">", "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"neo-public-master-sha256\" content=\"" + master_sha + "\">")
     html_doc = html_doc.replace('<a href="#pre">예측 기록</a>', '<a href="tournaments/2026/ok-savings-bank-open/pre/">예측 기록</a>')
-    stage_nav = '<nav class="stage-nav" aria-label="대회 단계"><a href="tournaments/2026/ok-savings-bank-open/pre/" aria-current="page">PRE</a><a href="tournaments/2026/ok-savings-bank-open/r1/">R1</a><a href="tournaments/2026/ok-savings-bank-open/r2/">R2</a><a href="tournaments/2026/ok-savings-bank-open/final/">FINAL</a></nav>'
+    stage_nav = '<nav class="stage-nav" aria-label="대회 단계"><a href="/tournaments/2026/ok-savings-bank-open/pre/" aria-current="page">PRE</a><a href="/tournaments/2026/ok-savings-bank-open/r1/">R1</a><a href="/tournaments/2026/ok-savings-bank-open/r2/">R2</a><a href="/tournaments/2026/ok-savings-bank-open/final/">FINAL</a></nav>'
     html_doc = html_doc.replace('<div class="grid">', stage_nav + '<div class="grid">', 1)
     html_doc = html_doc.replace("<th>NEO 경기력 ⓘ</th>", "<th class='band-head'>NEO 경기력 <button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button><span id='neo-info' class='info-popover' role='tooltip'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>")
     html_doc = html_doc.replace("지금의 경기력", "최근 경기력")
@@ -76,7 +85,8 @@ def build() -> Path:
         stage_dir = route_root / stage
         stage_dir.mkdir(parents=True)
         nav = '<nav class="stage-nav" aria-label="대회 단계"><a href="../pre/">PRE</a><a href="../r1/">R1</a><a href="../r2/">R2</a><a href="../final/">FINAL</a></nav>'
-        stage_doc = f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="neo-public-master-sha256" content="{master_sha}"><title>NEO GOLF DATA · {stage.upper()}</title><link rel="stylesheet" href="../../../assets/neo.css"></head><body><header><a class="brand" href="../../../">NEO GOLF DATA</a></header><main><section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p><h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section></main></body></html>'
+        nav = nav.replace('href="../', 'href="/tournaments/2026/ok-savings-bank-open/')
+        stage_doc = f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="neo-public-master-sha256" content="{master_sha}"><title>NEO GOLF DATA · {stage.upper()}</title><link rel="stylesheet" href="../../../assets/neo.css"></head><body><header><a class="brand" href="/">NEO GOLF DATA</a></header><main><section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p><h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section></main></body></html>'
         (stage_dir / "index.html").write_text(stage_doc, encoding="utf-8")
     about = """<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · NEO 소개</title><link rel=\"stylesheet\" href=\"../assets/neo.css\"></head><body><header><a class=\"brand\" href=\"../\">NEO GOLF DATA</a><nav><a href=\"../#tournament\">대회</a><a href=\"../#pre\">예측 기록</a></nav></header><main><section class=\"panel about\" id=\"about\"><p class=\"eyebrow\">NEO 소개</p><h1>결과만으로는 보이지 않는 경기력을 데이터에서 봅니다.</h1><p>NEO GOLF DATA는 KLPGA 공식 경기 기록을 바탕으로 선수들의 경기 데이터를 동일한 기준으로 측정하고 비교합니다.</p><p>우승, TOP10, 상금, K-RANKING은 선수가 쌓아온 중요한 결과입니다. NEO는 여기에 또 하나의 관점을 더합니다.</p><p>최근 공식 경기 데이터를 비교해 출전 선수들 사이에서 관측된 경기력의 상대적 위치를 보여줍니다.</p><p>이것은 선수의 가치나 미래 성적에 대한 등급이 아닙니다. 골프의 결과에는 큰 변동성이 있으며 높은 경기력 위치가 우승이나 TOP10을 보장하지 않습니다.</p><p>NEO는 분석 시점에 사용할 수 있었던 데이터를 보존하고, 실제 결과와 비교하며 분석 방법을 계속 검증합니다.</p></section></main></body></html>"""
     (OUT / "about").mkdir()

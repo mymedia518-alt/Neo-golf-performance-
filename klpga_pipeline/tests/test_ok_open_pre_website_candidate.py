@@ -1,5 +1,7 @@
 import json
 import re
+import hashlib
+import subprocess
 from pathlib import Path
 
 import importlib.util
@@ -110,3 +112,23 @@ def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
     assert not (root / "r3").exists()
     manifest = json.loads((out / "data/manifest.json").read_text(encoding="utf-8"))
     assert len(manifest["source_master_sha256"]) == 64
+    source = subprocess.check_output(["git", "cat-file", "-p", "HEAD:klpga_pipeline/content/website_v2/OK_OPEN_2026_PRE_PUBLIC_MASTER.json"])
+    expected = hashlib.sha256(source).hexdigest().upper()
+    assert manifest["source_master_sha256"] == expected
+    for stage in ["pre", "r1", "r2", "final"]:
+        page = (root / stage / "index.html").read_text(encoding="utf-8")
+        assert f'name="neo-public-master-sha256" content="{expected}"' in page
+
+
+def test_stage_links_resolve_from_every_generated_stage_page():
+    from urllib.parse import urljoin
+    out = builder.build()
+    root = out / "tournaments/2026/ok-savings-bank-open"
+    for stage in ["pre", "r1", "r2", "final"]:
+        page_url = f"http://localhost/tournaments/2026/ok-savings-bank-open/{stage}/"
+        html = (root / stage / "index.html").read_text(encoding="utf-8")
+        for target in ["pre", "r1", "r2", "final"]:
+            href = f"/tournaments/2026/ok-savings-bank-open/{target}/"
+            assert href in html
+            assert urljoin(page_url, href).endswith(f"/{target}/")
+        assert "/r3/" not in html
