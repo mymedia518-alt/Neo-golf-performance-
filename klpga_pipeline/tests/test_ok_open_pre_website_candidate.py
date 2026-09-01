@@ -15,7 +15,7 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     out = builder.build()
     html = (out / "index.html").read_text(encoding="utf-8")
     assert html.count("<tr>") - 1 == 120
-    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "SG Total 순위", "우승확률"]:
+    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력", "SG Total 순위", "우승확률"]:
         assert label in html
     for forbidden in ["SCORE", "THRU", "현재 라운드", "TOP20", "TOP10", "TOP5", "player_id", "VERY_HIGH", "INSUFFICIENT_EVIDENCE"]:
         assert forbidden not in html
@@ -23,7 +23,7 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     assert "★★★★★" not in html and "★★★★☆" not in html and "★★★☆☆" not in html and "★★☆☆☆" not in html and "★☆☆☆☆" not in html
     assert "데이터 부족" in html
     assert "aria-label='NEO 경기력" in html
-    assert html.count("NEO 경기력 ⓘ") == 1
+    assert html.count("NEO 경기력") >= 1
     assert len(re.findall(r"<span class='band'[^>]*>최상위</span>", html)) == 15
     assert len(re.findall(r"<span class='band'[^>]*>데이터 부족</span>", html)) == 3
     assert "NEO 경기력 구간" not in html
@@ -49,3 +49,16 @@ def test_about_and_center_alignment_contract():
     css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
     assert "결과만으로는 보이지 않는 경기력을 데이터에서 봅니다." in about
     assert ".player,.sponsor{text-align:center}" in css
+
+
+def test_info_control_is_interactive_in_generated_html():
+    out = builder.build()
+    html = (out / "index.html").read_text(encoding="utf-8")
+    assert "class='info-control'" in html
+    assert "aria-expanded='false'" in html
+    assert "aria-controls='neo-info'" in html
+    assert "role='tooltip'" in html
+    assert "최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다." in html
+    assert "addEventListener('click'" in html
+    assert "지금의 경기력" not in html
+    assert "지금 경기력" not in html
