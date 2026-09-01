@@ -20,11 +20,12 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     for forbidden in ["SCORE", "THRU", "현재 라운드", "TOP20", "TOP10", "TOP5", "player_id", "VERY_HIGH", "INSUFFICIENT_EVIDENCE"]:
         assert forbidden not in html
     assert "K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다." in html
-    assert "★★★★★" in html and "평가 보류" in html
+    assert "★★★★★" not in html and "★★★★☆" not in html and "★★★☆☆" not in html and "★★☆☆☆" not in html and "★☆☆☆☆" not in html
+    assert "데이터 부족" in html
     assert "aria-label='NEO 경기력" in html
     assert html.count("NEO 경기력 ⓘ") == 1
-    assert len(re.findall(r"<span class='band'[^>]*>★★★★★</span>", html)) == 15
-    assert len(re.findall(r"<span class='band'[^>]*>평가 보류</span>", html)) == 3
+    assert len(re.findall(r"<span class='band'[^>]*>최상위</span>", html)) == 15
+    assert len(re.findall(r"<span class='band'[^>]*>데이터 부족</span>", html)) == 3
     assert "NEO 경기력 구간" not in html
 
 
@@ -40,3 +41,11 @@ def test_mobile_table_containment_contract():
     css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
     assert ".grid > *,.panel{min-width:0}" in css
     assert ".table-wrap{width:100%;max-width:100%;overflow-x:auto" in css
+
+
+def test_about_and_center_alignment_contract():
+    out = builder.build()
+    about = (out / "about" / "index.html").read_text(encoding="utf-8")
+    css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
+    assert "결과만으로는 보이지 않는 경기력을 데이터에서 봅니다." in about
+    assert ".player,.sponsor{text-align:center}" in css
