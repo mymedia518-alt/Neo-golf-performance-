@@ -96,3 +96,17 @@ def test_public_ui_contract_generated_route():
     assert "최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다." in html
     assert ".player,.sponsor{text-align:center}" not in html  # style contract is in linked CSS
     assert "aria-label='NEO 경기력" in html
+
+
+def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
+    out = builder.build()
+    root = out / "tournaments/2026/ok-savings-bank-open"
+    for stage in ["pre", "r1", "r2", "final"]:
+        page = root / stage / "index.html"
+        assert page.exists()
+        html = page.read_text(encoding="utf-8")
+        assert "neo-public-master-sha256" in html
+        assert "아직" in html or stage == "pre"
+    assert not (root / "r3").exists()
+    manifest = json.loads((out / "data/manifest.json").read_text(encoding="utf-8"))
+    assert len(manifest["source_master_sha256"]) == 64
