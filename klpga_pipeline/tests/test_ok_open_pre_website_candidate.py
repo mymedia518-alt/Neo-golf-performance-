@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 import importlib.util
@@ -21,6 +22,10 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     assert "K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다." in html
     assert "★★★★★" in html and "평가 보류" in html
     assert "aria-label='NEO 경기력" in html
+    assert html.count("NEO 경기력 ⓘ") == 1
+    assert len(re.findall(r"<span class='band'[^>]*>★★★★★</span>", html)) == 15
+    assert len(re.findall(r"<span class='band'[^>]*>평가 보류</span>", html)) == 3
+    assert "NEO 경기력 구간" not in html
 
 
 def test_manifest_points_to_canonical_master():
