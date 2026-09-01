@@ -27,6 +27,7 @@ CSS = """
 /* Public table is centered; numeric columns retain tabular numerals. */
 .data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player,.sponsor{text-align:center}
 .info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}.info-popover{display:none;position:absolute;z-index:2;max-width:260px;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400}.info-popover.is-open{display:block}
+@media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px;width:auto;max-width:none;margin:0}}
 """
 
 def pct(value):
