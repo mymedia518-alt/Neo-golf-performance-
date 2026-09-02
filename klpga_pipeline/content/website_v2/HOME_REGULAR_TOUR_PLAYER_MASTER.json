@@ -1,0 +1,4924 @@
+{
+  "schema_version": "neo_home_population_v1",
+  "population_kind": "regular_tour_historical_player_master",
+  "population_definition": "players observed in the validated 100 most-recent completed KLPGA regular-tour event warehouse",
+  "population_validation_state": "BLOCKED_CURRENT_REGISTRY_EQUIVALENCE_NOT_PROVEN",
+  "source_database_provenance": "validated official-source KLPGA historical database checkpoint; README full-100 collection",
+  "player_count": 546,
+  "records": [
+    {
+      "player_id": "10342",
+      "player_name": "Alisara WEDCHAKAMA",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12555",
+      "player_name": "Ashley Lau",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11824",
+      "player_name": "Atthaya Thitikul",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12554",
+      "player_name": "Bianca Pagdanganan",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11500",
+      "player_name": "Chayanit WANGMAHAPORN(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1558",
+      "player_name": "Danielle Kang",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12553",
+      "player_name": "Eila Galitsky 0610(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11265",
+      "player_name": "Hana WAKIMOTO",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11770",
+      "player_name": "Jaravee Boonchant",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10789",
+      "player_name": "LI Shuying(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1599",
+      "player_name": "Lydia Ko",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1734",
+      "player_name": "Minjee Lee",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12929",
+      "player_name": "Nattarika SENSAI",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12170",
+      "player_name": "Patty Tavatanakit",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11766",
+      "player_name": "Shannon Tan 0404(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12556",
+      "player_name": "Takahashi Sayaka",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11282",
+      "player_name": "Tiffany CHAN",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7163",
+      "player_name": "Yokomine Sakura",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12902",
+      "player_name": "가나자와 시나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12904",
+      "player_name": "가미야 소라",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12715",
+      "player_name": "가브리엘라 덴",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9433",
+      "player_name": "강다나2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11446",
+      "player_name": "강민진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11437",
+      "player_name": "강솔 0707(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9138",
+      "player_name": "강수은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13239",
+      "player_name": "강예서 1205(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9642",
+      "player_name": "강윤경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10078",
+      "player_name": "강정현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10623",
+      "player_name": "강지선",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10159",
+      "player_name": "강채연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12152",
+      "player_name": "고서진 0801(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10361",
+      "player_name": "고속휘",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8903",
+      "player_name": "고진영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7912",
+      "player_name": "곽보미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11397",
+      "player_name": "구민지 0706(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12165",
+      "player_name": "권나현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8133",
+      "player_name": "권다원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9106",
+      "player_name": "권서연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10757",
+      "player_name": "권이재",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11080",
+      "player_name": "길예람 0609(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9746",
+      "player_name": "김가영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9762",
+      "player_name": "김가희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희 0612(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11086",
+      "player_name": "김가희 0704(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9461",
+      "player_name": "김고운",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12024",
+      "player_name": "김규빈 0910(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10114",
+      "player_name": "김나영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10087",
+      "player_name": "김나영2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7423",
+      "player_name": "김다나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9755",
+      "player_name": "김다은2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11211",
+      "player_name": "김도희 0707(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12380",
+      "player_name": "김명지 1307(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1240",
+      "player_name": "김민기",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10098",
+      "player_name": "김민서 0507(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔 0606(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "4280",
+      "player_name": "김보경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8419",
+      "player_name": "김보령",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10000",
+      "player_name": "김보미3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8358",
+      "player_name": "김보배2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13404",
+      "player_name": "김서아 1201(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9485",
+      "player_name": "김서하",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1330",
+      "player_name": "김선미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8321",
+      "player_name": "김세은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11986",
+      "player_name": "김세이 0902(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11182",
+      "player_name": "김소담",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8764",
+      "player_name": "김소이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8268",
+      "player_name": "김송연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9160",
+      "player_name": "김수민2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10182",
+      "player_name": "김수빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12052",
+      "player_name": "김수빈 0905(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8353",
+      "player_name": "김수연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10570",
+      "player_name": "김수현3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8269",
+      "player_name": "김스텔라",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11957",
+      "player_name": "김시아 1002(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8180",
+      "player_name": "김시원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현 0608(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8378",
+      "player_name": "김아로미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8320",
+      "player_name": "김아림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11480",
+      "player_name": "김연서 0805(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9745",
+      "player_name": "김연희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9780",
+      "player_name": "김예리",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11452",
+      "player_name": "김예원 0810(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12842",
+      "player_name": "김예지 0811(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8872",
+      "player_name": "김유빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9777",
+      "player_name": "김윤경2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8251",
+      "player_name": "김윤교",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6747",
+      "player_name": "김인경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11970",
+      "player_name": "김정현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9126",
+      "player_name": "김지안",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10027",
+      "player_name": "김지연5",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤 0506(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7469",
+      "player_name": "김지현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10025",
+      "player_name": "김지현3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11987",
+      "player_name": "김채린 0809(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11412",
+      "player_name": "김채영2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8822",
+      "player_name": "김태원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10491",
+      "player_name": "김태희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9384",
+      "player_name": "김하니",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11388",
+      "player_name": "김하람2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12894",
+      "player_name": "김하은 0904(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12451",
+      "player_name": "김하은 1205(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6120",
+      "player_name": "김해림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10054",
+      "player_name": "김해인",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9812",
+      "player_name": "김혜승",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8375",
+      "player_name": "김효주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10021",
+      "player_name": "김희준",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12571",
+      "player_name": "깐 반나부디(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11519",
+      "player_name": "깐야낫 싸이팁",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13210",
+      "player_name": "꼰까녹 숭판카오",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12178",
+      "player_name": "꼰까몰 수깜리(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1647",
+      "player_name": "꾸수마 미차이(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13211",
+      "player_name": "나모 루앙니티쿤 0812(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12727",
+      "player_name": "나와폰 순뜨리야팟 0508(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11936",
+      "player_name": "나타크리타 웡타위랍",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12927",
+      "player_name": "나팟사완 팝심마",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8181",
+      "player_name": "나희원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11708",
+      "player_name": "남가연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12381",
+      "player_name": "남하은 1106(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10900",
+      "player_name": "네밋뜨라 쭌타나껫",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13427",
+      "player_name": "니키 오 0711(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12717",
+      "player_name": "다니엘라 우이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12716",
+      "player_name": "도티 아디나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10340",
+      "player_name": "두사위 수핌찟",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1720",
+      "player_name": "류 베이브",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13431",
+      "player_name": "류 위제 1005(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9427",
+      "player_name": "류은수",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8371",
+      "player_name": "류현지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11266",
+      "player_name": "리 신",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12718",
+      "player_name": "리안 미카엘라 말릭시 0706(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12973",
+      "player_name": "리야 야다브",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8795",
+      "player_name": "문서형",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12015",
+      "player_name": "문아린 0905(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11990",
+      "player_name": "민이수 0905(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12712",
+      "player_name": "바니 카푸르",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10567",
+      "player_name": "박다은 0303(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11533",
+      "player_name": "박다인 0308(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10618",
+      "player_name": "박도영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8431",
+      "player_name": "박도은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8426",
+      "player_name": "박보미2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9167",
+      "player_name": "박사과",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12140",
+      "player_name": "박서영 0702(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11142",
+      "player_name": "박서진 0709(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11365",
+      "player_name": "박서진 0804(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10745",
+      "player_name": "박설휘",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8179",
+      "player_name": "박성현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11055",
+      "player_name": "박세령 0708(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9364",
+      "player_name": "박소혜",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8785",
+      "player_name": "박수빈3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9180",
+      "player_name": "박수진2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12870",
+      "player_name": "박실비아 1111(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10161",
+      "player_name": "박아름2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12375",
+      "player_name": "박예담 0812(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10123",
+      "player_name": "박예은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지 0503(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12369",
+      "player_name": "박유빈 1203(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12007",
+      "player_name": "박유진 0807(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11968",
+      "player_name": "박율 0809(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7674",
+      "player_name": "박은수",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6781",
+      "player_name": "박주영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11195",
+      "player_name": "박주원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10010",
+      "player_name": "박주은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9508",
+      "player_name": "박지빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9362",
+      "player_name": "박지영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10798",
+      "player_name": "박지원3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10599",
+      "player_name": "박지혜3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8209",
+      "player_name": "박진이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10663",
+      "player_name": "박채원2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8289",
+      "player_name": "박채윤",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11429",
+      "player_name": "박채은 0805(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12479",
+      "player_name": "박효담 1102(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "4626",
+      "player_name": "박희영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12127",
+      "player_name": "방지나 0810(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1232",
+      "player_name": "배경은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8194",
+      "player_name": "배선우",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9981",
+      "player_name": "배수연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8360",
+      "player_name": "백규정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10563",
+      "player_name": "백소원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11395",
+      "player_name": "백송",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8317",
+      "player_name": "백수빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12005",
+      "player_name": "변지율 0912(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10796",
+      "player_name": "변하은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12954",
+      "player_name": "봉서연 1111(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9792",
+      "player_name": "봉승희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1781",
+      "player_name": "붓사바꼰 수까빤",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12921",
+      "player_name": "빠따랏 랏따놘(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈딴 콩끄라판",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12566",
+      "player_name": "삠니파 빤통",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12919",
+      "player_name": "사란폰 카테수완",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12720",
+      "player_name": "사만사 브루스",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림 0608(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8854",
+      "player_name": "서연정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11431",
+      "player_name": "서지은 0608(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9898",
+      "player_name": "서하영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8072",
+      "player_name": "석지우",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11640",
+      "player_name": "성아진 0702(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10864",
+      "player_name": "성유림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9085",
+      "player_name": "성지은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12053",
+      "player_name": "성해인 0909(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11767",
+      "player_name": "셔만 산띠위와타나퐁",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9803",
+      "player_name": "손성화",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9398",
+      "player_name": "손연정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12255",
+      "player_name": "손유정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8891",
+      "player_name": "손주희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8773",
+      "player_name": "송가은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12377",
+      "player_name": "송가은 1207(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11921",
+      "player_name": "송민교",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13265",
+      "player_name": "송민서 1212(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11998",
+      "player_name": "송지민 0803(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11663",
+      "player_name": "송지아",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11438",
+      "player_name": "송지윤",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12713",
+      "player_name": "송하니",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11210",
+      "player_name": "송혜빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9712",
+      "player_name": "신미진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8374",
+      "player_name": "신보민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10492",
+      "player_name": "신세은 0508(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9748",
+      "player_name": "신유진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10155",
+      "player_name": "신유진2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9726",
+      "player_name": "신이솔",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "5137",
+      "player_name": "신지애",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10501",
+      "player_name": "신지영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11485",
+      "player_name": "신지우 0602(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8791",
+      "player_name": "신지원2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11223",
+      "player_name": "신지은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12903",
+      "player_name": "신치 마미카 0707(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10908",
+      "player_name": "심지연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12913",
+      "player_name": "싱손 마리아 라파엘라",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1713",
+      "player_name": "아리사 판",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10885",
+      "player_name": "아만다 탄",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8824",
+      "player_name": "안나린",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11281",
+      "player_name": "안삐차야 유볼",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8868",
+      "player_name": "안소현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6754",
+      "player_name": "안신애",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11081",
+      "player_name": "안연주 0709(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11984",
+      "player_name": "안윤주 1101(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11991",
+      "player_name": "안주영 0702(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9412",
+      "player_name": "안희수2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12209",
+      "player_name": "알로이사 아티엔자 9810(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12714",
+      "player_name": "앤젤라 덴",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12311",
+      "player_name": "야마시타 미유",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9722",
+      "player_name": "양아연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12080",
+      "player_name": "양아연 1012(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11391",
+      "player_name": "양윤서 080103(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11137",
+      "player_name": "양진서",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12091",
+      "player_name": "양하연 0905(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진 0706(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양희주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9821",
+      "player_name": "엄규원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13386",
+      "player_name": "에리카 윤 스미스(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12706",
+      "player_name": "에스더 권 0906(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13216",
+      "player_name": "엔젤 통가람 0806(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12719",
+      "player_name": "엘라인 위자자 0607(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11944",
+      "player_name": "오수민 0809(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12392",
+      "player_name": "오수빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13735",
+      "player_name": "오스턴 킴",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10934",
+      "player_name": "오승",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11505",
+      "player_name": "온까녹 소이수완(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10896",
+      "player_name": "와사완 상까뽕",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11272",
+      "player_name": "왕 리닝",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13502",
+      "player_name": "왕 즈쉬엔",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11289",
+      "player_name": "우 춘웨이 0000(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7617",
+      "player_name": "우선화",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10150",
+      "player_name": "우윤지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11701",
+      "player_name": "원서현 0903(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13177",
+      "player_name": "웡 제럴딘",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13618",
+      "player_name": "위라다 타윈상 0000(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10517",
+      "player_name": "위한이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9790",
+      "player_name": "유경민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10510",
+      "player_name": "유서연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6443",
+      "player_name": "유소연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8200",
+      "player_name": "유수연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10821",
+      "player_name": "유아현 0705(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12879",
+      "player_name": "유지은 1009(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9115",
+      "player_name": "유해란",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조 0503(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8436",
+      "player_name": "유현주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9120",
+      "player_name": "유효주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12083",
+      "player_name": "윤규리 1009(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11964",
+      "player_name": "윤다감 0907(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9796",
+      "player_name": "윤다현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9761",
+      "player_name": "윤민아",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10776",
+      "player_name": "윤서정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8215",
+      "player_name": "윤선정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11082",
+      "player_name": "윤세은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11963",
+      "player_name": "윤예은 0902(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9823",
+      "player_name": "윤이나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9456",
+      "player_name": "윤지혜",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8863",
+      "player_name": "윤혜림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9995",
+      "player_name": "이가경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8369",
+      "player_name": "이기쁨",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7439",
+      "player_name": "이나경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11700",
+      "player_name": "이다경 0701(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10092",
+      "player_name": "이로운",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7478",
+      "player_name": "이미림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11408",
+      "player_name": "이민서 0611(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12013",
+      "player_name": "이민서 0910(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7914",
+      "player_name": "이민영2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6389",
+      "player_name": "이보미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8851",
+      "player_name": "이선영2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영 0705(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10188",
+      "player_name": "이소미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8196",
+      "player_name": "이수민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11978",
+      "player_name": "이수민 0906(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10160",
+      "player_name": "이수연2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10080",
+      "player_name": "이수정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8422",
+      "player_name": "이수진3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11380",
+      "player_name": "이승민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12010",
+      "player_name": "이시은 0901(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서 0708(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10490",
+      "player_name": "이정민2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10048",
+      "player_name": "이정우",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "3777",
+      "player_name": "이정은3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "5222",
+      "player_name": "이정은5",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8906",
+      "player_name": "이정은6",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10071",
+      "player_name": "이정현 0611(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9109",
+      "player_name": "이제영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9988",
+      "player_name": "이주연3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9422",
+      "player_name": "이주은3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9938",
+      "player_name": "이주현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9707",
+      "player_name": "이준이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10828",
+      "player_name": "이지영5",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12002",
+      "player_name": "이지원 0810(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12472",
+      "player_name": "이지유 0901(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1456",
+      "player_name": "이지현2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이지현7",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10145",
+      "player_name": "이하린",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10773",
+      "player_name": "이혜원2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8254",
+      "player_name": "이혜정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11411",
+      "player_name": "이효송 0811(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8262",
+      "player_name": "인주연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10100",
+      "player_name": "임나경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11058",
+      "player_name": "임사랑 0706(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "3779",
+      "player_name": "임은아",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10101",
+      "player_name": "임지유 0506(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8890",
+      "player_name": "임진희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10093",
+      "player_name": "임채리",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13212",
+      "player_name": "자오 잉통 0904(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11545",
+      "player_name": "장문경 0801(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12238",
+      "player_name": "장미송",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11175",
+      "player_name": "장소희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8355",
+      "player_name": "장수연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9824",
+      "player_name": "장윤진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10587",
+      "player_name": "장지연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7963",
+      "player_name": "장하나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12724",
+      "player_name": "저스티스 보시오 0000(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11374",
+      "player_name": "전승희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12103",
+      "player_name": "전이안",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8191",
+      "player_name": "전인지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10514",
+      "player_name": "전현주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8793",
+      "player_name": "전효민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9451",
+      "player_name": "정미리",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서 0612(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12332",
+      "player_name": "정서린 1005(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9977",
+      "player_name": "정세빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11062",
+      "player_name": "정세진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11647",
+      "player_name": "정소윤",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9740",
+      "player_name": "정수연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8424",
+      "player_name": "정슬기",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9116",
+      "player_name": "정시우",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11059",
+      "player_name": "정시윤",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7889",
+      "player_name": "정연주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10143",
+      "player_name": "정영화",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9985",
+      "player_name": "정예서",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7939",
+      "player_name": "정예슬",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11972",
+      "player_name": "정은호 0707(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "5636",
+      "player_name": "정재은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9711",
+      "player_name": "정주리",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8370",
+      "player_name": "정주원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9237",
+      "player_name": "정지민2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10482",
+      "player_name": "정지민3",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9584",
+      "player_name": "정지유",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10057",
+      "player_name": "정지현",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11630",
+      "player_name": "정지효 0610(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10147",
+      "player_name": "정한결",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6808",
+      "player_name": "정희원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10886",
+      "player_name": "제네비브 링",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12210",
+      "player_name": "제이미 응 0502(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11072",
+      "player_name": "조민주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10191",
+      "player_name": "조예진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8425",
+      "player_name": "조윤정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9730",
+      "player_name": "조은혜",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10795",
+      "player_name": "조이안",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11376",
+      "player_name": "조혜지 0608(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11076",
+      "player_name": "조희진 0510(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9786",
+      "player_name": "주가인",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10910",
+      "player_name": "주세연",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13055",
+      "player_name": "지 유아이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12943",
+      "player_name": "지다파 사맛띠야디꾼",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "4277",
+      "player_name": "지은희",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12721",
+      "player_name": "질리안 쿡 0503(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12722",
+      "player_name": "징 슈엔 응 0000(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11509",
+      "player_name": "차깐심 캄본",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12115",
+      "player_name": "차넷티 완나센",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12723",
+      "player_name": "첸 싱통 0811(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "1779",
+      "player_name": "첸 유주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "7926",
+      "player_name": "최가람",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11415",
+      "player_name": "최승희 0808(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8459",
+      "player_name": "최예지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11985",
+      "player_name": "최이수",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원 0510(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "6442",
+      "player_name": "최혜용",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9992",
+      "player_name": "최혜원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "3787",
+      "player_name": "최혜정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8349",
+      "player_name": "최혜진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10516",
+      "player_name": "최혜진2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13165",
+      "player_name": "카냐왓 품클라이",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12711",
+      "player_name": "켈시 베넷",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12352",
+      "player_name": "클레어 신(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13155",
+      "player_name": "키라 푸차른",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12780",
+      "player_name": "키요모토 미나미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12575",
+      "player_name": "타나폰 팔릿와논",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12564",
+      "player_name": "타니타 무앙쿰사꾼(I)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13208",
+      "player_name": "타카기 유나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12779",
+      "player_name": "타카노 아이히",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12924",
+      "player_name": "툰라다 피돈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13209",
+      "player_name": "트베사 말릭",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13095",
+      "player_name": "파킨 카윈파콘",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12173",
+      "player_name": "파트리샤 와란다 시노룽간",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12726",
+      "player_name": "판나라이 미솜웃",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10217",
+      "player_name": "판나랏 타나폴부냐라스",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "5619",
+      "player_name": "폰아농 펫람",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11948",
+      "player_name": "표송현 0802(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13579",
+      "player_name": "프래우 논타룩스",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10346",
+      "player_name": "프리마 탐마락스",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12171",
+      "player_name": "프린세스 메리 수페랄",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13619",
+      "player_name": "피냐다 쿠와눈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11135",
+      "player_name": "하다인",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12901",
+      "player_name": "하라 에리카",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12965",
+      "player_name": "하미 콘스탄티노",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8782",
+      "player_name": "하민송",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11383",
+      "player_name": "하유진",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10058",
+      "player_name": "한나경",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9156",
+      "player_name": "한빛나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11976",
+      "player_name": "한효리 0803(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8282",
+      "player_name": "허다빈",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12832",
+      "player_name": "허단비 1201(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12154",
+      "player_name": "현세린 0901(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12131",
+      "player_name": "현예나 0506(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "13067",
+      "player_name": "홀리 빅토리아 하림",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11136",
+      "player_name": "홍수민 0701(A)",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9756",
+      "player_name": "홍예은",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "3789",
+      "player_name": "홍진주",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "11202",
+      "player_name": "황보민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10968",
+      "player_name": "황소영",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "5235",
+      "player_name": "황아름2",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10157",
+      "player_name": "황연서",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8301",
+      "player_name": "황예나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "10185",
+      "player_name": "황유민",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    },
+    {
+      "player_id": "12572",
+      "player_name": "히타시 바크시",
+      "provenance": {
+        "source_table": "player_master",
+        "source_export": "player_master.csv",
+        "identity_key": "player_id"
+      }
+    }
+  ]
+}
