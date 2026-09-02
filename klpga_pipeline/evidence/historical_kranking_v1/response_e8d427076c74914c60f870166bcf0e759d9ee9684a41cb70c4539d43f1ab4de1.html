@@ -1,0 +1,431 @@
+
+
+ 
+ 
+ 
+
+ 
+
+
+
+
+  
+
+
+
+
+<!DOCTYPE html>
+<html class="kr"><head>
+    <title>K-Rankings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    <meta name="title" content="K-랭킹 - KLPGA 한국여자골프랭킹">
+    <meta name="description" content="KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템.">
+    <meta name="keywords" content="K-랭킹, 한국여자프로골프, KLPGA, 정규투어, 드림투어, 점프투어, KLPGA 우승 골프, 랭킹 시스템, 골프 랭킹,">
+    <meta property="og:title" content="K-랭킹 - KLPGA 한국여자골프랭킹">
+    <meta property="og:description" content="KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템.">
+    <meta property="og:image" content="images/social-image.jpg">
+    <meta property="og:url" content="https://www.krankings.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="K Rankings">
+    <meta name="twitter:card" content="">
+    <meta name="twitter:title" content="K-랭킹 - KLPGA 한국여자골프랭킹">
+    <meta name="twitter:description" content="KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템.">
+    <meta name="twitter:image:src" content="images/social-image.jpg">
+	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.jqplot.css" />
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,100,500,700,900' rel='stylesheet' type='text/css'>
+    
+    
+<!-- 그리트 추가 CSS -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<!-- 그리트 추가 CSS -->
+    
+    
+    
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/circle-counter.js"></script>
+	<script src="js/navigation.js"></script>
+
+	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+    <script type="text/javascript" src="js/jquery.jqplot.js"></script>
+    
+    <script type="text/javascript" src="plugins/jqplot.barRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.categoryAxisRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.pointLabels.js"></script>
+    
+    <script type="text/javascript" src="plugins/jqplot.pieRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.donutRenderer.js"></script>
+
+	<script type="text/javascript" src="plugins/jqplot.dateAxisRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.logAxisRenderer.js"></script>
+    <script type="text/javascript" src="plugins/jqplot.canvasTextRenderer.js"></script>
+    <script type="text/javascript" src="plugins/jqplot.canvasAxisTickRenderer.js"></script>
+    <script type="text/javascript" src="plugins/jqplot.highlighter.js"></script>    
+    <script type="text/javascript" src="plugins/jqplot.canvasOverlay.js"></script>
+    
+	<script type="text/javascript" src="js/Chart.bundle.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+
+</head>
+
+<body>
+
+<!-- MENU -->
+ 
+           
+<div class="site-header-wrapper no-scroll">
+<header class="site-header">
+    <div class="site-branding">	      
+        <div class="custom-logo"><a href="index.jsp" title="K-RANKING"><img src="images/logo-blank.png"></a></div>
+        <a href="#" id="nav-toggle">Menu<span></span></a>
+        <nav id="site-navigation" class="main-navigation" role="navigation">
+            <ul class="nav-menu" style="height: 647px; overflow: auto;">
+                <li id="menu-item-01" class="menu-item current_page_item"><a href="kranking.jsp">K-랭킹</a></li>
+                <li id="menu-item-02" class="menu-item"><a href="playerprofile.jsp">선수</a>
+                	<ul class="menu-sub-item">
+                    	<li><a href="allplayer.jsp">전체 선수 랭킹</a></li>
+                        <li><a href="compareplayers.jsp">선수 랭킹 비교</a></li>
+                        <li><a href="myfavorite.jsp">즐겨찾기 선수</a></li>
+                    </ul>
+                </li> 
+				<li id="menu-item-03" class="menu-item"><a href="events.jsp">대회</a></li>               
+                <li id="menu-item-04" class="menu-item"><a href="team.jsp">구단</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header-right-wrapper">
+        <a href="#" id="lang-toggle">언어<span><img src="images/language.png"></span></a>
+        <ul id="lang-navigation" class="lang-menu">
+            <li><a href="/eng/">ENGLISH</a></li>
+            <li class="active"><a href="/">KOREAN - 한국어</a></li>
+        </ul>
+    </div>
+</header>
+</div>
+<!-- MENU END-->
+
+
+
+<div class="site-content">
+
+    <section class="section-champion section-padding">
+    	<div class="container">
+			<div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <h1 class="championtitle">KLPGA CHAMPION</h1>
+                    <div class="championsearch">
+                        <h1><strong>RANK 1</strong> 김민솔</h1>                        
+                        <div class="boxline">
+                            <span class="period">                            
+                                2026년 35주차
+                            </span>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </section>
+
+	<section class="section-page page-padding">	      
+        <div class="container">
+			<div class="row">
+                <div class="col-sm-12">
+                	<div class="box">
+                    <h2 class="page-title blue">K-랭킹이란</h2>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box">
+                    	<div class="box-inner box-shadow">
+                        
+                        	<!----------------------------- bggrid single-page ---------------------------->
+                        	<div class="bggrid single-page">
+                            
+                            	<p>K-랭킹 홈페이지에 방문해주셔서 감사드립니다. <br>
+                            	K-랭킹은 처음 발표 된 2019년 5월 28일 랭킹부터 공식 랭킹 데이터로 인정합니다.<br>
+                            	메인페이지에 공개된 역대 누적/최장 연속 1위 선수 기록도 위 기준과 동일합니다.</p>
+                                <br style="line-height:1;">
+                            
+                                <h4 class="bluecolor">1. K-랭킹은 무엇인가요?</h4>
+                                <p>KLPGA투어 대회에 참가했던 여자 골프선수들의 순위를 매기는 랭킹 시스템입니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">2. K-랭킹은 어떤 투어를 대상으로 하나요?</h4>
+                                <p>KLPGA 정규투어, 드림투어, 점프투어를 대상으로 합니다. 단, 정규대회 이외의 이벤트 대회는 대상으로 하지 않습니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">3. 어떤 선수들이 K –랭킹에 반영되나요?</h4>
+                                <p>KLPGA 투어(정규투어, 드림투어, 점프투어)에 참가한 경험이 있는 모든 프로 및 아마추어 여자 선수가 K-랭킹에 반영됩니다. (대회에 출전했지만 랭킹 포인트를 획득하지 못할 경우에는 랭킹에 반영되지 않습니다.)</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">4. K –랭킹은 언제 최초 발표했나요?</h4>
+                                <p>K-랭킹은 KLPGA 한국여자프로골프협회 창립 41주년 기념하여 2019년 5월 28일에 처음 발표하였습니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">5. K –랭킹은 어떻게 산정되나요?</h4>
+                                <p style="padding: 20px;"><img src="images/kranking-graph.png"></p>
+                                <p>K-랭킹은 위의 그림과 같이 전(前) 주의 랭킹을 토대로 대회지수를 산정하고, 대회 종료 후 배점표의 각 대회지수에 해당하는 구간 점수를 해당 순위의 선수에게 부여합니다. 이렇게 부여된 점수는 선수가 기존에 보유하고 있던 점수와 합하여, 참가한 대회 수의 평균 점수를 산출합니다. 이렇게 평균점수를 순위로 나열한 것이 K-랭킹입니다.  K-랭킹의 최적의 값을 도출하기 위한 몇 가지 조건이 있습니다.</p>
+                                <ul class="page-ul">
+                                    <li>선수가 2년(104주)간 획득한 포인트 중, 최근 13주 동안의 포인트는 100% 반영하고, 나머지 91주 동안에 얻은 포인트는 104주까지 균등하게 감소한 비율로 반영해 더해집니다.</li>
+                                    <li>랭킹 포인트는 총 획득 포인트를 대회 참가수로 나눠 값을 산출하여 랭킹 포인트로 사용합니다. 여기서 중요한 점이 K-랭킹은 최소 참가대회 수가 35개이기 때문에 35개 미만의 대회에 참가한 선수의 경우, 최소분모를 35로 하여 평균값을 구합니다.</li>
+                                </ul>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">6. 대회지수는 무엇이며, 어떻게 결정되나요?</h4>
+                                <p>대회지수는 K-랭킹을 산정하기 위해 각 대회가 얼마나 어려운(경쟁 강도가 강한) 대회인지를 결정하는 지수입니다. 랭킹이 높은 선수들이 많이 출전한 대회는 대회지수가 높은 대회이며, 상대적으로 랭킹이 높은 선수들이 적게 출전한 대회는 대회지수가 낮게 책정됩니다. 대회지수에 따라 각 대회에서 선수들이 받는 포인트가 결정됩니다. 대회지수는 참가선수 레이팅과 투어 레이팅으로 구성되어 있습니다. 단, 메이저 대회의 경우는 최대 포인트로 구성된 메이저 대회만의 구간으로 배정됩니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">7. 참가선수 레이팅은 무엇이고, 어떻게 산정되나요?</h4>
+                                <p>참가선수 레이팅은 대회지수를 구하기 위해, 각 랭킹에 해당하는 선수들에게 부여된 값을 말합니다. 대회 시작 전(前) 주 랭킹을 기준으로 350위까지의 선수들 중 대회에 출전하는 선수들에게 아래 표에 배정된 레이팅 포인트를 부여해 대회지수를 산출하는 데 사용합니다.</p>
+
+                                <div class="page-table">
+                                    <h5 class="bar-title">PLAYER RATING</h5>
+                                    <table class="rating-table">
+                                      <thead>
+                                        <tr><th style="width:50%">K-RANKING</th><th style="width:50%">RATING</th></tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr><td>1</td><td>45</td></tr>
+                                        <tr><td>2</td><td>37</td></tr>
+                                        <tr><td>3</td><td>32</td></tr>
+                                        <tr><td>4</td><td>27</td></tr>
+                                        <tr><td>5</td><td>24</td></tr>
+                                        <tr><td>6</td><td>21</td></tr>
+                                        <tr><td>7</td><td>20</td></tr>
+                                        <tr><td>8</td><td>19</td></tr>
+                                        <tr><td>9</td><td>18</td></tr>
+                                        <tr><td>10</td><td>17</td></tr>
+                                        <tr><td>11</td><td>16</td></tr>
+                                        <tr><td>12</td><td>15</td></tr>
+                                        <tr><td>13</td><td>14</td></tr>
+                                        <tr><td>14</td><td>13</td></tr>
+                                        <tr><td>15</td><td>12</td></tr>
+                                        <tr><td>16-30</td><td>11</td></tr>
+                                        <tr><td>31-34</td><td>10</td></tr>
+                                        <tr><td>35-38</td><td>9</td></tr>
+                                        <tr><td>39-43</td><td>8</td></tr>
+                                        <tr><td>44-50</td><td>7</td></tr>
+                                        <tr><td>51-55</td><td>6</td></tr>
+                                        <tr><td>56-60</td><td>5</td></tr>
+                                        <tr><td>61-70</td><td>4</td></tr>
+                                        <tr><td>71-80</td><td>3</td></tr>
+                                        <tr><td>81-100</td><td>2</td></tr>
+                                        <tr><td>101-200</td><td>1</td></tr>
+                                        <tr><td>201-350</td><td>0.5</td></tr>                                        
+                                      </tbody>
+                                      <tfoot>
+                                        <tr class="rating-total"><td>TOTAL</td><td>1000</td></tr>
+                                      </tfoot>
+                                    </table>
+                                </div>
+                                
+                                <h4 class="bluecolor">8. 투어 레이팅은 무엇이고, 어떻게 산정하나요?</h4>
+                                <p>투어 레이팅은 대회지수를 산출하는데, 출전선수 레이팅만으로 반영하기 힘든 각 투어간의 균형을 맞추기 위한 값입니다. 투어 레이팅은 전(前) 년도 KLPGA 정규투어, 드림투어, 점프투어 상금랭킹 상위 30위 안에 든 선수들에게 아래 표의 레이팅 값을 배정합니다. 투어 레이팅 포인트는 최고 75점이며, 참가선수 레이팅 값의 75%를 넘지 못합니다.</p>
+                                
+                                <div class="page-table">
+                                	<h5 class="bar-title">TOUR RATING</h5>
+                                    <table class="rating-table">
+                                      <thead>
+                                        <tr><th style="width:50%">전 년도 상금랭킹</th><th style="width:50%">RATING</th></tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr><td style="width:50%">1</td><td style="width:50%">8</td></tr>
+                                        <tr><td>2</td><td>7</td></tr>
+                                        <tr><td>3</td><td>6</td></tr>
+                                        <tr><td>4</td><td>5</td></tr>
+                                        <tr><td>5</td><td>4</td></tr>
+                                        <tr><td>6-15</td><td>3</td></tr>
+                                        <tr><td>16-30</td><td>1</td></tr>                                        
+                                      </tbody>
+                                      <tfoot>
+                                        <tr class="rating-total"><td>TOTAL</td><td>75</td></tr>
+                                      </tfoot>
+                                    </table>
+                                </div>
+                                
+                                <h4 class="bluecolor">9. 예선을 통과한 모든 선수가 랭킹 포인트를 획득하나요?</h4>
+                                <p>그렇지는 않습니다. 선수가 획득하는 포인트는 배점표를 기준으로 결정되며, 랭킹 포인트를 부여받는 선수의 숫자도 배점표의 구간에 따라 다릅니다. 따라서 예선에 통과했더라도 랭킹 포인트를 받지 못하는 선수들도 있습니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">10. 대회 순위 발표 후 선수들은 최종순위에 따라 포인트를 받나요?</h4>
+                                <p>네. 최종순위에 따라 포인트를 받게 됩니다. 다만, 공동순위가 발생할 경우 동 순위자에 해당하는 포인트를 모두 더한 뒤 동 순위자 수만큼 나눈 평균 포인트를 부여합니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">11. 대회 참가 인정 기준은 무엇인가요?</h4>
+                                <p>KLPGA 투어(정규투어, 드림투어, 점프투어)에 출전해 최소한 한 번의 샷을 해야 합니다. 대회에서 기권을 하거나 실격이 된 경우에도 출전대회 수는 인정되지만, K-랭킹 포인트는 부여받지 못합니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">12. K-랭킹에 있던 선수가 최근 2년(104주) 동안 KLPGA 투어 에 한 번도 참가하지 않으면 랭킹에서 삭제되나요?</h4>
+                                <p>네. 최근 2년(104주) 동안 KLPGA 투어(정규투어, 드림투어, 점프투어)에 참가하지 않을 경우 랭킹에서 삭제됩니다. K-랭킹에 반영되려면 KLPGA 투어에 최소한 한 번은 참가해야 합니다.</p>
+                                <br style="line-height:1;">
+                                
+                                <h4 class="bluecolor">13. K-랭킹은 언제 업데이트 되나요?</h4>
+                                <p>K-랭킹은 매주 월요일에 발표합니다.</p>    
+                                
+                                <p><br><br><br></p>                                                   
+                            
+                            </div>
+                            <!--------------------------- end .bggrid single-page -------------------------->
+                            
+                            <div class="page-bottom-icon"><img src="images/team-blue.png"></div>
+                            
+                    	</div> <!-- end .box-inner -->
+                    </div> <!-- end .box -->
+                </div>
+			</div>
+            
+        </div> <!-- end .container -->
+	</section>
+    
+
+</div> <!-- end .site-content -->
+
+
+<!-- footer -->
+
+<footer class="site-footer section-padding">
+	<div class="container">
+    
+		<!-- 파트너사 소개영역
+    	<div class="row">
+        	<div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h1>PARTNERS</h1>         
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+        
+    	<div class="row partners">
+        	<div class="col-sm-6">
+            	<img src="images/partners-01.png">
+            </div>
+            <div class="col-sm-6"> 
+            	<img src="images/partners-02.png">      
+            </div>
+        </div>
+        -->
+        
+        <div class="row footer-menu">
+        	<div class="col-sm-12">     
+                <ul>
+                	<li><a href="kranking.jsp">K-랭킹이란</a></li>
+                    <li><a href="cookiepolicy.jsp">쿠키 정책</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row footer-sns">
+        	<div class="col-sm-12">     
+                <ul>
+                	<li><a href="javascript:sendSns('twitter', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-01.png"></a></li>
+                    <li><a href="javascript:sendSns('facebook', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-02.png"></a></li>
+                    <li><a href="javascript:sendSns('Band', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-03.png"></a></li>
+                    <li><a href="javascript:sendSns('NaverBlog', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-04.png"></a></li>
+                   <li><a id="kakao-link-btn" href="javascript:;"><img src="images/sns-07.png"></a></li>
+
+                </ul>
+            </div>
+        </div>        
+
+      
+    </div>
+  
+  	<!------------------------------------------ alert--------------------------------------------->
+	<div class="alertbox"> <!-- 클릭없이 노출하려면 alert-is-shown 클래스 추가 -->
+      <div class="alert">
+      	<div class="alert-inner">
+            <ul>
+                <li class="sharetitle"><h3>SHARE</h3><span class="close">X</span></li>
+                	<li><a href="javascript:sendSns('twitter', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-01.png"></a></li>
+                    <li><a href="javascript:sendSns('facebook', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-02.png"></a></li>
+                    <li><a href="javascript:sendSns('Band', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-03.png"></a></li>
+                    <li><a href="javascript:sendSns('NaverBlog', 'k-rankings.klpga.co.kr', 'KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템')"><img src="images/sns-04.png"></a></li>
+            </ul>
+        </div>        
+      </div> <!-- end .alert -->
+    </div> <!-- end .alertbox -->
+	<!------------------------------------------ end .alert--------------------------------------------->  
+      <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+     <script type="text/javascript" src="js/SNS.js"></script>
+     <script>    
+
+     //<![CDATA[
+       // // 사용할 앱의 JavaScript 키를 설정해 주세요.
+       Kakao.init('de73176af98d3e5800d94adca1954edd');
+       // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+       Kakao.Link.createDefaultButton({
+         container: '#kakao-link-btn',
+         objectType: 'feed',
+         content: {
+           title: 'Kranking',
+           description: '2000년대 KLPGA는 세계적인 투어로 성장하며 세계여자골프의 중심에 서는, 그야말로 한국여자프로골프의 개화기를 맞이했다. 해외에서는 물론 국내에서도 수많은 골프스타들이 활약하면서 대회의 규모와 질이 한층 높아지며 아시아지역의 프로골퍼들에게 ‘꿈의 무대’로 불리게 된 KLPGA투어는 USLPGA투어ㆍJLPGA투어와 함께 세계적인 투어로 성장했다. KLPGA투어가 세계적인 투어로 성장할 수 있었던 배경에는 2000년대 만들어진 드림투어(2부투어)와 시니어투어, 그리고 점프투어(3부투어)가 있다.',
+           imageUrl: 'http://k-rankings.klpga.co.kr/images/social-image.jpg',
+           link: {
+             mobileWebUrl: 'https://developers.kakao.com',
+             webUrl: 'https://developers.kakao.com'
+           }
+         },
+         social: {
+           likeCount: 286,
+           commentCount: 45,
+           sharedCount: 845
+         },
+         buttons: [
+           {
+             title: '웹으로 보기',
+             link: {
+               mobileWebUrl: 'https://developers.kakao.com',
+               webUrl: 'https://developers.kakao.com'
+             }
+           },
+           {
+             title: '앱으로 보기',
+             link: {
+               mobileWebUrl: 'https://developers.kakao.com',
+               webUrl: 'https://developers.kakao.com'
+             }
+           }
+         ]
+       });
+     //]]>
+     
+     </script>
+    
+    <div class="copyright">
+        <div class="footer-logo">     
+			<a href="#"><img src="images/footer-logo.png"></a>
+        </div>
+        <p>© 2019 KLPGA. ALL RIGHTS RESERVED.</p>   
+    </div>
+        
+</footer>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-53449337-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-53449337-3');
+</script>
+<!-- footer END-->
+
+
+
+</body>
+
+</html>

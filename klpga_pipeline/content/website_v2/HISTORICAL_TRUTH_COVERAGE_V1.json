@@ -1,0 +1,1238 @@
+{
+  "schema_version": "neo_historical_truth_coverage_v1",
+  "total_tournaments": 82,
+  "fully_verified_tournaments": 0,
+  "partially_verified_tournaments": 82,
+  "unverified_tournaments": 0,
+  "records": [
+    {
+      "game_code": "2023090001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023090002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023090003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023090004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023090005",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023100001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023110001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2023110002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024040017",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024040018",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024040019",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024040020",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024050014",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024050015",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024050017",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024050018",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024060013",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024060014",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024060015",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024060016",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024070016",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024070017",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024080014",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024080015",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024080018",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024090006",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024090007",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024090008",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024090009",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024100008",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024100010",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024100011",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024100012",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2024110007",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025040001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025040002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025040003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025040004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025040005",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025050001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025050003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025050004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025060001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025060002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025060003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025060004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025070001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025070002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025070003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025070004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025070005",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025080001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025080003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025090001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025090002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025090003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025090004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025100002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025100003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025100004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025100005",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2025100012",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026030001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026040001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026040002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026040003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026040004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026040005",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026050001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026050003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026050004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026060001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026060002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026060003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026060004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026070001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026070002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026070003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026080001",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": true,
+      "field_provenance": "VERIFIED_PRE_EVENT_ENTRY",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026080002",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026080003",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    },
+    {
+      "game_code": "2026080004",
+      "K_historical_snapshot_available": false,
+      "K_temporal_mapping_verified": false,
+      "pre_event_field_verified": false,
+      "field_provenance": "SG_ROW_RECONSTRUCTED",
+      "frozen_V1_available": true,
+      "outcome_available": true,
+      "SG_outcome_available": true,
+      "eligible_for_direct_K_vs_NEO": false,
+      "exclusion_reasons": [
+        "K_TEMPORAL_MAPPING_UNVERIFIED",
+        "PRE_EVENT_FIELD_UNVERIFIED"
+      ]
+    }
+  ]
+}
