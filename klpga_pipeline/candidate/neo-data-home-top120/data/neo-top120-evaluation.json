@@ -203,6 +203,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 4,
       "validation_score": 1.364982,
+      "feature_contributions": {
+        "recent_5_sg": 0.502391,
+        "recent_10_sg": 0.440774,
+        "long_term_sg": 0.360473,
+        "consistency": 0.011344,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -3,
       "model_id": "neo-ranking-validation-v1"
@@ -229,6 +236,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 2,
       "validation_score": 1.661309,
+      "feature_contributions": {
+        "recent_5_sg": 0.646655,
+        "recent_10_sg": 0.618403,
+        "long_term_sg": 0.317134,
+        "consistency": 0.029117,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 0,
       "model_id": "neo-ranking-validation-v1"
@@ -255,6 +269,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 1,
       "validation_score": 1.756257,
+      "feature_contributions": {
+        "recent_5_sg": 0.654329,
+        "recent_10_sg": 0.443049,
+        "long_term_sg": 0.477564,
+        "consistency": 0.131315,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 2,
       "model_id": "neo-ranking-validation-v1"
@@ -281,6 +302,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 5,
       "validation_score": 1.346348,
+      "feature_contributions": {
+        "recent_5_sg": 0.562757,
+        "recent_10_sg": 0.363644,
+        "long_term_sg": 0.360219,
+        "consistency": 0.009728,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -1,
       "model_id": "neo-ranking-validation-v1"
@@ -307,6 +335,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 15,
       "validation_score": 0.970575,
+      "feature_contributions": {
+        "recent_5_sg": 0.246603,
+        "recent_10_sg": 0.195527,
+        "long_term_sg": 0.396208,
+        "consistency": 0.082236,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -10,
       "model_id": "neo-ranking-validation-v1"
@@ -333,6 +368,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 7,
       "validation_score": 1.192716,
+      "feature_contributions": {
+        "recent_5_sg": 0.354545,
+        "recent_10_sg": 0.282997,
+        "long_term_sg": 0.374666,
+        "consistency": 0.130507,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -1,
       "model_id": "neo-ranking-validation-v1"
@@ -359,6 +401,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 21,
       "validation_score": 0.903663,
+      "feature_contributions": {
+        "recent_5_sg": 0.199538,
+        "recent_10_sg": 0.180019,
+        "long_term_sg": 0.42358,
+        "consistency": 0.050526,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -14,
       "model_id": "neo-ranking-validation-v1"
@@ -385,6 +434,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 52,
       "validation_score": 0.076906,
+      "feature_contributions": {
+        "recent_5_sg": -0.271112,
+        "recent_10_sg": 0.068148,
+        "long_term_sg": 0.266191,
+        "consistency": -0.036322,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -44,
       "model_id": "neo-ranking-validation-v1"
@@ -411,6 +467,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 10,
       "validation_score": 1.090173,
+      "feature_contributions": {
+        "recent_5_sg": 0.341244,
+        "recent_10_sg": 0.248051,
+        "long_term_sg": 0.370864,
+        "consistency": 0.080014,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -1,
       "model_id": "neo-ranking-validation-v1"
@@ -437,6 +500,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 8,
       "validation_score": 1.171143,
+      "feature_contributions": {
+        "recent_5_sg": 0.383705,
+        "recent_10_sg": 0.41596,
+        "long_term_sg": 0.269739,
+        "consistency": 0.051738,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 2,
       "model_id": "neo-ranking-validation-v1"
@@ -463,6 +533,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 40,
       "validation_score": 0.33294,
+      "feature_contributions": {
+        "recent_5_sg": 0.142753,
+        "recent_10_sg": 0.117776,
+        "long_term_sg": 0.035303,
+        "consistency": -0.012893,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -29,
       "model_id": "neo-ranking-validation-v1"
@@ -489,6 +566,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 13,
       "validation_score": 1.050214,
+      "feature_contributions": {
+        "recent_5_sg": 0.159124,
+        "recent_10_sg": 0.241434,
+        "long_term_sg": 0.456021,
+        "consistency": 0.143635,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -1,
       "model_id": "neo-ranking-validation-v1"
@@ -515,6 +599,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 17,
       "validation_score": 0.928812,
+      "feature_contributions": {
+        "recent_5_sg": 0.326409,
+        "recent_10_sg": 0.214138,
+        "long_term_sg": 0.262896,
+        "consistency": 0.075369,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -4,
       "model_id": "neo-ranking-validation-v1"
@@ -541,6 +632,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 11,
       "validation_score": 1.088629,
+      "feature_contributions": {
+        "recent_5_sg": 0.305434,
+        "recent_10_sg": 0.330765,
+        "long_term_sg": 0.33817,
+        "consistency": 0.06426,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 3,
       "model_id": "neo-ranking-validation-v1"
@@ -567,6 +665,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 64,
       "validation_score": -0.082379,
+      "feature_contributions": {
+        "recent_5_sg": -0.146287,
+        "recent_10_sg": -0.005467,
+        "long_term_sg": 0.073066,
+        "consistency": -0.053691,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -49,
       "model_id": "neo-ranking-validation-v1"
@@ -593,6 +698,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 39,
       "validation_score": 0.333154,
+      "feature_contributions": {
+        "recent_5_sg": 0.256834,
+        "recent_10_sg": 0.216413,
+        "long_term_sg": -0.116003,
+        "consistency": -0.07409,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -23,
       "model_id": "neo-ranking-validation-v1"
@@ -619,6 +731,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 3,
       "validation_score": 1.423408,
+      "feature_contributions": {
+        "recent_5_sg": 0.559176,
+        "recent_10_sg": 0.439534,
+        "long_term_sg": 0.283172,
+        "consistency": 0.091526,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 14,
       "model_id": "neo-ranking-validation-v1"
@@ -645,6 +764,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 6,
       "validation_score": 1.324894,
+      "feature_contributions": {
+        "recent_5_sg": 0.532574,
+        "recent_10_sg": 0.283411,
+        "long_term_sg": 0.38455,
+        "consistency": 0.074359,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 12,
       "model_id": "neo-ranking-validation-v1"
@@ -671,6 +797,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 19,
       "validation_score": 0.921238,
+      "feature_contributions": {
+        "recent_5_sg": 0.152473,
+        "recent_10_sg": 0.232956,
+        "long_term_sg": 0.420539,
+        "consistency": 0.06527,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 0,
       "model_id": "neo-ranking-validation-v1"
@@ -697,6 +830,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 14,
       "validation_score": 1.03093,
+      "feature_contributions": {
+        "recent_5_sg": 0.238418,
+        "recent_10_sg": 0.367779,
+        "long_term_sg": 0.318147,
+        "consistency": 0.056585,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 6,
       "model_id": "neo-ranking-validation-v1"
@@ -723,6 +863,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 16,
       "validation_score": 0.928986,
+      "feature_contributions": {
+        "recent_5_sg": 0.236883,
+        "recent_10_sg": 0.244329,
+        "long_term_sg": 0.296351,
+        "consistency": 0.101423,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 5,
       "model_id": "neo-ranking-validation-v1"
@@ -749,6 +896,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -775,6 +923,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 45,
       "validation_score": 0.209433,
+      "feature_contributions": {
+        "recent_5_sg": 0.044531,
+        "recent_10_sg": -0.046411,
+        "long_term_sg": 0.178246,
+        "consistency": -0.016932,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -22,
       "model_id": "neo-ranking-validation-v1"
@@ -801,6 +956,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 12,
       "validation_score": 1.056017,
+      "feature_contributions": {
+        "recent_5_sg": 0.470673,
+        "recent_10_sg": 0.347928,
+        "long_term_sg": 0.16456,
+        "consistency": 0.022856,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 12,
       "model_id": "neo-ranking-validation-v1"
@@ -827,6 +989,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 25,
       "validation_score": 0.792867,
+      "feature_contributions": {
+        "recent_5_sg": 0.288552,
+        "recent_10_sg": 0.216206,
+        "long_term_sg": 0.229188,
+        "consistency": 0.00892,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 0,
       "model_id": "neo-ranking-validation-v1"
@@ -853,6 +1022,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 26,
       "validation_score": 0.770038,
+      "feature_contributions": {
+        "recent_5_sg": 0.36887,
+        "recent_10_sg": 0.073318,
+        "long_term_sg": 0.191172,
+        "consistency": 0.086679,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 0,
       "model_id": "neo-ranking-validation-v1"
@@ -879,6 +1055,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 37,
       "validation_score": 0.356752,
+      "feature_contributions": {
+        "recent_5_sg": -0.14066,
+        "recent_10_sg": 0.03134,
+        "long_term_sg": 0.275062,
+        "consistency": 0.14101,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -10,
       "model_id": "neo-ranking-validation-v1"
@@ -905,6 +1088,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 27,
       "validation_score": 0.709671,
+      "feature_contributions": {
+        "recent_5_sg": 0.350453,
+        "recent_10_sg": 0.291269,
+        "long_term_sg": -0.021468,
+        "consistency": 0.039418,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 1,
       "model_id": "neo-ranking-validation-v1"
@@ -931,6 +1121,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 43,
       "validation_score": 0.224658,
+      "feature_contributions": {
+        "recent_5_sg": -0.233255,
+        "recent_10_sg": 0.0423,
+        "long_term_sg": 0.310037,
+        "consistency": 0.055576,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -14,
       "model_id": "neo-ranking-validation-v1"
@@ -957,6 +1154,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 29,
       "validation_score": 0.650335,
+      "feature_contributions": {
+        "recent_5_sg": 0.364265,
+        "recent_10_sg": 0.263973,
+        "long_term_sg": 0.016295,
+        "consistency": -0.044198,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 1,
       "model_id": "neo-ranking-validation-v1"
@@ -983,6 +1187,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 18,
       "validation_score": 0.927264,
+      "feature_contributions": {
+        "recent_5_sg": 0.559687,
+        "recent_10_sg": 0.256322,
+        "long_term_sg": 0.078389,
+        "consistency": -0.017134,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 13,
       "model_id": "neo-ranking-validation-v1"
@@ -1009,6 +1220,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 24,
       "validation_score": 0.820377,
+      "feature_contributions": {
+        "recent_5_sg": 0.280879,
+        "recent_10_sg": 0.172574,
+        "long_term_sg": 0.241354,
+        "consistency": 0.075571,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 8,
       "model_id": "neo-ranking-validation-v1"
@@ -1035,6 +1253,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 46,
       "validation_score": 0.209302,
+      "feature_contributions": {
+        "recent_5_sg": 0.123313,
+        "recent_10_sg": 0.069802,
+        "long_term_sg": -0.062526,
+        "consistency": 0.028713,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -13,
       "model_id": "neo-ranking-validation-v1"
@@ -1061,6 +1286,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 28,
       "validation_score": 0.66486,
+      "feature_contributions": {
+        "recent_5_sg": 0.007697,
+        "recent_10_sg": 0.054293,
+        "long_term_sg": 0.474269,
+        "consistency": 0.0786,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 6,
       "model_id": "neo-ranking-validation-v1"
@@ -1087,6 +1319,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 9,
       "validation_score": 1.100759,
+      "feature_contributions": {
+        "recent_5_sg": 0.590382,
+        "recent_10_sg": 0.26418,
+        "long_term_sg": 0.124262,
+        "consistency": 0.071935,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 26,
       "model_id": "neo-ranking-validation-v1"
@@ -1113,6 +1352,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 30,
       "validation_score": 0.637947,
+      "feature_contributions": {
+        "recent_5_sg": 0.156054,
+        "recent_10_sg": 0.132251,
+        "long_term_sg": 0.146312,
+        "consistency": 0.15333,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 6,
       "model_id": "neo-ranking-validation-v1"
@@ -1139,6 +1385,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 23,
       "validation_score": 0.828778,
+      "feature_contributions": {
+        "recent_5_sg": 0.243022,
+        "recent_10_sg": 0.206487,
+        "long_term_sg": 0.234511,
+        "consistency": 0.094758,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 14,
       "model_id": "neo-ranking-validation-v1"
@@ -1165,6 +1418,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 57,
       "validation_score": 0.013726,
+      "feature_contributions": {
+        "recent_5_sg": -0.107407,
+        "recent_10_sg": -0.056543,
+        "long_term_sg": 0.14986,
+        "consistency": -0.022184,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -19,
       "model_id": "neo-ranking-validation-v1"
@@ -1191,6 +1451,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 22,
       "validation_score": 0.87521,
+      "feature_contributions": {
+        "recent_5_sg": 0.318735,
+        "recent_10_sg": 0.197802,
+        "long_term_sg": 0.196747,
+        "consistency": 0.111926,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 17,
       "model_id": "neo-ranking-validation-v1"
@@ -1217,6 +1484,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 54,
       "validation_score": 0.069341,
+      "feature_contributions": {
+        "recent_5_sg": -0.128894,
+        "recent_10_sg": -0.056543,
+        "long_term_sg": 0.149607,
+        "consistency": 0.055172,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -14,
       "model_id": "neo-ranking-validation-v1"
@@ -1243,6 +1517,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 68,
       "validation_score": -0.165309,
+      "feature_contributions": {
+        "recent_5_sg": -0.207676,
+        "recent_10_sg": -0.023871,
+        "long_term_sg": -0.032873,
+        "consistency": 0.049112,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -27,
       "model_id": "neo-ranking-validation-v1"
@@ -1269,6 +1550,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 20,
       "validation_score": 0.913415,
+      "feature_contributions": {
+        "recent_5_sg": 0.386775,
+        "recent_10_sg": 0.150242,
+        "long_term_sg": 0.197508,
+        "consistency": 0.128891,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 22,
       "model_id": "neo-ranking-validation-v1"
@@ -1295,6 +1583,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 100,
       "validation_score": -0.99115,
+      "feature_contributions": {
+        "recent_5_sg": -0.187725,
+        "recent_10_sg": -0.179167,
+        "long_term_sg": -0.426473,
+        "consistency": -0.247786,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -57,
       "model_id": "neo-ranking-validation-v1"
@@ -1321,6 +1616,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 38,
       "validation_score": 0.348493,
+      "feature_contributions": {
+        "recent_5_sg": 0.232279,
+        "recent_10_sg": 0.153757,
+        "long_term_sg": -0.037689,
+        "consistency": -0.049854,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 6,
       "model_id": "neo-ranking-validation-v1"
@@ -1347,6 +1649,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 31,
       "validation_score": 0.60109,
+      "feature_contributions": {
+        "recent_5_sg": 0.204654,
+        "recent_10_sg": 0.030927,
+        "long_term_sg": 0.267205,
+        "consistency": 0.048305,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 14,
       "model_id": "neo-ranking-validation-v1"
@@ -1373,6 +1682,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 96,
       "validation_score": -0.725008,
+      "feature_contributions": {
+        "recent_5_sg": -0.560664,
+        "recent_10_sg": -0.124989,
+        "long_term_sg": -0.002967,
+        "consistency": -0.073888,
+        "sample_reliability": 0.0375
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -50,
       "model_id": "neo-ranking-validation-v1"
@@ -1399,6 +1715,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 34,
       "validation_score": 0.415183,
+      "feature_contributions": {
+        "recent_5_sg": 0.227675,
+        "recent_10_sg": 0.052019,
+        "long_term_sg": 0.012747,
+        "consistency": 0.072743,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 13,
       "model_id": "neo-ranking-validation-v1"
@@ -1425,6 +1748,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 79,
       "validation_score": -0.325753,
+      "feature_contributions": {
+        "recent_5_sg": -0.35808,
+        "recent_10_sg": -0.084253,
+        "long_term_sg": 0.032008,
+        "consistency": 0.03457,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -31,
       "model_id": "neo-ranking-validation-v1"
@@ -1451,6 +1781,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 36,
       "validation_score": 0.373937,
+      "feature_contributions": {
+        "recent_5_sg": 0.258881,
+        "recent_10_sg": 0.032995,
+        "long_term_sg": 0.037077,
+        "consistency": -0.005016,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 13,
       "model_id": "neo-ranking-validation-v1"
@@ -1477,6 +1814,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 59,
       "validation_score": -0.03202,
+      "feature_contributions": {
+        "recent_5_sg": 0.166797,
+        "recent_10_sg": 0.047056,
+        "long_term_sg": -0.180378,
+        "consistency": -0.115494,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -9,
       "model_id": "neo-ranking-validation-v1"
@@ -1503,6 +1847,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 42,
       "validation_score": 0.230959,
+      "feature_contributions": {
+        "recent_5_sg": 0.230233,
+        "recent_10_sg": 0.021208,
+        "long_term_sg": -0.03921,
+        "consistency": -0.031272,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 9,
       "model_id": "neo-ranking-validation-v1"
@@ -1529,6 +1880,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 87,
       "validation_score": -0.562797,
+      "feature_contributions": {
+        "recent_5_sg": 0.02816,
+        "recent_10_sg": -0.169861,
+        "long_term_sg": -0.195078,
+        "consistency": -0.251017,
+        "sample_reliability": 0.025
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -35,
       "model_id": "neo-ranking-validation-v1"
@@ -1555,6 +1913,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -1581,6 +1940,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 47,
       "validation_score": 0.167758,
+      "feature_contributions": {
+        "recent_5_sg": -0.102803,
+        "recent_10_sg": 0.092755,
+        "long_term_sg": 0.091821,
+        "consistency": 0.035984,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 7,
       "model_id": "neo-ranking-validation-v1"
@@ -1607,6 +1973,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 89,
       "validation_score": -0.578907,
+      "feature_contributions": {
+        "recent_5_sg": -0.52383,
+        "recent_10_sg": -0.241409,
+        "long_term_sg": 0.077122,
+        "consistency": 0.059211,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -34,
       "model_id": "neo-ranking-validation-v1"
@@ -1633,6 +2006,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 49,
       "validation_score": 0.132266,
+      "feature_contributions": {
+        "recent_5_sg": -0.020951,
+        "recent_10_sg": -0.086114,
+        "long_term_sg": 0.124262,
+        "consistency": 0.065068,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 7,
       "model_id": "neo-ranking-validation-v1"
@@ -1659,6 +2039,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 62,
       "validation_score": -0.076399,
+      "feature_contributions": {
+        "recent_5_sg": -0.032206,
+        "recent_10_sg": 0.115708,
+        "long_term_sg": -0.132984,
+        "consistency": -0.076918,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -5,
       "model_id": "neo-ranking-validation-v1"
@@ -1685,6 +2072,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 81,
       "validation_score": -0.36679,
+      "feature_contributions": {
+        "recent_5_sg": -0.227628,
+        "recent_10_sg": -0.10307,
+        "long_term_sg": -0.054416,
+        "consistency": -0.031676,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -23,
       "model_id": "neo-ranking-validation-v1"
@@ -1711,6 +2105,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 61,
       "validation_score": -0.058605,
+      "feature_contributions": {
+        "recent_5_sg": -0.218931,
+        "recent_10_sg": -0.054475,
+        "long_term_sg": 0.100945,
+        "consistency": 0.063856,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -2,
       "model_id": "neo-ranking-validation-v1"
@@ -1737,6 +2138,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 41,
       "validation_score": 0.244056,
+      "feature_contributions": {
+        "recent_5_sg": 0.041973,
+        "recent_10_sg": -0.018081,
+        "long_term_sg": 0.090554,
+        "consistency": 0.07961,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 19,
       "model_id": "neo-ranking-validation-v1"
@@ -1763,6 +2171,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 99,
       "validation_score": -0.912424,
+      "feature_contributions": {
+        "recent_5_sg": -0.22507,
+        "recent_10_sg": -0.488931,
+        "long_term_sg": -0.118791,
+        "consistency": -0.129632,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -38,
       "model_id": "neo-ranking-validation-v1"
@@ -1789,6 +2204,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 72,
       "validation_score": -0.231345,
+      "feature_contributions": {
+        "recent_5_sg": 0.024068,
+        "recent_10_sg": 0.08283,
+        "long_term_sg": -0.14591,
+        "consistency": -0.242333,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -10,
       "model_id": "neo-ranking-validation-v1"
@@ -1815,6 +2237,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 65,
       "validation_score": -0.104871,
+      "feature_contributions": {
+        "recent_5_sg": -0.180563,
+        "recent_10_sg": 0.088206,
+        "long_term_sg": -0.120312,
+        "consistency": 0.057797,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -2,
       "model_id": "neo-ranking-validation-v1"
@@ -1841,6 +2270,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 60,
       "validation_score": -0.034167,
+      "feature_contributions": {
+        "recent_5_sg": -0.017882,
+        "recent_10_sg": 0.0301,
+        "long_term_sg": -0.052389,
+        "consistency": -0.043996,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 4,
       "model_id": "neo-ranking-validation-v1"
@@ -1867,6 +2303,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 56,
       "validation_score": 0.017543,
+      "feature_contributions": {
+        "recent_5_sg": 0.150427,
+        "recent_10_sg": -0.016634,
+        "long_term_sg": -0.100036,
+        "consistency": -0.066213,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 9,
       "model_id": "neo-ranking-validation-v1"
@@ -1893,6 +2336,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 69,
       "validation_score": -0.198497,
+      "feature_contributions": {
+        "recent_5_sg": -0.012254,
+        "recent_10_sg": 0.01852,
+        "long_term_sg": -0.164918,
+        "consistency": -0.089844,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -3,
       "model_id": "neo-ranking-validation-v1"
@@ -1919,6 +2369,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 101,
       "validation_score": -1.070554,
+      "feature_contributions": {
+        "recent_5_sg": -0.372404,
+        "recent_10_sg": -0.431238,
+        "long_term_sg": -0.293921,
+        "consistency": -0.022991,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -34,
       "model_id": "neo-ranking-validation-v1"
@@ -1945,6 +2402,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 84,
       "validation_score": -0.537655,
+      "feature_contributions": {
+        "recent_5_sg": -0.071597,
+        "recent_10_sg": -0.211839,
+        "long_term_sg": -0.223464,
+        "consistency": -0.080755,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -16,
       "model_id": "neo-ranking-validation-v1"
@@ -1971,6 +2435,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 71,
       "validation_score": -0.228204,
+      "feature_contributions": {
+        "recent_5_sg": -0.198468,
+        "recent_10_sg": -0.014566,
+        "long_term_sg": -0.075706,
+        "consistency": 0.010536,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -2,
       "model_id": "neo-ranking-validation-v1"
@@ -1997,6 +2468,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 83,
       "validation_score": -0.479993,
+      "feature_contributions": {
+        "recent_5_sg": -0.280832,
+        "recent_10_sg": -0.239755,
+        "long_term_sg": -0.057711,
+        "consistency": 0.048305,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -13,
       "model_id": "neo-ranking-validation-v1"
@@ -2023,6 +2501,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 50,
       "validation_score": 0.124307,
+      "feature_contributions": {
+        "recent_5_sg": -0.005604,
+        "recent_10_sg": 0.026998,
+        "long_term_sg": -0.00246,
+        "consistency": 0.055374,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 21,
       "model_id": "neo-ranking-validation-v1"
@@ -2049,6 +2534,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 63,
       "validation_score": -0.078647,
+      "feature_contributions": {
+        "recent_5_sg": 0.015371,
+        "recent_10_sg": -0.220731,
+        "long_term_sg": 0.028207,
+        "consistency": 0.048507,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 9,
       "model_id": "neo-ranking-validation-v1"
@@ -2075,6 +2567,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 86,
       "validation_score": -0.562563,
+      "feature_contributions": {
+        "recent_5_sg": -0.294644,
+        "recent_10_sg": 0.086345,
+        "long_term_sg": -0.280489,
+        "consistency": -0.123775,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -13,
       "model_id": "neo-ranking-validation-v1"
@@ -2101,6 +2600,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 88,
       "validation_score": -0.569745,
+      "feature_contributions": {
+        "recent_5_sg": -0.017882,
+        "recent_10_sg": -0.128091,
+        "long_term_sg": -0.327376,
+        "consistency": -0.146396,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -14,
       "model_id": "neo-ranking-validation-v1"
@@ -2127,6 +2633,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 48,
       "validation_score": 0.135306,
+      "feature_contributions": {
+        "recent_5_sg": 0.058855,
+        "recent_10_sg": 0.000116,
+        "long_term_sg": 0.018829,
+        "consistency": 0.007506,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 27,
       "model_id": "neo-ranking-validation-v1"
@@ -2153,6 +2666,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2179,6 +2693,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 35,
       "validation_score": 0.400557,
+      "feature_contributions": {
+        "recent_5_sg": 0.184702,
+        "recent_10_sg": 0.129356,
+        "long_term_sg": -0.003727,
+        "consistency": 0.040226,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 42,
       "model_id": "neo-ranking-validation-v1"
@@ -2205,6 +2726,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2231,6 +2753,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 95,
       "validation_score": -0.703971,
+      "feature_contributions": {
+        "recent_5_sg": -0.418957,
+        "recent_10_sg": -0.296414,
+        "long_term_sg": -0.086097,
+        "consistency": 0.047497,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -16,
       "model_id": "neo-ranking-validation-v1"
@@ -2257,6 +2786,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 75,
       "validation_score": -0.264106,
+      "feature_contributions": {
+        "recent_5_sg": -0.086944,
+        "recent_10_sg": -0.037933,
+        "long_term_sg": -0.140587,
+        "consistency": -0.048642,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 5,
       "model_id": "neo-ranking-validation-v1"
@@ -2283,6 +2819,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2309,6 +2846,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 74,
       "validation_score": -0.241326,
+      "feature_contributions": {
+        "recent_5_sg": -0.128382,
+        "recent_10_sg": 0.038164,
+        "long_term_sg": -0.196092,
+        "consistency": -0.005016,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 8,
       "model_id": "neo-ranking-validation-v1"
@@ -2335,6 +2879,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 33,
       "validation_score": 0.434029,
+      "feature_contributions": {
+        "recent_5_sg": 0.226652,
+        "recent_10_sg": 0.079935,
+        "long_term_sg": -0.004994,
+        "consistency": 0.082438,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 50,
       "model_id": "neo-ranking-validation-v1"
@@ -2361,6 +2912,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 70,
       "validation_score": -0.215059,
+      "feature_contributions": {
+        "recent_5_sg": 0.069598,
+        "recent_10_sg": 0.02431,
+        "long_term_sg": -0.292147,
+        "consistency": -0.066819,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 14,
       "model_id": "neo-ranking-validation-v1"
@@ -2378,6 +2936,7 @@
       "sg_join_state": "DATA_INSUFFICIENT",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2404,6 +2963,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 44,
       "validation_score": 0.22247,
+      "feature_contributions": {
+        "recent_5_sg": 0.244557,
+        "recent_10_sg": -0.014152,
+        "long_term_sg": -0.071904,
+        "consistency": 0.013969,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 42,
       "model_id": "neo-ranking-validation-v1"
@@ -2430,6 +2996,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 106,
       "validation_score": -1.902187,
+      "feature_contributions": {
+        "recent_5_sg": -0.978109,
+        "recent_10_sg": -0.673176,
+        "long_term_sg": -0.201161,
+        "consistency": -0.099741,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -19,
       "model_id": "neo-ranking-validation-v1"
@@ -2456,6 +3029,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 53,
       "validation_score": 0.073181,
+      "feature_contributions": {
+        "recent_5_sg": 0.118197,
+        "recent_10_sg": -0.06192,
+        "long_term_sg": -0.047066,
+        "consistency": 0.013969,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 35,
       "model_id": "neo-ranking-validation-v1"
@@ -2482,6 +3062,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 93,
       "validation_score": -0.658799,
+      "feature_contributions": {
+        "recent_5_sg": -0.365242,
+        "recent_10_sg": -0.164692,
+        "long_term_sg": -0.124367,
+        "consistency": -0.054499,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -4,
       "model_id": "neo-ranking-validation-v1"
@@ -2508,6 +3095,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 51,
       "validation_score": 0.086,
+      "feature_contributions": {
+        "recent_5_sg": 0.214885,
+        "recent_10_sg": 0.11819,
+        "long_term_sg": -0.217128,
+        "consistency": -0.079947,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 39,
       "model_id": "neo-ranking-validation-v1"
@@ -2534,6 +3128,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 108,
       "validation_score": -2.097795,
+      "feature_contributions": {
+        "recent_5_sg": -1.395044,
+        "recent_10_sg": -0.61693,
+        "long_term_sg": -0.065568,
+        "consistency": -0.070253,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -17,
       "model_id": "neo-ranking-validation-v1"
@@ -2560,6 +3161,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 80,
       "validation_score": -0.348184,
+      "feature_contributions": {
+        "recent_5_sg": -0.156519,
+        "recent_10_sg": 0.026791,
+        "long_term_sg": -0.167706,
+        "consistency": -0.10075,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 12,
       "model_id": "neo-ranking-validation-v1"
@@ -2586,6 +3194,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 82,
       "validation_score": -0.435801,
+      "feature_contributions": {
+        "recent_5_sg": -0.314084,
+        "recent_10_sg": -0.102863,
+        "long_term_sg": -0.140587,
+        "consistency": 0.071733,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 11,
       "model_id": "neo-ranking-validation-v1"
@@ -2612,6 +3227,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 103,
       "validation_score": -1.15108,
+      "feature_contributions": {
+        "recent_5_sg": -0.491601,
+        "recent_10_sg": -0.333842,
+        "long_term_sg": -0.333459,
+        "consistency": -0.042179,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -9,
       "model_id": "neo-ranking-validation-v1"
@@ -2638,6 +3260,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 67,
       "validation_score": -0.149276,
+      "feature_contributions": {
+        "recent_5_sg": -0.205118,
+        "recent_10_sg": -0.049306,
+        "long_term_sg": -0.02527,
+        "consistency": 0.080418,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 28,
       "model_id": "neo-ranking-validation-v1"
@@ -2664,6 +3293,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 77,
       "validation_score": -0.292999,
+      "feature_contributions": {
+        "recent_5_sg": -0.09206,
+        "recent_10_sg": 0.040852,
+        "long_term_sg": -0.247794,
+        "consistency": -0.043996,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 19,
       "model_id": "neo-ranking-validation-v1"
@@ -2690,6 +3326,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2716,6 +3353,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 78,
       "validation_score": -0.316772,
+      "feature_contributions": {
+        "recent_5_sg": -0.238371,
+        "recent_10_sg": -0.092731,
+        "long_term_sg": -0.059739,
+        "consistency": 0.024068,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 20,
       "model_id": "neo-ranking-validation-v1"
@@ -2742,6 +3386,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 109,
       "validation_score": -2.483543,
+      "feature_contributions": {
+        "recent_5_sg": -1.033359,
+        "recent_10_sg": -0.710811,
+        "long_term_sg": -0.476148,
+        "consistency": -0.313225,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": -10,
       "model_id": "neo-ranking-validation-v1"
@@ -2768,6 +3419,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 92,
       "validation_score": -0.61552,
+      "feature_contributions": {
+        "recent_5_sg": -0.18619,
+        "recent_10_sg": -0.135949,
+        "long_term_sg": -0.33574,
+        "consistency": -0.007642,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 8,
       "model_id": "neo-ranking-validation-v1"
@@ -2794,6 +3452,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 97,
       "validation_score": -0.821438,
+      "feature_contributions": {
+        "recent_5_sg": -0.292086,
+        "recent_10_sg": -0.327225,
+        "long_term_sg": -0.306087,
+        "consistency": 0.05396,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 4,
       "model_id": "neo-ranking-validation-v1"
@@ -2811,6 +3476,7 @@
       "sg_join_state": "DATA_INSUFFICIENT",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2837,6 +3503,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2863,6 +3530,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 73,
       "validation_score": -0.23995,
+      "feature_contributions": {
+        "recent_5_sg": 0.006162,
+        "recent_10_sg": -0.144634,
+        "long_term_sg": -0.09294,
+        "consistency": -0.058538,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 31,
       "model_id": "neo-ranking-validation-v1"
@@ -2889,6 +3563,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 98,
       "validation_score": -0.839919,
+      "feature_contributions": {
+        "recent_5_sg": -0.284413,
+        "recent_10_sg": -0.331154,
+        "long_term_sg": -0.295189,
+        "consistency": 0.020836,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 7,
       "model_id": "neo-ranking-validation-v1"
@@ -2915,6 +3596,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -2941,6 +3623,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 91,
       "validation_score": -0.615245,
+      "feature_contributions": {
+        "recent_5_sg": -0.202561,
+        "recent_10_sg": -0.145047,
+        "long_term_sg": -0.298483,
+        "consistency": -0.019154,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 16,
       "model_id": "neo-ranking-validation-v1"
@@ -2967,6 +3656,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 90,
       "validation_score": -0.598776,
+      "feature_contributions": {
+        "recent_5_sg": -0.230186,
+        "recent_10_sg": -0.056957,
+        "long_term_sg": -0.355002,
+        "consistency": -0.006632,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 18,
       "model_id": "neo-ranking-validation-v1"
@@ -2993,6 +3689,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 85,
       "validation_score": -0.544912,
+      "feature_contributions": {
+        "recent_5_sg": -0.077224,
+        "recent_10_sg": -0.237273,
+        "long_term_sg": -0.269591,
+        "consistency": -0.005824,
+        "sample_reliability": 0.045
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 24,
       "model_id": "neo-ranking-validation-v1"
@@ -3019,6 +3722,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 76,
       "validation_score": -0.287263,
+      "feature_contributions": {
+        "recent_5_sg": 0.033276,
+        "recent_10_sg": -0.194882,
+        "long_term_sg": -0.169227,
+        "consistency": -0.00643,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 34,
       "model_id": "neo-ranking-validation-v1"
@@ -3045,6 +3755,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 66,
       "validation_score": -0.139991,
+      "feature_contributions": {
+        "recent_5_sg": 0.011278,
+        "recent_10_sg": -0.104311,
+        "long_term_sg": -0.187475,
+        "consistency": 0.090517,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 45,
       "model_id": "neo-ranking-validation-v1"
@@ -3071,6 +3788,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 94,
       "validation_score": -0.691032,
+      "feature_contributions": {
+        "recent_5_sg": -0.291063,
+        "recent_10_sg": -0.318126,
+        "long_term_sg": -0.212059,
+        "consistency": 0.080216,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 18,
       "model_id": "neo-ranking-validation-v1"
@@ -3097,6 +3821,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 55,
       "validation_score": 0.03077,
+      "feature_contributions": {
+        "recent_5_sg": 0.050158,
+        "recent_10_sg": -0.033797,
+        "long_term_sg": -0.07824,
+        "consistency": 0.042649,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 58,
       "model_id": "neo-ranking-validation-v1"
@@ -3123,6 +3854,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 107,
       "validation_score": -1.995266,
+      "feature_contributions": {
+        "recent_5_sg": -0.874259,
+        "recent_10_sg": -0.709157,
+        "long_term_sg": -0.378065,
+        "consistency": -0.083785,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 7,
       "model_id": "neo-ranking-validation-v1"
@@ -3149,6 +3887,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 102,
       "validation_score": -1.121767,
+      "feature_contributions": {
+        "recent_5_sg": -0.118662,
+        "recent_10_sg": -0.437441,
+        "long_term_sg": -0.511884,
+        "consistency": -0.10378,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 13,
       "model_id": "neo-ranking-validation-v1"
@@ -3175,6 +3920,7 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": null,
       "validation_score": null,
+      "feature_contributions": null,
       "neo_ranking_state": "VALIDATION_PENDING",
       "rank_delta": null,
       "model_id": "neo-ranking-validation-v1"
@@ -3201,6 +3947,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 58,
       "validation_score": -0.000319,
+      "feature_contributions": {
+        "recent_5_sg": 0.006674,
+        "recent_10_sg": 0.096891,
+        "long_term_sg": -0.140587,
+        "consistency": -0.013297,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 59,
       "model_id": "neo-ranking-validation-v1"
@@ -3227,6 +3980,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 105,
       "validation_score": -1.72102,
+      "feature_contributions": {
+        "recent_5_sg": 0.064994,
+        "recent_10_sg": -0.325571,
+        "long_term_sg": -0.967577,
+        "consistency": -0.542866,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 13,
       "model_id": "neo-ranking-validation-v1"
@@ -3253,6 +4013,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 32,
       "validation_score": 0.504559,
+      "feature_contributions": {
+        "recent_5_sg": 0.137637,
+        "recent_10_sg": 0.070836,
+        "long_term_sg": 0.137948,
+        "consistency": 0.113137,
+        "sample_reliability": 0.045
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 87,
       "model_id": "neo-ranking-validation-v1"
@@ -3279,6 +4046,13 @@
       "sg_join_state": "PASS",
       "neo_validation_rank": 104,
       "validation_score": -1.400895,
+      "feature_contributions": {
+        "recent_5_sg": -0.758132,
+        "recent_10_sg": -0.561926,
+        "long_term_sg": -0.095728,
+        "consistency": -0.03511,
+        "sample_reliability": 0.05
+      },
       "neo_ranking_state": "VALIDATION_MODEL",
       "rank_delta": 16,
       "model_id": "neo-ranking-validation-v1"
