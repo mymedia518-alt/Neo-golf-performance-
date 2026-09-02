@@ -1,0 +1,19 @@
+{
+  "model_id": "neo-ranking-validation-v1",
+  "publication_class": "VALIDATION_MODEL_NOT_PRODUCTION",
+  "eligibility": {
+    "minimum_sg_events": 10,
+    "identity_validation": "PASS"
+  },
+  "features": {
+    "recent_5_sg": {"weight": 0.35, "transform": "cohort_zscore", "rationale": "short-term form signal"},
+    "recent_10_sg": {"weight": 0.25, "transform": "cohort_zscore", "rationale": "medium-term form with lower noise"},
+    "long_term_sg": {"weight": 0.25, "transform": "cohort_zscore", "rationale": "persistent performance baseline"},
+    "consistency": {"weight": 0.10, "source": "negative_volatility", "transform": "cohort_zscore", "rationale": "reward repeatability without replacing performance"},
+    "sample_reliability": {"weight": 0.05, "transform": "min(sample_count / 20, 1)", "rationale": "small bounded confidence adjustment"}
+  },
+  "weight_status": "HEURISTIC_FOR_EVALUATION_NOT_FITTED_OR_APPROVED",
+  "forbidden_features": ["win_probability", "tournament_entry", "tournament_field_rank"],
+  "rank_rule": "descending validation_score, then player_id",
+  "rank_delta": "official_k_rank - neo_validation_rank"
+}
