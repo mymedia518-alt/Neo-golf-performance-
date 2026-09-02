@@ -42,9 +42,12 @@ def evaluate(cohort: dict, warehouse: dict, config: dict) -> tuple[list[dict], d
     components["consistency"] = _z({pid: -float(features[pid]["volatility"]) for pid in eligible_ids}) if eligible_ids else {}
     weights = {name: float(spec["weight"]) for name, spec in config["features"].items()}
     scores = {}
+    contributions = {}
     for pid in eligible_ids:
         reliability = min(float(features[pid]["sample_count"]) / 20.0, 1.0)
-        scores[pid] = sum(weights[name] * components[name][pid] for name in components) + weights["sample_reliability"] * reliability
+        contributions[pid] = {name: weights[name] * components[name][pid] for name in components}
+        contributions[pid]["sample_reliability"] = weights["sample_reliability"] * reliability
+        scores[pid] = sum(contributions[pid].values())
     ordered = sorted(scores, key=lambda pid: (-scores[pid], pid))
     neo_rank = {pid: rank for rank, pid in enumerate(ordered, 1)}
     output = []
@@ -53,6 +56,7 @@ def evaluate(cohort: dict, warehouse: dict, config: dict) -> tuple[list[dict], d
         rank = neo_rank.get(pid)
         output.append({**row, "features": feature, "sg_join_state": "PASS" if feature else "DATA_INSUFFICIENT", "neo_validation_rank": rank,
                        "validation_score": round(scores[pid], 6) if rank else None,
+                       "feature_contributions": ({key: round(value, 6) for key, value in contributions[pid].items()} if rank else None),
                        "neo_ranking_state": "VALIDATION_MODEL" if rank else "VALIDATION_PENDING",
                        "rank_delta": int(row["official_k_rank"]) - rank if rank else None,
                        "model_id": config["model_id"]})
