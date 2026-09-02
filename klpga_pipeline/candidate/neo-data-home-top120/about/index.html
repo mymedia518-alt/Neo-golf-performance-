@@ -1,0 +1,321 @@
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WVX07966WS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WVX07966WS');
+</script>
+<title>ABOUT NEO GOLF DATA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&amp;family=Noto+Sans+KR:wght@400;500;700&amp;family=Roboto+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #dde5f3;
+    --bg-alt: #cfdaef;
+    --card-bg: #ffffff;
+    --border: #b8c6e2;
+    --text: #16213e;
+    --text-dim: #5b6b85;
+    --accent: #0f9488;
+    --accent-blue: #2f5fd9;
+    --pill-bg: #dff5f0;
+    --pill-text: #0b7d6f;
+    --row-alt: #eaf0fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 18px 72px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Sans KR", sans-serif;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  header, main, footer { max-width: 720px; margin-left: auto; margin-right: auto; }
+  header { margin-bottom: 8px; }
+
+  .wordmark { --row: clamp(12px, 3vw, 16px); display: flex; align-items: center; gap: clamp(12px, 3.2vw, 20px); margin-bottom: 10px; }
+  .wordmark-letters { display: flex; flex-direction: column; gap: calc(var(--row) * 0.15); flex-shrink: 0; }
+  .letter-row { display: flex; align-items: baseline; gap: calc(var(--row) * 0.42); white-space: nowrap; }
+  .letter { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 1.15); line-height: 1; color: var(--accent); }
+  .letter-word { font-family: "Big Shoulders Display", sans-serif; font-weight: 600; font-size: calc(var(--row) * 0.72); line-height: 1; letter-spacing: 0.04em; color: var(--text-dim); white-space: nowrap; }
+  .wordmark-name { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: calc(var(--row) * 3.75); line-height: 1; letter-spacing: 0.015em; color: var(--text); white-space: normal; }
+
+  a.back-link { display: inline-block; margin-bottom: 20px; color: var(--accent-blue); text-decoration: none; font-size: 13px; font-weight: 600; }
+  a.back-link:hover, a.back-link:focus-visible { text-decoration: underline; }
+
+  main { padding-top: 8px; }
+
+  .eyebrow { font-family: "Roboto Mono", monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin: 0 0 10px; }
+
+  section.hero { margin-bottom: 40px; }
+  section.hero h1 {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 6vw, 42px);
+    line-height: 1.15;
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+  .lede p { font-size: 16px; line-height: 1.85; margin: 0 0 14px; color: var(--text); }
+  .lede p.question { color: var(--text-dim); font-style: normal; padding-left: 16px; border-left: 2px solid var(--border); }
+
+  section.block { margin-bottom: 44px; }
+  section.block h2 {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 700;
+    font-size: clamp(20px, 4vw, 25px);
+    margin: 0 0 16px;
+    letter-spacing: 0.01em;
+  }
+  section.block p { font-size: 15px; line-height: 1.85; margin: 0 0 14px; color: var(--text); }
+  section.block p.dim { color: var(--text-dim); }
+
+  .metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 1px 3px rgba(22,33,62,0.06);
+    margin: 18px 0 4px;
+  }
+  .metric-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; }
+  .metric-list li {
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+    padding: 9px 12px;
+    background: var(--row-alt);
+    border-radius: 8px;
+  }
+  @media (max-width: 480px) { .metric-list { grid-template-columns: 1fr; } }
+
+  .stage-flow {
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 13.5px;
+    color: var(--accent-blue);
+    font-weight: 700;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .verify-steps {
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 700;
+    font-size: clamp(15px, 3.6vw, 18px);
+    color: var(--text);
+    background: var(--pill-bg);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: inline-block;
+    margin: 6px 0 18px;
+  }
+  .verify-steps .arrow { color: var(--accent); margin: 0 6px; }
+
+  section.neo {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    margin-bottom: 44px;
+    box-shadow: 0 1px 4px rgba(22,33,62,0.06);
+  }
+  .neo-rows { display: flex; flex-direction: column; gap: 18px; }
+  .neo-row { display: flex; flex-direction: column; gap: 6px; }
+  .neo-word {
+    display: flex;
+    align-items: baseline;
+    font-family: "Big Shoulders Display", sans-serif;
+    line-height: 1;
+  }
+  .neo-word .neo-cap {
+    font-weight: 800;
+    font-size: 44px;
+    color: var(--accent);
+  }
+  .neo-word .neo-rest {
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--text-dim);
+    margin-left: 2px;
+  }
+  .neo-desc { font-size: 16px; font-weight: 700; color: var(--text); }
+  .neo-footnote { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 14px; line-height: 1.8; color: var(--text-dim); }
+
+  section.disclosure {
+    background: var(--bg-alt);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 44px;
+  }
+  section.disclosure .eyebrow { color: var(--text-dim); }
+  section.disclosure h2 { font-size: 16px; color: var(--text); margin: 0 0 12px; font-family: "Big Shoulders Display", sans-serif; font-weight: 700; letter-spacing: 0.01em; }
+  section.disclosure p { font-size: 13.5px; line-height: 1.8; color: var(--text-dim); margin: 0 0 10px; }
+  section.disclosure p:last-child { margin-bottom: 0; }
+
+  section.closing { text-align: center; margin-bottom: 8px; }
+  section.closing p.kicker { font-size: 15px; color: var(--text-dim); margin: 0 0 10px; }
+  section.closing p.pullquote {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 800;
+    font-size: clamp(24px, 6vw, 36px);
+    color: var(--text);
+    line-height: 1.2;
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+  section.closing .rhythm { font-size: 15px; line-height: 2; color: var(--text); margin: 0 0 28px; }
+  section.closing .sign-off {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  section.closing .sign-off-sub {
+    font-family: "Roboto Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    padding-bottom: 8px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.7;
+  }
+  .footer-line { margin: 0; }
+
+  @media (max-width: 480px) {
+    body { padding: 20px 14px 48px; }
+    .wordmark { --row: 8px; }
+    .wordmark-name { white-space: normal; line-height: 1.05; }
+    section.neo { padding: 24px 18px; }
+    .neo-word .neo-cap { font-size: 34px; }
+    .neo-word .neo-rest { font-size: 18px; }
+  }
+</style>
+
+<header>
+  <div class="wordmark">
+    <div class="wordmark-letters">
+      <div class="letter-row"><span class="letter">N</span><span class="letter-word">NUMBER</span></div>
+      <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
+      <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
+    </div>
+    <div class="wordmark-name">GOLF DATA</div>
+  </div>
+</header>
+
+<main>
+  <a class="back-link" href="/">← 예측 홈으로</a>
+
+  <section class="hero">
+    <p class="eyebrow">About NEO GOLF DATA</p>
+    <h1>결과를 보는 것에서,<br>가능성을 읽는 것으로</h1>
+    <div class="lede">
+      <p>골프 리더보드는 현재의 결과를 보여줍니다.<br>NEO GOLF DATA는 그 결과에서 한 걸음 더 나아가 질문합니다.</p>
+      <p class="question">지금 이 선수의 우승 가능성은 얼마나 될까?</p>
+      <p class="question">현재 순위가 같아도 왜 선수마다 가능성은 다를까?</p>
+      <p class="question">어제의 예측은 오늘 실제 경기에서 얼마나 맞았을까?</p>
+      <p>NEO GOLF DATA는 이런 질문을 데이터로 확인하기 위해 시작한 독립적인 KLPGA 골프 데이터 분석 프로젝트입니다.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>NEO GOLF DATA가 하는 일</h2>
+    <p>NEO GOLF DATA는 KLPGA 공개 경기 데이터를 기반으로 선수들의 축적된 경기력과 현재 대회 결과를 분석합니다.</p>
+    <p>대회 시작 전 선수들의 가능성을 계산하고, 실제 라운드가 끝날 때마다 새롭게 확인된 경기 결과를 반영해 남은 대회의 가능성을 다시 계산합니다.</p>
+    <p>현재 제공하는 주요 데이터는 다음과 같습니다.</p>
+    <div class="metric-card">
+      <ul class="metric-list">
+        <li>우승 확률</li>
+        <li>TOP 5 진입 확률</li>
+        <li>TOP 10 진입 확률</li>
+        <li>TOP 20 진입 확률</li>
+        <li>컷 통과 확률</li>
+        <li>라운드별 확률 변화</li>
+        <li>예측과 실제 결과의 비교</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>실시간이 아니라, 라운드별로 업데이트합니다</h2>
+    <p>NEO GOLF DATA의 확률은 경기 중 샷 하나마다 변하는 실시간 확률이 아닙니다.</p>
+    <div class="stage-flow">대회 전 → 1라운드 종료 → 2라운드 종료 → 이후 라운드 종료</div>
+    <p>각 시점의 공식 경기 결과를 반영해 모델을 다시 계산합니다.</p>
+    <p class="dim">따라서 하나의 숫자보다 <strong style="color: var(--text);">선수의 가능성이 대회를 치르면서 어떻게 변하는가</strong>를 보여주는 데 초점을 맞춥니다.</p>
+  </section>
+
+  <section class="block">
+    <h2>예측보다 중요한 것은 검증입니다</h2>
+    <p>NEO GOLF DATA는 결과가 나온 뒤 과거의 예측을 결과에 맞춰 수정하지 않습니다.</p>
+    <p>각 라운드에서 공개한 예측을 그대로 보존하고 실제 경기 결과와 비교합니다.</p>
+    <p>맞은 예측도 기록하고, 틀린 예측도 기록합니다.</p>
+    <div class="verify-steps">예측<span class="arrow">→</span>결과<span class="arrow">→</span>검증<span class="arrow">→</span>개선</div>
+    <p>이 과정을 반복하면서 모델이 실제 골프 대회를 얼마나 잘 설명하고 있는지를 계속 확인합니다.</p>
+    <p>NEO GOLF DATA가 만들고 싶은 것은 단순히 높은 확률을 보여주는 사이트가 아니라, 자신의 예측을 기록하고 검증하는 골프 데이터 플랫폼입니다.</p>
+  </section>
+
+  <section class="neo">
+    <div class="neo-rows">
+      <div class="neo-row">
+        <div class="neo-word"><span class="neo-cap">N</span><span class="neo-rest">umber</span></div>
+        <div class="neo-desc">숫자로 기록합니다.</div>
+      </div>
+      <div class="neo-row">
+        <div class="neo-word"><span class="neo-cap">E</span><span class="neo-rest">vidence</span></div>
+        <div class="neo-desc">결과로 검증합니다.</div>
+      </div>
+      <div class="neo-row">
+        <div class="neo-word"><span class="neo-cap">O</span><span class="neo-rest">racle</span></div>
+        <div class="neo-desc">그리고 다음 가능성을 예측합니다.</div>
+      </div>
+    </div>
+    <p class="neo-footnote">NEO GOLF DATA의 숫자는 정답을 선언하기 위한 숫자가 아닙니다.<br>골프에서 일어날 수 있는 여러 결과의 가능성을 데이터로 표현한 숫자입니다.</p>
+  </section>
+
+  <section class="disclosure">
+    <p class="eyebrow">Independent Golf Data Project</p>
+    <h2>독립 프로젝트 안내</h2>
+    <p>NEO GOLF DATA는 독립적으로 개발·운영되는 골프 데이터 프로젝트입니다.</p>
+    <p>Data Golf를 포함한 특정 해외 골프 데이터 서비스의 한국판이 아니며, 해당 서비스와 제휴·라이선스·운영 또는 모델 공유 관계가 없습니다.</p>
+    <p>현재는 KLPGA를 중심으로 데이터를 수집하고 모델을 검증하고 있으며, 축적된 결과를 바탕으로 분석 범위를 단계적으로 확장해 나갑니다.</p>
+  </section>
+
+  <section class="closing">
+    <p class="kicker">우리가 궁금한 것은 하나입니다</p>
+    <p class="pullquote">데이터는 골프를<br>얼마나 설명할 수 있을까?</p>
+    <p class="rhythm">
+      NEO GOLF DATA는 그 질문에 하나의 예측으로 답하지 않습니다.<br>
+      대회마다 예측하고,<br>
+      라운드마다 기록하고,<br>
+      결과가 나오면 다시 검증합니다.<br>
+      그리고 그 기록을 계속 쌓아갑니다.
+    </p>
+    <p class="sign-off">NEO GOLF DATA</p>
+    <p class="sign-off-sub">Number · Evidence · Oracle</p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-line">&copy; 2026 NEO GOLF DATA. All Rights Reserved.</div>
+  <div class="footer-line">Predictions and probability models are proprietary to NEO GOLF DATA.</div>
+  <div class="footer-line">Tournament results and player information are based on publicly available data.</div>
+</footer>
