@@ -1,0 +1,1809 @@
+{
+  "schema_version": "neo_historical_kranking_recovery_audit_v1",
+  "parser_version": "90_probe_historical_kranking.py@v1",
+  "official_service": "https://k-rankings.klpga.co.kr/",
+  "retrieved_at": "2026-09-02T15:00:12Z",
+  "tested_weeks": [
+    "202630",
+    "202620",
+    "202535",
+    "202435"
+  ],
+  "probe_count": 24,
+  "unique_response_count": 8,
+  "verified_historical_weeks": [
+    "202535",
+    "202620",
+    "202630"
+  ],
+  "conclusion": "HISTORICAL_RECOVERY_PARTIAL_OR_AVAILABLE",
+  "probes": [
+    {
+      "requested_week": "202630",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202630",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "f39588bf4c9175ab465cf6666785f20ee9954984034db0367fab5889ea05cc3b",
+      "response_size": 19026,
+      "selected_week": "202630",
+      "selected_week_label": "현재 랭킹 2026년 30주차",
+      "table_player_count": 0,
+      "embedded_player_count": 0,
+      "player_count": 0,
+      "top_ranked_player_id": null,
+      "top_ranked_player_name": "김민솔",
+      "top10": [],
+      "ranking_population_order_hash": null,
+      "differs_from_current_w35": false,
+      "requested_week_selected": true,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202630",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "GET",
+      "parameters": {
+        "Rank_week": "202630",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "f3bfe85813cae94c1b0c428559cafa6558dd89171ba82d2391578e011a596637",
+      "response_size": 611368,
+      "selected_week": "202630",
+      "selected_week_label": "현재 랭킹 2026년 30주차",
+      "table_player_count": 779,
+      "embedded_player_count": 0,
+      "player_count": 779,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "9.2845"
+        },
+        {
+          "rank": 2,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2870"
+        },
+        {
+          "rank": 3,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.8930"
+        },
+        {
+          "rank": 4,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.6407"
+        },
+        {
+          "rank": 5,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "6.4533"
+        },
+        {
+          "rank": 6,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "6.3731"
+        },
+        {
+          "rank": 7,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "6.2413"
+        },
+        {
+          "rank": 8,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.0514"
+        },
+        {
+          "rank": 9,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "5.9783"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.7563"
+        }
+      ],
+      "ranking_population_order_hash": "d77a044208b876d927130783f0b4ee97f1162e32a10b918f77b66f0eb2f958b9",
+      "differs_from_current_w35": true,
+      "requested_week_selected": true,
+      "classification": "VERIFIED_HISTORICAL"
+    },
+    {
+      "requested_week": "202630",
+      "endpoint": "https://k-rankings.klpga.co.kr/index.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202630",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "11dc110b7495f523ac677dbfa2273dc815574a70c294b0b7bef8e7684489bdf3",
+      "response_size": 252196,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 758,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔 (정회원)",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7 (정회원)",
+          "ranking_value": null
+        }
+      ],
+      "ranking_population_order_hash": "6324302d706874c0ed0512844e737c081edfb3b0cb7fc36e05cb6ac351464993",
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "CURRENT_FALLBACK"
+    },
+    {
+      "requested_week": "202630",
+      "endpoint": "https://k-rankings.klpga.co.kr/kranking.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202630",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "e8d427076c74914c60f870166bcf0e759d9ee9684a41cb70c4539d43f1ab4de1",
+      "response_size": 26678,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 0,
+      "player_count": 0,
+      "top_ranked_player_id": null,
+      "top_ranked_player_name": "김민솔",
+      "top10": [],
+      "ranking_population_order_hash": null,
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "UNAVAILABLE"
+    },
+    {
+      "requested_week": "202630",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rank_week": "202630",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202630",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rankWeek": "202630",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202620",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202620",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "b1f97983a244657466b0e660771768a2f56810055b6806b72f3b17d0f2891f49",
+      "response_size": 606872,
+      "selected_week": "202620",
+      "selected_week_label": "현재 랭킹 2026년 20주차",
+      "table_player_count": 769,
+      "embedded_player_count": 0,
+      "player_count": 769,
+      "top_ranked_player_id": "10146",
+      "top_ranked_player_name": "유현조",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "7.9523"
+        },
+        {
+          "rank": 2,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "7.5432"
+        },
+        {
+          "rank": 3,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "7.2756"
+        },
+        {
+          "rank": 4,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "6.9759"
+        },
+        {
+          "rank": 5,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.8829"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.5130"
+        },
+        {
+          "rank": 7,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "6.1053"
+        },
+        {
+          "rank": 8,
+          "player_id": "10185",
+          "player_name": "황유민",
+          "ranking_value": "5.6355"
+        },
+        {
+          "rank": 9,
+          "player_id": "10109",
+          "player_name": "고지원",
+          "ranking_value": "5.5525"
+        },
+        {
+          "rank": 10,
+          "player_id": "9130",
+          "player_name": "박현경",
+          "ranking_value": "5.4986"
+        }
+      ],
+      "ranking_population_order_hash": "d54ef2f85c93c7287984f9893229e0dfffa50224d6ff30e0c68f04a55735199f",
+      "differs_from_current_w35": true,
+      "requested_week_selected": true,
+      "classification": "VERIFIED_HISTORICAL"
+    },
+    {
+      "requested_week": "202620",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "GET",
+      "parameters": {
+        "Rank_week": "202620",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "b1f97983a244657466b0e660771768a2f56810055b6806b72f3b17d0f2891f49",
+      "response_size": 606872,
+      "selected_week": "202620",
+      "selected_week_label": "현재 랭킹 2026년 20주차",
+      "table_player_count": 769,
+      "embedded_player_count": 0,
+      "player_count": 769,
+      "top_ranked_player_id": "10146",
+      "top_ranked_player_name": "유현조",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "7.9523"
+        },
+        {
+          "rank": 2,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "7.5432"
+        },
+        {
+          "rank": 3,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "7.2756"
+        },
+        {
+          "rank": 4,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "6.9759"
+        },
+        {
+          "rank": 5,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.8829"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.5130"
+        },
+        {
+          "rank": 7,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "6.1053"
+        },
+        {
+          "rank": 8,
+          "player_id": "10185",
+          "player_name": "황유민",
+          "ranking_value": "5.6355"
+        },
+        {
+          "rank": 9,
+          "player_id": "10109",
+          "player_name": "고지원",
+          "ranking_value": "5.5525"
+        },
+        {
+          "rank": 10,
+          "player_id": "9130",
+          "player_name": "박현경",
+          "ranking_value": "5.4986"
+        }
+      ],
+      "ranking_population_order_hash": "d54ef2f85c93c7287984f9893229e0dfffa50224d6ff30e0c68f04a55735199f",
+      "differs_from_current_w35": true,
+      "requested_week_selected": true,
+      "classification": "VERIFIED_HISTORICAL"
+    },
+    {
+      "requested_week": "202620",
+      "endpoint": "https://k-rankings.klpga.co.kr/index.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202620",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "11dc110b7495f523ac677dbfa2273dc815574a70c294b0b7bef8e7684489bdf3",
+      "response_size": 252196,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 758,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔 (정회원)",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7 (정회원)",
+          "ranking_value": null
+        }
+      ],
+      "ranking_population_order_hash": "6324302d706874c0ed0512844e737c081edfb3b0cb7fc36e05cb6ac351464993",
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "CURRENT_FALLBACK"
+    },
+    {
+      "requested_week": "202620",
+      "endpoint": "https://k-rankings.klpga.co.kr/kranking.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202620",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "e8d427076c74914c60f870166bcf0e759d9ee9684a41cb70c4539d43f1ab4de1",
+      "response_size": 26678,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 0,
+      "player_count": 0,
+      "top_ranked_player_id": null,
+      "top_ranked_player_name": "김민솔",
+      "top10": [],
+      "ranking_population_order_hash": null,
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "UNAVAILABLE"
+    },
+    {
+      "requested_week": "202620",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rank_week": "202620",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202620",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rankWeek": "202620",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202535",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202535",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "0adfd0bae100685c3c1236560ce4e294074acaa675f5264679245a2ce973984d",
+      "response_size": 595755,
+      "selected_week": "202535",
+      "selected_week_label": "현재 랭킹 2025년 35주차",
+      "table_player_count": 756,
+      "embedded_player_count": 0,
+      "player_count": 756,
+      "top_ranked_player_id": "9784",
+      "top_ranked_player_name": "이예원",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "8.5850"
+        },
+        {
+          "rank": 2,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.5201"
+        },
+        {
+          "rank": 3,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "8.3174"
+        },
+        {
+          "rank": 4,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "8.2525"
+        },
+        {
+          "rank": 5,
+          "player_id": "9362",
+          "player_name": "박지영",
+          "ranking_value": "7.4172"
+        },
+        {
+          "rank": 6,
+          "player_id": "9823",
+          "player_name": "윤이나",
+          "ranking_value": "7.2224"
+        },
+        {
+          "rank": 7,
+          "player_id": "10185",
+          "player_name": "황유민",
+          "ranking_value": "7.0428"
+        },
+        {
+          "rank": 8,
+          "player_id": "8300",
+          "player_name": "김수지",
+          "ranking_value": "6.9891"
+        },
+        {
+          "rank": 9,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.8215"
+        },
+        {
+          "rank": 10,
+          "player_id": "9130",
+          "player_name": "박현경",
+          "ranking_value": "6.5991"
+        }
+      ],
+      "ranking_population_order_hash": "2811783bd5fcac975adcc6d5e6bc7bb8030811e54b3c80c0428ad203632029cc",
+      "differs_from_current_w35": true,
+      "requested_week_selected": true,
+      "classification": "VERIFIED_HISTORICAL"
+    },
+    {
+      "requested_week": "202535",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "GET",
+      "parameters": {
+        "Rank_week": "202535",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "0adfd0bae100685c3c1236560ce4e294074acaa675f5264679245a2ce973984d",
+      "response_size": 595755,
+      "selected_week": "202535",
+      "selected_week_label": "현재 랭킹 2025년 35주차",
+      "table_player_count": 756,
+      "embedded_player_count": 0,
+      "player_count": 756,
+      "top_ranked_player_id": "9784",
+      "top_ranked_player_name": "이예원",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "8.5850"
+        },
+        {
+          "rank": 2,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.5201"
+        },
+        {
+          "rank": 3,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "8.3174"
+        },
+        {
+          "rank": 4,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "8.2525"
+        },
+        {
+          "rank": 5,
+          "player_id": "9362",
+          "player_name": "박지영",
+          "ranking_value": "7.4172"
+        },
+        {
+          "rank": 6,
+          "player_id": "9823",
+          "player_name": "윤이나",
+          "ranking_value": "7.2224"
+        },
+        {
+          "rank": 7,
+          "player_id": "10185",
+          "player_name": "황유민",
+          "ranking_value": "7.0428"
+        },
+        {
+          "rank": 8,
+          "player_id": "8300",
+          "player_name": "김수지",
+          "ranking_value": "6.9891"
+        },
+        {
+          "rank": 9,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.8215"
+        },
+        {
+          "rank": 10,
+          "player_id": "9130",
+          "player_name": "박현경",
+          "ranking_value": "6.5991"
+        }
+      ],
+      "ranking_population_order_hash": "2811783bd5fcac975adcc6d5e6bc7bb8030811e54b3c80c0428ad203632029cc",
+      "differs_from_current_w35": true,
+      "requested_week_selected": true,
+      "classification": "VERIFIED_HISTORICAL"
+    },
+    {
+      "requested_week": "202535",
+      "endpoint": "https://k-rankings.klpga.co.kr/index.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202535",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "11dc110b7495f523ac677dbfa2273dc815574a70c294b0b7bef8e7684489bdf3",
+      "response_size": 252196,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 758,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔 (정회원)",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7 (정회원)",
+          "ranking_value": null
+        }
+      ],
+      "ranking_population_order_hash": "6324302d706874c0ed0512844e737c081edfb3b0cb7fc36e05cb6ac351464993",
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "CURRENT_FALLBACK"
+    },
+    {
+      "requested_week": "202535",
+      "endpoint": "https://k-rankings.klpga.co.kr/kranking.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202535",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "e8d427076c74914c60f870166bcf0e759d9ee9684a41cb70c4539d43f1ab4de1",
+      "response_size": 26678,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 0,
+      "player_count": 0,
+      "top_ranked_player_id": null,
+      "top_ranked_player_name": "김민솔",
+      "top10": [],
+      "ranking_population_order_hash": null,
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "UNAVAILABLE"
+    },
+    {
+      "requested_week": "202535",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rank_week": "202535",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202535",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rankWeek": "202535",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202435",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202435",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "69058e183ab8bf2d40aff16f591cc267093f30d87fd5f5f041c3ccdf4c02ef20",
+      "response_size": 578341,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 738,
+      "embedded_player_count": 0,
+      "player_count": 738,
+      "top_ranked_player_id": "9784",
+      "top_ranked_player_name": "이예원",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "10.7933"
+        },
+        {
+          "rank": 2,
+          "player_id": "9362",
+          "player_name": "박지영",
+          "ranking_value": "10.7361"
+        },
+        {
+          "rank": 3,
+          "player_id": "9130",
+          "player_name": "박현경",
+          "ranking_value": "8.9428"
+        },
+        {
+          "rank": 4,
+          "player_id": "10185",
+          "player_name": "황유민",
+          "ranking_value": "8.2684"
+        },
+        {
+          "rank": 5,
+          "player_id": "9823",
+          "player_name": "윤이나",
+          "ranking_value": "8.2374"
+        },
+        {
+          "rank": 6,
+          "player_id": "8772",
+          "player_name": "박민지",
+          "ranking_value": "6.8586"
+        },
+        {
+          "rank": 7,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7812"
+        },
+        {
+          "rank": 8,
+          "player_id": "8300",
+          "player_name": "김수지",
+          "ranking_value": "6.7323"
+        },
+        {
+          "rank": 9,
+          "player_id": "8890",
+          "player_name": "임진희",
+          "ranking_value": "6.5507"
+        },
+        {
+          "rank": 10,
+          "player_id": "10002",
+          "player_name": "김민별",
+          "ranking_value": "6.0778"
+        }
+      ],
+      "ranking_population_order_hash": "c49f22dad5e573f0b8ffacf66896ddda7978a7d8fb34b13df9f2e40d97295449",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202435",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "GET",
+      "parameters": {
+        "Rank_week": "202435",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "69058e183ab8bf2d40aff16f591cc267093f30d87fd5f5f041c3ccdf4c02ef20",
+      "response_size": 578341,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 738,
+      "embedded_player_count": 0,
+      "player_count": 738,
+      "top_ranked_player_id": "9784",
+      "top_ranked_player_name": "이예원",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "10.7933"
+        },
+        {
+          "rank": 2,
+          "player_id": "9362",
+          "player_name": "박지영",
+          "ranking_value": "10.7361"
+        },
+        {
+          "rank": 3,
+          "player_id": "9130",
+          "player_name": "박현경",
+          "ranking_value": "8.9428"
+        },
+        {
+          "rank": 4,
+          "player_id": "10185",
+          "player_name": "황유민",
+          "ranking_value": "8.2684"
+        },
+        {
+          "rank": 5,
+          "player_id": "9823",
+          "player_name": "윤이나",
+          "ranking_value": "8.2374"
+        },
+        {
+          "rank": 6,
+          "player_id": "8772",
+          "player_name": "박민지",
+          "ranking_value": "6.8586"
+        },
+        {
+          "rank": 7,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7812"
+        },
+        {
+          "rank": 8,
+          "player_id": "8300",
+          "player_name": "김수지",
+          "ranking_value": "6.7323"
+        },
+        {
+          "rank": 9,
+          "player_id": "8890",
+          "player_name": "임진희",
+          "ranking_value": "6.5507"
+        },
+        {
+          "rank": 10,
+          "player_id": "10002",
+          "player_name": "김민별",
+          "ranking_value": "6.0778"
+        }
+      ],
+      "ranking_population_order_hash": "c49f22dad5e573f0b8ffacf66896ddda7978a7d8fb34b13df9f2e40d97295449",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202435",
+      "endpoint": "https://k-rankings.klpga.co.kr/index.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202435",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "11dc110b7495f523ac677dbfa2273dc815574a70c294b0b7bef8e7684489bdf3",
+      "response_size": 252196,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 758,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔 (정회원)",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진 (정회원)",
+          "ranking_value": null
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7 (정회원)",
+          "ranking_value": null
+        }
+      ],
+      "ranking_population_order_hash": "6324302d706874c0ed0512844e737c081edfb3b0cb7fc36e05cb6ac351464993",
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "CURRENT_FALLBACK"
+    },
+    {
+      "requested_week": "202435",
+      "endpoint": "https://k-rankings.klpga.co.kr/kranking.jsp",
+      "method": "POST",
+      "parameters": {
+        "Rank_week": "202435",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "e8d427076c74914c60f870166bcf0e759d9ee9684a41cb70c4539d43f1ab4de1",
+      "response_size": 26678,
+      "selected_week": null,
+      "selected_week_label": null,
+      "table_player_count": 0,
+      "embedded_player_count": 0,
+      "player_count": 0,
+      "top_ranked_player_id": null,
+      "top_ranked_player_name": "김민솔",
+      "top10": [],
+      "ranking_population_order_hash": null,
+      "differs_from_current_w35": false,
+      "requested_week_selected": false,
+      "classification": "UNAVAILABLE"
+    },
+    {
+      "requested_week": "202435",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rank_week": "202435",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    },
+    {
+      "requested_week": "202435",
+      "endpoint": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "method": "POST",
+      "parameters": {
+        "rankWeek": "202435",
+        "top_player": "김민솔",
+        "last_week": "null"
+      },
+      "retrieved_at": "2026-09-02T15:00:12Z",
+      "http_status": 200,
+      "response_sha256": "6c6b2c1758b1faa8d541c298157e7ff308a46e8358891128de401de650d00ed7",
+      "response_size": 601035,
+      "selected_week": "202635",
+      "selected_week_label": "현재 랭킹 2026년 35주차",
+      "table_player_count": 758,
+      "embedded_player_count": 0,
+      "player_count": 758,
+      "top_ranked_player_id": "10725",
+      "top_ranked_player_name": "김민솔",
+      "top10": [
+        {
+          "rank": 1,
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "ranking_value": "10.7425"
+        },
+        {
+          "rank": 2,
+          "player_id": "11134",
+          "player_name": "서교림",
+          "ranking_value": "9.5546"
+        },
+        {
+          "rank": 3,
+          "player_id": "10146",
+          "player_name": "유현조",
+          "ranking_value": "8.2242"
+        },
+        {
+          "rank": 4,
+          "player_id": "8392",
+          "player_name": "이다연",
+          "ranking_value": "7.2087"
+        },
+        {
+          "rank": 5,
+          "player_id": "10095",
+          "player_name": "방신실",
+          "ranking_value": "6.7873"
+        },
+        {
+          "rank": 6,
+          "player_id": "9113",
+          "player_name": "노승희",
+          "ranking_value": "6.3378"
+        },
+        {
+          "rank": 7,
+          "player_id": "9784",
+          "player_name": "이예원",
+          "ranking_value": "6.2528"
+        },
+        {
+          "rank": 8,
+          "player_id": "9750",
+          "player_name": "홍정민",
+          "ranking_value": "5.7941"
+        },
+        {
+          "rank": 9,
+          "player_id": "8881",
+          "player_name": "성유진",
+          "ranking_value": "5.7753"
+        },
+        {
+          "rank": 10,
+          "player_id": "10097",
+          "player_name": "김민선7",
+          "ranking_value": "5.6647"
+        }
+      ],
+      "ranking_population_order_hash": "9eedb7ffcaca0469a53c59e205437a8a45f6063b4935823a98a18a329f78aa1c",
+      "differs_from_current_w35": true,
+      "requested_week_selected": false,
+      "classification": "PARTIAL"
+    }
+  ],
+  "raw_evidence": {
+    "directory": "evidence\\historical_kranking_v1",
+    "deduplication": "one immutable response per unique SHA-256"
+  }
+}

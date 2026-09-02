@@ -1,0 +1,20 @@
+{
+  "schema_version": "neo_k_vs_neo_v1_benchmark_v1",
+  "status": "NOT_EVALUABLE",
+  "directly_comparable_tournaments": 0,
+  "comparable_player_events": 0,
+  "official_K_metrics": null,
+  "frozen_NEO_V1_metrics": null,
+  "metrics_won_by_K": [],
+  "metrics_won_by_NEO": [],
+  "inconclusive_metrics": [
+    "finish Spearman",
+    "SG correlation",
+    "Top10",
+    "Top20",
+    "made-cut AUC",
+    "incremental predictive value",
+    "rank divergence"
+  ],
+  "reason": "official K weeks are partially recoverable, but publication dates and therefore pre-event temporal mappings are unverified; current ranks were not substituted"
+}

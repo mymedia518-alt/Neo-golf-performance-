@@ -1,0 +1,294 @@
+
+ 
+ 
+ 
+  
+
+
+ 
+
+ 
+
+	  	
+
+
+<!DOCTYPE html>
+<html class="kr"><head>
+    <title>K-Rankings</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    <meta name="title" content="K-랭킹 - KLPGA 한국여자골프랭킹">
+    <meta name="description" content="KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템.">
+    <meta name="keywords" content="K-랭킹, 한국여자프로골프, KLPGA, 정규투어, 드림투어, 점프투어, KLPGA 우승 골프, 랭킹 시스템, 골프 랭킹,">
+    <meta property="og:title" content="K-랭킹 - KLPGA 한국여자골프랭킹">
+    <meta property="og:description" content="KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템.">
+    <meta property="og:image" content="images/social-image.jpg">
+    <meta property="og:url" content="https://www.krankings.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="K Rankings">
+    <meta name="twitter:card" content="">
+    <meta name="twitter:title" content="K-랭킹 - KLPGA 한국여자골프랭킹">
+    <meta name="twitter:description" content="KLPGA 정규,드림,점프투어를 대상으로 한 여자 골프선수들의 순위를 매기는 랭킹 시스템.">
+    <meta name="twitter:image:src" content="images/social-image.jpg">
+
+	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.jqplot.css" />
+    <link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300,100,500,700,900' rel='stylesheet' type='text/css'>
+
+<!-- 그리트 추가 CSS -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<!-- 그리트 추가 CSS -->
+
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="js/bootstrap.js"></script>
+	<script src="js/circle-counter.js"></script>
+	<script src="js/navigation.js"></script>
+
+	<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+    <script type="text/javascript" src="js/jquery.jqplot.js"></script>
+    
+    <script type="text/javascript" src="plugins/jqplot.barRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.categoryAxisRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.pointLabels.js"></script>
+    
+    <script type="text/javascript" src="plugins/jqplot.pieRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.donutRenderer.js"></script>
+
+	<script type="text/javascript" src="plugins/jqplot.dateAxisRenderer.js"></script>
+	<script type="text/javascript" src="plugins/jqplot.logAxisRenderer.js"></script>
+    <script type="text/javascript" src="plugins/jqplot.canvasTextRenderer.js"></script>
+    <script type="text/javascript" src="plugins/jqplot.canvasAxisTickRenderer.js"></script>
+    <script type="text/javascript" src="plugins/jqplot.highlighter.js"></script>    
+    <script type="text/javascript" src="plugins/jqplot.canvasOverlay.js"></script>
+    
+	<script type="text/javascript" src="js/Chart.bundle.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+
+</head>
+
+<body>
+ 
+<!-- MENU -->
+ 
+           
+<div class="site-header-wrapper no-scroll">
+<header class="site-header">
+    <div class="site-branding">	      
+        <div class="custom-logo"><a href="index.jsp" title="K-RANKING"><img src="images/logo-blank.png"></a></div>
+        <a href="#" id="nav-toggle">Menu<span></span></a>
+        <nav id="site-navigation" class="main-navigation" role="navigation">
+            <ul class="nav-menu" style="height: 647px; overflow: auto;">
+                <li id="menu-item-01" class="menu-item current_page_item"><a href="kranking.jsp">K-랭킹</a></li>
+                <li id="menu-item-02" class="menu-item"><a href="playerprofile.jsp">선수</a>
+                	<ul class="menu-sub-item">
+                    	<li><a href="allplayer.jsp">전체 선수 랭킹</a></li>
+                        <li><a href="compareplayers.jsp">선수 랭킹 비교</a></li>
+                        <li><a href="myfavorite.jsp">즐겨찾기 선수</a></li>
+                    </ul>
+                </li> 
+				<li id="menu-item-03" class="menu-item"><a href="events.jsp">대회</a></li>               
+                <li id="menu-item-04" class="menu-item"><a href="team.jsp">구단</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header-right-wrapper">
+        <a href="#" id="lang-toggle">언어<span><img src="images/language.png"></span></a>
+        <ul id="lang-navigation" class="lang-menu">
+            <li><a href="/eng/">ENGLISH</a></li>
+            <li class="active"><a href="/">KOREAN - 한국어</a></li>
+        </ul>
+    </div>
+</header>
+</div>
+<!-- MENU END-->
+
+
+
+<div class="site-content">
+
+    <section class="section-champion section-padding">
+    	<div class="container">
+			<div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <h1 class="championtitle">KLPGA CHAMPION</h1>
+                    <div class="championsearch">
+                        <h1><strong>RANK 1</strong> 김민솔</h1>                        
+                        <div class="boxline">
+                            <span class="period">                            
+                                2026년 35주차
+                            </span>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </section>
+
+	<section class="section-page page-padding">	      
+        <div class="container">
+			<div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <h2 class="page-title">전체 선수 랭킹<span class="sub-label">ALL PLAYER RANKING</span></h2>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-sm-12">
+                    <form class="clearfix" action="allplayer.jsp" method="post"> 
+                     <input type="hidden" name="top_player" value="김민솔">
+					 <input type="hidden" name="last_week" value="null">               
+                    <div class="box select">                    	
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                    <div class="select-wrapper">
+                                    	<div class="styled-select bydate current-ranking">
+                                                 
+                                            <select name="Rank_week" onchange="this.form.submit()">
+                                                                                            
+                                                <option value="202635" >2026년 35주차</option>
+                                                                                            
+                                                <option value="202634" >2026년 34주차</option>
+                                                                                            
+                                                <option value="202633" >2026년 33주차</option>
+                                                                                            
+                                                <option value="202632" >2026년 32주차</option>
+                                                                                            
+                                                <option value="202631" >2026년 31주차</option>
+                                                                                            
+                                                <option value="202630" selected>현재 랭킹 2026년 30주차</option>
+                                                                                            
+                                                <option value="202629" >2026년 29주차</option>
+                                                                                            
+                                                <option value="202628" >2026년 28주차</option>
+                                                                                            
+                                                <option value="202627" >2026년 27주차</option>
+                                                                                            
+                                                <option value="202626" >2026년 26주차</option>
+                                                                                            
+                                                <option value="202625" >2026년 25주차</option>
+                                                                                            
+                                                <option value="202624" >2026년 24주차</option>
+                                                                                            
+                                                <option value="202623" >2026년 23주차</option>
+                                                                                            
+                                                <option value="202622" >2026년 22주차</option>
+                                                                                            
+                                                <option value="202621" >2026년 21주차</option>
+                                                                                            
+                                                <option value="202620" >2026년 20주차</option>
+                                                                                            
+                                                <option value="202619" >2026년 19주차</option>
+                                                                                            
+                                                <option value="202618" >2026년 18주차</option>
+                                                                                            
+                                                <option value="202617" >2026년 17주차</option>
+                                                                                            
+                                                <option value="202616" >2026년 16주차</option>
+                                                                                            
+                                                <option value="202615" >2026년 15주차</option>
+                                                                                            
+                                                <option value="202614" >2026년 14주차</option>
+                                                                                            
+                                                <option value="202613" >2026년 13주차</option>
+                                                                                            
+                                                <option value="202612" >2026년 12주차</option>
+                                                                                            
+                                                <option value="202611" >2026년 11주차</option>
+                                                                                            
+                                                <option value="202610" >2026년 10주차</option>
+                                                                                            
+                                                <option value="202609" >2026년 9주차</option>
+                                                                                            
+                                                <option value="202608" >2026년 8주차</option>
+                                                                                            
+                                                <option value="202607" >2026년 7주차</option>
+                                                                                            
+                                                <option value="202606" >2026년 6주차</option>
+                                                                                            
+                                                <option value="202605" >2026년 5주차</option>
+                                                                                            
+                                                <option value="202604" >2026년 4주차</option>
+                                                                                            
+                                                <option value="202603" >2026년 3주차</option>
+                                                                                            
+                                                <option value="202602" >2026년 2주차</option>
+                                                                                            
+                                                <option value="202601" >2026년 1주차</option>
+                                                                                            
+                                                <option value="202552" >2025년 52주차</option>
+                                                                                            
+                                                <option value="202551" >2025년 51주차</option>
+                                                                                            
+                                                <option value="202550" >2025년 50주차</option>
+                                                                                            
+                                                <option value="202549" >2025년 49주차</option>
+                                                                                            
+                                                <option value="202548" >2025년 48주차</option>
+                                                                                            
+                                                <option value="202547" >2025년 47주차</option>
+                                                                                            
+                                                <option value="202546" >2025년 46주차</option>
+                                                                                            
+                                                <option value="202545" >2025년 45주차</option>
+                                                                                            
+                                                <option value="202544" >2025년 44주차</option>
+                                                                                            
+                                                <option value="202543" >2025년 43주차</option>
+                                                                                            
+                                                <option value="202542" >2025년 42주차</option>
+                                                                                            
+                                                <option value="202541" >2025년 41주차</option>
+                                                                                            
+                                                <option value="202540" >2025년 40주차</option>
+                                                                                            
+                                                <option value="202539" >2025년 39주차</option>
+                                                                                            
+                                                <option value="202538" >2025년 38주차</option>
+                                                                                            
+                                                <option value="202537" >2025년 37주차</option>
+                                                                                            
+                                                <option value="202536" >2025년 36주차</option>
+                                                                                            
+                                                <option value="202535" >2025년 35주차</option>
+                                                
+                                            
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box ranking-box">
+                        <table id="example" class="ranking-list table table-striped table-bordered">
+                            <thead>
+                                <tr><th>랭킹</th>
+                                <th class="change">등락</th>
+                                <th>선수 <br class="mconly"></th>
+                                <th>랭킹 포인트</th>
+                                <th>합계 포인트 </th>
+                                <th>출전 대회수 </th>
+                                <th>즐겨<br class="mconly">찾기</span></th>
+                                </tr>
+                            </thead>
+                          <tbody>
+       
