@@ -108,7 +108,7 @@ GEOMETRY_JS = """() => {
     const chartOffenders = [];
     document.querySelectorAll('svg.line-chart, svg.bar-chart').forEach((svg, si) => {
         const svgRect = svg.getBoundingClientRect();
-        const labels = Array.from(svg.querySelectorAll('text.chart-value, text.chart-x-label, text.chart-y-label, text.bar-number, text.bar-label'));
+        const labels = Array.from(svg.querySelectorAll('text.chart-value, text.chart-x-label, text.chart-y-label, text.bar-number, text.bar-label, text.chart-end-label'));
         const rects = labels.map(el => el.getBoundingClientRect());
         const TOL = 1;
         rects.forEach((r, i) => {
@@ -128,6 +128,75 @@ GEOMETRY_JS = """() => {
                 }
             }
         }
+        // A dense chart's labels are wider than the point spacing, so a
+        // label routinely sits horizontally over a NEIGHBORING point's
+        // marker (not its own) -- real Chromium rendering showed this
+        // still visually overlapping after label-vs-label spacing alone
+        // was fixed. data-point-index on both the label and the circle
+        // excludes a label overlapping its own point (expected/by design).
+        const points = Array.from(svg.querySelectorAll('circle.chart-point'));
+        const pointRects = points.map(el => el.getBoundingClientRect());
+        for (let i = 0; i < rects.length; i++) {
+            const a = rects[i];
+            if (a.width === 0) continue;
+            const ownIndex = labels[i].getAttribute('data-point-index');
+            for (let k = 0; k < pointRects.length; k++) {
+                if (points[k].getAttribute('data-point-index') === ownIndex) continue;
+                const b = pointRects[k];
+                const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+                const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+                if (overlapX > TOL && overlapY > TOL) {
+                    chartOffenders.push(`svg${si}:label${i}"${labels[i].textContent.trim()}" overlaps a different point's marker (index ${points[k].getAttribute('data-point-index')})`);
+                }
+            }
+        }
+        // A value label can also collide with the chart's own connecting
+        // <polyline> -- a real, screenshot-confirmed defect on the
+        // win-probability chart (R2->R3's steep-slope segment ran
+        // straight through the "15.04%" digits) that neither the
+        // label-vs-label nor label-vs-circle checks above ever caught,
+        // since neither considers the line itself. Sample points along
+        // every polyline segment and flag any that land inside a value
+        // label's own rendered box. Sparse charts only: a dense chart's
+        // small offset intentionally sits its label right next to its
+        // own point (the same already-verified "own marker" exemption
+        // as the label-vs-circle check above), so its connecting line
+        // legitimately passes close by every label by design -- that is
+        // not the defect this check exists to catch.
+        if (svg.classList.contains('line-chart--dense')) return;
+        const polylines = Array.from(svg.querySelectorAll('polyline.chart-line'));
+        const valueLabels = labels.filter((el, i) => el.classList.contains('chart-value') && rects[i].width > 0);
+        polylines.forEach(poly => {
+            const pts = poly.points;
+            for (let s = 0; s < pts.numberOfItems - 1; s++) {
+                const p1 = pts.getItem(s), p2 = pts.getItem(s + 1);
+                const m = svg.getScreenCTM();
+                for (let t = 0; t <= 20; t++) {
+                    const frac = t / 20;
+                    const svgPt = svg.createSVGPoint();
+                    svgPt.x = p1.x + (p2.x - p1.x) * frac;
+                    svgPt.y = p1.y + (p2.y - p1.y) * frac;
+                    const screenPt = svgPt.matrixTransform(m);
+                    valueLabels.forEach((label, li) => {
+                        const r = label.getBoundingClientRect();
+                        // A label naturally sits close to its own point, so its
+                        // connecting line commonly grazes a corner of the box
+                        // without touching any glyph (confirmed by direct
+                        // screenshot review -- fully readable). Only a
+                        // meaningful intrusion into the box's interior, not a
+                        // 1-2px edge touch, is the real "digits cut in half"
+                        // defect this check exists to catch.
+                        const insetX = r.width * 0.15, insetY = r.height * 0.2;
+                        const msg = `svg${si}:label"${label.textContent.trim()}" crossed by its own chart's connecting line`;
+                        if (screenPt.x >= r.left + insetX && screenPt.x <= r.right - insetX &&
+                            screenPt.y >= r.top + insetY && screenPt.y <= r.bottom - insetY &&
+                            !chartOffenders.includes(msg)) {
+                            chartOffenders.push(msg);
+                        }
+                    });
+                }
+            }
+        });
     });
 
     return {

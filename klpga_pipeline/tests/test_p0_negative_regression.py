@@ -228,11 +228,37 @@ def test_every_header_shows_canonical_brand_text(html_files):
     assert mixed_legacy == [], f"page(s) still carrying the retired one-line .neo-brand-sub variant: {mixed_legacy}"
 
 
-# 14. P0-3 build provenance: every page carries the non-visible source-sha marker.
-def test_every_page_has_build_provenance_marker(html_files):
+# 14. P0-3 build provenance: every page carries both non-visible
+# provenance markers (source-commit + build-id -- see
+# global_navigation.py for why these are two separate, honestly-scoped
+# fields rather than one self-referential commit SHA).
+def test_every_page_has_build_provenance_markers(html_files):
     pages = [f for f in html_files if "protected" not in f.parts]
-    offenders = [str(f.relative_to(ROOT)) for f in pages if 'meta name="neo-build-source-sha"' not in f.read_text(encoding="utf-8")]
-    assert offenders == [], f"page(s) missing the build-provenance <meta> tag: {offenders}"
+    missing_commit = []
+    missing_id = []
+    for f in pages:
+        text = f.read_text(encoding="utf-8")
+        if 'meta name="neo-build-source-commit"' not in text:
+            missing_commit.append(str(f.relative_to(ROOT)))
+        if 'meta name="neo-build-id"' not in text:
+            missing_id.append(str(f.relative_to(ROOT)))
+    assert missing_commit == [], f"page(s) missing the neo-build-source-commit <meta> tag: {missing_commit}"
+    assert missing_id == [], f"page(s) missing the neo-build-id <meta> tag: {missing_id}"
+
+
+# 15. LIVE VISUAL HOTFIX P0: every real page in a built tree must carry
+# the SAME neo-build-id -- a stale/mismatched value means the tree is a
+# mix of two different builds, exactly the defect a red-team GitHub QA
+# found (docs/deep-dive stuck on a provenance stamp from an earlier
+# commit than the rest of the site).
+def test_every_page_has_identical_build_id(html_files):
+    pages = [f for f in html_files if "protected" not in f.parts]
+    ids: dict[str, list[str]] = {}
+    for f in pages:
+        match = re.search(r'meta name="neo-build-id" content="([^"]*)"', f.read_text(encoding="utf-8"))
+        build_id = match.group(1) if match else "<MISSING>"
+        ids.setdefault(build_id, []).append(str(f.relative_to(ROOT)))
+    assert len(ids) == 1, f"inconsistent neo-build-id across the built tree: {ids}"
 
 
 # GLOBAL UI/UX REBUILD -- P0/P1 regression coverage.

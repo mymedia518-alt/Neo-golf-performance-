@@ -1,6 +1,7 @@
 """Build the non-production K-Ranking TOP120 vs NEO validation candidate."""
 from __future__ import annotations
 
+import datetime
 import importlib.util
 import json
 import shutil
@@ -21,12 +22,23 @@ from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, val
 
 
 def _source_git_sha() -> str:
+    # Honestly the PARENT commit at build time, not "this build's own
+    # commit" -- see global_navigation.py's provenance contract comment
+    # for why a build can never know the SHA of the commit that ships it.
     try:
         return subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True,
         ).strip()
     except (subprocess.CalledProcessError, OSError):
         return "unknown"
+
+
+def _new_build_id() -> str:
+    # A build-id independent of git entirely: every page produced by
+    # this one build() invocation gets the identical value, so identity
+    # of "which build is this" can be verified without needing it to
+    # equal any commit hash (see global_navigation.py).
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
 def load(name: str) -> dict:
@@ -47,26 +59,6 @@ def show(value, digits=2) -> str:
     return "검증 대기" if value is None else f"{value:.{digits}f}"
 
 
-def render(rows: list[dict], summary: dict) -> str:
-    table = []
-    for row in rows:
-        f = row["features"] or {}
-        neo = row["neo_validation_rank"]
-        state = "검증 모델" if neo else "검증 대기"
-        coverage = f'{f.get("sample_count", 0)}개 대회' if f else "데이터 부족"
-        table.append(f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo or 999999}">'
-                     f'<td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row">{escape(row["player_name"])}</th>'
-                     f'<td>{show(f.get("recent_5_sg"))}</td><td>{show(f.get("recent_10_sg"))}</td><td>{show(f.get("long_term_sg"))}</td><td>{show(f.get("volatility"))}</td>'
-                     f'<td><span class="validation-state">{state} · {coverage}</span></td></tr>')
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body>
-<header class="site-header"><div class="site-header__inner"><a class="wordmark" href="/">NEO GOLF DATA</a><nav class="global-nav"><a class="global-nav__link" aria-current="page" href="/">홈</a><a class="global-nav__link" href="/tournaments/">대회</a><a class="global-nav__link" href="/deep-dive/">딥다이브</a><a class="global-nav__link" href="/about/">소개</a></nav></div></header><main>
-<section class="page-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1>공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 랭킹 허브입니다.</p><div class="home-summary"><strong>120</strong><span>공식 선수</span><strong>{summary["neo_ranked"]}</strong><span>NEO 검증 가능</span></div></section>
-<section class="ranking-help" aria-label="랭킹 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>최근·장기 경기력을 비교하는 검증용 순위</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG 평균</dd></div><div><dt>검증 대기</dt><dd>표본이 부족해 NEO 순위를 공개하지 않음</dd></div></section>
-<section class="product-section"><div class="section-heading"><div><p class="section-label">NEO 랭킹 검증</p><h2>선수 비교표</h2></div><span class="state-chip">검증 중</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option></select><output id="home-count">120명</output></div>
-<div class="table-scroll" tabindex="0" aria-label="선수 랭킹 표, 좌우로 이동 가능"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO Ranking</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>데이터 상태</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
-<p class="note">모집단은 KLPGA 공식 K-Ranking 1~120위입니다. SG는 검증된 경기력 데이터를 공식 선수 ID로만 연결하며, 결측값에 0이나 평균을 대입하지 않습니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner">NEO GOLF DATA · 검증 모델</div></footer></body></html>'''
-
-
 def render_clean(rows: list[dict], summary: dict, ranking_week: str | None = None) -> str:
     cells = []
     for row in rows:
@@ -80,7 +72,7 @@ def render_clean(rows: list[dict], summary: dict, ranking_week: str | None = Non
             return "검증 대기" if value is None else f"{value:+.2f}"
         cells.append(f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo or 999999}"><td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row">{escape(row["player_name"])}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td><span class="validation-state">{status}</span></td></tr>')
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><main>
+    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
 <section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1>공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 비교 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary["neo_ranked"]}</strong><span>분석 가능</span></div><div class="stat"><strong>{summary["validation_pending"]}</strong><span>데이터 부족</span></div>{week_stat}</div></section>
 <section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO 검증 순위</dt><dd>승인 전인 검증용 경기력 순위</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
 <section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div><span class="state-chip">검증용 · 공개 확정 전</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO 검증 순위</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>데이터 충분도</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div><p class="note">왜 선수마다 대회 수가 다른가? 선수마다 출전 이력이 다르기 때문에 분석 가능한 대회 수는 서로 다릅니다. 대회 수는 순위 점수가 아니라 결과를 확인한 표본의 참고 정보입니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
@@ -114,16 +106,27 @@ def build() -> dict:
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
     shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
     shutil.copyfile(preserved / "assets" / "neo.css", OUTPUT / "assets" / "neo.css")
-    shutil.copyfile(preserved / "assets" / "navigation.css", OUTPUT / "assets" / "navigation.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "top120.js", OUTPUT / "assets" / "top120.js")
     (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     # P0-3 build provenance: stamp every page in the canonical output
-    # with the source commit this candidate was built from -- a
-    # non-visible <meta> tag, not a UI element (see global_navigation.py).
+    # with (1) the parent commit this candidate's source was checked out
+    # from and (2) a build-id unique to this build/promotion event -- two
+    # non-visible <meta> tags, not UI elements (see global_navigation.py
+    # for why these are separate fields rather than one self-referential
+    # commit SHA). Every page gets the SAME build_id, and that internal
+    # consistency is hard-asserted immediately below and again by script
+    # 94 before and after promotion -- a page carrying any other build_id
+    # would mean this build only partially completed.
     source_sha = _source_git_sha()
-    for page in OUTPUT.rglob("index.html"):
-        page.write_text(inject_build_provenance(page.read_text(encoding="utf-8"), source_sha), encoding="utf-8", newline="\n")
-    summary["build_source_sha"] = source_sha
+    build_id = _new_build_id()
+    pages = list(OUTPUT.rglob("index.html"))
+    for page in pages:
+        page.write_text(inject_build_provenance(page.read_text(encoding="utf-8"), source_sha, build_id), encoding="utf-8", newline="\n")
+    stale = [str(p.relative_to(OUTPUT)) for p in pages if f'name="neo-build-id" content="{build_id}"' not in p.read_text(encoding="utf-8")]
+    if stale:
+        raise RuntimeError(f"build-id inconsistency immediately after stamping (should be impossible): {stale}")
+    summary["build_source_commit"] = source_sha
+    summary["build_id"] = build_id
     print(json.dumps(summary, ensure_ascii=False))
     return summary
 

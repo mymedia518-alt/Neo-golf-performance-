@@ -14,7 +14,7 @@ MASTER = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 sys.path.insert(0, str(ROOT / "src"))
 
-from klpga.website_v2.global_navigation import NAVIGATION_CSS, NAVIGATION_MARKER, inject_global_navigation  # noqa: E402
+from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
 
 OK_DISPLAY_NAME = "OK저축은행 읏맨 오픈"
@@ -96,7 +96,6 @@ def build() -> Path:
     if OUT.exists(): shutil.rmtree(OUT)
     (OUT / "assets").mkdir(parents=True)
     (OUT / "assets" / "neo.css").write_text(CSS, encoding="utf-8")
-    (OUT / "assets" / "navigation.css").write_text(NAVIGATION_CSS, encoding="utf-8", newline="\n")
     html_doc = inject_global_navigation(html_doc, active_section="tournaments")
     (OUT / "index.html").write_text(html_doc, encoding="utf-8")
     (OUT / "pre").mkdir()

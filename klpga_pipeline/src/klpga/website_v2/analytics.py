@@ -96,6 +96,42 @@ def nice_ticks(maximum: float, minimum: float = 0.0, target: int = 6) -> list[fl
     return ticks
 
 
+def _estimate_label_box(px: float, py: float, y_offset: float, text: str, anchor: str, font_size: float = 14) -> tuple[float, float, float, float]:
+    """Rough (left, right, top, bottom) bounding box of a <text> label in
+    SVG user-unit space, from its anchor point and CSS text-anchor. Not
+    exact glyph metrics -- deliberately generous (a slightly-too-wide/
+    tall box only risks an unnecessary flip, never a missed real
+    collision) so it is safe to use as an above/below placement gate."""
+    char_w = font_size * 0.72
+    w = len(text) * char_w
+    # A generous +15% margin: real Chromium rendering caught two labels
+    # ("39위", "64타") a plain 1.2x line-height box judged clear of
+    # their line but that still grazed a corner in practice.
+    h = font_size * 1.38
+    baseline = py + y_offset
+    top, bottom = baseline - h * 0.8, baseline + h * 0.3
+    if anchor == "start":
+        left, right = px, px + w
+    elif anchor == "end":
+        left, right = px - w, px
+    else:
+        left, right = px - w / 2, px + w / 2
+    return left, right, top, bottom
+
+
+def _segment_hits_box(p1: tuple[float, float], p2: tuple[float, float], box: tuple[float, float, float, float]) -> bool:
+    """Sampled line-segment-vs-rectangle overlap test (20 sample points is
+    ample for a short chart segment against a small label box)."""
+    left, right, top, bottom = box
+    for step in range(21):
+        t = step / 20
+        x = p1[0] + (p2[0] - p1[0]) * t
+        y = p1[1] + (p2[1] - p1[1]) * t
+        if left <= x <= right and top <= y <= bottom:
+            return True
+    return False
+
+
 def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, invert: bool = False, dense: bool = False) -> str:
     """Render a dependency-free, accessible line chart with gaps for missing values.
 
@@ -154,7 +190,20 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
     # ~15 SVG-user-units tall (its own font-size 14 plus line-height/
     # descent); 20 gives real clearance rather than a hairline gap.
     DENSE_LABEL_MIN_GAP = 20
+    # A dense label is ~45 SVG units wide (measured) against ~34 units of
+    # horizontal point spacing -- it will always horizontally overlap its
+    # immediate neighbors' point markers (radius 5), just not its own
+    # (the vertical offset below already clears that). CIRCLE_CLEARANCE
+    # keeps the label's vertical span off of a NEIGHBOR's marker too --
+    # real Chromium rendering showed this specific gap (label-vs-a-
+    # different-point's-circle, not label-vs-label) still overlapping
+    # after only the label-vs-label spacing above was fixed.
+    CIRCLE_CLEARANCE = 16
     prev_label_y: float | None = None
+    point_positions: list[tuple[float, float] | None] = [
+        xy(i, float(it["value"])) if it["value"] is not None else None
+        for i, it in enumerate(series)
+    ]
     segment: list[str] = []
     for index, item in enumerate(series):
         x = left + plot_w * index / max(len(series) - 1, 1)
@@ -169,8 +218,25 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
             parts.append(f'<text class="chart-missing" x="{x:.1f}" y="{top+plot_h/2:.1f}">자료 없음</text>')
             continue
         px, py = xy(index, float(item["value"])); segment.append(f"{px:.1f},{py:.1f}")
-        parts.append(f'<circle class="chart-point" cx="{px:.1f}" cy="{py:.1f}" r="5"><title>{escape(str(item["stage"]))}: {item["value"]}{escape(unit)}</title></circle>')
-        display_value = f'{float(item["value"]):+.2f}' if dense else item["value"]
+        # data-point-index lets QA tooling tell "this label overlaps its
+        # OWN point's marker" (expected -- the label sits close to the
+        # point it labels) apart from "this label overlaps a DIFFERENT
+        # point's marker" (a real collision).
+        parts.append(f'<circle class="chart-point" data-point-index="{index}" cx="{px:.1f}" cy="{py:.1f}" r="5"><title>{escape(str(item["stage"]))}: {item["value"]}{escape(unit)}</title></circle>')
+        # Display formatting only, never a change to the underlying
+        # value used above in the circle's <title>, the chart's own
+        # <desc>, or the data-chart-series JSON payload: a probability
+        # value can carry 3 decimals in the source (win_probability
+        # rounded to .3f elsewhere), which a real user's browser showed
+        # rendering as "2.877%" -- unify every percentage chart to 2
+        # decimals for *display*. Non-percentage sparse charts (rank,
+        # raw score) keep their natural value as-is.
+        if dense:
+            display_value = f'{float(item["value"]):+.2f}'
+        elif unit == "%":
+            display_value = f'{float(item["value"]):.2f}'
+        else:
+            display_value = item["value"]
         if dense:
             # Real Chromium measurement showed a fixed index-parity
             # stagger (alternating a couple of preset offsets) is not
@@ -189,6 +255,14 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
                     prev_label_y - DENSE_LABEL_MIN_GAP if candidate_y <= prev_label_y
                     else prev_label_y + DENSE_LABEL_MIN_GAP
                 )
+            for neighbor in (index - 1, index + 1):
+                if 0 <= neighbor < len(point_positions) and point_positions[neighbor] is not None:
+                    _, neighbor_py = point_positions[neighbor]
+                    if abs(candidate_y - neighbor_py) < CIRCLE_CLEARANCE:
+                        candidate_y = (
+                            neighbor_py - CIRCLE_CLEARANCE if candidate_y <= neighbor_py
+                            else neighbor_py + CIRCLE_CLEARANCE
+                        )
             y_offset = candidate_y - py
             # Never let the push move a label above the plot's own top
             # margin -- real Chromium rendering showed a point near the
@@ -198,7 +272,60 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
                 y_offset = (top + 12) - py
             prev_label_y = py + y_offset
         else:
-            y_offset = -10
+            # A plain fixed "always above" offset ignores the connecting
+            # line's own slope: a value label sitting just above its
+            # point still lands squarely on top of a steeply-sloped
+            # incoming/outgoing segment (a real, visually confirmed
+            # defect on the R2->R3 win-probability chart -- "15.04%"
+            # rendered with the connecting line drawn straight through
+            # its own digits, found by re-inspecting a real Chromium
+            # screenshot after the automated label/circle-only collision
+            # check reported zero findings, since that check never
+            # considered the <polyline> itself). Only flip the label
+            # below the point -- mirroring the dense-mode "only push when
+            # actually needed" rule -- when the adjacent segment(s)
+            # genuinely intersect the estimated label box; most points
+            # (a shallow slope, or both neighbors on the same side) never
+            # trigger this and keep the plain default.
+            anchor = "start" if index == 0 else ("end" if index == last_index else "middle")
+            label_text = f'{display_value}{unit}'
+            above_offset = -10
+            above_box = _estimate_label_box(px, py, above_offset, label_text, anchor)
+            collides = False
+            if index > 0 and point_positions[index - 1] is not None:
+                collides = collides or _segment_hits_box(point_positions[index - 1], (px, py), above_box)
+            if index < last_index and point_positions[index + 1] is not None:
+                collides = collides or _segment_hits_box((px, py), point_positions[index + 1], above_box)
+            y_offset = above_offset
+            if collides:
+                below_offset = 22
+                # Don't flip into the x-axis line/label strip at the
+                # bottom of the plot -- if there isn't room below, keep
+                # the (still imperfect, but not worse) above placement.
+                if py + below_offset + 8 < height - bottom:
+                    below_box = _estimate_label_box(px, py, below_offset, label_text, anchor)
+                    below_collides = False
+                    if index > 0 and point_positions[index - 1] is not None:
+                        below_collides = below_collides or _segment_hits_box(point_positions[index - 1], (px, py), below_box)
+                    if index < last_index and point_positions[index + 1] is not None:
+                        below_collides = below_collides or _segment_hits_box((px, py), point_positions[index + 1], below_box)
+                    if not below_collides:
+                        y_offset = below_offset
+                if y_offset == above_offset:
+                    # Flipping below wasn't safe (too close to the x-axis
+                    # strip) or didn't clear the line either -- as a last
+                    # resort, push further in the same (above) direction
+                    # for more clearance rather than leaving the label
+                    # sitting right on the line.
+                    farther_offset = -22
+                    farther_box = _estimate_label_box(px, py, farther_offset, label_text, anchor)
+                    farther_collides = False
+                    if index > 0 and point_positions[index - 1] is not None:
+                        farther_collides = farther_collides or _segment_hits_box(point_positions[index - 1], (px, py), farther_box)
+                    if index < last_index and point_positions[index + 1] is not None:
+                        farther_collides = farther_collides or _segment_hits_box((px, py), point_positions[index + 1], farther_box)
+                    if not farther_collides and py + farther_offset > top + 12:
+                        y_offset = farther_offset
         # Edge-anchoring the first/last VALUE label (unlike the x-axis
         # stage label, which stays edge-anchored in every mode) helps a
         # sparse chart's wide left margin but actively backfires in
@@ -208,7 +335,7 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
         # sit only ~34 units apart -- dense mode's generous left/right
         # margins already keep a plain middle-anchored label in bounds.
         value_edge = "" if dense else (" chart-value--start" if index == 0 else (" chart-value--end" if index == last_index else ""))
-        parts.append(f'<text class="chart-value{value_edge}" x="{px:.1f}" y="{py+y_offset:.1f}">{display_value}{escape(unit)}</text>')
+        parts.append(f'<text class="chart-value{value_edge}" data-point-index="{index}" x="{px:.1f}" y="{py+y_offset:.1f}">{display_value}{escape(unit)}</text>')
     if len(segment) > 1: parts.append(f'<polyline class="chart-line" points="{" ".join(segment)}"/>')
     parts.append(f'<script type="application/json" data-chart-series>{chart_json(series).replace("<", "\\u003c")}</script></svg>')
     return "".join(parts)
@@ -265,7 +392,8 @@ def multi_line_chart_svg(*, title: str, series_by_player: dict[str, list[dict]],
         for item in endpoints: item[0]-=shift
     for y,color,player,value,index in endpoints:
         x=left+plot_w*index/max(len(stages)-1,1); label_x=width-right+12
-        parts.append(f'<path class="chart-label-leader" d="M{x:.1f},{top+plot_h*(1-value/high):.1f} L{label_x-5},{y:.1f}" stroke="{color}"/><text class="chart-end-label" x="{label_x}" y="{y+5:.1f}">{escape(player)} {value:g}{escape(unit)}</text>')
+        display_value = f'{value:.2f}' if unit == "%" else f'{value:g}'
+        parts.append(f'<path class="chart-label-leader" d="M{x:.1f},{top+plot_h*(1-value/high):.1f} L{label_x-5},{y:.1f}" stroke="{color}"/><text class="chart-end-label" x="{label_x}" y="{y+5:.1f}">{escape(player)} {display_value}{escape(unit)}</text>')
     payload={p:s for p,s in series_by_player.items()}; parts.append(f'<script type="application/json" data-chart-series>{chart_json(payload).replace("<","\\u003c")}</script></svg>')
     return "".join(parts)
 
