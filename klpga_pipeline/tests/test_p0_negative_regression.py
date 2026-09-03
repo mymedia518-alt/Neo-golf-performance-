@@ -172,3 +172,57 @@ def test_built_candidate_is_the_real_120_player_top120_population(built):
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
     assert len(dataset["records"]) == 120
     assert sorted(r["official_k_rank"] for r in dataset["records"]) == list(range(1, 121))
+
+
+# NEO WEBSITE V3 PHASE 3 -- P0-2 (broken links) and P1-8 (one canonical
+# header, no page recreates its own) regression coverage.
+
+# 11. an internal href with no matching route anywhere in the tree
+def test_no_internal_href_targets_a_missing_route_v3(html_files):
+    # protected/beta001/*.html are raw sha256-verified evidence fragments
+    # (not real navigable pages -- no header/nav at all), out of scope here.
+    pages = [f for f in html_files if "protected" not in f.parts]
+    broken = []
+    for f in pages:
+        text = f.read_text(encoding="utf-8")
+        for href in re.findall(r'href="(/[^"]*)"', text):
+            path = urlsplit(href).path
+            if not path.startswith("/") or path.startswith("//") or path == "/":
+                continue
+            candidate = OUTPUT / path.lstrip("/")
+            resolved = candidate if candidate.suffix else candidate / "index.html"
+            if not resolved.is_file() and not candidate.is_file():
+                broken.append((str(f.relative_to(ROOT)), href))
+    assert broken == [], f"internal href(s) with no matching route: {broken}"
+
+
+# 12. exactly one canonical site-nav header per page -- no page (KG R1/R2,
+# OK Open, or any future addition) may recreate or duplicate the header.
+def test_every_page_has_exactly_one_canonical_header(html_files):
+    pages = [f for f in html_files if "protected" not in f.parts]
+    offenders = {}
+    for f in pages:
+        text = f.read_text(encoding="utf-8")
+        count = len(re.findall(r'<header class="neo-global-header"', text))
+        if count != 1:
+            offenders[str(f.relative_to(ROOT))] = count
+    assert offenders == {}, f"expected exactly 1 canonical header per page: {offenders}"
+
+
+# 13. the canonical brand text/markup is what every header actually shows
+# -- not a stale copy frozen from an earlier version of NAVIGATION_HTML.
+def test_every_header_shows_canonical_brand_text(html_files):
+    pages = [f for f in html_files if "protected" not in f.parts]
+    offenders = []
+    for f in pages:
+        text = f.read_text(encoding="utf-8")
+        if '<span class="neo-brand-mark">NEO</span><span class="neo-brand-sub">Number · Evidence · Oracle</span>' not in text:
+            offenders.append(str(f.relative_to(ROOT)))
+    assert offenders == [], f"page(s) missing the canonical brand text in their header: {offenders}"
+
+
+# 14. P0-3 build provenance: every page carries the non-visible source-sha marker.
+def test_every_page_has_build_provenance_marker(html_files):
+    pages = [f for f in html_files if "protected" not in f.parts]
+    offenders = [str(f.relative_to(ROOT)) for f in pages if 'meta name="neo-build-source-sha"' not in f.read_text(encoding="utf-8")]
+    assert offenders == [], f"page(s) missing the build-provenance <meta> tag: {offenders}"

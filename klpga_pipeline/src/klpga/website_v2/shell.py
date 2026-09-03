@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from html import escape
 from pathlib import Path
 
-from klpga.website_v2.global_navigation import NAVIGATION_MARKER
+from klpga.website_v2.global_navigation import NAVIGATION_MARKER, inject_global_navigation
 
 STAGES = ("overview", "pre", "r1", "r2", "r3", "final")
 STAGE_LABELS = {"overview": "개요", "pre": "PRE", "r1": "R1", "r2": "R2", "r3": "R3", "final": "FINAL"}
@@ -55,13 +55,16 @@ class TournamentMetadata:
 
 
 def _global_header(active_section: str) -> str:
-    links = []
-    for key, label, url in GLOBAL_NAV:
-        current = ' aria-current="page"' if key == active_section else ""
-        links.append(f'<a class="global-nav__link" href="{url}"{current}>{label}</a>')
-    return (f'<header class="site-header" {NAVIGATION_MARKER}><div class="site-header__inner">'
-            '<a class="wordmark" href="/" aria-label="NEO 홈">NEO <span class="wordmark__sub">Number · Evidence · Oracle</span></a>'
-            '<nav class="global-nav" aria-label="주요 메뉴">' + "".join(links) + '</nav></div></header>')
+    # Deliberately a bare, marked placeholder: inject_global_navigation()
+    # (see global_navigation.py) always replaces any NAVIGATION_MARKER
+    # header with the one canonical NAVIGATION_HTML, on every build. No
+    # page defines its own header content -- that's the whole point,
+    # after a stale-header drift bug (fixed in v3 Phase 3) let a
+    # generator's own copy of the header silently fall out of sync with
+    # the real one. `active_section` is accepted for call-site
+    # compatibility but no longer affects the rendered header.
+    del active_section
+    return f'<header {NAVIGATION_MARKER}></header>'
 
 
 def _tournament_header(meta: TournamentMetadata, current_stage: str) -> str:
@@ -96,11 +99,17 @@ def render_page(*, title: str, active_section: str, body_html: str, tournament: 
     if tournament is not None and current_stage not in STAGES:
         raise ValueError(f"current_stage must be one of {STAGES}")
     tournament_html = _tournament_header(tournament, current_stage) if tournament else ""
-    return (f'<!doctype html><html lang="{escape(lang)}"><head><meta charset="utf-8">'
+    html = (f'<!doctype html><html lang="{escape(lang)}"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             f'<title>{escape(title)} · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css">'
             '<script src="/assets/neo-site.js" defer></script></head><body>'
             f'{_global_header(active_section)}<main id="main-content">{tournament_html}{body_html}</main>{_footer()}</body></html>')
+    # Fill in the marked-but-empty header immediately, at the source --
+    # every render_page() caller gets the one real canonical header, not
+    # a placeholder that depends on some later build step remembering to
+    # post-process this page (idempotent: safe if a caller's own
+    # pipeline also runs inject_global_navigation() again afterward).
+    return inject_global_navigation(html)
 
 
 def _fixture_notice(label: str) -> str:

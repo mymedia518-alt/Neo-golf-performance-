@@ -4,18 +4,29 @@ from __future__ import annotations
 import importlib.util
 import json
 import shutil
+import subprocess
 import sys
 from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
-from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
+from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation  # noqa: E402
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
+
+
+def _source_git_sha() -> str:
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True,
+        ).strip()
+    except (subprocess.CalledProcessError, OSError):
+        return "unknown"
 
 
 def load(name: str) -> dict:
@@ -106,6 +117,13 @@ def build() -> dict:
     shutil.copyfile(preserved / "assets" / "navigation.css", OUTPUT / "assets" / "navigation.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "top120.js", OUTPUT / "assets" / "top120.js")
     (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    # P0-3 build provenance: stamp every page in the canonical output
+    # with the source commit this candidate was built from -- a
+    # non-visible <meta> tag, not a UI element (see global_navigation.py).
+    source_sha = _source_git_sha()
+    for page in OUTPUT.rglob("index.html"):
+        page.write_text(inject_build_provenance(page.read_text(encoding="utf-8"), source_sha), encoding="utf-8", newline="\n")
+    summary["build_source_sha"] = source_sha
     print(json.dumps(summary, ensure_ascii=False))
     return summary
 

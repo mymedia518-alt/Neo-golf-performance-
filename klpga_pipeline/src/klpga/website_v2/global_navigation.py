@@ -26,6 +26,24 @@ _COMPATIBILITY_MARKER = ('<nav class="sr-data" aria-label="추가 탐색 링크"
 
 NAVIGATION_CSS = """.neo-global-header{width:100%;border-bottom:1px solid #dfe5ea;background:#fff;color:#17202a}.neo-global-header__inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:min(calc(100% - 2rem),1240px);margin:auto;padding:.7rem 0}.neo-global-brand{display:inline-flex;align-items:baseline;gap:.55rem;flex:0 0 auto;color:#17202a;text-decoration:none}.neo-brand-mark{font:850 1rem/1.2 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.08em}.neo-brand-sub{color:#65717d;font:600 .7rem/1.2 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.02em}.neo-global-header .neo-global-nav{display:flex;align-items:center;gap:.35rem 1rem;overflow-x:auto;white-space:nowrap}.neo-global-header .neo-global-nav a{display:inline-flex;align-items:center;min-height:44px;margin:0;padding:.25rem 0;color:#65717d;text-decoration:none;font:700 .82rem/1.2 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}.neo-global-header .neo-global-nav a:hover,.neo-global-header .neo-global-nav a:focus-visible{color:#0f5c46}@media(max-width:760px){.neo-global-header__inner{align-items:flex-start;flex-direction:column;gap:.2rem;width:min(calc(100% - 1.25rem),1240px);padding:.55rem 0}.neo-global-header .neo-global-nav{display:flex!important;width:100%;gap:0 1rem}.neo-global-header .neo-global-nav a{display:inline-flex!important;min-height:44px}}"""
 
+BUILD_SHA_META_NAME = "neo-build-source-sha"
+
+def inject_build_provenance(html: str, source_sha: str) -> str:
+    """Embed a non-visible <meta> marker naming the source-repo commit
+    this page was built from (see scripts/88_build_neo_top120_candidate.py
+    for how it's stamped). Never shown in the UI -- it exists so a later
+    QA pass can ask "what SHA is this live page actually serving" by
+    fetching the page and reading the tag, rather than trusting that a
+    git push implies a deployed page."""
+    tag = f'<meta name="{BUILD_SHA_META_NAME}" content="{source_sha}">'
+    if "<head>" in html:
+        return html.replace("<head>", f"<head>{tag}", 1)
+    if "<head " in html:
+        idx = html.index("<head ")
+        close = html.index(">", idx) + 1
+        return html[:close] + tag + html[close:]
+    return tag + html
+
 def _repair_legacy_mojibake(html: str) -> str:
     try:
         return html.encode("cp949").decode("utf-8")
@@ -56,6 +74,23 @@ def inject_global_navigation(html: str) -> str:
     html = re.sub(r'(<[^>]*class="[^"]*next-update-label[^"]*"[^>]*>).*?(</[^>]+>)', r'\1대회 종료\2', html, flags=re.I|re.S)
     html = re.sub(r'(<[^>]*class="[^"]*next-update-(?:text|value)[^"]*"[^>]*>).*?(</[^>]+>)', r'\1최종 결과 보존\2', html, flags=re.I|re.S)
     if NAVIGATION_MARKER in html:
+        # A marked header is never trusted as "already correct" -- it is
+        # always refreshed to the current canonical NAVIGATION_HTML, even
+        # if a header was already present (whether a page-specific one a
+        # generator wrote itself, or a stale header injected by an
+        # earlier version of this function on a previous build). Without
+        # this, a copied/carried-forward page (KG R1/R2, which never
+        # regenerate their own header) stays frozen at whatever brand
+        # text NAVIGATION_HTML happened to be the first time it was
+        # stamped, silently drifting out of sync with every other page
+        # as this constant evolves -- exactly the "multiple header
+        # systems" defect found in v3 Phase 3.
+        html, count = re.subn(
+            r"<header[^>]*" + re.escape(NAVIGATION_MARKER) + r"[^>]*>.*?</header>",
+            NAVIGATION_HTML.replace("\\", "\\\\"), html, count=1, flags=re.S,
+        )
+        if count != 1:
+            raise ValueError("marked header present but could not be matched for refresh")
         if 'href="/">NEO GOLF DATA</a>' not in html:
             html = html.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)
         return html
