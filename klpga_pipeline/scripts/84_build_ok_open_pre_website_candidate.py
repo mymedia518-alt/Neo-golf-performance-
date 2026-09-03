@@ -6,11 +6,15 @@ import json
 import hashlib
 import subprocess
 import shutil
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
+sys.path.insert(0, str(ROOT / "src"))
+
+from klpga.website_v2.global_navigation import NAVIGATION_CSS, inject_global_navigation  # noqa: E402
 
 BANDS = {
     "VERY_HIGH": "최상위",
@@ -73,6 +77,8 @@ def build() -> Path:
     if OUT.exists(): shutil.rmtree(OUT)
     (OUT / "assets").mkdir(parents=True)
     (OUT / "assets" / "neo.css").write_text(CSS, encoding="utf-8")
+    (OUT / "assets" / "navigation.css").write_text(NAVIGATION_CSS, encoding="utf-8", newline="\n")
+    html_doc = inject_global_navigation(html_doc)
     (OUT / "index.html").write_text(html_doc, encoding="utf-8")
     (OUT / "pre").mkdir()
     (OUT / "pre" / "index.html").write_text(html_doc.replace('href="assets/neo.css"','href="../assets/neo.css"'), encoding="utf-8")
@@ -87,14 +93,17 @@ def build() -> Path:
         nav = '<nav class="stage-nav" aria-label="대회 단계"><a href="../pre/">PRE</a><a href="../r1/">R1</a><a href="../r2/">R2</a><a href="../final/">FINAL</a></nav>'
         nav = nav.replace('href="../', 'href="/tournaments/2026/ok-savings-bank-open/')
         stage_doc = f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="neo-public-master-sha256" content="{master_sha}"><title>NEO GOLF DATA · {stage.upper()}</title><link rel="stylesheet" href="../../../assets/neo.css"></head><body><header><a class="brand" href="/">NEO GOLF DATA</a></header><main><section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p><h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section></main></body></html>'
-        (stage_dir / "index.html").write_text(stage_doc, encoding="utf-8")
+        (stage_dir / "index.html").write_text(inject_global_navigation(stage_doc), encoding="utf-8")
     about = """<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · NEO 소개</title><link rel=\"stylesheet\" href=\"../assets/neo.css\"></head><body><header><a class=\"brand\" href=\"../\">NEO GOLF DATA</a><nav><a href=\"../#tournament\">대회</a><a href=\"../#pre\">예측 기록</a></nav></header><main><section class=\"panel about\" id=\"about\"><p class=\"eyebrow\">NEO 소개</p><h1>결과만으로는 보이지 않는 경기력을 데이터에서 봅니다.</h1><p>NEO GOLF DATA는 KLPGA 공식 경기 기록을 바탕으로 선수들의 경기 데이터를 동일한 기준으로 측정하고 비교합니다.</p><p>우승, TOP10, 상금, K-RANKING은 선수가 쌓아온 중요한 결과입니다. NEO는 여기에 또 하나의 관점을 더합니다.</p><p>최근 공식 경기 데이터를 비교해 출전 선수들 사이에서 관측된 경기력의 상대적 위치를 보여줍니다.</p><p>이것은 선수의 가치나 미래 성적에 대한 등급이 아닙니다. 골프의 결과에는 큰 변동성이 있으며 높은 경기력 위치가 우승이나 TOP10을 보장하지 않습니다.</p><p>NEO는 분석 시점에 사용할 수 있었던 데이터를 보존하고, 실제 결과와 비교하며 분석 방법을 계속 검증합니다.</p></section></main></body></html>"""
     (OUT / "about").mkdir()
-    (OUT / "about" / "index.html").write_text(about, encoding="utf-8")
+    (OUT / "about" / "index.html").write_text(inject_global_navigation(about), encoding="utf-8")
     manifest = {"source_master": str(MASTER.relative_to(ROOT)).replace("\\", "/"), "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "SG Total 순위", "우승확률"]}
     manifest["source_master_sha256"] = master_sha
     (OUT / "data").mkdir()
     (OUT / "data" / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    for generated in OUT.rglob("*"):
+        if generated.is_file() and generated.suffix.lower() in {".html", ".css", ".js", ".json"}:
+            generated.write_text(generated.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
     return OUT
 
 if __name__ == "__main__":

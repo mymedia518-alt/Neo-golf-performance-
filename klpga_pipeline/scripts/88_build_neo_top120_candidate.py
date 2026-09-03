@@ -46,11 +46,12 @@ def render(rows: list[dict], summary: dict) -> str:
                      f'<td>{show(f.get("recent_5_sg"))}</td><td>{show(f.get("recent_10_sg"))}</td><td>{show(f.get("long_term_sg"))}</td><td>{show(f.get("volatility"))}</td>'
                      f'<td><span class="validation-state">{state} · {coverage}</span></td></tr>')
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body>
-<header class="site-header"><div class="site-header__inner"><a class="wordmark" href="/">NEO GOLF DATA</a><nav class="global-nav"><a class="global-nav__link" aria-current="page" href="/">HOME</a><a class="global-nav__link" href="/tournaments/">TOURNAMENTS</a><a class="global-nav__link" href="/deep-dive/">DEEP DIVE</a><a class="global-nav__link" href="/about/">ABOUT</a></nav></div></header><main>
-<section class="page-head"><p class="kicker">K-Ranking TOP 120</p><h1>공식 순위와 NEO 검증 모델 비교</h1><p>2026년 35주 공식 K-Ranking 1~120위 cohort입니다. NEO 순위는 방법론 검증 전용이며 production ranking이 아닙니다.</p><div class="home-summary"><strong>120</strong><span>공식 cohort</span><strong>{summary["neo_ranked"]}</strong><span>검증 모델 산출</span></div></section>
-<section class="product-section"><div class="section-heading"><div><p class="section-label">VALIDATION MODEL</p><h2>선수 비교표</h2></div><span class="state-chip">production 아님</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option></select><output id="home-count">120명</output></div>
-<div class="table-scroll"><table class="data-table home-table"><thead><tr><th>K-Rank</th><th>NEO Rank</th><th>선수</th><th>최근5</th><th>최근10</th><th>장기 SG</th><th>변동성</th><th>데이터 상태</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
-<p class="note">모집단: 공식 KLPGA K-Ranking 1~120위. SG: corrected warehouse를 player_id로만 연결. 결측값에 0이나 평균을 대입하지 않습니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner">NEO GOLF DATA · VALIDATION MODEL</div></footer></body></html>'''
+<header class="site-header"><div class="site-header__inner"><a class="wordmark" href="/">NEO GOLF DATA</a><nav class="global-nav"><a class="global-nav__link" aria-current="page" href="/">홈</a><a class="global-nav__link" href="/tournaments/">대회</a><a class="global-nav__link" href="/deep-dive/">딥다이브</a><a class="global-nav__link" href="/about/">소개</a></nav></div></header><main>
+<section class="page-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1>공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 랭킹 허브입니다.</p><div class="home-summary"><strong>120</strong><span>공식 선수</span><strong>{summary["neo_ranked"]}</strong><span>NEO 검증 가능</span></div></section>
+<section class="ranking-help" aria-label="랭킹 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>최근·장기 경기력을 비교하는 검증용 순위</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG 평균</dd></div><div><dt>검증 대기</dt><dd>표본이 부족해 NEO 순위를 공개하지 않음</dd></div></section>
+<section class="product-section"><div class="section-heading"><div><p class="section-label">NEO 랭킹 검증</p><h2>선수 비교표</h2></div><span class="state-chip">검증 중</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option></select><output id="home-count">120명</output></div>
+<div class="table-scroll" tabindex="0" aria-label="선수 랭킹 표, 좌우로 이동 가능"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO Ranking</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>데이터 상태</th></tr></thead><tbody>{''.join(table)}</tbody></table></div>
+<p class="note">모집단은 KLPGA 공식 K-Ranking 1~120위입니다. SG는 검증된 경기력 데이터를 공식 선수 ID로만 연결하며, 결측값에 0이나 평균을 대입하지 않습니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner">NEO GOLF DATA · 검증 모델</div></footer></body></html>'''
 
 
 def build() -> dict:
@@ -72,13 +73,14 @@ def build() -> dict:
         html = page.read_text(encoding="utf-8")
         html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
-        page.write_text(html, encoding="utf-8")
-    (OUTPUT / "index.html").write_text(render(rows, summary), encoding="utf-8")
+        page.write_text(html, encoding="utf-8", newline="\n")
+    (OUTPUT / "index.html").write_text(render(rows, summary), encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
     shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
     shutil.copyfile(preserved / "assets" / "neo.css", OUTPUT / "assets" / "neo.css")
+    shutil.copyfile(preserved / "assets" / "navigation.css", OUTPUT / "assets" / "navigation.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "top120.js", OUTPUT / "assets" / "top120.js")
-    (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(summary, ensure_ascii=False))
     return summary
 
