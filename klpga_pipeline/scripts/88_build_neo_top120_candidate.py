@@ -40,7 +40,7 @@ def render(rows: list[dict], summary: dict) -> str:
         f = row["features"] or {}
         neo = row["neo_validation_rank"]
         state = "검증 모델" if neo else "검증 대기"
-        coverage = f'{f.get("sample_count", 0)}개 대회' if f else "DATA INSUFFICIENT"
+        coverage = f'{f.get("sample_count", 0)}개 대회' if f else "데이터 부족"
         table.append(f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo or 999999}">'
                      f'<td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row">{escape(row["player_name"])}</th>'
                      f'<td>{show(f.get("recent_5_sg"))}</td><td>{show(f.get("recent_10_sg"))}</td><td>{show(f.get("long_term_sg"))}</td><td>{show(f.get("volatility"))}</td>'
