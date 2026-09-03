@@ -4,9 +4,58 @@ from __future__ import annotations
 import re
 
 NAVIGATION_MARKER = "data-neo-global-navigation"
-NAVIGATION_HTML = f'''<header class="neo-global-header" {NAVIGATION_MARKER}>
-<div class="neo-global-header__inner"><a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO</span><span class="neo-brand-sub">Number · Evidence · Oracle</span></a>
-<nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a><a href="/tournaments/">대회</a><a href="/deep-dive/">딥다이브</a><a href="/about/">소개</a></nav></div></header>'''
+
+# GLOBAL UI/UX REBUILD -- single source of the brand lockup and nav item
+# list. Every route's header is produced by _navigation_html() below (see
+# inject_global_navigation()) so there is exactly one place that can ever
+# define what "NEO" looks like or which section is active.
+GLOBAL_NAV_ITEMS = (
+    ("home", "홈", "/"),
+    ("tournaments", "대회", "/tournaments/"),
+    ("deep-dive", "딥다이브", "/deep-dive/"),
+    ("about", "소개", "/about/"),
+)
+
+# The brand is one lockup -- "NEO" plus a compact N/E/O legend spelling out
+# Number / Evidence / Oracle -- not four lines of plain text (styled in
+# neo-site.css: .neo-brand-legend is hidden entirely on mobile, the
+# "compact variant"). Number/Evidence/Oracle are kept in English per spec.
+# Real newlines between child elements are deliberate: they are
+# significant *whitespace* text nodes, so if the stylesheet ever fails to
+# load, the browser's default (unstyled) rendering still reads as
+# "NEO Number Evidence Oracle" / "홈 대회 딥다이브 소개" instead of every
+# label running together into one unreadable word -- the literal P0 FAIL
+# example in the v3 UI/UX spec ("NEONumber · Evidence · Oracle").
+_BRAND_HTML = '''<a class="neo-global-brand" href="/">
+<span class="neo-brand-mark">NEO</span>
+<span class="neo-brand-legend" aria-hidden="true">
+<span class="neo-brand-legend__item"><b>N</b>Number</span>
+<span class="neo-brand-legend__item"><b>E</b>Evidence</span>
+<span class="neo-brand-legend__item"><b>O</b>Oracle</span>
+</span>
+<span class="sr-data">&mdash; Number, Evidence, Oracle</span>
+</a>'''
+
+
+def _nav_html(active_section: str | None) -> str:
+    links = []
+    for key, label, url in GLOBAL_NAV_ITEMS:
+        if key == active_section:
+            links.append(f'<a href="{url}" class="is-active" aria-current="page">{label}</a>')
+        else:
+            links.append(f'<a href="{url}">{label}</a>')
+    return '<nav class="neo-global-nav" aria-label="주요 메뉴">\n' + "\n".join(links) + '\n</nav>'
+
+
+def navigation_html(active_section: str | None = None) -> str:
+    """The one canonical header, optionally with a section marked active."""
+    return (f'<header class="neo-global-header" {NAVIGATION_MARKER}>\n'
+            f'<div class="neo-global-header__inner">\n{_BRAND_HTML}\n{_nav_html(active_section)}\n</div></header>')
+
+
+# Back-compat constant: the no-active-section rendering, still used by any
+# caller that has not been updated to pass an active_section explicitly.
+NAVIGATION_HTML = navigation_html(None)
 
 # Correctly-encoded, well-formed compatibility footer: a screen-reader
 # only (not visually rendered -- see .sr-data in neo-site.css) fallback
@@ -50,9 +99,16 @@ def _repair_legacy_mojibake(html: str) -> str:
     except (UnicodeEncodeError, UnicodeDecodeError):
         return html
 
-def inject_global_navigation(html: str) -> str:
-    """Normalize retained HTML and inject one consistent global nav."""
+def inject_global_navigation(html: str, active_section: str | None = None) -> str:
+    """Normalize retained HTML and inject one consistent global nav.
+
+    active_section marks which of GLOBAL_NAV_ITEMS is "here" (aria-current
+    + a visible active state) -- see navigation_html(). Callers that don't
+    know their section yet can omit it; the header is still refreshed to
+    the current canonical markup, just with no link marked active.
+    """
     html = _repair_legacy_mojibake(html)
+    canonical_header = navigation_html(active_section)
     replacements = {
         ">HOME</a>": ">홈</a>", ">TOURNAMENTS</a>": ">대회</a>",
         ">DEEP DIVE</a>": ">딥다이브</a>", ">ABOUT</a>": ">소개</a>",
@@ -87,7 +143,7 @@ def inject_global_navigation(html: str) -> str:
         # systems" defect found in v3 Phase 3.
         html, count = re.subn(
             r"<header[^>]*" + re.escape(NAVIGATION_MARKER) + r"[^>]*>.*?</header>",
-            NAVIGATION_HTML.replace("\\", "\\\\"), html, count=1, flags=re.S,
+            canonical_header.replace("\\", "\\\\"), html, count=1, flags=re.S,
         )
         if count != 1:
             raise ValueError("marked header present but could not be matched for refresh")
@@ -96,9 +152,9 @@ def inject_global_navigation(html: str) -> str:
         return html
     stylesheet = '<link rel="stylesheet" href="/assets/navigation.css">'
     linked = html.replace("</head>", f"{stylesheet}</head>", 1) if "</head>" in html else stylesheet + html
-    rendered, count = re.subn(r"(<body[^>]*>)", rf"\1{NAVIGATION_HTML}", linked, count=1, flags=re.IGNORECASE)
+    rendered, count = re.subn(r"(<body[^>]*>)", rf"\1{canonical_header}", linked, count=1, flags=re.IGNORECASE)
     if count == 0:
-        rendered, count = re.subn(r"(<header(?:\s|>))", rf"{NAVIGATION_HTML}\1", linked, count=1, flags=re.IGNORECASE)
+        rendered, count = re.subn(r"(<header(?:\s|>))", rf"{canonical_header}\1", linked, count=1, flags=re.IGNORECASE)
     if count != 1:
         raise ValueError("public HTML must contain an opening body or header element")
     return rendered.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)

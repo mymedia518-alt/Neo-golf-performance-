@@ -54,36 +54,82 @@ class TournamentMetadata:
         return self.base_url if stage == "overview" else f"{self.base_url}{stage}/"
 
 
-def _global_header(active_section: str) -> str:
+def _global_header() -> str:
     # Deliberately a bare, marked placeholder: inject_global_navigation()
     # (see global_navigation.py) always replaces any NAVIGATION_MARKER
-    # header with the one canonical NAVIGATION_HTML, on every build. No
-    # page defines its own header content -- that's the whole point,
-    # after a stale-header drift bug (fixed in v3 Phase 3) let a
-    # generator's own copy of the header silently fall out of sync with
-    # the real one. `active_section` is accepted for call-site
-    # compatibility but no longer affects the rendered header.
-    del active_section
+    # header with the one canonical, active-section-aware header, on
+    # every build. No page defines its own header content -- that's the
+    # whole point, after a stale-header drift bug (fixed in v3 Phase 3)
+    # let a generator's own copy of the header silently fall out of sync
+    # with the real one.
     return f'<header {NAVIGATION_MARKER}></header>'
 
 
-def _tournament_header(meta: TournamentMetadata, current_stage: str) -> str:
-    items = []
-    for stage in STAGES:
-        label = STAGE_LABELS[stage]; active = stage == current_stage
-        if stage in set(meta.published_stages):
-            current = ' aria-current="page"' if active else ""
-            item = f'<a class="stage-nav__link" href="{meta.stage_url(stage)}"{current}>{label}</a>'
+def breadcrumb_html(display_name: str, base_url: str | None, current_stage_label: str) -> str:
+    # UX spec 3: a user must be able to tell "which tournament, which
+    # point in time" from the page title alone -- a compact breadcrumb
+    # ahead of the tournament name/status block, not buried in prose.
+    # Shared by every tournament page (KG via _tournament_header below,
+    # OK Open directly -- see scripts/84) so no generator invents its own.
+    # Exactly one crumb is ever "here" (aria-current="page") -- the
+    # deepest one. The tournament name is a real link back to its
+    # overview page whenever a stage crumb follows it AND that overview
+    # page actually exists (base_url given) -- KG has one; OK Open does
+    # not (its PRE page IS the tournament's only "overview"-shaped
+    # route), so base_url=None renders it as plain, non-clickable text
+    # instead of a link to a route that would 404.
+    crumbs: list[tuple[str | None, str]] = [('/', '홈'), ('/tournaments/', '대회')]
+    if current_stage_label:
+        crumbs.append((base_url, display_name)); crumbs.append((None, current_stage_label))
+    else:
+        crumbs.append((None, display_name))
+    last_index = len(crumbs) - 1
+    parts = []
+    for index, (url, label) in enumerate(crumbs):
+        if url:
+            parts.append(f'<a href="{url}">{escape(label)}</a>')
+        elif index == last_index:
+            parts.append(f'<span aria-current="page">{escape(label)}</span>')
         else:
-            current = ' aria-current="page"' if active else ""
-            item = f'<span class="stage-nav__disabled" aria-disabled="true"{current}>{label}</span>'
-        items.append(f'<li class="stage-nav__item">{item}</li>')
-    state = "대회 종료" if meta.status.lower() == "complete" else escape(meta.status)
+            parts.append(f'<span>{escape(label)}</span>')
+    return '<nav class="breadcrumb" aria-label="현재 위치">' + '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'.join(parts) + '</nav>'
+
+
+def stage_nav_html(items: list[tuple[str, str | None, bool]]) -> str:
+    """items: (label, url or None if the stage isn't real/published yet, is_current)."""
+    parts = []
+    for label, url, active in items:
+        current = ' aria-current="page"' if active else ""
+        if url:
+            parts.append(f'<li class="stage-nav__item"><a class="stage-nav__link" href="{url}"{current}>{label}</a></li>')
+        else:
+            parts.append(f'<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true"{current}>{label}</span></li>')
+    return '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">' + "".join(parts) + '</ol></nav>'
+
+
+def tournament_context_html(*, display_name: str, base_url: str, year: int, status: str,
+                             current_stage_label: str, stage_items: list[tuple[str, str | None, bool]]) -> str:
+    """The one canonical tournament breadcrumb + title + status + stage-nav
+    block, used by every tournament page (KG and OK Open alike) -- see
+    UX spec sections 3/9/10/16 ("각 generator가 자기 UI를 만들지 않는다")."""
+    state = "대회 종료" if status.lower() == "complete" else escape(status)
     return ('<section class="tournament-context" aria-labelledby="tournament-name">'
+            + breadcrumb_html(display_name, base_url, current_stage_label) +
             '<p class="tournament-context__eyebrow">KLPGA 대회</p>'
-            f'<h1 id="tournament-name"><a href="{meta.base_url}">{escape(meta.display_name)}</a></h1>'
-            f'<p class="tournament-context__meta">{meta.year} <span aria-hidden="true">·</span> {state}</p>'
-            '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">' + "".join(items) + '</ol></nav></section>')
+            f'<h1 id="tournament-name"><a href="{base_url}">{escape(display_name)}</a></h1>'
+            f'<p class="tournament-context__meta">{year} <span aria-hidden="true">·</span> {state}</p>'
+            + stage_nav_html(stage_items) + '</section>')
+
+
+def _tournament_header(meta: TournamentMetadata, current_stage: str) -> str:
+    published = set(meta.published_stages)
+    stage_items = [
+        (STAGE_LABELS[stage], meta.stage_url(stage) if stage in published else None, stage == current_stage)
+        for stage in STAGES
+    ]
+    current_label = STAGE_LABELS.get(current_stage, "") if current_stage != "overview" else ""
+    return tournament_context_html(display_name=meta.display_name, base_url=meta.base_url, year=meta.year,
+                                    status=meta.status, current_stage_label=current_label, stage_items=stage_items)
 
 
 def _footer() -> str:
@@ -103,13 +149,13 @@ def render_page(*, title: str, active_section: str, body_html: str, tournament: 
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             f'<title>{escape(title)} · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css">'
             '<script src="/assets/neo-site.js" defer></script></head><body>'
-            f'{_global_header(active_section)}<main id="main-content">{tournament_html}{body_html}</main>{_footer()}</body></html>')
+            f'{_global_header()}<main id="main-content">{tournament_html}{body_html}</main>{_footer()}</body></html>')
     # Fill in the marked-but-empty header immediately, at the source --
     # every render_page() caller gets the one real canonical header, not
     # a placeholder that depends on some later build step remembering to
     # post-process this page (idempotent: safe if a caller's own
     # pipeline also runs inject_global_navigation() again afterward).
-    return inject_global_navigation(html)
+    return inject_global_navigation(html, active_section=active_section)
 
 
 def _fixture_notice(label: str) -> str:

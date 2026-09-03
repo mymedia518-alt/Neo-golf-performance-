@@ -93,7 +93,10 @@ def test_r3_exact_probability_and_no_posthoc_result(candidate):
 def test_final_is_richest_page_with_three_real_charts(candidate):
     root=candidate/"tournaments/2026/kg-ladies-open"
     final=(root/"final/index.html").read_text(encoding="utf-8")
-    assert final.count('<svg class="line-chart"') >= 4
+    # '<svg class="line-chart' (no closing quote) matches both the plain
+    # "line-chart" svgs and the dense-mode "line-chart line-chart--dense"
+    # variant (see analytics.line_chart_svg's dense=True path) alike.
+    assert final.count('<svg class="line-chart') >= 4
     for value in ("FINAL · 결과","70","67","64","271","(-17)","우승 가능성의 변화","리더보드의 변화","라운드 스코어의 변화","7.47%"):
         assert value in final
     assert "71 / 67 / 68 / 73" not in final

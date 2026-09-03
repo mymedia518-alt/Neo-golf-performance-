@@ -96,10 +96,24 @@ def nice_ticks(maximum: float, minimum: float = 0.0, target: int = 6) -> list[fl
     return ticks
 
 
-def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, invert: bool = False) -> str:
-    """Render a dependency-free, accessible line chart with gaps for missing values."""
+def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, invert: bool = False, dense: bool = False) -> str:
+    """Render a dependency-free, accessible line chart with gaps for missing values.
+
+    dense=True is for many-point charts (e.g. 18 holes): point-value text
+    is rounded to 2 decimals with an explicit sign (0.017 -> "+0.02"),
+    display formatting only -- the underlying series values (used in the
+    chart's title/desc and its data-chart-series JSON payload) are never
+    altered. Point labels also alternate a small vertical offset so
+    adjacent close-together labels don't stack on top of each other.
+    """
     width, height = 680, 260
-    left, right, top, bottom = 58, 18, 24, 48
+    # left=92 (not 58): a y-axis tick label like "-10.0%" or "-20.0위",
+    # right-anchored well clear of x=0, needs more clearance than even
+    # 70 gave it once the sandbox's fallback (non-Pretendard) font
+    # metrics are accounted for -- real Chromium rendering showed it
+    # still clipping past the SVG's own left edge at 70, a defect no
+    # static/string check could ever see.
+    left, right, top, bottom = 92, 24, 24, 48
     values = [float(item["value"]) for item in series if item["value"] is not None]
     if not values:
         return ""
@@ -117,20 +131,38 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
         return x, y
 
     chart_id = "chart-" + hashlib.sha1(f"{title}:{player}".encode("utf-8")).hexdigest()[:10]
-    parts = [f'<svg class="line-chart" viewBox="0 0 {width} {height}" role="img" aria-labelledby="{chart_id}-title {chart_id}-desc">',
+    svg_class = "line-chart line-chart--dense" if dense else "line-chart"
+    parts = [f'<svg class="{svg_class}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="{chart_id}-title {chart_id}-desc">',
              f'<title id="{chart_id}-title">{escape(player)} {escape(title)}</title>',
              f'<desc id="{chart_id}-desc">' + ", ".join(f'{escape(str(x["stage"]))} {"자료 없음" if x["value"] is None else escape(str(x["value"])) + unit}' for x in series) + '</desc>',
              f'<line class="chart-axis" x1="{left}" y1="{top}" x2="{left}" y2="{height-bottom}"/>',
              f'<line class="chart-axis" x1="{left}" y1="{height-bottom}" x2="{width-right}" y2="{height-bottom}"/>']
-    ticks = nice_ticks(high, low, target=5)
+    # nice_ticks() floor/ceil-rounds to a "nice" step and can produce a
+    # tick value outside [low, high] (e.g. 40.0 when the padded domain
+    # only reaches 37.2) -- its y-coordinate then falls outside the plot
+    # box entirely, clipped by the SVG's own overflow:hidden. Only ticks
+    # that land inside the real plotted domain are ever drawn; this was
+    # invisible to any static check and only showed up in real
+    # Chromium-measured getBoundingClientRect() geometry.
+    ticks = [t for t in nice_ticks(high, low, target=5) if low - 1e-9 <= t <= high + 1e-9]
     for value in ticks:
         ratio = (value - low) / (high - low)
         y = top + (plot_h * ratio if invert else plot_h * (1 - ratio))
-        parts.append(f'<line class="chart-grid" x1="{left}" y1="{y:.1f}" x2="{width-right}" y2="{y:.1f}"/><text class="chart-y-label" x="{left-8}" y="{y+4:.1f}">{value:.1f}{escape(unit)}</text>')
+        parts.append(f'<line class="chart-grid" x1="{left}" y1="{y:.1f}" x2="{width-right}" y2="{y:.1f}"/><text class="chart-y-label" x="{left-16}" y="{y+4:.1f}">{value:.1f}{escape(unit)}</text>')
+    last_index = len(series) - 1
+    # Real Chromium measurement: a dense-mode chart-value label renders
+    # ~15 SVG-user-units tall (its own font-size 14 plus line-height/
+    # descent); 20 gives real clearance rather than a hairline gap.
+    DENSE_LABEL_MIN_GAP = 20
+    prev_label_y: float | None = None
     segment: list[str] = []
     for index, item in enumerate(series):
         x = left + plot_w * index / max(len(series) - 1, 1)
-        parts.append(f'<text class="chart-x-label" x="{x:.1f}" y="{height-17}">{escape(str(item["stage"]))}</text>')
+        # Edge-aware anchoring: the first/last label anchors away from
+        # the plot edge (start/end) instead of centering on it, so it
+        # can never clip past the chart's own viewBox.
+        edge = " chart-x-label--start" if index == 0 else (" chart-x-label--end" if index == last_index else "")
+        parts.append(f'<text class="chart-x-label{edge}" x="{x:.1f}" y="{height-17}">{escape(str(item["stage"]))}</text>')
         if item["value"] is None:
             if len(segment) > 1: parts.append(f'<polyline class="chart-line" points="{" ".join(segment)}"/>')
             segment = []
@@ -138,7 +170,45 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
             continue
         px, py = xy(index, float(item["value"])); segment.append(f"{px:.1f},{py:.1f}")
         parts.append(f'<circle class="chart-point" cx="{px:.1f}" cy="{py:.1f}" r="5"><title>{escape(str(item["stage"]))}: {item["value"]}{escape(unit)}</title></circle>')
-        parts.append(f'<text class="chart-value" x="{px:.1f}" y="{py-10:.1f}">{item["value"]}{escape(unit)}</text>')
+        display_value = f'{float(item["value"]):+.2f}' if dense else item["value"]
+        if dense:
+            # Real Chromium measurement showed a fixed index-parity
+            # stagger (alternating a couple of preset offsets) is not
+            # data-aware: when two adjacent points already sit far apart
+            # (a real vertical gap in the data), blindly pulling each
+            # label toward a preset level can actually pull them BACK
+            # toward each other and cause the exact collision it was
+            # meant to prevent (the "11~13번/17~18번 label collision"
+            # defect found on the 18-hole SG chart). Instead, only push a
+            # label away from the previous one when they'd actually end
+            # up within MIN_GAP of each other -- most adjacent holes have
+            # different enough values that no push is needed at all.
+            candidate_y = py - 10
+            if prev_label_y is not None and abs(candidate_y - prev_label_y) < DENSE_LABEL_MIN_GAP:
+                candidate_y = (
+                    prev_label_y - DENSE_LABEL_MIN_GAP if candidate_y <= prev_label_y
+                    else prev_label_y + DENSE_LABEL_MIN_GAP
+                )
+            y_offset = candidate_y - py
+            # Never let the push move a label above the plot's own top
+            # margin -- real Chromium rendering showed a point near the
+            # top of the chart clipping past the SVG's top edge once
+            # pushed upward (the "+1.47 clips chart edge" defect).
+            if py + y_offset < top + 12:
+                y_offset = (top + 12) - py
+            prev_label_y = py + y_offset
+        else:
+            y_offset = -10
+        # Edge-anchoring the first/last VALUE label (unlike the x-axis
+        # stage label, which stays edge-anchored in every mode) helps a
+        # sparse chart's wide left margin but actively backfires in
+        # dense mode: real measurement showed the first point's
+        # start-anchored label extending rightward far enough to
+        # overlap the very next point's label, in a chart where points
+        # sit only ~34 units apart -- dense mode's generous left/right
+        # margins already keep a plain middle-anchored label in bounds.
+        value_edge = "" if dense else (" chart-value--start" if index == 0 else (" chart-value--end" if index == last_index else ""))
+        parts.append(f'<text class="chart-value{value_edge}" x="{px:.1f}" y="{py+y_offset:.1f}">{display_value}{escape(unit)}</text>')
     if len(segment) > 1: parts.append(f'<polyline class="chart-line" points="{" ".join(segment)}"/>')
     parts.append(f'<script type="application/json" data-chart-series>{chart_json(series).replace("<", "\\u003c")}</script></svg>')
     return "".join(parts)
@@ -201,7 +271,12 @@ def multi_line_chart_svg(*, title: str, series_by_player: dict[str, list[dict]],
 
 
 def bar_chart_svg(title: str, values: dict[str, float], unit: str = "") -> str:
-    width,height,left,right,top,bottom=760,300,120,28,30,36
+    # right=70 (not 28): the peak-magnitude bar's value label sits past
+    # the bar's own right edge (x + span + 7) with room for its own
+    # text width -- 28px left the label clipping past the SVG's right
+    # edge for any bar close to the field's peak magnitude, confirmed by
+    # real Chromium rendering ("+1.47 clips chart edge").
+    width,height,left,right,top,bottom=760,300,120,70,30,36
     peak=max(abs(v) for v in values.values()) or 1; row=(height-top-bottom)/len(values); zero=left+(width-left-right)/2
     parts=[f'<svg class="bar-chart" viewBox="0 0 {width} {height}" role="img" aria-label="{escape(title)}">']
     for i,(label,value) in enumerate(values.items()):

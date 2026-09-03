@@ -137,7 +137,12 @@ def build() -> dict:
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "home.js", OUTPUT / "assets" / "home.js")
     (OUTPUT / "assets" / "navigation.css").write_text(NAVIGATION_CSS, encoding="utf-8", newline="\n")
     for page in OUTPUT.rglob("index.html"):
-        rendered = inject_global_navigation(page.read_text(encoding="utf-8"))
+        relative = page.relative_to(OUTPUT)
+        top = relative.parts[0] if relative.parts != (relative.name,) else None
+        active_section = {"tournaments": "tournaments", "deep-dive": "deep-dive", "about": "about"}.get(top)
+        if active_section is None and relative.name == "index.html" and len(relative.parts) == 1:
+            active_section = "home"
+        rendered = inject_global_navigation(page.read_text(encoding="utf-8"), active_section=active_section)
         rendered = "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"
         page.write_text(rendered, encoding="utf-8", newline="\n")
     (OUTPUT / "data").mkdir(exist_ok=True)
