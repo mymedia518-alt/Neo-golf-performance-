@@ -41,7 +41,8 @@ def test_required_routes_and_korean_global_navigation(candidate):
     for page in pages(candidate):
         html=page.read_text(encoding="utf-8")
         for label in ("홈","대회","딥다이브","소개"): assert label in html
-        assert '<a class="wordmark" href="/"' in html
+        assert '<a class="neo-global-brand" href="/">' in html
+        assert html.count('<header class="neo-global-header"') == 1
 
 
 def test_all_tournament_stages_and_final_are_always_discoverable(candidate):

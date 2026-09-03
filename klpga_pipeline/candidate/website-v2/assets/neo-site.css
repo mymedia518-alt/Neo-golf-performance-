@@ -57,3 +57,8 @@ main{min-height:70vh;padding-bottom:3rem}.section-label,.kicker,.tournament-cont
 .home-table th:nth-child(3),.home-table td:nth-child(3){text-align:center}
 .home-summary{display:flex;flex-wrap:wrap;gap:.3rem 1.75rem;max-width:none}.home-summary .stat{display:flex;align-items:baseline;gap:.4rem}
 .tournament-row{padding:1rem 1.25rem}.tournament-row .row-cta{display:inline-flex;align-items:center;min-height:32px;margin-top:.5rem;color:var(--green);font-size:.82rem;font-weight:750;text-decoration:none}.tournament-row .stage-pending{color:#9aa39d;cursor:default}
+/* v3 Phase 3: Korean headings must never split a word across lines --
+   a real user's 1440px browser wrapped "공식 순위와 NEO 검증 순위 비교"
+   as "...순위 비\n교", which the desktop-1440 Playwright geometry check
+   never caught because it only measured font-size, not wrap points. */
+h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{word-break:keep-all;overflow-wrap:normal}
