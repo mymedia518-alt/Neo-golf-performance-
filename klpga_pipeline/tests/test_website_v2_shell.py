@@ -25,7 +25,7 @@ def test_korean_global_nav_and_logo(preview):
     for page in preview.rglob("index.html"):
         html=page.read_text(encoding="utf-8")
         assert '<a class="wordmark" href="/"' in html
-        for label,url in (("홈","/"),("대회","/tournaments/"),("예측 기록","/predictions/"),("DEEP DIVE","/deep-dive/"),("NEO 소개","/about/")):
+        for label,url in (("홈","/"),("대회","/tournaments/"),("딥다이브","/deep-dive/"),("소개","/about/")):
             assert label in html and f'href="{url}"' in html
 
 

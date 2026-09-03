@@ -40,7 +40,7 @@ def test_required_routes_and_korean_global_navigation(candidate):
     assert all((candidate/r/"index.html").is_file() for r in required)
     for page in pages(candidate):
         html=page.read_text(encoding="utf-8")
-        for label in ("홈","대회","예측 기록","DEEP DIVE","NEO 소개"): assert label in html
+        for label in ("홈","대회","딥다이브","소개"): assert label in html
         assert '<a class="wordmark" href="/"' in html
 
 

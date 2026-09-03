@@ -66,7 +66,7 @@ def render_tournaments() -> str:
 
 
 def render_tournaments_clean() -> str:
-    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026 시즌 · 최종 결과 보존</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <a href="/tournaments/2026/ok-savings-bank-open/r1/">R1</a> · <a href="/tournaments/2026/ok-savings-bank-open/r2/">R2</a> · <a href="/tournaments/2026/ok-savings-bank-open/final/">최종</a></small></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small><a class="row-cta" href="/tournaments/2026/kg-ladies-open/final/">예측 기록 보기 →</a></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">예정</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026.09.04–09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <span class="stage-pending" title="아직 시작 전">R1</span> · <span class="stage-pending" title="아직 시작 전">R2</span> · <span class="stage-pending" title="아직 시작 전">최종</span></small><a class="row-cta" href="/tournaments/2026/ok-savings-bank-open/pre/">사전 분석 보기 →</a></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
 
 
 def build() -> dict:
@@ -119,6 +119,16 @@ def build() -> dict:
     if not (deep_dive_source / "index.html").is_file():
         raise FileNotFoundError(f"validated DEEP DIVE source missing: {deep_dive_source}")
     shutil.copytree(deep_dive_source, OUTPUT / "deep-dive", dirs_exist_ok=True)
+    # ABOUT: the docs/ copytree above carries over a structurally
+    # disconnected legacy page (its own inline CSS/fonts/GA tag, no
+    # shared global nav -- flagged in the Phase 0 audit). The real,
+    # shared-nav, compact ABOUT page already exists as verified content
+    # in candidate/website-v2/ (built by migration.py); use that instead.
+    about_source = ROOT / "candidate" / "website-v2" / "about"
+    if not (about_source / "index.html").is_file():
+        raise FileNotFoundError(f"validated ABOUT source missing: {about_source}")
+    shutil.rmtree(OUTPUT / "about", ignore_errors=True)
+    shutil.copytree(about_source, OUTPUT / "about", dirs_exist_ok=True)
     (OUTPUT / "index.html").write_text(render_home(rows, summary), encoding="utf-8")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
