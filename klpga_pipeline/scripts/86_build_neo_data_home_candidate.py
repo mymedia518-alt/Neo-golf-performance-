@@ -53,6 +53,17 @@ def render_home(rows: list[dict], summary: dict) -> str:
 <footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 검증되지 않은 숫자는 공개하지 않습니다.</p></div></footer></body></html>'''
 
 
+def render_tournaments() -> str:
+    return '''<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TOURNAMENTS · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body>
+<header class="site-header"><div class="site-header__inner"><a class="wordmark" href="/">NEO GOLF DATA</a><nav class="global-nav" aria-label="주요 메뉴"><a class="global-nav__link" href="/">HOME</a><a class="global-nav__link" aria-current="page" href="/tournaments/">TOURNAMENTS</a><a class="global-nav__link" href="/deep-dive/">DEEP DIVE</a><a class="global-nav__link" href="/about/">ABOUT</a></nav></div></header>
+<main><section class="page-head"><p class="kicker">TOURNAMENTS</p><h1>대회 분석 허브</h1><p>검증된 대회 분석 페이지만 제공합니다.</p></section>
+<section class="product-section" aria-labelledby="kg-heading"><h2 id="kg-heading">KG 레이디스 오픈</h2><p><a href="/tournaments/2026/kg-ladies-open/r1/">1라운드 분석</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">2라운드 분석</a></p></section>
+<section class="product-section" aria-labelledby="ok-heading"><h2 id="ok-heading">OK저축은행 읏맨 오픈</h2><p><a href="/tournaments/2026/ok-savings-bank-open/pre/">대회 전 분석</a> · <a href="/tournaments/2026/ok-savings-bank-open/r1/">1라운드</a> · <a href="/tournaments/2026/ok-savings-bank-open/r2/">2라운드</a> · <a href="/tournaments/2026/ok-savings-bank-open/final/">최종 분석</a></p></section></main>
+<footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 검증된 데이터와 분석을 제공합니다.</p></div></footer></body></html>'''
+
+
 def build() -> dict:
     population = load_json(CONTENT / "HOME_REGULAR_TOUR_PLAYER_MASTER.json")
     ranking = load_json(CONTENT / "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json")
@@ -63,6 +74,7 @@ def build() -> dict:
     shutil.copytree(REPO / "docs", OUTPUT)
     ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / "tournaments" / "2026" / "ok-savings-bank-open"
     shutil.copytree(ok_source, OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open")
+    (OUTPUT / "tournaments" / "index.html").write_text(render_tournaments(), encoding="utf-8", newline="\n")
     deep_dive_source = ROOT / "candidate" / "website-v2" / "deep-dive"
     if not (deep_dive_source / "index.html").is_file():
         raise FileNotFoundError(f"validated DEEP DIVE source missing: {deep_dive_source}")

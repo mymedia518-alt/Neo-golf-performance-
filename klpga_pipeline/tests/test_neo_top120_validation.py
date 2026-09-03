@@ -1,7 +1,11 @@
 from __future__ import annotations
 
 import importlib.util
+import functools
+import http.server
 import json
+import threading
+import urllib.request
 from pathlib import Path
 
 import pytest
@@ -66,7 +70,7 @@ def test_candidate_contract_and_pending_handling(built):
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
     assert all(r["official_source"] and r["model_id"] for r in dataset["records"])
     assert all(r["rank_delta"] is None for r in dataset["records"] if r["neo_validation_rank"] is None)
-    for route in ("tournaments/2026/kg-ladies-open/r1/index.html", "tournaments/2026/kg-ladies-open/r2/index.html",
+    for route in ("tournaments/index.html", "tournaments/2026/kg-ladies-open/r1/index.html", "tournaments/2026/kg-ladies-open/r2/index.html",
                   "tournaments/2026/ok-savings-bank-open/pre/index.html", "tournaments/2026/ok-savings-bank-open/final/index.html",
                   "about/index.html", "deep-dive/index.html"):
         assert (OUTPUT / route).is_file()
@@ -81,3 +85,35 @@ def test_ok_stage_assets_and_deep_dive_are_complete(built):
         assert 'href="/assets/neo.css"' in html
     deep = (OUTPUT / "deep-dive" / "index.html").read_text(encoding="utf-8")
     assert len(deep) > 1000 and "data-chart-series" in deep
+
+
+def test_http_routes_are_real_index_pages_not_directory_listings(built):
+    routes = {
+        "/": "<title>",
+        "/tournaments/": "대회 분석 허브",
+        "/deep-dive/": "<title>",
+        "/about/": "<title>",
+        "/tournaments/2026/kg-ladies-open/r1/": "<title>",
+        "/tournaments/2026/kg-ladies-open/r2/": "<title>",
+        "/tournaments/2026/ok-savings-bank-open/pre/": "<title>",
+        "/tournaments/2026/ok-savings-bank-open/r1/": "<title>",
+        "/tournaments/2026/ok-savings-bank-open/r2/": "<title>",
+        "/tournaments/2026/ok-savings-bank-open/final/": "<title>",
+    }
+    handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(OUTPUT))
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        base = f"http://127.0.0.1:{server.server_port}"
+        for route, marker in routes.items():
+            index = OUTPUT / route.strip("/") / "index.html" if route != "/" else OUTPUT / "index.html"
+            assert index.is_file(), route
+            response = urllib.request.urlopen(base + route, timeout=10)
+            body = response.read().decode("utf-8")
+            assert response.status == 200
+            assert "Directory listing for" not in body
+            assert marker in body
+    finally:
+        server.shutdown()
+        thread.join(timeout=10)
