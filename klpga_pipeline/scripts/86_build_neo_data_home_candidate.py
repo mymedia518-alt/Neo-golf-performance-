@@ -66,7 +66,7 @@ def render_tournaments() -> str:
 
 
 def render_tournaments_clean() -> str:
-    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>KG 레이디스 오픈</h2><p class="note">2026 시즌 · 최종 결과 보존</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a></small></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026 시즌 · 최종 결과 보존</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <a href="/tournaments/2026/ok-savings-bank-open/r1/">R1</a> · <a href="/tournaments/2026/ok-savings-bank-open/r2/">R2</a> · <a href="/tournaments/2026/ok-savings-bank-open/final/">최종</a></small></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026 시즌 · 최종 결과 보존</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <a href="/tournaments/2026/ok-savings-bank-open/r1/">R1</a> · <a href="/tournaments/2026/ok-savings-bank-open/r2/">R2</a> · <a href="/tournaments/2026/ok-savings-bank-open/final/">최종</a></small></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
 
 
 def build() -> dict:
@@ -79,6 +79,41 @@ def build() -> dict:
     shutil.copytree(REPO / "docs", OUTPUT)
     ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / "tournaments" / "2026" / "ok-savings-bank-open"
     shutil.copytree(ok_source, OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open", dirs_exist_ok=True)
+    # KG Ladies Open PRE/R3/FINAL: already-built, manifest-verified real
+    # content from the beta001 pipeline (candidate/website-v2/). R1/R2
+    # already arrive via the docs/ copytree above; only the closed
+    # stages missing from docs/ need pulling in here. No data is
+    # recomputed — these files are copied byte-for-byte, same pattern
+    # already used for OK Open above.
+    kg_source = ROOT / "candidate" / "website-v2" / "tournaments" / "2026" / "kg-ladies-open"
+    kg_dest = OUTPUT / "tournaments" / "2026" / "kg-ladies-open"
+    for stage in ("pre", "r3", "final"):
+        stage_source = kg_source / stage
+        if not (stage_source / "index.html").is_file():
+            raise FileNotFoundError(f"verified KG {stage.upper()} source missing: {stage_source}")
+        shutil.copytree(stage_source, kg_dest / stage, dirs_exist_ok=True)
+    # The tournament-overview page ("개요") is the real target of every
+    # stage page's title/breadcrumb link back to the tournament; it
+    # already exists as verified content in candidate/website-v2/ but
+    # was never pulled into this tree, leaving those links broken.
+    if not (kg_source / "index.html").is_file():
+        raise FileNotFoundError(f"verified KG overview source missing: {kg_source / 'index.html'}")
+    shutil.copyfile(kg_source / "index.html", kg_dest / "index.html")
+    # "원본 기록 보기" (view original record) on each stage page links to
+    # /protected/beta001/<stage>.html -- the real, sha256-verified raw
+    # evidence artifact migration.py already produces alongside every
+    # stage. Never previously copied into docs/, so this 404s today for
+    # the R1/R2 pages already live in production; pulling it in here
+    # fixes the link for R1/R2/R3 alike, using only already-verified
+    # evidence bytes.
+    protected_source = ROOT / "candidate" / "website-v2" / "protected" / "beta001"
+    protected_dest = OUTPUT / "protected" / "beta001"
+    for stage in ("r1", "r2", "r3"):
+        stage_file = protected_source / f"{stage}.html"
+        if not stage_file.is_file():
+            raise FileNotFoundError(f"verified KG {stage.upper()} evidence artifact missing: {stage_file}")
+        protected_dest.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(stage_file, protected_dest / f"{stage}.html")
     (OUTPUT / "tournaments" / "index.html").write_text(render_tournaments_clean(), encoding="utf-8", newline="\n")
     deep_dive_source = ROOT / "candidate" / "website-v2" / "deep-dive"
     if not (deep_dive_source / "index.html").is_file():

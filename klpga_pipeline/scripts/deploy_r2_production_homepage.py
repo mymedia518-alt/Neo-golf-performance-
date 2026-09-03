@@ -95,6 +95,12 @@ from klpga.neo_win.r2_production_validation import (  # noqa: E402
     check_score_to_par_matches_par_arithmetic,
     check_win_sum_from_source,
 )
+from klpga.website_v2.home_ownership_guard import HomeOwnershipError, assert_home_write_allowed  # noqa: E402
+
+# This script is scoped to a single tournament's R2 route -- it is never
+# the TOP120 canonical HOME publisher, so it must never be allowed to
+# claim or overwrite the production root HOME (P0-4).
+WRITER_OWNER = "legacy-r2-deploy-script"
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT_DEFAULT = ROOT.parent
@@ -308,6 +314,14 @@ def main() -> int:
 
     r2_html_path.parent.mkdir(parents=True, exist_ok=True)
     r2_html_path.write_text(page_html, encoding="utf-8")
+
+    try:
+        assert_home_write_allowed(root_index_path, WRITER_OWNER, repo_root=repo_root)
+    except HomeOwnershipError as exc:
+        print("=== HOME OWNERSHIP GUARD ===")
+        print(f"  [BLOCKED] {exc}")
+        print("KG R2 route was written; production root HOME was NOT touched.")
+        return 6
     root_index_path.parent.mkdir(parents=True, exist_ok=True)
     root_index_path.write_text(page_html, encoding="utf-8")
 
