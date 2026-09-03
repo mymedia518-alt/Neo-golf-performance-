@@ -123,6 +123,7 @@ def test_home_is_korean_first_and_table_alignment_is_explicit(built):
     assert "NEO 랭킹 검증" in html
     assert "검증 대기" in html
     assert all(term in html for term in ("K-Ranking", "NEO Ranking", "최근 경기력"))
+    assert "DATA INSUFFICIENT" not in html
     assert all(term not in html for term in (">HOME<", ">TOURNAMENTS<", ">DEEP DIVE<", ">ABOUT<", "production 아님"))
     css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
     assert ".home-table{width:100%;min-width:960px;table-layout:fixed}" in css
