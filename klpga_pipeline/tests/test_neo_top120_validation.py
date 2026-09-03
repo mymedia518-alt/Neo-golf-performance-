@@ -79,7 +79,11 @@ def test_candidate_contract_and_pending_handling(built):
 def test_ok_stage_assets_and_deep_dive_are_complete(built):
     assert (OUTPUT / "assets" / "neo.css").is_file()
     assert (OUTPUT / "assets" / "neo-site.js").is_file()
-    assert (OUTPUT / "assets" / "navigation.css").is_file()
+    # navigation.css was retired -- the canonical .neo-global-header/nav
+    # component is styled entirely from neo-site.css now (a second,
+    # separately-linked stylesheet just for the header was a drift risk,
+    # not a real requirement -- see global_navigation.py).
+    assert not (OUTPUT / "assets" / "navigation.css").exists()
     ok = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open"
     for stage in ("pre", "r1", "r2", "final"):
         html = (ok / stage / "index.html").read_text(encoding="utf-8")
@@ -111,9 +115,10 @@ def test_every_public_route_has_global_home_navigation(built):
         html = (OUTPUT / route).read_text(encoding="utf-8")
         assert 'href="/">NEO GOLF DATA</a>' in html, route
         assert all(link in html for link in required), route
-    css = (OUTPUT / "assets" / "navigation.css").read_text(encoding="utf-8")
-    assert "display:flex!important" in css
-    assert "overflow-x:auto" in css
+        assert html.count('class="neo-global-header"') == 1, route
+    css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
+    assert ".neo-global-header__inner{display:flex" in css
+    assert ".neo-global-nav{display:flex" in css and "overflow-x:auto" in css
 
 
 def test_home_is_korean_first_and_table_alignment_is_explicit(built):

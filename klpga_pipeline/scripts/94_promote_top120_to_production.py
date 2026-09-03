@@ -31,6 +31,7 @@ written to docs/ if a pre-check fails.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -74,6 +75,27 @@ class PromotionError(Exception):
     pass
 
 
+BUILD_ID_RE = re.compile(r'<meta name="neo-build-id" content="([^"]*)">')
+
+
+def _validate_build_id_consistency(root: Path, label: str) -> None:
+    # HARD FAIL: every real page in this tree must carry the identical
+    # neo-build-id -- a page with a different (stale) value means this
+    # tree is a mix of two different builds, not one atomic promotion.
+    # protected/beta001/*.html are raw sha256-verified evidence
+    # fragments with no <head>/meta at all, not navigable pages.
+    pages = [p for p in root.rglob("index.html") if "protected" not in p.parts]
+    if not pages:
+        raise PromotionError(f"{label}: no pages found to check build-id consistency")
+    ids: dict[str, list[str]] = {}
+    for page in pages:
+        match = BUILD_ID_RE.search(page.read_text(encoding="utf-8"))
+        build_id = match.group(1) if match else "<MISSING>"
+        ids.setdefault(build_id, []).append(str(page.relative_to(root)))
+    if len(ids) != 1:
+        raise PromotionError(f"{label}: stale/inconsistent neo-build-id across the tree (HARD FAIL) -- {ids}")
+
+
 def _validate_tree(root: Path, label: str) -> None:
     missing = [route for route in REQUIRED_ROUTES if not (root / route).is_file()]
     if missing:
@@ -89,6 +111,8 @@ def _validate_tree(root: Path, label: str) -> None:
     owner = extract_owner(home_html)
     if owner != TOP120_OWNER:
         raise PromotionError(f"{label}: HOME ownership check failed -- owner is {owner!r}, expected {TOP120_OWNER!r}")
+
+    _validate_build_id_consistency(root, label)
 
 
 def promote() -> None:

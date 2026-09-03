@@ -73,18 +73,70 @@ _COMPATIBILITY_MARKER = ('<nav class="sr-data" aria-label="추가 탐색 링크"
     '<a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/">대회</a> '
     '<a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>')
 
-NAVIGATION_CSS = """.neo-global-header{width:100%;border-bottom:1px solid #dfe5ea;background:#fff;color:#17202a}.neo-global-header__inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:min(calc(100% - 2rem),1240px);margin:auto;padding:.7rem 0}.neo-global-brand{display:inline-flex;align-items:baseline;gap:.55rem;flex:0 0 auto;color:#17202a;text-decoration:none}.neo-brand-mark{font:850 1rem/1.2 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.08em}.neo-brand-sub{color:#65717d;font:600 .7rem/1.2 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.02em}.neo-global-header .neo-global-nav{display:flex;align-items:center;gap:.35rem 1rem;overflow-x:auto;white-space:nowrap}.neo-global-header .neo-global-nav a{display:inline-flex;align-items:center;min-height:44px;margin:0;padding:.25rem 0;color:#65717d;text-decoration:none;font:700 .82rem/1.2 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}.neo-global-header .neo-global-nav a:hover,.neo-global-header .neo-global-nav a:focus-visible{color:#0f5c46}@media(max-width:760px){.neo-global-header__inner{align-items:flex-start;flex-direction:column;gap:.2rem;width:min(calc(100% - 1.25rem),1240px);padding:.55rem 0}.neo-global-header .neo-global-nav{display:flex!important;width:100%;gap:0 1rem}.neo-global-header .neo-global-nav a{display:inline-flex!important;min-height:44px}}"""
+# Two deliberately separate fields -- not one, and not a single SHA
+# claiming to name "this build's own commit".
+#
+# A build always happens BEFORE the commit that promotes+ships it exists
+# (build -> promote -> commit, in that order), so the git SHA available
+# at build time (`git rev-parse HEAD`) can only ever be the PARENT of the
+# commit that actually ships this HTML -- embedding it under a name that
+# implies self-identity (the old "neo-build-source-sha") is misleading:
+# it will structurally read as "one commit behind" forever, on every
+# single promotion, even when the deployment is perfectly fresh. There
+# is no fix that embeds a commit's own hash inside itself (the hash is a
+# hash of the content, including that field) -- so this contract does
+# not pretend to solve that. Instead:
+#   - neo-build-source-commit: honestly labeled as the PARENT commit --
+#     "the commit this build's source code was checked out from", not
+#     "this build's commit". Useful for a human tracing lineage, not for
+#     an automated commit == source-commit equality check.
+#   - neo-build-id: a separate, non-git, self-consistent identifier for
+#     THIS specific build/promotion event (a UTC timestamp). Every page
+#     produced by the same build carries the identical value, so a
+#     verifier can confirm "is the page I'm looking at from the build I
+#     just ran" (build_id equality) without needing it to equal any git
+#     commit hash at all.
+BUILD_SOURCE_COMMIT_META_NAME = "neo-build-source-commit"
+BUILD_ID_META_NAME = "neo-build-id"
+# Back-compat alias, still exported: the historical, misleadingly-named
+# constant some older call sites/tests may still reference.
+BUILD_SHA_META_NAME = BUILD_SOURCE_COMMIT_META_NAME
 
-BUILD_SHA_META_NAME = "neo-build-source-sha"
 
-def inject_build_provenance(html: str, source_sha: str) -> str:
-    """Embed a non-visible <meta> marker naming the source-repo commit
-    this page was built from (see scripts/88_build_neo_top120_candidate.py
-    for how it's stamped). Never shown in the UI -- it exists so a later
-    QA pass can ask "what SHA is this live page actually serving" by
-    fetching the page and reading the tag, rather than trusting that a
-    git push implies a deployed page."""
-    tag = f'<meta name="{BUILD_SHA_META_NAME}" content="{source_sha}">'
+# Matches every provenance <meta> tag this function has ever emitted,
+# across every naming scheme that has existed: the retired single-field
+# "neo-build-source-sha", and the current pair. Stripped before a fresh
+# pair is inserted -- see inject_build_provenance() below for why this
+# matters: it is NOT just cosmetic dedup.
+_PROVENANCE_META_RE = re.compile(
+    r'<meta name="(?:neo-build-source-sha|neo-build-source-commit|neo-build-id)" content="[^"]*">'
+)
+
+
+def inject_build_provenance(html: str, source_commit: str, build_id: str) -> str:
+    """Embed two non-visible <meta> markers: the parent commit this
+    build's source came from, and a build-id unique to this specific
+    build/promotion event (see BUILD_SOURCE_COMMIT_META_NAME/
+    BUILD_ID_META_NAME docs above for why these are two separate,
+    honestly-scoped fields rather than one self-referential commit SHA).
+    Never shown in the UI -- exists so a later QA pass can ask "what
+    build is this live page actually serving" by fetching the page and
+    reading the tags, rather than trusting that a git push implies a
+    deployed page.
+
+    Idempotent by construction: any provenance tag(s) already present
+    (from this or an earlier build, under this or the retired naming
+    scheme) are stripped first. Most pages are regenerated from scratch
+    every build and never had a stale tag to strip -- but KG R1/R2 are
+    hand-maintained files carried forward via a docs/ -> candidate/
+    copytree every build, so without this a live-inspected red-team
+    audit found this function had been blindly *prepending* a new tag
+    on top of the old one, build after build: docs/tournaments/2026/
+    kg-ladies-open/r1/index.html had accumulated two different stale
+    neo-build-source-sha tags with two different values before this fix."""
+    html = _PROVENANCE_META_RE.sub("", html)
+    tag = (f'<meta name="{BUILD_SOURCE_COMMIT_META_NAME}" content="{source_commit}">'
+           f'<meta name="{BUILD_ID_META_NAME}" content="{build_id}">')
     if "<head>" in html:
         return html.replace("<head>", f"<head>{tag}", 1)
     if "<head " in html:
@@ -150,11 +202,17 @@ def inject_global_navigation(html: str, active_section: str | None = None) -> st
         if 'href="/">NEO GOLF DATA</a>' not in html:
             html = html.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)
         return html
-    stylesheet = '<link rel="stylesheet" href="/assets/navigation.css">'
-    linked = html.replace("</head>", f"{stylesheet}</head>", 1) if "</head>" in html else stylesheet + html
-    rendered, count = re.subn(r"(<body[^>]*>)", rf"\1{canonical_header}", linked, count=1, flags=re.IGNORECASE)
+    # No separate stylesheet is injected here: every real page template
+    # already links /assets/neo-site.css itself (the one stylesheet that
+    # actually styles .neo-global-header), so a second, drifting copy
+    # (the retired assets/navigation.css) is not needed -- that file used
+    # to get linked here and then never cleaned up on later builds
+    # (later builds only refresh the <header> element, not the rest of
+    # <head>), leaving a stale reference to CSS containing classes
+    # (.neo-brand-sub) no current markup even uses.
+    rendered, count = re.subn(r"(<body[^>]*>)", rf"\1{canonical_header}", html, count=1, flags=re.IGNORECASE)
     if count == 0:
-        rendered, count = re.subn(r"(<header(?:\s|>))", rf"{canonical_header}\1", linked, count=1, flags=re.IGNORECASE)
+        rendered, count = re.subn(r"(<header(?:\s|>))", rf"{canonical_header}\1", html, count=1, flags=re.IGNORECASE)
     if count != 1:
         raise ValueError("public HTML must contain an opening body or header element")
     return rendered.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)

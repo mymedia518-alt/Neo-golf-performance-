@@ -12,7 +12,7 @@ REPO = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
-from klpga.website_v2.global_navigation import NAVIGATION_CSS, inject_global_navigation  # noqa: E402
+from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home"
@@ -44,7 +44,7 @@ def render_home(rows: list[dict], summary: dict) -> str:
         )
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HOME · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/home.js" defer></script></head><body>
-<header class="site-header"><div class="site-header__inner"><a class="wordmark" href="/">NEO GOLF DATA</a><nav class="global-nav" aria-label="주요 메뉴"><a class="global-nav__link" aria-current="page" href="/">HOME</a><a class="global-nav__link" href="/tournaments/">TOURNAMENTS</a><a class="global-nav__link" href="/deep-dive/">DEEP DIVE</a><a class="global-nav__link" href="/about/">ABOUT</a></nav></div></header>
+<header data-neo-global-navigation></header>
 <main><section class="page-head home-head"><p class="kicker">KLPGA 정규투어 선수 데이터</p><h1>선수 랭킹 허브</h1><p>대회별 우승 확률과 분리된 상시 선수 화면입니다. NEO Ranking 공식은 검증 완료 전까지 공개하지 않습니다.</p><div class="home-summary"><strong>{summary["population_count"]}</strong><span>canonical 선수</span><strong>{summary["k_ranking_join_success"]}</strong><span>K-Ranking 연결</span></div></section>
 <section class="product-section" aria-labelledby="ranking-heading"><div class="section-heading"><div><p class="section-label">NEO RANKING</p><h2 id="ranking-heading">전체 선수</h2></div><span class="state-chip">공식 미확정 · 검증 대기</span></div>
 <div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력" autocomplete="off"><label for="home-sort">정렬</label><select id="home-sort"><option value="name">선수명</option><option value="k-rank">K-Ranking</option></select><output id="home-count">{summary["population_count"]}명</output></div>
@@ -54,19 +54,8 @@ def render_home(rows: list[dict], summary: dict) -> str:
 <footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 검증되지 않은 숫자는 공개하지 않습니다.</p></div></footer></body></html>'''
 
 
-def render_tournaments() -> str:
-    return '''<!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TOURNAMENTS · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body>
-<header class="site-header"><div class="site-header__inner"><a class="wordmark" href="/">NEO GOLF DATA</a><nav class="global-nav" aria-label="주요 메뉴"><a class="global-nav__link" href="/">홈</a><a class="global-nav__link" aria-current="page" href="/tournaments/">대회</a><a class="global-nav__link" href="/deep-dive/">딥다이브</a><a class="global-nav__link" href="/about/">소개</a></nav></div></header>
-<main><section class="page-head"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회 분석 페이지만 제공합니다.</p></section>
-<section class="product-section" aria-labelledby="kg-heading"><h2 id="kg-heading">KG 레이디스 오픈</h2><p><a href="/tournaments/2026/kg-ladies-open/r1/">1라운드 분석</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">2라운드 분석</a></p></section>
-<section class="product-section" aria-labelledby="ok-heading"><h2 id="ok-heading">OK저축은행 읏맨 오픈</h2><p><a href="/tournaments/2026/ok-savings-bank-open/pre/">대회 전 분석</a> · <a href="/tournaments/2026/ok-savings-bank-open/r1/">1라운드</a> · <a href="/tournaments/2026/ok-savings-bank-open/r2/">2라운드</a> · <a href="/tournaments/2026/ok-savings-bank-open/final/">최종 분석</a></p></section></main>
-<footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 검증된 데이터와 분석을 제공합니다.</p></div></footer></body></html>'''
-
-
 def render_tournaments_clean() -> str:
-    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small><a class="row-cta" href="/tournaments/2026/kg-ladies-open/final/">예측 기록 보기 →</a></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">예정</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026.09.04–09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <span class="stage-pending" title="아직 시작 전">R1</span> · <span class="stage-pending" title="아직 시작 전">R2</span> · <span class="stage-pending" title="아직 시작 전">최종</span></small><a class="row-cta" href="/tournaments/2026/ok-savings-bank-open/pre/">사전 분석 보기 →</a></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><header data-neo-global-navigation></header><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small><a class="row-cta" href="/tournaments/2026/kg-ladies-open/final/">예측 기록 보기 →</a></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">예정</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026.09.04–09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <span class="stage-pending" title="아직 시작 전">R1</span> · <span class="stage-pending" title="아직 시작 전">R2</span> · <span class="stage-pending" title="아직 시작 전">최종</span></small><a class="row-cta" href="/tournaments/2026/ok-savings-bank-open/pre/">사전 분석 보기 →</a></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
 
 
 def build() -> dict:
@@ -135,7 +124,6 @@ def build() -> dict:
     neo_css = (ROOT / "candidate" / "website-v2-ok-open-pre" / "assets" / "neo.css").read_text(encoding="utf-8")
     (OUTPUT / "assets" / "neo.css").write_text(neo_css, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "home.js", OUTPUT / "assets" / "home.js")
-    (OUTPUT / "assets" / "navigation.css").write_text(NAVIGATION_CSS, encoding="utf-8", newline="\n")
     for page in OUTPUT.rglob("index.html"):
         relative = page.relative_to(OUTPUT)
         top = relative.parts[0] if relative.parts != (relative.name,) else None
