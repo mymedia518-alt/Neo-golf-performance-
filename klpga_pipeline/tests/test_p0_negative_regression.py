@@ -210,15 +210,22 @@ def test_every_page_has_exactly_one_canonical_header(html_files):
 
 
 # 13. the canonical brand text/markup is what every header actually shows
-# -- not a stale copy frozen from an earlier version of NAVIGATION_HTML.
+# -- not a stale copy frozen from an earlier version of NAVIGATION_HTML,
+# and never a mix of the old one-line ".neo-brand-sub" variant with the
+# v3 UI/UX rebuild's stacked NEO + N/E/O legend lockup (spec: "Number ·
+# Evidence · Oracle 한 줄 버전 혼재" is a P0 FAIL).
 def test_every_header_shows_canonical_brand_text(html_files):
     pages = [f for f in html_files if "protected" not in f.parts]
-    offenders = []
+    missing = []
+    mixed_legacy = []
     for f in pages:
         text = f.read_text(encoding="utf-8")
-        if '<span class="neo-brand-mark">NEO</span><span class="neo-brand-sub">Number · Evidence · Oracle</span>' not in text:
-            offenders.append(str(f.relative_to(ROOT)))
-    assert offenders == [], f"page(s) missing the canonical brand text in their header: {offenders}"
+        if '<span class="neo-brand-mark">NEO</span>' not in text or '<span class="neo-brand-legend"' not in text:
+            missing.append(str(f.relative_to(ROOT)))
+        if 'class="neo-brand-sub"' in text:
+            mixed_legacy.append(str(f.relative_to(ROOT)))
+    assert missing == [], f"page(s) missing the canonical brand lockup in their header: {missing}"
+    assert mixed_legacy == [], f"page(s) still carrying the retired one-line .neo-brand-sub variant: {mixed_legacy}"
 
 
 # 14. P0-3 build provenance: every page carries the non-visible source-sha marker.
@@ -226,3 +233,33 @@ def test_every_page_has_build_provenance_marker(html_files):
     pages = [f for f in html_files if "protected" not in f.parts]
     offenders = [str(f.relative_to(ROOT)) for f in pages if 'meta name="neo-build-source-sha"' not in f.read_text(encoding="utf-8")]
     assert offenders == [], f"page(s) missing the build-provenance <meta> tag: {offenders}"
+
+
+# GLOBAL UI/UX REBUILD -- P0/P1 regression coverage.
+
+# 15. every page's global nav marks exactly one item "here" -- UX spec 2
+# ("현재 페이지 active state 표시"). Zero means the active-state wiring
+# silently broke; more than one is nonsensical and just as wrong.
+def test_every_header_has_exactly_one_active_nav_item(html_files):
+    pages = [f for f in html_files if "protected" not in f.parts]
+    offenders = {}
+    for f in pages:
+        text = f.read_text(encoding="utf-8")
+        nav_start = text.find('<nav class="neo-global-nav"')
+        nav_end = text.find("</nav>", nav_start)
+        nav_html = text[nav_start:nav_end] if nav_start != -1 else ""
+        count = nav_html.count('aria-current="page"')
+        if count != 1:
+            offenders[str(f.relative_to(ROOT))] = count
+    assert offenders == {}, f"expected exactly one active nav item per page: {offenders}"
+
+
+# 16. every real tournament page has the shared breadcrumb component --
+# UX spec 3/16 ("각 generator가 자기 UI를 만들지 않는다").
+def test_every_tournament_page_has_breadcrumb(html_files):
+    pages = [
+        f for f in html_files
+        if "protected" not in f.parts and "/tournaments/2026/" in f.as_posix()
+    ]
+    offenders = [str(f.relative_to(ROOT)) for f in pages if '<nav class="breadcrumb"' not in f.read_text(encoding="utf-8")]
+    assert offenders == [], f"tournament page(s) missing the shared breadcrumb: {offenders}"

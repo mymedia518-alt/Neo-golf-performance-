@@ -152,7 +152,7 @@ def _official_final_sections(official: dict) -> str:
         leaderboard_rows.append(f'<tr><td>{escape(row["rank"])}</td><td>{escape(row["player"])}</td>{rounds}<td>{"—" if row["total"] is None else row["total"]}</td><td>{escape(row["to_par"] or row["status"])}</td></tr>')
     holes=aggregate_holes(official["holes"]); leaders=hole_leaders(holes)
     hole_points=checkpoint_series([str(x["hole"]) for x in holes],{str(x["hole"]):x["average_vs_par"] for x in holes})
-    hole_chart=line_chart_svg(title="홀별 평균 타수",player="전체 선수",series=hole_points,unit="",invert=False)
+    hole_chart=line_chart_svg(title="홀별 평균 타수",player="전체 선수",series=hole_points,unit="",invert=False,dense=True)
     shin_holes=[row for row in official["holes"] if row["player"]=="신다인" and row["round"]==4]
     counts={label:sum(classify_hole_score(r["strokes"],r["par"])==label for r in shin_holes) for label in ("Eagle","Birdie","Par","Bogey","Double Bogey","Triple Bogey+")}
     explanations={"SG 티샷":f'티샷으로 필드보다 약 {abs(sg["off_the_tee"]):.1f}타를 {"벌었습니다" if sg["off_the_tee"]>=0 else "잃었습니다"}.',"SG 어프로치":f'아이언 샷으로 필드보다 약 {abs(sg["approach"]):.1f}타를 {"벌었습니다" if sg["approach"]>=0 else "잃었습니다"}.',"SG 그린주변":f'그린 주변에서 약 {abs(sg["around_green"]):.1f}타를 {"벌었습니다" if sg["around_green"]>=0 else "잃었습니다"}.',"SG 퍼팅":f'퍼팅으로 약 {abs(sg["putting"]):.1f}타를 {"벌었습니다" if sg["putting"]>=0 else "잃었습니다"}.'}

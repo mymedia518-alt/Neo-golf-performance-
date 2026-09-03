@@ -121,14 +121,22 @@ def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
 
 
 def test_stage_links_resolve_from_every_generated_stage_page():
+    # v3 UI/UX rebuild (spec 9/10): a stage that has no real data yet must
+    # never be a clickable link -- only PRE is real today, so it's the
+    # only stage-nav item with an href; R1/R2/FINAL render as disabled
+    # (present as text, no href) on every stage page, including on their
+    # own pages.
     from urllib.parse import urljoin
     out = builder.build()
     root = out / "tournaments/2026/ok-savings-bank-open"
     for stage in ["pre", "r1", "r2", "final"]:
         page_url = f"http://localhost/tournaments/2026/ok-savings-bank-open/{stage}/"
         html = (root / stage / "index.html").read_text(encoding="utf-8")
-        for target in ["pre", "r1", "r2", "final"]:
+        pre_href = "/tournaments/2026/ok-savings-bank-open/pre/"
+        assert pre_href in html
+        assert urljoin(page_url, pre_href).endswith("/pre/")
+        for target in ["r1", "r2", "final"]:
             href = f"/tournaments/2026/ok-savings-bank-open/{target}/"
-            assert href in html
-            assert urljoin(page_url, href).endswith(f"/{target}/")
+            assert href not in html, f"{target} has no real data yet and must not be a clickable link on the {stage} page"
+            assert f'class="stage-nav__disabled"' in html and target.upper() in html
         assert "/r3/" not in html

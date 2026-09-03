@@ -62,3 +62,60 @@ main{min-height:70vh;padding-bottom:3rem}.section-label,.kicker,.tournament-cont
    as "...순위 비\n교", which the desktop-1440 Playwright geometry check
    never caught because it only measured font-size, not wrap points. */
 h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{word-break:keep-all;overflow-wrap:normal}
+
+/* GLOBAL UI/UX REBUILD -- one brand lockup, used by every page's header
+   (see global_navigation.py). "NEO" plus a compact N/E/O legend, not a
+   plain 4-line text stack: the legend sits beside the mark behind a
+   divider, in a much smaller, tightly-leaded typeface. Hidden entirely
+   on mobile (the "compact variant") so the header never pushes nav down. */
+.neo-global-brand{display:inline-flex;align-items:center;gap:.55rem;flex:0 0 auto;color:#17202a;text-decoration:none}
+.neo-brand-mark{font:850 1.05rem/1 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.07em}
+.neo-brand-legend{display:flex;flex-direction:column;gap:0;padding-left:.55rem;border-left:1px solid #dfe5ea;line-height:1.15}
+.neo-brand-legend__item{display:flex;align-items:baseline;gap:.28rem;font:650 .58rem/1.15 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.02em;color:#65717d;white-space:nowrap}
+.neo-brand-legend__item b{display:inline-block;width:.75em;color:#17202a;font-weight:800}
+@media(max-width:760px){.neo-brand-legend{display:none}}
+
+/* Active-section nav state: green text + underline, matching the legacy
+   .global-nav__link[aria-current=page] treatment used elsewhere. */
+.neo-global-header .neo-global-nav a.is-active,
+.neo-global-header .neo-global-nav a[aria-current=page]{color:#0f5c46;box-shadow:inset 0 -2px #0f5c46}
+
+/* Compact breadcrumb ahead of every tournament page's title -- "which
+   tournament, which point in time" must be answerable from the page
+   title alone (UX spec 3). */
+.breadcrumb{margin:.6rem 0 0;color:var(--muted);font-size:.78rem;font-weight:600}
+.breadcrumb a{color:var(--muted);text-decoration:none}
+.breadcrumb a:hover,.breadcrumb a:focus-visible{color:var(--green);text-decoration:underline}
+.breadcrumb [aria-current=page]{color:var(--ink);font-weight:750}
+.breadcrumb__sep{margin:0 .3em;color:#9aa39d}
+
+/* GLOBAL TABLE SYSTEM: every public data table centers numeric/short
+   data columns (name, rank, score, probability, SG, sample count) and
+   keeps tabular numerals; only genuinely long descriptive text is left
+   -- and no such column exists in any current public table, so the
+   default now IS center, full stop. thead/tbody share the same rule so
+   header and body columns can never drift out of alignment. This is the
+   last rule touching .data-table th/td alignment in this file so it
+   wins the cascade over the narrower right/left declarations above. */
+.data-table th,.data-table td{text-align:center}
+.data-table th:nth-child(2),.data-table td:nth-child(2){text-align:center}
+.data-table td{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* GLOBAL CHART SYSTEM: the line/story is the point, not the printed
+   number -- point-value labels stay modest, and a dense (many-point,
+   e.g. hole-by-hole) chart uses an even smaller, tighter scale than a
+   sparse (few-checkpoint, e.g. PRE/R1/R2/R3/FINAL) one. */
+.chart-value{font-size:16px}
+.line-chart--dense .chart-value{font-size:14px;font-weight:700}
+.line-chart--dense .chart-x-label,.line-chart--dense .chart-y-label{font-size:14px}
+/* Edge-aware label alignment: the first/last point on any axis anchors
+   away from the plot edge instead of centering over it, so it can never
+   clip past the SVG viewBox (the real "R3 15.04% right clipping" and
+   "18번 right clipping" defects found on real screenshots). */
+.chart-x-label--start,.chart-value--start{text-anchor:start}
+.chart-x-label--end,.chart-value--end{text-anchor:end}
+@media(max-width:430px){
+  .chart-value{font-size:13px}
+  .line-chart--dense .chart-value{font-size:11px}
+  .line-chart--dense .chart-x-label,.line-chart--dense .chart-y-label{font-size:11px}
+}

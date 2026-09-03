@@ -107,7 +107,7 @@ def build() -> dict:
         html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
         page.write_text(html, encoding="utf-8", newline="\n")
-    rendered_home = inject_global_navigation(render_clean(rows, summary, cohort.get("ranking_week")))
+    rendered_home = inject_global_navigation(render_clean(rows, summary, cohort.get("ranking_week")), active_section="home")
     rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
