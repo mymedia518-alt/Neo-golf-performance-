@@ -93,23 +93,28 @@ def _forecast_rows(win1=60.0, win2=40.0):
     ]
 
 
-def test_end_to_end_deployment_writes_both_pages_and_preserves_r1(module, tmp_path, capsys):
+def test_end_to_end_deployment_writes_r2_page_and_blocks_root_home(module, tmp_path, capsys):
+    """P0-4 HOME OWNERSHIP GUARD: this script is scoped to the KG R2
+    route only and must never be able to claim or overwrite the
+    production root HOME (docs/index.html) -- that page belongs
+    exclusively to the TOP120 canonical publisher. The R2 route write
+    must still succeed even though the root write is blocked."""
     argv, r1_html = _base_args(tmp_path, argv_extra=["--expected-population", "2"])
     _write_cut_eval_csv(Path(tmp_path / "player_cut_evaluation.csv"), _cut_eval_rows())
     _write_forecast_csv(Path(tmp_path / "forecast.csv"), _forecast_rows())
 
     exit_code = _run(module, argv)
     captured = capsys.readouterr().out
-    assert exit_code == 0, captured
+    assert exit_code == 6, captured
     assert "ALL_PASSED: True" in captured
-    assert "Production player count: 2" in captured
+    assert "HOME OWNERSHIP GUARD" in captured
+    assert "[BLOCKED]" in captured
 
     repo_root = tmp_path / "repo"
     r2_html_path = repo_root / "docs" / "tournaments" / "2026" / "kg-ladies-open" / "r2" / "index.html"
     root_index_path = repo_root / "docs" / "index.html"
     assert r2_html_path.is_file()
-    assert root_index_path.is_file()
-    assert r2_html_path.read_text(encoding="utf-8") == root_index_path.read_text(encoding="utf-8")
+    assert not root_index_path.exists()
 
     r2_html = r2_html_path.read_text(encoding="utf-8")
     assert 'data-player-code="p1"' in r2_html and 'data-player-code="p2"' in r2_html

@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
+from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
 
 
 def load(name: str) -> dict:
@@ -82,10 +83,11 @@ def build() -> dict:
     summary["maximum_risers"] = [{"player_name": r["player_name"], "k_rank": r["official_k_rank"], "neo_rank": r["neo_validation_rank"], "rank_delta": r["rank_delta"]} for r in sorted(ranked, key=lambda r: (-r["rank_delta"], r["player_id"]))[:10]]
     summary["maximum_fallers"] = [{"player_name": r["player_name"], "k_rank": r["official_k_rank"], "neo_rank": r["neo_validation_rank"], "rank_delta": r["rank_delta"]} for r in sorted(ranked, key=lambda r: (r["rank_delta"], r["player_id"]))[:10]]
     dataset = {"schema_version": "neo_top120_evaluation_v1", "publication_class": config["publication_class"], "cohort_provenance": cohort["official_source"], "model": config, "summary": summary, "records": rows}
+    validate_top120_population(dataset)
     if OUTPUT.exists(): shutil.rmtree(OUTPUT)
     OUTPUT.mkdir(parents=True); (OUTPUT / "assets").mkdir(); (OUTPUT / "data").mkdir()
     preserved = ROOT / "candidate" / "neo-data-home"
-    for route in ("tournaments", "about", "deep-dive"):
+    for route in ("tournaments", "about", "deep-dive", "protected"):
         shutil.copytree(preserved / route, OUTPUT / route)
     ok_root = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open"
     for page in ok_root.rglob("index.html"):
@@ -94,7 +96,8 @@ def build() -> dict:
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
         page.write_text(html, encoding="utf-8", newline="\n")
     rendered_home = inject_global_navigation(render_clean(rows, summary))
-    rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · �ֱ� ����; href="/">Ȩ</a> href="/tournaments/">��ȸ</a> href="/deep-dive/">�����̺�</a> href="/about/">�Ұ�</a> --><a href="/">NEO GOLF DATA</a></body>')
+    rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
+    rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
     shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
