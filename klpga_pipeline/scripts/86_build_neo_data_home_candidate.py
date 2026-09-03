@@ -63,10 +63,15 @@ def build() -> dict:
     shutil.copytree(REPO / "docs", OUTPUT)
     ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / "tournaments" / "2026" / "ok-savings-bank-open"
     shutil.copytree(ok_source, OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open")
-    (OUTPUT / "deep-dive").mkdir(exist_ok=True)
-    (OUTPUT / "deep-dive" / "index.html").write_text('<!doctype html><html lang="ko"><meta charset="utf-8"><title>DEEP DIVE · NEO GOLF DATA</title><a href="/">HOME</a><h1>DEEP DIVE</h1></html>', encoding="utf-8")
+    deep_dive_source = ROOT / "candidate" / "website-v2" / "deep-dive"
+    if not (deep_dive_source / "index.html").is_file():
+        raise FileNotFoundError(f"validated DEEP DIVE source missing: {deep_dive_source}")
+    shutil.copytree(deep_dive_source, OUTPUT / "deep-dive", dirs_exist_ok=True)
     (OUTPUT / "index.html").write_text(render_home(rows, summary), encoding="utf-8")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
+    shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
+    neo_css = (ROOT / "candidate" / "website-v2-ok-open-pre" / "assets" / "neo.css").read_text(encoding="utf-8")
+    (OUTPUT / "assets" / "neo.css").write_text(neo_css, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "home.js", OUTPUT / "assets" / "home.js")
     (OUTPUT / "data").mkdir(exist_ok=True)
     (OUTPUT / "data" / "home-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

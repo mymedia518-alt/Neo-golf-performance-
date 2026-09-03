@@ -101,6 +101,16 @@ def test_candidate_preserves_major_routes(built):
         "deep-dive/index.html",
         "about/index.html",
         "assets/neo-site.css",
+        "assets/neo-site.js",
+        "assets/neo.css",
         "assets/home.js",
     )
     assert all((OUTPUT / path).is_file() for path in required)
+
+
+def test_deep_dive_preserves_existing_real_content_and_is_not_stub(built):
+    html = (OUTPUT / "deep-dive" / "index.html").read_text(encoding="utf-8")
+    source = (ROOT / "candidate" / "website-v2" / "deep-dive" / "index.html").read_text(encoding="utf-8")
+    assert html == source
+    assert len(html) > 1000
+    assert "data-chart-series" in html and "/assets/neo-site.js" in html
