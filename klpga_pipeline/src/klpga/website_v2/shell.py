@@ -7,14 +7,15 @@ from dataclasses import dataclass
 from html import escape
 from pathlib import Path
 
+from klpga.website_v2.global_navigation import NAVIGATION_MARKER
+
 STAGES = ("overview", "pre", "r1", "r2", "r3", "final")
 STAGE_LABELS = {"overview": "개요", "pre": "PRE", "r1": "R1", "r2": "R2", "r3": "R3", "final": "FINAL"}
 GLOBAL_NAV = (
     ("home", "홈", "/"),
     ("tournaments", "대회", "/tournaments/"),
-    ("predictions", "예측 기록", "/predictions/"),
-    ("deep-dive", "DEEP DIVE", "/deep-dive/"),
-    ("about", "NEO 소개", "/about/"),
+    ("deep-dive", "딥다이브", "/deep-dive/"),
+    ("about", "소개", "/about/"),
 )
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
@@ -58,8 +59,8 @@ def _global_header(active_section: str) -> str:
     for key, label, url in GLOBAL_NAV:
         current = ' aria-current="page"' if key == active_section else ""
         links.append(f'<a class="global-nav__link" href="{url}"{current}>{label}</a>')
-    return ('<header class="site-header"><div class="site-header__inner">'
-            '<a class="wordmark" href="/" aria-label="NEO GOLF DATA 홈">NEO GOLF DATA</a>'
+    return (f'<header class="site-header" {NAVIGATION_MARKER}><div class="site-header__inner">'
+            '<a class="wordmark" href="/" aria-label="NEO 홈">NEO <span class="wordmark__sub">Number · Evidence · Oracle</span></a>'
             '<nav class="global-nav" aria-label="주요 메뉴">' + "".join(links) + '</nav></div></header>')
 
 
@@ -83,10 +84,10 @@ def _tournament_header(meta: TournamentMetadata, current_stage: str) -> str:
 
 
 def _footer() -> str:
+    footer_links = "".join(f'<a href="{url}">{label}</a>' for _key, label, url in GLOBAL_NAV)
     return ('<footer class="site-footer"><div class="site-footer__inner">'
-            '<p><strong>NEO GOLF DATA</strong> · 예측은 결과가 나온 뒤 수정하지 않습니다.</p>'
-            '<nav aria-label="하단 메뉴"><a href="/">홈</a><a href="/tournaments/">대회</a><a href="/predictions/">예측 기록</a>'
-            '<a href="/deep-dive/">DEEP DIVE</a><a href="/about/">NEO 소개</a></nav>'
+            '<p>예측은 결과가 나온 뒤 수정하지 않습니다.</p>'
+            f'<nav aria-label="하단 메뉴">{footer_links}</nav>'
             '<p><a href="/about/#methodology">방법론 / 원본 기록</a></p></div></footer>')
 
 
