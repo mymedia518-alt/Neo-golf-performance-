@@ -1,6 +1,7 @@
 """Build the non-production K-Ranking TOP120 vs NEO validation candidate."""
 from __future__ import annotations
 
+import importlib.util
 import json
 import shutil
 import sys
@@ -17,6 +18,16 @@ from klpga.website_v2.top120_validation import evaluate  # noqa: E402
 
 def load(name: str) -> dict:
     return json.loads((CONTENT / name).read_text(encoding="utf-8"))
+
+
+def refresh_preserved_candidate() -> None:
+    path = ROOT / "scripts" / "86_build_neo_data_home_candidate.py"
+    spec = importlib.util.spec_from_file_location("neo_data_home_builder", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot load preserved HOME builder: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    module.build()
 
 
 def show(value, digits=2) -> str:
@@ -43,6 +54,7 @@ def render(rows: list[dict], summary: dict) -> str:
 
 
 def build() -> dict:
+    refresh_preserved_candidate()
     cohort = load("HOME_PLAYER_MASTER_TOP120.json")
     config = load("NEO_RANKING_VALIDATION_MODEL_V1.json")
     rows, summary = evaluate(cohort, load("historical_sg_warehouse_corrected.json"), config)
@@ -55,8 +67,16 @@ def build() -> dict:
     preserved = ROOT / "candidate" / "neo-data-home"
     for route in ("tournaments", "about", "deep-dive"):
         shutil.copytree(preserved / route, OUTPUT / route)
+    ok_root = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open"
+    for page in ok_root.rglob("index.html"):
+        html = page.read_text(encoding="utf-8")
+        html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
+        html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
+        page.write_text(html, encoding="utf-8")
     (OUTPUT / "index.html").write_text(render(rows, summary), encoding="utf-8")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
+    shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
+    shutil.copyfile(preserved / "assets" / "neo.css", OUTPUT / "assets" / "neo.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "top120.js", OUTPUT / "assets" / "top120.js")
     (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False))

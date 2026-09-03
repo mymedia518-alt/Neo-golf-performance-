@@ -70,3 +70,14 @@ def test_candidate_contract_and_pending_handling(built):
                   "tournaments/2026/ok-savings-bank-open/pre/index.html", "tournaments/2026/ok-savings-bank-open/final/index.html",
                   "about/index.html", "deep-dive/index.html"):
         assert (OUTPUT / route).is_file()
+
+
+def test_ok_stage_assets_and_deep_dive_are_complete(built):
+    assert (OUTPUT / "assets" / "neo.css").is_file()
+    assert (OUTPUT / "assets" / "neo-site.js").is_file()
+    ok = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open"
+    for stage in ("pre", "r1", "r2", "final"):
+        html = (ok / stage / "index.html").read_text(encoding="utf-8")
+        assert 'href="/assets/neo.css"' in html
+    deep = (OUTPUT / "deep-dive" / "index.html").read_text(encoding="utf-8")
+    assert len(deep) > 1000 and "data-chart-series" in deep
