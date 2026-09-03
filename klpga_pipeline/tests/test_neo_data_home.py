@@ -92,6 +92,7 @@ def test_public_numbers_have_validation_state(built):
 
 def test_candidate_preserves_major_routes(built):
     required = (
+        "tournaments/index.html",
         "tournaments/2026/kg-ladies-open/r1/index.html",
         "tournaments/2026/kg-ladies-open/r2/index.html",
         "tournaments/2026/ok-savings-bank-open/pre/index.html",
@@ -106,6 +107,14 @@ def test_candidate_preserves_major_routes(built):
         "assets/home.js",
     )
     assert all((OUTPUT / path).is_file() for path in required)
+
+
+def test_tournaments_hub_is_a_real_page_not_a_directory_listing(built):
+    html = (OUTPUT / "tournaments" / "index.html").read_text(encoding="utf-8")
+    assert "Directory listing for" not in html
+    assert "<title>TOURNAMENTS · NEO GOLF DATA</title>" in html
+    assert "대회 분석 허브" in html
+    assert all(f'>{label}<' in html for label in ("HOME", "TOURNAMENTS", "DEEP DIVE", "ABOUT"))
 
 
 def test_deep_dive_preserves_existing_real_content_and_is_not_stub(built):
