@@ -64,7 +64,7 @@ def test_model_config_forbids_win_probability_and_is_explicitly_validation_only(
 def test_candidate_contract_and_pending_handling(built):
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert html.count("data-player-row") == 120
-    assert "검증 대기" in html and "VALIDATION MODEL" in html
+    assert "검증 대기" in html and "NEO 랭킹 검증" in html
     assert "검증 선수" not in html and "win_probability" not in html
     assert built == {**built, "cohort_count":120}
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
@@ -79,12 +79,55 @@ def test_candidate_contract_and_pending_handling(built):
 def test_ok_stage_assets_and_deep_dive_are_complete(built):
     assert (OUTPUT / "assets" / "neo.css").is_file()
     assert (OUTPUT / "assets" / "neo-site.js").is_file()
+    assert (OUTPUT / "assets" / "navigation.css").is_file()
     ok = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open"
     for stage in ("pre", "r1", "r2", "final"):
         html = (ok / stage / "index.html").read_text(encoding="utf-8")
         assert 'href="/assets/neo.css"' in html
     deep = (OUTPUT / "deep-dive" / "index.html").read_text(encoding="utf-8")
     assert len(deep) > 1000 and "data-chart-series" in deep
+
+
+def test_every_public_route_has_global_home_navigation(built):
+    routes = (
+        "index.html",
+        "tournaments/index.html",
+        "deep-dive/index.html",
+        "about/index.html",
+        "tournaments/2026/kg-ladies-open/r1/index.html",
+        "tournaments/2026/kg-ladies-open/r2/index.html",
+        "tournaments/2026/ok-savings-bank-open/pre/index.html",
+        "tournaments/2026/ok-savings-bank-open/r1/index.html",
+        "tournaments/2026/ok-savings-bank-open/r2/index.html",
+        "tournaments/2026/ok-savings-bank-open/final/index.html",
+    )
+    required = (
+        'href="/">홈</a>',
+        'href="/tournaments/">대회</a>',
+        'href="/deep-dive/">딥다이브</a>',
+        'href="/about/">소개</a>',
+    )
+    for route in routes:
+        html = (OUTPUT / route).read_text(encoding="utf-8")
+        assert 'href="/">NEO GOLF DATA</a>' in html, route
+        assert all(link in html for link in required), route
+    css = (OUTPUT / "assets" / "navigation.css").read_text(encoding="utf-8")
+    assert "display:flex!important" in css
+    assert "overflow-x:auto" in css
+
+
+def test_home_is_korean_first_and_table_alignment_is_explicit(built):
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert html.count("data-player-row") == 120
+    assert "KLPGA 공식 K-Ranking 1~120위" in html
+    assert "NEO 랭킹 검증" in html
+    assert "검증 대기" in html
+    assert all(term in html for term in ("K-Ranking", "NEO Ranking", "최근 경기력"))
+    assert all(term not in html for term in (">HOME<", ">TOURNAMENTS<", ">DEEP DIVE<", ">ABOUT<", "production 아님"))
+    css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
+    assert ".home-table{width:100%;min-width:960px;table-layout:fixed}" in css
+    assert ".home-table th:nth-child(3),.home-table td:nth-child(3){width:12rem;text-align:left" in css
+    assert "font-variant-numeric:tabular-nums" in css
 
 
 def test_http_routes_are_real_index_pages_not_directory_listings(built):

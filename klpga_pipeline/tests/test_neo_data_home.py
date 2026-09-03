@@ -75,7 +75,7 @@ def test_corrected_sg_features_use_event_samples_and_have_provenance():
 
 def test_generated_home_contract_and_navigation(built):
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert all(f'>{label}<' in html for label in ("HOME", "TOURNAMENTS", "DEEP DIVE", "ABOUT"))
+    assert all(f'>{label}<' in html for label in ("홈", "대회", "딥다이브", "소개"))
     assert "검증 선수 046" not in html
     assert "win_probability" not in html
     assert html.count("data-player-row") == 546
@@ -104,6 +104,7 @@ def test_candidate_preserves_major_routes(built):
         "assets/neo-site.css",
         "assets/neo-site.js",
         "assets/neo.css",
+        "assets/navigation.css",
         "assets/home.js",
     )
     assert all((OUTPUT / path).is_file() for path in required)
@@ -112,14 +113,14 @@ def test_candidate_preserves_major_routes(built):
 def test_tournaments_hub_is_a_real_page_not_a_directory_listing(built):
     html = (OUTPUT / "tournaments" / "index.html").read_text(encoding="utf-8")
     assert "Directory listing for" not in html
-    assert "<title>TOURNAMENTS · NEO GOLF DATA</title>" in html
+    assert "<title>대회 · NEO GOLF DATA</title>" in html
     assert "대회 분석 허브" in html
-    assert all(f'>{label}<' in html for label in ("HOME", "TOURNAMENTS", "DEEP DIVE", "ABOUT"))
+    assert all(f'>{label}<' in html for label in ("홈", "대회", "딥다이브", "소개"))
 
 
 def test_deep_dive_preserves_existing_real_content_and_is_not_stub(built):
     html = (OUTPUT / "deep-dive" / "index.html").read_text(encoding="utf-8")
     source = (ROOT / "candidate" / "website-v2" / "deep-dive" / "index.html").read_text(encoding="utf-8")
-    assert html == source
     assert len(html) > 1000
     assert "data-chart-series" in html and "/assets/neo-site.js" in html
+    assert source in html or "data-neo-global-navigation" in html

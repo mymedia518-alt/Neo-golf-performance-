@@ -29,8 +29,8 @@
     {
       "stage": "R1",
       "stable_intended_url": "/tournaments/2026/kg-ladies-open/r1/",
-      "source_artifact": "docs/tournaments/2026/kg-ladies-open/r1/index.html",
-      "artifact_type": "published_historical_html",
+      "source_artifact": "klpga_pipeline/evidence/beta001/artifacts/r1_published_before_navigation_hotfix.html",
+      "artifact_type": "byte_exact_published_historical_html_snapshot",
       "publication_provenance": {
         "classification": "published_original",
         "git_commit": "7ec9cde346ba74591d74a00f94c1a701511bab37",
@@ -44,13 +44,13 @@
       "data_cutoff": "after official R1 completion; exact source cutoff timestamp not embedded in published HTML",
       "sha256": "be9b5fb56090667aea7924abdd7f481d079579687dc1eb1a561134f353b3400c",
       "immutability_status": "protected_existing_public_url_artifact",
-      "notes": "Prediction values and historical claims at the existing public URL are protected. Publication/build details are retained without claiming a more precise cutoff than the available evidence supports."
+      "notes": "Prediction values and historical claims are preserved byte-for-byte from the production baseline before the navigation-only hotfix. Publication/build details are retained without claiming a more precise cutoff than the available evidence supports."
     },
     {
       "stage": "R2",
       "stable_intended_url": "/tournaments/2026/kg-ladies-open/r2/",
-      "source_artifact": "docs/tournaments/2026/kg-ladies-open/r2/index.html",
-      "artifact_type": "published_historical_html",
+      "source_artifact": "klpga_pipeline/evidence/beta001/artifacts/r2_published_before_navigation_hotfix.html",
+      "artifact_type": "byte_exact_published_historical_html_snapshot",
       "publication_provenance": {
         "classification": "published_original",
         "git_commit": "7ec9cde346ba74591d74a00f94c1a701511bab37",
@@ -64,7 +64,7 @@
       "data_cutoff": "after official R2 completion and before R3 start; exact source cutoff timestamp not embedded in published HTML",
       "sha256": "531cac52a7c122e0a0a161f18704570f4972eb744b928128c1317fd06a49eeae",
       "immutability_status": "protected_existing_public_url_artifact",
-      "notes": "The published page states that the forecast was frozen before R3 and will not be changed after later results. No unavailable build timestamp is invented."
+      "notes": "The published page is preserved byte-for-byte from the production baseline before the navigation-only hotfix. It states that the forecast was frozen before R3 and will not be changed after later results. No unavailable build timestamp is invented."
     },
     {
       "stage": "R3",
