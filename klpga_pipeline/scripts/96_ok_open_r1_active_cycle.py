@@ -41,6 +41,18 @@ Usage:
                                                                         # (the exact command for a 30-minute
                                                                         # Windows Task Scheduler entry -- see
                                                                         # _git_commit_and_push below)
+    python scripts/96_ok_open_r1_active_cycle.py --live --collect-only # real cycle, COLLECT+VALIDATE ONLY:
+                                                                        # saves the immutable snapshot and
+                                                                        # updates STAGE_STATE.json, then stops
+                                                                        # -- never builds, promotes, or
+                                                                        # touches git. For use when the
+                                                                        # operator checkout's own git sync is
+                                                                        # unsafe/blocked (e.g. a true branch
+                                                                        # divergence) but real official data
+                                                                        # must still not go uncollected --
+                                                                        # official data collection is never
+                                                                        # allowed to be a casualty of a
+                                                                        # publish-side git problem.
 
 Always prints exactly one JSON summary line to stdout as its last line,
 for both a human operator and an automated caller (e.g. the 30-minute
@@ -253,6 +265,7 @@ def _git_commit_and_push(message: str) -> tuple[bool, str]:
 def main() -> int:
     live = "--live" in sys.argv[1:]
     git_push = "--git-push" in sys.argv[1:]
+    collect_only = "--collect-only" in sys.argv[1:]
 
     if not _acquire_lock():
         print(json.dumps({"action": "LOCKED", "reason": "another cycle is already running (or a stale lock is younger than the staleness threshold)", "stop_active_cycle": False, "promoted": False}, ensure_ascii=False))
@@ -391,6 +404,21 @@ def main() -> int:
             }
             R1_CLOSE_RECORD.write_text(json.dumps(close_record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         STAGE_STATE.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+        # COLLECT/VALIDATE/PUBLISH FAILURE-DOMAIN DECOUPLING (P0 incident
+        # follow-up): --collect-only stops here, on purpose, BEFORE any
+        # build/promote/git step. The immutable snapshot, the "latest"
+        # convenience copy, and STAGE_STATE.json above are already
+        # written to local disk unconditionally -- official raw data,
+        # collected this one time only, must never be lost merely
+        # because a downstream git-sync problem (e.g. the operator
+        # checkout diverging from origin) makes publishing unsafe right
+        # now. A human (or a later cycle, once sync is restored) can
+        # rebuild+promote+push from what is already safely on disk.
+        if collect_only:
+            result["collect_only"] = True
+            print(json.dumps(result, ensure_ascii=False))
+            return 0
 
         try:
             _rebuild_and_promote()
