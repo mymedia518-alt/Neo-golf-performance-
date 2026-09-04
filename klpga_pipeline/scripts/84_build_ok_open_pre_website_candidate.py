@@ -32,35 +32,119 @@ def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
         for key, label in (("pre", "PRE"), ("r1", "R1"), ("r2", "R2"), ("final", "FINAL"))
     ]
 
+def _fmt_pct(v) -> str:
+    return "산출 불가" if v is None else f"{v:.1f}%"
+
+
+def _fmt_stroke(v) -> str:
+    return "산출 불가" if v is None else f"{v:+.1f}"
+
+
+def _fmt_delta_pct(current, pre_fraction) -> str:
+    """current: 0..100 or None. pre_fraction: 0..1 or None (OK Open's
+    PRE model explicitly left top5/top10/top20 unsupported for most
+    players -- a missing PRE baseline means the delta genuinely cannot
+    be computed, never defaulted to 0)."""
+    if current is None or pre_fraction is None:
+        return "산출 불가"
+    return f"{current - pre_fraction * 100:+.1f}%p"
+
+
+def _mover_line(entry: dict, *, kind: str) -> str:
+    name = html.escape(str(entry.get("player_name") or "—"))
+    if kind == "pct":
+        return f"<li><span class='player'>{name}</span><span class='delta'>{entry.get('delta', 0):+.1f}%p</span></li>"
+    if kind == "cut_band":
+        return f"<li><span class='player'>{name}</span><span class='delta'>현재 컷 통과 {entry.get('current_value', 0):.1f}%</span></li>"
+    if kind == "strokes":
+        return f"<li><span class='player'>{name}</span><span class='delta'>{entry.get('delta', 0):+.1f}타</span></li>"
+    return f"<li><span class='player'>{name}</span></li>"
+
+
+def _movers_list(entries: list, *, kind: str, empty_note: str) -> str:
+    if not entries:
+        return f"<p class='note'>{html.escape(empty_note)}</p>"
+    return f"<ul class='mover-list'>{''.join(_mover_line(e, kind=kind) for e in entries)}</ul>"
+
+
 def _r1_live_leaderboard_section(nav: str) -> str | None:
     """R1 ACTIVE MODE: render the real, official leaderboard rows a
-    validated scripts/96 cycle collected -- rank/player/thru/to-par/
-    status only, no probability or prediction (none has been built or
-    validated for OK Open R1). Returns None (falls back to the "no
-    official data yet" placeholder in the caller) when no snapshot that
-    passed its safety gate exists yet -- reading the file, not this
-    stage having been reached in the loop, is what decides real vs.
-    placeholder content."""
+    validated scripts/96 cycle collected, PLUS the same cycle's
+    klpga.neo_win.r1_live_probability Monte Carlo output (Cut/Top20/
+    Top10/Top5/Win probabilities, an explicit cut-line DISTRIBUTION
+    rather than one asserted number, and NEO Movers vs the frozen PRE
+    baseline). Every probability that could not be computed for a
+    player (missing R1 score, or no PRE baseline to compare against)
+    renders as "산출 불가", never a guessed value. Returns None (falls
+    back to the "no official data yet" placeholder in the caller) when
+    no snapshot that passed its safety gate exists yet."""
     if not R1_LIVE_SNAPSHOT.is_file():
         return None
     snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
-    rows = snapshot.get("rows") or []
-    if not rows:
+    table = snapshot.get("player_table") or []
+    if not table:
         return None
-    retrieved_at = html.escape(str(snapshot.get("retrieved_at") or ""))
-    body_rows = "".join(
-        f'<tr><td>{html.escape(str(r.get("rank_display") or "—"))}</td>'
-        f'<th scope="row">{html.escape(str(r.get("player_name") or "—"))}</th>'
-        f'<td>{html.escape(str(r.get("holes_completed") or "—"))}</td>'
-        f'<td>{html.escape(str(r.get("total_under_par_display") or "—"))}</td>'
-        f'<td>{html.escape(str(r.get("status") or "진행중"))}</td></tr>'
-        for r in rows
+
+    collected_at = html.escape(str(snapshot.get("collected_at") or ""))
+    leader = table[0] if table and table[0].get("total_under_par") is not None else None
+    cutline = snapshot.get("expected_cut_distribution")
+    cutline_text = (
+        f"{cutline['p10']:+.1f} ~ {cutline['p90']:+.1f} (중앙값 {cutline['p50']:+.1f})" if cutline else "산출 불가"
     )
-    return (f'<section class="panel" id="r1"><p class="eyebrow">R1 · 공식 진행 중 데이터</p>'
-            f'<h1>R1 실시간 공식 리더보드</h1>'
-            f'<p class="note">마지막 업데이트: {retrieved_at} · 공식 데이터만 표시합니다. 예측값/승리 확률은 포함하지 않습니다.</p>{nav}'
-            f'<div class="table-wrap"><table class="data"><thead><tr><th>순위</th><th>선수</th><th>진행 홀</th><th>스코어</th><th>상태</th></tr></thead>'
-            f'<tbody>{body_rows}</tbody></table></div></section>')
+    ranked = [r for r in table if r.get("win_pct") is not None]
+    top_win = max(ranked, key=lambda r: r["win_pct"], default=None)
+
+    movers = snapshot.get("neo_movers") or {}
+    movers_html = (
+        f"<div class='mover-grid'>"
+        f"<div><h3>Win% 상승</h3>{_movers_list(movers.get('win_pct_risers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 상승한 선수가 없습니다.')}</div>"
+        f"<div><h3>Win% 하락</h3>{_movers_list(movers.get('win_pct_fallers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 하락한 선수가 없습니다.')}</div>"
+        f"<div><h3>기대 이상 (오늘 스코어)</h3>{_movers_list(movers.get('beat_expectation') or [], kind='strokes', empty_note='산출 불가')}</div>"
+        f"<div><h3>기대 이하 (오늘 스코어)</h3>{_movers_list(movers.get('missed_expectation') or [], kind='strokes', empty_note='산출 불가')}</div>"
+        f"<div><h3>컷 통과 위험 (PRE 상위권 기준)</h3>{_movers_list(movers.get('cut_pct_droppers_vs_band') or [], kind='cut_band', empty_note='PRE 상위권 선수 중 컷 통과 위험이 확인된 선수가 없습니다.')}</div>"
+        f"</div>"
+    )
+
+    body_rows = "".join(
+        f"<tr><td>{html.escape(str(r.get('rank_display') or '—'))}</td>"
+        f"<th scope='row'>{html.escape(str(r.get('player_name') or '—'))}</th>"
+        f"<td>{html.escape(str(r.get('total_under_par_display') or '—'))}</td>"
+        f"<td>{html.escape(str(r.get('holes_completed') or '—'))}</td>"
+        f"<td>{_fmt_stroke(r.get('today_under_par'))}</td>"
+        f"<td>{_fmt_stroke(r.get('gap_to_leader'))}</td>"
+        f"<td>{_fmt_pct(r.get('cut_pct'))}</td>"
+        f"<td>{_fmt_pct(r.get('top20_pct'))}</td>"
+        f"<td>{_fmt_pct(r.get('top10_pct'))}</td>"
+        f"<td>{_fmt_pct(r.get('top5_pct'))}</td>"
+        f"<td>{_fmt_pct(r.get('win_pct'))}</td>"
+        f"<td>{_fmt_delta_pct(r.get('win_pct'), r.get('pre_win_probability'))}</td>"
+        f"<td>{html.escape(str(r.get('status') or '진행중'))}</td></tr>"
+        for r in table
+    )
+
+    summary = (
+        f"<section class='panel r1-live-summary' aria-label='R1 라이브 요약'>"
+        f"<p class='eyebrow'>R1 · 공식 진행 중 데이터</p><h1>R1 라이브 서머리</h1>"
+        f"<p class='note'>마지막 성공 업데이트(UTC): {collected_at} · 공식 리더보드 + NEO 시뮬레이션 확률(30분 주기 재계산, 확정된 사실 아님)</p>"
+        f"<div class='r1-live-summary__grid'>"
+        f"<div><span class='label'>현재 선두</span><strong>{html.escape(str(leader.get('player_name'))) if leader else '산출 불가'}</strong></div>"
+        f"<div><span class='label'>NEO 예상 컷 (분포)</span><strong>{html.escape(cutline_text)}</strong></div>"
+        f"<div><span class='label'>NEO 우승확률 1위</span><strong>{(html.escape(str(top_win.get('player_name'))) + ' ' + _fmt_pct(top_win.get('win_pct'))) if top_win else '산출 불가'}</strong></div>"
+        f"</div></section>"
+    )
+
+    table_section = (
+        f"<section class='panel' id='r1'><h2>R1 선수별 현황</h2>{nav}"
+        f"<div class='table-wrap'><table class='data'><thead><tr>"
+        f"<th>순위</th><th>선수</th><th>현재스코어</th><th>완료홀</th><th>오늘스코어</th><th>선두와 타수차</th>"
+        f"<th>Cut%</th><th>Top20%</th><th>Top10%</th><th>Top5%</th><th>Win%</th><th>PRE 대비 Win Δ</th><th>상태</th>"
+        f"</tr></thead><tbody>{body_rows}</tbody></table></div>"
+        f"<div class='help'>Cut/Top20/Top10/Top5/Win 확률은 실제 R1 스코어(확정)와 각 선수의 PRE 성과 데이터를 결합한 몬테카를로 시뮬레이션 추정치입니다. R1 스코어가 아직 없는 선수는 모든 확률이 \"산출 불가\"로 표시됩니다. 예상 컷은 항상 범위(분포)로만 제공되며 단일 확정값으로 제시하지 않습니다.</div></section>"
+    )
+
+    movers_section = f"<section class='panel'><h2>NEO Movers · PRE 대비 변화</h2>{movers_html}</section>"
+
+    return summary + table_section + movers_section
 
 
 BANDS = {
@@ -81,6 +165,10 @@ CSS = """
 .data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player,.sponsor{text-align:center}
 .info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}.info-popover{display:none;position:absolute;z-index:2;max-width:260px;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400}.info-popover.is-open{display:block}
 @media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px;width:auto;max-width:none;margin:0}}
+/* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
+.r1-live-summary__grid{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px}.r1-live-summary__grid .label{display:block;color:var(--muted);font-size:12px}.r1-live-summary__grid strong{font-size:16px}
+.mover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.mover-grid h3{font-size:13px;color:var(--muted);margin:0 0 6px}
+.mover-list{list-style:none;margin:0;padding:0}.mover-list li{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line);font-size:13px}.mover-list .delta{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent)}
 """
 
 def pct(value):

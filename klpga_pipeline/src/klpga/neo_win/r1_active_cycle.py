@@ -60,11 +60,16 @@ def assess_r1_snapshot_safety(rows: list[dict], expected_player_ids: list[str]) 
 
 @dataclass(frozen=True)
 class CycleDecision:
-    action: str  # "SKIP_WAIT" | "HARD_STOP" | "PUBLISH" | "PUBLISH_AND_CLOSE"
+    action: str  # "SKIP_WAIT" | "SKIP_NO_NEW_DATA" | "HARD_STOP" | "PUBLISH" | "PUBLISH_AND_CLOSE"
     reason: str
     retrieved_at: str
     row_count: int = 0
     r1_status: str | None = None  # None | "WAIT" | "R1_COMPLETE"
+    signature: tuple | None = None
+    """This cycle's leaderboard-state signature (see
+    klpga.neo_win.r1_snapshot_store.leaderboard_state_signature) --
+    the caller persists this as `previous_signature` for the NEXT
+    cycle's freshness check."""
 
 
 def decide_cycle(
@@ -74,23 +79,45 @@ def decide_cycle(
     official_page_available: bool,
     tournament_finished: bool,
     now: datetime.datetime | None = None,
+    previous_signature: tuple | None = None,
 ) -> CycleDecision:
     """The one function every 30-minute cycle calls after collection.
     Pure: no I/O, no side effects, fully exercised by tests without a
     network. Never infers a stage or completion from `now` -- it is
     used only to stamp the decision's own retrieved_at, never as an
-    input to any WAIT/COMPLETE/HARD_STOP judgment."""
+    input to any WAIT/COMPLETE/HARD_STOP judgment.
+
+    `previous_signature` is OPTIONAL (omitting it preserves prior
+    behavior byte-for-byte -- no existing caller/test is affected).
+    When supplied and this cycle's own leaderboard-state signature is
+    IDENTICAL to it, a WAIT-stage decision becomes "SKIP_NO_NEW_DATA"
+    instead of "PUBLISH": '새롭고 검증된 데이터가 없으면 배포하지
+    않는다' -- an unchanged official leaderboard carries no new
+    validated information, so nothing is rebuilt or promoted this
+    cycle even though the collection itself succeeded. A
+    PUBLISH_AND_CLOSE decision is NEVER suppressed this way -- the
+    final R1-close snapshot and workflow must always run once
+    completion is confirmed, even if the very last poll before
+    completion saw no row-level change."""
+    from klpga.neo_win.r1_snapshot_store import leaderboard_state_signature
+
     retrieved_at = (now or datetime.datetime.now(datetime.timezone.utc)).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     if not official_page_available:
         return CycleDecision("SKIP_WAIT", "official R1 leaderboard unavailable this cycle", retrieved_at)
     safety = assess_r1_snapshot_safety(rows, expected_player_ids)
     if not safety.safe:
         return CycleDecision("HARD_STOP", safety.reason, retrieved_at, safety.row_count)
+    signature = leaderboard_state_signature(rows)
     completion = assess_r1(rows, expected_player_ids, official_page_available=True, expected_holes=18)
     if completion.decision == "HARD_STOP":
-        return CycleDecision("HARD_STOP", f"R1 completeness gate: {completion.reason}", retrieved_at, safety.row_count, "HARD_STOP")
+        return CycleDecision("HARD_STOP", f"R1 completeness gate: {completion.reason}", retrieved_at, safety.row_count, "HARD_STOP", signature)
     if completion.decision == "R1_COMPLETE":
-        return CycleDecision("PUBLISH_AND_CLOSE", "official R1 complete -- publishing final snapshot and closing the active cycle", retrieved_at, safety.row_count, "R1_COMPLETE")
+        return CycleDecision(
+            "PUBLISH_AND_CLOSE", "official R1 complete -- publishing final snapshot and closing the active cycle", retrieved_at, safety.row_count, "R1_COMPLETE", signature
+        )
     # WAIT from the completion gate just means "round still in progress"
-    # -- the snapshot itself is still safe to publish as a live view.
-    return CycleDecision("PUBLISH", "in-progress snapshot passed the safety gate", retrieved_at, safety.row_count, "WAIT")
+    # -- the snapshot itself is still safe to publish as a live view,
+    # UNLESS nothing about it actually changed since the last publish.
+    if previous_signature is not None and signature == previous_signature:
+        return CycleDecision("SKIP_NO_NEW_DATA", "leaderboard unchanged since the last published snapshot", retrieved_at, safety.row_count, "WAIT", signature)
+    return CycleDecision("PUBLISH", "in-progress snapshot passed the safety gate", retrieved_at, safety.row_count, "WAIT", signature)
