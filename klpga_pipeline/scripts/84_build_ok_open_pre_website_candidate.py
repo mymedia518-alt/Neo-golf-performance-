@@ -73,12 +73,16 @@ def _fmt_stroke(v) -> str:
 # rounds), so their row must never be blanked.
 #
 # Every one of these labels is honest about what is and is not known --
-# "결과 미확인" for the 999 sentinel never guesses WD vs DQ (matching
-# the parser's own stance); "WD"/"DQ" are shown only when the source
-# itself literally says so, never inferred from a player's name or any
-# other signal.
+# the raw "999" sentinel (status="INCOMPLETE") gets NO status label at
+# all, just "—" like the row's other unknown cells: the source itself
+# never says WD or DQ, so printing a Korean sentence in that cell would
+# only dress up a guess as a fact. "WD"/"DQ" are shown as literal text
+# only when the source itself literally reports that exact word, never
+# inferred from a player's name, holes-completed count, or any other
+# signal.
 _UNRESOLVED_STATUSES = {"INCOMPLETE", "WD", "DQ"}
-_STATUS_LABELS = {"INCOMPLETE": "결과 미확인", "WD": "WD", "DQ": "DQ"}
+_STATUS_LABELS = {"WD": "WD", "DQ": "DQ"}
+_UNKNOWN_STATUS_CELL = "—"
 
 
 def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
@@ -86,14 +90,23 @@ def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
     (_UNRESOLVED_STATUSES -- the confirmed "999" rank sentinel, or a
     literal WD/DQ status) shows "—" for rank/오늘스코어/선두와 타수차
     instead of a fabricated "999"-as-rank or three separately repeated
-    "산출 불가" cells -- the single 상태 column already says everything
-    there is to honestly say about that row; repeating "couldn't
-    compute" three more times beside it adds noise, not information."""
-    unresolved = r.get("status") in _UNRESOLVED_STATUSES
+    "산출 불가" cells. The 상태 cell itself is "—" too when all the
+    source gives us is the raw 999 sentinel (status="INCOMPLETE") --
+    there is no honest Korean word for "player stopped playing for an
+    unknown reason", so the row simply shows only what is known
+    (name, holes completed) and dashes for everything that isn't,
+    rather than a label that reads as more certain than it is. "WD"/
+    "DQ" are shown as literal text only on a row whose status IS
+    literally that word."""
+    status = r.get("status")
+    unresolved = status in _UNRESOLVED_STATUSES
     rank_cell = "—" if unresolved else html.escape(str(r.get("rank_display") or "—"))
     today_cell = "—" if unresolved else _fmt_stroke(r.get("today_under_par"))
     gap_cell = "—" if unresolved else _fmt_stroke(r.get("gap_to_leader"))
-    status_cell = html.escape(_STATUS_LABELS.get(r.get("status"), r.get("status") or "진행중"))
+    if status == "INCOMPLETE":
+        status_cell = _UNKNOWN_STATUS_CELL
+    else:
+        status_cell = html.escape(_STATUS_LABELS.get(status, status or "진행중"))
     return (
         f"<tr><td>{rank_cell}</td>"
         f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')))}</th>"
