@@ -16,16 +16,16 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
-
-OK_DISPLAY_NAME = "OK저축은행 읏맨 오픈"
-OK_BASE = "/tournaments/2026/ok-savings-bank-open/"
+from klpga.website_v2.tournament_state import OK_BASE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
 
 
 def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
-    # Same shared component KG uses (shell.stage_nav_html) -- OK just has
-    # fewer real stages: only PRE exists today, so R1/R2/FINAL render as
-    # disabled (never a fake clickable link) until real data exists.
-    real = {"pre": f"{OK_BASE}pre/"}
+    # Same shared component KG uses (shell.stage_nav_html). Which stages
+    # are real (not a disabled/fake link) comes from the single shared
+    # tournament_state.ok_open_available_stages() -- the same function
+    # HOME's tournament-day hero reads -- not a second, hand-duplicated
+    # copy of this dict.
+    real = ok_open_available_stages()
     return [
         (label.upper(), real.get(key), key == current)
         for key, label in (("pre", "PRE"), ("r1", "R1"), ("r2", "R2"), ("final", "FINAL"))
