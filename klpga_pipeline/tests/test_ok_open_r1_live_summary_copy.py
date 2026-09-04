@@ -1,12 +1,20 @@
 """R1 LIVE SUMMARY COPY FIX -- regression tests.
 
 1. The disclaimer sentence "공식 리더보드 + NEO 시뮬레이션 확률(30분
-   주기 재계산, 확정된 사실 아님)" is replaced with exactly "라이브
-   업데이트 주기 30분" -- the last-updated timestamp itself is
-   untouched.
+   주기 재계산, 확정된 사실 아님)" is replaced with either "라이브
+   업데이트 주기 30분" (fresh snapshot) or, once the P0 STALE-DATA
+   freshness gate fix landed, the honest STALE_NOTICE_MARKER when the
+   real snapshot on disk is older than the staleness threshold -- the
+   last-updated timestamp itself is untouched either way. Which one
+   applies to the CURRENT real snapshot is derived the same way the
+   generator itself derives it (never hardcoded), so this test does
+   not go stale the moment a fresh collection lands.
 2. The pinned top-summary "NEO 우승확률 1위" metric (player name +
    percentage) is removed entirely -- but Win% stays in the detailed
    player table, unchanged."""
+import datetime
+import json
+import sys
 from pathlib import Path
 
 import importlib.util
@@ -17,25 +25,36 @@ SPEC = importlib.util.spec_from_file_location(
 builder = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(builder)
 
+sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
+from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
+
+
+def _current_live_cadence_note() -> str:
+    snapshot = json.loads(
+        (Path(__file__).parents[1] / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json").read_text(encoding="utf-8")
+    )
+    now = datetime.datetime.now(datetime.timezone.utc)
+    if is_snapshot_stale(snapshot.get("collected_at"), now):
+        return STALE_NOTICE_MARKER
+    return "라이브 업데이트 주기 30분"
+
 
 def test_disclaimer_sentence_replaced_with_exact_copy():
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "라이브 업데이트 주기 30분" in html
+    assert _current_live_cadence_note() in html
     assert "공식 리더보드 + NEO 시뮬레이션 확률" not in html
     assert "확정된 사실 아님" not in html
     assert "30분 주기 재계산" not in html
 
 
 def test_last_updated_timestamp_is_still_present_and_unmodified():
-    import json
-
-    snapshot = __import__("json").loads(
+    snapshot = json.loads(
         (Path(__file__).parents[1] / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json").read_text(encoding="utf-8")
     )
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert f"마지막 성공 업데이트(UTC): {snapshot['collected_at']} · 라이브 업데이트 주기 30분" in html
+    assert f"마지막 성공 업데이트(UTC): {snapshot['collected_at']} · {_current_live_cadence_note()}" in html
 
 
 def test_top_summary_win_probability_metric_is_removed():

@@ -1,6 +1,7 @@
 """Build the OK Open PRE candidate from the canonical public master only."""
 from __future__ import annotations
 
+import datetime
 import html
 import json
 import hashlib
@@ -15,6 +16,7 @@ OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
@@ -109,8 +111,26 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     if not table:
         return None
 
-    collected_at = html.escape(str(snapshot.get("collected_at") or ""))
+    collected_at_iso = snapshot.get("collected_at")
+    collected_at = html.escape(str(collected_at_iso or ""))
     leader = table[0] if table and table[0].get("total_under_par") is not None else None
+    # Tied leaders: table is already sorted ascending by total_under_par
+    # (see script 96's _build_player_table), so every row sharing
+    # leader's score is also in the lead -- never arbitrarily show only
+    # the first name when players are tied.
+    tied_leaders = [r.get("player_name") for r in table if leader is not None and r.get("total_under_par") == leader.get("total_under_par")]
+    leader_display = ", ".join(html.escape(str(n)) for n in tied_leaders) if tied_leaders else "산출 불가"
+    # P0 STALE-DATA INCIDENT REMEDIATION: a snapshot older than the
+    # freshness threshold (klpga.website_v2.freshness_gate) must never
+    # imply the normal 30-minute live cadence is still current -- an
+    # honest "collection delayed" notice replaces it instead. The
+    # underlying scores/holes/probabilities themselves are NEVER
+    # altered here; this only changes what the page says about their
+    # freshness. scripts/94's promotion gate hard-stops if this notice
+    # is ever missing from a stale build.
+    now = datetime.datetime.now(datetime.timezone.utc)
+    stale = is_snapshot_stale(collected_at_iso, now)
+    live_cadence_note = STALE_NOTICE_MARKER if stale else "라이브 업데이트 주기 30분"
     cutline = snapshot.get("expected_cut_distribution")
     cutline_text = (
         f"{cutline['p10']:+.1f} ~ {cutline['p90']:+.1f} (중앙값 {cutline['p50']:+.1f})" if cutline else "산출 불가"
@@ -153,9 +173,9 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     summary = (
         f"<section class='panel r1-live-summary' aria-label='R1 라이브 요약'>"
         f"<p class='eyebrow'>R1 · 공식 진행 중 데이터</p><h1>R1 라이브 서머리</h1>"
-        f"<p class='note'>마지막 성공 업데이트(UTC): {collected_at} · 라이브 업데이트 주기 30분</p>"
+        f"<p class='note'>마지막 성공 업데이트(UTC): {collected_at} · {live_cadence_note}</p>"
         f"<div class='r1-live-summary__grid'>"
-        f"<div><span class='label'>현재 선두</span><strong>{html.escape(str(leader.get('player_name'))) if leader else '산출 불가'}</strong></div>"
+        f"<div><span class='label'>현재 선두</span><strong>{leader_display}</strong></div>"
         f"<div><span class='label'>NEO 예상 컷 (분포)</span><strong>{html.escape(cutline_text)}</strong></div>"
         f"</div></section>"
     )

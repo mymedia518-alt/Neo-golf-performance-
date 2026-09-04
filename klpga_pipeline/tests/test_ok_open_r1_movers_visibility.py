@@ -9,7 +9,9 @@ must be a presentation-only change: the underlying computation
 /missed_expectation data must be completely unaffected -- only the
 generated HTML omits them. Win% 상승/하락 (independently validated)
 and the detailed table's Win% column must be unaffected."""
+import datetime
 import json
+import sys
 from pathlib import Path
 
 import importlib.util
@@ -20,8 +22,23 @@ SPEC = importlib.util.spec_from_file_location(
 builder = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(builder)
 
+sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
+from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
+
 CONTENT = Path(__file__).parents[1] / "content" / "website_v2"
 R1_LIVE_SNAPSHOT = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
+
+
+def _current_live_cadence_note() -> str:
+    # P0 STALE-DATA FIX: whichever text the real, on-disk snapshot
+    # should show is derived the same way the generator derives it --
+    # never hardcoded -- so this stays correct whether the snapshot is
+    # currently fresh or stale.
+    snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+    now = datetime.datetime.now(datetime.timezone.utc)
+    if is_snapshot_stale(snapshot.get("collected_at"), now):
+        return STALE_NOTICE_MARKER
+    return "라이브 업데이트 주기 30분"
 
 
 def test_expected_vs_actual_movers_are_hidden_from_the_public_page():
@@ -61,7 +78,8 @@ def test_top_summary_win_probability_metric_still_removed():
 def test_live_copy_still_replaced():
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "라이브 업데이트 주기 30분" in html
+    assert _current_live_cadence_note() in html
+    assert "공식 리더보드 + NEO 시뮬레이션" not in html
     assert "공식 리더보드 + NEO 시뮬레이션" not in html
 
 
