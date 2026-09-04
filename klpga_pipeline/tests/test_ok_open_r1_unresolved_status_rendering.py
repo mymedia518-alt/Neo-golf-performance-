@@ -8,10 +8,13 @@ is parsed as status="INCOMPLETE". Before this fix, scripts/84 rendered
 that raw internal value literally: "999" as if it were a real rank,
 and three separately repeated "산출 불가" placeholders across 오늘스코어
 /선두와 타수차 (with the raw English word "INCOMPLETE" as the 상태
-cell). This must instead show a single honest, translated status
-("결과 미확인") with "—" everywhere a real value cannot exist -- never
-a fabricated rank, never a misleading repeated "computation failed"
-message for what is really just "no score available".
+cell). This must instead show "—" everywhere a real value cannot
+exist -- including the 상태 cell itself: the source only ever gives us
+the bare 999 sentinel, never an actual WD/DQ/other determination, so
+printing a Korean sentence like "결과 미확인" there would still be
+dressing up an unknown as a fact. Never a fabricated rank, never a
+misleading repeated "computation failed" message for what is really
+just "no score available".
 
 The same blank-cell treatment generically applies to a literal "WD" or
 "DQ" status value too (defined but never yet observed live in
@@ -54,7 +57,10 @@ def test_unresolved_row_never_shows_the_raw_english_status_string():
     row = _row("9277", "김아현", status="INCOMPLETE", holes="1", rank="999", total=None)
     html = builder._r1_row_html(row, {}, lambda r: "")
     assert "INCOMPLETE" not in html
-    assert "결과 미확인" in html
+    # No Korean status label is fabricated for a bare 999 sentinel either
+    # -- the row shows "—" like its other unknown cells, not a guessed
+    # "결과 미확인" sentence dressing up an unknown as a fact.
+    assert "결과 미확인" not in html
 
 
 def test_unresolved_row_does_not_repeat_computation_failed_three_times():
@@ -91,7 +97,8 @@ def test_real_build_박결_and_김아현_are_never_shown_with_999_or_repeated_pl
         row = html[row_start : row_end + 5]
         assert "999" not in row
         assert "INCOMPLETE" not in row
-        assert "결과 미확인" in row
+        assert "결과 미확인" not in row
+        assert row.endswith("<td>—</td></tr>")  # 상태 cell: honest "—", no guessed label
         assert row.count("산출 불가") == 0
 
 
