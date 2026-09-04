@@ -115,9 +115,6 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     cutline_text = (
         f"{cutline['p10']:+.1f} ~ {cutline['p90']:+.1f} (중앙값 {cutline['p50']:+.1f})" if cutline else "산출 불가"
     )
-    ranked = [r for r in table if r.get("win_pct") is not None]
-    top_win = max(ranked, key=lambda r: r["win_pct"], default=None)
-
     movers = snapshot.get("neo_movers") or {}
     movers_html = (
         f"<div class='mover-grid'>"
@@ -149,11 +146,10 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     summary = (
         f"<section class='panel r1-live-summary' aria-label='R1 라이브 요약'>"
         f"<p class='eyebrow'>R1 · 공식 진행 중 데이터</p><h1>R1 라이브 서머리</h1>"
-        f"<p class='note'>마지막 성공 업데이트(UTC): {collected_at} · 공식 리더보드 + NEO 시뮬레이션 확률(30분 주기 재계산, 확정된 사실 아님)</p>"
+        f"<p class='note'>마지막 성공 업데이트(UTC): {collected_at} · 라이브 업데이트 주기 30분</p>"
         f"<div class='r1-live-summary__grid'>"
         f"<div><span class='label'>현재 선두</span><strong>{html.escape(str(leader.get('player_name'))) if leader else '산출 불가'}</strong></div>"
         f"<div><span class='label'>NEO 예상 컷 (분포)</span><strong>{html.escape(cutline_text)}</strong></div>"
-        f"<div><span class='label'>NEO 우승확률 1위</span><strong>{(html.escape(str(top_win.get('player_name'))) + ' ' + _fmt_pct(top_win.get('win_pct'))) if top_win else '산출 불가'}</strong></div>"
         f"</div></section>"
     )
 
