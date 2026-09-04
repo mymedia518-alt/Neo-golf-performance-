@@ -104,10 +104,13 @@ def test_candidate_preserves_major_routes(built):
         "assets/neo-site.css",
         "assets/neo-site.js",
         "assets/neo.css",
-        "assets/navigation.css",
         "assets/home.js",
     )
     assert all((OUTPUT / path).is_file() for path in required)
+    # navigation.css was retired -- the canonical .neo-global-header/nav
+    # component is styled entirely from neo-site.css now (see
+    # global_navigation.py / test_neo_top120_validation.py).
+    assert not (OUTPUT / "assets" / "navigation.css").exists()
 
 
 def test_tournaments_hub_is_a_real_page_not_a_directory_listing(built):

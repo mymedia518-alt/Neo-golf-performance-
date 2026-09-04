@@ -125,3 +125,18 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
   .line-chart--dense .chart-x-label,.line-chart--dense .chart-y-label{font-size:10px}
   .chart-end-label{font-size:12px}
 }
+
+/* LIVE VISUAL HOTFIX v2: a dense chart's 18 points are no longer all
+   permanently labeled (see _select_dense_label_indices in analytics.py)
+   -- every point's exact value instead surfaces through this tooltip on
+   mouse hover AND keyboard focus (tabindex="0" on .chart-point-wrap, so
+   :focus works the same as :hover -- a plain SVG <title> never shows on
+   keyboard focus in any browser, which a bare hover-only affordance
+   would have silently failed for keyboard users). */
+.chart-point-wrap{cursor:pointer}
+.chart-point-wrap:focus{outline:none}
+.chart-point-wrap:hover circle.chart-point,.chart-point-wrap:focus circle.chart-point{stroke-width:4}
+.chart-tooltip{opacity:0;pointer-events:none;transition:opacity .12s ease}
+.chart-point-wrap:hover .chart-tooltip,.chart-point-wrap:focus .chart-tooltip{opacity:1}
+.chart-tooltip rect{fill:#17202a}
+.chart-tooltip text{fill:#fff;font-size:11px;font-weight:700;text-anchor:middle}
