@@ -29,7 +29,14 @@ import datetime
 
 STALE_THRESHOLD_SECONDS = 90 * 60
 STALE_NOTICE_MARKER = "데이터 수집 지연 중"
-_NON_PLAYING_STATUSES = {"WD", "DQ", "CUT"}
+# INCOMPLETE is klpga.parsers.leaderboard_parser's real, and only ever
+# observed, did-not-complete signal (the raw "999" rank sentinel) -- the
+# endpoint never actually emits a literal "WD"/"DQ" string. Treating it
+# the same as WD/DQ/CUT here matches klpga.neo_win.r1_readiness.assess_r1
+# (the decision gate that runs BEFORE this one): without this, a round
+# assess_r1 correctly closed because it exempted an INCOMPLETE player
+# would still fail THIS gate and HARD_STOP the promotion right after.
+_NON_PLAYING_STATUSES = {"WD", "DQ", "CUT", "INCOMPLETE"}
 _COMPLETE_HOLE_VALUES = {"18", "F"}
 
 
