@@ -140,3 +140,29 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .chart-point-wrap:hover .chart-tooltip,.chart-point-wrap:focus .chart-tooltip{opacity:1}
 .chart-tooltip rect{fill:#17202a}
 .chart-tooltip text{fill:#fff;font-size:11px;font-weight:700;text-anchor:middle}
+
+/* TOURNAMENT-DAY MODE (script 88 render_clean): while a tournament has
+   at least one validated stage, this hero -- not the K-Ranking/NEO
+   ranking table -- is HOME's first-screen content. Ranking is not
+   deleted, only pushed below (see .ranking-compare-heading below). */
+.tournament-day-hero{padding:1.75rem 0 1.5rem;border-bottom:1px solid var(--line)}
+.tournament-day-hero h1{margin:.2rem 0 .4rem;max-width:none}
+.tournament-day-hero__dates{margin:0 0 1rem;color:var(--muted);font-family:var(--num);font-variant-numeric:tabular-nums}
+.tournament-day-hero__facts{display:flex;gap:1.5rem;margin-bottom:1rem}
+.tournament-day-hero__facts strong{display:block;font:800 1.3rem var(--num);color:var(--green)}
+.tournament-day-hero__facts span{color:var(--muted);font-size:.8rem}
+.tournament-day-hero__stage{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;flex-wrap:wrap}
+.tournament-day-hero__stage strong{font-size:1.05rem}
+/* HOME RANKING H1 FIX: the shared .page-head h1{max-width:22ch} rule
+   (elsewhere correctly limiting an editorial-width headline) clips a
+   Korean heading long before 22 real characters' worth of space is
+   used -- CJK glyphs render close to 2x the width of the Latin "0"
+   glyph "ch" is defined from, so 22ch was never really "22 characters"
+   for this string ("공식 순위와 NEO 검증 순위 비교", 19 characters
+   including spaces) and it wrapped with a lone "비교" as an orphan
+   line. Fixed at the true root cause (the width constraint itself, not
+   font-size) and scoped to this heading alone via a dedicated class --
+   .page-head h1 elsewhere (KG/tournaments-hub/About) is untouched.
+   text-wrap:balance additionally keeps a forced mobile wrap from ever
+   leaving a lone short trailing line. */
+.home-head .ranking-compare-heading{max-width:48rem;text-wrap:balance}

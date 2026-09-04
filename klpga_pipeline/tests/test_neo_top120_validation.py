@@ -11,6 +11,7 @@ from pathlib import Path
 import pytest
 
 from klpga.website_v2.top120_validation import evaluate, validate_cohort
+from klpga.website_v2.tournament_state import home_mode, ok_open_available_stages, ok_open_latest_available_stage
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
@@ -166,3 +167,53 @@ def test_http_routes_are_real_index_pages_not_directory_listings(built):
     finally:
         server.shutdown()
         thread.join(timeout=10)
+
+
+def test_tournament_state_never_infers_a_stage_from_todays_date():
+    # The single source of truth: extend by hand, never derive from a
+    # calendar. Today only PRE is real.
+    available = ok_open_available_stages()
+    assert available == {"pre": "/tournaments/2026/ok-savings-bank-open/pre/"}
+    stage, url = ok_open_latest_available_stage()
+    assert stage == "pre" and url == available["pre"]
+    assert home_mode() == "TOURNAMENT_ACTIVE"
+
+
+def test_home_shows_tournament_day_hero_as_the_page_h1_with_no_fabricated_status(built):
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert html.count("<h1") == 1, "HOME must carry exactly one H1"
+    assert '<h1>OK저축은행 읏맨 오픈</h1>' in html
+    assert 'data-home-mode="TOURNAMENT_ACTIVE"' in html
+    assert "2026.09.04" in html and "09.06" in html
+    assert '현재 이용 가능한 분석' in html and '사전 분석 PRE' in html
+    assert 'href="/tournaments/2026/ok-savings-bank-open/pre/"' in html
+    # "진행 중인 대회" (the tournament's own period status) is the
+    # spec's own intended kicker label -- what must never appear is a
+    # claim about a specific ROUND being live, or a live leaderboard.
+    for banned in ("R1 진행", "R2 진행", "R3 진행", "실시간 순위", "실시간 리더보드", "현재 순위"):
+        assert banned not in html, banned
+    # the ranking section is preserved, just demoted to H2 underneath
+    assert '<h2 class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</h2>' in html
+    assert html.count("data-player-row") == 120  # TOP120 not deleted, just moved down
+    assert html.index('data-home-mode="TOURNAMENT_ACTIVE"') < html.index("ranking-compare-heading")
+
+
+def test_kg_ladies_open_never_shown_as_the_active_tournament_day_hero(built):
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    hero_end = html.index("</section>", html.index("tournament-day-hero"))
+    hero_html = html[html.index("tournament-day-hero"):hero_end]
+    assert "KG" not in hero_html and "레이디스" not in hero_html
+    # KG's own archive is preserved untouched elsewhere in the tree
+    for route in ("tournaments/2026/kg-ladies-open/pre/index.html", "tournaments/2026/kg-ladies-open/r1/index.html",
+                  "tournaments/2026/kg-ladies-open/r2/index.html", "tournaments/2026/kg-ladies-open/r3/index.html",
+                  "tournaments/2026/kg-ladies-open/final/index.html"):
+        assert (OUTPUT / route).is_file(), route
+
+
+def test_ranking_h1_fits_one_line_and_never_font_shrunk_below_the_page_default(built):
+    css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
+    assert ".home-head .ranking-compare-heading{max-width:48rem" in css
+    # the fix is the width constraint, not a smaller font stacked on top
+    # of the existing clamp() -- .home-head h1's own font-size rule
+    # (shared regardless of h1/h2 tag) is untouched by this fix.
+    assert ".home-head h1{margin:.3rem 0 .55rem;font-size:clamp(1.7rem,3.5vw,2.35rem)}" in css

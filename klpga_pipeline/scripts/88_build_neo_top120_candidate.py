@@ -19,6 +19,10 @@ sys.path.insert(0, str(ROOT / "src"))
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
 from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation  # noqa: E402
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
+from klpga.website_v2.tournament_state import (  # noqa: E402
+    OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, STAGE_LABELS,
+    home_mode, ok_open_available_stages, ok_open_latest_available_stage,
+)
 
 
 def _source_git_sha() -> str:
@@ -59,7 +63,28 @@ def show(value, digits=2) -> str:
     return "검증 대기" if value is None else f"{value:.{digits}f}"
 
 
-def render_clean(rows: list[dict], summary: dict, ranking_week: str | None = None) -> str:
+def _tournament_day_hero(ok_participant_count: int | None) -> str:
+    # TOURNAMENT-DAY MODE: this is the ONLY thing that decides which
+    # stage the CTA links to and which label it shows -- always
+    # ok_open_latest_available_stage(), never a guess from today's
+    # date. No leaderboard/status/probability is invented here: a
+    # tournament having "started today" says nothing about whether
+    # any round's data has actually been collected and validated, so
+    # this only ever states the fixed date range (a fact known in
+    # advance, not a live status) plus whichever stage really exists.
+    stage_key, stage_url = ok_open_latest_available_stage()
+    stage_label = STAGE_LABELS[stage_key]
+    facts = f'<div class="tournament-day-hero__facts"><div><strong>{ok_participant_count}명</strong><span>참가 선수</span></div></div>' if ok_participant_count is not None else ""
+    return (f'<section class="tournament-day-hero" data-home-mode="TOURNAMENT_ACTIVE" aria-label="진행 중인 대회">'
+            f'<p class="kicker">진행 중인 대회</p><h1>{escape(OK_DISPLAY_NAME)}</h1>'
+            f'<p class="tournament-day-hero__dates">{escape(OK_DATE_RANGE)}</p>'
+            f'{facts}'
+            f'<div class="tournament-day-hero__stage"><span class="state-chip">현재 이용 가능한 분석</span><strong>{escape(stage_label)}</strong></div>'
+            f'<a class="primary-action" href="{escape(stage_url)}">대회 분석 보기</a>'
+            f'</section>')
+
+
+def render_clean(rows: list[dict], summary: dict, ranking_week: str | None = None, mode: str = "RANKING_DEFAULT", ok_participant_count: int | None = None) -> str:
     cells = []
     for row in rows:
         f = row.get("features") or {}
@@ -72,8 +97,17 @@ def render_clean(rows: list[dict], summary: dict, ranking_week: str | None = Non
             return "검증 대기" if value is None else f"{value:+.2f}"
         cells.append(f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo or 999999}"><td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row">{escape(row["player_name"])}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td><span class="validation-state">{status}</span></td></tr>')
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
+    # HOME INFORMATION HIERARCHY: while a tournament is active, the
+    # ranking section's own heading is no longer the page's H1 -- the
+    # tournament-day hero above it takes that role, so this becomes an
+    # H2 (a page keeps exactly one H1). RANKING_DEFAULT (no active
+    # tournament) reproduces the original H1-only markup byte-for-byte,
+    # so HOME reverts cleanly once no tournament has validated data.
+    tournament_hero = _tournament_day_hero(ok_participant_count) if mode == "TOURNAMENT_ACTIVE" else ""
+    ranking_heading_tag = "h2" if mode == "TOURNAMENT_ACTIVE" else "h1"
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
-<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1>공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 비교 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary["neo_ranked"]}</strong><span>분석 가능</span></div><div class="stat"><strong>{summary["validation_pending"]}</strong><span>데이터 부족</span></div>{week_stat}</div></section>
+{tournament_hero}
+<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><{ranking_heading_tag} class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</{ranking_heading_tag}><p>K-Ranking과 최근 경기력을 나란히 보는 선수 비교 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary["neo_ranked"]}</strong><span>분석 가능</span></div><div class="stat"><strong>{summary["validation_pending"]}</strong><span>데이터 부족</span></div>{week_stat}</div></section>
 <section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO 검증 순위</dt><dd>승인 전인 검증용 경기력 순위</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
 <section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div><span class="state-chip">검증용 · 공개 확정 전</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO 검증 순위</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>데이터 충분도</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div><p class="note">왜 선수마다 대회 수가 다른가? 선수마다 출전 이력이 다르기 때문에 분석 가능한 대회 수는 서로 다릅니다. 대회 수는 순위 점수가 아니라 결과를 확인한 표본의 참고 정보입니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
 
@@ -99,7 +133,17 @@ def build() -> dict:
         html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
         page.write_text(html, encoding="utf-8", newline="\n")
-    rendered_home = inject_global_navigation(render_clean(rows, summary, cohort.get("ranking_week")), active_section="home")
+    # TOURNAMENT-DAY MODE: home_mode() is the ONLY switch -- it looks at
+    # ok_open_available_stages() (real, hand-extended data availability),
+    # never at today's date. When no tournament has any validated stage,
+    # this is RANKING_DEFAULT and render_clean() reproduces the original
+    # ranking-first HOME exactly.
+    mode = home_mode()
+    ok_participant_count = None
+    if mode == "TOURNAMENT_ACTIVE":
+        ok_master = load("OK_OPEN_2026_PRE_PUBLIC_MASTER.json")
+        ok_participant_count = ok_master.get("entry_count", len(ok_master.get("records", [])))
+    rendered_home = inject_global_navigation(render_clean(rows, summary, cohort.get("ranking_week"), mode=mode, ok_participant_count=ok_participant_count), active_section="home")
     rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
@@ -127,6 +171,7 @@ def build() -> dict:
         raise RuntimeError(f"build-id inconsistency immediately after stamping (should be impossible): {stale}")
     summary["build_source_commit"] = source_sha
     summary["build_id"] = build_id
+    summary["home_mode"] = mode
     print(json.dumps(summary, ensure_ascii=False))
     return summary
 
