@@ -99,6 +99,21 @@ RECORD_TAXONOMY_ENDPOINT = f"{BASE_URL}/load/record/loadLocationRecord"
 #   has been captured and reviewed.
 GROUP_PAGE_ENDPOINT = f"{BASE_URL}/web/tourInfo/group"
 
+# [5b] Official tournament record page ("대회기록")
+#   GET https://klpga.co.kr/web/tourRecord/scoreRecord?gameCode=<code>
+#   URL confirmed from a real captured page: the literal nav link
+#   `<a class="nav-link " href="/web/tourRecord/scoreRecord?gameCode=
+#   2026080001">대회기록</a>` appears in tests/fixtures/entry_list_sample
+#   .html (the same real, user-pasted HTML entry_list_parser.py is
+#   built and tested against for gameCode=2026080001). Only the URL
+#   itself is confirmed this way -- the page has never been fetched or
+#   its own DOM inspected in this project. Follow the GROUP_PAGE_
+#   ENDPOINT / PLAYER_PROFILE_ENDPOINT precedent exactly: fetch only,
+#   never parse, until a real HTML sample has been captured and
+#   reviewed (see klpga.collectors.score_record and
+#   scripts/97_fetch_score_record_sample.py).
+SCORE_RECORD_ENDPOINT = f"{BASE_URL}/web/tourRecord/scoreRecord"
+
 # [6] Player profile page ("선수 프로필" — 소속/team-sponsor, birth
 #   year, member number, join year, grade)
 #   GET https://klpga.co.kr/web/profile/mainRecord?playerCode=<code>

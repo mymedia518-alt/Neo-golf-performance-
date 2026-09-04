@@ -4,6 +4,18 @@ probabilities (Monte Carlo, klpga.neo_win.r1_live_probability), save an
 IMMUTABLE snapshot, publish (build + hard-validate + promote), or
 preserve last-known-good production on any failure.
 
+THIS SCRIPT NO LONGER DECLARES R1 OFFICIALLY COMPLETE. It still runs
+its own 18-hole heuristic (klpga.neo_win.r1_readiness.assess_r1) against
+the roundLeaderboard endpoint and still stops its own 30-minute polling
+once that heuristic says every ACTIVE player looks done
+(stop_active_cycle=true), but it no longer sets OK_OPEN_STAGE_STATE
+.json's r1_complete/r2_ready -- that endpoint has never been observed
+reporting a real WD/DQ/DNS determination, only the generic "999
+sentinel -> status=INCOMPLETE" (see klpga.neo_win.r1_readiness's own
+module docstring). Only a PASSED run of
+scripts/98_ok_open_r1_final_reconciliation.py, against the dedicated
+official scoreRecord endpoint, may set those two flags now.
+
 Safe by default: with no --live flag, this makes ZERO HTTP requests and
 reports a SKIP_WAIT dry run -- matching every other real-collection
 script in this project (see run_klpga_collector.py's own module
@@ -384,17 +396,33 @@ def main() -> int:
         R1_LIVE_SNAPSHOT.write_text(json.dumps(latest_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
         signature = leaderboard_state_signature(rows)
-        state.setdefault("stages", {})["r1"] = {
+        # Merge, never replace: klpga.neo_win.r1_final_reconciliation
+        # (scripts/98) writes its own "final_reconciliation" key into
+        # this same stages.r1 dict once it independently confirms R1 is
+        # officially done -- overwriting the whole dict here would
+        # silently erase that record on the next 30-minute cycle.
+        r1_stage_state = dict((state.get("stages") or {}).get("r1") or {})
+        r1_stage_state.update({
             "validated": True,
             "retrieved_at": decision.retrieved_at,
             "row_count": decision.row_count,
             "r1_status": decision.r1_status,
             "signature": [list(t) for t in signature],
             "latest_snapshot_kind": kind,
-        }
+        })
+        state.setdefault("stages", {})["r1"] = r1_stage_state
         if decision.action == "PUBLISH_AND_CLOSE":
-            state["r1_complete"] = True
-            state["r2_ready"] = True
+            # This is this cycle's own 18-hole heuristic (klpga.neo_win.
+            # r1_readiness.assess_r1) reporting every ACTIVE player looks
+            # done on the roundLeaderboard endpoint -- an operational
+            # signal worth recording (and worth stopping the 30-minute
+            # schedule over, see stop_active_cycle below), but NOT an
+            # official "R1 is complete" declaration: that endpoint has
+            # never been observed reporting a real WD/DQ/DNS
+            # determination, only the generic "999" sentinel. Recording
+            # this close_record no longer sets r1_complete/r2_ready --
+            # only scripts/98_ok_open_r1_final_reconciliation.py, against
+            # the dedicated official scoreRecord source, may do that now.
             close_record = {
                 "closed_at": decision.retrieved_at,
                 "final_snapshot_kind": kind,

@@ -129,6 +129,35 @@ def test_publish_writes_immutable_snapshot_and_enriched_live_copy(cycle_module, 
     assert live["player_table"][0]["player_id"] == "1"  # leader (lower total_under_par) sorts first
 
 
+def test_stages_r1_merge_never_erases_final_reconciliation_written_by_script_98(cycle_module, monkeypatch):
+    # scripts/98_ok_open_r1_final_reconciliation.py writes its own
+    # "final_reconciliation" key into the same stages.r1 dict this
+    # script writes into every 30-minute cycle -- a later cycle here
+    # must merge into that dict, never replace it wholesale, or a
+    # completed official reconciliation would be silently erased by
+    # the next ordinary live poll.
+    cycle_module.STAGE_STATE.write_text(json.dumps({
+        "stages": {"r1": {"validated": True, "final_reconciliation": {"passed": True, "reason": "already reconciled"}}},
+        "r1_complete": True, "r2_ready": True,
+    }), encoding="utf-8")
+    monkeypatch.setattr(cycle_module, "_rebuild_and_promote", lambda: None)
+    monkeypatch.setattr(
+        cycle_module,
+        "_collect_live",
+        lambda: (
+            [{"player_id": "1", "player_name": "A", "status": "ACTIVE", "holes_completed": "9", "rank": 1, "rank_display": "1", "total_under_par": -2, "today_under_par": -2}],
+            True, False, None,
+        ),
+    )
+    monkeypatch.setattr(sys, "argv", ["96_ok_open_r1_active_cycle.py", "--live"])
+    rc = cycle_module.main()
+    assert rc == 0
+    state = json.loads(cycle_module.STAGE_STATE.read_text(encoding="utf-8"))
+    assert state["stages"]["r1"]["final_reconciliation"] == {"passed": True, "reason": "already reconciled"}
+    assert state["r1_complete"] is True  # this script never clears a flag it doesn't own either
+    assert state["r2_ready"] is True
+
+
 def test_second_identical_publish_is_skipped_as_no_new_data(cycle_module, monkeypatch):
     monkeypatch.setattr(cycle_module, "_rebuild_and_promote", lambda: None)
     rows = [
@@ -321,8 +350,13 @@ def test_collect_only_on_full_completion_still_writes_close_record_without_promo
     assert out["collect_only"] is True
     assert out["promoted"] is False
     assert cycle_module.R1_CLOSE_RECORD.exists()  # data-domain artifact still written
+    # scripts/96's own 18-hole heuristic reaching PUBLISH_AND_CLOSE no
+    # longer sets r1_complete/r2_ready -- only a PASSED run of
+    # scripts/98_ok_open_r1_final_reconciliation.py (against the
+    # dedicated official scoreRecord source) may do that now.
     state = json.loads(cycle_module.STAGE_STATE.read_text(encoding="utf-8"))
-    assert state["r1_complete"] is True
+    assert "r1_complete" not in state
+    assert "r2_ready" not in state
 
 
 def test_dry_run_never_has_collect_only_in_result(cycle_module, monkeypatch, capsys):
