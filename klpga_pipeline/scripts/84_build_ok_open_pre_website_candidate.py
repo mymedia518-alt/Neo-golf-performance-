@@ -50,6 +50,23 @@ def _fmt_delta_pct(current, pre_fraction) -> str:
     return f"{current - pre_fraction * 100:+.1f}%p"
 
 
+def _player_identity_cell(name, sponsor) -> str:
+    """The ONE shared player-identity cell markup -- name (existing
+    emphasis/weight) plus an optional muted affiliation/sponsor
+    sub-line directly underneath. Reused by every OK Open stage table
+    that renders player rows (PRE today; R1 below; any future R2/R3/
+    FINAL row renderer should call this too) so affiliation handling
+    never diverges by stage. `sponsor` must already be the real,
+    player_id-resolved value (or None) -- this function never invents
+    one: a falsy sponsor simply omits the sub-line entirely rather
+    than rendering a placeholder dash, per "no affiliation line rather
+    than inventing one"."""
+    name_html = f"<span class='player'>{html.escape(str(name) if name is not None else '—')}</span>"
+    if not sponsor:
+        return name_html
+    return name_html + f"<span class='sponsor'>{html.escape(str(sponsor))}</span>"
+
+
 def _mover_line(entry: dict, *, kind: str) -> str:
     name = html.escape(str(entry.get("player_name") or "—"))
     if kind == "pct":
@@ -67,7 +84,7 @@ def _movers_list(entries: list, *, kind: str, empty_note: str) -> str:
     return f"<ul class='mover-list'>{''.join(_mover_line(e, kind=kind) for e in entries)}</ul>"
 
 
-def _r1_live_leaderboard_section(nav: str) -> str | None:
+def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     """R1 ACTIVE MODE: render the real, official leaderboard rows a
     validated scripts/96 cycle collected, PLUS the same cycle's
     klpga.neo_win.r1_live_probability Monte Carlo output (Cut/Top20/
@@ -77,7 +94,14 @@ def _r1_live_leaderboard_section(nav: str) -> str | None:
     player (missing R1 score, or no PRE baseline to compare against)
     renders as "산출 불가", never a guessed value. Returns None (falls
     back to the "no official data yet" placeholder in the caller) when
-    no snapshot that passed its safety gate exists yet."""
+    no snapshot that passed its safety gate exists yet.
+
+    `sponsor_by_id`: player_id -> current_official_sponsor (or None),
+    resolved by the caller from the canonical PRE public master (the
+    R1 live snapshot itself carries no sponsor field). Looked up by
+    player_id only -- never falls back to name matching, so an
+    unresolved identity never silently inherits the wrong player's
+    affiliation."""
     if not R1_LIVE_SNAPSHOT.is_file():
         return None
     snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
@@ -107,7 +131,7 @@ def _r1_live_leaderboard_section(nav: str) -> str | None:
 
     body_rows = "".join(
         f"<tr><td>{html.escape(str(r.get('rank_display') or '—'))}</td>"
-        f"<th scope='row'>{html.escape(str(r.get('player_name') or '—'))}</th>"
+        f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')))}</th>"
         f"<td>{html.escape(str(r.get('total_under_par_display') or '—'))}</td>"
         f"<td>{html.escape(str(r.get('holes_completed') or '—'))}</td>"
         f"<td>{_fmt_stroke(r.get('today_under_par'))}</td>"
@@ -191,14 +215,19 @@ def build() -> Path:
         raise ValueError(f"canonical master must contain 120 records, got {len(records)}")
     # Neutral, reproducible display order: official K-RANKING, then canonical ID.
     records.sort(key=lambda r: (r.get("official_klpga_rank") is None, r.get("official_klpga_rank") or 10**9, str(r["player_id"])))
+    # Single canonical player_id -> official sponsor/affiliation lookup,
+    # shared by every stage table below (PRE uses it directly off each
+    # record; R1's snapshot carries no sponsor field of its own, so it
+    # joins through this same dict by player_id).
+    sponsor_by_id = {str(r.get("player_id")): r.get("current_official_sponsor") for r in records}
     rows = []
     for r in records:
-        name = value(r.get("current_official_player_name"))
-        sponsor = value(r.get("current_official_sponsor"))
+        name = r.get("current_official_player_name")
+        sponsor = r.get("current_official_sponsor")
         enum = r.get("neo_performance_band")
         band = BANDS.get(enum, "데이터 부족")
         accessible = {"VERY_HIGH":"최상위", "HIGH":"상위", "TYPICAL":"중위", "LOW":"하위", "VERY_LOW":"최하위", "INSUFFICIENT_EVIDENCE":"데이터 부족"}.get(enum, "데이터 부족")
-        rows.append(f"<tr><th scope='row'><span class='player'>{name}</span><span class='sponsor'>{sponsor}</span></th><td>{value(r.get('official_klpga_rank'))}</td><td><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td><td>{value(r.get('sg_total_rank'))}</td><td class='win'>{pct(r.get('win_probability'))}</td></tr>")
+        rows.append(f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th><td>{value(r.get('official_klpga_rank'))}</td><td><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td><td>{value(r.get('sg_total_rank'))}</td><td class='win'>{pct(r.get('win_probability'))}</td></tr>")
     # base_url=None: OK Open has no distinct "overview" route the way KG
     # does (its PRE page IS the tournament's landing page) -- linking the
     # breadcrumb's tournament-name crumb to a route that doesn't exist
@@ -238,7 +267,7 @@ def build() -> Path:
         # codebase. Absent the snapshot (every stage before that, and
         # r2/final until their own live pipelines exist), the honest
         # "no official data yet" placeholder is unchanged.
-        body = _r1_live_leaderboard_section(nav) if stage == "r1" else None
+        body = _r1_live_leaderboard_section(nav, sponsor_by_id) if stage == "r1" else None
         if body is None:
             body = (f'<section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p>'
                      f'<h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section>')
