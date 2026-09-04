@@ -16,10 +16,23 @@ OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
+
+# P0 MODEL SAFETY PATCH -- LIVE PROBABILITY PUBLICATION BLOCK: the ONE
+# gate every probability-derived R1 output must pass before rendering.
+# A successfully executed simulation is not sufficient for publication
+# -- only klpga.neo_win.r1_live_probability.LIVE_PROBABILITY_MODEL_STATUS
+# == "VALIDATED" is. See that module for the full defect record.
+MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
+MODEL_BLOCKED_NOTE = (
+    "NEO 확률 지표(Cut%·Top20%·Top10%·Top5%·Win%·PRE 대비 Win Δ·NEO 예상 컷·NEO Movers)는 "
+    "시뮬레이션 모델 점검(Red Team 검증)으로 검증 완료 전까지 비공개 처리됩니다. "
+    "완료홀 기준 실제 스코어만 표시합니다."
+)
 
 
 def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
@@ -131,27 +144,64 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     now = datetime.datetime.now(datetime.timezone.utc)
     stale = is_snapshot_stale(collected_at_iso, now)
     live_cadence_note = STALE_NOTICE_MARKER if stale else "라이브 업데이트 주기 30분"
+    # P0 MODEL SAFETY PATCH: cutline (an expected-cut-line DISTRIBUTION
+    # from the same blocked Monte Carlo simulation) is a probability
+    # output exactly like Cut%/Win% below -- gated identically. Omitted
+    # entirely while blocked, never shown as "산출 불가" (that would
+    # read as "not yet computed", not "withheld").
     cutline = snapshot.get("expected_cut_distribution")
     cutline_text = (
         f"{cutline['p10']:+.1f} ~ {cutline['p90']:+.1f} (중앙값 {cutline['p50']:+.1f})" if cutline else "산출 불가"
     )
-    movers = snapshot.get("neo_movers") or {}
-    # "기대 이상/이하 (오늘 스코어)" (beat_expectation/missed_expectation)
-    # is TEMPORARILY HIDDEN from this public rendering only -- the SG
-    # field-average -> score-to-par baseline conversion behind
-    # vs_expected_strokes is still under Red Team audit. The underlying
-    # computation (compute_neo_movers in r1_live_probability.py) and
-    # this snapshot's own neo_movers.beat_expectation/missed_expectation
-    # data are UNCHANGED; only the public HTML presentation is
-    # withheld. Restore these two <div>s once the conversion is
-    # approved -- do not re-derive or duplicate the logic elsewhere.
-    movers_html = (
-        f"<div class='mover-grid'>"
-        f"<div><h3>Win% 상승</h3>{_movers_list(movers.get('win_pct_risers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 상승한 선수가 없습니다.')}</div>"
-        f"<div><h3>Win% 하락</h3>{_movers_list(movers.get('win_pct_fallers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 하락한 선수가 없습니다.')}</div>"
-        f"<div><h3>컷 통과 위험 (PRE 상위권 기준)</h3>{_movers_list(movers.get('cut_pct_droppers_vs_band') or [], kind='cut_band', empty_note='PRE 상위권 선수 중 컷 통과 위험이 확인된 선수가 없습니다.')}</div>"
-        f"</div>"
+    cutline_stat = (
+        f"<div><span class='label'>NEO 예상 컷 (분포)</span><strong>{html.escape(cutline_text)}</strong></div>"
+        if MODEL_VALIDATED_FOR_PUBLICATION
+        else ""
     )
+
+    movers = snapshot.get("neo_movers") or {}
+    # P0 MODEL SAFETY PATCH: EVERY NEO Movers list traces to the same
+    # blocked simulation -- win_pct_risers/fallers and
+    # cut_pct_droppers_vs_band all read probabilities computed by
+    # simulate_r1_live(build_r1_sim_inputs(...)). "기대 이상/이하"
+    # (beat_expectation/missed_expectation) were already hidden by an
+    # earlier, narrower fix (the SG-baseline conversion specifically);
+    # this patch additionally withholds the three that fix left visible,
+    # since none of them has an independent, unaffected calculation --
+    # so the entire "NEO Movers" section has nothing left to publish
+    # and is omitted outright rather than rendered empty. The
+    # underlying compute_neo_movers() output and this snapshot's own
+    # neo_movers data are UNCHANGED; only the public HTML presentation
+    # is withheld. Restore per-list once LIVE_PROBABILITY_MODEL_STATUS
+    # is "VALIDATED" -- do not re-derive or duplicate the logic elsewhere.
+    movers_section = ""
+    if MODEL_VALIDATED_FOR_PUBLICATION:
+        movers_html = (
+            f"<div class='mover-grid'>"
+            f"<div><h3>Win% 상승</h3>{_movers_list(movers.get('win_pct_risers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 상승한 선수가 없습니다.')}</div>"
+            f"<div><h3>Win% 하락</h3>{_movers_list(movers.get('win_pct_fallers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 하락한 선수가 없습니다.')}</div>"
+            f"<div><h3>컷 통과 위험 (PRE 상위권 기준)</h3>{_movers_list(movers.get('cut_pct_droppers_vs_band') or [], kind='cut_band', empty_note='PRE 상위권 선수 중 컷 통과 위험이 확인된 선수가 없습니다.')}</div>"
+            f"</div>"
+        )
+        movers_section = f"<section class='panel'><h2>NEO Movers · PRE 대비 변화</h2>{movers_html}</section>"
+
+    def _prob_cells(r: dict) -> str:
+        # P0 MODEL SAFETY PATCH: Cut%/Top20%/Top10%/Top5%/Win%/"PRE 대비
+        # Win Δ" all derive from the same blocked simulation (Win Δ
+        # additionally depends on win_pct itself) -- omitted as columns
+        # entirely while blocked, never rendered as 0% or "산출 불가"
+        # (both would misrepresent "withheld pending model validation"
+        # as "computed but empty/unavailable").
+        if not MODEL_VALIDATED_FOR_PUBLICATION:
+            return ""
+        return (
+            f"<td>{_fmt_pct(r.get('cut_pct'))}</td>"
+            f"<td>{_fmt_pct(r.get('top20_pct'))}</td>"
+            f"<td>{_fmt_pct(r.get('top10_pct'))}</td>"
+            f"<td>{_fmt_pct(r.get('top5_pct'))}</td>"
+            f"<td>{_fmt_pct(r.get('win_pct'))}</td>"
+            f"<td>{_fmt_delta_pct(r.get('win_pct'), r.get('pre_win_probability'))}</td>"
+        )
 
     body_rows = "".join(
         f"<tr><td>{html.escape(str(r.get('rank_display') or '—'))}</td>"
@@ -160,12 +210,7 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
         f"<td>{html.escape(str(r.get('holes_completed') or '—'))}</td>"
         f"<td>{_fmt_stroke(r.get('today_under_par'))}</td>"
         f"<td>{_fmt_stroke(r.get('gap_to_leader'))}</td>"
-        f"<td>{_fmt_pct(r.get('cut_pct'))}</td>"
-        f"<td>{_fmt_pct(r.get('top20_pct'))}</td>"
-        f"<td>{_fmt_pct(r.get('top10_pct'))}</td>"
-        f"<td>{_fmt_pct(r.get('top5_pct'))}</td>"
-        f"<td>{_fmt_pct(r.get('win_pct'))}</td>"
-        f"<td>{_fmt_delta_pct(r.get('win_pct'), r.get('pre_win_probability'))}</td>"
+        f"{_prob_cells(r)}"
         f"<td>{html.escape(str(r.get('status') or '진행중'))}</td></tr>"
         for r in table
     )
@@ -176,20 +221,29 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
         f"<p class='note'>마지막 성공 업데이트(UTC): {collected_at} · {live_cadence_note}</p>"
         f"<div class='r1-live-summary__grid'>"
         f"<div><span class='label'>현재 선두</span><strong>{leader_display}</strong></div>"
-        f"<div><span class='label'>NEO 예상 컷 (분포)</span><strong>{html.escape(cutline_text)}</strong></div>"
+        f"{cutline_stat}"
         f"</div></section>"
     )
 
+    prob_headers = (
+        "<th>Cut%</th><th>Top20%</th><th>Top10%</th><th>Top5%</th><th>Win%</th><th>PRE 대비 Win Δ</th>"
+        if MODEL_VALIDATED_FOR_PUBLICATION
+        else ""
+    )
+    help_text = (
+        "Cut/Top20/Top10/Top5/Win 확률은 실제 R1 스코어(확정)와 각 선수의 PRE 성과 데이터를 결합한 몬테카를로 시뮬레이션 추정치입니다. "
+        "R1 스코어가 아직 없는 선수는 모든 확률이 \"산출 불가\"로 표시됩니다. 예상 컷은 항상 범위(분포)로만 제공되며 단일 확정값으로 제시하지 않습니다."
+        if MODEL_VALIDATED_FOR_PUBLICATION
+        else MODEL_BLOCKED_NOTE
+    )
     table_section = (
         f"<section class='panel' id='r1'><h2>R1 선수별 현황</h2>{nav}"
         f"<div class='table-wrap'><table class='data'><thead><tr>"
         f"<th>순위</th><th>선수</th><th>현재스코어</th><th>완료홀</th><th>오늘스코어</th><th>선두와 타수차</th>"
-        f"<th>Cut%</th><th>Top20%</th><th>Top10%</th><th>Top5%</th><th>Win%</th><th>PRE 대비 Win Δ</th><th>상태</th>"
+        f"{prob_headers}<th>상태</th>"
         f"</tr></thead><tbody>{body_rows}</tbody></table></div>"
-        f"<div class='help'>Cut/Top20/Top10/Top5/Win 확률은 실제 R1 스코어(확정)와 각 선수의 PRE 성과 데이터를 결합한 몬테카를로 시뮬레이션 추정치입니다. R1 스코어가 아직 없는 선수는 모든 확률이 \"산출 불가\"로 표시됩니다. 예상 컷은 항상 범위(분포)로만 제공되며 단일 확정값으로 제시하지 않습니다.</div></section>"
+        f"<div class='help'>{help_text}</div></section>"
     )
-
-    movers_section = f"<section class='panel'><h2>NEO Movers · PRE 대비 변화</h2>{movers_html}</section>"
 
     return summary + table_section + movers_section
 

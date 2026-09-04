@@ -50,12 +50,21 @@ def test_expected_vs_actual_movers_are_hidden_from_the_public_page():
     assert "missed_expectation" not in html
 
 
-def test_win_pct_movers_and_cut_risk_remain_visible():
+def test_win_pct_movers_and_cut_risk_visibility_matches_model_publication_status():
+    # These three were left visible by THIS patch's own earlier, narrower
+    # fix -- but P0 MODEL SAFETY PATCH (LIVE_PROBABILITY_MODEL_STATUS)
+    # subsequently blocked them too, since they derive from the same
+    # simulation. Whether they show up now tracks that broader gate, not
+    # a hardcoded assumption -- see test_ok_open_r1_model_publication_block.py
+    # for the full block-vs-validated behavior this delegates to.
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "Win% 상승" in html
-    assert "Win% 하락" in html
-    assert "컷 통과 위험" in html
+    if builder.MODEL_VALIDATED_FOR_PUBLICATION:
+        assert "Win% 상승" in html
+        assert "Win% 하락" in html
+        assert "컷 통과 위험" in html
+    else:
+        assert "<h2>NEO Movers" not in html
 
 
 def test_underlying_neo_movers_data_and_computation_are_unaffected():
@@ -83,11 +92,15 @@ def test_live_copy_still_replaced():
     assert "공식 리더보드 + NEO 시뮬레이션" not in html
 
 
-def test_win_pct_column_and_win_delta_still_in_detailed_table():
+def test_win_pct_column_and_win_delta_presence_matches_model_publication_status():
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "<th>Win%</th>" in html
-    assert "<th>PRE 대비 Win Δ</th>" in html
+    if builder.MODEL_VALIDATED_FOR_PUBLICATION:
+        assert "<th>Win%</th>" in html
+        assert "<th>PRE 대비 Win Δ</th>" in html
+    else:
+        assert "<th>Win%</th>" not in html
+        assert "<th>PRE 대비 Win Δ</th>" not in html
 
 
 def test_affiliation_still_preserved_and_never_fabricated():

@@ -108,7 +108,13 @@ def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
         assert page.exists()
         html = page.read_text(encoding="utf-8")
         assert "neo-public-master-sha256" in html
-        assert "아직" in html or stage == "pre"
+        # R2/FINAL have no real pipeline yet and must show the honest
+        # "공식 데이터가 아직 없습니다" placeholder. PRE and R1 both have
+        # real data (R1's page previously matched "아직" only by
+        # coincidence, via now-removed probability-model help text --
+        # P0 MODEL SAFETY PATCH -- so it is exempted explicitly here,
+        # not by an accidental substring match).
+        assert "아직" in html or stage in ("pre", "r1")
     assert not (root / "r3").exists()
     manifest = json.loads((out / "data/manifest.json").read_text(encoding="utf-8"))
     assert len(manifest["source_master_sha256"]) == 64
