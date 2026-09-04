@@ -48,7 +48,12 @@ def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
     ]
 
 def _fmt_pct(v) -> str:
-    return "산출 불가" if v is None else f"{v:.1f}%"
+    # A NEO/model cell that could not be computed for this player (no
+    # PRE baseline, no R1 score yet, etc.) renders as a plain empty
+    # cell -- never "산출 불가", which reads as its own kind of computed
+    # result ("we tried and failed") rather than "there is nothing to
+    # show here".
+    return "" if v is None else f"{v:.1f}%"
 
 
 def _fmt_stroke(v) -> str:
@@ -82,36 +87,36 @@ def _fmt_stroke(v) -> str:
 # signal.
 _UNRESOLVED_STATUSES = {"INCOMPLETE", "WD", "DQ"}
 _STATUS_LABELS = {"WD": "WD", "DQ": "DQ"}
-_UNKNOWN_STATUS_CELL = "—"
 
 
 def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
     """One player's R1 table row. A row whose status is did-not-complete
     (_UNRESOLVED_STATUSES -- the confirmed "999" rank sentinel, or a
-    literal WD/DQ status) shows "—" for rank/오늘스코어/선두와 타수차
-    instead of a fabricated "999"-as-rank or three separately repeated
-    "산출 불가" cells. The 상태 cell itself is "—" too when all the
+    literal WD/DQ status) leaves 순위/현재스코어/오늘스코어/선두와 타수차
+    completely EMPTY (never a fabricated "999"-as-rank, never "—", never
+    three separately repeated "산출 불가" cells) -- an empty cell reads
+    as "not applicable", a dash or a Korean sentence both read as "we
+    computed something". The 상태 cell itself is also empty when all the
     source gives us is the raw 999 sentinel (status="INCOMPLETE") --
-    there is no honest Korean word for "player stopped playing for an
-    unknown reason", so the row simply shows only what is known
-    (name, holes completed) and dashes for everything that isn't,
-    rather than a label that reads as more certain than it is. "WD"/
-    "DQ" are shown as literal text only on a row whose status IS
-    literally that word."""
+    there is no honest word for "player stopped playing for an unknown
+    reason", so the row shows only what is actually known (name, holes
+    completed) and nothing else. "WD"/"DQ" are shown as literal text
+    only on a row whose status IS literally that word."""
     status = r.get("status")
     unresolved = status in _UNRESOLVED_STATUSES
-    rank_cell = "—" if unresolved else html.escape(str(r.get("rank_display") or "—"))
-    today_cell = "—" if unresolved else _fmt_stroke(r.get("today_under_par"))
-    gap_cell = "—" if unresolved else _fmt_stroke(r.get("gap_to_leader"))
+    rank_cell = "" if unresolved else html.escape(str(r.get("rank_display") or ""))
+    total_cell = "" if unresolved else html.escape(str(r.get("total_under_par_display") or ""))
+    today_cell = "" if unresolved else _fmt_stroke(r.get("today_under_par"))
+    gap_cell = "" if unresolved else _fmt_stroke(r.get("gap_to_leader"))
     if status == "INCOMPLETE":
-        status_cell = _UNKNOWN_STATUS_CELL
+        status_cell = ""
     else:
         status_cell = html.escape(_STATUS_LABELS.get(status, status or "진행중"))
     return (
         f"<tr><td>{rank_cell}</td>"
         f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')))}</th>"
-        f"<td>{html.escape(str(r.get('total_under_par_display') or '—'))}</td>"
-        f"<td>{html.escape(str(r.get('holes_completed') or '—'))}</td>"
+        f"<td>{total_cell}</td>"
+        f"<td>{html.escape(str(r.get('holes_completed') or ''))}</td>"
         f"<td>{today_cell}</td>"
         f"<td>{gap_cell}</td>"
         f"{prob_cells(r)}"
@@ -125,7 +130,7 @@ def _fmt_delta_pct(current, pre_fraction) -> str:
     players -- a missing PRE baseline means the delta genuinely cannot
     be computed, never defaulted to 0)."""
     if current is None or pre_fraction is None:
-        return "산출 불가"
+        return ""
     return f"{current - pre_fraction * 100:+.1f}%p"
 
 
@@ -171,9 +176,10 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     rather than one asserted number, and NEO Movers vs the frozen PRE
     baseline). Every probability that could not be computed for a
     player (missing R1 score, or no PRE baseline to compare against)
-    renders as "산출 불가", never a guessed value. Returns None (falls
-    back to the "no official data yet" placeholder in the caller) when
-    no snapshot that passed its safety gate exists yet.
+    renders as a plain empty cell, never "산출 불가" and never a guessed
+    value. Returns None (falls back to the "no official data yet"
+    placeholder in the caller) when no snapshot that passed its safety
+    gate exists yet.
 
     `sponsor_by_id`: player_id -> current_official_sponsor (or None),
     resolved by the caller from the canonical PRE public master (the
@@ -284,19 +290,27 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
         if MODEL_VALIDATED_FOR_PUBLICATION
         else ""
     )
+    # The long "비공개 처리됩니다" explanatory notice (MODEL_BLOCKED_NOTE)
+    # is deliberately not rendered on the page while blocked -- the
+    # absent probability columns already say everything there is to say;
+    # a paragraph of prose next to them added length without adding
+    # information. MODEL_BLOCKED_NOTE itself stays defined (still used
+    # by tests asserting the blocked state carries a real, documented
+    # rationale even when it is not shown to the public).
     help_text = (
         "Cut/Top20/Top10/Top5/Win 확률은 실제 R1 스코어(확정)와 각 선수의 PRE 성과 데이터를 결합한 몬테카를로 시뮬레이션 추정치입니다. "
-        "R1 스코어가 아직 없는 선수는 모든 확률이 \"산출 불가\"로 표시됩니다. 예상 컷은 항상 범위(분포)로만 제공되며 단일 확정값으로 제시하지 않습니다."
+        "R1 스코어가 아직 없는 선수는 해당 확률 칸이 비어 있습니다. 예상 컷은 항상 범위(분포)로만 제공되며 단일 확정값으로 제시하지 않습니다."
         if MODEL_VALIDATED_FOR_PUBLICATION
-        else MODEL_BLOCKED_NOTE
+        else ""
     )
+    help_section = f"<div class='help'>{help_text}</div>" if help_text else ""
     table_section = (
         f"<section class='panel' id='r1'><h2>R1 선수별 현황</h2>{nav}"
         f"<div class='table-wrap'><table class='data'><thead><tr>"
         f"<th>순위</th><th>선수</th><th>현재스코어</th><th>완료홀</th><th>오늘스코어</th><th>선두와 타수차</th>"
         f"{prob_headers}<th>상태</th>"
         f"</tr></thead><tbody>{body_rows}</tbody></table></div>"
-        f"<div class='help'>{help_text}</div></section>"
+        f"{help_section}</section>"
     )
 
     return summary + table_section + movers_section
