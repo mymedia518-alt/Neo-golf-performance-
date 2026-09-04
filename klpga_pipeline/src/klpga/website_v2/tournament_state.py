@@ -19,8 +19,11 @@ whether any stage is actually available.
 """
 from __future__ import annotations
 
+import datetime
 import json
 from pathlib import Path
+
+_KST = datetime.timezone(datetime.timedelta(hours=9))
 
 OK_DISPLAY_NAME = "OK저축은행 읏맨 오픈"
 OK_BASE = "/tournaments/2026/ok-savings-bank-open/"
@@ -61,11 +64,12 @@ def ok_open_available_stages() -> dict[str, str]:
 
 
 def ok_open_latest_stage_update() -> dict | None:
-    """{'stage': ..., 'retrieved_at': ...} for the most-advanced
-    validated stage's real collection timestamp -- what HOME's "마지막
-    업데이트" line shows. None while only PRE (no live timestamp) is
-    available. Never build time -- always the actual official-data
-    retrieval time recorded by script 96."""
+    """{'stage', 'retrieved_at' (raw ISO), 'retrieved_at_hhmm_kst'
+    (what HOME's "마지막 업데이트 HH:MM" line actually shows)} for the
+    most-advanced validated stage's real collection timestamp. None
+    while only PRE (no live timestamp) is available. Never build time
+    -- always the actual official-data retrieval time recorded by
+    script 96."""
     stage_key, _ = ok_open_latest_available_stage()
     if stage_key == "pre":
         return None
@@ -73,7 +77,22 @@ def ok_open_latest_stage_update() -> dict | None:
     entry = (state.get("stages") or {}).get(stage_key)
     if not entry or not entry.get("retrieved_at"):
         return None
-    return {"stage": stage_key, "retrieved_at": entry["retrieved_at"]}
+    retrieved_at = entry["retrieved_at"]
+    dt = datetime.datetime.fromisoformat(retrieved_at.replace("Z", "+00:00")).astimezone(_KST)
+    return {"stage": stage_key, "retrieved_at": retrieved_at, "retrieved_at_hhmm_kst": dt.strftime("%H:%M")}
+
+
+def ok_open_r1_status() -> str | None:
+    """'IN_PROGRESS' while R1 has a validated in-round snapshot but has
+    not been confirmed officially complete; 'COMPLETE' once script 96's
+    R1-close workflow has run (state['r1_complete']); None while R1
+    itself has no validated data yet. Never inferred from a date or
+    clock -- reacts only to what script 96 actually recorded."""
+    state = _read_stage_state()
+    r1_entry = (state.get("stages") or {}).get("r1")
+    if not r1_entry or not (isinstance(r1_entry, dict) and r1_entry.get("validated")):
+        return None
+    return "COMPLETE" if state.get("r1_complete") else "IN_PROGRESS"
 
 
 def ok_open_latest_available_stage() -> tuple[str, str]:

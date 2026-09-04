@@ -81,3 +81,38 @@ def test_cycle_decision_is_immutable():
         assert False, "CycleDecision must be frozen"
     except Exception:
         pass
+
+
+def test_decide_cycle_without_previous_signature_still_publishes():
+    # Omitting previous_signature (every caller before the freshness gate
+    # existed, and every test above) must behave byte-identical to before.
+    rows = [_row("1", holes="9"), _row("2", holes="18"), _row("3", holes="4")]
+    decision = decide_cycle(rows, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW)
+    assert decision.action == "PUBLISH"
+    assert decision.signature is not None
+
+
+def test_decide_cycle_skips_when_signature_matches_previous_and_round_still_in_progress():
+    rows = [_row("1", holes="9"), _row("2", holes="18"), _row("3", holes="4")]
+    first = decide_cycle(rows, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW)
+    second = decide_cycle(rows, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW, previous_signature=first.signature)
+    assert second.action == "SKIP_NO_NEW_DATA"
+    assert "unchanged" in second.reason
+
+
+def test_decide_cycle_publishes_when_signature_differs_from_previous():
+    rows_a = [_row("1", holes="9"), _row("2", holes="18"), _row("3", holes="4")]
+    rows_b = [_row("1", holes="10"), _row("2", holes="18"), _row("3", holes="4")]  # player "1" advanced a hole
+    first = decide_cycle(rows_a, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW)
+    second = decide_cycle(rows_b, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW, previous_signature=first.signature)
+    assert second.action == "PUBLISH"
+
+
+def test_decide_cycle_publish_and_close_is_never_suppressed_by_a_matching_signature():
+    rows = [_row("1", holes="18"), _row("2", holes="18"), _row("3", status="WD", holes="9")]
+    first = decide_cycle(rows, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW)
+    assert first.action == "PUBLISH_AND_CLOSE"
+    # Even if a caller (incorrectly) passed the identical signature back in,
+    # the R1-close workflow must still run -- it is never skipped as "no new data".
+    second = decide_cycle(rows, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW, previous_signature=first.signature)
+    assert second.action == "PUBLISH_AND_CLOSE"
