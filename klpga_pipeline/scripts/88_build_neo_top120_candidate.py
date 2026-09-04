@@ -86,19 +86,32 @@ def _current_score_cells_by_id() -> dict[str, CurrentScoreCell]:
     }
 
 
-def _latest_live_leader_score() -> str | None:
-    """Return the official cumulative leader score from the latest R1 snapshot."""
+def _latest_live_leader() -> tuple[str, str] | None:
+    """(player_name, official cumulative to-par display) for the real
+    current leader in the latest R1 snapshot's player_table (already
+    sorted ascending by total_under_par by script 96's
+    _build_player_table -- the first scored row IS the leader). None
+    when no snapshot exists or no player has posted a score yet --
+    never a guess."""
     if not R1_LIVE_SNAPSHOT.is_file():
         return None
     try:
         snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
-        scores = [r.get("total_under_par") for r in snapshot.get("player_table", []) if isinstance(r.get("total_under_par"), int)]
     except (OSError, json.JSONDecodeError):
         return None
-    if not scores:
-        return None
-    score = min(scores)
-    return "E" if score == 0 else f"{score:+d}"
+    for row in snapshot.get("player_table", []):
+        score = row.get("total_under_par")
+        if isinstance(score, int):
+            display = "E" if score == 0 else f"{score:+d}"
+            return row.get("player_name") or "—", display
+    return None
+
+
+def _latest_live_leader_score() -> str | None:
+    """Just the score half of _latest_live_leader() -- kept for the
+    ranking section's existing "Leader : -4" line."""
+    leader = _latest_live_leader()
+    return leader[1] if leader else None
 
 
 def _tournament_day_hero(ok_participant_count: int | None) -> str:
@@ -112,7 +125,19 @@ def _tournament_day_hero(ok_participant_count: int | None) -> str:
     # advance, not a live status) plus whichever stage really exists.
     stage_key, stage_url = ok_open_latest_available_stage()
     stage_label = STAGE_LABELS[stage_key]
-    facts = f'<div class="tournament-day-hero__facts"><div><strong>{ok_participant_count}명</strong><span>참가 선수</span></div></div>' if ok_participant_count is not None else ""
+    # HOME TOURNAMENT-FIRST: the hero is HOME's first-screen content, so
+    # the real current leader belongs here too -- not only in the
+    # ranking section further down the page. Same source
+    # (_latest_live_leader() reads the identical live R1 snapshot script
+    # 84's R1 page and the ranking section's own "Leader :" line read),
+    # never a separate guess. Absent entirely (no live snapshot, or no
+    # player has posted a score yet) rather than showing a placeholder.
+    leader = _latest_live_leader()
+    fact_items = f'<div><strong>{ok_participant_count}명</strong><span>참가 선수</span></div>' if ok_participant_count is not None else ""
+    if leader is not None:
+        leader_name, leader_score = leader
+        fact_items += f'<div><strong>{escape(leader_name)} {escape(leader_score)}</strong><span>현재 선두</span></div>'
+    facts = f'<div class="tournament-day-hero__facts">{fact_items}</div>' if fact_items else ""
     # R1 ACTIVE MODE: once a live stage (R1+) has a real collection
     # timestamp (never build time -- see tournament_state.py), show it
     # in HH:MM (KST) so a viewer can tell how fresh the data is. Absent

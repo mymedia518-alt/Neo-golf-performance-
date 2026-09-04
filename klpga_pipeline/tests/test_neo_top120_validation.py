@@ -170,13 +170,17 @@ def test_http_routes_are_real_index_pages_not_directory_listings(built):
 
 
 def test_tournament_state_never_infers_a_stage_from_todays_date():
-    # The single source of truth: extend by hand, never derive from a
-    # calendar. Today only PRE is real.
+    # The single source of truth: extend by hand (script 96, after a
+    # real validated collection), never derive from a calendar. PRE
+    # always qualifies; R1 now also qualifies because a real R1 cycle
+    # has actually run and validated it (see OK_OPEN_STAGE_STATE.json)
+    # -- ok_open_latest_available_stage() correctly reports the most
+    # advanced REAL stage, r1, not a hardcoded pre.
     available = ok_open_available_stages()
     assert available["pre"] == "/tournaments/2026/ok-savings-bank-open/pre/"
     assert available.get("r1") == "/tournaments/2026/ok-savings-bank-open/r1/"
     stage, url = ok_open_latest_available_stage()
-    assert stage == "pre" and url == available["pre"]
+    assert stage == "r1" and url == available["r1"]
     assert home_mode() == "TOURNAMENT_ACTIVE"
 
 
@@ -186,8 +190,11 @@ def test_home_shows_tournament_day_hero_as_the_page_h1_with_no_fabricated_status
     assert '<h1>OK저축은행 읏맨 오픈</h1>' in html
     assert 'data-home-mode="TOURNAMENT_ACTIVE"' in html
     assert "2026.09.04" in html and "09.06" in html
-    assert '현재 이용 가능한 분석' in html and '사전 분석 PRE' in html
-    assert 'href="/tournaments/2026/ok-savings-bank-open/pre/"' in html
+    # A real R1 cycle has validated data now, so the hero's CTA correctly
+    # points at R1 (the most advanced real stage), not PRE -- see
+    # test_tournament_state_never_infers_a_stage_from_todays_date.
+    assert '현재 이용 가능한 분석' in html and '<strong>R1</strong>' in html
+    assert 'href="/tournaments/2026/ok-savings-bank-open/r1/"' in html
     # "진행 중인 대회" (the tournament's own period status) is the
     # spec's own intended kicker label -- what must never appear is a
     # claim about a specific ROUND being live, or a live leaderboard.
@@ -197,6 +204,29 @@ def test_home_shows_tournament_day_hero_as_the_page_h1_with_no_fabricated_status
     assert '<h2 class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</h2>' in html
     assert html.count("data-player-row") == 120  # TOP120 not deleted, just moved down
     assert html.index('data-home-mode="TOURNAMENT_ACTIVE"') < html.index("ranking-compare-heading")
+
+
+def test_home_hero_shows_the_real_current_leader_when_a_live_snapshot_exists(built):
+    # HOME TOURNAMENT-FIRST: the hero is the page's first-screen content,
+    # so the real leader belongs there too, not only further down in the
+    # ranking section. Cross-checked dynamically against the actual live
+    # snapshot file (never a hardcoded name/score, which would go stale
+    # the moment a later real cycle changes the leader).
+    snapshot_path = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
+    if not snapshot_path.is_file():
+        pytest.skip("no live R1 snapshot present in this checkout")
+    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    scored = [r for r in snapshot.get("player_table", []) if isinstance(r.get("total_under_par"), int)]
+    if not scored:
+        pytest.skip("live snapshot has no scored players yet")
+    leader = scored[0]
+    score = leader["total_under_par"]
+    score_display = "E" if score == 0 else f"{score:+d}"
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    hero_end = html.index("</section>", html.index("tournament-day-hero"))
+    hero_html = html[html.index("tournament-day-hero"):hero_end]
+    assert "현재 선두" in hero_html
+    assert leader["player_name"] in hero_html and score_display in hero_html
 
 
 def test_kg_ladies_open_never_shown_as_the_active_tournament_day_hero(built):
