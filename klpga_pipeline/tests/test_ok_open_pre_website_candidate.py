@@ -122,21 +122,30 @@ def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
 
 def test_stage_links_resolve_from_every_generated_stage_page():
     # v3 UI/UX rebuild (spec 9/10): a stage that has no real data yet must
-    # never be a clickable link -- only PRE is real today, so it's the
-    # only stage-nav item with an href; R1/R2/FINAL render as disabled
-    # (present as text, no href) on every stage page, including on their
-    # own pages.
+    # never be a clickable link. Which stages currently qualify is read
+    # from the same single source of truth every other page uses
+    # (tournament_state.ok_open_available_stages()) -- PRE always
+    # qualifies, and R1 now also qualifies because a real R1 active-cycle
+    # has actually run and validated it (see OK_OPEN_STAGE_STATE.json).
+    # R2/FINAL have no real data yet, so they still render disabled
+    # (present as text, no href) on every stage page.
     from urllib.parse import urljoin
+
+    from klpga.website_v2.tournament_state import ok_open_available_stages
+
     out = builder.build()
     root = out / "tournaments/2026/ok-savings-bank-open"
+    real_stages = ok_open_available_stages()
+    fake_stages = [s for s in ("pre", "r1", "r2", "final") if s not in real_stages]
     for stage in ["pre", "r1", "r2", "final"]:
         page_url = f"http://localhost/tournaments/2026/ok-savings-bank-open/{stage}/"
         html = (root / stage / "index.html").read_text(encoding="utf-8")
-        pre_href = "/tournaments/2026/ok-savings-bank-open/pre/"
-        assert pre_href in html
-        assert urljoin(page_url, pre_href).endswith("/pre/")
-        for target in ["r1", "r2", "final"]:
+        for real in real_stages:
+            href = f"/tournaments/2026/ok-savings-bank-open/{real}/"
+            assert href in html
+            assert urljoin(page_url, href).endswith(f"/{real}/")
+        for target in fake_stages:
             href = f"/tournaments/2026/ok-savings-bank-open/{target}/"
             assert href not in html, f"{target} has no real data yet and must not be a clickable link on the {stage} page"
-            assert f'class="stage-nav__disabled"' in html and target.upper() in html
+            assert 'class="stage-nav__disabled"' in html and target.upper() in html
         assert "/r3/" not in html
