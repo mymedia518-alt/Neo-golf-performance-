@@ -4,6 +4,7 @@ from __future__ import annotations
 import datetime
 import importlib.util
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -85,6 +86,21 @@ def _current_score_cells_by_id() -> dict[str, CurrentScoreCell]:
     }
 
 
+def _latest_live_leader_score() -> str | None:
+    """Return the official cumulative leader score from the latest R1 snapshot."""
+    if not R1_LIVE_SNAPSHOT.is_file():
+        return None
+    try:
+        snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+        scores = [r.get("total_under_par") for r in snapshot.get("player_table", []) if isinstance(r.get("total_under_par"), int)]
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not scores:
+        return None
+    score = min(scores)
+    return "E" if score == 0 else f"{score:+d}"
+
+
 def _tournament_day_hero(ok_participant_count: int | None) -> str:
     # TOURNAMENT-DAY MODE: this is the ONLY thing that decides which
     # stage the CTA links to and which label it shows -- always
@@ -153,6 +169,13 @@ def render_clean(
     # tournament) reproduces the original H1-only markup byte-for-byte,
     # so HOME reverts cleanly once no tournament has validated data.
     tournament_hero = _tournament_day_hero(ok_participant_count) if mode == "TOURNAMENT_ACTIVE" else ""
+    stage_key, _ = ok_open_latest_available_stage()
+    if mode == "TOURNAMENT_ACTIVE":
+        leader = _latest_live_leader_score()
+        leader_text = f"Leader : {leader}" if leader is not None else "Leader : 검증 대기"
+        section_heading = f'<p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO Ranking</h2><p class="home-leader-score">{leader_text}</p>'
+    else:
+        section_heading = '<p class="section-label">선수 비교</p><h2>TOP120 선수표</h2><span class="state-chip">검증용 · 공개 확정 전</span>'
     ranking_heading_tag = "h2" if mode == "TOURNAMENT_ACTIVE" else "h1"
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
 {tournament_hero}
@@ -171,7 +194,11 @@ def build() -> dict:
     summary["maximum_fallers"] = [{"player_name": r["player_name"], "k_rank": r["official_k_rank"], "neo_rank": r["neo_validation_rank"], "rank_delta": r["rank_delta"]} for r in sorted(ranked, key=lambda r: (r["rank_delta"], r["player_id"]))[:10]]
     dataset = {"schema_version": "neo_top120_evaluation_v1", "publication_class": config["publication_class"], "cohort_provenance": cohort["official_source"], "model": config, "summary": summary, "records": rows}
     validate_top120_population(dataset)
-    if OUTPUT.exists(): shutil.rmtree(OUTPUT)
+    if OUTPUT.exists():
+        try:
+            shutil.rmtree(OUTPUT)
+        except PermissionError:
+            pass
     OUTPUT.mkdir(parents=True); (OUTPUT / "assets").mkdir(); (OUTPUT / "data").mkdir()
     preserved = ROOT / "candidate" / "neo-data-home"
     for route in ("tournaments", "about", "deep-dive", "protected"):
@@ -197,6 +224,14 @@ def build() -> dict:
         render_clean(rows, summary, cohort.get("ranking_week"), mode=mode, ok_participant_count=ok_participant_count, current_score_cells_by_id=current_score_cells_by_id),
         active_section="home",
     )
+    # Replace only the ranking section heading; all table data remains the
+    # exact TOP120 evaluation output above.
+    if mode == "TOURNAMENT_ACTIVE":
+        stage_key, _ = ok_open_latest_available_stage()
+        leader = _latest_live_leader_score()
+        leader_text = f"Leader : {leader}" if leader is not None else "Leader : 검증 대기"
+        heading = f'<div class="section-heading"><div><p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO Ranking</h2><p class="home-leader-score">{leader_text}</p></div></div>'
+        rendered_home = re.sub(r'<div class="section-heading">.*?</div><div class="home-tools">', heading + '<div class="home-tools">', rendered_home, count=1, flags=re.S)
     rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
