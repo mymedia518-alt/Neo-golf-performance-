@@ -173,7 +173,8 @@ def test_tournament_state_never_infers_a_stage_from_todays_date():
     # The single source of truth: extend by hand, never derive from a
     # calendar. Today only PRE is real.
     available = ok_open_available_stages()
-    assert available == {"pre": "/tournaments/2026/ok-savings-bank-open/pre/"}
+    assert available["pre"] == "/tournaments/2026/ok-savings-bank-open/pre/"
+    assert available.get("r1") == "/tournaments/2026/ok-savings-bank-open/r1/"
     stage, url = ok_open_latest_available_stage()
     assert stage == "pre" and url == available["pre"]
     assert home_mode() == "TOURNAMENT_ACTIVE"

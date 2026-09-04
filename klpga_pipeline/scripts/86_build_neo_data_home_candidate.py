@@ -64,8 +64,13 @@ def build() -> dict:
     warehouse = load_json(CONTENT / "historical_sg_warehouse_corrected.json")
     rows, summary = join_home_rows(population, ranking, warehouse)
     if OUTPUT.exists():
-        shutil.rmtree(OUTPUT)
-    shutil.copytree(REPO / "docs", OUTPUT)
+        try:
+            shutil.rmtree(OUTPUT)
+        except PermissionError:
+            # Managed Windows worktrees may deny cleanup of prior generated
+            # files; overwrite the deterministic outputs in place instead.
+            pass
+    shutil.copytree(REPO / "docs", OUTPUT, dirs_exist_ok=True)
     ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / "tournaments" / "2026" / "ok-savings-bank-open"
     shutil.copytree(ok_source, OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open", dirs_exist_ok=True)
     # KG Ladies Open PRE/R3/FINAL: already-built, manifest-verified real
