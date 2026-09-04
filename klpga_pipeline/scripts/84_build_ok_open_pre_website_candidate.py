@@ -116,12 +116,19 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
         f"{cutline['p10']:+.1f} ~ {cutline['p90']:+.1f} (중앙값 {cutline['p50']:+.1f})" if cutline else "산출 불가"
     )
     movers = snapshot.get("neo_movers") or {}
+    # "기대 이상/이하 (오늘 스코어)" (beat_expectation/missed_expectation)
+    # is TEMPORARILY HIDDEN from this public rendering only -- the SG
+    # field-average -> score-to-par baseline conversion behind
+    # vs_expected_strokes is still under Red Team audit. The underlying
+    # computation (compute_neo_movers in r1_live_probability.py) and
+    # this snapshot's own neo_movers.beat_expectation/missed_expectation
+    # data are UNCHANGED; only the public HTML presentation is
+    # withheld. Restore these two <div>s once the conversion is
+    # approved -- do not re-derive or duplicate the logic elsewhere.
     movers_html = (
         f"<div class='mover-grid'>"
         f"<div><h3>Win% 상승</h3>{_movers_list(movers.get('win_pct_risers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 상승한 선수가 없습니다.')}</div>"
         f"<div><h3>Win% 하락</h3>{_movers_list(movers.get('win_pct_fallers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 하락한 선수가 없습니다.')}</div>"
-        f"<div><h3>기대 이상 (오늘 스코어)</h3>{_movers_list(movers.get('beat_expectation') or [], kind='strokes', empty_note='산출 불가')}</div>"
-        f"<div><h3>기대 이하 (오늘 스코어)</h3>{_movers_list(movers.get('missed_expectation') or [], kind='strokes', empty_note='산출 불가')}</div>"
         f"<div><h3>컷 통과 위험 (PRE 상위권 기준)</h3>{_movers_list(movers.get('cut_pct_droppers_vs_band') or [], kind='cut_band', empty_note='PRE 상위권 선수 중 컷 통과 위험이 확인된 선수가 없습니다.')}</div>"
         f"</div>"
     )
