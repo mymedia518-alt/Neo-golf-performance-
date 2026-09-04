@@ -47,6 +47,7 @@ DEST = REPO_ROOT / "docs"
 
 REQUIRED_ROUTES = [
     "index.html",
+    "ranking/index.html",
     "tournaments/index.html",
     "deep-dive/index.html",
     "about/index.html",
@@ -68,7 +69,7 @@ REQUIRED_ROUTES = [
 # Only the candidate's own content routes are mirrored -- pure hosting
 # config that has no equivalent inside the candidate tree (the GitHub
 # Pages custom-domain CNAME) is left alone.
-MIRRORED_TOP_LEVEL = ["index.html", "about", "assets", "data", "deep-dive", "tournaments", "protected"]
+MIRRORED_TOP_LEVEL = ["index.html", "about", "assets", "data", "deep-dive", "ranking", "tournaments", "protected"]
 
 
 class PromotionError(Exception):
