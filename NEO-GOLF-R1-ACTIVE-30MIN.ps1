@@ -36,8 +36,21 @@ try {
     # never a merge/rebase/reset -- git itself refuses if this is not a
     # true fast-forward). Any real divergence still HARD_STOPs exactly
     # as before.
+    # COLLECT/VALIDATE/PUBLISH decoupling (P0 incident follow-up): a
+    # true divergence still HARD_STOPs the PUBLISH path here (no
+    # automatic merge/rebase/overwrite -- that stays a human decision).
+    # But official R1 data is time-sensitive and cannot be re-observed
+    # later, so during a real incident an operator can still run
+    #   & $Python 'klpga_pipeline\scripts\96_ok_open_r1_active_cycle.py' --live --collect-only
+    # by hand: it saves the immutable snapshot + stage state to local
+    # disk WITHOUT touching git or docs/, so no official data point is
+    # lost merely because publishing is blocked. This script does not
+    # do that automatically (rebuilding/promoting from a diverged
+    # checkout risks locally regressing content that already shipped
+    # from elsewhere) -- resolving the divergence and a normal
+    # --live --git-push cycle remains the actual fix.
     $mergeBase = (& git -c safe.directory=$Repo merge-base HEAD origin/neo-website-v2).Trim()
-    if ($mergeBase -ne $local) { Write-Output "HARD_STOP: local=$local remote=$remote; true divergence, no automatic overwrite"; exit 2 }
+    if ($mergeBase -ne $local) { Write-Output "HARD_STOP: local=$local remote=$remote; true divergence, no automatic overwrite -- run --live --collect-only by hand to preserve official data while this is resolved"; exit 2 }
     & git -c safe.directory=$Repo merge --ff-only origin/neo-website-v2
     if ($LASTEXITCODE -ne 0) { Write-Output "HARD_STOP: fast-forward sync from origin failed unexpectedly"; exit 2 }
     $local = (& git -c safe.directory=$Repo rev-parse HEAD).Trim()

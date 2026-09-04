@@ -228,3 +228,109 @@ def test_build_failure_leaves_promoted_false_and_never_raises(cycle_module, monk
     rc = cycle_module.main()
     assert rc == 1  # failure signaled, but no exception escaped
     assert not cycle_module.LOCK_PATH.exists()  # lock still released
+
+
+# P0 incident follow-up (COLLECT/VALIDATE/PUBLISH failure-domain
+# decoupling): --collect-only must always save the immutable snapshot
+# and STAGE_STATE.json (the actual, time-sensitive, unrecoverable
+# official data) while NEVER calling _rebuild_and_promote or
+# _git_commit_and_push -- proven here by making both raise if invoked,
+# not merely by asserting on their absence from the result dict.
+
+
+def _boom(*_a, **_kw):
+    raise AssertionError("must not be called when --collect-only is set")
+
+
+def test_collect_only_saves_snapshot_and_state_but_never_builds_or_pushes(cycle_module, monkeypatch, capsys):
+    monkeypatch.setattr(cycle_module, "_rebuild_and_promote", _boom)
+    monkeypatch.setattr(cycle_module, "_git_commit_and_push", _boom)
+    monkeypatch.setattr(
+        cycle_module,
+        "_collect_live",
+        lambda: (
+            [
+                {"player_id": "1", "player_name": "A", "status": "ACTIVE", "holes_completed": "9", "rank": 1, "rank_display": "1", "total_under_par": -2, "today_under_par": -2},
+                {"player_id": "2", "player_name": "B", "status": "ACTIVE", "holes_completed": "18", "rank": 2, "rank_display": "2", "total_under_par": 1, "today_under_par": 1},
+            ],
+            True,
+            False,
+            None,
+        ),
+    )
+    monkeypatch.setattr(sys, "argv", ["96_ok_open_r1_active_cycle.py", "--live", "--collect-only"])
+    rc = cycle_module.main()
+    out = json.loads(capsys.readouterr().out.strip())
+    assert rc == 0
+    assert out["action"] == "PUBLISH"
+    assert out["collect_only"] is True
+    assert out["promoted"] is False
+    assert "git_pushed" not in out
+
+    snapshots = list((cycle_module.CONTENT / "r1_snapshots").glob("*.json"))
+    assert len(snapshots) == 1  # official raw data preserved to disk regardless
+    live = json.loads(cycle_module.R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+    assert len(live["player_table"]) == 2
+    state = json.loads(cycle_module.STAGE_STATE.read_text(encoding="utf-8"))
+    assert state["stages"]["r1"]["validated"] is True
+
+
+def test_collect_only_ignores_git_push_flag_and_still_never_pushes(cycle_module, monkeypatch, capsys):
+    monkeypatch.setattr(cycle_module, "_rebuild_and_promote", _boom)
+    monkeypatch.setattr(cycle_module, "_git_commit_and_push", _boom)
+    monkeypatch.setattr(
+        cycle_module,
+        "_collect_live",
+        lambda: (
+            [{"player_id": "1", "player_name": "A", "status": "ACTIVE", "holes_completed": "9", "rank": 1, "rank_display": "1", "total_under_par": -2, "today_under_par": -2}],
+            True,
+            False,
+            None,
+        ),
+    )
+    # both flags present -- collect-only must win, never reaching git-push
+    monkeypatch.setattr(sys, "argv", ["96_ok_open_r1_active_cycle.py", "--live", "--git-push", "--collect-only"])
+    rc = cycle_module.main()
+    out = json.loads(capsys.readouterr().out.strip())
+    assert rc == 0
+    assert out["collect_only"] is True
+    assert "git_pushed" not in out
+
+
+def test_collect_only_on_full_completion_still_writes_close_record_without_promoting(cycle_module, monkeypatch, capsys):
+    monkeypatch.setattr(cycle_module, "_rebuild_and_promote", _boom)
+    monkeypatch.setattr(cycle_module, "_git_commit_and_push", _boom)
+    monkeypatch.setattr(
+        cycle_module,
+        "_collect_live",
+        lambda: (
+            [
+                {"player_id": "1", "player_name": "A", "status": "ACTIVE", "holes_completed": "18", "rank": 1, "rank_display": "1", "total_under_par": -4, "today_under_par": -4},
+                {"player_id": "2", "player_name": "B", "status": "ACTIVE", "holes_completed": "18", "rank": 2, "rank_display": "2", "total_under_par": 1, "today_under_par": 1},
+            ],
+            True,
+            False,
+            None,
+        ),
+    )
+    monkeypatch.setattr(sys, "argv", ["96_ok_open_r1_active_cycle.py", "--live", "--collect-only"])
+    rc = cycle_module.main()
+    out = json.loads(capsys.readouterr().out.strip())
+    assert rc == 0
+    assert out["action"] == "PUBLISH_AND_CLOSE"
+    assert out["collect_only"] is True
+    assert out["promoted"] is False
+    assert cycle_module.R1_CLOSE_RECORD.exists()  # data-domain artifact still written
+    state = json.loads(cycle_module.STAGE_STATE.read_text(encoding="utf-8"))
+    assert state["r1_complete"] is True
+
+
+def test_dry_run_never_has_collect_only_in_result(cycle_module, monkeypatch, capsys):
+    # SKIP_WAIT/etc. return before the collect-only branch is even
+    # reached -- confirms the flag is inert outside a real PUBLISH cycle.
+    monkeypatch.setattr(sys, "argv", ["96_ok_open_r1_active_cycle.py", "--collect-only"])
+    rc = cycle_module.main()
+    out = json.loads(capsys.readouterr().out.strip())
+    assert rc == 0
+    assert out["action"] == "SKIP_WAIT"
+    assert "collect_only" not in out
