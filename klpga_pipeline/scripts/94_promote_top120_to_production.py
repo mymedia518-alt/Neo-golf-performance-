@@ -41,13 +41,17 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
 from klpga.website_v2.freshness_gate import (  # noqa: E402
     FreshnessGateError,
     assert_completed_round_has_no_incomplete_holes,
     assert_no_silent_staleness,
 )
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, extract_owner, validate_top120_population  # noqa: E402
+from klpga.website_v2.model_publication_gate import ModelPublicationGateError, assert_no_blocked_probability_output  # noqa: E402
 from klpga.website_v2.tournament_state import home_mode, ok_open_latest_available_stage  # noqa: E402
+
+MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
 
 SOURCE = ROOT / "candidate" / "neo-data-home-top120"
 DEST = REPO_ROOT / "docs"
@@ -145,6 +149,29 @@ def _validate_r1_freshness(root: Path, label: str) -> None:
         raise PromotionError(str(exc)) from exc
 
 
+def _validate_model_publication_gate(root: Path, label: str) -> None:
+    """P0 MODEL SAFETY PATCH hard gate: while LIVE_PROBABILITY_MODEL_STATUS
+    is not "VALIDATED", the R1 page(s) actually being promoted must not
+    contain any output derived from the blocked simulation. Checked
+    against every route that could carry it (the dedicated R1 route,
+    plus root when TOURNAMENT_ACTIVE has root == the R1 stage page)."""
+    routes = ["tournaments/2026/ok-savings-bank-open/r1/index.html"]
+    if home_mode() == "TOURNAMENT_ACTIVE":
+        stage_key, _ = ok_open_latest_available_stage()
+        if stage_key == "r1":
+            routes.append("index.html")
+    for route in routes:
+        page_path = root / route
+        if not page_path.is_file():
+            continue
+        try:
+            assert_no_blocked_probability_output(
+                page_path.read_text(encoding="utf-8"), model_validated=MODEL_VALIDATED_FOR_PUBLICATION, label=f"{label} ({route})"
+            )
+        except ModelPublicationGateError as exc:
+            raise PromotionError(str(exc)) from exc
+
+
 def _validate_tree(root: Path, label: str) -> None:
     missing = [route for route in REQUIRED_ROUTES if not (root / route).is_file()]
     if missing:
@@ -163,6 +190,7 @@ def _validate_tree(root: Path, label: str) -> None:
 
     _validate_build_id_consistency(root, label)
     _validate_r1_freshness(root, label)
+    _validate_model_publication_gate(root, label)
 
 
 def promote() -> None:

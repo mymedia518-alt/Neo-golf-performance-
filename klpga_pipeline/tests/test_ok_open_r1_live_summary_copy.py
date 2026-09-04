@@ -61,25 +61,32 @@ def test_top_summary_win_probability_metric_is_removed():
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     assert "NEO 우승확률 1위" not in html
-    # the summary grid now has exactly two metrics: leader + expected cut
+    # P0 MODEL SAFETY PATCH: "NEO 예상 컷" is itself a probability output
+    # of the same blocked simulation and is now ALSO gated -- so the
+    # summary grid has exactly one metric (현재 선두) while blocked, two
+    # once LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED".
     grid_start = html.index("r1-live-summary__grid")
     grid_end = html.index("</section>", grid_start)
     grid_html = html[grid_start:grid_end]
-    assert grid_html.count("<div><span class='label'>") == 2
     assert "현재 선두" in grid_html
-    assert "NEO 예상 컷" in grid_html
+    if builder.MODEL_VALIDATED_FOR_PUBLICATION:
+        assert grid_html.count("<div><span class='label'>") == 2
+        assert "NEO 예상 컷" in grid_html
+    else:
+        assert grid_html.count("<div><span class='label'>") == 1
+        assert "NEO 예상 컷" not in grid_html
 
 
-def test_win_pct_column_remains_in_the_detailed_player_table():
+def test_win_pct_column_presence_matches_model_publication_status():
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "<th>Win%</th>" in html
-    table_start = html.index("<table class='data'>")
-    table_html = html[table_start : html.index("</table>", table_start)]
-    assert "%" in table_html
+    if builder.MODEL_VALIDATED_FOR_PUBLICATION:
+        assert "<th>Win%</th>" in html
+    else:
+        assert "<th>Win%</th>" not in html
 
 
-def test_scores_and_probabilities_unchanged_by_the_copy_fix():
+def test_scores_unchanged_and_win_probability_withheld_by_the_model_gate():
     import json
 
     snapshot = json.loads(
@@ -92,6 +99,11 @@ def test_scores_and_probabilities_unchanged_by_the_copy_fix():
     row_end = html.index("</tr>", th_idx)
     row_tail = html[th_idx:row_end]
     if leader.get("total_under_par_display"):
-        assert str(leader["total_under_par_display"]) in row_tail
+        assert str(leader["total_under_par_display"]) in row_tail  # factual score: always shown
     if leader.get("win_pct") is not None:
-        assert f"{leader['win_pct']:.1f}%" in row_tail
+        # P0 MODEL SAFETY PATCH: win_pct is a blocked probability output
+        # -- omitted, never rendered, while the model is not validated.
+        if builder.MODEL_VALIDATED_FOR_PUBLICATION:
+            assert f"{leader['win_pct']:.1f}%" in row_tail
+        else:
+            assert f"{leader['win_pct']:.1f}%" not in row_tail

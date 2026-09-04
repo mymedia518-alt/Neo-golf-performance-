@@ -102,9 +102,14 @@ def test_scores_probabilities_and_rankings_unchanged_by_affiliation_join():
     row_end = html.index("</tr>", th_idx)
     row_tail = html[th_idx:row_end]
     if leader.get("total_under_par_display"):
-        assert str(leader["total_under_par_display"]) in row_tail
+        assert str(leader["total_under_par_display"]) in row_tail  # factual score: always shown
     if leader.get("win_pct") is not None:
-        assert f"{leader['win_pct']:.1f}%" in row_tail
+        # P0 MODEL SAFETY PATCH: win_pct is a blocked probability output
+        # -- withheld while LIVE_PROBABILITY_MODEL_STATUS != "VALIDATED".
+        if builder.MODEL_VALIDATED_FOR_PUBLICATION:
+            assert f"{leader['win_pct']:.1f}%" in row_tail
+        else:
+            assert f"{leader['win_pct']:.1f}%" not in row_tail
     # 120 protected TOP120 records still drive the PRE table unchanged.
     pre_html = (out / "tournaments/2026/ok-savings-bank-open/pre/index.html").read_text(encoding="utf-8")
     assert pre_html.count("<tr>") - 1 == 120
@@ -117,6 +122,9 @@ def test_mobile_table_remains_usable_with_affiliation_line():
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     header = re.search(r"<thead>.*?</thead>", html, re.S).group(0)
     # Affiliation is a sub-line inside the existing player <th>, never a
-    # new column -- column count must be unchanged.
-    assert header.count("<th>") == 13
+    # new column -- column count must be unchanged for whichever set of
+    # columns is currently published (P0 MODEL SAFETY PATCH gates the
+    # 6 probability columns on top of the 7 always-factual ones).
+    expected_columns = 13 if builder.MODEL_VALIDATED_FOR_PUBLICATION else 7
+    assert header.count("<th>") == expected_columns
     assert ".table-wrap{width:100%;max-width:100%;overflow-x:auto" in css

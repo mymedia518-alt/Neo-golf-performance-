@@ -72,6 +72,52 @@ DEFAULT_CUT_FRACTION = 0.65
 MIN_SPREAD = 0.5
 _WINDOW_PREFERENCE = ("recent5", "recent10", "recent3", "season2026", "multi_season", "current")
 
+# ======================================================================
+# MODEL DEFECT RECORD -- LIVE Probability Model V1 -- BLOCKED
+# ======================================================================
+# Independent Red Team review (HIGH confidence) confirmed this module's
+# output is not safe for public presentation:
+#
+#   1. Partial-round state is not modeled. A player mid-round (e.g. 9 or
+#      16 of 18 holes played) is scored by this module as if their
+#      current total_under_par were already their FINAL R1 score --
+#      remaining holes are silently ignored rather than simulated.
+#   2. expected_round_score_to_par (_select_expected_and_spread above)
+#      negates a Strokes-Gained mean and treats it directly as a
+#      par-relative expected ROUND score. SG total here is FIELD-
+#      relative (this player vs the field average), not par-relative --
+#      a real unit mismatch, not just a labeling issue.
+#   3. The SG windows behind that mean are TOURNAMENT-CUMULATIVE
+#      (season/multi-season aggregates), fed into a model that treats
+#      them as a single ROUND-level expectation -- a second unit
+#      mismatch compounding (2).
+#   4. The RNG seed for a given simulation run is not persisted, so no
+#      past published probability can be exactly reproduced for audit.
+#
+# Counterfactual evidence: with the PRE skill prior enabled, one
+# player's simulated win probability was ~35.7% (close to the ~36.9%
+# actually published); with future-round skill treated as EQUAL across
+# the field (removing the flawed prior's influence), the same
+# player's simulated win probability fell to ~0.04% -- the published
+# number is dominated by the very inputs confirmed defective above,
+# not by the actual partial-round state of the tournament.
+#
+# This module's computation is intentionally left UNCHANGED: every
+# historical artifact (immutable snapshots, published pages already
+# shipped) remains valid audit evidence of what the model actually
+# produced, and is never deleted or rewritten. Only PUBLIC PRESENTATION
+# is gated, downstream, in scripts/84_build_ok_open_pre_website_candidate.py
+# -- a successfully executed simulation is NOT by itself sufficient for
+# publication. Any renderer that shows Cut%/Top20%/Top10%/Top5%/Win%/
+# "PRE 대비 Win Δ", the expected-cut-line distribution, or any NEO
+# Movers list derived from these probabilities MUST check this status
+# is "VALIDATED" first -- see LIVE_PROBABILITY_MODEL_STATUS below.
+#
+# Flip to "VALIDATED" only after a V2 model design has been separately
+# built and independently Red-Team reviewed -- never by editing this
+# constant alone.
+LIVE_PROBABILITY_MODEL_STATUS = "BLOCKED"
+
 
 def _select_expected_and_spread(profile: dict) -> tuple[Optional[float], Optional[float], Optional[str]]:
     windows = (profile or {}).get("windows") or {}
