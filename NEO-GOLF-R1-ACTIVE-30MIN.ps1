@@ -27,7 +27,22 @@ try {
   & git -c safe.directory=$Repo fetch origin
   $local = (& git -c safe.directory=$Repo rev-parse HEAD).Trim()
   $remote = (& git -c safe.directory=$Repo rev-parse origin/neo-website-v2).Trim()
-  if ($local -ne $remote) { Write-Output "HARD_STOP: local=$local remote=$remote; no automatic overwrite"; exit 2 }
+  if ($local -ne $remote) {
+    # Another actor (e.g. a hotfix pushed from elsewhere) can advance
+    # origin between cycles. A plain HARD_STOP here means the 30-minute
+    # cycle silently stops running -- forever, with nobody paged --
+    # until a human notices and manually pulls. Self-heal the ONE safe
+    # case: local is a strict ancestor of origin (fast-forward only,
+    # never a merge/rebase/reset -- git itself refuses if this is not a
+    # true fast-forward). Any real divergence still HARD_STOPs exactly
+    # as before.
+    $mergeBase = (& git -c safe.directory=$Repo merge-base HEAD origin/neo-website-v2).Trim()
+    if ($mergeBase -ne $local) { Write-Output "HARD_STOP: local=$local remote=$remote; true divergence, no automatic overwrite"; exit 2 }
+    & git -c safe.directory=$Repo merge --ff-only origin/neo-website-v2
+    if ($LASTEXITCODE -ne 0) { Write-Output "HARD_STOP: fast-forward sync from origin failed unexpectedly"; exit 2 }
+    $local = (& git -c safe.directory=$Repo rev-parse HEAD).Trim()
+    Write-Output "AUTO-SYNCED: fast-forwarded local to $local before running the cycle"
+  }
   if (Test-Path $InternalLock) {
     $iraw = (Get-Content -Raw -LiteralPath $InternalLock -ErrorAction SilentlyContinue).Trim()
     $ipid = 0; [void][int]::TryParse(($iraw -split '\s+')[0], [ref]$ipid)
