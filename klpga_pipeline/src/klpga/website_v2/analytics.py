@@ -132,6 +132,127 @@ def _segment_hits_box(p1: tuple[float, float], p2: tuple[float, float], box: tup
     return False
 
 
+def _select_dense_label_indices(series: list[dict]) -> set[int]:
+    """Pick at most 5 point indices to carry an always-visible value
+    label on a dense (many-point, e.g. 18-hole) chart: the required
+    max and min, then start/end, then the most prominent remaining
+    local turning point(s), until the 5-label budget is filled.
+
+    LIVE VISUAL HOTFIX v2: a real red-team pass (screenshot, not the
+    prior "0 findings" automated check) found several dense labels
+    still crowding their own point/line even after the v1 collision
+    fixes -- the underlying problem was never spacing, it was trying
+    to always show 18 numbers on one chart at all. Every other hole's
+    exact value is still available (see the hover/focus tooltip below
+    and the sr-only accessible_series_table) -- this only changes
+    which points get a permanently-drawn <text> label. Point/line
+    geometry and the raw values themselves are untouched."""
+    valued = [(i, float(it["value"])) for i, it in enumerate(series) if it["value"] is not None]
+    if not valued:
+        return set()
+    max_idx = max(valued, key=lambda p: p[1])[0]
+    min_idx = min(valued, key=lambda p: p[1])[0]
+    selected = [max_idx, min_idx]
+    last_index = len(series) - 1
+    for candidate in (0, last_index):
+        if candidate not in selected and series[candidate]["value"] is not None:
+            selected.append(candidate)
+    if len(selected) < 5:
+        prominence = []
+        for i in range(1, len(series) - 1):
+            if i in selected or series[i]["value"] is None:
+                continue
+            if series[i - 1]["value"] is None or series[i + 1]["value"] is None:
+                continue
+            prev_v, cur_v, next_v = float(series[i - 1]["value"]), float(series[i]["value"]), float(series[i + 1]["value"])
+            is_turning_point = (cur_v > prev_v and cur_v > next_v) or (cur_v < prev_v and cur_v < next_v)
+            if not is_turning_point:
+                continue
+            prominence.append((min(abs(cur_v - prev_v), abs(cur_v - next_v)), i))
+        prominence.sort(reverse=True)
+        for _, i in prominence:
+            if len(selected) >= 5:
+                break
+            selected.append(i)
+    return set(selected[:5])
+
+
+def _boxes_overlap(a: tuple[float, float, float, float], b: tuple[float, float, float, float]) -> bool:
+    a_left, a_right, a_top, a_bottom = a
+    b_left, b_right, b_top, b_bottom = b
+    return not (a_right <= b_left or b_right <= a_left or a_bottom <= b_top or b_bottom <= a_top)
+
+
+def _dense_tooltip_group(px: float, py: float, text: str, width: float, left: float, right: float, top: float,
+                          avoid_boxes: tuple[tuple[float, float, float, float], ...] = ()) -> str:
+    """A hover/keyboard-focus tooltip for one dense-chart point (see the
+    wrapping <g tabindex="0"> and .chart-tooltip CSS in neo-site.css).
+    Not a native SVG <title> -- that never shows on keyboard focus in
+    any browser, only mouse hover, which fails the "keyboard 접근"
+    requirement outright. Edge-aware: clamps horizontally so it can
+    never clip past the chart's own left/right edge, and -- since a
+    non-labeled point can sit right next to one of the up-to-5 static
+    labels (a real, screenshot-confirmed defect: 17번's tooltip landed
+    directly on top of 15번's "+0.11" once both were near the crowded
+    14-18 region) -- tries above, then below, then further above the
+    point, keeping the first placement that avoids every box in
+    avoid_boxes (each an already-placed static label's own box)."""
+    font_size = 11
+    char_w = font_size * 0.62
+    text_w = max(46.0, len(text) * char_w)
+    pad_x = 8.0
+    box_w = text_w + pad_x * 2
+    box_h = 22.0
+
+    def box_for(box_top: float, box_left_raw: float) -> tuple[float, float, float, float]:
+        box_left = box_left_raw
+        if box_left < left + 2:
+            box_left = left + 2
+        if box_left + box_w > width - right - 2:
+            box_left = width - right - 2 - box_w
+        return box_left, box_left + box_w, box_top, box_top + box_h
+
+    # The last candidate (pinned to the top margin) matters: a crowded
+    # cluster of static labels near a local peak can leave no vertical
+    # gap anywhere close to the point itself, but the region right at
+    # the very top of the plot is clear almost by construction (nothing
+    # is ever placed above the chart's own highest value).
+    vertical_candidates = (py - 12 - box_h, py + 12, py - 12 - box_h - 26, top + 2)
+    # A tooltip always centered on its own point can still collide with
+    # a NEIGHBORING static label that sits at a similar height a couple
+    # of holes over (a real, screenshot-confirmed defect: 17번's tooltip
+    # kept landing on 15번's "+0.11" no matter which of the vertical
+    # candidates above was tried, because the crowded 14-18 region left
+    # no vertical gap clear of every nearby label at that fixed
+    # horizontal position). Trying a left/right-anchored horizontal
+    # position too -- not just centered -- gives real room to dodge.
+    horizontal_candidates = (px - box_w / 2, px - box_w - 8, px + 8)
+    chosen = None
+    for box_top in vertical_candidates:
+        if box_top < top + 2:
+            continue
+        for box_left_raw in horizontal_candidates:
+            candidate_box = box_for(box_top, box_left_raw)
+            if not any(_boxes_overlap(candidate_box, avoid) for avoid in avoid_boxes):
+                chosen = candidate_box
+                break
+        if chosen is not None:
+            break
+    if chosen is None:
+        # Every candidate collided or ran off the top margin (rare) --
+        # fall back to the plain centered-above placement rather than
+        # emit nothing; still edge-clamped, just not guaranteed
+        # collision-free.
+        fallback_top = vertical_candidates[0] if vertical_candidates[0] >= top + 2 else py + 12
+        chosen = box_for(fallback_top, px - box_w / 2)
+    box_left, box_right, box_top, box_bottom = chosen
+    box_w_final, box_h_final = box_right - box_left, box_bottom - box_top
+    text_x, text_y = box_left + box_w_final / 2, box_top + box_h_final / 2 + 4
+    return (f'<g class="chart-tooltip" aria-hidden="true">'
+            f'<rect x="{box_left:.1f}" y="{box_top:.1f}" width="{box_w_final:.1f}" height="{box_h_final:.1f}" rx="4"/>'
+            f'<text x="{text_x:.1f}" y="{text_y:.1f}">{escape(text)}</text></g>')
+
+
 def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, invert: bool = False, dense: bool = False) -> str:
     """Render a dependency-free, accessible line chart with gaps for missing values.
 
@@ -204,6 +325,48 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
         xy(i, float(it["value"])) if it["value"] is not None else None
         for i, it in enumerate(series)
     ]
+    # LIVE VISUAL HOTFIX v2: a dense chart no longer tries to keep all 18
+    # value labels permanently on-screen (that was the actual defect, not
+    # spacing -- see _select_dense_label_indices). Every other point's
+    # exact value is still reachable, by mouse AND keyboard, via the
+    # per-point tooltip built below.
+    dense_label_indices = _select_dense_label_indices(series) if dense else None
+    # A non-labeled point's tooltip can land right on top of a NEARBY
+    # static label (a real, screenshot-confirmed defect: 17번's tooltip
+    # landed on 15번's "+0.11" once both sat in the crowded 14-18
+    # region) -- so every static label's own box needs to be known
+    # BEFORE any tooltip is built, not decided as the main loop happens
+    # to reach that index. This mirrors the exact placement algorithm
+    # used for real static-label emission below (same inputs, so it
+    # produces the identical result), just run ahead of time.
+    dense_static_label_boxes: list[tuple[float, float, float, float]] = []
+    if dense:
+        _pre_prev_label_y: float | None = None
+        for _idx in sorted(dense_label_indices):
+            _pos = point_positions[_idx]
+            if _pos is None:
+                continue
+            _px, _py = _pos
+            _candidate_y = _py - 10
+            if _pre_prev_label_y is not None and abs(_candidate_y - _pre_prev_label_y) < DENSE_LABEL_MIN_GAP:
+                _candidate_y = (
+                    _pre_prev_label_y - DENSE_LABEL_MIN_GAP if _candidate_y <= _pre_prev_label_y
+                    else _pre_prev_label_y + DENSE_LABEL_MIN_GAP
+                )
+            for _neighbor in (_idx - 1, _idx + 1):
+                if 0 <= _neighbor < len(point_positions) and point_positions[_neighbor] is not None:
+                    _, _neighbor_py = point_positions[_neighbor]
+                    if abs(_candidate_y - _neighbor_py) < CIRCLE_CLEARANCE:
+                        _candidate_y = (
+                            _neighbor_py - CIRCLE_CLEARANCE if _candidate_y <= _neighbor_py
+                            else _neighbor_py + CIRCLE_CLEARANCE
+                        )
+            _y_offset = _candidate_y - _py
+            if _py + _y_offset < top + 12:
+                _y_offset = (top + 12) - _py
+            _pre_prev_label_y = _py + _y_offset
+            _text = f'{float(series[_idx]["value"]):+.2f}'
+            dense_static_label_boxes.append(_estimate_label_box(_px, _py, _y_offset, _text, "middle", font_size=12))
     segment: list[str] = []
     for index, item in enumerate(series):
         x = left + plot_w * index / max(len(series) - 1, 1)
@@ -218,25 +381,54 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
             parts.append(f'<text class="chart-missing" x="{x:.1f}" y="{top+plot_h/2:.1f}">자료 없음</text>')
             continue
         px, py = xy(index, float(item["value"])); segment.append(f"{px:.1f},{py:.1f}")
-        # data-point-index lets QA tooling tell "this label overlaps its
-        # OWN point's marker" (expected -- the label sits close to the
-        # point it labels) apart from "this label overlaps a DIFFERENT
-        # point's marker" (a real collision).
-        parts.append(f'<circle class="chart-point" data-point-index="{index}" cx="{px:.1f}" cy="{py:.1f}" r="5"><title>{escape(str(item["stage"]))}: {item["value"]}{escape(unit)}</title></circle>')
         # Display formatting only, never a change to the underlying
-        # value used above in the circle's <title>, the chart's own
-        # <desc>, or the data-chart-series JSON payload: a probability
-        # value can carry 3 decimals in the source (win_probability
-        # rounded to .3f elsewhere), which a real user's browser showed
-        # rendering as "2.877%" -- unify every percentage chart to 2
-        # decimals for *display*. Non-percentage sparse charts (rank,
-        # raw score) keep their natural value as-is.
+        # value used below in the circle's tooltip/title, the chart's
+        # own <desc>, or the data-chart-series JSON payload: a
+        # probability value can carry 3 decimals in the source
+        # (win_probability rounded to .3f elsewhere), which a real
+        # user's browser showed rendering as "2.877%" -- unify every
+        # percentage chart to 2 decimals for *display*. Non-percentage
+        # sparse charts (rank, raw score) keep their natural value as-is.
         if dense:
             display_value = f'{float(item["value"]):+.2f}'
         elif unit == "%":
             display_value = f'{float(item["value"]):.2f}'
         else:
             display_value = item["value"]
+        # data-point-index lets QA tooling tell "this label overlaps its
+        # OWN point's marker" (expected -- the label sits close to the
+        # point it labels) apart from "this label overlaps a DIFFERENT
+        # point's marker" (a real collision).
+        if dense and index not in dense_label_indices:
+            # A point that does NOT already carry an always-visible
+            # label gets a real, edge-aware tooltip for its exact value
+            # -- shown on mouse hover AND keyboard focus (tabindex="0" +
+            # :focus in CSS), unlike a plain SVG <title> which never
+            # appears on keyboard focus in any browser. aria-label gives
+            # assistive tech the same "N번홀 · value SG" text without
+            # needing the tooltip to be visually open. A point that IS
+            # one of the up-to-5 statically labeled ones skips the
+            # tooltip entirely -- its value is already permanently on
+            # screen, so a tooltip there would be pure redundancy, and
+            # real Chromium rendering showed it could actively collide
+            # with a NEIGHBORING static label once edge-clamped near the
+            # last hole (18번, itself statically labeled) -- exactly the
+            # spec's own "나머지 홀"(the *remaining* holes) framing for
+            # what the tooltip is for.
+            tooltip_text = f'{item["stage"]}번홀 · {display_value} SG'
+            parts.append(
+                f'<g class="chart-point-wrap" tabindex="0" role="img" aria-label="{escape(tooltip_text)}">'
+                f'<circle class="chart-point" data-point-index="{index}" cx="{px:.1f}" cy="{py:.1f}" r="5"/>'
+                f'{_dense_tooltip_group(px, py, tooltip_text, width, left, right, top, tuple(dense_static_label_boxes))}'
+                f'</g>'
+            )
+        elif dense:
+            parts.append(f'<circle class="chart-point" data-point-index="{index}" cx="{px:.1f}" cy="{py:.1f}" r="5"/>')
+        else:
+            parts.append(f'<circle class="chart-point" data-point-index="{index}" cx="{px:.1f}" cy="{py:.1f}" r="5"><title>{escape(str(item["stage"]))}: {item["value"]}{escape(unit)}</title></circle>')
+        emit_value_label = (not dense) or (index in dense_label_indices)
+        if not emit_value_label:
+            continue
         if dense:
             # Real Chromium measurement showed a fixed index-parity
             # stagger (alternating a couple of preset offsets) is not
