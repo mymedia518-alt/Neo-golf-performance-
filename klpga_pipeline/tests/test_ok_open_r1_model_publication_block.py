@@ -56,10 +56,15 @@ def test_real_build_keeps_every_factual_column():
         assert header in html
 
 
-def test_real_build_includes_the_blocked_note():
+def test_real_build_omits_the_blocked_note_from_the_page():
+    # The long "비공개 처리됩니다" explanatory paragraph is deliberately
+    # NOT shown to the public -- the absent probability columns already
+    # say everything there is to say; MODEL_BLOCKED_NOTE stays defined
+    # in the module as documented rationale, it is just never rendered.
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert builder.MODEL_BLOCKED_NOTE in html
+    assert builder.MODEL_BLOCKED_NOTE not in html
+    assert "비공개 처리됩니다" not in html
 
 
 def test_real_build_row_never_shows_zero_percent_or_a_fabricated_placeholder():
