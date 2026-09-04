@@ -9,6 +9,21 @@ def test_complete_r1_preserves_wd_dq_and_does_not_create_cut():
     assert result.decision == "R1_COMPLETE"
     assert result.wd == 1 and result.dq == 1
 
+
+def test_complete_r1_exempts_incomplete_status_like_wd_dq():
+    # klpga.parsers.leaderboard_parser's real, only-ever-observed
+    # did-not-complete signal is status="INCOMPLETE" (the raw "999"
+    # sentinel) -- a literal "WD"/"DQ" string has never actually been
+    # seen live. Before this test's fix, a genuinely withdrawn player
+    # whose row still carries status="INCOMPLETE" would HARD_STOP the
+    # round-close decision the moment every other player finished,
+    # instead of closing R1 normally.
+    result = assess_r1(
+        [row(1), row(2, "INCOMPLETE", holes=None, rank=None)], [1, 2],
+    )
+    assert result.decision == "R1_COMPLETE"
+    assert result.incomplete == 1
+
 def test_partial_and_suspended_r1_wait():
     assert assess_r1([row(1, holes=12), row(2)], [1,2]).decision == "WAIT"
     assert assess_r1([row(1), row(2)], [1,2], suspended=True).decision == "WAIT"
