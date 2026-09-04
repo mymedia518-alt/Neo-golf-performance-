@@ -1,4 +1,5 @@
-"""NEO P0 -- unresolved-round ("999" rank sentinel) row rendering.
+"""NEO P0 -- unresolved-round ("999" rank sentinel) / generic WD-DQ
+status-aware row rendering.
 
 klpga.parsers.leaderboard_parser's confirmed data-rank="999" sentinel
 (a player whose round did not resolve to a real rank -- the source
@@ -10,7 +11,13 @@ and three separately repeated "산출 불가" placeholders across 오늘스코�
 cell). This must instead show a single honest, translated status
 ("결과 미확인") with "—" everywhere a real value cannot exist -- never
 a fabricated rank, never a misleading repeated "computation failed"
-message for what is really just "no score available"."""
+message for what is really just "no score available".
+
+The same blank-cell treatment generically applies to a literal "WD" or
+"DQ" status value too (defined but never yet observed live in
+klpga.parsers.leaderboard_parser._STATUS_VALUES) -- never hardcoded to
+any specific player name, and never applied to CUT (a cut player has a
+real, valid completed score/rank)."""
 from pathlib import Path
 
 import importlib.util
@@ -93,3 +100,44 @@ def test_real_build_has_no_literal_999_or_INCOMPLETE_anywhere_on_the_page():
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     assert "INCOMPLETE" not in html
     assert "<td>999</td>" not in html
+
+
+def test_generic_wd_status_gets_the_same_blank_cell_treatment():
+    # Defensive coverage: WD is a defined (never yet observed live)
+    # status value in the parser -- never hardcoded to a specific
+    # player name, and must never leak "999" as if it were a rank.
+    row = _row("1", "선수W", status="WD", holes="7", rank="999", total=None)
+    html = builder._r1_row_html(row, {}, lambda r: "")
+    assert "999" not in html
+    assert html.count("산출 불가") == 0
+    assert "<td>—</td>" in html
+    assert "WD" in html.split("</th>")[-1]  # 상태 cell clearly shows WD
+
+
+def test_generic_dq_status_gets_the_same_blank_cell_treatment():
+    row = _row("2", "선수D", status="DQ", holes="3", rank="999", total=None)
+    html = builder._r1_row_html(row, {}, lambda r: "")
+    assert "999" not in html
+    assert html.count("산출 불가") == 0
+    assert "<td>—</td>" in html
+    assert "DQ" in html.split("</th>")[-1]
+
+
+def test_cut_status_is_never_blanked_it_has_a_real_completed_score():
+    # A cut player DID complete their round(s) with a real score/rank --
+    # never apply the did-not-complete blank-cell treatment to CUT.
+    row = _row("3", "선수C", status="CUT", holes="18", rank="55", total=3)
+    html = builder._r1_row_html(row, {}, lambda r: "")
+    assert "<td>55</td>" in html
+    assert "<td>+3.0</td>" in html
+    assert "CUT" in html.split("</th>")[-1]
+
+
+def test_wd_dq_status_is_never_hardcoded_to_a_specific_player_name():
+    # Same status, two arbitrary different names -- both get identical
+    # generic treatment, proving this is not a per-name special case.
+    for name in ("아무개1", "아무개2"):
+        row = _row("9", name, status="WD", holes="5", rank="999", total=None)
+        html = builder._r1_row_html(row, {}, lambda r: "")
+        assert "999" not in html
+        assert html.count("산출 불가") == 0

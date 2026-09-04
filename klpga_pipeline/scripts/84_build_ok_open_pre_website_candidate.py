@@ -55,25 +55,41 @@ def _fmt_stroke(v) -> str:
     return "산출 불가" if v is None else f"{v:+.1f}"
 
 
+# Generic status-aware rendering -- never a per-player-name special case.
+#
 # klpga.parsers.leaderboard_parser's confirmed data-rank="999" sentinel
 # ("a player who does not complete a round" -- the source data cannot
 # distinguish WD/DQ/other from this, and never guesses) is parsed as
-# status="INCOMPLETE". Rendered here as one honest, translated label --
-# never the raw internal enum string leaking to the public page, and
-# never left to imply "999" is a real numeric rank.
-_UNRESOLVED_STATUS = "INCOMPLETE"
-_STATUS_LABELS = {_UNRESOLVED_STATUS: "결과 미확인"}
+# status="INCOMPLETE". This is the ONLY did-not-complete signal ever
+# actually observed live so far.
+#
+# "WD"/"DQ" literal text values are also a defined (never yet observed
+# live) possibility per that same parser's _STATUS_VALUES -- handled
+# here defensively with the identical blank-cell treatment, so that IF
+# KLPGA's endpoint ever does emit one, this renderer already does the
+# right thing rather than leaking a raw enum string or a fabricated
+# rank. CUT is deliberately excluded: a cut player has a real, valid
+# completed score and rank (they simply won't play the remaining
+# rounds), so their row must never be blanked.
+#
+# Every one of these labels is honest about what is and is not known --
+# "결과 미확인" for the 999 sentinel never guesses WD vs DQ (matching
+# the parser's own stance); "WD"/"DQ" are shown only when the source
+# itself literally says so, never inferred from a player's name or any
+# other signal.
+_UNRESOLVED_STATUSES = {"INCOMPLETE", "WD", "DQ"}
+_STATUS_LABELS = {"INCOMPLETE": "결과 미확인", "WD": "WD", "DQ": "DQ"}
 
 
 def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
-    """One player's R1 table row. A row whose status is the confirmed
-    "999" rank/did-not-complete sentinel (_UNRESOLVED_STATUS) shows
-    "—" for rank/오늘스코어/선두와 타수차 instead of the literal "999"
-    or three separately repeated "산출 불가" cells -- the single 상태
-    column ("결과 미확인") already says everything there is to honestly
-    say about that row; repeating "couldn't compute" three more times
-    beside it adds noise, not information."""
-    unresolved = r.get("status") == _UNRESOLVED_STATUS
+    """One player's R1 table row. A row whose status is did-not-complete
+    (_UNRESOLVED_STATUSES -- the confirmed "999" rank sentinel, or a
+    literal WD/DQ status) shows "—" for rank/오늘스코어/선두와 타수차
+    instead of a fabricated "999"-as-rank or three separately repeated
+    "산출 불가" cells -- the single 상태 column already says everything
+    there is to honestly say about that row; repeating "couldn't
+    compute" three more times beside it adds noise, not information."""
+    unresolved = r.get("status") in _UNRESOLVED_STATUSES
     rank_cell = "—" if unresolved else html.escape(str(r.get("rank_display") or "—"))
     today_cell = "—" if unresolved else _fmt_stroke(r.get("today_under_par"))
     gap_cell = "—" if unresolved else _fmt_stroke(r.get("gap_to_leader"))
