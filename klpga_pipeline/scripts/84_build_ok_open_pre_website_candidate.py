@@ -55,6 +55,41 @@ def _fmt_stroke(v) -> str:
     return "산출 불가" if v is None else f"{v:+.1f}"
 
 
+# klpga.parsers.leaderboard_parser's confirmed data-rank="999" sentinel
+# ("a player who does not complete a round" -- the source data cannot
+# distinguish WD/DQ/other from this, and never guesses) is parsed as
+# status="INCOMPLETE". Rendered here as one honest, translated label --
+# never the raw internal enum string leaking to the public page, and
+# never left to imply "999" is a real numeric rank.
+_UNRESOLVED_STATUS = "INCOMPLETE"
+_STATUS_LABELS = {_UNRESOLVED_STATUS: "결과 미확인"}
+
+
+def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
+    """One player's R1 table row. A row whose status is the confirmed
+    "999" rank/did-not-complete sentinel (_UNRESOLVED_STATUS) shows
+    "—" for rank/오늘스코어/선두와 타수차 instead of the literal "999"
+    or three separately repeated "산출 불가" cells -- the single 상태
+    column ("결과 미확인") already says everything there is to honestly
+    say about that row; repeating "couldn't compute" three more times
+    beside it adds noise, not information."""
+    unresolved = r.get("status") == _UNRESOLVED_STATUS
+    rank_cell = "—" if unresolved else html.escape(str(r.get("rank_display") or "—"))
+    today_cell = "—" if unresolved else _fmt_stroke(r.get("today_under_par"))
+    gap_cell = "—" if unresolved else _fmt_stroke(r.get("gap_to_leader"))
+    status_cell = html.escape(_STATUS_LABELS.get(r.get("status"), r.get("status") or "진행중"))
+    return (
+        f"<tr><td>{rank_cell}</td>"
+        f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')))}</th>"
+        f"<td>{html.escape(str(r.get('total_under_par_display') or '—'))}</td>"
+        f"<td>{html.escape(str(r.get('holes_completed') or '—'))}</td>"
+        f"<td>{today_cell}</td>"
+        f"<td>{gap_cell}</td>"
+        f"{prob_cells(r)}"
+        f"<td>{status_cell}</td></tr>"
+    )
+
+
 def _fmt_delta_pct(current, pre_fraction) -> str:
     """current: 0..100 or None. pre_fraction: 0..1 or None (OK Open's
     PRE model explicitly left top5/top10/top20 unsupported for most
@@ -203,17 +238,7 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
             f"<td>{_fmt_delta_pct(r.get('win_pct'), r.get('pre_win_probability'))}</td>"
         )
 
-    body_rows = "".join(
-        f"<tr><td>{html.escape(str(r.get('rank_display') or '—'))}</td>"
-        f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')))}</th>"
-        f"<td>{html.escape(str(r.get('total_under_par_display') or '—'))}</td>"
-        f"<td>{html.escape(str(r.get('holes_completed') or '—'))}</td>"
-        f"<td>{_fmt_stroke(r.get('today_under_par'))}</td>"
-        f"<td>{_fmt_stroke(r.get('gap_to_leader'))}</td>"
-        f"{_prob_cells(r)}"
-        f"<td>{html.escape(str(r.get('status') or '진행중'))}</td></tr>"
-        for r in table
-    )
+    body_rows = "".join(_r1_row_html(r, sponsor_by_id, _prob_cells) for r in table)
 
     summary = (
         f"<section class='panel r1-live-summary' aria-label='R1 라이브 요약'>"
