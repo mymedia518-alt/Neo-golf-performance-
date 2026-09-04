@@ -1,34 +1,79 @@
 """Single source of truth for "which tournament is currently active, and
 which of its stages have real, validated data behind them" -- HOME's
-tournament-day hero, OK Open's own stage nav (script 84), and the
-tournament hub's CTA all need the identical answer, so there is exactly
-one place this is decided.
+tournament-day hero, OK Open's own stage nav (script 84), the tournament
+hub's CTA, and the R1 active-collection cycle (script 96) all need the
+identical answer, so there is exactly one place this is decided.
 
 TOURNAMENT-DAY MODE (NEO GOLF DATA hotfix, 2026-09-04): never infer a
 stage (R1/R2/R3/FINAL) from today's calendar date -- a tournament
 "starting today" says nothing about whether R1's data has actually been
-collected and validated yet. Only ok_open_available_stages() below,
-extended by hand the moment a stage's real artifact lands, decides
-that. home_mode() likewise never guesses "in progress" from a date
-range; it reacts only to whether any stage is actually available.
+collected and validated yet. Only ok_open_available_stages() below
+decides that, and it never guesses: PRE is always available (the public
+participant/pre-analysis master ships with the repo); every later
+stage is available ONLY once OK_OPEN_STAGE_STATE_PATH records it, which
+only the R1 active-cycle (script 96, run with real klpga.co.kr access)
+ever writes, and only after a real official collection passed its
+safety gate (see klpga.neo_win.r1_active_cycle). home_mode() likewise
+never guesses "in progress" from a date range; it reacts only to
+whether any stage is actually available.
 """
 from __future__ import annotations
+
+import json
+from pathlib import Path
 
 OK_DISPLAY_NAME = "OK저축은행 읏맨 오픈"
 OK_BASE = "/tournaments/2026/ok-savings-bank-open/"
 OK_DATE_RANGE = "2026.09.04 — 09.06"
+OK_GAME_CODE = "2026120001"
 
 STAGE_ORDER = ("pre", "r1", "r2", "r3", "final")
 STAGE_LABELS = {"pre": "사전 분석 PRE", "r1": "R1", "r2": "R2", "r3": "R3", "final": "FINAL"}
 
+# Written only by scripts/96_ok_open_r1_active_cycle.py (--live, run
+# somewhere with real network access), after a real official collection
+# passes its per-cycle safety gate. Absent (the committed, default
+# state) means nothing but PRE is real yet -- see
+# ok_open_available_stages() below, which is the only reader of this
+# file's stage/url/timestamp fields.
+STAGE_STATE_PATH = Path(__file__).resolve().parents[3] / "content" / "website_v2" / "OK_OPEN_STAGE_STATE.json"
+
+
+def _read_stage_state() -> dict:
+    try:
+        return json.loads(STAGE_STATE_PATH.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
 
 def ok_open_available_stages() -> dict[str, str]:
     """The ONLY place that decides which OK Open stage pages have real,
-    collected-and-validated data behind them. Extend this dict by hand
-    the moment a stage's real artifact lands -- never derive it from
-    today's date. Today only PRE (the public participant/pre-analysis
-    master) exists."""
-    return {"pre": f"{OK_BASE}pre/"}
+    collected-and-validated data behind them. PRE always qualifies (its
+    master ships with the repo, no live collection needed). Any later
+    stage qualifies ONLY if OK_OPEN_STAGE_STATE_PATH says so -- never
+    derived from today's date."""
+    stages = {"pre": f"{OK_BASE}pre/"}
+    state = _read_stage_state()
+    for key, entry in (state.get("stages") or {}).items():
+        if key in STAGE_ORDER and isinstance(entry, dict) and entry.get("validated"):
+            stages[key] = f"{OK_BASE}{key}/"
+    return stages
+
+
+def ok_open_latest_stage_update() -> dict | None:
+    """{'stage': ..., 'retrieved_at': ...} for the most-advanced
+    validated stage's real collection timestamp -- what HOME's "마지막
+    업데이트" line shows. None while only PRE (no live timestamp) is
+    available. Never build time -- always the actual official-data
+    retrieval time recorded by script 96."""
+    stage_key, _ = ok_open_latest_available_stage()
+    if stage_key == "pre":
+        return None
+    state = _read_stage_state()
+    entry = (state.get("stages") or {}).get(stage_key)
+    if not entry or not entry.get("retrieved_at"):
+        return None
+    return {"stage": stage_key, "retrieved_at": entry["retrieved_at"]}
 
 
 def ok_open_latest_available_stage() -> tuple[str, str]:

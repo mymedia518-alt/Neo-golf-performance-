@@ -21,7 +21,7 @@ from klpga.website_v2.global_navigation import inject_build_provenance, inject_g
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
 from klpga.website_v2.tournament_state import (  # noqa: E402
     OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, STAGE_LABELS,
-    home_mode, ok_open_available_stages, ok_open_latest_available_stage,
+    home_mode, ok_open_available_stages, ok_open_latest_available_stage, ok_open_latest_stage_update,
 )
 
 
@@ -75,11 +75,18 @@ def _tournament_day_hero(ok_participant_count: int | None) -> str:
     stage_key, stage_url = ok_open_latest_available_stage()
     stage_label = STAGE_LABELS[stage_key]
     facts = f'<div class="tournament-day-hero__facts"><div><strong>{ok_participant_count}명</strong><span>참가 선수</span></div></div>' if ok_participant_count is not None else ""
+    # R1 ACTIVE MODE: once a live stage (R1+) has a real collection
+    # timestamp (never build time -- see tournament_state.py), show it
+    # so a viewer can tell how fresh the data is. Absent for PRE (no
+    # live collection backs it, just the static public master).
+    update = ok_open_latest_stage_update()
+    updated = f'<p class="tournament-day-hero__updated">마지막 업데이트: {escape(update["retrieved_at"])} ({escape(STAGE_LABELS[update["stage"]])})</p>' if update else ""
     return (f'<section class="tournament-day-hero" data-home-mode="TOURNAMENT_ACTIVE" aria-label="진행 중인 대회">'
             f'<p class="kicker">진행 중인 대회</p><h1>{escape(OK_DISPLAY_NAME)}</h1>'
             f'<p class="tournament-day-hero__dates">{escape(OK_DATE_RANGE)}</p>'
             f'{facts}'
             f'<div class="tournament-day-hero__stage"><span class="state-chip">현재 이용 가능한 분석</span><strong>{escape(stage_label)}</strong></div>'
+            f'{updated}'
             f'<a class="primary-action" href="{escape(stage_url)}">대회 분석 보기</a>'
             f'</section>')
 
