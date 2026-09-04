@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
+R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
@@ -30,6 +31,37 @@ def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
         (label.upper(), real.get(key), key == current)
         for key, label in (("pre", "PRE"), ("r1", "R1"), ("r2", "R2"), ("final", "FINAL"))
     ]
+
+def _r1_live_leaderboard_section(nav: str) -> str | None:
+    """R1 ACTIVE MODE: render the real, official leaderboard rows a
+    validated scripts/96 cycle collected -- rank/player/thru/to-par/
+    status only, no probability or prediction (none has been built or
+    validated for OK Open R1). Returns None (falls back to the "no
+    official data yet" placeholder in the caller) when no snapshot that
+    passed its safety gate exists yet -- reading the file, not this
+    stage having been reached in the loop, is what decides real vs.
+    placeholder content."""
+    if not R1_LIVE_SNAPSHOT.is_file():
+        return None
+    snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+    rows = snapshot.get("rows") or []
+    if not rows:
+        return None
+    retrieved_at = html.escape(str(snapshot.get("retrieved_at") or ""))
+    body_rows = "".join(
+        f'<tr><td>{html.escape(str(r.get("rank_display") or "—"))}</td>'
+        f'<th scope="row">{html.escape(str(r.get("player_name") or "—"))}</th>'
+        f'<td>{html.escape(str(r.get("holes_completed") or "—"))}</td>'
+        f'<td>{html.escape(str(r.get("total_under_par_display") or "—"))}</td>'
+        f'<td>{html.escape(str(r.get("status") or "진행중"))}</td></tr>'
+        for r in rows
+    )
+    return (f'<section class="panel" id="r1"><p class="eyebrow">R1 · 공식 진행 중 데이터</p>'
+            f'<h1>R1 실시간 공식 리더보드</h1>'
+            f'<p class="note">마지막 업데이트: {retrieved_at} · 공식 데이터만 표시합니다. 예측값/승리 확률은 포함하지 않습니다.</p>{nav}'
+            f'<div class="table-wrap"><table class="data"><thead><tr><th>순위</th><th>선수</th><th>진행 홀</th><th>스코어</th><th>상태</th></tr></thead>'
+            f'<tbody>{body_rows}</tbody></table></div></section>')
+
 
 BANDS = {
     "VERY_HIGH": "최상위",
@@ -110,11 +142,22 @@ def build() -> Path:
         stage_dir.mkdir(parents=True)
         crumb = breadcrumb_html(OK_DISPLAY_NAME, None, stage.upper())
         nav = stage_nav_html(_ok_stage_items(stage))
+        # R1 ACTIVE MODE: once scripts/96_ok_open_r1_active_cycle.py has
+        # collected and safety-gated a real official R1 snapshot, this
+        # page shows it -- a plain leaderboard table (rank/player/thru/
+        # to-par/status), never a probability or prediction, since no
+        # R1 win-probability model has been built or validated in this
+        # codebase. Absent the snapshot (every stage before that, and
+        # r2/final until their own live pipelines exist), the honest
+        # "no official data yet" placeholder is unchanged.
+        body = _r1_live_leaderboard_section(nav) if stage == "r1" else None
+        if body is None:
+            body = (f'<section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p>'
+                     f'<h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section>')
         stage_doc = (f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
                      f'<meta name="neo-public-master-sha256" content="{master_sha}"><title>NEO GOLF DATA · {stage.upper()}</title>'
                      f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../assets/neo.css"></head>'
-                     f'<body><header data-neo-global-navigation></header><main>{crumb}<section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p>'
-                     f'<h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section></main></body></html>')
+                     f'<body><header data-neo-global-navigation></header><main>{crumb}{body}</main></body></html>')
         (stage_dir / "index.html").write_text(inject_global_navigation(stage_doc, active_section="tournaments"), encoding="utf-8")
     about = """<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · NEO 소개</title><link rel=\"stylesheet\" href=\"../assets/neo.css\"></head><body><header data-neo-global-navigation></header><main><section class=\"panel about\" id=\"about\"><p class=\"eyebrow\">NEO 소개</p><h1>결과만으로는 보이지 않는 경기력을 데이터에서 봅니다.</h1><p>NEO GOLF DATA는 KLPGA 공식 경기 기록을 바탕으로 선수들의 경기 데이터를 동일한 기준으로 측정하고 비교합니다.</p><p>우승, TOP10, 상금, K-RANKING은 선수가 쌓아온 중요한 결과입니다. NEO는 여기에 또 하나의 관점을 더합니다.</p><p>최근 공식 경기 데이터를 비교해 출전 선수들 사이에서 관측된 경기력의 상대적 위치를 보여줍니다.</p><p>이것은 선수의 가치나 미래 성적에 대한 등급이 아닙니다. 골프의 결과에는 큰 변동성이 있으며 높은 경기력 위치가 우승이나 TOP10을 보장하지 않습니다.</p><p>NEO는 분석 시점에 사용할 수 있었던 데이터를 보존하고, 실제 결과와 비교하며 분석 방법을 계속 검증합니다.</p></section></main></body></html>"""
     (OUT / "about").mkdir()

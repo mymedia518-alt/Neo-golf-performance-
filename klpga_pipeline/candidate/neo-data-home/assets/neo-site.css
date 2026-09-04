@@ -153,6 +153,7 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .tournament-day-hero__facts span{color:var(--muted);font-size:.8rem}
 .tournament-day-hero__stage{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;flex-wrap:wrap}
 .tournament-day-hero__stage strong{font-size:1.05rem}
+.tournament-day-hero__updated{margin:0 0 1.1rem;color:var(--muted);font-size:.78rem;font-family:var(--num);font-variant-numeric:tabular-nums}
 /* HOME RANKING H1 FIX: the shared .page-head h1{max-width:22ch} rule
    (elsewhere correctly limiting an editorial-width headline) clips a
    Korean heading long before 22 real characters' worth of space is
