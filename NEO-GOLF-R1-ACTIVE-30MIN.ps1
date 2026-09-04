@@ -1,4 +1,5 @@
 $ErrorActionPreference = 'Stop'
+$TaskName = 'NEO-GOLF-R1-ACTIVE-30MIN'
 $Repo = 'C:\Users\user\Desktop\Neo-golf-performance-live'
 $LogDir = 'C:\Users\user\Desktop\Neo-golf-performance-live-logs'
 $Lock = Join-Path $LogDir 'r1-active-cycle.lock'
@@ -22,7 +23,18 @@ try {
   New-Item -ItemType File -Path $Lock -Force | Set-Content -Value "$PID $(Get-Date -Format o)"
   $env:GIT_TERMINAL_PROMPT = '0'
   Set-Location $Repo
-  $status = (& git -c safe.directory=$Repo status --porcelain) | Where-Object { $_ -notmatch '^\?\? (\.pytest-|\.test-)' }
+  # Untracked build byproducts under klpga_pipeline/candidate/ are ignored
+  # here on purpose: that whole tree is fully regenerated, deterministically,
+  # by _rebuild_and_promote() every cycle (scripts 84/86/88 rewrite it from
+  # source JSON, never incrementally) -- an untracked stray file there (e.g.
+  # left behind by a human running pytest in this same checkout between
+  # cycles) can never be "hidden real work" the way an untracked file
+  # elsewhere could be. Confirmed reproducible: an unrelated pytest run in
+  # this checkout regenerated klpga_pipeline/candidate/neo-data-home/ranking/
+  # as a stray untracked directory that is not part of the real pipeline
+  # output and previously would have HARD_STOPped every cycle indefinitely
+  # until a human noticed and manually cleaned it.
+  $status = (& git -c safe.directory=$Repo status --porcelain) | Where-Object { $_ -notmatch '^\?\? (\.pytest-|\.test-|klpga_pipeline/candidate/)' }
   if ($status) { Write-Output 'HARD_STOP: worktree dirty'; $status; exit 2 }
   & git -c safe.directory=$Repo fetch origin
   $local = (& git -c safe.directory=$Repo rev-parse HEAD).Trim()
@@ -64,8 +76,34 @@ try {
     if ($iproc) { Write-Output "SKIP_WAIT: active cycle process pid=$ipid"; exit 0 }
     if ($iage -ge 1500) { Remove-Item -LiteralPath $InternalLock -Force } else { Write-Output "HARD_STOP: internal lock has no live owner but is too young (age=${iage}s)"; exit 2 }
   }
-  & $Python 'klpga_pipeline\scripts\96_ok_open_r1_active_cycle.py' --live --git-push
-  if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  $cycleOutput = & $Python 'klpga_pipeline\scripts\96_ok_open_r1_active_cycle.py' --live --git-push
+  $cycleExit = $LASTEXITCODE
+  $cycleOutput | ForEach-Object { Write-Output $_ }
+  if ($cycleExit -ne 0) { exit $cycleExit }
+
+  # R1-CLOSE AUTO-STOP: script 96's own docstring says stop_active_cycle:
+  # true is its R1-close signal and that "the caller (never this script,
+  # which cannot reach the scheduler) is responsible for actually stopping
+  # further cycles once it sees that" -- until now nothing actually did
+  # that, so a human had to notice R1 had closed and manually disable the
+  # Task Scheduler job (harmless if missed -- later cycles just become
+  # SKIP_NO_NEW_DATA no-ops -- but still an unattended-ops gap). Parse the
+  # last JSON summary line of stdout (script 96 always prints exactly one)
+  # and, if it reports the round closed, disable (never delete -- keeps
+  # history and Enable-ScheduledTask trivially reversible for the next
+  # round) the recurring schedule so cycles genuinely stop firing.
+  $lastJsonLine = ($cycleOutput | Where-Object { $_ -match '^\{.*\}$' } | Select-Object -Last 1)
+  if ($lastJsonLine) {
+    try {
+      $parsed = $lastJsonLine | ConvertFrom-Json
+      if ($parsed.stop_active_cycle -eq $true) {
+        Write-Output "R1 CLOSED (stop_active_cycle=true) -- disabling scheduled task '$TaskName'"
+        Disable-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue | Out-Null
+      }
+    } catch {
+      Write-Output "WARN: could not parse cycle JSON output for the R1-close stop signal: $($_.Exception.Message)"
+    }
+  }
 } catch { Write-Output ('HARD_STOP: ' + $_.Exception.Message); exit 2 }
 finally {
   Remove-Item -LiteralPath $Lock -Force -ErrorAction SilentlyContinue

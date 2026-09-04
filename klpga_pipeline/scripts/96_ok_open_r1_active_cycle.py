@@ -59,7 +59,10 @@ for both a human operator and an automated caller (e.g. the 30-minute
 Routine) to read. `stop_active_cycle: true` is script 96's own
 R1-close signal -- the caller (never this script, which cannot reach
 the scheduler) is responsible for actually stopping further cycles
-once it sees that.
+once it sees that. NEO-GOLF-R1-ACTIVE-30MIN.ps1 (the Windows Task
+Scheduler wrapper) is that caller: it parses this JSON and calls
+Disable-ScheduledTask on stop_active_cycle == true, so R1 closing does
+not require a human to notice and turn the schedule off by hand.
 """
 from __future__ import annotations
 
