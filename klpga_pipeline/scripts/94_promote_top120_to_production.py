@@ -30,6 +30,7 @@ written to docs/ if a pre-check fails.
 """
 from __future__ import annotations
 
+import datetime
 import json
 import re
 import shutil
@@ -40,10 +41,19 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.website_v2.freshness_gate import (  # noqa: E402
+    FreshnessGateError,
+    assert_completed_round_has_no_incomplete_holes,
+    assert_no_silent_staleness,
+)
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, extract_owner, validate_top120_population  # noqa: E402
+from klpga.website_v2.tournament_state import home_mode, ok_open_latest_available_stage  # noqa: E402
 
 SOURCE = ROOT / "candidate" / "neo-data-home-top120"
 DEST = REPO_ROOT / "docs"
+CONTENT = ROOT / "content" / "website_v2"
+STAGE_STATE_PATH = CONTENT / "OK_OPEN_STAGE_STATE.json"
+R1_LIVE_SNAPSHOT_PATH = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 
 REQUIRED_ROUTES = [
     "index.html",
@@ -97,6 +107,44 @@ def _validate_build_id_consistency(root: Path, label: str) -> None:
         raise PromotionError(f"{label}: stale/inconsistent neo-build-id across the tree (HARD FAIL) -- {ids}")
 
 
+def _validate_r1_freshness(root: Path, label: str) -> None:
+    """P0 STALE-DATA INCIDENT HARD GATE: during an active tournament,
+    refuse to promote a build whose R1 live page(s) silently present a
+    stale snapshot as current, or whose data state claims R1 is
+    complete while individual player rows still show incomplete
+    holes. This inspects DATA STATE -- the snapshot's own collected_at
+    timestamp and each player's holes_completed -- never merely
+    whether the HTML/CSS is well-formed (a Playwright PASS alone is
+    not sufficient). See klpga.website_v2.freshness_gate for the root
+    cause this guards against."""
+    if home_mode() != "TOURNAMENT_ACTIVE":
+        return
+    if not STAGE_STATE_PATH.is_file() or not R1_LIVE_SNAPSHOT_PATH.is_file():
+        return
+    state = json.loads(STAGE_STATE_PATH.read_text(encoding="utf-8"))
+    r1_state = (state.get("stages") or {}).get("r1") or {}
+    if not r1_state.get("validated"):
+        return
+    snapshot = json.loads(R1_LIVE_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+    now = datetime.datetime.now(datetime.timezone.utc)
+    collected_at_iso = snapshot.get("collected_at")
+    player_table = snapshot.get("player_table") or []
+    round_complete = bool(state.get("r1_complete"))
+    try:
+        assert_completed_round_has_no_incomplete_holes(player_table, round_complete=round_complete, label=label)
+        routes = ["tournaments/2026/ok-savings-bank-open/r1/index.html"]
+        stage_key, _ = ok_open_latest_available_stage()
+        if stage_key == "r1":
+            routes.append("index.html")
+        for route in routes:
+            page_path = root / route
+            if not page_path.is_file():
+                continue
+            assert_no_silent_staleness(page_path.read_text(encoding="utf-8"), collected_at_iso=collected_at_iso, now=now, label=f"{label} ({route})")
+    except FreshnessGateError as exc:
+        raise PromotionError(str(exc)) from exc
+
+
 def _validate_tree(root: Path, label: str) -> None:
     missing = [route for route in REQUIRED_ROUTES if not (root / route).is_file()]
     if missing:
@@ -114,6 +162,7 @@ def _validate_tree(root: Path, label: str) -> None:
         raise PromotionError(f"{label}: HOME ownership check failed -- owner is {owner!r}, expected {TOP120_OWNER!r}")
 
     _validate_build_id_consistency(root, label)
+    _validate_r1_freshness(root, label)
 
 
 def promote() -> None:
