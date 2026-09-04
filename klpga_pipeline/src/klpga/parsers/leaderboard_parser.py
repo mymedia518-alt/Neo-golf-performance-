@@ -231,6 +231,7 @@ def parse_round_leaderboard_html(
     per-row attribute always takes priority when present."""
     soup = BeautifulSoup(html, "lxml")
     rows: list[PlayerRoundRow] = []
+    seen_player_codes: set[str] = set()
 
     for row in soup.select(_ROW_SELECTOR):
         detail = _find_detail_tag(row)
@@ -254,6 +255,14 @@ def parse_round_leaderboard_html(
         detail_round = _to_plain_int(_attr(detail, "_round"))
         detail_game_code = _clean_str(_attr(detail, "_gamecode"))
 
+        player_code = _clean_str(_attr(detail, "_playerCode", "playerCode", "data-player-code"))
+        # The official fragment currently renders identical desktop/mobile
+        # rows twice.  Collapse only byte-identical player identities here;
+        # conflicting rows remain visible to the safety gate.
+        if player_code and player_code in seen_player_codes:
+            continue
+        if player_code:
+            seen_player_codes.add(player_code)
         rows.append(
             PlayerRoundRow(
                 game_code=detail_game_code or game_code,

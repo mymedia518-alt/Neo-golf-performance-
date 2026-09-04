@@ -1,0 +1,2367 @@
+{
+  "schema_version": "neo_ok_open_r1_snapshot_v1",
+  "kind": "R1_1513",
+  "game_code": "2026120001",
+  "round": 1,
+  "collected_at": "2026-09-04T06:13:45Z",
+  "official_data_timestamp": null,
+  "official_data_timestamp_note": "KLPGA's leaderboard response carries no per-row timestamp field -- never fabricated equal to collected_at.",
+  "leaderboard": [
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 1,
+      "rank_display": "1",
+      "total_under_par": -4,
+      "total_under_par_display": "-4",
+      "today_under_par": -4
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 1,
+      "rank_display": "1",
+      "total_under_par": -4,
+      "total_under_par_display": "-4",
+      "today_under_par": -4
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 1,
+      "rank_display": "1",
+      "total_under_par": -4,
+      "total_under_par_display": "-4",
+      "today_under_par": -4
+    },
+    {
+      "player_id": "11944",
+      "player_name": "오수민 0809(A)",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 4,
+      "rank_display": "4",
+      "total_under_par": -3,
+      "total_under_par_display": "-3",
+      "today_under_par": -3
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 4,
+      "rank_display": "4",
+      "total_under_par": -3,
+      "total_under_par_display": "-3",
+      "today_under_par": -3
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "status": null,
+      "holes_completed": "11",
+      "rank": 4,
+      "rank_display": "4",
+      "total_under_par": -3,
+      "total_under_par_display": "-3",
+      "today_under_par": -3
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "11365",
+      "player_name": "박서진 0804(A)",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "status": null,
+      "holes_completed": "14",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "status": null,
+      "holes_completed": "12",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "status": null,
+      "holes_completed": "12",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 7,
+      "rank_display": "7",
+      "total_under_par": -2,
+      "total_under_par_display": "-2",
+      "today_under_par": -2
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "status": null,
+      "holes_completed": "14",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "status": null,
+      "holes_completed": "13",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "status": null,
+      "holes_completed": "3",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "status": null,
+      "holes_completed": "11",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "status": null,
+      "holes_completed": "1",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "status": null,
+      "holes_completed": "1",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 14,
+      "rank_display": "14",
+      "total_under_par": -1,
+      "total_under_par_display": "-1",
+      "today_under_par": -1
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "status": null,
+      "holes_completed": "5",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "status": null,
+      "holes_completed": "5",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "status": null,
+      "holes_completed": "13",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "status": null,
+      "holes_completed": "3",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "status": null,
+      "holes_completed": "3",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "status": null,
+      "holes_completed": "2",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "status": null,
+      "holes_completed": "2",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "10157",
+      "player_name": "황연서",
+      "status": null,
+      "holes_completed": "10",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "status": null,
+      "holes_completed": "1",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "8863",
+      "player_name": "윤혜림",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원",
+      "status": null,
+      "holes_completed": "8",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "status": null,
+      "holes_completed": "7",
+      "rank": 27,
+      "rank_display": "27",
+      "total_under_par": 0,
+      "total_under_par_display": "0",
+      "today_under_par": 0
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "status": null,
+      "holes_completed": "13",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "status": null,
+      "holes_completed": "2",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리",
+      "status": null,
+      "holes_completed": "10",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "10510",
+      "player_name": "유서연",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "status": null,
+      "holes_completed": "8",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "status": null,
+      "holes_completed": "16",
+      "rank": 51,
+      "rank_display": "51",
+      "total_under_par": 1,
+      "total_under_par_display": "1",
+      "today_under_par": 1
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "8320",
+      "player_name": "김아림",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "11374",
+      "player_name": "전승희",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "9981",
+      "player_name": "배수연",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민",
+      "status": null,
+      "holes_completed": "4",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "status": null,
+      "holes_completed": "12",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "status": null,
+      "holes_completed": "10",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지",
+      "status": null,
+      "holes_completed": "17",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "status": null,
+      "holes_completed": "7",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "status": null,
+      "holes_completed": "16",
+      "rank": 68,
+      "rank_display": "68",
+      "total_under_par": 2,
+      "total_under_par_display": "2",
+      "today_under_par": 2
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "10080",
+      "player_name": "이수정",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "status": null,
+      "holes_completed": "14",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민",
+      "status": null,
+      "holes_completed": "5",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "status": null,
+      "holes_completed": "5",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "status": null,
+      "holes_completed": "5",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "status": null,
+      "holes_completed": "13",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "status": null,
+      "holes_completed": "13",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "status": null,
+      "holes_completed": "13",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "status": null,
+      "holes_completed": "2",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "status": null,
+      "holes_completed": "2",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)",
+      "status": null,
+      "holes_completed": "2",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "status": null,
+      "holes_completed": "17",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "status": null,
+      "holes_completed": "17",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "10155",
+      "player_name": "신유진2",
+      "status": null,
+      "holes_completed": "7",
+      "rank": 80,
+      "rank_display": "80",
+      "total_under_par": 3,
+      "total_under_par_display": "3",
+      "today_under_par": 3
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "8764",
+      "player_name": "김소이",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "8355",
+      "player_name": "장수연",
+      "status": null,
+      "holes_completed": "16",
+      "rank": 99,
+      "rank_display": "99",
+      "total_under_par": 4,
+      "total_under_par_display": "4",
+      "today_under_par": 4
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "7963",
+      "player_name": "장하나",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정",
+      "status": null,
+      "holes_completed": "4",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "status": null,
+      "holes_completed": "11",
+      "rank": 106,
+      "rank_display": "106",
+      "total_under_par": 5,
+      "total_under_par_display": "5",
+      "today_under_par": 5
+    },
+    {
+      "player_id": "8436",
+      "player_name": "유현주",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 114,
+      "rank_display": "114",
+      "total_under_par": 6,
+      "total_under_par_display": "6",
+      "today_under_par": 6
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 114,
+      "rank_display": "114",
+      "total_under_par": 6,
+      "total_under_par_display": "6",
+      "today_under_par": 6
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "status": null,
+      "holes_completed": "5",
+      "rank": 114,
+      "rank_display": "114",
+      "total_under_par": 6,
+      "total_under_par_display": "6",
+      "today_under_par": 6
+    },
+    {
+      "player_id": "11446",
+      "player_name": "강민진",
+      "status": null,
+      "holes_completed": "9",
+      "rank": 117,
+      "rank_display": "117",
+      "total_under_par": 8,
+      "total_under_par_display": "8",
+      "today_under_par": 8
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 117,
+      "rank_display": "117",
+      "total_under_par": 8,
+      "total_under_par_display": "8",
+      "today_under_par": 8
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서",
+      "status": null,
+      "holes_completed": "18",
+      "rank": 119,
+      "rank_display": "119",
+      "total_under_par": 9,
+      "total_under_par_display": "9",
+      "today_under_par": 9
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "status": "INCOMPLETE",
+      "holes_completed": "10",
+      "rank": null,
+      "rank_display": "999",
+      "total_under_par": null,
+      "total_under_par_display": null,
+      "today_under_par": null
+    }
+  ],
+  "probabilities": {
+    "9174": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "11446": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "10075": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 6.1
+    },
+    "10112": {
+      "win_pct": 6.88,
+      "top5_pct": 21.44,
+      "top10_pct": 37.72,
+      "top20_pct": 58.06,
+      "make_cut_pct": 98.12
+    },
+    "10109": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.02,
+      "top20_pct": 0.58,
+      "make_cut_pct": 7.86
+    },
+    "9436": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 5.38
+    },
+    "10726": {
+      "win_pct": 0.0,
+      "top5_pct": 0.12,
+      "top10_pct": 0.58,
+      "top20_pct": 3.66,
+      "make_cut_pct": 46.98
+    },
+    "9752": {
+      "win_pct": 0.0,
+      "top5_pct": 0.12,
+      "top10_pct": 0.86,
+      "top20_pct": 4.12,
+      "make_cut_pct": 31.1
+    },
+    "9702": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.52,
+      "make_cut_pct": 100.0
+    },
+    "10002": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.48,
+      "top20_pct": 3.54,
+      "make_cut_pct": 97.4
+    },
+    "10097": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.52
+    },
+    "10725": {
+      "win_pct": 12.78,
+      "top5_pct": 39.38,
+      "top10_pct": 64.34,
+      "top20_pct": 83.84,
+      "make_cut_pct": 99.88
+    },
+    "10081": {
+      "win_pct": 0.36,
+      "top5_pct": 8.2,
+      "top10_pct": 37.68,
+      "top20_pct": 79.16,
+      "make_cut_pct": 99.78
+    },
+    "8380": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.12,
+      "top20_pct": 4.28,
+      "make_cut_pct": 87.76
+    },
+    "9807": {
+      "win_pct": 0.0,
+      "top5_pct": 0.1,
+      "top10_pct": 4.96,
+      "top20_pct": 49.82,
+      "make_cut_pct": 100.0
+    },
+    "9089": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 1.6
+    },
+    "8300": {
+      "win_pct": 0.0,
+      "top5_pct": 0.08,
+      "top10_pct": 1.4,
+      "top20_pct": 10.72,
+      "make_cut_pct": 68.98
+    },
+    "11143": {
+      "win_pct": 0.0,
+      "top5_pct": 0.06,
+      "top10_pct": 1.76,
+      "top20_pct": 13.98,
+      "make_cut_pct": 99.84
+    },
+    "9277": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.02,
+      "make_cut_pct": 14.92
+    },
+    "8838": {
+      "win_pct": 0.0,
+      "top5_pct": 0.02,
+      "top10_pct": 0.02,
+      "top20_pct": 0.42,
+      "make_cut_pct": 96.58
+    },
+    "9487": {
+      "win_pct": 0.04,
+      "top5_pct": 0.88,
+      "top10_pct": 3.62,
+      "top20_pct": 13.06,
+      "make_cut_pct": 93.56
+    },
+    "9000": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 99.36
+    },
+    "8434": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.06,
+      "make_cut_pct": 15.9
+    },
+    "11216": {
+      "win_pct": 0.5,
+      "top5_pct": 4.54,
+      "top10_pct": 14.48,
+      "top20_pct": 36.6,
+      "make_cut_pct": 91.06
+    },
+    "10790": {
+      "win_pct": 0.0,
+      "top5_pct": 1.36,
+      "top10_pct": 10.5,
+      "top20_pct": 40.24,
+      "make_cut_pct": 99.96
+    },
+    "8271": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 69.0
+    },
+    "10178": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.06,
+      "make_cut_pct": 37.8
+    },
+    "9113": {
+      "win_pct": 0.0,
+      "top5_pct": 0.04,
+      "top10_pct": 4.22,
+      "top20_pct": 66.22,
+      "make_cut_pct": 100.0
+    },
+    "9723": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 13.86
+    },
+    "10789": {
+      "win_pct": 0.0,
+      "top5_pct": 0.04,
+      "top10_pct": 0.44,
+      "top20_pct": 6.1,
+      "make_cut_pct": 98.18
+    },
+    "9401": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.08,
+      "make_cut_pct": 91.12
+    },
+    "10083": {
+      "win_pct": 0.0,
+      "top5_pct": 0.9,
+      "top10_pct": 6.72,
+      "top20_pct": 28.2,
+      "make_cut_pct": 98.66
+    },
+    "8318": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "9431": {
+      "win_pct": 0.44,
+      "top5_pct": 2.86,
+      "top10_pct": 9.02,
+      "top20_pct": 22.7,
+      "make_cut_pct": 89.2
+    },
+    "9111": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.02,
+      "make_cut_pct": 27.96
+    },
+    "11056": {
+      "win_pct": 0.0,
+      "top5_pct": 0.04,
+      "top10_pct": 0.38,
+      "top20_pct": 2.18,
+      "make_cut_pct": 33.98
+    },
+    "9788": {
+      "win_pct": 0.48,
+      "top5_pct": 14.3,
+      "top10_pct": 54.08,
+      "top20_pct": 91.32,
+      "make_cut_pct": 100.0
+    },
+    "10095": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.58,
+      "top20_pct": 16.84,
+      "make_cut_pct": 100.0
+    },
+    "8589": {
+      "win_pct": 0.0,
+      "top5_pct": 0.22,
+      "top10_pct": 3.8,
+      "top20_pct": 29.38,
+      "make_cut_pct": 100.0
+    },
+    "9981": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.02,
+      "make_cut_pct": 34.88
+    },
+    "9134": {
+      "win_pct": 0.02,
+      "top5_pct": 0.78,
+      "top10_pct": 5.02,
+      "top20_pct": 19.22,
+      "make_cut_pct": 80.82
+    },
+    "8881": {
+      "win_pct": 1.68,
+      "top5_pct": 17.92,
+      "top10_pct": 49.44,
+      "top20_pct": 82.16,
+      "make_cut_pct": 100.0
+    },
+    "8386": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.02,
+      "make_cut_pct": 15.0
+    },
+    "10022": {
+      "win_pct": 0.02,
+      "top5_pct": 0.46,
+      "top10_pct": 4.48,
+      "top20_pct": 22.24,
+      "make_cut_pct": 94.12
+    },
+    "11057": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.14
+    },
+    "9135": {
+      "win_pct": 17.5,
+      "top5_pct": 53.44,
+      "top10_pct": 77.0,
+      "top20_pct": 92.76,
+      "make_cut_pct": 100.0
+    },
+    "10155": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.06,
+      "make_cut_pct": 25.16
+    },
+    "4905": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 3.66
+    },
+    "6916": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 96.92
+    },
+    "11060": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.18,
+      "top20_pct": 2.44,
+      "make_cut_pct": 91.34
+    },
+    "9465": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.14,
+      "make_cut_pct": 23.68
+    },
+    "10867": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.04,
+      "make_cut_pct": 3.86
+    },
+    "10139": {
+      "win_pct": 0.0,
+      "top5_pct": 0.02,
+      "top10_pct": 0.7,
+      "top20_pct": 9.22,
+      "make_cut_pct": 96.9
+    },
+    "11045": {
+      "win_pct": 0.12,
+      "top5_pct": 11.62,
+      "top10_pct": 57.2,
+      "top20_pct": 94.9,
+      "make_cut_pct": 100.0
+    },
+    "8799": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.5,
+      "make_cut_pct": 99.96
+    },
+    "11926": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 7.2
+    },
+    "11066": {
+      "win_pct": 0.02,
+      "top5_pct": 0.18,
+      "top10_pct": 2.5,
+      "top20_pct": 19.98,
+      "make_cut_pct": 99.68
+    },
+    "9714": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 99.8
+    },
+    "9990": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 1.26,
+      "make_cut_pct": 100.0
+    },
+    "8863": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 99.42
+    },
+    "8884": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 57.26
+    },
+    "8883": {
+      "win_pct": 0.0,
+      "top5_pct": 0.36,
+      "top10_pct": 6.96,
+      "top20_pct": 43.7,
+      "make_cut_pct": 99.98
+    },
+    "11649": {
+      "win_pct": 0.24,
+      "top5_pct": 7.3,
+      "top10_pct": 34.18,
+      "top20_pct": 77.9,
+      "make_cut_pct": 99.96
+    },
+    "10481": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 70.44
+    },
+    "11040": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.04,
+      "top20_pct": 0.52,
+      "make_cut_pct": 35.56
+    },
+    "9652": {
+      "win_pct": 0.0,
+      "top5_pct": 0.38,
+      "top10_pct": 2.36,
+      "top20_pct": 11.82,
+      "make_cut_pct": 86.22
+    },
+    "8246": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "9503": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.02,
+      "make_cut_pct": 15.18
+    },
+    "9784": {
+      "win_pct": 24.72,
+      "top5_pct": 96.76,
+      "top10_pct": 100.0,
+      "top20_pct": 100.0,
+      "make_cut_pct": 100.0
+    },
+    "11469": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "9759": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.08,
+      "make_cut_pct": 1.3
+    },
+    "9708": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.08,
+      "top20_pct": 0.76,
+      "make_cut_pct": 25.34
+    },
+    "7434": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 15.08
+    },
+    "8234": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 6.5
+    },
+    "12038": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 1.88
+    },
+    "9449": {
+      "win_pct": 0.0,
+      "top5_pct": 0.34,
+      "top10_pct": 8.34,
+      "top20_pct": 62.62,
+      "make_cut_pct": 99.92
+    },
+    "8811": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.32,
+      "make_cut_pct": 99.98
+    },
+    "9145": {
+      "win_pct": 0.12,
+      "top5_pct": 1.66,
+      "top10_pct": 6.34,
+      "top20_pct": 19.96,
+      "make_cut_pct": 91.34
+    },
+    "8355": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.9
+    },
+    "8243": {
+      "win_pct": 17.1,
+      "top5_pct": 55.96,
+      "top10_pct": 81.78,
+      "top20_pct": 95.32,
+      "make_cut_pct": 100.0
+    },
+    "11374": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.02,
+      "top20_pct": 1.36,
+      "make_cut_pct": 81.64
+    },
+    "9082": {
+      "win_pct": 2.18,
+      "top5_pct": 21.26,
+      "top10_pct": 53.84,
+      "top20_pct": 84.1,
+      "make_cut_pct": 100.0
+    },
+    "9389": {
+      "win_pct": 0.0,
+      "top5_pct": 0.04,
+      "top10_pct": 0.86,
+      "top20_pct": 9.48,
+      "make_cut_pct": 99.94
+    },
+    "9765": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.02,
+      "top20_pct": 0.86,
+      "make_cut_pct": 91.72
+    },
+    "8840": {
+      "win_pct": 0.0,
+      "top5_pct": 0.08,
+      "top10_pct": 1.9,
+      "top20_pct": 21.82,
+      "make_cut_pct": 100.0
+    },
+    "9820": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.02,
+      "top20_pct": 1.42,
+      "make_cut_pct": 70.72
+    },
+    "8770": {
+      "win_pct": 0.0,
+      "top5_pct": 0.5,
+      "top10_pct": 2.82,
+      "top20_pct": 13.64,
+      "make_cut_pct": 95.82
+    },
+    "8430": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 100.0
+    },
+    "8972": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 2.62
+    },
+    "9136": {
+      "win_pct": 0.0,
+      "top5_pct": 0.02,
+      "top10_pct": 0.12,
+      "top20_pct": 1.42,
+      "make_cut_pct": 76.02
+    },
+    "11770": {
+      "win_pct": 10.52,
+      "top5_pct": 50.72,
+      "top10_pct": 81.48,
+      "top20_pct": 96.22,
+      "make_cut_pct": 100.0
+    },
+    "9391": {
+      "win_pct": 0.18,
+      "top5_pct": 4.12,
+      "top10_pct": 21.54,
+      "top20_pct": 55.94,
+      "make_cut_pct": 100.0
+    },
+    "8277": {
+      "win_pct": 0.02,
+      "top5_pct": 0.16,
+      "top10_pct": 1.38,
+      "top20_pct": 7.22,
+      "make_cut_pct": 81.74
+    },
+    "8284": {
+      "win_pct": 2.6,
+      "top5_pct": 69.82,
+      "top10_pct": 99.28,
+      "top20_pct": 100.0,
+      "make_cut_pct": 100.0
+    },
+    "10577": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.18,
+      "make_cut_pct": 4.78
+    },
+    "9235": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.04,
+      "top20_pct": 3.12,
+      "make_cut_pct": 81.04
+    },
+    "11073": {
+      "win_pct": 0.0,
+      "top5_pct": 0.02,
+      "top10_pct": 0.04,
+      "top20_pct": 0.9,
+      "make_cut_pct": 94.82
+    },
+    "11447": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.12,
+      "top20_pct": 16.96,
+      "make_cut_pct": 100.0
+    },
+    "9483": {
+      "win_pct": 0.0,
+      "top5_pct": 0.14,
+      "top10_pct": 1.66,
+      "top20_pct": 13.02,
+      "make_cut_pct": 100.0
+    },
+    "9426": {
+      "win_pct": 0.0,
+      "top5_pct": 0.14,
+      "top10_pct": 1.6,
+      "top20_pct": 12.46,
+      "make_cut_pct": 69.48
+    },
+    "9728": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.32,
+      "top20_pct": 4.04,
+      "make_cut_pct": 99.88
+    },
+    "10531": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 61.34
+    },
+    "9750": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.02,
+      "top20_pct": 0.32,
+      "make_cut_pct": 16.28
+    },
+    "9705": {
+      "win_pct": 0.06,
+      "top5_pct": 0.54,
+      "top10_pct": 3.0,
+      "top20_pct": 14.78,
+      "make_cut_pct": 97.3
+    },
+    "10586": {
+      "win_pct": 0.06,
+      "top5_pct": 0.78,
+      "top10_pct": 6.06,
+      "top20_pct": 32.06,
+      "make_cut_pct": 99.56
+    },
+    "11042": {
+      "win_pct": 0.0,
+      "top5_pct": 0.02,
+      "top10_pct": 0.88,
+      "top20_pct": 7.48,
+      "make_cut_pct": 96.46
+    },
+    "10727": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.06
+    },
+    "10157": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.02,
+      "top20_pct": 0.38,
+      "make_cut_pct": 93.58
+    },
+    "9937": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.04,
+      "top20_pct": 1.44,
+      "make_cut_pct": 99.52
+    },
+    "8240": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 96.92
+    },
+    "8320": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.06,
+      "top20_pct": 5.16,
+      "make_cut_pct": 98.86
+    },
+    "8764": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "11365": {
+      "win_pct": 0.14,
+      "top5_pct": 1.86,
+      "top10_pct": 7.68,
+      "top20_pct": 24.78,
+      "make_cut_pct": 99.5
+    },
+    "11944": {
+      "win_pct": 1.22,
+      "top5_pct": 7.9,
+      "top10_pct": 20.66,
+      "top20_pct": 43.78,
+      "make_cut_pct": 99.8
+    },
+    "8436": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "7963": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0,
+      "make_cut_pct": 0.0
+    },
+    "10698": {
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.14,
+      "top20_pct": 1.9,
+      "make_cut_pct": 88.82
+    }
+  },
+  "expected_cut_distribution": {
+    "p10": 1.4,
+    "p50": 1.69,
+    "p90": 1.99
+  },
+  "cut_fraction_used": 0.65,
+  "n_simulations": 5000,
+  "excluded_no_r1_score": [
+    "9183",
+    "9130",
+    "8859"
+  ],
+  "neo_movers": {
+    "win_pct_risers": [
+      {
+        "player_id": "9784",
+        "player_name": "이예원",
+        "metric": "win_pct",
+        "pre_value": 2.379169981586542,
+        "current_value": 24.72,
+        "delta": 22.340830018413456
+      },
+      {
+        "player_id": "8243",
+        "player_name": "장은수",
+        "metric": "win_pct",
+        "pre_value": 1.1576460005865952,
+        "current_value": 17.1,
+        "delta": 15.942353999413406
+      },
+      {
+        "player_id": "9135",
+        "player_name": "신다인",
+        "metric": "win_pct",
+        "pre_value": 1.7147255763935907,
+        "current_value": 17.5,
+        "delta": 15.78527442360641
+      },
+      {
+        "player_id": "11770",
+        "player_name": "짜라위 분짠(I)",
+        "metric": "win_pct",
+        "pre_value": 0.8430567134735748,
+        "current_value": 10.52,
+        "delta": 9.676943286526425
+      },
+      {
+        "player_id": "10725",
+        "player_name": "김민솔",
+        "metric": "win_pct",
+        "pre_value": 5.550691510378016,
+        "current_value": 12.78,
+        "delta": 7.2293084896219835
+      }
+    ],
+    "win_pct_fallers": [
+      {
+        "player_id": "8881",
+        "player_name": "성유진",
+        "metric": "win_pct",
+        "pre_value": 7.002515732194537,
+        "current_value": 1.68,
+        "delta": -5.322515732194537
+      },
+      {
+        "player_id": "10097",
+        "player_name": "김민선7",
+        "metric": "win_pct",
+        "pre_value": 4.683242704463382,
+        "current_value": 0.0,
+        "delta": -4.683242704463382
+      },
+      {
+        "player_id": "8300",
+        "player_name": "김수지",
+        "metric": "win_pct",
+        "pre_value": 3.616797576225473,
+        "current_value": 0.0,
+        "delta": -3.616797576225473
+      },
+      {
+        "player_id": "9113",
+        "player_name": "노승희",
+        "metric": "win_pct",
+        "pre_value": 3.472709568639826,
+        "current_value": 0.0,
+        "delta": -3.472709568639826
+      },
+      {
+        "player_id": "9449",
+        "player_name": "이지현3",
+        "metric": "win_pct",
+        "pre_value": 3.2634105160690132,
+        "current_value": 0.0,
+        "delta": -3.2634105160690132
+      }
+    ],
+    "top10_pct_risers": [],
+    "cut_pct_droppers_vs_band": [
+      {
+        "player_id": "10097",
+        "player_name": "김민선7",
+        "metric": "make_cut_pct_vs_band",
+        "pre_value": null,
+        "current_value": 0.52,
+        "delta": null
+      }
+    ],
+    "beat_expectation": [
+      {
+        "player_id": "7963",
+        "player_name": "장하나",
+        "metric": "vs_expected_strokes",
+        "pre_value": 9.14,
+        "current_value": 5,
+        "delta": 4.140000000000001
+      },
+      {
+        "player_id": "9483",
+        "player_name": "한지원",
+        "metric": "vs_expected_strokes",
+        "pre_value": 0.152,
+        "current_value": -3,
+        "delta": 3.152
+      },
+      {
+        "player_id": "11045",
+        "player_name": "양효진",
+        "metric": "vs_expected_strokes",
+        "pre_value": -0.998,
+        "current_value": -4,
+        "delta": 3.002
+      },
+      {
+        "player_id": "11944",
+        "player_name": "오수민 0809(A)",
+        "metric": "vs_expected_strokes",
+        "pre_value": -0.432,
+        "current_value": -3,
+        "delta": 2.568
+      },
+      {
+        "player_id": "9135",
+        "player_name": "신다인",
+        "metric": "vs_expected_strokes",
+        "pre_value": -1.62,
+        "current_value": -4,
+        "delta": 2.38
+      }
+    ],
+    "missed_expectation": [
+      {
+        "player_id": "11469",
+        "player_name": "이윤서",
+        "metric": "vs_expected_strokes",
+        "pre_value": 0.1,
+        "current_value": 9,
+        "delta": -8.9
+      },
+      {
+        "player_id": "8246",
+        "player_name": "이소영",
+        "metric": "vs_expected_strokes",
+        "pre_value": 0.46,
+        "current_value": 8,
+        "delta": -7.54
+      },
+      {
+        "player_id": "11446",
+        "player_name": "강민진",
+        "metric": "vs_expected_strokes",
+        "pre_value": 1.042,
+        "current_value": 8,
+        "delta": -6.958
+      },
+      {
+        "player_id": "10109",
+        "player_name": "고지원",
+        "metric": "vs_expected_strokes",
+        "pre_value": -1.736,
+        "current_value": 5,
+        "delta": -6.736
+      },
+      {
+        "player_id": "10097",
+        "player_name": "김민선7",
+        "metric": "vs_expected_strokes",
+        "pre_value": -1.5,
+        "current_value": 5,
+        "delta": -6.5
+      }
+    ]
+  },
+  "model_version": "r1_live_probability_v1",
+  "build_id": "2026-09-04T06:13:45Z",
+  "input_provenance": {
+    "pre_master": "OK_OPEN_2026_PRE_PUBLIC_MASTER.json",
+    "performance_snapshot": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+    "r1_leaderboard_source": "klpga.co.kr getGameList/roundLeaderboard (live)",
+    "population_fallback_players": [
+      "10789",
+      "10155",
+      "10698"
+    ],
+    "missing_r1_players": [
+      "9183",
+      "9130",
+      "8859"
+    ]
+  },
+  "validation_result": {
+    "cycle_action": "PUBLISH",
+    "cycle_reason": "in-progress snapshot passed the safety gate",
+    "row_count": 120
+  }
+}

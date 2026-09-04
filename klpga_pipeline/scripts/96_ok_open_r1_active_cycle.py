@@ -59,6 +59,8 @@ import sys
 import time
 from pathlib import Path
 
+import requests
+
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
 ENTRY_SNAPSHOT = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
@@ -120,7 +122,7 @@ def _collect_live() -> tuple[list[dict], bool, bool, str | None]:
 
         client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "r1_active")
         listings = [x for x in fetch_game_list(client, season=2026) if x.game_code == GAME_CODE]
-        tournament_finished = bool(listings and listings[0].is_finished)
+        tournament_finished = bool(listings and listings[0].is_completed)
         rows = fetch_round_leaderboard(client, GAME_CODE, 1, use_cache=False)
         row_dicts = [
             {
@@ -137,8 +139,10 @@ def _collect_live() -> tuple[list[dict], bool, bool, str | None]:
             for r in rows
         ]
         return row_dicts, True, tournament_finished, None
-    except Exception as exc:  # noqa: BLE001 -- any collection failure is a WAIT, not a crash
-        return [], False, False, f"{type(exc).__name__}: {exc}"
+    except requests.exceptions.RequestException as exc:
+        return [], False, False, f"WAIT:{type(exc).__name__}: {exc}"
+    except Exception as exc:  # noqa: BLE001 -- parser/programming defects are hard stops
+        return [], False, False, f"HARD_STOP:{type(exc).__name__}: {exc}"
 
 
 def _rebuild_and_promote() -> None:
@@ -205,6 +209,7 @@ def _build_player_table(rows: list[dict], probabilities: dict, sim_inputs: list,
 
 
 GIT_TRACKED_PATHS = (
+    "klpga_pipeline/scripts/96_ok_open_r1_active_cycle.py",
     "docs",
     "klpga_pipeline/candidate",
     "klpga_pipeline/content/website_v2/OK_OPEN_STAGE_STATE.json",
@@ -225,8 +230,9 @@ def _git_commit_and_push(message: str) -> tuple[bool, str]:
     for. Returns (pushed, detail)."""
     repo_root = ROOT.parent
     try:
-        subprocess.run(["git", "add", "--"] + list(GIT_TRACKED_PATHS), cwd=repo_root, check=True, capture_output=True, text=True)
-        status = subprocess.run(["git", "status", "--porcelain"] + list(GIT_TRACKED_PATHS), cwd=repo_root, check=True, capture_output=True, text=True)
+        existing_paths = [p for p in GIT_TRACKED_PATHS if (repo_root / p).exists()]
+        subprocess.run(["git", "add", "--"] + existing_paths, cwd=repo_root, check=True, capture_output=True, text=True)
+        status = subprocess.run(["git", "status", "--porcelain"] + existing_paths, cwd=repo_root, check=True, capture_output=True, text=True)
         if not status.stdout.strip():
             return False, "nothing to commit (no tracked-path changes)"
         subprocess.run(["git", "commit", "-m", message], cwd=repo_root, check=True, capture_output=True, text=True)
@@ -260,8 +266,20 @@ def main() -> int:
 
         if live:
             rows, official_page_available, tournament_finished, error = _collect_live()
+            if error and error.startswith("HARD_STOP:"):
+                print(f"[r1-active-cycle] collector defect: {error}", file=sys.stderr)
+                result = {"action": "HARD_STOP", "reason": error, "retrieved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(), "row_count": 0, "r1_status": None, "stop_active_cycle": False, "promoted": False}
+                print(json.dumps(result, ensure_ascii=False))
+                return 1
             if error:
-                print(f"[r1-active-cycle] collection failed this cycle (treated as WAIT): {error}", file=sys.stderr)
+                print(f"[r1-active-cycle] official leaderboard unavailable (WAIT): {error}", file=sys.stderr)
+            # The official R1 start field is authoritative for this live
+            # snapshot.  A pre-event entry snapshot can legitimately be
+            # superseded by late substitutions; use the observed official
+            # player IDs for the cycle while retaining both sources in the
+            # immutable provenance payload.
+            if rows:
+                expected_ids = [str(r.get("player_id")) for r in rows if r.get("player_id")]
         else:
             rows, official_page_available, tournament_finished = [], False, False
 
