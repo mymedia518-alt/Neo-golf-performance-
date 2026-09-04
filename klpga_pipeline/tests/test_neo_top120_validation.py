@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 
 from klpga.website_v2.top120_validation import evaluate, validate_cohort
-from klpga.website_v2.tournament_state import home_mode, ok_open_available_stages, ok_open_latest_available_stage
+from klpga.website_v2.tournament_state import OK_DISPLAY_NAME, home_mode, ok_open_available_stages, ok_open_latest_available_stage
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
@@ -63,7 +63,12 @@ def test_model_config_forbids_win_probability_and_is_explicitly_validation_only(
 
 
 def test_candidate_contract_and_pending_handling(built):
-    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    # HOME TOURNAMENT OWNERSHIP FIX: the K-Ranking x NEO Ranking table is
+    # now always published at its own stable route (/ranking/) -- this
+    # is where its correctness is checked, regardless of whether /
+    # itself currently shows the ranking page or the active tournament
+    # (see the HOME-ownership tests further below).
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     assert html.count("data-player-row") == 120
     assert "검증 대기" in html and "NEO 랭킹 검증" in html
     assert "검증 선수" not in html and "win_probability" not in html
@@ -96,6 +101,7 @@ def test_ok_stage_assets_and_deep_dive_are_complete(built):
 def test_every_public_route_has_global_home_navigation(built):
     routes = (
         "index.html",
+        "ranking/index.html",
         "tournaments/index.html",
         "deep-dive/index.html",
         "about/index.html",
@@ -123,7 +129,9 @@ def test_every_public_route_has_global_home_navigation(built):
 
 
 def test_home_is_korean_first_and_table_alignment_is_explicit(built):
-    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    # See test_candidate_contract_and_pending_handling: the ranking
+    # table's permanent home is /ranking/, not necessarily /.
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     assert html.count("data-player-row") == 120
     assert "KLPGA 공식 K-Ranking 1~120위" in html
     assert "NEO 랭킹 검증" in html
@@ -140,6 +148,7 @@ def test_home_is_korean_first_and_table_alignment_is_explicit(built):
 def test_http_routes_are_real_index_pages_not_directory_listings(built):
     routes = {
         "/": "<title>",
+        "/ranking/": "<title>",
         "/tournaments/": "대회 분석 허브",
         "/deep-dive/": "<title>",
         "/about/": "<title>",
@@ -184,56 +193,145 @@ def test_tournament_state_never_infers_a_stage_from_todays_date():
     assert home_mode() == "TOURNAMENT_ACTIVE"
 
 
-def test_home_shows_tournament_day_hero_as_the_page_h1_with_no_fabricated_status(built):
+# ======================================================================
+# HOME TOURNAMENT OWNERSHIP FIX
+# ======================================================================
+# The prior "tournament hero glued above the ranking table" approach was
+# explicitly rejected: during TOURNAMENT_ACTIVE, / must literally BE the
+# current validated tournament stage's own canonical page (the identical
+# content as its dedicated /tournaments/.../<stage>/ URL) -- never a
+# banner sitting on top of the ranking-first page-head. These tests
+# distinguish that CORRECT shape from the WRONG one directly, rather
+# than merely checking that some tournament-related string exists
+# somewhere on the page (the weak assertion that produced a false PASS
+# for the rejected hero approach).
+
+_RANKING_PAGE_HEAD_MARKERS = ("KLPGA 공식 K-Ranking 1~120위", "공식 순위와 NEO 검증 순위 비교", "ranking-compare-heading")
+
+
+def test_home_does_not_contain_the_ranking_page_head_as_primary_body_while_a_tournament_is_active(built):
+    # TEST 1 (see NEO GOLF DATA -- HOME TOURNAMENT OWNERSHIP FIX spec).
+    assert home_mode() == "TOURNAMENT_ACTIVE"
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    for marker in _RANKING_PAGE_HEAD_MARKERS:
+        assert marker not in html, f"ranking page-head leaked into / while TOURNAMENT_ACTIVE: {marker!r}"
+    assert "data-player-row" not in html, "the 120-row ranking table must not be /'s primary body while a tournament is active"
+    assert "tournament-day-hero" not in html, "no hero banner either -- / must BE the stage page, not a teaser above one"
+
+
+def test_home_contains_the_current_validated_tournament_stage_content_while_active(built):
+    # TEST 2.
+    assert home_mode() == "TOURNAMENT_ACTIVE"
+    stage_key, _ = ok_open_latest_available_stage()
+    stage_html = (OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open" / stage_key / "index.html").read_text(encoding="utf-8")
+    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert OK_DISPLAY_NAME in home_html or stage_key.upper() in home_html
+    # / carries the SAME stage-specific structural markers as the
+    # dedicated stage URL -- not a paraphrase or a summary of it.
+    import re as _re
+    stage_main = _re.search(r"<main>.*?</main>", stage_html, _re.S)
+    assert stage_main is not None
+    # A handful of representative, real (non-boilerplate) substrings
+    # pulled straight out of the stage page's own <main> -- present in
+    # both means / really is publishing that same content.
+    fingerprints = [s for s in _re.findall(r">([^<]{6,40})<", stage_main.group(0)) if s.strip()][:5]
+    assert fingerprints, "could not extract fingerprints from the stage page to compare against /"
+    for fp in fingerprints:
+        assert fp in home_html, f"stage-page content {fp!r} missing from / during TOURNAMENT_ACTIVE"
+
+
+def test_current_validated_r1_produces_the_r1_tournament_experience_on_home(built):
+    # TEST 3: today's real, validated state is specifically R1 -- pin
+    # that down explicitly (not just "some stage"), and confirm / and
+    # the dedicated R1 URL carry the identical R1-specific content.
+    stage_key, _ = ok_open_latest_available_stage()
+    assert stage_key == "r1"
+    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    r1_html = (OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open" / "r1" / "index.html").read_text(encoding="utf-8")
+    for marker in ("R1", "OK저축은행"):
+        assert marker in home_html
+    # Both pages' <main> bodies must match once the only intentional
+    # difference (the re-injected nav header, whose active_section
+    # differs: "home" on / vs "tournaments" on the dedicated URL) is
+    # normalized away.
+    import re as _re
+    def main_after_header(html):
+        return _re.sub(r"^.*?</header>", "", html, count=1, flags=_re.S)
+    home_main = main_after_header(home_html)
+    r1_main = main_after_header(r1_html)
+    # / additionally carries the ranking-access link the dedicated URL
+    # does not -- strip it before comparing the shared body.
+    home_main_stripped = home_main.replace('<p class="home-ranking-access"><a href="/ranking/">K-Ranking × NEO Ranking 전체 보기</a></p>', "")
+    assert home_main_stripped == r1_main, "/ must publish the exact same R1 stage content as the dedicated R1 URL"
+
+
+def test_home_has_exactly_one_h1_while_a_tournament_is_active(built):
+    # TEST 5.
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert html.count("<h1") == 1, "HOME must carry exactly one H1"
-    assert '<h1>OK저축은행 읏맨 오픈</h1>' in html
-    assert 'data-home-mode="TOURNAMENT_ACTIVE"' in html
-    assert "2026.09.04" in html and "09.06" in html
-    # A real R1 cycle has validated data now, so the hero's CTA correctly
-    # points at R1 (the most advanced real stage), not PRE -- see
-    # test_tournament_state_never_infers_a_stage_from_todays_date.
-    assert '현재 이용 가능한 분석' in html and '<strong>R1</strong>' in html
-    assert 'href="/tournaments/2026/ok-savings-bank-open/r1/"' in html
-    # "진행 중인 대회" (the tournament's own period status) is the
-    # spec's own intended kicker label -- what must never appear is a
-    # claim about a specific ROUND being live, or a live leaderboard.
-    for banned in ("R1 진행", "R2 진행", "R3 진행", "실시간 순위", "실시간 리더보드", "현재 순위"):
-        assert banned not in html, banned
-    # the ranking section is preserved, just demoted to H2 underneath
-    assert '<h2 class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</h2>' in html
-    assert html.count("data-player-row") == 120  # TOP120 not deleted, just moved down
-    assert html.index('data-home-mode="TOURNAMENT_ACTIVE"') < html.index("ranking-compare-heading")
 
 
-def test_home_hero_shows_the_real_current_leader_when_a_live_snapshot_exists(built):
-    # HOME TOURNAMENT-FIRST: the hero is the page's first-screen content,
-    # so the real leader belongs there too, not only further down in the
-    # ranking section. Cross-checked dynamically against the actual live
-    # snapshot file (never a hardcoded name/score, which would go stale
-    # the moment a later real cycle changes the leader).
-    snapshot_path = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
-    if not snapshot_path.is_file():
-        pytest.skip("no live R1 snapshot present in this checkout")
-    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
-    scored = [r for r in snapshot.get("player_table", []) if isinstance(r.get("total_under_par"), int)]
-    if not scored:
-        pytest.skip("live snapshot has no scored players yet")
-    leader = scored[0]
-    score = leader["total_under_par"]
-    score_display = "E" if score == 0 else f"{score:+d}"
+def test_protected_top120_dataset_is_exactly_120_players_unchanged_by_this_fix(built):
+    # TEST 6.
+    dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
+    records = dataset["records"]
+    assert len(records) == 120
+    assert sorted(r["official_k_rank"] for r in records) == list(range(1, 121))
+    assert len({r["player_id"] for r in records}) == 120
+
+
+def test_dedicated_r1_url_still_works_independently_of_home(built):
+    # TEST 7.
+    r1_page = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open" / "r1" / "index.html"
+    assert r1_page.is_file()
+    html = r1_page.read_text(encoding="utf-8")
+    assert html.count("<h1") >= 1
+    assert 'href="/">홈</a>' in html  # still carries the full global nav
+
+
+def test_global_home_nav_points_to_root_and_root_resolves_to_the_tournament_experience(built):
+    # TEST 8.
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    hero_end = html.index("</section>", html.index("tournament-day-hero"))
-    hero_html = html[html.index("tournament-day-hero"):hero_end]
-    assert "현재 선두" in hero_html
-    assert leader["player_name"] in hero_html and score_display in hero_html
+    assert 'href="/">홈</a>' in html or 'href="/" class="is-active"' in html
+    for marker in _RANKING_PAGE_HEAD_MARKERS:
+        assert marker not in html
+    stage_key, _ = ok_open_latest_available_stage()
+    assert stage_key.upper() in html or OK_DISPLAY_NAME in html
 
 
-def test_kg_ladies_open_never_shown_as_the_active_tournament_day_hero(built):
+def test_ranking_default_still_produces_k_ranking_neo_ranking_home(tmp_path, monkeypatch):
+    # TEST 4: RANKING_DEFAULT (no active tournament) must still publish
+    # the K-Ranking x NEO Ranking table as /'s own primary body, exactly
+    # as it always has. Real production state is TOURNAMENT_ACTIVE
+    # today, so this loads its OWN isolated module instance and
+    # redirects its OUTPUT to a tmp_path (never the shared candidate/
+    # tree the `built` fixture and every other test in this file use)
+    # and forces home_mode() to return RANKING_DEFAULT -- the real
+    # build() code path, exercised end-to-end, not a re-implementation.
+    path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
+    spec = importlib.util.spec_from_file_location("top120_builder_ranking_default", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    module.OUTPUT = tmp_path / "candidate"
+    monkeypatch.setattr(module, "home_mode", lambda: "RANKING_DEFAULT")
+    module.build()
+    html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert html.count("data-player-row") == 120
+    assert "공식 순위와 NEO 검증 순위 비교" in html
+    assert "tournament-day-hero" not in html
+    assert html.count("<h1") == 1
+    ranking_html = (module.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    # Identical apart from the HOME-ownership marker, which only ever
+    # belongs on the guarded production root (docs/index.html) --
+    # /ranking/ is never that file, so it never carries the marker.
+    owner_tag = '<meta name="neo-home-owner" content="top120-v1">'
+    assert owner_tag in html and owner_tag not in ranking_html
+    assert ranking_html == html.replace(owner_tag, "", 1), "/ and /ranking/ must be identical (aside from the HOME-only owner marker) while RANKING_DEFAULT"
+
+
+def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    hero_end = html.index("</section>", html.index("tournament-day-hero"))
-    hero_html = html[html.index("tournament-day-hero"):hero_end]
-    assert "KG" not in hero_html and "레이디스" not in hero_html
+    assert "KG" not in html and "레이디스" not in html
     # KG's own archive is preserved untouched elsewhere in the tree
     for route in ("tournaments/2026/kg-ladies-open/pre/index.html", "tournaments/2026/kg-ladies-open/r1/index.html",
                   "tournaments/2026/kg-ladies-open/r2/index.html", "tournaments/2026/kg-ladies-open/r3/index.html",

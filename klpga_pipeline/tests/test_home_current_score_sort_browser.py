@@ -54,7 +54,7 @@ def _sample_page_html() -> str:
         "4": format_current_score(None, None, None),
     }
     summary = {"neo_ranked": 4, "validation_pending": 0}
-    html = script88.render_clean(rows, summary, None, mode="TOURNAMENT_ACTIVE", ok_participant_count=4, current_score_cells_by_id=cells)
+    html = script88.render_clean(rows, summary, None, current_score_cells_by_id=cells)
     return inject_global_navigation(html, active_section="home")
 
 
