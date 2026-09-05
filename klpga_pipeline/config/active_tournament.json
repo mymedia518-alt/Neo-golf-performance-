@@ -1,10 +1,15 @@
 {
-  "schema_version": 1,
-  "game_code": "2026120001",
-  "tournament_name": "OK???? ?? ??",
-  "final_round_number": 3,
-  "current_round_number": 2,
-  "validated_stage": "R2_LIVE",
-  "cut_after_round": 2,
-  "model_ready": false
+    "schema_version":  2,
+    "game_code":  "2026120001",
+    "tournament_name":  "OK저축은행 읏맨 오픈",
+    "season":  2026,
+    "start_date":  "2026-09-04",
+    "end_date":  "2026-09-06",
+    "final_round_number":  3,
+    "current_round_number":  2,
+    "validated_stage":  "R2_LIVE",
+    "cut_after_round":  2,
+    "model_ready":  false,
+    "identity_source":  "tournament_master",
+    "lifecycle_source":  "validated_state"
 }
