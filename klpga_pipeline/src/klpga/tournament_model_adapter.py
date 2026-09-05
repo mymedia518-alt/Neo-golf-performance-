@@ -19,6 +19,8 @@ class ModelRequest:
     artifact: str
     input_snapshot_id: str
     players: tuple[str, ...]
+    feature_snapshot_id: str | None = None
+    feature_snapshot_sha256: str | None = None
 
     def __post_init__(self):
         if not self.game_code.strip():
@@ -82,6 +84,12 @@ class TournamentModelAdapter:
 
     def run(self, request: ModelRequest) -> ModelResult:
         key = request.artifact.strip().upper()
+
+        require_frozen_feature_snapshot(
+            artifact=key,
+            feature_snapshot_id=request.feature_snapshot_id,
+            feature_snapshot_sha256=request.feature_snapshot_sha256,
+        )
 
         if not publication_allowed(request.stage, key):
             raise ModelBlocked(
