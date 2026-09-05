@@ -24,6 +24,10 @@ from klpga.tournament_official_ingest import (
     OfficialRoundSnapshot,
     fetch_official_round,
 )
+from klpga.tournament_runtime_publication import (
+    RuntimePublicationRequest,
+    publish_runtime_snapshot,
+)
 
 
 TERMINAL_PLAYER_STATUSES = frozenset({
@@ -234,6 +238,51 @@ def run_once(
 
     return snapshot, decision
 
+
+
+def run_publication_once(
+    state: RuntimeState,
+    *,
+    tournament_name: str,
+    cache_dir: Path,
+    frozen_root: Path,
+    candidate_root: Path,
+    target_path: Path,
+    promote: bool = False,
+    fetcher: Callable[..., OfficialRoundSnapshot]
+        = fetch_official_round,
+):
+    """Fetch, validate and publish the exact same official snapshot.
+
+    Promotion is explicit and defaults to False.
+    Model publication is blocked by the factual bridge.
+    """
+    snapshot, decision = run_once(
+        state,
+        cache_dir=cache_dir,
+        fetcher=fetcher,
+    )
+
+    if not decision.should_publish_factual:
+        raise RuntimeBlocked(
+            "runtime decision blocks factual publication"
+        )
+
+    publication = publish_runtime_snapshot(
+        RuntimePublicationRequest(
+            tournament_name=tournament_name,
+            game_code=state.game_code,
+            round_number=state.current_round_number,
+            frozen_root=frozen_root,
+            candidate_root=candidate_root,
+            target_path=target_path,
+            promote=promote,
+        ),
+        snapshot,
+        decision,
+    )
+
+    return snapshot, decision, publication
 
 def main() -> int:
     parser = argparse.ArgumentParser()

@@ -219,16 +219,116 @@ def test_generic_future_game_fetch_arguments():
     assert decision.should_publish_model is False
 
 
+
 def test_no_tournament_specific_identifiers():
     source = runtime.Path(
         runtime.__file__
     ).read_text(encoding="utf-8")
 
+    # ASCII-safe invariant:
+    # engine source must never contain event IDs or legacy
+    # tournament-specific script names.
     for forbidden in (
         "2026120001",
-        "OK????",
-        "KG ????",
+        "2026080001",
         "99_ok_open",
         "96_ok_open",
+        "ok_open_r1",
+        "kg_ladies_open",
     ):
-        assert forbidden not in source
+        assert forbidden not in source.lower()
+
+
+def test_runtime_source_has_no_replacement_character():
+    source = runtime.Path(
+        runtime.__file__
+    ).read_text(encoding="utf-8")
+
+    assert "\ufffd" not in source
+
+
+def test_publication_uses_exact_snapshot(monkeypatch, tmp_path):
+    snap_obj = snap([
+        player("1", holes=18),
+        player(
+            "2",
+            status="INCOMPLETE",
+            holes=7,
+        ),
+    ])
+
+    seen = {}
+
+    def fetcher(**kwargs):
+        return snap_obj
+
+    def publisher(req, snapshot, decision):
+        seen["request"] = req
+        seen["snapshot"] = snapshot
+        seen["decision"] = decision
+        return "PUBLICATION"
+
+    monkeypatch.setattr(
+        runtime,
+        "publish_runtime_snapshot",
+        publisher,
+    )
+
+    snapshot, decision, publication = (
+        runtime.run_publication_once(
+            state(),
+            tournament_name="TEST EVENT",
+            cache_dir=tmp_path / "cache",
+            frozen_root=tmp_path / "frozen",
+            candidate_root=tmp_path / "candidate",
+            target_path=tmp_path / "target.html",
+            fetcher=fetcher,
+        )
+    )
+
+    assert snapshot is snap_obj
+    assert seen["snapshot"] is snap_obj
+    assert seen["decision"] is decision
+    assert publication == "PUBLICATION"
+    assert seen["request"].promote is False
+
+
+def test_publication_promotion_is_explicit(
+    monkeypatch,
+    tmp_path,
+):
+    snap_obj = snap([
+        player(
+            "1",
+            status="INCOMPLETE",
+            holes=7,
+        ),
+    ])
+
+    seen = {}
+
+    def fetcher(**kwargs):
+        return snap_obj
+
+    def publisher(req, snapshot, decision):
+        seen["promote"] = req.promote
+        return "PUBLICATION"
+
+    monkeypatch.setattr(
+        runtime,
+        "publish_runtime_snapshot",
+        publisher,
+    )
+
+    runtime.run_publication_once(
+        state(),
+        tournament_name="TEST EVENT",
+        cache_dir=tmp_path / "cache",
+        frozen_root=tmp_path / "frozen",
+        candidate_root=tmp_path / "candidate",
+        target_path=tmp_path / "target.html",
+        promote=True,
+        fetcher=fetcher,
+    )
+
+    assert seen["promote"] is True
