@@ -10,19 +10,23 @@ def test_complete_r1_preserves_wd_dq_and_does_not_create_cut():
     assert result.wd == 1 and result.dq == 1
 
 
-def test_complete_r1_exempts_incomplete_status_like_wd_dq():
+def test_incomplete_status_never_hard_stops_and_never_closes_r1():
     # klpga.parsers.leaderboard_parser's real, only-ever-observed
     # did-not-complete signal is status="INCOMPLETE" (the raw "999"
     # sentinel) -- a literal "WD"/"DQ" string has never actually been
-    # seen live. Before this test's fix, a genuinely withdrawn player
-    # whose row still carries status="INCOMPLETE" would HARD_STOP the
-    # round-close decision the moment every other player finished,
-    # instead of closing R1 normally.
+    # seen live, and a bare INCOMPLETE is NOT itself official WD/DQ/DNS
+    # evidence (klpga.neo_win.r1_final_reconciliation deliberately
+    # rejects it too). It must never HARD_STOP as an "unrecognized
+    # status" (that would just error-loop every cycle), but it must
+    # ALSO never let the round reach R1_COMPLETE -- that would let the
+    # live 30-minute cycle fire PUBLISH_AND_CLOSE and disable further
+    # collection while this player's true status is still unconfirmed.
+    # The correct outcome is a quiet WAIT: keep polling.
     result = assess_r1(
         [row(1), row(2, "INCOMPLETE", holes=None, rank=None)], [1, 2],
     )
-    assert result.decision == "R1_COMPLETE"
-    assert result.incomplete == 1
+    assert result.decision == "WAIT"
+    assert "INCOMPLETE" in result.reason
 
 def test_partial_and_suspended_r1_wait():
     assert assess_r1([row(1, holes=12), row(2)], [1,2]).decision == "WAIT"

@@ -86,16 +86,18 @@ def test_assert_completed_round_passes_when_all_18_or_wd_dq_cut():
     assert_completed_round_has_no_incomplete_holes(rows, round_complete=True, label="t")
 
 
-def test_assert_completed_round_passes_when_incomplete_status_present():
+def test_assert_completed_round_raises_when_incomplete_status_present():
     # status="INCOMPLETE" (klpga.parsers.leaderboard_parser's real, only
     # ever observed did-not-complete signal -- the raw "999" sentinel) is
-    # exempt from the 18-hole requirement exactly like WD/DQ/CUT. Without
-    # this, klpga.neo_win.r1_readiness.assess_r1 correctly closing a
-    # round that exempted an INCOMPLETE player would still fail THIS
-    # gate and HARD_STOP the promotion right after -- a real bug found
-    # against the real R1 snapshot (박결/김아현), not a hypothetical.
+    # NOT official WD/DQ/DNS evidence, so it must NEVER be exempted here
+    # either: if round_complete is ever True while a bare-INCOMPLETE row
+    # remains (it shouldn't be, since assess_r1 no longer reaches
+    # R1_COMPLETE with one present -- see r1_readiness), this gate must
+    # still refuse the promotion as defense-in-depth, not silently pass.
     rows = [
         {"player_name": "A", "holes_completed": "18", "status": None},
         {"player_name": "박결", "holes_completed": "10", "status": "INCOMPLETE"},
     ]
-    assert_completed_round_has_no_incomplete_holes(rows, round_complete=True, label="t")
+    with pytest.raises(FreshnessGateError) as exc:
+        assert_completed_round_has_no_incomplete_holes(rows, round_complete=True, label="t")
+    assert "박결" in str(exc.value)
