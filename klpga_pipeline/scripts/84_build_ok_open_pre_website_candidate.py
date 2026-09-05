@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
+R1_FINAL_SNAPSHOT_DIR = ROOT / "content" / "website_v2" / "r1_final_snapshots"
+STAGE_STATE_PATH = ROOT / "content" / "website_v2" / "OK_OPEN_STAGE_STATE.json"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
@@ -187,9 +189,33 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     player_id only -- never falls back to name matching, so an
     unresolved identity never silently inherits the wrong player's
     affiliation."""
-    if not R1_LIVE_SNAPSHOT.is_file():
+    final_mode = False
+    final_rows = []
+    if STAGE_STATE_PATH.is_file():
+        try:
+            final_mode = bool(json.loads(STAGE_STATE_PATH.read_text(encoding="utf-8")).get("r1_complete"))
+        except (OSError, ValueError):
+            final_mode = False
+    if final_mode and R1_FINAL_SNAPSHOT_DIR.is_dir():
+        candidates = sorted(R1_FINAL_SNAPSHOT_DIR.glob("OK_OPEN_*_FINAL_*.json"))
+        if candidates:
+            final_doc = json.loads(candidates[-1].read_text(encoding="utf-8"))
+            live_names = {}
+            if R1_LIVE_SNAPSHOT.is_file():
+                live_doc = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+                live_names = {str(r.get("player_id")): r.get("player_name") for r in (live_doc.get("player_table") or [])}
+            for row in final_doc.get("rows") or []:
+                pid = str(row.get("player_id") or "")
+                status = row.get("official_status") or ("ACTIVE" if row.get("final_score") is not None else "INCOMPLETE")
+                final_rows.append({"player_id": pid, "player_name": live_names.get(pid) or row.get("player_name") or pid,
+                                   "total_under_par": row.get("final_score"), "holes_completed": 18 if status == "ACTIVE" else None,
+                                   "status": status, "rank": row.get("rank_display") or ""})
+    if final_rows:
+        snapshot = {"rows": final_rows, "player_table": final_rows, "collected_at": final_doc.get("collected_at"), "final_mode": True}
+    elif not R1_LIVE_SNAPSHOT.is_file():
         return None
-    snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+    else:
+        snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
     table = snapshot.get("player_table") or []
     if not table:
         return None
