@@ -174,27 +174,156 @@ def _movers_list(entries: list, *, kind: str, empty_note: str) -> str:
 def _r2_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     if not R2_LIVE_SNAPSHOT.is_file():
         return None
-    snapshot=json.loads(R2_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
-    table=snapshot.get("player_table") or []
+
+    snapshot = json.loads(
+        R2_LIVE_SNAPSHOT.read_text(encoding="utf-8")
+    )
+
+    table = snapshot.get("player_table") or []
+
     if not table:
         return None
-    rows=[]
+
+    rows = []
+
     for r in table:
-        status=str(r.get("status") or "ACTIVE").upper()
-        unresolved=status == "INCOMPLETE"
-        esc=lambda v: html.escape(str(v or ""))
-        rank="" if unresolved else esc(r.get("rank_display"))
-        today="" if unresolved else esc(r.get("today_under_par_display"))
-        total="" if unresolved else esc(r.get("total_under_par_display"))
-        thru=esc(r.get("holes_completed")) if r.get("holes_completed") is not None else ""
-        status_cell="" if status in {"ACTIVE","INCOMPLETE"} else html.escape(status)
-        player=_player_identity_cell(r.get("player_name"), sponsor_by_id.get(str(r.get("player_id") or "")))
-        rows.append(f"<tr><td>{rank}</td><th scope='row'>{player}</th><td>{today}</td><td>{thru}</td><td>{total}</td><td>{status_cell}</td></tr>")
-    collected=html.escape(str(snapshot.get("collected_at") or ""))
-    return (f'<section class="panel"><p class="eyebrow">R2 ? LIVE</p><h1>2???????? ??????</h1>'
-            f'<p class="note">KLPGA ??? R2 ?????? ??? {collected} ? ???/??? ?????????/p>{nav}'
-            f'<div class="table-wrap"><table class="data"><thead><tr><th>???</th><th>???</th><th>R2</th><th>?????</th><th>???</th><th>???</th></tr></thead>'
-            f'<tbody>{"".join(rows)}</tbody></table></div></section>')
+        status = str(
+            r.get("status") or "ACTIVE"
+        ).upper()
+
+        unresolved = status == "INCOMPLETE"
+
+        def esc(value):
+            return html.escape(
+                str(value or "")
+            )
+
+        rank = (
+            ""
+            if unresolved
+            else esc(r.get("rank_display"))
+        )
+
+        today = (
+            ""
+            if unresolved
+            else esc(
+                r.get(
+                    "today_under_par_display"
+                )
+            )
+        )
+
+        total = (
+            ""
+            if unresolved
+            else esc(
+                r.get(
+                    "total_under_par_display"
+                )
+            )
+        )
+
+        holes = esc(
+            r.get(
+                "holes_completed_display"
+            )
+        )
+
+        status_cell = (
+            ""
+            if status in {
+                "ACTIVE",
+                "INCOMPLETE"
+            }
+            else html.escape(status)
+        )
+
+        player = _player_identity_cell(
+            r.get("player_name"),
+            sponsor_by_id.get(
+                str(
+                    r.get("player_id")
+                    or ""
+                )
+            ),
+        )
+
+        rows.append(
+            f"<tr>"
+            f"<td>{rank}</td>"
+            f"<th scope='row'>{player}</th>"
+            f"<td>{today}</td>"
+            f"<td>{holes}</td>"
+            f"<td>{total}</td>"
+            f"<td>{status_cell}</td>"
+            f"</tr>"
+        )
+
+    collected = html.escape(
+        str(
+            snapshot.get(
+                "collected_at"
+            ) or ""
+        )
+    )
+
+    # ASCII Python source? ????
+    # ????? ??? ??? Unicode ??
+    title = (
+        "\u0032\uB77C\uC6B4\uB4DC "
+        "\uACF5\uC2DD "
+        "\uB9AC\uB354\uBCF4\uB4DC"
+    )
+
+    note = (
+        "KLPGA "
+        "\uACF5\uC2DD R2 "
+        "\uB370\uC774\uD130"
+    )
+
+    blocked = (
+        "\uD655\uB960/\uC608\uCE21 "
+        "\uC9C0\uD45C "
+        "\uBE44\uACF5\uAC1C"
+    )
+
+    heads = [
+        "\uC21C\uC704",
+        "\uC120\uC218",
+        "R2",
+        "\uC644\uB8CC\uD640",
+        "\uD569\uACC4",
+        "\uC0C1\uD0DC",
+    ]
+
+    return (
+        '<section class="panel">'
+        '<p class="eyebrow">'
+        'R2 &middot; LIVE'
+        '</p>'
+        f'<h1>{title}</h1>'
+        f'<p class="note">'
+        f'{note} &middot; '
+        f'{collected} &middot; '
+        f'{blocked}'
+        f'</p>'
+        f'{nav}'
+        '<div class="table-wrap">'
+        '<table class="data">'
+        '<thead><tr>'
+        + "".join(
+            f"<th>{x}</th>"
+            for x in heads
+        )
+        + '</tr></thead>'
+        '<tbody>'
+        + "".join(rows)
+        + '</tbody>'
+        '</table>'
+        '</div>'
+        '</section>'
+    )
 
 
 def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
