@@ -2,7 +2,7 @@
   "schema_version": "neo_ok_open_r2_live_factual_v2",
   "game_code": "2026120001",
   "round": 2,
-  "collected_at": "2026-09-05T09:04:04Z",
+  "collected_at": "2026-09-05T16:45:22Z",
   "row_count": 118,
   "player_table": [
     {
@@ -78,6 +78,18 @@
       "total_under_par_display": "-3"
     },
     {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "rank_display": "6",
+      "status": "ACTIVE",
+      "raw_inghole": "18",
+      "holes_completed": 18,
+      "holes_completed_display": "18H",
+      "starting_tee_assumed": false,
+      "today_under_par_display": "-3",
+      "total_under_par_display": "-3"
+    },
+    {
       "player_id": "11042",
       "player_name": "홍현지",
       "rank_display": "6",
@@ -116,7 +128,7 @@
     {
       "player_id": "11365",
       "player_name": "박서진 0804(A)",
-      "rank_display": "10",
+      "rank_display": "11",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -128,7 +140,7 @@
     {
       "player_id": "9728",
       "player_name": "허윤서",
-      "rank_display": "10",
+      "rank_display": "11",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -140,7 +152,7 @@
     {
       "player_id": "9652",
       "player_name": "이세희",
-      "rank_display": "10",
+      "rank_display": "11",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -152,7 +164,7 @@
     {
       "player_id": "9705",
       "player_name": "홍지원",
-      "rank_display": "10",
+      "rank_display": "11",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -164,7 +176,7 @@
     {
       "player_id": "10531",
       "player_name": "현세린",
-      "rank_display": "10",
+      "rank_display": "11",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -176,25 +188,13 @@
     {
       "player_id": "10112",
       "player_name": "고지우",
-      "rank_display": "10",
+      "rank_display": "11",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
       "holes_completed_display": "18H",
       "starting_tee_assumed": false,
       "today_under_par_display": "1",
-      "total_under_par_display": "-2"
-    },
-    {
-      "player_id": "9145",
-      "player_name": "임희정",
-      "rank_display": "10",
-      "status": "ACTIVE",
-      "raw_inghole": "18",
-      "holes_completed": 18,
-      "holes_completed_display": "18H",
-      "starting_tee_assumed": false,
-      "today_under_par_display": "-2",
       "total_under_par_display": "-2"
     },
     {
@@ -642,21 +642,9 @@
       "total_under_par_display": "2"
     },
     {
-      "player_id": "8840",
-      "player_name": "정수빈",
-      "rank_display": "42",
-      "status": "ACTIVE",
-      "raw_inghole": "18",
-      "holes_completed": 18,
-      "holes_completed_display": "18H",
-      "starting_tee_assumed": false,
-      "today_under_par_display": "3",
-      "total_under_par_display": "2"
-    },
-    {
       "player_id": "9752",
       "player_name": "김나현2",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -668,7 +656,7 @@
     {
       "player_id": "11066",
       "player_name": "유서연2",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -680,7 +668,7 @@
     {
       "player_id": "8380",
       "player_name": "김새로미",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -692,7 +680,7 @@
     {
       "player_id": "9708",
       "player_name": "이재윤",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -704,7 +692,7 @@
     {
       "player_id": "9111",
       "player_name": "박서현",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -716,7 +704,7 @@
     {
       "player_id": "6916",
       "player_name": "안송이",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -728,7 +716,7 @@
     {
       "player_id": "9465",
       "player_name": "안지현",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -740,7 +728,7 @@
     {
       "player_id": "10790",
       "player_name": "김하은2",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -752,7 +740,7 @@
     {
       "player_id": "8884",
       "player_name": "윤화영",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -764,7 +752,7 @@
     {
       "player_id": "10022",
       "player_name": "손예빈",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -776,7 +764,7 @@
     {
       "player_id": "8234",
       "player_name": "이주미",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
@@ -788,7 +776,7 @@
     {
       "player_id": "10097",
       "player_name": "김민선7",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -800,7 +788,7 @@
     {
       "player_id": "10081",
       "player_name": "김민주",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "9",
       "holes_completed": 18,
@@ -812,13 +800,25 @@
     {
       "player_id": "8770",
       "player_name": "조아연",
-      "rank_display": "55",
+      "rank_display": "54",
       "status": "ACTIVE",
       "raw_inghole": "18",
       "holes_completed": 18,
       "holes_completed_display": "18H",
       "starting_tee_assumed": false,
       "today_under_par_display": "5",
+      "total_under_par_display": "3"
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "rank_display": "54",
+      "status": "ACTIVE",
+      "raw_inghole": "18",
+      "holes_completed": 18,
+      "holes_completed_display": "18H",
+      "starting_tee_assumed": false,
+      "today_under_par_display": "4",
       "total_under_par_display": "3"
     },
     {
