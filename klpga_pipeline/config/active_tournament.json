@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "game_code": "2026120001",
+  "tournament_name": "OK???? ?? ??",
+  "final_round_number": 3,
+  "current_round_number": 2,
+  "validated_stage": "R2_LIVE",
+  "cut_after_round": 2,
+  "model_ready": false
+}
