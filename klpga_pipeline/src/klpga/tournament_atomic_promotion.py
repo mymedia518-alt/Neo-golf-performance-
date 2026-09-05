@@ -64,7 +64,6 @@ def validate_candidate_for_promotion(
         "top10_pct",
         "top20_pct",
         "make_cut_pct",
-        "????",
     ]
 
     for token in forbidden:

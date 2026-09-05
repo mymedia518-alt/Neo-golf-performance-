@@ -61,8 +61,10 @@ def test_wrong_game_binding_blocks(tmp_path):
 
 def test_model_leak_blocks(tmp_path):
     p = tmp_path / "candidate.html"
+
+    # ASCII model field avoids terminal/codepage corruption.
     p.write_text(
-        html() + "<div>???? 20%</div>",
+        html() + "<div>win_pct=20</div>",
         encoding="utf-8",
     )
 
@@ -73,7 +75,6 @@ def test_model_leak_blocks(tmp_path):
             expected_round_number=3,
             expected_factual_sha256=SHA,
         )
-
 
 def test_atomic_promotion(tmp_path):
     candidate = tmp_path / "candidate.html"

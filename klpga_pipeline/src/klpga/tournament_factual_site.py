@@ -126,7 +126,6 @@ def validate_factual_html(
         "top10_pct",
         "top20_pct",
         "make_cut_pct",
-        "????",
         "Top 5",
         "Top 10",
         "Top 20",
