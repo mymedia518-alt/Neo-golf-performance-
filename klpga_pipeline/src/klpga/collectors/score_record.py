@@ -101,7 +101,12 @@ def parse_score_record_html(html: str) -> list[dict]:
             name = " ".join(name_cell.get_text(" ", strip=True).split())
             rank_display = " ".join(rank_cell.get_text(" ", strip=True).split()) or None
             total_text = " ".join(total_cell.get_text(" ", strip=True).split())
-            status = rank_display.upper() if rank_display and rank_display.upper() in {"WD", "DQ", "DNS", "CUT"} else None
+            status = None
+            row_tokens = set(" ".join(tr.get_text(" ", strip=True).split()).upper().split())
+            for marker in ("WD", "DQ", "DNS", "CUT"):
+                if marker in row_tokens:
+                    status = marker
+                    break
             final_score = None
             if status is None and re.fullmatch(r"[+-]?\d+|E", total_text or ""):
                 final_score = 0 if total_text == "E" else int(total_text)
