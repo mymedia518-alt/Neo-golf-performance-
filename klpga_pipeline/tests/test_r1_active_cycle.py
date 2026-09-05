@@ -65,6 +65,21 @@ def test_decide_cycle_publishes_and_closes_on_full_r1_completion():
     assert decision.r1_status == "R1_COMPLETE"
 
 
+def test_plain_incomplete_status_never_triggers_publish_and_close():
+    # A bare "999" sentinel (status="INCOMPLETE") is NOT official WD/DQ/
+    # DNS evidence. If it were allowed to close the round like WD does
+    # above, the live 30-minute cycle would fire PUBLISH_AND_CLOSE and
+    # the Task Scheduler wrapper would disable further collection while
+    # this player's true status is still unconfirmed -- freezing their
+    # stale data forever with no path to a real resolution. Must stay
+    # PUBLISH (still in progress), never PUBLISH_AND_CLOSE, never
+    # HARD_STOP.
+    rows = [_row("1", holes="18"), _row("2", holes="18"), _row("3", status="INCOMPLETE", holes="9")]
+    decision = decide_cycle(rows, EXPECTED, official_page_available=True, tournament_finished=False, now=NOW)
+    assert decision.action == "PUBLISH"
+    assert decision.r1_status == "WAIT"
+
+
 def test_decide_cycle_hard_stops_when_completion_gate_finds_a_real_problem():
     # An entrant absent from the official rows without any WD/DQ/DNS
     # status is a real data-integrity problem, not "still in progress".
