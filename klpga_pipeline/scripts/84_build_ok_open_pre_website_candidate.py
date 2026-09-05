@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
+R2_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
 R1_FINAL_SNAPSHOT_DIR = ROOT / "content" / "website_v2" / "r1_final_snapshots"
 STAGE_STATE_PATH = ROOT / "content" / "website_v2" / "OK_OPEN_STAGE_STATE.json"
 sys.path.insert(0, str(ROOT / "src"))
@@ -168,6 +169,32 @@ def _movers_list(entries: list, *, kind: str, empty_note: str) -> str:
     if not entries:
         return f"<p class='note'>{html.escape(empty_note)}</p>"
     return f"<ul class='mover-list'>{''.join(_mover_line(e, kind=kind) for e in entries)}</ul>"
+
+
+def _r2_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
+    if not R2_LIVE_SNAPSHOT.is_file():
+        return None
+    snapshot=json.loads(R2_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
+    table=snapshot.get("player_table") or []
+    if not table:
+        return None
+    rows=[]
+    for r in table:
+        status=str(r.get("status") or "ACTIVE").upper()
+        unresolved=status == "INCOMPLETE"
+        esc=lambda v: html.escape(str(v or ""))
+        rank="" if unresolved else esc(r.get("rank_display"))
+        today="" if unresolved else esc(r.get("today_under_par_display"))
+        total="" if unresolved else esc(r.get("total_under_par_display"))
+        thru=esc(r.get("holes_completed")) if r.get("holes_completed") is not None else ""
+        status_cell="" if status in {"ACTIVE","INCOMPLETE"} else html.escape(status)
+        player=_player_identity_cell(r.get("player_name"), sponsor_by_id.get(str(r.get("player_id") or "")))
+        rows.append(f"<tr><td>{rank}</td><th scope='row'>{player}</th><td>{today}</td><td>{thru}</td><td>{total}</td><td>{status_cell}</td></tr>")
+    collected=html.escape(str(snapshot.get("collected_at") or ""))
+    return (f'<section class="panel"><p class="eyebrow">R2 ? LIVE</p><h1>2???????? ??????</h1>'
+            f'<p class="note">KLPGA ??? R2 ?????? ??? {collected} ? ???/??? ?????????/p>{nav}'
+            f'<div class="table-wrap"><table class="data"><thead><tr><th>???</th><th>???</th><th>R2</th><th>?????</th><th>???</th><th>???</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div></section>')
 
 
 def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
@@ -438,7 +465,7 @@ def build() -> Path:
         # codebase. Absent the snapshot (every stage before that, and
         # r2/final until their own live pipelines exist), the honest
         # "no official data yet" placeholder is unchanged.
-        body = _r1_live_leaderboard_section(nav, sponsor_by_id) if stage == "r1" else None
+        body = (_r1_live_leaderboard_section(nav, sponsor_by_id) if stage == "r1" else _r2_live_leaderboard_section(nav, sponsor_by_id) if stage == "r2" else None)
         if body is None:
             body = (f'<section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p>'
                      f'<h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section>')
