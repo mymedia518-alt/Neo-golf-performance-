@@ -136,10 +136,12 @@ def build_r2_sim_inputs_from_frozen_snapshot(
 def simulate_post_round2(
     sim_inputs: list[PlayerR2SimInput],
     *,
+    remaining_rounds: int = 2,
     n_simulations: int = DEFAULT_N_SIMULATIONS,
     rng: Optional[random.Random] = None,
 ) -> dict[str, dict]:
-    """Only real cutmakers (made_cut is True) are simulated for R3+R4.
+    """Only real cutmakers (made_cut is True) are simulated for the
+    configured number of remaining rounds.
     A player with real, complete data but made_cut=False gets
     win_pct=top5_pct=top10_pct=top20_pct=make_cut_pct=0.0 — a real,
     KNOWN outcome (they are mathematically eliminated), never an
@@ -147,6 +149,9 @@ def simulate_post_round2(
     `sim_inputs` with all fields non-None) is simply absent from the
     returned dict — the caller (scripts/44) is responsible for
     reporting those as `unavailable`, never as a fabricated 0."""
+    if remaining_rounds < 1:
+        raise ValueError("remaining_rounds must be >= 1")
+
     rng = rng or random.Random()
     complete = [p for p in sim_inputs if p.r1_score_to_par is not None and p.r2_score_to_par is not None and p.made_cut is not None]
     cutmakers = [p for p in complete if p.made_cut]
@@ -160,9 +165,18 @@ def simulate_post_round2(
     for _ in range(n_simulations):
         totals = []
         for p in cutmakers:
-            r3 = rng.normalvariate(p.expected_round_score_to_par, p.spread)
-            r4 = rng.normalvariate(p.expected_round_score_to_par, p.spread)
-            total = p.r1_score_to_par + p.r2_score_to_par + r3 + r4
+            remaining_score = sum(
+                rng.normalvariate(
+                    p.expected_round_score_to_par,
+                    p.spread,
+                )
+                for _ in range(remaining_rounds)
+            )
+            total = (
+                p.r1_score_to_par
+                + p.r2_score_to_par
+                + remaining_score
+            )
             totals.append((p.player_code, total))
         totals.sort(key=lambda t: t[1])
 
