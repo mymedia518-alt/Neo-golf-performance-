@@ -189,7 +189,11 @@ def test_tournament_state_never_infers_a_stage_from_todays_date():
     assert available["pre"] == "/tournaments/2026/ok-savings-bank-open/pre/"
     assert available.get("r1") == "/tournaments/2026/ok-savings-bank-open/r1/"
     stage, url = ok_open_latest_available_stage()
-    assert stage == "r1" and url == available["r1"]
+    stage_order = ("pre", "r1", "r2", "r3", "final")
+    validated = [key for key in stage_order if key in available]
+    assert validated
+    assert stage == validated[-1]
+    assert url == available[stage]
     assert home_mode() == "TOURNAMENT_ACTIVE"
 
 
@@ -240,30 +244,69 @@ def test_home_contains_the_current_validated_tournament_stage_content_while_acti
         assert fp in home_html, f"stage-page content {fp!r} missing from / during TOURNAMENT_ACTIVE"
 
 
-def test_current_validated_r1_produces_the_r1_tournament_experience_on_home(built):
-    # TEST 3: today's real, validated state is specifically R1 -- pin
-    # that down explicitly (not just "some stage"), and confirm / and
-    # the dedicated R1 URL carry the identical R1-specific content.
-    stage_key, _ = ok_open_latest_available_stage()
-    assert stage_key == "r1"
-    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    r1_html = (OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open" / "r1" / "index.html").read_text(encoding="utf-8")
-    for marker in ("R1", "OK저축은행"):
-        assert marker in home_html
-    # Both pages' <main> bodies must match once the only intentional
-    # difference (the re-injected nav header, whose active_section
-    # differs: "home" on / vs "tournaments" on the dedicated URL) is
-    # normalized away.
-    import re as _re
-    def main_after_header(html):
-        return _re.sub(r"^.*?</header>", "", html, count=1, flags=_re.S)
-    home_main = main_after_header(home_html)
-    r1_main = main_after_header(r1_html)
-    # / additionally carries the ranking-access link the dedicated URL
-    # does not -- strip it before comparing the shared body.
-    home_main_stripped = home_main.replace('<p class="home-ranking-access"><a href="/ranking/">K-Ranking × NEO Ranking 전체 보기</a></p>', "")
-    assert home_main_stripped == r1_main, "/ must publish the exact same R1 stage content as the dedicated R1 URL"
+def test_current_validated_stage_produces_matching_tournament_experience_on_home(built):
+    """HOME must mirror the latest validated tournament stage.
 
+    The expected stage comes from validated tournament state.
+    This test must not pin R1, R2, R3, FINAL, or today's date.
+    """
+    stage_key, stage_url = ok_open_latest_available_stage()
+    available = ok_open_available_stages()
+
+    assert stage_key in available
+    assert stage_url == available[stage_key]
+
+    home_html = (OUTPUT / "index.html").read_text(
+        encoding="utf-8"
+    )
+
+    # Resolve the dedicated page from the validated URL itself.
+    relative = stage_url.strip("/")
+    stage_page = OUTPUT / relative / "index.html"
+
+    assert stage_page.exists(), (
+        f"validated stage page missing: {stage_page}"
+    )
+
+    stage_html = stage_page.read_text(
+        encoding="utf-8"
+    )
+
+    import re as _re
+
+    def main_after_header(html):
+        return _re.sub(
+            r"^.*?</header>",
+            "",
+            html,
+            count=1,
+            flags=_re.S,
+        )
+
+    home_main = main_after_header(home_html)
+    stage_main = main_after_header(stage_html)
+
+    # HOME intentionally has one ranking-access link that the
+    # dedicated tournament page does not carry.
+    ranking_link = (
+        '<p class="home-ranking-access">'
+        '<a href="/ranking/">'
+        'K-Ranking ? NEO Ranking ?? ??'
+        '</a></p>'
+    )
+
+    home_main = _re.sub(
+        r'<p\s+class=["\']home-ranking-access["\'][^>]*>.*?</p>',
+        "",
+        home_main,
+        count=1,
+        flags=_re.S,
+    )
+
+    assert home_main == stage_main, (
+        "/ must publish the exact same content as "
+        f"the latest validated stage: {stage_key}"
+    )
 
 def test_home_has_exactly_one_h1_while_a_tournament_is_active(built):
     # TEST 5.

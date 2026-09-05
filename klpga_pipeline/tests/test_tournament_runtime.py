@@ -43,6 +43,7 @@ def state(
         final_round_number=final,
         current_round_number=current,
         validated_stage=stage,
+        cut_after_round=2,
         model_ready=model,
     )
 
@@ -332,3 +333,104 @@ def test_publication_promotion_is_explicit(
     )
 
     assert seen["promote"] is True
+
+
+def test_cut_gate_is_config_driven():
+    s = runtime.RuntimeState(
+        game_code="GAME",
+        final_round_number=4,
+        current_round_number=1,
+        validated_stage="R1_LIVE",
+        cut_after_round=1,
+    )
+
+    snapshot = runtime.OfficialRoundSnapshot(
+        game_code="GAME",
+        round_number=1,
+        players=(player("1", holes=18),),
+    )
+
+    d = runtime.classify_live_snapshot(
+        s,
+        snapshot,
+    )
+
+    assert d.observed_stage == "ROUND_1_COMPLETE"
+    assert d.next_gate == "CUT_CONFIRMATION"
+    assert d.should_disable_cycle is True
+
+
+def test_round_two_is_not_implicitly_cut():
+    s = runtime.RuntimeState(
+        game_code="GAME",
+        final_round_number=4,
+        current_round_number=2,
+        validated_stage="R2_LIVE",
+        cut_after_round=3,
+    )
+
+    d = runtime.classify_live_snapshot(
+        s,
+        snap([player("1", holes=18)]),
+    )
+
+    assert d.observed_stage == "ROUND_2_COMPLETE"
+    assert d.next_gate == "NEXT_STAGE_VALIDATION"
+
+
+def test_no_cut_tournament_supported():
+    s = runtime.RuntimeState(
+        game_code="GAME",
+        final_round_number=3,
+        current_round_number=2,
+        validated_stage="R2_LIVE",
+        cut_after_round=None,
+    )
+
+    d = runtime.classify_live_snapshot(
+        s,
+        snap([player("1", holes=18)]),
+    )
+
+    assert d.observed_stage == "ROUND_2_COMPLETE"
+    assert d.next_gate == "NEXT_STAGE_VALIDATION"
+
+
+def test_final_round_wins_over_cut_configuration():
+    with pytest.raises(ValueError):
+        runtime.RuntimeState(
+            game_code="GAME",
+            final_round_number=3,
+            current_round_number=3,
+            validated_stage="FINAL_LIVE",
+            cut_after_round=3,
+        )
+
+
+def test_invalid_cut_round_zero_rejected():
+    with pytest.raises(ValueError):
+        runtime.RuntimeState(
+            game_code="GAME",
+            final_round_number=4,
+            current_round_number=1,
+            validated_stage="R1_LIVE",
+            cut_after_round=0,
+        )
+
+
+def test_cut_decision_is_not_implicitly_round_two():
+    s = runtime.RuntimeState(
+        game_code="GAME",
+        final_round_number=4,
+        current_round_number=2,
+        validated_stage="R2_LIVE",
+        cut_after_round=3,
+    )
+
+    d = runtime.classify_live_snapshot(
+        s,
+        snap([player("1", holes=18)]),
+    )
+
+    assert d.next_gate != "CUT_CONFIRMATION"
+    assert d.next_gate == "NEXT_STAGE_VALIDATION"

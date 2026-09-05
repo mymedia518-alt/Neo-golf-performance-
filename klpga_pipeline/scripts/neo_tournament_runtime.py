@@ -47,6 +47,7 @@ class RuntimeState:
     final_round_number: int
     current_round_number: int
     validated_stage: str
+    cut_after_round: int | None = None
     model_ready: bool = False
 
     def __post_init__(self):
@@ -65,6 +66,15 @@ class RuntimeState:
             raise ValueError(
                 "current_round_number outside tournament"
             )
+
+        if self.cut_after_round is not None:
+            if not (
+                1 <= self.cut_after_round
+                < self.final_round_number
+            ):
+                raise ValueError(
+                    "cut_after_round must be before final round"
+                )
 
 
 @dataclass(frozen=True)
@@ -93,6 +103,11 @@ def load_state(path: Path) -> RuntimeState:
         ),
         validated_stage=str(
             payload["validated_stage"]
+        ),
+        cut_after_round=(
+            int(payload["cut_after_round"])
+            if payload.get("cut_after_round") is not None
+            else None
         ),
         model_ready=bool(
             payload.get("model_ready", False)
@@ -161,11 +176,19 @@ def classify_live_snapshot(
 
     # Round is observationally complete.
     #
-    # R2 completion does NOT imply CUT_CONFIRMED.
-    # CUT remains an independent official validation gate.
-    if state.current_round_number == 2:
+    # Reaching the configured cut round never implies
+    # CUT_CONFIRMED. CUT is an independent validation gate.
+    if (
+        state.cut_after_round is not None
+        and state.current_round_number
+        == state.cut_after_round
+    ):
         return RuntimeDecision(
-            observed_stage="R2_COMPLETE",
+            observed_stage=(
+                "R2_COMPLETE"
+                if state.current_round_number == 2
+                else f"ROUND_{state.current_round_number}_COMPLETE"
+            ),
             publication_mode="FACTUAL_COMPLETE",
             next_gate="CUT_CONFIRMATION",
             should_publish_factual=True,
