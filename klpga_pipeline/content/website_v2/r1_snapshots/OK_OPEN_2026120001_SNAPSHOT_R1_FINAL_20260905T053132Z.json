@@ -1,4 +1,7 @@
 {
+  "schema_version": "neo_ok_open_r1_snapshot_v1",
+  "kind": "R1_FINAL_20260905T053132Z",
+  "game_code": "2026120001",
   "round": 1,
   "collected_at": "2026-09-05T05:31:32Z",
   "official_data_timestamp": null,
