@@ -1,4 +1,4 @@
-﻿"""Stable model boundary for the generic NEO Tournament Engine.
+"""Stable model boundary for the generic NEO Tournament Engine.
 
 Tournament orchestration depends on this contract, not on a specific model
 implementation. Models may be upgraded without changing tournament stage logic.
@@ -137,3 +137,37 @@ def frozen_result_runner(
         )
 
     return _run
+
+
+class FrozenFeatureSnapshotRequired(ModelBlocked):
+    """Raised when a stage update lacks its immutable model-input snapshot."""
+
+
+def require_frozen_feature_snapshot(
+    *,
+    artifact: str,
+    feature_snapshot_id: str | None,
+    feature_snapshot_sha256: str | None,
+) -> None:
+    """Prevent post-hoc reconstruction of historical model inputs.
+
+    Stage forecasts may only be recalculated from an immutable feature
+    snapshot captured before the relevant stage. A preserved probability
+    output alone is evidence of the old forecast, not permission to
+    reconstruct its hidden inputs after later tournament data exists.
+    """
+    if artifact not in {
+        "NEXT_ROUND_FORECAST",
+        "WIN_PROBABILITY",
+    }:
+        return
+
+    if not feature_snapshot_id:
+        raise FrozenFeatureSnapshotRequired(
+            "immutable feature snapshot id is required"
+        )
+
+    if not feature_snapshot_sha256:
+        raise FrozenFeatureSnapshotRequired(
+            "immutable feature snapshot sha256 is required"
+        )
