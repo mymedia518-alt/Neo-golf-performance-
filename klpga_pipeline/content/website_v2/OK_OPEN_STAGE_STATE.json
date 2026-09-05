@@ -737,7 +737,7 @@
     },
     "r2": {
       "validated": true,
-      "retrieved_at": "2026-09-05T08:26:05Z",
+      "retrieved_at": "2026-09-05T09:04:04Z",
       "row_count": 118,
       "source": "official roundLeaderboard fresh fetch",
       "factual_only": true

@@ -38,19 +38,39 @@ def main():
         st=str(r.status or "ACTIVE").upper()
         pid=str(r.player_code)
         pr=progress.get(pid)
-        if pr is None:
-            raise RuntimeError(f"missing R2 progress for {pid}")
-        if pr.assumed_default_start:
-            raise RuntimeError(f"unverified starting tee for {pid}")
+
+        # Official R2 leaderboard can retain an INCOMPLETE sentinel row even
+        # when that player has no published R2 grouping/starting-tee row.
+        # In that case raw data-inghole cannot be converted safely into a
+        # completed-hole count. Publish NULL rather than guessing.
+        grouping_ids={str(g.player_code) for g in groups if g.player_code is not None}
+        has_verified_grouping=pid in grouping_ids
+
+        if not has_verified_grouping:
+            if st != "INCOMPLETE":
+                raise RuntimeError(
+                    f"missing official R2 grouping for non-INCOMPLETE player {pid}"
+                )
+            holes_completed=None
+            holes_completed_display=None
+            starting_tee_assumed=None
+        else:
+            if pr is None:
+                raise RuntimeError(f"missing R2 progress for {pid}")
+            if pr.assumed_default_start:
+                raise RuntimeError(f"unverified starting tee for {pid}")
+            holes_completed=pr.completed
+            holes_completed_display=pr.display
+            starting_tee_assumed=False
 
         data.append({
           "player_id":pid,"player_name":r.player_name,
           "rank_display":None if st=="INCOMPLETE" else r.rank_display,
           "status":st,
           "raw_inghole":r.holes_completed,
-          "holes_completed":pr.completed,
-          "holes_completed_display":pr.display,
-          "starting_tee_assumed":pr.assumed_default_start,
+          "holes_completed":holes_completed,
+          "holes_completed_display":holes_completed_display,
+          "starting_tee_assumed":starting_tee_assumed,
           "today_under_par_display":None if st=="INCOMPLETE" else r.today_under_par_display,
           "total_under_par_display":None if st=="INCOMPLETE" else r.total_under_par_display
         })
