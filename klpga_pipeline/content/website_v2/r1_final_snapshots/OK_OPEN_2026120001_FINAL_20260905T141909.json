@@ -1,0 +1,858 @@
+{
+  "schema_version": "neo_ok_open_r1_final_snapshot_v1",
+  "kind": "20260905T141909",
+  "game_code": "2026120001",
+  "round": 1,
+  "collected_at": "2026-09-05T05:19:09Z",
+  "official_data_source": "scoreRecord",
+  "rows": [
+    {
+      "player_name": "양효진",
+      "official_status": null,
+      "final_score": -4,
+      "rank_display": "T1",
+      "player_id": "11045"
+    },
+    {
+      "player_name": "이예원",
+      "official_status": null,
+      "final_score": -4,
+      "rank_display": "T1",
+      "player_id": "9784"
+    },
+    {
+      "player_name": "신다인",
+      "official_status": null,
+      "final_score": -4,
+      "rank_display": "T1",
+      "player_id": "9135"
+    },
+    {
+      "player_name": "오수민 0809(A)",
+      "official_status": null,
+      "final_score": -3,
+      "rank_display": "T4",
+      "player_id": "11944"
+    },
+    {
+      "player_name": "고지우",
+      "official_status": null,
+      "final_score": -3,
+      "rank_display": "T4",
+      "player_id": "10112"
+    },
+    {
+      "player_name": "한지원",
+      "official_status": null,
+      "final_score": -3,
+      "rank_display": "T4",
+      "player_id": "9483"
+    },
+    {
+      "player_name": "이동은",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "11649"
+    },
+    {
+      "player_name": "성유진",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "8881"
+    },
+    {
+      "player_name": "김민솔",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "10725"
+    },
+    {
+      "player_name": "박보겸",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "9431"
+    },
+    {
+      "player_name": "김재희",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "9487"
+    },
+    {
+      "player_name": "홍지원",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "9705"
+    },
+    {
+      "player_name": "조아연",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "8770"
+    },
+    {
+      "player_name": "최예림",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "8284"
+    },
+    {
+      "player_name": "박서진 0804(A)",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "11365"
+    },
+    {
+      "player_name": "장은수",
+      "official_status": null,
+      "final_score": -2,
+      "rank_display": "T7",
+      "player_id": "8243"
+    },
+    {
+      "player_name": "김하은2",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "10790"
+    },
+    {
+      "player_name": "배소현",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "8589"
+    },
+    {
+      "player_name": "허윤서",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "9728"
+    },
+    {
+      "player_name": "황유나",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "9937"
+    },
+    {
+      "player_name": "박혜준",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "9788"
+    },
+    {
+      "player_name": "현세린",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "10531"
+    },
+    {
+      "player_name": "정수빈",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "8840"
+    },
+    {
+      "player_name": "전예성",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "9082"
+    },
+    {
+      "player_name": "노승희",
+      "official_status": null,
+      "final_score": -1,
+      "rank_display": "T17",
+      "player_id": "9113"
+    },
+    {
+      "player_name": "전우리",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "9389"
+    },
+    {
+      "player_name": "마서영",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "10083"
+    },
+    {
+      "player_name": "윤수아",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "9990"
+    },
+    {
+      "player_name": "홍진영2",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "10586"
+    },
+    {
+      "player_name": "유지나",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "9714"
+    },
+    {
+      "player_name": "안재희",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "11060"
+    },
+    {
+      "player_name": "오경은",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "8799"
+    },
+    {
+      "player_name": "김서윤2",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "9807"
+    },
+    {
+      "player_name": "김우정",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "8838"
+    },
+    {
+      "player_name": "홍현지",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "11042"
+    },
+    {
+      "player_name": "이서윤4",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "10481"
+    },
+    {
+      "player_name": "임희정",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "9145"
+    },
+    {
+      "player_name": "김시현",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "11143"
+    },
+    {
+      "player_name": "최가빈",
+      "official_status": null,
+      "final_score": 0,
+      "rank_display": "T26",
+      "player_id": "9391"
+    },
+    {
+      "player_name": "손예빈",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "10022"
+    },
+    {
+      "player_name": "한아름",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "11447"
+    },
+    {
+      "player_name": "김지윤2",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "11216"
+    },
+    {
+      "player_name": "서어진",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "9134"
+    },
+    {
+      "player_name": "윤화영",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "8884"
+    },
+    {
+      "player_name": "방신실",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "10095"
+    },
+    {
+      "player_name": "이가영",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "8883"
+    },
+    {
+      "player_name": "김민별",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "10002"
+    },
+    {
+      "player_name": "김지수",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "9000"
+    },
+    {
+      "player_name": "정민서",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "10698"
+    },
+    {
+      "player_name": "김효문",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "8271"
+    },
+    {
+      "player_name": "조혜림",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "9136"
+    },
+    {
+      "player_name": "정소이",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "9765"
+    },
+    {
+      "player_name": "이세희",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "9652"
+    },
+    {
+      "player_name": "이채은2",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "8811"
+    },
+    {
+      "player_name": "짜라위 분짠(I)",
+      "official_status": null,
+      "final_score": 1,
+      "rank_display": "T40",
+      "player_id": "11770"
+    },
+    {
+      "player_name": "한진선",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "9426"
+    },
+    {
+      "player_name": "리 슈잉",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "10789"
+    },
+    {
+      "player_name": "이지현3",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "9449"
+    },
+    {
+      "player_name": "최민경",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "8277"
+    },
+    {
+      "player_name": "조정민",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "8972"
+    },
+    {
+      "player_name": "김아림",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "8320"
+    },
+    {
+      "player_name": "황정미",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "8240"
+    },
+    {
+      "player_name": "안지현",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "9465"
+    },
+    {
+      "player_name": "안송이",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "6916"
+    },
+    {
+      "player_name": "최정원",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "11073"
+    },
+    {
+      "player_name": "황연서",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "10157"
+    },
+    {
+      "player_name": "유서연2",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "11066"
+    },
+    {
+      "player_name": "전승희",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "11374"
+    },
+    {
+      "player_name": "조은채",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "8430"
+    },
+    {
+      "player_name": "박서현",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "9111"
+    },
+    {
+      "player_name": "배수연",
+      "official_status": null,
+      "final_score": 2,
+      "rank_display": "T56",
+      "player_id": "9981"
+    },
+    {
+      "player_name": "정윤지",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "9820"
+    },
+    {
+      "player_name": "이정민",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "7434"
+    },
+    {
+      "player_name": "신유진2",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "10155"
+    },
+    {
+      "player_name": "윤혜림",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "8863"
+    },
+    {
+      "player_name": "이슬기2",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "9503"
+    },
+    {
+      "player_name": "이수정",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "10080"
+    },
+    {
+      "player_name": "박예지",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "11056"
+    },
+    {
+      "player_name": "김민주",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "10081"
+    },
+    {
+      "player_name": "양효리",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "10139"
+    },
+    {
+      "player_name": "성은정",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "8386"
+    },
+    {
+      "player_name": "이주미",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "8234"
+    },
+    {
+      "player_name": "유다겸(I)",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "11926"
+    },
+    {
+      "player_name": "이율린",
+      "official_status": null,
+      "final_score": 3,
+      "rank_display": "T72",
+      "player_id": "9759"
+    },
+    {
+      "player_name": "노원경",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9723"
+    },
+    {
+      "player_name": "홍정민",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9750"
+    },
+    {
+      "player_name": "김새로미",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "8380"
+    },
+    {
+      "player_name": "김나현2",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9752"
+    },
+    {
+      "player_name": "고은혜",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "10075"
+    },
+    {
+      "player_name": "김가희2",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "10726"
+    },
+    {
+      "player_name": "이재윤",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9708"
+    },
+    {
+      "player_name": "구래현",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9436"
+    },
+    {
+      "player_name": "송은아",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "11057"
+    },
+    {
+      "player_name": "유서연",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "10510"
+    },
+    {
+      "player_name": "김리안",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9702"
+    },
+    {
+      "player_name": "마다솜",
+      "official_status": null,
+      "final_score": 4,
+      "rank_display": "T85",
+      "player_id": "9401"
+    },
+    {
+      "player_name": "김민선7",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "10097"
+    },
+    {
+      "player_name": "고지원",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "10109"
+    },
+    {
+      "player_name": "최예본",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "10577"
+    },
+    {
+      "player_name": "양서후",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "10867"
+    },
+    {
+      "player_name": "이세영",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "11040"
+    },
+    {
+      "player_name": "황민정",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "10727"
+    },
+    {
+      "player_name": "김희지",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "10178"
+    },
+    {
+      "player_name": "안선주",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "4905"
+    },
+    {
+      "player_name": "이지민",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "12038"
+    },
+    {
+      "player_name": "장하나",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "7963"
+    },
+    {
+      "player_name": "박단유",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "8318"
+    },
+    {
+      "player_name": "김지영2",
+      "official_status": null,
+      "final_score": 5,
+      "rank_display": "T97",
+      "player_id": "8434"
+    },
+    {
+      "player_name": "유현주",
+      "official_status": null,
+      "final_score": 6,
+      "rank_display": "T109",
+      "player_id": "8436"
+    },
+    {
+      "player_name": "강가율",
+      "official_status": null,
+      "final_score": 6,
+      "rank_display": "T109",
+      "player_id": "9174"
+    },
+    {
+      "player_name": "김수지",
+      "official_status": null,
+      "final_score": 6,
+      "rank_display": "T109",
+      "player_id": "8300"
+    },
+    {
+      "player_name": "최은우",
+      "official_status": null,
+      "final_score": 7,
+      "rank_display": "T112",
+      "player_id": "9235"
+    },
+    {
+      "player_name": "김소정",
+      "official_status": null,
+      "final_score": 7,
+      "rank_display": "T112",
+      "player_id": "9089"
+    },
+    {
+      "player_name": "강민진",
+      "official_status": null,
+      "final_score": 8,
+      "rank_display": "T114",
+      "player_id": "11446"
+    },
+    {
+      "player_name": "김소이",
+      "official_status": null,
+      "final_score": 8,
+      "rank_display": "T114",
+      "player_id": "8764"
+    },
+    {
+      "player_name": "이소영",
+      "official_status": null,
+      "final_score": 8,
+      "rank_display": "T114",
+      "player_id": "8246"
+    },
+    {
+      "player_name": "장수연",
+      "official_status": null,
+      "final_score": 8,
+      "rank_display": "T114",
+      "player_id": "8355"
+    },
+    {
+      "player_name": "이윤서",
+      "official_status": null,
+      "final_score": 9,
+      "rank_display": "118",
+      "player_id": "11469"
+    },
+    {
+      "player_name": "박결",
+      "official_status": "WD",
+      "final_score": null,
+      "rank_display": "WD",
+      "player_id": "9183"
+    },
+    {
+      "player_name": "김아현",
+      "official_status": "WD",
+      "final_score": null,
+      "rank_display": "WD",
+      "player_id": "9277"
+    }
+  ],
+  "reconciliation": {
+    "passed": true,
+    "reason": "every expected entrant has an official row; every ACTIVE player has a final score",
+    "active_confirmed": 118,
+    "wd": 2,
+    "dq": 0,
+    "dns": 0
+  }
+}

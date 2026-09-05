@@ -94,6 +94,52 @@ def _parse_score_record(raw_html: str) -> list[dict]:
     return parse_score_record_html(raw_html)
 
 
+def _attach_player_ids(rows: list[dict], expected_ids: list[str]) -> list[dict]:
+    """Resolve scoreRecord's exact official names to current entry IDs.
+
+    scoreRecord's observed DOM exposes no playerCode. We first use the
+    immutable entry snapshot, then refresh the official entry page only when
+    late substitutions are absent from that snapshot. Ambiguous or unknown
+    names fail closed; no player-specific fallback is allowed.
+    """
+    if all(row.get("player_id") for row in rows):
+        return rows
+    import re
+    def norm(value):
+        return re.sub(r"\s+", " ", str(value or "").strip())
+    entry = _read_json(ENTRY_SNAPSHOT, {"entries": []}).get("entries", [])
+    by_name = {}
+    for item in entry:
+        name = norm(item.get("player_name") or item.get("canonical_name"))
+        if name and name in by_name and by_name[name] != str(item.get("player_id")):
+            raise ValueError(f"ambiguous entry identity for player_name={name!r}")
+        if name:
+            by_name[name] = str(item.get("player_id"))
+    missing = [row for row in rows if norm(row.get("player_name")) not in by_name]
+    if missing:
+        from klpga.collectors.entry_list import fetch_entry_list
+        from klpga.http_client import PoliteHttpClient
+        from klpga.parsers.entry_list_parser import parse_entry_list_html
+        client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "r1_final")
+        fresh = parse_entry_list_html(fetch_entry_list(client, GAME_CODE)).rows
+        for item in fresh:
+            name = norm(item.player_name)
+            if name in by_name and by_name[name] != str(item.player_code):
+                raise ValueError(f"ambiguous fresh entry identity for player_name={name!r}")
+            by_name[name] = str(item.player_code)
+    resolved = []
+    for row in rows:
+        pid = row.get("player_id") or by_name.get(norm(row.get("player_name")))
+        if not pid:
+            raise ValueError(f"unresolved scoreRecord identity for player_name={row.get('player_name')!r}")
+        item = dict(row)
+        item["player_id"] = str(pid)
+        resolved.append(item)
+    if len(resolved) != len(expected_ids) or len({str(r["player_id"]) for r in resolved}) != len(resolved):
+        raise ValueError("scoreRecord identity count or uniqueness does not match the official entry set")
+    return resolved
+
+
 def main() -> int:
     live = "--live" in sys.argv[1:]
 
@@ -127,12 +173,22 @@ def main() -> int:
     result = {"retrieved_at": retrieved_at, "http_status": status, "raw_response_path": raw_response_path_str}
 
     try:
-        rows = _parse_score_record(raw_html)
+        rows = _attach_player_ids(_parse_score_record(raw_html), expected_ids)
+        # The immutable PRE entry can be superseded by official late
+        # substitutions. The scoreRecord row set is the current official
+        # identity set; reconciliation uses that set after exact-name mapping.
+        expected_ids = sorted({str(row["player_id"]) for row in rows})
     except NotImplementedError as exc:
         result["action"] = "PARSER_NOT_IMPLEMENTED"
         result["reason"] = str(exc)
         print(json.dumps(result, ensure_ascii=False))
         print("[r1-final-reconciliation] raw response saved for review; r1_complete/r2_ready NOT touched", file=sys.stderr)
+        return 1
+    except (ValueError, KeyError) as exc:
+        result["action"] = "PARSER_FAILED"
+        result["reason"] = str(exc)
+        print(json.dumps(result, ensure_ascii=False))
+        print("[r1-final-reconciliation] parser failed; r1_complete/r2_ready NOT touched", file=sys.stderr)
         return 1
 
     reconciliation = reconcile_r1_final(rows, expected_ids)
