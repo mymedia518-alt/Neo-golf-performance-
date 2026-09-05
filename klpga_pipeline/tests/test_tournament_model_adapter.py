@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 
 from klpga.tournament_engine import Stage
 from klpga.tournament_model_adapter import (
@@ -30,7 +30,9 @@ def test_model_cannot_bypass_stage_gate():
         artifact="WIN_PROBABILITY",
         input_snapshot_id="snap-1",
         players=("1",),
-    )
+                      feature_snapshot_id="PRE:TEST:frozen-features",
+                  feature_snapshot_sha256="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+)
 
     with pytest.raises(ModelBlocked):
         adapter.run(request)
@@ -57,7 +59,9 @@ def test_model_runs_after_validated_cut():
             artifact="WIN_PROBABILITY",
             input_snapshot_id="snap-1",
             players=("1",),
-        )
+                    feature_snapshot_id="PRE:TEST:frozen-features",
+            feature_snapshot_sha256="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+)
     )
 
     assert result.payload["1"] == 0.25
@@ -74,7 +78,9 @@ def test_missing_model_is_blocked_not_fabricated():
                 artifact="WIN_PROBABILITY",
                 input_snapshot_id="snap-1",
                 players=("1",),
-            )
+                            feature_snapshot_id="PRE:TEST:frozen-features",
+                feature_snapshot_sha256="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+)
         )
 
 
@@ -100,7 +106,9 @@ def test_model_must_return_same_snapshot():
                 artifact="WIN_PROBABILITY",
                 input_snapshot_id="snap-1",
                 players=("1",),
-            )
+                            feature_snapshot_id="PRE:TEST:frozen-features",
+                feature_snapshot_sha256="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+)
         )
 
 
@@ -129,7 +137,9 @@ def test_frozen_historical_prediction_is_not_recalculated():
             artifact="WIN_PROBABILITY",
             input_snapshot_id="historical-snapshot",
             players=("p1", "p2"),
-        )
+                    feature_snapshot_id="PRE:TEST:frozen-features",
+            feature_snapshot_sha256="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+)
     )
 
     assert result.payload == {
@@ -168,7 +178,9 @@ def test_same_adapter_accepts_future_game_code_without_code_change():
                 artifact="NEXT_ROUND_FORECAST",
                 input_snapshot_id=f"{game_code}-snapshot",
                 players=("1",),
-            )
+                            feature_snapshot_id="PRE:TEST:frozen-features",
+                feature_snapshot_sha256="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+)
         )
 
         assert result.payload["game_code_seen"] == game_code
