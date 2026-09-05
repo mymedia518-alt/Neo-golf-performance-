@@ -61,12 +61,18 @@ def test_fetch_score_record_html_propagates_real_fetch_failures():
         fetch_score_record_html(client, "2026120001")
 
 
-def test_parse_score_record_html_refuses_to_guess_at_unseen_markup():
+def test_parse_score_record_html_rejects_unseen_markup():
     # This project never writes a parser against DOM structure it has
     # not actually seen -- see scripts/97_fetch_score_record_sample.py.
     # Any input, including well-formed-looking HTML, must raise the
     # same explicit NotImplementedError rather than silently returning
     # a plausible-looking but fabricated result.
-    with pytest.raises(NotImplementedError) as exc:
+    with pytest.raises(ValueError):
         parse_score_record_html("<html><table><tr><td>박결</td><td>WD</td></tr></table></html>")
-    assert "scripts/97_fetch_score_record_sample.py" in str(exc.value)
+def test_parse_score_record_html_real_fixture_extracts_r1_statuses_and_scores():
+    from pathlib import Path
+    fixture = Path(__file__).parent / "fixtures" / "score_record_2026120001_r1.html"
+    rows = parse_score_record_html(fixture.read_text(encoding="utf-8"))
+    assert len(rows) == 120
+    assert sum(r["official_status"] == "WD" for r in rows) == 2
+    assert sum(r["official_status"] is None and r["final_score"] is not None for r in rows) == 118

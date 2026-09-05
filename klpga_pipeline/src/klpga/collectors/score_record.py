@@ -32,6 +32,9 @@ scripts/97_fetch_score_record_sample.py.
 """
 from __future__ import annotations
 
+import re
+from bs4 import BeautifulSoup
+
 from klpga import config
 from klpga.http_client import PoliteHttpClient
 
@@ -77,3 +80,38 @@ def parse_score_record_html(html: str) -> list[dict]:
         "then implement this function against the real markup. See this module's "
         "docstring for the intended return contract."
     )
+
+
+# Observed production DOM implementation. Defined after the historical
+# placeholder above so older source context remains auditable while this
+# canonical function is now the active definition.
+def parse_score_record_html(html: str) -> list[dict]:
+    soup = BeautifulSoup(html, "html.parser")
+    candidates = []
+    for table in soup.select("table"):
+        header_texts = {" ".join(x.get_text(" ", strip=True).split()) for x in table.select("thead .today")}
+        if "1R" not in header_texts:
+            continue
+        for tr in table.select("tbody tr"):
+            rank_cell = tr.select_one("td.rank")
+            name_cell = tr.select_one("td.name")
+            total_cell = tr.select_one("td.total")
+            if not (rank_cell and name_cell and total_cell):
+                continue
+            name = " ".join(name_cell.get_text(" ", strip=True).split())
+            rank_display = " ".join(rank_cell.get_text(" ", strip=True).split()) or None
+            total_text = " ".join(total_cell.get_text(" ", strip=True).split())
+            status = rank_display.upper() if rank_display and rank_display.upper() in {"WD", "DQ", "DNS", "CUT"} else None
+            final_score = None
+            if status is None and re.fullmatch(r"[+-]?\d+|E", total_text or ""):
+                final_score = 0 if total_text == "E" else int(total_text)
+            candidates.append({"player_name": name, "official_status": status, "final_score": final_score, "rank_display": rank_display})
+    if not candidates:
+        raise ValueError("scoreRecord R1 table not found in official HTML")
+    by_name = {}
+    for row in candidates:
+        prior = by_name.get(row["player_name"])
+        if prior is not None and prior != row:
+            raise ValueError(f"conflicting scoreRecord rows for player_name={row['player_name']!r}")
+        by_name[row["player_name"]] = row
+    return list(by_name.values())

@@ -56,13 +56,13 @@ def test_dry_run_makes_no_fetch_and_touches_nothing(reco_module, monkeypatch, ca
     assert not reco_module.STAGE_STATE.exists()
 
 
-def test_live_with_parser_not_implemented_saves_raw_but_never_touches_stage_state(reco_module, monkeypatch, capsys):
+def test_live_with_malformed_score_record_saves_raw_but_never_touches_stage_state(reco_module, monkeypatch, capsys):
     monkeypatch.setattr(reco_module, "_fetch_score_record", lambda: (200, "<html>real raw scoreRecord response</html>"))
     monkeypatch.setattr(sys, "argv", ["98_ok_open_r1_final_reconciliation.py", "--live"])
     rc = reco_module.main()
     out = json.loads(capsys.readouterr().out.strip())
     assert rc == 1
-    assert out["action"] == "PARSER_NOT_IMPLEMENTED"
+    assert out["action"] == "PARSER_FAILED"
     raw_path = Path(reco_module.__file__).resolve().parents[1] / out["raw_response_path"]
     assert raw_path.read_text(encoding="utf-8") == "<html>real raw scoreRecord response</html>"
     assert not reco_module.STAGE_STATE.exists()

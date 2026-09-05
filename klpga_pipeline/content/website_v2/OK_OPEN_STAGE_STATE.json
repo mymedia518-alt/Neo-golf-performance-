@@ -727,7 +727,15 @@
           ""
         ]
       ],
-      "latest_snapshot_kind": "R1_1643"
+      "latest_snapshot_kind": "R1_1643",
+      "final_reconciliation": {
+        "passed": true,
+        "reason": "every expected entrant has an official row; every ACTIVE player has a final score",
+        "retrieved_at": "2026-09-05T05:19:09Z",
+        "snapshot_kind": "20260905T141909"
+      }
     }
-  }
+  },
+  "r1_complete": true,
+  "r2_ready": true
 }
