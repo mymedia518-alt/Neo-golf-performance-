@@ -734,6 +734,13 @@
         "retrieved_at": "2026-09-05T05:19:09Z",
         "snapshot_kind": "20260905T141909"
       }
+    },
+    "r2": {
+      "validated": true,
+      "retrieved_at": "2026-09-05T08:26:05Z",
+      "row_count": 118,
+      "source": "official roundLeaderboard fresh fetch",
+      "factual_only": true
     }
   },
   "r1_complete": true,
