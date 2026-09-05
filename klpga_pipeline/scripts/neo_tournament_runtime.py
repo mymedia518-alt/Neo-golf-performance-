@@ -134,9 +134,114 @@ def player_is_unfinished(player) -> bool:
     return holes < 18
 
 
+def reconcile_cut_round_completion(
+    state: RuntimeState,
+    snapshot: OfficialRoundSnapshot,
+    *,
+    db_path: Path | None,
+) -> bool:
+    """Resolve ambiguous INCOMPLETE rows only from complete DB cut truth.
+
+    This is tournament-independent and fail-closed.  It never converts an
+    INCOMPLETE player to WD/DQ/DNS.  It only allows the round-level lifecycle
+    to close when the persisted cut truth and round participation are
+    internally complete and consistent.
+    """
+    if (
+        db_path is None
+        or state.cut_after_round is None
+        or state.current_round_number != state.cut_after_round
+        or not Path(db_path).exists()
+    ):
+        return False
+
+    import sqlite3
+
+    unfinished_ids = {
+        str(p.player_id)
+        for p in snapshot.players
+        if player_is_unfinished(p)
+    }
+
+    if not unfinished_ids:
+        return True
+
+    con = sqlite3.connect(str(db_path))
+    con.row_factory = sqlite3.Row
+    try:
+        events = list(con.execute(
+            """
+            SELECT player_id, made_cut
+            FROM player_event
+            WHERE game_code=?
+            """,
+            (state.game_code,),
+        ))
+
+        if not events:
+            return False
+
+        # Ground truth must be total: no unknown cut decisions.
+        if any(r["made_cut"] is None for r in events):
+            return False
+
+        cut_yes = {
+            str(r["player_id"])
+            for r in events
+            if int(r["made_cut"]) == 1
+        }
+        cut_no = {
+            str(r["player_id"])
+            for r in events
+            if int(r["made_cut"]) == 0
+        }
+
+        if not cut_yes or (cut_yes & cut_no):
+            return False
+
+        # Every event player must have exactly one explicit cut class.
+        event_ids = {
+            str(r["player_id"])
+            for r in events
+        }
+        if event_ids != (cut_yes | cut_no):
+            return False
+
+        rrows = list(con.execute(
+            """
+            SELECT player_id
+            FROM player_round
+            WHERE game_code=? AND round_number=?
+            """,
+            (state.game_code, state.current_round_number),
+        ))
+        round_ids = {
+            str(r["player_id"])
+            for r in rrows
+        }
+
+        # Persisted round participation must exactly equal survivors.
+        if round_ids != cut_yes:
+            return False
+
+        # An ambiguous official row may close the lifecycle only when every
+        # such player is explicitly outside the survivor set.
+        if not unfinished_ids <= cut_no:
+            return False
+
+        if unfinished_ids & cut_yes:
+            return False
+
+        return True
+    finally:
+        con.close()
+
+
 def classify_live_snapshot(
     state: RuntimeState,
     snapshot: OfficialRoundSnapshot,
+    *,
+    db_path: Path | None = None,
 ) -> RuntimeDecision:
 
     if snapshot.game_code != state.game_code:
@@ -163,7 +268,11 @@ def classify_live_snapshot(
         if player_is_unfinished(p)
     ]
 
-    if unfinished:
+    if unfinished and not reconcile_cut_round_completion(
+        state,
+        snapshot,
+        db_path=db_path,
+    ):
         return RuntimeDecision(
             observed_stage=state.validated_stage,
             publication_mode="FACTUAL_LIVE",
@@ -257,6 +366,7 @@ def run_once(
     decision = classify_live_snapshot(
         state,
         snapshot,
+        db_path=(Path(cache_dir).parent.parent / "klpga.sqlite"),
     )
 
     return snapshot, decision
