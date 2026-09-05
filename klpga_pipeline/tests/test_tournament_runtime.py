@@ -1,128 +1,234 @@
-﻿import pytest
+from types import SimpleNamespace
 
-from klpga.tournament_engine import RoundFacts, Stage
-from klpga.tournament_runtime import (
-    CutValidation,
-    PlayerEventFact,
-    TournamentConfig,
-    resolve_runtime_stage,
-    validate_cut,
+import pytest
+
+from klpga.tournament_official_ingest import (
+    OfficialRoundSnapshot,
 )
 
+import neo_tournament_runtime as runtime
 
-def config(final_round_number=4):
-    return TournamentConfig(
-        game_code="TEST-GAME",
-        tournament_name="TEST EVENT",
-        final_round_number=final_round_number,
-        cut_after_round=2,
+
+def player(
+    pid,
+    *,
+    status="ACTIVE",
+    holes=18,
+):
+    return SimpleNamespace(
+        player_id=pid,
+        status=status,
+        holes_completed=holes,
     )
 
 
-def test_config_is_data_not_hardcoded():
-    a = TournamentConfig("A", "EVENT A", 4, 2)
-    b = TournamentConfig("B", "EVENT B", 4, 2)
-
-    assert a.game_code != b.game_code
-    assert a.tournament_name != b.tournament_name
-
-
-def test_invalid_cut_round_rejected():
-    with pytest.raises(ValueError):
-        TournamentConfig("A", "EVENT", 4, 4)
-
-
-def test_cut_blocked_until_round_complete():
-    result = validate_cut(
-        [
-            PlayerEventFact("1", "", True),
-            PlayerEventFact("2", "", False),
-        ],
-        round_complete=False,
+def snap(players, game="GAME", rnd=2):
+    return OfficialRoundSnapshot(
+        game_code=game,
+        round_number=rnd,
+        players=tuple(players),
     )
 
-    assert not result.validated
 
-
-def test_cut_requires_explicit_fact():
-    result = validate_cut(
-        [
-            PlayerEventFact("1", "", True),
-            PlayerEventFact("2", "", None),
-        ],
-        round_complete=True,
+def state(
+    *,
+    game="GAME",
+    final=3,
+    current=2,
+    stage="R2_LIVE",
+    model=False,
+):
+    return runtime.RuntimeState(
+        game_code=game,
+        final_round_number=final,
+        current_round_number=current,
+        validated_stage=stage,
+        model_ready=model,
     )
 
-    assert not result.validated
-    assert result.unresolved == ("2",)
 
-
-def test_wd_dq_dns_are_not_fake_cut_failures():
-    result = validate_cut(
-        [
-            PlayerEventFact("1", "", True),
-            PlayerEventFact("2", "", False),
-            PlayerEventFact("3", "WD", None),
-            PlayerEventFact("4", "DQ", None),
-            PlayerEventFact("5", "DNS", None),
-        ],
-        round_complete=True,
+def test_active_18h_is_complete():
+    assert (
+        runtime.player_is_unfinished(
+            player("1", holes=18)
+        )
+        is False
     )
 
-    assert result.validated
-    assert result.advancing == ("1",)
-    assert result.eliminated == ("2",)
-    assert result.exempt_status == ("3", "4", "5")
 
-
-def test_cut_validation_advances_generic_state():
-    cfg = config()
-
-    cut = validate_cut(
-        [
-            PlayerEventFact("1", "", True),
-            PlayerEventFact("2", "", False),
-        ],
-        round_complete=True,
+def test_incomplete_is_unfinished_even_with_holes():
+    assert runtime.player_is_unfinished(
+        player(
+            "1",
+            status="INCOMPLETE",
+            holes=1,
+        )
     )
 
-    stage = resolve_runtime_stage(
-        cfg,
-        entry_validated=True,
-        pre_validated=True,
-        rounds=(
-            RoundFacts(1, 2, 2, 0),
-            RoundFacts(2, 2, 2, 0),
+
+def test_unknown_holes_fail_closed_as_unfinished():
+    assert runtime.player_is_unfinished(
+        player("1", holes=None)
+    )
+
+
+@pytest.mark.parametrize(
+    "status",
+    ["WD", "DQ", "DNS"],
+)
+def test_terminal_status_not_unfinished(status):
+    assert (
+        runtime.player_is_unfinished(
+            player(
+                "1",
+                status=status,
+                holes=None,
+            )
+        )
+        is False
+    )
+
+
+def test_r2_live_remains_factual_only():
+    decision = runtime.classify_live_snapshot(
+        state(model=True),
+        snap([
+            player("1", holes=18),
+            player(
+                "2",
+                status="INCOMPLETE",
+                holes=7,
+            ),
+        ]),
+    )
+
+    assert decision.observed_stage == "R2_LIVE"
+    assert decision.publication_mode == "FACTUAL_LIVE"
+    assert decision.should_publish_factual is True
+    assert decision.should_publish_model is False
+    assert decision.should_disable_cycle is False
+    assert decision.unfinished_count == 1
+
+
+def test_r2_completion_stops_at_cut_gate():
+    decision = runtime.classify_live_snapshot(
+        state(),
+        snap([
+            player("1", holes=18),
+            player("2", holes=18),
+            player(
+                "3",
+                status="WD",
+                holes=None,
+            ),
+        ]),
+    )
+
+    assert decision.observed_stage == "R2_COMPLETE"
+    assert decision.next_gate == "CUT_CONFIRMATION"
+    assert decision.should_publish_factual is True
+    assert decision.should_publish_model is False
+    assert decision.should_disable_cycle is True
+    assert decision.unfinished_count == 0
+
+
+def test_model_ready_never_bypasses_r2_cut_gate():
+    decision = runtime.classify_live_snapshot(
+        state(model=True),
+        snap([
+            player("1"),
+            player("2"),
+        ]),
+    )
+
+    assert decision.observed_stage == "R2_COMPLETE"
+    assert decision.next_gate == "CUT_CONFIRMATION"
+    assert decision.should_publish_model is False
+
+
+def test_game_mismatch_blocks():
+    with pytest.raises(runtime.RuntimeBlocked):
+        runtime.classify_live_snapshot(
+            state(game="RIGHT"),
+            snap(
+                [player("1")],
+                game="WRONG",
+            ),
+        )
+
+
+def test_round_mismatch_blocks():
+    with pytest.raises(runtime.RuntimeBlocked):
+        runtime.classify_live_snapshot(
+            state(current=2),
+            snap(
+                [player("1")],
+                rnd=1,
+            ),
+        )
+
+
+def test_non_live_stage_not_accepted_by_runtime():
+    calls = []
+
+    def fetcher(**kwargs):
+        calls.append(kwargs)
+        raise AssertionError(
+            "fetch must not occur"
+        )
+
+    with pytest.raises(runtime.RuntimeBlocked):
+        runtime.run_once(
+            state(stage="R2_COMPLETE"),
+            cache_dir=None,
+            fetcher=fetcher,
+        )
+
+    assert calls == []
+
+
+def test_generic_future_game_fetch_arguments():
+    calls = []
+
+    def fetcher(**kwargs):
+        calls.append(kwargs)
+
+        return snap(
+            [player("1", holes=7)],
+            game=kwargs["game_code"],
+            rnd=kwargs["round_number"],
+        )
+
+    _, decision = runtime.run_once(
+        state(
+            game="FUTURE-2030",
+            final=4,
+            current=3,
+            stage="NEXT_ROUND_LIVE",
         ),
-        cut_validation=cut,
+        cache_dir="CACHE",
+        fetcher=fetcher,
     )
 
-    assert stage == Stage.CUT_CONFIRMED
+    assert calls == [{
+        "game_code": "FUTURE-2030",
+        "round_number": 3,
+        "cache_dir": "CACHE",
+    }]
+
+    assert decision.should_publish_model is False
 
 
-def test_same_runtime_supports_different_tournaments():
-    rounds = (
-        RoundFacts(1, 2, 2, 0),
-        RoundFacts(2, 2, 2, 0),
-    )
+def test_no_tournament_specific_identifiers():
+    source = runtime.Path(
+        runtime.__file__
+    ).read_text(encoding="utf-8")
 
-    cut = CutValidation(
-        validated=True,
-        advancing=("1",),
-        eliminated=("2",),
-        exempt_status=(),
-        unresolved=(),
-    )
-
-    for cfg in (
-        TournamentConfig("GAME-A", "EVENT A", 4, 2),
-        TournamentConfig("GAME-B", "EVENT B", 4, 2),
-        TournamentConfig("GAME-C", "EVENT C", 3, 2),
+    for forbidden in (
+        "2026120001",
+        "OK????",
+        "KG ????",
+        "99_ok_open",
+        "96_ok_open",
     ):
-        assert resolve_runtime_stage(
-            cfg,
-            entry_validated=True,
-            pre_validated=True,
-            rounds=rounds,
-            cut_validation=cut,
-        ) == Stage.CUT_CONFIRMED
+        assert forbidden not in source
