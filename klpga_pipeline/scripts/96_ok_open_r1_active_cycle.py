@@ -135,6 +135,38 @@ def _release_lock() -> None:
     LOCK_PATH.unlink(missing_ok=True)
 
 
+def _fetch_round1_starting_tees(client) -> dict[str, str | None]:
+    """Best-effort: player_code -> real starting_tee ("1"/"10"/...) for
+    Round 1, from the confirmed group/tee-time page (klpga.collectors.
+    group_page + klpga.parsers.group_page_parser.parse_round_grouping --
+    the same real, confirmed source already used for historical R1
+    grouping evidence elsewhere in this project).
+
+    data-inghole (see leaderboard_parser.py) is the real COURSE HOLE
+    NUMBER of the last hole played, not a completed-hole count -- correct
+    only for a 1-tee (OUT) start. Without this join, a 10-tee (IN)
+    starter's raw current-hole value was being shown directly as if it
+    were a completed-hole count (e.g. "16" for a player who has actually
+    played 7 holes). This fetch is what makes klpga.parsers.
+    round_progress.resolve_completed_holes able to correct that.
+
+    Never allowed to turn a working cycle into a WAIT/HARD_STOP: if the
+    grouping page fails to fetch or Round 1's grouping isn't published
+    yet, this returns {} and callers fall back to round_progress's own
+    documented OUT-start assumption (flagged via assumed_default_start)
+    -- degrading gracefully to the previous raw-passthrough behavior
+    rather than losing an otherwise-good leaderboard collection."""
+    try:
+        from klpga.collectors.group_page import fetch_group_page_html
+        from klpga.parsers.group_page_parser import parse_round_grouping
+
+        _status, html_text = fetch_group_page_html(client, GAME_CODE)
+        groupings = parse_round_grouping(html_text, round_number=1)
+        return {g.player_code: g.starting_tee for g in groupings}
+    except Exception:  # noqa: BLE001 -- best-effort; never blocks the leaderboard collection
+        return {}
+
+
 def _collect_live() -> tuple[list[dict], bool, bool, str | None]:
     """Real HTTP collection. Returns (rows, official_page_available,
     tournament_finished, error). Any network/parse failure is reported
@@ -146,17 +178,21 @@ def _collect_live() -> tuple[list[dict], bool, bool, str | None]:
         from klpga.collectors.leaderboard import fetch_round_leaderboard
         from klpga.collectors.tournaments import fetch_game_list
         from klpga.http_client import PoliteHttpClient
+        from klpga.parsers.round_progress import resolve_completed_holes
 
         client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "r1_active")
         listings = [x for x in fetch_game_list(client, season=2026) if x.game_code == GAME_CODE]
         tournament_finished = bool(listings and listings[0].is_completed)
         rows = fetch_round_leaderboard(client, GAME_CODE, 1, use_cache=False)
+        starting_tee_by_player = _fetch_round1_starting_tees(client)
         row_dicts = [
             {
                 "player_id": r.player_code,
                 "player_name": r.player_name,
                 "status": r.status,
-                "holes_completed": r.holes_completed,
+                "holes_completed": str(
+                    resolve_completed_holes(r.holes_completed, starting_tee_by_player.get(r.player_code)).completed
+                ),
                 "rank": r.rank,
                 "rank_display": r.rank_display,
                 "total_under_par": r.total_under_par,
