@@ -1,6 +1,6 @@
 {
   "schema_version": "neo_ok_open_operational_readiness_v1",
-  "retrieved_at": "2026-08-31T23:08:51Z",
+  "retrieved_at": "2026-09-04T15:01:14Z",
   "tournament": {
     "game_code": "2026120001",
     "name": "OK저축은행 읏맨 오픈",
@@ -19,8 +19,14 @@
     "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
   },
   "entry_delta": {
-    "added": [],
-    "removed": [],
+    "added": [
+      "10080",
+      "10510"
+    ],
+    "removed": [
+      "8859",
+      "9130"
+    ],
     "withdrawn": [],
     "replaced": [],
     "unchanged": [
@@ -95,7 +101,6 @@
       "8811",
       "8838",
       "8840",
-      "8859",
       "8863",
       "8881",
       "8883",
@@ -106,7 +111,6 @@
       "9089",
       "9111",
       "9113",
-      "9130",
       "9134",
       "9135",
       "9136",
@@ -157,12 +161,12 @@
     "no_official_sg": 3
   },
   "pre_forecast_readiness": {
-    "entry_identity": true,
+    "entry_identity": false,
     "history_available": true,
     "future_data_excluded": true,
     "model_version": "existing forecast model; no changes",
     "artifact_destination": "existing lifecycle freeze destination",
-    "ready": true
+    "ready": false
   },
   "lifecycle": {
     "public_stages": [

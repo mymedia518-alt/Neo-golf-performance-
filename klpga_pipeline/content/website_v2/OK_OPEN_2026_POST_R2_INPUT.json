@@ -1,0 +1,974 @@
+{
+  "schema_version": 1,
+  "artifact": "OK_OPEN_2026_POST_R2_INPUT",
+  "game_code": "2026120001",
+  "stage": "POST_R2_PRE_FINAL",
+  "model_version": "M4",
+  "pre_cutoff": "2026-09-04T00:00:00+09:00",
+  "future_data_excluded": true,
+  "pre_source": "OK_OPEN_2026_PRE_WIN_FORECAST.json",
+  "master_source": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+  "pre_field_size": 120,
+  "records": [
+    {
+      "player_id": "10002",
+      "win_probability": 0.01329906969338197,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10022",
+      "win_probability": 0.0014708400432191055,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10075",
+      "win_probability": 0.001257430316357461,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10081",
+      "win_probability": 0.03503797447352099,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10083",
+      "win_probability": 0.0030012100071285675,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10095",
+      "win_probability": 0.025554860166271065,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10097",
+      "win_probability": 0.04683242704463381,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10109",
+      "win_probability": 0.007154944335210036,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10112",
+      "win_probability": 0.007603809931392595,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10139",
+      "win_probability": 0.003129232462483686,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10155",
+      "win_probability": 0.0009378290951009535,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10157",
+      "win_probability": 0.0010740377724132505,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10178",
+      "win_probability": 0.0007767168621215996,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10481",
+      "win_probability": 0.000386765750073383,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10531",
+      "win_probability": 0.0008607632383510378,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10577",
+      "win_probability": 0.00457923399937782,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10586",
+      "win_probability": 0.010143118162937725,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10698",
+      "win_probability": 0.000993731586274316,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10725",
+      "win_probability": 0.05550691510378016,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10726",
+      "win_probability": 0.0029129389909541346,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10727",
+      "win_probability": 0.0015163791858856526,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10789",
+      "win_probability": 0.0015314328574895313,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10790",
+      "win_probability": 0.002815284461817759,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "10867",
+      "win_probability": 0.0012154767570267673,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11040",
+      "win_probability": 0.0009551711741543865,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11042",
+      "win_probability": 0.0048411817004541955,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11045",
+      "win_probability": 0.005605270334097747,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11056",
+      "win_probability": 0.006482553673681929,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11057",
+      "win_probability": 0.007291032931711295,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11060",
+      "win_probability": 0.0022574308745898163,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11066",
+      "win_probability": 0.014481811628458411,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11073",
+      "win_probability": 0.0031557972457826313,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11143",
+      "win_probability": 0.0069924674408382076,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11216",
+      "win_probability": 0.0014058625192105861,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11365",
+      "win_probability": 0.0009793354260562031,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11374",
+      "win_probability": 0.001807849845089904,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11446",
+      "win_probability": 0.0004821911209893779,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11447",
+      "win_probability": 0.007484522756299133,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11469",
+      "win_probability": 0.00037107254662635325,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11649",
+      "win_probability": 0.020453994695772557,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11770",
+      "win_probability": 0.008430567134735749,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11926",
+      "win_probability": 3.583122669063039e-05,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "11944",
+      "win_probability": 0.0014148353460339803,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "12038",
+      "win_probability": 0.0009042492555418686,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "4905",
+      "win_probability": 0.0012020161381162261,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "6916",
+      "win_probability": 0.004537045832792341,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "7434",
+      "win_probability": 0.0011822637373813789,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "7963",
+      "win_probability": 4.1844637769192236e-05,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8234",
+      "win_probability": 0.004192101950942305,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8240",
+      "win_probability": 0.0013241444019485426,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8243",
+      "win_probability": 0.011576460005865952,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8246",
+      "win_probability": 0.001362536140647318,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8271",
+      "win_probability": 0.001391354917333344,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8277",
+      "win_probability": 0.004809491907030824,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8284",
+      "win_probability": 0.056219763238423134,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8300",
+      "win_probability": 0.03616797576225473,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8318",
+      "win_probability": 0.001941480487587575,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8320",
+      "win_probability": 0.011698792427891836,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8355",
+      "win_probability": 0.0004062956378523535,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8380",
+      "win_probability": 0.011568139899979638,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8386",
+      "win_probability": 0.000948616164419918,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8430",
+      "win_probability": 0.0001631448481374473,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8434",
+      "win_probability": 5.583038719426709e-05,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8436",
+      "win_probability": 0.00044438290017758693,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8589",
+      "win_probability": 0.016332117163047152,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8764",
+      "win_probability": 0.0025479200709327444,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8770",
+      "win_probability": 0.0015536048539623196,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8799",
+      "win_probability": 0.0025396803346137238,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8811",
+      "win_probability": 0.01207409792755438,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8838",
+      "win_probability": 0.0023912906416840873,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8840",
+      "win_probability": 0.0005294883139926326,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8859",
+      "win_probability": 0.007956245646413741,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8863",
+      "win_probability": 0.0011400711504074104,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8881",
+      "win_probability": 0.07002515732194536,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8883",
+      "win_probability": 0.013242784709806006,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8884",
+      "win_probability": 0.0012768806455864942,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "8972",
+      "win_probability": 0.0008641788604808871,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9000",
+      "win_probability": 0.004976250540737112,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9082",
+      "win_probability": 0.028400836766567714,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9089",
+      "win_probability": 0.002250149972090042,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9111",
+      "win_probability": 0.0020381864527272723,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9113",
+      "win_probability": 0.03472709568639826,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9130",
+      "win_probability": 0.034764160626733674,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9134",
+      "win_probability": 0.018554601227034898,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9135",
+      "win_probability": 0.017147255763935908,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9136",
+      "win_probability": 0.0032620119430361327,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9145",
+      "win_probability": 0.0051503097172545115,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9174",
+      "win_probability": 0.00045863177412440605,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9183",
+      "win_probability": 0.00346439881633771,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9235",
+      "win_probability": 0.0137549273403203,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9277",
+      "win_probability": 0.0009747124793722782,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9389",
+      "win_probability": 0.005731552038113346,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9391",
+      "win_probability": 0.0076085453976702175,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9401",
+      "win_probability": 0.007833867626386779,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9426",
+      "win_probability": 0.017952981878203777,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9431",
+      "win_probability": 0.008115648812759071,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9436",
+      "win_probability": 0.0009399094762008323,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9449",
+      "win_probability": 0.03263410516069013,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9465",
+      "win_probability": 0.005603249361155764,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9483",
+      "win_probability": 0.002763336080413679,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9487",
+      "win_probability": 0.0038000780581821697,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9503",
+      "win_probability": 0.0005287864997104486,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9652",
+      "win_probability": 0.007878718209717497,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9702",
+      "win_probability": 0.0016395930990768563,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9705",
+      "win_probability": 0.008418310497901179,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9708",
+      "win_probability": 0.001815191033617113,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9714",
+      "win_probability": 0.0052331621439887606,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9723",
+      "win_probability": 0.0006001122709381031,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9728",
+      "win_probability": 0.0011127104669866933,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9750",
+      "win_probability": 0.011000108913790198,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9752",
+      "win_probability": 0.0015324534839114938,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9759",
+      "win_probability": 0.0012934520947683924,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9765",
+      "win_probability": 0.004234826619387144,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9784",
+      "win_probability": 0.02379169981586542,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9788",
+      "win_probability": 0.023842203472694147,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9807",
+      "win_probability": 0.007407590723976439,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9820",
+      "win_probability": 0.017172447553533515,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9937",
+      "win_probability": 0.003174928076303439,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9981",
+      "win_probability": 0.0011428079497556132,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    },
+    {
+      "player_id": "9990",
+      "win_probability": 0.006141443839440426,
+      "provenance": {
+        "source_artifact": "existing M4 inference",
+        "cutoff": "2026-09-04T00:00:00+09:00"
+      }
+    }
+  ]
+}

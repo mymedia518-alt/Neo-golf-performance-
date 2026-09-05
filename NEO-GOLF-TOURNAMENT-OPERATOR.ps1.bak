@@ -1,0 +1,33 @@
+$ErrorActionPreference = 'Stop'
+$Repo = 'C:\Users\user\Desktop\Neo-golf-tournament-operator'
+$LogDir = 'C:\Users\user\Desktop\Neo-golf-performance-live-logs'
+$Lock = Join-Path $LogDir 'neo-tournament-operator.lock'
+$InternalLock = Join-Path $Repo 'klpga_pipeline\content\website_v2\.r1_active_cycle.lock'
+$Python = 'C:\Python313\python.exe'
+New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
+$stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$logPath = Join-Path $LogDir "$stamp.json"
+$exitCode = 0
+$result = [ordered]@{task='NEO-GOLF-TOURNAMENT-OPERATOR'; started_at=(Get-Date).ToUniversalTime().ToString('o'); decision='HARD_STOP'; reason=$null; commit=$null; remote=$null}
+try {
+  if (Test-Path -LiteralPath $Lock) {
+    $raw=(Get-Content -Raw -LiteralPath $Lock).Trim(); $ownerPid=0; [void][int]::TryParse(($raw -split '\s+')[0],[ref]$ownerPid)
+    $owner=if($ownerPid){Get-CimInstance Win32_Process -Filter "ProcessId=$ownerPid" -ErrorAction SilentlyContinue}else{$null}
+    $age=((Get-Date)-(Get-Item -LiteralPath $Lock).LastWriteTime).TotalSeconds
+    if($owner){$result.decision='SKIP_WAIT';$result.reason="active lock pid=$ownerPid";$exitCode=0;return}
+    if($age -lt 1800){$result.reason="stale lock too young age=$([int]$age)s";$exitCode=2;return}
+    Remove-Item -LiteralPath $Lock -Force
+  }
+  "$PID $(Get-Date -Format o)" | Set-Content -LiteralPath $Lock -Encoding utf8
+  Set-Location $Repo; $env:GIT_TERMINAL_PROMPT='0'
+  git -c safe.directory=$Repo fetch origin | Out-Null
+  $local=(git -c safe.directory=$Repo rev-parse HEAD).Trim(); $remote=(git -c safe.directory=$Repo rev-parse origin/neo-website-v2).Trim(); $result.commit=$local; $result.remote=$remote
+  if($local -ne $remote){$base=(git -c safe.directory=$Repo merge-base HEAD origin/neo-website-v2).Trim(); if($base -ne $local){$result.reason="true divergence local=$local remote=$remote";$exitCode=2;return}; git -c safe.directory=$Repo merge --ff-only origin/neo-website-v2 | Out-Null}
+  $dirty=@(git -c safe.directory=$Repo status --porcelain | Where-Object {$_ -and $_ -notmatch '^\?\? \.pytest-' -and $_ -notmatch '^\?\? \.test-' -and $_ -notmatch '^\s*[MADRCU?]{1,2} klpga_pipeline/candidate/' -and $_ -notmatch '^\s*[MADRCU?]{1,2} klpga_pipeline/content/website_v2/' -and $_ -notmatch '^\?\? klpga_pipeline/content/website_v2/' -and $_ -notmatch 'NEO_RECOVER\.bat' -and $_ -notmatch '\.r1_active_cycle\.lock'})
+  if($dirty.Count -gt 0){$result.reason='unapproved dirty source worktree';$exitCode=2;return}
+  if(Test-Path $InternalLock){$iraw=(Get-Content -Raw $InternalLock).Trim();$ipid=0;[void][int]::TryParse(($iraw -split '\s+')[0],[ref]$ipid);$ip=if($ipid){Get-CimInstance Win32_Process -Filter "ProcessId=$ipid" -ErrorAction SilentlyContinue}else{$null};if($ip){$result.decision='SKIP_WAIT';$result.reason="active python lock pid=$ipid";$exitCode=0;return}}
+  & $Python 'klpga_pipeline\scripts\96_ok_open_r1_active_cycle.py' --live --git-push
+  $code=$LASTEXITCODE; if($code -ne 0){$result.reason="canonical cycle exit=$code";$exitCode=$code;return}; $result.decision='PUBLISH_OR_SKIP';$result.reason='canonical cycle completed';$exitCode=0
+} catch {$result.reason=$_.Exception.Message;$exitCode=2}
+finally {$result.finished_at=(Get-Date).ToUniversalTime().ToString('o');$result.exit_code=$exitCode;($result|ConvertTo-Json -Depth 8)|Set-Content -LiteralPath $logPath -Encoding utf8;if(Test-Path $Lock){Remove-Item -LiteralPath $Lock -Force -ErrorAction SilentlyContinue}}
+exit $exitCode
