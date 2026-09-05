@@ -434,3 +434,127 @@ def test_cut_decision_is_not_implicitly_round_two():
 
     assert d.next_gate != "CUT_CONFIRMATION"
     assert d.next_gate == "NEXT_STAGE_VALIDATION"
+
+
+def test_cut_reconciliation_closes_ambiguous_incomplete_rows(tmp_path):
+    import sqlite3
+
+    db = tmp_path / "klpga.sqlite"
+    con = sqlite3.connect(db)
+    con.executescript("""
+        CREATE TABLE player_event (
+            game_code TEXT,
+            player_id TEXT,
+            made_cut INTEGER
+        );
+        CREATE TABLE player_round (
+            game_code TEXT,
+            round_number INTEGER,
+            player_id TEXT
+        );
+    """)
+    con.executemany(
+        "INSERT INTO player_event VALUES ('GAME', ?, ?)",
+        [("1", 1), ("2", 1), ("3", 0)],
+    )
+    con.executemany(
+        "INSERT INTO player_round VALUES ('GAME', 2, ?)",
+        [("1",), ("2",)],
+    )
+    con.commit()
+    con.close()
+
+    d = runtime.classify_live_snapshot(
+        state(),
+        snap([
+            player("1", holes=18),
+            player("2", holes=18),
+            player("3", status="INCOMPLETE", holes=1),
+        ]),
+        db_path=db,
+    )
+
+    assert d.observed_stage == "R2_COMPLETE"
+    assert d.next_gate == "CUT_CONFIRMATION"
+    assert d.unfinished_count == 0
+
+
+def test_cut_reconciliation_fails_closed_on_unknown_cut(tmp_path):
+    import sqlite3
+
+    db = tmp_path / "klpga.sqlite"
+    con = sqlite3.connect(db)
+    con.executescript("""
+        CREATE TABLE player_event (
+            game_code TEXT,
+            player_id TEXT,
+            made_cut INTEGER
+        );
+        CREATE TABLE player_round (
+            game_code TEXT,
+            round_number INTEGER,
+            player_id TEXT
+        );
+    """)
+    con.executemany(
+        "INSERT INTO player_event VALUES ('GAME', ?, ?)",
+        [("1", 1), ("2", None)],
+    )
+    con.execute(
+        "INSERT INTO player_round VALUES ('GAME', 2, '1')"
+    )
+    con.commit()
+    con.close()
+
+    d = runtime.classify_live_snapshot(
+        state(),
+        snap([
+            player("1", holes=18),
+            player("2", status="INCOMPLETE", holes=1),
+        ]),
+        db_path=db,
+    )
+
+    assert d.observed_stage == "R2_LIVE"
+    assert d.next_gate == "WAIT"
+    assert d.unfinished_count == 1
+
+
+def test_cut_reconciliation_blocks_survivor_marked_incomplete(tmp_path):
+    import sqlite3
+
+    db = tmp_path / "klpga.sqlite"
+    con = sqlite3.connect(db)
+    con.executescript("""
+        CREATE TABLE player_event (
+            game_code TEXT,
+            player_id TEXT,
+            made_cut INTEGER
+        );
+        CREATE TABLE player_round (
+            game_code TEXT,
+            round_number INTEGER,
+            player_id TEXT
+        );
+    """)
+    con.executemany(
+        "INSERT INTO player_event VALUES ('GAME', ?, ?)",
+        [("1", 1), ("2", 0)],
+    )
+    con.execute(
+        "INSERT INTO player_round VALUES ('GAME', 2, '1')"
+    )
+    con.commit()
+    con.close()
+
+    d = runtime.classify_live_snapshot(
+        state(),
+        snap([
+            player("1", status="INCOMPLETE", holes=1),
+            player("2", holes=18),
+        ]),
+        db_path=db,
+    )
+
+    assert d.observed_stage == "R2_LIVE"
+    assert d.next_gate == "WAIT"
