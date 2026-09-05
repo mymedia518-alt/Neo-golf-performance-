@@ -4,10 +4,20 @@
 
 $ErrorActionPreference = 'Stop'
 
-$Repo = 'C:\Users\user\Desktop\Neo-golf-performance-live'
+$Repo = $PSScriptRoot
 $Python = 'python'
-$DataRoot = 'C:\Users\user\Desktop\Neo-golf-performance-\klpga_pipeline\data'
-$LogRoot = 'C:\Users\user\Desktop\Neo-golf-performance-live-logs'
+
+$DataRoot = if ($env:NEO_DATA_ROOT) {
+    $env:NEO_DATA_ROOT
+} else {
+    Join-Path $Repo 'klpga_pipeline\data'
+}
+
+$LogRoot = if ($env:NEO_LOG_ROOT) {
+    $env:NEO_LOG_ROOT
+} else {
+    Join-Path $Repo 'logs\tournament-engine'
+}
 
 $TournamentConfigPath = Join-Path $PSScriptRoot "klpga_pipeline\config\active_tournament.json"
 
@@ -213,18 +223,35 @@ GAME = '$GameCode'
 ROUND = $CurrentRound
 
 work = ROOT / 'klpga_pipeline' / 'outputs' / 'neo_tournament_engine' / GAME
-target = work / 'operator-target' / 'round-2' / 'index.html'
+target = work / 'operator-target' / f'round-{ROUND}' / 'index.html'
 target.parent.mkdir(parents=True, exist_ok=True)
 
 live = ROOT / 'docs' / 'index.html'
 before = hashlib.sha256(live.read_bytes()).hexdigest() if live.exists() else None
+
+CUT_AFTER = $(
+    if ($null -eq $CutAfterRound) {
+        'None'
+    } else {
+        [string]$CutAfterRound
+    }
+)
+
+MODEL_READY = $(
+    if ($ModelReady) {
+        'True'
+    } else {
+        'False'
+    }
+)
 
 state = runtime.RuntimeState(
     game_code=GAME,
     final_round_number=$FinalRound,
     current_round_number=ROUND,
     validated_stage='$ValidatedStage',
-    model_ready=False,
+    cut_after_round=CUT_AFTER,
+    model_ready=MODEL_READY,
 )
 
 snapshot, decision, publication = runtime.run_publication_once(
@@ -285,15 +312,23 @@ print(json.dumps({
         return
     }
 
-    if ($runtimeResult.observed_stage -eq 'R2_COMPLETE') {
-        if ($runtimeResult.next_gate -ne 'CUT_CONFIRMATION') {
-            $result.reason = 'invalid R2 completion transition'
-            $exitCode = 2
-            return
-        }
-
+    if ($runtimeResult.next_gate -eq 'CUT_CONFIRMATION') {
         $result.decision = 'WAIT_CUT_CONFIRMATION'
-        $result.reason = 'official R2 complete; model remains blocked'
+        $result.reason = 'official configured cut round complete; model remains blocked'
+        $exitCode = 0
+        return
+    }
+
+    if ($runtimeResult.next_gate -eq 'FINAL_VALIDATION') {
+        $result.decision = 'WAIT_FINAL_VALIDATION'
+        $result.reason = 'official final round complete; awaiting final validation'
+        $exitCode = 0
+        return
+    }
+
+    if ($runtimeResult.next_gate -eq 'NEXT_STAGE_VALIDATION') {
+        $result.decision = 'WAIT_NEXT_STAGE_VALIDATION'
+        $result.reason = 'official round complete; awaiting next validated stage'
         $exitCode = 0
         return
     }
