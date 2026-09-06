@@ -1,0 +1,27 @@
+{
+  "data_validation": "PASS",
+  "field_size": 68,
+  "holes_verified": 68,
+  "in_starters": 32,
+  "out_starters": 36,
+  "round_finished": 36,
+  "sg_rows": 68,
+  "forecast_validation": {
+    "reproduction": "PASS",
+    "rows": 68,
+    "n_simulations": 100000,
+    "seed": 20260906,
+    "win_sum_pct": 100.0,
+    "live_probability": "UNAVAILABLE: no validated partial-final-round model",
+    "forecast_basis": "POST_R2_PRE_FINAL"
+  },
+  "existing_tests_passed": 60,
+  "new_regression_tests_passed": 8,
+  "changed_production_files": [
+    "docs/index.html",
+    "docs/tournaments/2026/ok-savings-bank-open/r3/index.html",
+    "docs/tournaments/index.html"
+  ],
+  "unchanged_production_files": 23,
+  "source_time": "2026-09-06T05:26:32.210687+00:00"
+}
