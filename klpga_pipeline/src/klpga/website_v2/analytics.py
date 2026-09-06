@@ -183,6 +183,52 @@ def _boxes_overlap(a: tuple[float, float, float, float], b: tuple[float, float, 
     return not (a_right <= b_left or b_right <= a_left or a_bottom <= b_top or b_bottom <= a_top)
 
 
+def _circle_box(cx: float, cy: float, r: float = 5, margin: float = 3) -> tuple[float, float, float, float]:
+    return cx - r - margin, cx + r + margin, cy - r - margin, cy + r + margin
+
+
+def _push_label_clear_of_points(
+    px: float, py: float, y_offset: float, text: str, point_positions: list[tuple[float, float] | None],
+    self_index: int, top_margin: float, font_size: float = 12, max_iterations: int = 8, step: float = 6,
+) -> float:
+    """LIVE VISUAL HOTFIX v3: a real Chromium/Playwright probe (not the
+    static bbox estimate) found a statically-labeled dense point's value
+    label still overlapping a DIFFERENT point's own circle (16번's
+    "-0.13" landing on 17번's marker) even after the CIRCLE_CLEARANCE
+    scalar-distance neighbor check below. That check only compared the
+    label's own y against an immediate neighbor's y by a fixed 16-unit
+    margin -- it never accounted for the label's actual (font-metric-
+    dependent, wider in real Chromium than the plain-ASCII estimate)
+    horizontal reach, so a label whose y already cleared the neighbor by
+    16 units could still have its real rendered box clip that neighbor's
+    circle. This does a real box-vs-circle overlap test (the same
+    _estimate_label_box used for label-vs-label spacing) against EVERY
+    other point on the chart, not just the immediate index-1/index+1
+    neighbor, and keeps pushing further in the same direction until
+    clear or the top margin is reached -- verified by re-running the
+    real-browser probe after this fix, not just re-reading the code."""
+    for _ in range(max_iterations):
+        box = _estimate_label_box(px, py, y_offset, text, "middle", font_size=font_size)
+        collided_with = None
+        for other_index, other_pos in enumerate(point_positions):
+            if other_index == self_index or other_pos is None:
+                continue
+            if _boxes_overlap(box, _circle_box(*other_pos)):
+                collided_with = other_pos
+                break
+        if collided_with is None:
+            break
+        _, other_cy = collided_with
+        if py + y_offset <= other_cy:
+            y_offset -= step
+        else:
+            y_offset += step
+        if py + y_offset < top_margin:
+            y_offset = top_margin - py
+            break
+    return y_offset
+
+
 def _dense_tooltip_group(px: float, py: float, text: str, width: float, left: float, right: float, top: float,
                           avoid_boxes: tuple[tuple[float, float, float, float], ...] = ()) -> str:
     """A hover/keyboard-focus tooltip for one dense-chart point (see the
@@ -196,7 +242,10 @@ def _dense_tooltip_group(px: float, py: float, text: str, width: float, left: fl
     directly on top of 15번's "+0.11" once both were near the crowded
     14-18 region) -- tries above, then below, then further above the
     point, keeping the first placement that avoids every box in
-    avoid_boxes (each an already-placed static label's own box)."""
+    avoid_boxes (each an already-placed static label's own box, or a
+    neighboring point's own circle -- a real Chromium probe separately
+    confirmed a non-labeled point's tooltip can also land on a
+    NEIGHBORING point's marker even when no static label is nearby)."""
     font_size = 11
     char_w = font_size * 0.62
     text_w = max(46.0, len(text) * char_w)
@@ -314,12 +363,9 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
     # A dense label is ~45 SVG units wide (measured) against ~34 units of
     # horizontal point spacing -- it will always horizontally overlap its
     # immediate neighbors' point markers (radius 5), just not its own
-    # (the vertical offset below already clears that). CIRCLE_CLEARANCE
-    # keeps the label's vertical span off of a NEIGHBOR's marker too --
-    # real Chromium rendering showed this specific gap (label-vs-a-
-    # different-point's-circle, not label-vs-label) still overlapping
-    # after only the label-vs-label spacing above was fixed.
-    CIRCLE_CLEARANCE = 16
+    # (the vertical offset below already clears that). Real box-vs-
+    # circle clearance against every other point (not just the immediate
+    # neighbor) is handled by _push_label_clear_of_points below.
     prev_label_y: float | None = None
     point_positions: list[tuple[float, float] | None] = [
         xy(i, float(it["value"])) if it["value"] is not None else None
@@ -353,19 +399,12 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
                     _pre_prev_label_y - DENSE_LABEL_MIN_GAP if _candidate_y <= _pre_prev_label_y
                     else _pre_prev_label_y + DENSE_LABEL_MIN_GAP
                 )
-            for _neighbor in (_idx - 1, _idx + 1):
-                if 0 <= _neighbor < len(point_positions) and point_positions[_neighbor] is not None:
-                    _, _neighbor_py = point_positions[_neighbor]
-                    if abs(_candidate_y - _neighbor_py) < CIRCLE_CLEARANCE:
-                        _candidate_y = (
-                            _neighbor_py - CIRCLE_CLEARANCE if _candidate_y <= _neighbor_py
-                            else _neighbor_py + CIRCLE_CLEARANCE
-                        )
             _y_offset = _candidate_y - _py
             if _py + _y_offset < top + 12:
                 _y_offset = (top + 12) - _py
-            _pre_prev_label_y = _py + _y_offset
             _text = f'{float(series[_idx]["value"]):+.2f}'
+            _y_offset = _push_label_clear_of_points(_px, _py, _y_offset, _text, point_positions, _idx, top + 12, font_size=12)
+            _pre_prev_label_y = _py + _y_offset
             dense_static_label_boxes.append(_estimate_label_box(_px, _py, _y_offset, _text, "middle", font_size=12))
     segment: list[str] = []
     for index, item in enumerate(series):
@@ -416,10 +455,20 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
             # spec's own "나머지 홀"(the *remaining* holes) framing for
             # what the tooltip is for.
             tooltip_text = f'{item["stage"]}번홀 · {display_value} SG'
+            # Real Chromium probe confirmed a tooltip can also land on a
+            # NEIGHBORING point's own circle (never its own -- the
+            # tooltip is always offset above/below its own point), e.g.
+            # 7번's on-focus tooltip clipping 6번/8번's markers -- so the
+            # avoid-boxes set passed to _dense_tooltip_group must include
+            # every OTHER point's circle box, not just the static labels.
+            _other_point_boxes = tuple(
+                _circle_box(*_pos) for _other_idx, _pos in enumerate(point_positions)
+                if _other_idx != index and _pos is not None
+            )
             parts.append(
                 f'<g class="chart-point-wrap" tabindex="0" role="img" aria-label="{escape(tooltip_text)}">'
                 f'<circle class="chart-point" data-point-index="{index}" cx="{px:.1f}" cy="{py:.1f}" r="5"/>'
-                f'{_dense_tooltip_group(px, py, tooltip_text, width, left, right, top, tuple(dense_static_label_boxes))}'
+                f'{_dense_tooltip_group(px, py, tooltip_text, width, left, right, top, tuple(dense_static_label_boxes) + _other_point_boxes)}'
                 f'</g>'
             )
         elif dense:
@@ -447,14 +496,6 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
                     prev_label_y - DENSE_LABEL_MIN_GAP if candidate_y <= prev_label_y
                     else prev_label_y + DENSE_LABEL_MIN_GAP
                 )
-            for neighbor in (index - 1, index + 1):
-                if 0 <= neighbor < len(point_positions) and point_positions[neighbor] is not None:
-                    _, neighbor_py = point_positions[neighbor]
-                    if abs(candidate_y - neighbor_py) < CIRCLE_CLEARANCE:
-                        candidate_y = (
-                            neighbor_py - CIRCLE_CLEARANCE if candidate_y <= neighbor_py
-                            else neighbor_py + CIRCLE_CLEARANCE
-                        )
             y_offset = candidate_y - py
             # Never let the push move a label above the plot's own top
             # margin -- real Chromium rendering showed a point near the
@@ -462,6 +503,12 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
             # pushed upward (the "+1.47 clips chart edge" defect).
             if py + y_offset < top + 12:
                 y_offset = (top + 12) - py
+            # Real box-vs-circle test against every OTHER point (not just
+            # the immediate neighbor, and not a scalar y-distance guess) --
+            # see _push_label_clear_of_points for why the old CIRCLE_
+            # CLEARANCE neighbor-only check still let a real overlap
+            # through (16번's "-0.13" landing on 17번's marker).
+            y_offset = _push_label_clear_of_points(px, py, y_offset, display_value, point_positions, index, top + 12, font_size=12)
             prev_label_y = py + y_offset
         else:
             # A plain fixed "always above" offset ignores the connecting
