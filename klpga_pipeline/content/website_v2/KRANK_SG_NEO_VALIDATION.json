@@ -1,6 +1,6 @@
 {
   "schema_version": "neo_krank_sg_neo_validation_v1",
-  "generated_at": "2026-09-07T13:40:05Z",
+  "generated_at": "2026-09-07T14:13:24Z",
   "source": {
     "artifact": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
     "k_rank_field": "official_klpga_rank",

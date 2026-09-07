@@ -12,7 +12,35 @@ from pathlib import Path
 from klpga.evidence import load_and_verify_manifest
 from klpga.website_v2.analytics import (accessible_series_table, aggregate_holes, bar_chart_svg,
     checkpoint_series, classify_hole_score, hole_leaders, line_chart_svg, multi_line_chart_svg, parse_rank)
+from klpga.website_v2.player_identity import render_player_identity
 from klpga.website_v2.shell import STAGES, STATIC_DIR, TournamentMetadata, render_page
+
+_CONTENT_DIR = Path(__file__).resolve().parents[3] / "content" / "website_v2"
+
+
+def _kg_sponsor_by_name() -> dict[str, str]:
+    """Real, verified official_sponsor values keyed by player NAME --
+    this legacy KG Ladies Open content model only carries display names
+    in its row data, never player_id, so name is the only join key
+    available here. Safe because HOME_REGULAR_TOUR_PLAYER_MASTER.json's
+    546 canonical names are confirmed unique (no collisions). Sourced
+    from PUBLIC_PLAYERS_TOP150.json (current Top150 K-Ranking board,
+    itself traced to official KLPGA profile pages) -- covers whichever
+    KG field players also happen to be in the current Top150; every
+    other player's sponsor is correctly left unresolved (blank), never
+    invented."""
+    home_path = _CONTENT_DIR / "HOME_REGULAR_TOUR_PLAYER_MASTER.json"
+    top150_path = _CONTENT_DIR / "PUBLIC_PLAYERS_TOP150.json"
+    if not home_path.is_file() or not top150_path.is_file():
+        return {}
+    home = json.loads(home_path.read_text(encoding="utf-8"))
+    id_by_name = {r["player_name"]: str(r["player_id"]) for r in home["records"]}
+    top150 = json.loads(top150_path.read_text(encoding="utf-8"))
+    sponsor_by_id = {p["player_id"]: p["official_sponsor"] for p in top150["players"] if p.get("official_sponsor")}
+    return {name: sponsor_by_id[pid] for name, pid in id_by_name.items() if pid in sponsor_by_id}
+
+
+_KG_SPONSOR_BY_NAME = _kg_sponsor_by_name()
 
 
 class CandidateBuildError(RuntimeError):
@@ -123,6 +151,9 @@ def _forecast_table(rows: list[dict], stage: str) -> str:
         cells=[]
         for key,_ in columns:
             value=row.get(key)
+            if key=="player":
+                cells.append(f'<td>{render_player_identity(value, _KG_SPONSOR_BY_NAME.get(value), container_class=None)}</td>')
+                continue
             if key in ("win","top5","top10","top20") and value is not None: value=f"{value:.2f}%"
             cells.append(f'<td>{escape("—" if value is None else str(value))}</td>')
         body.append('<tr>'+''.join(cells)+'</tr>')
@@ -149,7 +180,8 @@ def _official_final_sections(official: dict) -> str:
     leaderboard_rows=[]
     for row in official["leaderboard"]:
         rounds="".join(f'<td>{"—" if value is None else value}</td>' for value in row["rounds"])
-        leaderboard_rows.append(f'<tr><td>{escape(row["rank"])}</td><td>{escape(row["player"])}</td>{rounds}<td>{"—" if row["total"] is None else row["total"]}</td><td>{escape(row["to_par"] or row["status"])}</td></tr>')
+        player_cell=render_player_identity(row["player"], _KG_SPONSOR_BY_NAME.get(row["player"]), container_class=None)
+        leaderboard_rows.append(f'<tr><td>{escape(row["rank"])}</td><td>{player_cell}</td>{rounds}<td>{"—" if row["total"] is None else row["total"]}</td><td>{escape(row["to_par"] or row["status"])}</td></tr>')
     holes=aggregate_holes(official["holes"]); leaders=hole_leaders(holes)
     hole_points=checkpoint_series([str(x["hole"]) for x in holes],{str(x["hole"]):x["average_vs_par"] for x in holes})
     hole_chart=line_chart_svg(title="홀별 평균 타수",player="전체 선수",series=hole_points,unit="",invert=False,dense=True)

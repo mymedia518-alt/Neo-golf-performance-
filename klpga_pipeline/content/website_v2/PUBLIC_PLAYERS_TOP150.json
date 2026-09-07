@@ -1,0 +1,1653 @@
+{
+  "schema_version": "neo_public_players_top150_v1",
+  "population_kind": "public_klpga_kranking_top150",
+  "population_definition": "최신 공식 K-Ranking 1~150위. 대회 출전 여부와 무관 -- 546명 역사 마스터(HOME_REGULAR_TOUR_PLAYER_MASTER.json)나 개별 자격/시드 증거가 아니라 공식 K-Ranking 순위 하나만을 기준으로 한다.",
+  "distinct_from": "HOME_REGULAR_TOUR_PLAYER_MASTER.json (546명, 역사 데이터, 내부 전용, 공개 판별에 사용하지 않음). 대회 Entry List와도 무관 -- 대회 페이지는 이 Top150과 별개로 공식 Entry List 전원을 표시한다.",
+  "target_rank_range": [
+    1,
+    150
+  ],
+  "ranking_week": "2026-W35",
+  "sources": [
+    {
+      "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+      "coverage": "ranks 1-120, complete"
+    },
+    {
+      "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+      "coverage": "ranks 121-150, partial (only OK Open 2026 entrants ranked in this band)"
+    }
+  ],
+  "confirmed_rank_count": 134,
+  "missing_rank_positions": [
+    121,
+    123,
+    124,
+    125,
+    126,
+    127,
+    129,
+    134,
+    138,
+    139,
+    141,
+    142,
+    143,
+    144,
+    145,
+    148
+  ],
+  "collection_status": "PARTIAL_121_150_PENDING_LIVE_KLPGA_NETWORK_ACCESS",
+  "generated_at": "2026-09-07T14:13:24Z",
+  "players": [
+    {
+      "rank": 1,
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "official_sponsor": "두산건설 We've",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 2,
+      "player_id": "11134",
+      "player_name": "서교림",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 3,
+      "player_id": "10146",
+      "player_name": "유현조",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 4,
+      "player_id": "8392",
+      "player_name": "이다연",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 5,
+      "player_id": "10095",
+      "player_name": "방신실",
+      "official_sponsor": "KB금융그룹",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 6,
+      "player_id": "9113",
+      "player_name": "노승희",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 7,
+      "player_id": "9784",
+      "player_name": "이예원",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 8,
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "official_sponsor": "HJ중공업",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 9,
+      "player_id": "8881",
+      "player_name": "성유진",
+      "official_sponsor": "대방건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 10,
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "official_sponsor": "대방건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 11,
+      "player_id": "10109",
+      "player_name": "고지원",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 12,
+      "player_id": "9130",
+      "player_name": "박현경",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 13,
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "official_sponsor": "두산건설 We've",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 14,
+      "player_id": "8772",
+      "player_name": "박민지",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 15,
+      "player_id": "10112",
+      "player_name": "고지우",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 16,
+      "player_id": "8243",
+      "player_name": "장은수",
+      "official_sponsor": "굿빈스",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 17,
+      "player_id": "8284",
+      "player_name": "최예림",
+      "official_sponsor": "휴온스",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 18,
+      "player_id": "10185",
+      "player_name": "황유민",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 19,
+      "player_id": "8300",
+      "player_name": "김수지",
+      "official_sponsor": "동부건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 20,
+      "player_id": "11649",
+      "player_name": "이동은",
+      "official_sponsor": "SBI저축은행",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 21,
+      "player_id": "9082",
+      "player_name": "전예성",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 22,
+      "player_id": "8375",
+      "player_name": "김효주",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 23,
+      "player_id": "11143",
+      "player_name": "김시현",
+      "official_sponsor": "NH투자증권",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 24,
+      "player_id": "10081",
+      "player_name": "김민주",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 25,
+      "player_id": "6781",
+      "player_name": "박주영",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 26,
+      "player_id": "9235",
+      "player_name": "최은우",
+      "official_sponsor": "아마노코리아",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 27,
+      "player_id": "8883",
+      "player_name": "이가영",
+      "official_sponsor": "NH투자증권",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 28,
+      "player_id": "9135",
+      "player_name": "신다인",
+      "official_sponsor": "요진건설산업",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 29,
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "official_sponsor": "NH투자증권",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 30,
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 31,
+      "player_id": "10296",
+      "player_name": "문정민",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 32,
+      "player_id": "9426",
+      "player_name": "한진선",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 33,
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I) (I-Tour)",
+      "official_sponsor": "하나금융그룹",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 34,
+      "player_id": "9362",
+      "player_name": "박지영",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 35,
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "official_sponsor": "대선주조",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 36,
+      "player_id": "11045",
+      "player_name": "양효진",
+      "official_sponsor": "대보건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 37,
+      "player_id": "8589",
+      "player_name": "배소현",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 38,
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 39,
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 40,
+      "player_id": "9145",
+      "player_name": "임희정",
+      "official_sponsor": "두산건설 We've",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 41,
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 42,
+      "player_id": "9134",
+      "player_name": "서어진",
+      "official_sponsor": "대보건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 43,
+      "player_id": "9759",
+      "player_name": "이율린",
+      "official_sponsor": "두산건설 We've",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 44,
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 45,
+      "player_id": "10002",
+      "player_name": "김민별",
+      "official_sponsor": "하이트진로",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 46,
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I) (I-Tour)",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 47,
+      "player_id": "9652",
+      "player_name": "이세희",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 48,
+      "player_id": "10138",
+      "player_name": "임진영",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 49,
+      "player_id": "10577",
+      "player_name": "최예본",
+      "official_sponsor": "까르마",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 50,
+      "player_id": "9465",
+      "player_name": "안지현",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 51,
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 52,
+      "player_id": "11391",
+      "player_name": "양윤서 0801(A)",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 53,
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 54,
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 55,
+      "player_id": "9487",
+      "player_name": "김재희",
+      "official_sponsor": "SK텔레콤",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 56,
+      "player_id": "8859",
+      "player_name": "이승연",
+      "official_sponsor": "까르마",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 57,
+      "player_id": "11057",
+      "player_name": "송은아",
+      "official_sponsor": "대보건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 58,
+      "player_id": "11073",
+      "player_name": "최정원",
+      "official_sponsor": "NH투자증권",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 59,
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "official_sponsor": "SBI저축은행",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 60,
+      "player_id": "8277",
+      "player_name": "최민경",
+      "official_sponsor": "휴온스",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 61,
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "official_sponsor": "삼천리",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 62,
+      "player_id": "11056",
+      "player_name": "박예지",
+      "official_sponsor": "KB금융그룹",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 63,
+      "player_id": "9389",
+      "player_name": "전우리",
+      "official_sponsor": "휴온스",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 64,
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "official_sponsor": "셀트리온",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 65,
+      "player_id": "9765",
+      "player_name": "정소이",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 66,
+      "player_id": "11630",
+      "player_name": "정지효",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 67,
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "official_sponsor": "SBI저축은행",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 68,
+      "player_id": "10159",
+      "player_name": "강채연",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 69,
+      "player_id": "9714",
+      "player_name": "유지나",
+      "official_sponsor": "신협",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 70,
+      "player_id": "8770",
+      "player_name": "조아연",
+      "official_sponsor": "HJ중공업",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 71,
+      "player_id": "9183",
+      "player_name": "박결",
+      "official_sponsor": "두산건설 We've",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 72,
+      "player_id": "6916",
+      "player_name": "안송이",
+      "official_sponsor": "KB금융그룹",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 73,
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "official_sponsor": "넥센그룹",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 74,
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 75,
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "official_sponsor": "기프트코",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 76,
+      "player_id": "10821",
+      "player_name": "유아현",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 77,
+      "player_id": "9000",
+      "player_name": "김지수",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 78,
+      "player_id": "11640",
+      "player_name": "성아진",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 79,
+      "player_id": "8838",
+      "player_name": "김우정",
+      "official_sponsor": "OK저축은행",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 80,
+      "player_id": "9483",
+      "player_name": "한지원",
+      "official_sponsor": "후라이드참잘하는집",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 81,
+      "player_id": "11080",
+      "player_name": "길예람",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 82,
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 83,
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "official_sponsor": "요진건설산업",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 84,
+      "player_id": "10083",
+      "player_name": "마서영",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 85,
+      "player_id": "11136",
+      "player_name": "홍수민",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 86,
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 87,
+      "player_id": "10531",
+      "player_name": "현세린",
+      "official_sponsor": "대방건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 88,
+      "player_id": "8854",
+      "player_name": "서연정",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 89,
+      "player_id": "9364",
+      "player_name": "박소혜",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 90,
+      "player_id": "11447",
+      "player_name": "한아름",
+      "official_sponsor": "DB손해보험",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 91,
+      "player_id": "8355",
+      "player_name": "장수연",
+      "official_sponsor": "동부건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 92,
+      "player_id": "11060",
+      "player_name": "안재희",
+      "official_sponsor": "DB손해보험",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 93,
+      "player_id": "10623",
+      "player_name": "강지선",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 94,
+      "player_id": "9089",
+      "player_name": "김소정",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 95,
+      "player_id": "10727",
+      "player_name": "황민정",
+      "official_sponsor": "대보건설",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 96,
+      "player_id": "11374",
+      "player_name": "전승희",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 97,
+      "player_id": "11485",
+      "player_name": "신지우",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 98,
+      "player_id": "10114",
+      "player_name": "김나영",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 99,
+      "player_id": "9748",
+      "player_name": "신유진",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 100,
+      "player_id": "8799",
+      "player_name": "오경은",
+      "official_sponsor": "지솔알이에이치",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 101,
+      "player_id": "9111",
+      "player_name": "박서현",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 102,
+      "player_id": "11211",
+      "player_name": "김도희3",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 103,
+      "player_id": "1734",
+      "player_name": "이민지 (국외프로)",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 104,
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 105,
+      "player_id": "9786",
+      "player_name": "주가인",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 106,
+      "player_id": "12103",
+      "player_name": "전이안",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 107,
+      "player_id": "9156",
+      "player_name": "한빛나",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 108,
+      "player_id": "10139",
+      "player_name": "양효리",
+      "official_sponsor": "참좋은여행",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 109,
+      "player_id": "13502",
+      "player_name": "왕 즈쉬엔 (국외프로)",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 110,
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 111,
+      "player_id": "8863",
+      "player_name": "윤혜림",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 112,
+      "player_id": "9937",
+      "player_name": "황유나",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 113,
+      "player_id": "8234",
+      "player_name": "이주미",
+      "official_sponsor": "골든블루",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 114,
+      "player_id": "9174",
+      "player_name": "강가율",
+      "official_sponsor": "세기P&C",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 115,
+      "player_id": "10101",
+      "player_name": "임지유",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 116,
+      "player_id": "13404",
+      "player_name": "김서아 1201(A)",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 117,
+      "player_id": "8424",
+      "player_name": "정슬기",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 118,
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "official_sponsor": "휴온스",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 119,
+      "player_id": "11431",
+      "player_name": "서지은",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 120,
+      "player_id": "8246",
+      "player_name": "이소영",
+      "official_sponsor": "메디힐",
+      "k_rank_source": {
+        "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-09-02T14:23:52Z"
+      }
+    },
+    {
+      "rank": 122,
+      "player_id": "8386",
+      "player_name": "성은정",
+      "official_sponsor": "대선주조",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 128,
+      "player_id": "9702",
+      "player_name": "김리안",
+      "official_sponsor": "아마노코리아",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 130,
+      "player_id": "10157",
+      "player_name": "황연서",
+      "official_sponsor": "리쥬란",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 131,
+      "player_id": "11040",
+      "player_name": "이세영 0705(A)",
+      "official_sponsor": "두산건설 We've",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 132,
+      "player_id": "12038",
+      "player_name": "이지민",
+      "official_sponsor": "KB금융그룹",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 133,
+      "player_id": "8271",
+      "player_name": "김효문",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 135,
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "official_sponsor": "휴온스",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 136,
+      "player_id": "9277",
+      "player_name": "김아현",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 137,
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "official_sponsor": "후라이드참잘하는집",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 140,
+      "player_id": "8318",
+      "player_name": "박단유",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 146,
+      "player_id": "8764",
+      "player_name": "김소이",
+      "official_sponsor": "휴온스",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 147,
+      "player_id": "9436",
+      "player_name": "구래현",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 149,
+      "player_id": "4905",
+      "player_name": "안선주",
+      "official_sponsor": "만수정",
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    },
+    {
+      "rank": 150,
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "official_sponsor": null,
+      "k_rank_source": {
+        "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+        "ranking_week": "2026-W35",
+        "retrieved_at": "2026-08-31T15:58:02Z"
+      }
+    }
+  ],
+  "artifact_hash": "84a6c739599b2e3bf96b23f1a21eff8ae99bf74aed7e0c9bc9cf449f78b5bbf3"
+}

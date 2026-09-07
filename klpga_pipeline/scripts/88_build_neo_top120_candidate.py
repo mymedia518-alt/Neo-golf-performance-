@@ -27,22 +27,24 @@ from klpga.website_v2.tournament_state import (  # noqa: E402
 )
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
 
-ACTIVE_TOUR_MASTER_PATH = CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json"
+OK_OPEN_CURRENT_MASTER_PATH = CONTENT / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json"
 
 
 def _load_sponsor_source() -> dict[str, str]:
     """Real, verified official_sponsor values for RANKING rows -- same
-    source and same honesty contract as scripts/109's HOME/PLAYERS board
-    (see that module for the full rationale): sourced only from
-    ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json's ACTIVE_CONFIRMED records, never
-    invented for a player without this evidence."""
-    if not ACTIVE_TOUR_MASTER_PATH.is_file():
+    honesty contract as scripts/109's HOME/PLAYERS board and scripts/84's
+    tournament tables: sourced directly from OK_OPEN_2026_CURRENT_PLAYER_
+    MASTER.json's current_official_sponsor field (itself traced to
+    official KLPGA profile pages), never invented for a player without
+    this evidence. No longer reads ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json
+    (removed 2026-09-07 -- see scripts/115's docstring)."""
+    if not OK_OPEN_CURRENT_MASTER_PATH.is_file():
         return {}
-    doc = json.loads(ACTIVE_TOUR_MASTER_PATH.read_text(encoding="utf-8"))
+    doc = json.loads(OK_OPEN_CURRENT_MASTER_PATH.read_text(encoding="utf-8"))
     return {
-        str(p["player_id"]): p["official_sponsor"]
-        for p in doc.get("active_players", ())
-        if p.get("official_sponsor")
+        str(p["player_id"]): p["current_official_sponsor"]
+        for p in doc.get("records", ())
+        if p.get("current_official_sponsor")
     }
 
 

@@ -286,6 +286,16 @@
 
 /* mobile compact list rows (separate from desktop table markup) */
 .home-v4 .t-mobile-list { display: none; }
+/* BUGFIX (2026-09-07): the search-filter JS sets the [hidden] attribute
+   to hide a non-matching row (home-v4.js's apply(), row.hidden = !show).
+   The browser's own [hidden]{display:none} UA rule is always beaten by
+   ANY author rule that also sets display -- so .t-mobile-row's own
+   display:grid below silently kept every row visible on mobile
+   regardless of [hidden], even though desktop (whose .t-board tbody tr
+   rule never sets display) filtered correctly. This selector is more
+   specific (class + attribute) than the bare .t-mobile-row rule, so a
+   hidden mobile row is now actually hidden. */
+.home-v4 .t-mobile-row[hidden] { display: none; }
 .home-v4 .t-mobile-row {
   display: grid;
   grid-template-columns: 34px 1fr auto;

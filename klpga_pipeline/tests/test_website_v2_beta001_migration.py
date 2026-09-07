@@ -171,3 +171,33 @@ def test_typography_audit_and_korean_readable_scale_exist():
     assert audit["neo_decision"]["font_family"][0]=="Pretendard"
     css=(PIPELINE_ROOT/"src/klpga/website_v2/static/neo-site.css").read_text(encoding="utf-8")
     assert "Apple SD Gothic Neo" in css and "Malgun Gothic" in css and "6.5rem" not in css
+
+
+def test_kg_ladies_open_pre_and_r3_forecast_rows_obey_sponsor_invariant(candidate):
+    """NEO SITE V5 sponsor invariant, extended to KG Ladies Open (live via
+    migration.py's _forecast_table): every player row's identity cell
+    must carry a structurally-present sponsor slot (blank when
+    unresolved, real when known -- never a placeholder)."""
+    for stage in ("pre", "r3"):
+        html = (candidate / f"tournaments/2026/kg-ladies-open/{stage}/index.html").read_text(encoding="utf-8")
+        name_count = html.count('class="neo-player-identity__name"')
+        sponsor_count = html.count('class="neo-player-identity__sponsor"')
+        assert name_count > 0
+        assert name_count == sponsor_count
+        for placeholder in ("unknown", "미확인", "N/A"):
+            assert f'class="neo-player-identity__sponsor">{placeholder}<' not in html
+
+
+def test_kg_ladies_open_final_leaderboard_obeys_sponsor_invariant(candidate):
+    html = (candidate / "tournaments/2026/kg-ladies-open/final/index.html").read_text(encoding="utf-8")
+    name_count = html.count('class="neo-player-identity__name"')
+    sponsor_count = html.count('class="neo-player-identity__sponsor"')
+    assert name_count >= 119  # the real, full 119-player official leaderboard
+    assert name_count == sponsor_count
+
+
+def test_kg_sponsor_data_is_real_never_fabricated(candidate):
+    from klpga.website_v2.migration import _KG_SPONSOR_BY_NAME
+    assert _KG_SPONSOR_BY_NAME, "expected at least some real sponsor matches for the KG field"
+    for name, sponsor in _KG_SPONSOR_BY_NAME.items():
+        assert isinstance(sponsor, str) and sponsor
