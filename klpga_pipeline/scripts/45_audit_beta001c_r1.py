@@ -77,6 +77,17 @@ from klpga.neo_win.beta001c_archive import (  # noqa: E402
 )
 from klpga.neo_win.identity_resolution import build_full_identity_crosswalk  # noqa: E402
 from klpga.neo_win.player_status import STATUS_WD, classify_player_round_status  # noqa: E402
+from klpga.neo_win.r1_provenance import (  # noqa: E402
+    all_round_rows_for_player as _all_round_rows_for_player,
+    final_provenance_classification as _final_provenance_classification,
+    field_size as _field_size,
+    investigate_unexplained_player as _investigate_unexplained_player,
+    r1_player_codes as _r1_player_codes,
+    r1_row_count as _r1_row_count,
+    r1_row_detail as _r1_row_detail,
+    r2_row_count as _r2_row_count,
+    scan_raw_cache_for_player as _scan_raw_cache_for_player,
+)
 from klpga.neo_win.tournament_history import (  # noqa: E402
     STAGE_R1,
     STATUS_HISTORICAL_SNAPSHOT_MISSING,
@@ -88,277 +99,12 @@ from klpga.neo_win.tournament_history import (  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _r2_row_count(conn: sqlite3.Connection, game_code: str) -> int:
-    return conn.execute(
-        "SELECT COUNT(*) FROM player_round WHERE game_code = ? AND round_number = 2", (game_code,)
-    ).fetchone()[0]
-
-
-def _r1_row_count(conn: sqlite3.Connection, game_code: str) -> int:
-    return conn.execute(
-        "SELECT COUNT(*) FROM player_round WHERE game_code = ? AND round_number = 1 AND round_to_par IS NOT NULL",
-        (game_code,),
-    ).fetchone()[0]
-
-
-def _r1_player_codes(conn: sqlite3.Connection, game_code: str) -> set:
-    return {
-        player_id
-        for (player_id,) in conn.execute(
-            "SELECT DISTINCT player_id FROM player_round WHERE game_code = ? AND round_number = 1 "
-            "AND round_to_par IS NOT NULL",
-            (game_code,),
-        )
-    }
-
-
-def _field_size(conn: sqlite3.Connection, game_code: str) -> int:
-    return conn.execute(
-        "SELECT COUNT(DISTINCT player_code) FROM tournament_entry WHERE game_code = ?", (game_code,)
-    ).fetchone()[0]
-
-
-def _r1_row_detail(conn: sqlite3.Connection, game_code: str, player_code: str) -> Optional[dict]:
-    """Full real detail for a player's round_number=1 player_round row
-    — used only for provenance reporting (item 7's 115-vs-116
-    investigation), never to alter the already-frozen snapshot."""
-    row = conn.execute(
-        "SELECT player_name, round_score, round_to_par, finish_position_after_round "
-        "FROM player_round WHERE game_code = ? AND round_number = 1 AND player_id = ?",
-        (game_code, player_code),
-    ).fetchone()
-    if row is None:
-        return None
-    player_name, round_score, round_to_par, finish_position_after_round = row
-    return {
-        "player_name": player_name, "round_score": round_score, "round_to_par": round_to_par,
-        "finish_position_after_round": finish_position_after_round,
-        # round_to_par IS NOT NULL is exactly the condition _r1_player_codes/_r1_row_count already
-        # require — so any row reaching this helper already represents a completed R1 score, never
-        # a bare status-only record with no score.
-        "is_completed_score": round_to_par is not None,
-    }
-
-
 def _classify_missing_r1_player(conn: sqlite3.Connection, game_code: str, player_code: str):
     """Thin wrapper: R1-specific call into the shared, reusable
     klpga.neo_win.player_status classifier (also used by scripts/44 for
     R2, and any future R3/R4 script) — never a locally-duplicated copy
     of the classification logic."""
     return classify_player_round_status(conn, game_code, player_code, round_number=1)
-
-
-def _all_round_rows_for_player(conn: sqlite3.Connection, game_code: str, player_code: str) -> list[dict]:
-    """Every real player_round row for this player across ALL round
-    numbers (not just round_number=1) — the R1 provenance checkpoint's
-    own item A explicitly asks whether ANY round data exists and which
-    round_number(s), not just R1's own absence. Read-only, no filter on
-    round_to_par being non-null: a bare status row (if one ever existed)
-    would show here too, distinct from a real completed score."""
-    rows = conn.execute(
-        "SELECT round_number, round_score, round_to_par, finish_position_after_round "
-        "FROM player_round WHERE game_code = ? AND player_id = ? ORDER BY round_number",
-        (game_code, player_code),
-    ).fetchall()
-    return [
-        {
-            "round_number": round_number, "round_score": round_score, "round_to_par": round_to_par,
-            "finish_position_after_round": finish_position_after_round,
-            "is_completed_score": round_to_par is not None,
-        }
-        for round_number, round_score, round_to_par, finish_position_after_round in rows
-    ]
-
-
-# Final-provenance-checkpoint taxonomy, mapped from the shared classifier's
-# real-evidence-only STATUS_* result (never re-derived independently — this
-# is presentation-only remapping of the SAME evidence already gathered).
-PROVENANCE_CONFIRMED_WD = "CONFIRMED_WD"
-PROVENANCE_CONFIRMED_DQ = "CONFIRMED_DQ"
-PROVENANCE_CONFIRMED_DNS = "CONFIRMED_DNS"
-PROVENANCE_LATE_R1_DATA = "LATE_R1_DATA"
-PROVENANCE_DATA_MISSING = "DATA_MISSING"
-PROVENANCE_OTHER = "OTHER"
-
-
-def _final_provenance_classification(status, *, has_late_r1_row: bool) -> str:
-    """Maps the shared classifier's STATUS_* result (plus the separate,
-    already-computed 'does this player now have a real R1 row in the
-    DB that didn't exist at freeze time' fact) onto the R1 provenance
-    checkpoint's own six-value taxonomy. LATE_R1_DATA takes priority
-    over the classifier's own STATUS_* value when a real R1 row has
-    since appeared — a player with a genuinely real R1 score today was
-    never actually WD/DQ/DNS at R1, whatever player_event still says."""
-    if has_late_r1_row:
-        return PROVENANCE_LATE_R1_DATA
-    if status is None:
-        return PROVENANCE_OTHER
-    if status.classification == STATUS_WD:
-        return PROVENANCE_CONFIRMED_WD
-    if status.classification == "DQ":
-        return PROVENANCE_CONFIRMED_DQ
-    if status.classification == "DNS":
-        return PROVENANCE_CONFIRMED_DNS
-    if status.classification == "COLLECTION_MISSING":
-        return PROVENANCE_DATA_MISSING
-    return PROVENANCE_OTHER  # STATUS_UNKNOWN, or anything not positively confirmed
-
-
-# Unexplained-player investigation taxonomy — for a real round_number=1
-# row whose player_code is not present anywhere in the frozen R1
-# snapshot at all (neither scored nor missing_r1_data). Distinct from
-# the FINAL PROVENANCE CLASSIFICATION taxonomy above, which only ever
-# applies to the snapshot's own disclosed missing_r1_data players.
-UNEXPLAINED_PLAYER_CODE_CHANGED = "PLAYER_CODE_CHANGED"
-UNEXPLAINED_DUPLICATE_IDENTITY = "DUPLICATE_IDENTITY"
-UNEXPLAINED_LATE_ENTRY_FIELD_CHANGE = "LATE_ENTRY_FIELD_CHANGE"
-UNEXPLAINED_DB_MAPPING_ERROR = "DB_MAPPING_ERROR"
-UNEXPLAINED_OTHER = "OTHER"
-UNEXPLAINED_UNRESOLVED = "UNRESOLVED"
-
-
-def _normalize_name(name) -> str:
-    return " ".join(str(name or "").split()).casefold()
-
-
-def _scan_raw_cache_for_player(cache_dir: Path, game_code: str, player_code: str) -> list[dict]:
-    """Read-only scan of the raw HTTP cache (klpga.http_client's
-    PoliteHttpClient, default data/raw_cache/http) for any cached
-    response referencing this game_code, checking whether player_code
-    also appears in that same cached response. Cache files are keyed
-    by sha256(url+params) (see http_client.py's own _cache_key), NOT
-    addressable by game_code directly — this is a full scan of every
-    cache file's own stored {url, params, body_text/body_json}, never
-    a fabricated direct lookup. Gracefully returns [] if the cache
-    directory doesn't exist (already cleared/rotated), never errors."""
-    if not cache_dir.exists():
-        return []
-    hits = []
-    for path in sorted(cache_dir.glob("*.json")):
-        try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            continue
-        raw_text = json.dumps(data, ensure_ascii=False)
-        if game_code not in raw_text:
-            continue
-        hits.append({
-            "cache_file": str(path), "url": data.get("url"), "params": data.get("params"),
-            "player_code_found_in_body": player_code in raw_text,
-        })
-    return hits
-
-
-def _investigate_unexplained_player(
-    conn: sqlite3.Connection,
-    game_code: str,
-    player_code: str,
-    *,
-    pre_field_names_by_code: dict,
-    missing_names_by_code: dict,
-    identity_by_code: dict,
-    pre_created_at_utc,
-    raw_cache_dir: Optional[Path] = None,
-) -> dict:
-    """Full, read-only evidence gathering + classification for one
-    player_code that has a real round_number=1 row but is absent from
-    the frozen R1 snapshot entirely. Never guesses: every field here is
-    a direct query result, a real timestamp comparison, or a
-    normalized-exact-string comparison — never a fuzzy/approximate
-    match, never an assumption made without a specific evidence check."""
-    master_row = conn.execute(
-        "SELECT player_name FROM player_master WHERE player_id = ?", (player_code,)
-    ).fetchone()
-    player_name = master_row[0] if master_row else None
-
-    event_row = conn.execute(
-        "SELECT player_name, finish_position, finish_position_numeric, made_cut, withdrawn, disqualified, "
-        "rounds_played, score_to_par FROM player_event WHERE game_code = ? AND player_id = ?",
-        (game_code, player_code),
-    ).fetchone()
-    event_detail = None
-    if event_row is not None:
-        (ev_name, finish_position, finish_position_numeric, made_cut, withdrawn, disqualified,
-         rounds_played, score_to_par) = event_row
-        event_detail = {
-            "player_name": ev_name, "finish_position": finish_position,
-            "finish_position_numeric": finish_position_numeric, "made_cut": bool(made_cut),
-            "withdrawn": bool(withdrawn), "disqualified": bool(disqualified),
-            "rounds_played": rounds_played, "score_to_par": score_to_par,
-        }
-
-    entry_row = conn.execute(
-        "SELECT collected_at FROM tournament_entry WHERE game_code = ? AND player_code = ?", (game_code, player_code)
-    ).fetchone()
-    in_entry_field = entry_row is not None
-    entry_collected_at = entry_row[0] if entry_row is not None else None
-
-    all_rounds = _all_round_rows_for_player(conn, game_code, player_code)
-    raw_cache_hits = _scan_raw_cache_for_player(raw_cache_dir, game_code, player_code) if raw_cache_dir is not None else []
-
-    identity_row = identity_by_code.get(player_code)
-
-    display_name = player_name or (event_detail or {}).get("player_name")
-    normalized = _normalize_name(display_name)
-    name_match_in_missing = [
-        code for code, name in missing_names_by_code.items() if _normalize_name(name) == normalized and normalized
-    ]
-    name_match_in_pre_field = [
-        code for code, name in pre_field_names_by_code.items()
-        if code != player_code and _normalize_name(name) == normalized and normalized
-    ]
-
-    # --- classification, evidence-only: never assume, only conclude what a specific
-    # check above positively supports. See module docstring / item 8 discipline. ---
-    entered_after_pre = (
-        in_entry_field and entry_collected_at is not None and pre_created_at_utc is not None
-        and entry_collected_at > pre_created_at_utc
-    )
-    entered_at_or_before_pre = (
-        in_entry_field and entry_collected_at is not None and pre_created_at_utc is not None
-        and entry_collected_at <= pre_created_at_utc
-    )
-    if identity_row is not None and identity_row.get("identity_status") == "AMBIGUOUS":
-        # Real evidence: >=2 player_master rows share this exact name (identity_resolution.py's
-        # own STATUS_AMBIGUOUS condition) — a genuine duplicate-identity case, not a code change.
-        classification = UNEXPLAINED_DUPLICATE_IDENTITY
-    elif identity_row is not None and identity_row.get("identity_status") == "BROKEN":
-        # Real evidence: this code is in tournament_entry with NO player_master row at all
-        # (identity_resolution.py's own STATUS_BROKEN condition) — a structural DB inconsistency.
-        classification = UNEXPLAINED_DB_MAPPING_ERROR
-    elif name_match_in_missing or name_match_in_pre_field:
-        classification = UNEXPLAINED_PLAYER_CODE_CHANGED
-    elif entered_after_pre:
-        # Real, positive evidence: tournament_entry.collected_at for this code is LATER than the
-        # PRE snapshot's own created_at_utc — this player entered the field AFTER PRE was frozen
-        # (a real substitute/late-entry case), not a code defect in round_update.py.
-        classification = UNEXPLAINED_LATE_ENTRY_FIELD_CHANGE
-    elif entered_at_or_before_pre:
-        # Real, positive evidence: this code was ALREADY a real ENTRY_FIELD member (with a real
-        # identity and a real R1 score) at or before the moment PRE was generated — yet entirely
-        # absent from round_update.py's own R1 snapshot output. A real field-enumeration defect
-        # in the R1-generating code, not a data-provenance question.
-        classification = UNEXPLAINED_DB_MAPPING_ERROR
-    else:
-        # No positive evidence either way: not in tournament_entry at all today, OR in it but
-        # with no comparable timestamp — never guessed into LATE_ENTRY_FIELD_CHANGE or
-        # DB_MAPPING_ERROR without a real timing/membership check to support it.
-        classification = UNEXPLAINED_UNRESOLVED
-
-    return {
-        "player_code": player_code,
-        "player_name": player_name,
-        "player_master_row_exists": master_row is not None,
-        "player_event": event_detail,
-        "in_entry_field": in_entry_field,
-        "entry_collected_at": entry_collected_at,
-        "all_round_rows": all_rounds,
-        "raw_cache_hits": raw_cache_hits,
-        "identity_crosswalk": identity_row,
-        "name_match_in_missing_players": name_match_in_missing,
-        "name_match_in_pre_field": name_match_in_pre_field,
-        "classification": classification,
-    }
 
 
 def main() -> int:
