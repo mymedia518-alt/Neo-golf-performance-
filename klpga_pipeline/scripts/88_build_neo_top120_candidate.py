@@ -15,7 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
-R1_LIVE_SNAPSHOT = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
@@ -25,6 +24,12 @@ from klpga.website_v2.tournament_state import (  # noqa: E402
     OK_DISPLAY_NAME, STAGE_LABELS, home_mode, ok_open_latest_available_stage,
 )
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
+from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+
+# NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
+# this script's own hardcoded literals -- see src/klpga/tournament_context.py.
+_CONTEXT = load_active_tournament_context()
+R1_LIVE_SNAPSHOT = _CONTEXT.artifact_path("r1_live_snapshot")
 
 
 def _source_git_sha() -> str:
@@ -173,7 +178,7 @@ def build() -> dict:
     preserved = ROOT / "candidate" / "neo-data-home"
     for route in ("tournaments", "about", "deep-dive", "protected"):
         shutil.copytree(preserved / route, OUTPUT / route)
-    ok_root = OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open"
+    ok_root = OUTPUT / _CONTEXT.url_base.strip("/")
     for page in ok_root.rglob("index.html"):
         html = page.read_text(encoding="utf-8")
         html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')

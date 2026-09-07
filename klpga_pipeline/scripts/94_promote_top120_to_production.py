@@ -59,8 +59,9 @@ DEST = REPO_ROOT / "docs"
 CONTENT = ROOT / "content" / "website_v2"
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
 # this script's own hardcoded literal -- see src/klpga/tournament_context.py.
-STAGE_STATE_PATH = CONTENT / load_active_tournament_context().stage_state_filename
-R1_LIVE_SNAPSHOT_PATH = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
+_CONTEXT = load_active_tournament_context()
+STAGE_STATE_PATH = CONTENT / _CONTEXT.stage_state_filename
+R1_LIVE_SNAPSHOT_PATH = _CONTEXT.artifact_path("r1_live_snapshot")
 
 REQUIRED_ROUTES = [
     "index.html",

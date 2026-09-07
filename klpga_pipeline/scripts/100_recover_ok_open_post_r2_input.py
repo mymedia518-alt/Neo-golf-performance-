@@ -10,10 +10,11 @@ from klpga.tournament_context import load_active_tournament_context  # noqa: E40
 # NEO TOURNAMENT PIPELINE: game_code resolved from the shared context
 # instead of this script's own hardcoded literal -- see
 # src/klpga/tournament_context.py.
-GAME_CODE = load_active_tournament_context().game_code
+_CONTEXT = load_active_tournament_context()
+GAME_CODE = _CONTEXT.game_code
 
-pre_path = SRC / "OK_OPEN_2026_PRE_WIN_FORECAST.json"
-master_path = SRC / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json"
+pre_path = _CONTEXT.artifact_path("pre_win_forecast")
+master_path = _CONTEXT.artifact_path("current_player_master")
 
 pre = json.loads(pre_path.read_text(encoding="utf-8"))
 master = json.loads(master_path.read_text(encoding="utf-8"))
@@ -40,9 +41,10 @@ if len(ids) != len(set(ids)):
 if any(r.get("win_probability") is None for r in records):
     raise SystemExit("HARD STOP: null PRE win_probability")
 
+out_path = _CONTEXT.artifact_path("post_r2_input")
 out = {
     "schema_version": 1,
-    "artifact": "OK_OPEN_2026_POST_R2_INPUT",
+    "artifact": out_path.stem,
     "game_code": GAME_CODE,
     "stage": "POST_R2_PRE_FINAL",
     "model_version": pre["model_version"],
@@ -54,7 +56,6 @@ out = {
     "records": records,
 }
 
-out_path = SRC / "OK_OPEN_2026_POST_R2_INPUT.json"
 out_path.write_text(
     json.dumps(out, ensure_ascii=False, indent=2),
     encoding="utf-8"

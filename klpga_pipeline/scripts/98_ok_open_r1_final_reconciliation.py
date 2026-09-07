@@ -61,7 +61,7 @@ from klpga.tournament_context import load_active_tournament_context  # noqa: E40
 # shared context instead of this script's own hardcoded literal -- see
 # src/klpga/tournament_context.py.
 _CONTEXT = load_active_tournament_context()
-ENTRY_SNAPSHOT = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
+ENTRY_SNAPSHOT = _CONTEXT.artifact_path("entry_snapshot")
 STAGE_STATE = CONTENT / _CONTEXT.stage_state_filename
 GAME_CODE = _CONTEXT.game_code
 KST = datetime.timezone(datetime.timedelta(hours=9))

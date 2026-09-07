@@ -77,8 +77,17 @@ def test_no_in_progress_text_on_closed_kg_pages(built):
         text = path.read_text(encoding="utf-8")
         if "진행중" in text:
             offenders.append(f"{stage}: 진행중")
+    # NEO TOURNAMENT PIPELINE: the hub page now renders one card per
+    # registry tournament, including the currently active one -- which
+    # legitimately says "진행중" once it has live data (see scripts/86's
+    # _tournament_cards_html). Scope this check to KG's OWN card
+    # section, matching what this test is actually named for, instead
+    # of the whole shared hub page (which would also flag another
+    # tournament's real, correct in-progress state).
     hub_text = (OUTPUT / "tournaments" / "index.html").read_text(encoding="utf-8")
-    if "진행중" in hub_text:
+    kg_sections = [s for s in hub_text.split('<section class="product-section">') if "kg-ladies-open" in s]
+    assert kg_sections, "KG card missing from the tournaments hub"
+    if any("진행중" in section for section in kg_sections):
         offenders.append("hub: 진행중")
     assert offenders == [], f"in-progress text on closed KG pages: {offenders}"
 

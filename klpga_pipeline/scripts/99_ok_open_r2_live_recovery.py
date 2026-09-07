@@ -11,7 +11,7 @@ from klpga.tournament_context import load_active_tournament_context
 # src/klpga/tournament_context.py.
 _CONTEXT=load_active_tournament_context()
 STATE=CONTENT/_CONTEXT.stage_state_filename
-SNAP=CONTENT/"OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
+SNAP=_CONTEXT.artifact_path("r2_live_snapshot")
 GAME=_CONTEXT.game_code
 from klpga.collectors.leaderboard import fetch_round_leaderboard
 from klpga.collectors.group_page import fetch_group_page_html
