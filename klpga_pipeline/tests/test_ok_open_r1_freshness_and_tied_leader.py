@@ -11,7 +11,19 @@ the two rendering fixes in scripts/84_build_ok_open_pre_website_candidate.py
 
 Uses monkeypatch on the module's own R1_LIVE_SNAPSHOT path (never a
 re-implementation of the renderer) so each scenario is fully isolated
-from the real, currently-stale production snapshot on disk."""
+from the real, currently-stale production snapshot on disk.
+
+QA REMEDIATION (post-fbb69de): _r1_live_leaderboard_section later grew
+a second, higher-priority data source -- once OK_OPEN_STAGE_STATE.json
+records r1_complete=true (which the real repository state now
+genuinely does, since R1 has actually finished), the function reads
+the verified FINAL snapshot from R1_FINAL_SNAPSHOT_DIR instead of
+whatever R1_LIVE_SNAPSHOT is monkeypatched to. That real completion is
+correct and intentional (see scripts/98's docstring); it just means
+these tests must also patch STAGE_STATE_PATH to keep their synthetic
+scenarios isolated, exactly as this module docstring already promises
+-- otherwise every test here silently exercises the real 120-row FINAL
+snapshot instead of its own tiny synthetic one."""
 import datetime
 import json
 from pathlib import Path
@@ -70,6 +82,9 @@ def test_three_way_tie_shows_all_three_leader_names(tmp_path, monkeypatch):
     rows = [_row("1", "선수A", -4), _row("2", "선수B", -4), _row("3", "선수C", -4), _row("4", "선수D", -3)]
     snapshot_path = _write_snapshot(tmp_path, _snapshot(now_iso, rows))
     monkeypatch.setattr(builder, "R1_LIVE_SNAPSHOT", snapshot_path)
+    # Force the live (non-final) code path: see the module docstring's
+    # QA REMEDIATION note above.
+    monkeypatch.setattr(builder, "STAGE_STATE_PATH", tmp_path / "no_such_stage_state.json")
     section = builder._r1_live_leaderboard_section("", {})
     assert "선수A, 선수B, 선수C" in section
     assert "선수D" not in section.split("</section>")[0].split("현재 선두")[1].split("</strong>")[0]
@@ -80,6 +95,9 @@ def test_single_leader_shows_just_that_name(tmp_path, monkeypatch):
     rows = [_row("1", "선수A", -5), _row("2", "선수B", -3)]
     snapshot_path = _write_snapshot(tmp_path, _snapshot(now_iso, rows))
     monkeypatch.setattr(builder, "R1_LIVE_SNAPSHOT", snapshot_path)
+    # Force the live (non-final) code path: see the module docstring's
+    # QA REMEDIATION note above.
+    monkeypatch.setattr(builder, "STAGE_STATE_PATH", tmp_path / "no_such_stage_state.json")
     section = builder._r1_live_leaderboard_section("", {})
     idx = section.index("현재 선두")
     grid_entry = section[idx : idx + 120]
@@ -91,6 +109,9 @@ def test_fresh_snapshot_shows_normal_cadence_note(tmp_path, monkeypatch):
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
     snapshot_path = _write_snapshot(tmp_path, _snapshot(now_iso, [_row("1", "선수A", -2)]))
     monkeypatch.setattr(builder, "R1_LIVE_SNAPSHOT", snapshot_path)
+    # Force the live (non-final) code path: see the module docstring's
+    # QA REMEDIATION note above.
+    monkeypatch.setattr(builder, "STAGE_STATE_PATH", tmp_path / "no_such_stage_state.json")
     section = builder._r1_live_leaderboard_section("", {})
     assert "라이브 업데이트 주기 30분" in section
     assert STALE_NOTICE_MARKER not in section
@@ -100,6 +121,9 @@ def test_stale_snapshot_shows_delay_notice_not_the_normal_cadence_claim(tmp_path
     old_iso = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=4)).isoformat().replace("+00:00", "Z")
     snapshot_path = _write_snapshot(tmp_path, _snapshot(old_iso, [_row("1", "선수A", -2)]))
     monkeypatch.setattr(builder, "R1_LIVE_SNAPSHOT", snapshot_path)
+    # Force the live (non-final) code path: see the module docstring's
+    # QA REMEDIATION note above.
+    monkeypatch.setattr(builder, "STAGE_STATE_PATH", tmp_path / "no_such_stage_state.json")
     section = builder._r1_live_leaderboard_section("", {})
     assert STALE_NOTICE_MARKER in section
     assert "라이브 업데이트 주기 30분" not in section
