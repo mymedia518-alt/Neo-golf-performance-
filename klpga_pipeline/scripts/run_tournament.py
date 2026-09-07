@@ -39,10 +39,12 @@ version of this script:
 This script's own job is still narrow and does not reimplement any of
 the above: it only (a) resolves/bootstraps identity and the entry-list
 prerequisite, (b) builds a TournamentActionRegistry whose runners
-invoke the existing per-stage scripts -- 83/84/96/98/99/100/101 and
-build_current_round_page.py -- which Phase 1/2 already verified are
-internally generic (TournamentContext-driven, no game_code/tournament-
-name literals), and are therefore eligible generic runners per
+invoke the existing per-stage scripts -- the PRE-upstream chain
+(67/69/72/73/75/79/81/82/83/84, see _PRE_UPSTREAM_CHAIN below) plus
+96/98/99/100/101 and build_current_round_page.py -- which Phase
+1/2/4 already verified are internally generic (TournamentContext
+-driven, no game_code/tournament-name/Windows-path literals), and are
+therefore eligible generic runners per
 docs/NEO_TOURNAMENT_LEGACY_ACTION_BLOCKERS.md's own stated condition
 ("eligible ... only after their tournament-specific assumptions are
 removed"). No numbered/named script is ever selected implicitly for an
@@ -95,7 +97,7 @@ from klpga.tournament_action_registry import (  # noqa: E402
     TournamentActionRegistry,
     no_change_runner,
 )
-from klpga.tournament_context import resolve_context, SITE_REGISTRY_PATH  # noqa: E402
+from klpga.tournament_context import ensure_site_registry_entry, resolve_context, SITE_REGISTRY_PATH  # noqa: E402
 from klpga.tournament_cycle import CycleRequest, run_tournament_cycle  # noqa: E402
 from klpga.tournament_entry_bootstrap import EntryListBootstrapBlocked, collect_entry_list_snapshot  # noqa: E402
 from klpga.tournament_lifecycle import (  # noqa: E402
@@ -157,29 +159,72 @@ def _promote_current_round():
     return _run
 
 
+# PRE UPSTREAM CHAIN (NEO TOURNAMENT PIPELINE Phase 4): every script that
+# produces a PRE-freeze prerequisite, all TournamentContext-driven (no
+# game_code/date/Windows-path/tournament-name literals -- see each
+# script's own module docstring), in dependency order:
+#   67 entry_snapshot (if not already collected) + pre_performance_snapshot
+#   69 pre_performance_corrected_v2 (classifier v2, feeds 73)
+#   72 current_player_master / official_klpga_ranking / pre_win_forecast /
+#      neo_pre_ranking_evidence / pre_sg_total_rank
+#   73 pre_public_master (draft -- see its own docstring on the 83 overwrite)
+#   75 data_center_profile_audit
+#   79 pre_performance_row_retention_corrected_v2 (needs 73's draft + the
+#      shared historical_sg_warehouse_corrected_v2.json -- see NOTE below)
+#   81 tier2_publication_gate (BLOCKs/HARD_STOPs on a still-pending
+#      prerequisite, including the one genuinely manual step: the
+#      independent human sign-off at OK_OPEN_2026_SG_INDEPENDENT_ACCEPTANCE.json
+#      -- never auto-generated, per klpga.neo_win.tier2_publication_gate)
+#   82 pre_sg_total_rank_corrected_v2
+#   83 canonical pre_public_master (raises SystemExit if Tier-2 isn't PASS
+#      -- this IS the fail-closed contract, not a bug to route around)
+#   84 PRE website candidate
+#
+# NOTE: 79/82/81's SG_DERIVED check read historical_sg_warehouse_corrected_v2.json
+# and its audit -- a SHARED, cross-tournament artifact built by scripts
+# 77/78/80 from every historical event, not this tournament's own data.
+# It is not rebuilt per-tournament here; if it doesn't exist yet in a
+# fresh environment, run 77 (or 78) then 80 once first.
+_PRE_UPSTREAM_CHAIN = (
+    "67_build_ok_open_pre_performance.py",
+    "69_build_ok_open_classifier_v2.py",
+    "72_collect_ok_open_public_master.py",
+    "73_build_ok_open_performance_bands.py",
+    "75_audit_klpga_datacenter_profiles.py",
+    "79_rebuild_corrected_sg_downstream.py",
+    "81_build_tier2_publication_gate.py",
+    "82_build_corrected_sg_total_rank.py",
+    "83_build_ok_open_pre_public_master.py",
+    "84_build_ok_open_pre_website_candidate.py",
+)
+
+
 def _prepare_pre_runner():
-    """PREPARE_PRE: 83/84 are already verified generic (TournamentContext
-    -driven), but they themselves depend on upstream PRE-freeze artifacts
-    (tier2_publication_gate, current_player_master, SG-band computation)
-    that are NOT yet generalized -- see the module docstring. Their own
-    HARD_STOP assertions already fail closed on a missing prerequisite;
-    this runner just re-raises that as an honest, actionable message
-    instead of a bare traceback."""
+    """PREPARE_PRE: run the full PRE-upstream chain (see _PRE_UPSTREAM_CHAIN),
+    every step TournamentContext-driven so a brand-new game_code needs no
+    source edits. Each step's own HARD_STOP/SystemExit (missing official
+    data, network unreachable, or the still-pending manual SG acceptance
+    sign-off) is fail-closed by design -- never fabricated -- so this
+    runner re-raises it as an honest, actionable "which step, why" message
+    instead of a bare traceback, rather than trying to work around it."""
     def _run(context: ActionContext, decision) -> ActionResult:
         del context
-        try:
-            _run_script("83_build_ok_open_pre_public_master.py")
-            _run_script("84_build_ok_open_pre_website_candidate.py")
-        except subprocess.CalledProcessError as exc:
-            raise RuntimeError(
-                "PRE prerequisites incomplete: the PRE-freeze input chain "
-                "(tier2_publication_gate / current_player_master / SG-band artifacts) "
-                "is not yet generalized and must be produced first -- see "
-                "src/klpga/tournament_entry_bootstrap.py's module docstring for what IS "
-                "automated (entry list) versus what still requires manual data prep."
-            ) from exc
+        for script_name in _PRE_UPSTREAM_CHAIN:
+            try:
+                _run_script(script_name)
+            except subprocess.CalledProcessError as exc:
+                raise RuntimeError(
+                    f"PRE prerequisites incomplete at scripts/{script_name}: this step's "
+                    "own required input isn't available yet -- official data not yet "
+                    "published, network unreachable from this environment, the shared "
+                    "historical_sg_warehouse_corrected_v2.json/audit not built yet (run "
+                    "77/78 then 80 once), or the independent human SG acceptance "
+                    "sign-off (OK_OPEN_2026_SG_INDEPENDENT_ACCEPTANCE.json / its "
+                    "per-tournament equivalent) is still pending. Never fabricated -- "
+                    "resolve the underlying prerequisite and rerun."
+                ) from exc
         return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=True,
-                             message="PRE public master + candidate built")
+                             message="PRE upstream chain built through PRE public master + website candidate")
     return _run
 
 
@@ -226,7 +271,11 @@ def _attempt_entry_list_prerequisite(context, lifecycle) -> None:
     if context.artifact_path("entry_snapshot").exists():
         return
     try:
-        collect_entry_list_snapshot(context, cache_dir=ROOT / "evidence" / "official_cache" / context.game_code)
+        collect_entry_list_snapshot(
+            context,
+            cache_dir=ROOT / "evidence" / "official_cache" / context.game_code,
+            db_path=DEFAULT_DB_PATH,
+        )
         print(f"ENTRY LIST collected for {context.game_code}")
     except EntryListBootstrapBlocked as exc:
         print(f"ENTRY LIST not ready yet: {exc}")
@@ -280,6 +329,7 @@ def main() -> int:
         final_round_number=args.final_round_number, cut_after_round=args.cut_after_round,
     )
 
+    ensure_site_registry_entry(lifecycle)
     registry_json = _load_registry_json()
     context = resolve_context(lifecycle, registry_json)
 

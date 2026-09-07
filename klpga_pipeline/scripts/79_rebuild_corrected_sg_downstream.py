@@ -4,19 +4,29 @@ All outputs are versioned separately from the legacy warehouse and frozen PRE
 artifacts.  No missing values are imputed and no forecast model is changed.
 """
 from __future__ import annotations
-import hashlib, json, math, statistics
+import hashlib, json, math, statistics, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
-OUT = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json"
-DIFF = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_DIFF_V2.json"
-ENTRY = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
-OLD = CONTENT / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
+sys.path.insert(0, str(ROOT / "src"))
+from klpga.tournament_context import load_active_tournament_context
+
+_CONTEXT = load_active_tournament_context()
+OUT = _CONTEXT.artifact_path("pre_performance_row_retention_corrected_v2")
+DIFF = _CONTEXT.artifact_path("pre_performance_row_retention_diff_v2")
+ENTRY = _CONTEXT.artifact_path("entry_snapshot")
+OLD = _CONTEXT.artifact_path("pre_public_master")
+# historical_sg_warehouse_corrected_v2.json is a shared, cross-tournament
+# artifact (built by scripts 77/78 from every historical event, not just
+# the active tournament) -- deliberately NOT routed through
+# TournamentContext.artifact_path(), which would wrongly prefix it with
+# this tournament's game_code.
 WH = CONTENT / "historical_sg_warehouse_corrected_v2.json"
 COMP = ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")
-CUTOFF = "2026-09-04"
+GAME_CODE = _CONTEXT.game_code
+CUTOFF = _CONTEXT.start_date
 
 def classifier_view(p):
     """Apply the existing V2 dimension logic to corrected windows only."""
@@ -34,7 +44,7 @@ def stat(vals):
             "population_sd": statistics.pstdev(x) if len(x) > 1 else None}
 
 def main():
-    wh = json.loads(WH.read_text(encoding="utf-8")); rows = [r for r in wh["records"] if r.get("scope") == "tournament_cumulative" and str(r.get("game_code")) != "2026120001" and r.get("player_id")]
+    wh = json.loads(WH.read_text(encoding="utf-8")); rows = [r for r in wh["records"] if r.get("scope") == "tournament_cumulative" and str(r.get("game_code")) != GAME_CODE and r.get("player_id")]
     entry = json.loads(ENTRY.read_text(encoding="utf-8")); ids = [str(e["player_id"]) for e in entry["entries"]]
     by = {}
     for r in rows: by.setdefault(str(r["player_id"]), []).append(r)
@@ -66,7 +76,7 @@ def main():
         p["band_statistics"] = {"metric": "recent5 SG Total mean", "field_median": field_median, "standard_error": se, "z_vs_field_median": z, "boundaries": {"very_high": "z >= 1.96", "high": "1.00 < z < 1.96", "typical": "-1.00 <= z <= 1.00", "low": "-1.96 < z < -1.00", "very_low": "z <= -1.96"}}
     generated = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     original = json.loads(OLD.read_text(encoding="utf-8"))
-    payload = {"schema_version": "neo_sg_row_retention_corrected_v2", "generated_at": generated, "game_code": "2026120001", "cutoff": "2026-09-04T00:00:00+09:00", "warehouse": WH.name, "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62", "warehouse_hash_type": "canonical git-blob hash supplied by accepted warehouse record", "legacy_warehouse_sha256": hashlib.sha256((CONTENT/"historical_sg_warehouse.json").read_bytes()).hexdigest(), "future_data_excluded": True, "band_eligibility_rule": "recent5 SG Total sample >= 5", "profiles": profiles, "field_median": field_median}
+    payload = {"schema_version": "neo_sg_row_retention_corrected_v2", "generated_at": generated, "game_code": GAME_CODE, "cutoff": f"{CUTOFF}T00:00:00+09:00", "warehouse": WH.name, "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62", "warehouse_hash_type": "canonical git-blob hash supplied by accepted warehouse record", "legacy_warehouse_sha256": hashlib.sha256((CONTENT/"historical_sg_warehouse.json").read_bytes()).hexdigest(), "future_data_excluded": True, "band_eligibility_rule": "recent5 SG Total sample >= 5", "profiles": profiles, "field_median": field_median}
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     old_by = {str(r["player_id"]): r for r in original.get("records", [])}; changes=[]
     for p in profiles:

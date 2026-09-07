@@ -12,6 +12,8 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
+from klpga.tournament_context import CONTENT_DIR, TournamentContext
+
 STATES = {"PASS", "WARN", "BLOCK", "HARD_STOP"}
 DOMAINS = ("IDENTITY", "TEAM_SPONSOR", "K_RANKING", "WIN_PROBABILITY", "SG_DERIVED")
 
@@ -32,33 +34,44 @@ def detect_survivor_bias(early_population: int, cumulative_population: int, fina
     return bool(early_population > 0 and early_population == cumulative_population == final_population)
 
 
-def evaluate(base: Path, *, sg_accepted: bool | None = None) -> dict[str, Any]:
-    current_path = base / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json"
-    rank_path = base / "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json"
-    win_path = base / "OK_OPEN_2026_PRE_WIN_FORECAST.json"
-    sg_path = base / "historical_sg_warehouse_corrected_v2.json"
-    sg_audit_path = base / "historical_sg_warehouse_corrected_audit_v2.json"
-    profile_audit_path = base / "OK_OPEN_2026_DATA_CENTER_PROFILE_AUDIT.json"
-    sg_acceptance_path = base / "OK_OPEN_2026_SG_INDEPENDENT_ACCEPTANCE.json"
-    required = (current_path, rank_path, win_path, sg_path, sg_audit_path, profile_audit_path)
+def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> dict[str, Any]:
+    entry_path = context.artifact_path("entry_snapshot")
+    current_path = context.artifact_path("current_player_master")
+    rank_path = context.artifact_path("official_klpga_ranking")
+    win_path = context.artifact_path("pre_win_forecast")
+    # These two are shared, cross-tournament warehouse artifacts (built by
+    # scripts 77/78/80 from every historical event, not just the active
+    # tournament) -- deliberately fixed filenames under CONTENT_DIR, never
+    # routed through context.artifact_path() (which is per-tournament).
+    sg_path = CONTENT_DIR / "historical_sg_warehouse_corrected_v2.json"
+    sg_audit_path = CONTENT_DIR / "historical_sg_warehouse_corrected_audit_v2.json"
+    profile_audit_path = context.artifact_path("data_center_profile_audit")
+    sg_acceptance_path = context.artifact_path("sg_independent_acceptance")
+    required = (entry_path, current_path, rank_path, win_path, sg_path, sg_audit_path, profile_audit_path)
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     domains = []
     missing = [p for p in required if not p.exists()]
     if missing:
-        domains.append(_result("IDENTITY", "HARD_STOP", ["T2-ID-001"], "required evidence artifact missing", ["public_master"], missing[0] if missing else base / "missing"))
+        domains.append(_result("IDENTITY", "HARD_STOP", ["T2-ID-001"], "required evidence artifact missing", ["public_master"], missing[0] if missing else CONTENT_DIR / "missing"))
         for d in DOMAINS[1:]: domains.append({"domain": d, "state": "BLOCK", "check_ids": ["T2-EVIDENCE-001"], "reason": "upstream evidence missing", "affected_fields": [], "evidence": {}})
     else:
+        # The official field size is never a hardcoded assumption -- every
+        # domain below is validated for internal self-consistency against
+        # the SAME count, taken from the frozen entry snapshot's own
+        # player_count (the one fact every one of these artifacts must
+        # agree with, whatever it is for the active tournament).
+        expected_count = int(json.loads(entry_path.read_text(encoding="utf-8"))["player_count"])
         current = json.loads(current_path.read_text(encoding="utf-8")); records = current.get("records", current.get("entries", []))
         ids = [str(r.get("player_id")) for r in records]
-        identity_ok = len(records) == 120 and len(set(ids)) == 120 and all(r.get("identity_validation", "PASS") == "PASS" for r in records)
-        domains.append(_result("IDENTITY", "PASS" if identity_ok else "HARD_STOP", ["T2-ID-001"], "120 unique canonical identities validated" if identity_ok else "identity count/uniqueness/validation failure", ["player_id", "current_official_player_name"], current_path))
+        identity_ok = len(records) == expected_count and len(set(ids)) == expected_count and all(r.get("identity_validation", "PASS") == "PASS" for r in records)
+        domains.append(_result("IDENTITY", "PASS" if identity_ok else "HARD_STOP", ["T2-ID-001"], f"{expected_count} unique canonical identities validated" if identity_ok else "identity count/uniqueness/validation failure", ["player_id", "current_official_player_name"], current_path))
         profile_audit = json.loads(profile_audit_path.read_text(encoding="utf-8")); pa = profile_audit.get("records", [])
-        sponsor_ok = len(pa) == 120 and all(r.get("parse_state") in {"PASS", "ACCESS_FAILURE"} and r.get("team_state") in {"PARSED", "OFFICIAL_BLANK", "ACCESS_FAILURE"} for r in pa)
+        sponsor_ok = len(pa) == expected_count and all(r.get("parse_state") in {"PASS", "ACCESS_FAILURE"} and r.get("team_state") in {"PARSED", "OFFICIAL_BLANK", "ACCESS_FAILURE"} for r in pa)
         domains.append(_result("TEAM_SPONSOR", "PASS" if sponsor_ok else "BLOCK", ["T2-TEAM-001"], "official nulls or explicitly unavailable profiles preserved as null" if sponsor_ok else "unclassified sponsor null", ["current_official_sponsor"], current_path))
-        rank = json.loads(rank_path.read_text(encoding="utf-8")); rr = rank.get("records", rank.get("players", [])); rank_ok = len(rr) == 120 and all(r.get("validation_state") in {"PASS", "UNAVAILABLE"} and (r.get("official_rank") is not None or r.get("validation_state") == "UNAVAILABLE") for r in rr)
+        rank = json.loads(rank_path.read_text(encoding="utf-8")); rr = rank.get("records", rank.get("players", [])); rank_ok = len(rr) == expected_count and all(r.get("validation_state") in {"PASS", "UNAVAILABLE"} and (r.get("official_rank") is not None or r.get("validation_state") == "UNAVAILABLE") for r in rr)
         domains.append(_result("K_RANKING", "PASS" if rank_ok else "BLOCK", ["T2-RANK-001"], "same-week official ranking snapshot validated" if rank_ok else "ranking evidence incomplete", ["official_klpga_rank"], rank_path))
-        win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]; win_ok = len(wr) == 120 and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
-        domains.append(_result("WIN_PROBABILITY", "PASS" if win_ok else "BLOCK", ["T2-WIN-001"], "120 pre-cutoff WIN probabilities validated" if win_ok else "forecast coverage/range failure", ["win_probability"], win_path))
+        win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]; win_ok = len(wr) == expected_count and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
+        domains.append(_result("WIN_PROBABILITY", "PASS" if win_ok else "BLOCK", ["T2-WIN-001"], f"{expected_count} pre-cutoff WIN probabilities validated" if win_ok else "forecast coverage/range failure", ["win_probability"], win_path))
         sg_audit = json.loads(sg_audit_path.read_text(encoding="utf-8")); arithmetic = sg_audit.get("arithmetic_validation", {}); acceptance = json.loads(sg_acceptance_path.read_text(encoding="utf-8")) if sg_acceptance_path.exists() else {}; accepted = sg_accepted if sg_accepted is not None else bool(sg_audit.get("claude_acceptance") or sg_audit.get("acceptance_state") == "ACCEPTED" or acceptance.get("state") == "ACCEPTED")
         sg_evidence_path = sg_acceptance_path if acceptance.get("state") == "ACCEPTED" else sg_audit_path
         sg_ok = arithmetic.get("exceptions") == 0 and accepted
@@ -67,8 +80,8 @@ def evaluate(base: Path, *, sg_accepted: bool | None = None) -> dict[str, Any]:
     return {"schema_version": "neo_tier2_field_domain_publication_gate_v1", "generated_at": now, "overall_state": overall, "domains": domains, "publication_allowed": overall in {"PASS", "WARN"}, "fail_closed_unknown": True}
 
 
-def write_gate(base: Path, output: Path | None = None, *, sg_accepted: bool | None = None) -> dict[str, Any]:
-    artifact = evaluate(base, sg_accepted=sg_accepted)
-    out = output or (base / "OK_OPEN_2026_TIER2_PUBLICATION_GATE.json")
+def write_gate(context: TournamentContext, output: Path | None = None, *, sg_accepted: bool | None = None) -> dict[str, Any]:
+    artifact = evaluate(context, sg_accepted=sg_accepted)
+    out = output or context.artifact_path("tier2_publication_gate")
     out.write_text(json.dumps(artifact, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return artifact
