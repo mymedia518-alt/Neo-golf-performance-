@@ -1,0 +1,145 @@
+{
+  "schema_version": "neo_ranking_v2_official_archive_reconstruction_v1",
+  "model_state": "VALIDATION_MODEL_NOT_PRODUCTION",
+  "generated_at": "2026-09-07T00:30:22Z",
+  "endpoint": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+  "parser_reused": "klpga.website_v2.official_data.parse_leaderboard_html (not reimplemented)",
+  "note": "This artifact records an ACTUAL retrieval attempt against the live official endpoint. It does not assume data/klpga.sqlite's absence is the blocker -- the outcome below is what the endpoint itself returned (or failed to return) in this environment, classified by failure type.",
+  "sample_phase": {
+    "sample_size_requested": 5,
+    "sample_game_codes": [
+      "2023040001",
+      "2023040002",
+      "2023040003",
+      "2023040004",
+      "2023050001"
+    ],
+    "sample_results": [
+      {
+        "game_code": "2023040001",
+        "event_status": "NETWORK_EGRESS_DENIED",
+        "rounds": {
+          "1": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "2": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "3": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "4": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          }
+        },
+        "any_retrieved": false
+      },
+      {
+        "game_code": "2023040002",
+        "event_status": "NETWORK_EGRESS_DENIED",
+        "rounds": {
+          "1": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "2": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "3": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "4": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          }
+        },
+        "any_retrieved": false
+      },
+      {
+        "game_code": "2023040003",
+        "event_status": "NETWORK_EGRESS_DENIED",
+        "rounds": {
+          "1": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "2": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "3": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "4": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          }
+        },
+        "any_retrieved": false
+      },
+      {
+        "game_code": "2023040004",
+        "event_status": "NETWORK_EGRESS_DENIED",
+        "rounds": {
+          "1": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "2": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "3": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "4": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          }
+        },
+        "any_retrieved": false
+      },
+      {
+        "game_code": "2023050001",
+        "event_status": "NETWORK_EGRESS_DENIED",
+        "rounds": {
+          "1": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "2": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "3": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          },
+          "4": {
+            "status": "NETWORK_EGRESS_DENIED",
+            "detail": "ProxyError: HTTPSConnectionPool(host='klpga.co.kr', port=443): Max retries exceeded with url: /load/leaderboard/roundLeaderboard (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+          }
+        },
+        "any_retrieved": false
+      }
+    ],
+    "sample_retrieved_count": 0,
+    "proceed_to_full_population": false
+  },
+  "full_population_phase": {
+    "attempted": false,
+    "reason": "sample_phase retrieved 0/5 events -- expanding to the full 97-event population would not produce different evidence and would just repeat the same failure at scale."
+  },
+  "hard_gate": {
+    "status": "BLOCKED",
+    "reason": "Official archive reconstruction FAILED at the sample phase. All 5 sampled events returned event_status != RETRIEVED. This is a real, evidenced outcome (see sample_results for the exact per-round failure classification), not an assumption -- round-count verification via the official leaderboard remains unavailable in this environment."
+  }
+}
