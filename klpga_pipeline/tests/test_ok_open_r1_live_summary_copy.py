@@ -29,12 +29,34 @@ sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 
 
-def _current_live_cadence_note() -> str:
+def _current_source_collected_at() -> str:
+    # QA REMEDIATION (post-fbb69de): mirrors builder._r1_live_leaderboard_
+    # section's own precedence exactly -- once OK_OPEN_STAGE_STATE.json's
+    # r1_complete is true (which it now genuinely is: R1 has actually
+    # finished) and a verified FINAL snapshot exists, THAT snapshot's own
+    # collected_at is what the generated page shows, not R1_LIVE_SNAPSHOT
+    # .json's. Deriving this the same way the generator does (never
+    # hardcoded) is what keeps this test from going stale, exactly as
+    # this module's docstring already promises for the cadence note.
+    if builder.STAGE_STATE_PATH.is_file():
+        try:
+            r1_complete = bool(json.loads(builder.STAGE_STATE_PATH.read_text(encoding="utf-8")).get("r1_complete"))
+        except (OSError, ValueError):
+            r1_complete = False
+        if r1_complete and builder.R1_FINAL_SNAPSHOT_DIR.is_dir():
+            candidates = sorted(builder.R1_FINAL_SNAPSHOT_DIR.glob("OK_OPEN_*_FINAL_*.json"))
+            if candidates:
+                final_doc = json.loads(candidates[-1].read_text(encoding="utf-8"))
+                return final_doc["collected_at"]
     snapshot = json.loads(
         (Path(__file__).parents[1] / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json").read_text(encoding="utf-8")
     )
+    return snapshot["collected_at"]
+
+
+def _current_live_cadence_note() -> str:
     now = datetime.datetime.now(datetime.timezone.utc)
-    if is_snapshot_stale(snapshot.get("collected_at"), now):
+    if is_snapshot_stale(_current_source_collected_at(), now):
         return STALE_NOTICE_MARKER
     return "라이브 업데이트 주기 30분"
 
@@ -49,12 +71,9 @@ def test_disclaimer_sentence_replaced_with_exact_copy():
 
 
 def test_last_updated_timestamp_is_still_present_and_unmodified():
-    snapshot = json.loads(
-        (Path(__file__).parents[1] / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json").read_text(encoding="utf-8")
-    )
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert f"마지막 성공 업데이트(UTC): {snapshot['collected_at']} · {_current_live_cadence_note()}" in html
+    assert f"마지막 성공 업데이트(UTC): {_current_source_collected_at()} · {_current_live_cadence_note()}" in html
 
 
 def test_top_summary_win_probability_metric_is_removed():

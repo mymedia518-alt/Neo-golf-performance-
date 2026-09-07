@@ -1,0 +1,19 @@
+{
+  "population_count": 546,
+  "k_ranking_join_success": 119,
+  "k_ranking_join_failure": 427,
+  "neo_ranking_published": 0,
+  "neo_ranking_pending": 546,
+  "neo_ranking_publication_status": "NOT_PUBLISHED",
+  "historical_events": 97,
+  "historical_event_provenance": {
+    "scope": "NEO SG 성과 웨어하우스에 기록된 대회(game_code) 수 -- KLPGA 공식 전체 대회 이력이 아님",
+    "inclusion_criteria": "corrected SG warehouse에서 라운드별 공식 리더보드 대비 검증된 레코드가 1건 이상 존재하는 대회",
+    "coverage_scope": "SG_WAREHOUSE_SUBSET",
+    "complete_klpga_history": false,
+    "coverage_status": "INCOMPLETE_SUBSET_PENDING_ROUND_SEMANTICS_VALIDATION",
+    "dataset_version": "2026-08-31T20:08:09Z",
+    "source_artifact": "historical_sg_warehouse_corrected.json",
+    "source_reference": "klpga_pipeline/content/website_v2/historical_sg_warehouse_corrected.json"
+  }
+}
