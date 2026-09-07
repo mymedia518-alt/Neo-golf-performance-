@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
 
@@ -138,20 +139,20 @@ def _fmt_delta_pct(current, pre_fraction) -> str:
 
 
 def _player_identity_cell(name, sponsor) -> str:
-    """The ONE shared player-identity cell markup -- name (existing
-    emphasis/weight) plus an optional muted affiliation/sponsor
-    sub-line directly underneath. Reused by every OK Open stage table
-    that renders player rows (PRE today; R1 below; any future R2/R3/
-    FINAL row renderer should call this too) so affiliation handling
-    never diverges by stage. `sponsor` must already be the real,
+    """The ONE shared player-identity cell markup for every OK Open
+    stage table that renders player rows (PRE, R1, R2, and any future
+    R3/FINAL row renderer) -- delegates to the site-wide Player Identity
+    contract (src/klpga/website_v2/player_identity.py) so this page's
+    identity/sponsor rendering can never diverge from HOME/PLAYERS,
+    RANKING, or any other public player-display surface (NEO SITE V5
+    architecture-correction item 2: PLAYER NAME / OFFICIAL SPONSOR,
+    sponsor slot always structurally present even when blank, never a
+    guessed or placeholder value). `sponsor` must already be the real,
     player_id-resolved value (or None) -- this function never invents
-    one: a falsy sponsor simply omits the sub-line entirely rather
-    than rendering a placeholder dash, per "no affiliation line rather
-    than inventing one"."""
-    name_html = f"<span class='player'>{html.escape(str(name) if name is not None else '—')}</span>"
-    if not sponsor:
-        return name_html
-    return name_html + f"<span class='sponsor'>{html.escape(str(sponsor))}</span>"
+    one."""
+    return render_player_identity(
+        name, sponsor, tag="span", name_class="player", sponsor_class="sponsor", container_class=None,
+    )
 
 
 def _mover_line(entry: dict, *, kind: str) -> str:
@@ -532,7 +533,7 @@ BANDS = {
 
 CSS = """
 :root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--soft:#f4f7f7}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 14px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}.hero{padding:20px 0 18px;display:flex;justify-content:space-between;gap:30px;align-items:end}.status{font-size:14px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:7px 13px}.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:22px;align-items:start}.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.player{display:block;font-weight:700;text-align:left}.sponsor{display:block;color:var(--muted);font-size:12px;font-weight:400;text-align:left;margin-top:2px}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.evolution{display:flex;flex-direction:column}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:28px;display:block}.status{display:inline-block;margin-top:14px}.grid{grid-template-columns:1fr}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 14px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}.hero{padding:20px 0 18px;display:flex;justify-content:space-between;gap:30px;align-items:end}.status{font-size:14px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:7px 13px}.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:22px;align-items:start}.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.player{display:block;font-weight:700;text-align:left}.sponsor{display:block;min-height:15px;color:var(--muted);font-size:12px;font-weight:400;text-align:left;margin-top:2px}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.evolution{display:flex;flex-direction:column}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:28px;display:block}.status{display:inline-block;margin-top:14px}.grid{grid-template-columns:1fr}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
 /* MOBILE_CONTAINMENT */
 .grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
 /* Public table is centered; numeric columns retain tabular numerals. */

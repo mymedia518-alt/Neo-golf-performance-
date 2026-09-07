@@ -32,17 +32,34 @@ REPO = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "home-v4-data-terminal"
+ACTIVE_TOUR_MASTER_PATH = CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json"
 DASH = "—"
 
-# Same conclusion as HOME V3: no verified, official-KLPGA-profile-sourced
-# sponsor field exists anywhere in this repository for the full 546-player
-# regular-tour population (confirmed by repo-wide search). Kept as its own
-# named constant (not shared with V3's build script) so the two candidate
-# tracks stay fully independent, per instruction.
-SPONSOR_SOURCE: dict[str, str] = {}
+
+def _load_sponsor_source() -> dict[str, str]:
+    """Real, verified official_sponsor values, sourced ONLY from
+    ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json's ACTIVE_CONFIRMED records (see
+    scripts/110) -- itself traced to official KLPGA profile pages. No
+    sponsor value is ever invented for a player without this evidence;
+    her sponsor slot renders blank (see player_identity.render_player_
+    identity) rather than a guess. The 546-player population as a whole
+    still has no verified sponsor field for most players -- this is a
+    partial, honestly-sourced map, not a claim of full coverage."""
+    if not ACTIVE_TOUR_MASTER_PATH.is_file():
+        return {}
+    doc = json.loads(ACTIVE_TOUR_MASTER_PATH.read_text(encoding="utf-8"))
+    return {
+        str(p["player_id"]): p["official_sponsor"]
+        for p in doc.get("active_players", ())
+        if p.get("official_sponsor")
+    }
+
+
+SPONSOR_SOURCE: dict[str, str] = _load_sponsor_source()
 
 _SILHOUETTE_SVG = (
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">'
@@ -212,7 +229,7 @@ def render_performance_board(views: list[dict], population_count: int) -> str:
     head = (
         "<thead><tr>"
         '<th scope="col">NEO</th><th scope="col" class="t-col-player">PLAYER</th>'
-        '<th scope="col">SPONSOR</th><th scope="col">K-RANK</th>'
+        '<th scope="col">K-RANK</th>'
         '<th scope="col">PERFORMANCE SG</th><th scope="col">FORM</th>'
         '<th scope="col">VOL</th><th scope="col">TREND</th><th scope="col">EVENTS</th>'
         "</tr></thead>"
@@ -228,11 +245,14 @@ def render_performance_board(views: list[dict], population_count: int) -> str:
             + (f'data-k-rank="{v["k_rank"]}" ' if v["k_rank"] is not None else "")
             + f'data-k-rank-display="{escape(v["k_rank_display"])}"'
         )
+        player_identity_inline_html = render_player_identity(
+            v["player_name"], v["sponsor"], container_class=None,
+        )
+        player_identity_block_html = render_player_identity(v["player_name"], v["sponsor"])
         desktop_rows.append(
             f'<tr {common_attrs}>'
             f'<td><span class="t-dash">{v["neo_rank_display"]}</span></td>'
-            f'<th scope="row"><span class="t-player-cell">{_avatar_html()}{escape(v["player_name"])}</span></th>'
-            f'<td class="t-sponsor-cell">{escape(v["sponsor"])}</td>'
+            f'<th scope="row"><span class="t-player-cell">{_avatar_html()}{player_identity_inline_html}</span></th>'
             f'<td class="{"t-krank-real" if v["k_rank"] is not None else "t-dash"}">{escape(v["k_rank_display"])}</td>'
             f'<td class="t-dash">{v["performance_sg_display"]}</td>'
             f'<td class="t-dash">{v["form_display"]}</td>'
@@ -244,7 +264,7 @@ def render_performance_board(views: list[dict], population_count: int) -> str:
         mobile_rows.append(
             f'<div class="t-mobile-row" {common_attrs}>'
             f'<span class="t-mobile-row__rank t-dash">{v["neo_rank_display"]}</span>'
-            f'<span class="t-mobile-row__name">{escape(v["player_name"])}</span>'
+            f'{player_identity_block_html}'
             f'<span class="t-mobile-row__krank {"t-krank-real" if v["k_rank"] is not None else "t-dash"}">{escape(v["k_rank_display"])}</span>'
             "</div>"
         )

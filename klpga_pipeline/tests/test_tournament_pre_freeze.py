@@ -93,3 +93,51 @@ def test_artifact_sha256_fields_are_real_hashes_of_real_files():
 def test_freeze_timestamp_matches_the_neo_input_cutoff():
     doc = mod.build()
     assert doc["freeze_timestamp"] == doc["neo_input_snapshot"]["cutoff"]
+
+
+# ---------------------------------------- three-universe separation (A/B/C)
+# NEO SITE V5 architecture-correction item 3: the tournament field (C) must
+# never be substituted with, or gated by, the season active-tour player
+# universe (B, ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json). A player may be in C
+# even if her B classification is unresolved -- the official entry list
+# itself is authoritative evidence she is in that tournament.
+
+
+def test_never_reads_the_active_tour_player_master_universe_b():
+    import inspect
+    source = inspect.getsource(mod)
+    # Look for an actual path-construction reference (how this script
+    # would open the file), not a prose mention in a comment/docstring.
+    assert 'CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER' not in source
+    assert "ACTIVE_MASTER_PATH" not in source
+
+
+def test_field_membership_is_independent_of_active_tour_classification():
+    """The frozen field must include entrants regardless of whether they
+    would be ACTIVE_CONFIRMED, INACTIVE_CONFIRMED, or PENDING_EVIDENCE in
+    the separate active-tour-player-master build -- confirmed here by
+    checking the real OK Open field includes the two known non-ACTIVE_
+    CONFIRMED cases (실기평가 대상자 entrants) alongside everyone else."""
+    doc = mod.build()
+    field_ids = {r["player_id"] for r in doc["field"]}
+    known_non_active_confirmed_entrants = {"11365", "11944"}  # 실기평가 대상자, still real OK Open entrants
+    assert known_non_active_confirmed_entrants <= field_ids
+
+
+def test_pre_freeze_hash_is_unaffected_by_the_active_tour_master_definition():
+    """Rerunning the (unrelated) active-tour-player-master builder with a
+    corrected classification rule must not change the PRE freeze's
+    artifact_hash -- proves universes B and C are architecturally
+    decoupled, not just decoupled by convention."""
+    import importlib.util
+    active_master_spec = importlib.util.spec_from_file_location(
+        "build_active_tour_player_master_for_pre_freeze_test",
+        ROOT / "scripts" / "110_build_active_tour_player_master.py",
+    )
+    active_master_mod = importlib.util.module_from_spec(active_master_spec)
+    active_master_spec.loader.exec_module(active_master_mod)  # type: ignore[union-attr]
+
+    before = mod.build()["artifact_hash"]
+    active_master_mod.build(attempt_live_fetch=False)  # rewrites ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json
+    after = mod.build()["artifact_hash"]
+    assert before == after

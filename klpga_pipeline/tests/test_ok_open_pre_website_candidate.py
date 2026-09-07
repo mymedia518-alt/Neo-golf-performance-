@@ -164,3 +164,16 @@ def test_stage_links_resolve_from_every_generated_stage_page():
             assert href not in html, f"{target} has no real data yet and must not be a clickable link on the {stage} page"
             assert 'class="stage-nav__disabled"' in html and target.upper() in html
         assert "/r3/" not in html
+
+
+def test_tournament_player_rows_obey_the_shared_sponsor_identity_contract():
+    """NEO SITE V5 architecture-correction item 2: the sponsor slot must
+    be structurally present (a real, empty <span class="sponsor"></span>)
+    even for a player with no known sponsor -- never simply omitted, and
+    never a placeholder like 'unknown'/'미확인'."""
+    out = builder.build()
+    html = (out / "index.html").read_text(encoding="utf-8")
+    assert '<span class="player">' in html
+    assert '<span class="sponsor">' in html
+    for placeholder in ("unknown", "미확인", "N/A"):
+        assert f'<span class="sponsor">{placeholder}</span>' not in html
