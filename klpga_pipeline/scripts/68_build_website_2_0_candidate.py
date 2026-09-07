@@ -62,13 +62,13 @@ def load_inputs():
     schedule["retrieved_at"] = "2026-08-30T23:39:09Z"
     entries = json.loads((CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json").read_text(encoding="utf-8"))["entries"]
     profiles = {str(p["player_id"]): p for p in json.loads((CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json").read_text(encoding="utf-8"))["profiles"]}
-    db_path = Path(r"C:/Users/user/Desktop/Neo-golf-performance-/klpga_pipeline/data/klpga.sqlite")
+    db_path = ROOT / "data" / "klpga.sqlite"
     sponsor_by, probability_by = {}, {}
     if db_path.exists():
         with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as conn:
             sponsor_by = {str(pid): (sponsor or "—") for pid, sponsor in conn.execute("SELECT player_id, team_or_sponsor FROM player_master")}
         try:
-            sys.path.insert(0, str(Path(r"C:/Users/user/Desktop/Neo-golf-performance-/klpga_pipeline/src")))
+            sys.path.insert(0, str(ROOT / "src"))
             from klpga.models.inference import run_inference
             with sqlite3.connect(f"file:{db_path}?mode=ro", uri=True) as source_conn:
                 with sqlite3.connect(":memory:") as conn:

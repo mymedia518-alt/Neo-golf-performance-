@@ -11,11 +11,14 @@ from klpga.collectors.entry_list import fetch_entry_list
 from klpga.http_client import PoliteHttpClient
 from klpga.parsers.entry_list_parser import parse_entry_list_html
 from klpga.neo_win.stage_freeze_gate import stage_sequence_for_holes, validate_stage_transition, StageFreezeGateError
+from klpga.tournament_context import load_active_tournament_context
 
-GAME = "2026120001"
-OUT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_OPERATIONAL_READINESS.json"
-FROZEN_ENTRY = ROOT / "content" / "website_v2" / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
-PRE = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+_CONTEXT = load_active_tournament_context()
+GAME = _CONTEXT.game_code
+OUT = _CONTEXT.artifact_path("operational_readiness")
+FROZEN_ENTRY = _CONTEXT.artifact_path("entry_snapshot")
+PRE = _CONTEXT.artifact_path("pre_performance_snapshot")
+DB = ROOT / "data" / "klpga.sqlite"
 
 
 def main() -> int:
@@ -31,7 +34,7 @@ def main() -> int:
         raise RuntimeError("official totalRound missing; cannot derive lifecycle")
     frozen = json.loads(FROZEN_ENTRY.read_text(encoding="utf-8")); frozen_by = {str(x["player_id"]): x for x in frozen["entries"]}
     parsed = parse_entry_list_html(fetch_entry_list(client, GAME))
-    conn = sqlite3.connect(Path(r"C:/Users/user/Desktop/Neo-golf-performance-/klpga_pipeline/data/klpga.sqlite"))
+    conn = sqlite3.connect(DB)
     known = {str(r[0]): str(r[1]) for r in conn.execute("SELECT player_id, player_name FROM player_master")}
     current = {str(r.player_code): {"player_id": str(r.player_code), "player_name": r.player_name, "canonical_name": known.get(str(r.player_code)), "identity_match": str(r.player_code) in known, "entry_status": "listed"} for r in parsed.rows}
     added = sorted(set(current) - set(frozen_by)); removed = sorted(set(frozen_by) - set(current)); unchanged = sorted(set(current) & set(frozen_by)); unresolved = sorted(k for k,v in current.items() if not v["identity_match"])

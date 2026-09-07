@@ -1,18 +1,36 @@
-"""Correct the prospective OK Open interpretation layer without rewriting evidence."""
+"""Correct the prospective interpretation layer for the active tournament
+(klpga.tournament_context) without rewriting evidence."""
 from __future__ import annotations
-import hashlib, json, statistics
+import hashlib, json, statistics, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
-SOURCE = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
-OUT = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_CORRECTED_V2.json"
-DIFF = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_CLASSIFIER_DIFF_V2.json"
-REPORT = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_CLASSIFIER_V2.md"
+sys.path.insert(0, str(ROOT / "src"))
+from klpga.tournament_context import load_active_tournament_context
+
+_CONTEXT = load_active_tournament_context()
+SOURCE = _CONTEXT.artifact_path("pre_performance_snapshot")
+OUT = _CONTEXT.artifact_path("pre_performance_corrected_v2")
+DIFF = _CONTEXT.artifact_path("pre_performance_classifier_diff_v2")
+REPORT = _CONTEXT.artifact_path("pre_performance_classifier_report_v2", ext="md")
 COMPONENTS = ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")
 DIRS = ("recent3_vs_season", "recent5_vs_season", "recent10_vs_season")
-CORRECTION_TIMESTAMP = "2026-08-31T00:44:18Z"
+
+
+def _correction_timestamp() -> str:
+    """The real, already-committed OK Open artifact freezes this at the
+    moment the classifier correction was actually applied
+    (2026-08-31T00:44:18Z) -- never recomputed for that historical
+    record. A brand-new tournament has no such frozen moment yet, so it
+    gets a fresh timestamp at build time instead of a fabricated one."""
+    if _CONTEXT.game_code == "2026120001":
+        return "2026-08-31T00:44:18Z"
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+CORRECTION_TIMESTAMP = _correction_timestamp()
 
 
 def direction(value, baseline):

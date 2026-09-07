@@ -64,7 +64,7 @@ class TournamentContext:
     format: str | None = None
     artifacts: dict[str, str] = field(default_factory=dict)
 
-    def artifact_path(self, artifact_type: str) -> Path:
+    def artifact_path(self, artifact_type: str, *, ext: str = "json") -> Path:
         """Generic artifact-path contract (NEO TOURNAMENT PIPELINE Phase
         2, item 1): resolve `content/website_v2/<file>` for a named
         artifact_type ("entry_snapshot", "r1_live_snapshot", ...).
@@ -74,10 +74,15 @@ class TournamentContext:
            how every one of OK Open's real, already-committed filenames
            (OK_OPEN_2026_R1_LIVE_SNAPSHOT.json etc.) stays byte-for-byte
            unchanged: a compatibility mapping, never a rename.
-        2. Otherwise, generate `<game_code>_<ARTIFACT_TYPE>.json` --
+        2. Otherwise, generate `<game_code>_<ARTIFACT_TYPE>.<ext>` --
            this is what makes a brand-new tournament work with zero new
            registry entries: the next game_code automatically gets
-           sensible, collision-free paths from identity alone.
+           sensible, collision-free paths from identity alone. `ext`
+           (default "json") only affects this generic fallback -- a
+           human-readable report artifact_type can pass ext="md" so a
+           brand-new tournament's fallback name still has the right
+           extension; a mapped, already-committed filename always wins
+           regardless of `ext`.
 
         Never guesses which artifact a caller means -- artifact_type is
         an explicit string the caller supplies, this function only ever
@@ -85,7 +90,7 @@ class TournamentContext:
         """
         filename = self.artifacts.get(artifact_type)
         if filename is None:
-            filename = f"{self.game_code}_{artifact_type.upper()}.json"
+            filename = f"{self.game_code}_{artifact_type.upper()}.{ext}"
         return CONTENT_DIR / filename
 
     @property
@@ -157,6 +162,44 @@ def resolve_context(identity: dict, registry: dict) -> TournamentContext:
         format=entry.get("format"),
         artifacts=dict(entry.get("artifacts") or {}),
     )
+
+
+def ensure_site_registry_entry(identity: dict) -> None:
+    """PRE BOOTSTRAP (NEO TOURNAMENT PIPELINE Phase 4): runtime data
+    generation, not a source edit. resolve_context() hard-requires a
+    TOURNAMENT_SITE_REGISTRY.json entry (url_base/stage_state_filename/
+    stage_order) for any game_code before it can build a
+    TournamentContext at all. For a brand-new game_code that has none
+    yet, add a minimal, purely-structural entry so the rest of the
+    pipeline can run with zero source edits -- never touches an
+    existing entry (OK Open's and KG Ladies Open's real, hand-curated
+    entries, including their live site URLs, stay exactly as committed).
+
+    Nothing here is a fabricated tournament FACT: url_base and
+    stage_state_filename are internal naming derived from game_code
+    (never a guessed human-readable slug that could collide with, or
+    misrepresent, a real site path), and stage_order is a mechanical
+    ["pre", "r1".."rN", "final"] derived from the already-confirmed
+    final_round_number. No `artifacts` mapping is written, so every
+    artifact_type falls back to TournamentContext.artifact_path()'s
+    generic `<game_code>_<ARTIFACT_TYPE>.<ext>` naming.
+    """
+    game_code = str(identity["game_code"])
+    if SITE_REGISTRY_PATH.is_file():
+        raw = _load_json(SITE_REGISTRY_PATH)
+    else:
+        raw = {"schema_version": 1, "tournaments": {}}
+    tournaments = raw.setdefault("tournaments", {})
+    if game_code in tournaments:
+        return
+    final_round_number = int(identity["final_round_number"])
+    tournaments[game_code] = {
+        "url_base": f"/tournaments/{identity['season']}/{game_code}/",
+        "stage_state_filename": f"{game_code}_STAGE_STATE.json",
+        "stage_order": ["pre", *[f"r{n}" for n in range(1, final_round_number + 1)], "final"],
+    }
+    SITE_REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SITE_REGISTRY_PATH.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def load_active_tournament_context() -> TournamentContext:
