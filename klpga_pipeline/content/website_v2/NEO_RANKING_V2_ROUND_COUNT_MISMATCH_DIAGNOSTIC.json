@@ -1,0 +1,138 @@
+{
+  "schema_version": "neo_ranking_v2_round_count_mismatch_diagnostic_v1",
+  "model_state": "VALIDATION_MODEL_NOT_PRODUCTION",
+  "population_checked": 6294,
+  "evidence_matched_count": 0,
+  "unverified_no_official_row_count": 6294,
+  "confusion_matrix": [],
+  "delta_distribution": {},
+  "event_diagnostics": {
+    "events_checked": 97,
+    "worst_mismatch_events_top20": []
+  },
+  "year_diagnostics": [
+    {
+      "year": "2023",
+      "population": 1532,
+      "verified": 0,
+      "mismatch": 0,
+      "unverified": 1532,
+      "mismatch_rate": null
+    },
+    {
+      "year": "2024",
+      "population": 1650,
+      "verified": 0,
+      "mismatch": 0,
+      "unverified": 1650,
+      "mismatch_rate": null
+    },
+    {
+      "year": "2025",
+      "population": 1788,
+      "verified": 0,
+      "mismatch": 0,
+      "unverified": 1788,
+      "mismatch_rate": null
+    },
+    {
+      "year": "2026",
+      "population": 1324,
+      "verified": 0,
+      "mismatch": 0,
+      "unverified": 1324,
+      "mismatch_rate": null
+    }
+  ],
+  "sg_rounds_semantics_provenance": {
+    "producer_script": "scripts/77_repair_sg_row_retention.py (only script that writes historical_sg_warehouse_corrected.json -- confirmed via repo-wide search; scripts/78_parallel_repair_sg.py writes a DIFFERENT file, historical_sg_warehouse_corrected_v2.json)",
+    "cumulative_request_params": "scripts/77_repair_sg_row_retention.py line ~24-26: for rnd in (None,*range(1,latest+1)): html=post(s,SG,{'gameCode':code,'round':'' if rnd is None else str(rnd)}); parse_sg_html(html, scope='tournament_cumulative' if rnd is None else 'single_round', round_number=rnd) -- i.e. scope='tournament_cumulative' is ALWAYS the round='' (empty) request to strokesGained_detail, never a specific round number.",
+    "rounds_field_source": "src/klpga/website_v2/official_data.py::parse_sg_html, line ~39: \"rounds\": int(_number(cells[8].get_text(strip=True)) or 0) -- read LITERALLY from the 9th <td> of the strokesGained_detail HTML table row (cells[0]=rank, [1]=player, [2:8]=the 6 SG stat columns, [8]=this field). There is NO local counting/summation logic anywhere in parse_sg_html -- it is whatever numeric value the KLPGA site itself renders in that column.",
+    "known_fact": "The 'rounds' value on a tournament_cumulative row is copied verbatim from a column the KLPGA site displays on its CUMULATIVE (round='') strokesGained_detail view.",
+    "unresolved_hypothesis_not_asserted_as_fact": "Because this is the CUMULATIVE SG endpoint (not a per-round request), this column plausibly represents 'how many rounds' worth of SG data went into this cumulative total' -- which is a measure of SG-STAT COVERAGE, not necessarily 'how many rounds this player officially competed in' (the official leaderboard's round-score count). These are conceptually different quantities and would explain a real, systematic mismatch if KLPGA's SG-tracking coverage does not always equal tournament participation. This is a HYPOTHESIS grounded in the code path above, not a proven fact -- no docstring, schema comment, or docs/*.md file anywhere in the repo defines this column's meaning (confirmed by repo-wide search); docs/KLPGA_OFFICIAL_DATA_MAP.md's only 'measured rounds' reference (lines ~133,213) explicitly documents a DIFFERENT, season-level endpoint (loadLocationRecord), not strokesGained_detail. Only the real confusion-matrix DIRECTION split above (section 8) can adjudicate this hypothesis -- see mismatch_direction."
+  },
+  "official_snapshot_audit": {
+    "function_audited": "src/klpga/website_v2/round_count_audit_lib.py::best_snapshot",
+    "current_rule": "selects the row (across all retrieved rounds for this player) with the most non-null R1-R4 values, tie-broken by the highest requested_round.",
+    "known_risk_not_yet_confirmed_against_real_data": "IF a player who has already exited the tournament (CUT/WD/DQ) still appears in a LATER round's official leaderboard response with the SAME (non-improving) score array -- rather than being excluded from that response entirely -- then best_snapshot's tie-break (prefer highest requested_round on a non-null-count tie) would select that later, stale row. This does not change official_rounds (still counts real non-null values only, never fabricated), but it DOES change best_row['requested_round'], which is the signal the CUT classifier (section 7 below) depends on.",
+    "verification_status": "UNCONFIRMED in this environment -- requires inspecting real archived rows for a player known to have missed the cut, comparing their round-2 row against their round-3/round-4 rows (if present) for identical vs. absent data. The cut_classifier_redteam.phantom_later_round_appearance signal below is the instrumentation added to answer this from real data once available."
+  },
+  "cut_classifier_redteam": {
+    "current_105_rule": "classify_competition_status: best_row.requested_round < archive_max_round (the highest round this EVENT's archive actually retrieved) => CUT.",
+    "reported_cut_count_context": "User-reported real run: CUT=12 across 97 events / 6294 player-events -- suspiciously low if a ~50% cut rate is typical for stroke-play fields, UNLESS most of these 97 events are 3-round (54-hole) tournaments without a traditional 36-hole cut, which the existing round_distribution ({\"3\": majority bucket}) makes plausible.",
+    "phantom_later_round_appearance_signal": {
+      "definition": "count of player-events where the player has an archived row in a round STRICTLY AFTER their best (fullest) snapshot's round -- i.e. they are NOT actually absent from later official responses, only their score array never grew. If this count is non-trivial, the current CUT rule's 'absence = cut' assumption is invalidated for those specific player-events and the CUT classifier is WRONG for them, not just imprecise.",
+      "phantom_count": 0,
+      "examples": []
+    },
+    "verdict": "UNRESOLVED pending real archive data in this environment -- phantom_count is computed against whatever leaderboard archive is actually on disk when this script runs. If phantom_count > 0 when run against the real Windows-retrieved archive, the current CUT classifier must be marked WRONG for those cases (not silently trusted), and scripts/105's CUT logic needs a stronger signal (e.g. explicit rank/status text for 'CUT' if KLPGA's HTML renders one, which parse_leaderboard_html does not currently extract beyond WD/DQ) before any V2 backtest can treat competition_status as ground truth. This diagnostic does NOT auto-repair the classifier -- it only instruments and reports the evidence."
+  },
+  "mismatch_direction": {
+    "unverified_no_official_row": 6294
+  },
+  "clustering_patterns": {
+    "by_sg_rounds": {},
+    "by_competition_status": {},
+    "worst_players_by_mismatch_count": []
+  },
+  "competition_status_totals": {},
+  "duplicate_cumulative_snapshots_collapsed": 0,
+  "single_round_only_events_excluded_not_mixed_in": 4850,
+  "mismatch_examples": [],
+  "unverified_examples": [
+    {
+      "player_id": "9784",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "9750",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "6916",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "11630",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "11649",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "1521",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "10112",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "8284",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "10095",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    },
+    {
+      "player_id": "9362",
+      "game_code": "2025040001",
+      "sg_rounds": 4
+    }
+  ],
+  "input_sha256": {
+    "historical_sg_warehouse_corrected.json": "a5178b2e5ab150df64af2473dba4f7ae9ff05928f4f3d55b4e40478ed29e78e3",
+    "NEO_RANKING_V2_OFFICIAL_LEADERBOARD_ARCHIVE.json": "4f63f165bc3e4847fa65c095fdeb67971d9baa2a975cddfbf99fe74adf1dcc6c"
+  }
+}

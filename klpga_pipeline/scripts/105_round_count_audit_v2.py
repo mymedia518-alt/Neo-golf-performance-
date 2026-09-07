@@ -163,24 +163,47 @@ def build_report(sg: dict, consistency: dict, archive: dict | None, archive_sha:
 
     total_checked = len(cumulative_only)
     verified_count = round_count_state.get("verified", 0)
+    mismatch_count = round_count_state.get("mismatch", 0)
+    # "evidence_count" = player-events that actually matched a real official
+    # leaderboard row (verified OR mismatch) -- distinct from retrieval
+    # coverage (did we reach the endpoint at all). Conflating these two was
+    # the exact bug this gate wording had to fix: 97/97 events retrieved
+    # and 6294/6294 player-events matched official evidence is NOT "no
+    # evidence" just because most of those matches disagree on round count.
+    evidence_count = verified_count + mismatch_count
+    MISMATCH_RATE_GATE_THRESHOLD = 0.05
 
-    if verified_count == 0:
+    if evidence_count == 0:
         gate_status = "BLOCKED"
         gate_reason = (
-            "round_count_state has zero VERIFIED records -- no official leaderboard archive evidence is "
-            "available in this environment (network egress blocked, or the archive has not been generated "
-            "yet). Round-count verification requires a real retrieval run (e.g. on a machine with genuine "
-            "KLPGA network access) to populate NEO_RANKING_V2_OFFICIAL_LEADERBOARD_ARCHIVE.json with real "
-            "parsed player rows first."
+            "Zero player-events matched any official leaderboard row -- no retrieval evidence exists at "
+            "all in this environment (network egress blocked, or the archive has not been generated yet). "
+            "Round-count verification requires a real retrieval run (e.g. on a machine with genuine KLPGA "
+            "network access) to populate NEO_RANKING_V2_OFFICIAL_LEADERBOARD_ARCHIVE.json with real parsed "
+            "player rows first."
         )
     else:
-        gate_status = "PARTIAL_EVIDENCE"
-        gate_reason = (
-            f"{verified_count}/{total_checked} player-events achieved ROUND_COUNT_VERIFIED using real "
-            "official leaderboard evidence. This is real progress but not yet a full-population "
-            "verification -- V2 backtest eligibility should be scoped to the verified subset, not assumed "
-            "for the full population, until every population-defining tournament has been retrieved."
-        )
+        mismatch_rate = mismatch_count / evidence_count
+        if mismatch_rate > MISMATCH_RATE_GATE_THRESHOLD:
+            gate_status = "BLOCKED_ROUND_COUNT_SEMANTICS"
+            gate_reason = (
+                f"{evidence_count}/{total_checked} player-events matched real official leaderboard evidence "
+                f"(retrieval coverage is NOT the blocker), but {mismatch_count}/{evidence_count} "
+                f"({mismatch_rate:.1%}) disagree between the SG warehouse's own `rounds` field and the "
+                "official leaderboard's non-null round-score count. This is a SEMANTICS problem, not a "
+                "retrieval-coverage problem -- see NEO_RANKING_V2_ROUND_COUNT_MISMATCH_DIAGNOSTIC.json "
+                "(scripts/106_round_count_mismatch_diagnostic.py) for the root-cause investigation. V2 "
+                "backtesting must not proceed until this mismatch rate is understood and resolved."
+            )
+        else:
+            gate_status = "PARTIAL_EVIDENCE" if verified_count < total_checked else "VERIFIED"
+            gate_reason = (
+                f"{verified_count}/{total_checked} player-events achieved ROUND_COUNT_VERIFIED using real "
+                f"official leaderboard evidence, with a low ({mismatch_rate:.1%}) disagreement rate against "
+                "official round counts. V2 backtest eligibility should still be scoped to the verified "
+                "subset, not assumed for the full population, until every population-defining tournament "
+                "has been retrieved."
+            )
 
     return {
         "schema_version": "neo_ranking_v2_round_count_audit_v2_archive_connected",

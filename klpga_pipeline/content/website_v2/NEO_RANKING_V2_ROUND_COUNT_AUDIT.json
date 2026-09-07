@@ -98,7 +98,7 @@
   },
   "hard_gate": {
     "status": "BLOCKED",
-    "reason": "round_count_state has zero VERIFIED records -- no official leaderboard archive evidence is available in this environment (network egress blocked, or the archive has not been generated yet). Round-count verification requires a real retrieval run (e.g. on a machine with genuine KLPGA network access) to populate NEO_RANKING_V2_OFFICIAL_LEADERBOARD_ARCHIVE.json with real parsed player rows first."
+    "reason": "Zero player-events matched any official leaderboard row -- no retrieval evidence exists at all in this environment (network egress blocked, or the archive has not been generated yet). Round-count verification requires a real retrieval run (e.g. on a machine with genuine KLPGA network access) to populate NEO_RANKING_V2_OFFICIAL_LEADERBOARD_ARCHIVE.json with real parsed player rows first."
   },
   "input_sha256": {
     "historical_sg_warehouse_corrected.json": "a5178b2e5ab150df64af2473dba4f7ae9ff05928f4f3d55b4e40478ed29e78e3",
