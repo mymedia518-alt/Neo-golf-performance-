@@ -1,0 +1,931 @@
+{
+  "schema_version": "neo_home_v3_independent_qa_v1",
+  "generated_at": "2026-09-07T09:25:20Z",
+  "overall_status": "FAIL",
+  "target_branch": "candidate/neo-home-v3-shell",
+  "target_commit": "375bf9aebd84651176010d6be36c7291b646054d",
+  "production_ref": "origin/neo-website-v2",
+  "checks": [
+    {
+      "id": "candidate_immutable",
+      "status": "PASS",
+      "summary": "Candidate tree is unchanged from the pinned target commit."
+    },
+    {
+      "id": "production_untouched",
+      "status": "PASS",
+      "summary": "Production docs/ was not modified by QA tooling."
+    },
+    {
+      "id": "qa_change_isolation",
+      "status": "PASS",
+      "summary": "QA changes are isolated to the validator, its tests, and its report.",
+      "details": {
+        "branch": "tooling/neo-home-v3-qa",
+        "changed_files": [
+          "klpga_pipeline/content/website_v2/NEO_HOME_V3_QA_REPORT.json",
+          "klpga_pipeline/scripts/validate_home_v3.py",
+          "klpga_pipeline/tests/test_validate_home_v3.py"
+        ],
+        "issues": []
+      }
+    },
+    {
+      "id": "ranking_semantics",
+      "status": "PASS",
+      "summary": "Ranking table has valid headers and 546 semantic rows."
+    },
+    {
+      "id": "neo_numeric_exposure",
+      "status": "FAIL",
+      "summary": "Unapproved NEO-derived values are exposed in public candidate artifacts.",
+      "details": {
+        "NEO RANK": {
+          "count": 129,
+          "samples": [
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[0].neo_rank",
+              "value": 32
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[1].neo_rank",
+              "value": 58
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[2].neo_rank",
+              "value": 55
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[3].neo_rank",
+              "value": 33
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[4].neo_rank",
+              "value": 66
+            }
+          ]
+        },
+        "PERFORMANCE SG": {
+          "count": 1640,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "+0.13"
+            },
+            {
+              "player": "Bianca Pagdanganan",
+              "attribute": "title",
+              "value": "최근 5개 +0.13 · 최근 10개 +0.13 · 장기 +0.13 · 표본 1개"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "-1.32"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "attribute": "title",
+              "value": "최근 5개 -1.32 · 최근 10개 -1.32 · 장기 -1.32 · 표본 1개"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "-0.60"
+            }
+          ]
+        },
+        "RECENT FORM": {
+          "count": 2338,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "+0.13"
+            },
+            {
+              "player": "Bianca Pagdanganan",
+              "attribute": "data-recent-sg",
+              "value": "0.13"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "-1.32"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "attribute": "data-recent-sg",
+              "value": "-1.32"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "-0.60"
+            }
+          ]
+        },
+        "VOLATILITY": {
+          "count": 1060,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "0.00"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "0.00"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "0.00"
+            },
+            {
+              "player": "Eila Galitsky 0610(A)",
+              "value": "1.54"
+            },
+            {
+              "player": "Hana WAKIMOTO",
+              "value": "0.00"
+            }
+          ]
+        },
+        "TREND": {
+          "count": 0,
+          "samples": []
+        },
+        "EVENTS": {
+          "count": 1060,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "1"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "1"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "1"
+            },
+            {
+              "player": "Eila Galitsky 0610(A)",
+              "value": "2"
+            },
+            {
+              "player": "Hana WAKIMOTO",
+              "value": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "official_k_rank",
+      "status": "FAIL",
+      "summary": "K-RANK policy found 427 invalid display or hidden sentinel values.",
+      "details": {
+        "status": "FAIL",
+        "violations": 427,
+        "samples": [
+          {
+            "player": "Alisara WEDCHAKAMA",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Ashley Lau",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Atthaya Thitikul",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Bianca Pagdanganan",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Chayanit WANGMAHAPORN(I)",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Danielle Kang",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Eila Galitsky 0610(A)",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Hana WAKIMOTO",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Lydia Ko",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Minjee Lee",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Nattarika SENSAI",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Patty Tavatanakit",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          }
+        ],
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp"
+      }
+    },
+    {
+      "id": "sponsor_policy",
+      "status": "PASS",
+      "summary": "Sponsor policy passed; 546 blank sponsor cells are accepted.",
+      "details": {
+        "status": "PASS",
+        "blank_sponsors": 546,
+        "verified_sponsors": 0,
+        "violations": [],
+        "blank_policy": "ACCEPTED",
+        "source_error": null
+      }
+    },
+    {
+      "id": "photo_policy",
+      "status": "PASS",
+      "summary": "Photo policy passed with 546 neutral silhouette instances.",
+      "details": {
+        "status": "PASS",
+        "neutral_silhouettes": 546,
+        "verified_photos": 0,
+        "violations": [],
+        "silhouette_fallback": "ACCEPTED"
+      }
+    },
+    {
+      "id": "performance_race_policy",
+      "status": "PASS",
+      "summary": "Performance Race is an empty structural shell with approved text.",
+      "details": {
+        "status": "PASS",
+        "violations": [],
+        "empty_state": "데이터 검증 후 공개"
+      }
+    },
+    {
+      "id": "internal_engineering_strings",
+      "status": "FAIL",
+      "summary": "Internal engineering blocker strings are publicly exposed.",
+      "details": [
+        {
+          "file": "index.html",
+          "marker": "SG WAREHOUSE"
+        },
+        {
+          "file": "data/home-v3-summary.json",
+          "marker": "BLOCKED_"
+        },
+        {
+          "file": "data/home-v3-summary.json",
+          "marker": "NOT_APPROVED"
+        },
+        {
+          "file": "data/home-v3-summary.json",
+          "marker": "FORMULA_NOT_APPROVED"
+        },
+        {
+          "file": "data/neo-top120-evaluation.json",
+          "marker": "NOT_PRODUCTION"
+        },
+        {
+          "file": "data/neo-top120-evaluation.json",
+          "marker": "NOT_FITTED_OR_APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "betting_language",
+      "status": "PASS",
+      "summary": "No betting/gambling language found."
+    },
+    {
+      "id": "internal_links",
+      "status": "PASS",
+      "summary": "HOME V3 introduced no broken internal links.",
+      "details": {
+        "introduced": [],
+        "inherited_from_production": [
+          {
+            "source": "protected/beta001/r1.html",
+            "url": "../r2/",
+            "reason": "target missing",
+            "classification": "inherited_from_production"
+          }
+        ]
+      }
+    },
+    {
+      "id": "required_navigation",
+      "status": "FAIL",
+      "summary": "Required navigation routes are missing or not linked from HOME navigation.",
+      "details": [
+        {
+          "route": "/ranking/",
+          "reason": "not reachable from HOME navigation"
+        },
+        {
+          "route": "/deep-dive/",
+          "reason": "not reachable from HOME navigation"
+        }
+      ]
+    },
+    {
+      "id": "reduced_motion",
+      "status": "PASS",
+      "summary": "prefers-reduced-motion disables animation."
+    },
+    {
+      "id": "keyboard_focus",
+      "status": "PASS",
+      "summary": "Focusable controls and visible focus styling are present."
+    },
+    {
+      "id": "mobile_ranking_markup",
+      "status": "PASS",
+      "summary": "Mobile card/table parity verified for 546 players.",
+      "details": {
+        "desktop_rows": 546,
+        "mobile_cards": 546
+      }
+    },
+    {
+      "id": "historical_pages_preserved",
+      "status": "PASS",
+      "summary": "Historical tournament pages are byte-identical to production."
+    },
+    {
+      "id": "browser_rendering",
+      "status": "PASS",
+      "summary": "Desktop/mobile, keyboard and reduced-motion browser checks passed.",
+      "details": {
+        "desktop_table_visible": true,
+        "desktop_cards_hidden": true,
+        "mobile_cards_visible": true,
+        "mobile_table_hidden": true,
+        "mobile_contained": true,
+        "first_tab_focus": "A",
+        "nav_toggle_keyboard": true,
+        "reduced_animation_name": "none",
+        "page_errors": []
+      }
+    }
+  ],
+  "failures": [
+    {
+      "id": "neo_numeric_exposure",
+      "status": "FAIL",
+      "summary": "Unapproved NEO-derived values are exposed in public candidate artifacts.",
+      "details": {
+        "NEO RANK": {
+          "count": 129,
+          "samples": [
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[0].neo_rank",
+              "value": 32
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[1].neo_rank",
+              "value": 58
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[2].neo_rank",
+              "value": 55
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[3].neo_rank",
+              "value": 33
+            },
+            {
+              "public_json": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[4].neo_rank",
+              "value": 66
+            }
+          ]
+        },
+        "PERFORMANCE SG": {
+          "count": 1640,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "+0.13"
+            },
+            {
+              "player": "Bianca Pagdanganan",
+              "attribute": "title",
+              "value": "최근 5개 +0.13 · 최근 10개 +0.13 · 장기 +0.13 · 표본 1개"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "-1.32"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "attribute": "title",
+              "value": "최근 5개 -1.32 · 최근 10개 -1.32 · 장기 -1.32 · 표본 1개"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "-0.60"
+            }
+          ]
+        },
+        "RECENT FORM": {
+          "count": 2338,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "+0.13"
+            },
+            {
+              "player": "Bianca Pagdanganan",
+              "attribute": "data-recent-sg",
+              "value": "0.13"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "-1.32"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "attribute": "data-recent-sg",
+              "value": "-1.32"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "-0.60"
+            }
+          ]
+        },
+        "VOLATILITY": {
+          "count": 1060,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "0.00"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "0.00"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "0.00"
+            },
+            {
+              "player": "Eila Galitsky 0610(A)",
+              "value": "1.54"
+            },
+            {
+              "player": "Hana WAKIMOTO",
+              "value": "0.00"
+            }
+          ]
+        },
+        "TREND": {
+          "count": 0,
+          "samples": []
+        },
+        "EVENTS": {
+          "count": 1060,
+          "samples": [
+            {
+              "player": "Bianca Pagdanganan",
+              "value": "1"
+            },
+            {
+              "player": "Chayanit WANGMAHAPORN(I)",
+              "value": "1"
+            },
+            {
+              "player": "Danielle Kang",
+              "value": "1"
+            },
+            {
+              "player": "Eila Galitsky 0610(A)",
+              "value": "2"
+            },
+            {
+              "player": "Hana WAKIMOTO",
+              "value": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "official_k_rank",
+      "status": "FAIL",
+      "summary": "K-RANK policy found 427 invalid display or hidden sentinel values.",
+      "details": {
+        "status": "FAIL",
+        "violations": 427,
+        "samples": [
+          {
+            "player": "Alisara WEDCHAKAMA",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Ashley Lau",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Atthaya Thitikul",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Bianca Pagdanganan",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Chayanit WANGMAHAPORN(I)",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Danielle Kang",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Eila Galitsky 0610(A)",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Hana WAKIMOTO",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Lydia Ko",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Minjee Lee",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Nattarika SENSAI",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          },
+          {
+            "player": "Patty Tavatanakit",
+            "attribute": "data-k-rank",
+            "value": "999999",
+            "reason": "unofficial missing-value sentinel"
+          }
+        ],
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp"
+      }
+    },
+    {
+      "id": "internal_engineering_strings",
+      "status": "FAIL",
+      "summary": "Internal engineering blocker strings are publicly exposed.",
+      "details": [
+        {
+          "file": "index.html",
+          "marker": "SG WAREHOUSE"
+        },
+        {
+          "file": "data/home-v3-summary.json",
+          "marker": "BLOCKED_"
+        },
+        {
+          "file": "data/home-v3-summary.json",
+          "marker": "NOT_APPROVED"
+        },
+        {
+          "file": "data/home-v3-summary.json",
+          "marker": "FORMULA_NOT_APPROVED"
+        },
+        {
+          "file": "data/neo-top120-evaluation.json",
+          "marker": "NOT_PRODUCTION"
+        },
+        {
+          "file": "data/neo-top120-evaluation.json",
+          "marker": "NOT_FITTED_OR_APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "required_navigation",
+      "status": "FAIL",
+      "summary": "Required navigation routes are missing or not linked from HOME navigation.",
+      "details": [
+        {
+          "route": "/ranking/",
+          "reason": "not reachable from HOME navigation"
+        },
+        {
+          "route": "/deep-dive/",
+          "reason": "not reachable from HOME navigation"
+        }
+      ]
+    }
+  ],
+  "warnings": [],
+  "production_touched": false,
+  "historical_pages_changed": [],
+  "neo_numeric_exposure": {
+    "NEO RANK": {
+      "count": 129,
+      "samples": [
+        {
+          "public_json": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[0].neo_rank",
+          "value": 32
+        },
+        {
+          "public_json": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[1].neo_rank",
+          "value": 58
+        },
+        {
+          "public_json": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[2].neo_rank",
+          "value": 55
+        },
+        {
+          "public_json": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[3].neo_rank",
+          "value": 33
+        },
+        {
+          "public_json": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[4].neo_rank",
+          "value": 66
+        }
+      ]
+    },
+    "PERFORMANCE SG": {
+      "count": 1640,
+      "samples": [
+        {
+          "player": "Bianca Pagdanganan",
+          "value": "+0.13"
+        },
+        {
+          "player": "Bianca Pagdanganan",
+          "attribute": "title",
+          "value": "최근 5개 +0.13 · 최근 10개 +0.13 · 장기 +0.13 · 표본 1개"
+        },
+        {
+          "player": "Chayanit WANGMAHAPORN(I)",
+          "value": "-1.32"
+        },
+        {
+          "player": "Chayanit WANGMAHAPORN(I)",
+          "attribute": "title",
+          "value": "최근 5개 -1.32 · 최근 10개 -1.32 · 장기 -1.32 · 표본 1개"
+        },
+        {
+          "player": "Danielle Kang",
+          "value": "-0.60"
+        }
+      ]
+    },
+    "RECENT FORM": {
+      "count": 2338,
+      "samples": [
+        {
+          "player": "Bianca Pagdanganan",
+          "value": "+0.13"
+        },
+        {
+          "player": "Bianca Pagdanganan",
+          "attribute": "data-recent-sg",
+          "value": "0.13"
+        },
+        {
+          "player": "Chayanit WANGMAHAPORN(I)",
+          "value": "-1.32"
+        },
+        {
+          "player": "Chayanit WANGMAHAPORN(I)",
+          "attribute": "data-recent-sg",
+          "value": "-1.32"
+        },
+        {
+          "player": "Danielle Kang",
+          "value": "-0.60"
+        }
+      ]
+    },
+    "VOLATILITY": {
+      "count": 1060,
+      "samples": [
+        {
+          "player": "Bianca Pagdanganan",
+          "value": "0.00"
+        },
+        {
+          "player": "Chayanit WANGMAHAPORN(I)",
+          "value": "0.00"
+        },
+        {
+          "player": "Danielle Kang",
+          "value": "0.00"
+        },
+        {
+          "player": "Eila Galitsky 0610(A)",
+          "value": "1.54"
+        },
+        {
+          "player": "Hana WAKIMOTO",
+          "value": "0.00"
+        }
+      ]
+    },
+    "TREND": {
+      "count": 0,
+      "samples": []
+    },
+    "EVENTS": {
+      "count": 1060,
+      "samples": [
+        {
+          "player": "Bianca Pagdanganan",
+          "value": "1"
+        },
+        {
+          "player": "Chayanit WANGMAHAPORN(I)",
+          "value": "1"
+        },
+        {
+          "player": "Danielle Kang",
+          "value": "1"
+        },
+        {
+          "player": "Eila Galitsky 0610(A)",
+          "value": "2"
+        },
+        {
+          "player": "Hana WAKIMOTO",
+          "value": "1"
+        }
+      ]
+    }
+  },
+  "broken_links": [],
+  "photo_policy": {
+    "status": "PASS",
+    "neutral_silhouettes": 546,
+    "verified_photos": 0,
+    "violations": [],
+    "silhouette_fallback": "ACCEPTED"
+  },
+  "sponsor_policy": {
+    "status": "PASS",
+    "blank_sponsors": 546,
+    "verified_sponsors": 0,
+    "violations": [],
+    "blank_policy": "ACCEPTED",
+    "source_error": null
+  },
+  "performance_race_policy": {
+    "status": "PASS",
+    "violations": [],
+    "empty_state": "데이터 검증 후 공개"
+  },
+  "official_k_rank_policy": {
+    "status": "FAIL",
+    "violations": 427,
+    "samples": [
+      {
+        "player": "Alisara WEDCHAKAMA",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Ashley Lau",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Atthaya Thitikul",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Bianca Pagdanganan",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Chayanit WANGMAHAPORN(I)",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Danielle Kang",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Eila Galitsky 0610(A)",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Hana WAKIMOTO",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Lydia Ko",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Minjee Lee",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Nattarika SENSAI",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      },
+      {
+        "player": "Patty Tavatanakit",
+        "attribute": "data-k-rank",
+        "value": "999999",
+        "reason": "unofficial missing-value sentinel"
+      }
+    ],
+    "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp"
+  },
+  "candidate_unchanged_from_target": true
+}
