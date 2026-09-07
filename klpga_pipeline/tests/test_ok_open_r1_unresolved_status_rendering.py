@@ -93,6 +93,19 @@ def test_normal_in_progress_row_is_unaffected():
 
 
 def test_real_build_박결_and_김아현_are_never_shown_with_999_or_repeated_placeholder():
+    # QA REMEDIATION (post-fbb69de): when this test was written, the
+    # only source for these two players' status was the leaderboard
+    # parser's ambiguous "999" rank sentinel (status="INCOMPLETE"), so
+    # the honest rendering was a fully blank row including the 상태
+    # cell. scripts/98's official R1 FINAL reconciliation (against the
+    # real scoreRecord source, not the ambiguous leaderboard sentinel)
+    # has since run and confirmed official_status="WD" for both players
+    # -- a real fact from the source, not a guess -- so per this
+    # module's own documented policy ("WD"/"DQ" are shown as literal
+    # text only when the source itself literally reports that word"),
+    # the 상태 cell now correctly shows "WD" while every other cell
+    # (순위/현재스코어/오늘스코어/선두와 타수차) stays blank, exactly as a
+    # WD row should render.
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     for name in ("박결", "김아현"):
@@ -105,7 +118,7 @@ def test_real_build_박결_and_김아현_are_never_shown_with_999_or_repeated_pl
         assert "INCOMPLETE" not in row
         assert "결과 미확인" not in row
         assert "—" not in row
-        assert row.endswith("<td></td></tr>")  # 상태 cell: honest empty, no guessed label
+        assert row.endswith("<td>WD</td></tr>")  # 상태 cell: real, confirmed official WD
         assert row.count("산출 불가") == 0
 
 

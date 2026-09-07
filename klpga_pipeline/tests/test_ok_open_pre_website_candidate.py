@@ -108,13 +108,22 @@ def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
         assert page.exists()
         html = page.read_text(encoding="utf-8")
         assert "neo-public-master-sha256" in html
-        # R2/FINAL have no real pipeline yet and must show the honest
+        # FINAL has no real pipeline yet and must show the honest
         # "공식 데이터가 아직 없습니다" placeholder. PRE and R1 both have
         # real data (R1's page previously matched "아직" only by
         # coincidence, via now-removed probability-model help text --
         # P0 MODEL SAFETY PATCH -- so it is exempted explicitly here,
         # not by an accidental substring match).
-        assert "아직" in html or stage in ("pre", "r1")
+        #
+        # QA REMEDIATION (post-fbb69de): R2 is exempted too -- commits
+        # db13746 ("R2 LIVE: publish OK Open factual stage") and
+        # 1885e2c ("fix: publish verified R2 completed-hole progress")
+        # gave stage=="r2" a real live pipeline
+        # (_r2_live_leaderboard_section), same as R1's. Only FINAL still
+        # has no live pipeline wired into build()'s route loop (its
+        # stage body is always None there), so it alone still gets the
+        # placeholder.
+        assert "아직" in html or stage in ("pre", "r1", "r2")
     assert not (root / "r3").exists()
     manifest = json.loads((out / "data/manifest.json").read_text(encoding="utf-8"))
     assert len(manifest["source_master_sha256"]) == 64
