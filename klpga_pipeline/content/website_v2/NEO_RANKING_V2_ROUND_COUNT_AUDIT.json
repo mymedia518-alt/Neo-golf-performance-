@@ -1,0 +1,157 @@
+{
+  "schema_version": "neo_ranking_v2_round_count_audit_v1",
+  "model_state": "VALIDATION_MODEL_NOT_PRODUCTION",
+  "events_checked": 97,
+  "player_events_checked": 6294,
+  "scope_counts_raw_warehouse": {
+    "tournament_cumulative": 11452,
+    "single_round": 32249
+  },
+  "duplicate_cumulative_snapshots_collapsed": 0,
+  "single_round_only_events_excluded_not_mixed_in": 4850,
+  "round_count_state": {
+    "verified": 0,
+    "mismatch": 0,
+    "unverified": 6294
+  },
+  "round_count_state_note": "ALL player-events are classified UNVERIFIED. The literal cross-check (SG table rounds vs count of non-null official r1..r4 leaderboard scores) requires the player_event SQL table, which needs the real KLPGA database. This sandbox's data/klpga.sqlite is a confirmed 0-byte placeholder. No JSON export of player_event with per-round numeric scores was found in this repository (player_event_series.json was checked and is an SG-only export, not the DB table, despite its name).",
+  "competition_status": {
+    "finished": 4687,
+    "other": 1539,
+    "cut": 68
+  },
+  "round_distribution": {
+    "1": 6,
+    "2": 121,
+    "3": 2852,
+    "4": 3315
+  },
+  "round_group_stats": {
+    "1": {
+      "player_event_count": 6,
+      "mean_tournament_sg": -2.815,
+      "mean_sg_per_round": -2.815,
+      "competition_status_distribution": {}
+    },
+    "2": {
+      "player_event_count": 121,
+      "mean_tournament_sg": 0.0243,
+      "mean_sg_per_round": 0.0121,
+      "competition_status_distribution": {
+        "cut": 5
+      }
+    },
+    "3": {
+      "player_event_count": 2852,
+      "mean_tournament_sg": 1.0495,
+      "mean_sg_per_round": 0.3498,
+      "competition_status_distribution": {
+        "made_cut_finished": 2115,
+        "cut": 5
+      }
+    },
+    "4": {
+      "player_event_count": 3315,
+      "mean_tournament_sg": 0.8648,
+      "mean_sg_per_round": 0.2162,
+      "competition_status_distribution": {
+        "made_cut_finished": 2572,
+        "cut": 58
+      }
+    }
+  },
+  "mismatch_examples": [],
+  "unverified_examples": [
+    {
+      "player_id": "11630",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "11376",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "5137",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "10725",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "10795",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "9436",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "8863",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "10078",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "11431",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    },
+    {
+      "player_id": "11447",
+      "game_code": "2025040001",
+      "rounds": 4,
+      "reason": "no matching outcome record in truth warehouse"
+    }
+  ],
+  "wd_examples": [],
+  "dq_examples": [],
+  "gap_9682_vs_7830_explanation": {
+    "verified_field_players": 9682,
+    "SG_field_players": 7830,
+    "missing_from_SG": 1852,
+    "root_cause_from_existing_artifact": "verified_field_players (9682) counts every player appearing in the R1 grouping/tee-time page across 82 tournaments -- a real official STARTING list. SG_field_players (7830) counts only players who have a matching row in the SG-reconstructed warehouse, which requires the player to have generated an official SG total (i.e. appeared in strokesGained_detail). The R1 grouping page does NOT encode WD/DQ status (see per-tournament 'WD_DQ_reason' field in HISTORICAL_FIELD_CONSISTENCY_BLOCKER_RESOLUTION_V1.json), so the 1852-player gap cannot be attributed to WD/DQ with confidence from this evidence alone.",
+    "classification": "UNKNOWN (not WD/DQ-attributed; not otherwise explained by available evidence)"
+  },
+  "source_provenance": {
+    "historical_sg_warehouse_corrected": {
+      "path": "content/website_v2/historical_sg_warehouse_corrected.json",
+      "sha256": "a5178b2e5ab150df64af2473dba4f7ae9ff05928f4f3d55b4e40478ed29e78e3"
+    },
+    "NEO_HISTORICAL_TRUTH_WAREHOUSE_V1": {
+      "path": "content/website_v2/NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json",
+      "sha256": "cd914d8203a887a056ad7d02f7567d613ccd19b646285b9335079555256b295c"
+    },
+    "HISTORICAL_FIELD_CONSISTENCY_BLOCKER_RESOLUTION_V1": {
+      "path": "content/website_v2/HISTORICAL_FIELD_CONSISTENCY_BLOCKER_RESOLUTION_V1.json",
+      "sha256": "c1198c0542aefd7c229448ee26c8014e6b3235fbae1ddfdd5ac0d84f2521309c"
+    }
+  },
+  "input_sha256": {
+    "historical_sg_warehouse_corrected.json": "a5178b2e5ab150df64af2473dba4f7ae9ff05928f4f3d55b4e40478ed29e78e3",
+    "NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json": "cd914d8203a887a056ad7d02f7567d613ccd19b646285b9335079555256b295c"
+  },
+  "hard_gate": {
+    "status": "BLOCKED",
+    "reason": "round_count_state has zero VERIFIED records -- the independent official leaderboard round-score source (player_event SQL table) is not accessible in this environment. Per instruction, an unverified round count must end in BLOCKED, not be reported as PASS. The SG-table's own rounds field and the WD/DQ/made_cut proxy cross-check above are real evidence but do not constitute independent verification."
+  }
+}
