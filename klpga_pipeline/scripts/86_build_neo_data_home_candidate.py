@@ -13,9 +13,14 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
+from klpga.website_v2.tournament_state import ok_open_available_stages  # noqa: E402
+from klpga.tournament_context import load_active_tournament_context, SITE_REGISTRY_PATH  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home"
+# NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
+# this script's own hardcoded literal -- see src/klpga/tournament_context.py.
+_CONTEXT = load_active_tournament_context()
 
 
 def _cell_number(value, state: str) -> str:
@@ -54,8 +59,75 @@ def render_home(rows: list[dict], summary: dict) -> str:
 <footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 검증되지 않은 숫자는 공개하지 않습니다.</p></div></footer></body></html>'''
 
 
+STAGE_NAV_LABELS = {"pre": "사전", "r1": "R1", "r2": "R2", "r3": "R3", "final": "최종"}
+
+
+def _tournament_row_html(*, display_name: str, status: str, meta_line: str, nav_stages: list[str],
+                          available_stages: dict[str, str], cta_url: str, cta_label: str) -> str:
+    nav_items = []
+    for stage in nav_stages:
+        url = available_stages.get(stage)
+        label = STAGE_NAV_LABELS[stage]
+        if url:
+            nav_items.append(f'<a href="{escape(url)}">{label}</a>')
+        else:
+            nav_items.append(f'<span class="stage-pending" title="아직 시작 전">{label}</span>')
+    return ('<section class="product-section"><div class="tournament-row"><div>'
+            f'<span class="state-chip">{escape(status)}</span><h2>{escape(display_name)}</h2>'
+            f'<p class="note">{escape(meta_line)}</p></div><div><strong>분석 단계</strong>'
+            f'<small>{" · ".join(nav_items)}</small>'
+            f'<a class="row-cta" href="{escape(cta_url)}">{escape(cta_label)}</a></div></div></section>')
+
+
+def _tournament_cards_html() -> str:
+    """One card per known tournament (TOURNAMENT_SITE_REGISTRY.json's
+    hub_card entries, in registry order -- see its _hub_card_comment).
+    The currently active tournament's status/stage-availability is
+    computed live from TournamentContext + ok_open_available_stages()
+    (the same real validated-state function every other live page
+    reads), never a hardcoded literal that could go stale as the
+    tournament progresses; a completed tournament's card uses its own
+    recorded hub_card facts, since no live official-result artifact
+    exists for a tournament that is already over."""
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig"))["tournaments"]
+    cards = []
+    for game_code, entry in registry.items():
+        hub = entry.get("hub_card")
+        if hub is None:
+            continue
+        url_base = entry["url_base"]
+        nav_stages = hub["nav_stages"]
+        if game_code == _CONTEXT.game_code:
+            available = ok_open_available_stages()
+            display_name = _CONTEXT.tournament_name
+            status = "진행중" if any(stage != "pre" for stage in available) else "예정"
+            meta_line = f"{_CONTEXT.display_date_range} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}"
+            cta_stage = next((stage for stage in reversed(nav_stages) if stage in available), "pre")
+            cta_label = "사전 분석 보기 →" if cta_stage == "pre" else "예측 기록 보기 →"
+        else:
+            available = {stage: f"{url_base}{stage}/" for stage in nav_stages}
+            display_name = hub["display_name"]
+            status = hub["status"]
+            meta_line = f'{hub["date_range"]} · {hub["result_line"]}'
+            cta_stage = hub["cta_stage"]
+            cta_label = "예측 기록 보기 →"
+        cards.append(_tournament_row_html(
+            display_name=display_name, status=status, meta_line=meta_line, nav_stages=nav_stages,
+            available_stages=available, cta_url=available.get(cta_stage, f"{url_base}{cta_stage}/"), cta_label=cta_label,
+        ))
+    return "".join(cards)
+
+
 def render_tournaments_clean() -> str:
-    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><header data-neo-global-navigation></header><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small><a class="row-cta" href="/tournaments/2026/kg-ladies-open/final/">예측 기록 보기 →</a></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">예정</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026.09.04–09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <span class="stage-pending" title="아직 시작 전">R1</span> · <span class="stage-pending" title="아직 시작 전">R2</span> · <span class="stage-pending" title="아직 시작 전">최종</span></small><a class="row-cta" href="/tournaments/2026/ok-savings-bank-open/pre/">사전 분석 보기 →</a></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    return ('<!doctype html><html lang="ko"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            '<title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body>'
+            '<header data-neo-global-navigation></header><main>'
+            '<section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1>'
+            '<p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section>'
+            + _tournament_cards_html() +
+            '</main><footer class="site-footer"><div class="site-footer__inner">'
+            '<p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>')
 
 
 def build() -> dict:
@@ -71,16 +143,23 @@ def build() -> dict:
             # files; overwrite the deterministic outputs in place instead.
             pass
     shutil.copytree(REPO / "docs", OUTPUT, dirs_exist_ok=True)
-    ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / "tournaments" / "2026" / "ok-savings-bank-open"
-    shutil.copytree(ok_source, OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open", dirs_exist_ok=True)
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig"))["tournaments"]
+    ok_route = _CONTEXT.url_base.strip("/")
+    ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / ok_route
+    shutil.copytree(ok_source, OUTPUT / ok_route, dirs_exist_ok=True)
     # KG Ladies Open PRE/R3/FINAL: already-built, manifest-verified real
     # content from the beta001 pipeline (candidate/website-v2/). R1/R2
     # already arrive via the docs/ copytree above; only the closed
     # stages missing from docs/ need pulling in here. No data is
     # recomputed — these files are copied byte-for-byte, same pattern
     # already used for OK Open above.
-    kg_source = ROOT / "candidate" / "website-v2" / "tournaments" / "2026" / "kg-ladies-open"
-    kg_dest = OUTPUT / "tournaments" / "2026" / "kg-ladies-open"
+    # The one completed, non-active tournament in the registry (KG
+    # Ladies Open today) -- identified by NOT being the currently
+    # active game_code, never by its own literal game_code.
+    completed_game_code = next(gc for gc in registry if gc != _CONTEXT.game_code)
+    kg_route = registry[completed_game_code]["url_base"].strip("/")
+    kg_source = ROOT / "candidate" / "website-v2" / kg_route
+    kg_dest = OUTPUT / kg_route
     for stage in ("pre", "r3", "final"):
         stage_source = kg_source / stage
         if not (stage_source / "index.html").is_file():

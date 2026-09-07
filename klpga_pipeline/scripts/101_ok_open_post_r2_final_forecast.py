@@ -23,13 +23,13 @@ SEED = 20260906
 CONTENT = ROOT / "content" / "website_v2"
 GT = ROOT / "outputs" / "ground_truth_diagnostic" / "comparison_table.csv"
 OUTDIR = ROOT / "outputs" / "ok_open_post_r2"
-OUT_JSON = CONTENT / "OK_OPEN_2026_POST_R2_FINAL_FORECAST.json"
-OUT_CSV = OUTDIR / "OK_OPEN_2026_POST_R2_FINAL_FORECAST.csv"
+OUT_JSON = _CONTEXT.artifact_path("post_r2_final_forecast")
+OUT_CSV = OUTDIR / f"{OUT_JSON.stem}.csv"
 
-R1_PATH = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
-R2_PATH = CONTENT / "OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
-PRE_PATH = CONTENT / "OK_OPEN_2026_POST_R2_INPUT.json"
-PROFILE_PATH = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
+R1_PATH = _CONTEXT.artifact_path("r1_live_snapshot")
+R2_PATH = _CONTEXT.artifact_path("r2_live_snapshot")
+PRE_PATH = _CONTEXT.artifact_path("post_r2_input")
+PROFILE_PATH = _CONTEXT.artifact_path("pre_performance_snapshot")
 
 def load_json(path):
     return json.loads(path.read_text(encoding="utf-8"))
@@ -213,7 +213,7 @@ win_sum = sum(x["win_pct"] for x in rows)
 
 payload = {
     "schema_version": 1,
-    "artifact": "OK_OPEN_2026_POST_R2_FINAL_FORECAST",
+    "artifact": OUT_JSON.stem,
     "game_code": GAME_CODE,
     "tournament_name": _CONTEXT.tournament_name,
     "stage": "POST_R2_PRE_FINAL",

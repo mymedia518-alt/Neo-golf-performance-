@@ -94,22 +94,21 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.tournament_context import load_active_tournament_context  # noqa: E402
 
-# NEO TOURNAMENT PIPELINE: GAME_CODE and STAGE_STATE now come from the
-# shared TournamentContext instead of being this script's own hardcoded
-# literal -- see src/klpga/tournament_context.py. The remaining
-# OK_OPEN_2026_*.json artifact filenames below are still tournament-
-# specific by name (a larger, separate rename this session did not
-# attempt -- see the hardcoding-removal report's REMAINING HARDCODING
-# section), but the identity value that actually drives collection and
-# validation (GAME_CODE) no longer is.
+# NEO TOURNAMENT PIPELINE Phase 2: every path below now comes from the
+# shared TournamentContext's generic artifact_path() contract instead of
+# a CONTENT / "OK_OPEN_..." literal -- see src/klpga/tournament_context.py.
+# For this tournament the registry's compatibility mapping resolves each
+# artifact_type to the exact real, already-committed filename (never
+# renamed); a future tournament with no mapping entry gets a generic
+# "<game_code>_<TYPE>.json" path automatically.
 _CONTEXT = load_active_tournament_context()
 GAME_CODE = _CONTEXT.game_code
 
-ENTRY_SNAPSHOT = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
-PRE_MASTER = CONTENT / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
-PRE_PERFORMANCE_SNAPSHOT = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
-R1_LIVE_SNAPSHOT = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
-R1_CLOSE_RECORD = CONTENT / "OK_OPEN_2026_R1_CLOSE_RECORD.json"
+ENTRY_SNAPSHOT = _CONTEXT.artifact_path("entry_snapshot")
+PRE_MASTER = _CONTEXT.artifact_path("pre_public_master")
+PRE_PERFORMANCE_SNAPSHOT = _CONTEXT.artifact_path("pre_performance_snapshot")
+R1_LIVE_SNAPSHOT = _CONTEXT.artifact_path("r1_live_snapshot")
+R1_CLOSE_RECORD = _CONTEXT.artifact_path("r1_close_record")
 STAGE_STATE = CONTENT / _CONTEXT.stage_state_filename
 LOCK_PATH = CONTENT / ".r1_active_cycle.lock"
 STALE_LOCK_SECONDS = 25 * 60
@@ -288,9 +287,9 @@ GIT_TRACKED_PATHS = (
     "klpga_pipeline/scripts/96_ok_open_r1_active_cycle.py",
     "docs",
     "klpga_pipeline/candidate",
-    "klpga_pipeline/content/website_v2/OK_OPEN_STAGE_STATE.json",
-    "klpga_pipeline/content/website_v2/OK_OPEN_2026_R1_LIVE_SNAPSHOT.json",
-    "klpga_pipeline/content/website_v2/OK_OPEN_2026_R1_CLOSE_RECORD.json",
+    f"klpga_pipeline/content/website_v2/{STAGE_STATE.name}",
+    f"klpga_pipeline/content/website_v2/{R1_LIVE_SNAPSHOT.name}",
+    f"klpga_pipeline/content/website_v2/{R1_CLOSE_RECORD.name}",
     "klpga_pipeline/content/website_v2/r1_snapshots",
 )
 
@@ -421,8 +420,8 @@ def main() -> int:
             "model_version": "r1_live_probability_v1",
             "build_id": decision.retrieved_at,
             "input_provenance": {
-                "pre_master": "OK_OPEN_2026_PRE_PUBLIC_MASTER.json",
-                "performance_snapshot": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+                "pre_master": PRE_MASTER.name,
+                "performance_snapshot": PRE_PERFORMANCE_SNAPSHOT.name,
                 "r1_leaderboard_source": "klpga.co.kr getGameList/roundLeaderboard (live)" if live else "dry run -- no HTTP",
                 "population_fallback_players": sim_result.population_fallback_players,
                 "missing_r1_players": sim_result.missing_r1_players,

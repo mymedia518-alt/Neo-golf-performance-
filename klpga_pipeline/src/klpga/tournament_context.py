@@ -32,13 +32,14 @@ per-tournament Python constants.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 
 _ROOT = Path(__file__).resolve().parents[2]
 ACTIVE_TOURNAMENT_PATH = _ROOT / "config" / "active_tournament.json"
 SITE_REGISTRY_PATH = _ROOT / "content" / "website_v2" / "TOURNAMENT_SITE_REGISTRY.json"
+CONTENT_DIR = _ROOT / "content" / "website_v2"
 
 
 class TournamentContextError(RuntimeError):
@@ -61,6 +62,31 @@ class TournamentContext:
     venue: str | None = None
     holes: int | None = None
     format: str | None = None
+    artifacts: dict[str, str] = field(default_factory=dict)
+
+    def artifact_path(self, artifact_type: str) -> Path:
+        """Generic artifact-path contract (NEO TOURNAMENT PIPELINE Phase
+        2, item 1): resolve `content/website_v2/<file>` for a named
+        artifact_type ("entry_snapshot", "r1_live_snapshot", ...).
+
+        1. If this tournament's registry entry has an explicit
+           `artifacts[artifact_type]` mapping, use it verbatim -- this is
+           how every one of OK Open's real, already-committed filenames
+           (OK_OPEN_2026_R1_LIVE_SNAPSHOT.json etc.) stays byte-for-byte
+           unchanged: a compatibility mapping, never a rename.
+        2. Otherwise, generate `<game_code>_<ARTIFACT_TYPE>.json` --
+           this is what makes a brand-new tournament work with zero new
+           registry entries: the next game_code automatically gets
+           sensible, collision-free paths from identity alone.
+
+        Never guesses which artifact a caller means -- artifact_type is
+        an explicit string the caller supplies, this function only ever
+        resolves it to a Path, it does not invent artifact_types.
+        """
+        filename = self.artifacts.get(artifact_type)
+        if filename is None:
+            filename = f"{self.game_code}_{artifact_type.upper()}.json"
+        return CONTENT_DIR / filename
 
     @property
     def display_date_range(self) -> str:
@@ -129,6 +155,7 @@ def resolve_context(identity: dict, registry: dict) -> TournamentContext:
         venue=entry.get("venue"),
         holes=entry.get("holes"),
         format=entry.get("format"),
+        artifacts=dict(entry.get("artifacts") or {}),
     )
 
 

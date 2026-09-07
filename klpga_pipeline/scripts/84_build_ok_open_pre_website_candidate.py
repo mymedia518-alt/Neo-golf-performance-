@@ -11,11 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MASTER = ROOT / "content" / "website_v2" / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
-R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
-R2_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
-R1_FINAL_SNAPSHOT_DIR = ROOT / "content" / "website_v2" / "r1_final_snapshots"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
@@ -30,6 +26,10 @@ from klpga.website_v2.tournament_state import OK_BASE, OK_DATE_RANGE, OK_DISPLAY
 # shared context instead of this script's own hardcoded literal string.
 _CONTEXT = load_active_tournament_context()
 STAGE_STATE_PATH = ROOT / "content" / "website_v2" / _CONTEXT.stage_state_filename
+MASTER = _CONTEXT.artifact_path("pre_public_master")
+R1_LIVE_SNAPSHOT = _CONTEXT.artifact_path("r1_live_snapshot")
+R2_LIVE_SNAPSHOT = _CONTEXT.artifact_path("r2_live_snapshot")
+R1_FINAL_SNAPSHOT_DIR = _CONTEXT.artifact_path("r1_final_snapshots_dir")
 
 # P0 MODEL SAFETY PATCH -- LIVE PROBABILITY PUBLICATION BLOCK: the ONE
 # gate every probability-derived R1 output must pass before rendering.
