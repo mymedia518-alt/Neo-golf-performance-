@@ -53,6 +53,20 @@ NAV_ITEMS = (("players", "PLAYERS", "/"), ("tournaments", "TOURNAMENTS", "/tourn
              ("neo-lab", "NEO LAB", "/neo-lab/"), ("about", "ABOUT", "/about/"))
 
 # ------------------------------------------------------------- MODEL VALIDATION
+# REVIEW PATCH (post-f51c323): detailed engineering/research evidence --
+# the 1852-player gap, K-Ranking temporal-mapping unverified status, the
+# SG-table-vs-official round-count disagreement rate, WD/DQ/CUT red-team
+# wording -- belongs in NEO LAB (the methodology/evidence surface), not on
+# the public HOME terminal. Each row below now carries three parts:
+#   name         -- short label, shown on both HOME and NEO LAB
+#   status       -- public-safe state only (VERIFIED / VALIDATING /
+#                   NOT PUBLISHED), shown on both
+#   evidence     -- the detailed, research-grade description, shown ONLY
+#                   on NEO LAB, anchored so a HOME row can link to it
+# anchor_id is derived from `name` (lowercased, spaces->hyphens) so HOME's
+# compact row and NEO LAB's detailed row always point at the same place --
+# see render_model_validation_panel(mode=...) below.
+#
 # Grounded in real repository evidence already established this session
 # (NEO Ranking V2 round-count audit + mismatch diagnostic, the frozen V1
 # baseline's own K_TEMPORAL_MAPPING_UNVERIFIED field, home_ranking.py's
@@ -73,6 +87,10 @@ VALIDATION_ROWS = (
     ("PUBLICATION", "NOT PUBLISHED",
      "no NEO performance metric has cleared validation for public display"),
 )
+
+
+def _validation_anchor(name: str) -> str:
+    return "evidence-" + name.lower().replace(" ", "-")
 
 
 def _fmt_krank(value) -> str:
@@ -132,14 +150,42 @@ def render_provenance_line() -> str:
 </div></div>'''
 
 
-def render_summary_strip(summary: dict, historical_events: int) -> str:
-    coverage_pct = round(100 * summary["k_ranking_join_success"] / summary["population_count"], 1)
+def render_summary_strip(summary: dict, ranking_snapshot_label: str) -> str:
+    """REVIEW PATCH (post-f51c323): every cell's label now states its exact
+    source/definition in public language, per the independent review.
+
+    - NEO PLAYER DATABASE (was "KLPGA PLAYER DB"): the old label implied
+      this is KLPGA's own official player count. It is NOT -- it is NEO's
+      own compiled historical regular-tour player master, whose match
+      against the CURRENT official registry is explicitly unverified
+      (HOME_REGULAR_TOUR_PLAYER_MASTER.json's own
+      population_validation_state field). Relabeled and the sub-line
+      states this plainly instead of implying total KLPGA membership.
+    - K-RANK SNAPSHOT LINK (was "K-RANK COVERAGE"): kept as a real count
+      (it is a real, verifiable join against one dated official snapshot),
+      but the percentage is REMOVED (its denominator -- the player
+      database above -- is itself not a verified "total" figure, so a
+      percentage of it would misleadingly read as more precise than it
+      is), and the exact snapshot (season/week + official source) is
+      named instead of a vague "official snapshot".
+    - NEO ARCHIVED EVENTS (was "HISTORICAL EVENTS", a raw count): the SG
+      warehouse's 97-tournament count must not be presented as if it were
+      complete official KLPGA historical coverage -- its own round-count
+      semantics are still VALIDATING (see Model Validation). Per the
+      review's option (B), this cell shows the dash on HOME; the real
+      count and its full provenance are documented in NEO LAB instead
+      (see render_neo_lab_page's evidence section), consistent with
+      keeping this cell's status aligned with the ROUND SEMANTICS row
+      below rather than contradicting it.
+    - VALIDATION STATUS: unchanged.
+    """
     cells = [
-        ("KLPGA PLAYER DB", str(summary["population_count"]), "canonical regular-tour players"),
-        ("K-RANK COVERAGE", f'{summary["k_ranking_join_success"]}/{summary["population_count"]}',
-         f"{coverage_pct}% joined to official snapshot"),
-        ("HISTORICAL EVENTS", str(historical_events), "tournaments in the SG warehouse"),
-        ("VALIDATION STATUS", "VALIDATING", "NEO Ranking formula not approved"),
+        ("NEO PLAYER DATABASE", str(summary["population_count"]),
+         "NEO 자체 집계 · 역대 정규투어 선수 마스터 (현재 등록 명부 일치 여부 미확인)"),
+        ("K-RANK SNAPSHOT LINK", str(summary["k_ranking_join_success"]),
+         f"{ranking_snapshot_label} 공식 K-Rank 스냅샷과 연결된 선수 수"),
+        ("NEO ARCHIVED EVENTS", DASH, "공개 방법론 확정 전 · NEO LAB에서 근거 확인"),
+        ("VALIDATION STATUS", "VALIDATING", "NEO Ranking 공식 미승인"),
     ]
     body = []
     for label, value, sub in cells:
@@ -173,8 +219,8 @@ def render_performance_board(views: list[dict], population_count: int) -> str:
             f'aria-label="{escape(v["player_name"])} 성과 검사기 열기" '
             f'data-player-name="{escape(v["player_name"].casefold())}" '
             f'data-player-display-name="{escape(v["player_name"])}" '
-            f'data-k-rank="{v["k_rank"] if v["k_rank"] is not None else 999999}" '
-            f'data-k-rank-display="{escape(v["k_rank_display"])}"'
+            + (f'data-k-rank="{v["k_rank"]}" ' if v["k_rank"] is not None else "")
+            + f'data-k-rank-display="{escape(v["k_rank_display"])}"'
         )
         desktop_rows.append(
             f'<tr {common_attrs}>'
@@ -251,13 +297,33 @@ def render_analytics_grid() -> str:
 </div></section>'''
 
 
-def render_model_validation_panel() -> str:
-    badge_class = {"VERIFIED": "t-badge--verified", "VALIDATING": "t-badge--validating", "NOT PUBLISHED": "t-badge--not-published"}
-    rows = "".join(
-        f'<tr><td>{escape(name)}<span class="t-validation-desc">{escape(desc)}</span></td>'
-        f'<td><span class="t-badge {badge_class[status]}">{escape(status)}</span></td></tr>'
-        for name, status, desc in VALIDATION_ROWS
-    )
+_BADGE_CLASS = {"VERIFIED": "t-badge--verified", "VALIDATING": "t-badge--validating", "NOT PUBLISHED": "t-badge--not-published"}
+
+
+def render_model_validation_panel(mode: str = "home") -> str:
+    """REVIEW PATCH (post-f51c323): HOME shows ONLY the six short public
+    states (name + badge) -- no research-grade description text, per the
+    independent review ("engineering/research details... belong in NEO
+    LAB / methodology evidence, not the HOME terminal"). Each HOME row
+    links to its NEO LAB evidence anchor (evidence-link architecture, so
+    a future methodology/audit source can be attached per row without
+    restructuring this table again). NEO LAB mode renders the same six
+    rows WITH their full evidence paragraph and a matching id="..." so
+    the HOME link resolves to the right place."""
+    if mode == "home":
+        rows = "".join(
+            f'<tr id="{_validation_anchor(name)}-home"><td>{escape(name)} '
+            f'<a href="/neo-lab/#{_validation_anchor(name)}" class="t-section__meta">근거 &#8594;</a></td>'
+            f'<td><span class="t-badge {_BADGE_CLASS[status]}">{escape(status)}</span></td></tr>'
+            for name, status, _evidence in VALIDATION_ROWS
+        )
+    else:
+        rows = "".join(
+            f'<tr id="{_validation_anchor(name)}"><td>{escape(name)}'
+            f'<span class="t-validation-desc">{escape(evidence)}</span></td>'
+            f'<td><span class="t-badge {_BADGE_CLASS[status]}">{escape(status)}</span></td></tr>'
+            for name, status, evidence in VALIDATION_ROWS
+        )
     return f'''<section class="t-section" aria-labelledby="validation-heading"><div class="t-wrap">
 <div class="t-section__head"><h2 class="t-section__title" id="validation-heading">Model Validation</h2></div>
 <table class="t-validation-table">{rows}</table>
@@ -308,22 +374,36 @@ def render_footer() -> str:
 </nav></div></footer>'''
 
 
-def render_home(rows: list[dict], summary: dict, historical_events: int) -> str:
+def render_home(rows: list[dict], summary: dict, ranking_snapshot_label: str) -> str:
     views = [_row_view(r) for r in rows]
     return (
         f"{render_head('NEO GOLF DATA · KLPGA PERFORMANCE TERMINAL')}<body class=\"home-v4\">"
-        f"{render_terminal_bar('players')}{render_provenance_line()}{render_summary_strip(summary, historical_events)}"
+        f"{render_terminal_bar('players')}{render_provenance_line()}{render_summary_strip(summary, ranking_snapshot_label)}"
         "<main>"
         f"{render_performance_board(views, summary['population_count'])}"
         f"{render_analytics_grid()}"
-        f"{render_model_validation_panel()}"
+        f"{render_model_validation_panel(mode='home')}"
         f"{render_tournaments_strip()}"
         "</main>"
         f"{render_player_inspector()}{render_footer()}</body></html>"
     )
 
 
-def render_neo_lab_page() -> str:
+def render_data_coverage_evidence(historical_events: int, ranking_snapshot_label: str) -> str:
+    """REVIEW PATCH (post-f51c323): the real archived-event count and its
+    full provenance now live here (NEO LAB), not on the public HOME
+    summary strip, per the independent review's option (B). This is the
+    only place in the whole candidate that states the raw 97 number."""
+    return f'''<section class="t-section" aria-labelledby="data-evidence-heading"><div class="t-wrap">
+<div class="t-section__head"><h2 class="t-section__title" id="data-evidence-heading">Data Coverage Evidence</h2></div>
+<table class="t-validation-table">
+<tr><td>NEO PLAYER DATABASE<span class="t-validation-desc">역대 정규투어 선수 마스터(player_master) 기준 546명 · 현재 KLPGA 등록 명부와의 완전 일치는 증명되지 않음</span></td><td></td></tr>
+<tr><td>K-RANK SNAPSHOT<span class="t-validation-desc">{escape(ranking_snapshot_label)} 공식 K-Rank 스냅샷(출처: k-rankings.klpga.co.kr) · 546명 중 119명 연결</span></td><td></td></tr>
+<tr><td>NEO ARCHIVED EVENTS<span class="t-validation-desc">corrected SG warehouse 기준 {historical_events}개 대회 · 이 수치가 KLPGA 전체 대회 이력을 의미하지는 않으며, 라운드 수 검증(ROUND SEMANTICS)이 완료되지 않아 공개 방법론이 확정될 때까지 HOME에는 표기하지 않음</span></td><td></td></tr>
+</table></div></section>'''
+
+
+def render_neo_lab_page(historical_events: int, ranking_snapshot_label: str) -> str:
     return (
         f"{render_head('NEO LAB · NEO GOLF DATA')}<body class=\"home-v4\">"
         f"{render_terminal_bar('neo-lab')}{render_provenance_line()}"
@@ -333,7 +413,8 @@ def render_neo_lab_page() -> str:
         "NEO LAB은 NEO Ranking 공식의 설계, 데이터 검증, 라운드 수/결과 검증 리서치를 공개하는 공간입니다. "
         "검증이 끝나지 않은 지표는 어디에서도 공개하지 않으며, 검증 과정 자체를 투명하게 기록합니다.</p>"
         "</div></section>"
-        f"{render_model_validation_panel()}"
+        f"{render_model_validation_panel(mode='lab')}"
+        f"{render_data_coverage_evidence(historical_events, ranking_snapshot_label)}"
         "</main>" + render_footer() + "</body></html>"
     )
 
@@ -352,6 +433,9 @@ def build() -> dict:
     rows, summary = join_home_rows(population, ranking, warehouse)
     rows = sorted(rows, key=lambda r: r["player_name"].casefold())
     historical_events = len({r.get("game_code") for r in warehouse.get("records", ()) if r.get("game_code")})
+    # real, dated identity of the one specific official snapshot K-RANK is
+    # joined against -- never a vague "official snapshot" label.
+    ranking_snapshot_label = f"{ranking.get('ranking_date', DASH)}"
 
     if OUTPUT.exists():
         shutil.rmtree(OUTPUT, ignore_errors=True)
@@ -359,11 +443,13 @@ def build() -> dict:
 
     _copy_preserved_site(OUTPUT)
 
-    (OUTPUT / "index.html").write_text(render_home(rows, summary, historical_events), encoding="utf-8", newline="\n")
+    (OUTPUT / "index.html").write_text(render_home(rows, summary, ranking_snapshot_label), encoding="utf-8", newline="\n")
 
     neo_lab_dir = OUTPUT / "neo-lab"
     neo_lab_dir.mkdir(parents=True, exist_ok=True)
-    (neo_lab_dir / "index.html").write_text(render_neo_lab_page(), encoding="utf-8", newline="\n")
+    (neo_lab_dir / "index.html").write_text(
+        render_neo_lab_page(historical_events, ranking_snapshot_label), encoding="utf-8", newline="\n"
+    )
 
     assets = OUTPUT / "assets"
     assets.mkdir(parents=True, exist_ok=True)

@@ -83,16 +83,96 @@ def test_summary_strip_numbers_are_real_and_match_join_summary():
     html = _home_html()
     summary = _summary()
     assert f'>{summary["population_count"]}<' in html
-    assert f'{summary["k_ranking_join_success"]}/{summary["population_count"]}' in html
-    assert f'>{summary["historical_events"]}<' in html
-    assert summary["historical_events"] == 97  # locked real count from the SG warehouse
+    assert f'>{summary["k_ranking_join_success"]}<' in html
+    assert summary["historical_events"] == 97  # locked real count from the SG warehouse (NEO LAB only, see below)
 
 
 def test_validation_status_shows_validating_not_a_fabricated_percentage():
     html = _home_html()
     strip = re.search(r'<div class="t-summary">.*?</div></div>', html, re.S).group()
     assert "VALIDATING" in strip
-    assert "%" not in strip.split("K-RANK COVERAGE")[0]  # no stray percentage above the real coverage cell
+    assert "%" not in strip  # REVIEW PATCH: no percentage anywhere in the summary strip
+
+
+# ------------------------------------------------- REVIEW PATCH: public provenance
+
+
+def test_summary_strip_labels_never_imply_complete_klpga_historical_coverage():
+    """The old 'KLPGA PLAYER DB' / 'HISTORICAL EVENTS' labels could read as
+    official KLPGA totals. Both must be gone; the replacements must state
+    their real, NEO-internal definition instead."""
+    html = _home_html()
+    assert "KLPGA PLAYER DB" not in html
+    assert "HISTORICAL EVENTS" not in html
+    assert "K-RANK COVERAGE" not in html
+    assert "NEO PLAYER DATABASE" in html
+    assert "K-RANK SNAPSHOT LINK" in html
+    assert "NEO ARCHIVED EVENTS" in html
+
+
+def test_home_does_not_expose_the_ambiguous_coverage_percentage():
+    html = _home_html()
+    assert "%" not in html
+
+
+def test_home_does_not_expose_the_raw_archived_event_count():
+    """Per the review's option (B): the SG warehouse's 97-tournament count
+    must not appear on HOME at all -- it stays a dash until the public
+    methodology is approved, since round-count semantics are still
+    VALIDATING (see the Model Validation panel) and presenting 97 as if it
+    were verified, complete coverage would contradict that."""
+    html = _home_html()
+    summary = _summary()
+    assert f'>{summary["historical_events"]}<' not in html
+    events_cell = re.search(r'<p class="t-summary__label">NEO ARCHIVED EVENTS</p>\s*<p[^>]*>([^<]*)</p>', html)
+    assert events_cell is not None
+    assert events_cell.group(1) == "—"
+
+
+def test_home_never_exposes_1852_or_round_mismatch_or_redteam_wording():
+    html = _home_html()
+    for forbidden in ("1852", "disagreement rate", "WD/DQ/CUT", "red-team", "temporal mapping"):
+        assert forbidden not in html, f"HOME leaked research-grade wording: {forbidden!r}"
+
+
+def test_neo_lab_retains_the_full_evidence_including_1852_and_97():
+    """Section 2's instruction is explicit: 'Do not hide evidence;
+    separate public status from research evidence.' NEO LAB must still
+    carry the real numbers and the detailed engineering context."""
+    lab_html = (OUTPUT / "neo-lab" / "index.html").read_text(encoding="utf-8")
+    assert "1852" in lab_html
+    assert "97" in lab_html
+    assert "disagreement rate" in lab_html
+    assert "WD/DQ/CUT" in lab_html
+    assert "2026-W35" in lab_html  # real snapshot label also documented here
+
+
+def test_evidence_link_architecture_home_rows_link_to_matching_neo_lab_anchor():
+    home_html = _home_html()
+    lab_html = (OUTPUT / "neo-lab" / "index.html").read_text(encoding="utf-8")
+    for name, _status, _evidence in build_mod.VALIDATION_ROWS:
+        anchor = build_mod._validation_anchor(name)
+        assert f'href="/neo-lab/#{anchor}"' in home_html, f"missing HOME evidence link for {name}"
+        assert f'id="{anchor}"' in lab_html, f"missing NEO LAB anchor for {name}"
+
+
+def test_ranking_snapshot_label_is_a_real_dated_identifier_not_vague_text():
+    html = _home_html()
+    assert "official snapshot" not in html.lower()
+    # the real ranking_date value ("2026-W35") must appear verbatim near the K-RANK cell
+    assert re.search(r"\d{4}-W\d{2}", html)
+
+
+def test_home_validation_panel_carries_no_evidence_prose_only_lab_does():
+    home_panel = re.search(
+        r'<section class="t-section" aria-labelledby="validation-heading">.*?</section>', _home_html(), re.S
+    ).group()
+    lab_html = (OUTPUT / "neo-lab" / "index.html").read_text(encoding="utf-8")
+    lab_panel = re.search(
+        r'<section class="t-section" aria-labelledby="validation-heading">.*?</section>', lab_html, re.S
+    ).group()
+    assert "t-validation-desc" not in home_panel
+    assert "t-validation-desc" in lab_panel
 
 
 # --------------------------------------------------------------- K-RANK / sponsor
@@ -295,3 +375,45 @@ def test_production_home_ranking_module_unmodified():
 def test_v4_output_path_is_distinct_from_v3_output_path():
     assert build_mod.OUTPUT.name == "home-v4-data-terminal"
     assert build_mod.OUTPUT != ROOT / "candidate" / "home-v3-shell"
+
+
+# ------------------------------------------------- k-rank missing-state
+
+
+def test_missing_k_rank_never_uses_a_synthetic_numeric_sentinel():
+    html = _home_html()
+    for sentinel in ("999999", "9999", "-1"):
+        assert f'data-k-rank="{sentinel}"' not in html
+
+
+def test_missing_k_rank_rows_omit_the_data_k_rank_attribute_entirely():
+    html = _home_html()
+    rows = re.findall(r"<tr data-player-row[^>]*>", html)
+    assert len(rows) == 546
+    with_rank = [r for r in rows if "data-k-rank=" in r]
+    without_rank = [r for r in rows if "data-k-rank=" not in r]
+    summary = _summary()
+    assert len(with_rank) == summary["k_ranking_join_success"]
+    assert len(without_rank) == 546 - summary["k_ranking_join_success"]
+    # a row with a real rank always still carries a dash-free display value
+    for r in with_rank:
+        assert 'data-k-rank-display="—"' not in r
+    # a row missing a rank always shows the em-dash display, never a number
+    for r in without_rank:
+        assert 'data-k-rank-display="—"' in r
+
+
+def test_missing_k_rank_mobile_rows_also_omit_the_sentinel_attribute():
+    html = _home_html()
+    mobile_rows = re.findall(r'<div class="t-mobile-row" data-player-row[^>]*>', html)
+    assert len(mobile_rows) == 546
+    assert not any("999999" in r for r in mobile_rows)
+
+
+def test_sort_js_treats_missing_k_rank_as_a_distinct_missing_state():
+    js = (ROOT / "src" / "klpga" / "website_v2" / "static" / "home-v4.js").read_text(
+        encoding="utf-8"
+    )
+    # missing-state must be checked explicitly, not derived from Number(undefined)
+    assert "dataset.kRank !== undefined" in js
+    assert "aHas !== bHas" in js
