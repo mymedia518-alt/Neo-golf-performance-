@@ -29,7 +29,7 @@ REPO = ROOT.parent
 DEFAULT_CANDIDATE = ROOT / "candidate" / "home-v4-data-terminal"
 DEFAULT_REPORT = ROOT / "content" / "website_v2" / "NEO_HOME_V4_QA_REPORT.json"
 TARGET_BRANCH = "candidate/neo-home-v4-data-terminal"
-TARGET_COMMIT = "20845547326f491cc8f2a7b7a85ce4b5498e8802"
+TARGET_COMMIT = "fbb69dea8d5b39e460e9df1ed0932ee5a79e958f"
 PRODUCTION_REF = "origin/neo-website-v2"
 QA_BRANCH = "tooling/neo-home-v4-qa"
 
