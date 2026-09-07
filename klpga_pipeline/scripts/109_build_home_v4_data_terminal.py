@@ -12,12 +12,16 @@ round-count semantics have an unresolved ~47% mismatch rate against the
 official leaderboard, so even the "real" recent-SG figures V3 displayed
 are not safe to present as validated here).
 
-Reuses (read-only, never edits) klpga.website_v2.home_ranking.join_home_rows
--- the same production, formula-blocked HOME data contract -- for player_id/
-player_name/k_rank only. The `features` block (recent/long-term SG,
-volatility) is deliberately NOT used for display in V4: PERFORMANCE SG /
-FORM / VOL / TREND / EVENTS render "—" for every row regardless of whether
-a feature value exists, per the explicit V4 policy.
+PUBLIC PLAYER POPULATION (2026-09-07 simplification): the standing
+players board's population is current official K-Ranking, ranks 1-150,
+ONLY -- see scripts/115_build_public_players_top150.py and
+PUBLIC_PLAYERS_TOP150.json. This supersedes an earlier, more complex
+evidence-based "active tour player" classification entirely; K-RANK is
+the one and only membership rule for this board. The `features` block
+(recent/long-term SG, volatility) is deliberately NOT used for display
+in V4: PERFORMANCE SG / FORM / VOL / TREND / EVENTS render "—" for
+every row regardless of whether a feature value exists, per the
+explicit V4 policy.
 """
 from __future__ import annotations
 
@@ -31,35 +35,25 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
+from klpga.website_v2.home_ranking import load_json  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "home-v4-data-terminal"
-ACTIVE_TOUR_MASTER_PATH = CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json"
+TOP150_PATH = CONTENT / "PUBLIC_PLAYERS_TOP150.json"
 DASH = "—"
 
 
-def _load_sponsor_source() -> dict[str, str]:
-    """Real, verified official_sponsor values, sourced ONLY from
-    ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json's ACTIVE_CONFIRMED records (see
-    scripts/110) -- itself traced to official KLPGA profile pages. No
-    sponsor value is ever invented for a player without this evidence;
-    her sponsor slot renders blank (see player_identity.render_player_
-    identity) rather than a guess. The 546-player population as a whole
-    still has no verified sponsor field for most players -- this is a
-    partial, honestly-sourced map, not a claim of full coverage."""
-    if not ACTIVE_TOUR_MASTER_PATH.is_file():
-        return {}
-    doc = json.loads(ACTIVE_TOUR_MASTER_PATH.read_text(encoding="utf-8"))
-    return {
-        str(p["player_id"]): p["official_sponsor"]
-        for p in doc.get("active_players", ())
-        if p.get("official_sponsor")
-    }
-
-
-SPONSOR_SOURCE: dict[str, str] = _load_sponsor_source()
+def _load_top150() -> dict:
+    """The public standing players board's ONLY population source (NEO
+    SITE V5 simplification, 2026-09-07): current official K-Ranking,
+    ranks 1-150 -- see scripts/115_build_public_players_top150.py. This
+    SUPERSEDES the earlier evidence-based ACTIVE_KLPGA_TOUR_PLAYER_
+    MASTER approach (scripts/110, removed) entirely; this module no
+    longer reads that artifact or any qualification/membership evidence
+    at all. official_sponsor on each record is already real-or-None
+    (never invented) -- see that script's own docstring for provenance."""
+    return json.loads(TOP150_PATH.read_text(encoding="utf-8"))
 
 _SILHOUETTE_SVG = (
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">'
@@ -122,11 +116,11 @@ def _fmt_krank(value) -> str:
 
 def _row_view(row: dict) -> dict:
     player_id = row["player_id"]
-    k_rank = row.get("k_rank")
+    k_rank = row.get("rank")
     return {
         "player_id": player_id,
         "player_name": row["player_name"],
-        "sponsor": SPONSOR_SOURCE.get(player_id, ""),
+        "sponsor": row.get("official_sponsor") or "",
         "k_rank": k_rank,
         "k_rank_display": _fmt_krank(k_rank),
         # V4 policy: every one of these is "—" regardless of feature data.
@@ -204,7 +198,7 @@ def render_summary_strip(summary: dict, ranking_snapshot_label: str) -> str:
     """
     cells = [
         ("NEO PLAYER DATABASE", str(summary["population_count"]),
-         "NEO 자체 집계 · 역대 정규투어 선수 마스터 (현재 등록 명부 일치 여부 미확인)"),
+         f"{ranking_snapshot_label} 공식 K-Ranking 1~150위 (목표 150명 중 확인된 인원)"),
         ("K-RANK SNAPSHOT LINK", str(summary["k_ranking_join_success"]),
          f"{ranking_snapshot_label} 공식 K-Rank 스냅샷과 연결된 선수 수"),
         ("NEO ARCHIVED EVENTS", DASH, "공개 방법론 확정 전 · NEO LAB에서 근거 확인"),
@@ -524,15 +518,18 @@ def _public_summary_projection(summary: dict, *, historical_events: int,
 
 
 def build() -> dict:
-    population = load_json(CONTENT / "HOME_REGULAR_TOUR_PLAYER_MASTER.json")
-    ranking = load_json(CONTENT / "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json")
+    top150 = _load_top150()
     warehouse = load_json(CONTENT / "historical_sg_warehouse_corrected.json")
-    rows, summary = join_home_rows(population, ranking, warehouse)
-    rows = sorted(rows, key=lambda r: r["player_name"].casefold())
+    rows = sorted(top150["players"], key=lambda r: r["player_name"].casefold())
+    summary = {
+        "population_count": top150["confirmed_rank_count"],
+        "k_ranking_join_success": top150["confirmed_rank_count"],
+        "k_ranking_join_failure": len(top150["missing_rank_positions"]),
+    }
     historical_events = len({r.get("game_code") for r in warehouse.get("records", ()) if r.get("game_code")})
-    # real, dated identity of the one specific official snapshot K-RANK is
-    # joined against -- never a vague "official snapshot" label.
-    ranking_snapshot_label = f"{ranking.get('ranking_date', DASH)}"
+    # real, dated identity of the one specific official K-Ranking week the
+    # Top150 board is built from -- never a vague "official snapshot" label.
+    ranking_snapshot_label = f"{top150.get('ranking_week', DASH)}"
 
     if OUTPUT.exists():
         shutil.rmtree(OUTPUT, ignore_errors=True)

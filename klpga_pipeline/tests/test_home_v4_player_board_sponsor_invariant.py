@@ -35,10 +35,13 @@ def test_every_player_row_carries_a_structurally_present_sponsor_slot():
     assert name_count == sponsor_count  # 1:1 -- never omitted
 
 
-def test_desktop_and_mobile_both_carry_the_identity_block_546_times_each():
+def test_desktop_and_mobile_both_carry_the_identity_block_for_every_top150_row():
     html = _built_html()
-    # 546 desktop rows + 546 mobile rows = 1092 total identity blocks.
-    assert html.count('class="neo-player-identity__name"') == 546 * 2
+    top150 = mod._load_top150()
+    n = top150["confirmed_rank_count"]
+    # one desktop row + one mobile row per confirmed Top150 player.
+    assert n > 0
+    assert html.count('class="neo-player-identity__name"') == n * 2
 
 
 def test_verified_sponsor_renders_for_a_known_active_confirmed_player():
@@ -54,8 +57,22 @@ def test_no_placeholder_sponsor_values_anywhere_on_the_page():
         assert f'class="neo-player-identity__sponsor">{placeholder}<' not in html
 
 
-def test_sponsor_source_is_real_active_tour_master_data_not_fabricated():
-    source = mod._load_sponsor_source()
-    assert source, "expected at least the real ACTIVE_CONFIRMED sponsor evidence"
-    for pid, sponsor in source.items():
+def test_sponsor_source_is_real_top150_data_not_fabricated():
+    top150 = mod._load_top150()
+    sponsors = [p["official_sponsor"] for p in top150["players"] if p.get("official_sponsor")]
+    assert sponsors, "expected at least some real sponsor evidence among the Top150"
+    for sponsor in sponsors:
         assert isinstance(sponsor, str) and sponsor
+
+
+def test_board_population_is_k_rank_top150_only():
+    """NEO SITE V5 2026-09-07 simplification: no evidence-based
+    classification, no 546-player historical population -- only current
+    official K-Ranking, ranks 1-150."""
+    import inspect
+    source = inspect.getsource(mod)
+    assert "ACTIVE_KLPGA_TOUR_PLAYER_MASTER" not in source
+    assert "join_home_rows(" not in source  # the call itself, not incidental prose
+    top150 = mod._load_top150()
+    for p in top150["players"]:
+        assert p["rank"] <= 150
