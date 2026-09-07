@@ -1,0 +1,87 @@
+{
+  "schema_version": "neo_tournament_validation_postmortem_v1",
+  "game_code": "2026120001",
+  "pre_prediction": {
+    "artifact": "OK_OPEN_2026_PRE_WIN_FORECAST.json",
+    "model_version": "M4",
+    "cutoff": "2026-09-04T00:00:00+09:00",
+    "future_data_excluded": true
+  },
+  "final_actual": {
+    "artifact": "r1_final_snapshots/OK_OPEN_2026120001_FINAL_20260905T141909.json",
+    "collected_at": "2026-09-05T05:19:09Z",
+    "reconciliation": {
+      "passed": true,
+      "reason": "every expected entrant has an official row; every ACTIVE player has a final score",
+      "active_confirmed": 118,
+      "wd": 2,
+      "dq": 0,
+      "dns": 0
+    }
+  },
+  "r1_actual": null,
+  "r2_actual": null,
+  "r3_actual": null,
+  "evaluation": {
+    "sample_size": 116,
+    "calibration_bins": [
+      {
+        "lower": 0.0,
+        "upper": 0.02,
+        "predicted_count": 103,
+        "actual_positive_count": 2,
+        "actual_rate": 0.019417475728155338
+      },
+      {
+        "lower": 0.02,
+        "upper": 0.05,
+        "predicted_count": 10,
+        "actual_positive_count": 1,
+        "actual_rate": 0.1
+      },
+      {
+        "lower": 0.05,
+        "upper": 0.1,
+        "predicted_count": 3,
+        "actual_positive_count": 0,
+        "actual_rate": 0.0
+      },
+      {
+        "lower": 0.1,
+        "upper": 0.2,
+        "predicted_count": 0,
+        "actual_positive_count": 0,
+        "actual_rate": null
+      },
+      {
+        "lower": 0.2,
+        "upper": 1.0,
+        "predicted_count": 0,
+        "actual_positive_count": 0,
+        "actual_rate": null
+      }
+    ],
+    "mean_absolute_error_vs_win_outcome": {
+      "mae": 0.03327372440175297,
+      "n": 116
+    },
+    "win_probability_vs_final_score_discrimination": {
+      "rho": -0.728001383923423,
+      "n": 116,
+      "excluded_a_only": [
+        "8859",
+        "9130",
+        "9183",
+        "9277"
+      ],
+      "excluded_b_only": [
+        "10080",
+        "10510"
+      ],
+      "reason": null
+    },
+    "win_probability_vs_final_score_discrimination_note": "raw ascending-value-rank correlation over two oppositely-oriented metrics (win_probability: higher=better; final_score: lower/more-negative=better under par) -- a well-discriminating model therefore shows NEGATIVE rho here (higher predicted win probability correlating with lower/better actual final score), not positive."
+  },
+  "model_tuned_using_this_result": false,
+  "generated_at": "2026-09-07T12:55:15Z"
+}

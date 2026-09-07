@@ -7,7 +7,9 @@ from dataclasses import dataclass
 from html import escape
 from pathlib import Path
 
-from klpga.website_v2.global_navigation import NAVIGATION_MARKER, inject_global_navigation
+from klpga.website_v2.global_navigation import (
+    NAVIGATION_MARKER, inject_global_navigation, inject_global_navigation_v2,
+)
 
 STAGES = ("overview", "pre", "r1", "r2", "r3", "final")
 STAGE_LABELS = {"overview": "개요", "pre": "PRE", "r1": "R1", "r2": "R2", "r3": "R3", "final": "FINAL"}
@@ -141,20 +143,50 @@ def _footer() -> str:
 
 
 def render_page(*, title: str, active_section: str, body_html: str, tournament: TournamentMetadata | None = None,
-                current_stage: str | None = None, lang: str = "ko") -> str:
+                current_stage: str | None = None, lang: str = "ko", design_system: str = "v1") -> str:
+    """design_system="v1" (default) is the existing, unchanged, currently
+    -live-everywhere shell -- untouched by NEO SITE V5, so every existing
+    caller/test keeps its exact current output. design_system="v2" opts
+    a page into the HOME V4 site-wide design system (NEO SITE V5 Mission
+    1): additionally links neo-design-system.css (neo-site.css stays
+    linked too, so any content-area class this page's body_html uses
+    that hasn't been separately migrated yet keeps its current styling)
+    and stamps the .t-bar header via inject_global_navigation_v2()
+    instead of the old .neo-global-header. body_html/tournament content
+    is identical either way -- this parameter only ever changes
+    presentation."""
     if tournament is not None and current_stage not in STAGES:
         raise ValueError(f"current_stage must be one of {STAGES}")
+    if design_system not in ("v1", "v2"):
+        raise ValueError(f"design_system must be 'v1' or 'v2', got {design_system!r}")
     tournament_html = _tournament_header(tournament, current_stage) if tournament else ""
+    if design_system == "v2":
+        # Both stylesheets load: neo-design-system.css owns the new
+        # ".t-bar" chrome (header/nav/footer eventually), while
+        # neo-site.css is KEPT so content-area classes this page's
+        # body_html still uses (.page-head, .product-section, the
+        # tournament-context/stage-nav block, etc.) are not left
+        # completely unstyled until they are separately migrated --
+        # content/presentation separation means an unmigrated content
+        # block must degrade gracefully, not go bare.
+        head_links = ('<link rel="stylesheet" href="/assets/neo-site.css">'
+                      '<link rel="stylesheet" href="/assets/neo-design-system.css">')
+        script_tag = '<script src="/assets/neo-site.js" defer></script>'
+    else:
+        head_links = '<link rel="stylesheet" href="/assets/neo-site.css">'
+        script_tag = '<script src="/assets/neo-site.js" defer></script>'
     html = (f'<!doctype html><html lang="{escape(lang)}"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            f'<title>{escape(title)} · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css">'
-            '<script src="/assets/neo-site.js" defer></script></head><body>'
+            f'<title>{escape(title)} · NEO GOLF DATA</title>{head_links}'
+            f'{script_tag}</head><body>'
             f'{_global_header()}<main id="main-content">{tournament_html}{body_html}</main>{_footer()}</body></html>')
     # Fill in the marked-but-empty header immediately, at the source --
     # every render_page() caller gets the one real canonical header, not
     # a placeholder that depends on some later build step remembering to
     # post-process this page (idempotent: safe if a caller's own
     # pipeline also runs inject_global_navigation() again afterward).
+    if design_system == "v2":
+        return inject_global_navigation_v2(html, active_section=active_section)
     return inject_global_navigation(html, active_section=active_section)
 
 

@@ -216,3 +216,125 @@ def inject_global_navigation(html: str, active_section: str | None = None) -> st
     if count != 1:
         raise ValueError("public HTML must contain an opening body or header element")
     return rendered.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)
+
+
+# ============================================================================
+# NEO SITE V5 -- shared HOME V4 design-system header/nav (additive V2 API).
+#
+# HOME V4 (candidate/neo-home-v4-data-terminal @ fbb69de, promoted to
+# production @ 75d2ea1) is now the canonical site-wide visual/UX standard
+# (see NEO SITE V5 mission brief). Its header/nav markup is the ".t-bar"/
+# ".t-nav" structure from static/home-v4.css (now also published site-wide
+# as static/neo-design-system.css -- same content, generalized name).
+#
+# This V2 API is deliberately SEPARATE from navigation_html()/
+# inject_global_navigation() above, not a rewrite of them in place:
+# those functions and their exact output are depended on today by six
+# existing test files and every currently-live page (including the
+# frozen/D-classified historical tournament pages, whose PRESENTATION
+# chrome those functions also stamp). Mutating them in place would risk
+# regressing all of that for a change this task's own instructions
+# require staging behind a reviewed migration matrix first ("Produce the
+# migration matrix before mass-editing pages"). Once a given page is
+# actually migrated (per that matrix), its generator should call
+# inject_global_navigation_v2() instead of inject_global_navigation() --
+# at that point the V1 functions can eventually be retired once nothing
+# references them, but that retirement is a later, separate step.
+#
+# NOTE: static/home-v4.css scopes every rule under ".home-v4" ("so this
+# file cannot leak into any other page" -- its own comment). A page using
+# this V2 header therefore MUST carry class="home-v4" on <body> for the
+# header/nav to render styled -- inject_global_navigation_v2() adds it
+# automatically; a caller building its own <body> tag must include it.
+
+DESIGN_SYSTEM_V2_NAV_ITEMS = (
+    ("players", "PLAYERS", "/"),
+    ("tournaments", "TOURNAMENTS", "/tournaments/"),
+    ("ranking", "RANKING", "/ranking/"),
+    ("deep-dive", "DEEP DIVE", "/deep-dive/"),
+    ("neo-lab", "NEO LAB", "/neo-lab/"),
+    ("about", "ABOUT", "/about/"),
+)
+
+
+def _nav_html_v2(active_section: str | None) -> str:
+    links = []
+    for key, label, url in DESIGN_SYSTEM_V2_NAV_ITEMS:
+        cls = ' class="is-active" aria-current="page"' if key == active_section else ""
+        links.append(f'<a href="{url}"{cls}>{label}</a>')
+    return (f'<nav class="t-nav" id="t-primary-nav" data-t-nav aria-label="주요 메뉴">'
+            f'{"".join(links)}</nav>')
+
+
+def navigation_html_v2(active_section: str | None = None) -> str:
+    """The canonical HOME V4 header -- same role as navigation_html()
+    above, but emitting the ".t-bar" design-system markup instead of the
+    retired-once-migrated ".neo-global-header" one."""
+    return (
+        f'<header class="t-bar" {NAVIGATION_MARKER}><div class="t-bar__row">\n'
+        '<a class="t-brand" href="/"><span class="t-brand__name">NEO GOLF DATA</span>'
+        '<span class="t-brand__tag">KLPGA PERFORMANCE TERMINAL</span></a>\n'
+        '<button type="button" class="t-nav-toggle" data-t-nav-toggle aria-expanded="false" '
+        'aria-controls="t-primary-nav" aria-label="메뉴">&#9776;</button>\n'
+        f'{_nav_html_v2(active_section)}\n'
+        '<div class="t-bar__spacer"></div>\n'
+        '</div></header>'
+    )
+
+
+NAVIGATION_HTML_V2 = navigation_html_v2(None)
+
+_DESIGN_SYSTEM_CSS_LINK = '<link rel="stylesheet" href="/assets/neo-design-system.css">'
+
+
+def inject_global_navigation_v2(html: str, active_section: str | None = None) -> str:
+    """Migrate one page's presentation to the HOME V4 design system,
+    WITHOUT touching any factual/content text: swaps in the canonical V2
+    header (see navigation_html_v2()), ensures <body> carries
+    class="home-v4" (required for static/home-v4.css's ".home-v4"-scoped
+    rules to apply), and links the shared neo-design-system.css stylesheet
+    if not already present. Any page-specific stylesheet already linked
+    (e.g. assets/neo.css, assets/neo-site.css) is left in place -- content
+    elements (tables, cards, prose) that aren't part of the header/nav
+    chrome keep their existing styling until they are separately migrated;
+    this function only ever touches chrome, never body content.
+
+    Mirrors inject_global_navigation()'s replace-if-marked /
+    insert-if-unmarked contract and its mojibake-repair pass, so a page
+    already using the V1 marker can be migrated by this function too."""
+    html = _repair_legacy_mojibake(html)
+    canonical_header = navigation_html_v2(active_section)
+
+    if NAVIGATION_MARKER in html:
+        html, count = re.subn(
+            r"<header[^>]*" + re.escape(NAVIGATION_MARKER) + r"[^>]*>.*?</header>",
+            canonical_header.replace("\\", "\\\\"), html, count=1, flags=re.S,
+        )
+        if count != 1:
+            raise ValueError("marked header present but could not be matched for refresh")
+    else:
+        html, count = re.subn(r"(<body[^>]*>)", rf"\1{canonical_header}", html, count=1, flags=re.IGNORECASE)
+        if count == 0:
+            html, count = re.subn(r"(<header(?:\s|>))", rf"{canonical_header}\1", html, count=1, flags=re.IGNORECASE)
+        if count != 1:
+            raise ValueError("public HTML must contain an opening body or header element")
+
+    def _add_home_v4_class(match: re.Match) -> str:
+        tag = match.group(0)
+        existing = re.search(r'class="([^"]*)"', tag)
+        if existing is None:
+            return tag[:-1] + ' class="home-v4">'
+        classes = (existing.group(1) + " home-v4").strip()
+        return tag[:existing.start()] + f'class="{classes}"' + tag[existing.end():]
+
+    body_match = re.search(r"<body[^>]*>", html, flags=re.IGNORECASE)
+    if body_match and "home-v4" not in body_match.group(0):
+        html = html[:body_match.start()] + _add_home_v4_class(body_match) + html[body_match.end():]
+
+    if _DESIGN_SYSTEM_CSS_LINK not in html:
+        if "</head>" in html:
+            html = html.replace("</head>", _DESIGN_SYSTEM_CSS_LINK + "</head>", 1)
+        elif "<head>" in html:
+            html = html.replace("<head>", "<head>" + _DESIGN_SYSTEM_CSS_LINK, 1)
+
+    return html
