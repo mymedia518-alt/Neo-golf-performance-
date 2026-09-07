@@ -1,0 +1,1235 @@
+{
+  "schema_version": "neo_home_v4_independent_qa_v1",
+  "generated_at": "2026-09-07T10:08:29Z",
+  "overall_status": "FAIL",
+  "target_branch": "candidate/neo-home-v4-data-terminal",
+  "target_commit": "20845547326f491cc8f2a7b7a85ce4b5498e8802",
+  "production_ref": "origin/neo-website-v2",
+  "checks": [
+    {
+      "id": "candidate_immutable",
+      "status": "PASS",
+      "summary": "Candidate tree is unchanged from the pinned target commit."
+    },
+    {
+      "id": "production_untouched",
+      "status": "PASS",
+      "summary": "Production docs/ was not modified by QA tooling."
+    },
+    {
+      "id": "qa_change_isolation",
+      "status": "PASS",
+      "summary": "QA changes are isolated to the validator, its tests, and its report.",
+      "details": {
+        "branch": "tooling/neo-home-v4-qa",
+        "changed_files": [
+          "klpga_pipeline/content/website_v2/NEO_HOME_V4_QA_REPORT.json",
+          "klpga_pipeline/scripts/validate_home_v4.py",
+          "klpga_pipeline/tests/test_validate_home_v4.py"
+        ],
+        "ignored_test_runtime_artifacts": [
+          "klpga_pipeline/.qa-v4-pytest-a/"
+        ],
+        "issues": []
+      }
+    },
+    {
+      "id": "target_and_research_isolation",
+      "status": "PASS",
+      "summary": "Pinned SHA matches the fetched V4 branch and changes no production or Ranking V2 path.",
+      "details": {
+        "pinned_sha": "20845547326f491cc8f2a7b7a85ce4b5498e8802",
+        "pushed_sha": "20845547326f491cc8f2a7b7a85ce4b5498e8802",
+        "protected_changes": [],
+        "issues": []
+      }
+    },
+    {
+      "id": "ranking_semantics",
+      "status": "PASS",
+      "summary": "Ranking table has valid headers and 546 semantic rows."
+    },
+    {
+      "id": "neo_numeric_exposure",
+      "status": "FAIL",
+      "summary": "Unapproved NEO-derived values are exposed in public candidate artifacts.",
+      "details": {
+        "NEO RANK": {
+          "count": 238,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[0].neo_rank",
+              "value": 32
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[1].neo_rank",
+              "value": 58
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[2].neo_rank",
+              "value": 55
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[3].neo_rank",
+              "value": 33
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[4].neo_rank",
+              "value": 66
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[5].neo_rank",
+              "value": 35
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[6].neo_rank",
+              "value": 44
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[7].neo_rank",
+              "value": 51
+            }
+          ]
+        },
+        "PERFORMANCE SG": {
+          "count": 227,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.long_term_sg",
+              "value": 1.449
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].feature_contributions.long_term_sg",
+              "value": 0.360473
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.long_term_sg",
+              "value": 1.278
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].feature_contributions.long_term_sg",
+              "value": 0.317134
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].features.long_term_sg",
+              "value": 1.911
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].feature_contributions.long_term_sg",
+              "value": 0.477564
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].features.long_term_sg",
+              "value": 1.448
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].feature_contributions.long_term_sg",
+              "value": 0.360219
+            }
+          ]
+        },
+        "FORM": {
+          "count": 454,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.recent_5_sg",
+              "value": 1.964
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.recent_10_sg",
+              "value": 2.21
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].feature_contributions.recent_5_sg",
+              "value": 0.502391
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].feature_contributions.recent_10_sg",
+              "value": 0.440774
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.recent_5_sg",
+              "value": 2.528
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.recent_10_sg",
+              "value": 3.069
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].feature_contributions.recent_5_sg",
+              "value": 0.646655
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].feature_contributions.recent_10_sg",
+              "value": 0.618403
+            }
+          ]
+        },
+        "VOLATILITY": {
+          "count": 118,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.volatility",
+              "value": 2.091
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.volatility",
+              "value": 2.003
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].features.volatility",
+              "value": 1.497
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].features.volatility",
+              "value": 2.099
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[4].features.volatility",
+              "value": 1.74
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[5].features.volatility",
+              "value": 1.501
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[6].features.volatility",
+              "value": 1.897
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[7].features.volatility",
+              "value": 2.327
+            }
+          ]
+        },
+        "TREND": {
+          "count": 0,
+          "samples": []
+        },
+        "EVENTS": {
+          "count": 118,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.sample_count",
+              "value": 31
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.sample_count",
+              "value": 48
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].features.sample_count",
+              "value": 68
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].features.sample_count",
+              "value": 73
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[4].features.sample_count",
+              "value": 84
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[5].features.sample_count",
+              "value": 94
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[6].features.sample_count",
+              "value": 83
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[7].features.sample_count",
+              "value": 75
+            }
+          ]
+        },
+        "PROBABILITIES": {
+          "count": 0,
+          "samples": []
+        }
+      }
+    },
+    {
+      "id": "official_k_rank",
+      "status": "PASS",
+      "summary": "Displayed K-RANK values match the official artifact and missing ranks use null semantics.",
+      "details": {
+        "status": "PASS",
+        "violations": 0,
+        "samples": [],
+        "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp"
+      }
+    },
+    {
+      "id": "summary_provenance",
+      "status": "FAIL",
+      "summary": "Summary provenance found 1 ambiguous or unsupported claims.",
+      "details": {
+        "status": "FAIL",
+        "violations": 1,
+        "samples": [
+          {
+            "field": "NEO ARCHIVED EVENTS",
+            "reason": "public JSON exposes an event count without scoped provenance"
+          }
+        ],
+        "coverage": {
+          "kind": "snapshot_link_count",
+          "value": "119",
+          "description": "2026-W35 공식 K-Rank 스냅샷과 연결된 선수 수"
+        },
+        "historical_event_display": {
+          "value": "—",
+          "description": "공개 방법론 확정 전 · NEO LAB에서 근거 확인"
+        }
+      }
+    },
+    {
+      "id": "sponsor_policy",
+      "status": "PASS",
+      "summary": "Sponsor policy passed; 546 blank sponsor cells are accepted.",
+      "details": {
+        "status": "PASS",
+        "blank_sponsors": 546,
+        "verified_sponsors": 0,
+        "violations": [],
+        "blank_policy": "ACCEPTED",
+        "source_error": null
+      }
+    },
+    {
+      "id": "photo_policy",
+      "status": "PASS",
+      "summary": "Photo policy passed with 546 neutral silhouette instances.",
+      "details": {
+        "status": "PASS",
+        "neutral_silhouettes": 546,
+        "verified_photos": 0,
+        "violations": [],
+        "silhouette_fallback": "ACCEPTED"
+      }
+    },
+    {
+      "id": "analytics_policy",
+      "status": "PASS",
+      "summary": "5 analytics/inspector shells contain no fabricated series.",
+      "details": {
+        "status": "PASS",
+        "violations": [],
+        "shells_checked": 5,
+        "empty_state": "데이터 검증 후 공개"
+      }
+    },
+    {
+      "id": "public_home_copy",
+      "status": "PASS",
+      "summary": "HOME uses concise evidence-safe validation states.",
+      "details": {
+        "status": "PASS",
+        "violations": [],
+        "states": [
+          "VALIDATING",
+          "VALIDATING",
+          "VALIDATING",
+          "VALIDATING",
+          "NOT PUBLISHED",
+          "NOT PUBLISHED"
+        ],
+        "allowed_states": [
+          "VALIDATING",
+          "NOT PUBLISHED",
+          "VERIFIED"
+        ]
+      }
+    },
+    {
+      "id": "internal_engineering_strings",
+      "status": "FAIL",
+      "summary": "Internal engineering blocker strings are publicly exposed.",
+      "details": [
+        {
+          "file": "data/home-v4-summary.json",
+          "marker": "BLOCKED_"
+        },
+        {
+          "file": "data/home-v4-summary.json",
+          "marker": "FORMULA_NOT_APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "betting_language",
+      "status": "PASS",
+      "summary": "No betting/gambling language found."
+    },
+    {
+      "id": "internal_links",
+      "status": "PASS",
+      "summary": "HOME V4 introduced no broken internal links.",
+      "details": {
+        "introduced": [],
+        "inherited_from_production": [
+          {
+            "source": "protected/beta001/r1.html",
+            "url": "../r2/",
+            "reason": "target missing",
+            "classification": "inherited_from_production"
+          }
+        ]
+      }
+    },
+    {
+      "id": "required_navigation",
+      "status": "FAIL",
+      "summary": "Required navigation routes are missing or not linked from HOME navigation.",
+      "details": [
+        {
+          "route": "/ranking/",
+          "reason": "not reachable from HOME navigation"
+        },
+        {
+          "route": "/deep-dive/",
+          "reason": "not reachable from HOME navigation"
+        }
+      ]
+    },
+    {
+      "id": "reduced_motion",
+      "status": "PASS",
+      "summary": "prefers-reduced-motion disables chart animation and inspector transitions.",
+      "details": {
+        "animation_disabled": true,
+        "transition_disabled": true
+      }
+    },
+    {
+      "id": "keyboard_focus",
+      "status": "PASS",
+      "summary": "Focusable controls and visible focus styling are present."
+    },
+    {
+      "id": "mobile_ranking_markup",
+      "status": "PASS",
+      "summary": "Mobile list/board parity and full-width inspector verified for 546 players.",
+      "details": {
+        "desktop_rows": 546,
+        "mobile_rows": 546,
+        "responsive_css": true
+      }
+    },
+    {
+      "id": "historical_pages_preserved",
+      "status": "PASS",
+      "summary": "Historical tournament pages are byte-identical to production."
+    },
+    {
+      "id": "browser_rendering",
+      "status": "FAIL",
+      "summary": "One or more real browser checks failed.",
+      "details": {
+        "desktop_table_visible": true,
+        "desktop_cards_hidden": true,
+        "mobile_cards_visible": true,
+        "mobile_table_hidden": true,
+        "mobile_contained": true,
+        "first_tab_focus": "A",
+        "nav_toggle_keyboard": true,
+        "k_rank_missing_sorted_last": true,
+        "mobile_inspector_open": true,
+        "mobile_inspector_width": 389.9999694824219,
+        "inspector_name_present": true,
+        "inspector_metrics_are_dash": true,
+        "inspector_escape_closes": true,
+        "focus_restored_to_trigger": false,
+        "reduced_animation_name": "none",
+        "reduced_transition_duration": "0s",
+        "page_errors": []
+      }
+    }
+  ],
+  "failures": [
+    {
+      "id": "neo_numeric_exposure",
+      "status": "FAIL",
+      "summary": "Unapproved NEO-derived values are exposed in public candidate artifacts.",
+      "details": {
+        "NEO RANK": {
+          "count": 238,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[0].neo_rank",
+              "value": 32
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[1].neo_rank",
+              "value": 58
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[2].neo_rank",
+              "value": 55
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[3].neo_rank",
+              "value": 33
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[4].neo_rank",
+              "value": 66
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[5].neo_rank",
+              "value": 35
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[6].neo_rank",
+              "value": 44
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.summary.maximum_risers[7].neo_rank",
+              "value": 51
+            }
+          ]
+        },
+        "PERFORMANCE SG": {
+          "count": 227,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.long_term_sg",
+              "value": 1.449
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].feature_contributions.long_term_sg",
+              "value": 0.360473
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.long_term_sg",
+              "value": 1.278
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].feature_contributions.long_term_sg",
+              "value": 0.317134
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].features.long_term_sg",
+              "value": 1.911
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].feature_contributions.long_term_sg",
+              "value": 0.477564
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].features.long_term_sg",
+              "value": 1.448
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].feature_contributions.long_term_sg",
+              "value": 0.360219
+            }
+          ]
+        },
+        "FORM": {
+          "count": 454,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.recent_5_sg",
+              "value": 1.964
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.recent_10_sg",
+              "value": 2.21
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].feature_contributions.recent_5_sg",
+              "value": 0.502391
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].feature_contributions.recent_10_sg",
+              "value": 0.440774
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.recent_5_sg",
+              "value": 2.528
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.recent_10_sg",
+              "value": 3.069
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].feature_contributions.recent_5_sg",
+              "value": 0.646655
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].feature_contributions.recent_10_sg",
+              "value": 0.618403
+            }
+          ]
+        },
+        "VOLATILITY": {
+          "count": 118,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.volatility",
+              "value": 2.091
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.volatility",
+              "value": 2.003
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].features.volatility",
+              "value": 1.497
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].features.volatility",
+              "value": 2.099
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[4].features.volatility",
+              "value": 1.74
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[5].features.volatility",
+              "value": 1.501
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[6].features.volatility",
+              "value": 1.897
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[7].features.volatility",
+              "value": 2.327
+            }
+          ]
+        },
+        "TREND": {
+          "count": 0,
+          "samples": []
+        },
+        "EVENTS": {
+          "count": 118,
+          "samples": [
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[0].features.sample_count",
+              "value": 31
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[1].features.sample_count",
+              "value": 48
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[2].features.sample_count",
+              "value": 68
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[3].features.sample_count",
+              "value": 73
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[4].features.sample_count",
+              "value": 84
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[5].features.sample_count",
+              "value": 94
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[6].features.sample_count",
+              "value": 83
+            },
+            {
+              "surface": "public_json",
+              "file": "data/neo-top120-evaluation.json",
+              "path": "$.records[7].features.sample_count",
+              "value": 75
+            }
+          ]
+        },
+        "PROBABILITIES": {
+          "count": 0,
+          "samples": []
+        }
+      }
+    },
+    {
+      "id": "summary_provenance",
+      "status": "FAIL",
+      "summary": "Summary provenance found 1 ambiguous or unsupported claims.",
+      "details": {
+        "status": "FAIL",
+        "violations": 1,
+        "samples": [
+          {
+            "field": "NEO ARCHIVED EVENTS",
+            "reason": "public JSON exposes an event count without scoped provenance"
+          }
+        ],
+        "coverage": {
+          "kind": "snapshot_link_count",
+          "value": "119",
+          "description": "2026-W35 공식 K-Rank 스냅샷과 연결된 선수 수"
+        },
+        "historical_event_display": {
+          "value": "—",
+          "description": "공개 방법론 확정 전 · NEO LAB에서 근거 확인"
+        }
+      }
+    },
+    {
+      "id": "internal_engineering_strings",
+      "status": "FAIL",
+      "summary": "Internal engineering blocker strings are publicly exposed.",
+      "details": [
+        {
+          "file": "data/home-v4-summary.json",
+          "marker": "BLOCKED_"
+        },
+        {
+          "file": "data/home-v4-summary.json",
+          "marker": "FORMULA_NOT_APPROVED"
+        }
+      ]
+    },
+    {
+      "id": "required_navigation",
+      "status": "FAIL",
+      "summary": "Required navigation routes are missing or not linked from HOME navigation.",
+      "details": [
+        {
+          "route": "/ranking/",
+          "reason": "not reachable from HOME navigation"
+        },
+        {
+          "route": "/deep-dive/",
+          "reason": "not reachable from HOME navigation"
+        }
+      ]
+    },
+    {
+      "id": "browser_rendering",
+      "status": "FAIL",
+      "summary": "One or more real browser checks failed.",
+      "details": {
+        "desktop_table_visible": true,
+        "desktop_cards_hidden": true,
+        "mobile_cards_visible": true,
+        "mobile_table_hidden": true,
+        "mobile_contained": true,
+        "first_tab_focus": "A",
+        "nav_toggle_keyboard": true,
+        "k_rank_missing_sorted_last": true,
+        "mobile_inspector_open": true,
+        "mobile_inspector_width": 389.9999694824219,
+        "inspector_name_present": true,
+        "inspector_metrics_are_dash": true,
+        "inspector_escape_closes": true,
+        "focus_restored_to_trigger": false,
+        "reduced_animation_name": "none",
+        "reduced_transition_duration": "0s",
+        "page_errors": []
+      }
+    }
+  ],
+  "warnings": [],
+  "production_touched": false,
+  "historical_pages_changed": [],
+  "neo_numeric_exposure": {
+    "NEO RANK": {
+      "count": 238,
+      "samples": [
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[0].neo_rank",
+          "value": 32
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[1].neo_rank",
+          "value": 58
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[2].neo_rank",
+          "value": 55
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[3].neo_rank",
+          "value": 33
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[4].neo_rank",
+          "value": 66
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[5].neo_rank",
+          "value": 35
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[6].neo_rank",
+          "value": 44
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.summary.maximum_risers[7].neo_rank",
+          "value": 51
+        }
+      ]
+    },
+    "PERFORMANCE SG": {
+      "count": 227,
+      "samples": [
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].features.long_term_sg",
+          "value": 1.449
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].feature_contributions.long_term_sg",
+          "value": 0.360473
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].features.long_term_sg",
+          "value": 1.278
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].feature_contributions.long_term_sg",
+          "value": 0.317134
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[2].features.long_term_sg",
+          "value": 1.911
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[2].feature_contributions.long_term_sg",
+          "value": 0.477564
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[3].features.long_term_sg",
+          "value": 1.448
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[3].feature_contributions.long_term_sg",
+          "value": 0.360219
+        }
+      ]
+    },
+    "FORM": {
+      "count": 454,
+      "samples": [
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].features.recent_5_sg",
+          "value": 1.964
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].features.recent_10_sg",
+          "value": 2.21
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].feature_contributions.recent_5_sg",
+          "value": 0.502391
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].feature_contributions.recent_10_sg",
+          "value": 0.440774
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].features.recent_5_sg",
+          "value": 2.528
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].features.recent_10_sg",
+          "value": 3.069
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].feature_contributions.recent_5_sg",
+          "value": 0.646655
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].feature_contributions.recent_10_sg",
+          "value": 0.618403
+        }
+      ]
+    },
+    "VOLATILITY": {
+      "count": 118,
+      "samples": [
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].features.volatility",
+          "value": 2.091
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].features.volatility",
+          "value": 2.003
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[2].features.volatility",
+          "value": 1.497
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[3].features.volatility",
+          "value": 2.099
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[4].features.volatility",
+          "value": 1.74
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[5].features.volatility",
+          "value": 1.501
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[6].features.volatility",
+          "value": 1.897
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[7].features.volatility",
+          "value": 2.327
+        }
+      ]
+    },
+    "TREND": {
+      "count": 0,
+      "samples": []
+    },
+    "EVENTS": {
+      "count": 118,
+      "samples": [
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[0].features.sample_count",
+          "value": 31
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[1].features.sample_count",
+          "value": 48
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[2].features.sample_count",
+          "value": 68
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[3].features.sample_count",
+          "value": 73
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[4].features.sample_count",
+          "value": 84
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[5].features.sample_count",
+          "value": 94
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[6].features.sample_count",
+          "value": 83
+        },
+        {
+          "surface": "public_json",
+          "file": "data/neo-top120-evaluation.json",
+          "path": "$.records[7].features.sample_count",
+          "value": 75
+        }
+      ]
+    },
+    "PROBABILITIES": {
+      "count": 0,
+      "samples": []
+    }
+  },
+  "broken_links": [],
+  "photo_policy": {
+    "status": "PASS",
+    "neutral_silhouettes": 546,
+    "verified_photos": 0,
+    "violations": [],
+    "silhouette_fallback": "ACCEPTED"
+  },
+  "sponsor_policy": {
+    "status": "PASS",
+    "blank_sponsors": 546,
+    "verified_sponsors": 0,
+    "violations": [],
+    "blank_policy": "ACCEPTED",
+    "source_error": null
+  },
+  "analytics_policy": {
+    "status": "PASS",
+    "violations": [],
+    "shells_checked": 5,
+    "empty_state": "데이터 검증 후 공개"
+  },
+  "summary_provenance": {
+    "status": "FAIL",
+    "violations": 1,
+    "samples": [
+      {
+        "field": "NEO ARCHIVED EVENTS",
+        "reason": "public JSON exposes an event count without scoped provenance"
+      }
+    ],
+    "coverage": {
+      "kind": "snapshot_link_count",
+      "value": "119",
+      "description": "2026-W35 공식 K-Rank 스냅샷과 연결된 선수 수"
+    },
+    "historical_event_display": {
+      "value": "—",
+      "description": "공개 방법론 확정 전 · NEO LAB에서 근거 확인"
+    }
+  },
+  "public_home_copy": {
+    "status": "PASS",
+    "violations": [],
+    "states": [
+      "VALIDATING",
+      "VALIDATING",
+      "VALIDATING",
+      "VALIDATING",
+      "NOT PUBLISHED",
+      "NOT PUBLISHED"
+    ],
+    "allowed_states": [
+      "VALIDATING",
+      "NOT PUBLISHED",
+      "VERIFIED"
+    ]
+  },
+  "official_k_rank_policy": {
+    "status": "PASS",
+    "violations": 0,
+    "samples": [],
+    "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp"
+  },
+  "candidate_unchanged_from_target": true,
+  "ranking_v2_touched": false,
+  "production_sha": "b9cb5d667e11a1559c843430d13b6cd347cf13d4"
+}
