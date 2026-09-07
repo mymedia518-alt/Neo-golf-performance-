@@ -19,7 +19,7 @@ R1_LIVE_SNAPSHOT = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
-from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation  # noqa: E402
+from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation_v2  # noqa: E402
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
 from klpga.website_v2.tournament_state import (  # noqa: E402
@@ -172,7 +172,7 @@ def render_clean(
             f'<td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
+    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo-design-system.css"><script src="/assets/top120.js" defer></script></head><body class="home-v4"><header data-neo-global-navigation></header><main>
 <section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 비교 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary["neo_ranked"]}</strong><span>분석 가능</span></div><div class="stat"><strong>{summary["validation_pending"]}</strong><span>데이터 부족</span></div>{week_stat}</div></section>
 <section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO 검증 순위</dt><dd>승인 전인 검증용 경기력 순위</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
 <section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div><span class="state-chip">검증용 · 공개 확정 전</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO 검증 순위</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div><p class="note">왜 선수마다 대회 수가 다른가? 선수마다 출전 이력이 다르기 때문에 분석 가능한 대회 수는 서로 다릅니다. 대회 수는 순위 점수가 아니라 결과를 확인한 표본의 참고 정보입니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
@@ -222,12 +222,13 @@ def build() -> dict:
         leader_text = f"Leader : {leader}" if leader is not None else "Leader : 검증 대기"
         heading = f'<div class="section-heading"><div><p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO Ranking</h2><p class="home-leader-score">{leader_text}</p></div></div>'
         ranking_html = re.sub(r'<div class="section-heading">.*?</div><div class="home-tools">', heading + '<div class="home-tools">', ranking_html, count=1, flags=re.S)
-    # /ranking/ is always marked "홈" active -- it is conceptually still
-    # HOME's own K-Ranking x NEO Ranking content (just not living at /
-    # while a tournament owns that URL), and every page must carry
-    # exactly one active nav item (see
+    # NEO SITE V5: HOME V4 design system site-wide. /ranking/ carries its
+    # own "ranking" nav item under the V2 6-item nav (players/tournaments/
+    # ranking/deep-dive/neo-lab/about) -- unlike V1's 4-item nav, which
+    # had no dedicated ranking entry and marked "home" active instead.
+    # Every page must still carry exactly one active nav item (see
     # test_p0_negative_regression.test_every_header_has_exactly_one_active_nav_item).
-    ranking_html = inject_global_navigation(ranking_html, active_section="home")
+    ranking_html = inject_global_navigation_v2(ranking_html, active_section="ranking")
     ranking_html = ranking_html.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
     (OUTPUT / "ranking").mkdir()
     (OUTPUT / "ranking" / "index.html").write_text(ranking_html, encoding="utf-8", newline="\n")
@@ -243,7 +244,7 @@ def build() -> dict:
     if mode == "TOURNAMENT_ACTIVE":
         stage_key, _ = ok_open_latest_available_stage()
         stage_page_path = ok_root / stage_key / "index.html"
-        rendered_home = inject_global_navigation(stage_page_path.read_text(encoding="utf-8"), active_section="home")
+        rendered_home = inject_global_navigation_v2(stage_page_path.read_text(encoding="utf-8"), active_section="players")
         ranking_access = '<p class="home-ranking-access"><a href="/ranking/">K-Ranking × NEO Ranking 전체 보기</a></p>'
         if "</main>" in rendered_home:
             rendered_home = rendered_home.replace("</main>", ranking_access + "</main>", 1)
@@ -254,6 +255,7 @@ def build() -> dict:
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
+    shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-design-system.css", OUTPUT / "assets" / "neo-design-system.css")
     shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
     shutil.copyfile(preserved / "assets" / "neo.css", OUTPUT / "assets" / "neo.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "top120.js", OUTPUT / "assets" / "top120.js")

@@ -118,7 +118,10 @@ def test_no_internal_href_points_at_a_nonexistent_route(html_files):
             path = urlsplit(href).path
             if not path.startswith("/") or path.startswith("//"):
                 continue
-            if path in ("/",):
+            # NEO SITE V5: /neo-lab/ is assembled from a different
+            # candidate pipeline (scripts/109) at promotion time -- see
+            # test_no_internal_href_targets_a_missing_route_v3.
+            if path in ("/", "/neo-lab/"):
                 continue
             candidate = OUTPUT / path.lstrip("/")
             resolved = candidate if candidate.suffix else candidate / "index.html"
@@ -182,12 +185,17 @@ def test_no_internal_href_targets_a_missing_route_v3(html_files):
     # protected/beta001/*.html are raw sha256-verified evidence fragments
     # (not real navigable pages -- no header/nav at all), out of scope here.
     pages = [f for f in html_files if "protected" not in f.parts]
+    # NEO SITE V5: the V2 nav always links to /neo-lab/ -- a route that
+    # only exists in scripts/109's own candidate tree, assembled into
+    # this one route (and the real docs/ site) at promotion time, never
+    # present inside this single candidate's own output.
+    cross_candidate_routes = {"/neo-lab/"}
     broken = []
     for f in pages:
         text = f.read_text(encoding="utf-8")
         for href in re.findall(r'href="(/[^"]*)"', text):
             path = urlsplit(href).path
-            if not path.startswith("/") or path.startswith("//") or path == "/":
+            if not path.startswith("/") or path.startswith("//") or path == "/" or path in cross_candidate_routes:
                 continue
             candidate = OUTPUT / path.lstrip("/")
             resolved = candidate if candidate.suffix else candidate / "index.html"
@@ -198,12 +206,17 @@ def test_no_internal_href_targets_a_missing_route_v3(html_files):
 
 # 12. exactly one canonical site-nav header per page -- no page (KG R1/R2,
 # OK Open, or any future addition) may recreate or duplicate the header.
+# NEO SITE V5: the canonical header is the HOME V4 ".t-bar" chrome; the
+# legacy ".neo-global-header" is retired. A page may carry ONE of the
+# two (never both, never neither) while migration is still converging
+# page-by-page -- this guard's real job is "never zero, never more than
+# one", not enforcing which generation a specific page is on.
 def test_every_page_has_exactly_one_canonical_header(html_files):
     pages = [f for f in html_files if "protected" not in f.parts]
     offenders = {}
     for f in pages:
         text = f.read_text(encoding="utf-8")
-        count = len(re.findall(r'<header class="neo-global-header"', text))
+        count = len(re.findall(r'<header class="neo-global-header"', text)) + len(re.findall(r'<header class="t-bar"', text))
         if count != 1:
             offenders[str(f.relative_to(ROOT))] = count
     assert offenders == {}, f"expected exactly 1 canonical header per page: {offenders}"
@@ -213,14 +226,18 @@ def test_every_page_has_exactly_one_canonical_header(html_files):
 # -- not a stale copy frozen from an earlier version of NAVIGATION_HTML,
 # and never a mix of the old one-line ".neo-brand-sub" variant with the
 # v3 UI/UX rebuild's stacked NEO + N/E/O legend lockup (spec: "Number ·
-# Evidence · Oracle 한 줄 버전 혼재" is a P0 FAIL).
+# Evidence · Oracle 한 줄 버전 혼재" is a P0 FAIL). NEO SITE V5: a page on
+# the V2 .t-bar chrome shows the HOME V4 "NEO GOLF DATA" brand lockup
+# instead -- either is acceptable, but never neither.
 def test_every_header_shows_canonical_brand_text(html_files):
     pages = [f for f in html_files if "protected" not in f.parts]
     missing = []
     mixed_legacy = []
     for f in pages:
         text = f.read_text(encoding="utf-8")
-        if '<span class="neo-brand-mark">NEO</span>' not in text or '<span class="neo-brand-legend"' not in text:
+        has_v1_brand = '<span class="neo-brand-mark">NEO</span>' in text and '<span class="neo-brand-legend"' in text
+        has_v2_brand = '<span class="t-brand__name">NEO GOLF DATA</span>' in text
+        if not has_v1_brand and not has_v2_brand:
             missing.append(str(f.relative_to(ROOT)))
         if 'class="neo-brand-sub"' in text:
             mixed_legacy.append(str(f.relative_to(ROOT)))
@@ -271,7 +288,11 @@ def test_every_header_has_exactly_one_active_nav_item(html_files):
     offenders = {}
     for f in pages:
         text = f.read_text(encoding="utf-8")
+        # NEO SITE V5: the V2 nav is <nav class="t-nav" ...> instead of
+        # the legacy .neo-global-nav -- check whichever this page has.
         nav_start = text.find('<nav class="neo-global-nav"')
+        if nav_start == -1:
+            nav_start = text.find('<nav class="t-nav"')
         nav_end = text.find("</nav>", nav_start)
         nav_html = text[nav_start:nav_end] if nav_start != -1 else ""
         count = nav_html.count('aria-current="page"')

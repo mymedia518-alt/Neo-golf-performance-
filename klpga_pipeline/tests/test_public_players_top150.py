@@ -35,13 +35,27 @@ def test_every_player_within_target_range():
         assert 1 <= p["rank"] <= 150
 
 
-def test_missing_121_150_positions_are_explicit_never_fabricated():
+def test_missing_121_150_positions_are_explicitly_blocked_never_fabricated():
     doc = mod.build()
     present = {p["rank"] for p in doc["players"]}
     for rank in range(121, 151):
         assert (rank in present) != (rank in doc["missing_rank_positions"])
     assert doc["confirmed_rank_count"] + len(doc["missing_rank_positions"]) == 150
-    assert doc["collection_status"] == "PARTIAL_121_150_PENDING_LIVE_KLPGA_NETWORK_ACCESS"
+    assert doc["collection_status"] == "PARTIAL_121_150_BLOCKED_NO_LIVE_KLPGA_NETWORK_ACCESS"
+    for b in doc["blocked_positions"]:
+        assert b["status"] == "BLOCKED"
+        assert b["reason"]
+        assert 121 <= b["rank"] <= 150
+
+
+def test_live_fetch_was_actually_attempted_before_marking_blocked():
+    """Per the explicit '확보할 수 없으면 추정하지 말고 BLOCKED로 남긴다'
+    instruction: this script must really try the live official source
+    before giving up, and record the real failure -- never silently
+    skip straight to BLOCKED without attempting."""
+    doc = mod.build()
+    for b in doc["blocked_positions"]:
+        assert b["live_fetch_error"], "expected a real, captured network error, not a silent skip"
 
 
 def test_121_to_150_names_resolved_via_canonical_546_master_never_guessed():

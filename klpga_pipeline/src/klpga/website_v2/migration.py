@@ -314,19 +314,19 @@ def build_beta001_candidate(content_path: Path, manifest_path: Path, repo_root: 
     if data["validated_display_records"]["post_r3_shin_dain_win_probability"]!="7.47%": raise CandidateBuildError("validated POST-R3 probability changed")
     records={record["stage"].lower():record for record in manifest["stages"]}; snapshots=_snapshots(repo_root,records,data); output_root=Path(output_root)
     pages={
-        output_root/"index.html":render_page(title="홈",active_section="home",body_html=_home(data,meta,snapshots)),
-        output_root/"tournaments"/"index.html":render_page(title="대회",active_section="tournaments",body_html=_tournaments(data,meta)),
-        output_root/"predictions"/"index.html":render_page(title="예측 기록",active_section="predictions",body_html=_archive(meta)),
-        output_root/"deep-dive"/"index.html":render_page(title="DEEP DIVE",active_section="deep-dive",body_html=_deep(meta,snapshots,official,json.loads((repo_root/records["pre"]["source_artifact"]).read_text(encoding="utf-8")))),
-        output_root/"about"/"index.html":render_page(title="NEO 소개",active_section="about",body_html=_about()),
-        output_root/"tournaments"/str(meta.year)/meta.slug/"index.html":render_page(title=meta.display_name,active_section="tournaments",body_html=_overview(data,meta),tournament=meta,current_stage="overview"),
-        output_root/"tournaments"/str(meta.year)/meta.slug/"pre"/"index.html":render_page(title=f"{meta.display_name} PRE",active_section="tournaments",body_html=_pre(meta,snapshots["PRE"],records["pre"]),tournament=meta,current_stage="pre"),
-        output_root/"tournaments"/str(meta.year)/meta.slug/"final"/"index.html":render_page(title=f"{meta.display_name} FINAL",active_section="tournaments",body_html=_final(data,meta,snapshots,availability,official),tournament=meta,current_stage="final")}
+        output_root/"index.html":render_page(title="홈",active_section="players",body_html=_home(data,meta,snapshots),design_system="v2"),
+        output_root/"tournaments"/"index.html":render_page(title="대회",active_section="tournaments",body_html=_tournaments(data,meta),design_system="v2"),
+        output_root/"predictions"/"index.html":render_page(title="예측 기록",active_section="tournaments",body_html=_archive(meta),design_system="v2"),
+        output_root/"deep-dive"/"index.html":render_page(title="DEEP DIVE",active_section="deep-dive",body_html=_deep(meta,snapshots,official,json.loads((repo_root/records["pre"]["source_artifact"]).read_text(encoding="utf-8"))),design_system="v2"),
+        output_root/"about"/"index.html":render_page(title="NEO 소개",active_section="about",body_html=_about(),design_system="v2"),
+        output_root/"tournaments"/str(meta.year)/meta.slug/"index.html":render_page(title=meta.display_name,active_section="tournaments",body_html=_overview(data,meta),tournament=meta,current_stage="overview",design_system="v2"),
+        output_root/"tournaments"/str(meta.year)/meta.slug/"pre"/"index.html":render_page(title=f"{meta.display_name} PRE",active_section="tournaments",body_html=_pre(meta,snapshots["PRE"],records["pre"]),tournament=meta,current_stage="pre",design_system="v2"),
+        output_root/"tournaments"/str(meta.year)/meta.slug/"final"/"index.html":render_page(title=f"{meta.display_name} FINAL",active_section="tournaments",body_html=_final(data,meta,snapshots,availability,official),tournament=meta,current_stage="final",design_system="v2")}
     for stage in ("r1","r2","r3"):
-        pages[output_root/"tournaments"/str(meta.year)/meta.slug/stage/"index.html"]=render_page(title=f"{meta.display_name} {stage.upper()}",active_section="tournaments",body_html=_stage(meta,stage.upper(),snapshots[stage.upper()],snapshots,records[stage],f"/protected/beta001/{stage}.html"),tournament=meta,current_stage=stage)
+        pages[output_root/"tournaments"/str(meta.year)/meta.slug/stage/"index.html"]=render_page(title=f"{meta.display_name} {stage.upper()}",active_section="tournaments",body_html=_stage(meta,stage.upper(),snapshots[stage.upper()],snapshots,records[stage],f"/protected/beta001/{stage}.html"),tournament=meta,current_stage=stage,design_system="v2")
     written=[_write(path,html) for path,html in pages.items()]
     assets=output_root/"assets"; assets.mkdir(parents=True,exist_ok=True)
-    for name in ("neo-site.css","neo-site.js"):
+    for name in ("neo-site.css","neo-site.js","neo-design-system.css"):
         dest=assets/name; shutil.copyfile(STATIC_DIR/name,dest); written.append(dest)
     data_dir=output_root/"data"; data_dir.mkdir(parents=True,exist_ok=True); dest=data_dir/"availability.json"; shutil.copyfile(availability_path,dest); written.append(dest)
     official_dest=data_dir/"kg_2026080001_official.json"; shutil.copyfile(official_path,official_dest); written.append(official_dest)

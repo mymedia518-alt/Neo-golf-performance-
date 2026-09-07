@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 from html import escape
@@ -12,10 +13,55 @@ REPO = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
-from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
+from klpga.website_v2.global_navigation import inject_global_navigation_v2  # noqa: E402
+from klpga.website_v2.migration import _KG_SPONSOR_BY_NAME  # noqa: E402
+from klpga.website_v2.player_identity import resolve_sponsor_text  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home"
+
+
+def _sponsor_span(name: str) -> str:
+    sponsor = escape(resolve_sponsor_text(_KG_SPONSOR_BY_NAME.get(name)))
+    return f'<span class="neo-player-identity__sponsor">{sponsor}</span>'
+
+
+def _inject_frozen_page_sponsors(html: str, route: str) -> str:
+    """NEO SITE V5 sponsor invariant, extended to the three frozen/static
+    pages that have no live builder script of their own (KG Ladies Open
+    R1/R2, OK Savings Bank Open R3 -- all arrive via the docs/ copytree
+    above, byte-for-byte). Each transform only wraps the player NAME
+    text already present in each row with the shared
+    neo-player-identity__name/__sponsor slots (sponsor blank when
+    unresolved, per player_identity.py's contract) -- every score, rank,
+    and other historical value is left untouched, so this is presentation
+    layer only, never a change to the historical record itself.
+    """
+    if route == "tournaments/2026/kg-ladies-open/r1/index.html":
+        def repl(m: re.Match) -> str:
+            name = m.group(1)
+            return (f'<td class="c-name"><span class="neo-player-identity__name">{name}</span>'
+                     f'{_sponsor_span(name)}</td>')
+        return re.sub(r'<td class="c-name">([^<]*)</td>', repl, html)
+    if route == "tournaments/2026/kg-ladies-open/r2/index.html":
+        def repl(m: re.Match) -> str:
+            code, name = m.group(1), m.group(2)
+            return (f'<td class="c-name"><button type="button" class="player-name-btn" '
+                     f'data-player-card-trigger data-player-code="{code}">'
+                     f'<span class="neo-player-identity__name">{name}</span></button>'
+                     f'{_sponsor_span(name)}</td>')
+        return re.sub(
+            r'<td class="c-name"><button type="button" class="player-name-btn" '
+            r'data-player-card-trigger data-player-code="(\d+)">([^<]*)</button></td>',
+            repl, html,
+        )
+    if route == "tournaments/2026/ok-savings-bank-open/r3/index.html":
+        def repl(m: re.Match) -> str:
+            name = m.group(1)
+            return (f"<span class='player'><span class=\"neo-player-identity__name\">{name}</span>"
+                     f'{_sponsor_span(name)}</span>')
+        return re.sub(r"<span class='player'>([^<]*)</span>", repl, html)
+    return html
 
 
 def _cell_number(value, state: str) -> str:
@@ -43,7 +89,7 @@ def render_home(rows: list[dict], summary: dict) -> str:
             f'<td><span class="validation-state">{("SG 확인" if feature else "SG 검증 대기")}</span></td></tr>'
         )
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HOME · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/home.js" defer></script></head><body>
+<title>HOME · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo-design-system.css"><script src="/assets/home.js" defer></script></head><body class="home-v4">
 <header data-neo-global-navigation></header>
 <main><section class="page-head home-head"><p class="kicker">KLPGA 정규투어 선수 데이터</p><h1>선수 랭킹 허브</h1><p>대회별 우승 확률과 분리된 상시 선수 화면입니다. NEO Ranking 공식은 검증 완료 전까지 공개하지 않습니다.</p><div class="home-summary"><strong>{summary["population_count"]}</strong><span>canonical 선수</span><strong>{summary["k_ranking_join_success"]}</strong><span>K-Ranking 연결</span></div></section>
 <section class="product-section" aria-labelledby="ranking-heading"><div class="section-heading"><div><p class="section-label">NEO RANKING</p><h2 id="ranking-heading">전체 선수</h2></div><span class="state-chip">공식 미확정 · 검증 대기</span></div>
@@ -55,7 +101,7 @@ def render_home(rows: list[dict], summary: dict) -> str:
 
 
 def render_tournaments_clean() -> str:
-    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"></head><body><header data-neo-global-navigation></header><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small><a class="row-cta" href="/tournaments/2026/kg-ladies-open/final/">예측 기록 보기 →</a></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">예정</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026.09.04–09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <span class="stage-pending" title="아직 시작 전">R1</span> · <span class="stage-pending" title="아직 시작 전">R2</span> · <span class="stage-pending" title="아직 시작 전">최종</span></small><a class="row-cta" href="/tournaments/2026/ok-savings-bank-open/pre/">사전 분석 보기 →</a></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    return '''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>대회 · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo-design-system.css"></head><body class="home-v4"><header data-neo-global-navigation></header><main><section class="page-head compact"><p class="kicker">대회</p><h1>대회 분석 허브</h1><p>검증된 대회의 기간과 상태, 분석 단계를 확인합니다.</p></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">종료</span><h2>제15회 KG 레이디스 오픈</h2><p class="note">2026.08.27–8.30 · 우승 신다인 · 271 (-17)</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/kg-ladies-open/pre/">사전</a> · <a href="/tournaments/2026/kg-ladies-open/r1/">R1</a> · <a href="/tournaments/2026/kg-ladies-open/r2/">R2</a> · <a href="/tournaments/2026/kg-ladies-open/r3/">R3</a> · <a href="/tournaments/2026/kg-ladies-open/final/">최종</a></small><a class="row-cta" href="/tournaments/2026/kg-ladies-open/final/">예측 기록 보기 →</a></div></div></section><section class="product-section"><div class="tournament-row"><div><span class="state-chip">예정</span><h2>OK저축은행 읏맨 오픈</h2><p class="note">2026.09.04–09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><div><strong>분석 단계</strong><small><a href="/tournaments/2026/ok-savings-bank-open/pre/">사전</a> · <span class="stage-pending" title="아직 시작 전">R1</span> · <span class="stage-pending" title="아직 시작 전">R2</span> · <span class="stage-pending" title="아직 시작 전">최종</span></small><a class="row-cta" href="/tournaments/2026/ok-savings-bank-open/pre/">사전 분석 보기 →</a></div></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
 
 
 def build() -> dict:
@@ -129,13 +175,32 @@ def build() -> dict:
     neo_css = (ROOT / "candidate" / "website-v2-ok-open-pre" / "assets" / "neo.css").read_text(encoding="utf-8")
     (OUTPUT / "assets" / "neo.css").write_text(neo_css, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "home.js", OUTPUT / "assets" / "home.js")
+    # NEO SITE V5: sponsor invariant for the three frozen pages that have
+    # no live builder script of their own (see _inject_frozen_page_sponsors).
+    for frozen_route in (
+        "tournaments/2026/kg-ladies-open/r1/index.html",
+        "tournaments/2026/kg-ladies-open/r2/index.html",
+        "tournaments/2026/ok-savings-bank-open/r3/index.html",
+    ):
+        frozen_page = OUTPUT / frozen_route
+        frozen_page.write_text(
+            _inject_frozen_page_sponsors(frozen_page.read_text(encoding="utf-8"), frozen_route),
+            encoding="utf-8",
+        )
+    # NEO SITE V5: HOME V4 design system applies to every page in this
+    # tree, including KG Ladies Open R1/R2 (arrived via the docs/
+    # copytree above, still on their frozen historical body content).
+    # inject_global_navigation_v2() only ever touches header/body-class/
+    # stylesheet-link chrome (see its own docstring) -- scores, ranks,
+    # and results in R1/R2's body content are never modified by this
+    # pass, satisfying "역사 데이터는 변경하지 않고 표현 계층만 수정".
     for page in OUTPUT.rglob("index.html"):
         relative = page.relative_to(OUTPUT)
         top = relative.parts[0] if relative.parts != (relative.name,) else None
         active_section = {"tournaments": "tournaments", "deep-dive": "deep-dive", "about": "about"}.get(top)
         if active_section is None and relative.name == "index.html" and len(relative.parts) == 1:
-            active_section = "home"
-        rendered = inject_global_navigation(page.read_text(encoding="utf-8"), active_section=active_section)
+            active_section = "players"
+        rendered = inject_global_navigation_v2(page.read_text(encoding="utf-8"), active_section=active_section)
         rendered = "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"
         page.write_text(rendered, encoding="utf-8", newline="\n")
     (OUTPUT / "data").mkdir(exist_ok=True)

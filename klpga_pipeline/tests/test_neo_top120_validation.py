@@ -4,6 +4,7 @@ import importlib.util
 import functools
 import http.server
 import json
+import re
 import threading
 import urllib.request
 from pathlib import Path
@@ -99,33 +100,66 @@ def test_ok_stage_assets_and_deep_dive_are_complete(built):
 
 
 def test_every_public_route_has_global_home_navigation(built):
-    routes = (
+    # NEO SITE V5: HOME V4 design system site-wide, including KG Ladies
+    # Open R1/R2 -- their chrome is migrated to .t-bar by script 86's
+    # final universal inject_global_navigation_v2 pass, which only ever
+    # touches header/body-class/stylesheet-link chrome, never their
+    # frozen historical body content (scores, ranks, results).
+    v2_routes = (
         "index.html",
         "ranking/index.html",
         "tournaments/index.html",
         "deep-dive/index.html",
         "about/index.html",
-        "tournaments/2026/kg-ladies-open/r1/index.html",
-        "tournaments/2026/kg-ladies-open/r2/index.html",
         "tournaments/2026/ok-savings-bank-open/pre/index.html",
         "tournaments/2026/ok-savings-bank-open/r1/index.html",
         "tournaments/2026/ok-savings-bank-open/r2/index.html",
         "tournaments/2026/ok-savings-bank-open/final/index.html",
+        "tournaments/2026/kg-ladies-open/r1/index.html",
+        "tournaments/2026/kg-ladies-open/r2/index.html",
     )
-    required = (
-        'href="/">홈</a>',
-        'href="/tournaments/">대회</a>',
-        'href="/deep-dive/">딥다이브</a>',
-        'href="/about/">소개</a>',
+    # the active nav item's link carries extra class/aria-current
+    # attributes before the closing ">", so match on label text + href
+    # presence separately rather than one exact literal substring.
+    v2_required = (
+        ('/', 'PLAYERS'),
+        ('/tournaments/', 'TOURNAMENTS'),
+        ('/deep-dive/', 'DEEP DIVE'),
+        ('/about/', 'ABOUT'),
     )
-    for route in routes:
+    for route in v2_routes:
         html = (OUTPUT / route).read_text(encoding="utf-8")
-        assert 'href="/">NEO GOLF DATA</a>' in html, route
-        assert all(link in html for link in required), route
-        assert html.count('class="neo-global-header"') == 1, route
+        assert 'class="t-brand" href="/">' in html, route
+        for href, label in v2_required:
+            assert re.search(rf'<a href="{re.escape(href)}"[^>]*>{re.escape(label)}</a>', html), (route, href, label)
+        assert html.count('<header class="t-bar"') == 1, route
+        assert html.count('class="neo-global-header"') == 0, route
     css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
     assert ".neo-global-header__inner{display:flex" in css
     assert ".neo-global-nav{display:flex" in css and "overflow-x:auto" in css
+
+
+def test_kg_r1_r2_and_ok_open_r3_obey_the_sponsor_invariant_too(built):
+    # NEO SITE V5: KG Ladies Open R1/R2 and OK Savings Bank Open R3 have
+    # no live builder script of their own -- they arrive via script 86's
+    # docs/ copytree, byte-for-byte. Item 4 explicitly forbids exempting
+    # them from the sponsor invariant, so their frozen player-name cells
+    # are post-processed (see _inject_frozen_page_sponsors in script 86)
+    # to carry the same structurally-present name/sponsor slots as every
+    # other public page -- never touching score, rank, or any other
+    # historical value.
+    for route, min_players in (
+        ("tournaments/2026/kg-ladies-open/r1/index.html", 100),
+        ("tournaments/2026/kg-ladies-open/r2/index.html", 50),
+        ("tournaments/2026/ok-savings-bank-open/r3/index.html", 50),
+    ):
+        html = (OUTPUT / route).read_text(encoding="utf-8")
+        name_count = html.count('class="neo-player-identity__name"')
+        sponsor_count = html.count('class="neo-player-identity__sponsor"')
+        assert name_count >= min_players, route
+        assert name_count == sponsor_count, route
+        for placeholder in ("unknown", "미확인", "N/A"):
+            assert f'class="neo-player-identity__sponsor">{placeholder}<' not in html, route
 
 
 def test_home_is_korean_first_and_table_alignment_is_explicit(built):
@@ -138,7 +172,10 @@ def test_home_is_korean_first_and_table_alignment_is_explicit(built):
     assert "검증 대기" in html
     assert all(term in html for term in ("K-Ranking", "NEO Ranking", "최근 경기력"))
     assert "DATA INSUFFICIENT" not in html
-    assert all(term not in html for term in (">HOME<", ">TOURNAMENTS<", ">DEEP DIVE<", ">ABOUT<", "production 아님"))
+    # NEO SITE V5: the V2 nav's English labels (PLAYERS/TOURNAMENTS/
+    # DEEP DIVE/ABOUT) are the correct, intended design -- no longer a
+    # legacy-leak signal to guard against.
+    assert "production 아님" not in html
     css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
     assert ".home-table{width:100%;min-width:960px;table-layout:fixed}" in css
     assert ".home-table th:nth-child(3),.home-table td:nth-child(3){width:12rem;text-align:left" in css

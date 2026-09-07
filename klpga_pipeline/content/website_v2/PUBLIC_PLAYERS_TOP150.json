@@ -37,8 +37,106 @@
     145,
     148
   ],
-  "collection_status": "PARTIAL_121_150_PENDING_LIVE_KLPGA_NETWORK_ACCESS",
-  "generated_at": "2026-09-07T14:13:24Z",
+  "blocked_positions": [
+    {
+      "rank": 121,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 123,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 124,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 125,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 126,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 127,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 129,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 134,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 138,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 139,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 141,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 142,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 143,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 144,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 145,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    },
+    {
+      "rank": 148,
+      "status": "BLOCKED",
+      "reason": "no live KLPGA network access in this sandbox -- never estimated",
+      "live_fetch_error": "ProxyError: HTTPSConnectionPool(host='k-rankings.klpga.co.kr', port=443): Max retries exceeded with url: /allplayer.jsp (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+    }
+  ],
+  "collection_status": "PARTIAL_121_150_BLOCKED_NO_LIVE_KLPGA_NETWORK_ACCESS",
+  "generated_at": "2026-09-07T14:48:33Z",
   "players": [
     {
       "rank": 1,
