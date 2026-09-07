@@ -132,7 +132,7 @@ def render_tournaments_clean() -> str:
 
 def build() -> dict:
     population = load_json(CONTENT / "HOME_REGULAR_TOUR_PLAYER_MASTER.json")
-    ranking = load_json(CONTENT / "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json")
+    ranking = load_json(_CONTEXT.artifact_path("official_klpga_ranking"))
     warehouse = load_json(CONTENT / "historical_sg_warehouse_corrected.json")
     rows, summary = join_home_rows(population, ranking, warehouse)
     if OUTPUT.exists():

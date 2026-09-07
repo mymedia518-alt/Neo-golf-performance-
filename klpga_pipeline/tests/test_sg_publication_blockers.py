@@ -15,12 +15,21 @@ def test_band_baseline_population_matches_eligible_population_and_uses_full_prec
 
 
 def test_boundary_controls_are_not_special_cased():
+    # PRE LEAKAGE (Phase 5 item 5): these two boundary-control player_ids
+    # were chosen for how close their z-score sits to the HIGH/VERY_HIGH
+    # and LOW/VERY_LOW thresholds under the row-retention-corrected
+    # warehouse. Fixing the leakage-exclusion date filter (see script 79)
+    # legitimately shifted several players' pre-cutoff sample composition
+    # and therefore their exact z-scores -- the closest-to-threshold
+    # players were re-selected against the corrected output rather than
+    # forcing the old (leakage-affected) player_ids to keep their old
+    # band labels.
     d = json.loads((C / "OK_OPEN_2026_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json").read_text(encoding="utf-8"))
     by = {p["player_id"]: p for p in d["profiles"]}
-    assert by["9652"]["neo_performance_band"] == "HIGH"
-    assert by["10178"]["neo_performance_band"] == "LOW"
-    assert by["9652"]["band_statistics"]["z_vs_field_median"] < 1.96
-    assert by["10178"]["band_statistics"]["z_vs_field_median"] > -1.96
+    assert by["10095"]["neo_performance_band"] == "HIGH"
+    assert by["9723"]["neo_performance_band"] == "LOW"
+    assert by["10095"]["band_statistics"]["z_vs_field_median"] < 1.96
+    assert by["9723"]["band_statistics"]["z_vs_field_median"] > -1.96
 
 
 def test_corrected_rank_provenance_cannot_point_at_legacy_warehouse():

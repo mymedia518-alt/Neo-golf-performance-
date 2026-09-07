@@ -69,6 +69,27 @@ def _row_to_discovered(row) -> DiscoveredTournament:
     )
 
 
+def _require_tournament_master(con: sqlite3.Connection, db_path: Path) -> None:
+    """DATABASE PROVISIONING (Phase 5 item 11): a DB *file* existing is
+    not the same guarantee as it holding real schema/data -- an earlier
+    sqlite3.connect() against a not-yet-provisioned path silently
+    creates an empty, zero-table file (this is exactly how
+    data/klpga.sqlite ends up as a 0-byte file in a fresh checkout).
+    Querying tournament_master against that empty file must fail
+    closed with an actionable message, never a raw
+    "no such table" sqlite3.OperationalError."""
+    exists = con.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='tournament_master'"
+    ).fetchone()
+    if exists is None:
+        raise TournamentDiscoveryBlocked(
+            f"canonical tournament_master table missing from {db_path} -- "
+            "this DB file exists but was never provisioned with real data "
+            "(or was silently created empty by an earlier connection to a "
+            "not-yet-set-up path); refusing to treat it as the canonical DB"
+        )
+
+
 def discover_tournament(
     db_path: Path,
     *,
@@ -83,6 +104,7 @@ def discover_tournament(
     con.row_factory = sqlite3.Row
 
     try:
+        _require_tournament_master(con, db_path)
         rows = con.execute(
             f"""
             SELECT {_DISCOVERY_COLUMNS}
@@ -138,6 +160,7 @@ def discover_tournament_by_game_code(
     con.row_factory = sqlite3.Row
 
     try:
+        _require_tournament_master(con, db_path)
         row = con.execute(
             f"""
             SELECT {_DISCOVERY_COLUMNS}
@@ -260,7 +283,11 @@ def refresh_active_config(
     db_path: Path,
     config_path: Path,
     as_of: date,
+    persist: bool = True,
 ) -> dict[str, Any]:
+    """persist=False (dry-run preview): resolve and return the refreshed
+    payload without writing config_path -- used by run_tournament.py
+    --dry-run so a preview never mutates real lifecycle state."""
     previous = json.loads(
         config_path.read_text(encoding="utf-8-sig")
     )
@@ -274,6 +301,9 @@ def refresh_active_config(
         tournament,
         previous_config=previous,
     )
+
+    if not persist:
+        return payload
 
     encoded = (
         json.dumps(

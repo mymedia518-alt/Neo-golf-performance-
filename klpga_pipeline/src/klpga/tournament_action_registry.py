@@ -31,6 +31,14 @@ class ActionContext:
     game_code: str
     final_round_number: int
     current_round_number: int | None = None
+    live: bool = False
+    """Phase 5 item 7: explicit, generic opt-in for real official-data
+    collection. False (default) means every runner must be side-effect
+    -free / make no real HTTP calls -- matching the "safe by default"
+    convention scripts 96/98 already established on their own. Never
+    inferred from --dry-run alone: a caller could conceivably want a
+    real decision preview without a live fetch, and vice versa; this
+    field is the one explicit signal every runner checks."""
 
     def __post_init__(self) -> None:
         if not self.game_code.strip():

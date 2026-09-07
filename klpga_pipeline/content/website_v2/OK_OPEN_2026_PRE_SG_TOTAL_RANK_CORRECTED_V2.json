@@ -1,5 +1,5 @@
 {
-  "schema_version": "neo_ok_open_pre_sg_total_rank_corrected_v2",
+  "schema_version": "neo_tournament_pre_sg_total_rank_corrected_v2",
   "game_code": "2026120001",
   "cutoff": "2026-09-04T00:00:00+09:00",
   "window": "latest five pre-cutoff tournament_cumulative SG Total observations",
@@ -9,7 +9,7 @@
   "missing_rule": "NULL rank when no validated observation",
   "warehouse": "historical_sg_warehouse_corrected_v2.json",
   "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
-  "generated_at": "2026-08-31T22:25:21Z",
+  "generated_at": "2026-09-07T22:47:09Z",
   "records": [
     {
       "player_id": "9174",
@@ -41,7 +41,7 @@
     },
     {
       "player_id": "10075",
-      "sg_total_mean": -0.792,
+      "sg_total_mean": -0.7919999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -69,7 +69,7 @@
     },
     {
       "player_id": "10109",
-      "sg_total_mean": 0.18599999999999994,
+      "sg_total_mean": 0.186,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -97,7 +97,7 @@
     },
     {
       "player_id": "10726",
-      "sg_total_mean": -0.874,
+      "sg_total_mean": -0.8739999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -125,7 +125,7 @@
     },
     {
       "player_id": "9702",
-      "sg_total_mean": -0.8540000000000001,
+      "sg_total_mean": -0.8539999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -163,7 +163,7 @@
         "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
         "calculation_version": "corrected_sg_total_rank_v2"
       },
-      "sg_total_rank": 8
+      "sg_total_rank": 7
     },
     {
       "player_id": "10725",
@@ -223,7 +223,7 @@
     },
     {
       "player_id": "9089",
-      "sg_total_mean": -1.392,
+      "sg_total_mean": -1.3920000000000001,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -335,7 +335,7 @@
     },
     {
       "player_id": "11216",
-      "sg_total_mean": -0.9800000000000001,
+      "sg_total_mean": -0.9799999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -349,7 +349,7 @@
     },
     {
       "player_id": "10790",
-      "sg_total_mean": -0.08199999999999999,
+      "sg_total_mean": -0.08200000000000003,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -405,7 +405,7 @@
     },
     {
       "player_id": "9723",
-      "sg_total_mean": -1.97,
+      "sg_total_mean": -1.9699999999999995,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -447,7 +447,7 @@
     },
     {
       "player_id": "10083",
-      "sg_total_mean": -0.17600000000000002,
+      "sg_total_mean": -0.17600000000000007,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -461,7 +461,7 @@
     },
     {
       "player_id": "9183",
-      "sg_total_mean": -0.9880000000000001,
+      "sg_total_mean": -0.9879999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -475,7 +475,7 @@
     },
     {
       "player_id": "8318",
-      "sg_total_mean": -0.674,
+      "sg_total_mean": -0.6739999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -517,7 +517,7 @@
     },
     {
       "player_id": "11056",
-      "sg_total_mean": 0.46399999999999997,
+      "sg_total_mean": 0.46399999999999986,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -545,7 +545,7 @@
     },
     {
       "player_id": "9788",
-      "sg_total_mean": 1.056,
+      "sg_total_mean": 1.0560000000000003,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -611,7 +611,7 @@
         "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
         "calculation_version": "corrected_sg_total_rank_v2"
       },
-      "sg_total_rank": 7
+      "sg_total_rank": 6
     },
     {
       "player_id": "8881",
@@ -657,7 +657,7 @@
     },
     {
       "player_id": "11057",
-      "sg_total_mean": -2.2204460492503132e-17,
+      "sg_total_mean": 0.0,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -713,7 +713,7 @@
     },
     {
       "player_id": "6916",
-      "sg_total_mean": 0.11599999999999999,
+      "sg_total_mean": 0.11599999999999996,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -783,7 +783,7 @@
     },
     {
       "player_id": "11045",
-      "sg_total_mean": 0.322,
+      "sg_total_mean": 0.32199999999999995,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -797,7 +797,7 @@
     },
     {
       "player_id": "8799",
-      "sg_total_mean": -0.018000000000000006,
+      "sg_total_mean": -0.018000000000000016,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -811,7 +811,7 @@
     },
     {
       "player_id": "11926",
-      "sg_total_mean": -4.82,
+      "sg_total_mean": -4.819999999999999,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -853,7 +853,7 @@
     },
     {
       "player_id": "9990",
-      "sg_total_mean": 0.22600000000000003,
+      "sg_total_mean": 0.22600000000000006,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -909,7 +909,7 @@
     },
     {
       "player_id": "11649",
-      "sg_total_mean": 0.484,
+      "sg_total_mean": 0.4840000000000001,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -951,7 +951,7 @@
     },
     {
       "player_id": "9652",
-      "sg_total_mean": 0.89,
+      "sg_total_mean": 0.8900000000000002,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -993,7 +993,7 @@
     },
     {
       "player_id": "8859",
-      "sg_total_mean": 0.488,
+      "sg_total_mean": 0.4880000000000001,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1007,7 +1007,7 @@
     },
     {
       "player_id": "9784",
-      "sg_total_mean": 1.494,
+      "sg_total_mean": 1.4940000000000002,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1105,7 +1105,7 @@
     },
     {
       "player_id": "9449",
-      "sg_total_mean": 2.308,
+      "sg_total_mean": 2.3080000000000003,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1147,7 +1147,7 @@
     },
     {
       "player_id": "8355",
-      "sg_total_mean": -4.552,
+      "sg_total_mean": -4.5520000000000005,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1175,7 +1175,7 @@
     },
     {
       "player_id": "11374",
-      "sg_total_mean": 0.31399999999999995,
+      "sg_total_mean": 0.314,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1245,7 +1245,7 @@
     },
     {
       "player_id": "9820",
-      "sg_total_mean": 0.168,
+      "sg_total_mean": 0.16799999999999998,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1329,7 +1329,7 @@
     },
     {
       "player_id": "9391",
-      "sg_total_mean": -0.37600000000000006,
+      "sg_total_mean": -0.376,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1371,7 +1371,7 @@
     },
     {
       "player_id": "10577",
-      "sg_total_mean": 0.11800000000000002,
+      "sg_total_mean": 0.11799999999999997,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1385,7 +1385,7 @@
     },
     {
       "player_id": "9235",
-      "sg_total_mean": 1.5219999999999998,
+      "sg_total_mean": 1.522,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1395,11 +1395,11 @@
         "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
         "calculation_version": "corrected_sg_total_rank_v2"
       },
-      "sg_total_rank": 6
+      "sg_total_rank": 5
     },
     {
       "player_id": "11073",
-      "sg_total_mean": -0.048000000000000036,
+      "sg_total_mean": -0.048,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1469,7 +1469,7 @@
     },
     {
       "player_id": "10531",
-      "sg_total_mean": -2.892,
+      "sg_total_mean": -2.8920000000000003,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1553,7 +1553,7 @@
     },
     {
       "player_id": "10157",
-      "sg_total_mean": -1.16,
+      "sg_total_mean": -1.1600000000000001,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1595,8 +1595,8 @@
     },
     {
       "player_id": "8320",
-      "sg_total_mean": 1.65,
-      "sample_count": 4,
+      "sg_total_mean": 1.4949999999999999,
+      "sample_count": 2,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
         "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
@@ -1605,7 +1605,7 @@
         "scope": "official tournament_cumulative; arithmetic mean of completed single-round SG",
         "calculation_version": "corrected_sg_total_rank_v2"
       },
-      "sg_total_rank": 5
+      "sg_total_rank": 8
     },
     {
       "player_id": "8764",
@@ -1623,7 +1623,7 @@
     },
     {
       "player_id": "11365",
-      "sg_total_mean": -1.064,
+      "sg_total_mean": -1.0640000000000003,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",
@@ -1665,7 +1665,7 @@
     },
     {
       "player_id": "7963",
-      "sg_total_mean": -3.068,
+      "sg_total_mean": -3.0679999999999996,
       "sample_count": 5,
       "provenance": {
         "source_artifact": "historical_sg_warehouse_corrected_v2.json",

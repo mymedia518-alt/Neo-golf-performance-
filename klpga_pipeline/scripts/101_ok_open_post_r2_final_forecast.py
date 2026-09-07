@@ -65,8 +65,14 @@ finalists = [
     if r.get("final_ground_truth_status") == "MADE_CUT_CONFIRMED"
 ]
 
-if len(finalists) != 68:
-    raise SystemExit(f"HARD_STOP: expected 68 official finalists, got {len(finalists)}")
+# Expected finalist count (Phase 5 item 2): the officially-confirmed
+# advancing field size from post_r2_input (script 100's own real
+# CUT/WD/DQ/DNS-evidence-validated field, see tournament_lifecycle
+# .infer_cut_validated) -- never a hardcoded literal tied to one
+# historical tournament's field size.
+expected_finalists = int(pre.get("advancing_field_size") or len(pre["records"]))
+if len(finalists) != expected_finalists:
+    raise SystemExit(f"HARD_STOP: expected {expected_finalists} official finalists (per post_r2_input), got {len(finalists)}")
 
 def expected_round(profile):
     """
@@ -169,14 +175,27 @@ if missing:
     print(json.dumps(missing, ensure_ascii=False, indent=2))
     raise SystemExit(f"HARD_STOP: {len(missing)} finalist input(s) missing")
 
-if len(sim_inputs) != 68:
-    raise SystemExit(f"HARD_STOP: simulation field != 68 ({len(sim_inputs)})")
+if len(sim_inputs) != expected_finalists:
+    raise SystemExit(f"HARD_STOP: simulation field != {expected_finalists} ({len(sim_inputs)})")
 
 rng = random.Random(SEED)
 
+# klpga.neo_win.round_update_r2.simulate_post_round2 is specifically a
+# post-R2, one-round-remaining forecast model -- it does not generalize
+# to a tournament with more than one round left after R2. Fail closed
+# (never silently pass a hardcoded 1 to a simulation whose assumption
+# doesn't hold) rather than mismatching the honestly-derived
+# remaining_rounds metadata below.
+_remaining_rounds = _CONTEXT.final_round_number - _CONTEXT.current_round_number
+if _remaining_rounds != 1:
+    raise SystemExit(
+        f"HARD_STOP: {_remaining_rounds} round(s) remain after R2, but this script's simulation "
+        "model only supports exactly 1 remaining round -- not applicable to this tournament's format"
+    )
+
 result = simulate_post_round2(
     sim_inputs,
-    remaining_rounds=1,
+    remaining_rounds=_remaining_rounds,
     n_simulations=N_SIMULATIONS,
     rng=rng,
 )
@@ -218,13 +237,8 @@ payload = {
     "tournament_name": _CONTEXT.tournament_name,
     "stage": "POST_R2_PRE_FINAL",
     "final_round_number": _CONTEXT.final_round_number,
-    # This script's simulation (simulate_post_round2) is specifically a
-    # post-R2, one-round-remaining forecast -- it does not generalize to
-    # a tournament with more than one round left after R2. Derived from
-    # context rather than a bare literal so at least the value itself
-    # stays honest instead of silently claiming "1" for a 4-round event.
-    "remaining_rounds": _CONTEXT.final_round_number - _CONTEXT.current_round_number,
-    "official_final_field_size": 68,
+    "remaining_rounds": _remaining_rounds,
+    "official_final_field_size": expected_finalists,
     "field_source": str(GT.relative_to(ROOT)).replace("\\", "/"),
     "pre_model_version": pre.get("model_version"),
     "pre_cutoff": pre.get("pre_cutoff"),
@@ -268,7 +282,7 @@ print()
 print("=== OK OPEN POST-R2 -> FINAL FORECAST ===")
 print("GAME:", GAME_CODE)
 print("FINAL FIELD:", len(rows))
-print("REMAINING ROUNDS: 1")
+print(f"REMAINING ROUNDS: {_remaining_rounds}")
 print("SIMULATIONS:", N_SIMULATIONS)
 print("WIN SUM:", round(win_sum, 6))
 print("FUTURE DATA EXCLUDED:", payload["future_data_excluded"])

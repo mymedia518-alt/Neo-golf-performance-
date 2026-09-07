@@ -193,7 +193,7 @@ def _collect_live() -> tuple[list[dict], bool, bool, str | None]:
         from klpga.parsers.round_progress import resolve_completed_holes
 
         client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "r1_active")
-        listings = [x for x in fetch_game_list(client, season=2026) if x.game_code == GAME_CODE]
+        listings = [x for x in fetch_game_list(client, season=_CONTEXT.season) if x.game_code == GAME_CODE]
         tournament_finished = bool(listings and listings[0].is_completed)
         rows = fetch_round_leaderboard(client, GAME_CODE, 1, use_cache=False)
         starting_tee_by_player = _fetch_round1_starting_tees(client)

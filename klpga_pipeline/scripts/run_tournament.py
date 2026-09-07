@@ -1,8 +1,8 @@
-"""NEO TOURNAMENT PIPELINE items 2/5 (Phase 3 hardening): single generic
+"""NEO TOURNAMENT PIPELINE items 2/5 (Phase 5 hardening): single generic
 entry point.
 
     run_tournament.py [--game-code <GAME_CODE>] [--stage STAGE]
-                       [--dry-run] [--git-push]
+                       [--dry-run] [--live] [--git-push]
                        [--db PATH] [--final-round-number N] [--cut-after-round N]
 
 Drives DISCOVERY -> METADATA -> ENTRY LIST -> IDENTITY -> PRE
@@ -19,22 +19,24 @@ engine every tournament shares:
                                   -- OperatorAction -> dispatch + official
                                      preflight fetch
 
-Phase 3 fixes two real architecture gaps a QA pass found in the Phase 2
-version of this script:
+--live (Phase 5 item 7): explicit, generic opt-in for real official-data
+collection, mirroring the "safe by default" convention scripts 96/98
+already use on their own. Without --live, RUN_R1/CLOSE_R1 never pass
+--live down to 96/98 (so THEY stay in their own safe dry mode) and
+RUN_R2/CONFIRM_CUT/RUN_NEXT_ROUND/RUN_FINAL are skipped entirely
+(WAIT, changed=False) rather than making real network calls. This
+closes a real regression: before this flag existed, the registered
+scheduled path (NEO-GOLF-R1-ACTIVE-30MIN.ps1 -> this script) never
+passed --live to anything, so it could never actually collect live
+data through the generic entry point at all.
 
-1. --game-code is now OPTIONAL and this script performs DISCOVERY
-   itself (klpga.tournament_lifecycle.resolve_or_bootstrap_lifecycle):
-   a brand-new game_code with no prior config/active_tournament.json
-   record bootstraps a fresh lifecycle from real tournament_master
-   identity, instead of requiring an operator to hand-edit that file
-   first. Never fabricates final_round_number -- fails closed if
-   tournament_master doesn't confirm it and --final-round-number isn't
-   given.
-2. The DISCOVERED -> ENTRY_READY prerequisite (official entry list +
-   identity) is now attempted automatically
-   (klpga.tournament_entry_bootstrap), not silently skipped -- so a
-   brand-new tournament actually progresses instead of parking at WAIT
-   forever once its entry list is genuinely published.
+--dry-run: prints the decision only. NOTHING is written -- not
+active_tournament.json, not the site registry, not the entry-list
+artifact, not any candidate/docs/database file (Phase 5 item 12,
+DRY-RUN IMMUTABILITY). Every lifecycle/registry-bootstrap call below is
+threaded with dry_run=True in that mode so it resolves and previews
+identity without ever persisting anything, even for a brand-new
+game_code that has no prior record at all.
 
 This script's own job is still narrow and does not reimplement any of
 the above: it only (a) resolves/bootstraps identity and the entry-list
@@ -42,7 +44,7 @@ prerequisite, (b) builds a TournamentActionRegistry whose runners
 invoke the existing per-stage scripts -- the PRE-upstream chain
 (67/69/72/73/75/79/81/82/83/84, see _PRE_UPSTREAM_CHAIN below) plus
 96/98/99/100/101 and build_current_round_page.py -- which Phase
-1/2/4 already verified are internally generic (TournamentContext
+1/2/4/5 already verified are internally generic (TournamentContext
 -driven, no game_code/tournament-name/Windows-path literals), and are
 therefore eligible generic runners per
 docs/NEO_TOURNAMENT_LEGACY_ACTION_BLOCKERS.md's own stated condition
@@ -58,11 +60,11 @@ hand-maintained field.
 whatever files the action actually touched (discovered generically via
 `git status --porcelain`, never a hardcoded path list) so this one
 script can be the entire body of a scheduled task -- see
-NEO-GOLF-R1-ACTIVE-30MIN.ps1, which now calls this script instead of
-directly invoking 96_ok_open_r1_active_cycle.py. The final stdout line
-is a JSON summary carrying a stop_active_cycle field (true once
-POSTMORTEM has genuinely run), the same contract that PS1 wrapper
-already knows how to parse to auto-disable its own schedule.
+NEO-GOLF-R1-ACTIVE-30MIN.ps1, which calls this script with --live
+--git-push. The final stdout line is a JSON summary carrying a
+stop_active_cycle field (true once POSTMORTEM has genuinely run), the
+same contract that PS1 wrapper already knows how to parse to
+auto-disable its own schedule.
 
 Resumable and non-destructive: every runner below invokes a script that
 is itself safe to re-run (96/98/99/100/101/83/84/94 already assert
@@ -97,8 +99,9 @@ from klpga.tournament_action_registry import (  # noqa: E402
     TournamentActionRegistry,
     no_change_runner,
 )
-from klpga.tournament_context import ensure_site_registry_entry, resolve_context, SITE_REGISTRY_PATH  # noqa: E402
+from klpga.tournament_context import ensure_site_registry_entry, resolve_context  # noqa: E402
 from klpga.tournament_cycle import CycleRequest, run_tournament_cycle  # noqa: E402
+from klpga.tournament_engine import Stage  # noqa: E402
 from klpga.tournament_entry_bootstrap import EntryListBootstrapBlocked, collect_entry_list_snapshot  # noqa: E402
 from klpga.tournament_lifecycle import (  # noqa: E402
     resolve_lifecycle,
@@ -111,13 +114,79 @@ from klpga.tournament_operator import OperatorAction  # noqa: E402
 DEFAULT_DB_PATH = ROOT / "data" / "klpga.sqlite"
 
 
-def _run_script(*relative_path: str) -> None:
+def _run_script(*relative_path: str, extra_args: list[str] | None = None) -> tuple[int, str]:
+    """Run a scripts/<relative_path> child process, returning (returncode,
+    combined stdout). Output is still echoed to this process's own
+    stdout (an operator/scheduled-task log must show it), but is also
+    captured so callers can read the script's own final JSON summary
+    line to determine whether it actually changed anything (Phase 5
+    item 7, "action runner changed status must reflect actual
+    changes") instead of assuming every successful run changed state."""
     script = ROOT / "scripts" / Path(*relative_path)
-    subprocess.run([sys.executable, str(script)], cwd=str(ROOT), check=True)
+    result = subprocess.run(
+        [sys.executable, str(script), *(extra_args or [])],
+        cwd=str(ROOT), check=True, capture_output=True, text=True,
+    )
+    if result.stdout:
+        print(result.stdout, end="" if result.stdout.endswith("\n") else "\n")
+    if result.stderr:
+        print(result.stderr, end="" if result.stderr.endswith("\n") else "\n", file=sys.stderr)
+    return result.returncode, result.stdout
+
+
+def _last_json_line(stdout: str) -> dict | None:
+    for line in reversed(stdout.splitlines()):
+        line = line.strip()
+        if line.startswith("{") and line.endswith("}"):
+            try:
+                return json.loads(line)
+            except json.JSONDecodeError:
+                continue
+    return None
 
 
 def _load_registry_json() -> dict:
+    from klpga.tournament_context import SITE_REGISTRY_PATH
     return json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+
+
+def _live_gated_script_runner(action: OperatorAction, script_name: str, *, changed_actions: frozenset[str], message: str):
+    """RUN_R1 (96) / CLOSE_R1 (98): both already support their own
+    --live opt-in (safe dry mode without it). --live is forwarded only
+    when context.live is True -- never inferred, never defaulted on.
+    `changed` is read back from the script's own final JSON summary
+    line rather than assumed True, so a SKIP_WAIT/DRY_RUN/no-op cycle
+    correctly reports changed=False (Phase 5 item 7)."""
+    def _run(context: ActionContext, decision) -> ActionResult:
+        extra = ["--live"] if context.live else []
+        _, stdout = _run_script(script_name, extra_args=extra)
+        summary = _last_json_line(stdout) or {}
+        script_action = str(summary.get("action") or "")
+        changed = script_action in changed_actions
+        availability = ActionAvailability.READY if changed else ActionAvailability.WAIT
+        reason = summary.get("reason")
+        detail = f"{message}: {script_action}" + (f" ({reason})" if reason else "")
+        return ActionResult(action=action, availability=availability, changed=changed, message=detail)
+    return _run
+
+
+def _live_gated_network_runner(action: OperatorAction, runner):
+    """RUN_R2 / CONFIRM_CUT / RUN_NEXT_ROUND / RUN_FINAL: these dispatch
+    to scripts (99, 100, collect_current_round_evidence.py) that make
+    real official-data HTTP calls unconditionally, with no --live flag
+    of their own to gate on. Rather than editing each of those scripts'
+    own CLI contract, run_tournament.py itself refuses to invoke them
+    at all unless --live was passed -- so a plain (non---live) run of
+    this script never makes an official network call for these stages,
+    matching every other stage's "safe by default" contract."""
+    def _run(context: ActionContext, decision) -> ActionResult:
+        if not context.live:
+            return ActionResult(
+                action=action, availability=ActionAvailability.WAIT, changed=False,
+                message="--live not set; this stage requires a real official-data fetch and was skipped",
+            )
+        return runner(context, decision)
+    return _run
 
 
 def _script_runner(action: OperatorAction, *relative_path: str, message: str):
@@ -132,12 +201,26 @@ def _promote_current_round():
     """RUN_FINAL / RUN_NEXT_ROUND: collect official evidence for the
     live round, then run it through the candidate->validate->promote
     gate (build_current_round_page.py --promote) instead of the old
-    direct docs/ write. The round to collect is the tournament's own
-    current_round_number, resolved fresh each call -- never hardcoded."""
+    direct docs/ write.
+
+    ROUND ORCHESTRATION (Phase 5 item 7): the round to collect is NOT
+    always the tournament's own last-known current_round_number --
+    that number tracks the highest round with ANY snapshot written,
+    which stays the SAME round while it's still live. Only once
+    decide_operator_action's decision.stage says that round is fully
+    COMPLETE (CUT_CONFIRMED just after R2, or NEXT_ROUND_COMPLETE) does
+    the NEXT round actually need a first snapshot -- i.e. the round to
+    collect is current_round_number + 1. Getting this wrong re-collects
+    the round that already finished instead of advancing (the exact
+    bug QA found: "next collector must collect N+1")."""
     def _run(context: ActionContext, decision) -> ActionResult:
         lifecycle = resolve_or_bootstrap_lifecycle(game_code=context.game_code, db_path=DEFAULT_DB_PATH)
         tctx = resolve_context(lifecycle, _load_registry_json())
-        round_number = context.current_round_number or tctx.current_round_number
+        base_round = context.current_round_number or tctx.current_round_number
+        if decision.stage in (Stage.CUT_CONFIRMED, Stage.NEXT_ROUND_COMPLETE):
+            round_number = base_round + 1
+        else:
+            round_number = base_round
         evidence_dir = ROOT / "evidence" / f"current_round_{context.game_code}_r{round_number}"
         subprocess.run(
             [sys.executable, str(ROOT / "scripts" / "collect_current_round_evidence.py"),
@@ -206,9 +289,21 @@ def _prepare_pre_runner():
     data, network unreachable, or the still-pending manual SG acceptance
     sign-off) is fail-closed by design -- never fabricated -- so this
     runner re-raises it as an honest, actionable "which step, why" message
-    instead of a bare traceback, rather than trying to work around it."""
+    instead of a bare traceback, rather than trying to work around it.
+
+    Not gated behind --live: PRE preparation is a one-time-per-tournament
+    setup phase (unlike R1's repeated 30-minute live polling), and every
+    step already fails closed on its own missing prerequisite -- there is
+    no meaningful "dry" variant of building the PRE artifacts.
+
+    After the chain runs, builds and persists the explicit PRE state
+    contract (klpga.tournament_pre_state, Phase 5 item 3) -- this is
+    also the one place freeze_active_pre_features() is actually
+    triggered (freeze_if_ready=True), wiring the previously-orphaned
+    freeze_pre_model_features() into the real lifecycle. Never done
+    during --dry-run (this runner is only ever reached from a real,
+    non-dry-run cycle)."""
     def _run(context: ActionContext, decision) -> ActionResult:
-        del context
         for script_name in _PRE_UPSTREAM_CHAIN:
             try:
                 _run_script(script_name)
@@ -223,42 +318,66 @@ def _prepare_pre_runner():
                     "per-tournament equivalent) is still pending. Never fabricated -- "
                     "resolve the underlying prerequisite and rerun."
                 ) from exc
+        from klpga.tournament_pre_state import build_pre_state_contract
+        lifecycle = resolve_or_bootstrap_lifecycle(game_code=context.game_code, db_path=DEFAULT_DB_PATH)
+        tctx = resolve_context(lifecycle, _load_registry_json())
+        contract = build_pre_state_contract(tctx, freeze_if_ready=True)
+        tctx.artifact_path("pre_state_contract").write_text(
+            json.dumps(contract.to_dict(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=True,
                              message="PRE upstream chain built through PRE public master + website candidate")
     return _run
 
 
-def _postmortem_runner():
+def _close_final_runner():
+    """CLOSE_FINAL (Phase 5 item 9): reached only when Stage.FINAL_COMPLETE
+    -- the official final round is validated complete but POSTMORTEM has
+    not run yet. THIS is the action that must actually produce the
+    terminal postmortem_report artifact (previously this was wired to a
+    no-op, which meant FINAL_COMPLETE/CLOSE_FINAL never advanced at all:
+    an infinite stuck loop, since nothing ever created the artifact that
+    would let determine_stage() move on to POST_EVALUATED). Idempotent:
+    if postmortem_report already exists (e.g. a retry after a partial
+    git-push failure), this is a no-op rather than recomputing and
+    rewriting an already-final artifact."""
     def _run(context: ActionContext, decision) -> ActionResult:
         from klpga.tournament_postmortem import run_postmortem
         lifecycle = resolve_or_bootstrap_lifecycle(game_code=context.game_code, db_path=DEFAULT_DB_PATH)
         tctx = resolve_context(lifecycle, _load_registry_json())
+        report_path = tctx.artifact_path("postmortem_report")
+        if report_path.exists():
+            return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=False,
+                                 message=f"final already closed; postmortem already exists at {report_path}")
         result = run_postmortem(tctx)
         return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=True,
-                             message=f"postmortem written: {result.output_path}")
+                             message=f"final closed; postmortem written: {result.output_path}")
     return _run
 
 
 def build_registry() -> TournamentActionRegistry:
     registry = TournamentActionRegistry()
     registry.register(OperatorAction.PREPARE_PRE, _prepare_pre_runner())
-    registry.register(OperatorAction.RUN_R1, _script_runner(
-        OperatorAction.RUN_R1, "96_ok_open_r1_active_cycle.py", message="R1 active cycle run"))
-    registry.register(OperatorAction.CLOSE_R1, _script_runner(
-        OperatorAction.CLOSE_R1, "98_ok_open_r1_final_reconciliation.py", message="R1 final reconciliation run"))
-    registry.register(OperatorAction.RUN_R2, _script_runner(
-        OperatorAction.RUN_R2, "99_ok_open_r2_live_recovery.py", message="R2 live recovery run"))
-    registry.register(OperatorAction.CONFIRM_CUT, _script_runner(
-        OperatorAction.CONFIRM_CUT, "100_recover_ok_open_post_r2_input.py", message="post-cut finalist field recovered"))
-    registry.register(OperatorAction.RUN_FINAL, _promote_current_round())
-    registry.register(OperatorAction.RUN_NEXT_ROUND, _promote_current_round())
-    # No dedicated FINAL-reconciliation script exists yet in the real
-    # operational chain (unlike CLOSE_R1's script 98) -- advance state
-    # without inventing one, per "don't build new tournament-specific
-    # scripts" and "fail closed rather than fabricate".
-    registry.register(OperatorAction.CLOSE_FINAL, no_change_runner(
-        OperatorAction.CLOSE_FINAL, message="final round validated complete; no dedicated close-final script yet"))
-    registry.register(OperatorAction.POST_EVALUATE, _postmortem_runner())
+    registry.register(OperatorAction.RUN_R1, _live_gated_script_runner(
+        OperatorAction.RUN_R1, "96_ok_open_r1_active_cycle.py",
+        changed_actions=frozenset({"PUBLISH", "PUBLISH_AND_CLOSE"}), message="R1 active cycle"))
+    registry.register(OperatorAction.CLOSE_R1, _live_gated_script_runner(
+        OperatorAction.CLOSE_R1, "98_ok_open_r1_final_reconciliation.py",
+        changed_actions=frozenset({"FINAL_RECONCILED"}), message="R1 final reconciliation"))
+    registry.register(OperatorAction.RUN_R2, _live_gated_network_runner(OperatorAction.RUN_R2, _script_runner(
+        OperatorAction.RUN_R2, "99_ok_open_r2_live_recovery.py", message="R2 live recovery run")))
+    registry.register(OperatorAction.CONFIRM_CUT, _live_gated_network_runner(OperatorAction.CONFIRM_CUT, _script_runner(
+        OperatorAction.CONFIRM_CUT, "100_recover_ok_open_post_r2_input.py", message="post-cut finalist field recovered")))
+    registry.register(OperatorAction.RUN_FINAL, _live_gated_network_runner(OperatorAction.RUN_FINAL, _promote_current_round()))
+    registry.register(OperatorAction.RUN_NEXT_ROUND, _live_gated_network_runner(OperatorAction.RUN_NEXT_ROUND, _promote_current_round()))
+    registry.register(OperatorAction.CLOSE_FINAL, _close_final_runner())
+    # POST_EVALUATE is reached only once Stage.POST_EVALUATED already
+    # holds -- i.e. postmortem_report already exists (see
+    # tournament_lifecycle.infer_post_evaluated / tournament_engine
+    # .determine_stage). There is nothing left to do; CLOSE_FINAL above
+    # is what actually produces that artifact. Registering this as
+    # anything other than a no-op would re-run postmortem forever.
+    registry.register(OperatorAction.POST_EVALUATE, no_change_runner(
+        OperatorAction.POST_EVALUATE, message="post-event evaluation already complete"))
     return registry
 
 
@@ -267,7 +386,8 @@ def _attempt_entry_list_prerequisite(context, lifecycle) -> None:
     whenever it hasn't succeeded yet; a genuine "not published yet"
     outcome is swallowed here so the normal decide_operator_action()
     WAIT stands -- this is a best-effort prerequisite attempt, not
-    itself a lifecycle stage with its own OperatorAction."""
+    itself a lifecycle stage with its own OperatorAction. Never called
+    in --dry-run mode (see main()) -- Phase 5 item 12."""
     if context.artifact_path("entry_snapshot").exists():
         return
     try:
@@ -313,7 +433,12 @@ def main() -> int:
                      help="omit to resolve the currently active tournament, or bootstrap the one "
                           "named here if it has no prior lifecycle record")
     ap.add_argument("--stage", help="override the inferred stage (manual resume/testing only)")
-    ap.add_argument("--dry-run", action="store_true", help="print the decision only, run nothing")
+    ap.add_argument("--dry-run", action="store_true",
+                     help="print the decision only; NEVER writes active_tournament.json, the site "
+                          "registry, the entry snapshot, or any other artifact (Phase 5 item 12)")
+    ap.add_argument("--live", action="store_true",
+                     help="opt in to real official-data collection (HTTP fetches); without this, "
+                          "every live-collection stage stays in its own safe/no-op default (Phase 5 item 7)")
     ap.add_argument("--git-push", action="store_true",
                      help="after a changed action, commit+push whatever files it touched")
     ap.add_argument("--db", type=Path, default=DEFAULT_DB_PATH, help="tournament_master DB for discovery")
@@ -327,13 +452,14 @@ def main() -> int:
     lifecycle = resolve_or_bootstrap_lifecycle(
         game_code=args.game_code, db_path=args.db,
         final_round_number=args.final_round_number, cut_after_round=args.cut_after_round,
+        dry_run=args.dry_run,
     )
 
-    ensure_site_registry_entry(lifecycle)
-    registry_json = _load_registry_json()
+    registry_json = ensure_site_registry_entry(lifecycle, dry_run=args.dry_run)
     context = resolve_context(lifecycle, registry_json)
 
-    _attempt_entry_list_prerequisite(context, lifecycle)
+    if not args.dry_run:
+        _attempt_entry_list_prerequisite(context, lifecycle)
 
     snapshot = resolve_lifecycle(context, lifecycle)
     stage = args.stage or snapshot.stage
@@ -349,6 +475,7 @@ def main() -> int:
         current_round_number=snapshot.current_round_number,
         validated_stage=stage,
         model_ready=snapshot.model_ready,
+        live=args.live,
     )
 
     if args.dry_run:

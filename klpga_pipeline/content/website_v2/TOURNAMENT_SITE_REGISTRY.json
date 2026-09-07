@@ -7,6 +7,7 @@
       "url_base": "/tournaments/2026/kg-ladies-open/",
       "stage_state_filename": "KG_LADIES_OPEN_STAGE_STATE.json",
       "stage_order": ["pre", "r1", "r2", "r3", "final"],
+      "has_hub_index": true,
       "_hub_card_comment": "Completed tournament: every field here is a fixed historical fact scripts/86 has no other way to derive (no live official-result artifact is fetched for a tournament that is over) -- display_name/status/date_range/result_line/cta_stage, once recorded, never change. nav_stages is the real, already-published set of stage tabs this specific card has always shown.",
       "hub_card": {
         "display_name": "제15회 KG 레이디스 오픈",
@@ -21,6 +22,7 @@
       "url_base": "/tournaments/2026/ok-savings-bank-open/",
       "stage_state_filename": "OK_OPEN_STAGE_STATE.json",
       "stage_order": ["pre", "r1", "r2", "r3", "final"],
+      "has_hub_index": false,
       "venue": "포천아도니스",
       "holes": 54,
       "format": "스트로크 플레이",

@@ -39,11 +39,16 @@ back anything that fails so it can be fixed.
 $ErrorActionPreference = 'Stop'
 
 $TaskName = 'NEO-GOLF-R1-ACTIVE-30MIN'
-$Repo = 'C:\Users\user\Desktop\Neo-golf-performance-live'
+# DYNAMIC REPO PATH (Phase 5 item 1): this installer and the wrapper it
+# registers always live side-by-side at the repo root, so the repo
+# location is this script's own folder -- never a hardcoded machine-
+# specific path. Whatever checkout this installer is run from is the
+# checkout that gets registered.
+$Repo = $PSScriptRoot
 $ScriptPath = Join-Path $Repo 'NEO-GOLF-R1-ACTIVE-30MIN.ps1'
 
 if (-not (Test-Path $ScriptPath)) {
-  throw "Cannot find $ScriptPath -- run this installer from a machine with the repo checked out at that exact path (or edit `$Repo above to match), since NEO-GOLF-R1-ACTIVE-30MIN.ps1 itself also hardcodes that path."
+  throw "Cannot find $ScriptPath -- NEO-GOLF-R1-ACTIVE-30MIN.ps1 must live next to this installer script."
 }
 
 $existing = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
