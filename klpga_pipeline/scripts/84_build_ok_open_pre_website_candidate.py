@@ -360,12 +360,35 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
             if R1_LIVE_SNAPSHOT.is_file():
                 live_doc = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
                 live_names = {str(r.get("player_id")): r.get("player_name") for r in (live_doc.get("player_table") or [])}
+            # QA REMEDIATION (post-fbb69de): _r1_row_html reads rank_display/
+            # total_under_par_display/today_under_par/gap_to_leader -- none
+            # of which this final-mode mapping used to set, so every
+            # completed player's real, known score silently rendered as a
+            # blank cell (or a misleading "산출 불가") instead of their
+            # actual final score. today_under_par equals the round's own
+            # total here (FINAL is a single-round reconciliation, so
+            # "today" and "total" are the same number); gap_to_leader is
+            # computed against the lowest real final_score among rows that
+            # actually completed, exactly like the live-cycle leader/gap
+            # logic below (never guessed for WD/DQ/no-score rows).
+            leader_score = min(
+                (row.get("final_score") for row in (final_doc.get("rows") or [])
+                 if row.get("final_score") is not None),
+                default=None,
+            )
             for row in final_doc.get("rows") or []:
                 pid = str(row.get("player_id") or "")
                 status = row.get("official_status") or ("ACTIVE" if row.get("final_score") is not None else "INCOMPLETE")
-                final_rows.append({"player_id": pid, "player_name": live_names.get(pid) or row.get("player_name") or pid,
-                                   "total_under_par": row.get("final_score"), "holes_completed": 18 if status == "ACTIVE" else None,
-                                   "status": status, "rank": row.get("rank_display") or ""})
+                score = row.get("final_score")
+                final_rows.append({
+                    "player_id": pid, "player_name": live_names.get(pid) or row.get("player_name") or pid,
+                    "total_under_par": score, "total_under_par_display": None if score is None else str(score),
+                    "holes_completed": 18 if status == "ACTIVE" else None,
+                    "today_under_par": score,
+                    "gap_to_leader": None if score is None or leader_score is None else score - leader_score,
+                    "status": status, "rank": row.get("rank_display") or "",
+                    "rank_display": row.get("rank_display") or "",
+                })
     if final_rows:
         snapshot = {"rows": final_rows, "player_table": final_rows, "collected_at": final_doc.get("collected_at"), "final_mode": True}
     elif not R1_LIVE_SNAPSHOT.is_file():
