@@ -1,8 +1,16 @@
 ﻿from pathlib import Path
 import json
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "content" / "website_v2"
+sys.path.insert(0, str(ROOT / "src"))
+
+from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+# NEO TOURNAMENT PIPELINE: game_code resolved from the shared context
+# instead of this script's own hardcoded literal -- see
+# src/klpga/tournament_context.py.
+GAME_CODE = load_active_tournament_context().game_code
 
 pre_path = SRC / "OK_OPEN_2026_PRE_WIN_FORECAST.json"
 master_path = SRC / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json"
@@ -12,7 +20,7 @@ master = json.loads(master_path.read_text(encoding="utf-8"))
 
 records = pre["records"]
 
-if pre.get("game_code") != "2026120001":
+if pre.get("game_code") != GAME_CODE:
     raise SystemExit("HARD STOP: wrong game_code")
 
 if pre.get("model_version") != "M4":
@@ -35,7 +43,7 @@ if any(r.get("win_probability") is None for r in records):
 out = {
     "schema_version": 1,
     "artifact": "OK_OPEN_2026_POST_R2_INPUT",
-    "game_code": "2026120001",
+    "game_code": GAME_CODE,
     "stage": "POST_R2_PRE_FINAL",
     "model_version": pre["model_version"],
     "pre_cutoff": pre["cutoff"],

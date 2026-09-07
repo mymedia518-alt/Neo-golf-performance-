@@ -23,15 +23,30 @@ import datetime
 import json
 from pathlib import Path
 
+from klpga.tournament_context import load_active_tournament_context
+
 _KST = datetime.timezone(datetime.timedelta(hours=9))
 
-OK_DISPLAY_NAME = "OK저축은행 읏맨 오픈"
-OK_BASE = "/tournaments/2026/ok-savings-bank-open/"
-OK_DATE_RANGE = "2026.09.04 — 09.06"
-OK_GAME_CODE = "2026120001"
+# NEO TOURNAMENT PIPELINE: these five names used to be this module's own
+# hardcoded constants (one specific tournament's name/path/date/game_code
+# baked directly into Python). They are now resolved once, at import
+# time, from the shared TournamentContext (config/active_tournament.json
+# + content/website_v2/TOURNAMENT_SITE_REGISTRY.json) -- pointing
+# active_tournament.json at a new game_code and adding one registry
+# entry is now enough to operate on a different tournament; nothing here
+# needs to change. Kept as plain module attributes (not functions) since
+# existing callers (scripts 84/88/94) import them by name and
+# tests/test_tournament_state_r1_active.py monkeypatches
+# STAGE_STATE_PATH directly.
+_CONTEXT = load_active_tournament_context()
 
-STAGE_ORDER = ("pre", "r1", "r2", "r3", "final")
-STAGE_LABELS = {"pre": "사전 분석 PRE", "r1": "R1", "r2": "R2", "r3": "R3", "final": "FINAL"}
+OK_DISPLAY_NAME = _CONTEXT.tournament_name
+OK_BASE = _CONTEXT.url_base
+OK_DATE_RANGE = _CONTEXT.display_date_range
+OK_GAME_CODE = _CONTEXT.game_code
+
+STAGE_ORDER = _CONTEXT.stage_order
+STAGE_LABELS = _CONTEXT.stage_labels
 
 # Written only by scripts/96_ok_open_r1_active_cycle.py (--live, run
 # somewhere with real network access), after a real official collection
@@ -39,7 +54,7 @@ STAGE_LABELS = {"pre": "사전 분석 PRE", "r1": "R1", "r2": "R2", "r3": "R3", 
 # state) means nothing but PRE is real yet -- see
 # ok_open_available_stages() below, which is the only reader of this
 # file's stage/url/timestamp fields.
-STAGE_STATE_PATH = Path(__file__).resolve().parents[3] / "content" / "website_v2" / "OK_OPEN_STAGE_STATE.json"
+STAGE_STATE_PATH = Path(__file__).resolve().parents[3] / "content" / "website_v2" / _CONTEXT.stage_state_filename
 
 
 def _read_stage_state() -> dict:

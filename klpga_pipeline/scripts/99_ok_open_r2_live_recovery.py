@@ -4,10 +4,15 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 REPO=ROOT.parent
 CONTENT=ROOT/"content"/"website_v2"
-STATE=CONTENT/"OK_OPEN_STAGE_STATE.json"
-SNAP=CONTENT/"OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
-GAME="2026120001"
 sys.path.insert(0,str(ROOT/"src"))
+from klpga.tournament_context import load_active_tournament_context
+# NEO TOURNAMENT PIPELINE: GAME/STATE resolved from the shared context
+# instead of this script's own hardcoded literal -- see
+# src/klpga/tournament_context.py.
+_CONTEXT=load_active_tournament_context()
+STATE=CONTENT/_CONTEXT.stage_state_filename
+SNAP=CONTENT/"OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
+GAME=_CONTEXT.game_code
 from klpga.collectors.leaderboard import fetch_round_leaderboard
 from klpga.collectors.group_page import fetch_group_page_html
 from klpga.parsers.group_page_parser import parse_round_grouping

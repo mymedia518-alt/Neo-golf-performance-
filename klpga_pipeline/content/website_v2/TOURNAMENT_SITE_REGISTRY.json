@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "_comment": "Per-game_code presentation fields that have no reliable official-metadata source and so cannot be safely auto-derived: a site URL path segment (renaming it would break live links) and the stage-state snapshot filename. Round-count/stage list is included explicitly too, since it is not currently a clean function of final_round_number (see tournament_context.py docstring) -- deriving it from a formula risked silently disagreeing with what the live site actually serves. venue/holes/format are sourced from the official getGameList response (see candidate/website-v2/data/next_event.json for the shape/provenance this was copied from) -- they are metadata-derived data, not invented, just not yet plumbed through scripts/01's collector into tournament_master.",
+  "tournaments": {
+    "2026120001": {
+      "url_base": "/tournaments/2026/ok-savings-bank-open/",
+      "stage_state_filename": "OK_OPEN_STAGE_STATE.json",
+      "stage_order": ["pre", "r1", "r2", "r3", "final"],
+      "venue": "포천아도니스",
+      "holes": 54,
+      "format": "스트로크 플레이"
+    }
+  }
+}

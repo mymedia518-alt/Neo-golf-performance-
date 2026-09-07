@@ -1,0 +1,142 @@
+"""Single source of truth for "which tournament, identified only by its
+game_code, is the pipeline currently operating on".
+
+Every operational script that used to hardcode a game_code / tournament
+name / date range / site path / stage list resolves it from here
+instead. Two layers:
+
+  1. config/active_tournament.json -- validated lifecycle identity
+     (game_code, tournament_name, season, start_date, end_date,
+     final_round_number). Already generic (see
+     klpga.tournament_discovery); this module never invents or infers
+     any of these fields, only reads them.
+  2. content/website_v2/TOURNAMENT_SITE_REGISTRY.json -- presentation
+     fields that have no reliable official-metadata source and so must
+     be explicitly recorded, once, per game_code: a site URL path
+     segment (renaming it would break live links to an in-progress
+     tournament) and the stage-state snapshot filename. The stage list
+     itself is also recorded explicitly here rather than derived from
+     final_round_number, because it is not currently a clean function
+     of round count on the live site (OK Savings Bank Open, a 3-round
+     event, still serves a distinct /r3/ live-round page alongside a
+     separate /final/ wrap-up page -- collapsing that to a formula
+     risked silently disagreeing with what is actually served).
+
+Resolution is keyed by active_tournament.json's game_code, so removing
+tournament hardcoding reduces to: point active_tournament.json at a new
+game_code (klpga.tournament_discovery.refresh_active_config), add one
+registry entry for its site path/filenames/stage list, and every
+operational script downstream picks it up automatically -- no new
+per-tournament Python constants.
+"""
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from datetime import date
+from pathlib import Path
+
+_ROOT = Path(__file__).resolve().parents[2]
+ACTIVE_TOURNAMENT_PATH = _ROOT / "config" / "active_tournament.json"
+SITE_REGISTRY_PATH = _ROOT / "content" / "website_v2" / "TOURNAMENT_SITE_REGISTRY.json"
+
+
+class TournamentContextError(RuntimeError):
+    """active_tournament.json or its site-registry entry is missing or
+    malformed. Fail closed -- never guess a tournament's identity."""
+
+
+@dataclass(frozen=True)
+class TournamentContext:
+    game_code: str
+    tournament_name: str
+    season: int
+    start_date: str
+    end_date: str
+    final_round_number: int
+    current_round_number: int
+    url_base: str
+    stage_state_filename: str
+    stage_order: tuple[str, ...]
+    venue: str | None = None
+    holes: int | None = None
+    format: str | None = None
+
+    @property
+    def display_date_range(self) -> str:
+        """"YYYY.MM.DD — MM.DD", the format every current page already
+        renders -- derived from start/end date, never stored redundantly."""
+        start = date.fromisoformat(self.start_date)
+        end = date.fromisoformat(self.end_date)
+        return f"{start:%Y.%m.%d} — {end:%m.%d}"
+
+    @property
+    def stage_labels(self) -> dict[str, str]:
+        """Generic stage-key -> Korean label map. Mechanical for every
+        key in stage_order: "pre"->사전 분석 PRE, "final"->FINAL,
+        "rN"->"RN" -- this rule already matches every stage label on the
+        live site, so it is safe to derive rather than also register."""
+        labels: dict[str, str] = {}
+        for key in self.stage_order:
+            if key == "pre":
+                labels[key] = "사전 분석 PRE"
+            elif key == "final":
+                labels[key] = "FINAL"
+            elif key.startswith("r") and key[1:].isdigit():
+                labels[key] = key.upper()
+            else:
+                labels[key] = key.upper()
+        return labels
+
+
+def _load_json(path: Path) -> dict:
+    if not path.is_file():
+        raise TournamentContextError(f"missing {path}")
+    try:
+        return json.loads(path.read_text(encoding="utf-8-sig"))
+    except json.JSONDecodeError as exc:
+        raise TournamentContextError(f"invalid JSON in {path}: {exc}") from exc
+
+
+def resolve_context(identity: dict, registry: dict) -> TournamentContext:
+    """Pure resolution: identity (the shape of active_tournament.json)
+    + registry (the shape of TOURNAMENT_SITE_REGISTRY.json's
+    "tournaments" mapping) -> TournamentContext. No file I/O, so this is
+    what both the real loader and a dry-run against a different
+    game_code (e.g. in a test, or scripts/dry_run_tournament_context.py)
+    call -- the resolution logic itself never changes based on which
+    game_code is being resolved."""
+    game_code = str(identity["game_code"])
+    entry = registry.get(game_code)
+    if entry is None:
+        raise TournamentContextError(
+            f"no TOURNAMENT_SITE_REGISTRY.json entry for game_code={game_code!r} -- "
+            "add {url_base, stage_state_filename, stage_order} for this tournament "
+            "before operating on it"
+        )
+
+    return TournamentContext(
+        game_code=game_code,
+        tournament_name=str(identity["tournament_name"]),
+        season=int(identity["season"]),
+        start_date=str(identity["start_date"]),
+        end_date=str(identity["end_date"]),
+        final_round_number=int(identity["final_round_number"]),
+        current_round_number=int(identity["current_round_number"]),
+        url_base=str(entry["url_base"]),
+        stage_state_filename=str(entry["stage_state_filename"]),
+        stage_order=tuple(entry["stage_order"]),
+        venue=entry.get("venue"),
+        holes=entry.get("holes"),
+        format=entry.get("format"),
+    )
+
+
+def load_active_tournament_context() -> TournamentContext:
+    """Resolve the currently-active tournament's full context from disk.
+    Raises TournamentContextError (never returns a partial/guessed
+    context) if active_tournament.json or its matching site-registry
+    entry is missing."""
+    active = _load_json(ACTIVE_TOURNAMENT_PATH)
+    registry = _load_json(SITE_REGISTRY_PATH).get("tournaments", {})
+    return resolve_context(active, registry)

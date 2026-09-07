@@ -10,8 +10,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.neo_win.round_update_r2 import PlayerR2SimInput, simulate_post_round2
+from klpga.tournament_context import load_active_tournament_context
 
-GAME_CODE = "2026120001"
+# NEO TOURNAMENT PIPELINE: identity resolved from the shared context
+# instead of this script's own hardcoded literals -- see
+# src/klpga/tournament_context.py.
+_CONTEXT = load_active_tournament_context()
+GAME_CODE = _CONTEXT.game_code
 N_SIMULATIONS = 100000
 SEED = 20260906
 
@@ -210,10 +215,15 @@ payload = {
     "schema_version": 1,
     "artifact": "OK_OPEN_2026_POST_R2_FINAL_FORECAST",
     "game_code": GAME_CODE,
-    "tournament_name": "OK저축은행 읏맨 오픈",
+    "tournament_name": _CONTEXT.tournament_name,
     "stage": "POST_R2_PRE_FINAL",
-    "final_round_number": 3,
-    "remaining_rounds": 1,
+    "final_round_number": _CONTEXT.final_round_number,
+    # This script's simulation (simulate_post_round2) is specifically a
+    # post-R2, one-round-remaining forecast -- it does not generalize to
+    # a tournament with more than one round left after R2. Derived from
+    # context rather than a bare literal so at least the value itself
+    # stays honest instead of silently claiming "1" for a 4-round event.
+    "remaining_rounds": _CONTEXT.final_round_number - _CONTEXT.current_round_number,
     "official_final_field_size": 68,
     "field_source": str(GT.relative_to(ROOT)).replace("\\", "/"),
     "pre_model_version": pre.get("model_version"),
