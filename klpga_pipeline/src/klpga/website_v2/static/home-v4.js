@@ -31,8 +31,17 @@
         var rows = rowsOf(root);
         rows.sort(function (a, b) {
           if (mode === "k-rank") {
-            return Number(a.dataset.kRank) - Number(b.dataset.kRank) ||
-              a.dataset.playerName.localeCompare(b.dataset.playerName, "ko");
+            // Missing K-RANK (no data-k-rank attribute) is a distinct
+            // missing-state, never a numeric value -- it always sorts
+            // after every row that has a real official rank.
+            var aHas = a.dataset.kRank !== undefined && a.dataset.kRank !== "";
+            var bHas = b.dataset.kRank !== undefined && b.dataset.kRank !== "";
+            if (aHas && bHas) {
+              return Number(a.dataset.kRank) - Number(b.dataset.kRank) ||
+                a.dataset.playerName.localeCompare(b.dataset.playerName, "ko");
+            }
+            if (aHas !== bHas) return aHas ? -1 : 1;
+            return a.dataset.playerName.localeCompare(b.dataset.playerName, "ko");
           }
           return a.dataset.playerName.localeCompare(b.dataset.playerName, "ko");
         });
