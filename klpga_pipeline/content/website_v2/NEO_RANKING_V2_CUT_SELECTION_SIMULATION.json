@@ -1,0 +1,97 @@
+{
+  "model": {
+    "sigma": 1.9599,
+    "tau": 1.3964,
+    "population_mean": -1.2743,
+    "field_size": 118,
+    "cut_fraction": 0.5763,
+    "seed": 20260907,
+    "n_players": 400,
+    "n_tournaments": 20
+  },
+  "A1_identical_skill_bias": {
+    "naive_all": {
+      "n": 400,
+      "mean_bias": 0.0588,
+      "rmse": 0.856
+    },
+    "naive_made_cut_heavy": {
+      "n": 135,
+      "mean_bias": 0.4786,
+      "rmse": 0.9947
+    },
+    "naive_missed_cut_heavy": {
+      "n": 169,
+      "mean_bias": -0.2909,
+      "rmse": 0.7716
+    },
+    "pooled_all": {
+      "n": 400,
+      "mean_bias": 0.0118,
+      "rmse": 0.2256
+    },
+    "pooled_made_cut_heavy": {
+      "n": 135,
+      "mean_bias": 0.1211,
+      "rmse": 0.2522
+    },
+    "pooled_missed_cut_heavy": {
+      "n": 169,
+      "mean_bias": -0.0813,
+      "rmse": 0.2132
+    },
+    "shrunk_all": {
+      "n": 400,
+      "mean_bias": -0.0209,
+      "rmse": 0.2211
+    },
+    "shrunk_made_cut_heavy": {
+      "n": 135,
+      "mean_bias": 0.087,
+      "rmse": 0.2327
+    },
+    "shrunk_missed_cut_heavy": {
+      "n": 169,
+      "mean_bias": -0.1128,
+      "rmse": 0.2228
+    }
+  },
+  "A2_different_skills": {
+    "pooled_bias_rmse": {
+      "n": 400,
+      "mean_bias": -0.0105,
+      "rmse": 0.2443
+    },
+    "shrunk_bias_rmse": {
+      "n": 400,
+      "mean_bias": -0.002,
+      "rmse": 0.2393
+    },
+    "rank_correlation_pooled": 0.9838,
+    "rank_correlation_shrunk": 0.9838,
+    "cut_rate_vs_true_skill_correlation": 0.9576
+  },
+  "A3_cutline_noise": {
+    "n_lucky_survivors": 262,
+    "n_unlucky_non_survivors": 38,
+    "lucky_mean_r1r2_rate": 0.3259,
+    "unlucky_mean_r1r2_rate": -2.4386,
+    "true_skill": 0.0,
+    "gap_explained_entirely_by_r1r2_selection_noise": true
+  },
+  "A4_complete_case_bias": {
+    "n": 391,
+    "mean_bias": 0.4702,
+    "rmse": 0.6515
+  },
+  "A5_r1r2_common_window_bias": {
+    "n": 400,
+    "mean_bias": -0.0143,
+    "rmse": 0.3
+  },
+  "A_all_available_rounds_bias_for_reference": {
+    "n": 400,
+    "mean_bias": -0.0105,
+    "rmse": 0.2443
+  }
+}
