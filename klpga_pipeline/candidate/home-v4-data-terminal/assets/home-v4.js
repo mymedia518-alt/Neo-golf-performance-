@@ -71,7 +71,13 @@
     var krankEl = document.querySelector("[data-t-inspector-krank]");
     if (!inspector || !scrim) return;
 
+    // QA REMEDIATION (post-2084554): closing the inspector must return
+    // focus to the exact element that opened it, not just drop focus.
+    // lastTrigger holds that real DOM node reference across open/close.
+    var lastTrigger = null;
+
     function open(row) {
+      lastTrigger = row;
       if (nameEl) nameEl.textContent = row.dataset.playerDisplayName || "";
       if (krankEl) krankEl.textContent = row.dataset.kRankDisplay || "—";
       inspector.classList.add("is-open");
@@ -84,6 +90,10 @@
       inspector.classList.remove("is-open");
       scrim.classList.remove("is-open");
       inspector.setAttribute("aria-hidden", "true");
+      if (lastTrigger) {
+        lastTrigger.focus();
+        lastTrigger = null;
+      }
     }
 
     document.addEventListener("click", function (event) {

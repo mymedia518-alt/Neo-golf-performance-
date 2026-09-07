@@ -417,3 +417,76 @@ def test_sort_js_treats_missing_k_rank_as_a_distinct_missing_state():
     # missing-state must be checked explicitly, not derived from Number(undefined)
     assert "dataset.kRank !== undefined" in js
     assert "aHas !== bHas" in js
+
+
+# --------------------------------------------- QA remediation (post-2084554)
+
+
+def test_public_data_dir_never_contains_the_orphaned_top120_evaluation_file():
+    # This file is real NEO Ranking research output (per-player
+    # validation_score, neo_validation_rank, SG feature values) inherited
+    # byte-for-byte from production docs/data/ via _copy_preserved_site.
+    # It must never ship inside the V4 candidate's own public data/ dir.
+    assert not (OUTPUT / "data" / "neo-top120-evaluation.json").exists()
+    assert sorted(p.name for p in (OUTPUT / "data").iterdir()) == ["home-v4-summary.json"]
+
+
+def test_public_json_contains_no_unapproved_neo_metric_keys_anywhere_under_data():
+    blocked_keys = {
+        "neo_rank", "neo_validation_rank", "validation_score", "performance_sg",
+        "long_term_sg", "sg_total", "sg_ott", "sg_app", "sg_arg", "sg_putt",
+        "recent_form", "recent_5_sg", "recent_10_sg", "volatility", "trend",
+        "win_probability", "cut_probability", "top5_probability",
+        "top10_probability", "top20_probability",
+    }
+
+    def walk(value):
+        if isinstance(value, dict):
+            for key, child in value.items():
+                assert str(key).casefold() not in blocked_keys, f"blocked key exposed: {key}"
+                walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child)
+
+    for path in (OUTPUT / "data").rglob("*.json"):
+        walk(json.loads(path.read_text(encoding="utf-8")))
+
+
+def test_historical_events_carries_machine_readable_provenance():
+    summary = _summary()
+    assert summary["historical_events"] == 97
+    provenance = summary["historical_event_provenance"]
+    assert provenance["complete_klpga_history"] is False
+    assert "SG_WAREHOUSE" in provenance["coverage_scope"].upper()
+    assert provenance["source_artifact"] == "historical_sg_warehouse_corrected.json"
+    assert provenance["scope"]
+    assert provenance["inclusion_criteria"]
+    assert provenance["dataset_version"] and provenance["dataset_version"] != build_mod.DASH
+
+
+def test_public_summary_json_never_exposes_the_raw_internal_formula_state():
+    raw = (OUTPUT / "data" / "home-v4-summary.json").read_text(encoding="utf-8")
+    assert "BLOCKED_FORMULA_NOT_APPROVED" not in raw
+    assert "neo_formula_state" not in raw
+    summary = _summary()
+    assert summary["neo_ranking_publication_status"] == "NOT_PUBLISHED"
+
+
+def test_ranking_and_deep_dive_routes_are_reachable_from_home_navigation():
+    html = _home_html()
+    nav = re.search(r'<nav class="t-nav".*?</nav>', html, re.S).group()
+    for route in ("/ranking/", "/deep-dive/"):
+        assert f'href="{route}"' in nav
+        assert (OUTPUT / route.strip("/") / "index.html").is_file()
+
+
+def test_inspector_close_restores_focus_to_the_exact_trigger_element():
+    js = (ROOT / "src" / "klpga" / "website_v2" / "static" / "home-v4.js").read_text(
+        encoding="utf-8"
+    )
+    assert "var lastTrigger = null;" in js
+    assert "lastTrigger = row;" in js
+    # close() must call .focus() on the stored trigger, not just drop focus
+    close_body = re.search(r"function close\(\)\s*\{(.*?)\n    \}", js, re.S).group(1)
+    assert "lastTrigger.focus()" in close_body
