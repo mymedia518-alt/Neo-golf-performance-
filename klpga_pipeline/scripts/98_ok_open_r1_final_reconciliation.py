@@ -54,11 +54,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
-ENTRY_SNAPSHOT = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
-STAGE_STATE = CONTENT / "OK_OPEN_STAGE_STATE.json"
-GAME_CODE = "2026120001"
-KST = datetime.timezone(datetime.timedelta(hours=9))
 sys.path.insert(0, str(ROOT / "src"))
+
+from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+# NEO TOURNAMENT PIPELINE: GAME_CODE/STAGE_STATE resolved from the
+# shared context instead of this script's own hardcoded literal -- see
+# src/klpga/tournament_context.py.
+_CONTEXT = load_active_tournament_context()
+ENTRY_SNAPSHOT = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
+STAGE_STATE = CONTENT / _CONTEXT.stage_state_filename
+GAME_CODE = _CONTEXT.game_code
+KST = datetime.timezone(datetime.timedelta(hours=9))
 
 from klpga.neo_win.r1_final_reconciliation import reconcile_r1_final  # noqa: E402
 from klpga.neo_win import r1_final_store  # noqa: E402

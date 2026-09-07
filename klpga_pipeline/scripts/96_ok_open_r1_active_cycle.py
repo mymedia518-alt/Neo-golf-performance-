@@ -90,17 +90,30 @@ import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
+sys.path.insert(0, str(ROOT / "src"))
+
+from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+
+# NEO TOURNAMENT PIPELINE: GAME_CODE and STAGE_STATE now come from the
+# shared TournamentContext instead of being this script's own hardcoded
+# literal -- see src/klpga/tournament_context.py. The remaining
+# OK_OPEN_2026_*.json artifact filenames below are still tournament-
+# specific by name (a larger, separate rename this session did not
+# attempt -- see the hardcoding-removal report's REMAINING HARDCODING
+# section), but the identity value that actually drives collection and
+# validation (GAME_CODE) no longer is.
+_CONTEXT = load_active_tournament_context()
+GAME_CODE = _CONTEXT.game_code
+
 ENTRY_SNAPSHOT = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
 PRE_MASTER = CONTENT / "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
 PRE_PERFORMANCE_SNAPSHOT = CONTENT / "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json"
 R1_LIVE_SNAPSHOT = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 R1_CLOSE_RECORD = CONTENT / "OK_OPEN_2026_R1_CLOSE_RECORD.json"
-STAGE_STATE = CONTENT / "OK_OPEN_STAGE_STATE.json"
+STAGE_STATE = CONTENT / _CONTEXT.stage_state_filename
 LOCK_PATH = CONTENT / ".r1_active_cycle.lock"
 STALE_LOCK_SECONDS = 25 * 60
-GAME_CODE = "2026120001"
 KST = datetime.timezone(datetime.timedelta(hours=9))
-sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.neo_win.r1_active_cycle import decide_cycle  # noqa: E402
 from klpga.neo_win.r1_live_probability import (  # noqa: E402

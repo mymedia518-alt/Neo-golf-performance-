@@ -49,6 +49,7 @@ from klpga.website_v2.freshness_gate import (  # noqa: E402
 )
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, extract_owner, validate_top120_population  # noqa: E402
 from klpga.website_v2.model_publication_gate import ModelPublicationGateError, assert_no_blocked_probability_output  # noqa: E402
+from klpga.tournament_context import load_active_tournament_context  # noqa: E402
 from klpga.website_v2.tournament_state import home_mode, ok_open_latest_available_stage  # noqa: E402
 
 MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
@@ -56,7 +57,9 @@ MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
 SOURCE = ROOT / "candidate" / "neo-data-home-top120"
 DEST = REPO_ROOT / "docs"
 CONTENT = ROOT / "content" / "website_v2"
-STAGE_STATE_PATH = CONTENT / "OK_OPEN_STAGE_STATE.json"
+# NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
+# this script's own hardcoded literal -- see src/klpga/tournament_context.py.
+STAGE_STATE_PATH = CONTENT / load_active_tournament_context().stage_state_filename
 R1_LIVE_SNAPSHOT_PATH = CONTENT / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 
 REQUIRED_ROUTES = [

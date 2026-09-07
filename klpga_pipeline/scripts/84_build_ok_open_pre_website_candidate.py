@@ -16,14 +16,20 @@ OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 R1_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R1_LIVE_SNAPSHOT.json"
 R2_LIVE_SNAPSHOT = ROOT / "content" / "website_v2" / "OK_OPEN_2026_R2_LIVE_SNAPSHOT.json"
 R1_FINAL_SNAPSHOT_DIR = ROOT / "content" / "website_v2" / "r1_final_snapshots"
-STAGE_STATE_PATH = ROOT / "content" / "website_v2" / "OK_OPEN_STAGE_STATE.json"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
-from klpga.website_v2.tournament_state import OK_BASE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
+from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+from klpga.website_v2.tournament_state import OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
+
+# NEO TOURNAMENT PIPELINE: venue/holes/format have no home in
+# tournament_state.py's existing constants -- resolved here from the
+# shared context instead of this script's own hardcoded literal string.
+_CONTEXT = load_active_tournament_context()
+STAGE_STATE_PATH = ROOT / "content" / "website_v2" / _CONTEXT.stage_state_filename
 
 # P0 MODEL SAFETY PATCH -- LIVE PROBABILITY PUBLICATION BLOCK: the ONE
 # gate every probability-derived R1 output must pass before rendering.
@@ -584,7 +590,7 @@ def build() -> Path:
     # would 404, so it renders as plain text instead (see breadcrumb_html).
     breadcrumb = breadcrumb_html(OK_DISPLAY_NAME, None, "PRE")
     stage_nav = stage_nav_html(_ok_stage_items("pre"))
-    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · OK저축은행 읏맨 오픈</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>OK저축은행 읏맨 오픈</h1><p class=\"meta\">2026.09.04 — 09.06 · 포천아도니스 · 54홀 스트로크 플레이</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다.</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>SG Total 순위</th><th>우승확률</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div><div class=\"help\">K-RANKING이 ‘쌓아온 성과’를 보여준다면, NEO는 ‘지금의 경기력’을 봅니다. 두 지표는 서로 다른 시간축과 평가 기준을 사용합니다.</div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">참가 선수별 우승확률은 표에서 확인할 수 있습니다.</p></div></aside></div></main></body></html>"""
+    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다.</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>SG Total 순위</th><th>우승확률</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div><div class=\"help\">K-RANKING이 ‘쌓아온 성과’를 보여준다면, NEO는 ‘지금의 경기력’을 봅니다. 두 지표는 서로 다른 시간축과 평가 기준을 사용합니다.</div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">참가 선수별 우승확률은 표에서 확인할 수 있습니다.</p></div></aside></div></main></body></html>"""
     html_doc = html_doc.replace("NEO 경기력 구간", "NEO 경기력 ⓘ")
     html_doc = html_doc.replace('href="tournaments/2026/ok-savings-bank-open/', 'href="/tournaments/2026/ok-savings-bank-open/')
     html_doc = html_doc.replace("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">", "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"neo-public-master-sha256\" content=\"" + master_sha + "\">")
