@@ -85,6 +85,18 @@ def test_future_predictive_performance_slots_documented_not_fabricated():
         assert doc["future_predictive_performance"][key]["status"] == "NOT_YET_COMPUTED"
 
 
+def test_postmortem_and_krank_sg_neo_validation_never_read_active_tour_master():
+    # NEO SITE V5 architecture-correction item 4: an architecture change
+    # to the active-tour-player-universe definition (universe B) must
+    # never alter an already-frozen validation result -- confirmed here
+    # structurally, since neither script even reads that artifact.
+    import inspect
+    for m in (postmortem_mod, krank_sg_neo_mod):
+        source = inspect.getsource(m)
+        assert 'CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER' not in source
+        assert "ACTIVE_MASTER_PATH" not in source
+
+
 def test_neo_ranking_never_forced_to_reproduce_k_ranking():
     # No code path in this script computes or writes any "adjustment"
     # that would pull a future NEO rank toward K-Rank -- confirmed by

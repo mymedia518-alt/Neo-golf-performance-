@@ -288,8 +288,18 @@
 .home-v4 .t-avatar svg { width: 12px; height: 12px; }
 
 .home-v4 .t-dash { color: var(--t-text-faint); }
-.home-v4 .t-sponsor-cell { text-align: left; font-family: var(--t-sans); color: var(--t-text-dim); font-size: 11.5px; }
 .home-v4 .t-krank-real { color: var(--t-navy); font-weight: 700; }
+
+/* Shared Player Identity contract (src/klpga/website_v2/player_identity.py):
+   PLAYER NAME directly above OFFICIAL SPONSOR, sponsor slot always present
+   (min-height reserves its row even when blank) so layout never shifts
+   between a player with a known sponsor and one without. */
+.home-v4 .neo-player-identity { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.home-v4 .neo-player-identity__name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.home-v4 .neo-player-identity__sponsor {
+  display: block; min-height: 14px; font-size: 11px; color: var(--t-text-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 
 /* mobile compact list rows (separate from desktop table markup) */
 .home-v4 .t-mobile-list { display: none; }
@@ -302,7 +312,7 @@
   border-bottom: 1px solid var(--t-line);
 }
 .home-v4 .t-mobile-row__rank { font-family: var(--t-mono); font-size: 11px; color: var(--t-text-faint); }
-.home-v4 .t-mobile-row__name { font-weight: 600; font-size: 13px; }
+.home-v4 .t-mobile-row .neo-player-identity__name { font-size: 13px; }
 .home-v4 .t-mobile-row__krank { font-family: var(--t-mono); font-size: 12px; color: var(--t-navy); }
 
 /* ============================================= player inspector drawer */

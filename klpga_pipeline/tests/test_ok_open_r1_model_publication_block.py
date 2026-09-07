@@ -72,7 +72,7 @@ def test_real_build_row_never_shows_zero_percent_or_a_fabricated_placeholder():
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     # A withheld metric must be OMITTED, never rendered as 0% (which
     # would misrepresent "not published" as "computed to be zero").
-    idx = html.index("<span class='player'>양효진</span>")
+    idx = html.index('<span class="player">양효진</span>')
     row_end = html.index("</tr>", idx)
     row_tail = html[idx:row_end]
     assert "0.0%" not in row_tail
@@ -83,7 +83,7 @@ def test_affiliation_and_tied_leaders_are_unaffected_by_the_model_block():
     # This patch must not regress the two most recent, unrelated fixes.
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "<span class='player'>양효진</span><span class='sponsor'>대보건설</span>" in html
+    assert '<span class="player">양효진</span><span class="sponsor">대보건설</span>' in html
     assert "양효진, 이예원, 신다인" in html  # 3-way tie still fully shown
     idx = html.find("오수민 0809(A)")
     assert idx != -1

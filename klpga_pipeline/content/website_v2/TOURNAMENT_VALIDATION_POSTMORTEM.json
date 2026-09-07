@@ -83,5 +83,5 @@
     "win_probability_vs_final_score_discrimination_note": "raw ascending-value-rank correlation over two oppositely-oriented metrics (win_probability: higher=better; final_score: lower/more-negative=better under par) -- a well-discriminating model therefore shows NEGATIVE rho here (higher predicted win probability correlating with lower/better actual final score), not positive."
   },
   "model_tuned_using_this_result": false,
-  "generated_at": "2026-09-07T12:55:15Z"
+  "generated_at": "2026-09-07T13:40:05Z"
 }

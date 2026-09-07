@@ -1,55 +1,92 @@
-"""Build ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json -- the current-season active
-KLPGA regular-tour player universe, kept strictly separate from
-HOME_REGULAR_TOUR_PLAYER_MASTER.json (546 players: everyone observed in
-the trailing-100-event historical warehouse, spanning multiple seasons,
-with no per-player current-status evidence at all -- confirmed by that
-file's own hardcoded population_validation_state:
-"BLOCKED_CURRENT_REGISTRY_EQUIVALENCE_NOT_PROVEN").
+"""Build ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json (v2) -- the current-season
+KLPGA REGULAR-TOUR PLAYING-RIGHT player universe, kept strictly separate
+from both:
+  A. HOME_REGULAR_TOUR_PLAYER_MASTER.json -- 546 players, the full
+     historical composite, no per-player current-status evidence at all.
+  C. any single tournament's official entry list (e.g.
+     OK_OPEN_2026_ENTRY_SNAPSHOT.json) -- being IN a tournament's field
+     is evidence that a player played THAT tournament, never itself
+     evidence of season-long regular-tour playing rights (see
+     TOURNAMENT_PRE_FREEZE_ARCHITECTURE notes in scripts/112 and the
+     NEO SITE V5 architecture-correction brief, item 3: "Never silently
+     use B as a substitute for C" -- and the converse holds too).
 
-WHY NOT K-RANK TOP 150: K-Rank is a cumulative-points ranking. A player
-can rank inside the top 150 by points while no longer holding a current
-KLPGA regular-tour card (e.g. she has since left the tour), and a
-current card-holder can rank outside the top 150. Truncating by K-Rank
-would silently misclassify both directions. (Note for the record: this
-repository's existing production top-120 population, built by
-scripts/94_promote_top120_to_production.py + scripts/87/88, already
-IS a K-Rank truncation -- exactly this anti-pattern -- but that is a
-separate, existing pipeline this script does not touch or fix; this
-script exists so PLAYERS can stop repeating it.)
+ARCHITECTURE CORRECTION (v2, supersedes v1): v1 treated KLPGA profile
+membership status "정회원" (regular member) as the active-tour proxy.
+This was WRONG -- "정회원" is a membership-track classification, not a
+statement of *current-season regular-tour seed/playing-right status*.
+The two are different KLPGA concepts. A player can be a 정회원 without
+holding a 2026 regular-tour seed, and (per real evidence found in this
+repo, see below) a player can hold real 2026 regular-tour seed/exempt
+evidence while carrying a non-정회원 membership label.
 
-THE ONLY REAL PER-PLAYER MEMBERSHIP EVIDENCE CONFIRMED IN THIS REPO:
-the KLPGA official player-profile page (https://klpga.co.kr/web/profile/
-mainRecord?playerCode=<id>) carries a "등급" (grade/membership) label --
-scripts/72_collect_ok_open_public_master.py's collect_profiles() already
-fetches this, one player at a time, for the 120 players in one
-tournament's entry list (see OK_OPEN_2026_CURRENT_PLAYER_MASTER.json).
-Observed values there: "정회원" (regular member) 116/120, "I-Tour 회원"
-2/120, "실기평가 대상자" (skills-evaluation candidate) 2/120. Only
-"정회원" is treated as confirmed current regular-tour membership here --
-"I-Tour 회원" is a distinct (non-regular-tour) membership track and
-"실기평가 대상자" is explicitly not-yet-a-member. This mapping
-(ACTIVE_REGULAR_TOUR_STATUS_VALUES below) is the ONLY classification
-rule this script applies; it is not a guess -- it is what "정회원"
-literally means on KLPGA's own site. No bulk seed-list/roster endpoint
-is confirmed anywhere in this repo (see NEO SITE V5 Mission 2 research
-notes) -- membership must be checked one player at a time via this
-profile endpoint.
+THE REAL EVIDENCE THIS SCRIPT NOW USES:
+KLPGA's own official entry-list disclosure for a 2026 regular-tour event
+(OK_OPEN_2026_ENTRY_SNAPSHOT.json) carries two fields per entrant:
+`qualification_category` and `qualification_reason`. `qualification_
+category` is either "자격자" (a formal/automatic qualifying entrant --
+KLPGA's own category label for "entered under a defined eligibility
+rule") or a discretionary invite category ("추천자"/recommended,
+"초청자"/invited -- tournament-specific wildcards, NOT season-wide
+eligibility). Every real "자격자" row in the collected data carries a
+non-empty `qualification_reason` naming the specific KLPGA regular-tour
+exemption/seed category that earned entry -- e.g. "시드순위자" (seed-
+rank holder), "2025 정규투어 상금순위 60위 이내" (retained seed via
+prior-season prize-money rank), "2025 드림투어 상금순위 20위 이내"
+(promoted into the regular tour via the developmental tour), tournament-
+win exemptions, "영구시드권 선수" (permanent seed rights), "부상선수
+시드권" (injured-player protected seed), "K-10 클럽" (career money-list
+exemption). These are KLPGA's own official qualifying-category labels,
+disclosed on the entry list itself -- not this project's invention, and
+not a K-Rank derivation. A "자격자" row IS the authoritative evidence
+this script needs: it is season-level (these are exactly the categories
+KLPGA's annual seed-ranking rules define), not tournament-specific, even
+though the disclosure happens to be embedded in one tournament's entry
+list. By contrast, a "추천자"/"초청자" row (qualification_reason is
+always empty for these, confirmed in the collected data) proves only
+that she played in THIS ONE tournament -- it is not treated as season-
+wide seed evidence.
 
-HONESTY CONTRACT: this script never fabricates a status. Every
-candidate (drawn from HOME_REGULAR_TOUR_PLAYER_MASTER.json, the only
-existing broad player-id pool) that has not actually had its profile
-page fetched and read is left OUT of the public active-player list and
-recorded separately under pending_collection, never silently defaulted
-to active or inactive. Today, in this sandboxed environment, KLPGA's
-site is not reachable (network egress blocked) -- so this run
-necessarily produces a PARTIAL universe: every candidate id that
-already has real, previously-collected evidence (currently only the
-120 ids in OK_OPEN_2026_CURRENT_PLAYER_MASTER.json, collected earlier
-this project against live klpga.co.kr) is classified for real; every
-other candidate is left pending. Re-running this script with live
-network access will fetch the remaining candidates and fill the
-universe in further -- nothing here needs to change for that, only
-_fetch_profile()'s live path needs to actually succeed.
+CLASSIFICATION RULE (the only rule this script applies):
+  ACTIVE_CONFIRMED   -- entry-list qualification_category == "자격자"
+                        AND qualification_reason is not empty, AND no
+                        conflicting membership-track evidence (see next).
+  INACTIVE_CONFIRMED -- official KLPGA profile membership status is a
+                        distinct, non-regular-tour track ("I-Tour 회원"
+                        or "실기평가 대상자" -- not-yet-a-member) AND
+                        there is no season-seed evidence above.
+  PENDING_EVIDENCE   -- everything else: no evidence collected yet for
+                        this candidate; OR she entered only via a
+                        discretionary category with no disclosed season-
+                        seed reason; OR the two evidence sources actively
+                        conflict (see CONFLICT HANDLING) -- never
+                        resolved by guessing, always left explicit.
+
+CONFLICT HANDLING: two real candidates in the collected data show a
+genuine conflict -- profile membership status "I-Tour 회원" (a distinct,
+non-regular-tour track) but entry-list qualification_reason naming a
+real regular-tour seed category ("시드순위자", "2026 일반대회 우승자").
+Rather than silently picking one source, both are classified
+PENDING_EVIDENCE with the conflict recorded verbatim on the record
+(conflict_evidence field) for human review.
+
+TARGET SCOPE: "~150" is a scope target for what the complete universe is
+expected to look like once evidence collection is complete -- NOT a
+truncation threshold. This script never pads toward it and never
+truncates to it; it reports the actual confirmed count from actual
+evidence, whatever that number is.
+
+HONESTY CONTRACT: every candidate (drawn from HOME_REGULAR_TOUR_PLAYER_
+MASTER.json, the only existing broad player-id pool) is classified
+explicitly into exactly one of the three states above, with provenance.
+Nothing is silently defaulted. In this sandboxed environment KLPGA's
+site is unreachable (network egress blocked), so this run's evidence is
+limited to the 120 players already collected in OK_OPEN_2026_ENTRY_
+SNAPSHOT.json / OK_OPEN_2026_CURRENT_PLAYER_MASTER.json (both collected
+earlier this project against live klpga.co.kr) -- every other candidate
+is PENDING_EVIDENCE, not guessed either way. Re-running with live
+network access (see _fetch_profile's live path) would extend coverage
+without changing this classification rule.
 """
 from __future__ import annotations
 
@@ -67,14 +104,22 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
 
 HOME_MASTER_PATH = CONTENT / "HOME_REGULAR_TOUR_PLAYER_MASTER.json"
+OK_OPEN_ENTRY_SNAPSHOT_PATH = CONTENT / "OK_OPEN_2026_ENTRY_SNAPSHOT.json"
 OK_OPEN_CURRENT_MASTER_PATH = CONTENT / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json"
 OK_OPEN_RANKING_PATH = CONTENT / "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json"
 OUT_PATH = CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json"
 
 PROFILE_URL = "https://klpga.co.kr/web/profile/mainRecord"
 
-# The one and only classification rule -- see module docstring.
-ACTIVE_REGULAR_TOUR_STATUS_VALUES = {"정회원"}
+# KLPGA's own entry-list category label for a formal/automatic
+# qualifying entrant (as opposed to a tournament-specific discretionary
+# invite). See module docstring.
+FORMAL_QUALIFICATION_CATEGORY = "자격자"
+
+# Membership-track values that are, by KLPGA's own membership-track
+# definition, distinct from (and not a subset of) the regular-tour
+# membership track. See module docstring's CLASSIFICATION RULE.
+NON_REGULAR_TOUR_MEMBERSHIP_TRACKS = {"I-Tour 회원", "실기평가 대상자"}
 
 
 def now() -> str:
@@ -94,7 +139,8 @@ def _fetch_profile(session: requests.Session, player_id: str) -> dict | None:
     """Live-fetch one player's official profile page. Returns None (never
     a fabricated/guessed record) on any network or parse failure -- the
     caller must record the candidate as pending, not silently drop or
-    default it."""
+    default it. This is membership-track evidence only (see
+    _fetch_entry_qualification for the season-seed evidence source)."""
     try:
         r = session.get(PROFILE_URL, params={"playerCode": player_id}, timeout=30)
         r.raise_for_status()
@@ -120,13 +166,31 @@ def _fetch_profile(session: requests.Session, player_id: str) -> dict | None:
     }
 
 
-def _bootstrap_from_existing_collection() -> dict[str, dict]:
-    """Real, already-collected evidence from an earlier live run against
-    klpga.co.kr (scripts/72), reused here instead of re-fetched -- same
-    player-profile endpoint, same "등급" field, just gathered for one
-    tournament's 120-entrant field rather than the full candidate pool.
-    Never invented: every value here traces to a real HTTP fetch whose
-    retrieved_at timestamp is preserved."""
+def _load_entry_qualification() -> dict[str, dict]:
+    """player_id -> {qualification_category, qualification_reason,
+    source_url, retrieved_at} from the real, already-collected OK Open
+    2026 entry-list disclosure. This is the season-seed evidence source
+    (see module docstring)."""
+    if not OK_OPEN_ENTRY_SNAPSHOT_PATH.is_file():
+        return {}
+    doc = json.loads(OK_OPEN_ENTRY_SNAPSHOT_PATH.read_text(encoding="utf-8"))
+    out = {}
+    for e in doc.get("entries", ()):
+        pid = str(e.get("player_id"))
+        out[pid] = {
+            "qualification_category": e.get("qualification_category"),
+            "qualification_reason": e.get("qualification_reason"),
+            "source_url": doc.get("source_url"),
+            "retrieved_at": doc.get("retrieved_at"),
+        }
+    return out
+
+
+def _load_profile_evidence() -> dict[str, dict]:
+    """player_id -> membership-track + sponsor + name evidence, reused
+    from the real live collection already performed for OK Open 2026's
+    field (scripts/72). This is the membership-track evidence source
+    (see module docstring)."""
     if not OK_OPEN_CURRENT_MASTER_PATH.is_file():
         return {}
     doc = json.loads(OK_OPEN_CURRENT_MASTER_PATH.read_text(encoding="utf-8"))
@@ -156,110 +220,199 @@ def _load_k_rank() -> dict[str, int]:
     }
 
 
+def _classify(pid: str, name: str, qualification: dict | None, profile: dict | None) -> tuple[str, dict]:
+    """Returns (state, detail) where state is one of ACTIVE_CONFIRMED /
+    INACTIVE_CONFIRMED / PENDING_EVIDENCE and detail carries the
+    evidence-specific fields for that state. See module docstring's
+    CLASSIFICATION RULE and CONFLICT HANDLING."""
+    has_season_seed_evidence = bool(
+        qualification
+        and qualification.get("qualification_category") == FORMAL_QUALIFICATION_CATEGORY
+        and qualification.get("qualification_reason")
+    )
+    profile_status = profile.get("tour_status") if profile else None
+    is_non_regular_track = profile_status in NON_REGULAR_TOUR_MEMBERSHIP_TRACKS
+
+    if has_season_seed_evidence and is_non_regular_track:
+        return "PENDING_EVIDENCE", {
+            "reason": "conflicting_evidence",
+            "conflict_evidence": {
+                "entry_qualification_reason": qualification["qualification_reason"],
+                "entry_qualification_category": qualification["qualification_category"],
+                "profile_membership_track": profile_status,
+            },
+        }
+    if has_season_seed_evidence:
+        return "ACTIVE_CONFIRMED", {
+            "reason": "entry_list_formal_qualification",
+            "qualification_category": qualification["qualification_category"],
+            "qualification_reason": qualification["qualification_reason"],
+            "evidence_source_url": qualification.get("source_url"),
+            "evidence_retrieved_at": qualification.get("retrieved_at"),
+        }
+    if is_non_regular_track:
+        return "INACTIVE_CONFIRMED", {
+            "reason": "non_regular_tour_membership_track",
+            "profile_membership_track": profile_status,
+            "evidence_source_url": profile.get("official_source") if profile else None,
+            "evidence_retrieved_at": profile.get("retrieved_at") if profile else None,
+        }
+    if qualification is not None:
+        return "PENDING_EVIDENCE", {
+            "reason": "discretionary_entry_no_season_seed_evidence",
+            "qualification_category": qualification.get("qualification_category"),
+            "qualification_reason": qualification.get("qualification_reason"),
+        }
+    return "PENDING_EVIDENCE", {"reason": "no_collected_evidence"}
+
+
 def build(*, attempt_live_fetch: bool = True, live_fetch_limit: int | None = None) -> dict:
     home_master = json.loads(HOME_MASTER_PATH.read_text(encoding="utf-8"))
     candidates = home_master["records"]
     k_rank_by_id = _load_k_rank()
-    already_collected = _bootstrap_from_existing_collection()
+    qualification_by_id = _load_entry_qualification()
+    profile_by_id = _load_profile_evidence()
 
     session = requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0", "Accept-Language": "ko-KR,ko;q=0.9"})
 
     active_players: list[dict] = []
-    non_regular_excluded: list[dict] = []
-    pending_collection: list[dict] = []
+    inactive_players: list[dict] = []
+    pending_players: list[dict] = []
     live_fetch_attempts = 0
 
     for cand in candidates:
         pid = str(cand["player_id"])
-        evidence = already_collected.get(pid)
-        if evidence is None and attempt_live_fetch and (
+        qualification = qualification_by_id.get(pid)
+        profile = profile_by_id.get(pid)
+
+        if profile is None and attempt_live_fetch and (
             live_fetch_limit is None or live_fetch_attempts < live_fetch_limit
         ):
             live_fetch_attempts += 1
-            evidence = _fetch_profile(session, pid)
+            fetched = _fetch_profile(session, pid)
             time.sleep(0.15)
+            if fetched is not None:
+                profile = fetched
 
-        if evidence is None:
-            pending_collection.append({
-                "player_id": pid,
-                "player_name": cand["player_name"],
-                "reason": "NOT_YET_PROFILE_CHECKED_AGAINST_OFFICIAL_SOURCE",
-            })
-            continue
+        name = (profile or {}).get("current_official_player_name") or cand["player_name"]
+        state, detail = _classify(pid, name, qualification, profile)
 
-        record = {
+        base = {
             "player_id": pid,
-            "player_name": evidence["current_official_player_name"],
-            "official_sponsor": evidence.get("official_sponsor") or None,
-            "tour_status": evidence.get("tour_status"),
-            "tour_status_source": {
-                "official_source": evidence.get("official_source"),
-                "retrieved_at": evidence.get("retrieved_at"),
-            },
-            "k_rank": k_rank_by_id.get(pid),
-            # Every NEO-derived metric below is unpublished/blocked
-            # site-wide pending formula approval -- never fabricated,
-            # matching the same policy already enforced on HOME.
-            "neo_rank": None,
-            "performance_sg": None,
-            "form": None,
-            "volatility": None,
-            "trend": None,
-            "events": None,
-            "data_as_of": evidence.get("retrieved_at"),
+            "player_name": name,
+            "classification": state,
         }
-        if evidence.get("tour_status") in ACTIVE_REGULAR_TOUR_STATUS_VALUES:
+        base.update(detail)
+
+        if state == "ACTIVE_CONFIRMED":
+            record = {
+                "player_id": pid,
+                "player_name": name,
+                "official_sponsor": (profile or {}).get("official_sponsor") or None,
+                "tour_status": (profile or {}).get("tour_status"),
+                "tour_status_source": {
+                    "official_source": detail.get("evidence_source_url"),
+                    "retrieved_at": detail.get("evidence_retrieved_at"),
+                    "qualification_category": detail.get("qualification_category"),
+                    "qualification_reason": detail.get("qualification_reason"),
+                },
+                "k_rank": k_rank_by_id.get(pid),
+                # Every NEO-derived metric below is unpublished/blocked
+                # site-wide pending formula approval -- never fabricated,
+                # matching the same policy already enforced on HOME.
+                "neo_rank": None,
+                "performance_sg": None,
+                "form": None,
+                "volatility": None,
+                "trend": None,
+                "events": None,
+                "data_as_of": detail.get("evidence_retrieved_at"),
+            }
             active_players.append(record)
+        elif state == "INACTIVE_CONFIRMED":
+            inactive_players.append(base)
         else:
-            record["exclusion_reason"] = (
-                f"tour_status {evidence.get('tour_status')!r} is not in "
-                f"ACTIVE_REGULAR_TOUR_STATUS_VALUES {sorted(ACTIVE_REGULAR_TOUR_STATUS_VALUES)}"
-            )
-            non_regular_excluded.append(record)
+            pending_players.append(base)
 
     active_players.sort(key=lambda r: (r["player_name"], r["player_id"]))
+    inactive_players.sort(key=lambda r: (r["player_name"], r["player_id"]))
+    pending_players.sort(key=lambda r: r["player_id"])
+
     payload_for_hash = {
         "active_players": active_players,
-        "non_regular_excluded": non_regular_excluded,
+        "inactive_players": inactive_players,
     }
     artifact_hash = hashlib.sha256(
         json.dumps(payload_for_hash, ensure_ascii=False, sort_keys=True).encode("utf-8")
     ).hexdigest()
 
     doc = {
-        "schema_version": "neo_active_klpga_tour_player_master_v1",
-        "population_kind": "active_klpga_regular_tour_player_universe",
+        "schema_version": "neo_active_klpga_tour_player_master_v2",
+        "population_kind": "current_season_regular_tour_playing_right_player_universe",
         "population_definition": (
-            "Players from the 546-player historical master whose official "
-            "KLPGA profile page (등급 label) has been confirmed to read "
-            "'정회원' (regular member) as of the recorded retrieval time. "
-            "NOT a K-Rank truncation. See module docstring for the full "
-            "classification rule and its evidentiary basis."
+            "Players with authoritative KLPGA evidence of CURRENT-SEASON "
+            "regular-tour playing eligibility/status (seed rank, retained "
+            "or promoted exempt category, tournament-win exemption, "
+            "permanent/protected seed, career money-list exemption -- see "
+            "module docstring). Explicitly NOT a KLPGA '정회원' membership-"
+            "status proxy, NOT a K-Rank Top 150 truncation, and NOT an "
+            "arbitrary truncation of the 546-player historical master."
         ),
-        "distinct_from": "HOME_REGULAR_TOUR_PLAYER_MASTER.json (546-player historical composite, no current-status evidence)",
-        "target_scope_note": "official current-season regular-tour seed/playing-right pool, approximately up to 150 players",
+        "distinct_from": (
+            "A. HOME_REGULAR_TOUR_PLAYER_MASTER.json (546-player historical "
+            "composite, no current-status evidence) -- untouched by this script. "
+            "C. any single tournament's entry list (e.g. OK_OPEN_2026_ENTRY_"
+            "SNAPSHOT.json) -- field membership alone is never treated as "
+            "season-wide playing-right evidence; only the disclosed "
+            "qualification_category/reason is."
+        ),
+        "target_scope_note": (
+            "~150 is a scope target for what the complete universe is "
+            "expected to look like once evidence collection is complete -- "
+            "NOT a cutoff. This document reports only the actually-"
+            "confirmed count from actual evidence."
+        ),
+        "classification_states": ["ACTIVE_CONFIRMED", "INACTIVE_CONFIRMED", "PENDING_EVIDENCE"],
+        "classification_rule": (
+            "ACTIVE_CONFIRMED: entry-list qualification_category=='자격자' "
+            "(KLPGA's own formal/automatic-qualification label, as opposed "
+            "to discretionary '추천자'/'초청자' invites) AND a non-empty "
+            "qualification_reason naming a specific regular-tour seed/exempt "
+            "category, with no conflicting membership-track evidence. "
+            "INACTIVE_CONFIRMED: official profile membership track is a "
+            "distinct non-regular-tour track (I-Tour 회원 / 실기평가 대상자) "
+            "and no season-seed evidence exists. PENDING_EVIDENCE: no "
+            "evidence collected yet; OR entry was via a discretionary "
+            "category with no disclosed season-seed reason; OR the two "
+            "evidence sources conflict (never silently resolved -- see "
+            "conflict_evidence on the affected record)."
+        ),
+        "evidence_sources": [
+            "OK_OPEN_2026_ENTRY_SNAPSHOT.json (qualification_category/qualification_reason)",
+            "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json (official KLPGA profile membership track + sponsor)",
+            "https://klpga.co.kr/web/profile/mainRecord?playerCode=<id> (live fetch when reachable)",
+        ],
         "generated_at": now(),
         "candidate_pool_source": "HOME_REGULAR_TOUR_PLAYER_MASTER.json",
         "candidate_pool_size": len(candidates),
-        "collection_completeness": {
+        "counts": {
             "candidates_total": len(candidates),
-            "profile_checked": len(active_players) + len(non_regular_excluded),
             "active_confirmed": len(active_players),
-            "non_regular_excluded": len(non_regular_excluded),
-            "pending_collection": len(pending_collection),
+            "inactive_confirmed": len(inactive_players),
+            "pending_evidence": len(pending_players),
             "status": (
-                "COMPLETE" if not pending_collection else
-                "PARTIAL_PENDING_LIVE_KLPGA_NETWORK_ACCESS"
+                "COMPLETE" if not any(p["classification"] == "PENDING_EVIDENCE" and p["reason"] == "no_collected_evidence" for p in pending_players)
+                else "PARTIAL_PENDING_LIVE_KLPGA_NETWORK_ACCESS"
             ),
         },
         "active_players": active_players,
-        "non_regular_excluded": non_regular_excluded,
-        "pending_collection": pending_collection,
+        "inactive_players": inactive_players,
+        "pending_players": pending_players,
         "artifact_hash": artifact_hash,
     }
     OUT_PATH.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
-    print(json.dumps(doc["collection_completeness"], ensure_ascii=False))
+    print(json.dumps(doc["counts"], ensure_ascii=False))
     return doc
 
 

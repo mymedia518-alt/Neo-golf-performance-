@@ -106,7 +106,7 @@ def test_win_pct_column_and_win_delta_presence_matches_model_publication_status(
 def test_affiliation_still_preserved_and_never_fabricated():
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    assert "<span class='player'>양효진</span><span class='sponsor'>대보건설</span>" in html
+    assert '<span class="player">양효진</span><span class="sponsor">대보건설</span>' in html
     idx = html.find("오수민 0809(A)")
     assert idx != -1
     assert "대방건설" not in html[idx : idx + 400]

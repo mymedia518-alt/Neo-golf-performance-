@@ -34,8 +34,8 @@ def test_validated_affiliation_renders_under_player_name():
     pre_html = (out / "tournaments/2026/ok-savings-bank-open/pre/index.html").read_text(encoding="utf-8")
     # 양효진's real validated sponsor from the canonical master -- must
     # appear as a distinct sub-line, never merged into the name string.
-    assert "<span class='player'>양효진</span><span class='sponsor'>대보건설</span>" in r1_html
-    assert "<span class='player'>양효진</span><span class='sponsor'>대보건설</span>" in pre_html
+    assert '<span class="player">양효진</span><span class="sponsor">대보건설</span>' in r1_html
+    assert '<span class="player">양효진</span><span class="sponsor">대보건설</span>' in pre_html
 
 
 def test_shared_identity_cell_used_by_both_pre_and_r1_tables():
@@ -58,8 +58,10 @@ def test_no_affiliation_is_fabricated_when_source_unavailable():
     assert missing, "fixture assumption: at least one player has no validated sponsor in the real master"
     r = missing[0]
     cell = builder._player_identity_cell(r["current_official_player_name"], r.get("current_official_sponsor"))
-    assert "sponsor" not in cell
-    assert cell == f"<span class='player'>{r['current_official_player_name']}</span>"
+    # NEO SITE V5 architecture-correction item 2: the sponsor slot is now
+    # always structurally present (never omitted) -- but must render
+    # blank, never a fabricated value, when no verified sponsor exists.
+    assert cell == f'<span class="player">{r["current_official_player_name"]}</span><span class="sponsor"></span>'
 
 
 def test_player_id_is_the_identity_match_key_never_name_fallback():
@@ -68,7 +70,7 @@ def test_player_id_is_the_identity_match_key_never_name_fallback():
     # silently inherit a different player's affiliation.
     sponsor_by_id = {"1": "실제소속사"}
     cell = builder._player_identity_cell("이름불일치선수", sponsor_by_id.get("999999-unknown-id"))
-    assert "sponsor" not in cell
+    assert cell == '<span class="player">이름불일치선수</span><span class="sponsor"></span>'
     assert "실제소속사" not in cell
 
 
@@ -98,7 +100,7 @@ def test_scores_probabilities_and_rankings_unchanged_by_affiliation_join():
     leader = snapshot["player_table"][0]
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    th_idx = html.index(f"<span class='player'>{leader['player_name']}</span>")
+    th_idx = html.index(f'<span class="player">{leader["player_name"]}</span>')
     row_end = html.index("</tr>", th_idx)
     row_tail = html[th_idx:row_end]
     if leader.get("total_under_par_display"):
@@ -118,7 +120,7 @@ def test_scores_probabilities_and_rankings_unchanged_by_affiliation_join():
 def test_mobile_table_remains_usable_with_affiliation_line():
     out = builder.build()
     css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
-    assert ".sponsor{display:block;color:var(--muted);font-size:12px" in css
+    assert ".sponsor{display:block;min-height:15px;color:var(--muted);font-size:12px" in css
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     header = re.search(r"<thead>.*?</thead>", html, re.S).group(0)
     # Affiliation is a sub-line inside the existing player <th>, never a

@@ -21,6 +21,23 @@ to a name in HOME_REGULAR_TOUR_PLAYER_MASTER.json. Anyone who does not
 is reported under unmatched_field, never silently dropped or silently
 included as if matched.
 
+THREE-UNIVERSE SEPARATION (NEO SITE V5 architecture-correction item 3):
+this script only ever consults two of the three player universes --
+    A. HOME_REGULAR_TOUR_PLAYER_MASTER.json (546, historical composite)
+       -- used ONLY for identity resolution above (does this player_id
+       resolve to a canonical name at all), never for eligibility.
+    C. the tournament's own official entry list (OK_OPEN_2026_ENTRY_
+       SNAPSHOT.json) -- this alone is authoritative evidence a player
+       is IN this tournament's field.
+This script never reads ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json (universe
+B, the season-level current regular-tour PLAYING-RIGHT population built
+by scripts/110). A player belongs in the frozen field as long as she is
+in the official entry list, regardless of whether her universe-B
+classification is ACTIVE_CONFIRMED, INACTIVE_CONFIRMED, or PENDING_
+EVIDENCE -- B is never used as a substitute filter for C, and changing
+B's classification rule must never change this artifact's hash (see
+tests/test_tournament_pre_freeze.py's three-universe-separation tests).
+
 Freezing/hashing: once written, this artifact's own artifact_hash covers
 every field this script controls (game_code, tournament_name, field,
 player_ids, snapshots, model_version, freeze_timestamp) EXCLUDING

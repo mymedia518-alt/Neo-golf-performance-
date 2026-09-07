@@ -389,3 +389,17 @@ def test_ranking_h1_fits_one_line_and_never_font_shrunk_below_the_page_default(b
     # of the existing clamp() -- .home-head h1's own font-size rule
     # (shared regardless of h1/h2 tag) is untouched by this fix.
     assert ".home-head h1{margin:.3rem 0 .55rem;font-size:clamp(1.7rem,3.5vw,2.35rem)}" in css
+
+
+def test_ranking_rows_obey_the_shared_sponsor_identity_contract(built):
+    """NEO SITE V5 architecture-correction item 2: RANKING rows must use
+    the same shared Player Identity contract as HOME/PLAYERS and
+    tournament pages -- sponsor slot always structurally present, never
+    a placeholder."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    name_count = html.count('class="neo-player-identity__name"')
+    sponsor_count = html.count('class="neo-player-identity__sponsor"')
+    assert name_count == 120
+    assert name_count == sponsor_count
+    for placeholder in ("unknown", "미확인", "N/A"):
+        assert f'class="neo-player-identity__sponsor">{placeholder}<' not in html

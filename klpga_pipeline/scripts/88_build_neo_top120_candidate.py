@@ -21,10 +21,29 @@ sys.path.insert(0, str(ROOT / "src"))
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
 from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation  # noqa: E402
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
 from klpga.website_v2.tournament_state import (  # noqa: E402
     OK_DISPLAY_NAME, STAGE_LABELS, home_mode, ok_open_latest_available_stage,
 )
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
+
+ACTIVE_TOUR_MASTER_PATH = CONTENT / "ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json"
+
+
+def _load_sponsor_source() -> dict[str, str]:
+    """Real, verified official_sponsor values for RANKING rows -- same
+    source and same honesty contract as scripts/109's HOME/PLAYERS board
+    (see that module for the full rationale): sourced only from
+    ACTIVE_KLPGA_TOUR_PLAYER_MASTER.json's ACTIVE_CONFIRMED records, never
+    invented for a player without this evidence."""
+    if not ACTIVE_TOUR_MASTER_PATH.is_file():
+        return {}
+    doc = json.loads(ACTIVE_TOUR_MASTER_PATH.read_text(encoding="utf-8"))
+    return {
+        str(p["player_id"]): p["official_sponsor"]
+        for p in doc.get("active_players", ())
+        if p.get("official_sponsor")
+    }
 
 
 def _source_git_sha() -> str:
@@ -126,6 +145,7 @@ def render_clean(
     # tournament hero glued above this table was the REJECTED prior
     # approach: during TOURNAMENT_ACTIVE, / must BE the tournament stage
     # page itself, not this table with a banner on top.
+    sponsor_by_id = _load_sponsor_source()
     cells = []
     for row in rows:
         f = row.get("features") or {}
@@ -145,7 +165,9 @@ def render_clean(
         cells.append(
             f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo or 999999}" '
             f'data-current-score="{cell.sort_score if cell.sort_score is not None else ""}" data-current-hole="{cell.sort_holes if cell.sort_holes is not None else ""}" data-current-status="{cell.sort_status}">'
-            f'<td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row">{escape(row["player_name"])}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
+            f'<td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td>'
+            f'<th scope="row">{render_player_identity(row["player_name"], sponsor_by_id.get(str(row["player_id"])), container_class=None)}</th>'
+            f'<td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
