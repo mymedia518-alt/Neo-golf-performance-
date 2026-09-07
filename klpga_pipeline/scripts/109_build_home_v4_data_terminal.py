@@ -49,7 +49,13 @@ _SILHOUETTE_SVG = (
     '<circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/></svg>'
 )
 
+# QA REMEDIATION (post-2084554): the V4-specific nav bar was missing links
+# to /ranking/ and /deep-dive/ -- both routes are real, already-built pages
+# inherited byte-for-byte from the preserved site (via _copy_preserved_site
+# in build()), so the fix is purely to make them reachable from HOME's own
+# navigation, matching all required HOME V4 routes.
 NAV_ITEMS = (("players", "PLAYERS", "/"), ("tournaments", "TOURNAMENTS", "/tournaments/"),
+             ("ranking", "RANKING", "/ranking/"), ("deep-dive", "DEEP DIVE", "/deep-dive/"),
              ("neo-lab", "NEO LAB", "/neo-lab/"), ("about", "ABOUT", "/about/"))
 
 # ------------------------------------------------------------- MODEL VALIDATION
@@ -426,6 +432,77 @@ def _copy_preserved_site(output: Path) -> None:
     shutil.copytree(docs_source, output, dirs_exist_ok=True)
 
 
+# QA REMEDIATION (post-2084554): _copy_preserved_site above inherits the
+# entire production docs/ tree byte-for-byte, including files production
+# itself already serves at docs/data/. One of those, neo-top120-evaluation
+# .json, is full NEO Ranking research/evaluation output (per-player
+# validation_score, neo_validation_rank, SG feature values) -- the exact
+# class of unapproved model-derived numeric data this candidate's own
+# policy withholds everywhere else (every NEO/PERFORMANCE SG/FORM/VOL/
+# TREND/EVENTS cell renders "--"). Nothing in this build (nor, per a
+# repo-wide search, anything in production itself) links to or reads this
+# file -- it is an orphaned static artifact, not a dependency of any page
+# -- so removing it from the V4 candidate's own copy is a pure subtraction
+# with zero functional loss. It changes nothing in production: docs/ is
+# never written to by this script, so the file remains exactly where it
+# already lives (production's own docs/data/, and its original source,
+# candidate/neo-data-home-top120/data/, a separate, unrelated candidate
+# product this task does not touch). No sanitized public projection of
+# this dataset is created because zero of its fields are approved for
+# public HOME display -- every field it carries (neo_validation_rank,
+# validation_score, SG features, rank_delta) falls under the same
+# blocked-metric policy already enforced elsewhere on HOME.
+UNAPPROVED_INHERITED_RESEARCH_FILES = ("neo-top120-evaluation.json",)
+
+
+def _strip_unapproved_inherited_research_data(output: Path) -> list[str]:
+    removed = []
+    data_dir = output / "data"
+    if not data_dir.is_dir():
+        return removed
+    for name in UNAPPROVED_INHERITED_RESEARCH_FILES:
+        candidate_file = data_dir / name
+        if candidate_file.is_file():
+            candidate_file.unlink()
+            removed.append(name)
+    return removed
+
+
+# QA REMEDIATION (post-2084554): join_home_rows' summary dict (production,
+# read-only, home_ranking.py) carries "neo_formula_state":
+# "BLOCKED_FORMULA_NOT_APPROVED" -- an internal control-plane/validation
+# state string. That is correct as an INTERNAL signal (it is what makes
+# every NEO metric render "--" everywhere), but it must never appear
+# verbatim in a file this candidate serves publicly (candidate/.../data/
+# home-v4-summary.json is a public artifact, fetchable directly). This
+# builds the public-safe projection: the same real counts (population,
+# K-Rank join success/failure, NEO-ranking published/pending -- plain
+# integers, not internal state strings) plus a public-safe enum for
+# publication status, instead of the raw internal marker string.
+PUBLIC_SAFE_SUMMARY_KEYS = (
+    "population_count", "k_ranking_join_success", "k_ranking_join_failure",
+    "neo_ranking_published", "neo_ranking_pending",
+)
+
+
+def _public_summary_projection(summary: dict, *, historical_events: int,
+                                warehouse: dict) -> dict:
+    projection = {key: summary[key] for key in PUBLIC_SAFE_SUMMARY_KEYS if key in summary}
+    projection["neo_ranking_publication_status"] = "NOT_PUBLISHED"
+    projection["historical_events"] = historical_events
+    projection["historical_event_provenance"] = {
+        "scope": "NEO SG 성과 웨어하우스에 기록된 대회(game_code) 수 -- KLPGA 공식 전체 대회 이력이 아님",
+        "inclusion_criteria": "corrected SG warehouse에서 라운드별 공식 리더보드 대비 검증된 레코드가 1건 이상 존재하는 대회",
+        "coverage_scope": "SG_WAREHOUSE_SUBSET",
+        "complete_klpga_history": False,
+        "coverage_status": "INCOMPLETE_SUBSET_PENDING_ROUND_SEMANTICS_VALIDATION",
+        "dataset_version": warehouse.get("generated_at", DASH),
+        "source_artifact": "historical_sg_warehouse_corrected.json",
+        "source_reference": "klpga_pipeline/content/website_v2/historical_sg_warehouse_corrected.json",
+    }
+    return projection
+
+
 def build() -> dict:
     population = load_json(CONTENT / "HOME_REGULAR_TOUR_PLAYER_MASTER.json")
     ranking = load_json(CONTENT / "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json")
@@ -442,6 +519,7 @@ def build() -> dict:
     OUTPUT.mkdir(parents=True, exist_ok=True)
 
     _copy_preserved_site(OUTPUT)
+    _strip_unapproved_inherited_research_data(OUTPUT)
 
     (OUTPUT / "index.html").write_text(render_home(rows, summary, ranking_snapshot_label), encoding="utf-8", newline="\n")
 
@@ -458,8 +536,13 @@ def build() -> dict:
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", assets / "neo-site.css")
 
     (OUTPUT / "data").mkdir(exist_ok=True)
-    out_summary = dict(summary)
-    out_summary["historical_events"] = historical_events
+    # QA REMEDIATION (post-2084554): write the public-safe projection, not
+    # a raw dict(summary) copy -- see _public_summary_projection above for
+    # why (internal "BLOCKED_FORMULA_NOT_APPROVED" state string must not
+    # leak into a publicly-servable JSON file).
+    out_summary = _public_summary_projection(
+        summary, historical_events=historical_events, warehouse=warehouse
+    )
     (OUTPUT / "data" / "home-v4-summary.json").write_text(
         json.dumps(out_summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
