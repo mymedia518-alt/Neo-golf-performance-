@@ -1,10 +1,10 @@
 {
   "schema_version": "neo_ranking_v2_official_archive_reconstruction_v1",
   "model_state": "VALIDATION_MODEL_NOT_PRODUCTION",
-  "generated_at": "2026-09-07T00:30:22Z",
+  "generated_at": "2026-09-07T07:47:13Z",
   "endpoint": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
   "parser_reused": "klpga.website_v2.official_data.parse_leaderboard_html (not reimplemented)",
-  "note": "This artifact records an ACTUAL retrieval attempt against the live official endpoint. It does not assume data/klpga.sqlite's absence is the blocker -- the outcome below is what the endpoint itself returned (or failed to return) in this environment, classified by failure type.",
+  "note": "This artifact records an ACTUAL retrieval attempt against the live official endpoint. It does not assume data/klpga.sqlite's absence is the blocker -- the outcome below is what the endpoint itself returned (or failed to return) in this environment, classified by failure type. The actual parsed player rows (when retrieved) are persisted separately in NEO_RANKING_V2_OFFICIAL_LEADERBOARD_ARCHIVE.json, not duplicated in this summary.",
   "sample_phase": {
     "sample_size_requested": 5,
     "sample_game_codes": [

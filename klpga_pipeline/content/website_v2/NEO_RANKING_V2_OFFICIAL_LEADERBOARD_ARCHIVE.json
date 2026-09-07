@@ -1,0 +1,166 @@
+{
+  "schema_version": "neo_ranking_v2_official_leaderboard_archive_v1",
+  "model_state": "VALIDATION_MODEL_NOT_PRODUCTION",
+  "generated_at": "2026-09-07T07:47:13Z",
+  "endpoint": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+  "parser_reused": "klpga.website_v2.official_data.parse_leaderboard_html (not reimplemented)",
+  "parser_version_sha256": "931dba72d211de2bf98a1d3f9bb35123224eaede04cde4d8d63f11aff2181f98",
+  "note": "Persists the ACTUAL parsed official roundLeaderboard rows for every event/round this environment could retrieve -- not just retrieval counts. Never fabricates a round that was not genuinely retrieved and parsed.",
+  "source_provenance": {
+    "historical_sg_warehouse_corrected": {
+      "path": "content/website_v2/historical_sg_warehouse_corrected.json",
+      "sha256": "a5178b2e5ab150df64af2473dba4f7ae9ff05928f4f3d55b4e40478ed29e78e3"
+    },
+    "official_data.py": {
+      "path": "src/klpga/website_v2/official_data.py",
+      "sha256": "931dba72d211de2bf98a1d3f9bb35123224eaede04cde4d8d63f11aff2181f98"
+    }
+  },
+  "events": {
+    "2023040001": {
+      "event_retrieval_state": "NETWORK_EGRESS_DENIED",
+      "rounds": {
+        "1": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:08Z",
+          "row_count": 0,
+          "players": []
+        },
+        "2": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:08Z",
+          "row_count": 0,
+          "players": []
+        },
+        "3": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:08Z",
+          "row_count": 0,
+          "players": []
+        },
+        "4": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:09Z",
+          "row_count": 0,
+          "players": []
+        }
+      }
+    },
+    "2023040002": {
+      "event_retrieval_state": "NETWORK_EGRESS_DENIED",
+      "rounds": {
+        "1": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:09Z",
+          "row_count": 0,
+          "players": []
+        },
+        "2": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:09Z",
+          "row_count": 0,
+          "players": []
+        },
+        "3": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:10Z",
+          "row_count": 0,
+          "players": []
+        },
+        "4": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:10Z",
+          "row_count": 0,
+          "players": []
+        }
+      }
+    },
+    "2023040003": {
+      "event_retrieval_state": "NETWORK_EGRESS_DENIED",
+      "rounds": {
+        "1": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:10Z",
+          "row_count": 0,
+          "players": []
+        },
+        "2": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:10Z",
+          "row_count": 0,
+          "players": []
+        },
+        "3": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:10Z",
+          "row_count": 0,
+          "players": []
+        },
+        "4": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:11Z",
+          "row_count": 0,
+          "players": []
+        }
+      }
+    },
+    "2023040004": {
+      "event_retrieval_state": "NETWORK_EGRESS_DENIED",
+      "rounds": {
+        "1": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:11Z",
+          "row_count": 0,
+          "players": []
+        },
+        "2": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:11Z",
+          "row_count": 0,
+          "players": []
+        },
+        "3": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:11Z",
+          "row_count": 0,
+          "players": []
+        },
+        "4": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:12Z",
+          "row_count": 0,
+          "players": []
+        }
+      }
+    },
+    "2023050001": {
+      "event_retrieval_state": "NETWORK_EGRESS_DENIED",
+      "rounds": {
+        "1": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:12Z",
+          "row_count": 0,
+          "players": []
+        },
+        "2": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:12Z",
+          "row_count": 0,
+          "players": []
+        },
+        "3": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:13Z",
+          "row_count": 0,
+          "players": []
+        },
+        "4": {
+          "round_retrieval_state": "NETWORK_EGRESS_DENIED",
+          "retrieved_at": "2026-09-07T07:47:13Z",
+          "row_count": 0,
+          "players": []
+        }
+      }
+    }
+  }
+}
