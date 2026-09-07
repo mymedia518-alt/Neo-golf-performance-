@@ -51,16 +51,18 @@ try {
     # COLLECT/VALIDATE/PUBLISH decoupling (P0 incident follow-up): a
     # true divergence still HARD_STOPs the PUBLISH path here (no
     # automatic merge/rebase/overwrite -- that stays a human decision).
-    # But official R1 data is time-sensitive and cannot be re-observed
-    # later, so during a real incident an operator can still run
+    # But official round data is time-sensitive and cannot be
+    # re-observed later, so during a real incident an operator can
+    # still run, by hand, whichever historical collect-only escape
+    # hatch matches the currently active stage (e.g.
     #   & $Python 'klpga_pipeline\scripts\96_ok_open_r1_active_cycle.py' --live --collect-only
-    # by hand: it saves the immutable snapshot + stage state to local
-    # disk WITHOUT touching git or docs/, so no official data point is
-    # lost merely because publishing is blocked. This script does not
-    # do that automatically (rebuilding/promoting from a diverged
-    # checkout risks locally regressing content that already shipped
-    # from elsewhere) -- resolving the divergence and a normal
-    # --live --git-push cycle remains the actual fix.
+    # for an R1 incident): it saves the immutable snapshot + stage
+    # state to local disk WITHOUT touching git or docs/, so no official
+    # data point is lost merely because publishing is blocked. This
+    # script does not do that automatically (rebuilding/promoting from
+    # a diverged checkout risks locally regressing content that already
+    # shipped from elsewhere) -- resolving the divergence and a normal
+    # run_tournament.py --git-push cycle remains the actual fix.
     $mergeBase = (& git -c safe.directory=$Repo merge-base HEAD origin/neo-website-v2).Trim()
     if ($mergeBase -ne $local) { Write-Output "HARD_STOP: local=$local remote=$remote; true divergence, no automatic overwrite -- run --live --collect-only by hand to preserve official data while this is resolved"; exit 2 }
     & git -c safe.directory=$Repo merge --ff-only origin/neo-website-v2
@@ -76,32 +78,42 @@ try {
     if ($iproc) { Write-Output "SKIP_WAIT: active cycle process pid=$ipid"; exit 0 }
     if ($iage -ge 1500) { Remove-Item -LiteralPath $InternalLock -Force } else { Write-Output "HARD_STOP: internal lock has no live owner but is too young (age=${iage}s)"; exit 2 }
   }
-  $cycleOutput = & $Python 'klpga_pipeline\scripts\96_ok_open_r1_active_cycle.py' --live --git-push
+  # GENERIC ENTRY POINT (was: direct call to
+  # 96_ok_open_r1_active_cycle.py --live --git-push). run_tournament.py
+  # resolves the currently active tournament itself (DISCOVERY), infers
+  # its real current stage from on-disk artifacts, and dispatches to
+  # whichever per-stage script that stage actually needs -- 96 while R1
+  # is live, but 99/101/build_current_round_page.py etc. once the
+  # tournament moves past R1, with no change to this wrapper or its
+  # schedule. --git-push mirrors script 96's own opt-in commit+push
+  # behavior generically for whichever action actually ran.
+  $cycleOutput = & $Python 'klpga_pipeline\scripts\run_tournament.py' --git-push
   $cycleExit = $LASTEXITCODE
   $cycleOutput | ForEach-Object { Write-Output $_ }
   if ($cycleExit -ne 0) { exit $cycleExit }
 
-  # R1-CLOSE AUTO-STOP: script 96's own docstring says stop_active_cycle:
-  # true is its R1-close signal and that "the caller (never this script,
-  # which cannot reach the scheduler) is responsible for actually stopping
-  # further cycles once it sees that" -- until now nothing actually did
-  # that, so a human had to notice R1 had closed and manually disable the
-  # Task Scheduler job (harmless if missed -- later cycles just become
-  # SKIP_NO_NEW_DATA no-ops -- but still an unattended-ops gap). Parse the
-  # last JSON summary line of stdout (script 96 always prints exactly one)
-  # and, if it reports the round closed, disable (never delete -- keeps
-  # history and Enable-ScheduledTask trivially reversible for the next
-  # round) the recurring schedule so cycles genuinely stop firing.
+  # TOURNAMENT-CLOSE AUTO-STOP: run_tournament.py's own JSON summary
+  # carries stop_active_cycle=true once POSTMORTEM has genuinely run --
+  # i.e. the whole tournament lifecycle (not just R1) is complete.
+  # Before run_tournament.py existed, only script 96's R1-close signal
+  # was available, so this schedule had to be re-enabled by hand for
+  # every later stage; now the same 30-minute task can safely run
+  # across R1 -> R2 -> R3/FINAL -> POSTMORTEM unattended, and this is
+  # the one place that ever turns it off. Parse the last JSON summary
+  # line of stdout and, if it reports the tournament closed, disable
+  # (never delete -- keeps history and Enable-ScheduledTask trivially
+  # reversible for the next tournament) the recurring schedule so
+  # cycles genuinely stop firing.
   $lastJsonLine = ($cycleOutput | Where-Object { $_ -match '^\{.*\}$' } | Select-Object -Last 1)
   if ($lastJsonLine) {
     try {
       $parsed = $lastJsonLine | ConvertFrom-Json
       if ($parsed.stop_active_cycle -eq $true) {
-        Write-Output "R1 CLOSED (stop_active_cycle=true) -- disabling scheduled task '$TaskName'"
+        Write-Output "TOURNAMENT CLOSED (stop_active_cycle=true) -- disabling scheduled task '$TaskName'"
         Disable-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue | Out-Null
       }
     } catch {
-      Write-Output "WARN: could not parse cycle JSON output for the R1-close stop signal: $($_.Exception.Message)"
+      Write-Output "WARN: could not parse cycle JSON output for the close-cycle stop signal: $($_.Exception.Message)"
     }
   }
 } catch { Write-Output ('HARD_STOP: ' + $_.Exception.Message); exit 2 }

@@ -22,11 +22,19 @@ snapshot is, by construction, one the upstream script already validated.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import date
 import json
 from pathlib import Path
 from typing import Any
 
 from klpga.tournament_context import ACTIVE_TOURNAMENT_PATH, TournamentContext
+from klpga.tournament_discovery import (
+    DiscoveredTournament,
+    TournamentDiscoveryBlocked,
+    discover_tournament,
+    discover_tournament_by_game_code,
+    refresh_active_config,
+)
 from klpga.tournament_engine import RoundFacts, TournamentFacts
 from klpga.tournament_runtime import CutValidation, NON_CUT_STATUSES, resolve_runtime_stage, TournamentConfig
 
@@ -54,6 +62,119 @@ def write_lifecycle_state(payload: dict[str, Any], path: Path = ACTIVE_TOURNAMEN
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(encoded, encoding="utf-8")
     tmp.replace(path)
+
+
+def bootstrap_lifecycle_state(
+    discovered: DiscoveredTournament,
+    *,
+    final_round_number: int | None = None,
+    cut_after_round: int | None = 2,
+) -> dict[str, Any]:
+    """NEO TOURNAMENT PIPELINE Phase 3 item 2: the real DISCOVERY step --
+    first-time lifecycle bootstrap for a game_code with no prior
+    validated lifecycle record (config/active_tournament.json missing,
+    or naming a different tournament entirely). Uses ONLY real official
+    identity (from DiscoveredTournament, itself sourced from
+    tournament_master's official getGameList capture) plus universal
+    state-machine starting values (round 1, stage DISCOVERED, model not
+    ready) -- never a fabricated tournament FACT.
+
+    final_round_number is the one field with no reliable
+    always-present official source today (scripts/01's own docstring:
+    "rounds_scheduled ... left NULL" when unconfirmed) -- resolved from
+    tournament_master's rounds_scheduled if present, else from an
+    explicit caller-supplied override (an operator who has confirmed it
+    from the official site), else this fails closed rather than
+    guessing 3 or 4.
+    """
+    resolved_final_round = (
+        final_round_number if final_round_number is not None else discovered.rounds_scheduled
+    )
+    if resolved_final_round is None:
+        raise TournamentLifecycleError(
+            f"cannot bootstrap game_code={discovered.game_code!r}: final_round_number is not "
+            "confirmed in tournament_master (rounds_scheduled is NULL) and was not supplied "
+            "explicitly -- never fabricated. Pass an explicit final_round_number once confirmed "
+            "from the official site."
+        )
+    if resolved_final_round < 2:
+        raise TournamentLifecycleError(f"invalid final_round_number={resolved_final_round}")
+
+    return {
+        "schema_version": 2,
+        "game_code": discovered.game_code,
+        "tournament_name": discovered.tournament_name,
+        "season": discovered.season,
+        "start_date": discovered.start_date,
+        "end_date": discovered.end_date,
+        "final_round_number": resolved_final_round,
+        "current_round_number": 1,
+        "validated_stage": "DISCOVERED",
+        "cut_after_round": cut_after_round,
+        "model_ready": False,
+        "identity_source": "tournament_master",
+        "lifecycle_source": "bootstrap",
+    }
+
+
+def resolve_or_bootstrap_lifecycle(
+    *,
+    game_code: str | None,
+    db_path: Path,
+    final_round_number: int | None = None,
+    cut_after_round: int = 2,
+    as_of: date | None = None,
+) -> dict[str, Any]:
+    """The generic DISCOVERY entry point run_tournament.py calls before
+    anything else, fixing the exact gap QA found ("does not perform/
+    resolve tournament discovery" / "fails when active config differs").
+
+    - game_code omitted, active_tournament.json already on file: keep
+      using that tournament, refreshed via the existing generic
+      refresh_active_config() (identity re-derived, lifecycle fields
+      stay validation-owned).
+    - game_code omitted, no file yet: discover "what's active today"
+      from tournament_master and bootstrap it.
+    - game_code given and it matches the file already on disk: same as
+      the first case (an explicit confirmation, not a new tournament).
+    - game_code given and it differs from (or there is no) existing
+      file: a genuinely new tournament -- look it up directly in
+      tournament_master (independent of today's date, so PRE work can
+      start before the tournament's window opens) and bootstrap a fresh
+      lifecycle record. NEVER requires a human to hand-edit
+      active_tournament.json first.
+    """
+    as_of = as_of or date.today()
+
+    # ACTIVE_TOURNAMENT_PATH resolved fresh here (never via another
+    # function's default argument, which is bound once at import time
+    # and would silently ignore a test's/caller's monkeypatched path).
+    config_path = ACTIVE_TOURNAMENT_PATH
+    existing = load_lifecycle_state(config_path) if config_path.is_file() else None
+    existing_game_code = str(existing.get("game_code")) if existing else None
+
+    if existing is not None and (game_code is None or str(game_code) == existing_game_code):
+        try:
+            return refresh_active_config(db_path=db_path, config_path=config_path, as_of=as_of)
+        except TournamentDiscoveryBlocked:
+            # tournament_master doesn't (or can't, e.g. no DB in this
+            # environment) confirm this tournament as active today --
+            # the already-validated lifecycle state on disk is still
+            # real and trustworthy; an unrelated discovery miss must
+            # never destroy it.
+            return existing
+
+    target = game_code or existing_game_code
+    if target is not None:
+        discovered = discover_tournament_by_game_code(db_path, target)
+    else:
+        discovered = discover_tournament(db_path, as_of=as_of)
+
+    payload = bootstrap_lifecycle_state(
+        discovered, final_round_number=final_round_number, cut_after_round=cut_after_round
+    )
+    write_lifecycle_state(payload, config_path)
+    return payload
 
 
 def _round_snapshot(context: TournamentContext, round_number: int) -> dict | None:

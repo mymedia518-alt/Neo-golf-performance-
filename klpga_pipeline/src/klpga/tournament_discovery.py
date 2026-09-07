@@ -40,6 +40,35 @@ def _parse_iso_date(value: str) -> date:
         ) from exc
 
 
+_DISCOVERY_COLUMNS = """
+    game_code,
+    event_name,
+    season,
+    start_date,
+    end_date,
+    rounds_scheduled
+"""
+
+
+def _row_to_discovered(row) -> DiscoveredTournament:
+    rounds = row["rounds_scheduled"]
+    if rounds is not None:
+        rounds = int(rounds)
+        if rounds < 2:
+            raise TournamentDiscoveryBlocked(
+                "invalid rounds_scheduled"
+            )
+
+    return DiscoveredTournament(
+        game_code=str(row["game_code"]),
+        tournament_name=str(row["event_name"]),
+        season=int(row["season"]),
+        start_date=str(row["start_date"]),
+        end_date=str(row["end_date"]),
+        rounds_scheduled=rounds,
+    )
+
+
 def discover_tournament(
     db_path: Path,
     *,
@@ -55,14 +84,8 @@ def discover_tournament(
 
     try:
         rows = con.execute(
-            """
-            SELECT
-                game_code,
-                event_name,
-                season,
-                start_date,
-                end_date,
-                rounds_scheduled
+            f"""
+            SELECT {_DISCOVERY_COLUMNS}
             FROM tournament_master
             WHERE game_code IS NOT NULL
               AND event_name IS NOT NULL
@@ -93,24 +116,48 @@ def discover_tournament(
             "ambiguous active tournaments: " + ",".join(codes)
         )
 
-    row = candidates[0]
+    return _row_to_discovered(candidates[0])
 
-    rounds = row["rounds_scheduled"]
-    if rounds is not None:
-        rounds = int(rounds)
-        if rounds < 2:
-            raise TournamentDiscoveryBlocked(
-                "invalid rounds_scheduled"
-            )
 
-    return DiscoveredTournament(
-        game_code=str(row["game_code"]),
-        tournament_name=str(row["event_name"]),
-        season=int(row["season"]),
-        start_date=str(row["start_date"]),
-        end_date=str(row["end_date"]),
-        rounds_scheduled=rounds,
-    )
+def discover_tournament_by_game_code(
+    db_path: Path,
+    game_code: str,
+) -> DiscoveredTournament:
+    """Identity lookup for an EXPLICITLY named game_code, independent of
+    today's date -- unlike discover_tournament() (which answers "what's
+    active right now"), this answers "what does tournament_master say
+    about this specific game_code", so an operator can bootstrap a
+    tournament's lifecycle before its start_date window opens. Never
+    infers or guesses a row that isn't there."""
+    if not db_path.exists():
+        raise TournamentDiscoveryBlocked(
+            f"database missing: {db_path}"
+        )
+
+    con = sqlite3.connect(db_path)
+    con.row_factory = sqlite3.Row
+
+    try:
+        row = con.execute(
+            f"""
+            SELECT {_DISCOVERY_COLUMNS}
+            FROM tournament_master
+            WHERE game_code = ?
+              AND event_name IS NOT NULL
+              AND start_date IS NOT NULL
+              AND end_date IS NOT NULL
+            """,
+            (game_code,),
+        ).fetchone()
+    finally:
+        con.close()
+
+    if row is None:
+        raise TournamentDiscoveryBlocked(
+            f"no tournament_master record for game_code={game_code!r}"
+        )
+
+    return _row_to_discovered(row)
 
 
 def build_validated_config(
