@@ -223,10 +223,15 @@ def test_report_hard_gate_blocked_when_no_archive_evidence_exists():
 
 
 def test_report_hard_gate_partial_evidence_when_some_verified():
-    sg_records = [_sg_row("P1", "G1", 1)]
+    # P1 verified, P2 unverified (no matching official row) -- a genuinely
+    # partial population, so the gate must distinguish this from a fully
+    # VERIFIED population (see test_round_count_mismatch_diagnostic.py's
+    # gate tests for the BLOCKED_ROUND_COUNT_SEMANTICS / VERIFIED split).
+    sg_records = [_sg_row("P1", "G1", 1), _sg_row("P2", "G1", 1)]
     events = {"G1": _archive_event({1: [_official_row("P1", 1, [70, None, None, None])]}, max_round=1)}
     report = _build_fixture_report(sg_records, events)
     assert report["round_count_state"]["verified"] == 1
+    assert report["round_count_state"]["unverified"] == 1
     assert report["hard_gate"]["status"] == "PARTIAL_EVIDENCE"
 
 
