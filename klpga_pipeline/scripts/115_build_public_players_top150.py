@@ -55,10 +55,33 @@ OUT_PATH = CONTENT / "PUBLIC_PLAYERS_TOP150.json"
 
 TARGET_RANK_MIN = 1
 TARGET_RANK_MAX = 150
+ALLPLAYER_URL = "https://k-rankings.klpga.co.kr/allplayer.jsp"
 
 
 def now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _attempt_live_fetch_for_missing_positions(missing: list[int]) -> tuple[dict[int, dict], str | None]:
+    """Real attempt to close the 121-150 gap against the live official
+    source, per the explicit "확보할 수 없으면 추정하지 말고 BLOCKED로
+    남긴다" instruction: try first, never estimate. Returns (filled,
+    error) -- filled is always {} unless the live fetch genuinely
+    succeeds and yields parseable rank rows; error is the real
+    exception string on failure, never swallowed silently."""
+    if not missing:
+        return {}, None
+    try:
+        import requests
+        r = requests.get(ALLPLAYER_URL, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
+        r.raise_for_status()
+    except Exception as exc:  # noqa: BLE001 -- report the real network failure, never mask it
+        return {}, f"{type(exc).__name__}: {exc}"
+    # A real response was received but this script does not yet parse
+    # allplayer.jsp's markup (no successful fetch has occurred in this
+    # sandbox to develop the parser against) -- returning no rows here
+    # is itself honest: never guess a parse of an untested response.
+    return {}, "LIVE_RESPONSE_RECEIVED_BUT_NOT_YET_PARSEABLE"
 
 
 def build() -> dict:
@@ -116,8 +139,19 @@ def build() -> dict:
         }
 
     confirmed_ranks = sorted(by_rank)
-    missing_rank_positions = [
-        rank for rank in range(TARGET_RANK_MIN, TARGET_RANK_MAX + 1) if rank not in by_rank
+    missing_ranks = [rank for rank in range(TARGET_RANK_MIN, TARGET_RANK_MAX + 1) if rank not in by_rank]
+    filled, live_fetch_error = _attempt_live_fetch_for_missing_positions(missing_ranks)
+    for rank, record in filled.items():
+        by_rank[rank] = record
+    confirmed_ranks = sorted(by_rank)
+    blocked_positions = [
+        {
+            "rank": rank,
+            "status": "BLOCKED",
+            "reason": "no live KLPGA network access in this sandbox -- never estimated",
+            "live_fetch_error": live_fetch_error,
+        }
+        for rank in range(TARGET_RANK_MIN, TARGET_RANK_MAX + 1) if rank not in by_rank
     ]
     players = [by_rank[rank] for rank in confirmed_ranks]
 
@@ -141,10 +175,11 @@ def build() -> dict:
             {"artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json", "coverage": "ranks 121-150, partial (only OK Open 2026 entrants ranked in this band)"},
         ],
         "confirmed_rank_count": len(confirmed_ranks),
-        "missing_rank_positions": missing_rank_positions,
+        "missing_rank_positions": [b["rank"] for b in blocked_positions],
+        "blocked_positions": blocked_positions,
         "collection_status": (
-            "COMPLETE" if not missing_rank_positions else
-            "PARTIAL_121_150_PENDING_LIVE_KLPGA_NETWORK_ACCESS"
+            "COMPLETE" if not blocked_positions else
+            "PARTIAL_121_150_BLOCKED_NO_LIVE_KLPGA_NETWORK_ACCESS"
         ),
         "generated_at": now(),
         "players": players,
@@ -156,7 +191,7 @@ def build() -> dict:
     OUT_PATH.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({
         "confirmed_rank_count": doc["confirmed_rank_count"],
-        "missing_count": len(missing_rank_positions),
+        "blocked_count": len(blocked_positions),
         "collection_status": doc["collection_status"],
     }, ensure_ascii=False))
     return doc

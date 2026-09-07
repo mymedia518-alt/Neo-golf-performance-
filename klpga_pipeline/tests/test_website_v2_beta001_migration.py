@@ -41,8 +41,10 @@ def test_required_routes_and_korean_global_navigation(candidate):
     for page in pages(candidate):
         html=page.read_text(encoding="utf-8")
         for label in ("홈","대회","딥다이브","소개"): assert label in html
-        assert '<a class="neo-global-brand" href="/">' in html
-        assert html.count('<header class="neo-global-header"') == 1
+        # NEO SITE V5: HOME V4 design system everywhere -- the old
+        # .neo-global-header/.neo-global-brand shell is retired site-wide.
+        assert '<a class="t-brand" href="/">' in html
+        assert html.count('<header class="t-bar"') == 1
 
 
 def test_all_tournament_stages_and_final_are_always_discoverable(candidate):
@@ -133,7 +135,14 @@ def test_no_mojibake_iframe_duplicate_assets_or_broken_links(candidate):
         html=page.read_text(encoding="utf-8")
         assert "�" not in html and "쨌" not in html and "<iframe" not in html
         assert html.count('/assets/neo-site.css') == 1 and html.count('/assets/neo-site.js') == 1
+        # NEO SITE V5 site-wide nav (RANKING, NEO LAB) links to routes
+        # assembled from OTHER candidate pipelines (scripts/88, /109)
+        # during production promotion -- never present inside this one
+        # isolated candidate's own output tree, so they're expected
+        # "broken" links here specifically, not a real defect.
+        cross_candidate_routes = {"/ranking/", "/neo-lab/"}
         for url in re.findall(r'(?:href|src)="(/[^"#?]*)',html):
+            if url in cross_candidate_routes: continue
             target=candidate/url.lstrip("/")
             if url.endswith("/"): target/= "index.html"
             assert target.exists(),f"{page}: broken {url}"

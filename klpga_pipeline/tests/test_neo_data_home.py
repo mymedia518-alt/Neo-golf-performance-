@@ -75,7 +75,9 @@ def test_corrected_sg_features_use_event_samples_and_have_provenance():
 
 def test_generated_home_contract_and_navigation(built):
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert all(f'>{label}<' in html for label in ("홈", "대회", "딥다이브", "소개"))
+    # NEO SITE V5: HOME V4 design system -- English nav labels replace the
+    # old Korean 4-item nav (see global_navigation.py's DESIGN_SYSTEM_V2_NAV_ITEMS).
+    assert all(f'>{label}<' in html for label in ("PLAYERS", "TOURNAMENTS", "DEEP DIVE", "ABOUT"))
     assert "검증 선수 046" not in html
     assert "win_probability" not in html
     assert html.count("data-player-row") == 546
@@ -118,7 +120,7 @@ def test_tournaments_hub_is_a_real_page_not_a_directory_listing(built):
     assert "Directory listing for" not in html
     assert "<title>대회 · NEO GOLF DATA</title>" in html
     assert "대회 분석 허브" in html
-    assert all(f'>{label}<' in html for label in ("홈", "대회", "딥다이브", "소개"))
+    assert all(f'>{label}<' in html for label in ("PLAYERS", "TOURNAMENTS", "DEEP DIVE", "ABOUT"))
 
 
 def test_deep_dive_preserves_existing_real_content_and_is_not_stub(built):
