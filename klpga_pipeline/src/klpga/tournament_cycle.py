@@ -42,6 +42,7 @@ class CycleRequest:
     current_round_number: int
     validated_stage: str
     model_ready: bool = False
+    live: bool = False
 
     def __post_init__(self):
         if not self.game_code.strip():
@@ -121,6 +122,7 @@ def run_tournament_cycle(
         game_code=request.game_code,
         final_round_number=request.final_round_number,
         current_round_number=request.current_round_number,
+        live=request.live,
     )
 
     action_result = registry.execute(

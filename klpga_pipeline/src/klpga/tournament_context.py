@@ -164,7 +164,7 @@ def resolve_context(identity: dict, registry: dict) -> TournamentContext:
     )
 
 
-def ensure_site_registry_entry(identity: dict) -> None:
+def ensure_site_registry_entry(identity: dict, *, dry_run: bool = False) -> dict:
     """PRE BOOTSTRAP (NEO TOURNAMENT PIPELINE Phase 4): runtime data
     generation, not a source edit. resolve_context() hard-requires a
     TOURNAMENT_SITE_REGISTRY.json entry (url_base/stage_state_filename/
@@ -183,6 +183,12 @@ def ensure_site_registry_entry(identity: dict) -> None:
     final_round_number. No `artifacts` mapping is written, so every
     artifact_type falls back to TournamentContext.artifact_path()'s
     generic `<game_code>_<ARTIFACT_TYPE>.<ext>` naming.
+
+    Returns the full {game_code: entry} tournaments mapping -- callers
+    should build their TournamentContext from THIS return value, not a
+    separate re-read of SITE_REGISTRY_PATH, so dry_run=True (Phase 5
+    item 12, DRY-RUN IMMUTABILITY) can preview a brand-new game_code's
+    context without ever writing the registry file.
     """
     game_code = str(identity["game_code"])
     if SITE_REGISTRY_PATH.is_file():
@@ -190,16 +196,17 @@ def ensure_site_registry_entry(identity: dict) -> None:
     else:
         raw = {"schema_version": 1, "tournaments": {}}
     tournaments = raw.setdefault("tournaments", {})
-    if game_code in tournaments:
-        return
-    final_round_number = int(identity["final_round_number"])
-    tournaments[game_code] = {
-        "url_base": f"/tournaments/{identity['season']}/{game_code}/",
-        "stage_state_filename": f"{game_code}_STAGE_STATE.json",
-        "stage_order": ["pre", *[f"r{n}" for n in range(1, final_round_number + 1)], "final"],
-    }
-    SITE_REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
-    SITE_REGISTRY_PATH.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if game_code not in tournaments:
+        final_round_number = int(identity["final_round_number"])
+        tournaments[game_code] = {
+            "url_base": f"/tournaments/{identity['season']}/{game_code}/",
+            "stage_state_filename": f"{game_code}_STAGE_STATE.json",
+            "stage_order": ["pre", *[f"r{n}" for n in range(1, final_round_number + 1)], "final"],
+        }
+        if not dry_run:
+            SITE_REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
+            SITE_REGISTRY_PATH.write_text(json.dumps(raw, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return tournaments
 
 
 def load_active_tournament_context() -> TournamentContext:

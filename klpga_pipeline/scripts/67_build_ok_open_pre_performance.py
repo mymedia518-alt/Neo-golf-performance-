@@ -24,7 +24,22 @@ CUT_DATE = date.fromisoformat(_CONTEXT.start_date)
 CUTOFF = f"{_CONTEXT.start_date}T00:00:00+09:00"
 DB = ROOT / "data" / "klpga.sqlite"
 WH=ROOT/"content/website_v2/historical_sg_warehouse.json"
+# historical_sg_warehouse.json's tournament_cumulative rows carry no
+# per-record event date (scripts 77/78 never wrote one -- "retrieved_at"
+# is the scrape timestamp, not the event date). The only real,
+# evidence-based per-game_code date available is
+# TOURNAMENT_K_WEEK_MAPPING_V1.json's start_date, sourced from the
+# official tournament_master table (see scripts/92). A game_code absent
+# from that mapping has no verified date and must be excluded, not
+# assumed safe.
+K_WEEK_MAPPING = ROOT / "content/website_v2/TOURNAMENT_K_WEEK_MAPPING_V1.json"
 COMPONENTS=("total","tee_to_green","off_the_tee","approach","around_green","putting")
+
+def _verified_event_dates() -> dict:
+    if not K_WEEK_MAPPING.exists():
+        return {}
+    mapping = json.loads(K_WEEK_MAPPING.read_text(encoding="utf-8"))
+    return {r["game_code"]: r["start_date"] for r in mapping.get("records", []) if r.get("start_date")}
 
 def stat(vals):
     vals=[float(v) for v in vals if v is not None]
@@ -47,13 +62,22 @@ def main():
     duplicates = entry_payload.get("duplicate_player_ids", [])
     unresolved = entry_payload.get("unresolved_player_ids", [e["player_id"] for e in entries if not e.get("identity_match")])
     source_url = entry_payload.get("source_url", f"https://klpga.co.kr/web/tourInfo/entry?gameCode={GAME}")
-    warehouse=json.loads(WH.read_text(encoding="utf-8")); rows=[r for r in warehouse["records"] if r.get("scope")=="tournament_cumulative" and (r.get("date") is None or r.get("date")<CUT_DATE.isoformat())]
+    # PRE LEAKAGE (Phase 5 item 5): every performance input must have a
+    # real event_date strictly before the tournament's own cutoff --
+    # never both "unknown date" AND "before cutoff" as if either were
+    # equally safe. Warehouse rows carry no per-record date field of
+    # their own (see _verified_event_dates docstring above), so the
+    # event date is resolved from the verified per-game_code mapping; a
+    # game_code absent from that mapping has no verified date and is
+    # excluded, never assumed to be safely in the past.
+    event_dates = _verified_event_dates()
+    warehouse=json.loads(WH.read_text(encoding="utf-8")); rows=[r for r in warehouse["records"] if r.get("scope")=="tournament_cumulative" and event_dates.get(str(r.get("game_code"))) is not None and event_dates[str(r.get("game_code"))]<CUT_DATE.isoformat()]
     by= {}
     for r in rows: by.setdefault(str(r.get("player_id")),[]).append(r)
     profiles=[]
     for e in entries:
         rs=sorted(by.get(e["player_id"],[]),key=lambda r:(r.get("date") or "",r.get("game_code") or ""))
-        wins={"current":rs[-1:] ,"recent3":rs[-3:],"recent5":rs[-5:],"recent10":rs[-10:],"season2026":[r for r in rs if r.get("season")==2026],"multi_season":rs}
+        wins={"current":rs[-1:] ,"recent3":rs[-3:],"recent5":rs[-5:],"recent10":rs[-10:],"season2026":[r for r in rs if r.get("season")==_CONTEXT.season],"multi_season":rs}
         window_stats={name:{"event_count":len(v),"round_count":sum(int(r.get("rounds") or 0) for r in v),"components":{c:stat([r.get(c) for r in v]) for c in COMPONENTS}} for name,v in wins.items()}
         season=window_stats["season2026"]["components"]; r5=window_stats["recent5"]["components"]; r10=window_stats["recent10"]["components"]
         directions={c:{"recent3_vs_season":classify_direction(window_stats["recent3"]["components"][c]["mean"],season[c]["mean"]),"recent5_vs_season":classify_direction(r5[c]["mean"],season[c]["mean"]),"recent10_vs_season":classify_direction(r10[c]["mean"],season[c]["mean"])} for c in COMPONENTS}

@@ -36,6 +36,7 @@ from klpga.tournament_discovery import (
     refresh_active_config,
 )
 from klpga.tournament_engine import RoundFacts, TournamentFacts
+from klpga.tournament_pre_state import build_pre_state_contract
 from klpga.tournament_runtime import CutValidation, NON_CUT_STATUSES, resolve_runtime_stage, TournamentConfig
 
 
@@ -124,6 +125,7 @@ def resolve_or_bootstrap_lifecycle(
     final_round_number: int | None = None,
     cut_after_round: int = 2,
     as_of: date | None = None,
+    dry_run: bool = False,
 ) -> dict[str, Any]:
     """The generic DISCOVERY entry point run_tournament.py calls before
     anything else, fixing the exact gap QA found ("does not perform/
@@ -143,6 +145,14 @@ def resolve_or_bootstrap_lifecycle(
       start before the tournament's window opens) and bootstrap a fresh
       lifecycle record. NEVER requires a human to hand-edit
       active_tournament.json first.
+
+    dry_run=True (Phase 5 item 12, DRY-RUN IMMUTABILITY): resolves and
+    returns the SAME payload a real run would, but never writes
+    active_tournament.json -- neither the refresh path nor the
+    first-bootstrap path persists anything. A caller previewing a
+    brand-new game_code with --dry-run gets back the in-memory
+    bootstrapped payload to build a TournamentContext from, without
+    ever touching disk.
     """
     as_of = as_of or date.today()
 
@@ -155,7 +165,7 @@ def resolve_or_bootstrap_lifecycle(
 
     if existing is not None and (game_code is None or str(game_code) == existing_game_code):
         try:
-            return refresh_active_config(db_path=db_path, config_path=config_path, as_of=as_of)
+            return refresh_active_config(db_path=db_path, config_path=config_path, as_of=as_of, persist=not dry_run)
         except TournamentDiscoveryBlocked:
             # tournament_master doesn't (or can't, e.g. no DB in this
             # environment) confirm this tournament as active today --
@@ -173,7 +183,8 @@ def resolve_or_bootstrap_lifecycle(
     payload = bootstrap_lifecycle_state(
         discovered, final_round_number=final_round_number, cut_after_round=cut_after_round
     )
-    write_lifecycle_state(payload, config_path)
+    if not dry_run:
+        write_lifecycle_state(payload, config_path)
     return payload
 
 
@@ -224,14 +235,30 @@ def infer_round_facts(context: TournamentContext, round_number: int) -> RoundFac
 
 
 def infer_cut_validated(context: TournamentContext) -> bool:
-    """A cut is treated as validated once the post-cut finalist-field
-    recovery artifact exists -- script 100's real chain only writes
-    post_r2_input after asserting the confirmed field size, so its
-    presence is the real cut-confirmation fact, not a guess. Generic:
-    the artifact_type name is not tied to any one tournament, and a
+    """CUT CONTRACT (Phase 5 item 8): a cut is treated as validated only
+    once the post-cut finalist-field recovery artifact both exists AND
+    carries real cut-evidence provenance -- `cut_evidence_source` and a
+    strictly-smaller `advancing_field_size` than `pre_field_size` (proof
+    it was actually filtered against official R2 CUT/WD/DQ/DNS status,
+    per script 100's own contract, not a copy of the full PRE field
+    relabeled). Existence alone is never sufficient. Generic: the
+    artifact_type name is not tied to any one tournament, and a
     tournament with no registry mapping still resolves it via
     TournamentContext.artifact_path()'s generic fallback."""
-    return context.artifact_path("post_r2_input").exists()
+    path = context.artifact_path("post_r2_input")
+    if not path.is_file():
+        return False
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    if not payload.get("cut_evidence_source"):
+        return False
+    advancing = payload.get("advancing_field_size")
+    pre_size = payload.get("pre_field_size")
+    if advancing is None or pre_size is None:
+        return False
+    return 0 < int(advancing) <= int(pre_size)
 
 
 def infer_post_evaluated(context: TournamentContext) -> bool:
@@ -242,8 +269,18 @@ def infer_post_evaluated(context: TournamentContext) -> bool:
 
 
 def infer_tournament_facts(context: TournamentContext) -> TournamentFacts:
-    entry_validated = context.artifact_path("entry_snapshot").exists()
-    pre_validated = context.artifact_path("pre_win_forecast").exists()
+    """PRE STATE CONTRACT (Phase 5 item 3): entry_validated/pre_validated
+    are never raw artifact existence -- see klpga.tournament_pre_state
+    for the explicit ENTRY_VALIDATED/PRE_INPUTS_VALIDATED/
+    PRE_FEATURES_FROZEN/PRE_MODEL_VALIDATED checks each of these
+    booleans is actually built from. Read-only (freeze_if_ready=False):
+    this function is called from dry-run previews too and must never
+    have the side effect of freezing a new immutable feature archive --
+    that only happens explicitly during a real PREPARE_PRE run (see
+    run_tournament.py)."""
+    contract = build_pre_state_contract(context, freeze_if_ready=False)
+    entry_validated = contract.entry_validated.valid
+    pre_validated = contract.pre_ready
     rounds = [
         facts
         for n in range(1, context.final_round_number + 1)

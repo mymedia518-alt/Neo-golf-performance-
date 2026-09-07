@@ -15,13 +15,34 @@ CUTOFF = f"{_CONTEXT.start_date}T00:00:00+09:00"
 # artifact (built by scripts 77/78) -- deliberately NOT routed through
 # TournamentContext.artifact_path(), which is per-tournament.
 WH=C/"historical_sg_warehouse_corrected_v2.json"
+# historical_sg_warehouse_corrected_v2.json's tournament_cumulative rows
+# carry no per-record event date (scripts 77/78 never wrote one --
+# "retrieved_at" is the scrape timestamp, not the event date). The only
+# real, evidence-based per-game_code date available is
+# TOURNAMENT_K_WEEK_MAPPING_V1.json's start_date, sourced from the
+# official tournament_master table (see scripts/92). A game_code absent
+# from that mapping has no verified date and must be excluded, not
+# assumed safe.
+K_WEEK_MAPPING = C/"TOURNAMENT_K_WEEK_MAPPING_V1.json"
 ENTRY=_CONTEXT.artifact_path("entry_snapshot")
 OUT=_CONTEXT.artifact_path("pre_sg_total_rank_corrected_v2")
 
+def _verified_event_dates() -> dict:
+    if not K_WEEK_MAPPING.exists():
+        return {}
+    mapping = json.loads(K_WEEK_MAPPING.read_text(encoding="utf-8"))
+    return {r["game_code"]: r["start_date"] for r in mapping.get("records", []) if r.get("start_date")}
+
 def main():
     w=json.loads(WH.read_text(encoding="utf-8")); entries=json.loads(ENTRY.read_text(encoding="utf-8"))["entries"]; by={}
+    # PRE LEAKAGE (Phase 5 item 5): exclude unknown-date rows and any
+    # row on/after this tournament's own cutoff -- the shared warehouse
+    # accumulates every historical tournament over time, independent of
+    # any one tournament's cutoff, so game_code exclusion alone does
+    # not prevent a later-added future event from leaking in.
+    event_dates = _verified_event_dates()
     for r in w["records"]:
-        if r.get("scope")=="tournament_cumulative" and r.get("player_id") and str(r.get("game_code"))!=GAME_CODE: by.setdefault(str(r["player_id"]),[]).append(r)
+        if r.get("scope")=="tournament_cumulative" and r.get("player_id") and str(r.get("game_code"))!=GAME_CODE and event_dates.get(str(r.get("game_code"))) is not None and event_dates[str(r.get("game_code"))]<_CONTEXT.start_date: by.setdefault(str(r["player_id"]),[]).append(r)
     rec=[]
     for e in entries:
         rs=sorted(by.get(str(e["player_id"]),[]),key=lambda r:(str(r.get("game_code") or "")))

@@ -1,10 +1,19 @@
 $ErrorActionPreference = 'Stop'
 $TaskName = 'NEO-GOLF-R1-ACTIVE-30MIN'
-$Repo = 'C:\Users\user\Desktop\Neo-golf-performance-live'
-$LogDir = 'C:\Users\user\Desktop\Neo-golf-performance-live-logs'
+# DYNAMIC REPO/LOG/PYTHON PATHS (Phase 5 item 1): never hardcode one
+# operator machine's folder layout or Python install -- this script's
+# own location IS the repo checkout to operate on, the log directory is
+# a sibling "-logs" folder next to it (same convention the old
+# hardcoded paths used, just derived instead of pinned), and the Python
+# interpreter is whatever "python"/"py" already resolves to on PATH.
+$Repo = $PSScriptRoot
+$LogDir = Join-Path (Split-Path $Repo -Parent) ((Split-Path $Repo -Leaf) + '-logs')
 $Lock = Join-Path $LogDir 'r1-active-cycle.lock'
 $InternalLock = Join-Path $Repo 'klpga_pipeline\content\website_v2\.r1_active_cycle.lock'
-$Python = 'C:\Python313\python.exe'
+$pythonCmd = Get-Command python -ErrorAction SilentlyContinue
+if (-not $pythonCmd) { $pythonCmd = Get-Command py -ErrorAction SilentlyContinue }
+if (-not $pythonCmd) { Write-Output 'HARD_STOP: no python/py interpreter found on PATH'; exit 2 }
+$Python = $pythonCmd.Source
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $log = Join-Path $LogDir "$stamp.log"
@@ -87,7 +96,15 @@ try {
   # tournament moves past R1, with no change to this wrapper or its
   # schedule. --git-push mirrors script 96's own opt-in commit+push
   # behavior generically for whichever action actually ran.
-  $cycleOutput = & $Python 'klpga_pipeline\scripts\run_tournament.py' --git-push
+  #
+  # --live (Phase 5 item 1/7 fix): without this flag run_tournament.py
+  # never makes a real official-data HTTP call for ANY stage (matching
+  # every dispatched script's own "safe by default" convention) -- this
+  # 30-minute scheduled cycle IS the real collection path, so it must
+  # opt in explicitly. Its prior omission here was the actual
+  # regression: this wrapper looked like the canonical live path but
+  # could never really go live through it.
+  $cycleOutput = & $Python 'klpga_pipeline\scripts\run_tournament.py' --live --git-push
   $cycleExit = $LASTEXITCODE
   $cycleOutput | ForEach-Object { Write-Output $_ }
   if ($cycleExit -ne 0) { exit $cycleExit }

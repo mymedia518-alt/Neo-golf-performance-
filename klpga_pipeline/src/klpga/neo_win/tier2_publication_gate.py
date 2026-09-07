@@ -68,14 +68,55 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
         profile_audit = json.loads(profile_audit_path.read_text(encoding="utf-8")); pa = profile_audit.get("records", [])
         sponsor_ok = len(pa) == expected_count and all(r.get("parse_state") in {"PASS", "ACCESS_FAILURE"} and r.get("team_state") in {"PARSED", "OFFICIAL_BLANK", "ACCESS_FAILURE"} for r in pa)
         domains.append(_result("TEAM_SPONSOR", "PASS" if sponsor_ok else "BLOCK", ["T2-TEAM-001"], "official nulls or explicitly unavailable profiles preserved as null" if sponsor_ok else "unclassified sponsor null", ["current_official_sponsor"], current_path))
-        rank = json.loads(rank_path.read_text(encoding="utf-8")); rr = rank.get("records", rank.get("players", [])); rank_ok = len(rr) == expected_count and all(r.get("validation_state") in {"PASS", "UNAVAILABLE"} and (r.get("official_rank") is not None or r.get("validation_state") == "UNAVAILABLE") for r in rr)
-        domains.append(_result("K_RANKING", "PASS" if rank_ok else "BLOCK", ["T2-RANK-001"], "same-week official ranking snapshot validated" if rank_ok else "ranking evidence incomplete", ["official_klpga_rank"], rank_path))
+        rank = json.loads(rank_path.read_text(encoding="utf-8")); rr = rank.get("records", rank.get("players", []))
+        # K-RANK WEEK (Phase 5 item 4): a population entirely UNAVAILABLE
+        # (zero real PASS rows) must never PASS -- that reads as "the
+        # fetch technically completed" but confirms nothing about any
+        # player's actual official rank. UNAVAILABLE per row is only
+        # tolerated for INDIVIDUAL gaps in an otherwise-real population.
+        available_count = sum(1 for r in rr if r.get("validation_state") == "PASS")
+        rank_ok = (
+            len(rr) == expected_count
+            and available_count > 0
+            and all(r.get("validation_state") in {"PASS", "UNAVAILABLE"} and (r.get("official_rank") is not None or r.get("validation_state") == "UNAVAILABLE") for r in rr)
+        )
+        rank_reason = (
+            "same-week official ranking snapshot validated" if rank_ok
+            else "every K-Ranking row is UNAVAILABLE -- the requested ranking week may be wrong, ambiguous, or not yet published; refusing to treat an entirely-unconfirmed population as validated" if len(rr) == expected_count and available_count == 0
+            else "ranking evidence incomplete"
+        )
+        domains.append(_result("K_RANKING", "PASS" if rank_ok else "BLOCK", ["T2-RANK-001"], rank_reason, ["official_klpga_rank"], rank_path))
         win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]; win_ok = len(wr) == expected_count and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
         domains.append(_result("WIN_PROBABILITY", "PASS" if win_ok else "BLOCK", ["T2-WIN-001"], f"{expected_count} pre-cutoff WIN probabilities validated" if win_ok else "forecast coverage/range failure", ["win_probability"], win_path))
-        sg_audit = json.loads(sg_audit_path.read_text(encoding="utf-8")); arithmetic = sg_audit.get("arithmetic_validation", {}); acceptance = json.loads(sg_acceptance_path.read_text(encoding="utf-8")) if sg_acceptance_path.exists() else {}; accepted = sg_accepted if sg_accepted is not None else bool(sg_audit.get("claude_acceptance") or sg_audit.get("acceptance_state") == "ACCEPTED" or acceptance.get("state") == "ACCEPTED")
-        sg_evidence_path = sg_acceptance_path if acceptance.get("state") == "ACCEPTED" else sg_audit_path
+        sg_audit = json.loads(sg_audit_path.read_text(encoding="utf-8")); arithmetic = sg_audit.get("arithmetic_validation", {}); acceptance = json.loads(sg_acceptance_path.read_text(encoding="utf-8")) if sg_acceptance_path.exists() else {}
+        # SG SIGN-OFF (Phase 5 item 6): {"state": "ACCEPTED"} alone is
+        # never sufficient -- validate the acceptance actually names
+        # (a) the reviewer/signer, (b) when it was signed, and (c) the
+        # EXACT upstream artifact it certifies, by re-hashing that
+        # artifact right now and requiring an exact match. A stale
+        # acceptance (the warehouse content changed since sign-off) or
+        # an incomplete one (missing reviewer/timestamp/hash) fails
+        # closed here -- it is never silently accepted.
+        acceptance_valid = False
+        if acceptance.get("state") == "ACCEPTED":
+            reviewer = acceptance.get("accepted_by")
+            signed_at = acceptance.get("accepted_at")
+            claimed_hash = acceptance.get("warehouse_sha256")
+            certified_name = acceptance.get("warehouse")
+            certified_path = (sg_path.parent / certified_name) if certified_name else sg_path
+            actual_hash = _hash(certified_path) if certified_path.exists() else None
+            acceptance_valid = bool(
+                reviewer and signed_at and claimed_hash and actual_hash
+                and claimed_hash == actual_hash
+            )
+        accepted = sg_accepted if sg_accepted is not None else acceptance_valid
+        sg_evidence_path = sg_acceptance_path if acceptance_valid else sg_audit_path
         sg_ok = arithmetic.get("exceptions") == 0 and accepted
-        domains.append(_result("SG_DERIVED", "PASS" if sg_ok else "BLOCK", ["T2-SG-001", "T2-SG-002"], "corrected SG evidence validated and independently accepted" if sg_ok else "corrected SG arithmetic passes but independent rank/band acceptance is pending", ["sg_total_rank", "neo_performance_band", "band_statistics"], sg_evidence_path))
+        if acceptance and not acceptance_valid and sg_accepted is None:
+            reason = "corrected SG arithmetic passes but the independent acceptance is incomplete or stale (missing reviewer/timestamp, or its recorded warehouse_sha256 no longer matches the actual warehouse content)"
+        else:
+            reason = "corrected SG evidence validated and independently accepted" if sg_ok else "corrected SG arithmetic passes but independent rank/band acceptance is pending"
+        domains.append(_result("SG_DERIVED", "PASS" if sg_ok else "BLOCK", ["T2-SG-001", "T2-SG-002"], reason, ["sg_total_rank", "neo_performance_band", "band_statistics"], sg_evidence_path))
     overall = "HARD_STOP" if any(d["state"] == "HARD_STOP" for d in domains) else "BLOCK" if any(d["state"] == "BLOCK" for d in domains) else "WARN" if any(d["state"] == "WARN" for d in domains) else "PASS"
     return {"schema_version": "neo_tier2_field_domain_publication_gate_v1", "generated_at": now, "overall_state": overall, "domains": domains, "publication_allowed": overall in {"PASS", "WARN"}, "fail_closed_unknown": True}
 

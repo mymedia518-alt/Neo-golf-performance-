@@ -4,6 +4,22 @@
 
 $ErrorActionPreference = 'Stop'
 
+# RETIRED (Phase 5 item 1): this script drives its own separate,
+# parallel tournament-runtime implementation
+# (klpga_pipeline\scripts\neo_tournament_runtime.py) with its own
+# state-machine vocabulary -- it was never registered by
+# NEO-GOLF-R1-INSTALL-SCHEDULE.ps1 and is not the canonical path. The
+# ONE registered/scheduled operator entry point is
+# NEO-GOLF-R1-ACTIVE-30MIN.ps1 -> klpga_pipeline\scripts\run_tournament.py
+# (the src\klpga tournament_engine/tournament_operator/
+# tournament_lifecycle chain). Running this script instead of, or
+# interleaved with, that path risks the two engines reaching different
+# conclusions about the same tournament from the same data. Kept only
+# for historical reference; refuses to run.
+Write-Output "RETIRED: use NEO-GOLF-R1-ACTIVE-30MIN.ps1 (run_tournament.py) instead -- see comment near the top of this file."
+exit 2
+
+
 $Repo = $PSScriptRoot
 $Python = 'python'
 

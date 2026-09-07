@@ -1,12 +1,12 @@
 {
   "schema_version": "neo_sg_row_retention_diff_v2",
-  "generated_at": "2026-08-31T22:25:20Z",
+  "generated_at": "2026-09-07T22:47:08Z",
   "profiles": [
     {
       "player_id": "9174",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -93,9 +93,9 @@
     },
     {
       "player_id": "11446",
-      "old_band": "VERY_LOW",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -196,7 +196,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.7919999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.9587755102040816,
+          "baseline_value": -1.978125,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -248,8 +248,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.3864230840432343,
-          "population_sd_research": 2.36194630281034,
+          "sample_sd": 2.407789359778764,
+          "population_sd_research": 2.3825762109619215,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -285,7 +285,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.894,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.3322340425531915,
+          "baseline_value": 0.512972972972973,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -337,8 +337,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.135068760321728,
-          "population_sd_research": 2.1236816457412173,
+          "sample_sd": 2.0702297733169686,
+          "population_sd_research": 2.0561941553936354,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -360,9 +360,9 @@
     },
     {
       "player_id": "10109",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -374,7 +374,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.18599999999999994,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.19476190476190475,
+          "baseline_value": 0.401875,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -426,8 +426,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.9542129196683604,
-          "population_sd_research": 1.942545872590962,
+          "sample_sd": 2.033198961211867,
+          "population_sd_research": 2.017252056480548,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -449,9 +449,9 @@
     },
     {
       "player_id": "9436",
-      "old_band": "VERY_LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -641,7 +641,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.744,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.6511111111111112,
+          "baseline_value": -1.1403846153846153,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -693,8 +693,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.4726211912777005,
-          "population_sd_research": 2.4449932717219145,
+          "sample_sd": 2.2756493240729876,
+          "population_sd_research": 2.231457751835076,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -730,7 +730,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.8540000000000001,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1064444444444446,
+          "baseline_value": -1.1296666666666666,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -782,8 +782,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.080135655055781,
-          "population_sd_research": 2.056893186397124,
+          "sample_sd": 2.0315434650961106,
+          "population_sd_research": 1.997397445566494,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -805,9 +805,9 @@
     },
     {
       "player_id": "10002",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -819,7 +819,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.48200000000000004,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.9320212765957446,
+          "baseline_value": 0.8046666666666666,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -871,8 +871,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.749596930409195,
-          "population_sd_research": 1.7402656802468923,
+          "sample_sd": 1.7067214764566006,
+          "population_sd_research": 1.6953051511617476,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -894,9 +894,9 @@
     },
     {
       "player_id": "10097",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -908,7 +908,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.5,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.9802127659574468,
+          "baseline_value": 1.1706666666666667,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -960,8 +960,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.724147274803293,
-          "population_sd_research": 1.7149517571053514,
+          "sample_sd": 1.634212210684264,
+          "population_sd_research": 1.6232809026440522,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -983,9 +983,9 @@
     },
     {
       "player_id": "10725",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -997,7 +997,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.964,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.5421875,
+          "baseline_value": 1.596774193548387,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1049,8 +1049,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7982118974764365,
-          "population_sd_research": 1.7698918299838975,
+          "sample_sd": 1.8007838794939168,
+          "population_sd_research": 1.7715008892530508,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1086,7 +1086,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.84,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.5596039603960395,
+          "baseline_value": 0.7361728395061728,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1138,8 +1138,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0283707357345104,
-          "population_sd_research": 2.0183043175894353,
+          "sample_sd": 2.0054018100503166,
+          "population_sd_research": 1.9929843419882796,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1161,9 +1161,9 @@
     },
     {
       "player_id": "8380",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -1175,7 +1175,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.78,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.7052542372881356,
+          "baseline_value": -0.8123076923076923,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1227,8 +1227,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8790472236566425,
-          "population_sd_research": 1.8630550415663447,
+          "sample_sd": 1.8844884003145417,
+          "population_sd_research": 1.866280355912237,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1250,9 +1250,9 @@
     },
     {
       "player_id": "9807",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -1264,7 +1264,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.023999999999999976,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.10292307692307692,
+          "baseline_value": -0.00630434782608697,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1316,8 +1316,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.7980125512952863,
-          "population_sd_research": 1.7841280767038112,
+          "sample_sd": 1.9715468926095707,
+          "population_sd_research": 1.9499992850563372,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1339,9 +1339,9 @@
     },
     {
       "player_id": "9089",
-      "old_band": "TYPICAL",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -1353,7 +1353,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.392,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.045909090909091,
+          "baseline_value": -1.1389655172413793,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1405,8 +1405,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.6837393575317647,
-          "population_sd_research": 1.664495990030149,
+          "sample_sd": 1.7186235040777469,
+          "population_sd_research": 1.6887321194389395,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1428,9 +1428,9 @@
     },
     {
       "player_id": "8300",
-      "old_band": "VERY_HIGH",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -1442,7 +1442,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.596,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.7421176470588235,
+          "baseline_value": 1.6981159420289855,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1494,8 +1494,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4941481839222666,
-          "population_sd_research": 1.48533307345536,
+          "sample_sd": 1.5292792183039146,
+          "population_sd_research": 1.518157040016496,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1606,9 +1606,9 @@
     },
     {
       "player_id": "9277",
-      "old_band": "VERY_LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -1620,7 +1620,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.46599999999999997,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1361363636363637,
+          "baseline_value": -1.4008,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1672,8 +1672,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7566871780250553,
-          "population_sd_research": 1.7366100937656084,
+          "sample_sd": 1.5160417760294953,
+          "population_sd_research": 1.4854115120060165,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1709,7 +1709,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.188,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.011145833333333336,
+          "baseline_value": -0.18769230769230769,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1761,8 +1761,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5386028315473796,
-          "population_sd_research": 1.5305682970929366,
+          "sample_sd": 1.5305604805480195,
+          "population_sd_research": 1.520717545780081,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1798,7 +1798,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.306,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.4633695652173913,
+          "baseline_value": 0.5005479452054794,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1850,8 +1850,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.5038523989224686,
-          "population_sd_research": 1.4956569569880547,
+          "sample_sd": 1.5596107869263753,
+          "population_sd_research": 1.5488916854256496,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1887,7 +1887,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.482,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.04151162790697674,
+          "baseline_value": -0.10515151515151516,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -1939,8 +1939,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4840330719652883,
-          "population_sd_research": 1.4753797441335825,
+          "sample_sd": 1.5060342650348986,
+          "population_sd_research": 1.4945813667685155,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -1962,9 +1962,9 @@
     },
     {
       "player_id": "8434",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -1976,7 +1976,7 @@
           "metric": "recent5 SG Total mean",
           "value": -7.1259999999999994,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -3.358205128205128,
+          "baseline_value": -4.299565217391304,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2028,8 +2028,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.993292388864838,
-          "population_sd_research": 2.9546676430690715,
+          "sample_sd": 2.760302154509488,
+          "population_sd_research": 2.6996287639484797,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2051,9 +2051,9 @@
     },
     {
       "player_id": "11216",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -2229,9 +2229,9 @@
     },
     {
       "player_id": "8271",
-      "old_band": "VERY_LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -2243,7 +2243,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.74,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1120454545454546,
+          "baseline_value": -1.1262790697674419,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2295,8 +2295,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8121945831472295,
-          "population_sd_research": 1.7914831077089763,
+          "sample_sd": 1.831151112403413,
+          "population_sd_research": 1.8097334035397332,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2319,8 +2319,8 @@
     {
       "player_id": "10178",
       "old_band": "LOW",
-      "corrected_band": "LOW",
-      "changed": false,
+      "corrected_band": "VERY_LOW",
+      "changed": true,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -2332,7 +2332,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.354,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.388695652173913,
+          "baseline_value": -1.8906849315068492,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2384,8 +2384,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.1546975093743357,
-          "population_sd_research": 2.1429552011950515,
+          "sample_sd": 2.0329626224682835,
+          "population_sd_research": 2.0189902051959168,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2407,9 +2407,9 @@
     },
     {
       "player_id": "9113",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -2421,7 +2421,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.3860000000000001,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.333030303030303,
+          "baseline_value": 1.5988607594936708,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2473,8 +2473,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6985302497384136,
-          "population_sd_research": 1.689930041314217,
+          "sample_sd": 1.5366063067363676,
+          "population_sd_research": 1.5268499775779554,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2496,9 +2496,9 @@
     },
     {
       "player_id": "9723",
-      "old_band": "VERY_LOW",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -2510,7 +2510,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.97,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.9561904761904763,
+          "baseline_value": -1.667,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2562,8 +2562,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.2416410867720913,
-          "population_sd_research": 2.187617700105313,
+          "sample_sd": 1.8549226115223358,
+          "population_sd_research": 1.8079549220044178,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2688,7 +2688,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.08999999999999994,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.65,
+          "baseline_value": 0.8108333333333333,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2740,8 +2740,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.9464516837834354,
-          "population_sd_research": 1.9356078574385303,
+          "sample_sd": 1.9025074262778197,
+          "population_sd_research": 1.8892493732814746,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2777,7 +2777,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.17600000000000002,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.3820833333333333,
+          "baseline_value": -1.199814814814815,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2829,8 +2829,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.9471813775047788,
-          "population_sd_research": 1.9336120039822995,
+          "sample_sd": 2.038422892725575,
+          "population_sd_research": 2.01946040715752,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2866,7 +2866,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.988,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.08271739130434783,
+          "baseline_value": -0.10027027027027027,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -2918,8 +2918,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5235420725162747,
-          "population_sd_research": 1.5152393291094814,
+          "sample_sd": 1.4243229326119515,
+          "population_sd_research": 1.414666394608659,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -2955,7 +2955,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.6739999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.191698113207547,
+          "baseline_value": -1.3575,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3007,8 +3007,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7430010987342146,
-          "population_sd_research": 1.7264793884305962,
+          "sample_sd": 1.6879365471587024,
+          "population_sd_research": 1.6702613318480035,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3030,9 +3030,9 @@
     },
     {
       "player_id": "9431",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3044,7 +3044,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.6900000000000001,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.07556701030927837,
+          "baseline_value": -0.04705128205128206,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3096,8 +3096,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.278888603881362,
-          "population_sd_research": 2.2671113229535638,
+          "sample_sd": 2.136219569539622,
+          "population_sd_research": 2.1224816806157922,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3119,9 +3119,9 @@
     },
     {
       "player_id": "9111",
-      "old_band": "VERY_LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3133,7 +3133,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.9299999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.8227777777777778,
+          "baseline_value": -0.7542857142857142,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3185,8 +3185,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.3588200997527464,
-          "population_sd_research": 1.3398146868361043,
+          "sample_sd": 1.4155725747151624,
+          "population_sd_research": 1.38145737892847,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3222,7 +3222,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.46399999999999997,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.6056818181818182,
+          "baseline_value": -0.5237209302325582,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3274,8 +3274,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.439522825746083,
-          "population_sd_research": 2.4116416492121866,
+          "sample_sd": 2.4063161167226377,
+          "population_sd_research": 2.378171100359514,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3297,9 +3297,9 @@
     },
     {
       "player_id": "9130",
-      "old_band": "VERY_HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3311,7 +3311,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.36599999999999994,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.7861111111111112,
+          "baseline_value": 1.787605633802817,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3363,8 +3363,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.3927716239586336,
-          "population_sd_research": 1.3850123901928293,
+          "sample_sd": 1.3983382635815906,
+          "population_sd_research": 1.3884558905374922,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3400,7 +3400,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.056,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.0550666666666666,
+          "baseline_value": 1.1091666666666666,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3452,8 +3452,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.632587378840578,
-          "population_sd_research": 1.6216669393627725,
+          "sample_sd": 1.638094693646284,
+          "population_sd_research": 1.62667926053868,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3489,7 +3489,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.964,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.5062921348314606,
+          "baseline_value": 1.5804054054054053,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3541,8 +3541,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7858690156224122,
-          "population_sd_research": 1.7758077016695601,
+          "sample_sd": 1.6546898390731797,
+          "population_sd_research": 1.643471473526421,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3564,9 +3564,9 @@
     },
     {
       "player_id": "8589",
-      "old_band": "TYPICAL",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3578,7 +3578,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.95,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.0490322580645162,
+          "baseline_value": 1.0256,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3630,8 +3630,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4745913689798424,
-          "population_sd_research": 1.4666420314520454,
+          "sample_sd": 1.4572987228319276,
+          "population_sd_research": 1.4475507958847822,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3654,8 +3654,8 @@
     {
       "player_id": "9981",
       "old_band": "LOW",
-      "corrected_band": "LOW",
-      "changed": false,
+      "corrected_band": "TYPICAL",
+      "changed": true,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3667,7 +3667,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.444,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.3826666666666667,
+          "baseline_value": -1.6042307692307693,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3719,8 +3719,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.015837745995897,
-          "population_sd_research": 1.9933137122780136,
+          "sample_sd": 2.1982523478016316,
+          "population_sd_research": 2.1555637725464756,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3742,9 +3742,9 @@
     },
     {
       "player_id": "9134",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3756,7 +3756,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.512,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.7706122448979592,
+          "baseline_value": 0.8143037974683545,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3808,8 +3808,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.374791317867395,
-          "population_sd_research": 1.367759091097052,
+          "sample_sd": 1.359370785387446,
+          "population_sd_research": 1.3507397725037764,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3831,9 +3831,9 @@
     },
     {
       "player_id": "8881",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -3845,7 +3845,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.334,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.458235294117647,
+          "baseline_value": 1.4367924528301887,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3897,8 +3897,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7785722440745693,
-          "population_sd_research": 1.7654460702580579,
+          "sample_sd": 1.974490950546013,
+          "population_sd_research": 1.9557749741156323,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -3934,7 +3934,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.862,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.2991304347826087,
+          "baseline_value": -0.8557142857142858,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -3986,8 +3986,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.303966763182534,
-          "population_sd_research": 2.253323946767025,
+          "sample_sd": 1.8563420251359162,
+          "population_sd_research": 1.8116043177475685,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4009,9 +4009,9 @@
     },
     {
       "player_id": "10022",
-      "old_band": "HIGH",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -4023,7 +4023,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.462,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.3524137931034483,
+          "baseline_value": -0.5473529411764706,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4075,8 +4075,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.8811834260906712,
-          "population_sd_research": 1.8703407800112173,
+          "sample_sd": 1.9112296718730422,
+          "population_sd_research": 1.8971244630686999,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4187,9 +4187,9 @@
     },
     {
       "player_id": "9135",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -4201,7 +4201,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.37,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.03175675675675676,
+          "baseline_value": 0.005694444444444444,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4253,8 +4253,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5264430478659787,
-          "population_sd_research": 1.5160941621153654,
+          "sample_sd": 1.5261825951607226,
+          "population_sd_research": 1.5155470468052936,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4276,9 +4276,9 @@
     },
     {
       "player_id": "10155",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -4365,9 +4365,9 @@
     },
     {
       "player_id": "4905",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -4379,7 +4379,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.392,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.5306666666666666,
+          "baseline_value": -0.8881666666666667,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4431,8 +4431,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.1515006286206275,
-          "population_sd_research": 2.1371091585493605,
+          "sample_sd": 2.0578510196826785,
+          "population_sd_research": 2.040630206306103,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4468,7 +4468,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.11599999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.19113636363636363,
+          "baseline_value": -0.02375,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4520,8 +4520,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.677342884923955,
-          "population_sd_research": 1.667785297808677,
+          "sample_sd": 1.710885148967559,
+          "population_sd_research": 1.6989624591202714,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4543,9 +4543,9 @@
     },
     {
       "player_id": "11060",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -4646,7 +4646,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.34800000000000003,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.9617391304347827,
+          "baseline_value": -0.3378,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4698,8 +4698,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.528806366021061,
-          "population_sd_research": 2.510414802910409,
+          "sample_sd": 2.14116151007926,
+          "population_sd_research": 2.119641752749742,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4721,9 +4721,9 @@
     },
     {
       "player_id": "10867",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -4824,7 +4824,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.77,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -2.116875,
+          "baseline_value": -1.205,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -4876,8 +4876,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.52388773010876,
-          "population_sd_research": 2.4841389824997715,
+          "sample_sd": 1.9545932524719039,
+          "population_sd_research": 1.9134393118152455,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -4899,9 +4899,9 @@
     },
     {
       "player_id": "11045",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5002,7 +5002,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.018000000000000002,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1346341463414633,
+          "baseline_value": -0.9379487179487179,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5054,8 +5054,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5752160130613446,
-          "population_sd_research": 1.5558874772170566,
+          "sample_sd": 1.31907499385221,
+          "population_sd_research": 1.3020539582485298,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5077,9 +5077,9 @@
     },
     {
       "player_id": "11926",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5166,9 +5166,9 @@
     },
     {
       "player_id": "11066",
-      "old_band": "TYPICAL",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5180,7 +5180,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.424,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.10088235294117649,
+          "baseline_value": -0.27183673469387754,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5232,8 +5232,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0110357732956863,
-          "population_sd_research": 1.99619397803016,
+          "sample_sd": 2.1400327815532285,
+          "population_sd_research": 2.118083147150366,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5255,9 +5255,9 @@
     },
     {
       "player_id": "9714",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5269,7 +5269,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.514,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.21333333333333332,
+          "baseline_value": -0.22070422535211268,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5321,8 +5321,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6439997601178675,
-          "population_sd_research": 1.6325431762199192,
+          "sample_sd": 1.6545023627696827,
+          "population_sd_research": 1.6428096200499391,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5358,7 +5358,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.22600000000000003,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.8185915492957747,
+          "baseline_value": -0.45666666666666667,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5410,8 +5410,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.809650554881994,
-          "population_sd_research": 1.7968613447684136,
+          "sample_sd": 1.770760416552784,
+          "population_sd_research": 1.7542878686025067,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5433,9 +5433,9 @@
     },
     {
       "player_id": "8863",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5522,9 +5522,9 @@
     },
     {
       "player_id": "8884",
-      "old_band": "VERY_LOW",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5536,7 +5536,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.23,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1068085106382979,
+          "baseline_value": -1.103695652173913,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5588,8 +5588,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4028481996389852,
-          "population_sd_research": 1.3878440441891873,
+          "sample_sd": 1.4181856306886582,
+          "population_sd_research": 1.4026858687898853,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5611,9 +5611,9 @@
     },
     {
       "player_id": "8883",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5625,7 +5625,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.46399999999999997,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.0574489795918367,
+          "baseline_value": 1.018974358974359,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5677,8 +5677,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.49740071093968,
-          "population_sd_research": 1.4897413220356719,
+          "sample_sd": 1.5090278884650106,
+          "population_sd_research": 1.4993234283943813,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5714,7 +5714,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.484,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.1817857142857142,
+          "baseline_value": 1.2356363636363636,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -5766,8 +5766,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.9051786908728126,
-          "population_sd_research": 1.8880915413102584,
+          "sample_sd": 1.8792342447926353,
+          "population_sd_research": 1.8620719287311633,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -5789,9 +5789,9 @@
     },
     {
       "player_id": "10481",
-      "old_band": "VERY_LOW",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5878,9 +5878,9 @@
     },
     {
       "player_id": "11040",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -5967,8 +5967,8 @@
     },
     {
       "player_id": "9652",
-      "old_band": "TYPICAL",
-      "corrected_band": "HIGH",
+      "old_band": "HIGH",
+      "corrected_band": "VERY_HIGH",
       "changed": true,
       "old_dimensions": {
         "level": {},
@@ -5981,7 +5981,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.89,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.10505747126436782,
+          "baseline_value": 0.2707462686567164,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6033,8 +6033,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5539393852199375,
-          "population_sd_research": 1.54498288765081,
+          "sample_sd": 1.5040816320456407,
+          "population_sd_research": 1.4928149443278176,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6070,7 +6070,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.084,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.20821052631578948,
+          "baseline_value": -0.5692207792207792,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6122,8 +6122,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.1411470275310474,
-          "population_sd_research": 2.12984801975578,
+          "sample_sd": 2.0913296992921726,
+          "population_sd_research": 2.0777052565449985,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6145,9 +6145,9 @@
     },
     {
       "player_id": "9503",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -6159,7 +6159,7 @@
           "metric": "recent5 SG Total mean",
           "value": -3.5260000000000002,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.6149122807017544,
+          "baseline_value": -1.6692105263157895,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6211,8 +6211,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.6892666654995356,
-          "population_sd_research": 1.6743829686301333,
+          "sample_sd": 1.748378989125622,
+          "population_sd_research": 1.725220629031709,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6234,9 +6234,9 @@
     },
     {
       "player_id": "8859",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -6248,7 +6248,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.488,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.5097,
+          "baseline_value": 0.5974074074074074,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6300,8 +6300,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4467856779702368,
-          "population_sd_research": 1.4395335737661696,
+          "sample_sd": 1.3125316927390533,
+          "population_sd_research": 1.3044044833721735,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6337,7 +6337,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.494,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.7736781609195402,
+          "baseline_value": 1.6745588235294118,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6389,8 +6389,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7293392439878819,
-          "population_sd_research": 1.7193717878037513,
+          "sample_sd": 1.7478613232872255,
+          "population_sd_research": 1.7349618014302635,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6412,9 +6412,9 @@
     },
     {
       "player_id": "11469",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -6501,9 +6501,9 @@
     },
     {
       "player_id": "9759",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -6515,7 +6515,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.6239999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.6130985915492957,
+          "baseline_value": -1.5317142857142856,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6567,8 +6567,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 3.006797818063641,
-          "population_sd_research": 2.9855480972484654,
+          "sample_sd": 2.9486916634127613,
+          "population_sd_research": 2.9275538162327224,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6693,7 +6693,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.924,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.6857692307692308,
+          "baseline_value": -1.0454999999999999,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6745,8 +6745,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.9332238865182159,
-          "population_sd_research": 1.9207914496111773,
+          "sample_sd": 1.885569126869495,
+          "population_sd_research": 1.869790028318688,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6782,7 +6782,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.194,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.13835616438356166,
+          "baseline_value": -0.2650909090909091,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -6834,8 +6834,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.6420388864818083,
-          "population_sd_research": 1.6307532621197036,
+          "sample_sd": 1.6544405709162244,
+          "population_sd_research": 1.6393312081203588,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -6857,9 +6857,9 @@
     },
     {
       "player_id": "12038",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -6960,7 +6960,7 @@
           "metric": "recent5 SG Total mean",
           "value": 2.308,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.4891566265060241,
+          "baseline_value": 0.6021875,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7012,8 +7012,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5100550828422614,
-          "population_sd_research": 1.500930799412406,
+          "sample_sd": 1.5838905974224275,
+          "population_sd_research": 1.5714677342674745,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7035,9 +7035,9 @@
     },
     {
       "player_id": "8811",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -7049,7 +7049,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.9,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.1157,
+          "baseline_value": -0.04687500000000001,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7101,8 +7101,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.010604339018696,
-          "population_sd_research": 2.0005260583156623,
+          "sample_sd": 1.8363713488868907,
+          "population_sd_research": 1.824857935395246,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7138,7 +7138,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.19799999999999998,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.6509090909090909,
+          "baseline_value": 0.6790540540540541,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7190,8 +7190,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.7551524388481379,
-          "population_sd_research": 1.7451514888422335,
+          "sample_sd": 1.7686332227147008,
+          "population_sd_research": 1.756642350744599,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7213,9 +7213,9 @@
     },
     {
       "player_id": "8355",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -7227,7 +7227,7 @@
           "metric": "recent5 SG Total mean",
           "value": -4.552,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.24253164556962026,
+          "baseline_value": -0.21906250000000002,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7279,8 +7279,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.003380136204701,
-          "population_sd_research": 1.9906601337209473,
+          "sample_sd": 2.1505855376529213,
+          "population_sd_research": 2.1337179396756616,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7316,7 +7316,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.956,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.31344827586206897,
+          "baseline_value": -0.35108695652173916,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7368,8 +7368,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0370304769306578,
-          "population_sd_research": 2.0193935174599074,
+          "sample_sd": 2.137566870440283,
+          "population_sd_research": 2.114204782419097,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7481,8 +7481,8 @@
     {
       "player_id": "9082",
       "old_band": "HIGH",
-      "corrected_band": "HIGH",
-      "changed": false,
+      "corrected_band": "VERY_HIGH",
+      "changed": true,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -7494,7 +7494,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.926,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.1087777777777779,
+          "baseline_value": 1.0304109589041095,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7546,8 +7546,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.600772164643092,
-          "population_sd_research": 1.5918541444755392,
+          "sample_sd": 1.5531808207998374,
+          "population_sd_research": 1.5425059120298457,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7583,7 +7583,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.738,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.4592857142857143,
+          "baseline_value": -0.48102564102564105,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7635,8 +7635,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7392255949425,
-          "population_sd_research": 1.7303292419982637,
+          "sample_sd": 1.785162213694915,
+          "population_sd_research": 1.7736819517628306,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7658,9 +7658,9 @@
     },
     {
       "player_id": "9765",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -7672,7 +7672,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.588,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.44666666666666666,
+          "baseline_value": -0.2958227848101266,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7724,8 +7724,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0870670759685317,
-          "population_sd_research": 2.0764995798339343,
+          "sample_sd": 2.05814056458172,
+          "population_sd_research": 2.045072873323191,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7761,7 +7761,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.254,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -3.6684444444444444,
+          "baseline_value": -3.745681818181818,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7813,8 +7813,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 4.407906612789194,
-          "population_sd_research": 4.358654713736826,
+          "sample_sd": 4.42795632303792,
+          "population_sd_research": 4.377349445896181,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7836,9 +7836,9 @@
     },
     {
       "player_id": "9820",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -7850,7 +7850,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.168,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.2997752808988765,
+          "baseline_value": 1.2301408450704225,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7902,8 +7902,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.548284958450427,
-          "population_sd_research": 1.5395621568792162,
+          "sample_sd": 1.591827784078727,
+          "population_sd_research": 1.580577976793947,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -7939,7 +7939,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.042,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.14521739130434783,
+          "baseline_value": -0.2245945945945946,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -7991,8 +7991,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.7694206404275785,
-          "population_sd_research": 1.7597779493452832,
+          "sample_sd": 1.8264856510235823,
+          "population_sd_research": 1.8141025546781253,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8014,9 +8014,9 @@
     },
     {
       "player_id": "8430",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -8028,7 +8028,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.598,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -3.0730434782608698,
+          "baseline_value": -3.165,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8080,8 +8080,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.31461254323406,
-          "population_sd_research": 2.2637357250554335,
+          "sample_sd": 2.325682183585629,
+          "population_sd_research": 2.2722110777430387,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8103,9 +8103,9 @@
     },
     {
       "player_id": "8972",
-      "old_band": "VERY_LOW",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -8117,7 +8117,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.958,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.8611428571428572,
+          "baseline_value": -1.9212121212121211,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8169,8 +8169,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.888978515476757,
-          "population_sd_research": 1.8617975514134129,
+          "sample_sd": 1.9180275636310562,
+          "population_sd_research": 1.8887429803744296,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8206,7 +8206,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.27,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.2833333333333333,
+          "baseline_value": -0.45139240506329115,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8258,8 +8258,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8833334537354727,
-          "population_sd_research": 1.8737975268734803,
+          "sample_sd": 1.964164684578843,
+          "population_sd_research": 1.9516936716068989,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8281,9 +8281,9 @@
     },
     {
       "player_id": "11770",
-      "old_band": "VERY_HIGH",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -8384,7 +8384,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.37600000000000006,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.4031372549019608,
+          "baseline_value": 0.5529268292682927,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8436,8 +8436,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7582422480297606,
-          "population_sd_research": 1.749602184695282,
+          "sample_sd": 1.7267578181323462,
+          "population_sd_research": 1.7161965091622458,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8460,8 +8460,8 @@
     {
       "player_id": "8277",
       "old_band": "TYPICAL",
-      "corrected_band": "TYPICAL",
-      "changed": false,
+      "corrected_band": "HIGH",
+      "changed": true,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -8473,7 +8473,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.23,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.3233684210526316,
+          "baseline_value": 0.4423684210526316,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8525,8 +8525,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.616727460634873,
-          "population_sd_research": 1.608195857754119,
+          "sample_sd": 1.5513622989025293,
+          "population_sd_research": 1.5411221718204091,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8562,7 +8562,7 @@
           "metric": "recent5 SG Total mean",
           "value": 2.08,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.1980412371134022,
+          "baseline_value": 1.2511688311688312,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8614,8 +8614,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5284875688999853,
-          "population_sd_research": 1.520588355457554,
+          "sample_sd": 1.5804229730526456,
+          "population_sd_research": 1.5701269483177782,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8651,7 +8651,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.11800000000000002,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.15074626865671642,
+          "baseline_value": 0.29625,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8703,8 +8703,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.731593515035103,
-          "population_sd_research": 1.7186225944597522,
+          "sample_sd": 1.8111271029330667,
+          "population_sd_research": 1.7921618986110974,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8740,7 +8740,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.522,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.9108510638297872,
+          "baseline_value": 0.7978666666666666,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -8792,8 +8792,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.4314295881221486,
-          "population_sd_research": 1.4237952425512717,
+          "sample_sd": 1.476465184635737,
+          "population_sd_research": 1.4665890524918317,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -8815,9 +8815,9 @@
     },
     {
       "player_id": "11073",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -8904,9 +8904,9 @@
     },
     {
       "player_id": "11447",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -8993,9 +8993,9 @@
     },
     {
       "player_id": "9483",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9007,7 +9007,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.502,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.2394791666666667,
+          "baseline_value": -0.27828947368421053,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9059,8 +9059,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.869773625358888,
-          "population_sd_research": 1.860009727680469,
+          "sample_sd": 2.041350133715687,
+          "population_sd_research": 2.0278757281541107,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9082,9 +9082,9 @@
     },
     {
       "player_id": "9426",
-      "old_band": "HIGH",
+      "old_band": "VERY_HIGH",
       "corrected_band": "VERY_HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9096,7 +9096,7 @@
           "metric": "recent5 SG Total mean",
           "value": 1.012,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.952967032967033,
+          "baseline_value": 0.8914864864864864,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9148,8 +9148,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5604867435127017,
-          "population_sd_research": 1.5518889549782562,
+          "sample_sd": 1.6054467926170808,
+          "population_sd_research": 1.5945622820821412,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9171,9 +9171,9 @@
     },
     {
       "player_id": "9728",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9260,9 +9260,9 @@
     },
     {
       "player_id": "10531",
-      "old_band": "LOW",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9274,7 +9274,7 @@
           "metric": "recent5 SG Total mean",
           "value": -2.892,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.33260416666666665,
+          "baseline_value": -0.5918181818181818,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9326,8 +9326,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.070552046800266,
-          "population_sd_research": 2.059739690668695,
+          "sample_sd": 1.970492008606191,
+          "population_sd_research": 1.9576547904649737,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9363,7 +9363,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.548,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.1425316455696202,
+          "baseline_value": 1.1345901639344262,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9415,8 +9415,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 2.0425182222169482,
-          "population_sd_research": 2.029549721436597,
+          "sample_sd": 2.1673198300900673,
+          "population_sd_research": 2.1494815034500165,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9438,9 +9438,9 @@
     },
     {
       "player_id": "9705",
-      "old_band": "TYPICAL",
+      "old_band": "HIGH",
       "corrected_band": "HIGH",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9452,7 +9452,7 @@
           "metric": "recent5 SG Total mean",
           "value": 0.5680000000000001,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.052929292929292944,
+          "baseline_value": -0.008874999999999984,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9504,8 +9504,8 @@
           "dimension_confidence": "SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.3959169706064347,
-          "population_sd_research": 1.3888489911624788,
+          "sample_sd": 1.28601532930801,
+          "population_sd_research": 1.2779524577913688,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9527,9 +9527,9 @@
     },
     {
       "player_id": "10586",
-      "old_band": "HIGH",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9541,7 +9541,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.6639999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.06714285714285714,
+          "baseline_value": 0.12576923076923077,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9593,8 +9593,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.6034254569128834,
-          "population_sd_research": 1.5952237383859995,
+          "sample_sd": 1.6773297573480042,
+          "population_sd_research": 1.666542958919766,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9630,7 +9630,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.678,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 0.018904109589041075,
+          "baseline_value": 0.02124999999999998,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9682,8 +9682,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 1.594096366845001,
-          "population_sd_research": 1.5831402482406762,
+          "sample_sd": 1.6051562492502225,
+          "population_sd_research": 1.5939703551369941,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9705,9 +9705,9 @@
     },
     {
       "player_id": "10727",
-      "old_band": "TYPICAL",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9794,8 +9794,8 @@
     },
     {
       "player_id": "10157",
-      "old_band": "LOW",
-      "corrected_band": "TYPICAL",
+      "old_band": "TYPICAL",
+      "corrected_band": "LOW",
       "changed": true,
       "old_dimensions": {
         "level": {},
@@ -9808,7 +9808,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.16,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -1.1333870967741935,
+          "baseline_value": -1.1045652173913043,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9860,8 +9860,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.7084207486029332,
-          "population_sd_research": 1.6945871545452111,
+          "sample_sd": 1.326453427622762,
+          "population_sd_research": 1.3119562335650417,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9883,9 +9883,9 @@
     },
     {
       "player_id": "9937",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9897,7 +9897,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.8119999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.9469090909090909,
+          "baseline_value": -0.9161111111111111,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -9949,8 +9949,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.260196740559118,
-          "population_sd_research": 1.2486878534573405,
+          "sample_sd": 1.2509625225019343,
+          "population_sd_research": 1.239325408896228,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -9972,9 +9972,9 @@
     },
     {
       "player_id": "8240",
-      "old_band": "LOW",
+      "old_band": "TYPICAL",
       "corrected_band": "TYPICAL",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -9986,7 +9986,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.1400000000000001,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.44780000000000003,
+          "baseline_value": -0.523625,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10038,8 +10038,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.8502080581885538,
-          "population_sd_research": 1.840933773931045,
+          "sample_sd": 1.6660886080878172,
+          "population_sd_research": 1.655642808511244,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10073,12 +10073,12 @@
       "corrected_dimensions": {
         "level": {
           "metric": "recent5 SG Total mean",
-          "value": 1.65,
+          "value": 1.4949999999999999,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": 1.65,
+          "baseline_value": 1.4949999999999999,
           "window": "recent5",
-          "sample": 4,
-          "sample_sufficiency": "PARTIALLY_SUPPORTED",
+          "sample": 2,
+          "sample_sufficiency": "INSUFFICIENT",
           "dimension_confidence": "INSUFFICIENT"
         },
         "direction": {
@@ -10099,19 +10099,19 @@
               "recent10_vs_season": "DOWN"
             },
             "approach": {
-              "recent3_vs_season": "FLAT",
-              "recent5_vs_season": "FLAT",
-              "recent10_vs_season": "FLAT"
+              "recent3_vs_season": "DOWN",
+              "recent5_vs_season": "DOWN",
+              "recent10_vs_season": "DOWN"
             },
             "around_green": {
-              "recent3_vs_season": "DOWN",
+              "recent3_vs_season": "FLAT",
               "recent5_vs_season": "FLAT",
               "recent10_vs_season": "FLAT"
             },
             "putting": {
               "recent3_vs_season": "UP",
-              "recent5_vs_season": "FLAT",
-              "recent10_vs_season": "FLAT"
+              "recent5_vs_season": "UP",
+              "recent10_vs_season": "UP"
             }
           },
           "window_agreement": "AGREES",
@@ -10123,12 +10123,12 @@
             "around_green": false,
             "putting": false
           },
-          "sample_sufficiency": "PARTIALLY_SUPPORTED",
+          "sample_sufficiency": "INSUFFICIENT",
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 0.5958187643906492,
-          "population_sd_research": 0.5159941860137572,
+          "sample_sd": 0.8980256121069153,
+          "population_sd_research": 0.635,
           "bad_tail_frequency": null,
           "sample_band": "N<5",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10136,23 +10136,23 @@
         },
         "composition": {
           "leading_component_by_window": {
-            "recent5": "approach",
-            "recent10": "approach",
+            "recent5": "off_the_tee",
+            "recent10": "off_the_tee",
             "season": "off_the_tee"
           },
-          "window_agreement": "WINDOW_CONFLICT",
-          "sample_sufficiency": "PARTIALLY_SUPPORTED",
+          "window_agreement": "AGREES",
+          "sample_sufficiency": "INSUFFICIENT",
           "materiality_evidence": "COMPONENT_VALUES_AVAILABLE",
-          "dimension_confidence": "PARTIALLY_SUPPORTED"
+          "dimension_confidence": "INSUFFICIENT"
         }
       },
       "reason": "recomputed from row-retention-corrected pre-cutoff SG; no imputation"
     },
     {
       "player_id": "8764",
-      "old_band": "VERY_LOW",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -10164,7 +10164,7 @@
           "metric": "recent5 SG Total mean",
           "value": -1.182,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.027631578947368413,
+          "baseline_value": -0.28285714285714286,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10216,8 +10216,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.5192084504074725,
-          "population_sd_research": 1.5091805622685066,
+          "sample_sd": 1.5098846605988447,
+          "population_sd_research": 1.496342820591155,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10342,7 +10342,7 @@
           "metric": "recent5 SG Total mean",
           "value": -0.38800000000000007,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -0.11058823529411768,
+          "baseline_value": -0.5471428571428572,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10394,8 +10394,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 2.0739921365214817,
-          "population_sd_research": 2.012067916606709,
+          "sample_sd": 1.9762296213961363,
+          "population_sd_research": 1.9043425133529066,
           "bad_tail_frequency": null,
           "sample_band": "N10-19",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10417,9 +10417,9 @@
     },
     {
       "player_id": "8436",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "VERY_LOW",
       "corrected_band": "VERY_LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -10431,7 +10431,7 @@
           "metric": "recent5 SG Total mean",
           "value": -3.796,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -2.7091666666666665,
+          "baseline_value": -2.577,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10457,7 +10457,7 @@
             "approach": {
               "recent3_vs_season": "FLAT",
               "recent5_vs_season": "FLAT",
-              "recent10_vs_season": "FLAT"
+              "recent10_vs_season": "UP"
             },
             "around_green": {
               "recent3_vs_season": "FLAT",
@@ -10467,7 +10467,7 @@
             "putting": {
               "recent3_vs_season": "FLAT",
               "recent5_vs_season": "FLAT",
-              "recent10_vs_season": "UP"
+              "recent10_vs_season": "FLAT"
             }
           },
           "window_agreement": "WINDOW_CONFLICT",
@@ -10483,8 +10483,8 @@
           "dimension_confidence": "PARTIALLY_SUPPORTED"
         },
         "consistency": {
-          "sample_sd": 1.604473622737565,
-          "population_sd_research": 1.5361665400889608,
+          "sample_sd": 1.6068191490574717,
+          "population_sd_research": 1.5243624896985626,
           "bad_tail_frequency": null,
           "sample_band": "N10-19",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10493,7 +10493,7 @@
         "composition": {
           "leading_component_by_window": {
             "recent5": "approach",
-            "recent10": "off_the_tee",
+            "recent10": "approach",
             "season": "around_green"
           },
           "window_agreement": "WINDOW_CONFLICT",
@@ -10506,9 +10506,9 @@
     },
     {
       "player_id": "7963",
-      "old_band": "INSUFFICIENT_EVIDENCE",
+      "old_band": "LOW",
       "corrected_band": "LOW",
-      "changed": true,
+      "changed": false,
       "old_dimensions": {
         "level": {},
         "direction": {},
@@ -10520,7 +10520,7 @@
           "metric": "recent5 SG Total mean",
           "value": -3.068,
           "baseline": "all pre-cutoff multi-season SG Total mean",
-          "baseline_value": -6.367446808510638,
+          "baseline_value": -5.512903225806451,
           "window": "recent5",
           "sample": 5,
           "sample_sufficiency": "SUPPORTED",
@@ -10572,8 +10572,8 @@
           "dimension_confidence": "CONTRADICTED"
         },
         "consistency": {
-          "sample_sd": 3.650065793382662,
-          "population_sd_research": 3.6110265341242496,
+          "sample_sd": 3.2723235308145466,
+          "population_sd_research": 3.219111471827919,
           "bad_tail_frequency": null,
           "sample_band": "N20+",
           "materiality_evidence": "VARIANCE_OBSERVED",
@@ -10685,15 +10685,15 @@
   ],
   "summary": {
     "entrants": 120,
-    "band_changed": 66,
-    "band_unchanged": 54,
-    "insufficient_to_eligible": 8,
+    "band_changed": 6,
+    "band_unchanged": 114,
+    "insufficient_to_eligible": 0,
     "corrected_distribution": {
-      "VERY_HIGH": 15,
-      "HIGH": 15,
-      "TYPICAL": 59,
-      "LOW": 17,
-      "VERY_LOW": 11,
+      "VERY_HIGH": 17,
+      "HIGH": 14,
+      "TYPICAL": 58,
+      "LOW": 16,
+      "VERY_LOW": 12,
       "INSUFFICIENT_EVIDENCE": 3
     }
   }

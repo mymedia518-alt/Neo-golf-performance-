@@ -1,7 +1,12 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
-set "REPO=C:\Users\user\Desktop\Neo-golf-performance-live"
-set "LOGDIR=C:\Users\user\Desktop\Neo-golf-performance-live-logs"
+REM DYNAMIC REPO/LOG PATHS (Phase 5 item 1): this script's own folder
+REM IS the repo checkout to recover -- never a hardcoded machine path.
+set "REPO=%~dp0"
+if "%REPO:~-1%"=="\" set "REPO=%REPO:~0,-1%"
+for %%I in ("%REPO%") do set "REPO_PARENT=%%~dpI" & set "REPO_NAME=%%~nI"
+if "%REPO_PARENT:~-1%"=="\" set "REPO_PARENT=%REPO_PARENT:~0,-1%"
+set "LOGDIR=%REPO_PARENT%\%REPO_NAME%-logs"
 set "LOCK=%LOGDIR%\neo-recover.lock"
 if not exist "%REPO%\" exit /b 2
 if not exist "%LOGDIR%\" mkdir "%LOGDIR%" >nul 2>&1

@@ -49,7 +49,7 @@ from klpga.website_v2.freshness_gate import (  # noqa: E402
 )
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, extract_owner, validate_top120_population  # noqa: E402
 from klpga.website_v2.model_publication_gate import ModelPublicationGateError, assert_no_blocked_probability_output  # noqa: E402
-from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+from klpga.tournament_context import load_active_tournament_context, SITE_REGISTRY_PATH  # noqa: E402
 from klpga.website_v2.tournament_state import home_mode, ok_open_latest_available_stage  # noqa: E402
 
 MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
@@ -63,25 +63,39 @@ _CONTEXT = load_active_tournament_context()
 STAGE_STATE_PATH = CONTENT / _CONTEXT.stage_state_filename
 R1_LIVE_SNAPSHOT_PATH = _CONTEXT.artifact_path("r1_live_snapshot")
 
+
+def _required_tournament_routes() -> list[str]:
+    """Derived from TOURNAMENT_SITE_REGISTRY.json (Phase 5 item 2), per
+    that registry's own stated intent for every tournament entry, never
+    a separate hand-maintained literal list. `nav_stages` is the real,
+    already-published set of stage tabs each tournament's hub card has
+    always shown (e.g. OK Open deliberately excludes r3's own
+    live-evidence page); `has_hub_index` records whether the tournament
+    also has its own hub index.html route (a completed/historical
+    tournament like KG Ladies Open does, an active one whose PRE page
+    IS its own landing page, like OK Open, does not) -- see each
+    entry's own comments in the registry."""
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+    routes: list[str] = []
+    for entry in registry.values():
+        url_base = str(entry["url_base"]).strip("/")
+        if entry.get("has_hub_index"):
+            routes.append(f"{url_base}/index.html")
+        for stage in (entry.get("hub_card") or {}).get("nav_stages") or []:
+            routes.append(f"{url_base}/{stage}/index.html")
+    return routes
+
+
 REQUIRED_ROUTES = [
     "index.html",
     "ranking/index.html",
     "tournaments/index.html",
     "deep-dive/index.html",
     "about/index.html",
-    "tournaments/2026/kg-ladies-open/index.html",
-    "tournaments/2026/kg-ladies-open/pre/index.html",
-    "tournaments/2026/kg-ladies-open/r1/index.html",
-    "tournaments/2026/kg-ladies-open/r2/index.html",
-    "tournaments/2026/kg-ladies-open/r3/index.html",
-    "tournaments/2026/kg-ladies-open/final/index.html",
+    *_required_tournament_routes(),
     "protected/beta001/r1.html",
     "protected/beta001/r2.html",
     "protected/beta001/r3.html",
-    "tournaments/2026/ok-savings-bank-open/pre/index.html",
-    "tournaments/2026/ok-savings-bank-open/r1/index.html",
-    "tournaments/2026/ok-savings-bank-open/r2/index.html",
-    "tournaments/2026/ok-savings-bank-open/final/index.html",
 ]
 
 # Only the candidate's own content routes are mirrored -- pure hosting

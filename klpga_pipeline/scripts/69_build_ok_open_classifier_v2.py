@@ -20,13 +20,22 @@ DIRS = ("recent3_vs_season", "recent5_vs_season", "recent10_vs_season")
 
 
 def _correction_timestamp() -> str:
-    """The real, already-committed OK Open artifact freezes this at the
-    moment the classifier correction was actually applied
-    (2026-08-31T00:44:18Z) -- never recomputed for that historical
-    record. A brand-new tournament has no such frozen moment yet, so it
-    gets a fresh timestamp at build time instead of a fabricated one."""
-    if _CONTEXT.game_code == "2026120001":
-        return "2026-08-31T00:44:18Z"
+    """The moment the classifier correction was first actually applied
+    to THIS tournament, frozen -- never recomputed on a later rebuild.
+    Generic for any game_code: if OUT already carries a
+    correction_timestamp from a prior build, that value is authoritative
+    (this is how OK Open's real, already-committed artifact keeps its
+    genuine first-applied timestamp, 2026-08-31T00:44:18Z, across
+    reruns); a tournament with no prior build yet gets a fresh timestamp
+    instead of a fabricated one."""
+    if OUT.is_file():
+        try:
+            existing = json.loads(OUT.read_text(encoding="utf-8"))
+            previous = existing.get("correction_timestamp")
+            if previous:
+                return str(previous)
+        except (OSError, ValueError):
+            pass
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 

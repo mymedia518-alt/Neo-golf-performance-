@@ -34,7 +34,15 @@ def main() -> int:
         raise RuntimeError("official totalRound missing; cannot derive lifecycle")
     frozen = json.loads(FROZEN_ENTRY.read_text(encoding="utf-8")); frozen_by = {str(x["player_id"]): x for x in frozen["entries"]}
     parsed = parse_entry_list_html(fetch_entry_list(client, GAME))
-    conn = sqlite3.connect(DB)
+    # DATABASE SAFETY (Phase 5 item 11): sqlite3.connect() on a missing
+    # path silently CREATES an empty database file instead of failing --
+    # never let that happen here; a missing canonical DB is a real
+    # precondition failure, not something to paper over with an empty
+    # in-memory-equivalent database that would then fail confusingly
+    # later with "no such table: player_master".
+    if not DB.exists():
+        raise RuntimeError(f"canonical player_master database missing: {DB} -- refusing to create an empty one")
+    conn = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
     known = {str(r[0]): str(r[1]) for r in conn.execute("SELECT player_id, player_name FROM player_master")}
     current = {str(r.player_code): {"player_id": str(r.player_code), "player_name": r.player_name, "canonical_name": known.get(str(r.player_code)), "identity_match": str(r.player_code) in known, "entry_status": "listed"} for r in parsed.rows}
     added = sorted(set(current) - set(frozen_by)); removed = sorted(set(frozen_by) - set(current)); unchanged = sorted(set(current) & set(frozen_by)); unresolved = sorted(k for k,v in current.items() if not v["identity_match"])

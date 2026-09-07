@@ -359,7 +359,11 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
         except (OSError, ValueError):
             final_mode = False
     if final_mode and R1_FINAL_SNAPSHOT_DIR.is_dir():
-        candidates = sorted(R1_FINAL_SNAPSHOT_DIR.glob("OK_OPEN_*_FINAL_*.json"))
+        # Generic glob (Phase 5 item 2): R1_FINAL_SNAPSHOT_DIR is already
+        # this tournament's own registry-mapped directory (isolation
+        # comes from the directory, never from an OK-Open-specific
+        # filename prefix inside it).
+        candidates = sorted(R1_FINAL_SNAPSHOT_DIR.glob("*_FINAL_*.json"))
         if candidates:
             final_doc = json.loads(candidates[-1].read_text(encoding="utf-8"))
             live_names = {}
@@ -567,8 +571,13 @@ def build() -> Path:
         source_bytes = MASTER.read_bytes()
     master_sha = hashlib.sha256(source_bytes).hexdigest().upper()
     records = list(master["records"])
-    if len(records) != 120:
-        raise ValueError(f"canonical master must contain 120 records, got {len(records)}")
+    # Expected field size (Phase 5 item 2): the tournament's own frozen
+    # entry count, never a hardcoded literal -- a different tournament
+    # has a different official field size.
+    entry = json.loads(_CONTEXT.artifact_path("entry_snapshot").read_text(encoding="utf-8"))
+    expected_field_size = int(entry["player_count"])
+    if len(records) != expected_field_size:
+        raise ValueError(f"canonical master must contain {expected_field_size} records (per entry_snapshot), got {len(records)}")
     # Neutral, reproducible display order: official K-RANKING, then canonical ID.
     records.sort(key=lambda r: (r.get("official_klpga_rank") is None, r.get("official_klpga_rank") or 10**9, str(r["player_id"])))
     # Single canonical player_id -> official sponsor/affiliation lookup,
@@ -592,9 +601,12 @@ def build() -> Path:
     stage_nav = stage_nav_html(_ok_stage_items("pre"))
     html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다.</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>SG Total 순위</th><th>우승확률</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div><div class=\"help\">K-RANKING이 ‘쌓아온 성과’를 보여준다면, NEO는 ‘지금의 경기력’을 봅니다. 두 지표는 서로 다른 시간축과 평가 기준을 사용합니다.</div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">참가 선수별 우승확률은 표에서 확인할 수 있습니다.</p></div></aside></div></main></body></html>"""
     html_doc = html_doc.replace("NEO 경기력 구간", "NEO 경기력 ⓘ")
-    html_doc = html_doc.replace('href="tournaments/2026/ok-savings-bank-open/', 'href="/tournaments/2026/ok-savings-bank-open/')
+    # Generic route (Phase 5 item 2): _CONTEXT.url_base, never a
+    # hardcoded literal tournament path segment.
+    _relative_base = _CONTEXT.url_base.lstrip("/")
+    html_doc = html_doc.replace(f'href="{_relative_base}', f'href="{_CONTEXT.url_base}')
     html_doc = html_doc.replace("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">", "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"neo-public-master-sha256\" content=\"" + master_sha + "\">")
-    html_doc = html_doc.replace('<a href="#pre">예측 기록</a>', '<a href="tournaments/2026/ok-savings-bank-open/pre/">예측 기록</a>')
+    html_doc = html_doc.replace('<a href="#pre">예측 기록</a>', f'<a href="{_relative_base}pre/">예측 기록</a>')
     html_doc = html_doc.replace("<th>NEO 경기력 ⓘ</th>", "<th class='band-head'>NEO 경기력 <button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button><span id='neo-info' class='info-popover' role='tooltip'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>")
     html_doc = html_doc.replace("지금의 경기력", "최근 경기력")
     html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open)p.focus()});b.addEventListener('keydown',function(e){if(e.key==='Escape')close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()})})();</script></body></html>")
@@ -605,7 +617,7 @@ def build() -> Path:
     (OUT / "index.html").write_text(html_doc, encoding="utf-8")
     (OUT / "pre").mkdir()
     (OUT / "pre" / "index.html").write_text(html_doc.replace('href="assets/neo.css"','href="../assets/neo.css"'), encoding="utf-8")
-    route_root = OUT / "tournaments" / "2026" / "ok-savings-bank-open"
+    route_root = OUT / Path(_CONTEXT.url_base.strip("/"))
     route = route_root / "pre"
     route.mkdir(parents=True)
     route_html = html_doc.replace('href="assets/neo.css"', 'href="../../../../assets/neo.css"')

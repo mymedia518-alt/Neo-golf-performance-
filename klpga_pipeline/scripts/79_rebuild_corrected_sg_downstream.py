@@ -24,9 +24,24 @@ OLD = _CONTEXT.artifact_path("pre_public_master")
 # TournamentContext.artifact_path(), which would wrongly prefix it with
 # this tournament's game_code.
 WH = CONTENT / "historical_sg_warehouse_corrected_v2.json"
+# historical_sg_warehouse_corrected_v2.json's tournament_cumulative rows
+# carry no per-record event date (scripts 77/78 never wrote one --
+# "retrieved_at" is the scrape timestamp, not the event date). The only
+# real, evidence-based per-game_code date available is
+# TOURNAMENT_K_WEEK_MAPPING_V1.json's start_date, sourced from the
+# official tournament_master table (see scripts/92). A game_code absent
+# from that mapping has no verified date and must be excluded, not
+# assumed safe.
+K_WEEK_MAPPING = CONTENT / "TOURNAMENT_K_WEEK_MAPPING_V1.json"
 COMP = ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")
 GAME_CODE = _CONTEXT.game_code
 CUTOFF = _CONTEXT.start_date
+
+def _verified_event_dates() -> dict:
+    if not K_WEEK_MAPPING.exists():
+        return {}
+    mapping = json.loads(K_WEEK_MAPPING.read_text(encoding="utf-8"))
+    return {r["game_code"]: r["start_date"] for r in mapping.get("records", []) if r.get("start_date")}
 
 def classifier_view(p):
     """Apply the existing V2 dimension logic to corrected windows only."""
@@ -44,7 +59,16 @@ def stat(vals):
             "population_sd": statistics.pstdev(x) if len(x) > 1 else None}
 
 def main():
-    wh = json.loads(WH.read_text(encoding="utf-8")); rows = [r for r in wh["records"] if r.get("scope") == "tournament_cumulative" and str(r.get("game_code")) != GAME_CODE and r.get("player_id")]
+    # PRE LEAKAGE (Phase 5 item 5): the shared warehouse accumulates
+    # every historical tournament over time, independent of any one
+    # tournament's own cutoff -- excluding this tournament's own
+    # game_code is not sufficient by itself; a row whose game_code has
+    # no verified event date (or whose verified date is on/after this
+    # tournament's cutoff) must also be excluded, or a future event
+    # added to the warehouse later would silently leak into a
+    # historical PRE replay run again after the fact.
+    event_dates = _verified_event_dates()
+    wh = json.loads(WH.read_text(encoding="utf-8")); rows = [r for r in wh["records"] if r.get("scope") == "tournament_cumulative" and str(r.get("game_code")) != GAME_CODE and r.get("player_id") and event_dates.get(str(r.get("game_code"))) is not None and event_dates[str(r.get("game_code"))] < CUTOFF]
     entry = json.loads(ENTRY.read_text(encoding="utf-8")); ids = [str(e["player_id"]) for e in entry["entries"]]
     by = {}
     for r in rows: by.setdefault(str(r["player_id"]), []).append(r)
@@ -53,7 +77,7 @@ def main():
     for pid in ids:
         rs = by.get(pid, [])
         wins = {"current": rs[-1:], "recent3": rs[-3:], "recent5": rs[-5:], "recent10": rs[-10:], "multi_season": rs,
-                "season2026": [r for r in rs if r.get("season") == 2026]}
+                "season2026": [r for r in rs if r.get("season") == _CONTEXT.season]}
         windows = {name: {"event_count": len(v), "components": {c: stat([r.get(c) for r in v]) for c in COMP}} for name, v in wins.items()}
         base = {"player_id": pid, "player_name": next((e.get("player_name") for e in entry["entries"] if str(e["player_id"]) == pid), None), "coverage": "ENTRY + SUFFICIENT SG" if len(rs) >= 5 else "ENTRY + LIMITED SG" if rs else "ENTRY + NO OFFICIAL SG", "windows": windows, "consistency": {"bad_tail_frequency": None}}
         dimensions = classifier_view(base)
