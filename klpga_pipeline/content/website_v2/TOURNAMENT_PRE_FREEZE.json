@@ -1,0 +1,1619 @@
+{
+  "schema_version": "neo_tournament_pre_freeze_v1",
+  "game_code": "2026120001",
+  "tournament_name": "OK저축은행 읏맨 오픈",
+  "field": [
+    {
+      "player_id": "9174",
+      "entry_name": "강가율",
+      "canonical_player_id_match": true,
+      "canonical_name": "강가율",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "11446",
+      "entry_name": "강민진",
+      "canonical_player_id_match": true,
+      "canonical_name": "강민진",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10075",
+      "entry_name": "고은혜",
+      "canonical_player_id_match": true,
+      "canonical_name": "고은혜",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10112",
+      "entry_name": "고지우",
+      "canonical_player_id_match": true,
+      "canonical_name": "고지우",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "10109",
+      "entry_name": "고지원",
+      "canonical_player_id_match": true,
+      "canonical_name": "고지원",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "9436",
+      "entry_name": "구래현",
+      "canonical_player_id_match": true,
+      "canonical_name": "구래현",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10726",
+      "entry_name": "김가희2",
+      "canonical_player_id_match": true,
+      "canonical_name": "김가희 0612(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9752",
+      "entry_name": "김나현2",
+      "canonical_player_id_match": true,
+      "canonical_name": "김나현2",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9702",
+      "entry_name": "김리안",
+      "canonical_player_id_match": true,
+      "canonical_name": "김리안",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10002",
+      "entry_name": "김민별",
+      "canonical_player_id_match": true,
+      "canonical_name": "김민별",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "10097",
+      "entry_name": "김민선7",
+      "canonical_player_id_match": true,
+      "canonical_name": "김민선7",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "10725",
+      "entry_name": "김민솔",
+      "canonical_player_id_match": true,
+      "canonical_name": "김민솔 0606(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 메이저대회 우승자"
+    },
+    {
+      "player_id": "10081",
+      "entry_name": "김민주",
+      "canonical_player_id_match": true,
+      "canonical_name": "김민주",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "8380",
+      "entry_name": "김새로미",
+      "canonical_player_id_match": true,
+      "canonical_name": "김새로미",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "9807",
+      "entry_name": "김서윤2",
+      "canonical_player_id_match": true,
+      "canonical_name": "김서윤2",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9089",
+      "entry_name": "김소정",
+      "canonical_player_id_match": true,
+      "canonical_name": "김소정",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "8300",
+      "entry_name": "김수지",
+      "canonical_player_id_match": true,
+      "canonical_name": "김수지",
+      "qualification_category": "자격자",
+      "qualification_reason": "2023 메이저대회 우승자"
+    },
+    {
+      "player_id": "11143",
+      "entry_name": "김시현",
+      "canonical_player_id_match": true,
+      "canonical_name": "김시현 0608(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9277",
+      "entry_name": "김아현",
+      "canonical_player_id_match": true,
+      "canonical_name": "김아현",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "8838",
+      "entry_name": "김우정",
+      "canonical_player_id_match": true,
+      "canonical_name": "김우정",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9487",
+      "entry_name": "김재희",
+      "canonical_player_id_match": true,
+      "canonical_name": "김재희",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "9000",
+      "entry_name": "김지수",
+      "canonical_player_id_match": true,
+      "canonical_name": "김지수",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "8434",
+      "entry_name": "김지영2",
+      "canonical_player_id_match": true,
+      "canonical_name": "김지영2",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "11216",
+      "entry_name": "김지윤2",
+      "canonical_player_id_match": true,
+      "canonical_name": "김지윤 0506(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10790",
+      "entry_name": "김하은2",
+      "canonical_player_id_match": true,
+      "canonical_name": "김하은2",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8271",
+      "entry_name": "김효문",
+      "canonical_player_id_match": true,
+      "canonical_name": "김효문",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10178",
+      "entry_name": "김희지",
+      "canonical_player_id_match": true,
+      "canonical_name": "김희지",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9113",
+      "entry_name": "노승희",
+      "canonical_player_id_match": true,
+      "canonical_name": "노승희",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 메이저대회 우승자"
+    },
+    {
+      "player_id": "9723",
+      "entry_name": "노원경",
+      "canonical_player_id_match": true,
+      "canonical_name": "노원경",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "10789",
+      "entry_name": "리 슈잉",
+      "canonical_player_id_match": true,
+      "canonical_name": "LI Shuying(I)",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "9401",
+      "entry_name": "마다솜",
+      "canonical_player_id_match": true,
+      "canonical_name": "마다솜",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "10083",
+      "entry_name": "마서영",
+      "canonical_player_id_match": true,
+      "canonical_name": "마서영",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9183",
+      "entry_name": "박결",
+      "canonical_player_id_match": true,
+      "canonical_name": "박결",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8318",
+      "entry_name": "박단유",
+      "canonical_player_id_match": true,
+      "canonical_name": "박단유",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9431",
+      "entry_name": "박보겸",
+      "canonical_player_id_match": true,
+      "canonical_name": "박보겸",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "9111",
+      "entry_name": "박서현",
+      "canonical_player_id_match": true,
+      "canonical_name": "박서현",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "11056",
+      "entry_name": "박예지",
+      "canonical_player_id_match": true,
+      "canonical_name": "박예지 0503(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "9130",
+      "entry_name": "박현경",
+      "canonical_player_id_match": true,
+      "canonical_name": "박현경",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "9788",
+      "entry_name": "박혜준",
+      "canonical_player_id_match": true,
+      "canonical_name": "박혜준",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "10095",
+      "entry_name": "방신실",
+      "canonical_player_id_match": true,
+      "canonical_name": "방신실",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "8589",
+      "entry_name": "배소현",
+      "canonical_player_id_match": true,
+      "canonical_name": "배소현",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "9981",
+      "entry_name": "배수연",
+      "canonical_player_id_match": true,
+      "canonical_name": "배수연",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9134",
+      "entry_name": "서어진",
+      "canonical_player_id_match": true,
+      "canonical_name": "서어진",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8881",
+      "entry_name": "성유진",
+      "canonical_player_id_match": true,
+      "canonical_name": "성유진",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 메이저대회 우승자"
+    },
+    {
+      "player_id": "8386",
+      "entry_name": "성은정",
+      "canonical_player_id_match": true,
+      "canonical_name": "성은정",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10022",
+      "entry_name": "손예빈",
+      "canonical_player_id_match": true,
+      "canonical_name": "손예빈",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "11057",
+      "entry_name": "송은아",
+      "canonical_player_id_match": true,
+      "canonical_name": "송은아",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9135",
+      "entry_name": "신다인",
+      "canonical_player_id_match": true,
+      "canonical_name": "신다인",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "10155",
+      "entry_name": "신유진2",
+      "canonical_player_id_match": true,
+      "canonical_name": "신유진2",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "4905",
+      "entry_name": "안선주",
+      "canonical_player_id_match": true,
+      "canonical_name": "안선주",
+      "qualification_category": "자격자",
+      "qualification_reason": "영구시드권 선수"
+    },
+    {
+      "player_id": "6916",
+      "entry_name": "안송이",
+      "canonical_player_id_match": true,
+      "canonical_name": "안송이",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "11060",
+      "entry_name": "안재희",
+      "canonical_player_id_match": true,
+      "canonical_name": "안재희",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "9465",
+      "entry_name": "안지현",
+      "canonical_player_id_match": true,
+      "canonical_name": "안지현",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "10867",
+      "entry_name": "양서후",
+      "canonical_player_id_match": true,
+      "canonical_name": "양희주",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10139",
+      "entry_name": "양효리",
+      "canonical_player_id_match": true,
+      "canonical_name": "양효리",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "11045",
+      "entry_name": "양효진",
+      "canonical_player_id_match": true,
+      "canonical_name": "양효진 0706(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8799",
+      "entry_name": "오경은",
+      "canonical_player_id_match": true,
+      "canonical_name": "오경은",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "11926",
+      "entry_name": "유다겸(I)",
+      "canonical_player_id_match": true,
+      "canonical_name": "유다겸(I)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "11066",
+      "entry_name": "유서연2",
+      "canonical_player_id_match": true,
+      "canonical_name": "유서연2",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9714",
+      "entry_name": "유지나",
+      "canonical_player_id_match": true,
+      "canonical_name": "유지나",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9990",
+      "entry_name": "윤수아",
+      "canonical_player_id_match": true,
+      "canonical_name": "윤수아",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8863",
+      "entry_name": "윤혜림",
+      "canonical_player_id_match": true,
+      "canonical_name": "윤혜림",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8884",
+      "entry_name": "윤화영",
+      "canonical_player_id_match": true,
+      "canonical_name": "윤화영",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "8883",
+      "entry_name": "이가영",
+      "canonical_player_id_match": true,
+      "canonical_name": "이가영",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "11649",
+      "entry_name": "이동은",
+      "canonical_player_id_match": true,
+      "canonical_name": "이동은",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 메이저대회 우승자"
+    },
+    {
+      "player_id": "10481",
+      "entry_name": "이서윤4",
+      "canonical_player_id_match": true,
+      "canonical_name": "이서윤4",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "11040",
+      "entry_name": "이세영",
+      "canonical_player_id_match": true,
+      "canonical_name": "이세영 0705(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9652",
+      "entry_name": "이세희",
+      "canonical_player_id_match": true,
+      "canonical_name": "이세희",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8246",
+      "entry_name": "이소영",
+      "canonical_player_id_match": true,
+      "canonical_name": "이소영",
+      "qualification_category": "자격자",
+      "qualification_reason": "K-10 클럽 가입자 또는 생애 누적 상금 25억 이상자"
+    },
+    {
+      "player_id": "9503",
+      "entry_name": "이슬기2",
+      "canonical_player_id_match": true,
+      "canonical_name": "이슬기2",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "8859",
+      "entry_name": "이승연",
+      "canonical_player_id_match": true,
+      "canonical_name": "이승연",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9784",
+      "entry_name": "이예원",
+      "canonical_player_id_match": true,
+      "canonical_name": "이예원",
+      "qualification_category": "자격자",
+      "qualification_reason": "2023 메이저대회 우승자"
+    },
+    {
+      "player_id": "11469",
+      "entry_name": "이윤서",
+      "canonical_player_id_match": true,
+      "canonical_name": "이윤서 0708(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9759",
+      "entry_name": "이율린",
+      "canonical_player_id_match": true,
+      "canonical_name": "이지현7",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "9708",
+      "entry_name": "이재윤",
+      "canonical_player_id_match": true,
+      "canonical_name": "이재윤",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "7434",
+      "entry_name": "이정민",
+      "canonical_player_id_match": true,
+      "canonical_name": "이정민",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 메이저대회 우승자"
+    },
+    {
+      "player_id": "8234",
+      "entry_name": "이주미",
+      "canonical_player_id_match": true,
+      "canonical_name": "이주미",
+      "qualification_category": "자격자",
+      "qualification_reason": "부상선수 시드권"
+    },
+    {
+      "player_id": "12038",
+      "entry_name": "이지민",
+      "canonical_player_id_match": true,
+      "canonical_name": "이지민",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "9449",
+      "entry_name": "이지현3",
+      "canonical_player_id_match": true,
+      "canonical_name": "이지현3",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8811",
+      "entry_name": "이채은2",
+      "canonical_player_id_match": true,
+      "canonical_name": "이채은2",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9145",
+      "entry_name": "임희정",
+      "canonical_player_id_match": true,
+      "canonical_name": "임희정",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8355",
+      "entry_name": "장수연",
+      "canonical_player_id_match": true,
+      "canonical_name": "장수연",
+      "qualification_category": "자격자",
+      "qualification_reason": "K-10 클럽 가입자 또는 생애 누적 상금 25억 이상자"
+    },
+    {
+      "player_id": "8243",
+      "entry_name": "장은수",
+      "canonical_player_id_match": true,
+      "canonical_name": "장은수",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 일반대회 우승자"
+    },
+    {
+      "player_id": "11374",
+      "entry_name": "전승희",
+      "canonical_player_id_match": true,
+      "canonical_name": "전승희",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9082",
+      "entry_name": "전예성",
+      "canonical_player_id_match": true,
+      "canonical_name": "전예성",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9389",
+      "entry_name": "전우리",
+      "canonical_player_id_match": true,
+      "canonical_name": "전우리",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9765",
+      "entry_name": "정소이",
+      "canonical_player_id_match": true,
+      "canonical_name": "정소이",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8840",
+      "entry_name": "정수빈",
+      "canonical_player_id_match": true,
+      "canonical_name": "정수빈",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "9820",
+      "entry_name": "정윤지",
+      "canonical_player_id_match": true,
+      "canonical_name": "정윤지",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 일반대회 우승자"
+    },
+    {
+      "player_id": "8770",
+      "entry_name": "조아연",
+      "canonical_player_id_match": true,
+      "canonical_name": "조아연",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8430",
+      "entry_name": "조은채",
+      "canonical_player_id_match": true,
+      "canonical_name": "조은채",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8972",
+      "entry_name": "조정민",
+      "canonical_player_id_match": true,
+      "canonical_name": "조정민",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "9136",
+      "entry_name": "조혜림",
+      "canonical_player_id_match": true,
+      "canonical_name": "조혜림",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "11770",
+      "entry_name": "짜라위 분짠(I)",
+      "canonical_player_id_match": true,
+      "canonical_name": "Jaravee Boonchant",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 일반대회 우승자"
+    },
+    {
+      "player_id": "9391",
+      "entry_name": "최가빈",
+      "canonical_player_id_match": true,
+      "canonical_name": "최가빈",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8277",
+      "entry_name": "최민경",
+      "canonical_player_id_match": true,
+      "canonical_name": "최민경",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "8284",
+      "entry_name": "최예림",
+      "canonical_player_id_match": true,
+      "canonical_name": "최예림",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "10577",
+      "entry_name": "최예본",
+      "canonical_player_id_match": true,
+      "canonical_name": "최예본",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9235",
+      "entry_name": "최은우",
+      "canonical_player_id_match": true,
+      "canonical_name": "최은우",
+      "qualification_category": "자격자",
+      "qualification_reason": "2024 일반대회 우승자"
+    },
+    {
+      "player_id": "11073",
+      "entry_name": "최정원",
+      "canonical_player_id_match": true,
+      "canonical_name": "최정원 0510(A)",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "11447",
+      "entry_name": "한아름",
+      "canonical_player_id_match": true,
+      "canonical_name": "한아름",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9483",
+      "entry_name": "한지원",
+      "canonical_player_id_match": true,
+      "canonical_name": "한지원",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9426",
+      "entry_name": "한진선",
+      "canonical_player_id_match": true,
+      "canonical_name": "한진선",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9728",
+      "entry_name": "허윤서",
+      "canonical_player_id_match": true,
+      "canonical_name": "허윤서",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10531",
+      "entry_name": "현세린",
+      "canonical_player_id_match": true,
+      "canonical_name": "현세린",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "9750",
+      "entry_name": "홍정민",
+      "canonical_player_id_match": true,
+      "canonical_name": "홍정민",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 메이저대회 우승자"
+    },
+    {
+      "player_id": "9705",
+      "entry_name": "홍지원",
+      "canonical_player_id_match": true,
+      "canonical_name": "홍지원",
+      "qualification_category": "자격자",
+      "qualification_reason": "2023 메이저대회 우승자"
+    },
+    {
+      "player_id": "10586",
+      "entry_name": "홍진영2",
+      "canonical_player_id_match": true,
+      "canonical_name": "홍진영2",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 정규투어 상금순위 60위 이내"
+    },
+    {
+      "player_id": "11042",
+      "entry_name": "홍현지",
+      "canonical_player_id_match": true,
+      "canonical_name": "홍현지",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10727",
+      "entry_name": "황민정",
+      "canonical_player_id_match": true,
+      "canonical_name": "황민정",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "10157",
+      "entry_name": "황연서",
+      "canonical_player_id_match": true,
+      "canonical_name": "황연서",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "9937",
+      "entry_name": "황유나",
+      "canonical_player_id_match": true,
+      "canonical_name": "황유나",
+      "qualification_category": "자격자",
+      "qualification_reason": "2025 드림투어 상금순위 20위 이내"
+    },
+    {
+      "player_id": "8240",
+      "entry_name": "황정미",
+      "canonical_player_id_match": true,
+      "canonical_name": "황정미",
+      "qualification_category": "자격자",
+      "qualification_reason": "시드순위자"
+    },
+    {
+      "player_id": "8320",
+      "entry_name": "김아림",
+      "canonical_player_id_match": true,
+      "canonical_name": "김아림",
+      "qualification_category": "초청자",
+      "qualification_reason": null
+    },
+    {
+      "player_id": "8764",
+      "entry_name": "김소이",
+      "canonical_player_id_match": true,
+      "canonical_name": "김소이",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_id": "11365",
+      "entry_name": "박서진 0804(A)",
+      "canonical_player_id_match": true,
+      "canonical_name": "박서진 0804(A)",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_id": "11944",
+      "entry_name": "오수민 0809(A)",
+      "canonical_player_id_match": true,
+      "canonical_name": "오수민 0809(A)",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_id": "8436",
+      "entry_name": "유현주",
+      "canonical_player_id_match": true,
+      "canonical_name": "유현주",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_id": "7963",
+      "entry_name": "장하나",
+      "canonical_player_id_match": true,
+      "canonical_name": "장하나",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_id": "10698",
+      "entry_name": "정민서",
+      "canonical_player_id_match": true,
+      "canonical_name": "정민서 0612(A)",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    }
+  ],
+  "player_ids": [
+    "4905",
+    "6916",
+    "7434",
+    "7963",
+    "8234",
+    "8240",
+    "8243",
+    "8246",
+    "8271",
+    "8277",
+    "8284",
+    "8300",
+    "8318",
+    "8320",
+    "8355",
+    "8380",
+    "8386",
+    "8430",
+    "8434",
+    "8436",
+    "8589",
+    "8764",
+    "8770",
+    "8799",
+    "8811",
+    "8838",
+    "8840",
+    "8859",
+    "8863",
+    "8881",
+    "8883",
+    "8884",
+    "8972",
+    "9000",
+    "9082",
+    "9089",
+    "9111",
+    "9113",
+    "9130",
+    "9134",
+    "9135",
+    "9136",
+    "9145",
+    "9174",
+    "9183",
+    "9235",
+    "9277",
+    "9389",
+    "9391",
+    "9401",
+    "9426",
+    "9431",
+    "9436",
+    "9449",
+    "9465",
+    "9483",
+    "9487",
+    "9503",
+    "9652",
+    "9702",
+    "9705",
+    "9708",
+    "9714",
+    "9723",
+    "9728",
+    "9750",
+    "9752",
+    "9759",
+    "9765",
+    "9784",
+    "9788",
+    "9807",
+    "9820",
+    "9937",
+    "9981",
+    "9990",
+    "10002",
+    "10022",
+    "10075",
+    "10081",
+    "10083",
+    "10095",
+    "10097",
+    "10109",
+    "10112",
+    "10139",
+    "10155",
+    "10157",
+    "10178",
+    "10481",
+    "10531",
+    "10577",
+    "10586",
+    "10698",
+    "10725",
+    "10726",
+    "10727",
+    "10789",
+    "10790",
+    "10867",
+    "11040",
+    "11042",
+    "11045",
+    "11056",
+    "11057",
+    "11060",
+    "11066",
+    "11073",
+    "11143",
+    "11216",
+    "11365",
+    "11374",
+    "11446",
+    "11447",
+    "11469",
+    "11649",
+    "11770",
+    "11926",
+    "11944",
+    "12038"
+  ],
+  "unmatched_field": [],
+  "identity_match_summary": {
+    "entrants_total": 120,
+    "matched": 120,
+    "unmatched": 0
+  },
+  "entry_source": {
+    "source_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026120001",
+    "artifact": "OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+    "artifact_sha256": "8e34b2b685646986eaa218b59d78cc3c7107ac03d1629de78baf3f59c2d574b6"
+  },
+  "entry_source_timestamp": "2026-08-30T23:51:36Z",
+  "k_rank_snapshot": {
+    "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+    "artifact_sha256": "1f9af8d8e5d9d2ef28d4ef655439f22dc37af4aee50dc6835499f6a6e0ef9acb",
+    "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+    "ranking_date": "2026-W35",
+    "retrieved_at": "2026-08-31T15:58:02Z",
+    "records": [
+      {
+        "player_id": "10002",
+        "official_rank": 45
+      },
+      {
+        "player_id": "10022",
+        "official_rank": 104
+      },
+      {
+        "player_id": "10075",
+        "official_rank": 137
+      },
+      {
+        "player_id": "10081",
+        "official_rank": 24
+      },
+      {
+        "player_id": "10083",
+        "official_rank": 84
+      },
+      {
+        "player_id": "10095",
+        "official_rank": 5
+      },
+      {
+        "player_id": "10097",
+        "official_rank": 10
+      },
+      {
+        "player_id": "10109",
+        "official_rank": 11
+      },
+      {
+        "player_id": "10112",
+        "official_rank": 15
+      },
+      {
+        "player_id": "10139",
+        "official_rank": 108
+      },
+      {
+        "player_id": "10155",
+        "official_rank": 497
+      },
+      {
+        "player_id": "10157",
+        "official_rank": 130
+      },
+      {
+        "player_id": "10178",
+        "official_rank": 334
+      },
+      {
+        "player_id": "10481",
+        "official_rank": 151
+      },
+      {
+        "player_id": "10531",
+        "official_rank": 87
+      },
+      {
+        "player_id": "10577",
+        "official_rank": 49
+      },
+      {
+        "player_id": "10586",
+        "official_rank": 41
+      },
+      {
+        "player_id": "10698",
+        "official_rank": 161
+      },
+      {
+        "player_id": "10725",
+        "official_rank": 1
+      },
+      {
+        "player_id": "10726",
+        "official_rank": 59
+      },
+      {
+        "player_id": "10727",
+        "official_rank": 95
+      },
+      {
+        "player_id": "10789",
+        "official_rank": 53
+      },
+      {
+        "player_id": "10790",
+        "official_rank": 110
+      },
+      {
+        "player_id": "10867",
+        "official_rank": 277
+      },
+      {
+        "player_id": "11040",
+        "official_rank": 131
+      },
+      {
+        "player_id": "11042",
+        "official_rank": 75
+      },
+      {
+        "player_id": "11045",
+        "official_rank": 36
+      },
+      {
+        "player_id": "11056",
+        "official_rank": 62
+      },
+      {
+        "player_id": "11057",
+        "official_rank": 57
+      },
+      {
+        "player_id": "11060",
+        "official_rank": 92
+      },
+      {
+        "player_id": "11066",
+        "official_rank": 30
+      },
+      {
+        "player_id": "11073",
+        "official_rank": 58
+      },
+      {
+        "player_id": "11143",
+        "official_rank": 23
+      },
+      {
+        "player_id": "11216",
+        "official_rank": 67
+      },
+      {
+        "player_id": "11365",
+        "official_rank": 254
+      },
+      {
+        "player_id": "11374",
+        "official_rank": 96
+      },
+      {
+        "player_id": "11446",
+        "official_rank": 163
+      },
+      {
+        "player_id": "11447",
+        "official_rank": 90
+      },
+      {
+        "player_id": "11469",
+        "official_rank": 248
+      },
+      {
+        "player_id": "11649",
+        "official_rank": 20
+      },
+      {
+        "player_id": "11770",
+        "official_rank": 33
+      },
+      {
+        "player_id": "11926",
+        "official_rank": 484
+      },
+      {
+        "player_id": "11944",
+        "official_rank": 166
+      },
+      {
+        "player_id": "12038",
+        "official_rank": 132
+      },
+      {
+        "player_id": "4905",
+        "official_rank": 149
+      },
+      {
+        "player_id": "6916",
+        "official_rank": 72
+      },
+      {
+        "player_id": "7434",
+        "official_rank": 174
+      },
+      {
+        "player_id": "7963",
+        "official_rank": null
+      },
+      {
+        "player_id": "8234",
+        "official_rank": 113
+      },
+      {
+        "player_id": "8240",
+        "official_rank": 154
+      },
+      {
+        "player_id": "8243",
+        "official_rank": 16
+      },
+      {
+        "player_id": "8246",
+        "official_rank": 120
+      },
+      {
+        "player_id": "8271",
+        "official_rank": 133
+      },
+      {
+        "player_id": "8277",
+        "official_rank": 60
+      },
+      {
+        "player_id": "8284",
+        "official_rank": 17
+      },
+      {
+        "player_id": "8300",
+        "official_rank": 19
+      },
+      {
+        "player_id": "8318",
+        "official_rank": 140
+      },
+      {
+        "player_id": "8320",
+        "official_rank": 204
+      },
+      {
+        "player_id": "8355",
+        "official_rank": 91
+      },
+      {
+        "player_id": "8380",
+        "official_rank": 73
+      },
+      {
+        "player_id": "8386",
+        "official_rank": 122
+      },
+      {
+        "player_id": "8430",
+        "official_rank": 234
+      },
+      {
+        "player_id": "8434",
+        "official_rank": 153
+      },
+      {
+        "player_id": "8436",
+        "official_rank": 667
+      },
+      {
+        "player_id": "8589",
+        "official_rank": 37
+      },
+      {
+        "player_id": "8764",
+        "official_rank": 146
+      },
+      {
+        "player_id": "8770",
+        "official_rank": 70
+      },
+      {
+        "player_id": "8799",
+        "official_rank": 100
+      },
+      {
+        "player_id": "8811",
+        "official_rank": 51
+      },
+      {
+        "player_id": "8838",
+        "official_rank": 79
+      },
+      {
+        "player_id": "8840",
+        "official_rank": 118
+      },
+      {
+        "player_id": "8859",
+        "official_rank": 56
+      },
+      {
+        "player_id": "8863",
+        "official_rank": 111
+      },
+      {
+        "player_id": "8881",
+        "official_rank": 9
+      },
+      {
+        "player_id": "8883",
+        "official_rank": 27
+      },
+      {
+        "player_id": "8884",
+        "official_rank": 135
+      },
+      {
+        "player_id": "8972",
+        "official_rank": 225
+      },
+      {
+        "player_id": "9000",
+        "official_rank": 77
+      },
+      {
+        "player_id": "9082",
+        "official_rank": 21
+      },
+      {
+        "player_id": "9089",
+        "official_rank": 94
+      },
+      {
+        "player_id": "9111",
+        "official_rank": 101
+      },
+      {
+        "player_id": "9113",
+        "official_rank": 6
+      },
+      {
+        "player_id": "9130",
+        "official_rank": 12
+      },
+      {
+        "player_id": "9134",
+        "official_rank": 42
+      },
+      {
+        "player_id": "9135",
+        "official_rank": 28
+      },
+      {
+        "player_id": "9136",
+        "official_rank": 86
+      },
+      {
+        "player_id": "9145",
+        "official_rank": 40
+      },
+      {
+        "player_id": "9174",
+        "official_rank": 114
+      },
+      {
+        "player_id": "9183",
+        "official_rank": 71
+      },
+      {
+        "player_id": "9235",
+        "official_rank": 26
+      },
+      {
+        "player_id": "9277",
+        "official_rank": 136
+      },
+      {
+        "player_id": "9389",
+        "official_rank": 63
+      },
+      {
+        "player_id": "9391",
+        "official_rank": 54
+      },
+      {
+        "player_id": "9401",
+        "official_rank": 38
+      },
+      {
+        "player_id": "9426",
+        "official_rank": 32
+      },
+      {
+        "player_id": "9431",
+        "official_rank": 44
+      },
+      {
+        "player_id": "9436",
+        "official_rank": 147
+      },
+      {
+        "player_id": "9449",
+        "official_rank": 35
+      },
+      {
+        "player_id": "9465",
+        "official_rank": 50
+      },
+      {
+        "player_id": "9483",
+        "official_rank": 80
+      },
+      {
+        "player_id": "9487",
+        "official_rank": 55
+      },
+      {
+        "player_id": "9503",
+        "official_rank": 183
+      },
+      {
+        "player_id": "9652",
+        "official_rank": 47
+      },
+      {
+        "player_id": "9702",
+        "official_rank": 128
+      },
+      {
+        "player_id": "9705",
+        "official_rank": 83
+      },
+      {
+        "player_id": "9708",
+        "official_rank": 61
+      },
+      {
+        "player_id": "9714",
+        "official_rank": 69
+      },
+      {
+        "player_id": "9723",
+        "official_rank": 164
+      },
+      {
+        "player_id": "9728",
+        "official_rank": 150
+      },
+      {
+        "player_id": "9750",
+        "official_rank": 8
+      },
+      {
+        "player_id": "9752",
+        "official_rank": 74
+      },
+      {
+        "player_id": "9759",
+        "official_rank": 43
+      },
+      {
+        "player_id": "9765",
+        "official_rank": 65
+      },
+      {
+        "player_id": "9784",
+        "official_rank": 7
+      },
+      {
+        "player_id": "9788",
+        "official_rank": 13
+      },
+      {
+        "player_id": "9807",
+        "official_rank": 64
+      },
+      {
+        "player_id": "9820",
+        "official_rank": 29
+      },
+      {
+        "player_id": "9937",
+        "official_rank": 112
+      },
+      {
+        "player_id": "9981",
+        "official_rank": 165
+      },
+      {
+        "player_id": "9990",
+        "official_rank": 82
+      }
+    ]
+  },
+  "neo_input_snapshot": {
+    "artifact": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json",
+    "artifact_sha256": "d4b0bd6ceaa1dbbba10c15d95f2cf182b4bdef2de1b9057a2e813a55fdaf964b",
+    "cutoff": "2026-09-04T00:00:00+09:00",
+    "future_data_excluded": true,
+    "data_version": "historical_sg_warehouse schema 1.0",
+    "warehouse_generated_at": "2026-08-30T22:28:38Z",
+    "calculation_version": "ok_open_pre_performance_v1",
+    "entry_snapshot_sha256": "8e34b2b685646986eaa218b59d78cc3c7107ac03d1629de78baf3f59c2d574b6"
+  },
+  "pre_predictions": {
+    "artifact": "OK_OPEN_2026_PRE_WIN_FORECAST.json",
+    "artifact_sha256": "b0229c47b937235b5b2e5c9422daca6d37bf79a19648c65e2aa57aee15c544e9",
+    "model_version": "M4",
+    "cutoff": "2026-09-04T00:00:00+09:00",
+    "future_data_excluded": true,
+    "status": "AVAILABLE"
+  },
+  "model_version": "M4",
+  "is_retrospective_research": false,
+  "generated_at": "2026-09-07T12:55:15Z",
+  "freeze_timestamp": "2026-09-04T00:00:00+09:00",
+  "source_provenance": {
+    "entry_source": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026120001",
+    "k_rank_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+    "neo_input_source": "OK_OPEN_2026_PRE_PERFORMANCE_SNAPSHOT.json (see neo_input_snapshot for its own chained provenance)"
+  },
+  "validation_status": "FIELD_IDENTITY_CLEAN",
+  "artifact_hash": "8a3ae53b460ad25060681c1c3109e9e8af82438159a291550bfdd39cc4037297"
+}

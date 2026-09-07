@@ -1,0 +1,261 @@
+{
+  "schema_version": "neo_krank_sg_neo_validation_v1",
+  "generated_at": "2026-09-07T12:55:15Z",
+  "source": {
+    "artifact": "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json",
+    "k_rank_field": "official_klpga_rank",
+    "sg_field": "sg_total_rank (recent5 cumulative SG mean rank, see that artifact's own provenance)",
+    "population": "OK Open 2026 entrants only (120) -- not yet the full active-tour universe"
+  },
+  "k_rank_vs_sg": {
+    "spearman": {
+      "rho": 0.7357475108599547,
+      "n": 116,
+      "excluded_a_only": [
+        "10155",
+        "10698",
+        "10789"
+      ],
+      "excluded_b_only": [
+        "7963"
+      ],
+      "reason": null
+    },
+    "top10_overlap": {
+      "n": 10,
+      "top_a_count": 10,
+      "top_b_count": 10,
+      "overlap_count": 4,
+      "overlap_player_ids": [
+        "10725",
+        "9130",
+        "9784",
+        "9788"
+      ],
+      "only_in_a": [
+        "10095",
+        "10097",
+        "10109",
+        "8881",
+        "9113",
+        "9750"
+      ],
+      "only_in_b": [
+        "10081",
+        "11649",
+        "11770",
+        "8243",
+        "8284",
+        "9449"
+      ]
+    },
+    "top20_overlap": {
+      "n": 20,
+      "top_a_count": 20,
+      "top_b_count": 20,
+      "overlap_count": 13,
+      "overlap_player_ids": [
+        "10081",
+        "10109",
+        "10725",
+        "11649",
+        "8243",
+        "8284",
+        "8300",
+        "8881",
+        "9082",
+        "9130",
+        "9235",
+        "9784",
+        "9788"
+      ],
+      "only_in_a": [
+        "10095",
+        "10097",
+        "10112",
+        "11143",
+        "8883",
+        "9113",
+        "9750"
+      ],
+      "only_in_b": [
+        "11216",
+        "11770",
+        "8320",
+        "9135",
+        "9426",
+        "9449",
+        "9820"
+      ]
+    },
+    "top50_overlap": {
+      "n": 50,
+      "top_a_count": 50,
+      "top_b_count": 50,
+      "overlap_count": 36,
+      "overlap_player_ids": [
+        "10081",
+        "10095",
+        "10097",
+        "10109",
+        "10112",
+        "10577",
+        "10586",
+        "10725",
+        "10726",
+        "11045",
+        "11066",
+        "11649",
+        "11770",
+        "8243",
+        "8284",
+        "8300",
+        "8589",
+        "8811",
+        "8859",
+        "8881",
+        "8883",
+        "9082",
+        "9113",
+        "9130",
+        "9134",
+        "9135",
+        "9235",
+        "9391",
+        "9401",
+        "9426",
+        "9449",
+        "9652",
+        "9750",
+        "9784",
+        "9788",
+        "9820"
+      ],
+      "only_in_a": [
+        "10002",
+        "10789",
+        "11056",
+        "11057",
+        "11073",
+        "11143",
+        "8277",
+        "9145",
+        "9389",
+        "9431",
+        "9465",
+        "9487",
+        "9708",
+        "9759"
+      ],
+      "only_in_b": [
+        "10022",
+        "10075",
+        "10083",
+        "10139",
+        "10790",
+        "11216",
+        "11374",
+        "11447",
+        "8320",
+        "8380",
+        "9089",
+        "9752",
+        "9807",
+        "9990"
+      ]
+    },
+    "largest_divergences": [
+      {
+        "player_id": "8320",
+        "rank_a": 108,
+        "rank_b": 15,
+        "delta": 93
+      },
+      {
+        "player_id": "9759",
+        "rank_a": 33,
+        "rank_b": 97,
+        "delta": -64
+      },
+      {
+        "player_id": "10867",
+        "rank_a": 113,
+        "rank_b": 52,
+        "delta": 61
+      },
+      {
+        "player_id": "10022",
+        "rank_a": 76,
+        "rank_b": 27,
+        "delta": 49
+      },
+      {
+        "player_id": "11143",
+        "rank_a": 17,
+        "rank_b": 66,
+        "delta": -49
+      },
+      {
+        "player_id": "10075",
+        "rank_a": 93,
+        "rank_b": 48,
+        "delta": 45
+      },
+      {
+        "player_id": "9487",
+        "rank_a": 41,
+        "rank_b": 86,
+        "delta": -45
+      },
+      {
+        "player_id": "10139",
+        "rank_a": 77,
+        "rank_b": 36,
+        "delta": 41
+      },
+      {
+        "player_id": "10531",
+        "rank_a": 67,
+        "rank_b": 108,
+        "delta": -41
+      },
+      {
+        "player_id": "10790",
+        "rank_a": 78,
+        "rank_b": 38,
+        "delta": 40
+      }
+    ]
+  },
+  "k_rank_vs_neo": {
+    "status": "BLOCKED_FORMULA_NOT_APPROVED",
+    "spearman": null,
+    "top10_overlap": null,
+    "top20_overlap": null,
+    "top50_overlap": null,
+    "largest_divergences": null
+  },
+  "sg_vs_neo": {
+    "status": "BLOCKED_FORMULA_NOT_APPROVED",
+    "spearman": null,
+    "top10_overlap": null,
+    "top20_overlap": null,
+    "top50_overlap": null,
+    "largest_divergences": null
+  },
+  "neo_ranking_publication_status": "BLOCKED_FORMULA_NOT_APPROVED",
+  "future_predictive_performance": {
+    "future_5r_sg": {
+      "status": "NOT_YET_COMPUTED",
+      "intended_source": "src/klpga/backtest/walk_forward.py"
+    },
+    "future_10r_sg": {
+      "status": "NOT_YET_COMPUTED",
+      "intended_source": "src/klpga/backtest/walk_forward.py"
+    },
+    "future_20r_sg": {
+      "status": "NOT_YET_COMPUTED",
+      "intended_source": "src/klpga/backtest/walk_forward.py"
+    }
+  }
+}
