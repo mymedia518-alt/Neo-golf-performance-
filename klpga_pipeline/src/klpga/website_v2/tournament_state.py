@@ -122,6 +122,19 @@ def ok_open_latest_available_stage() -> tuple[str, str]:
     raise RuntimeError("no OK Open stage has validated data yet")
 
 
+def ok_open_tournament_is_complete() -> bool:
+    """True only once the LAST stage in STAGE_ORDER (the tournament's
+    own real, curated stage list -- "final" for OK Open, also "final"
+    for KG Ladies Open) has validated data behind it. This is the one
+    authoritative "has this tournament actually ended" signal --
+    PUBLIC UI correction: a tournament's own SCHEDULED end_date can go
+    stale (a real-world delay, a postponed final round) while it is
+    still genuinely being played; only real stage-validation evidence,
+    never a calendar date, may retire it from "이번 대회" into "지난 대회"
+    (see klpga.website_v2.tournament_chronology, which consumes this)."""
+    return STAGE_ORDER[-1] in ok_open_available_stages()
+
+
 def home_mode() -> str:
     """TOURNAMENT_ACTIVE while a real tournament has at least one
     validated stage available; RANKING_DEFAULT otherwise (no active

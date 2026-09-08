@@ -166,3 +166,12 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    text-wrap:balance additionally keeps a forced mobile wrap from ever
    leaving a lone short trailing line. */
 .home-head .ranking-compare-heading{max-width:48rem;text-wrap:balance}
+/* PUBLIC UI correction (GLOBAL SPONSOR RULE): the verified sponsor
+   must render directly BELOW the player name everywhere -- this was
+   previously only true where a page's own local stylesheet happened
+   to declare it (OK Open's stage pages); .player-name/.player-sponsor
+   (HOME/RANKING and every promotion-time-normalized frozen page) had
+   no such rule at all, so the sponsor text ran inline on the same
+   line as the name with no visual separation. */
+.player-name{display:block;font-weight:700}
+.player-sponsor{display:block;color:var(--muted);font-size:.78rem;margin-top:.15rem}
