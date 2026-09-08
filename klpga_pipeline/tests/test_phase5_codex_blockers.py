@@ -751,3 +751,44 @@ def test_active_cycle_script_only_goes_live_on_explicit_opt_in():
         pytest.skip("active-cycle wrapper not present in this checkout")
     text = path.read_text(encoding="utf-8-sig", errors="ignore")
     assert "--live" in text
+
+
+def test_installer_registers_the_canonical_wrapper_via_dynamic_repo_path():
+    """Phase 6 (scheduler path): the installer's Task Scheduler action
+    must be built from this script's own on-disk folder ($PSScriptRoot,
+    never a machine-specific literal) and must point at the canonical
+    NEO-GOLF-R1-ACTIVE-30MIN.ps1 -- never the retired
+    NEO-GOLF-TOURNAMENT-OPERATOR.ps1 path. Inspects the source text only
+    (command construction) -- never mutates a real Windows Task
+    Scheduler, which does not exist in this Linux test environment."""
+    path = REPO_ROOT / "NEO-GOLF-R1-INSTALL-SCHEDULE.ps1"
+    if not path.is_file():
+        pytest.skip("installer script not present in this checkout")
+    text = path.read_text(encoding="utf-8-sig", errors="ignore")
+    assert "$Repo = $PSScriptRoot" in text, "repo location must be derived dynamically, not hardcoded"
+    assert "NEO-GOLF-R1-ACTIVE-30MIN.ps1" in text
+    assert "NEO-GOLF-TOURNAMENT-OPERATOR.ps1" not in text, (
+        "installer must never register the retired competing operator script"
+    )
+    assert "New-ScheduledTaskAction" in text and "$ScriptPath" in text
+    assert "TaskName = 'NEO-GOLF-R1-ACTIVE-30MIN'" in text
+
+
+def test_active_cycle_wrapper_dispatches_through_generic_run_tournament_entry_point():
+    """The scheduled 30-minute wrapper must dispatch through the single
+    generic entry point (run_tournament.py --live --git-push), never a
+    hardcoded per-stage script (e.g. a direct call to
+    96_ok_open_r1_active_cycle.py) -- that generic dispatch is what lets
+    the same registered task keep running unattended across R1 -> R2 ->
+    FINAL -> POSTMORTEM without ever needing re-registration."""
+    path = REPO_ROOT / "NEO-GOLF-R1-ACTIVE-30MIN.ps1"
+    if not path.is_file():
+        pytest.skip("active-cycle wrapper not present in this checkout")
+    text = path.read_text(encoding="utf-8-sig", errors="ignore")
+    invocation_lines = [line for line in text.splitlines() if "= & $Python" in line or "&$Python" in line]
+    assert invocation_lines, "no PowerShell python-invocation line found"
+    assert any("run_tournament.py" in line for line in invocation_lines)
+    assert any("--live" in line and "--git-push" in line for line in invocation_lines)
+    assert not any("96_ok_open_r1_active_cycle.py" in line for line in invocation_lines), (
+        "the actual dispatched command must be run_tournament.py, not a direct per-stage script call"
+    )
