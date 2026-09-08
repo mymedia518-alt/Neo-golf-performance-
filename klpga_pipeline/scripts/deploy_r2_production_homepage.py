@@ -53,6 +53,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -183,8 +184,12 @@ def main() -> int:
     parser.add_argument("--cut-eval-csv", required=True)
     parser.add_argument("--forecast-csv", required=True)
     parser.add_argument("--repo-root", default=str(REPO_ROOT_DEFAULT))
-    parser.add_argument("--r1-html-path", default=None, help="Defaults to <repo-root>/docs/tournaments/2026/kg-ladies-open/r1/index.html")
-    parser.add_argument("--r2-html-path", default=None, help="Defaults to <repo-root>/docs/tournaments/2026/kg-ladies-open/r2/index.html")
+    parser.add_argument("--r1-html-path", default=None,
+                         help="Defaults to <repo-root>/docs/<url_base>/r1/index.html, where url_base is "
+                              "--game-code's own entry in TOURNAMENT_SITE_REGISTRY.json")
+    parser.add_argument("--r2-html-path", default=None,
+                         help="Defaults to <repo-root>/docs/<url_base>/r2/index.html, where url_base is "
+                              "--game-code's own entry in TOURNAMENT_SITE_REGISTRY.json")
     parser.add_argument("--root-index-path", default=None, help="Defaults to <repo-root>/docs/index.html")
     parser.add_argument("--expected-population", type=int, default=None)
     parser.add_argument(
@@ -197,8 +202,33 @@ def main() -> int:
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root)
-    r1_html_path = Path(args.r1_html_path) if args.r1_html_path else repo_root / "docs" / "tournaments" / "2026" / "kg-ladies-open" / "r1" / "index.html"
-    r2_html_path = Path(args.r2_html_path) if args.r2_html_path else repo_root / "docs" / "tournaments" / "2026" / "kg-ladies-open" / "r2" / "index.html"
+
+    def _registry_url_base(game_code: str) -> str:
+        """Fail-closed default-path resolution (Phase 7): --r1-html-path/
+        --r2-html-path may always be passed explicitly for any game_code
+        (including one with no registry entry, e.g. a synthetic/unseen
+        one), but a DEFAULT path is only ever derived from a real,
+        provable TOURNAMENT_SITE_REGISTRY.json entry for --game-code --
+        never a guessed/hardcoded tournament slug."""
+        registry_path = ROOT / "content" / "website_v2" / "TOURNAMENT_SITE_REGISTRY.json"
+        registry = json.loads(registry_path.read_text(encoding="utf-8-sig")).get("tournaments", {})
+        entry = registry.get(game_code)
+        if entry is None:
+            raise SystemExit(
+                f"FATAL: no TOURNAMENT_SITE_REGISTRY.json entry for --game-code {game_code!r} -- "
+                "cannot derive a default --r1-html-path/--r2-html-path. Pass both explicitly, or "
+                "add a registry entry for this tournament first."
+            )
+        return str(entry["url_base"]).strip("/")
+
+    if args.r1_html_path:
+        r1_html_path = Path(args.r1_html_path)
+    else:
+        r1_html_path = repo_root / "docs" / _registry_url_base(args.game_code) / "r1" / "index.html"
+    if args.r2_html_path:
+        r2_html_path = Path(args.r2_html_path)
+    else:
+        r2_html_path = repo_root / "docs" / _registry_url_base(args.game_code) / "r2" / "index.html"
     root_index_path = Path(args.root_index_path) if args.root_index_path else repo_root / "docs" / "index.html"
 
     print("=== BETA #001 R2 PRODUCTION DEPLOYMENT ===")

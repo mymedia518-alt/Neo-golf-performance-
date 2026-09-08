@@ -51,10 +51,18 @@ def _write_forecast_csv(path: Path, rows: list[dict]) -> None:
 
 
 def _base_args(tmp_path, argv_extra=()):
+    # GAME_CODE is a synthetic, deliberately-UNREGISTERED game_code (no
+    # TOURNAMENT_SITE_REGISTRY.json entry) -- Phase 7 made the script's
+    # default --r1-html-path/--r2-html-path resolution fail closed for
+    # exactly that case (no registry entry to derive a route from), so
+    # this fixture now passes both explicitly, proving the "explicit
+    # CLI path override always works, even for an unseen tournament"
+    # half of that contract.
     repo_root = tmp_path / "repo"
     r1_html = repo_root / "docs" / "tournaments" / "2026" / "kg-ladies-open" / "r1" / "index.html"
     r1_html.parent.mkdir(parents=True, exist_ok=True)
     r1_html.write_text(_R1_HTML_FIXTURE, encoding="utf-8")
+    r2_html = repo_root / "docs" / "tournaments" / "2026" / "kg-ladies-open" / "r2" / "index.html"
 
     return [
         "deploy_r2_production_homepage.py",
@@ -68,6 +76,8 @@ def _base_args(tmp_path, argv_extra=()):
         "--c-predictions-dir", str(tmp_path / "neo_win_c_predictions"),
         "--outputs-csv-path", str(tmp_path / "BETA001_R1_FULL.csv"),
         "--repo-root", str(repo_root),
+        "--r1-html-path", str(r1_html),
+        "--r2-html-path", str(r2_html),
         *argv_extra,
     ], r1_html
 

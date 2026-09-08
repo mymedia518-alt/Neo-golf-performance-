@@ -22,22 +22,43 @@ REPO_ROOT = ROOT.parent
 SITE_ROOT = ROOT / "candidate" / "neo-data-home-top120"
 ARTIFACTS = REPO_ROOT / "artifacts" / "website_v3_visual_qa"
 CHROMIUM = "/opt/pw-browsers/chromium"
+SITE_REGISTRY_PATH = ROOT / "content" / "website_v2" / "TOURNAMENT_SITE_REGISTRY.json"
+
+
+def _tournament_routes() -> tuple[list[tuple[str, str]], dict[str, str]]:
+    """Derived from TOURNAMENT_SITE_REGISTRY.json (Phase 7), never a
+    hand-maintained per-tournament literal list -- every registered
+    tournament (completed/historical ones like KG Ladies Open included,
+    since a finished tournament's entry stays in the registry) gets QA
+    coverage automatically, and a newly registered game_code needs no
+    edit here. Every tournament route falls under the same "대회" global
+    nav section (matching every route this hand-written list previously
+    covered), so that mapping is derived generically too, not per-slug."""
+    routes: list[tuple[str, str]] = []
+    active_section: dict[str, str] = {}
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+    for entry in registry.values():
+        url_base = str(entry["url_base"]).strip("/")
+        slug_root = url_base.rsplit("/", 1)[-1]
+        if entry.get("has_hub_index"):
+            key = f"{slug_root}-overview"
+            routes.append((key, f"/{url_base}/"))
+            active_section[key] = "대회"
+        for stage in (entry.get("hub_card") or {}).get("nav_stages") or []:
+            key = f"{slug_root}-{stage}"
+            routes.append((key, f"/{url_base}/{stage}/"))
+            active_section[key] = "대회"
+    return routes, active_section
+
+
+_TOURNAMENT_ROUTES, _TOURNAMENT_ACTIVE_SECTION = _tournament_routes()
 
 ALL_ROUTES = [
     ("home", "/"),
     ("tournaments-hub", "/tournaments/"),
     ("deep-dive", "/deep-dive/"),
     ("about", "/about/"),
-    ("kg-overview", "/tournaments/2026/kg-ladies-open/"),
-    ("kg-pre", "/tournaments/2026/kg-ladies-open/pre/"),
-    ("kg-r1", "/tournaments/2026/kg-ladies-open/r1/"),
-    ("kg-r2", "/tournaments/2026/kg-ladies-open/r2/"),
-    ("kg-r3", "/tournaments/2026/kg-ladies-open/r3/"),
-    ("kg-final", "/tournaments/2026/kg-ladies-open/final/"),
-    ("ok-pre", "/tournaments/2026/ok-savings-bank-open/pre/"),
-    ("ok-r1", "/tournaments/2026/ok-savings-bank-open/r1/"),
-    ("ok-r2", "/tournaments/2026/ok-savings-bank-open/r2/"),
-    ("ok-final", "/tournaments/2026/ok-savings-bank-open/final/"),
+    *_TOURNAMENT_ROUTES,
 ]
 _by_slug = dict(ALL_ROUTES)
 
@@ -46,8 +67,7 @@ _by_slug = dict(ALL_ROUTES)
 # would mean no nav item should be marked active.
 EXPECTED_ACTIVE_SECTION = {
     "home": "홈", "tournaments-hub": "대회", "deep-dive": "딥다이브", "about": "소개",
-    "kg-overview": "대회", "kg-pre": "대회", "kg-r1": "대회", "kg-r2": "대회", "kg-r3": "대회", "kg-final": "대회",
-    "ok-pre": "대회", "ok-r1": "대회", "ok-r2": "대회", "ok-final": "대회",
+    **_TOURNAMENT_ACTIVE_SECTION,
 }
 
 VIEWPORT_ROUTES = {
