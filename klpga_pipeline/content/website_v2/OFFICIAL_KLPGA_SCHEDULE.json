@@ -21,6 +21,26 @@
       "source_identity": "content/website_v2/OK_OPEN_2026_ENTRY_SNAPSHOT.json",
       "retrieved_at": "2026-08-30T23:51:36Z",
       "source_hash": "8e34b2b685646986eaa218b59d78cc3c7107ac03d1629de78baf3f59c2d574b6"
+    },
+    {
+      "game_code": "2026090003",
+      "tournament_name": "KB금융 골든라이프 챔피언십",
+      "start_date": "2026-09-10",
+      "end_date": "2026-09-13",
+      "venue": "블랙스톤 이천",
+      "source_identity": "content/website_v2/KLPGA_2026_09_SCHEDULE_SCREENSHOT_EVIDENCE.json#rows_visible[1]",
+      "retrieved_at": "2026-09-08T00:00:00Z",
+      "source_hash": "f3217e77fe8954f0f940a7d01cd4e93fdac2437657b24aaf895f2a04b7897ea2"
+    },
+    {
+      "game_code": "2026090002",
+      "tournament_name": "하나금융그룹 챔피언십",
+      "start_date": "2026-09-17",
+      "end_date": "2026-09-20",
+      "venue": "더헤븐",
+      "source_identity": "content/website_v2/KLPGA_2026_09_SCHEDULE_SCREENSHOT_EVIDENCE.json#rows_visible[2]",
+      "retrieved_at": "2026-09-08T00:00:00Z",
+      "source_hash": "f3217e77fe8954f0f940a7d01cd4e93fdac2437657b24aaf895f2a04b7897ea2"
     }
   ]
 }
