@@ -1,0 +1,325 @@
+{
+  "schema_version": "neo_two_event_validation_report_v1",
+  "generated_at_utc": "2026-09-06T21:29:39Z",
+  "manifest_id": "NEO_TWO_EVENT_VALIDATION_20260906_V1",
+  "repository_root": "C:\\Users\\user\\Desktop\\Neo-golf-performance-live",
+  "policy": {
+    "official_source_hosts": [
+      "klpga.co.kr",
+      "data.klpga.co.kr"
+    ],
+    "future_data_excluded_required": true,
+    "no_result_fabrication": true,
+    "freeze_before_tuning": true,
+    "tuning_allowed_only_when_all_events_are_pass": true,
+    "54_hole_forecast_stage_names": [
+      "PRE",
+      "R1",
+      "R2",
+      "POST_R2_PRE_FINAL",
+      "FINAL_FORECAST"
+    ],
+    "public_r3_is_legacy_alias_for": "FINAL_FORECAST"
+  },
+  "events": [
+    {
+      "game_code": "2026080001",
+      "name": "제15회 KG 레이디스 오픈",
+      "status": "WAIT",
+      "forecast": {
+        "status": "WAIT",
+        "path": "klpga_pipeline/predictions/2026/prediction_001_2026080001.json",
+        "sha256": "0e1fbd013d1e5280887636fc7d504b537f71833dfca918bb876e7ce0fd5301ea",
+        "stage": "PRE",
+        "record_count": 120,
+        "checks": [
+          {
+            "name": "FORECAST_FILE_EXISTS",
+            "passed": true
+          },
+          {
+            "name": "FORECAST_JSON_READABLE",
+            "passed": true
+          },
+          {
+            "name": "FORECAST_GAME_CODE_MATCH",
+            "passed": true,
+            "actual": "2026080001",
+            "expected": "2026080001"
+          },
+          {
+            "name": "STAGE_CONTRACT",
+            "passed": true,
+            "stage": "PRE"
+          },
+          {
+            "name": "FUTURE_DATA_EXCLUDED",
+            "passed": false,
+            "value": "not_explicit_in_legacy_artifact"
+          },
+          {
+            "name": "FORECAST_RECORDS_PRESENT",
+            "passed": true,
+            "record_count": 120
+          },
+          {
+            "name": "PLAYER_KEYS_UNIQUE",
+            "passed": true,
+            "duplicates": []
+          },
+          {
+            "name": "PROBABILITIES_IN_0_100",
+            "passed": true,
+            "bad_rows": []
+          },
+          {
+            "name": "PROBABILITY_MONOTONICITY",
+            "passed": true,
+            "bad_rows": []
+          },
+          {
+            "name": "WIN_PROBABILITY_SUM",
+            "passed": true,
+            "sum_pct": 100.0
+          }
+        ],
+        "errors": [],
+        "warnings": [
+          "legacy forecast lacks an explicit future_data_excluded field; keep review flag in freeze record"
+        ]
+      },
+      "result": {
+        "status": "PASS",
+        "path": "klpga_pipeline/content/website_v2/kg_2026080001_official.json",
+        "sha256": "ba551887f984761dbb40e651c842dd725fa087e17a81a55d7e1fe58dba2efd64",
+        "record_count": 119,
+        "checks": [
+          {
+            "name": "OFFICIAL_RESULT_FROZEN",
+            "passed": true
+          },
+          {
+            "name": "RESULT_JSON_READABLE",
+            "passed": true
+          },
+          {
+            "name": "RESULT_GAME_CODE_MATCH",
+            "passed": true,
+            "actual": "2026080001",
+            "expected": "2026080001"
+          },
+          {
+            "name": "OFFICIAL_SOURCE_AUDIT_PRESENT",
+            "passed": true,
+            "path": "klpga_pipeline/content/website_v2/kg_2026080001_source_audit.json"
+          },
+          {
+            "name": "RESULT_RECORDS_PRESENT",
+            "passed": true,
+            "record_count": 119
+          }
+        ],
+        "errors": [],
+        "warnings": []
+      },
+      "score": {
+        "status": "EVALUATED",
+        "actual_winner_id": "9135",
+        "actual_winner_name": "신다인",
+        "predicted_top1_id": "11134",
+        "predicted_top1_name": "서교림",
+        "winner_hit": false,
+        "actual_winner_probability_pct": 1.896015,
+        "brier_score": 0.00829809,
+        "log_loss": 3.96541603,
+        "winner_in_predicted_top5": false,
+        "winner_in_predicted_top10": false,
+        "actual_top5_coverage": 0.285714,
+        "actual_top10_coverage": 0.2,
+        "matched_player_count": 118,
+        "forecast_player_count": 120,
+        "result_player_count": 119,
+        "rank_mae": 28.872727,
+        "calibration_status": "INSUFFICIENT_SAMPLE: stage-level calibration requires more tournaments"
+      },
+      "tuning_allowed_for_event": false
+    },
+    {
+      "game_code": "2026120001",
+      "name": "OK저축은행 읏맨 오픈",
+      "status": "PASS",
+      "forecast": {
+        "status": "PASS",
+        "path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_POST_R2_FINAL_FORECAST.json",
+        "sha256": "b24535583a91fda11269c8b39aa1919826d16ac479d9d8338308d0912868f20c",
+        "stage": "POST_R2_PRE_FINAL",
+        "record_count": 68,
+        "checks": [
+          {
+            "name": "FORECAST_FILE_EXISTS",
+            "passed": true
+          },
+          {
+            "name": "FORECAST_JSON_READABLE",
+            "passed": true
+          },
+          {
+            "name": "FORECAST_GAME_CODE_MATCH",
+            "passed": true,
+            "actual": "2026120001",
+            "expected": "2026120001"
+          },
+          {
+            "name": "STAGE_CONTRACT",
+            "passed": true,
+            "stage": "POST_R2_PRE_FINAL"
+          },
+          {
+            "name": "FUTURE_DATA_EXCLUDED",
+            "passed": true,
+            "value": true
+          },
+          {
+            "name": "FORECAST_RECORDS_PRESENT",
+            "passed": true,
+            "record_count": 68
+          },
+          {
+            "name": "PLAYER_KEYS_UNIQUE",
+            "passed": true,
+            "duplicates": []
+          },
+          {
+            "name": "PROBABILITIES_IN_0_100",
+            "passed": true,
+            "bad_rows": []
+          },
+          {
+            "name": "PROBABILITY_MONOTONICITY",
+            "passed": true,
+            "bad_rows": []
+          },
+          {
+            "name": "WIN_PROBABILITY_SUM",
+            "passed": true,
+            "sum_pct": 100.0
+          }
+        ],
+        "errors": [],
+        "warnings": []
+      },
+      "result": {
+        "status": "PASS",
+        "path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_FINAL_RESULT.json",
+        "sha256": "32856b048b4c1f73d41b1ff9282d5997befc1dbc2a3901a6ea23cac967a5c517",
+        "record_count": 68,
+        "checks": [
+          {
+            "name": "OFFICIAL_RESULT_FROZEN",
+            "passed": true
+          },
+          {
+            "name": "RESULT_JSON_READABLE",
+            "passed": true
+          },
+          {
+            "name": "RESULT_GAME_CODE_MATCH",
+            "passed": true,
+            "actual": "2026120001",
+            "expected": "2026120001"
+          },
+          {
+            "name": "OFFICIAL_SOURCE_AUDIT_PRESENT",
+            "passed": true,
+            "path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_FINAL_RESULT_SOURCE_AUDIT.json"
+          },
+          {
+            "name": "RESULT_RECORDS_PRESENT",
+            "passed": true,
+            "record_count": 68
+          }
+        ],
+        "errors": [],
+        "warnings": []
+      },
+      "score": {
+        "status": "EVALUATED",
+        "actual_winner_id": "8284",
+        "actual_winner_name": "최예림",
+        "predicted_top1_id": "8284",
+        "predicted_top1_name": "최예림",
+        "winner_hit": true,
+        "actual_winner_probability_pct": 99.34,
+        "brier_score": 8.7e-07,
+        "log_loss": 0.00662188,
+        "winner_in_predicted_top5": true,
+        "winner_in_predicted_top10": true,
+        "actual_top5_coverage": 0.6,
+        "actual_top10_coverage": 0.636364,
+        "matched_player_count": 68,
+        "forecast_player_count": 68,
+        "result_player_count": 68,
+        "rank_mae": 13.352941,
+        "calibration_status": "INSUFFICIENT_SAMPLE: stage-level calibration requires more tournaments"
+      },
+      "tuning_allowed_for_event": true
+    }
+  ],
+  "global_status": "WAIT",
+  "postmortem_freeze": "BLOCKED",
+  "model_tuning": "BLOCKED",
+  "next_event_mode": "SHADOW_ONLY",
+  "blockers": [
+    {
+      "game_code": "2026080001",
+      "status": "WAIT"
+    }
+  ],
+  "scoring": {
+    "evaluated_event_count": 2,
+    "stage_local_only": true,
+    "calibration_status": "INSUFFICIENT_SAMPLE: two events are not enough for production calibration; keep PRE and POST_R2_PRE_FINAL separate",
+    "events": [
+      {
+        "status": "EVALUATED",
+        "actual_winner_id": "9135",
+        "actual_winner_name": "신다인",
+        "predicted_top1_id": "11134",
+        "predicted_top1_name": "서교림",
+        "winner_hit": false,
+        "actual_winner_probability_pct": 1.896015,
+        "brier_score": 0.00829809,
+        "log_loss": 3.96541603,
+        "winner_in_predicted_top5": false,
+        "winner_in_predicted_top10": false,
+        "actual_top5_coverage": 0.285714,
+        "actual_top10_coverage": 0.2,
+        "matched_player_count": 118,
+        "forecast_player_count": 120,
+        "result_player_count": 119,
+        "rank_mae": 28.872727,
+        "calibration_status": "INSUFFICIENT_SAMPLE: stage-level calibration requires more tournaments"
+      },
+      {
+        "status": "EVALUATED",
+        "actual_winner_id": "8284",
+        "actual_winner_name": "최예림",
+        "predicted_top1_id": "8284",
+        "predicted_top1_name": "최예림",
+        "winner_hit": true,
+        "actual_winner_probability_pct": 99.34,
+        "brier_score": 8.7e-07,
+        "log_loss": 0.00662188,
+        "winner_in_predicted_top5": true,
+        "winner_in_predicted_top10": true,
+        "actual_top5_coverage": 0.6,
+        "actual_top10_coverage": 0.636364,
+        "matched_player_count": 68,
+        "forecast_player_count": 68,
+        "result_player_count": 68,
+        "rank_mae": 13.352941,
+        "calibration_status": "INSUFFICIENT_SAMPLE: stage-level calibration requires more tournaments"
+      }
+    ]
+  }
+}

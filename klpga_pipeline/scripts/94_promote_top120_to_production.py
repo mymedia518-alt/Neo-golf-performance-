@@ -49,6 +49,7 @@ from klpga.website_v2.freshness_gate import (  # noqa: E402
 )
 from klpga.website_v2.home_ownership_guard import TOP120_OWNER, extract_owner, validate_top120_population  # noqa: E402
 from klpga.website_v2.model_publication_gate import ModelPublicationGateError, assert_no_blocked_probability_output  # noqa: E402
+from klpga.website_v2.constant_integrity import ConstantIntegrityError, validate_live_tree  # noqa: E402
 from klpga.website_v2.tournament_state import home_mode, ok_open_latest_available_stage  # noqa: E402
 
 MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
@@ -196,6 +197,16 @@ def _validate_tree(root: Path, label: str) -> None:
 def promote() -> None:
     if not SOURCE.is_dir():
         raise PromotionError(f"promotion source does not exist: {SOURCE}")
+
+    try:
+        validate_live_tree(
+            candidate_root=SOURCE,
+            production_root=DEST,
+            contract_path=CONTENT / "NEO_LIVE_TEMPLATE_CONTRACT.json",
+            repository_root=REPO_ROOT,
+        )
+    except ConstantIntegrityError as exc:
+        raise PromotionError(str(exc)) from exc
 
     print(f"=== P0-5 PRODUCTION PROMOTION: {SOURCE} -> {DEST} ===")
     print()
