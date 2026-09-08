@@ -25,6 +25,19 @@ from klpga.website_v2.tournament_chronology import (  # noqa: E402
     resolve_tournament_chronology,
 )
 from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
+from klpga.website_v2.official_schedule import ScheduleEntry  # noqa: E402
+
+
+def _entry(game_code, name, start, end, venue=None):
+    """Synthetic official-schedule fixture entry -- Red Team FAIL B:
+    resolve_tournament_chronology() now reads calendar identity ONLY
+    from ScheduleEntry objects like this one, never from the site
+    registry and never from any pipeline stage-validation signal."""
+    return ScheduleEntry(
+        game_code=game_code, tournament_name=name, start_date=start, end_date=end,
+        source_identity="tests/fixture", retrieved_at="2026-01-01T00:00:00Z", source_hash="0" * 64,
+        venue=venue,
+    )
 
 
 @pytest.fixture(scope="module")
@@ -159,46 +172,57 @@ def test_home_contains_last_current_next_tournament_cards(built):
         assert kicker in html
 
 
-def test_real_active_tournament_still_shown_as_current_despite_stale_schedule(built):
-    """The real, production registry+context data: OK Open's own
-    scheduled end_date has passed (it's a multi-day event whose real
-    final round hasn't been played yet), but it is NOT genuinely
-    complete (no "final" stage validated) -- 이번 대회 must show it, not
-    blank it out for a calendar reason alone."""
-    from klpga.website_v2.tournament_state import ok_open_tournament_is_complete, OK_GAME_CODE
-    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    if not ok_open_tournament_is_complete():
-        assert f'data-game-code="{OK_GAME_CODE}"' in html
-        current_card = re.search(r'data-tournament-card="current"[^>]*>.*?</article>', html, flags=re.S)
-        assert current_card and OK_GAME_CODE in current_card.group(0), (
-            "the still-active tournament must be 이번 대회, not blanked out by a stale schedule date"
-        )
+def test_real_official_schedule_drives_home_never_pipeline_stage_state():
+    """Red Team FAIL B: chronology identity comes ONLY from the
+    official schedule artifact, never from
+    tournament_state.ok_open_tournament_is_complete() (a pipeline
+    stage-validation signal). OK Open's real official window
+    (2026-09-04 to 2026-09-06) has genuinely closed by real calendar
+    date regardless of whether this sandbox ever collected a validated
+    FINAL snapshot -- it must resolve into "last" (지난 대회), not
+    "current", and that must hold identically whether the pipeline
+    stage signal is True or False (the resolver never even looks)."""
+    from datetime import date
+    from klpga.tournament_context import SITE_REGISTRY_PATH
+    from klpga.website_v2.official_schedule import load_official_schedule
+    import json
+
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+    schedule = load_official_schedule(CONTENT / "OFFICIAL_KLPGA_SCHEDULE.json")
+    chronology = resolve_tournament_chronology(schedule, registry, as_of=date(2026, 9, 8))
+    assert chronology["last"] is not None and chronology["last"].game_code == "2026120001"
+    assert chronology["current"] is None or chronology["current"].game_code != "2026120001"
 
 
-def test_tournament_cards_are_registry_and_context_driven_not_hardcoded():
-    """Pure resolver test -- a synthetic registry with a synthetic
-    active game_code must produce the exact matching cards, proving
-    the mapping is generic (registry+context in, facts out), not a
-    lookup table of real tournament names baked into source."""
+def test_tournament_cards_are_schedule_and_registry_driven_not_hardcoded():
+    """Pure resolver test -- a synthetic schedule (calendar identity)
+    joined with a synthetic registry (route/display metadata) must
+    produce the exact matching cards, proving the mapping is generic
+    (schedule+registry in, facts out), not a lookup table of real
+    tournament names baked into source."""
+    schedule = [
+        _entry("SYN0001", "Synthetic Open", "2099-01-01", "2099-01-04"),
+        _entry("SYN0002", "Synthetic Future Open", "2099-06-01", "2099-06-04"),
+    ]
     registry = {
         "SYN0001": {
             "url_base": "/tournaments/2099/synthetic-open/",
-            "start_date": "2099-01-01", "end_date": "2099-01-04",
-            "hub_card": {"display_name": "Synthetic Open", "date_range": "2099.01.01-01.04", "winner": "Player X", "winning_score": "-10"},
+            "hub_card": {"date_range": "2099.01.01-01.04", "winner": "Player X", "winning_score": "-10"},
         },
         "SYN0002": {
             "url_base": "/tournaments/2099/synthetic-future-open/",
-            "start_date": "2099-06-01", "end_date": "2099-06-04",
-            "hub_card": {"display_name": "Synthetic Future Open", "date_range": "2099.06.01-06.04"},
+            "hub_card": {"date_range": "2099.06.01-06.04"},
         },
     }
-    chronology = resolve_tournament_chronology(
-        registry, active_game_code=None, as_of=date(2099, 3, 1),
-    )
+    chronology = resolve_tournament_chronology(schedule, registry, as_of=date(2099, 3, 1))
     assert chronology["last"].tournament_name == "Synthetic Open"
     assert chronology["last"].winner == "Player X"
-    assert chronology["next"].tournament_name == "Synthetic Future Open"
-    assert chronology["current"] is None
+    # nothing is ongoing on 2099-03-01 -- 이번 대회 degrades to the
+    # nearest upcoming event (Red Team FAIL B: "이번 대회 = this week's
+    # event OR nearest upcoming official event"), leaving no second
+    # upcoming entry for 다음 대회.
+    assert chronology["current"].tournament_name == "Synthetic Future Open"
+    assert chronology["next"] is None
     html = render_tournament_cards_html(chronology)
     assert "Synthetic Open" in html and "Synthetic Future Open" in html
     assert "Player X" in html
@@ -208,19 +232,13 @@ def test_unseen_future_tournament_needs_zero_html_source_edit():
     """A brand-new synthetic game_code with no code anywhere mentioning
     it must still produce a fully-formed, correct tournament card --
     proving HOME's cards need no source edit when the calendar
-    advances."""
-    registry = {
-        "FIXTUREPHASE8UNSEEN": {
-            "url_base": "/tournaments/2099/fixture-phase8-unseen/",
-            "start_date": "2099-09-01", "end_date": "2099-09-04",
-            "venue": "Fixture Course",
-            "hub_card": {"display_name": "Fixture Phase 8 Open", "date_range": "2099.09.01-09.04", "winner": "Fixture Winner", "winning_score": "-5"},
-        },
-    }
-    chronology = resolve_tournament_chronology(registry, active_game_code=None, as_of=date(2099, 12, 1))
+    advances (only a new OFFICIAL_KLPGA_SCHEDULE.json entry)."""
+    schedule = [_entry("FIXTUREPHASE8UNSEEN", "Fixture Phase 8 Open", "2099-09-01", "2099-09-04", venue="Fixture Course")]
+    chronology = resolve_tournament_chronology(schedule, {}, as_of=date(2099, 12, 1))
     facts = chronology["last"]
     assert facts.tournament_name == "Fixture Phase 8 Open"
     assert facts.venue == "Fixture Course"
+    assert facts.url_base == ""  # no registry route -- calendar facts still render, no link
     html = render_tournament_cards_html(chronology)
     assert "Fixture Phase 8 Open" in html and "Fixture Course" in html
     import subprocess
@@ -232,15 +250,9 @@ def test_unseen_future_tournament_needs_zero_html_source_edit():
 
 
 def test_missing_evidence_shows_dash_never_inferred():
-    registry = {
-        "SYN0003": {
-            "url_base": "/tournaments/2099/synthetic-noresult-open/",
-            "start_date": "2099-01-01", "end_date": "2099-01-04",
-            "hub_card": {"display_name": "Synthetic No-Result Open", "date_range": "2099.01.01-01.04"},
-            # deliberately no venue, winner, winning_score
-        },
-    }
-    chronology = resolve_tournament_chronology(registry, active_game_code=None, as_of=date(2099, 3, 1))
+    schedule = [_entry("SYN0003", "Synthetic No-Result Open", "2099-01-01", "2099-01-04")]
+    # deliberately no registry entry at all -- venue/winner/winning_score all unknown
+    chronology = resolve_tournament_chronology(schedule, {}, as_of=date(2099, 3, 1))
     facts = chronology["last"]
     assert facts.venue is None and facts.winner is None and facts.winning_score is None
     html = render_tournament_cards_html(chronology)
@@ -250,113 +262,77 @@ def test_missing_evidence_shows_dash_never_inferred():
 
 
 # ---------------------------------------------------------------------------
-# FAIL 3 correction: chronology must be date-driven, never
-# stale-active-driven -- a tracked "active" game_code that has already
-# ended by real calendar date must never be shown as 이번 대회.
+# Red Team FAIL B correction: chronology must be PURE-calendar-driven,
+# never influenced by any pipeline stage-validation signal in either
+# direction -- a scheduled tournament that has genuinely ended by real
+# calendar date must never be shown as 이번 대회, no matter what any
+# internal stage-state artifact claims (there is no more
+# active_is_complete parameter at all: this resolver never accepts or
+# consults a pipeline-stage signal).
 # ---------------------------------------------------------------------------
 
-_FAIL3_REGISTRY = {
-    "PAST0001": {
-        "url_base": "/tournaments/2099/past-open/",
-        "start_date": "2099-01-01", "end_date": "2099-01-04",
-        "hub_card": {"display_name": "Past Open", "date_range": "2099.01.01-01.04", "winner": "Past Winner", "winning_score": "-10"},
-    },
-    "FUTURE0001": {
-        "url_base": "/tournaments/2099/future-open-one/",
-        "start_date": "2099-03-01", "end_date": "2099-03-04",
-        "hub_card": {"display_name": "Future Open One", "date_range": "2099.03.01-03.04"},
-    },
-    "FUTURE0002": {
-        "url_base": "/tournaments/2099/future-open-two/",
-        "start_date": "2099-06-01", "end_date": "2099-06-04",
-        "hub_card": {"display_name": "Future Open Two", "date_range": "2099.06.01-06.04"},
-    },
+_FAIL_B_SCHEDULE = [
+    _entry("PAST0001", "Past Open", "2099-01-01", "2099-01-04"),
+    _entry("FUTURE0001", "Future Open One", "2099-03-01", "2099-03-04"),
+    _entry("FUTURE0002", "Future Open Two", "2099-06-01", "2099-06-04"),
+]
+_FAIL_B_REGISTRY = {
+    "PAST0001": {"url_base": "/tournaments/2099/past-open/", "hub_card": {"winner": "Past Winner", "winning_score": "-10"}},
+    "FUTURE0001": {"url_base": "/tournaments/2099/future-open-one/"},
+    "FUTURE0002": {"url_base": "/tournaments/2099/future-open-two/"},
 }
 
 
-def test_chronology_active_event_live_is_shown_as_current():
-    chronology = resolve_tournament_chronology(
-        _FAIL3_REGISTRY, active_game_code="LIVE0001",
-        active_tournament_name="Live Open", active_start_date="2099-02-01", active_end_date="2099-02-10",
-        active_is_complete=False, as_of=date(2099, 2, 5),
-    )
+def test_chronology_ongoing_event_is_shown_as_current():
+    schedule = _FAIL_B_SCHEDULE + [_entry("LIVE0001", "Live Open", "2099-02-01", "2099-02-10")]
+    chronology = resolve_tournament_chronology(schedule, _FAIL_B_REGISTRY, as_of=date(2099, 2, 5))
     assert chronology["current"].tournament_name == "Live Open"
     assert chronology["last"].tournament_name == "Past Open"
     assert chronology["next"].tournament_name == "Future Open One"
 
 
-def test_chronology_day_after_active_event_ends_falls_back_to_upcoming():
-    """The tracked tournament has REALLY finished (active_is_complete)
-    by the day after its scheduled end_date -- it must never still
-    render as 이번 대회 just because the pipeline still points at its
-    game_code."""
-    chronology = resolve_tournament_chronology(
-        _FAIL3_REGISTRY, active_game_code="LIVE0001",
-        active_tournament_name="Live Open", active_start_date="2099-02-01", active_end_date="2099-02-10",
-        active_is_complete=True, as_of=date(2099, 2, 11),
-    )
+def test_chronology_day_after_event_ends_falls_back_to_upcoming():
+    """The day after a tracked tournament's own end_date, it must
+    never still render as 이번 대회 -- purely by calendar date, with no
+    pipeline-stage signal involved at all."""
+    schedule = _FAIL_B_SCHEDULE + [_entry("LIVE0001", "Live Open", "2099-02-01", "2099-02-10")]
+    chronology = resolve_tournament_chronology(schedule, _FAIL_B_REGISTRY, as_of=date(2099, 2, 11))
     assert chronology["current"].tournament_name == "Future Open One"
     assert chronology["next"].tournament_name == "Future Open Two"
-    # the now-completed active tournament competes for "last" like any
-    # other completed entry, and wins (it ended most recently).
+    # the now-ended tournament competes for "last" like any other
+    # completed entry, and wins (it ended most recently).
     assert chronology["last"].tournament_name == "Live Open"
 
 
-def test_chronology_stale_active_context_never_shown_as_current():
-    """A tracked game_code whose scheduled end_date has passed but is
-    REALLY complete (active_is_complete=True, real stage-validation
-    evidence) must not still show as 이번 대회."""
-    chronology = resolve_tournament_chronology(
-        _FAIL3_REGISTRY, active_game_code="STALE0001",
-        active_tournament_name="Stale Tracked Open", active_start_date="2026-09-04", active_end_date="2026-09-06",
-        active_is_complete=True, as_of=date(2026, 9, 8),
-    )
+def test_chronology_stale_end_date_never_keeps_a_tournament_as_current():
+    """CORE FAIL B regression: a tournament whose scheduled window has
+    closed by real calendar date must move to 지난 대회 even though no
+    pipeline stage-validation evidence ever confirmed it "complete" --
+    this is the exact real production scenario the previous (now
+    reversed) correction got backwards: OK Open's scheduled 2026-09-06
+    end_date passing while this sandbox's pipeline stage state is
+    still stuck at R2_LIVE (no live network access to ever validate a
+    FINAL snapshot). Internal pipeline staleness must never keep a
+    genuinely-ended tournament pinned to 이번 대회."""
+    schedule = _FAIL_B_SCHEDULE + [_entry("STALE0001", "Stale Tracked Open", "2026-09-04", "2026-09-06")]
+    chronology = resolve_tournament_chronology(schedule, _FAIL_B_REGISTRY, as_of=date(2026, 9, 8))
     assert chronology["current"] is None or chronology["current"].tournament_name != "Stale Tracked Open"
     assert chronology["last"].tournament_name == "Stale Tracked Open"
 
 
-def test_chronology_scheduled_end_date_alone_never_retires_a_still_active_tournament():
-    """PUBLIC UI correction: a SCHEDULED end_date going stale (a real-
-    world delay, a postponed final round) must never, by itself, blank
-    out a tournament that real stage-validation evidence (
-    active_is_complete=False) says is still genuinely being played --
-    this is the exact real production scenario (OK Open's scheduled
-    2026-09-06 end_date vs. still being R2-live on 2026-09-08) this
-    correction was filed against."""
-    chronology = resolve_tournament_chronology(
-        _FAIL3_REGISTRY, active_game_code="STALE0001",
-        active_tournament_name="Stale Tracked Open", active_start_date="2026-09-04", active_end_date="2026-09-06",
-        active_is_complete=False, as_of=date(2026, 9, 8),
-    )
-    assert chronology["current"].tournament_name == "Stale Tracked Open"
-    assert chronology["current"].defending_champion is None  # unknown fields still blank, never guessed
-    # never retired into "last" just because its schedule is stale --
-    # no OTHER real registry entry has actually completed by this as_of
-    # either (they're all dated 2099), so "last" is honestly None.
-    assert chronology["last"] is None
-
-
 def test_chronology_gap_days_before_next_event_starts():
-    """No tournament is live at all (active really finished, next
+    """No tournament is ongoing at all (the last one ended, the next
     hasn't started yet) -- 이번 대회 degrades to the nearest upcoming
     event rather than staying empty or showing the finished one."""
-    chronology = resolve_tournament_chronology(
-        _FAIL3_REGISTRY, active_game_code="PAST0001",
-        active_tournament_name="Past Open", active_start_date="2099-01-01", active_end_date="2099-01-04",
-        active_is_complete=True, as_of=date(2099, 1, 20),
-    )
+    chronology = resolve_tournament_chronology(_FAIL_B_SCHEDULE, _FAIL_B_REGISTRY, as_of=date(2099, 1, 20))
     assert chronology["current"].tournament_name == "Future Open One"
     assert chronology["next"].tournament_name == "Future Open Two"
     assert chronology["last"].tournament_name == "Past Open"
 
 
 def test_chronology_no_future_event_leaves_current_and_next_blank():
-    registry = {"PAST0001": _FAIL3_REGISTRY["PAST0001"]}
-    chronology = resolve_tournament_chronology(
-        registry, active_game_code="PAST0001",
-        active_tournament_name="Past Open", active_start_date="2099-01-01", active_end_date="2099-01-04",
-        active_is_complete=True, as_of=date(2099, 6, 1),
-    )
+    schedule = [_entry("PAST0001", "Past Open", "2099-01-01", "2099-01-04")]
+    chronology = resolve_tournament_chronology(schedule, _FAIL_B_REGISTRY, as_of=date(2099, 6, 1))
     assert chronology["current"] is None
     assert chronology["next"] is None
     assert chronology["last"].tournament_name == "Past Open"
@@ -364,16 +340,31 @@ def test_chronology_no_future_event_leaves_current_and_next_blank():
     assert 'data-tournament-card="current"' in html and 'data-tournament-card="next"' in html
 
 
-def test_chronology_active_not_yet_started_still_counts_as_current():
-    """An active tournament with a future start_date (PRE stage, before
-    play begins) is not complete -- it is legitimately 이번 대회, the
-    one thing this correction must NOT change."""
-    chronology = resolve_tournament_chronology(
-        _FAIL3_REGISTRY, active_game_code="UPCOMING0001",
-        active_tournament_name="Upcoming Tracked Open", active_start_date="2099-04-01", active_end_date="2099-04-04",
-        active_is_complete=False, as_of=date(2099, 3, 15),
-    )
+def test_chronology_not_yet_started_event_counts_as_current():
+    """A tournament whose window hasn't opened yet (PRE stage, before
+    play begins) but is the nearest upcoming event is legitimately
+    이번 대회."""
+    schedule = [_entry("UPCOMING0001", "Upcoming Tracked Open", "2099-04-01", "2099-04-04")]
+    chronology = resolve_tournament_chronology(schedule, _FAIL_B_REGISTRY, as_of=date(2099, 3, 15))
     assert chronology["current"].tournament_name == "Upcoming Tracked Open"
+
+
+def test_chronology_2026_09_08_fixture_required_regression():
+    """The exact fixture Red Team's FAIL B remediation requires: as_of
+    2026-09-08, a Sep 4-6 official event that has already completed is
+    지난 대회, a Sep 10-13 official event is 이번 대회 (this week's
+    event), and the following official event is 다음 대회. Purely
+    synthetic fixture data -- these dates are never hardcoded into the
+    resolver or any rendering code, only here."""
+    schedule = [
+        _entry("FIXTURE_LAST", "Fixture Past Open", "2026-09-04", "2026-09-06"),
+        _entry("FIXTURE_CURRENT", "Fixture Current Open", "2026-09-10", "2026-09-13"),
+        _entry("FIXTURE_NEXT", "Fixture Next Open", "2026-09-24", "2026-09-27"),
+    ]
+    chronology = resolve_tournament_chronology(schedule, {}, as_of=date(2026, 9, 8))
+    assert chronology["last"].tournament_name == "Fixture Past Open"
+    assert chronology["current"].tournament_name == "Fixture Current Open"
+    assert chronology["next"].tournament_name == "Fixture Next Open"
 
 
 # ---------------------------------------------------------------------------
@@ -410,14 +401,15 @@ def test_sponsor_appears_directly_below_player_name_when_verified(built):
 
 
 def test_unverified_sponsor_remains_blank_never_guessed(built):
+    """Red Team FAIL A: the sponsor slot is ALWAYS present (structural
+    contract) -- an unverified player gets a genuinely EMPTY sponsor
+    span (no text content), never omitted entirely and never a
+    guessed/placeholder string like "확인 중"/"미확인"."""
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
-    # Every player row must have EITHER a real sponsor span or none at
-    # all -- never an empty placeholder / "unknown" / "확인 중" guess text.
-    assert "player-sponsor\"></span>" not in html
     assert "스폰서 확인 중" not in html and "스폰서 미확인" not in html
-    rows_without_sponsor = len(re.findall(r'<th scope="row"><span class="player-name">[^<]+</span></th>', html))
-    rows_with_sponsor = len(re.findall(r'<span class="player-sponsor">', html))
-    assert rows_without_sponsor + rows_with_sponsor == 120
+    name_spans = len(re.findall(r'<span class="player-name">[^<]*</span>', html))
+    sponsor_spans = len(re.findall(r'<span class="player-sponsor">[^<]*</span>', html))
+    assert name_spans == sponsor_spans == 120
 
 
 # FAIL 2 correction: the sponsor rule is global, not a HOME/RANKING-only
@@ -435,9 +427,12 @@ _OK_OPEN_IDENTITY_ROUTES = (
 
 
 def test_player_identity_helper_never_guesses_and_omits_when_unverified():
+    """Red Team FAIL A: render_player_identity ALWAYS emits both slots
+    -- an unverified sponsor renders as a structurally-present but
+    empty span, never omitted."""
     from klpga.website_v2.player_identity import render_player_identity, verified_sponsor
-    assert render_player_identity("선수", None) == '<span class="player-name">선수</span>'
-    assert render_player_identity("선수", "") == '<span class="player-name">선수</span>'
+    assert render_player_identity("선수", None) == '<span class="player-name">선수</span><span class="player-sponsor"></span>'
+    assert render_player_identity("선수", "") == '<span class="player-name">선수</span><span class="player-sponsor"></span>'
     assert render_player_identity("선수", "공식스폰서") == '<span class="player-name">선수</span><span class="player-sponsor">공식스폰서</span>'
     assert verified_sponsor({"identity_validation": "PASS", "current_official_sponsor": "공식스폰서"}) == "공식스폰서"
     assert verified_sponsor({"identity_validation": "UNCONFIRMED", "current_official_sponsor": "공식스폰서"}) is None
@@ -454,8 +449,13 @@ def test_normalize_player_sponsor_mentions_wraps_only_bare_identity_display_text
     assert normalize_player_sponsor_mentions("<h3>신다인</h3>", sponsor_by_name) == (
         '<h3><span class="player-name">신다인</span><span class="player-sponsor">요진건설산업</span></h3>'
     )
-    # a clickable control's label and a composite/partial text node are left untouched
-    assert normalize_player_sponsor_mentions("<button>신다인</button>", sponsor_by_name) == "<button>신다인</button>"
+    # a clickable control's label is never rewritten in place (its own
+    # accessible text stays exactly "신다인") -- Red Team FAIL A: an
+    # adjacent sponsor slot is appended immediately outside it instead.
+    assert normalize_player_sponsor_mentions("<button>신다인</button>", sponsor_by_name) == (
+        '<button>신다인</button><span class="player-sponsor">요진건설산업</span>'
+    )
+    # a composite/partial text node is left untouched
     assert normalize_player_sponsor_mentions("<title>신다인 PRE: 1.9%</title>", sponsor_by_name) == "<title>신다인 PRE: 1.9%</title>"
     # a name with no verified evidence is left exactly as-is -- never guessed
     assert normalize_player_sponsor_mentions("<td>모르는선수</td>", sponsor_by_name) == "<td>모르는선수</td>"
@@ -478,19 +478,21 @@ def test_normalization_pass_excludes_the_active_tournament_own_routes(built):
 
 def test_sponsor_rule_enumerated_across_every_ok_open_stage_route(built):
     """Every OK Open PRE/R1/R2 leaderboard row must follow the exact
-    same rule already proven for HOME/RANKING: a verified sponsor
-    renders directly under the name, an unverified one is omitted --
-    never an empty placeholder span, never guess text."""
+    same global rule proven for HOME/RANKING: both the name slot AND
+    the sponsor slot are ALWAYS present -- a verified sponsor renders
+    directly under the name, an unverified one leaves the slot
+    structurally present but empty -- never guessed placeholder text."""
     checked_any_row = False
     for route in _OK_OPEN_IDENTITY_ROUTES:
         path = OUTPUT / route
         assert path.is_file(), route
         html = path.read_text(encoding="utf-8")
-        rows = re.findall(r"<span class='player'>[^<]*</span>(?:<span class='sponsor'>[^<]*</span>)?", html)
-        if not rows:
+        name_spans = re.findall(r"<span class='player'>[^<]*</span>", html)
+        sponsor_spans = re.findall(r"<span class='sponsor'>[^<]*</span>", html)
+        if not name_spans:
             continue  # R2 has no rendered leaderboard yet on this data snapshot
         checked_any_row = True
-        assert "class='sponsor'></span>" not in html, f"{route}: empty sponsor placeholder span"
+        assert len(name_spans) == len(sponsor_spans), f"{route}: every name span must have a paired sponsor span"
         assert "확인 중" not in html and "미확인" not in html, f"{route}: guessed/placeholder sponsor text"
     assert checked_any_row, "expected at least one OK Open route with real player-identity rows"
 
@@ -508,7 +510,6 @@ def test_kg_ladies_open_player_mentions_have_no_fabricated_sponsor(built):
     for stage in ("pre", "r3", "final"):
         html = (OUTPUT / "tournaments" / "2026" / "kg-ladies-open" / stage / "index.html").read_text(encoding="utf-8")
         assert "확인 중" not in html and "미확인" not in html
-        assert "class='sponsor'></span>" not in html and 'class="player-sponsor"></span>' not in html
     # the real, known-verified KG winner now carries her real sponsor
     # wherever her bare name appears in an identity-display context.
     final_html = (OUTPUT / "tournaments" / "2026" / "kg-ladies-open" / "final" / "index.html").read_text(encoding="utf-8")
@@ -522,7 +523,6 @@ def test_deep_dive_player_mentions_get_verified_sponsor_where_evidence_exists(bu
     html = (OUTPUT / "deep-dive" / "index.html").read_text(encoding="utf-8")
     assert '<span class="player-name">신다인</span><span class="player-sponsor">' in html
     assert "확인 중" not in html and "미확인" not in html
-    assert 'class="player-sponsor"></span>' not in html
 
 
 def test_player_sponsor_mentions_never_double_wrapped(built):

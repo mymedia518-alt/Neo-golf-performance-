@@ -53,22 +53,26 @@ def test_shared_identity_cell_used_by_both_pre_and_r1_tables():
 
 
 def test_no_affiliation_is_fabricated_when_source_unavailable():
+    """Red Team FAIL A: the sponsor slot is now ALWAYS structurally
+    present (both slots, always) -- an unverified sponsor renders as a
+    genuinely empty span, never fabricated text and never omitted."""
     records = _master_records()
     missing = [r for r in records if not r.get("current_official_sponsor")]
     assert missing, "fixture assumption: at least one player has no validated sponsor in the real master"
     r = missing[0]
     cell = builder._player_identity_cell(r["current_official_player_name"], r.get("current_official_sponsor"))
-    assert "sponsor" not in cell
-    assert cell == f"<span class='player'>{r['current_official_player_name']}</span>"
+    assert cell == f"<span class='player'>{r['current_official_player_name']}</span><span class='sponsor'></span>"
 
 
 def test_player_id_is_the_identity_match_key_never_name_fallback():
     # The R1 join is a plain dict.get(player_id) with no name-based
     # fallback anywhere -- an unresolved/unknown player_id must never
-    # silently inherit a different player's affiliation.
+    # silently inherit a different player's affiliation. The sponsor
+    # slot still renders (Red Team FAIL A: always both slots) but
+    # stays genuinely empty, never falling back to a wrong player's data.
     sponsor_by_id = {"1": "실제소속사"}
     cell = builder._player_identity_cell("이름불일치선수", sponsor_by_id.get("999999-unknown-id"))
-    assert "sponsor" not in cell
+    assert cell == "<span class='player'>이름불일치선수</span><span class='sponsor'></span>"
     assert "실제소속사" not in cell
 
 

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "_comment": "Red Team FAIL B remediation: the authoritative official KLPGA calendar -- the ONLY source HOME's 지난/이번/다음 대회 chronology (klpga.website_v2.tournament_chronology) may read tournament identity/dates/venue from. TOURNAMENT_SITE_REGISTRY.json remains route/presentation metadata only (url_base, hub_card display copy) and is joined onto an entry here by game_code -- it must never be the sole or primary source of a tournament's calendar identity, and internal pipeline stage-validation state (R1_LIVE, R2_LIVE, etc.) must never influence which entry here counts as last/current/next. Each entry's start_date/end_date/venue is the real, already-published official fact this repo has for that tournament, sourced from the artifact/commit named in source_identity -- never guessed or backfilled from a hub_card display string.",
+  "tournaments": [
+    {
+      "game_code": "2026080001",
+      "tournament_name": "제15회 KG 레이디스 오픈",
+      "start_date": "2026-08-27",
+      "end_date": "2026-08-30",
+      "venue": "써닝포인트",
+      "source_identity": "content/website_v2/beta001.json#dates",
+      "retrieved_at": "2026-08-30T20:23:18+09:00",
+      "source_hash": "6e85b95e9b26e702205b2b24166845fce6852760c525d8bb6f9d41520781eb8c"
+    },
+    {
+      "game_code": "2026120001",
+      "tournament_name": "OK저축은행 읏맨 오픈",
+      "start_date": "2026-09-04",
+      "end_date": "2026-09-06",
+      "venue": "포천아도니스",
+      "source_identity": "content/website_v2/OK_OPEN_2026_ENTRY_SNAPSHOT.json",
+      "retrieved_at": "2026-08-30T23:51:36Z",
+      "source_hash": "8e34b2b685646986eaa218b59d78cc3c7107ac03d1629de78baf3f59c2d574b6"
+    }
+  ]
+}

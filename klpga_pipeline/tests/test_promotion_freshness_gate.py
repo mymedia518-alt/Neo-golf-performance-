@@ -82,7 +82,7 @@ def test_stale_snapshot_with_notice_passes(tmp_path, monkeypatch):
     snapshot_path = tmp_path / "snapshot.json"
     _write(state_path, {"stages": {"r1": {"validated": True}}})
     _write(snapshot_path, {"collected_at": old_iso, "player_table": [_row("A", "9")]})
-    _r1_page(tmp_path, "데이터 수집 지연 중")  # correctly labeled -- must pass
+    _r1_page(tmp_path, "업데이트 지연")  # correctly labeled -- must pass
     monkeypatch.setattr(promoter, "home_mode", lambda: "TOURNAMENT_ACTIVE")
     monkeypatch.setattr(promoter, "ok_open_latest_available_stage", lambda: ("r1", "/x/"))
     monkeypatch.setattr(promoter, "STAGE_STATE_PATH", state_path)

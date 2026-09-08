@@ -181,9 +181,11 @@ def test_incomplete_row_exact_markup_all_unresolved_cells_truly_empty():
     # player name are the row's only real content.
     row = _row("9183", "박결", status="INCOMPLETE", holes="10", rank="999", total=None)
     html = builder._r1_row_html(row, {}, lambda r: "")
+    # Red Team FAIL A: the sponsor slot is now always structurally
+    # present (empty here -- no sponsor evidence passed in).
     assert html == (
         "<tr><td></td>"
-        "<th scope='row'><span class='player'>박결</span></th>"
+        "<th scope='row'><span class='player'>박결</span><span class='sponsor'></span></th>"
         "<td></td><td>10</td><td></td><td></td><td></td></tr>"
     )
 
@@ -195,6 +197,6 @@ def test_wd_row_exact_markup_status_cell_shows_wd_everything_else_empty():
     html = builder._r1_row_html(row, {}, lambda r: "")
     assert html == (
         "<tr><td></td>"
-        "<th scope='row'><span class='player'>선수W</span></th>"
+        "<th scope='row'><span class='player'>선수W</span><span class='sponsor'></span></th>"
         "<td></td><td>7</td><td></td><td></td><td>WD</td></tr>"
     )

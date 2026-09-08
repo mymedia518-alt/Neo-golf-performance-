@@ -96,7 +96,11 @@ def _fmt_stroke(v) -> str:
 # inferred from a player's name, holes-completed count, or any other
 # signal.
 _UNRESOLVED_STATUSES = {"INCOMPLETE", "WD", "DQ"}
-_STATUS_LABELS = {"WD": "WD", "DQ": "DQ"}
+# PUBLIC UI Phase 8 correction (Red Team FAIL C): "ACTIVE" is this
+# module's own internal completion sentinel (see the FINAL-mode row
+# mapping above) -- never a public-facing word. Mapped to its honest
+# Korean label here so it never leaks into the rendered 상태 cell.
+_STATUS_LABELS = {"WD": "WD", "DQ": "DQ", "ACTIVE": "완료"}
 
 
 def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
@@ -167,21 +171,26 @@ def _player_identity_cell(name, sponsor) -> str:
     )
 
 
-def _mover_line(entry: dict, *, kind: str) -> str:
-    name = html.escape(str(entry.get("player_name") or "—"))
+def _mover_line(entry: dict, *, kind: str, sponsor_by_id: dict) -> str:
+    # PUBLIC UI Phase 8 correction (FAIL A): every public player mention,
+    # including this movers/highlights list, uses the one shared
+    # identity cell (name slot + sponsor slot, always both present) --
+    # never a bare name span.
+    name_raw = entry.get("player_name") or "—"
+    identity = _player_identity_cell(name_raw, sponsor_by_id.get(str(entry.get("player_id") or "")))
     if kind == "pct":
-        return f"<li><span class='player'>{name}</span><span class='delta'>{entry.get('delta', 0):+.1f}%p</span></li>"
+        return f"<li>{identity}<span class='delta'>{entry.get('delta', 0):+.1f}%p</span></li>"
     if kind == "cut_band":
-        return f"<li><span class='player'>{name}</span><span class='delta'>현재 컷 통과 {entry.get('current_value', 0):.1f}%</span></li>"
+        return f"<li>{identity}<span class='delta'>현재 컷 통과 {entry.get('current_value', 0):.1f}%</span></li>"
     if kind == "strokes":
-        return f"<li><span class='player'>{name}</span><span class='delta'>{entry.get('delta', 0):+.1f}타</span></li>"
-    return f"<li><span class='player'>{name}</span></li>"
+        return f"<li>{identity}<span class='delta'>{entry.get('delta', 0):+.1f}타</span></li>"
+    return f"<li>{identity}</li>"
 
 
-def _movers_list(entries: list, *, kind: str, empty_note: str) -> str:
+def _movers_list(entries: list, *, kind: str, empty_note: str, sponsor_by_id: dict) -> str:
     if not entries:
         return f"<p class='note'>{html.escape(empty_note)}</p>"
-    return f"<ul class='mover-list'>{''.join(_mover_line(e, kind=kind) for e in entries)}</ul>"
+    return f"<ul class='mover-list'>{''.join(_mover_line(e, kind=kind, sponsor_by_id=sponsor_by_id) for e in entries)}</ul>"
 
 
 def _r2_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
@@ -470,9 +479,9 @@ def _r1_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
     if MODEL_VALIDATED_FOR_PUBLICATION:
         movers_html = (
             f"<div class='mover-grid'>"
-            f"<div><h3>Win% 상승</h3>{_movers_list(movers.get('win_pct_risers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 상승한 선수가 없습니다.')}</div>"
-            f"<div><h3>Win% 하락</h3>{_movers_list(movers.get('win_pct_fallers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 하락한 선수가 없습니다.')}</div>"
-            f"<div><h3>컷 통과 위험 (PRE 상위권 기준)</h3>{_movers_list(movers.get('cut_pct_droppers_vs_band') or [], kind='cut_band', empty_note='PRE 상위권 선수 중 컷 통과 위험이 확인된 선수가 없습니다.')}</div>"
+            f"<div><h3>Win% 상승</h3>{_movers_list(movers.get('win_pct_risers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 상승한 선수가 없습니다.', sponsor_by_id=sponsor_by_id)}</div>"
+            f"<div><h3>Win% 하락</h3>{_movers_list(movers.get('win_pct_fallers') or [], kind='pct', empty_note='PRE 우승확률이 있는 선수 중 하락한 선수가 없습니다.', sponsor_by_id=sponsor_by_id)}</div>"
+            f"<div><h3>컷 통과 위험 (PRE 상위권 기준)</h3>{_movers_list(movers.get('cut_pct_droppers_vs_band') or [], kind='cut_band', empty_note='PRE 상위권 선수 중 컷 통과 위험이 확인된 선수가 없습니다.', sponsor_by_id=sponsor_by_id)}</div>"
             f"</div>"
         )
         movers_section = f"<section class='panel'><h2>NEO Movers · PRE 대비 변화</h2>{movers_html}</section>"
