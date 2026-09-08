@@ -1,0 +1,64 @@
+{
+  "schema_version": "neo_two_event_validation_manifest_v1",
+  "manifest_id": "NEO_TWO_EVENT_VALIDATION_20260906_V1",
+  "purpose": "Freeze and audit the first two NEO tournament validation events before any model tuning.",
+  "policy": {
+    "official_source_hosts": [
+      "klpga.co.kr",
+      "data.klpga.co.kr"
+    ],
+    "future_data_excluded_required": true,
+    "no_result_fabrication": true,
+    "freeze_before_tuning": true,
+    "tuning_allowed_only_when_all_events_are_pass": true,
+    "54_hole_forecast_stage_names": [
+      "PRE",
+      "R1",
+      "R2",
+      "POST_R2_PRE_FINAL",
+      "FINAL_FORECAST"
+    ],
+    "public_r3_is_legacy_alias_for": "FINAL_FORECAST"
+  },
+  "events": [
+    {
+      "game_code": "2026080001",
+      "name": "제15회 KG 레이디스 오픈",
+      "format_holes": 54,
+      "forecast": {
+        "stage": "PRE",
+        "path": "klpga_pipeline/predictions/2026/prediction_001_2026080001.json",
+        "required": true,
+        "legacy_artifact": true,
+        "future_data_evidence": "cutoff_date and pre-event training_tournament_count are present; explicit future_data_excluded field was not present in this reconstructed legacy artifact. Keep as a review flag until the postmortem freeze records the evidence."
+      },
+      "result": {
+        "path": "klpga_pipeline/content/website_v2/kg_2026080001_official.json",
+        "source_audit_path": "klpga_pipeline/content/website_v2/kg_2026080001_source_audit.json",
+        "required": true
+      }
+    },
+    {
+      "game_code": "2026120001",
+      "name": "OK저축은행 읏맨 오픈",
+      "format_holes": 54,
+      "forecast": {
+        "stage": "POST_R2_PRE_FINAL",
+        "path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_POST_R2_FINAL_FORECAST.json",
+        "required": true,
+        "legacy_artifact": false
+      },
+      "result": {
+        "path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_FINAL_RESULT.json",
+        "source_audit_path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_FINAL_RESULT_SOURCE_AUDIT.json",
+        "required": true,
+        "wait_until_official_update": true,
+        "not_acceptable_as_final_result": [
+          "OK_OPEN_2026_R3_LIVE_SNAPSHOT.json",
+          "news_article",
+          "manual_screen_capture_without_source_manifest"
+        ]
+      }
+    }
+  ]
+}

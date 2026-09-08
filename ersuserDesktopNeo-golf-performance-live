@@ -1,0 +1,79 @@
+[33m5708302[m[33m ([m[1;31morigin/neo-website-v2[m[33m, [m[1;32mneo-website-v2[m[33m)[m rollback: restore homepage before R3 redirect update
+[33m81ccf95[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mneo-tournament-engine-v1[m[33m)[m rollback: restore homepage before R3 redirect update
+[33m53482af[m fix: publish verified OK Open R3 live scores and scorecard completion
+[33mb854524[m[33m ([m[1;31morigin/neo-tournament-engine-v1[m[33m)[m feat: show OK Open R3 final forecast from homepage
+[33m399be7c[m feat: publish NEO ranking home and OK Open final navigation
+[33m905fe52[m checkpoint: preserve tournament engine and OK Open R2-R3 work
+[33m1885e2c[m[33m ([m[1;32mneo-r2-publish[m[33m)[m fix: publish verified R2 completed-hole progress
+[33m0219c5b[m fix: publish fresh R2 completed-hole snapshot
+[33mf71d468[m fix: persist verified R2 completed holes
+[33me017d26[m fix: publish UTF-8 R2 live progress
+[33m3b6a878[m fix: render OK Open R2 factual live leaderboard
+[33mdb13746[m R2 LIVE: publish OK Open factual stage
+[33ma44e56c[m[33m ([m[1;32mneo-r2-recovery[m[33m)[m R2 LIVE: recover OK Open factual stage
+[33m60a395c[m publish: refresh official R1 leaderboard snapshot
+[33m49f8a9b[m publish: official OK Open R1 final reconciliation
+[33m6accfca[m feat: R1 FINAL reconciliation pathway against the official scoreRecord source
+[33m7e48696[m fix: round-close gate rejected a legitimately-withdrawn player as an "unrecognized status"
+[33m8f9ae9e[m fix: R1 non-computable cells render fully empty, drop the blocked-model notice paragraph
+[33mee2d972[m fix: R1 unresolved-round status cell shows honest "—" instead of a guessed "결과 미확인" label
+[33m1476aa6[m NEO GOLF DATA handoff sec 41: generalize WD/DQ status rendering (not just the 999 sentinel)
+[33m3323282[m NEO P0 (item 8): fix generic WD/unresolved rendering -- remove raw 999 and repeated 산출 불가 for 박결/김아현
+[33m3571b3c[m P0 MODEL SAFETY PATCH: block all R1 live probability publication pending Red Team-confirmed simulation fix
+[33mb5f524e[m P0 incident follow-up: COLLECT/PUBLISH failure-domain decoupling (--collect-only)
+[33m868272a[m P0 incident: stale R1 live data -- honest staleness notice, tied-leader fix, hard freshness release gate
+[33ma64f3dc[m NEO production UI patch: hide unapproved 기대 이상/이하 strokes movers from R1 public page
+[33m74b15e9[m R1 LIVE SUMMARY COPY FIX + remove pinned Win% top-summary metric
+[33m56364d1[m PLAYER AFFILIATION / SPONSOR DISPLAY FIX: restore official affiliation under player name in OK Open tables
+[33mdc4926c[m HOME TOURNAMENT OWNERSHIP FIX: / is the tournament stage page, not a hero above the ranking table
+[33m71a46ea[m HOME tournament-first: show real live leader in the hero, fix stale tests
+[33mcab249f[m R1 ACTIVE MODE: R1_1643 snapshot (PUBLISH, 120 rows)
+[33m7c40c24[m R1 ACTIVE MODE: R1_1616 snapshot (PUBLISH, 120 rows)
+[33m41f2e2e[m feat: show live tournament heading on top120 home
+[33m61ee2dc[m R1 ACTIVE MODE: R1_1522 snapshot (PUBLISH, 120 rows)
+[33m5c8063f[m fix: publish OK Open R1 active snapshot
+[33m622dd2b[m HOME current-score cell: show round progress, not just to-par
+[33ma4f56db[m HOME TOP120 table: replace 데이터 충분도 column with 현재 스코어
+[33m18e515b[m Add live Cut/Top20/Top10/Top5/Win probabilities, immutable snapshots, and NEO Movers to OK Open R1 ACTIVE MODE
+[33mda556b5[m Add OK Open R1 ACTIVE MODE: 30-min collect/validate/publish cycle
+[33mb3d998d[m feat: v3 tournament-day HOME mode + ranking H1 wrap fix
+[33m6fe1e8f[m fix: v3 LIVE VISUAL HOTFIX v2 — 18-hole SG chart drops always-on labels for a real hover/keyboard tooltip
+[33m995be90[m fix: v3 LIVE visual hotfix — canonical header CSS, honest build provenance, real chart-collision fixes
+[33mef39071[m feat: v3 global UI/UX system rebuild — unified brand, active nav, breadcrumbs, table/chart consistency
+[33m25e54b1[m fix: v3 Phase 3 — unify header architecture, fix real KG R1/R2 mojibake+missing charset, build provenance
+[33m3b10b43[m feat: v3 public product redesign — compact data-first design, fix duplicate headers, real screenshot QA
+[33m05d7f33[m fix: P0 production recovery — mojibake root cause, KG archive wiring, HOME ownership guard, promotion path
+[33m1b07828[m feat: refine production top120 ui
+[33m4e354fb[m fix: finish Korean-first production labels
+[33mc8cb45b[m fix: make production navigation visible and Korean-first
+[33m1bd9eda[m feat: publish NEO TOP120 home
+[33m051c5dd[m feat: publish NEO coming soon homepage
+[33m4f7f25c[m fix: close beta 001 final and show tournament winner
+[33m3ffda1f[m fix: mark FR as completed
+[33mc1837f4[m Hero CTA copy: "Player Journey 보기" -> "라운드 기록보기"
+[33m60ed397[m Header nav: give the "1라운드 종료" link the same pill styling as R2/R3
+[33m242c55e[m Revert round-status text back to "FR 진행중" / "FINAL ROUND 진행 중"
+[33m52d32b8[m Homepage: update round status to "3라운드 완료", bolden player name/sponsor
+[33m220df53[m Display real team/sponsor data on homepage: Leaderboard/Journey/Hero/Deep Dive
+[33mc2a8543[m feat: split hero into NEO Player to Watch / NEO Model Watch two-card layout
+[33m8f9a157[m style: unify numeric cell alignment (center) and weight (bold) across leaderboard, Player Journey, and forecast sections
+[33m62c3569[m feat: redesign main hero as FINAL ROUND biggest-mover card, collapse R1 CUT validation
+[33m2f7bc4d[m feat: add rank-group leaderboard, validation timeline, real R1/R2/R3 player journey data
+[33mde3ce6b[m feat: add Deep Dive notify-interest funnel
+[33ma566a27[m feat: add finalist player journeys
+[33m7f67340[m feat: add rank-group Deep Dive interest tracking
+[33mc8b0a16[m deploy: publish KG Ladies Open POST-R3 update
+[33m7ec9cde[m Add header About link, fix NEXT UPDATE mobile position and weight
+[33m88305ff[m Publish About page, link it from every page footer
+[33m66c25cc[m Center-align all table headers and data cells
+[33me1851e3[m Rename 합계타수->합계, swap with 스코어, center-align
+[33m772ae74[m Narrow percentage columns, center-align rank column
+[33mccb7f2d[m Halve R2 forecast table row padding again
+[33mbd99172[m Tighten R2 forecast table row padding
+[33m9aff834[m Increase background/card contrast in the bright theme
+[33medc7cea[m Unify R1/R2 page design with a brighter shared theme
+[33m85448c7[m Add R2 합계타수/스코어 (total strokes / to-par) display
+[33m68acc2d[m Refine R2 public homepage UI
+[33md479a99[m Publish BETA 001 R2 forecast and evaluation
+[33m343b43a[m Install GA4 (G-WVX07966WS) on production R1 page; preserve permanent R1 historical snapshot
+[33mf8f6a2e[m Publish R1 tournament page
