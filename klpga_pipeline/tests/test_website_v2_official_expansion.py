@@ -45,7 +45,7 @@ def test_final_and_deep_dive_contracts_are_data_first_and_responsive():
     css=(CANDIDATE/"assets/neo-site.css").read_text(encoding="utf-8")
     assert "PRE 1.90%" in final and "SG 전체" in final and "공식 최종 리더보드" in final
     assert "LAYER A · NEO MODEL" in deep and "LAYER B · PERFORMANCE ANALYSIS" in deep
-    assert "SG는 이 모델 버전의 입력이 아닙니다" in deep
+    assert "SG는 이번 확률 계산에 사용하지 않았습니다" in deep
     assert ".chart-scroll,.chart-full{width:100%;max-width:100%;overflow:visible}" in css
     assert "min-width:31rem" not in css and "min-width:29rem" not in css
 
@@ -79,5 +79,5 @@ def test_performance_direction_requires_multi_event_thresholds():
 def test_deep_dive_shows_model_performance_and_hole_composition_layers():
     deep=(CANDIDATE/"deep-dive/index.html").read_text(encoding="utf-8")
     assert "R3 공동선두 4명의 우승확률 변화" in deep and "R3까지 스코어 구성" in deep
-    assert "SG는 이 모델 버전의 입력이 아닙니다" in deep
+    assert "SG는 이번 확률 계산에 사용하지 않았습니다" in deep
     assert "KLPGA 공식 R3 단일 라운드 SG" in deep
