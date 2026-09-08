@@ -23,6 +23,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -234,17 +235,34 @@ def infer_round_facts(context: TournamentContext, round_number: int) -> RoundFac
     )
 
 
-def infer_cut_validated(context: TournamentContext) -> bool:
-    """CUT CONTRACT (Phase 5 item 8): a cut is treated as validated only
-    once the post-cut finalist-field recovery artifact both exists AND
-    carries real cut-evidence provenance -- `cut_evidence_source` and a
-    strictly-smaller `advancing_field_size` than `pre_field_size` (proof
-    it was actually filtered against official R2 CUT/WD/DQ/DNS status,
-    per script 100's own contract, not a copy of the full PRE field
-    relabeled). Existence alone is never sufficient. Generic: the
-    artifact_type name is not tied to any one tournament, and a
-    tournament with no registry mapping still resolves it via
-    TournamentContext.artifact_path()'s generic fallback."""
+def infer_cut_validated(context: TournamentContext, *, cut_after_round: int | None = 2) -> bool:
+    """CUT CONTRACT (Phase 4 hardening, fix/phase5-generic-pipeline-
+    hardening): a cut is treated as validated only once the post-cut
+    finalist-field recovery artifact carries real, internally-
+    consistent, non-stale cut-evidence provenance -- existence, or a
+    bare advancing/pre count pair, is never sufficient on its own.
+
+    cut_after_round=None means this tournament format has no cut at
+    all (never assume every event cuts after round 2) -- validated is
+    vacuously True so the generic engine's round progression is never
+    blocked waiting on a cut confirmation that will never come.
+
+    Required, all independently checked:
+      - game_code on the artifact matches this context's own game_code
+      - cut_round on the artifact matches the tournament's actual
+        cut_after_round (never assumed to be round 2)
+      - cut_evidence_sha256 matches a fresh hash of the CURRENT
+        r2_live_snapshot file -- this is what catches a stale artifact
+        (the real R2 snapshot has since been replaced/corrected) as
+        well as a tampered/fabricated hash, not just "the field exists"
+      - advancing_player_ids is a real, non-empty identity list (never
+        count-only evidence) whose length matches advancing_field_size
+      - advancing_field_size is STRICTLY smaller than pre_field_size --
+        equal sizes are always rejected here (a copied, unfiltered PRE
+        roster relabeled as the cut result must never pass)
+    """
+    if cut_after_round is None:
+        return True
     path = context.artifact_path("post_r2_input")
     if not path.is_file():
         return False
@@ -252,13 +270,31 @@ def infer_cut_validated(context: TournamentContext) -> bool:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return False
+    if str(payload.get("game_code")) != context.game_code:
+        return False
+    if payload.get("cut_round") != cut_after_round:
+        return False
     if not payload.get("cut_evidence_source"):
         return False
+    claimed_hash = payload.get("cut_evidence_sha256")
+    if not claimed_hash:
+        return False
+    r2_snapshot_path = context.artifact_path("r2_live_snapshot")
+    if not r2_snapshot_path.is_file():
+        return False
+    actual_hash = hashlib.sha256(r2_snapshot_path.read_bytes()).hexdigest()
+    if claimed_hash != actual_hash:
+        return False
+    advancing_ids = payload.get("advancing_player_ids")
     advancing = payload.get("advancing_field_size")
     pre_size = payload.get("pre_field_size")
+    if not isinstance(advancing_ids, list) or not advancing_ids:
+        return False
     if advancing is None or pre_size is None:
         return False
-    return 0 < int(advancing) <= int(pre_size)
+    if len(advancing_ids) != int(advancing):
+        return False
+    return 0 < int(advancing) < int(pre_size)
 
 
 def infer_post_evaluated(context: TournamentContext) -> bool:
@@ -268,7 +304,7 @@ def infer_post_evaluated(context: TournamentContext) -> bool:
     return context.artifact_path("postmortem_report").exists()
 
 
-def infer_tournament_facts(context: TournamentContext) -> TournamentFacts:
+def infer_tournament_facts(context: TournamentContext, *, cut_after_round: int | None = 2) -> TournamentFacts:
     """PRE STATE CONTRACT (Phase 5 item 3): entry_validated/pre_validated
     are never raw artifact existence -- see klpga.tournament_pre_state
     for the explicit ENTRY_VALIDATED/PRE_INPUTS_VALIDATED/
@@ -277,7 +313,11 @@ def infer_tournament_facts(context: TournamentContext) -> TournamentFacts:
     this function is called from dry-run previews too and must never
     have the side effect of freezing a new immutable feature archive --
     that only happens explicitly during a real PREPARE_PRE run (see
-    run_tournament.py)."""
+    run_tournament.py).
+
+    cut_after_round (CUT CONTRACT, Phase 4 hardening) is threaded
+    through to infer_cut_validated() -- never assumed to be round 2;
+    None means this tournament format has no cut at all."""
     contract = build_pre_state_contract(context, freeze_if_ready=False)
     entry_validated = contract.entry_validated.valid
     pre_validated = contract.pre_ready
@@ -290,7 +330,7 @@ def infer_tournament_facts(context: TournamentContext) -> TournamentFacts:
         entry_validated=entry_validated,
         pre_validated=pre_validated,
         rounds=tuple(rounds),
-        cut_validated=infer_cut_validated(context),
+        cut_validated=infer_cut_validated(context, cut_after_round=cut_after_round),
         final_round_number=context.final_round_number,
         post_evaluated=infer_post_evaluated(context),
     )
@@ -311,7 +351,7 @@ def resolve_lifecycle(context: TournamentContext, lifecycle: dict[str, Any]) -> 
     this tournament really at, from real artifacts' -- built entirely
     from the existing generic engine (RoundFacts/TournamentFacts/
     resolve_runtime_stage), never a parallel state machine."""
-    facts = infer_tournament_facts(context)
+    facts = infer_tournament_facts(context, cut_after_round=lifecycle.get("cut_after_round", 2))
     config = TournamentConfig(
         game_code=context.game_code,
         tournament_name=context.tournament_name,

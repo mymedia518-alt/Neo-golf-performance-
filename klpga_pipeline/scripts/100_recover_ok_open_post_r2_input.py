@@ -1,4 +1,5 @@
 ﻿from pathlib import Path
+import hashlib
 import json
 import sys
 
@@ -69,9 +70,19 @@ if not any(status in _NON_ADVANCING_STATUSES for status in r2_status_by_id.value
         "the cut has not actually been published/confirmed; refusing to guess the advancing field"
     )
 advancing_ids = {pid for pid, status in r2_status_by_id.items() if status not in _NON_ADVANCING_STATUSES}
+excluded_ids = {pid for pid, status in r2_status_by_id.items() if status in _NON_ADVANCING_STATUSES}
 records = [r for r in records if str(r["player_id"]) in advancing_ids]
 if not records:
     raise SystemExit("HARD STOP: zero PRE players match the official advancing field -- identity mismatch between PRE and R2 evidence")
+# CUT CONTRACT (Phase 4 hardening): real, checkable provenance --
+# never count-only evidence. cut_evidence_sha256 is a fresh hash of the
+# ACTUAL r2_live_snapshot file this run just read (so a later, staler,
+# or tampered copy of this artifact can never claim to still match
+# it); cut_round is the round the snapshot itself claims to be (never
+# assumed to be round 2); advancing_player_ids/excluded_player_ids are
+# real identity lists, not just counts.
+cut_evidence_sha256 = hashlib.sha256(r2_snapshot_path.read_bytes()).hexdigest()
+cut_round = r2_snapshot.get("round")
 
 out_path = _CONTEXT.artifact_path("post_r2_input")
 out = {
@@ -85,8 +96,13 @@ out = {
     "pre_source": str(pre_path.name),
     "master_source": str(master_path.name),
     "cut_evidence_source": str(r2_snapshot_path.name),
+    "cut_evidence_sha256": cut_evidence_sha256,
+    "cut_round": cut_round,
     "pre_field_size": expected_field_size,
     "advancing_field_size": len(records),
+    "advancing_player_ids": sorted(advancing_ids),
+    "excluded_player_ids": sorted(excluded_ids),
+    "excluded_status_by_player_id": {pid: r2_status_by_id[pid] for pid in sorted(excluded_ids)},
     "records": records,
 }
 

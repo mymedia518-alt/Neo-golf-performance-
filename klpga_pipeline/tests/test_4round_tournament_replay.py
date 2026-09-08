@@ -12,6 +12,7 @@ scripts already read and write, and every generic pipeline function
 already-tested one the real tournaments use."""
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -75,7 +76,17 @@ def test_4round_tournament_never_reaches_final_after_only_r2_complete(tmp_path, 
     _write(tmp_path, "FIXTURE4R01_PRE_WIN_FORECAST.json", {"records": [{"player_id": p, "win_probability": 1 / len(FIELD)} for p in FIELD]})
     _write(tmp_path, "FIXTURE4R01_R1_LIVE_SNAPSHOT.json", _round_snapshot(FIELD))
     _write(tmp_path, "FIXTURE4R01_R2_LIVE_SNAPSHOT.json", _round_snapshot(FIELD[:24]))  # cut field
-    _write(tmp_path, "FIXTURE4R01_POST_R2_INPUT.json", {"records": [{"player_id": p} for p in FIELD[:24]], "cut_evidence_source": "FIXTURE4R01_R2_LIVE_SNAPSHOT.json", "pre_field_size": len(FIELD), "advancing_field_size": 24})
+    r2_hash = hashlib.sha256((tmp_path / "FIXTURE4R01_R2_LIVE_SNAPSHOT.json").read_bytes()).hexdigest()
+    _write(tmp_path, "FIXTURE4R01_POST_R2_INPUT.json", {
+        "records": [{"player_id": p} for p in FIELD[:24]],
+        "game_code": "FIXTURE4R01",
+        "cut_evidence_source": "FIXTURE4R01_R2_LIVE_SNAPSHOT.json",
+        "cut_evidence_sha256": r2_hash,
+        "cut_round": 2,
+        "pre_field_size": len(FIELD),
+        "advancing_field_size": 24,
+        "advancing_player_ids": FIELD[:24],
+    })
 
     lifecycle = {"game_code": "FIXTURE4R01", "cut_after_round": 2, "model_ready": False}
     snapshot = resolve_lifecycle(context, lifecycle)
@@ -97,7 +108,17 @@ def test_4round_tournament_reaches_final_only_after_round3_complete(tmp_path, mo
     _write(tmp_path, "FIXTURE4R01_PRE_WIN_FORECAST.json", {"records": [{"player_id": p, "win_probability": 1 / len(FIELD)} for p in FIELD]})
     _write(tmp_path, "FIXTURE4R01_R1_LIVE_SNAPSHOT.json", _round_snapshot(FIELD))
     _write(tmp_path, "FIXTURE4R01_R2_LIVE_SNAPSHOT.json", _round_snapshot(FIELD[:24]))
-    _write(tmp_path, "FIXTURE4R01_POST_R2_INPUT.json", {"records": [{"player_id": p} for p in FIELD[:24]], "cut_evidence_source": "FIXTURE4R01_R2_LIVE_SNAPSHOT.json", "pre_field_size": len(FIELD), "advancing_field_size": 24})
+    r2_hash = hashlib.sha256((tmp_path / "FIXTURE4R01_R2_LIVE_SNAPSHOT.json").read_bytes()).hexdigest()
+    _write(tmp_path, "FIXTURE4R01_POST_R2_INPUT.json", {
+        "records": [{"player_id": p} for p in FIELD[:24]],
+        "game_code": "FIXTURE4R01",
+        "cut_evidence_source": "FIXTURE4R01_R2_LIVE_SNAPSHOT.json",
+        "cut_evidence_sha256": r2_hash,
+        "cut_round": 2,
+        "pre_field_size": len(FIELD),
+        "advancing_field_size": 24,
+        "advancing_player_ids": FIELD[:24],
+    })
     _write(tmp_path, "FIXTURE4R01_R3_LIVE_SNAPSHOT.json", _round_snapshot(FIELD[:24]))
 
     lifecycle = {"game_code": "FIXTURE4R01", "cut_after_round": 2, "model_ready": False}
