@@ -297,11 +297,40 @@ def infer_cut_validated(context: TournamentContext, *, cut_after_round: int | No
     return 0 < int(advancing) < int(pre_size)
 
 
+_POSTMORTEM_REQUIRED_METRIC_FIELDS = (
+    "log_loss", "brier_norm", "winner_rank", "top5_hit", "top10_hit", "reciprocal_rank",
+)
+
+
 def infer_post_evaluated(context: TournamentContext) -> bool:
-    """True once a postmortem artifact exists for this game_code -- see
-    klpga.tournament_postmortem, the generic Phase 2 item 4 connection
-    point. Never inferred from dates or round completion alone."""
-    return context.artifact_path("postmortem_report").exists()
+    """POSTMORTEM RESUME (Phase 5 hardening, fix/phase5-generic-
+    pipeline-hardening): true only once a STRUCTURALLY VALID postmortem
+    artifact exists for THIS game_code -- see klpga.tournament_postmortem,
+    the generic Phase 2 item 4 connection point. File existence alone is
+    never sufficient: an empty `{}`, corrupt JSON, a postmortem for a
+    different game_code/final_round_number, or one missing its
+    evaluation fields must never read as POST_EVALUATED. Never inferred
+    from dates or round completion alone."""
+    path = context.artifact_path("postmortem_report")
+    if not path.is_file():
+        return False
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    if not isinstance(payload, dict) or not payload:
+        return False
+    if str(payload.get("game_code")) != context.game_code:
+        return False
+    if payload.get("final_round_number") != context.final_round_number:
+        return False
+    if not payload.get("winner"):
+        return False
+    if any(payload.get(field) is None for field in _POSTMORTEM_REQUIRED_METRIC_FIELDS):
+        return False
+    if not payload.get("pre_source") or not payload.get("final_source"):
+        return False
+    return True
 
 
 def infer_tournament_facts(context: TournamentContext, *, cut_after_round: int | None = 2) -> TournamentFacts:

@@ -386,27 +386,53 @@ def _prepare_pre_runner():
 
 
 def _close_final_runner():
-    """CLOSE_FINAL (Phase 5 item 9): reached only when Stage.FINAL_COMPLETE
+    """CLOSE_FINAL (Phase 5 item 9, hardened in fix/phase5-generic-
+    pipeline-hardening Phase 5): reached only when Stage.FINAL_COMPLETE
     -- the official final round is validated complete but POSTMORTEM has
     not run yet. THIS is the action that must actually produce the
     terminal postmortem_report artifact (previously this was wired to a
     no-op, which meant FINAL_COMPLETE/CLOSE_FINAL never advanced at all:
     an infinite stuck loop, since nothing ever created the artifact that
-    would let determine_stage() move on to POST_EVALUATED). Idempotent:
-    if postmortem_report already exists (e.g. a retry after a partial
-    git-push failure), this is a no-op rather than recomputing and
-    rewriting an already-final artifact."""
+    would let determine_stage() move on to POST_EVALUATED).
+
+    Idempotent AND resumable: whether postmortem_report already exists
+    is checked with infer_post_evaluated() -- STRUCTURAL validity, not
+    raw file existence, so an empty `{}` or corrupt leftover from a
+    previous crashed run is correctly treated as "not actually done
+    yet" and safely recomputed, never silently accepted as final.
+
+    A genuinely valid, already-existing postmortem is never
+    recomputed/overwritten -- but the historical terminal manifest
+    (klpga.tournament_historical_manifest) may still be missing if a
+    prior cycle wrote the postmortem successfully and then crashed (a
+    failed git-push, a killed process) before completing that last
+    step. This runner always attempts the manifest write-if-absent
+    regardless of whether THIS call's postmortem step did anything,
+    so that exact partial-failure case resumes and finishes cleanly on
+    the next cycle without ever rewriting the postmortem itself."""
     def _run(context: ActionContext, decision) -> ActionResult:
+        from klpga.tournament_historical_manifest import write_historical_manifest_if_absent
+        from klpga.tournament_lifecycle import infer_post_evaluated
         from klpga.tournament_postmortem import run_postmortem
         lifecycle = resolve_or_bootstrap_lifecycle(game_code=context.game_code, db_path=DEFAULT_DB_PATH)
         tctx = resolve_context(lifecycle, _load_registry_json())
         report_path = tctx.artifact_path("postmortem_report")
-        if report_path.exists():
-            return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=False,
-                                 message=f"final already closed; postmortem already exists at {report_path}")
-        result = run_postmortem(tctx)
-        return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=True,
-                             message=f"final closed; postmortem written: {result.output_path}")
+
+        postmortem_already_valid = infer_post_evaluated(tctx)
+        if not postmortem_already_valid:
+            result = run_postmortem(tctx)
+            report_path = result.output_path
+
+        manifest_path, manifest_written = write_historical_manifest_if_absent(tctx)
+
+        changed = (not postmortem_already_valid) or manifest_written
+        if postmortem_already_valid and not manifest_written:
+            message = f"final already closed; postmortem and historical manifest already valid ({report_path}, {manifest_path})"
+        elif postmortem_already_valid and manifest_written:
+            message = f"postmortem already valid; resumed and completed historical manifest at {manifest_path}"
+        else:
+            message = f"final closed; postmortem written: {report_path}; historical manifest written: {manifest_path}"
+        return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=changed, message=message)
     return _run
 
 
@@ -587,7 +613,14 @@ def main() -> int:
         "stage": stage_after,
         "changed": changed,
         "committed": committed,
-        "stop_active_cycle": stage_after == "POST_EVALUATED" and changed,
+        # POSTMORTEM RESUME (Phase 5 hardening): true whenever the
+        # tournament IS genuinely, validly terminal -- never gated on
+        # `changed` too. A resumed cycle that finds POST_EVALUATED
+        # already correctly reached (e.g. after an earlier crash
+        # between writing the postmortem and this script exiting) must
+        # still tell the scheduler wrapper to stop polling, even though
+        # this specific cycle itself had nothing left to do.
+        "stop_active_cycle": stage_after == "POST_EVALUATED",
     }, ensure_ascii=False))
 
     if error is not None:
