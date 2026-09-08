@@ -28,7 +28,12 @@ from __future__ import annotations
 import datetime
 
 STALE_THRESHOLD_SECONDS = 90 * 60
-STALE_NOTICE_MARKER = "데이터 수집 지연 중"
+# PUBLIC internal-language correction (Red Team FAIL C): the fan-facing
+# text is honest plain-language staleness disclosure ("update
+# delayed"), never pipeline/ops vocabulary ("collection" was too
+# internal-sounding) -- the HARD STOP gate below matches this exact
+# string, so changing the wording here changes both sides at once.
+STALE_NOTICE_MARKER = "업데이트 지연"
 # Deliberately does NOT include "INCOMPLETE": a bare "999" rank sentinel
 # (klpga.parsers.leaderboard_parser's only ever-observed did-not-complete
 # signal) is not itself official WD/DQ/DNS evidence -- see

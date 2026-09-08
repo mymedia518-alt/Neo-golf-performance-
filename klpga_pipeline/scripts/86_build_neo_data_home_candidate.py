@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.tournament_state import ok_open_available_stages  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
 from klpga.tournament_context import load_active_tournament_context, SITE_REGISTRY_PATH  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
@@ -24,39 +25,64 @@ _CONTEXT = load_active_tournament_context()
 
 
 def _cell_number(value, state: str) -> str:
+    # PUBLIC/CANDIDATE TEXT correction: a missing value renders as "--",
+    # never an internal validation-state phrase -- data-validation-state
+    # stays as a non-visible machine attribute only.
     if value is None:
-        return f'<span class="pending" title="{escape(state)}">검증 대기</span>'
+        return f'<span class="pending" data-validation-state="{escape(state)}">—</span>'
     return f'<span data-public-number data-validation-state="{escape(state)}">{escape(str(value))}</span>'
 
 
+def _sponsor_by_name() -> dict[str, str]:
+    """Same official, identity-validated player master every other
+    sponsor lookup in this pipeline uses -- see
+    klpga.website_v2.player_identity.verified_sponsor()."""
+    path = _CONTEXT.artifact_path("current_player_master")
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out = {}
+    for r in data.get("records") or []:
+        sponsor = verified_sponsor(r)
+        name = r.get("current_official_player_name")
+        if sponsor and name:
+            out[str(name)] = sponsor
+    return out
+
+
 def render_home(rows: list[dict], summary: dict) -> str:
+    sponsor_by_name = _sponsor_by_name()
     body = []
     for row in rows:
         feature = row["features"] or {}
-        recent = "검증 대기"
+        recent = "—"
         if feature:
             recent = (f'<span data-public-number data-validation-state="{escape(feature["validation_state"])}" '
                       f'title="최근 5개 {feature["recent_5_sg"]:+.3f} · 최근 10개 {feature["recent_10_sg"]:+.3f} · '
                       f'장기 {feature["long_term_sg"]:+.3f} · 표본 {feature["sample_count"]}개">'
                       f'{feature["recent_5_sg"]:+.2f} <small>({feature["sample_count"]}개)</small></span>')
+        identity_cell = render_player_identity(row["player_name"], sponsor_by_name.get(row["player_name"]))
         body.append(
             f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" '
             f'data-k-rank="{row["k_rank"] if row["k_rank"] is not None else 999999}">'
             f'<td>{_cell_number(row["neo_rank"], row["neo_ranking_state"])}</td>'
             f'<td>{_cell_number(row["k_rank"], row["k_ranking_state"])}</td>'
-            f'<th scope="row">{escape(row["player_name"])}</th><td>{recent}</td>'
-            f'<td><span class="validation-state">{("SG 확인" if feature else "SG 검증 대기")}</span></td></tr>'
+            f'<th scope="row">{identity_cell}</th><td>{recent}</td>'
+            f'<td><span class="validation-state">{("확인됨" if feature else "—")}</span></td></tr>'
         )
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HOME · NEO GOLF DATA</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/home.js" defer></script></head><body>
 <header data-neo-global-navigation></header>
-<main><section class="page-head home-head"><p class="kicker">KLPGA 정규투어 선수 데이터</p><h1>선수 랭킹 허브</h1><p>대회별 우승 확률과 분리된 상시 선수 화면입니다. NEO Ranking 공식은 검증 완료 전까지 공개하지 않습니다.</p><div class="home-summary"><strong>{summary["population_count"]}</strong><span>canonical 선수</span><strong>{summary["k_ranking_join_success"]}</strong><span>K-Ranking 연결</span></div></section>
-<section class="product-section" aria-labelledby="ranking-heading"><div class="section-heading"><div><p class="section-label">NEO RANKING</p><h2 id="ranking-heading">전체 선수</h2></div><span class="state-chip">공식 미확정 · 검증 대기</span></div>
-<div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력" autocomplete="off"><label for="home-sort">정렬</label><select id="home-sort"><option value="name">선수명</option><option value="k-rank">K-Ranking</option></select><output id="home-count">{summary["population_count"]}명</output></div>
+<main><section class="page-head home-head"><p class="kicker">KLPGA 정규투어 선수 데이터</p><h1>선수 랭킹 허브</h1><p>대회별 우승 확률과 분리된 상시 선수 화면입니다. NEO Ranking 공식은 준비가 끝날 때까지 공개하지 않습니다.</p></section>
+<section class="product-section" aria-labelledby="ranking-heading"><div class="section-heading"><div><p class="section-label">NEO RANKING</p><h2 id="ranking-heading">전체 선수</h2></div></div>
+<div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력" autocomplete="off"><label for="home-sort">정렬</label><select id="home-sort"><option value="name">선수명</option><option value="k-rank">K-Ranking</option></select><output id="home-count"></output></div>
 <div class="table-scroll"><table class="data-table home-table"><thead><tr><th>NEO Ranking</th><th>K-Ranking</th><th>선수명</th><th>최근 경기력<br><small>최근 5개 SG</small></th><th>데이터 상태</th></tr></thead><tbody>{''.join(body)}</tbody></table></div>
-<p class="note">K-Ranking: 공식 KLPGA 2026년 35주 스냅샷을 player_id로 연결. 현재 artifact는 OK 오픈 참가자 범위이므로 미연결 선수의 순위는 만들지 않습니다. 최근 경기력은 corrected SG warehouse의 대회별 최종 누적값입니다.</p></section>
-<section class="product-section evidence-section"><h2>검증 상태</h2><p>정규투어 최근 100개 대회의 canonical player_master를 사용했습니다. 이 historical population과 현재 정규투어 등록 선수 명부의 동일성은 repository 증거로 확인되지 않아 모집단 상태를 BLOCK으로 유지합니다.</p><dl><dt>NEO 공식</dt><dd>{escape(summary["neo_formula_state"])}</dd><dt>공개 순위</dt><dd>0명</dd><dt>검증 대기</dt><dd>{summary["neo_ranking_pending"]}명</dd></dl></section></main>
-<footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 검증되지 않은 숫자는 공개하지 않습니다.</p></div></footer></body></html>'''
+<p class="note">K-Ranking: 공식 KLPGA 2026년 35주 자료를 선수 기준으로 연결했습니다. 연결되지 않은 선수는 순위를 만들지 않습니다.</p></section>
+<section class="product-section evidence-section"><h2>데이터 안내</h2><p>공식 기록만 사용하며, 확인되지 않은 정보는 추정하지 않고 빈칸으로 남깁니다. NEO 자체 순위는 아직 공개되지 않았습니다.</p></section></main>
+<footer class="site-footer"><div class="site-footer__inner"><p><strong>NEO GOLF DATA</strong> · 확인되지 않은 숫자는 공개하지 않습니다.</p></div></footer></body></html>'''
 
 
 STAGE_NAV_LABELS = {"pre": "사전", "r1": "R1", "r2": "R2", "r3": "R3", "final": "최종"}

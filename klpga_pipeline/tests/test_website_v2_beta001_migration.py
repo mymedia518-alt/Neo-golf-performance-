@@ -73,7 +73,11 @@ def test_shared_native_forecast_template_watch_and_evidence(candidate):
     for stage in ("r1","r2","r3"):
         html=(root/stage/"index.html").read_text(encoding="utf-8")
         assert "NEO WATCH" in html and 'data-forecast-table' in html and '<iframe' not in html
-        assert "방법론 / 원본 기록" in html and "SHA-256" in html
+        # PUBLIC internal-language correction (Red Team FAIL C): model
+        # version/classification/SHA-256 moved to non-visible data-*
+        # attributes on <details> -- never visible dl text anymore.
+        assert "방법론 / 원본 기록" in html and 'data-sha256="' in html
+        assert "SHA-256" not in html and ">모델<" not in html and ">분류<" not in html
         assert '<svg class="line-chart"' in html and 'data-chart-series' in html
 
 

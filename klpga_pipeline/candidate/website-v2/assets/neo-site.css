@@ -68,17 +68,16 @@ main{min-height:70vh;padding-bottom:3rem}.section-label,.kicker,.tournament-cont
    never caught because it only measured font-size, not wrap points. */
 h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{word-break:keep-all;overflow-wrap:normal}
 
-/* GLOBAL UI/UX REBUILD -- one brand lockup, used by every page's header
-   (see global_navigation.py). "NEO" plus a compact N/E/O legend, not a
-   plain 4-line text stack: the legend sits beside the mark behind a
-   divider, in a much smaller, tightly-leaded typeface. Hidden entirely
-   on mobile (the "compact variant") so the header never pushes nav down. */
+/* PUBLIC UI Phase 8 -- one immutable brand lockup, used by every page's
+   header (see global_navigation.py). "NEO GOLF DATA" plus NUMBER /
+   EVIDENCE / ORACLE stacked one per line underneath -- shown on every
+   viewport (never hidden on mobile): the legend just shrinks and drops
+   its divider below ~480px so the header never pushes nav down. */
 .neo-global-brand{display:inline-flex;align-items:center;gap:.55rem;flex:0 0 auto;color:#17202a;text-decoration:none}
 .neo-brand-mark{font:850 1.05rem/1 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.07em}
 .neo-brand-legend{display:flex;flex-direction:column;gap:0;padding-left:.55rem;border-left:1px solid #dfe5ea;line-height:1.15}
-.neo-brand-legend__item{display:flex;align-items:baseline;gap:.28rem;font:650 .58rem/1.15 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.02em;color:#65717d;white-space:nowrap}
-.neo-brand-legend__item b{display:inline-block;width:.75em;color:#17202a;font-weight:800}
-@media(max-width:760px){.neo-brand-legend{display:none}}
+.neo-brand-legend__item{display:block;font:650 .58rem/1.15 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.05em;color:#65717d;white-space:nowrap}
+@media(max-width:480px){.neo-brand-mark{font-size:.85rem}.neo-brand-legend{padding-left:.4rem}.neo-brand-legend__item{font-size:.48rem}}
 
 /* Active-section nav state: green text + underline, matching the legacy
    .global-nav__link[aria-current=page] treatment used elsewhere. */
@@ -153,6 +152,7 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .tournament-day-hero__facts span{color:var(--muted);font-size:.8rem}
 .tournament-day-hero__stage{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;flex-wrap:wrap}
 .tournament-day-hero__stage strong{font-size:1.05rem}
+.tournament-day-hero__updated{margin:0 0 1.1rem;color:var(--muted);font-size:.78rem;font-family:var(--num);font-variant-numeric:tabular-nums}
 /* HOME RANKING H1 FIX: the shared .page-head h1{max-width:22ch} rule
    (elsewhere correctly limiting an editorial-width headline) clips a
    Korean heading long before 22 real characters' worth of space is
@@ -166,3 +166,12 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    text-wrap:balance additionally keeps a forced mobile wrap from ever
    leaving a lone short trailing line. */
 .home-head .ranking-compare-heading{max-width:48rem;text-wrap:balance}
+/* PUBLIC UI correction (GLOBAL SPONSOR RULE): the verified sponsor
+   must render directly BELOW the player name everywhere -- this was
+   previously only true where a page's own local stylesheet happened
+   to declare it (OK Open's stage pages); .player-name/.player-sponsor
+   (HOME/RANKING and every promotion-time-normalized frozen page) had
+   no such rule at all, so the sponsor text ran inline on the same
+   line as the name with no visual separation. */
+.player-name{display:block;font-weight:700}
+.player-sponsor{display:block;color:var(--muted);font-size:.78rem;margin-top:.15rem}

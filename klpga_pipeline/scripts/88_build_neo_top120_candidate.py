@@ -1,6 +1,7 @@
 """Build the non-production K-Ranking TOP120 vs NEO validation candidate."""
 from __future__ import annotations
 
+import csv
 import datetime
 import importlib.util
 import json
@@ -171,6 +172,51 @@ def _official_sponsor_by_name() -> dict[str, str]:
     return out
 
 
+def _known_player_names() -> set[str]:
+    """PUBLIC UI correction (GLOBAL SPONSOR RULE): the broad "this bare
+    text is a real player name" roster used to decide WHICH bare-text
+    identity-display matches the promotion-time normalizer wraps --
+    distinct from _official_sponsor_by_name() (only players with a
+    verified sponsor), because a genuine player with no known sponsor
+    still needs the two-slot structure, never skipped. Combines every
+    real, project-tracked player roster this repo has: the top-120
+    K-Ranking master (the broadest verified list), the active
+    tournament's own official field, and any other registered
+    tournament's own tracked roster CSV (e.g. KG Ladies Open's
+    finalists) -- never a guess at what "looks like" a name."""
+    names: set[str] = set()
+    top120_path = CONTENT / "HOME_PLAYER_MASTER_TOP120.json"
+    if top120_path.is_file():
+        try:
+            data = json.loads(top120_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        for row in data.get("records") or []:
+            name = row.get("player_name")
+            if name:
+                names.add(str(name))
+    ok_path = _CONTEXT.artifact_path("current_player_master")
+    if ok_path.is_file():
+        try:
+            data = json.loads(ok_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        for row in data.get("records") or []:
+            name = row.get("current_official_player_name")
+            if name:
+                names.add(str(name))
+    for roster_csv in (ROOT / "data" / "roster").glob("*.csv"):
+        try:
+            with roster_csv.open(newline="", encoding="utf-8") as f:
+                for row in csv.DictReader(f):
+                    name = row.get("player_name")
+                    if name:
+                        names.add(str(name))
+        except OSError:
+            continue
+    return names
+
+
 def render_clean(
     rows: list[dict], summary: dict, ranking_week: str | None = None,
     current_score_cells_by_id: dict[str, CurrentScoreCell] | None = None,
@@ -275,30 +321,26 @@ def build() -> dict:
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
         page.write_text(html, encoding="utf-8", newline="\n")
 
-    # PUBLIC UI correction (GLOBAL SPONSOR RULE): every OTHER registered
-    # tournament's own promoted pages (already-built, frozen/legacy HTML
-    # this pipeline no longer regenerates -- e.g. a completed
-    # tournament's archived stage pages) plus DEEP DIVE are normalized
-    # here at promotion time so a bare player-name mention picks up its
-    # verified sponsor too, without touching the frozen source that
-    # built them (migration.py / candidate/website-v2/). ok_root (the
-    # currently active tournament) is excluded -- its own generator
-    # already applies the rule natively, and re-running the pass over
-    # already-wrapped markup would be redundant (normalize_player_sponsor_mentions
-    # is idempotent-safe regardless, via its already-wrapped guard).
+    # PUBLIC UI correction (GLOBAL SPONSOR RULE, Red Team FAIL A): EVERY
+    # promoted route is normalized here at promotion time -- including
+    # already-generated ones (they already carry both slots; the
+    # already-wrapped guard makes this a no-op for them), frozen/legacy
+    # pages this pipeline no longer regenerates (a completed
+    # tournament's archived stage pages), and any orphaned page with no
+    # current generator at all -- so a bare player-name mention, from
+    # whatever produced it, always ends up with the two-slot structure.
+    # protected/ (raw sha256-verified evidence fragments, presented as
+    # an unmodified historical record) is the one deliberate exception
+    # -- rewriting its bytes would falsify the exact artifact its own
+    # sha256 attests to.
     registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
     sponsor_by_name = _official_sponsor_by_name()
-    normalize_targets = [OUTPUT / "deep-dive" / "index.html"]
-    for game_code, entry in registry.items():
-        if game_code == _CONTEXT.game_code:
-            continue
-        other_root = OUTPUT / str(entry.get("url_base") or "").strip("/")
-        normalize_targets.extend(other_root.rglob("index.html"))
-    for page in normalize_targets:
-        if not page.is_file():
+    known_names = _known_player_names()
+    for page in OUTPUT.rglob("index.html"):
+        if "protected" in page.parts:
             continue
         html = page.read_text(encoding="utf-8")
-        normalized = normalize_player_sponsor_mentions(html, sponsor_by_name)
+        normalized = normalize_player_sponsor_mentions(html, sponsor_by_name, known_names=known_names)
         if normalized != html:
             page.write_text(normalized, encoding="utf-8", newline="\n")
 

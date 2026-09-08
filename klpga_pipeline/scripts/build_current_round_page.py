@@ -14,9 +14,35 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from klpga.tournament_atomic_promotion import atomic_promote  # noqa: E402
 from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
 
 
-def build(snapshot, template, *, tournament_name, factual_sha256):
+def _sponsor_by_id(context) -> dict[str, str]:
+    """Same official, identity-validated player master every other
+    sponsor lookup in this pipeline uses -- see
+    klpga.website_v2.player_identity.verified_sponsor()."""
+    path = context.artifact_path("current_player_master")
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out = {}
+    for row in data.get("records") or []:
+        sponsor = verified_sponsor(row)
+        player_id = row.get("player_id")
+        if sponsor and player_id is not None:
+            out[str(player_id)] = sponsor
+    return out
+
+
+_CONTEXT = load_active_tournament_context()
+
+
+def build(snapshot, template, *, tournament_name, factual_sha256, context=None):
+    context = context or _CONTEXT
+    sponsor_by_id = _sponsor_by_id(context)
     # NEO TOURNAMENT PIPELINE: tournament name and stage labels are no
     # longer hardcoded here -- tournament_name is an explicit caller-
     # supplied argument (run_tournament.py passes TournamentContext.
@@ -42,16 +68,24 @@ def build(snapshot, template, *, tournament_name, factual_sha256):
     rows = []
     for r in players:
         assert 0 <= r["holes_completed"] <= 18
-        cells = [r["rank_display"], r["player_name"], r["total_under_par_display"],
-                 r["today_under_par_display"], str(r["holes_completed"]),
-                 "종료" if r["progress_display"] == "F" else f'{r["raw_inghole"]}번 홀',
-                 "OUT (1번)" if r["starting_tee"] == 1 else "IN (10번)"]
-        rows.append(f'<tr data-current-player="{escape(r["player_code"])}">' +
-                    "".join(f"<td>{escape(str(x))}</td>" for x in cells) + "</tr>")
+        other_cells = [r["rank_display"], r["total_under_par_display"],
+                       r["today_under_par_display"], str(r["holes_completed"]),
+                       "종료" if r["progress_display"] == "F" else f'{r["raw_inghole"]}번 홀',
+                       "OUT (1번)" if r["starting_tee"] == 1 else "IN (10번)"]
+        # PUBLIC UI correction (GLOBAL SPONSOR RULE): the 선수 cell is a
+        # genuine identity display -- name-slot + sponsor-slot, both
+        # always present, sponsor filled only when verified.
+        name_cell = f"<td>{render_player_identity(r['player_name'], sponsor_by_id.get(str(r['player_code'])))}</td>"
+        rows.append(
+            f'<tr data-current-player="{escape(r["player_code"])}">'
+            f"<td>{escape(str(other_cells[0]))}</td>" + name_cell +
+            "".join(f"<td>{escape(str(x))}</td>" for x in other_cells[1:]) + "</tr>"
+        )
     sg_rows = []
     for r in snapshot["sg"]:
         assert all(r["validation"][k] for k in ("total_within_tolerance", "t2g_within_tolerance"))
-        sg_rows.append(f'<tr data-sg-player="{escape(r["player_id"])}"><td>{escape(r["player"])}</td>' +
+        sg_name_cell = f"<td>{render_player_identity(r['player'], sponsor_by_id.get(str(r['player_id'])))}</td>"
+        sg_rows.append(f'<tr data-sg-player="{escape(r["player_id"])}">' + sg_name_cell +
                        "".join(f'<td>{r[k]:+.2f}</td>' for k in ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")) + "</tr>")
     finished = sum(r["holes_completed"] == 18 for r in players)
     leader = players[0]
@@ -60,7 +94,7 @@ def build(snapshot, template, *, tournament_name, factual_sha256):
 <p class="eyebrow">{escape(tournament_name)} · 공식 {round_label} 현재 상황</p>
 <h1>{heading_label} 현재 리더보드</h1>
 <p class="note">공식 데이터 확인: <time>{stamp}</time> · {len(players)}명 · 라운드 완료 {finished}명</p>
-<p><strong>현재 선두 {escape(leader['player_name'])} · 합계 {escape(leader['total_under_par_display'])}</strong></p>
+<p><strong>현재 선두 {render_player_identity(leader['player_name'], sponsor_by_id.get(str(leader['player_code'])))} · 합계 {escape(leader['total_under_par_display'])}</strong></p>
 <p class="note">완료 홀은 공식 홀별 스코어가 기록된 개수입니다. 진행 홀은 코스의 홀 번호이며, IN 출발은 10번 홀부터 시작합니다.</p>
 <div class="table-wrap"><table class="data"><caption>{round_label} 공식 성적</caption><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>오늘</th><th>완료 홀</th><th>진행 홀</th><th>출발</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>
 <p class="note"><a href="https://klpga.co.kr/web/leaderboard/leaderboard?gameCode={snapshot['game_code']}">KLPGA 공식 리더보드</a> · 원본에 별도 갱신 시각이 없어 NEO가 확인한 시각을 표시합니다.</p>

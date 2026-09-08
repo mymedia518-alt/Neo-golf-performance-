@@ -130,11 +130,19 @@ def _forecast_table(rows: list[dict], stage: str) -> str:
 
 
 def _evidence(record: dict, url: str|None=None) -> str:
+    # PUBLIC internal-language correction (Red Team FAIL C): the
+    # model version/internal classification label/SHA-256 hash are
+    # engineering provenance, not golfer-facing facts -- they now live
+    # only as non-visible data-* attributes on the <details> element
+    # itself (present for any tooling/test that still needs them,
+    # invisible to a visitor). Only the real, useful fact --
+    # WHEN the prediction was locked in -- stays in the visible <dl>.
     provenance=record["publication_provenance"]; timestamp=provenance.get("publication_timestamp") or provenance.get("commit_timestamp") or "정확한 시각 없음"
     link=f'<a href="{url}">원본 기록 보기</a>' if url else ""
-    return ('<details class="evidence-detail"><summary>방법론 / 원본 기록</summary>'
-            f'<dl><dt>예측 확정 시점</dt><dd>{escape(timestamp)}</dd><dt>모델</dt><dd>{escape(record["model_version"])}</dd>'
-            f'<dt>분류</dt><dd>{escape(provenance["classification"])}</dd><dt>SHA-256</dt><dd><code>{escape(record["sha256"])}</code></dd></dl>{link}</details>')
+    return (f'<details class="evidence-detail" data-model-version="{escape(record["model_version"])}" '
+            f'data-classification="{escape(provenance["classification"])}" data-sha256="{escape(record["sha256"])}">'
+            '<summary>방법론 / 원본 기록</summary>'
+            f'<dl><dt>예측 확정 시점</dt><dd>{escape(timestamp)}</dd></dl>{link}</details>')
 
 
 def _chart_block(title: str, player: str, series: list[dict], unit: str, invert: bool=False) -> str:
@@ -266,7 +274,7 @@ def _deep(meta,snapshots,official,pre_archive):
 def _about():
     return ('<section class="page-head compact"><p class="section-label">NEO 소개</p><h1>맞히는 것보다,<br>설명하는 것.</h1><p>NEO GOLF DATA는 미래를 맞히기 위해 숫자를 만드는 것이 아니라, 불확실한 골프를 조금 더 이해하기 위해 숫자를 사용합니다.</p></section><section class="product-section philosophy"><h2>예측은 가능성을, 결과는 실제로 일어난 하나의 사건을 기록합니다.</h2><p>우리는 결과가 나온 뒤 예측을 고치지 않습니다. 대신 왜 실제 결과가 달라졌는지를 다시 데이터로 분석합니다.</p></section>'
             '<section class="principles"><article><b>01</b><h2>정해진 시점에 확정</h2><p>예측은 다음 라운드가 시작되기 전에 확정합니다.</p></article><article><b>02</b><h2>결과 뒤에 수정하지 않음</h2><p>그래서 그때 무엇을 예상했는지 그대로 남습니다.</p></article><article><b>03</b><h2>공식 결과와 비교</h2><p>예측과 실제 결과의 차이를 데이터로 살펴봅니다.</p></article></section>'
-            '<section class="product-section" id="methodology"><details class="evidence-detail" open><summary>방법론 / 원본 기록</summary><p>대회 전 예측은 검증된 과거 평균 라운드 스코어와 최근 경기력 특성을 사용했습니다. 라운드 업데이트는 완료된 공식 결과와 고정된 PRE 소스로 남은 라운드를 시뮬레이션했습니다.</p><p>업데이트는 라운드 종료 후 이뤄지며 실시간 예측을 주장하지 않습니다. 원본 출판 자료, 확정 시점, 모델 버전, 체크섬은 각 예측 페이지에서 확인할 수 있습니다.</p></details></section>')
+            '<section class="product-section" id="methodology"><details class="evidence-detail" open><summary>방법론 / 원본 기록</summary><p>대회 전 예측은 검증된 과거 평균 라운드 스코어와 최근 경기력 특성을 사용했습니다. 라운드 업데이트는 완료된 공식 결과와 고정된 PRE 소스로 남은 라운드를 시뮬레이션했습니다.</p><p>업데이트는 라운드 종료 후 이뤄지며 실시간 예측을 주장하지 않습니다. 각 예측이 확정된 시점은 해당 예측 페이지에서 확인할 수 있습니다.</p></details></section>')
 
 
 def build_beta001_candidate(content_path: Path, manifest_path: Path, repo_root: Path, output_root: Path) -> tuple[Path,...]:

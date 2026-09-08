@@ -46,6 +46,8 @@ from klpga.neo_win.cut_evaluation import (
     CUT_OUTCOME_UNRESOLVED,
     CUT_OUTCOME_WD,
 )
+from html import escape
+
 from klpga.neo_win.korean_ui_labels import BRAND_NAME, KOREAN_LABELS, STAGE_DISPLAY_LABELS
 
 CUT_STATUS_PENDING = "PENDING"
@@ -118,6 +120,11 @@ class PlayerCardData:
     stage: str = ""
     """Raw stage code for the GA4 event, e.g. 'R1'/'R2' — distinct
     from `stage_display` (already-Korean text for the card header)."""
+    sponsor: Optional[str] = None
+    """Verified official sponsor (or None -- never guessed) -- see
+    klpga.website_v2.player_identity.verified_sponsor(). Rendered as
+    the sponsor slot directly under the player name, per the global
+    sponsor-identity contract."""
 
 
 def _fmt_pct(value: Optional[float]) -> str:
@@ -281,7 +288,14 @@ def render_player_card_html(data: PlayerCardData) -> str:
         f'data-tournament-id="{data.tournament_id}" data-stage="{data.stage}" '
         f'role="dialog" aria-modal="true" aria-labelledby="player-card-{data.player_code}-name" hidden>'
         f'<div class="pc-header">'
+        f'<div class="pc-title-group">'
         f'<h2 id="player-card-{data.player_code}-name" class="pc-player-name">{data.player_name}</h2>'
+        # Sponsor rendered as a sibling directly under the h2, not
+        # nested inside it -- the h2's own textContent must stay just
+        # the player name (render_player_card_js reads it verbatim for
+        # the GA4 player_card_open event's player_name parameter).
+        f'<p class="pc-player-sponsor">{escape(data.sponsor) if data.sponsor else ""}</p>'
+        f'</div>'
         f'<button type="button" class="pc-close" aria-label="닫기" data-player-card-close>&times;</button>'
         f"</div>"
         f'<div class="pc-meta">{data.tournament_name} · {data.stage_display}</div>'
@@ -297,15 +311,23 @@ def render_player_card_html(data: PlayerCardData) -> str:
     )
 
 
-def render_player_name_cell(player_code: str, player_name: str) -> str:
+def render_player_name_cell(player_code: str, player_name: str, sponsor: Optional[str] = None) -> str:
     """The clickable/tappable name cell — a real `<button>` inside the
     existing `td.c-name` cell (task section 11: readable without JS,
     a semantic control). Works as a drop-in replacement for any
     existing `<td class="c-name">{name}</td>` cell — the table's other
-    columns (c-pos/c-score/c-pct) are untouched by this function."""
+    columns (c-pos/c-score/c-pct) are untouched by this function.
+
+    `sponsor`: verified official sponsor (or None -- never guessed).
+    Rendered as a slot ADJACENT to the button, never nested inside it
+    -- the button's own text stays exactly the player name so its
+    accessible name/label and data-player-card-trigger click handling
+    are never altered by the sponsor rule."""
+    sponsor_text = escape(sponsor) if sponsor else ""
     return (
         f'<td class="c-name"><button type="button" class="player-name-btn" '
-        f'data-player-card-trigger data-player-code="{player_code}">{player_name}</button></td>'
+        f'data-player-card-trigger data-player-code="{player_code}">{player_name}</button>'
+        f'<span class="player-sponsor">{sponsor_text}</span></td>'
     )
 
 
@@ -338,7 +360,9 @@ PLAYER_CARD_CSS = """
   }
   .pc-backdrop[data-open="true"] { opacity: 1; pointer-events: auto; }
   .pc-header { display: flex; align-items: center; justify-content: space-between; }
+  .pc-title-group { display: flex; flex-direction: column; min-width: 0; }
   .pc-player-name { font-size: 20px; margin: 0; }
+  .pc-player-sponsor { font-size: 13px; color: var(--text-dim, #8b93a1); margin: 2px 0 0; min-height: 1em; }
   .pc-close { background: none; border: none; color: var(--text-dim, #8b93a1); font-size: 28px; line-height: 1; padding: 8px; min-width: 44px; min-height: 44px; cursor: pointer; }
   .pc-meta { color: var(--text-dim, #8b93a1); font-size: 13px; margin: 4px 0 16px; }
   .pc-row-2col { display: flex; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; row-gap: 8px; }

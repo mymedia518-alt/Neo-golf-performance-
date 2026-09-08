@@ -231,10 +231,24 @@ def test_readable_without_javascript_player_name_is_plain_text_content():
 
 
 def test_render_player_name_cell_is_a_real_button_with_player_code():
+    # Red Team remediation (FAIL A): the sponsor slot is now ALWAYS
+    # present adjacent to the button (empty when no sponsor is given),
+    # never nested inside it -- the button's own text/accessible name
+    # stays exactly the player name.
     html = render_player_name_cell("p7", "이서윤4")
     assert html == (
         '<td class="c-name"><button type="button" class="player-name-btn" '
-        'data-player-card-trigger data-player-code="p7">이서윤4</button></td>'
+        'data-player-card-trigger data-player-code="p7">이서윤4</button>'
+        '<span class="player-sponsor"></span></td>'
+    )
+
+
+def test_render_player_name_cell_shows_verified_sponsor_adjacent_to_button():
+    html = render_player_name_cell("p7", "이서윤4", sponsor="공식스폰서")
+    assert html == (
+        '<td class="c-name"><button type="button" class="player-name-btn" '
+        'data-player-card-trigger data-player-code="p7">이서윤4</button>'
+        '<span class="player-sponsor">공식스폰서</span></td>'
     )
 
 
