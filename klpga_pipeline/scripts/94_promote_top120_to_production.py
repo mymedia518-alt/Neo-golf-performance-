@@ -154,7 +154,7 @@ def _validate_r1_freshness(root: Path, label: str) -> None:
     round_complete = bool(state.get("r1_complete"))
     try:
         assert_completed_round_has_no_incomplete_holes(player_table, round_complete=round_complete, label=label)
-        routes = ["tournaments/2026/ok-savings-bank-open/r1/index.html"]
+        routes = [f"{_CONTEXT.url_base.strip('/')}/r1/index.html"]
         stage_key, _ = ok_open_latest_available_stage()
         if stage_key == "r1":
             routes.append("index.html")
@@ -173,7 +173,7 @@ def _validate_model_publication_gate(root: Path, label: str) -> None:
     contain any output derived from the blocked simulation. Checked
     against every route that could carry it (the dedicated R1 route,
     plus root when TOURNAMENT_ACTIVE has root == the R1 stage page)."""
-    routes = ["tournaments/2026/ok-savings-bank-open/r1/index.html"]
+    routes = [f"{_CONTEXT.url_base.strip('/')}/r1/index.html"]
     if home_mode() == "TOURNAMENT_ACTIVE":
         stage_key, _ = ok_open_latest_available_stage()
         if stage_key == "r1":
