@@ -92,6 +92,7 @@ REQUIRED_ROUTES = [
     "tournaments/index.html",
     "deep-dive/index.html",
     "about/index.html",
+    "neo-lab/index.html",
     *_required_tournament_routes(),
     "protected/beta001/r1.html",
     "protected/beta001/r2.html",
@@ -101,7 +102,7 @@ REQUIRED_ROUTES = [
 # Only the candidate's own content routes are mirrored -- pure hosting
 # config that has no equivalent inside the candidate tree (the GitHub
 # Pages custom-domain CNAME) is left alone.
-MIRRORED_TOP_LEVEL = ["index.html", "about", "assets", "data", "deep-dive", "ranking", "tournaments", "protected"]
+MIRRORED_TOP_LEVEL = ["index.html", "about", "assets", "data", "deep-dive", "neo-lab", "ranking", "tournaments", "protected"]
 
 
 class PromotionError(Exception):

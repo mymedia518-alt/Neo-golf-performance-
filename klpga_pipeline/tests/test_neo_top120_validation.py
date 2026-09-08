@@ -303,6 +303,20 @@ def test_current_validated_stage_produces_matching_tournament_experience_on_home
         flags=_re.S,
     )
 
+    # PUBLIC UI Phase 8: HOME (and only HOME) also carries the three
+    # tournament cards (지난/이번/다음 대회) immediately after the
+    # header -- a real, intentional difference from the dedicated
+    # stage page, not a regression. Stripped here so this test keeps
+    # checking what it always checked: everything else on / must match
+    # the validated stage page exactly.
+    home_main = _re.sub(
+        r'<section class="t-tournament-cards".*?</section>',
+        "",
+        home_main,
+        count=1,
+        flags=_re.S,
+    )
+
     assert home_main == stage_main, (
         "/ must publish the exact same content as "
         f"the latest validated stage: {stage_key}"
@@ -364,17 +378,44 @@ def test_ranking_default_still_produces_k_ranking_neo_ranking_home(tmp_path, mon
     assert "tournament-day-hero" not in html
     assert html.count("<h1") == 1
     ranking_html = (module.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
-    # Identical apart from the HOME-ownership marker, which only ever
-    # belongs on the guarded production root (docs/index.html) --
-    # /ranking/ is never that file, so it never carries the marker.
+    # Identical apart from (1) the HOME-ownership marker, which only
+    # ever belongs on the guarded production root (docs/index.html) --
+    # /ranking/ is never that file, so it never carries the marker --
+    # and (2) which single nav item is marked active: / is "home" (it
+    # IS the homepage while RANKING_DEFAULT), /ranking/ is its own
+    # "ranking" tab (Phase 8 gave RANKING a real, distinct nav entry).
     owner_tag = '<meta name="neo-home-owner" content="top120-v1">'
     assert owner_tag in html and owner_tag not in ranking_html
-    assert ranking_html == html.replace(owner_tag, "", 1), "/ and /ranking/ must be identical (aside from the HOME-only owner marker) while RANKING_DEFAULT"
+    import re as _re
+    normalized_home = html.replace(owner_tag, "", 1).replace(
+        '<a href="/" class="is-active" aria-current="page">홈</a>', '<a href="/">홈</a>', 1
+    ).replace(
+        '<a href="/ranking/">랭킹</a>', '<a href="/ranking/" class="is-active" aria-current="page">랭킹</a>', 1
+    )
+    # PUBLIC UI Phase 8: only / (HOME) carries the three tournament
+    # cards -- /ranking/ never did and still doesn't.
+    normalized_home = _re.sub(r'<section class="t-tournament-cards".*?</section>', "", normalized_home, count=1, flags=_re.S)
+    assert ranking_html == normalized_home, "/ and /ranking/ must be identical (aside from the HOME-only owner marker, tournament cards, and which nav item is active) while RANKING_DEFAULT"
 
 
 def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "KG" not in html and "레이디스" not in html
+    # PUBLIC UI Phase 8: KG Ladies Open is now legitimately named in
+    # HOME's own "지난 대회" (last completed tournament) card -- that is
+    # real, correct, registry-driven content, not a stale-active-
+    # tournament bug. The invariant this test actually guards is that
+    # KG is never shown INSIDE the "current"-kind card; it must still
+    # appear inside the "last"-kind card.
+    import re as _re
+    current_card = _re.search(r'data-tournament-card="current"[^>]*>.*?</article>', html, flags=_re.S)
+    assert current_card, "HOME must carry a 'current' tournament card"
+    assert "KG" not in current_card.group(0) and "레이디스" not in current_card.group(0), (
+        "KG Ladies Open must never appear inside the CURRENT tournament card"
+    )
+    last_card = _re.search(r'data-tournament-card="last"[^>]*>.*?</article>', html, flags=_re.S)
+    assert last_card and "레이디스" in last_card.group(0), (
+        "KG Ladies Open (the real last completed tournament) must appear in the LAST tournament card"
+    )
     # KG's own archive is preserved untouched elsewhere in the tree
     for route in ("tournaments/2026/kg-ladies-open/pre/index.html", "tournaments/2026/kg-ladies-open/r1/index.html",
                   "tournaments/2026/kg-ladies-open/r2/index.html", "tournaments/2026/kg-ladies-open/r3/index.html",
