@@ -121,6 +121,32 @@ def test_neo_lab_explains_methodology_without_internal_status_badges():
     assert "NEO" in visible and len(visible) > 200  # genuine methodology copy, not an empty shell
 
 
+def test_internal_validation_state_korean_phrases_never_appear_anywhere(html_files):
+    """FAIL 1 correction: these are internal validation/approval-state
+    phrases (Korean equivalents of "validation pending"/"approval
+    pending"/"publication pending"), forbidden even inside a
+    non-rendered HTML comment -- not just the visible body."""
+    forbidden = ("검증 대기", "검증용 · 공개 확정 전", "승인 전인 검증용 경기력 순위", "NEO 랭킹 검증")
+    offenders = []
+    for f in html_files:
+        text = f.read_text(encoding="utf-8")
+        for phrase in forbidden:
+            if phrase in text:
+                offenders.append((str(f.relative_to(ROOT)), phrase))
+    assert offenders == [], f"internal validation-state phrase(s) still present: {offenders}"
+
+
+def test_neo_geomjeung_sunwi_label_survives_as_a_real_product_label():
+    """"NEO 검증 순위" (the metric NAME, distinct from the phrases above
+    that describe its internal approval STATE) is a legitimate,
+    intentionally-retained product label -- the column header/sort
+    option distinguishing NEO's own rank from K-Ranking -- not an
+    internal-state leak. Removing it entirely would be over-correction."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert "NEO 검증 순위" in html
+    assert "검증 대기" not in html
+
+
 # ---------------------------------------------------------------------------
 # 2 / 6 / 7 / 8. HOME tournament cards
 # ---------------------------------------------------------------------------
@@ -208,6 +234,111 @@ def test_missing_evidence_shows_dash_never_inferred():
 
 
 # ---------------------------------------------------------------------------
+# FAIL 3 correction: chronology must be date-driven, never
+# stale-active-driven -- a tracked "active" game_code that has already
+# ended by real calendar date must never be shown as 이번 대회.
+# ---------------------------------------------------------------------------
+
+_FAIL3_REGISTRY = {
+    "PAST0001": {
+        "url_base": "/tournaments/2099/past-open/",
+        "start_date": "2099-01-01", "end_date": "2099-01-04",
+        "hub_card": {"display_name": "Past Open", "date_range": "2099.01.01-01.04", "winner": "Past Winner", "winning_score": "-10"},
+    },
+    "FUTURE0001": {
+        "url_base": "/tournaments/2099/future-open-one/",
+        "start_date": "2099-03-01", "end_date": "2099-03-04",
+        "hub_card": {"display_name": "Future Open One", "date_range": "2099.03.01-03.04"},
+    },
+    "FUTURE0002": {
+        "url_base": "/tournaments/2099/future-open-two/",
+        "start_date": "2099-06-01", "end_date": "2099-06-04",
+        "hub_card": {"display_name": "Future Open Two", "date_range": "2099.06.01-06.04"},
+    },
+}
+
+
+def test_chronology_active_event_live_is_shown_as_current():
+    chronology = resolve_tournament_chronology(
+        _FAIL3_REGISTRY, active_game_code="LIVE0001",
+        active_tournament_name="Live Open", active_start_date="2099-02-01", active_end_date="2099-02-10",
+        as_of=date(2099, 2, 5),
+    )
+    assert chronology["current"].tournament_name == "Live Open"
+    assert chronology["last"].tournament_name == "Past Open"
+    assert chronology["next"].tournament_name == "Future Open One"
+
+
+def test_chronology_day_after_active_event_ends_falls_back_to_upcoming():
+    """The tracked tournament's own end_date is yesterday relative to
+    as_of -- it must never still render as 이번 대회 just because the
+    pipeline still points at its game_code."""
+    chronology = resolve_tournament_chronology(
+        _FAIL3_REGISTRY, active_game_code="LIVE0001",
+        active_tournament_name="Live Open", active_start_date="2099-02-01", active_end_date="2099-02-10",
+        as_of=date(2099, 2, 11),
+    )
+    assert chronology["current"].tournament_name == "Future Open One"
+    assert chronology["next"].tournament_name == "Future Open Two"
+    # the now-completed active tournament competes for "last" like any
+    # other completed entry, and wins (it ended most recently).
+    assert chronology["last"].tournament_name == "Live Open"
+
+
+def test_chronology_stale_active_context_never_shown_as_current():
+    """Same shape as the real 2026-09-08 production scenario this
+    correction was filed against: an active game_code whose scheduled
+    end_date has already passed must not be 이번 대회."""
+    chronology = resolve_tournament_chronology(
+        _FAIL3_REGISTRY, active_game_code="STALE0001",
+        active_tournament_name="Stale Tracked Open", active_start_date="2026-09-04", active_end_date="2026-09-06",
+        as_of=date(2026, 9, 8),
+    )
+    assert chronology["current"] is None or chronology["current"].tournament_name != "Stale Tracked Open"
+    assert chronology["last"].tournament_name == "Stale Tracked Open"
+
+
+def test_chronology_gap_days_before_next_event_starts():
+    """No tournament is live at all (active is stale, next hasn't
+    started yet) -- 이번 대회 degrades to the nearest upcoming event
+    rather than staying empty or showing the stale one."""
+    chronology = resolve_tournament_chronology(
+        _FAIL3_REGISTRY, active_game_code="PAST0001",
+        active_tournament_name="Past Open", active_start_date="2099-01-01", active_end_date="2099-01-04",
+        as_of=date(2099, 1, 20),
+    )
+    assert chronology["current"].tournament_name == "Future Open One"
+    assert chronology["next"].tournament_name == "Future Open Two"
+    assert chronology["last"].tournament_name == "Past Open"
+
+
+def test_chronology_no_future_event_leaves_current_and_next_blank():
+    registry = {"PAST0001": _FAIL3_REGISTRY["PAST0001"]}
+    chronology = resolve_tournament_chronology(
+        registry, active_game_code="PAST0001",
+        active_tournament_name="Past Open", active_start_date="2099-01-01", active_end_date="2099-01-04",
+        as_of=date(2099, 6, 1),
+    )
+    assert chronology["current"] is None
+    assert chronology["next"] is None
+    assert chronology["last"].tournament_name == "Past Open"
+    html = render_tournament_cards_html(chronology)
+    assert 'data-tournament-card="current"' in html and 'data-tournament-card="next"' in html
+
+
+def test_chronology_active_not_yet_started_still_counts_as_current():
+    """An active tournament with a future start_date (PRE stage, before
+    play begins) is not "stale" -- it is legitimately 이번 대회, the
+    one thing this correction must NOT change."""
+    chronology = resolve_tournament_chronology(
+        _FAIL3_REGISTRY, active_game_code="UPCOMING0001",
+        active_tournament_name="Upcoming Tracked Open", active_start_date="2099-04-01", active_end_date="2099-04-04",
+        as_of=date(2099, 3, 15),
+    )
+    assert chronology["current"].tournament_name == "Upcoming Tracked Open"
+
+
+# ---------------------------------------------------------------------------
 # 4. Public roster safety: 546 foundation must never leak into public HOME
 # ---------------------------------------------------------------------------
 
@@ -249,6 +380,62 @@ def test_unverified_sponsor_remains_blank_never_guessed(built):
     rows_without_sponsor = len(re.findall(r'<th scope="row"><span class="player-name">[^<]+</span></th>', html))
     rows_with_sponsor = len(re.findall(r'<span class="player-sponsor">', html))
     assert rows_without_sponsor + rows_with_sponsor == 120
+
+
+# FAIL 2 correction: the sponsor rule is global, not a HOME/RANKING-only
+# exception. Every public route that renders individual player-identity
+# rows (name as its own displayed unit, not a data-table label) is
+# enumerated here and checked against the same shared rule:
+# klpga.website_v2.player_identity.render_player_identity /
+# verified_sponsor -- reused by both script 88 (HOME/RANKING) and
+# script 84 (OK Open PRE/R1/R2/FINAL).
+_OK_OPEN_IDENTITY_ROUTES = (
+    "tournaments/2026/ok-savings-bank-open/pre/index.html",
+    "tournaments/2026/ok-savings-bank-open/r1/index.html",
+    "tournaments/2026/ok-savings-bank-open/r2/index.html",
+)
+
+
+def test_player_identity_helper_never_guesses_and_omits_when_unverified():
+    from klpga.website_v2.player_identity import render_player_identity, verified_sponsor
+    assert render_player_identity("선수", None) == '<span class="player-name">선수</span>'
+    assert render_player_identity("선수", "") == '<span class="player-name">선수</span>'
+    assert render_player_identity("선수", "공식스폰서") == '<span class="player-name">선수</span><span class="player-sponsor">공식스폰서</span>'
+    assert verified_sponsor({"identity_validation": "PASS", "current_official_sponsor": "공식스폰서"}) == "공식스폰서"
+    assert verified_sponsor({"identity_validation": "UNCONFIRMED", "current_official_sponsor": "공식스폰서"}) is None
+    assert verified_sponsor({"identity_validation": "PASS", "current_official_sponsor": None}) is None
+
+
+def test_sponsor_rule_enumerated_across_every_ok_open_stage_route(built):
+    """Every OK Open PRE/R1/R2 leaderboard row must follow the exact
+    same rule already proven for HOME/RANKING: a verified sponsor
+    renders directly under the name, an unverified one is omitted --
+    never an empty placeholder span, never guess text."""
+    checked_any_row = False
+    for route in _OK_OPEN_IDENTITY_ROUTES:
+        path = OUTPUT / route
+        assert path.is_file(), route
+        html = path.read_text(encoding="utf-8")
+        rows = re.findall(r"<span class='player'>[^<]*</span>(?:<span class='sponsor'>[^<]*</span>)?", html)
+        if not rows:
+            continue  # R2 has no rendered leaderboard yet on this data snapshot
+        checked_any_row = True
+        assert "class='sponsor'></span>" not in html, f"{route}: empty sponsor placeholder span"
+        assert "확인 중" not in html and "미확인" not in html, f"{route}: guessed/placeholder sponsor text"
+    assert checked_any_row, "expected at least one OK Open route with real player-identity rows"
+
+
+def test_kg_ladies_open_player_mentions_have_no_fabricated_sponsor(built):
+    """KG Ladies Open is already completed and this repo holds no
+    official-profile sponsor artifact for its field (only OK Open's
+    current tournament has one) -- per the immutable rule ("unknown
+    sponsor => blank, never guess"), a blank/absent sponsor here is
+    already the CORRECT state, not a gap. This test guards against a
+    future regression that invents one without real evidence."""
+    for stage in ("pre", "r3", "final"):
+        html = (OUTPUT / "tournaments" / "2026" / "kg-ladies-open" / stage / "index.html").read_text(encoding="utf-8")
+        assert "확인 중" not in html and "미확인" not in html
+        assert "class='sponsor'></span>" not in html and 'class="player-sponsor"></span>' not in html
 
 
 # ---------------------------------------------------------------------------
