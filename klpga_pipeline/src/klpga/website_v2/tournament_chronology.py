@@ -70,6 +70,7 @@ def resolve_tournament_chronology(
     active_date_range_display: str | None = None,
     active_start_date: str | None = None,
     active_end_date: str | None = None,
+    active_is_complete: bool = False,
     as_of: date,
 ) -> dict[str, TournamentCardFacts | None]:
     """Pure resolution (no file I/O) -- see build_home_tournament_chronology()
@@ -82,30 +83,36 @@ def resolve_tournament_chronology(
     never re-derived from the registry's own possibly-stale copy -- the
     live context is the one authoritative source for "what tournament
     is active right now and what are its real dates."
+    active_is_complete: whether the active tournament has ACTUALLY
+    finished, per real stage-validation evidence (see
+    klpga.website_v2.tournament_state.ok_open_tournament_is_complete())
+    -- never derived from a calendar date here. A tournament's own
+    SCHEDULED end_date can lag reality (a delay, a postponed final
+    round) while it is still genuinely being played; only real
+    completion evidence may retire it from "이번 대회".
 
     Returns {"last": facts|None, "current": facts|None, "next": facts|None}.
 
     "last" = the most recently ENDED tournament as of as_of -- either a
-    registered (non-active) entry, or the active one itself once its
-    own end_date has passed (see "current" below).
+    registered (non-active) entry (ordered by its own real, fixed
+    end_date), or the active one itself once active_is_complete is True.
 
-    "current" = the active tournament ONLY while it has not already
-    ended (its own end_date is unknown, or >= as_of). PUBLIC UI Phase 8
-    correction (FAIL 3): an active context whose end_date is < as_of is
-    a completed tournament, not "이번 대회", regardless of whether the
-    pipeline still points at it -- date evidence always overrides
-    which game_code happens to be "active". When that happens (or when
-    no active tournament is tracked at all is NOT this case -- see
-    below), "current" degrades to the nearest known upcoming
-    tournament so the card never shows a stale, already-over event.
+    "current" = the active tournament ONLY while active_is_complete is
+    False -- a genuinely still-active tournament is "이번 대회" even if
+    its scheduled end_date has already passed (PUBLIC UI correction:
+    date evidence alone must never blank out a known, still-real
+    tournament -- only real completion evidence may). Once
+    active_is_complete is True, "이번 대회" degrades to the nearest known
+    upcoming tournament so the card never shows an already-finished one.
 
     "next" = the soonest-starting tournament after whichever one is
     resolved as "current" -- i.e. the second-nearest upcoming entry
     when "current" itself had to degrade to the nearest one.
 
-    Every date comparison uses only real, curated start_date/end_date
-    values -- never inferred, never fabricated. A candidate lacking
-    either date is excluded from consideration entirely."""
+    Every date comparison among non-active registry entries uses only
+    real, curated start_date/end_date values -- never inferred, never
+    fabricated. A candidate lacking either date is excluded from
+    consideration entirely."""
     as_of_iso = as_of.isoformat()
 
     active_facts = None
@@ -127,7 +134,7 @@ def resolve_tournament_chronology(
             defending_champion=hub.get("defending_champion"),
             defending_champion_score=hub.get("defending_champion_score"),
         )
-        active_is_stale = bool(end) and end < as_of_iso
+        active_is_stale = bool(active_is_complete)
 
     others = [
         facts for game_code, entry in registry.items()
@@ -135,8 +142,14 @@ def resolve_tournament_chronology(
         for facts in (_registry_entry_facts(game_code, entry),)
         if facts is not None
     ]
-    completed_pool = list(others) + ([active_facts] if active_is_stale else [])
-    completed = sorted((f for f in completed_pool if f.end_date < as_of_iso), key=lambda f: f.end_date, reverse=True)
+    # Non-active entries are only "completed" by their own real end_date
+    # evidence; the active entry, once active_is_complete, counts
+    # unconditionally -- its real completion is already established,
+    # never re-litigated against a possibly-stale/missing end_date.
+    completed = sorted(
+        [f for f in others if f.end_date < as_of_iso] + ([active_facts] if active_is_stale else []),
+        key=lambda f: f.end_date, reverse=True,
+    )
     upcoming = sorted((f for f in others if f.start_date > as_of_iso), key=lambda f: f.start_date)
 
     if active_facts is not None and not active_is_stale:
@@ -167,7 +180,14 @@ def build_home_tournament_chronology(registry: dict, context, *, as_of: date | N
     "tournaments" mapping, `context` is a TournamentContext (or any
     object with the same game_code/tournament_name/display_date_range/
     start_date/end_date attributes) for whichever tournament is
-    currently active. `as_of` defaults to today (UTC date)."""
+    currently active. `as_of` defaults to today (UTC date).
+
+    active_is_complete is resolved here (the only place this module
+    touches real pipeline state) from
+    klpga.website_v2.tournament_state.ok_open_tournament_is_complete()
+    -- real stage-validation evidence, never a calendar guess."""
+    from klpga.website_v2.tournament_state import ok_open_tournament_is_complete
+
     return resolve_tournament_chronology(
         registry,
         active_game_code=context.game_code,
@@ -175,5 +195,6 @@ def build_home_tournament_chronology(registry: dict, context, *, as_of: date | N
         active_date_range_display=context.display_date_range,
         active_start_date=context.start_date,
         active_end_date=context.end_date,
+        active_is_complete=ok_open_tournament_is_complete(),
         as_of=as_of or date.today(),
     )

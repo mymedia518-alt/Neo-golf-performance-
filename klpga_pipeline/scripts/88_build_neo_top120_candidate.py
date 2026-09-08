@@ -26,7 +26,7 @@ from klpga.website_v2.tournament_state import (  # noqa: E402
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
 from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
 from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
-from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity, verified_sponsor, normalize_player_sponsor_mentions  # noqa: E402
 from klpga.tournament_context import SITE_REGISTRY_PATH, load_active_tournament_context  # noqa: E402
 
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
@@ -147,6 +147,30 @@ def _official_sponsor_by_id() -> dict[str, str]:
     return out
 
 
+def _official_sponsor_by_name() -> dict[str, str]:
+    """PUBLIC UI correction (GLOBAL SPONSOR RULE): {player_name:
+    sponsor} from the same official, identity-validated player master
+    as _official_sponsor_by_id() -- used to normalize already-built
+    HTML (a completed tournament's archived pages, e.g.) that shows a
+    bare player name with no player_id attribute to join on. A player
+    who is not also in this active tournament's field simply has no
+    entry here -- never a guess, never a foreign roster."""
+    path = _CONTEXT.artifact_path("current_player_master")
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out = {}
+    for row in data.get("records") or []:
+        sponsor = verified_sponsor(row)
+        name = row.get("current_official_player_name")
+        if sponsor and name:
+            out[str(name)] = sponsor
+    return out
+
+
 def render_clean(
     rows: list[dict], summary: dict, ranking_week: str | None = None,
     current_score_cells_by_id: dict[str, CurrentScoreCell] | None = None,
@@ -250,6 +274,34 @@ def build() -> dict:
         html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
         page.write_text(html, encoding="utf-8", newline="\n")
+
+    # PUBLIC UI correction (GLOBAL SPONSOR RULE): every OTHER registered
+    # tournament's own promoted pages (already-built, frozen/legacy HTML
+    # this pipeline no longer regenerates -- e.g. a completed
+    # tournament's archived stage pages) plus DEEP DIVE are normalized
+    # here at promotion time so a bare player-name mention picks up its
+    # verified sponsor too, without touching the frozen source that
+    # built them (migration.py / candidate/website-v2/). ok_root (the
+    # currently active tournament) is excluded -- its own generator
+    # already applies the rule natively, and re-running the pass over
+    # already-wrapped markup would be redundant (normalize_player_sponsor_mentions
+    # is idempotent-safe regardless, via its already-wrapped guard).
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+    sponsor_by_name = _official_sponsor_by_name()
+    normalize_targets = [OUTPUT / "deep-dive" / "index.html"]
+    for game_code, entry in registry.items():
+        if game_code == _CONTEXT.game_code:
+            continue
+        other_root = OUTPUT / str(entry.get("url_base") or "").strip("/")
+        normalize_targets.extend(other_root.rglob("index.html"))
+    for page in normalize_targets:
+        if not page.is_file():
+            continue
+        html = page.read_text(encoding="utf-8")
+        normalized = normalize_player_sponsor_mentions(html, sponsor_by_name)
+        if normalized != html:
+            page.write_text(normalized, encoding="utf-8", newline="\n")
+
     # TOURNAMENT-DAY MODE: home_mode() is the ONLY switch -- it looks at
     # ok_open_available_stages() (real, hand-extended data availability),
     # never at today's date.
@@ -261,7 +313,6 @@ def build() -> dict:
     # 대회), resolved generically from the site registry + whichever
     # tournament is currently active. Rendered once, reused on whichever
     # branch below actually becomes root HOME.
-    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
     chronology = build_home_tournament_chronology(registry, _CONTEXT)
     active_entry = registry.get(_CONTEXT.game_code) or {}
     if not active_entry.get("has_hub_index"):
