@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "_comment": "PROVENANCE HONESTY NOTE: this artifact is a transcription of a screenshot the operator posted directly into the Claude Code conversation for this task (session https://claude.ai/code/session_01QvXqkoJzbyErhTbj8zuFza), showing the KLPGA official tour-schedule UI (난야일정) filtered to 2026 / 09월 / KLPGA 투어. This session's own network access to klpga.co.kr is proxy-blocked (confirmed repeatedly via WebFetch during this task) -- the raw HTTP response bytes for https://klpga.co.kr/web/schedule/schedule were never fetched or hashed by this session. The sha256 recorded against this artifact in OFFICIAL_KLPGA_SCHEDULE.json is computed over THIS transcription file's own bytes, not over klpga.co.kr's raw page bytes -- it proves this file has not been altered since creation, not that the underlying claim was independently machine-verified against the live source. The transcription below is a faithful, complete record of what was visible in the posted screenshot, field for field, with no values invented or filled in beyond what the image showed.",
+  "captured_from": "screenshot posted by the operator in this Claude Code conversation",
+  "screenshot_shows": "KLPGA 오프자 사이트 투어일정 (모바일/웹 리스트 뷰), 연도 드롭다운 2026, 투어 드롭다운 KLPGA 투어, 월 탭 선택 09월",
+  "rows_visible": [
+    {
+      "row_number": 1,
+      "dates_display": "2026. 09.04(금) ~ 09.06(일)",
+      "tournament_name": "OK저축은행 웃맨 오픈",
+      "venue_and_course": "포천아도니스 / 중(OUT) 동(IN)",
+      "total_purse_krw": "1,000,000,000",
+      "entrants": "120 명",
+      "result_label": "우승자",
+      "result_name": "최예림"
+    },
+    {
+      "row_number": 2,
+      "dates_display": "2026. 09.10(목) ~ 09.13(일)",
+      "tournament_name": "KB금융 골든라이프 챔피언십",
+      "venue_and_course": "블랙스톤 이천 / 북 코스(OUT) 서 코스(IN)",
+      "total_purse_krw": "1,500,000,000",
+      "entrants": "120 명",
+      "result_label": "Defending Champion",
+      "result_name": "유현조"
+    },
+    {
+      "row_number": 3,
+      "dates_display": "2026. 09.17(목) ~ 09.20(일)",
+      "tournament_name": "하나금융그룹 챔피언십",
+      "venue_and_course": "더헤븐 / West(OUT) South(IN)",
+      "total_purse_krw": "1,500,000,000",
+      "entrants": "108 명",
+      "result_label": "Defending Champion",
+      "result_name": "이다연"
+    }
+  ],
+  "not_shown_in_screenshot": "individual round scores, winning to-par score, or historical-round breakdowns for any tournament -- none of that is entered anywhere in this repo from this artifact.",
+  "game_code_mapping_note": "game_code values (2026090003 for KB금융 골든라이프 챔피언십, 2026090002 for 하나금융그룹 챔피언십) are NOT visible in this screenshot -- the schedule UI shown does not display gameCode values. These were supplied by the operator across this task's prior messages, not read off this image. They are recorded in OFFICIAL_KLPGA_SCHEDULE.json as given, alongside this honestly-scoped provenance."
+}
