@@ -170,6 +170,62 @@ def _live_gated_script_runner(action: OperatorAction, script_name: str, *, chang
     return _run
 
 
+def _close_r1_runner():
+    """CLOSE_R1 (Phase 3: R1->R2 LIFECYCLE DEADLOCK): script 98 alone
+    cannot break the R1_COMPLETE/CLOSE_R1 loop even once it succeeds --
+    Stage.R2_LIVE can only be reached once a real r2_live_snapshot
+    artifact exists (see klpga.tournament_lifecycle.infer_round_facts),
+    and nothing else in the generic engine ever attempts to collect it
+    while the tournament is still sitting at R1_COMPLETE (official
+    ingest is intentionally gated to already-LIVE stages only -- see
+    klpga.tournament_cycle's own module docstring). This is the exact
+    reproduced bug: first cycle decides R1_COMPLETE/CLOSE_R1, and every
+    cycle after also decides R1_COMPLETE/CLOSE_R1 again, forever,
+    because nothing ever produces the round-2 evidence that would let
+    determine_stage() move past it.
+
+    Mirroring the pattern already used for CUT_CONFIRMED/
+    NEXT_ROUND_COMPLETE (see _promote_current_round, which collects the
+    NEXT round's evidence as part of closing out the current one), this
+    runner ALSO probes for R2's official data immediately after
+    attempting to close R1 out -- round 2 is never assumed to exist,
+    and this tournament is never left passively waiting forever for a
+    fetch nothing was ever going to trigger.
+
+    A genuine "R2 not published yet" probe failure (the official
+    leaderboard for round 2 still returns zero rows, exactly what
+    scripts/99 itself already fails closed on) is caught here and
+    treated as an expected WAIT, not an error -- that is the correct,
+    honest "nothing to report yet" outcome, not a crash to route
+    around. `changed` reflects only what ACTUALLY got written to disk
+    by either step, never assumed True merely because this ran."""
+    def _run(context: ActionContext, decision) -> ActionResult:
+        extra = ["--live"] if context.live else []
+        _, close_stdout = _run_script("98_ok_open_r1_final_reconciliation.py", extra_args=extra)
+        close_summary = _last_json_line(close_stdout) or {}
+        close_action = str(close_summary.get("action") or "")
+        close_changed = close_action == "FINAL_RECONCILED"
+
+        r2_probe_changed = False
+        r2_probe_note = None
+        if context.live:
+            try:
+                _run_script("99_ok_open_r2_live_recovery.py")
+                r2_probe_changed = True
+            except subprocess.CalledProcessError as exc:
+                r2_probe_note = f"R2 probe not yet available: {exc}"
+
+        changed = close_changed or r2_probe_changed
+        availability = ActionAvailability.READY if changed else ActionAvailability.WAIT
+        detail_parts = [f"R1 close attempt: {close_action or 'no summary'}"]
+        if context.live:
+            detail_parts.append("R2 probe: collected" if r2_probe_changed else (r2_probe_note or "R2 probe skipped"))
+        else:
+            detail_parts.append("R2 probe: skipped (--live not set)")
+        return ActionResult(action=decision.action, availability=availability, changed=changed, message="; ".join(detail_parts))
+    return _run
+
+
 def _live_gated_network_runner(action: OperatorAction, runner):
     """RUN_R2 / CONFIRM_CUT / RUN_NEXT_ROUND / RUN_FINAL: these dispatch
     to scripts (99, 100, collect_current_round_evidence.py) that make
@@ -360,9 +416,7 @@ def build_registry() -> TournamentActionRegistry:
     registry.register(OperatorAction.RUN_R1, _live_gated_script_runner(
         OperatorAction.RUN_R1, "96_ok_open_r1_active_cycle.py",
         changed_actions=frozenset({"PUBLISH", "PUBLISH_AND_CLOSE"}), message="R1 active cycle"))
-    registry.register(OperatorAction.CLOSE_R1, _live_gated_script_runner(
-        OperatorAction.CLOSE_R1, "98_ok_open_r1_final_reconciliation.py",
-        changed_actions=frozenset({"FINAL_RECONCILED"}), message="R1 final reconciliation"))
+    registry.register(OperatorAction.CLOSE_R1, _close_r1_runner())
     registry.register(OperatorAction.RUN_R2, _live_gated_network_runner(OperatorAction.RUN_R2, _script_runner(
         OperatorAction.RUN_R2, "99_ok_open_r2_live_recovery.py", message="R2 live recovery run")))
     registry.register(OperatorAction.CONFIRM_CUT, _live_gated_network_runner(OperatorAction.CONFIRM_CUT, _script_runner(
