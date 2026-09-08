@@ -51,11 +51,30 @@ def test_final_and_deep_dive_contracts_are_data_first_and_responsive():
 
 
 def test_post_tournament_product_story_and_plain_language():
-    home=(CANDIDATE/"index.html").read_text(encoding="utf-8")
-    assert "OK저축은행 읏맨 오픈" in home
-    assert "다음 대회" in home and "포천아도니스" in home
-    assert "data-player-journey-trigger" not in home
-    return
+    """FINAL PHASE 8 TEST CLOSURE root-cause finding: this function's
+    body was two contradictory halves -- a bogus "OK저축은행 읏맨 오픈
+    coming-soon" check (asserting content this beta001-only KG showcase
+    candidate, candidate/website-v2/, has never rendered) followed by
+    an unconditional `return`, with the ORIGINAL, correct post-
+    tournament-story assertions stranded as dead code below it.
+
+    git archaeology: `_home()`'s completed-hero ("신다인은 어떻게 우승까지
+    갔을까?") and this test function were introduced together in commit
+    32ce1cf ("feat: build NEO post-tournament analysis experience"),
+    and matched exactly at that point -- no OK Open assertion existed
+    yet. The bogus block was inserted five commits later by 1a7a2b8
+    ("feat: validate OK Open operational readiness"), a commit whose
+    stated scope and full diff (readiness scripts/JSON/freeze-gate
+    changes) never touches migration.py/_home() at all -- an
+    accidental, out-of-scope edit, not a deliberate product-copy
+    change. CANDIDATE (candidate/website-v2/) is the single-tournament
+    KG Ladies Open showcase built by scripts/59 alone; the live,
+    multi-tournament HOME page with real LAST/CURRENT/NEXT KLPGA
+    calendar cards (including OK저축은행 읏맨 오픈) is docs/index.html,
+    built by the entirely separate scripts/86->88->94 chain and
+    covered by its own tests (test_phase8_public_ui.py). Restored here
+    to the original, evidenced contract -- reverified against current
+    real candidate/website-v2/ output before restoring."""
     home=(CANDIDATE/"index.html").read_text(encoding="utf-8")
     final=(CANDIDATE/"tournaments/2026/kg-ladies-open/final/index.html").read_text(encoding="utf-8")
     about=(CANDIDATE/"about/index.html").read_text(encoding="utf-8")
