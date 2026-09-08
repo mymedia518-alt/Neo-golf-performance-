@@ -8,12 +8,17 @@
       "stage_state_filename": "KG_LADIES_OPEN_STAGE_STATE.json",
       "stage_order": ["pre", "r1", "r2", "r3", "final"],
       "has_hub_index": true,
-      "_hub_card_comment": "Completed tournament: every field here is a fixed historical fact scripts/86 has no other way to derive (no live official-result artifact is fetched for a tournament that is over) -- display_name/status/date_range/result_line/cta_stage, once recorded, never change. nav_stages is the real, already-published set of stage tabs this specific card has always shown.",
+      "start_date": "2026-08-27",
+      "end_date": "2026-08-30",
+      "_chronology_comment": "start_date/end_date (Phase 8 public UI): the same real dates already published in hub_card.date_range, just also carried here in ISO form so the generic last/current/next tournament resolver (klpga.website_v2.tournament_chronology) can order registry entries chronologically without parsing a human-formatted string. venue is deliberately absent -- not recorded anywhere in this repo for this completed event, so the resolver must show it as unknown ('--') rather than guess.",
+      "_hub_card_comment": "Completed tournament: every field here is a fixed historical fact scripts/86 has no other way to derive (no live official-result artifact is fetched for a tournament that is over) -- display_name/status/date_range/result_line/cta_stage, once recorded, never change. nav_stages is the real, already-published set of stage tabs this specific card has always shown. winner/winning_score are the exact same real result already published in result_line, split into separate fields for the tournament-cards renderer -- never a second, independently-sourced fact.",
       "hub_card": {
         "display_name": "제15회 KG 레이디스 오픈",
         "status": "종료",
         "date_range": "2026.08.27–8.30",
         "result_line": "우승 신다인 · 271 (-17)",
+        "winner": "신다인",
+        "winning_score": "271 (-17)",
         "nav_stages": ["pre", "r1", "r2", "r3", "final"],
         "cta_stage": "final"
       }

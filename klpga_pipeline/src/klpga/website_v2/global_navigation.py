@@ -12,28 +12,29 @@ NAVIGATION_MARKER = "data-neo-global-navigation"
 GLOBAL_NAV_ITEMS = (
     ("home", "홈", "/"),
     ("tournaments", "대회", "/tournaments/"),
+    ("ranking", "랭킹", "/ranking/"),
     ("deep-dive", "딥다이브", "/deep-dive/"),
+    ("neo-lab", "NEO LAB", "/neo-lab/"),
     ("about", "소개", "/about/"),
 )
 
-# The brand is one lockup -- "NEO" plus a compact N/E/O legend spelling out
-# Number / Evidence / Oracle -- not four lines of plain text (styled in
-# neo-site.css: .neo-brand-legend is hidden entirely on mobile, the
-# "compact variant"). Number/Evidence/Oracle are kept in English per spec.
-# Real newlines between child elements are deliberate: they are
-# significant *whitespace* text nodes, so if the stylesheet ever fails to
-# load, the browser's default (unstyled) rendering still reads as
-# "NEO Number Evidence Oracle" / "홈 대회 딥다이브 소개" instead of every
-# label running together into one unreadable word -- the literal P0 FAIL
-# example in the v3 UI/UX spec ("NEONumber · Evidence · Oracle").
+# PUBLIC UI Phase 8 -- the one immutable brand lockup every public page
+# must show in its top-left brand area: the "NEO GOLF DATA" wordmark,
+# then NUMBER / EVIDENCE / ORACLE stacked one per line underneath (never
+# abbreviated to single letters, never run together on one line -- that
+# was the literal P0 FAIL example in the v3 UI/UX spec, "NEONumber ·
+# Evidence · Oracle"). The retired "KLPGA PERFORMANCE TERMINAL" tagline
+# is never part of this lockup. Real newlines between child elements are
+# deliberate significant whitespace text nodes, so even with no
+# stylesheet loaded the unstyled rendering still reads as separate words
+# instead of one unreadable run-on string.
 _BRAND_HTML = '''<a class="neo-global-brand" href="/">
-<span class="neo-brand-mark">NEO</span>
-<span class="neo-brand-legend" aria-hidden="true">
-<span class="neo-brand-legend__item"><b>N</b>Number</span>
-<span class="neo-brand-legend__item"><b>E</b>Evidence</span>
-<span class="neo-brand-legend__item"><b>O</b>Oracle</span>
+<span class="neo-brand-mark">NEO GOLF DATA</span>
+<span class="neo-brand-legend">
+<span class="neo-brand-legend__item">NUMBER</span>
+<span class="neo-brand-legend__item">EVIDENCE</span>
+<span class="neo-brand-legend__item">ORACLE</span>
 </span>
-<span class="sr-data">&mdash; Number, Evidence, Oracle</span>
 </a>'''
 
 

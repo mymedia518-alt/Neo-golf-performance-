@@ -68,17 +68,16 @@ main{min-height:70vh;padding-bottom:3rem}.section-label,.kicker,.tournament-cont
    never caught because it only measured font-size, not wrap points. */
 h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{word-break:keep-all;overflow-wrap:normal}
 
-/* GLOBAL UI/UX REBUILD -- one brand lockup, used by every page's header
-   (see global_navigation.py). "NEO" plus a compact N/E/O legend, not a
-   plain 4-line text stack: the legend sits beside the mark behind a
-   divider, in a much smaller, tightly-leaded typeface. Hidden entirely
-   on mobile (the "compact variant") so the header never pushes nav down. */
+/* PUBLIC UI Phase 8 -- one immutable brand lockup, used by every page's
+   header (see global_navigation.py). "NEO GOLF DATA" plus NUMBER /
+   EVIDENCE / ORACLE stacked one per line underneath -- shown on every
+   viewport (never hidden on mobile): the legend just shrinks and drops
+   its divider below ~480px so the header never pushes nav down. */
 .neo-global-brand{display:inline-flex;align-items:center;gap:.55rem;flex:0 0 auto;color:#17202a;text-decoration:none}
 .neo-brand-mark{font:850 1.05rem/1 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.07em}
 .neo-brand-legend{display:flex;flex-direction:column;gap:0;padding-left:.55rem;border-left:1px solid #dfe5ea;line-height:1.15}
-.neo-brand-legend__item{display:flex;align-items:baseline;gap:.28rem;font:650 .58rem/1.15 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.02em;color:#65717d;white-space:nowrap}
-.neo-brand-legend__item b{display:inline-block;width:.75em;color:#17202a;font-weight:800}
-@media(max-width:760px){.neo-brand-legend{display:none}}
+.neo-brand-legend__item{display:block;font:650 .58rem/1.15 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.05em;color:#65717d;white-space:nowrap}
+@media(max-width:480px){.neo-brand-mark{font-size:.85rem}.neo-brand-legend{padding-left:.4rem}.neo-brand-legend__item{font-size:.48rem}}
 
 /* Active-section nav state: green text + underline, matching the legacy
    .global-nav__link[aria-current=page] treatment used elsewhere. */

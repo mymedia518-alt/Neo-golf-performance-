@@ -24,7 +24,9 @@ from klpga.website_v2.tournament_state import (  # noqa: E402
     OK_DISPLAY_NAME, STAGE_LABELS, home_mode, ok_open_latest_available_stage,
 )
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
-from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
+from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
+from klpga.tournament_context import SITE_REGISTRY_PATH, load_active_tournament_context  # noqa: E402
 
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
 # this script's own hardcoded literals -- see src/klpga/tournament_context.py.
@@ -118,9 +120,34 @@ def _latest_live_leader_score() -> str | None:
     return leader[1] if leader else None
 
 
+def _official_sponsor_by_id() -> dict[str, str]:
+    """PUBLIC UI Phase 8 (sponsor rule): {player_id: sponsor} from the
+    currently active tournament's own official current_player_master
+    artifact -- the only real, official-profile-sourced sponsor data
+    this repo has. Only PASS-identity rows with a real, non-empty
+    current_official_sponsor are included; every other player simply
+    has no entry here, which the caller treats identically to "sponsor
+    not verified" (blank cell) -- never a guess, never a stale/foreign
+    tournament's roster."""
+    path = _CONTEXT.artifact_path("current_player_master")
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out = {}
+    for row in data.get("records") or []:
+        sponsor = row.get("current_official_sponsor")
+        if row.get("identity_validation") == "PASS" and sponsor:
+            out[str(row.get("player_id"))] = sponsor
+    return out
+
+
 def render_clean(
     rows: list[dict], summary: dict, ranking_week: str | None = None,
     current_score_cells_by_id: dict[str, CurrentScoreCell] | None = None,
+    sponsor_by_id: dict[str, str] | None = None,
 ) -> str:
     # HOME TOURNAMENT OWNERSHIP FIX: this renders ONLY the K-Ranking x
     # NEO Ranking content -- no tournament hero, no home_mode branching.
@@ -147,16 +174,50 @@ def render_clean(
         # the structured data-current-* attributes below, never the
         # display string (see top120.js).
         cell = (current_score_cells_by_id or {}).get(str(row["player_id"])) or format_current_score(None, None, None)
+        # PUBLIC UI Phase 8 (sponsor rule): shown directly under the
+        # player name only when an official-profile sponsor was
+        # actually verified for this player -- absent entirely (no
+        # placeholder markup at all) otherwise, never a guessed value.
+        sponsor = (sponsor_by_id or {}).get(str(row["player_id"]))
+        sponsor_html = f'<span class="player-sponsor">{escape(sponsor)}</span>' if sponsor else ""
         cells.append(
             f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo or 999999}" '
             f'data-current-score="{cell.sort_score if cell.sort_score is not None else ""}" data-current-hole="{cell.sort_holes if cell.sort_holes is not None else ""}" data-current-status="{cell.sort_status}">'
-            f'<td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row">{escape(row["player_name"])}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
+            f'<td>{row["official_k_rank"]}</td><td>{neo or "검증 대기"}</td><th scope="row"><span class="player-name">{escape(row["player_name"])}</span>{sponsor_html}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
     return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
 <section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 비교 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary["neo_ranked"]}</strong><span>분석 가능</span></div><div class="stat"><strong>{summary["validation_pending"]}</strong><span>데이터 부족</span></div>{week_stat}</div></section>
 <section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO 검증 순위</dt><dd>승인 전인 검증용 경기력 순위</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
 <section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div><span class="state-chip">검증용 · 공개 확정 전</span></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO 검증 순위</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div><p class="note">왜 선수마다 대회 수가 다른가? 선수마다 출전 이력이 다르기 때문에 분석 가능한 대회 수는 서로 다릅니다. 대회 수는 순위 점수가 아니라 결과를 확인한 표본의 참고 정보입니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+
+
+def _neo_lab_html() -> str:
+    """PUBLIC UI Phase 8: NEO LAB explains methodology in plain,
+    user-facing language -- never internal pipeline-state vocabulary
+    (VALIDATING/NOT PUBLISHED/PASS/BLOCKED), never raw QA row counts
+    (population size, K-Rank join counts, warehouse event counts) that
+    only mean something to someone reading the pipeline's own internal
+    dashboards. The underlying fact this page communicates (NEO's own
+    ranking formula has not cleared publication yet) is real and
+    genuinely useful to a visitor -- it is stated honestly, just never
+    with a developer-status badge attached to it."""
+    return ('<!doctype html><html lang="ko"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            '<title>NEO LAB · NEO GOLF DATA</title>'
+            '<link rel="stylesheet" href="/assets/neo-site.css"></head>'
+            '<body><header data-neo-global-navigation></header><main>'
+            '<section class="page-head"><p class="kicker">NEO LAB</p>'
+            '<h1>NEO는 숫자를 어떻게 만드나요</h1>'
+            '<p>NEO GOLF DATA가 공식 기록을 확인하고 검증하는 방식을 설명합니다.</p></section>'
+            '<section class="product-section"><h2>공식 기록만 사용합니다</h2>'
+            '<p>모든 순위와 기록은 KLPGA 공식 자료를 기준으로 합니다. 확인되지 않은 정보는 추정하지 않고 빈칸으로 남깁니다.</p></section>'
+            '<section class="product-section"><h2>NEO 검증 순위</h2>'
+            '<p>NEO 검증 순위는 최근 경기력을 참고용으로 비교하는 지표이며, 아직 공식 순위를 대체하지 않습니다. '
+            '검증이 끝난 항목부터 순서대로 공개하며, 공개 기준을 통과하지 못한 지표는 이 페이지에도, 다른 어떤 페이지에도 표시하지 않습니다.</p></section>'
+            '<section class="product-section"><h2>스폰서 표기</h2>'
+            '<p>선수 이름 아래 스폰서는 KLPGA 공식 프로필에서 확인된 경우에만 표시합니다. 확인되지 않은 스폰서는 표시하지 않습니다.</p></section>'
+            '</main><footer class="site-footer"><div class="site-footer__inner"><p>NEO GOLF DATA</p></div></footer></body></html>')
 
 
 def build() -> dict:
@@ -189,6 +250,25 @@ def build() -> dict:
     # never at today's date.
     mode = home_mode()
     current_score_cells_by_id = _current_score_cells_by_id() if mode == "TOURNAMENT_ACTIVE" else {}
+    sponsor_by_id = _official_sponsor_by_id()
+
+    # PUBLIC UI Phase 8 -- HOME's three tournament cards (지난/이번/다음
+    # 대회), resolved generically from the site registry + whichever
+    # tournament is currently active. Rendered once, reused on whichever
+    # branch below actually becomes root HOME.
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+    chronology = build_home_tournament_chronology(registry, _CONTEXT)
+    current_entry = registry.get(_CONTEXT.game_code) or {}
+    if chronology["current"] is not None and not current_entry.get("has_hub_index"):
+        # The active tournament has no landing page at its bare
+        # url_base (its PRE/R1/... stage pages ARE its only real
+        # routes) -- link the card to whichever stage is actually
+        # published right now, the same real resolution script 86's
+        # own hub-card CTA already uses, never a guessed/hardcoded stage.
+        import dataclasses
+        stage_key, stage_url = ok_open_latest_available_stage()
+        chronology["current"] = dataclasses.replace(chronology["current"], url_base=stage_url)
+    tournament_cards_html = render_tournament_cards_html(chronology)
 
     # RANKING PAGE -- HOME TOURNAMENT OWNERSHIP FIX: this is now ALWAYS
     # published at its own stable URL (/ranking/), the permanent
@@ -196,22 +276,23 @@ def build() -> dict:
     # state. During TOURNAMENT_ACTIVE it must NOT also be what /
     # renders (see the root HOME block below) -- a tournament hero glued
     # above this exact table was the REJECTED prior "fix".
-    ranking_html = render_clean(rows, summary, cohort.get("ranking_week"), current_score_cells_by_id=current_score_cells_by_id)
+    ranking_html = render_clean(rows, summary, cohort.get("ranking_week"), current_score_cells_by_id=current_score_cells_by_id, sponsor_by_id=sponsor_by_id)
     if mode == "TOURNAMENT_ACTIVE":
         stage_key, _ = ok_open_latest_available_stage()
         leader = _latest_live_leader_score()
         leader_text = f"Leader : {leader}" if leader is not None else "Leader : 검증 대기"
         heading = f'<div class="section-heading"><div><p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO Ranking</h2><p class="home-leader-score">{leader_text}</p></div></div>'
         ranking_html = re.sub(r'<div class="section-heading">.*?</div><div class="home-tools">', heading + '<div class="home-tools">', ranking_html, count=1, flags=re.S)
-    # /ranking/ is always marked "홈" active -- it is conceptually still
-    # HOME's own K-Ranking x NEO Ranking content (just not living at /
-    # while a tournament owns that URL), and every page must carry
-    # exactly one active nav item (see
-    # test_p0_negative_regression.test_every_header_has_exactly_one_active_nav_item).
-    ranking_html = inject_global_navigation(ranking_html, active_section="home")
-    ranking_html = ranking_html.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
+    # PUBLIC UI Phase 8: the dedicated /ranking/ page now marks its own
+    # "ranking" nav item active (a real, distinct top-level destination)
+    # rather than borrowing "home" -- every page still carries exactly
+    # one active nav item (see
+    # test_p0_negative_regression.test_every_header_has_exactly_one_active_nav_item),
+    # it is just the correct one now that RANKING has its own tab.
+    ranking_page_html = inject_global_navigation(ranking_html, active_section="ranking")
+    ranking_page_html = ranking_page_html.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
     (OUTPUT / "ranking").mkdir()
-    (OUTPUT / "ranking" / "index.html").write_text(ranking_html, encoding="utf-8", newline="\n")
+    (OUTPUT / "ranking" / "index.html").write_text(ranking_page_html, encoding="utf-8", newline="\n")
 
     # ROOT HOME -- the actual product rule (HOME TOURNAMENT OWNERSHIP
     # FIX): while a tournament has any validated stage, / must BE that
@@ -221,6 +302,8 @@ def build() -> dict:
     # candidate's own tournaments/ tree) -- never a hero teaser sitting
     # above the ranking table. RANKING_DEFAULT (no active tournament)
     # keeps / == the ranking page, unchanged from all prior behavior.
+    # Either way, root HOME (and only root HOME) also carries the three
+    # tournament cards, right after the shared header.
     if mode == "TOURNAMENT_ACTIVE":
         stage_key, _ = ok_open_latest_available_stage()
         stage_page_path = ok_root / stage_key / "index.html"
@@ -231,9 +314,16 @@ def build() -> dict:
         else:
             rendered_home = rendered_home.replace("</body>", ranking_access + "</body>", 1)
     else:
-        rendered_home = ranking_html
+        rendered_home = inject_global_navigation(ranking_html, active_section="home")
+        rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers: NEO GOLF DATA · NEO 랭킹 검증 · 검증 대기 · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
+    rendered_home, header_count = re.subn(r"(</header>)", rf"\1{tournament_cards_html}", rendered_home, count=1)
+    if header_count != 1:
+        raise RuntimeError("root HOME must have exactly one </header> to attach the tournament cards after")
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
+    neo_lab_html = inject_global_navigation(_neo_lab_html(), active_section="neo-lab")
+    (OUTPUT / "neo-lab").mkdir()
+    (OUTPUT / "neo-lab" / "index.html").write_text(neo_lab_html, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css", OUTPUT / "assets" / "neo-site.css")
     shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
     shutil.copyfile(preserved / "assets" / "neo.css", OUTPUT / "assets" / "neo.css")

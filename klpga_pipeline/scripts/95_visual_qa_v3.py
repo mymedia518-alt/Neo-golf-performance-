@@ -56,7 +56,9 @@ _TOURNAMENT_ROUTES, _TOURNAMENT_ACTIVE_SECTION = _tournament_routes()
 ALL_ROUTES = [
     ("home", "/"),
     ("tournaments-hub", "/tournaments/"),
+    ("ranking", "/ranking/"),
     ("deep-dive", "/deep-dive/"),
+    ("neo-lab", "/neo-lab/"),
     ("about", "/about/"),
     *_TOURNAMENT_ROUTES,
 ]
@@ -66,7 +68,7 @@ _by_slug = dict(ALL_ROUTES)
 # "현재 페이지 active state 표시". None routes (there are none currently)
 # would mean no nav item should be marked active.
 EXPECTED_ACTIVE_SECTION = {
-    "home": "홈", "tournaments-hub": "대회", "deep-dive": "딥다이브", "about": "소개",
+    "home": "홈", "tournaments-hub": "대회", "ranking": "랭킹", "deep-dive": "딥다이브", "neo-lab": "NEO LAB", "about": "소개",
     **_TOURNAMENT_ACTIVE_SECTION,
 }
 
@@ -81,9 +83,8 @@ VIEWPORTS = {
     "mobile": {"width": 390, "height": 844},
 }
 
-CANONICAL_BRAND_MARK = "NEO"
-CANONICAL_NAV_LABELS = ["홈", "대회", "딥다이브", "소개"]
-LEGACY_BRAND_STRING = "NEO GOLF DATA"
+CANONICAL_BRAND_MARK = "NEO GOLF DATA"
+CANONICAL_NAV_LABELS = ["홈", "대회", "랭킹", "딥다이브", "NEO LAB", "소개"]
 
 GEOMETRY_JS = """() => {
     // Only the canonical site-nav header carries this class; a page may
@@ -300,12 +301,10 @@ def run() -> dict:
                     if record["brand_mark_text"] != CANONICAL_BRAND_MARK:
                         findings.append(f"{tag}: brand mark is {record['brand_mark_text']!r}, expected {CANONICAL_BRAND_MARK!r}")
                     brand_text = record["brand_full_text"] or ""
-                    if not all(word in brand_text for word in ("NEO", "Number", "Evidence", "Oracle")):
-                        findings.append(f"{tag}: brand lockup text {brand_text!r} missing one of NEO/Number/Evidence/Oracle")
+                    if not all(word in brand_text for word in ("NEO GOLF DATA", "NUMBER", "EVIDENCE", "ORACLE")):
+                        findings.append(f"{tag}: brand lockup text {brand_text!r} missing one of NEO GOLF DATA/NUMBER/EVIDENCE/ORACLE")
                     if record["nav_link_texts"] != CANONICAL_NAV_LABELS:
                         findings.append(f"{tag}: header nav labels {record['nav_link_texts']} != canonical {CANONICAL_NAV_LABELS}")
-                    if record["header_text"] and LEGACY_BRAND_STRING in record["header_text"]:
-                        findings.append(f"{tag}: legacy 'NEO GOLF DATA' text found INSIDE the site header (prose mentions elsewhere on the page are fine)")
                     if record["h1_line_count"] is not None and record["h1_line_count"] > 2:
                         findings.append(f"{tag}: H1 wraps to {record['h1_line_count']} lines -- check for a mid-word Korean break")
                     # UX spec 2: the correct nav item must show as "here".

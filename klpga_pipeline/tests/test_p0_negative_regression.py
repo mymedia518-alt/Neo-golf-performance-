@@ -229,7 +229,7 @@ def test_every_header_shows_canonical_brand_text(html_files):
     mixed_legacy = []
     for f in pages:
         text = f.read_text(encoding="utf-8")
-        if '<span class="neo-brand-mark">NEO</span>' not in text or '<span class="neo-brand-legend"' not in text:
+        if '<span class="neo-brand-mark">NEO GOLF DATA</span>' not in text or '<span class="neo-brand-legend"' not in text:
             missing.append(str(f.relative_to(ROOT)))
         if 'class="neo-brand-sub"' in text:
             mixed_legacy.append(str(f.relative_to(ROOT)))
