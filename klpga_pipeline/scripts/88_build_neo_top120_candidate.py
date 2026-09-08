@@ -312,7 +312,7 @@ def build() -> dict:
             pass
     OUTPUT.mkdir(parents=True); (OUTPUT / "assets").mkdir(); (OUTPUT / "data").mkdir()
     preserved = ROOT / "candidate" / "neo-data-home"
-    for route in ("tournaments", "about", "deep-dive", "protected"):
+    for route in ("tournaments", "about", "deep-dive", "archive"):
         shutil.copytree(preserved / route, OUTPUT / route)
     ok_root = OUTPUT / _CONTEXT.url_base.strip("/")
     for page in ok_root.rglob("index.html"):
@@ -329,16 +329,14 @@ def build() -> dict:
     # tournament's archived stage pages), and any orphaned page with no
     # current generator at all -- so a bare player-name mention, from
     # whatever produced it, always ends up with the two-slot structure.
-    # protected/ (raw sha256-verified evidence fragments, presented as
-    # an unmodified historical record) is the one deliberate exception
-    # -- rewriting its bytes would falsify the exact artifact its own
-    # sha256 attests to.
+    # archive/beta001/ (scripts/86's sanitized public copy of the frozen
+    # evidence, never the raw evidence bytes themselves -- those live
+    # only at klpga_pipeline/evidence/beta001/artifacts/, never under
+    # docs/) is normalized exactly like every other public route below.
     registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
     sponsor_by_name = _official_sponsor_by_name()
     known_names = _known_player_names()
     for page in OUTPUT.rglob("index.html"):
-        if "protected" in page.parts:
-            continue
         html = page.read_text(encoding="utf-8")
         normalized = normalize_player_sponsor_mentions(html, sponsor_by_name, known_names=known_names)
         if normalized != html:

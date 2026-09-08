@@ -94,15 +94,18 @@ REQUIRED_ROUTES = [
     "about/index.html",
     "neo-lab/index.html",
     *_required_tournament_routes(),
-    "protected/beta001/r1.html",
-    "protected/beta001/r2.html",
-    "protected/beta001/r3.html",
+    "archive/beta001/r1/index.html",
+    "archive/beta001/r2/index.html",
+    "archive/beta001/r3/index.html",
 ]
 
 # Only the candidate's own content routes are mirrored -- pure hosting
 # config that has no equivalent inside the candidate tree (the GitHub
-# Pages custom-domain CNAME) is left alone.
-MIRRORED_TOP_LEVEL = ["index.html", "about", "assets", "data", "deep-dive", "neo-lab", "ranking", "tournaments", "protected"]
+# Pages custom-domain CNAME) is left alone. "protected" is deliberately
+# absent: the frozen beta001 evidence must never be published under
+# docs/ (it lives only at klpga_pipeline/evidence/beta001/artifacts/);
+# "archive" is its sanitized public replacement.
+MIRRORED_TOP_LEVEL = ["index.html", "about", "archive", "assets", "data", "deep-dive", "neo-lab", "ranking", "tournaments"]
 
 
 class PromotionError(Exception):
@@ -116,9 +119,10 @@ def _validate_build_id_consistency(root: Path, label: str) -> None:
     # HARD FAIL: every real page in this tree must carry the identical
     # neo-build-id -- a page with a different (stale) value means this
     # tree is a mix of two different builds, not one atomic promotion.
-    # protected/beta001/*.html are raw sha256-verified evidence
-    # fragments with no <head>/meta at all, not navigable pages.
-    pages = [p for p in root.rglob("index.html") if "protected" not in p.parts]
+    # archive/beta001/<stage>/index.html are full pages (the sanitized
+    # public copy carries the same global header as everything else),
+    # so they are checked exactly like any other route here.
+    pages = list(root.rglob("index.html"))
     if not pages:
         raise PromotionError(f"{label}: no pages found to check build-id consistency")
     ids: dict[str, list[str]] = {}
@@ -238,6 +242,11 @@ def promote() -> None:
             shutil.copytree(src_path, dest_path)
         else:
             shutil.copyfile(src_path, dest_path)
+    # HARD GUARANTEE: docs/protected/ must never exist in production,
+    # regardless of what any earlier promotion (before this correction)
+    # left behind -- the frozen beta001 evidence is never published;
+    # see archive/beta001/ (already mirrored above) for the public copy.
+    shutil.rmtree(DEST / "protected", ignore_errors=True)
     print("  DONE")
     print()
 

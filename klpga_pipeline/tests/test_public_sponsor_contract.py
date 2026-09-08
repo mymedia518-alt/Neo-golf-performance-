@@ -91,6 +91,9 @@ _ROUTE_FAMILIES = (
     "tournaments/2026/ok-savings-bank-open/r1/index.html",
     "tournaments/2026/ok-savings-bank-open/r2/index.html",
     "tournaments/2026/ok-savings-bank-open/r3/index.html",
+    "archive/beta001/r1/index.html",
+    "archive/beta001/r2/index.html",
+    "archive/beta001/r3/index.html",
 )
 
 
