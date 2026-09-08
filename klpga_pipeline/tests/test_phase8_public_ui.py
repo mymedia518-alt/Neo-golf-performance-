@@ -139,7 +139,11 @@ def test_internal_validation_state_korean_phrases_never_appear_anywhere(html_fil
     phrases (Korean equivalents of "validation pending"/"approval
     pending"/"publication pending"), forbidden even inside a
     non-rendered HTML comment -- not just the visible body."""
-    forbidden = ("검증 대기", "검증용 · 공개 확정 전", "승인 전인 검증용 경기력 순위", "NEO 랭킹 검증")
+    # FINAL PHASE 8 RED-TEAM CLOSURE item 3: "이 모델 버전" (Deep Dive) was
+    # implementation/version terminology leaking into golfer-facing
+    # copy -- rewritten to plain language; "모델 버전" guarded here so it
+    # never regresses back in.
+    forbidden = ("검증 대기", "검증용 · 공개 확정 전", "승인 전인 검증용 경기력 순위", "NEO 랭킹 검증", "모델 버전")
     offenders = []
     for f in html_files:
         text = f.read_text(encoding="utf-8")
