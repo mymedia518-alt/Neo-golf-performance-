@@ -89,8 +89,9 @@ def test_entry_validated_rejects_unresolved_identity(tmp_path):
 def test_entry_validated_passes_a_clean_snapshot(tmp_path):
     ctx = _FakeContext(tmp_path)
     _write(ctx, "entry_snapshot", {
-        "entries": [{"player_id": "1"}, {"player_id": "2"}],
+        "entries": [{"player_id": "1", "identity_match": True}, {"player_id": "2", "identity_match": True}],
         "player_count": 2,
+        "identity_matched": "player_master identity match attempted",
     })
     assert pre_state.validate_entry(ctx).valid is True
 
@@ -115,6 +116,159 @@ def test_pre_state_contract_pre_ready_is_false_when_any_check_fails(tmp_path):
     contract = pre_state.build_pre_state_contract(ctx, freeze_if_ready=False)
     assert contract.pre_ready is False
     assert contract.pre_inputs_validated.valid is False
+
+
+# ---------------------------------------------------------------------------
+# PRE contract fail-closed hardening (fix/phase5-pre-contract-gates-20260908)
+# ---------------------------------------------------------------------------
+
+def test_entry_validated_fails_when_identity_matching_was_not_performed(tmp_path):
+    """The explicit "not attempted" sentinel, and/or every entry's own
+    identity_match evidence being None, must FAIL -- never read as
+    VALIDATED merely because unresolved_player_ids happens to be empty
+    (klpga.tournament_entry_bootstrap leaves it empty in exactly this
+    case, since it never even checked)."""
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {
+        "entries": [
+            {"player_id": "1", "identity_match": None},
+            {"player_id": "2", "identity_match": None},
+        ],
+        "player_count": 2,
+        "identity_matched": "not attempted (no player_master DB in this run)",
+        "unresolved_player_ids": [],
+    })
+    check = pre_state.validate_entry(ctx)
+    assert check.valid is False
+    assert any("not attempted" in r or "not actually performed" in r for r in check.reasons)
+
+
+def test_entry_validated_fails_on_partial_missing_identity_evidence(tmp_path):
+    """Even when the top-level summary claims matching was attempted,
+    any individual entry with no real identity_match evidence must
+    still fail -- missing identity evidence is never accepted."""
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {
+        "entries": [
+            {"player_id": "1", "identity_match": True},
+            {"player_id": "2", "identity_match": None},
+        ],
+        "player_count": 2,
+        "identity_matched": "player_master identity match attempted",
+        "unresolved_player_ids": [],
+    })
+    check = pre_state.validate_entry(ctx)
+    assert check.valid is False
+    assert any("no identity-match evidence" in r for r in check.reasons)
+
+
+def _write_frozen_archive(root: Path, game_code: str, cutoff_date: str, payload: dict | str) -> Path:
+    from klpga.neo_win.archive import archive_paths
+    json_path, _ = archive_paths(root, "PRE", game_code, cutoff_date)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    if isinstance(payload, str):
+        json_path.write_text(payload, encoding="utf-8")
+    else:
+        json_path.write_text(json.dumps(payload), encoding="utf-8")
+    return json_path
+
+
+def _valid_frozen_payload(ctx: _FakeContext) -> dict:
+    return {
+        "game_code": ctx.game_code,
+        "cutoff_date": ctx.start_date,
+        "model_id": "M4",
+        "model_version": "M4",
+        "leakage_validation": {"future_data_excluded": True},
+    }
+
+
+def test_pre_features_frozen_fails_on_corrupted_non_json_archive(tmp_path):
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {"entries": [{"player_id": "1"}], "player_count": 1})
+    root = tmp_path / "predictions"
+    _write_frozen_archive(root, ctx.game_code, ctx.start_date, "{not valid json")
+    check = pre_state.validate_pre_features_frozen(ctx, predictions_root=root)
+    assert check.valid is False
+    assert any("not valid JSON" in r for r in check.reasons)
+
+
+def test_pre_features_frozen_fails_on_wrong_game_code(tmp_path):
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {"entries": [{"player_id": "1"}], "player_count": 1})
+    root = tmp_path / "predictions"
+    payload = _valid_frozen_payload(ctx)
+    payload["game_code"] = "0000000000"
+    _write_frozen_archive(root, ctx.game_code, ctx.start_date, payload)
+    check = pre_state.validate_pre_features_frozen(ctx, predictions_root=root)
+    assert check.valid is False
+    assert any("game_code" in r for r in check.reasons)
+
+
+def test_pre_features_frozen_fails_on_wrong_cutoff(tmp_path):
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {"entries": [{"player_id": "1"}], "player_count": 1})
+    root = tmp_path / "predictions"
+    payload = _valid_frozen_payload(ctx)
+    payload["cutoff_date"] = "1999-01-01"
+    _write_frozen_archive(root, ctx.game_code, ctx.start_date, payload)
+    check = pre_state.validate_pre_features_frozen(ctx, predictions_root=root)
+    assert check.valid is False
+    assert any("cutoff_date" in r for r in check.reasons)
+
+
+def test_pre_features_frozen_fails_when_future_data_excluded_missing_or_false(tmp_path):
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {"entries": [{"player_id": "1"}], "player_count": 1})
+    root = tmp_path / "predictions"
+    payload = _valid_frozen_payload(ctx)
+    payload["leakage_validation"] = {"future_data_excluded": False}
+    _write_frozen_archive(root, ctx.game_code, ctx.start_date, payload)
+    check = pre_state.validate_pre_features_frozen(ctx, predictions_root=root)
+    assert check.valid is False
+    assert any("future_data_excluded" in r for r in check.reasons)
+
+    root2 = tmp_path / "predictions2"
+    payload2 = _valid_frozen_payload(ctx)
+    del payload2["leakage_validation"]
+    _write_frozen_archive(root2, ctx.game_code, ctx.start_date, payload2)
+    check2 = pre_state.validate_pre_features_frozen(ctx, predictions_root=root2)
+    assert check2.valid is False
+    assert any("future_data_excluded" in r for r in check2.reasons)
+
+
+def test_pre_features_frozen_passes_on_a_genuinely_matching_archive(tmp_path):
+    ctx = _FakeContext(tmp_path)
+    _write(ctx, "entry_snapshot", {"entries": [{"player_id": "1"}], "player_count": 1})
+    root = tmp_path / "predictions"
+    _write_frozen_archive(root, ctx.game_code, ctx.start_date, _valid_frozen_payload(ctx))
+    check = pre_state.validate_pre_features_frozen(ctx, predictions_root=root)
+    assert check.valid is True
+
+
+def test_pre_ready_is_false_when_publication_fails_even_if_first_four_pass():
+    """Data/model readiness alone must never be sufficient: with
+    entry/inputs/features/model all PASS but publication FAIL,
+    pre_ready must be False."""
+    ok = pre_state.StateCheck.ok
+    fail = pre_state.StateCheck.fail
+    contract = pre_state.PreStateContract(
+        entry_validated=ok("ENTRY_VALIDATED"),
+        pre_inputs_validated=ok("PRE_INPUTS_VALIDATED"),
+        pre_features_frozen=ok("PRE_FEATURES_FROZEN"),
+        pre_model_validated=ok("PRE_MODEL_VALIDATED"),
+        pre_publication_approved=fail("PRE_PUBLICATION_APPROVED", "no built PRE candidate"),
+    )
+    assert contract.pre_ready is False
+    # And the inverse sanity check: all five PASS -> pre_ready True.
+    contract_all_pass = pre_state.PreStateContract(
+        entry_validated=ok("ENTRY_VALIDATED"),
+        pre_inputs_validated=ok("PRE_INPUTS_VALIDATED"),
+        pre_features_frozen=ok("PRE_FEATURES_FROZEN"),
+        pre_model_validated=ok("PRE_MODEL_VALIDATED"),
+        pre_publication_approved=ok("PRE_PUBLICATION_APPROVED"),
+    )
+    assert contract_all_pass.pre_ready is True
 
 
 # ---------------------------------------------------------------------------
