@@ -18,9 +18,10 @@ inspectable checks:
 Each returns a StateCheck(valid, reasons) -- reasons is always populated
 when valid is False, so a partial/incomplete PRE never silently reads as
 done; an operator or test can see exactly which check failed and why.
-`PreStateContract.pre_ready` is the AND of the first four (used to gate
-Stage.PRE_READY) -- PRE_PUBLICATION_APPROVED is tracked separately since
-it concerns the public website output, not model/data readiness.
+`PreStateContract.pre_ready` (used to gate Stage.PRE_READY) is the AND
+of ALL FIVE checks, including PRE_PUBLICATION_APPROVED -- data/model
+readiness alone must never advance a tournament into PRE_READY while
+the public website candidate has not actually been built/approved.
 """
 from __future__ import annotations
 
@@ -69,9 +70,23 @@ def _read_json(path: Path) -> dict | None:
 def validate_entry(context: TournamentContext) -> StateCheck:
     """ENTRY_VALIDATED: the frozen entry_snapshot must exist AND be
     internally consistent -- never just "the file is there". Rejects
-    duplicate player_ids, unresolved identity (when identity matching
-    was actually attempted), unparsed rows, and a player_count that
-    disagrees with the number of entry rows actually present."""
+    duplicate player_ids, unresolved identity, unparsed rows, a
+    player_count that disagrees with the number of entry rows actually
+    present, AND (PRE contract hardening, fix/phase5-pre-contract-gates)
+    a snapshot where canonical player_master identity matching was
+    never actually performed.
+
+    "identity matching actually performed" is judged from real
+    per-entry evidence, not merely the top-level identity_matched
+    summary string: klpga.tournament_entry_bootstrap's explicit
+    "not attempted (no player_master DB in this run)" sentinel is one
+    real signal, but that same producer also leaves every entry's own
+    identity_match field as None in that exact case -- so an entry_snapshot
+    where identity_match is None/missing for some or all rows fails
+    here regardless of what the summary string happens to say (older
+    schemas have been observed with an ambiguous/absent summary field
+    despite carrying real per-entry evidence, and the reverse must
+    never be trusted either)."""
     name = "ENTRY_VALIDATED"
     path = context.artifact_path("entry_snapshot")
     payload = _read_json(path)
@@ -90,9 +105,19 @@ def validate_entry(context: TournamentContext) -> StateCheck:
     unparsed = payload.get("parser_unparsed_rows")
     if unparsed:
         reasons.append(f"{unparsed} unparsed row(s) on the official entry page")
-    identity_attempted = payload.get("identity_matched") not in (None, "not attempted (no player_master DB in this run)")
+    if payload.get("identity_matched") == "not attempted (no player_master DB in this run)":
+        reasons.append("canonical player_master identity matching was explicitly not attempted for this snapshot")
+    missing_evidence = [str(e.get("player_id")) for e in entries if e.get("identity_match") is None]
+    if missing_evidence:
+        if len(missing_evidence) == len(entries):
+            reasons.append(
+                "no entry carries real player_master identity-match evidence -- "
+                "identity matching was not actually performed for this snapshot"
+            )
+        else:
+            reasons.append(f"{len(missing_evidence)} entry row(s) have no identity-match evidence: {missing_evidence}")
     unresolved = payload.get("unresolved_player_ids") or []
-    if identity_attempted and unresolved:
+    if unresolved:
         reasons.append(f"{len(unresolved)} unresolved identity match(es): {unresolved}")
     ids = [str(e.get("player_id")) for e in entries]
     if len(ids) != len(set(ids)):
@@ -180,11 +205,12 @@ def validate_pre_model(context: TournamentContext) -> StateCheck:
 
 def validate_pre_publication(context: TournamentContext) -> StateCheck:
     """PRE_PUBLICATION_APPROVED: the PRE website candidate has actually
-    been built (script 84's candidate output). This is tracked
-    separately from pre_ready -- a tournament's model/data can be fully
-    PRE-validated even if the public website candidate hasn't been
-    (re)built yet, and vice versa a stale candidate must not be read as
-    "model validated"."""
+    been built (script 84's candidate output). Reported as its own
+    named StateCheck alongside the other four -- a stale/missing
+    candidate must never be read as "model validated" -- but (PRE
+    contract hardening, fix/phase5-pre-contract-gates) it is now ALSO
+    required for PreStateContract.pre_ready: model/data readiness alone
+    is no longer sufficient to reach PRE_READY while this is False."""
     name = "PRE_PUBLICATION_APPROVED"
     # Generic signal: any candidate directory whose manifest cites this
     # tournament's canonical pre_public_master as its source. We do not
@@ -310,7 +336,18 @@ def freeze_active_pre_features(context: TournamentContext, *, predictions_root: 
 def validate_pre_features_frozen(context: TournamentContext, *, predictions_root: Path | None = None) -> StateCheck:
     """PRE_FEATURES_FROZEN: an immutable frozen feature archive already
     exists for this tournament's PRE cutoff -- never inferred from the
-    mutable PRE artifacts alone."""
+    mutable PRE artifacts alone, and (PRE contract hardening,
+    fix/phase5-pre-contract-gates) never accepted merely because a file
+    happens to sit at the expected path. The archive itself must:
+    parse as real JSON; carry a game_code that actually matches this
+    context; carry a cutoff_date that actually matches this
+    tournament's own start_date (never a stale freeze for a different
+    tournament reusing the same path, and never a freeze taken at the
+    wrong moment); carry real model_id/model_version provenance
+    (missing or the "unknown" placeholder both fail -- that placeholder
+    is klpga.tournament_pre_state._pre_feature_snapshot's own admission
+    that no real model identity was available, not a real value); and
+    explicitly assert leakage_validation.future_data_excluded is True."""
     name = "PRE_FEATURES_FROZEN"
     root = predictions_root or (CONTENT_DIR.parent.parent / "neo_win_predictions")
     entry = _read_json(context.artifact_path("entry_snapshot"))
@@ -319,6 +356,31 @@ def validate_pre_features_frozen(context: TournamentContext, *, predictions_root
     json_path, _ = archive_paths(root, _PRE_FEATURES_PREDICTION_ID, context.game_code, context.start_date)
     if not json_path.is_file():
         return StateCheck.fail(name, f"no frozen PRE feature archive at {json_path}")
+    frozen = _read_json(json_path)
+    if frozen is None:
+        return StateCheck.fail(name, f"frozen PRE feature archive at {json_path} is not valid JSON")
+    reasons: list[str] = []
+    frozen_game_code = frozen.get("game_code")
+    if str(frozen_game_code) != context.game_code:
+        reasons.append(f"frozen archive game_code={frozen_game_code!r} does not match {context.game_code!r}")
+    frozen_cutoff = frozen.get("cutoff_date")
+    if frozen_cutoff != context.start_date:
+        reasons.append(
+            f"frozen archive cutoff_date={frozen_cutoff!r} does not match tournament start_date={context.start_date!r}"
+        )
+    model_id = frozen.get("model_id")
+    if not model_id or model_id == "unknown":
+        reasons.append(f"frozen archive has no real model_id provenance (model_id={model_id!r})")
+    model_version = frozen.get("model_version")
+    if not model_version or model_version == "unknown":
+        reasons.append(f"frozen archive has no real model_version provenance (model_version={model_version!r})")
+    leakage = frozen.get("leakage_validation") or {}
+    if leakage.get("future_data_excluded") is not True:
+        reasons.append(
+            f"frozen archive leakage_validation.future_data_excluded={leakage.get('future_data_excluded')!r}, expected True"
+        )
+    if reasons:
+        return StateCheck.fail(name, *reasons)
     return StateCheck.ok(name)
 
 
@@ -333,13 +395,20 @@ class PreStateContract:
     @property
     def pre_ready(self) -> bool:
         """Feeds TournamentFacts.pre_validated / Stage.PRE_READY.
-        Publication approval is intentionally NOT required here -- see
-        validate_pre_publication's own docstring."""
+
+        PRE contract hardening (fix/phase5-pre-contract-gates):
+        PRE_PUBLICATION_APPROVED is now REQUIRED too. Data/model
+        readiness alone must never advance a tournament into
+        PRE_READY while the public website candidate has not actually
+        been built/approved -- a still-pending publication step is a
+        real incompleteness, not a detail to track "separately" while
+        letting the lifecycle move on regardless."""
         return (
             self.entry_validated.valid
             and self.pre_inputs_validated.valid
             and self.pre_features_frozen.valid
             and self.pre_model_validated.valid
+            and self.pre_publication_approved.valid
         )
 
     def to_dict(self) -> dict:
