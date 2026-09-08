@@ -1,6 +1,12 @@
 @echo off
-set "PYTHON=C:\Users\user\Desktop\Neo-golf-performance-\klpga_pipeline\.venv\Scripts\python.exe"
-set "DATABASE=C:\Users\user\Desktop\Neo-golf-performance-\klpga_pipeline\data\klpga.sqlite"
-"%PYTHON%" "%~dp0scripts\93_resolve_historical_truth_blockers.py" --db "%DATABASE%"
+REM DYNAMIC REPO PATH: this script's own folder IS the klpga_pipeline
+REM checkout to operate on -- never a hardcoded machine-specific user
+REM path. Uses whichever "python" already resolves on PATH (a venv's
+REM Scripts\python.exe if one is active) rather than a pinned .venv path
+REM that may not exist on this machine.
+set "HERE=%~dp0"
+if "%HERE:~-1%"=="\" set "HERE=%HERE:~0,-1%"
+set "DATABASE=%HERE%\data\klpga.sqlite"
+python "%HERE%\scripts\93_resolve_historical_truth_blockers.py" --db "%DATABASE%"
 if errorlevel 1 exit /b %errorlevel%
-"%PYTHON%" -m pytest "%~dp0tests\test_historical_truth_blocker_resolution.py" -q
+python -m pytest "%HERE%\tests\test_historical_truth_blocker_resolution.py" -q

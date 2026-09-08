@@ -728,12 +728,18 @@ REPO_ROOT = ROOT.parent
 
 
 def test_no_scheduler_wrapper_hardcodes_a_windows_user_path():
-    for name in ("NEO-GOLF-R1-INSTALL-SCHEDULE.ps1", "NEO-GOLF-R1-ACTIVE-30MIN.ps1", "NEO_RECOVER.bat"):
-        path = REPO_ROOT / name
-        if not path.is_file():
-            continue
+    """Scans every .ps1/.bat operational script in the repo (not a fixed
+    named list) so a newly-added Windows helper script can never silently
+    reintroduce a machine-specific C:\\Users\\... path the way
+    NEO_HISTORICAL_TRUTH_VALIDATE.bat and
+    NEO_HISTORICAL_TRUTH_BLOCKER_RESOLUTION.bat once did."""
+    checked = 0
+    for path in list(REPO_ROOT.glob("*.ps1")) + list(REPO_ROOT.glob("*.bat")) + \
+            list(REPO_ROOT.glob("klpga_pipeline/*.ps1")) + list(REPO_ROOT.glob("klpga_pipeline/*.bat")):
+        checked += 1
         text = path.read_text(encoding="utf-8-sig", errors="ignore")
-        assert "C:\\Users" not in text, f"{name} still hardcodes a Windows user path"
+        assert "C:\\Users" not in text, f"{path.name} still hardcodes a Windows user path"
+    assert checked > 0, "no .ps1/.bat operational scripts found to check"
 
 
 def test_retired_competing_operator_script_refuses_to_run():
