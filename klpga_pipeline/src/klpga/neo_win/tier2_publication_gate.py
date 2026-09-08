@@ -75,16 +75,43 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
         # player's actual official rank. UNAVAILABLE per row is only
         # tolerated for INDIVIDUAL gaps in an otherwise-real population.
         available_count = sum(1 for r in rr if r.get("validation_state") == "PASS")
-        rank_ok = (
+        population_ok = (
             len(rr) == expected_count
             and available_count > 0
             and all(r.get("validation_state") in {"PASS", "UNAVAILABLE"} and (r.get("official_rank") is not None or r.get("validation_state") == "UNAVAILABLE") for r in rr)
         )
-        rank_reason = (
-            "same-week official ranking snapshot validated" if rank_ok
-            else "every K-Ranking row is UNAVAILABLE -- the requested ranking week may be wrong, ambiguous, or not yet published; refusing to treat an entirely-unconfirmed population as validated" if len(rr) == expected_count and available_count == 0
-            else "ranking evidence incomplete"
-        )
+        # K-RANK PROVENANCE (Phase 2, fix/phase5-generic-pipeline-hardening):
+        # resolve_ranking_week()'s requested week is a REQUEST candidate,
+        # never proof -- a neighboring/wrong week with at least one real
+        # PASS row must never be enough on its own. The artifact must
+        # additionally prove which week the official response itself
+        # claimed to return, that it matches the requested week, and
+        # that the raw response is hashed for audit -- never trust the
+        # request label alone if the raw response can't back it up.
+        rank_game_code = rank.get("game_code")
+        provenance_reasons: list[str] = []
+        if not rank.get("raw_response_sha256"):
+            provenance_reasons.append("no raw_response_sha256 recorded -- the official response was never hashed for audit")
+        if rank.get("week_evidence_state") != "PROVEN" or not rank.get("returned_rank_week"):
+            provenance_reasons.append("returned_rank_week is unproven -- the official response never confirmed which week it actually served")
+        elif rank.get("week_match") is not True:
+            provenance_reasons.append(
+                f"requested_rank_week={rank.get('requested_rank_week')!r} does not match "
+                f"returned_rank_week={rank.get('returned_rank_week')!r}"
+            )
+        if rank_game_code is not None and str(rank_game_code) != context.game_code:
+            provenance_reasons.append(f"ranking artifact game_code={rank_game_code!r} does not match {context.game_code!r}")
+        rank_ok = population_ok and not provenance_reasons
+        if not population_ok:
+            rank_reason = (
+                "every K-Ranking row is UNAVAILABLE -- the requested ranking week may be wrong, ambiguous, or not yet published; refusing to treat an entirely-unconfirmed population as validated"
+                if len(rr) == expected_count and available_count == 0
+                else "ranking evidence incomplete"
+            )
+        elif provenance_reasons:
+            rank_reason = "; ".join(provenance_reasons)
+        else:
+            rank_reason = "same-week official ranking snapshot validated with proven, matching, hashed provenance"
         domains.append(_result("K_RANKING", "PASS" if rank_ok else "BLOCK", ["T2-RANK-001"], rank_reason, ["official_klpga_rank"], rank_path))
         win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]; win_ok = len(wr) == expected_count and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
         domains.append(_result("WIN_PROBABILITY", "PASS" if win_ok else "BLOCK", ["T2-WIN-001"], f"{expected_count} pre-cutoff WIN probabilities validated" if win_ok else "forecast coverage/range failure", ["win_probability"], win_path))

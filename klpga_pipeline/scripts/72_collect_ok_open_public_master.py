@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
 sys.path.insert(0, str(ROOT / "src"))
 from klpga.tournament_context import load_active_tournament_context
-from klpga.kranking_week import resolve_ranking_week
+from klpga.kranking_week import extract_returned_week, resolve_ranking_week, response_sha256
 
 _CONTEXT = load_active_tournament_context()
 GAME = _CONTEXT.game_code
@@ -52,7 +52,19 @@ def collect_rankings(target_ids):
     # Rank_week -- see klpga.kranking_week for the (best-effort, generic)
     # derivation from this tournament's own start date.
     r=s.post(RANK_URL,data={"Rank_week":RANK_WEEK_PARAM,"top_player":"김민솔","last_week":"null"},timeout=30); r.raise_for_status()
-    soup=BeautifulSoup(r.content.decode("utf-8","replace"),"html.parser"); table=soup.select_one("table#example"); found={}
+    # K-RANK PROVENANCE (Phase 2): resolve_ranking_week()'s output is a
+    # REQUEST candidate only -- the raw response itself is hashed and
+    # parsed for whatever week it actually claims to have returned,
+    # rather than assuming the server honored the requested week. A
+    # mismatch, or a response that exposes no provable week at all, is
+    # recorded honestly (never silently reconciled) so
+    # tier2_publication_gate can fail closed on it.
+    raw_bytes = r.content
+    raw_html = raw_bytes.decode("utf-8", "replace")
+    raw_response_sha256 = response_sha256(raw_bytes)
+    returned_rank_week = extract_returned_week(raw_html)
+    week_match = (returned_rank_week == RANKING_DATE_LABEL) if returned_rank_week is not None else None
+    soup=BeautifulSoup(raw_html,"html.parser"); table=soup.select_one("table#example"); found={}
     if table:
         for tr in table.select("tbody tr"):
             cells=tr.find_all("td"); link=tr.find("a",href=lambda x: x and "player_code=" in x)
@@ -61,7 +73,19 @@ def collect_rankings(target_ids):
             try: rank=int(rank)
             except ValueError: continue
             if pid in target_ids: found[pid]=rank
-    return {"schema_version":"neo_tournament_official_klpga_ranking_v1","ranking_category":"K-RANKING (official weekly KLPGA ranking)","ranking_date":RANKING_DATE_LABEL,"official_source":RANK_URL,"retrieved_at":now(),"records":[{"player_id":pid,"official_rank":found.get(pid),"validation_state":"PASS" if pid in found else "UNAVAILABLE"} for pid in sorted(target_ids)]}
+    return {
+        "schema_version": "neo_tournament_official_klpga_ranking_v1",
+        "ranking_category": "K-RANKING (official weekly KLPGA ranking)",
+        "requested_rank_week": RANKING_DATE_LABEL,
+        "returned_rank_week": returned_rank_week,
+        "week_evidence_state": "PROVEN" if returned_rank_week is not None else "UNPROVEN",
+        "week_match": week_match,
+        "ranking_date": RANKING_DATE_LABEL,
+        "official_source": RANK_URL,
+        "retrieved_at": now(),
+        "raw_response_sha256": raw_response_sha256,
+        "records": [{"player_id":pid,"official_rank":found.get(pid),"validation_state":"PASS" if pid in found else "UNAVAILABLE"} for pid in sorted(target_ids)],
+    }
 
 def main():
     entry=json.loads(ENTRY_PATH.read_text(encoding="utf-8")); entries=entry["entries"]; ids={str(e["player_id"]) for e in entries}; retrieved=now()

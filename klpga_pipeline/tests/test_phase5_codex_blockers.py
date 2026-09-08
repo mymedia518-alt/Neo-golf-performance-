@@ -276,14 +276,24 @@ def test_pre_ready_is_false_when_publication_fails_even_if_first_four_pass():
 # pass the publication gate.
 # ---------------------------------------------------------------------------
 
-def _write_minimal_gate_fixtures(ctx: _FakeContext, monkeypatch, *, rank_records, sg_acceptance=None):
+_VALID_RANK_PROVENANCE = {
+    "requested_rank_week": "2099-W01",
+    "returned_rank_week": "2099-W01",
+    "week_evidence_state": "PROVEN",
+    "week_match": True,
+    "raw_response_sha256": "a" * 64,
+}
+
+
+def _write_minimal_gate_fixtures(ctx: _FakeContext, monkeypatch, *, rank_records, sg_acceptance=None, rank_extra=None):
     monkeypatch.setattr(tier2_publication_gate, "CONTENT_DIR", ctx._root)
     _write(ctx, "entry_snapshot", {"player_count": 2})
     _write(ctx, "current_player_master", {"records": [
         {"player_id": "1", "identity_validation": "PASS"},
         {"player_id": "2", "identity_validation": "PASS"},
     ]})
-    _write(ctx, "official_klpga_ranking", {"records": rank_records})
+    rank_payload = {**_VALID_RANK_PROVENANCE, **(rank_extra or {}), "records": rank_records}
+    _write(ctx, "official_klpga_ranking", rank_payload)
     _write(ctx, "pre_win_forecast", {"records": [
         {"player_id": "1", "win_probability": 0.5},
         {"player_id": "2", "win_probability": 0.5},
@@ -332,6 +342,106 @@ def test_k_ranking_with_at_least_one_real_pass_row_still_passes(tmp_path, monkey
     gate = tier2_publication_gate.evaluate(ctx)
     rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
     assert rank["state"] == "PASS"
+
+
+_DEFAULT_RANK_RECORDS = [
+    {"player_id": "1", "validation_state": "PASS", "official_rank": 5},
+    {"player_id": "2", "validation_state": "PASS", "official_rank": 12},
+]
+
+
+def test_k_ranking_passes_with_correct_requested_returned_week_and_hash(tmp_path, monkeypatch):
+    ctx = _FakeContext(tmp_path)
+    _write_minimal_gate_fixtures(
+        ctx, monkeypatch, rank_records=_DEFAULT_RANK_RECORDS,
+        rank_extra={"requested_rank_week": "2099-W01", "returned_rank_week": "2099-W01",
+                    "week_evidence_state": "PROVEN", "week_match": True, "raw_response_sha256": "a" * 64},
+        sg_acceptance={"state": "ACCEPTED", "accepted_by": "x", "accepted_at": "2099-01-01T00:00:00Z",
+                       "warehouse": "historical_sg_warehouse_corrected_v2.json",
+                       "warehouse_sha256": __import__("hashlib").sha256(b"{}").hexdigest()},
+    )
+    gate = tier2_publication_gate.evaluate(ctx)
+    rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
+    assert rank["state"] == "PASS"
+
+
+def test_k_ranking_blocks_on_requested_returned_week_mismatch(tmp_path, monkeypatch):
+    ctx = _FakeContext(tmp_path)
+    _write_minimal_gate_fixtures(
+        ctx, monkeypatch, rank_records=_DEFAULT_RANK_RECORDS,
+        rank_extra={"requested_rank_week": "2099-W01", "returned_rank_week": "2099-W02",
+                    "week_evidence_state": "PROVEN", "week_match": False, "raw_response_sha256": "a" * 64},
+    )
+    gate = tier2_publication_gate.evaluate(ctx)
+    rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
+    assert rank["state"] == "BLOCK"
+    assert "does not match" in rank["reason"]
+
+
+def test_k_ranking_blocks_when_returned_week_missing(tmp_path, monkeypatch):
+    ctx = _FakeContext(tmp_path)
+    _write_minimal_gate_fixtures(
+        ctx, monkeypatch, rank_records=_DEFAULT_RANK_RECORDS,
+        rank_extra={"requested_rank_week": "2099-W01", "returned_rank_week": None,
+                    "week_evidence_state": "UNPROVEN", "week_match": None, "raw_response_sha256": "a" * 64},
+    )
+    gate = tier2_publication_gate.evaluate(ctx)
+    rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
+    assert rank["state"] == "BLOCK"
+    assert "unproven" in rank["reason"]
+
+
+def test_k_ranking_blocks_when_raw_hash_missing(tmp_path, monkeypatch):
+    ctx = _FakeContext(tmp_path)
+    _write_minimal_gate_fixtures(
+        ctx, monkeypatch, rank_records=_DEFAULT_RANK_RECORDS,
+        rank_extra={"requested_rank_week": "2099-W01", "returned_rank_week": "2099-W01",
+                    "week_evidence_state": "PROVEN", "week_match": True, "raw_response_sha256": None},
+    )
+    gate = tier2_publication_gate.evaluate(ctx)
+    rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
+    assert rank["state"] == "BLOCK"
+    assert "raw_response_sha256" in rank["reason"]
+
+
+def test_k_ranking_blocks_on_wrong_adjacent_week_even_with_one_pass_row(tmp_path, monkeypatch):
+    """A neighboring/wrong week that still happens to return one real
+    PASS row must never be enough by itself -- population availability
+    and week provenance are independent requirements."""
+    ctx = _FakeContext(tmp_path)
+    _write_minimal_gate_fixtures(
+        ctx, monkeypatch,
+        rank_records=[
+            {"player_id": "1", "validation_state": "PASS", "official_rank": 5},
+            {"player_id": "2", "validation_state": "UNAVAILABLE"},
+        ],
+        rank_extra={"requested_rank_week": "2099-W01", "returned_rank_week": "2099-W52",
+                    "week_evidence_state": "PROVEN", "week_match": False, "raw_response_sha256": "a" * 64},
+    )
+    gate = tier2_publication_gate.evaluate(ctx)
+    rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
+    assert rank["state"] == "BLOCK"
+
+
+def test_k_ranking_blocks_on_wrong_game_code(tmp_path, monkeypatch):
+    ctx = _FakeContext(tmp_path)
+    _write_minimal_gate_fixtures(
+        ctx, monkeypatch, rank_records=_DEFAULT_RANK_RECORDS,
+        rank_extra={"game_code": "0000000000", "requested_rank_week": "2099-W01",
+                    "returned_rank_week": "2099-W01", "week_evidence_state": "PROVEN",
+                    "week_match": True, "raw_response_sha256": "a" * 64},
+    )
+    gate = tier2_publication_gate.evaluate(ctx)
+    rank = next(d for d in gate["domains"] if d["domain"] == "K_RANKING")
+    assert rank["state"] == "BLOCK"
+    assert "game_code" in rank["reason"]
+
+
+def test_extract_returned_week_finds_selected_option_and_fallback_label():
+    from klpga.kranking_week import extract_returned_week
+    assert extract_returned_week('<select><option selected>2099년 3주</option></select>') == "2099-W03"
+    assert extract_returned_week('<div>현재 랭킹 기준: 2099년 12주</div>') == "2099-W12"
+    assert extract_returned_week('<html><body>no week here</body></html>') is None
 
 
 # ---------------------------------------------------------------------------
