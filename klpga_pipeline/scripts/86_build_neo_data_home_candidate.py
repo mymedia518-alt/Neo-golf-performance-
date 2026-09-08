@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import sys
 from html import escape
@@ -19,6 +20,27 @@ from klpga.tournament_context import load_active_tournament_context, SITE_REGIST
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home"
+
+# PUBLIC ARCHIVE correction (Red Team FAIL D): the frozen R1 evidence's
+# own published heading uses a developer-facing English label ("R1 DATA
+# UNAVAILABLE") ahead of its own already-honest Korean parenthetical.
+# This is a text-only substitution applied to the SANITIZED public copy
+# only -- the frozen evidence bytes at evidence/beta001/artifacts/ are
+# never touched (see the sha256 check at build time).
+_R1_DATA_UNAVAILABLE_HEADING_RE = re.compile(r"R1 DATA UNAVAILABLE\s*\(([^)]*)\)")
+# The frozen evidence's own bare <header>...</header> (its pre-global-
+# nav-system wordmark/round-status block, no attributes, no
+# data-neo-global-navigation marker) would otherwise sit right
+# alongside the canonical global header inject_global_navigation()
+# adds -- a visible duplicate header on the public copy. Stripped only
+# from the in-memory sanitized derivative; the frozen bytes on disk are
+# never touched by this.
+_LEGACY_ARCHIVE_HEADER_RE = re.compile(r"<header>.*?</header>", re.S)
+
+
+def _sanitize_public_archive_text(html: str) -> str:
+    html = _LEGACY_ARCHIVE_HEADER_RE.sub("", html)
+    return _R1_DATA_UNAVAILABLE_HEADING_RE.sub(r"\1", html)
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
 # this script's own hardcoded literal -- see src/klpga/tournament_context.py.
 _CONTEXT = load_active_tournament_context()
@@ -169,6 +191,14 @@ def build() -> dict:
             # files; overwrite the deterministic outputs in place instead.
             pass
     shutil.copytree(REPO / "docs", OUTPUT, dirs_exist_ok=True)
+    # HARD GUARANTEE (ARCHITECTURE correction): docs/ is only ever a
+    # bootstrap SOURCE here, never trusted as already-correct -- any
+    # protected/ this docs/ bootstrap copy carried forward (a stale
+    # pre-correction leftover, or a manual edit) is scrubbed
+    # unconditionally. The frozen beta001 evidence must never reach a
+    # publishable route; see the archive/beta001/ generation below for
+    # its sanitized public replacement.
+    shutil.rmtree(OUTPUT / "protected", ignore_errors=True)
     registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig"))["tournaments"]
     ok_route = _CONTEXT.url_base.strip("/")
     ok_source = ROOT / "candidate" / "website-v2-ok-open-pre" / ok_route
@@ -198,21 +228,51 @@ def build() -> dict:
     if not (kg_source / "index.html").is_file():
         raise FileNotFoundError(f"verified KG overview source missing: {kg_source / 'index.html'}")
     shutil.copyfile(kg_source / "index.html", kg_dest / "index.html")
-    # "원본 기록 보기" (view original record) on each stage page links to
-    # /protected/beta001/<stage>.html -- the real, sha256-verified raw
-    # evidence artifact migration.py already produces alongside every
-    # stage. Never previously copied into docs/, so this 404s today for
-    # the R1/R2 pages already live in production; pulling it in here
-    # fixes the link for R1/R2/R3 alike, using only already-verified
-    # evidence bytes.
+    # PUBLIC ARCHIVE (Red Team FAIL B correction): "원본 기록 보기" (view
+    # original record) on each stage page links to /archive/beta001/
+    # <stage>/ -- a SANITIZED public copy, never the raw frozen evidence
+    # bytes directly. The immutable evidence itself (sha256-verified
+    # against klpga_pipeline/evidence/beta001/manifest.json by
+    # migration.py's own build) never lives under docs/ at all; this
+    # block only ever reads it (never mutates the frozen source) to
+    # build a public-facing derivative that carries the same global
+    # header / sponsor-slot rule every other public route follows.
     protected_source = ROOT / "candidate" / "website-v2" / "protected" / "beta001"
-    protected_dest = OUTPUT / "protected" / "beta001"
+    archive_dest = OUTPUT / "archive" / "beta001"
     for stage in ("r1", "r2", "r3"):
         stage_file = protected_source / f"{stage}.html"
         if not stage_file.is_file():
             raise FileNotFoundError(f"verified KG {stage.upper()} evidence artifact missing: {stage_file}")
-        protected_dest.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(stage_file, protected_dest / f"{stage}.html")
+        raw_html = stage_file.read_text(encoding="utf-8")
+        # The frozen evidence is a headless content fragment (no
+        # <!doctype>/<html>/<head>/<body>, and it carries its OWN legacy
+        # <header>...</header> block). Text-sanitize and strip that
+        # legacy header FIRST, then wrap in a minimal well-formed
+        # document shell BEFORE inject_global_navigation runs, so the
+        # canonical header has a real <body> to attach after (not the
+        # <header> fallback path) and it never collides with the
+        # evidence's own header. A real <head> also means the later
+        # build-provenance stamping pass (scripts/88) can inject its
+        # meta tags invisibly instead of falling back to prepending them
+        # into the visible body. Deliberately not using render_page()
+        # here -- it would inject its own header/footer chrome on top of
+        # the evidence's own already-present footer.
+        sanitized_fragment = _sanitize_public_archive_text(raw_html)
+        wrapped = (
+            "<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\">"
+            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+            f"<title>KG 레이디스 오픈 {stage.upper()} 원본 기록 · NEO GOLF DATA</title>"
+            "<link rel=\"stylesheet\" href=\"/assets/neo-site.css\"></head>"
+            f"<body>{sanitized_fragment}</body></html>"
+        )
+        public_html = inject_global_navigation(wrapped, active_section="tournaments")
+        # Sponsor-slot completion happens generically later in this
+        # build (the same normalize_player_sponsor_mentions() pass that
+        # runs over every candidate/neo-data-home page) -- this route
+        # needs no special-case handling to get it.
+        stage_dest = archive_dest / stage
+        stage_dest.mkdir(parents=True, exist_ok=True)
+        (stage_dest / "index.html").write_text(public_html, encoding="utf-8", newline="\n")
     (OUTPUT / "tournaments" / "index.html").write_text(render_tournaments_clean(), encoding="utf-8", newline="\n")
     deep_dive_source = ROOT / "candidate" / "website-v2" / "deep-dive"
     if not (deep_dive_source / "index.html").is_file():
@@ -237,7 +297,13 @@ def build() -> dict:
     for page in OUTPUT.rglob("index.html"):
         relative = page.relative_to(OUTPUT)
         top = relative.parts[0] if relative.parts != (relative.name,) else None
-        active_section = {"tournaments": "tournaments", "deep-dive": "deep-dive", "about": "about"}.get(top)
+        # archive/beta001/<stage>/ (the sanitized public copy of the KG
+        # frozen evidence) is a tournaments-section page for navigation
+        # purposes -- without this mapping this blanket refresh pass
+        # would overwrite the "tournaments" active-nav state the
+        # archive-generation block above already set, wiping the
+        # aria-current="page" marker back to none-active.
+        active_section = {"tournaments": "tournaments", "archive": "tournaments", "deep-dive": "deep-dive", "about": "about"}.get(top)
         if active_section is None and relative.name == "index.html" and len(relative.parts) == 1:
             active_section = "home"
         rendered = inject_global_navigation(page.read_text(encoding="utf-8"), active_section=active_section)

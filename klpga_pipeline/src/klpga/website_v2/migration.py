@@ -299,13 +299,26 @@ def build_beta001_candidate(content_path: Path, manifest_path: Path, repo_root: 
         output_root/"tournaments"/str(meta.year)/meta.slug/"pre"/"index.html":render_page(title=f"{meta.display_name} PRE",active_section="tournaments",body_html=_pre(meta,snapshots["PRE"],records["pre"]),tournament=meta,current_stage="pre"),
         output_root/"tournaments"/str(meta.year)/meta.slug/"final"/"index.html":render_page(title=f"{meta.display_name} FINAL",active_section="tournaments",body_html=_final(data,meta,snapshots,availability,official),tournament=meta,current_stage="final")}
     for stage in ("r1","r2","r3"):
-        pages[output_root/"tournaments"/str(meta.year)/meta.slug/stage/"index.html"]=render_page(title=f"{meta.display_name} {stage.upper()}",active_section="tournaments",body_html=_stage(meta,stage.upper(),snapshots[stage.upper()],snapshots,records[stage],f"/protected/beta001/{stage}.html"),tournament=meta,current_stage=stage)
+        # PUBLIC ARCHIVE correction: the "원본 기록 보기" link now points
+        # at the sanitized public archive route (built by scripts/86 from
+        # this same sha256-verified evidence, with the sponsor-slot rule
+        # and global header applied) -- never the raw, unsanitized
+        # evidence bytes directly. The immutable evidence itself stays at
+        # klpga_pipeline/evidence/beta001/artifacts/ (never under docs/).
+        pages[output_root/"tournaments"/str(meta.year)/meta.slug/stage/"index.html"]=render_page(title=f"{meta.display_name} {stage.upper()}",active_section="tournaments",body_html=_stage(meta,stage.upper(),snapshots[stage.upper()],snapshots,records[stage],f"/archive/beta001/{stage}/"),tournament=meta,current_stage=stage)
     written=[_write(path,html) for path,html in pages.items()]
     assets=output_root/"assets"; assets.mkdir(parents=True,exist_ok=True)
     for name in ("neo-site.css","neo-site.js"):
         dest=assets/name; shutil.copyfile(STATIC_DIR/name,dest); written.append(dest)
     data_dir=output_root/"data"; data_dir.mkdir(parents=True,exist_ok=True); dest=data_dir/"availability.json"; shutil.copyfile(availability_path,dest); written.append(dest)
     official_dest=data_dir/"kg_2026080001_official.json"; shutil.copyfile(official_path,official_dest); written.append(official_dest)
+    # ARCHITECTURE correction (docs/protected must never be published):
+    # this "protected" candidate-tree copy is an INTERNAL byte-integrity
+    # checkpoint only -- it re-reads the manifest's own source_artifact
+    # bytes and asserts they still hash to the recorded sha256 before
+    # scripts/86 ever touches them. It is never copied into docs/; the
+    # public-facing route is /archive/beta001/<stage>/, a sanitized copy
+    # scripts/86 builds from these same verified bytes.
     protected=output_root/"protected"/"beta001"; protected.mkdir(parents=True,exist_ok=True)
     for stage in ("r1","r2","r3"):
         source=repo_root/records[stage]["source_artifact"]; destination=protected/f"{stage}.html"; shutil.copyfile(source,destination)

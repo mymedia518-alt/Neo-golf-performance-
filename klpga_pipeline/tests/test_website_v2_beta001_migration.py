@@ -79,6 +79,11 @@ def test_shared_native_forecast_template_watch_and_evidence(candidate):
         assert "방법론 / 원본 기록" in html and 'data-sha256="' in html
         assert "SHA-256" not in html and ">모델<" not in html and ">분류<" not in html
         assert '<svg class="line-chart"' in html and 'data-chart-series' in html
+        # ARCHITECTURE correction (docs/protected must never be
+        # published): the "원본 기록 보기" link points at the sanitized
+        # public archive route, never the raw/frozen evidence directly.
+        assert f'href="/archive/beta001/{stage}/"' in html
+        assert "/protected/beta001/" not in html
 
 
 def test_pre_reconstruction_is_honest(candidate):
@@ -139,7 +144,10 @@ def test_no_mojibake_iframe_duplicate_assets_or_broken_links(candidate):
     # showcase (home/tournaments/predictions/deep-dive/about) -- it never
     # had, and is not meant to have, its own copy of those two site-wide
     # routes, so they are exempt from this isolated build's link check.
-    exempt_routes = ("/ranking/", "/neo-lab/")
+    # /archive/beta001/<stage>/ is built by scripts/86 (from this same
+    # migration.py output plus the frozen evidence), not by
+    # build_beta001_candidate() itself -- also exempt here.
+    exempt_routes = ("/ranking/", "/neo-lab/", "/archive/beta001/r1/", "/archive/beta001/r2/", "/archive/beta001/r3/")
     for page in pages(candidate):
         html=page.read_text(encoding="utf-8")
         assert "�" not in html and "쨌" not in html and "<iframe" not in html
@@ -161,10 +169,21 @@ def test_mobile_table_chart_and_navigation_contract(candidate,width):
     assert "overflow-x: hidden" not in css
 
 
-def test_protected_copies_and_phase0_evidence_are_immutable(candidate):
+def test_phase0_evidence_source_bytes_are_immutable(candidate):
+    """ARCHITECTURE correction: historical integrity means the SOURCE
+    evidence (klpga_pipeline/evidence/beta001/artifacts/, verified
+    against manifest.json) is byte/hash identical -- never that some
+    public-facing copy must also be byte-identical to it. The public
+    archive route (docs/archive/beta001/<stage>/) is a deliberately
+    SANITIZED derivative (global header + sponsor-slot rule applied)
+    and is never expected to match these hashes; see
+    test_public_archive_beta001.py for its own contract."""
     expected={"PRE":"0e1fbd013d1e5280887636fc7d504b537f71833dfca918bb876e7ce0fd5301ea","R1":"be9b5fb56090667aea7924abdd7f481d079579687dc1eb1a561134f353b3400c","R2":"531cac52a7c122e0a0a161f18704570f4972eb744b928128c1317fd06a49eeae","R3":"30797700f3e2e6530c1de02575723d94dbb67da860ade493068d891294ffde15"}
     assert load_and_verify_manifest(MANIFEST,REPO_ROOT)==expected
     manifest=json.loads(MANIFEST.read_text(encoding="utf-8")); records={x["stage"]:x for x in manifest["stages"]}
+    # The internal build-time integrity checkpoint (never promoted to
+    # docs/ -- see migration.py's own comment on this block) also still
+    # matches, proving the copy-and-hash-check step itself is honest.
     for stage in ("R1","R2","R3"):
         assert hashlib.sha256((candidate/"protected/beta001"/f"{stage.lower()}.html").read_bytes()).hexdigest()==records[stage]["sha256"]
 
