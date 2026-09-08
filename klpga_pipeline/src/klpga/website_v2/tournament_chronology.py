@@ -84,26 +84,50 @@ def resolve_tournament_chronology(
     is active right now and what are its real dates."
 
     Returns {"last": facts|None, "current": facts|None, "next": facts|None}.
-    "last" = the most recently ENDED registered tournament (excluding
-    the active one) whose end_date is before as_of. "next" = the
-    soonest-starting registered tournament (excluding the active one)
-    whose start_date is after as_of. Either is None when no such
-    registry entry exists yet -- never inferred, never fabricated."""
-    current = None
+
+    "last" = the most recently ENDED tournament as of as_of -- either a
+    registered (non-active) entry, or the active one itself once its
+    own end_date has passed (see "current" below).
+
+    "current" = the active tournament ONLY while it has not already
+    ended (its own end_date is unknown, or >= as_of). PUBLIC UI Phase 8
+    correction (FAIL 3): an active context whose end_date is < as_of is
+    a completed tournament, not "이번 대회", regardless of whether the
+    pipeline still points at it -- date evidence always overrides
+    which game_code happens to be "active". When that happens (or when
+    no active tournament is tracked at all is NOT this case -- see
+    below), "current" degrades to the nearest known upcoming
+    tournament so the card never shows a stale, already-over event.
+
+    "next" = the soonest-starting tournament after whichever one is
+    resolved as "current" -- i.e. the second-nearest upcoming entry
+    when "current" itself had to degrade to the nearest one.
+
+    Every date comparison uses only real, curated start_date/end_date
+    values -- never inferred, never fabricated. A candidate lacking
+    either date is excluded from consideration entirely."""
+    as_of_iso = as_of.isoformat()
+
+    active_facts = None
+    active_is_stale = False
     if active_game_code:
         active_entry = registry.get(active_game_code) or {}
         hub = active_entry.get("hub_card") or {}
-        current = TournamentCardFacts(
+        end = active_end_date or active_entry.get("end_date") or ""
+        active_facts = TournamentCardFacts(
             game_code=active_game_code,
             tournament_name=active_tournament_name or hub.get("display_name") or "",
             date_range_display=active_date_range_display or hub.get("date_range") or "",
             url_base=str(active_entry.get("url_base") or ""),
             start_date=active_start_date or active_entry.get("start_date") or "",
-            end_date=active_end_date or active_entry.get("end_date") or "",
+            end_date=end,
             venue=active_entry.get("venue"),
+            winner=hub.get("winner"),
+            winning_score=hub.get("winning_score"),
             defending_champion=hub.get("defending_champion"),
             defending_champion_score=hub.get("defending_champion_score"),
         )
+        active_is_stale = bool(end) and end < as_of_iso
 
     others = [
         facts for game_code, entry in registry.items()
@@ -111,14 +135,30 @@ def resolve_tournament_chronology(
         for facts in (_registry_entry_facts(game_code, entry),)
         if facts is not None
     ]
-    as_of_iso = as_of.isoformat()
-    completed = sorted((f for f in others if f.end_date < as_of_iso), key=lambda f: f.end_date, reverse=True)
+    completed_pool = list(others) + ([active_facts] if active_is_stale else [])
+    completed = sorted((f for f in completed_pool if f.end_date < as_of_iso), key=lambda f: f.end_date, reverse=True)
     upcoming = sorted((f for f in others if f.start_date > as_of_iso), key=lambda f: f.start_date)
+
+    if active_facts is not None and not active_is_stale:
+        # A live-or-not-yet-started active tournament genuinely is
+        # "이번 대회" -- unchanged from before this correction.
+        current, next_ = active_facts, (upcoming[0] if upcoming else None)
+    elif active_game_code:
+        # The tracked tournament has already ended: "이번 대회" degrades
+        # to the nearest known upcoming event (never the stale one),
+        # and "다음 대회" becomes whatever comes after that.
+        current = upcoming[0] if upcoming else None
+        next_ = upcoming[1] if len(upcoming) > 1 else None
+    else:
+        # No active tournament tracked at all -- pure-resolver use
+        # only (real callers always have an active_game_code); behavior
+        # unchanged from before this correction.
+        current, next_ = None, (upcoming[0] if upcoming else None)
 
     return {
         "last": completed[0] if completed else None,
         "current": current,
-        "next": upcoming[0] if upcoming else None,
+        "next": next_,
     }
 
 

@@ -70,7 +70,12 @@ def test_candidate_contract_and_pending_handling(built):
     # (see the HOME-ownership tests further below).
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     assert html.count("data-player-row") == 120
-    assert "검증 대기" in html and "NEO 랭킹 검증" in html
+    # PUBLIC UI Phase 8 correction (FAIL 1): "검증 대기"/"NEO 랭킹 검증" were
+    # internal validation-state phrases (visible in the ranking table's
+    # missing-value cells and a legacy contract-marker comment) and have
+    # been removed from all generated HTML -- asserting their absence,
+    # not their presence, is now the correct contract.
+    assert "검증 대기" not in html and "NEO 랭킹 검증" not in html
     assert "검증 선수" not in html and "win_probability" not in html
     assert built == {**built, "cohort_count":120}
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
@@ -134,8 +139,11 @@ def test_home_is_korean_first_and_table_alignment_is_explicit(built):
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     assert html.count("data-player-row") == 120
     assert "KLPGA 공식 K-Ranking 1~120위" in html
-    assert "NEO 랭킹 검증" in html
-    assert "검증 대기" in html
+    # PUBLIC UI Phase 8 correction (FAIL 1): see
+    # test_candidate_contract_and_pending_handling -- these are now
+    # forbidden internal validation-state phrases, not required content.
+    assert "NEO 랭킹 검증" not in html
+    assert "검증 대기" not in html
     assert all(term in html for term in ("K-Ranking", "NEO Ranking", "최근 경기력"))
     assert "DATA INSUFFICIENT" not in html
     assert all(term not in html for term in (">HOME<", ">TOURNAMENTS<", ">DEEP DIVE<", ">ABOUT<", "production 아님"))
@@ -412,9 +420,17 @@ def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):
     assert "KG" not in current_card.group(0) and "레이디스" not in current_card.group(0), (
         "KG Ladies Open must never appear inside the CURRENT tournament card"
     )
+    # PUBLIC UI Phase 8 correction (FAIL 3): tournament_chronology is
+    # now purely date-driven (see test_phase8_public_ui.py's
+    # test_chronology_* boundary tests) -- whichever registered
+    # tournament ended most recently as of "today" wins the "last"
+    # slot. That is sometimes KG, sometimes another completed
+    # tournament (e.g. once OK Open's own scheduled window has also
+    # passed) -- never hardcode which one; the only real invariant this
+    # test guards is a non-empty "last" card.
     last_card = _re.search(r'data-tournament-card="last"[^>]*>.*?</article>', html, flags=_re.S)
-    assert last_card and "레이디스" in last_card.group(0), (
-        "KG Ladies Open (the real last completed tournament) must appear in the LAST tournament card"
+    assert last_card and 'data-game-code' in last_card.group(0), (
+        "HOME must carry a real, non-empty 'last' tournament card"
     )
     # KG's own archive is preserved untouched elsewhere in the tree
     for route in ("tournaments/2026/kg-ladies-open/pre/index.html", "tournaments/2026/kg-ladies-open/r1/index.html",

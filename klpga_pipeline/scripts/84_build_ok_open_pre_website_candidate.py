@@ -18,6 +18,7 @@ from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # n
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
 from klpga.tournament_context import load_active_tournament_context  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
 
@@ -153,11 +154,17 @@ def _player_identity_cell(name, sponsor) -> str:
     player_id-resolved value (or None) -- this function never invents
     one: a falsy sponsor simply omits the sub-line entirely rather
     than rendering a placeholder dash, per "no affiliation line rather
-    than inventing one"."""
-    name_html = f"<span class='player'>{html.escape(str(name) if name is not None else '—')}</span>"
-    if not sponsor:
-        return name_html
-    return name_html + f"<span class='sponsor'>{html.escape(str(sponsor))}</span>"
+    than inventing one".
+
+    PUBLIC UI Phase 8 correction (FAIL 2): delegates to the one shared
+    player-identity rule (src/klpga/website_v2/player_identity.py),
+    reused HOME/RANKING-side too -- only the CSS class names differ
+    (this page's own long-established .player/.sponsor styling, kept
+    as-is rather than reworked)."""
+    return render_player_identity(
+        name if name is not None else "—", sponsor,
+        name_class="player", sponsor_class="sponsor", quote="'",
+    )
 
 
 def _mover_line(entry: dict, *, kind: str) -> str:
@@ -584,11 +591,15 @@ def build() -> Path:
     # shared by every stage table below (PRE uses it directly off each
     # record; R1's snapshot carries no sponsor field of its own, so it
     # joins through this same dict by player_id).
-    sponsor_by_id = {str(r.get("player_id")): r.get("current_official_sponsor") for r in records}
+    # PUBLIC UI Phase 8 correction (FAIL 2): verified_sponsor() gates on
+    # identity_validation == "PASS" -- today's master is 120/120 PASS,
+    # but the gate must be explicit so a future refresh can never leak
+    # a sponsor for a record whose identity was never confirmed.
+    sponsor_by_id = {str(r.get("player_id")): verified_sponsor(r) for r in records}
     rows = []
     for r in records:
         name = r.get("current_official_player_name")
-        sponsor = r.get("current_official_sponsor")
+        sponsor = verified_sponsor(r)
         enum = r.get("neo_performance_band")
         band = BANDS.get(enum, "데이터 부족")
         accessible = {"VERY_HIGH":"최상위", "HIGH":"상위", "TYPICAL":"중위", "LOW":"하위", "VERY_LOW":"최하위", "INSUFFICIENT_EVIDENCE":"데이터 부족"}.get(enum, "데이터 부족")
