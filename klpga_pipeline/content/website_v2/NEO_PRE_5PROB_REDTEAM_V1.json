@@ -1,0 +1,19 @@
+{
+  "schema_version": "neo_pre_5prob_redteam_v1",
+  "purpose": "Section 14 red-team pass against src/klpga/neo_win/pre_5prob.py and scripts/104_pre_5prob_backtest.py.",
+  "generated_at_utc": "2026-09-10T00:05:00Z",
+  "findings": {
+    "future_leakage": {"status": "CLEAR", "evidence": "PreSimInput has no field a real, already-played round score could occupy (test_simulate_pre_tournament_never_uses_a_real_round_score_as_input); ALL 4 rounds are drawn from the frozen PRE prior in every trial."},
+    "survivorship_bias": {"status": "FOUND_AND_DISCLOSED", "evidence": "OK Open's backtest field is CUT_SURVIVORS_ONLY (68 of ~120) because OK_OPEN_2026_POST_R2_FINAL_FORECAST.json only carries PRE-time features for players who survived the real cut. Disclosed in NEO_PRE_5PROB_BACKTEST_V1.json's field_completeness field and factored into the publication gate's FIELD_INTEGRITY=PARTIAL verdict -- not hidden, not fixed by fabricating missing-player features."},
+    "unequal_exposure": {"status": "CLEAR", "evidence": "Every player without a real score/spread falls back to the SAME population-mean convention already used by round_update.py -- no player gets a different fallback rule than another."},
+    "missed_cut_bias": {"status": "CLEAR_FOR_KG_NOT_TESTABLE_FOR_OK", "evidence": "KG's field includes real missed-cut players (n_missed_cut=56); OK's reduced field cannot exercise this at all (n_missed_cut=0) -- same finding as survivorship_bias above."},
+    "wd_handling": {"status": "CLEAR", "evidence": "KG's official leaderboard includes WD players (e.g. player_id 9750, rounds=[null,null,null,null]); these are correctly excluded from actual_rank_by_id (rank_numeric=null) and correctly scored as not-made-cut, with no crash or silent miscount."},
+    "field_strength_distortion": {"status": "DISCLOSED_SIMPLIFICATION_NOT_A_BUG", "evidence": "i.i.d. per-round Normal draws, no course-difficulty correlation -- identical, already-disclosed simplification to round_update.py's own docstring. Not newly introduced by this module."},
+    "small_samples": {"status": "FOUND_AND_BLOCKED", "evidence": "N=2 historical events -- already the primary reason NEO_PRE_5PROB_PUBLICATION_GATE_V1.json is BLOCKED_INSUFFICIENT_SAMPLE. This is the single most important red-team finding and it is not being talked around."},
+    "duplicate_player_codes": {"status": "NOT_OBSERVED", "evidence": "Neither KG's (120) nor OK's (68) real field rows contained a duplicate player_code in this pass -- build_pre_sim_inputs would silently let a later duplicate's dict entry win in simulate_pre_tournament's result dict if one existed; not hardened defensively since no real duplicate was ever observed in this codebase's player_code usage elsewhere."},
+    "monotonicity": {"status": "CLEAR", "evidence": "any_monotonicity_violation=false for both real backtest events; tests/test_pre_5prob.py additionally checks this on synthetic data with an intentionally adversarial field."},
+    "overconfidence_and_winner_concentration": {"status": "NOT_EVALUATED", "reason": "Requires a real calibration analysis across many events -- N=2 cannot support this claim either way; deferred to whatever real walk-forward backtest eventually unblocks MODEL_VALIDATION."},
+    "tournament_specific_hardcoding": {"status": "CLEAR_FOR_LIBRARY_CODE", "evidence": "src/klpga/neo_win/pre_5prob.py contains zero tournament-specific literals -- it accepts arbitrary field_rows. scripts/104_pre_5prob_backtest.py DOES reference KG/OK by name, but this is a historical-reproduction/backtest script (same convention as the existing two-event validation harness), not the generic production pipeline."}
+  },
+  "changes_made_as_a_result": "None to pre_5prob.py's model semantics -- every finding above was either already correctly handled or is a disclosed, evidenced BLOCK rather than a bug to silently patch. No formula was tuned to make a finding go away."
+}

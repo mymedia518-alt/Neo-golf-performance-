@@ -1,0 +1,24 @@
+{
+  "schema_version": "kb_pre_5prob_status_v1",
+  "purpose": "Section 10 (KB PRE decision) for the NEW NEO_PRE_5PROB_V1 candidate specifically. No KB_2026090003_PRE_5PROB_CANDIDATE_V1.json or _FROZEN_V1.json was generated -- this file records the two independent, stacking reasons why.",
+  "generated_at_utc": "2026-09-09T23:45:00Z",
+  "game_code": "2026090003",
+  "KB_PRE_5PROB_STATUS": "BLOCKED_MISSING_RAW_FEATURES_IN_SANDBOX",
+  "reason_1_publication_gate": {
+    "status": "BLOCKED_INSUFFICIENT_SAMPLE",
+    "evidence": "content/website_v2/NEO_PRE_5PROB_PUBLICATION_GATE_V1.json -- the candidate model itself is not approved for publication on ANY tournament yet, KB included."
+  },
+  "reason_2_kb_specific_data_gap": {
+    "status": "BLOCKED_MISSING_RAW_FEATURES_IN_SANDBOX",
+    "claim": "NEO_PRE_5PROB_V1 requires each real entrant's prior_avg_round_score_to_par (or an equivalent PRE-time expected-round-score feature) and, ideally, neo_consistency_stddev. Neither is exposed anywhere in KB's own committed content/website_v2 artifacts for its real 120-player field.",
+    "evidence": [
+      "content/website_v2/2026090003_PRE_WIN_FORECAST.json publishes ONLY win_probability per player (M4's output), never the underlying prior_avg_round_score_to_par feature M4 itself consumed.",
+      "content/website_v2/2026090003_PRE_WIN_FORECAST.json's own inference_database block confirms a real sqlite database (43,741,184 bytes, 102 tournament_master rows, 12089 player_event rows, 33681 player_round rows) WAS used to compute KB's win_probability at some point -- so this data genuinely exists, just not in this sandbox.",
+      "This sandbox has no data/klpga.sqlite or any .sqlite/.db file at all (confirmed by repository-wide search) -- the raw per-player features cannot be recomputed here.",
+      "KB's other public PRE artifacts (SG warehouse, K-Ranking snapshot, NEO 경기력 band) use a DIFFERENT feature set (Strokes Gained, not prior_avg_round_score_to_par/neo_consistency_stddev) and cannot be substituted without inventing a new, untested mapping between the two -- which this task's own rules forbid ('No new player-skill model', 'No fabricated probability')."
+    ],
+    "not_attempted": "Deriving expected_round_score_to_par from KB's public win_probability (M4's OUTPUT, not its raw feature) by inverting the softmax was considered and rejected: it would produce a value in an arbitrary unit, not real strokes-to-par, silently corrupting the Monte Carlo's units -- exactly the failure mode round_update.py's own docstring already warns against for a related shrinkage calculation."
+  },
+  "no_frozen_forecast_created": true,
+  "what_would_unblock_this": "Running scripts/104's KB-field equivalent from an environment where data/klpga.sqlite is present (the user's own machine, where KB's win_probability was originally computed) would let the real prior_avg_round_score_to_par / neo_consistency_stddev be recomputed per real entrant and passed into pre_5prob.build_pre_sim_inputs -- no code change would be required, only real input data this sandbox does not have."
+}

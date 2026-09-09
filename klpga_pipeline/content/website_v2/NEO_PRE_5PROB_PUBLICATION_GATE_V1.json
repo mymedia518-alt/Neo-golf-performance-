@@ -1,0 +1,41 @@
+{
+  "schema_version": "neo_pre_5prob_publication_gate_v1",
+  "purpose": "Dedicated publication gate for the NEW NEO_PRE_5PROB_V1 candidate (src/klpga/neo_win/pre_5prob.py). Deliberately NOT LIVE_PROBABILITY_MODEL_STATUS (that flag belongs to the unrelated R1-live in-round engine) and NOT NEO_PUBLICATION_GATES_V1.json (that file's five PRE gates correctly remain BLOCKED for the ORIGINAL reason: no implementation existed. This file re-evaluates specifically the NEW candidate this task built.)",
+  "model_id": "NEO_PRE_5PROB_V1",
+  "generated_at_utc": "2026-09-09T23:40:00Z",
+  "checks": {
+    "TEMPORAL_INTEGRITY": {
+      "status": "PASS",
+      "evidence": "simulate_pre_tournament draws ALL 4 rounds from the frozen PRE prior alone; no real round score of any kind is read as an anchor anywhere in pre_5prob.py (contrast with round_update.py, which requires a real R1 score). Verified by code inspection and by scripts/104's own KG/OK inputs, which use only prior_avg_round_score_to_par / expected_final_round_to_par + spread, both PRE-time features."
+    },
+    "FIELD_INTEGRITY": {
+      "status": "PARTIAL",
+      "evidence": "KG: FULL_FIELD, 120/120 real entrants (NEO_PRE_5PROB_BACKTEST_V1.json events.kg_ladies_open_2026080001.field_completeness). OK: CUT_SURVIVORS_ONLY, 68 of the real ~120-entrant field -- OK_OPEN_2026_POST_R2_FINAL_FORECAST.json (the only source of real expected-score/spread features available in this sandbox for OK) was built post-cut and never carried features for missed-cut players. cut_probability/make_cut_pct is therefore NOT validly tested for OK in this pass.",
+      "reason_not_full_pass": "One of the two available historical events cannot exercise the cut dimension at all."
+    },
+    "MODEL_VALIDATION": {
+      "status": "BLOCKED_INSUFFICIENT_SAMPLE",
+      "evidence": "NEO_PRE_5PROB_BACKTEST_V1.json. N=2 historical events total, one of which (OK) cannot validate the cut dimension (see FIELD_INTEGRITY). No sqlite corpus is present in this sandbox to run a real walk-forward backtest across the ~90-100-tournament corpus M4 itself was validated against (data/klpga.sqlite is absent here -- see NEO_PROBABILITY_ENGINE_LINEAGE_RECOVERY_V1.json).",
+      "reason": "2 events is not a statistically powered sample for any probability model. This is a genuine, evidence-based BLOCK, not a formality."
+    },
+    "CALIBRATION": {
+      "status": "BLOCKED_INSUFFICIENT_SAMPLE",
+      "evidence": "Same N=2 constraint as MODEL_VALIDATION -- no reliability curve or calibration bucket analysis is meaningful with 2 tournaments. cut_calibration in NEO_PRE_5PROB_BACKTEST_V1.json is reported per-event only, explicitly labeled as not a calibration claim."
+    },
+    "PROBABILITY_INVARIANTS": {
+      "status": "PASS",
+      "evidence": "NEO_PRE_5PROB_BACKTEST_V1.json: any_monotonicity_violation=false for both KG and OK. 0<=win<=top5<=top10<=top20<=make_cut<=100 holds for every player in both smoke-test runs, and is additionally covered by tests/test_pre_5prob.py's dedicated monotonicity + adversarial tests."
+    },
+    "HISTORICAL_REPRODUCTION": {
+      "status": "PASS",
+      "evidence": "NEO_HISTORICAL_PROBABILITY_REPRODUCTION_V1.json -- KG's cited winner_hit/winner_probability_pct/log_loss/Brier/top5/top10 all reproduce EXACTLY from raw artifacts on this HEAD; OK's winner_hit/log_loss/top5 coverage reproduce exactly after recovering the single missing OK_OPEN_2026_FINAL_RESULT.json file (individually reviewed, hash-cross-verified against its own source audit -- see that file's provenance note). This check validates the EXISTING historical record, not the new candidate, and is a prerequisite the new candidate's own backtest (above) builds on."
+    },
+    "PUBLICATION_APPROVAL": {
+      "status": "BLOCKED",
+      "evidence": "Every check above that could BLOCK, did BLOCK on real evidence (insufficient sample size; one event unable to validate the cut dimension). Per this task's own rule ('No model tuning merely to pass a gate', 'If evidence cannot prove something: BLOCKED not PASS'), this candidate is NOT approved for publication display on any tournament, including KB (2026090003)."
+    }
+  },
+  "global_verdict": "BLOCKED_INSUFFICIENT_SAMPLE. NEO_PRE_5PROB_V1 is a working, tested, invariant-safe implementation that fills the previously-empty PRE-stage CUT/TOP20/TOP10/TOP5 slot architecturally, but has only ever been exercised against 2 historical events (one of which cannot validate its own cut dimension) inside this sandbox. This is an honest, evidence-based BLOCK -- not a rejection of the approach, and not evidence the approach is wrong; it is evidence that N=2 cannot support a publication decision either way.",
+  "what_would_unblock_this": "A walk-forward backtest against the real, already-collected ~90-100-tournament corpus (data/klpga.sqlite, present on the user's own machine but absent from this sandbox) covering both dimensions (a full pre-cut field for every event, not just cut survivors) would let MODEL_VALIDATION and CALIBRATION be re-evaluated on real evidence instead of staying BLOCKED_INSUFFICIENT_SAMPLE.",
+  "no_formula_tuned_to_pass": "cut_fraction, expected_round_score_to_par, and spread are all reused verbatim from already-existing, already-disclosed sources (round_update.py's own fallback constant, docs/SITE_STRUCTURE_TODO.md's published made_cut split, OK_OPEN_2026_POST_R2_FINAL_FORECAST.json's own frozen fields). Nothing was retuned after seeing the backtest result."
+}

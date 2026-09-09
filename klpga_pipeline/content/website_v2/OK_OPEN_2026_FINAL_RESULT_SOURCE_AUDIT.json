@@ -1,0 +1,32 @@
+{
+  "schema_version": "neo_official_source_audit_v1",
+  "artifact": "OFFICIAL_FINAL_RESULT_SOURCE_AUDIT",
+  "game_code": "2026120001",
+  "source_type": "KLPGA_OFFICIAL_ROUND_LEADERBOARD",
+  "public_page_url": "https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026120001&scorecard=Y",
+  "endpoint": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+  "request": {
+    "method": "POST",
+    "form": {
+      "gameCode": "2026120001",
+      "round": "3"
+    },
+    "cache_used": false
+  },
+  "retrieved_at_utc": "2026-09-06T18:59:23Z",
+  "raw_response_path": "outputs/official_final_results/2026120001/round3.html",
+  "raw_response_sha256": "62f5e9676f7c8313f741aa52cbb3e101b138ba762b3c974bec8423229b49138e",
+  "result_path": "klpga_pipeline/content/website_v2/OK_OPEN_2026_FINAL_RESULT.json",
+  "result_sha256": "32856b048b4c1f73d41b1ff9282d5997befc1dbc2a3901a6ea23cac967a5c517",
+  "final_round": 3,
+  "row_count": 68,
+  "rank1_count": 1,
+  "player_code_unique": true,
+  "official_final_confirmed": true,
+  "not_from": [
+    "news_article",
+    "live_snapshot",
+    "manual_screen_capture",
+    "forecast_artifact"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": "neo_pre_5prob_backtest_v1",
+  "model_id": "NEO_PRE_5PROB_V1",
+  "purpose": "Smoke-test the new PRE-only 5-probability Monte Carlo candidate against the only 2 historical events with a real, complete final result present in this sandbox. N=2 is NOT a statistically powered validation -- see module docstring and NEO_PRE_5PROB_PUBLICATION_GATE_V1.json.",
+  "n_simulations": 20000,
+  "seed": 20260909,
+  "cut_fraction_used": 0.5581395348837209,
+  "cut_fraction_source": "docs/SITE_STRUCTURE_TODO.md disclosed made_cut split (336 made-cut / 602 total player_event rows) -- real evidence, not invented; a live-DB caller should prefer round_update.estimate_cut_fraction instead",
+  "sample_size_disclosure": "N=2 historical events. No Brier/log-loss/coverage figure below should be read as a calibration claim -- both are single-event smoke-test outcomes only.",
+  "events": {
+    "kg_ladies_open_2026080001": {
+      "game_code": "2026080001",
+      "tournament_name": "KG Ladies Open",
+      "n_field": 120,
+      "actual_winner_id": "9135",
+      "predicted_winner_id": "9130",
+      "winner_hit": false,
+      "win_probability_pct_assigned_to_actual_winner": 0.645,
+      "win_brier": 0.00847459,
+      "win_log_loss": 5.04367515,
+      "top5_coverage": 0.0,
+      "top10_coverage": 0.2,
+      "top20_coverage": 0.307692,
+      "cut_calibration": {
+        "mean_predicted_make_cut_pct_for_actual_made_cut": 58.9627,
+        "mean_predicted_make_cut_pct_for_actual_missed_cut": 52.5295,
+        "n_made_cut": 62,
+        "n_missed_cut": 56
+      },
+      "monotonicity_violations": [],
+      "input_provenance": "prior_avg_round_score_to_par (real, frozen PRE); spread = population_mean_fallback (no real neo_consistency_stddev available in this sandbox)",
+      "field_completeness": "FULL_FIELD (120 of 120 real entrants) -- cut/win/top-N metrics below cover the genuine full PRE-stage field.",
+      "uniform_field_rate_baseline": {
+        "win_brier": 0.00826389,
+        "win_log_loss": 4.78749174
+      },
+      "beats_uniform_baseline_on_brier": false,
+      "existing_model_reference": {
+        "model": "M4 (win-only, current production PRE model)",
+        "win_brier": 0.00829809,
+        "note": "M4's own real, independently-reproduced KG Brier (see NEO_HISTORICAL_PROBABILITY_REPRODUCTION_V1.json) -- this candidate's KG win_brier above is NOT better than M4's; a new model does not automatically outperform an existing one just for existing."
+      }
+    },
+    "ok_savings_bank_open_2026120001": {
+      "game_code": "2026120001",
+      "tournament_name": "OK Savings Bank Open",
+      "n_field": 68,
+      "actual_winner_id": "8284",
+      "predicted_winner_id": "8284",
+      "winner_hit": true,
+      "win_probability_pct_assigned_to_actual_winner": 22.675,
+      "win_brier": 0.00956334,
+      "win_log_loss": 1.48390719,
+      "top5_coverage": 0.4,
+      "top10_coverage": 0.272727,
+      "top20_coverage": 0.434783,
+      "cut_calibration": {
+        "mean_predicted_make_cut_pct_for_actual_made_cut": 55.8824,
+        "mean_predicted_make_cut_pct_for_actual_missed_cut": null,
+        "n_made_cut": 68,
+        "n_missed_cut": 0
+      },
+      "monotonicity_violations": [],
+      "input_provenance": "expected_final_round_to_par + spread reused verbatim from OK_OPEN_2026_POST_R2_FINAL_FORECAST.json (real recent5/legacy_sample_sd PRE-time features)",
+      "field_completeness": "CUT_SURVIVORS_ONLY (68 of the real ~120-entrant field) -- OK_OPEN_2026_POST_R2_FINAL_FORECAST.json only carries PRE-time expected-score/spread features for players who survived the real cut, because it was built post-cut. make_cut_pct / cut_calibration for this event is NOT a genuine PRE-stage cut estimate (confirmed by n_missed_cut=0 above -- every player in this reduced field made the real cut) and must not be read as one. win/top5/top10/top20 are conditioned on this reduced 68-player field, not the full 120-entrant PRE field, and are directional only.",
+      "uniform_field_rate_baseline": {
+        "win_brier": 0.01448962,
+        "win_log_loss": 4.21950771
+      },
+      "beats_uniform_baseline_on_brier": true
+    }
+  },
+  "any_monotonicity_violation": false
+}
