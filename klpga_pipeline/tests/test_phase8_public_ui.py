@@ -253,6 +253,43 @@ def test_unseen_future_tournament_needs_zero_html_source_edit():
     assert result.returncode != 0, "the synthetic game_code must appear nowhere in operational source"
 
 
+def test_bootstrap_only_registry_entry_still_shows_no_link():
+    """klpga.tournament_context.ensure_site_registry_entry writes a
+    minimal, mechanical url_base the moment ANY pipeline prerequisite
+    (e.g. an offline entry-list import) resolves a TournamentContext
+    for a brand-new game_code -- long before any real public page
+    exists at that route. A card must never turn that internal
+    bootstrap url_base into a clickable link (a guaranteed dead link):
+    only a registry entry that also declares real public content
+    (has_hub_index, or a non-empty hub_card.nav_stages) may produce a
+    link, matching the same 'no public page yet' -> '' contract this
+    module already guarantees for a game_code entirely absent from the
+    registry."""
+    schedule = [_entry("BOOTSTRAPONLY0001", "Bootstrap Only Open", "2099-05-01", "2099-05-04")]
+    registry = {"BOOTSTRAPONLY0001": {"url_base": "/tournaments/2099/BOOTSTRAPONLY0001/", "stage_state_filename": "x.json", "stage_order": ["pre", "r1", "final"]}}
+    chronology = resolve_tournament_chronology(schedule, registry, as_of=date(2099, 8, 1))
+    facts = chronology["last"]
+    assert facts.tournament_name == "Bootstrap Only Open"
+    assert facts.url_base == ""
+    html = render_tournament_cards_html(chronology)
+    assert "Bootstrap Only Open" in html
+    assert "/tournaments/2099/BOOTSTRAPONLY0001/" not in html
+
+
+def test_registry_entry_with_real_hub_index_still_shows_link():
+    """The opposite case: once a registry entry actually declares real
+    public content (has_hub_index True), its url_base must still
+    render as a clickable link -- this fix must not blanket-suppress
+    every link, only the bootstrap-only case."""
+    schedule = [_entry("REALPAGE0001", "Real Page Open", "2099-05-01", "2099-05-04")]
+    registry = {"REALPAGE0001": {"url_base": "/tournaments/2099/real-page-open/", "has_hub_index": True, "stage_state_filename": "x.json", "stage_order": ["pre", "r1", "final"]}}
+    chronology = resolve_tournament_chronology(schedule, registry, as_of=date(2099, 8, 1))
+    facts = chronology["last"]
+    assert facts.url_base == "/tournaments/2099/real-page-open/"
+    html = render_tournament_cards_html(chronology)
+    assert '<a href="/tournaments/2099/real-page-open/">Real Page Open</a>' in html
+
+
 def test_missing_evidence_shows_dash_never_inferred():
     schedule = [_entry("SYN0003", "Synthetic No-Result Open", "2099-01-01", "2099-01-04")]
     # deliberately no registry entry at all -- venue/winner/winning_score all unknown
