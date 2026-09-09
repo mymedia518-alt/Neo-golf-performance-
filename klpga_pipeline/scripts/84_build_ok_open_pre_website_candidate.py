@@ -600,14 +600,64 @@ _PROBABILITY_COLUMNS = (
 )
 
 CSS = """
-:root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--soft:#f4f7f7}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 14px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}.hero{padding:20px 0 18px;display:flex;justify-content:space-between;gap:30px;align-items:end}.status{font-size:14px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:7px 13px}.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:22px;align-items:start}.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.evolution{display:flex;flex-direction:column}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:28px;display:block}.status{display:inline-block;margin-top:14px}.grid{grid-template-columns:1fr}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
+:root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--accent-soft:#e2f2f0;--soft:#f4f7f7;--band-1:#0c6b68;--band-2:#3f9188;--band-3:#8a97a3;--band-4:#c98a3a;--band-5:#b1503f}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
+/* PRODUCT RECOVERY V1 (real redesign, not content gating): the
+   tournament header is now compact -- a slim single row, not a tall
+   hero block -- so the player leaderboard is the dominant first-screen
+   content, matching HOME's own "player-first" contract. */
+.hero{padding:14px 0 12px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap}
+.hero h1{font-size:clamp(20px,2.2vw,28px);margin:2px 0}
+.hero .meta{margin:2px 0 0}
+.status{font-size:13px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:5px 11px}
+.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}
+.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:16px}.status{display:inline-block;margin-top:8px}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
 /* MOBILE_CONTAINMENT */
 .grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
 /* Public table is centered; numeric columns retain tabular numerals. */
 .data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player-name,.player-sponsor{text-align:center}
 .info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}.info-popover{display:none;position:absolute;z-index:2;max-width:260px;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400}.info-popover.is-open{display:block}
 @media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px;width:auto;max-width:none;margin:0}}
+/* PRODUCT RECOVERY V1 REDESIGN -- KB PRE leaderboard: replaces the
+   rejected two-column grid + "우승 가능성 변화" shell aside entirely.
+   The player table is now the sole, full-width panel: a real
+   golf-leaderboard visual (sticky header, zebra rows, K-Ranking
+   emphasized as a bold figure, NEO 경기력 rendered as a color-coded
+   pill by band, 최근 5R SG emphasized) -- not the same bordered
+   right-aligned data table with new copy pasted in. */
+.leaderboard-panel{padding:16px 18px 10px}
+.leaderboard-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.5rem;margin-bottom:10px}
+.leaderboard-head h2{margin:0}
+.leaderboard-head .note{margin:0}
+.leaderboard-table{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums}
+.leaderboard-table thead th{position:sticky;top:0;padding:10px 12px;background:var(--soft);color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:normal;border-bottom:2px solid var(--line);text-align:center}
+.leaderboard-table tbody td,.leaderboard-table tbody th{padding:12px;border-bottom:1px solid var(--line);white-space:normal;text-align:center;font-size:14px}
+.leaderboard-table tbody tr:nth-child(even){background:#fafcfc}
+.leaderboard-table tbody tr:hover{background:var(--accent-soft)}
+.leaderboard-table tbody th[scope=row]{text-align:left;min-width:11rem}
+.leaderboard-table .player-name{font-size:15px;font-weight:800}
+.leaderboard-table .player-sponsor{font-size:12px}
+.leaderboard-table tbody td:nth-child(2){font-weight:800;color:var(--accent);font-size:15px}
+.leaderboard-table tbody td:nth-child(4){font-weight:800;color:var(--ink)}
+.band[aria-label="NEO 경기력 최상위"]{background:var(--band-1);color:#fff}
+.band[aria-label="NEO 경기력 상위"]{background:var(--band-2);color:#fff}
+.band[aria-label="NEO 경기력 중위"]{background:#eef1f3;color:var(--band-3)}
+.band[aria-label="NEO 경기력 하위"]{background:#fbeee0;color:var(--band-4)}
+.band[aria-label="NEO 경기력 최하위"]{background:#f7e4e1;color:var(--band-5)}
+.band[aria-label="NEO 경기력 데이터 부족"]{background:#f1f2f4;color:#9aa5af;border:1px dashed #cbd3da}
+.leaderboard-panel .table-wrap:after{content:none}
+@media(max-width:760px){
+/* MOBILE LEADERBOARD: a deliberate stacked-card composition, never a
+   shrunk desktop table -- the primary player comparison (name,
+   sponsor, K-Ranking, NEO band, SG) never requires horizontal
+   scrolling on a phone. */
+.leaderboard-table,.leaderboard-table thead,.leaderboard-table tbody,.leaderboard-table tr,.leaderboard-table th,.leaderboard-table td{display:block;width:100%}
+.leaderboard-table thead{position:absolute;left:-9999px;top:-9999px}
+.leaderboard-table tbody tr{margin-bottom:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+.leaderboard-table tbody th[scope=row]{border-bottom:1px solid var(--line);padding:4px 0 8px;margin-bottom:6px;min-width:0}
+.leaderboard-table tbody td{display:flex;justify-content:space-between;align-items:center;gap:.6rem;border:0;padding:5px 0;text-align:right}
+.leaderboard-table tbody td::before{content:attr(data-label);color:var(--muted);font-size:12px;font-weight:700;text-align:left}
+}
 /* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
 .r1-live-summary__grid{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px}.r1-live-summary__grid .label{display:block;color:var(--muted);font-size:12px}.r1-live-summary__grid strong{font-size:16px}
 .mover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.mover-grid h3{font-size:13px;color:var(--muted);margin:0 0 6px}
@@ -673,25 +723,27 @@ def build(game_code: str | None = None) -> Path:
         # while MODEL_VALIDATED_FOR_PUBLICATION is True -- WIN has
         # no exception, even though it is the one member of the set
         # with a real computed value today. See _PROBABILITY_COLUMNS.
-        prob_cells = "".join(f"<td class='win'>{pct(r.get(key))}</td>" for key, _ in _PROBABILITY_COLUMNS) if MODEL_VALIDATED_FOR_PUBLICATION else ""
-        rows.append(f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th><td>{value(r.get('official_klpga_rank'))}</td><td><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td><td>{value(r.get('sg_total_rank'))}</td>{prob_cells}</tr>")
+        prob_cells = "".join(f"<td class='win' data-label='{esc_label}'>{pct(r.get(key))}</td>" for key, esc_label in _PROBABILITY_COLUMNS) if MODEL_VALIDATED_FOR_PUBLICATION else ""
+        rows.append(
+            f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th>"
+            f"<td data-label='KLPGA K-RANKING'>{value(r.get('official_klpga_rank'))}</td>"
+            f"<td data-label='NEO 경기력'><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td>"
+            f"<td data-label='최근 5R SG'>{value(r.get('sg_total_rank'))}</td>{prob_cells}</tr>"
+        )
     # base_url=None: OK Open has no distinct "overview" route the way KG
     # does (its PRE page IS the tournament's landing page) -- linking the
     # breadcrumb's tournament-name crumb to a route that doesn't exist
     # would 404, so it renders as plain text instead (see breadcrumb_html).
     breadcrumb = breadcrumb_html(display_name, None, "PRE")
     stage_nav = stage_nav_html(_context_stage_items("pre", historical_ok_mode=historical_ok_mode))
-    # PRODUCT RECOVERY V1: the "우승 가능성 변화" aside must never claim
-    # a probability distribution is already visible in the table while
-    # MODEL_VALIDATED_FOR_PUBLICATION is False -- its copy is honest
-    # about the current publication-gate state, and the DOM slot stays
-    # in place so approval later needs no redesign, only new copy.
-    evolution_note = (
-        "참가 선수별 우승 가능성 변화는 표에서 확인할 수 있습니다."
-        if MODEL_VALIDATED_FOR_PUBLICATION
-        else "NEO 우승 가능성 모델은 공식 검증 전까지 공개하지 않습니다."
-    )
-    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">{pre_summary}</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>최근 5R SG</th>{prob_header_cells}</tr></thead><tbody>{''.join(rows)}</tbody></table></div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">{evolution_note}</p></div></aside></div></main></body></html>"""
+    # PRODUCT RECOVERY V1 REDESIGN: the compact single-row hero
+    # (.hero, restyled -- see CSS above) replaces the tall two-line
+    # block, and the rejected two-column .grid + "우승 가능성 변화"
+    # .aside.evolution shell is gone outright -- the player leaderboard
+    # is now the page's one, full-width panel. The withheld-model state
+    # is already fully communicated by the absent probability columns,
+    # exactly as R1's help text below already does for the live table.
+    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<section class=\"panel leaderboard-panel\" id=\"pre\"><div class=\"leaderboard-head\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">{pre_summary}</p></div><div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>최근 5R SG</th>{prob_header_cells}</tr></thead><tbody>{''.join(rows)}</tbody></table></div></section></main></body></html>"""
     old_meta = f"{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}"
     meta_bits = [date_range]
     if _CONTEXT.venue:
