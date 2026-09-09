@@ -1,5 +1,7 @@
 {
-  "source_master": "content/website_v2/OK_OPEN_2026_PRE_PUBLIC_MASTER.json",
+  "tournament": "OK저축은행 읏맨 오픈",
+  "game_code": "2026120001",
+  "stage": "PRE",
   "entry_count": 120,
   "public_columns": [
     "선수",
@@ -7,6 +9,5 @@
     "NEO 경기력 ⓘ",
     "SG Total 순위",
     "우승확률"
-  ],
-  "source_master_sha256": "6C384702AFEB2B8FEF3ABFFD98AB5588EA74CA6E6E4E52B585317B57CDA83959"
+  ]
 }

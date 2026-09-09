@@ -1,7 +1,7 @@
 {
-  "schema_version": "neo_tournament_official_klpga_ranking_v1",
+  "schema_version": "neo_tournament_official_klpga_ranking_v2",
   "ranking_category": "K-RANKING (official weekly KLPGA ranking)",
-  "collection_method": "offline_import",
+  "collection_method": "offline_combined_official_evidence",
   "game_code": "2026090003",
   "requested_rank_week": null,
   "returned_rank_week": "2026-W36",
@@ -9,9 +9,82 @@
   "week_match": null,
   "ranking_date": "2026-W36",
   "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
-  "acquisition_source": "/tmp/claude-0/-home-user-Neo-golf-performance-/bee7b372-e13f-52b9-816d-77030a003a04/scratchpad/wt_tournament_engine/klpga_pipeline/content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_PERIOD_EVIDENCE_RAW.html",
-  "retrieved_at": "2026-09-09T08:50:04Z",
-  "raw_response_sha256": "20a6b0b3cb10c8deaa8cbc3bd1dce9638b10aa6dea74447bd14562d095243224",
+  "period_source": "https://k-rankings.klpga.co.kr/index.jsp",
+  "acquisition_sources": {
+    "period": "content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_PERIOD_EVIDENCE_RAW.html",
+    "full_table": "content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_RAW.html"
+  },
+  "retrieved_at": "2026-09-09T09:35:49Z",
+  "raw_response_sha256": {
+    "period": "20a6b0b3cb10c8deaa8cbc3bd1dce9638b10aa6dea74447bd14562d095243224",
+    "full_table": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7"
+  },
+  "evidence_crosscheck": {
+    "fields": [
+      "player_id",
+      "player_name",
+      "official_k_rank",
+      "rating",
+      "total_points",
+      "event_count"
+    ],
+    "overlap_count": 10,
+    "mismatched": 0,
+    "records": [
+      {
+        "rank": 1,
+        "player_id": "10725",
+        "matched": true
+      },
+      {
+        "rank": 2,
+        "player_id": "11134",
+        "matched": true
+      },
+      {
+        "rank": 3,
+        "player_id": "10146",
+        "matched": true
+      },
+      {
+        "rank": 4,
+        "player_id": "8392",
+        "matched": true
+      },
+      {
+        "rank": 5,
+        "player_id": "10095",
+        "matched": true
+      },
+      {
+        "rank": 6,
+        "player_id": "9784",
+        "matched": true
+      },
+      {
+        "rank": 7,
+        "player_id": "9113",
+        "matched": true
+      },
+      {
+        "rank": 8,
+        "player_id": "8881",
+        "matched": true
+      },
+      {
+        "rank": 9,
+        "player_id": "9750",
+        "matched": true
+      },
+      {
+        "rank": 10,
+        "player_id": "10097",
+        "matched": true
+      }
+    ]
+  },
+  "official_population_count": 756,
+  "published_population_count": 120,
   "records": [
     {
       "player_id": "10002",

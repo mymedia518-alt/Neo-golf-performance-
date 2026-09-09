@@ -331,8 +331,8 @@ _PRE_UPSTREAM_CHAIN = (
     "73_build_ok_open_performance_bands.py",
     "75_audit_klpga_datacenter_profiles.py",
     "79_rebuild_corrected_sg_downstream.py",
-    "81_build_tier2_publication_gate.py",
     "82_build_corrected_sg_total_rank.py",
+    "81_build_tier2_publication_gate.py",
     "83_build_ok_open_pre_public_master.py",
     "84_build_ok_open_pre_website_candidate.py",
 )
@@ -363,11 +363,8 @@ def _prepare_pre_runner():
         for script_name in _PRE_UPSTREAM_CHAIN:
             try:
                 # NEO TOURNAMENT PIPELINE Phase 5.2/5.3 (K-RANKING/PRE
-                # GENERALIZATION): every chain step except 84 (still
-                # OK-Open-specific -- unreachable for any game_code that
-                # doesn't clear the Tier-2 gate anyway; see that
-                # script's own module docstring) now accepts an
-                # explicit --game-code, resolved via
+                # GENERALIZATION): every chain step accepts an explicit
+                # --game-code, resolved via
                 # klpga.tournament_context.load_tournament_context
                 # rather than each script's own module-level
                 # active_tournament.json read. Passing it explicitly
@@ -376,7 +373,7 @@ def _prepare_pre_runner():
                 # active_tournament.json holds) but makes this call
                 # correct even when this cycle is not the operationally
                 # -active tournament.
-                extra_args = [] if script_name == "84_build_ok_open_pre_website_candidate.py" else ["--game-code", context.game_code]
+                extra_args = ["--game-code", context.game_code]
                 _run_script(script_name, extra_args=extra_args)
             except subprocess.CalledProcessError as exc:
                 raise RuntimeError(

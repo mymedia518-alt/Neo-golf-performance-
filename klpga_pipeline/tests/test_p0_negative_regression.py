@@ -179,8 +179,9 @@ def test_home_ownership_mismatch_hard_fails(tmp_path):
 # silently exercising the wrong artifact.
 def test_built_candidate_is_the_real_120_player_top120_population(built):
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
-    assert len(dataset["records"]) == 120
-    assert sorted(r["official_k_rank"] for r in dataset["records"]) == list(range(1, 121))
+    assert len(dataset["players"]) == 120
+    assert sorted(r["official_k_rank"] for r in dataset["players"]) == list(range(1, 121))
+    assert all(set(r) == {"player_id", "player_name", "official_k_rank", "sponsor"} for r in dataset["players"])
 
 
 # NEO WEBSITE V3 PHASE 3 -- P0-2 (broken links) and P1-8 (one canonical

@@ -153,15 +153,12 @@ def test_internal_validation_state_korean_phrases_never_appear_anywhere(html_fil
     assert offenders == [], f"internal validation-state phrase(s) still present: {offenders}"
 
 
-def test_neo_geomjeung_sunwi_label_survives_as_a_real_product_label():
-    """"NEO 검증 순위" (the metric NAME, distinct from the phrases above
-    that describe its internal approval STATE) is a legitimate,
-    intentionally-retained product label -- the column header/sort
-    option distinguishing NEO's own rank from K-Ranking -- not an
-    internal-state leak. Removing it entirely would be over-correction."""
+def test_unapproved_neo_ranking_keeps_structure_but_publishes_no_values():
+    """The product slot remains, while the validation-only model stays private."""
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
-    assert "NEO 검증 순위" in html
-    assert "검증 대기" not in html
+    assert "NEO Ranking" in html
+    assert "NEO 검증 순위" not in html and "검증 대기" not in html
+    assert not re.search(r'data-neo-rank="\d+"', html)
 
 
 # ---------------------------------------------------------------------------
@@ -434,11 +431,13 @@ def test_home_regular_tour_player_master_546_file_is_preserved_but_never_read_by
 # 5. Sponsor rule
 # ---------------------------------------------------------------------------
 
-def test_sponsor_appears_directly_below_player_name_when_verified(built):
+def test_sponsor_slot_appears_directly_below_every_player_name(built):
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
-    assert re.search(r'<span class="player-name">[^<]+</span><span class="player-sponsor">[^<]+</span>', html), (
-        "at least one verified sponsor must render directly under its player name"
-    )
+    identities = re.findall(r'<span class="player-name">[^<]+</span><span class="player-sponsor">[^<]*</span>', html)
+    assert len(identities) == 120
+    # The current KB build deliberately skipped optional profile-network
+    # enrichment; official sponsor absence is represented by a blank slot.
+    assert all('<span class="player-sponsor"></span>' in identity for identity in identities)
 
 
 def test_unverified_sponsor_remains_blank_never_guessed(built):

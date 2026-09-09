@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import datetime
+import argparse
 import html
 import json
 import hashlib
@@ -19,7 +20,7 @@ from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_sta
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
-from klpga.tournament_context import load_active_tournament_context  # noqa: E402
+from klpga.tournament_context import load_active_tournament_context, load_tournament_context  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
 
 # NEO TOURNAMENT PIPELINE: venue/holes/format have no home in
@@ -31,6 +32,17 @@ MASTER = _CONTEXT.artifact_path("pre_public_master")
 R1_LIVE_SNAPSHOT = _CONTEXT.artifact_path("r1_live_snapshot")
 R2_LIVE_SNAPSHOT = _CONTEXT.artifact_path("r2_live_snapshot")
 R1_FINAL_SNAPSHOT_DIR = _CONTEXT.artifact_path("r1_final_snapshots_dir")
+
+
+def _bind_context(context) -> None:
+    """Bind renderer inputs to one explicit tournament context."""
+    global _CONTEXT, STAGE_STATE_PATH, MASTER, R1_LIVE_SNAPSHOT, R2_LIVE_SNAPSHOT, R1_FINAL_SNAPSHOT_DIR
+    _CONTEXT = context
+    STAGE_STATE_PATH = ROOT / "content" / "website_v2" / context.stage_state_filename
+    MASTER = context.artifact_path("pre_public_master")
+    R1_LIVE_SNAPSHOT = context.artifact_path("r1_live_snapshot")
+    R2_LIVE_SNAPSHOT = context.artifact_path("r2_live_snapshot")
+    R1_FINAL_SNAPSHOT_DIR = context.artifact_path("r1_final_snapshots_dir")
 
 # P0 MODEL SAFETY PATCH -- LIVE PROBABILITY PUBLICATION BLOCK: the ONE
 # gate every probability-derived R1 output must pass before rendering.
@@ -55,6 +67,19 @@ def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
     return [
         (label.upper(), real.get(key), key == current)
         for key, label in (("pre", "PRE"), ("r1", "R1"), ("r2", "R2"), ("final", "FINAL"))
+    ]
+
+
+def _context_stage_items(current: str, *, historical_ok_mode: bool) -> list[tuple[str, str | None, bool]]:
+    if historical_ok_mode:
+        return _ok_stage_items(current)
+    return [
+        (
+            _CONTEXT.stage_labels.get(key, key.upper()).upper(),
+            f"{_CONTEXT.url_base}{key}/" if key == "pre" else None,
+            key == current,
+        )
+        for key in _CONTEXT.stage_order
     ]
 
 def _fmt_pct(v) -> str:
@@ -576,15 +601,15 @@ def pct(value):
 def value(value):
     return "—" if value is None else html.escape(str(value))
 
-def build() -> Path:
+def build(game_code: str | None = None) -> Path:
+    _bind_context(load_tournament_context(game_code))
+    historical_ok_mode = _CONTEXT.url_base == OK_BASE
+    display_name = _CONTEXT.tournament_name
+    date_range = _CONTEXT.display_date_range
     master = json.loads(MASTER.read_text(encoding="utf-8"))
-    # Use the repository's canonical blob bytes so Windows newline conversion
-    # cannot produce a stale provenance hash for the consumed master.
-    rel_master = MASTER.relative_to(ROOT.parent).as_posix()
-    try:
-        source_bytes = subprocess.check_output(["git", "cat-file", "-p", f"HEAD:{rel_master}"], cwd=ROOT.parent)
-    except (OSError, subprocess.CalledProcessError):
-        source_bytes = MASTER.read_bytes()
+    # Bind provenance to the bytes consumed in this run. The master may be a
+    # freshly generated, intentionally uncommitted artifact.
+    source_bytes = MASTER.read_bytes()
     master_sha = hashlib.sha256(source_bytes).hexdigest().upper()
     records = list(master["records"])
     # Expected field size (Phase 5 item 2): the tournament's own frozen
@@ -617,16 +642,25 @@ def build() -> Path:
     # does (its PRE page IS the tournament's landing page) -- linking the
     # breadcrumb's tournament-name crumb to a route that doesn't exist
     # would 404, so it renders as plain text instead (see breadcrumb_html).
-    breadcrumb = breadcrumb_html(OK_DISPLAY_NAME, None, "PRE")
-    stage_nav = stage_nav_html(_ok_stage_items("pre"))
+    breadcrumb = breadcrumb_html(display_name, None, "PRE")
+    stage_nav = stage_nav_html(_context_stage_items("pre", historical_ok_mode=historical_ok_mode))
     html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다.</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>SG Total 순위</th><th>우승확률</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div><div class=\"help\">K-RANKING이 ‘쌓아온 성과’를 보여준다면, NEO는 ‘지금의 경기력’을 봅니다. 두 지표는 서로 다른 시간축과 평가 기준을 사용합니다.</div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">참가 선수별 우승확률은 표에서 확인할 수 있습니다.</p></div></aside></div></main></body></html>"""
+    old_meta = f"{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}"
+    meta_bits = [date_range]
+    if _CONTEXT.venue:
+        meta_bits.append(str(_CONTEXT.venue))
+    if _CONTEXT.holes:
+        meta_bits.append(f"{_CONTEXT.holes}홀")
+    if _CONTEXT.format:
+        meta_bits.append(str(_CONTEXT.format))
+    html_doc = html_doc.replace(OK_DISPLAY_NAME, display_name).replace(old_meta, " · ".join(meta_bits))
+    html_doc = html_doc.replace("다음 대회 · PRE", "PRE 분석").replace("예측 확정 전", "PRE")
     html_doc = html_doc.replace("NEO 경기력 구간", "NEO 경기력 ⓘ")
     # Generic route (Phase 5 item 2): _CONTEXT.url_base, never a
     # hardcoded literal tournament path segment.
     _relative_base = _CONTEXT.url_base.lstrip("/")
     html_doc = html_doc.replace(f'href="{_relative_base}', f'href="{_CONTEXT.url_base}')
-    html_doc = html_doc.replace("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">", "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta name=\"neo-public-master-sha256\" content=\"" + master_sha + "\">")
-    html_doc = html_doc.replace('<a href="#pre">예측 기록</a>', f'<a href="{_relative_base}pre/">예측 기록</a>')
+    html_doc = html_doc.replace('<a href="#pre">예측 기록</a>', f'<a href="{_CONTEXT.url_base}pre/">예측 기록</a>')
     html_doc = html_doc.replace("<th>NEO 경기력 ⓘ</th>", "<th class='band-head'>NEO 경기력 <button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button><span id='neo-info' class='info-popover' role='tooltip'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>")
     html_doc = html_doc.replace("지금의 경기력", "최근 경기력")
     html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open)p.focus()});b.addEventListener('keydown',function(e){if(e.key==='Escape')close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()})})();</script></body></html>")
@@ -642,11 +676,12 @@ def build() -> Path:
     route.mkdir(parents=True)
     route_html = html_doc.replace('href="assets/neo.css"', 'href="../../../../assets/neo.css"')
     (route / "index.html").write_text(route_html, encoding="utf-8")
-    for stage in ("r1", "r2", "final"):
+    stage_keys = ("r1", "r2", "final") if historical_ok_mode else ()
+    for stage in stage_keys:
         stage_dir = route_root / stage
         stage_dir.mkdir(parents=True)
-        crumb = breadcrumb_html(OK_DISPLAY_NAME, None, stage.upper())
-        nav = stage_nav_html(_ok_stage_items(stage))
+        crumb = breadcrumb_html(display_name, None, stage.upper())
+        nav = stage_nav_html(_context_stage_items(stage, historical_ok_mode=historical_ok_mode))
         # R1 ACTIVE MODE: once scripts/96_ok_open_r1_active_cycle.py has
         # collected and safety-gated a real official R1 snapshot, this
         # page shows it -- a plain leaderboard table (rank/player/thru/
@@ -660,21 +695,34 @@ def build() -> Path:
             body = (f'<section class="panel"><p class="eyebrow">{stage.upper()} · 아직 시작 전</p>'
                      f'<h1>공식 {stage.upper()} 데이터가 아직 없습니다.</h1><p class="note">공식 단계 산출물이 생성되면 이 화면에서 확인할 수 있습니다. 현재는 예측값이나 결과를 만들지 않습니다.</p>{nav}</section>')
         stage_doc = (f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-                     f'<meta name="neo-public-master-sha256" content="{master_sha}"><title>NEO GOLF DATA · {stage.upper()}</title>'
+                     f'<title>NEO GOLF DATA · {stage.upper()}</title>'
                      f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../assets/neo.css"></head>'
                      f'<body><header data-neo-global-navigation></header><main>{crumb}{body}</main></body></html>')
         (stage_dir / "index.html").write_text(inject_global_navigation(stage_doc, active_section="tournaments"), encoding="utf-8")
     about = """<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · NEO 소개</title><link rel=\"stylesheet\" href=\"../assets/neo.css\"></head><body><header data-neo-global-navigation></header><main><section class=\"panel about\" id=\"about\"><p class=\"eyebrow\">NEO 소개</p><h1>결과만으로는 보이지 않는 경기력을 데이터에서 봅니다.</h1><p>NEO GOLF DATA는 KLPGA 공식 경기 기록을 바탕으로 선수들의 경기 데이터를 동일한 기준으로 측정하고 비교합니다.</p><p>우승, TOP10, 상금, K-RANKING은 선수가 쌓아온 중요한 결과입니다. NEO는 여기에 또 하나의 관점을 더합니다.</p><p>최근 공식 경기 데이터를 비교해 출전 선수들 사이에서 관측된 경기력의 상대적 위치를 보여줍니다.</p><p>이것은 선수의 가치나 미래 성적에 대한 등급이 아닙니다. 골프의 결과에는 큰 변동성이 있으며 높은 경기력 위치가 우승이나 TOP10을 보장하지 않습니다.</p><p>NEO는 분석 시점에 사용할 수 있었던 데이터를 보존하고, 실제 결과와 비교하며 분석 방법을 계속 검증합니다.</p></section></main></body></html>"""
     (OUT / "about").mkdir()
     (OUT / "about" / "index.html").write_text(inject_global_navigation(about), encoding="utf-8")
-    manifest = {"source_master": str(MASTER.relative_to(ROOT)).replace("\\", "/"), "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "SG Total 순위", "우승확률"]}
-    manifest["source_master_sha256"] = master_sha
+    manifest = {"tournament": display_name, "game_code": _CONTEXT.game_code, "stage": "PRE", "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "SG Total 순위", "우승확률"]}
     (OUT / "data").mkdir()
     (OUT / "data" / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    build_evidence = {
+        "schema_version": "neo_tournament_pre_website_build_evidence_v1",
+        "game_code": _CONTEXT.game_code,
+        "source_master": MASTER.name,
+        "source_master_sha256": master_sha.lower(),
+        "entry_count": len(records),
+        "route": f"{_CONTEXT.url_base}pre/",
+    }
+    _CONTEXT.artifact_path("pre_website_build_evidence").write_text(
+        json.dumps(build_evidence, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     for generated in OUT.rglob("*"):
         if generated.is_file() and generated.suffix.lower() in {".html", ".css", ".js", ".json"}:
             generated.write_text(generated.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
     return OUT
 
 if __name__ == "__main__":
-    print(build())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--game-code", default=None)
+    args = parser.parse_args()
+    print(build(args.game_code))

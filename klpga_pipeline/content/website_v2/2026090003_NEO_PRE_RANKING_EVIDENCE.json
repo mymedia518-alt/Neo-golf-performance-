@@ -341,7 +341,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.00038598575668817695
     },
     {
       "player_id": "10075",
@@ -679,7 +679,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0011556267847826927
     },
     {
       "player_id": "10112",
@@ -1017,7 +1017,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.007813235133773744
     },
     {
       "player_id": "10109",
@@ -1355,7 +1355,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.005316847579476918
     },
     {
       "player_id": "9436",
@@ -1693,7 +1693,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0007509825212517312
     },
     {
       "player_id": "10726",
@@ -2031,7 +2031,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0022456607174839976
     },
     {
       "player_id": "9752",
@@ -2369,7 +2369,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0014979438752417628
     },
     {
       "player_id": "9702",
@@ -2707,7 +2707,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0010757917544290667
     },
     {
       "player_id": "10002",
@@ -3045,7 +3045,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.01325256955861853
     },
     {
       "player_id": "10097",
@@ -3383,7 +3383,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.03245823028006936
     },
     {
       "player_id": "10725",
@@ -3721,7 +3721,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.04543780314206657
     },
     {
       "player_id": "10081",
@@ -4059,7 +4059,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.028378454470519475
     },
     {
       "player_id": "8380",
@@ -4397,7 +4397,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.008194760040847154
     },
     {
       "player_id": "9089",
@@ -4735,7 +4735,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0009962596799130568
     },
     {
       "player_id": "8300",
@@ -5073,7 +5073,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.019156597791204547
     },
     {
       "player_id": "11143",
@@ -5411,7 +5411,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0061124876275695135
     },
     {
       "player_id": "9277",
@@ -5749,7 +5749,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0007410948742653074
     },
     {
       "player_id": "8838",
@@ -6087,7 +6087,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.002277335927494263
     },
     {
       "player_id": "9487",
@@ -6425,7 +6425,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0040126914001526095
     },
     {
       "player_id": "9000",
@@ -6763,7 +6763,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.002901690176997651
     },
     {
       "player_id": "8434",
@@ -7101,7 +7101,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 2.8975273250114667e-05
     },
     {
       "player_id": "11216",
@@ -7439,7 +7439,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0014534362006102133
     },
     {
       "player_id": "10790",
@@ -7777,7 +7777,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.002970486104743725
     },
     {
       "player_id": "8271",
@@ -8115,7 +8115,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0011735788346733831
     },
     {
       "player_id": "10178",
@@ -8453,7 +8453,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0006835913528015586
     },
     {
       "player_id": "9113",
@@ -8791,7 +8791,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.028125432353869415
     },
     {
       "player_id": "9723",
@@ -9129,7 +9129,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0003991780989043138
     },
     {
       "player_id": "10789",
@@ -9467,7 +9467,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + NO OFFICIAL SG",
-      "win_probability": null
+      "win_probability": 0.000985599740929532
     },
     {
       "player_id": "9401",
@@ -9805,7 +9805,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.004516029191575399
     },
     {
       "player_id": "10083",
@@ -10143,7 +10143,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0030674973073723097
     },
     {
       "player_id": "10296",
@@ -10481,7 +10481,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.031722137513567006
     },
     {
       "player_id": "9183",
@@ -10819,7 +10819,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0026576620643903644
     },
     {
       "player_id": "8318",
@@ -11157,7 +11157,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0018405463956928112
     },
     {
       "player_id": "8772",
@@ -11495,7 +11495,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.022380888751133404
     },
     {
       "player_id": "9431",
@@ -11833,7 +11833,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.007887427223221359
     },
     {
       "player_id": "9111",
@@ -12171,7 +12171,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.001318636402253539
     },
     {
       "player_id": "11056",
@@ -12509,7 +12509,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.006081767355204224
     },
     {
       "player_id": "9788",
@@ -12847,7 +12847,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.024026104739178343
     },
     {
       "player_id": "10095",
@@ -13185,7 +13185,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.019257729251042834
     },
     {
       "player_id": "8589",
@@ -13523,7 +13523,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.009841851728100691
     },
     {
       "player_id": "1485",
@@ -13861,7 +13861,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0047389092381761415
     },
     {
       "player_id": "11134",
@@ -14199,7 +14199,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.07830952246477714
     },
     {
       "player_id": "9134",
@@ -14537,7 +14537,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.013127109052486301
     },
     {
       "player_id": "8881",
@@ -14875,7 +14875,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.04911871855642172
     },
     {
       "player_id": "8386",
@@ -15213,7 +15213,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0006476826856820587
     },
     {
       "player_id": "10022",
@@ -15551,7 +15551,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0013943853516773098
     },
     {
       "player_id": "11057",
@@ -15889,7 +15889,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0043385797670905555
     },
     {
       "player_id": "9135",
@@ -16227,7 +16227,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.017446375018279486
     },
     {
       "player_id": "4905",
@@ -16565,7 +16565,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0009280462087902533
     },
     {
       "player_id": "6916",
@@ -16903,7 +16903,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0033642435126092452
     },
     {
       "player_id": "11060",
@@ -17241,7 +17241,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0021679552999790226
     },
     {
       "player_id": "9465",
@@ -17579,7 +17579,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003152911827485999
     },
     {
       "player_id": "10867",
@@ -17917,7 +17917,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 0.0008313497922359342
     },
     {
       "player_id": "10139",
@@ -18255,7 +18255,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003217876089966958
     },
     {
       "player_id": "11045",
@@ -18593,7 +18593,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.005923251599850852
     },
     {
       "player_id": "8799",
@@ -18931,7 +18931,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0020199010690389032
     },
     {
       "player_id": "11926",
@@ -19269,7 +19269,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 3.120092117445351e-05
     },
     {
       "player_id": "11066",
@@ -19607,7 +19607,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.01501505106839544
     },
     {
       "player_id": "9714",
@@ -19945,7 +19945,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.005542078233103751
     },
     {
       "player_id": "10146",
@@ -20283,7 +20283,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.05530010347910563
     },
     {
       "player_id": "9990",
@@ -20621,7 +20621,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.005563143928980265
     },
     {
       "player_id": "8884",
@@ -20959,7 +20959,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.001459442943506436
     },
     {
       "player_id": "8883",
@@ -21297,7 +21297,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.009917115653508553
     },
     {
       "player_id": "8392",
@@ -21635,7 +21635,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.03314293454608211
     },
     {
       "player_id": "11649",
@@ -21973,7 +21973,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.010599702509378956
     },
     {
       "player_id": "10481",
@@ -22311,7 +22311,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.00042657375891174955
     },
     {
       "player_id": "11040",
@@ -22649,7 +22649,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0006225141642112177
     },
     {
       "player_id": "9652",
@@ -22987,7 +22987,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.006277279513684938
     },
     {
       "player_id": "8246",
@@ -23325,7 +23325,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0006346110915839601
     },
     {
       "player_id": "9503",
@@ -23663,7 +23663,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0005279810909279592
     },
     {
       "player_id": "8859",
@@ -24001,7 +24001,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0061484658738136305
     },
     {
       "player_id": "9784",
@@ -24339,7 +24339,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.01922355463120985
     },
     {
       "player_id": "11469",
@@ -24677,7 +24677,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 0.00032485777902966934
     },
     {
       "player_id": "9759",
@@ -25015,7 +25015,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0010143485012474962
     },
     {
       "player_id": "9708",
@@ -25353,7 +25353,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0011762559021991743
     },
     {
       "player_id": "7434",
@@ -25691,7 +25691,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0009566488556219888
     },
     {
       "player_id": "8234",
@@ -26029,7 +26029,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0036534438794144364
     },
     {
       "player_id": "12038",
@@ -26367,7 +26367,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0008593550908128471
     },
     {
       "player_id": "9449",
@@ -26705,7 +26705,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.02573003022132285
     },
     {
       "player_id": "8811",
@@ -27043,7 +27043,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.00755270777269057
     },
     {
       "player_id": "10138",
@@ -27381,7 +27381,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0023719143223316147
     },
     {
       "player_id": "9145",
@@ -27719,7 +27719,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003961012584875103
     },
     {
       "player_id": "8355",
@@ -28057,7 +28057,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.00027247758535220174
     },
     {
       "player_id": "8243",
@@ -28395,7 +28395,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.011334444609951698
     },
     {
       "player_id": "11374",
@@ -28733,7 +28733,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.001542215328320547
     },
     {
       "player_id": "9082",
@@ -29071,7 +29071,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.023721064161634164
     },
     {
       "player_id": "9389",
@@ -29409,7 +29409,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.005060024651979954
     },
     {
       "player_id": "9765",
@@ -29747,7 +29747,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.004812577528065692
     },
     {
       "player_id": "8840",
@@ -30085,7 +30085,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.000985521254028423
     },
     {
       "player_id": "9820",
@@ -30423,7 +30423,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.012098079578154182
     },
     {
       "player_id": "8770",
@@ -30761,7 +30761,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.001252158060682928
     },
     {
       "player_id": "8430",
@@ -31099,7 +31099,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 0.00017720729420559532
     },
     {
       "player_id": "8972",
@@ -31437,7 +31437,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0007637338499972283
     },
     {
       "player_id": "9136",
@@ -31775,7 +31775,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003528633497814049
     },
     {
       "player_id": "1521",
@@ -32113,7 +32113,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.009878991656853396
     },
     {
       "player_id": "11770",
@@ -32451,7 +32451,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.006330166098812315
     },
     {
       "player_id": "9391",
@@ -32789,7 +32789,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.00689286214678466
     },
     {
       "player_id": "8277",
@@ -33127,7 +33127,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003784270167201586
     },
     {
       "player_id": "8284",
@@ -33465,7 +33465,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.06801853131707755
     },
     {
       "player_id": "10577",
@@ -33803,7 +33803,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003059117061864512
     },
     {
       "player_id": "9235",
@@ -34141,7 +34141,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.010705792601174177
     },
     {
       "player_id": "11073",
@@ -34479,7 +34479,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0029316362323449654
     },
     {
       "player_id": "11447",
@@ -34817,7 +34817,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.006425592475015799
     },
     {
       "player_id": "9483",
@@ -35155,7 +35155,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.003105130553135669
     },
     {
       "player_id": "9426",
@@ -35493,7 +35493,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.012624214057763575
     },
     {
       "player_id": "9728",
@@ -35831,7 +35831,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 0.0008828548413819137
     },
     {
       "player_id": "10531",
@@ -36169,7 +36169,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0009231451945567952
     },
     {
       "player_id": "9750",
@@ -36507,7 +36507,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.008509658055660094
     },
     {
       "player_id": "9705",
@@ -36845,7 +36845,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.006569863560627309
     },
     {
       "player_id": "10586",
@@ -37183,7 +37183,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.005938519707859415
     },
     {
       "player_id": "11042",
@@ -37521,7 +37521,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.00340661939170909
     },
     {
       "player_id": "10727",
@@ -37859,7 +37859,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.0010633484147486326
     },
     {
       "player_id": "9937",
@@ -38197,7 +38197,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.002104572418624813
     },
     {
       "player_id": "8240",
@@ -38535,7 +38535,7 @@
         "confidence": "SUPPORTED"
       },
       "coverage": "ENTRY + SUFFICIENT SG",
-      "win_probability": null
+      "win_probability": 0.001336704470538335
     },
     {
       "player_id": "8191",
@@ -38873,7 +38873,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 0.0017365840371020048
     },
     {
       "player_id": "11397",
@@ -39211,7 +39211,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + LIMITED SG",
-      "win_probability": null
+      "win_probability": 0.0008582830253836479
     },
     {
       "player_id": "11480",
@@ -39549,7 +39549,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + NO OFFICIAL SG",
-      "win_probability": null
+      "win_probability": 0.0004744124742863465
     },
     {
       "player_id": "12069",
@@ -39887,7 +39887,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + NO OFFICIAL SG",
-      "win_probability": null
+      "win_probability": 0.0022225722014612916
     },
     {
       "player_id": "11964",
@@ -40225,7 +40225,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + NO OFFICIAL SG",
-      "win_probability": null
+      "win_probability": 0.0006190218243304209
     },
     {
       "player_id": "10698",
@@ -40563,7 +40563,7 @@
         "confidence": "INSUFFICIENT"
       },
       "coverage": "ENTRY + NO OFFICIAL SG",
-      "win_probability": null
+      "win_probability": 0.0007096477864818394
     }
   ]
 }

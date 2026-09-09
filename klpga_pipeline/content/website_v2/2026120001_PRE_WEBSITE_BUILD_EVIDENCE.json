@@ -1,0 +1,8 @@
+{
+  "schema_version": "neo_tournament_pre_website_build_evidence_v1",
+  "game_code": "2026120001",
+  "source_master": "OK_OPEN_2026_PRE_PUBLIC_MASTER.json",
+  "source_master_sha256": "6c384702afeb2b8fef3abffd98ab5588ea74ca6e6e4e52b585317b57cda83959",
+  "entry_count": 120,
+  "route": "/tournaments/2026/ok-savings-bank-open/pre/"
+}

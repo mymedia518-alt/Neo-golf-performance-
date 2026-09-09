@@ -67,7 +67,7 @@ def label_value(soup, label_text):
     return tags[-1].get_text(" ", strip=True) if tags else ""
 
 
-def collect_profiles(entries, *, session=None):
+def collect_profiles(entries, *, session=None, fetch_live=True):
     """Per-player official profile enrichment. A network failure on
     ANY one player must never abort the other entrants -- this is
     confirmatory data, never a hard PRE prerequisite, because identity
@@ -100,18 +100,21 @@ def collect_profiles(entries, *, session=None):
         pid = str(e["player_id"])
         current_name = status = sponsor = None
         failure_reason = None
-        try:
-            r = session.get(PROFILE_URL, params={"playerCode": pid}, timeout=30)
-            r.raise_for_status()
-            soup = BeautifulSoup(r.content.decode("utf-8", "replace"), "html.parser")
-            search = soup.select_one("input.playerSearch")
-            current_name = (search.get("placeholder") if search else None) or (
-                soup.select_one(".ph-player h3").get_text(" ", strip=True) if soup.select_one(".ph-player h3") else None
-            )
-            status = label_value(soup, "등급")
-            sponsor = label_value(soup, "소속")
-        except requests.exceptions.RequestException as exc:
-            failure_reason = f"official profile fetch unavailable: {exc}"
+        if fetch_live:
+            try:
+                r = session.get(PROFILE_URL, params={"playerCode": pid}, timeout=30)
+                r.raise_for_status()
+                soup = BeautifulSoup(r.content.decode("utf-8", "replace"), "html.parser")
+                search = soup.select_one("input.playerSearch")
+                current_name = (search.get("placeholder") if search else None) or (
+                    soup.select_one(".ph-player h3").get_text(" ", strip=True) if soup.select_one(".ph-player h3") else None
+                )
+                status = label_value(soup, "등급")
+                sponsor = label_value(soup, "소속")
+            except requests.exceptions.RequestException as exc:
+                failure_reason = f"official profile fetch unavailable: {exc}"
+        else:
+            failure_reason = "optional live profile enrichment was not requested"
         identity_source = "live_profile"
         if current_name is None:
             entry_name = e.get("player_name")
@@ -133,7 +136,8 @@ def collect_profiles(entries, *, session=None):
             record["failure_reason"] = failure_reason
         out.append(record)
         if i % 20 == 0: print(f"profiles {i}/{len(entries)}", flush=True)
-        time.sleep(0.15)
+        if fetch_live:
+            time.sleep(0.15)
     return out
 
 
@@ -241,6 +245,51 @@ def collect_rankings_offline(target_ids, offline_html_path: Path, *, game_code: 
     return payload
 
 
+def collect_rankings_combined(target_ids, period_path: Path, full_table_path: Path, *, game_code: str):
+    """Validate and bind the official period and complete ranking captures."""
+    extractor = _kranking_top120_extractor()
+    retrieved_at = now()
+    combined = extractor.combine_official_evidence(period_path, full_table_path, retrieved_at)
+    by_id = {row["player_id"]: row["official_k_rank"] for row in combined["records"]}
+
+    def relative(path: Path) -> str:
+        try:
+            return path.resolve().relative_to(ROOT.resolve()).as_posix()
+        except ValueError:
+            return path.name
+
+    return {
+        "schema_version": "neo_tournament_official_klpga_ranking_v2",
+        "ranking_category": "K-RANKING (official weekly KLPGA ranking)",
+        "collection_method": "offline_combined_official_evidence",
+        "game_code": game_code,
+        "requested_rank_week": None,
+        "returned_rank_week": combined["ranking_week"],
+        "week_evidence_state": "PROVEN",
+        "week_match": None,
+        "ranking_date": combined["ranking_week"],
+        "official_source": extractor.CANONICAL_URL,
+        "period_source": extractor.ACQUISITION_URL,
+        "acquisition_sources": {
+            "period": relative(period_path),
+            "full_table": relative(full_table_path),
+        },
+        "retrieved_at": retrieved_at,
+        "raw_response_sha256": combined["source_sha256"],
+        "evidence_crosscheck": combined["crosscheck"],
+        "official_population_count": combined["full_population_count"],
+        "published_population_count": len(combined["records"]),
+        "records": [
+            {
+                "player_id": pid,
+                "official_rank": by_id.get(pid),
+                "validation_state": "PASS" if pid in by_id else "UNAVAILABLE",
+            }
+            for pid in sorted(target_ids)
+        ],
+    }
+
+
 def _find_offline_kranking_html(game_code: str) -> list[Path]:
     """The sanctioned offline-import quarantine directory (see
     content/website_v2/incoming_evidence/<game_code>/MANIFEST.json) --
@@ -272,32 +321,70 @@ def _resolve_offline_kranking(target_ids, game_code: str):
     candidates = _find_offline_kranking_html(game_code)
     if not candidates:
         return None
-    proven = []
+    extractor = _kranking_top120_extractor()
+    period_candidates = []
+    full_table_candidates = []
     last_result = None
     for path in candidates:
         result = collect_rankings_offline(target_ids, path, game_code=game_code)
         last_result = result
-        if result["week_evidence_state"] == "PROVEN":
-            proven.append(result)
-    if len(proven) > 1:
-        weeks = {r["returned_rank_week"] for r in proven}
-        if len(weeks) > 1:
-            raise RuntimeError(
-                f"multiple offline K-Ranking captures for game_code={game_code!r} PROVE different weeks "
-                f"({sorted(weeks)}) -- refusing to silently pick one; resolve the conflicting evidence first"
-            )
-    if proven:
-        return proven[0]
+        raw_html = path.read_bytes().decode("utf-8", "strict")
+        try:
+            extractor.extract_period_top10(raw_html)
+            period_candidates.append(path)
+        except ValueError:
+            pass
+        try:
+            extractor.extract_full_table(raw_html)
+            full_table_candidates.append(path)
+        except ValueError:
+            pass
+    if len(period_candidates) > 1 or len(full_table_candidates) > 1:
+        raise RuntimeError(
+            "ambiguous offline K-Ranking evidence: expected exactly one period source "
+            "and one complete-table source"
+        )
+    if period_candidates and full_table_candidates:
+        return collect_rankings_combined(
+            target_ids, period_candidates[0], full_table_candidates[0], game_code=game_code
+        )
     return last_result
 
 
-def build(game_code: str | None = None):
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _database_provenance(connection, db_path: Path) -> dict:
+    required = ("tournament_master", "player_master", "player_event", "player_round", "tournament_entry")
+    tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    missing = [name for name in required if name not in tables]
+    if missing:
+        raise sqlite3.OperationalError(f"inference database missing required tables: {missing}")
+    counts = {name: connection.execute(f"SELECT COUNT(*) FROM {name}").fetchone()[0] for name in required}
+    coverage = connection.execute(
+        "SELECT MIN(COALESCE(start_date,end_date)), MAX(COALESCE(start_date,end_date)), "
+        "COUNT(DISTINCT game_code) FROM tournament_master"
+    ).fetchone()
+    return {
+        "sha256": _sha256(db_path),
+        "bytes": db_path.stat().st_size,
+        "required_table_counts": counts,
+        "tournament_date_coverage": {"min": coverage[0], "max": coverage[1], "game_codes": coverage[2]},
+    }
+
+
+def build(game_code: str | None = None, *, db_path: Path | None = None, profile_network: bool = True):
     context = load_tournament_context(game_code)
     GAME = context.game_code
     CUTOFF = f"{context.start_date}T00:00:00+09:00"
     entry_path = context.artifact_path("entry_snapshot")
     entry = json.loads(entry_path.read_text(encoding="utf-8")); entries = entry["entries"]; ids = {str(e["player_id"]) for e in entries}
-    profiles = collect_profiles(entries)
+    profiles = collect_profiles(entries, fetch_live=profile_network)
 
     offline_ranking = _resolve_offline_kranking(ids, GAME)
     if offline_ranking is not None:
@@ -320,8 +407,12 @@ def build(game_code: str | None = None):
     # whole PRE build over a DB-provisioning gap that has nothing to do
     # with this specific game_code.
     prob = {}
+    database = None
+    inference_error = None
+    db_path = Path(db_path) if db_path is not None else DB
     try:
-        with sqlite3.connect(f"file:{DB}?mode=ro", uri=True) as sc:
+        with sqlite3.connect(f"file:{db_path.resolve().as_posix()}?mode=ro", uri=True) as sc:
+            database = _database_provenance(sc, db_path)
             with sqlite3.connect(":memory:") as c:
                 sc.backup(c)
                 c.executemany(
@@ -331,9 +422,12 @@ def build(game_code: str | None = None):
                 from klpga.models.inference import run_inference
                 result = run_inference(c, GAME, cutoff_date_arg=context.start_date, tournament_name_arg=context.tournament_name)
                 prob = {str(x.player_code): x.win_probability for x in result.predictions}
-    except sqlite3.OperationalError:
+                database["training_tournament_count"] = result.training_tournament_count
+                database["prediction_count"] = len(result.predictions)
+    except (sqlite3.OperationalError, FileNotFoundError) as exc:
+        inference_error = str(exc)
         prob = {}
-    forecast = {"schema_version": "neo_tournament_pre_win_forecast_v1", "game_code": GAME, "cutoff": CUTOFF, "model_version": "M4", "model_features": ["prior_avg_round_score_to_par", "prior_recent_form_10"], "future_data_excluded": True, "normalization": {"sum": sum(prob.values()), "entrant_count": len(prob)}, "source": "existing validated NEO inference; in-memory join to frozen entry snapshot", "records": [{"player_id": pid, "win_probability": prob.get(pid), "provenance": {"source_artifact": "existing M4 inference", "cutoff": CUTOFF}} for pid in sorted(ids)]}
+    forecast = {"schema_version": "neo_tournament_pre_win_forecast_v1", "game_code": GAME, "cutoff": CUTOFF, "model_version": "M4", "model_features": ["prior_avg_round_score_to_par", "prior_recent_form_10"], "future_data_excluded": True, "normalization": {"sum": sum(prob.values()), "entrant_count": len(prob)}, "source": "existing validated NEO inference; in-memory join to frozen entry snapshot", "inference_database": database, "inference_error": inference_error, "records": [{"player_id": pid, "win_probability": prob.get(pid), "provenance": {"source_artifact": "existing M4 inference", "cutoff": CUTOFF, "database_sha256": database.get("sha256") if database else None}} for pid in sorted(ids)]}
     master = []
     for prof in profiles:
         pid = prof["player_id"]
@@ -356,8 +450,10 @@ def build(game_code: str | None = None):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--game-code", default=None, help="omit for the operationally-active tournament (default, unchanged historical behavior)")
+    ap.add_argument("--db", type=Path, default=DB, help="read-only canonical inference database")
+    ap.add_argument("--skip-profile-network", action="store_true", help="use official entry identity and leave unverified sponsor/status blank")
     args = ap.parse_args()
-    build(args.game_code)
+    build(args.game_code, db_path=args.db, profile_network=not args.skip_profile_network)
 
 
 if __name__ == "__main__": main()
