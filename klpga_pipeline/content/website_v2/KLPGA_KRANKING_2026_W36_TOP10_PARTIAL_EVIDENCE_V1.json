@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "_comment": "PROVENANCE HONESTY NOTE: this artifact is a transcription of a summary the operator posted directly into this Claude Code conversation, describing what they personally verified against the official K-Ranking site (https://k-rankings.klpga.co.kr/) using real network access outside this session. This session's own network access to k-rankings.klpga.co.kr remains proxy-blocked. Only the TOP 10 rows (of the full ~546/120-population table) and the site's own self-reported ranking week were transcribed into this conversation -- this artifact records exactly those 10 rows and nothing else. It is NOT a substitute for HOME_PLAYER_MASTER_TOP120.json's real, hashed, full-population snapshot (currently retrieved_at 2026-09-02T14:23:52Z, ranking_week 2026-W35): that file's ranking_week/records/source_sha256 must NOT be updated from this partial evidence alone -- doing so would silently mix a verified week-36 top-10 with unverified week-35 data for the remaining ~536+ players and misrepresent the whole table's freshness. scripts/87_collect_kranking_top120.py (offline-capable: takes a local --html file, extracts the week from the page's own text, hashes it, cross-checks against a prior snapshot) is the sanctioned path to actually refresh that file once the real page HTML (or a complete transcription of the full ranked population) is available.",
+  "official_source": "https://k-rankings.klpga.co.kr/",
+  "captured_by": "operator, via real network access outside this session",
+  "reported_at": "2026-09-09",
+  "site_self_reported_ranking_week": "2026-W36",
+  "site_self_reported_ranking_week_korean": "2026년 36주차",
+  "top_10": [
+    {"official_k_rank": 1, "player_name": "김민솔", "rating": 10.9047},
+    {"official_k_rank": 2, "player_name": "서교림", "rating": 9.4889},
+    {"official_k_rank": 3, "player_name": "유현조", "rating": 8.2266},
+    {"official_k_rank": 4, "player_name": "이다연", "rating": 7.2736},
+    {"official_k_rank": 5, "player_name": "방신실", "rating": 6.7119},
+    {"official_k_rank": 6, "player_name": "이예원", "rating": 6.4428},
+    {"official_k_rank": 7, "player_name": "노승희", "rating": 6.2552},
+    {"official_k_rank": 8, "player_name": "성유진", "rating": 5.9227},
+    {"official_k_rank": 9, "player_name": "홍정민", "rating": 5.6679},
+    {"official_k_rank": 10, "player_name": "김민선7", "rating": 5.6347}
+  ],
+  "not_captured": "ranks 11 through the full population (~546 players in the general population, or 120 for the TOP120 cohort) -- not transcribed into this conversation, not recorded here, and not guessed.",
+  "crosscheck_against_frozen_w35_snapshot": {
+    "artifact": "HOME_PLAYER_MASTER_TOP120.json",
+    "artifact_ranking_week": "2026-W35",
+    "artifact_retrieved_at": "2026-09-02T14:23:52Z",
+    "method": "same 10 player names looked up by official_k_rank in the frozen W35 snapshot",
+    "result": "identical top-10 name set; only #6/#7 (이예원/노승희) and #8/#9 (성유진/홍정민) swapped order -- a plausible single-week movement, not an anomaly. This is a real, computed comparison against already-committed data, not new evidence about the live site."
+  }
+}

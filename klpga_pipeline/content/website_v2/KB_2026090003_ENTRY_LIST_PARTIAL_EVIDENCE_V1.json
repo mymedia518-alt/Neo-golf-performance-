@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "_comment": "PROVENANCE HONESTY NOTE: this artifact is a transcription of a summary the operator posted directly into this Claude Code conversation, describing what they personally verified against the official KLPGA entry-list page (https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090003) using real network access outside this session. This session's own network access to klpga.co.kr remains proxy-blocked (confirmed repeatedly). The raw HTML bytes of that page have NOT been transported into this session and have NOT been machine-parsed here -- per the operator's own explicit instruction, this file does not reconstruct or guess at that HTML from the summary below. It records ONLY the field/category counts and the 6 named special-category players the operator explicitly listed. The remaining 114 qualified ('자격자') players were reported as present on the official page but were NOT individually named in what was posted -- they are NOT enumerated here, and no placeholder/guessed names are used in their place. This artifact is not a valid input to klpga.parsers.entry_list_parser and must never be run through it or treated as an entry_snapshot substitute -- see klpga.tournament_entry_bootstrap.collect_entry_list_snapshot_from_offline_html for the real import path, which still requires the actual page HTML (or a complete, row-by-row transcription of all 120 entries) to produce a valid entry_snapshot.",
+  "game_code": "2026090003",
+  "tournament_name": "KB금융 골든라이프 챔피언십",
+  "source_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090003",
+  "captured_by": "operator, via real network access outside this session",
+  "reported_at": "2026-09-09",
+  "field_summary": {
+    "total_field": 120,
+    "qualified_count": 114,
+    "recommended_count": 5,
+    "invited_count": 1
+  },
+  "named_special_category_entries": [
+    {"qualification_category": "초청자", "player_name": "전인지"},
+    {"qualification_category": "추천자", "player_name": "구민지 0706(A)"},
+    {"qualification_category": "추천자", "player_name": "김연서"},
+    {"qualification_category": "추천자", "player_name": "박조은 0806(A)"},
+    {"qualification_category": "추천자", "player_name": "윤다감 0907(A)"},
+    {"qualification_category": "추천자", "player_name": "정민서"}
+  ],
+  "not_captured": "the individual names/player_ids of the 114 '자격자' (qualified) entries -- confirmed present on the official page by the operator, but not transcribed into this conversation and therefore not recorded here. A valid entry_snapshot for this game_code cannot be produced until either the raw page HTML or a complete 120-row transcription is provided."
+}
