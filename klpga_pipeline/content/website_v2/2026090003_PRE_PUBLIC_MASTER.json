@@ -1,6 +1,15 @@
 {
-  "schema_version": "neo_tournament_current_player_master_v1",
+  "schema_version": "neo_tournament_pre_public_master_v2",
   "game_code": "2026090003",
+  "cutoff": "2026-09-10T00:00:00+09:00",
+  "classifier_version": "field_median_se_1.0",
+  "methodology": "Field-median comparison using each player's validated standard error; z boundaries ±1.00 and ±1.96; no within-band performance ordering.",
+  "source_artifacts": [
+    "2026090003_CURRENT_PLAYER_MASTER.json",
+    "2026090003_PRE_PERFORMANCE_CORRECTED_V2.json",
+    "2026090003_NEO_PRE_RANKING_EVIDENCE.json"
+  ],
+  "generated_at": "2026-09-09T08:51:08Z",
   "entry_count": 120,
   "records": [
     {
@@ -23,7 +32,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9174",
@@ -74,6 +83,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6409465250705397,
+        "z_vs_field_median": -1.8659903021837487,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -96,7 +119,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10075",
@@ -147,6 +170,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6250704424302912,
+        "z_vs_field_median": 0.15358269001930297,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -169,7 +206,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10112",
@@ -220,6 +257,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6834318166430357,
+        "z_vs_field_median": 0.5121213140458881,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -242,7 +293,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10109",
@@ -293,6 +344,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.691123890485635,
+        "z_vs_field_median": 1.3514219561180298,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -315,7 +380,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9436",
@@ -366,6 +431,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5095104493531021,
+        "z_vs_field_median": -3.1795226222677604,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -388,7 +467,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10726",
@@ -439,6 +518,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4875969831736041,
+        "z_vs_field_median": 0.7013989253461688,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -461,7 +554,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9752",
@@ -512,6 +605,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7034669857214337,
+        "z_vs_field_median": 1.0547758673266652,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -534,7 +641,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9702",
@@ -585,6 +692,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.23639710658127774,
+        "z_vs_field_median": -0.3807153196651178,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -607,7 +728,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10002",
@@ -658,6 +779,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6376818658233899,
+        "z_vs_field_median": -0.6460901933725461,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -680,7 +815,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10097",
@@ -731,6 +866,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5896958470262446,
+        "z_vs_field_median": 1.1836610407211081,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -753,7 +902,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10725",
@@ -804,6 +953,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7554332055185289,
+        "z_vs_field_median": 1.5381902615763412,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -826,7 +989,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10081",
@@ -877,6 +1040,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.605840257823793,
+        "z_vs_field_median": 2.5881409822984205,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -899,7 +1076,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8380",
@@ -950,6 +1127,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5788285566555955,
+        "z_vs_field_median": 0.8845451630069477,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -972,7 +1163,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9089",
@@ -1023,6 +1214,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.37561469886041465,
+        "z_vs_field_median": 0.22895802603283943,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1045,7 +1250,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8300",
@@ -1096,6 +1301,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5650543779141969,
+        "z_vs_field_median": 1.7803596243488629,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1118,7 +1337,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11143",
@@ -1169,6 +1388,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7569984531027788,
+        "z_vs_field_median": -0.39365998540493735,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1191,7 +1424,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9277",
@@ -1242,6 +1475,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6263673618572411,
+        "z_vs_field_median": -2.228724044402189,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1264,7 +1511,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8838",
@@ -1315,6 +1562,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5258784669484005,
+        "z_vs_field_median": -1.350121833510376,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1337,7 +1598,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9487",
@@ -1388,6 +1649,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6248915569920912,
+        "z_vs_field_median": -1.267419908523462,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1410,7 +1685,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9000",
@@ -1461,6 +1736,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5029811308588027,
+        "z_vs_field_median": -0.4214869842891043,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1483,7 +1772,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8434",
@@ -1534,6 +1823,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 1.0550033175303288,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1556,7 +1859,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11216",
@@ -1607,6 +1910,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7716223376756274,
+        "z_vs_field_median": 0.9953055562303458,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1629,7 +1946,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10790",
@@ -1680,6 +1997,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.701409803182134,
+        "z_vs_field_median": 0.37353341628726405,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1702,7 +2033,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8271",
@@ -1753,6 +2084,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.47972602389280483,
+        "z_vs_field_median": -2.2596230890367974,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1775,7 +2120,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10178",
@@ -1826,6 +2171,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4417128682753084,
+        "z_vs_field_median": -2.1643018998580534,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1848,7 +2207,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9113",
@@ -1899,6 +2258,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6131298394304423,
+        "z_vs_field_median": 0.8905128488073561,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1921,7 +2294,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9723",
@@ -1972,6 +2345,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.435586042016959,
+        "z_vs_field_median": -3.30589105503049,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -1994,7 +2381,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10789",
@@ -2045,6 +2432,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": null,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2067,7 +2468,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9401",
@@ -2118,6 +2519,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6283351016774409,
+        "z_vs_field_median": 0.5379295205657855,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2140,7 +2555,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10083",
@@ -2191,6 +2606,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6261884764190411,
+        "z_vs_field_median": 0.5557432196614245,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2213,7 +2642,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10296",
@@ -2264,6 +2693,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6364296677559901,
+        "z_vs_field_median": 1.8980887617312527,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2286,7 +2729,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9183",
@@ -2337,6 +2780,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5374612990718494,
+        "z_vs_field_median": -0.6995852550673334,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2359,7 +2816,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8318",
@@ -2410,6 +2867,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4239137671744101,
+        "z_vs_field_median": -1.1181519372664843,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2432,7 +2903,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8772",
@@ -2483,6 +2954,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5387582184987993,
+        "z_vs_field_median": 1.3772411714989987,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2505,7 +2990,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9431",
@@ -2556,6 +3041,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6474311222052891,
+        "z_vs_field_median": -0.08649568746286408,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2578,7 +3077,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9111",
@@ -2629,6 +3128,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5790074420937955,
+        "z_vs_field_median": -2.1554127102183807,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2651,7 +3164,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11056",
@@ -2702,6 +3215,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6013234005092434,
+        "z_vs_field_median": -0.44900963403610245,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2724,7 +3251,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9788",
@@ -2775,6 +3302,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5306636524202502,
+        "z_vs_field_median": 2.185942064638257,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2797,7 +3338,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10095",
@@ -2848,6 +3389,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6351774696885902,
+        "z_vs_field_median": 1.142987644627788,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2870,7 +3425,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8589",
@@ -2921,6 +3476,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5989978898126436,
+        "z_vs_field_median": 0.2470793345303634,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -2943,7 +3512,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=1485",
@@ -2994,6 +3563,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6117434772843924,
+        "z_vs_field_median": -0.34001179861097774,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3016,7 +3599,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11134",
@@ -3067,6 +3650,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6641569106769876,
+        "z_vs_field_median": 3.008325243447969,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3089,7 +3686,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9134",
@@ -3140,6 +3737,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.541620385509999,
+        "z_vs_field_median": 1.3108812352612094,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3162,7 +3773,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8881",
@@ -3213,6 +3824,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6141137093405422,
+        "z_vs_field_median": 1.2342991020571226,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3235,7 +3860,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8386",
@@ -3286,6 +3911,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5587039448580975,
+        "z_vs_field_median": -1.5285376232969026,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3308,7 +3947,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10022",
@@ -3359,6 +3998,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5137142571508017,
+        "z_vs_field_median": 1.0706340973490769,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3381,7 +4034,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11057",
@@ -3432,6 +4085,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.573730321666896,
+        "z_vs_field_median": -0.25796091719539244,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3454,7 +4121,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9135",
@@ -3505,6 +4172,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5003425706453529,
+        "z_vs_field_median": 1.6348798762914087,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3527,7 +4208,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=4905",
@@ -3578,6 +4259,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7147367683280328,
+        "z_vs_field_median": -1.3487482982791874,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3600,7 +4295,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=6916",
@@ -3651,6 +4346,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4945287939038534,
+        "z_vs_field_median": -1.2173204218257134,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3673,7 +4382,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11060",
@@ -3724,6 +4433,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6142925947787422,
+        "z_vs_field_median": -1.2567301096606274,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3746,7 +4469,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9465",
@@ -3797,6 +4520,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5230610212967508,
+        "z_vs_field_median": -0.7341399652530091,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3819,7 +4556,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10867",
@@ -3870,6 +4607,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.9750295405781303,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3892,7 +4643,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10139",
@@ -3943,6 +4694,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5453322583526488,
+        "z_vs_field_median": 0.5831307338403585,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -3965,7 +4730,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11045",
@@ -4016,6 +4781,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.44573779063480806,
+        "z_vs_field_median": 0.4397204009129715,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4038,7 +4817,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8799",
@@ -4089,6 +4868,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.42556845747775995,
+        "z_vs_field_median": -0.357169328057974,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4111,7 +4904,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11926",
@@ -4162,6 +4955,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": null,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4184,7 +4991,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11066",
@@ -4235,6 +5042,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7818188076530265,
+        "z_vs_field_median": 0.3325578733268192,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4257,7 +5078,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9714",
@@ -4308,6 +5129,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5189019348586013,
+        "z_vs_field_median": -1.349002485779413,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4330,7 +5165,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10146",
@@ -4381,6 +5216,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5657251983074467,
+        "z_vs_field_median": 3.103980528450301,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4403,7 +5252,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9990",
@@ -4454,6 +5303,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5537398739480479,
+        "z_vs_field_median": 0.2058728391495526,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4476,7 +5339,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8884",
@@ -4527,6 +5390,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6320469745200905,
+        "z_vs_field_median": -2.2118609159730465,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4549,7 +5426,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8883",
@@ -4600,6 +5477,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4906827569825538,
+        "z_vs_field_median": 1.3572924471517134,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4622,7 +5513,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8392",
@@ -4673,6 +5564,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.669925966058937,
+        "z_vs_field_median": 2.0867977520325143,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4695,7 +5600,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11649",
@@ -4746,6 +5651,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6917499895193349,
+        "z_vs_field_median": 1.7434044355215583,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4768,7 +5687,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10481",
@@ -4819,6 +5738,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5218535445889009,
+        "z_vs_field_median": -3.7980004553985633,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4841,7 +5774,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11040",
@@ -4892,6 +5825,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6306606123740406,
+        "z_vs_field_median": -1.7283464015563546,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4914,7 +5861,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9652",
@@ -4965,6 +5912,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4832590112972545,
+        "z_vs_field_median": 0.1820969665185836,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -4987,7 +5948,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8246",
@@ -5038,6 +5999,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5548579079367978,
+        "z_vs_field_median": -2.274456184093443,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5060,7 +6035,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9503",
@@ -5111,6 +6086,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6416620668233397,
+        "z_vs_field_median": -1.387022930007536,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5133,7 +6122,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8859",
@@ -5184,6 +6173,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5113440250946518,
+        "z_vs_field_median": 0.5319315111771409,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5206,7 +6209,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9784",
@@ -5257,6 +6260,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6902741846541851,
+        "z_vs_field_median": 1.9644367848977742,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5279,7 +6296,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11469",
@@ -5330,6 +6347,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.09537826447012619,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5352,7 +6383,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9759",
@@ -5403,6 +6434,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.8233202293154225,
+        "z_vs_field_median": -1.1951607223573022,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5425,7 +6470,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9708",
@@ -5476,6 +6521,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.648906927070439,
+        "z_vs_field_median": -1.0479160749137542,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5498,7 +6557,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=7434",
@@ -5549,6 +6608,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7881245193495758,
+        "z_vs_field_median": -0.870420832187968,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5571,7 +6644,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8234",
@@ -5622,6 +6695,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6354905192054402,
+        "z_vs_field_median": -0.8623260039900668,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5644,7 +6731,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=12038",
@@ -5695,6 +6782,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7264090431705816,
+        "z_vs_field_median": -1.2114386629316105,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5717,7 +6818,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9449",
@@ -5768,6 +6869,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.49148774145445373,
+        "z_vs_field_median": 3.1496207726748633,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5790,7 +6905,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8811",
@@ -5841,6 +6956,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6361613395986901,
+        "z_vs_field_median": 0.3772627870649909,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5863,7 +6992,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10138",
@@ -5914,6 +7043,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5535609885098479,
+        "z_vs_field_median": 0.0,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -5936,7 +7079,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9145",
@@ -5987,6 +7130,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6072266199698428,
+        "z_vs_field_median": -0.2503184066725351,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6009,7 +7166,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8355",
@@ -6060,6 +7217,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6505616173737888,
+        "z_vs_field_median": -1.8015203613320643,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6082,7 +7253,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8243",
@@ -6133,6 +7304,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7129926353055829,
+        "z_vs_field_median": 1.6774366813584323,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6155,7 +7340,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11374",
@@ -6206,6 +7391,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.691347497283385,
+        "z_vs_field_median": 0.3731842539588238,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6228,7 +7427,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9082",
@@ -6279,6 +7478,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6208666346325916,
+        "z_vs_field_median": 1.2981853993119863,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6301,7 +7514,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9389",
@@ -6352,6 +7565,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6006525801159934,
+        "z_vs_field_median": -0.606007552535123,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6374,7 +7601,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9765",
@@ -6425,6 +7652,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5278014854090503,
+        "z_vs_field_median": -0.4054554712633073,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6447,7 +7688,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8840",
@@ -6498,6 +7739,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4590200344211568,
+        "z_vs_field_median": 0.08714216591971105,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6520,7 +7775,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9820",
@@ -6571,6 +7826,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6478336144412391,
+        "z_vs_field_median": 1.3089780787793879,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6593,7 +7862,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8770",
@@ -6644,6 +7913,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5937654907452942,
+        "z_vs_field_median": -0.15494332599983493,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6666,7 +7949,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8430",
@@ -6717,6 +8000,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.28521103297967515,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6739,7 +8036,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8972",
@@ -6790,6 +8087,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.63799491534024,
+        "z_vs_field_median": -3.1128774732332696,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6812,7 +8123,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9136",
@@ -6863,6 +8174,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6263673618572411,
+        "z_vs_field_median": -0.9866414465906542,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6885,7 +8210,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=1521",
@@ -6936,6 +8261,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.48732865501630407,
+        "z_vs_field_median": -0.1436402298109438,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -6958,7 +8297,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11770",
@@ -7009,6 +8348,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5514143632514481,
+        "z_vs_field_median": 2.59695810525523,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7031,7 +8384,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9391",
@@ -7082,6 +8435,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5598667002063973,
+        "z_vs_field_median": 0.3750892845075132,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7104,7 +8471,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8277",
@@ -7155,6 +8522,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5376849058695994,
+        "z_vs_field_median": -0.3273292556266848,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7177,7 +8558,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8284",
@@ -7228,6 +8609,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5858050887453949,
+        "z_vs_field_median": 3.24681372105092,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7250,7 +8645,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10577",
@@ -7301,6 +8696,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5256101387911005,
+        "z_vs_field_median": 0.46041729818339927,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7323,7 +8732,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9235",
@@ -7374,6 +8783,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5985059548575937,
+        "z_vs_field_median": 1.77776008971066,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7396,7 +8819,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11073",
@@ -7447,6 +8870,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.46259774318515645,
+        "z_vs_field_median": -1.6601896816703776,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7469,7 +8906,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11447",
@@ -7520,6 +8957,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6349091415312902,
+        "z_vs_field_median": 0.2110538205148777,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7542,7 +8993,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9483",
@@ -7593,6 +9044,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5325866708809,
+        "z_vs_field_median": -1.7912577466914092,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7615,7 +9080,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9426",
@@ -7666,6 +9131,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "HIGH",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6243549006774912,
+        "z_vs_field_median": 1.6561093680501273,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7688,7 +9167,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9728",
@@ -7739,6 +9218,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.48885,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7761,7 +9254,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10531",
@@ -7812,6 +9305,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "VERY_LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6107596073742925,
+        "z_vs_field_median": -2.079377851229943,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7834,7 +9341,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9750",
@@ -7885,6 +9392,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.6809721418677859,
+        "z_vs_field_median": 0.4963492325441181,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7907,7 +9428,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9705",
@@ -7958,6 +9479,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.49989535704985294,
+        "z_vs_field_median": -0.08001674637680414,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -7980,7 +9515,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10586",
@@ -8031,6 +9566,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5039650007689026,
+        "z_vs_field_median": 0.8810135611056052,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8053,7 +9602,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11042",
@@ -8104,6 +9653,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5085713008025521,
+        "z_vs_field_median": -0.5073034982368501,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8126,7 +9689,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10727",
@@ -8177,6 +9740,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "TYPICAL",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.5058432978700024,
+        "z_vs_field_median": -0.24118141035715177,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8199,7 +9776,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9937",
@@ -8250,6 +9827,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.45978029753350674,
+        "z_vs_field_median": -1.9226574186458654,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8272,7 +9863,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "PASS",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8240",
@@ -8323,6 +9914,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "LOW",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.573596157588246,
+        "z_vs_field_median": -1.7224662106422832,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8345,7 +9950,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8191",
@@ -8396,6 +10001,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.7692614986682574,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8418,7 +10037,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11397",
@@ -8469,6 +10088,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": 0.4000103061172299,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8491,7 +10124,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11480",
@@ -8542,6 +10175,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": null,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8564,7 +10211,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=12069",
@@ -8615,6 +10262,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": null,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8637,7 +10298,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11964",
@@ -8688,6 +10349,20 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
         }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": null,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
+        }
       }
     },
     {
@@ -8710,7 +10385,7 @@
       "top10_probability": null,
       "top5_probability": null,
       "win_probability": null,
-      "validation_status": "UPSTREAM_GAP",
+      "validation_status": "INSUFFICIENT_EVIDENCE",
       "provenance": {
         "entry": "2026090003_ENTRY_SNAPSHOT.json",
         "profile": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10698",
@@ -8760,6 +10435,20 @@
           "retrieved_at": "2026-09-09T08:50:04Z",
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "UNAVAILABLE"
+        }
+      },
+      "neo_performance_band": "INSUFFICIENT_EVIDENCE",
+      "band_statistics": {
+        "metric": "recent5 SG Total mean",
+        "field_median": 0.802,
+        "standard_error": null,
+        "z_vs_field_median": null,
+        "boundaries": {
+          "very_high": "z >= 1.96",
+          "high": "1.00 < z < 1.96",
+          "typical": "-1.00 <= z <= 1.00",
+          "low": "-1.96 < z < -1.00",
+          "very_low": "z <= -1.96"
         }
       }
     }
