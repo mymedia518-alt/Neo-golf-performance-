@@ -273,9 +273,18 @@ def test_collect_rankings_offline_extracts_real_ranks_when_the_capture_does_prov
 # tier2_publication_gate: every domain must be independently evidenced
 # ---------------------------------------------------------------------------
 
-def test_tier2_gate_all_five_domains_pass_for_kb_after_bound_evidence():
-    """The canonical corpus and bound SG review close the former blockers
-    while the same fail-closed domain checks remain in force."""
+def test_tier2_gate_four_domains_pass_for_kb_pending_independent_sg_acceptance():
+    """The canonical corpus (real Week-36 K-Ranking, real M4 inference
+    database, the identity/entry-snapshot fallback) closes IDENTITY,
+    TEAM_SPONSOR, K_RANKING, and WIN_PROBABILITY on real evidence.
+    SG_DERIVED's arithmetic passes too, but its independent human
+    acceptance sign-off (`<game_code>_SG_INDEPENDENT_ACCEPTANCE.json`,
+    scripts/85_accept_tournament_sg.py) is a deliberate manual gate that
+    must never be satisfied by a script self-signing its own audit --
+    it correctly stays BLOCK until a real reviewer produces that
+    artifact. Do not weaken this assertion to force a PASS; a script
+    (Codex or otherwise) writing accepted_by=<its own name> is exactly
+    the self-approval this gate exists to refuse."""
     from klpga.neo_win.tier2_publication_gate import evaluate
 
     ctx = load_tournament_context(KB_GAME_CODE)
@@ -295,7 +304,32 @@ def test_tier2_gate_all_five_domains_pass_for_kb_after_bound_evidence():
         "TEAM_SPONSOR": "PASS",
         "K_RANKING": "PASS",
         "WIN_PROBABILITY": "PASS",
-        "SG_DERIVED": "PASS",
+        "SG_DERIVED": "BLOCK",
     }
-    assert result["overall_state"] == "PASS"
-    assert result["publication_allowed"] is True
+    assert result["overall_state"] == "BLOCK"
+    assert result["publication_allowed"] is False
+
+
+# ---------------------------------------------------------------------------
+# 84_build_ok_open_pre_website_candidate.py: OUT is one shared candidate
+# directory every tournament's build() call writes into (script 86/HOME
+# reads OK Open's own published route straight out of it as a
+# prerequisite). Building a DIFFERENT tournament must never destroy an
+# already-published tournament's route subtree in that shared directory.
+# ---------------------------------------------------------------------------
+
+def test_building_kb_pre_page_does_not_delete_ok_opens_already_built_routes():
+    mod84 = _load_script("84_build_ok_open_pre_website_candidate.py")
+    kb_ctx = load_tournament_context(KB_GAME_CODE)
+    if not kb_ctx.artifact_path("pre_public_master").exists():
+        pytest.skip(f"run the KB PRE-upstream chain for {KB_GAME_CODE} first to produce pre_public_master")
+    ok_out = mod84.build()  # OK Open's own default build -- publishes its route subtree
+    ok_route = ok_out / "tournaments" / "2026" / "ok-savings-bank-open"
+    assert (ok_route / "pre" / "index.html").exists()
+    assert (ok_route / "r1" / "index.html").exists()
+    before = (ok_route / "pre" / "index.html").read_text(encoding="utf-8")
+    mod84.build(KB_GAME_CODE)  # a different tournament's build must not wipe OK's route
+    assert (ok_route / "pre" / "index.html").exists()
+    assert (ok_route / "r1" / "index.html").exists()
+    assert (ok_route / "pre" / "index.html").read_text(encoding="utf-8") == before
+    mod84.build()  # restore OK Open as the shared directory's own top-level landing content
