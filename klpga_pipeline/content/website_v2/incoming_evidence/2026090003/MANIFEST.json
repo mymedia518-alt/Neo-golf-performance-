@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "_comment": "QUARANTINE CONTRACT, not production truth. Files landing in this directory are raw, externally-captured KLPGA source evidence for game_code 2026090003 -- they are inputs to the sanctioned offline-import scripts (scripts/103_import_offline_klpga_entry_list.py, scripts/87_collect_kranking_top120.py), never consumed directly by any public-facing build, and never trusted until their SHA-256 is verified against the value the operator independently reported BEFORE transport (i.e. verified against a hash computed on the machine that actually has real klpga.co.kr access, not a hash this session computed after the fact -- that would only prove the file wasn't corrupted in git, not that its content is the real page). A hash match here confirms integrity of transport, not authenticity of origin; this session still cannot independently confirm the bytes came from klpga.co.kr, since it has no live access to that host itself. Neither expected file has been created or reconstructed by this session -- both are pending a real git push from a machine with real network access.",
+  "game_code": "2026090003",
+  "tournament_name": "KB금융 골든라이프 챔피언십",
+  "expected_files": [
+    {
+      "filename": "KB_2026090003_ENTRY_LIST_RAW.html",
+      "expected_source_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090003",
+      "expected_sha256": "2b07620dbab514ec553c4068bf03c3fe5c3213b0de29cd28ff39545585ec4a6e",
+      "expected_size_bytes": 679085,
+      "operator_reported_field_summary": {"total_field": 120, "qualified": 114, "recommended": 5, "invited": 1},
+      "status": "PENDING -- not yet received in this session's checkout as of this commit",
+      "consumer": "scripts/103_import_offline_klpga_entry_list.py --html-file <this path>"
+    },
+    {
+      "filename": "KLPGA_KRANKING_2026_W36_RAW.html",
+      "expected_source_url": "https://k-rankings.klpga.co.kr/",
+      "expected_sha256": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7",
+      "expected_size_bytes": 754069,
+      "operator_note": "the ranking week must be read from this page's own content by scripts/87 -- never assumed to be W36 from the filename or from KLPGA_KRANKING_2026_W36_TOP10_PARTIAL_EVIDENCE_V1.json",
+      "status": "PENDING -- not yet received in this session's checkout as of this commit",
+      "consumer": "scripts/87_collect_kranking_top120.py --html <this path>"
+    }
+  ],
+  "verification_procedure": "on receipt of each file: compute sha256sum locally in this session and compare byte-for-byte against expected_sha256 above. A mismatch is a hard stop -- report the exact computed hash and the expected hash, never proceed, never re-request/re-derive a 'corrected' file. Only an exact match authorizes running the consumer script against it."
+}
