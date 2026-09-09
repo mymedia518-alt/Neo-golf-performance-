@@ -1,0 +1,45 @@
+{
+  "schema_version": "neo_publication_gates_v1",
+  "purpose": "NEO KB MODEL VALIDATION Section 9: seven independent publication decisions, each with its own evidence artifact. No global PASS by convenience -- each gate stands on its own record.",
+  "generated_at_utc": "2026-09-09T21:55:00Z",
+  "source_git_sha": "7201e5ab834f2859368c00ff0ea6427ec9e8c905",
+  "gates": {
+    "A_NEO_PERFORMANCE": {
+      "status": "BLOCKED",
+      "evidence_artifact": "content/website_v2/NEO_PERFORMANCE_LINEAGE_AUDIT_V1.json",
+      "reason": "No explicit publication-safety review exists for this metric standalone; it is built on the same SG warehouse carrying the confirmed unequal-exposure/identity-resolution risk documented in NEO_SG_FORENSIC_AUDIT_V1.json."
+    },
+    "B_NEO_RANKING": {
+      "status": "BLOCKED",
+      "evidence_artifact": "docs/NEO_RANKING_V1_REDTEAM_BACKTEST.md (existing, REJECT verdict, 82 tournaments / 7830 player-events, 0 leakage violations) + content/website_v2/NEO_RANKING_VALIDATION_MODEL_V1.json (publication_class=VALIDATION_MODEL_NOT_PRODUCTION, weight_status=HEURISTIC_FOR_EVALUATION_NOT_FITTED_OR_APPROVED)",
+      "reason": "Already correctly blocked on real, documented evidence (weak-but-real rank correlation 0.48, no historical K-Ranking baseline available for comparison, several disclosed model defects). This gate's current state is CORRECT and requires no change -- weights were not retuned, per this task's own instruction."
+    },
+    "C_PRE_CUT_PROBABILITY": {
+      "status": "BLOCKED",
+      "evidence_artifact": "content/website_v2/NEO_PRE_PROBABILITY_MODEL_AUDIT_V1.json, section 5",
+      "reason": "No implementation exists anywhere in this codebase. cut_probability is always None in every *_PRE_PUBLIC_MASTER.json record for every tournament. There is no model to evaluate for approval."
+    },
+    "D_PRE_TOP20": {
+      "status": "BLOCKED",
+      "evidence_artifact": "content/website_v2/NEO_PRE_PROBABILITY_MODEL_AUDIT_V1.json, section 5",
+      "reason": "No implementation exists. top20_probability is always None."
+    },
+    "E_PRE_TOP10": {
+      "status": "BLOCKED",
+      "evidence_artifact": "content/website_v2/NEO_PRE_PROBABILITY_MODEL_AUDIT_V1.json, section 5",
+      "reason": "No implementation exists. top10_probability is always None."
+    },
+    "F_PRE_TOP5": {
+      "status": "BLOCKED",
+      "evidence_artifact": "content/website_v2/NEO_PRE_PROBABILITY_MODEL_AUDIT_V1.json, section 5",
+      "reason": "No implementation exists. top5_probability is always None."
+    },
+    "G_PRE_WIN": {
+      "status": "BLOCKED",
+      "evidence_artifact": "content/website_v2/NEO_PRE_PROBABILITY_MODEL_AUDIT_V1.json, section 6 (M4 walk-forward backtest reference: docs/SITE_STRUCTURE_TODO.md section 10.1)",
+      "reason": "A real, leakage-safe historical backtest DOES exist for this specific model (M4, N=90-95 historical tournaments) and shows a real, marginally-significant improvement over a simple baseline (p~0.044). However: (1) the model has an explicitly disclosed, never-fixed overconfidence defect in the 10-20% probability bin; (2) it has never been compared to a field-rate/base-rate or SG-based baseline, only to one other simple model; (3) the code-level publication gate that is SUPPOSED to authorize its display (LIVE_PROBABILITY_MODEL_STATUS) actually belongs to a different, unrelated model (the R1-live in-round engine) -- meaning no valid, model-specific sign-off has ever actually been recorded for M4's public display, regardless of the backtest's real merits. A currently-BLOCKED practical outcome is correct, but for a governance reason distinct from (and more precise than) the reason the code comment currently implies."
+    }
+  },
+  "global_verdict": "NO PASS. All seven gates are BLOCKED. This is not a uniform rubber-stamp: five of the seven (C/D/E/F plus the win-probability governance defect) reflect a genuine absence of any implementation or valid approval record, while two (A, B) reflect a real, already-documented body of evidence showing the metric is not yet safe to publish. No formula, weight, or model was changed to reach any of these seven decisions.",
+  "no_ui_change_made": "Per this task's explicit instruction, none of these findings were used to change scripts/84's or scripts/83's public rendering code, the LIVE_PROBABILITY_MODEL_STATUS constant, or any weight/config file. The existing BLOCKED practical behavior on the live PRE page is unchanged and, per this audit, correctly conservative."
+}
