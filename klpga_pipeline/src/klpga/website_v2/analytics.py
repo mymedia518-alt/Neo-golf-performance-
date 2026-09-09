@@ -576,7 +576,8 @@ def line_chart_svg(*, title: str, player: str, series: list[dict], unit: str, in
         value_edge = "" if dense else (" chart-value--start" if index == 0 else (" chart-value--end" if index == last_index else ""))
         parts.append(f'<text class="chart-value{value_edge}" data-point-index="{index}" x="{px:.1f}" y="{py+y_offset:.1f}">{display_value}{escape(unit)}</text>')
     if len(segment) > 1: parts.append(f'<polyline class="chart-line" points="{" ".join(segment)}"/>')
-    parts.append(f'<script type="application/json" data-chart-series>{chart_json(series).replace("<", "\\u003c")}</script></svg>')
+    escaped_series_json = chart_json(series).replace("<", "\\u003c")
+    parts.append(f'<script type="application/json" data-chart-series>{escaped_series_json}</script></svg>')
     return "".join(parts)
 
 
@@ -633,7 +634,9 @@ def multi_line_chart_svg(*, title: str, series_by_player: dict[str, list[dict]],
         x=left+plot_w*index/max(len(stages)-1,1); label_x=width-right+12
         display_value = f'{value:.2f}' if unit == "%" else f'{value:g}'
         parts.append(f'<path class="chart-label-leader" d="M{x:.1f},{top+plot_h*(1-value/high):.1f} L{label_x-5},{y:.1f}" stroke="{color}"/><text class="chart-end-label" x="{label_x}" y="{y+5:.1f}">{escape(player)} {display_value}{escape(unit)}</text>')
-    payload={p:s for p,s in series_by_player.items()}; parts.append(f'<script type="application/json" data-chart-series>{chart_json(payload).replace("<","\\u003c")}</script></svg>')
+    payload={p:s for p,s in series_by_player.items()}
+    escaped_payload_json = chart_json(payload).replace("<", "\\u003c")
+    parts.append(f'<script type="application/json" data-chart-series>{escaped_payload_json}</script></svg>')
     return "".join(parts)
 
 
