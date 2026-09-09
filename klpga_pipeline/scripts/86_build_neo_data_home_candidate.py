@@ -21,13 +21,14 @@ from klpga.website_v2.player_identity import render_player_identity, verified_sp
 from klpga.website_v2.official_schedule import load_official_schedule  # noqa: E402
 from klpga.tournament_context import (  # noqa: E402
     CONTENT_DIR,
+    candidate_dir,
     load_active_tournament_context,
     load_tournament_context,
     SITE_REGISTRY_PATH,
 )
 
 CONTENT = ROOT / "content" / "website_v2"
-OUTPUT = ROOT / "candidate" / "neo-data-home"
+OUTPUT = candidate_dir("neo-data-home")
 
 
 def _official_sponsor_by_name() -> dict[str, str]:

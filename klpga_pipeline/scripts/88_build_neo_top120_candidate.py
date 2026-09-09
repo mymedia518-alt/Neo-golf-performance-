@@ -15,7 +15,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 CONTENT = ROOT / "content" / "website_v2"
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
@@ -31,7 +30,11 @@ from klpga.website_v2.player_identity import (  # noqa: E402
     cross_tournament_verified_sponsor_cache, normalize_player_sponsor_mentions,
     render_player_identity, sponsor_with_cross_tournament_fallback, verified_sponsor,
 )
-from klpga.tournament_context import SITE_REGISTRY_PATH, load_active_tournament_context, load_tournament_context  # noqa: E402
+from klpga.tournament_context import (  # noqa: E402
+    SITE_REGISTRY_PATH, candidate_dir, load_active_tournament_context, load_tournament_context,
+)
+
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
 # this script's own hardcoded literals -- see src/klpga/tournament_context.py.
