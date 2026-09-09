@@ -19,7 +19,10 @@ from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # n
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
-from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
+from klpga.website_v2.player_identity import (  # noqa: E402
+    cross_tournament_verified_sponsor_cache, render_player_identity,
+    sponsor_with_cross_tournament_fallback,
+)
 from klpga.tournament_context import load_active_tournament_context, load_tournament_context  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
 
@@ -713,7 +716,19 @@ def build(game_code: str | None = None) -> Path:
     # identity_validation == "PASS" -- today's master is 120/120 PASS,
     # but the gate must be explicit so a future refresh can never leak
     # a sponsor for a record whose identity was never confirmed.
-    sponsor_by_id = {str(r.get("player_id")): verified_sponsor(r) for r in records}
+    #
+    # OWNER DECISION (sponsor population is not optional): when THIS
+    # tournament's own collection never actually attempted enrichment
+    # for a player (verified_sponsor(r) is None AND the record's own
+    # failure_reason says enrichment was never requested), fall back to
+    # an already-verified sponsor cached from another tournament's own
+    # independent, PASS-gated, official-source-backed collection for
+    # the SAME player_id -- see player_identity.py's six-point gate.
+    # Never overwrites a genuine "checked, none" result on this record.
+    _sponsor_cache = cross_tournament_verified_sponsor_cache(
+        exclude_paths={_CONTEXT.artifact_path("current_player_master")}
+    )
+    sponsor_by_id = {str(r.get("player_id")): sponsor_with_cross_tournament_fallback(r, _sponsor_cache) for r in records}
     # PRODUCT RECOVERY V1: real K-Ranking week reference for the compact
     # PRE summary line -- read from the same official ranking artifact
     # already used to join official_klpga_rank per record, never a
@@ -730,7 +745,7 @@ def build(game_code: str | None = None) -> Path:
     rows = []
     for r in records:
         name = r.get("current_official_player_name")
-        sponsor = verified_sponsor(r)
+        sponsor = sponsor_by_id.get(str(r.get("player_id")))
         enum = r.get("neo_performance_band")
         band = BANDS.get(enum, "데이터 부족")
         accessible = {"VERY_HIGH":"최상위", "HIGH":"상위", "TYPICAL":"중위", "LOW":"하위", "VERY_LOW":"최하위", "INSUFFICIENT_EVIDENCE":"데이터 부족"}.get(enum, "데이터 부족")

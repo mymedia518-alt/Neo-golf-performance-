@@ -1,12 +1,12 @@
 {
-  "feature_commit": "3d112538678975a085c008fd6fe65f7943673cff",
+  "feature_commit": "edc358eaf6d8771d3bd6b2a23d72bd0319bb1ea6",
   "screenshots": [
     {
       "route": "home",
       "path": "/",
       "viewport": "1440x900",
       "html_source": "klpga_pipeline/candidate/neo-data-home-top120/index.html",
-      "html_sha256": "fddc7a545a6e40ca202b6b034141654434cf332d3890d2054ed288af6b0275e6",
+      "html_sha256": "a659252f10ee89492365128db62ab1553ff9f4873d5f13995ce5448d089803a0",
       "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/home-desktop.png",
       "screenshot_sha256": "b74bed6d12c9fd4aff3b277a9d8bd44c80771d013320163fc3e97da49e70507a"
     },
@@ -15,7 +15,7 @@
       "path": "/",
       "viewport": "390x844",
       "html_source": "klpga_pipeline/candidate/neo-data-home-top120/index.html",
-      "html_sha256": "fddc7a545a6e40ca202b6b034141654434cf332d3890d2054ed288af6b0275e6",
+      "html_sha256": "a659252f10ee89492365128db62ab1553ff9f4873d5f13995ce5448d089803a0",
       "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/home-mobile.png",
       "screenshot_sha256": "d42ed9f92db4c0f351eb7a5e1a91d1a64532db19dddaaf0b3dcab994eeb0f269"
     },
@@ -24,18 +24,18 @@
       "path": "/tournaments/2026/2026090003/pre/",
       "viewport": "1440x900",
       "html_source": "klpga_pipeline/candidate/neo-data-home-top120/tournaments/2026/2026090003/pre/index.html",
-      "html_sha256": "165c6af8f22c2fa931ab3478d2e7f91b42da38573dad1e03fd1d0f65feabf355",
+      "html_sha256": "4866858e5b390405b78836e5b52e0b8f36d3eb76f49eb767ffd155aad16b74f0",
       "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/kb-pre-desktop.png",
-      "screenshot_sha256": "a1550604fe39d5bf82eb63695f0803e1c714e6c4e8073369ee47de55cd477e7b"
+      "screenshot_sha256": "0ed0b4065ede9fcde492aa2feae75061df3ea1a11808d6cf4cf630a839c3a461"
     },
     {
       "route": "kb-pre",
       "path": "/tournaments/2026/2026090003/pre/",
       "viewport": "390x844",
       "html_source": "klpga_pipeline/candidate/neo-data-home-top120/tournaments/2026/2026090003/pre/index.html",
-      "html_sha256": "165c6af8f22c2fa931ab3478d2e7f91b42da38573dad1e03fd1d0f65feabf355",
+      "html_sha256": "4866858e5b390405b78836e5b52e0b8f36d3eb76f49eb767ffd155aad16b74f0",
       "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/kb-pre-mobile.png",
-      "screenshot_sha256": "69cd27b941825fcb490e3805f0d4f3a55a277a1893bc3d0b99b0729d1f8245a7"
+      "screenshot_sha256": "6051f57f14471fd582db46630d180ab13d015d68e811a89bfafae498f4eb6b65"
     }
   ]
 }
