@@ -83,8 +83,50 @@ def test_info_control_is_interactive_in_generated_html():
 def test_mobile_popover_is_viewport_safe():
     out = builder.build()
     css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
-    assert "@media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px" in css
+    # OWNER UI FIX (tooltip overflow): .info-popover is position:fixed
+    # everywhere now (not absolute), with JS computing its left/top from
+    # the trigger button on desktop; the mobile media query only needs
+    # to pin it to a fixed on-screen banner with !important so it can
+    # never be overridden by the JS-set inline left/top.
+    assert ".info-popover{display:none;position:fixed" in css
+    assert "@media(max-width:760px){.info-popover{left:16px!important;right:16px!important;top:112px!important" in css
     assert "max-width:none" in css
+
+
+def test_neo_info_tooltip_never_participates_in_table_width():
+    """OWNER QA: KB PRE screenshot showed the NEO 경기력 info tooltip
+    breaking the table layout (extending across adjacent columns,
+    overlapping SG Total, clipped/overlaid content). Regression coverage
+    for the fix: the popover must be position:fixed (out of the table's
+    box model and immune to .table-wrap's overflow-x/overflow-y
+    clipping -- position:absolute was the root cause, since it needed a
+    positioned ancestor this markup never reliably provided), have a
+    viewport-clamped max-width, and wrap Korean text safely instead of
+    overflowing its box."""
+    out = builder.build()
+    html = (out / "index.html").read_text(encoding="utf-8")
+    css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
+
+    # structure: trigger button + popover, correctly associated for a11y
+    assert "<th class='band-head'>NEO 경기력 <button type='button' class='info-control'" in html
+    assert "aria-controls='neo-info'" in html
+    assert "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>" in html
+
+    # position:fixed, never absolute -- absolute was the overflow root cause
+    assert ".info-popover{display:none;position:fixed" in css
+    assert "position:absolute" not in css.split(".info-popover", 1)[1][:120]
+
+    # viewport-clamped width + safe Korean wrapping, not a bare fixed max-width
+    assert "max-width:min(260px,calc(100vw - 2rem))" in css
+    assert "white-space:normal" in css and "overflow-wrap:break-word" in css and "word-break:keep-all" in css
+
+    # ESC / outside-click close behavior preserved, plus new scroll/resize
+    # close (fixed coordinates would otherwise drift from the button)
+    script = html.rsplit("<script>", 1)[1]
+    assert "e.key==='Escape'" in script
+    assert "!b.contains(e.target)&&!p.contains(e.target)" in script
+    assert "addEventListener('scroll',close,true)" in script
+    assert "addEventListener('resize',close)" in script
 
 
 def test_canonical_pre_route_and_stage_navigation_are_generated():
