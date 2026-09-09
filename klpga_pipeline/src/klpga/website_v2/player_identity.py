@@ -15,8 +15,12 @@ not a single fixed markup shape.
 """
 from __future__ import annotations
 
+import json
 import re
 from html import escape
+from pathlib import Path
+
+from klpga.tournament_context import CONTENT_DIR
 
 
 def verified_sponsor(record: dict) -> str | None:
@@ -30,6 +34,82 @@ def verified_sponsor(record: dict) -> str | None:
         return None
     sponsor = record.get("current_official_sponsor")
     return sponsor if sponsor else None
+
+
+# PRODUCT PRESENTATION RECOVERY (OWNER DECISION -- sponsor population is
+# not optional): a real-world player's official sponsor doesn't reset
+# between tournaments in the same season, and this repo already runs an
+# independent, PASS-gated, official-source-backed collection for every
+# tournament it tracks (each one's own *_CURRENT_PLAYER_MASTER.json).
+# When the ACTIVE tournament's own collection never actually attempted
+# enrichment for a player, reusing an already-verified value from
+# another tournament's own collection is real evidence reuse, not a
+# guess -- provided every one of these holds:
+#   1. exact player_id match (never name-matching)
+#   2. the SOURCE record's own identity_validation == "PASS"
+#   3. the SOURCE record carries a real, non-empty official_source
+#   4. the ACTIVE record's own identity_validation == "PASS" too
+#   5. the ACTIVE record was never actually checked for a sponsor at
+#      all (failure_reason == "optional live profile enrichment was
+#      not requested") -- a genuine "checked, none exists" result on
+#      the active record is NEVER overwritten
+#   6. no two source tournaments disagree on the same player_id's
+#      sponsor -- an unresolved conflict is dropped, not guessed
+_NEVER_CHECKED_REASON = "optional live profile enrichment was not requested"
+
+
+def cross_tournament_verified_sponsor_cache(
+    exclude_paths: set[Path] | None = None, content_dir: Path = CONTENT_DIR,
+) -> dict[str, str]:
+    """{player_id: sponsor} built generically from every OTHER
+    tournament's own *_CURRENT_PLAYER_MASTER.json (whichever game_codes
+    happen to exist -- never a hardcoded tournament name), each row
+    already gated by verified_sponsor()'s own identity_validation==PASS
+    rule, plus a real official_source. A player_id whose sponsor value
+    disagrees across two different source tournaments is dropped
+    entirely (unresolved, never guessed which one is right)."""
+    exclude = {p.resolve() for p in (exclude_paths or set())}
+    cache: dict[str, str] = {}
+    conflicts: set[str] = set()
+    for path in sorted(content_dir.glob("*_CURRENT_PLAYER_MASTER.json")):
+        if path.resolve() in exclude:
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        for row in data.get("records") or []:
+            pid = str(row.get("player_id") or "").strip()
+            if not pid or not row.get("official_source"):
+                continue
+            sponsor = verified_sponsor(row)
+            if not sponsor:
+                continue
+            if pid in cache and cache[pid] != sponsor:
+                conflicts.add(pid)
+                continue
+            cache[pid] = sponsor
+    for pid in conflicts:
+        cache.pop(pid, None)
+    return cache
+
+
+def sponsor_with_cross_tournament_fallback(record: dict, cache_by_id: dict[str, str]) -> str | None:
+    """verified_sponsor(record), falling back to cache_by_id ONLY when
+    the record's own collection never actually attempted sponsor
+    enrichment for this player (see the six-point gate above) -- a
+    genuine "checked this tournament, no sponsor" result on the record
+    itself is returned as None here too (never silently overwritten by
+    a cross-tournament value)."""
+    direct = verified_sponsor(record)
+    if direct:
+        return direct
+    if record.get("identity_validation") != "PASS":
+        return None
+    if record.get("failure_reason") != _NEVER_CHECKED_REASON:
+        return None
+    pid = str(record.get("player_id") or "").strip()
+    return cache_by_id.get(pid) if pid else None
 
 
 def render_player_identity(
