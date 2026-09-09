@@ -24,7 +24,16 @@ def _field(value: str | None) -> str:
 
 def _card(kind: str, kicker: str, facts: TournamentCardFacts | None, *, fields: tuple[tuple[str, str], ...]) -> str:
     """fields: ((label, attr_name), ...) -- which TournamentCardFacts
-    attributes this card shows, in order, after name/dates/venue."""
+    attributes this card shows, in order, after name/dates/venue.
+
+    PRODUCT RECOVERY V1 REDESIGN: the card is now a compact single line
+    (kicker + name + dates) by default -- venue and the kind-specific
+    extra fact (우승/디펜딩 챔피언 etc.) move into a native <details>
+    disclosure so a visitor can still reach them, but they cost zero
+    vertical space until opened. All the same facts are still real DOM
+    text (never removed), so this is a genuine layout change, not a
+    content cut -- see neo-site.css's .t-tournament-card__details rules
+    for the compact-strip visual this produces."""
     if facts is None or not facts.tournament_name:
         rows = "".join(f'<div class="t-tournament-card__row"><dt>{label}</dt><dd>{DASH}</dd></div>' for label, _ in fields)
         return (
@@ -32,9 +41,10 @@ def _card(kind: str, kicker: str, facts: TournamentCardFacts | None, *, fields: 
             f'<p class="t-tournament-card__kicker">{escape(kicker)}</p>'
             f'<p class="t-tournament-card__name">{DASH}</p>'
             f'<p class="t-tournament-card__dates">{DASH}</p>'
+            f'<details class="t-tournament-card__details"><summary>자세히</summary>'
             f'<div class="t-tournament-card__row"><dt>코스</dt><dd>{DASH}</dd></div>'
             f"{rows}"
-            f"</article>"
+            f"</details></article>"
         )
     extra_rows = "".join(
         f'<div class="t-tournament-card__row"><dt>{label}</dt><dd>{_field(getattr(facts, attr))}</dd></div>'
@@ -46,9 +56,10 @@ def _card(kind: str, kicker: str, facts: TournamentCardFacts | None, *, fields: 
         f'<p class="t-tournament-card__kicker">{escape(kicker)}</p>'
         f'<p class="t-tournament-card__name">{name_html}</p>'
         f'<p class="t-tournament-card__dates">{_field(facts.date_range_display)}</p>'
+        f'<details class="t-tournament-card__details"><summary>자세히</summary>'
         f'<div class="t-tournament-card__row"><dt>코스</dt><dd>{_field(facts.venue)}</dd></div>'
         f"{extra_rows}"
-        f"</article>"
+        f"</details></article>"
     )
 
 
