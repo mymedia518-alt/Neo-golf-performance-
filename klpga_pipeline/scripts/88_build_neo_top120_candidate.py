@@ -27,7 +27,10 @@ from klpga.website_v2.tournament_state import (  # noqa: E402
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
 from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
 from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
-from klpga.website_v2.player_identity import render_player_identity, verified_sponsor, normalize_player_sponsor_mentions  # noqa: E402
+from klpga.website_v2.player_identity import (  # noqa: E402
+    cross_tournament_verified_sponsor_cache, normalize_player_sponsor_mentions,
+    render_player_identity, sponsor_with_cross_tournament_fallback, verified_sponsor,
+)
 from klpga.tournament_context import SITE_REGISTRY_PATH, load_active_tournament_context, load_tournament_context  # noqa: E402
 
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
@@ -135,27 +138,41 @@ def _latest_live_leader_score() -> str | None:
 
 
 def _official_sponsor_by_id(context=None) -> dict[str, str]:
-    """PUBLIC UI Phase 8 (sponsor rule): {player_id: sponsor} from the
-    currently active tournament's own official current_player_master
-    artifact -- the only real, official-profile-sourced sponsor data
-    this repo has. Only PASS-identity rows with a real, non-empty
-    current_official_sponsor are included; every other player simply
-    has no entry here, which the caller treats identically to "sponsor
-    not verified" (blank cell) -- never a guess, never a stale/foreign
-    tournament's roster."""
+    """PUBLIC UI Phase 8 (sponsor rule) + PRODUCT PRESENTATION RECOVERY
+    (OWNER DECISION: the sponsor contract is GLOBAL -- every public
+    page displaying a player name applies the same resolution, HOME
+    included): {player_id: sponsor}, built from the SAME generic,
+    six-point-gated cross-tournament resolver script 84 uses for KB
+    PRE (klpga.website_v2.player_identity) -- never a HOME-specific
+    duplicate of that logic.
+
+    `context`'s own current_player_master is the DIRECT evidence
+    source for whichever TOP120 players are also in its field (direct
+    evidence always takes precedence there; a genuine "checked, none"
+    result on that record is never overwritten). A TOP120 player who
+    is not in that field has no direct record to consult at all -- for
+    them the shared cross-tournament cache (itself gated identically:
+    PASS identity + a real official_source per source record,
+    conflicting sources dropped to blank rather than guessed) applies
+    directly, since it is the only evidence that exists anywhere for
+    that player. Every other player simply has no entry here, which
+    the caller treats identically to "sponsor not verified" (blank
+    slot, never a guess, never a stale/foreign tournament's roster)."""
     context = context or _CONTEXT
     path = context.artifact_path("current_player_master")
-    if not path.is_file():
-        return {}
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return {}
-    out = {}
-    for row in data.get("records") or []:
-        sponsor = verified_sponsor(row)
-        if sponsor:
-            out[str(row.get("player_id"))] = sponsor
+    cache = cross_tournament_verified_sponsor_cache(exclude_paths={path} if path.is_file() else set())
+    out: dict[str, str] = {}
+    if path.is_file():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        for row in data.get("records") or []:
+            sponsor = sponsor_with_cross_tournament_fallback(row, cache)
+            if sponsor:
+                out[str(row.get("player_id"))] = sponsor
+    for player_id, sponsor in cache.items():
+        out.setdefault(player_id, sponsor)
     return out
 
 

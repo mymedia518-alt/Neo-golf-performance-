@@ -25,6 +25,12 @@ _SPEC84 = importlib.util.spec_from_file_location(
 builder84 = importlib.util.module_from_spec(_SPEC84)
 _SPEC84.loader.exec_module(builder84)
 
+_SPEC88 = importlib.util.spec_from_file_location(
+    "sponsor_cache_s88", ROOT / "scripts" / "88_build_neo_top120_candidate.py"
+)
+builder88 = importlib.util.module_from_spec(_SPEC88)
+_SPEC88.loader.exec_module(builder88)
+
 from klpga.website_v2.player_identity import (  # noqa: E402
     cross_tournament_verified_sponsor_cache, sponsor_with_cross_tournament_fallback, verified_sponsor,
 )
@@ -151,3 +157,75 @@ def test_kb_pre_never_shows_sponsor_for_a_player_not_in_the_cache(tmp_path):
     assert idx != -1, name
     row_tail = html[idx : idx + 200]
     assert "<span class='player-sponsor'></span>" in row_tail
+
+
+# ---------------------------------------------------------------------------
+# OWNER REVIEW: SPONSOR CONTRACT IS GLOBAL -- the same resolution now
+# also applies to HOME's TOP120 table (scripts/88), reusing the exact
+# same klpga.website_v2.player_identity functions KB PRE uses -- no
+# HOME-specific duplicate of the gate logic.
+# ---------------------------------------------------------------------------
+
+def test_home_populates_sponsors_for_top120_players_in_the_active_field():
+    """A TOP120 player who is also in the active tournament's own field
+    gets sponsor_with_cross_tournament_fallback() applied against their
+    own direct record first (same as KB PRE)."""
+    summary = builder88.build()
+    assert summary["cohort_count"] == 120
+    html = (builder88.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    import re
+    identities = re.findall(r'<span class="player-name">([^<]+)</span><span class="player-sponsor">([^<]*)</span>', html)
+    assert len(identities) == 120
+    populated = {name: sponsor for name, sponsor in identities if sponsor}
+    assert populated, "expected at least one real cross-tournament sponsor on HOME"
+    assert "확인 중" not in html and "미확인" not in html
+
+
+def test_home_populates_sponsors_for_top120_players_outside_the_active_field_too():
+    """A TOP120 player who is NOT in the active tournament's own field
+    has no direct record to check at all -- the shared cross-tournament
+    cache is the only evidence that exists for them, and it applies
+    directly (still PASS-gated + official_source-backed, never a
+    guess) rather than leaving them blank just because they aren't in
+    this season's currently-active field."""
+    top120 = json.loads((CONTENT / "HOME_PLAYER_MASTER_TOP120.json").read_text(encoding="utf-8"))["records"]
+    kb = json.loads((CONTENT / "2026090003_CURRENT_PLAYER_MASTER.json").read_text(encoding="utf-8"))["records"]
+    kb_ids = {str(r["player_id"]) for r in kb}
+    ok_open = json.loads((CONTENT / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json").read_text(encoding="utf-8"))["records"]
+    ok_sponsor_by_id = {str(r["player_id"]): r.get("current_official_sponsor") for r in ok_open if verified_sponsor(r)}
+    outside_field_with_evidence = [
+        r for r in top120 if str(r["player_id"]) not in kb_ids and str(r["player_id"]) in ok_sponsor_by_id
+    ]
+    assert outside_field_with_evidence, "fixture assumption: at least one TOP120 player outside KB's field has OK Open evidence"
+    sample = outside_field_with_evidence[0]
+    builder88.build()
+    html = (builder88.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    expected_sponsor = ok_sponsor_by_id[str(sample["player_id"])]
+    idx = html.find(f">{sample['player_name']}<")
+    assert idx != -1, sample["player_name"]
+    row_tail = html[idx : idx + 200]
+    assert f"<span class=\"player-sponsor\">{expected_sponsor}</span>" in row_tail
+
+
+def test_home_sponsor_coverage_matches_the_generic_resolver_exactly():
+    """No HOME-specific fudge factor: the exact populated/blank split
+    on the rendered page must match calling the shared resolver
+    directly against the same inputs."""
+    top120 = json.loads((CONTENT / "HOME_PLAYER_MASTER_TOP120.json").read_text(encoding="utf-8"))["records"]
+    kb_master_path = CONTENT / "2026090003_CURRENT_PLAYER_MASTER.json"
+    kb = json.loads(kb_master_path.read_text(encoding="utf-8"))["records"]
+    kb_by_id = {str(r["player_id"]): r for r in kb}
+    cache = cross_tournament_verified_sponsor_cache(exclude_paths={kb_master_path})
+    expected_populated = 0
+    for row in top120:
+        pid = str(row["player_id"])
+        record = kb_by_id.get(pid)
+        sponsor = sponsor_with_cross_tournament_fallback(record, cache) if record else cache.get(pid)
+        if sponsor:
+            expected_populated += 1
+    builder88.build()
+    html = (builder88.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    import re
+    spans = re.findall(r'<span class="player-sponsor">([^<]*)</span>', html)
+    assert len(spans) == 120
+    assert sum(1 for s in spans if s.strip()) == expected_populated
