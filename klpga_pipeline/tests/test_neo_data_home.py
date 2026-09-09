@@ -127,3 +127,39 @@ def test_deep_dive_preserves_existing_real_content_and_is_not_stub(built):
     assert len(html) > 1000
     assert "data-chart-series" in html and "/assets/neo-site.js" in html
     assert source in html or "data-neo-global-navigation" in html
+
+
+# LIVE FAILURE REGRESSION (production SHA ee9a3a6, real screenshots from
+# neogolfdata.com): four confirmed live defects the prior candidate/docs
+# byte-equality checks and script 95's visual QA did not catch.
+
+def test_tournament_cards_css_is_shipped_not_just_html(built):
+    """Bug A root cause 1/2: HOME's real, tested tournament-cards HTML
+    (klpga.website_v2.tournament_cards) had zero matching CSS anywhere
+    in neo-site.css, so it rendered as an unstyled raw block on the
+    live site."""
+    css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
+    for selector in (".t-tournament-cards", ".t-tournament-card", ".t-tournament-card__name", ".t-tournament-card__row"):
+        assert selector in css
+
+
+def test_tournament_hub_includes_every_registry_hub_card_entry(built):
+    """Bug C: KB (2026090003) has a minimal hub_card (nav_stages only,
+    no static facts) and was being silently skipped by the tournament
+    hub builder -- production /tournaments/ omitted it entirely."""
+    html = (OUTPUT / "tournaments" / "index.html").read_text(encoding="utf-8")
+    assert "KB금융 골든라이프 챔피언십" in html
+    assert "None" not in html
+
+
+def test_tournament_hub_shows_ok_open_ended_once_calendar_complete(built):
+    """Bug D: OK Open's hub card showed 진행중 (in progress) purely from
+    pipeline stage-availability, even after its real schedule end_date
+    had passed -- a real tournament-lifecycle publication defect, not
+    cosmetic. The real calendar's end_date must take precedence."""
+    html = (OUTPUT / "tournaments" / "index.html").read_text(encoding="utf-8")
+    marker = html.index("OK저축은행")
+    card_start = html.rindex("<section", 0, marker)
+    card = html[card_start:html.index("</section>", marker) + len("</section>")]
+    assert '<span class="state-chip">종료</span>' in card
+    assert "진행중" not in card

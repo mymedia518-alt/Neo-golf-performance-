@@ -175,3 +175,20 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    line as the name with no visual separation. */
 .player-name{display:block;font-weight:700}
 .player-sponsor{display:block;color:var(--muted);font-size:.78rem;margin-top:.15rem}
+/* LIVE FAILURE FIX: HOME's three tournament cards (지난/이번/다음 대회 --
+   src/klpga/website_v2/tournament_cards.py) had real, correct, tested
+   HTML but zero matching CSS anywhere in this stylesheet -- it rendered
+   as an unstyled raw block (default browser list/paragraph stacking)
+   above the actual page content on the live production site. */
+.t-tournament-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:1.25rem 0;background:var(--line);border:1px solid var(--line)}
+.t-tournament-card{padding:1.1rem 1.25rem;background:var(--surface);min-width:0}
+.t-tournament-card__kicker{margin:0;color:var(--green);font-size:.72rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase}
+.t-tournament-card__name{margin:.4rem 0 .2rem;font-size:1.05rem;font-weight:800;line-height:1.3;overflow-wrap:anywhere}
+.t-tournament-card__name a{text-decoration:none}
+.t-tournament-card__name a:hover{text-decoration:underline}
+.t-tournament-card__dates{margin:0 0 .6rem;color:var(--muted);font-size:.82rem;font-variant-numeric:tabular-nums}
+.t-tournament-card__row{display:flex;justify-content:space-between;gap:.75rem;padding:.3rem 0;border-top:1px solid var(--line);font-size:.8rem}
+.t-tournament-card__row:first-of-type{border-top:0}
+.t-tournament-card__row dt{margin:0;color:var(--muted)}
+.t-tournament-card__row dd{margin:0;font-weight:700;text-align:right}
+@media(max-width:760px){.t-tournament-cards{grid-template-columns:1fr}}

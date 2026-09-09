@@ -99,7 +99,11 @@
         "r2",
         "r3",
         "final"
-      ]
+      ],
+      "_hub_card_comment": "LIVE FAILURE FIX: nav_stages honestly lists only the stage(s) actually published so far ([\"pre\"] -- confirmed real, KB has no r1/r2/r3/final page yet). No display_name/status/date_range/result_line here (unlike a completed tournament's hub_card): those are resolved live from TournamentContext + the official schedule by scripts/86's tournament-hub builder for any entry that has nav_stages but no static facts, so this entry never goes stale as more real stages are built -- update nav_stages here (never the other static fields) once a stage is genuinely published.",
+      "hub_card": {
+        "nav_stages": ["pre"]
+      }
     }
   }
 }
