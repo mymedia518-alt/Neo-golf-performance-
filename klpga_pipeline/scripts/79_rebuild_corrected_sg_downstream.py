@@ -4,20 +4,14 @@ All outputs are versioned separately from the legacy warehouse and frozen PRE
 artifacts.  No missing values are imputed and no forecast model is changed.
 """
 from __future__ import annotations
-import hashlib, json, math, statistics, sys
+import argparse, hashlib, json, math, statistics, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
 sys.path.insert(0, str(ROOT / "src"))
-from klpga.tournament_context import load_active_tournament_context
-
-_CONTEXT = load_active_tournament_context()
-OUT = _CONTEXT.artifact_path("pre_performance_row_retention_corrected_v2")
-DIFF = _CONTEXT.artifact_path("pre_performance_row_retention_diff_v2")
-ENTRY = _CONTEXT.artifact_path("entry_snapshot")
-OLD = _CONTEXT.artifact_path("pre_public_master")
+from klpga.tournament_context import load_tournament_context
 # historical_sg_warehouse_corrected_v2.json is a shared, cross-tournament
 # artifact (built by scripts 77/78 from every historical event, not just
 # the active tournament) -- deliberately NOT routed through
@@ -34,8 +28,6 @@ WH = CONTENT / "historical_sg_warehouse_corrected_v2.json"
 # assumed safe.
 K_WEEK_MAPPING = CONTENT / "TOURNAMENT_K_WEEK_MAPPING_V1.json"
 COMP = ("total", "tee_to_green", "off_the_tee", "approach", "around_green", "putting")
-GAME_CODE = _CONTEXT.game_code
-CUTOFF = _CONTEXT.start_date
 
 def _verified_event_dates() -> dict:
     if not K_WEEK_MAPPING.exists():
@@ -58,7 +50,14 @@ def stat(vals):
             "sample_sd": statistics.stdev(x) if len(x) > 1 else None,
             "population_sd": statistics.pstdev(x) if len(x) > 1 else None}
 
-def main():
+def main(game_code: str | None = None):
+    _CONTEXT = load_tournament_context(game_code)
+    GAME_CODE = _CONTEXT.game_code
+    CUTOFF = _CONTEXT.start_date
+    OUT = _CONTEXT.artifact_path("pre_performance_row_retention_corrected_v2")
+    DIFF = _CONTEXT.artifact_path("pre_performance_row_retention_diff_v2")
+    ENTRY = _CONTEXT.artifact_path("entry_snapshot")
+    OLD = _CONTEXT.artifact_path("pre_public_master")
     # PRE LEAKAGE (Phase 5 item 5): the shared warehouse accumulates
     # every historical tournament over time, independent of any one
     # tournament's own cutoff -- excluding this tournament's own
@@ -108,4 +107,11 @@ def main():
         changes.append({"player_id": p["player_id"], "old_band": old_band, "corrected_band": new_band, "changed": old_band != new_band, "old_dimensions": {k: old.get(k, {}) for k in ("level", "direction", "consistency", "composition")}, "corrected_dimensions": {k: p.get(k, {}) for k in ("level", "direction", "consistency", "composition")}, "reason": "recomputed from row-retention-corrected pre-cutoff SG; no imputation"})
     DIFF.write_text(json.dumps({"schema_version":"neo_sg_row_retention_diff_v2","generated_at":generated,"profiles":changes,"summary":{"entrants":len(changes),"band_changed":sum(x["changed"] for x in changes),"band_unchanged":sum(not x["changed"] for x in changes),"insufficient_to_eligible":sum((x["old_band"]=="INSUFFICIENT_EVIDENCE") and x["corrected_band"]!="INSUFFICIENT_EVIDENCE" for x in changes),"corrected_distribution":{b:sum(x["corrected_band"]==b for x in changes) for b in ("VERY_HIGH","HIGH","TYPICAL","LOW","VERY_LOW","INSUFFICIENT_EVIDENCE")}}}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"profiles":len(profiles),"field_median":field_median,"distribution":{b:sum(p["neo_performance_band"]==b for p in profiles) for b in ("VERY_HIGH","HIGH","TYPICAL","LOW","VERY_LOW","INSUFFICIENT_EVIDENCE")}}, ensure_ascii=False))
-if __name__ == "__main__": main()
+
+def _cli():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--game-code", default=None, help="omit for the operationally-active tournament (default, unchanged historical behavior)")
+    args = ap.parse_args()
+    main(args.game_code)
+
+if __name__ == "__main__": _cli()

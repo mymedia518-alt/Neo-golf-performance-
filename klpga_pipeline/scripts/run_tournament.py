@@ -362,7 +362,22 @@ def _prepare_pre_runner():
     def _run(context: ActionContext, decision) -> ActionResult:
         for script_name in _PRE_UPSTREAM_CHAIN:
             try:
-                _run_script(script_name)
+                # NEO TOURNAMENT PIPELINE Phase 5.2/5.3 (K-RANKING/PRE
+                # GENERALIZATION): every chain step except 84 (still
+                # OK-Open-specific -- unreachable for any game_code that
+                # doesn't clear the Tier-2 gate anyway; see that
+                # script's own module docstring) now accepts an
+                # explicit --game-code, resolved via
+                # klpga.tournament_context.load_tournament_context
+                # rather than each script's own module-level
+                # active_tournament.json read. Passing it explicitly
+                # here is a no-op for the real OK Open live path
+                # (context.game_code already equals what
+                # active_tournament.json holds) but makes this call
+                # correct even when this cycle is not the operationally
+                # -active tournament.
+                extra_args = [] if script_name == "84_build_ok_open_pre_website_candidate.py" else ["--game-code", context.game_code]
+                _run_script(script_name, extra_args=extra_args)
             except subprocess.CalledProcessError as exc:
                 raise RuntimeError(
                     f"PRE prerequisites incomplete at scripts/{script_name}: this step's "

@@ -1,18 +1,20 @@
 """Generate the single canonical OK Open PRE public master after Tier-2 PASS."""
+import argparse
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from klpga.tournament_context import load_active_tournament_context  # noqa: E402
-def main():
+from klpga.tournament_context import load_tournament_context  # noqa: E402
+def main(game_code: str | None = None):
     # NEO TOURNAMENT PIPELINE: game_code/cutoff resolved from the shared
     # context instead of this script's own hardcoded literals -- see
     # src/klpga/tournament_context.py. Cutoff is 00:00 KST on the
     # tournament's start_date, matching the existing PRE-freeze
-    # convention (freeze at tournament start).
-    context = load_active_tournament_context()
+    # convention (freeze at tournament start). game_code=None (default):
+    # the operationally-active tournament, unchanged historical behavior.
+    context = load_tournament_context(game_code)
     cutoff = f"{context.start_date}T00:00:00+09:00"
     tier2_gate_path = context.artifact_path("tier2_publication_gate")
     current_player_master_path = context.artifact_path("current_player_master")
@@ -33,4 +35,11 @@ def main():
     report={"entry_count":len(out),"identity_count":len({x["player_id"] for x in out}),"win_coverage":sum(x.get("win_probability") is not None for x in out),"klpga_rank_coverage":sum(x.get("official_klpga_rank") is not None for x in out),"sg_total_rank_coverage":sum(x.get("sg_total_rank") is not None for x in out),"band_distribution":{k:sum(x.get("neo_performance_band")==k for x in out) for k in ("VERY_HIGH","HIGH","TYPICAL","LOW","VERY_LOW","INSUFFICIENT_EVIDENCE")},"tier2":"PASS","website_generation":"NOT_RUN"}
     context.artifact_path("pre_public_master_validation").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(report,ensure_ascii=False))
-if __name__=="__main__": main()
+
+def _cli():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--game-code", default=None, help="omit for the operationally-active tournament (default, unchanged historical behavior)")
+    args = ap.parse_args()
+    main(args.game_code)
+
+if __name__=="__main__": _cli()
