@@ -1,0 +1,1217 @@
+{
+  "schema_version": "neo_home_kranking_top120_v1",
+  "population_kind": "official_klpga_kranking_top120",
+  "ranking_week": "2026-W35",
+  "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+  "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+  "retrieved_at": "2026-09-02T14:23:52Z",
+  "population_selection": "official K-Ranking closed interval 1..120 only",
+  "source_sha256": "11dc110b7495f523ac677dbfa2273dc815574a70c294b0b7bef8e7684489bdf3",
+  "crosscheck": {
+    "artifact": "OK_OPEN_2026_OFFICIAL_KLPGA_RANKING.json",
+    "matched": 85,
+    "mismatched": 0
+  },
+  "records": [
+    {
+      "official_k_rank": 1,
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 2,
+      "player_id": "11134",
+      "player_name": "서교림",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 3,
+      "player_id": "10146",
+      "player_name": "유현조",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 4,
+      "player_id": "8392",
+      "player_name": "이다연",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 5,
+      "player_id": "10095",
+      "player_name": "방신실",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 6,
+      "player_id": "9113",
+      "player_name": "노승희",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 7,
+      "player_id": "9784",
+      "player_name": "이예원",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 8,
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 9,
+      "player_id": "8881",
+      "player_name": "성유진",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 10,
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 11,
+      "player_id": "10109",
+      "player_name": "고지원",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 12,
+      "player_id": "9130",
+      "player_name": "박현경",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 13,
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 14,
+      "player_id": "8772",
+      "player_name": "박민지",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 15,
+      "player_id": "10112",
+      "player_name": "고지우",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 16,
+      "player_id": "8243",
+      "player_name": "장은수",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 17,
+      "player_id": "8284",
+      "player_name": "최예림",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 18,
+      "player_id": "10185",
+      "player_name": "황유민",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 19,
+      "player_id": "8300",
+      "player_name": "김수지",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 20,
+      "player_id": "11649",
+      "player_name": "이동은",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 21,
+      "player_id": "9082",
+      "player_name": "전예성",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 22,
+      "player_id": "8375",
+      "player_name": "김효주",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 23,
+      "player_id": "11143",
+      "player_name": "김시현",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 24,
+      "player_id": "10081",
+      "player_name": "김민주",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 25,
+      "player_id": "6781",
+      "player_name": "박주영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 26,
+      "player_id": "9235",
+      "player_name": "최은우",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 27,
+      "player_id": "8883",
+      "player_name": "이가영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 28,
+      "player_id": "9135",
+      "player_name": "신다인",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 29,
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 30,
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 31,
+      "player_id": "10296",
+      "player_name": "문정민",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 32,
+      "player_id": "9426",
+      "player_name": "한진선",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 33,
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I) (I-Tour)",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 34,
+      "player_id": "9362",
+      "player_name": "박지영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 35,
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 36,
+      "player_id": "11045",
+      "player_name": "양효진",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 37,
+      "player_id": "8589",
+      "player_name": "배소현",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 38,
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 39,
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 40,
+      "player_id": "9145",
+      "player_name": "임희정",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 41,
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 42,
+      "player_id": "9134",
+      "player_name": "서어진",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 43,
+      "player_id": "9759",
+      "player_name": "이율린",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 44,
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 45,
+      "player_id": "10002",
+      "player_name": "김민별",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 46,
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I) (I-Tour)",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 47,
+      "player_id": "9652",
+      "player_name": "이세희",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 48,
+      "player_id": "10138",
+      "player_name": "임진영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 49,
+      "player_id": "10577",
+      "player_name": "최예본",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 50,
+      "player_id": "9465",
+      "player_name": "안지현",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 51,
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 52,
+      "player_id": "11391",
+      "player_name": "양윤서 0801(A)",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 53,
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 54,
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 55,
+      "player_id": "9487",
+      "player_name": "김재희",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 56,
+      "player_id": "8859",
+      "player_name": "이승연",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 57,
+      "player_id": "11057",
+      "player_name": "송은아",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 58,
+      "player_id": "11073",
+      "player_name": "최정원",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 59,
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 60,
+      "player_id": "8277",
+      "player_name": "최민경",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 61,
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 62,
+      "player_id": "11056",
+      "player_name": "박예지",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 63,
+      "player_id": "9389",
+      "player_name": "전우리",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 64,
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 65,
+      "player_id": "9765",
+      "player_name": "정소이",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 66,
+      "player_id": "11630",
+      "player_name": "정지효",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 67,
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 68,
+      "player_id": "10159",
+      "player_name": "강채연",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 69,
+      "player_id": "9714",
+      "player_name": "유지나",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 70,
+      "player_id": "8770",
+      "player_name": "조아연",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 71,
+      "player_id": "9183",
+      "player_name": "박결",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 72,
+      "player_id": "6916",
+      "player_name": "안송이",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 73,
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 74,
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 75,
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 76,
+      "player_id": "10821",
+      "player_name": "유아현",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 77,
+      "player_id": "9000",
+      "player_name": "김지수",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 78,
+      "player_id": "11640",
+      "player_name": "성아진",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 79,
+      "player_id": "8838",
+      "player_name": "김우정",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 80,
+      "player_id": "9483",
+      "player_name": "한지원",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 81,
+      "player_id": "11080",
+      "player_name": "길예람",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 82,
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 83,
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 84,
+      "player_id": "10083",
+      "player_name": "마서영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 85,
+      "player_id": "11136",
+      "player_name": "홍수민",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 86,
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 87,
+      "player_id": "10531",
+      "player_name": "현세린",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 88,
+      "player_id": "8854",
+      "player_name": "서연정",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 89,
+      "player_id": "9364",
+      "player_name": "박소혜",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 90,
+      "player_id": "11447",
+      "player_name": "한아름",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 91,
+      "player_id": "8355",
+      "player_name": "장수연",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 92,
+      "player_id": "11060",
+      "player_name": "안재희",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 93,
+      "player_id": "10623",
+      "player_name": "강지선",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 94,
+      "player_id": "9089",
+      "player_name": "김소정",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 95,
+      "player_id": "10727",
+      "player_name": "황민정",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 96,
+      "player_id": "11374",
+      "player_name": "전승희",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 97,
+      "player_id": "11485",
+      "player_name": "신지우",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 98,
+      "player_id": "10114",
+      "player_name": "김나영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 99,
+      "player_id": "9748",
+      "player_name": "신유진",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 100,
+      "player_id": "8799",
+      "player_name": "오경은",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 101,
+      "player_id": "9111",
+      "player_name": "박서현",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 102,
+      "player_id": "11211",
+      "player_name": "김도희3",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 103,
+      "player_id": "1734",
+      "player_name": "이민지 (국외프로)",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 104,
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 105,
+      "player_id": "9786",
+      "player_name": "주가인",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 106,
+      "player_id": "12103",
+      "player_name": "전이안",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 107,
+      "player_id": "9156",
+      "player_name": "한빛나",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 108,
+      "player_id": "10139",
+      "player_name": "양효리",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 109,
+      "player_id": "13502",
+      "player_name": "왕 즈쉬엔 (국외프로)",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 110,
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 111,
+      "player_id": "8863",
+      "player_name": "윤혜림",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 112,
+      "player_id": "9937",
+      "player_name": "황유나",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 113,
+      "player_id": "8234",
+      "player_name": "이주미",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 114,
+      "player_id": "9174",
+      "player_name": "강가율",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 115,
+      "player_id": "10101",
+      "player_name": "임지유",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 116,
+      "player_id": "13404",
+      "player_name": "김서아 1201(A)",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 117,
+      "player_id": "8424",
+      "player_name": "정슬기",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 118,
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 119,
+      "player_id": "11431",
+      "player_name": "서지은",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    },
+    {
+      "official_k_rank": 120,
+      "player_id": "8246",
+      "player_name": "이소영",
+      "retrieved_at": "2026-09-02T14:23:52Z",
+      "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
+      "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "acquisition_source": "https://k-rankings.klpga.co.kr/index.jsp",
+      "ranking_week": "2026-W35"
+    }
+  ]
+}

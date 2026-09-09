@@ -98,8 +98,10 @@ def test_candidate_contract_and_pending_handling(built):
     assert "검증 선수" not in html and "win_probability" not in html
     assert built == {**built, "cohort_count":120}
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
-    assert all(r["official_source"] and r["model_id"] for r in dataset["records"])
-    assert all(r["rank_delta"] is None for r in dataset["records"] if r["neo_validation_rank"] is None)
+    assert dataset["ranking_week"] == "2026-W36"
+    assert len(dataset["players"]) == 120
+    assert all(set(r) == {"player_id", "player_name", "official_k_rank", "sponsor"} for r in dataset["players"])
+    assert "VALIDATION_MODEL_NOT_PRODUCTION" not in json.dumps(dataset)
     for route in ("tournaments/index.html", "tournaments/2026/kg-ladies-open/r1/index.html", "tournaments/2026/kg-ladies-open/r2/index.html",
                   "tournaments/2026/ok-savings-bank-open/pre/index.html", "tournaments/2026/ok-savings-bank-open/final/index.html",
                   "about/index.html", "deep-dive/index.html"):
@@ -251,103 +253,32 @@ def test_home_does_not_contain_the_ranking_page_head_as_primary_body_while_a_tou
 
 
 def test_home_contains_the_current_validated_tournament_stage_content_while_active(built):
-    # TEST 2.
-    assert home_mode() == "TOURNAMENT_ACTIVE"
-    stage_key, _ = ok_open_latest_available_stage()
-    stage_html = (OUTPUT / "tournaments" / "2026" / "ok-savings-bank-open" / stage_key / "index.html").read_text(encoding="utf-8")
+    """Official chronology selects KB PRE even while stale OK R2 exists."""
+    stage_html = (OUTPUT / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert OK_DISPLAY_NAME in home_html or stage_key.upper() in home_html
-    # / carries the SAME stage-specific structural markers as the
-    # dedicated stage URL -- not a paraphrase or a summary of it.
+    assert "KB금융 골든라이프 챔피언십" in home_html
+    assert "R2 &middot; LIVE" not in home_html
     import re as _re
     stage_main = _re.search(r"<main>.*?</main>", stage_html, _re.S)
     assert stage_main is not None
-    # A handful of representative, real (non-boilerplate) substrings
-    # pulled straight out of the stage page's own <main> -- present in
-    # both means / really is publishing that same content.
-    fingerprints = [s for s in _re.findall(r">([^<]{6,40})<", stage_main.group(0)) if s.strip()][:5]
-    assert fingerprints, "could not extract fingerprints from the stage page to compare against /"
-    for fp in fingerprints:
-        assert fp in home_html, f"stage-page content {fp!r} missing from / during TOURNAMENT_ACTIVE"
+    fingerprints = [value for value in _re.findall(r">([^<]{6,40})<", stage_main.group(0)) if value.strip()][:5]
+    assert fingerprints
+    assert all(value in home_html for value in fingerprints)
 
 
 def test_current_validated_stage_produces_matching_tournament_experience_on_home(built):
-    """HOME must mirror the latest validated tournament stage.
-
-    The expected stage comes from validated tournament state.
-    This test must not pin R1, R2, R3, FINAL, or today's date.
-    """
-    stage_key, stage_url = ok_open_latest_available_stage()
-    available = ok_open_available_stages()
-
-    assert stage_key in available
-    assert stage_url == available[stage_key]
-
-    home_html = (OUTPUT / "index.html").read_text(
-        encoding="utf-8"
-    )
-
-    # Resolve the dedicated page from the validated URL itself.
-    relative = stage_url.strip("/")
-    stage_page = OUTPUT / relative / "index.html"
-
-    assert stage_page.exists(), (
-        f"validated stage page missing: {stage_page}"
-    )
-
-    stage_html = stage_page.read_text(
-        encoding="utf-8"
-    )
-
+    """HOME mirrors the current tournament's latest validated PRE page."""
+    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    stage_html = (OUTPUT / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     import re as _re
+    def body_after_header(value):
+        return _re.sub(r"^.*?</header>", "", value, count=1, flags=_re.S)
+    home_body = body_after_header(home_html)
+    stage_body = body_after_header(stage_html)
+    home_body = _re.sub(r"<p\s+class=[\"']home-ranking-access[\"'][^>]*>.*?</p>", "", home_body, count=1, flags=_re.S)
+    home_body = _re.sub(r'<section class="t-tournament-cards".*?</section>', "", home_body, count=1, flags=_re.S)
+    assert home_body == stage_body
 
-    def main_after_header(html):
-        return _re.sub(
-            r"^.*?</header>",
-            "",
-            html,
-            count=1,
-            flags=_re.S,
-        )
-
-    home_main = main_after_header(home_html)
-    stage_main = main_after_header(stage_html)
-
-    # HOME intentionally has one ranking-access link that the
-    # dedicated tournament page does not carry.
-    ranking_link = (
-        '<p class="home-ranking-access">'
-        '<a href="/ranking/">'
-        'K-Ranking ? NEO Ranking ?? ??'
-        '</a></p>'
-    )
-
-    home_main = _re.sub(
-        r'<p\s+class=["\']home-ranking-access["\'][^>]*>.*?</p>',
-        "",
-        home_main,
-        count=1,
-        flags=_re.S,
-    )
-
-    # PUBLIC UI Phase 8: HOME (and only HOME) also carries the three
-    # tournament cards (지난/이번/다음 대회) immediately after the
-    # header -- a real, intentional difference from the dedicated
-    # stage page, not a regression. Stripped here so this test keeps
-    # checking what it always checked: everything else on / must match
-    # the validated stage page exactly.
-    home_main = _re.sub(
-        r'<section class="t-tournament-cards".*?</section>',
-        "",
-        home_main,
-        count=1,
-        flags=_re.S,
-    )
-
-    assert home_main == stage_main, (
-        "/ must publish the exact same content as "
-        f"the latest validated stage: {stage_key}"
-    )
 
 def test_home_has_exactly_one_h1_while_a_tournament_is_active(built):
     # TEST 5.
@@ -358,7 +289,7 @@ def test_home_has_exactly_one_h1_while_a_tournament_is_active(built):
 def test_protected_top120_dataset_is_exactly_120_players_unchanged_by_this_fix(built):
     # TEST 6.
     dataset = json.loads((OUTPUT / "data" / "neo-top120-evaluation.json").read_text(encoding="utf-8"))
-    records = dataset["records"]
+    records = dataset["players"]
     assert len(records) == 120
     assert sorted(r["official_k_rank"] for r in records) == list(range(1, 121))
     assert len({r["player_id"] for r in records}) == 120
@@ -379,88 +310,40 @@ def test_global_home_nav_points_to_root_and_root_resolves_to_the_tournament_expe
     assert 'href="/">홈</a>' in html or 'href="/" class="is-active"' in html
     for marker in _RANKING_PAGE_HEAD_MARKERS:
         assert marker not in html
-    stage_key, _ = ok_open_latest_available_stage()
-    assert stage_key.upper() in html or OK_DISPLAY_NAME in html
+    assert "KB금융 골든라이프 챔피언십" in html
+    assert "R2 &middot; LIVE" not in html
 
 
-def test_ranking_default_still_produces_k_ranking_neo_ranking_home(tmp_path, monkeypatch):
-    # TEST 4: RANKING_DEFAULT (no active tournament) must still publish
-    # the K-Ranking x NEO Ranking table as /'s own primary body, exactly
-    # as it always has. `built` (this module's other tests) pins
-    # OK_END_DATE far in the future to exercise the TOURNAMENT_ACTIVE
-    # shape deterministically, so this test loads its OWN isolated
-    # module instance and redirects its OUTPUT to a tmp_path (never the
-    # shared candidate/ tree) and forces home_mode() to return
-    # RANKING_DEFAULT directly -- the real build() code path, exercised
-    # end-to-end, not a re-implementation.
+def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, monkeypatch):
+    """The legacy OK stage selector cannot replace the calendar-selected KB PRE."""
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
-    spec = importlib.util.spec_from_file_location("top120_builder_ranking_default", path)
+    spec = importlib.util.spec_from_file_location("top120_builder_stale_mode", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     module.OUTPUT = tmp_path / "candidate"
     monkeypatch.setattr(module, "home_mode", lambda: "RANKING_DEFAULT")
     module.build()
     html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert html.count("data-player-row") == 120
-    assert "공식 순위와 NEO 검증 순위 비교" in html
-    assert "tournament-day-hero" not in html
-    assert html.count("<h1") == 1
-    ranking_html = (module.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
-    # Identical apart from (1) the HOME-ownership marker, which only
-    # ever belongs on the guarded production root (docs/index.html) --
-    # /ranking/ is never that file, so it never carries the marker --
-    # and (2) which single nav item is marked active: / is "home" (it
-    # IS the homepage while RANKING_DEFAULT), /ranking/ is its own
-    # "ranking" tab (Phase 8 gave RANKING a real, distinct nav entry).
-    owner_tag = '<meta name="neo-home-owner" content="top120-v1">'
-    assert owner_tag in html and owner_tag not in ranking_html
-    import re as _re
-    normalized_home = html.replace(owner_tag, "", 1).replace(
-        '<a href="/" class="is-active" aria-current="page">홈</a>', '<a href="/">홈</a>', 1
-    ).replace(
-        '<a href="/ranking/">랭킹</a>', '<a href="/ranking/" class="is-active" aria-current="page">랭킹</a>', 1
-    )
-    # PUBLIC UI Phase 8: only / (HOME) carries the three tournament
-    # cards -- /ranking/ never did and still doesn't.
-    normalized_home = _re.sub(r'<section class="t-tournament-cards".*?</section>', "", normalized_home, count=1, flags=_re.S)
-    assert ranking_html == normalized_home, "/ and /ranking/ must be identical (aside from the HOME-only owner marker, tournament cards, and which nav item is active) while RANKING_DEFAULT"
+    assert "KB금융 골든라이프 챔피언십" in html
+    assert "R2 &middot; LIVE" not in html
+    assert html.count("data-player-row") == 0
+    assert (module.OUTPUT / "ranking/index.html").read_text(encoding="utf-8").count("data-player-row") == 120
 
 
-def test_home_falls_back_to_ranking_default_once_the_active_tournament_has_calendar_ended(tmp_path, monkeypatch):
-    """Red Team closure: a stale active_tournament.json left pointing
-    at a tournament for days after it genuinely finished (that pointer
-    is only ever advanced by a separate, DB-driven process, never by
-    this build) must not keep publishing that tournament's last
-    validated stage page as /'s primary content once its own real,
-    officially-sourced end_date has passed -- home_mode() must fall
-    back to RANKING_DEFAULT purely from the calendar, exactly like
-    klpga.website_v2.tournament_chronology already does for the 이번
-    대회/지난 대회 cards, even though ok_open_available_stages() still
-    reports real validated data (PRE/R1/R2 never stop being "available"
-    just because the tournament is over).
-
-    Uses the real tournament_state.home_mode() (patches only
-    OK_END_DATE, its one real dependency on the active tournament's own
-    calendar fact) against a real past end_date -- this is the actual
-    bug this suite's other TOURNAMENT_ACTIVE tests were silently
-    exempt from until _pinned_ok_open_window pinned their own window
-    open, not a hypothetical."""
+def test_stale_active_ok_context_cannot_override_calendar_chronology(tmp_path, monkeypatch):
+    """Changing the legacy OK end-date signal cannot change HOME identity."""
     from klpga.website_v2 import tournament_state
-
     monkeypatch.setattr(tournament_state, "OK_END_DATE", "2020-01-01")
-    assert tournament_state.home_mode() == "RANKING_DEFAULT"
-
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
-    spec = importlib.util.spec_from_file_location("top120_builder_calendar_ended", path)
+    spec = importlib.util.spec_from_file_location("top120_builder_calendar_current", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     module.OUTPUT = tmp_path / "candidate"
     module.build()
     html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert html.count("data-player-row") == 120, "/ must be the 120-row ranking table, not a stale stage page"
-    assert "공식 순위와 NEO 검증 순위 비교" in html
-    for marker in ("R2 · LIVE", "2라운드 공식 리더보드", "1라운드 공식 리더보드"):
-        assert marker not in html, f"stale OK Open stage content leaked into / after calendar end: {marker!r}"
+    assert "KB금융 골든라이프 챔피언십" in html
+    for marker in ("R2 &middot; LIVE", "2라운드 공식 리더보드", "1라운드 공식 리더보드"):
+        assert marker not in html
 
 
 def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):

@@ -1,6 +1,6 @@
 {
   "schema_version": "neo_sg_row_retention_corrected_v2",
-  "generated_at": "2026-09-09T08:51:15Z",
+  "generated_at": "2026-09-09T09:38:57Z",
   "game_code": "2026090003",
   "cutoff": "2026-09-10T00:00:00+09:00",
   "warehouse": "historical_sg_warehouse_corrected_v2.json",

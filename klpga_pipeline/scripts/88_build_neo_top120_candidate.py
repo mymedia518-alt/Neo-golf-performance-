@@ -28,7 +28,7 @@ from klpga.website_v2.current_score_display import CurrentScoreCell, format_curr
 from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
 from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity, verified_sponsor, normalize_player_sponsor_mentions  # noqa: E402
-from klpga.tournament_context import SITE_REGISTRY_PATH, load_active_tournament_context  # noqa: E402
+from klpga.tournament_context import SITE_REGISTRY_PATH, load_active_tournament_context, load_tournament_context  # noqa: E402
 
 # NEO TOURNAMENT PIPELINE: resolved from the shared context instead of
 # this script's own hardcoded literals -- see src/klpga/tournament_context.py.
@@ -61,6 +61,16 @@ def load(name: str) -> dict:
 
 
 def refresh_preserved_candidate() -> None:
+    # script 86 consumes the active tournament candidate produced by script
+    # 84. Rebuild it first so a prior explicit future-tournament PRE build
+    # cannot leave shared candidate output pointed at the wrong route.
+    path84 = ROOT / "scripts" / "84_build_ok_open_pre_website_candidate.py"
+    spec84 = importlib.util.spec_from_file_location("active_tournament_site_builder", path84)
+    if spec84 is None or spec84.loader is None:
+        raise RuntimeError(f"cannot load active tournament builder: {path84}")
+    module84 = importlib.util.module_from_spec(spec84)
+    spec84.loader.exec_module(module84)
+    module84.build(_CONTEXT.game_code)
     path = ROOT / "scripts" / "86_build_neo_data_home_candidate.py"
     spec = importlib.util.spec_from_file_location("neo_data_home_builder", path)
     if spec is None or spec.loader is None:
@@ -124,7 +134,7 @@ def _latest_live_leader_score() -> str | None:
     return leader[1] if leader else None
 
 
-def _official_sponsor_by_id() -> dict[str, str]:
+def _official_sponsor_by_id(context=None) -> dict[str, str]:
     """PUBLIC UI Phase 8 (sponsor rule): {player_id: sponsor} from the
     currently active tournament's own official current_player_master
     artifact -- the only real, official-profile-sourced sponsor data
@@ -133,7 +143,8 @@ def _official_sponsor_by_id() -> dict[str, str]:
     has no entry here, which the caller treats identically to "sponsor
     not verified" (blank cell) -- never a guess, never a stale/foreign
     tournament's roster."""
-    path = _CONTEXT.artifact_path("current_player_master")
+    context = context or _CONTEXT
+    path = context.artifact_path("current_player_master")
     if not path.is_file():
         return {}
     try:
@@ -148,7 +159,7 @@ def _official_sponsor_by_id() -> dict[str, str]:
     return out
 
 
-def _official_sponsor_by_name() -> dict[str, str]:
+def _official_sponsor_by_name(context=None) -> dict[str, str]:
     """PUBLIC UI correction (GLOBAL SPONSOR RULE): {player_name:
     sponsor} from the same official, identity-validated player master
     as _official_sponsor_by_id() -- used to normalize already-built
@@ -156,7 +167,8 @@ def _official_sponsor_by_name() -> dict[str, str]:
     bare player name with no player_id attribute to join on. A player
     who is not also in this active tournament's field simply has no
     entry here -- never a guess, never a foreign roster."""
-    path = _CONTEXT.artifact_path("current_player_master")
+    context = context or _CONTEXT
+    path = context.artifact_path("current_player_master")
     if not path.is_file():
         return {}
     try:
@@ -172,7 +184,7 @@ def _official_sponsor_by_name() -> dict[str, str]:
     return out
 
 
-def _known_player_names() -> set[str]:
+def _known_player_names(context=None) -> set[str]:
     """PUBLIC UI correction (GLOBAL SPONSOR RULE): the broad "this bare
     text is a real player name" roster used to decide WHICH bare-text
     identity-display matches the promotion-time normalizer wraps --
@@ -195,7 +207,8 @@ def _known_player_names() -> set[str]:
             name = row.get("player_name")
             if name:
                 names.add(str(name))
-    ok_path = _CONTEXT.artifact_path("current_player_master")
+    context = context or _CONTEXT
+    ok_path = context.artifact_path("current_player_master")
     if ok_path.is_file():
         try:
             data = json.loads(ok_path.read_text(encoding="utf-8"))
@@ -233,13 +246,13 @@ def render_clean(
     # page itself, not this table with a banner on top.
     cells = []
     for row in rows:
-        f = row.get("features") or {}
-        neo = row.get("neo_validation_rank")
+        # The validation model remains available internally, but has no
+        # publication approval. Public NEO values therefore stay explicit
+        # missing values regardless of what the internal evaluation contains.
+        f = {}
+        neo = None
         def val(key):
-            value = f.get(key)
-            # PUBLIC UI Phase 8 correction (FAIL 1): never surface
-            # "pending validation" -- a missing metric is just unknown.
-            return "—" if value is None else f"{value:+.2f}"
+            return "—"
         # R1 ACTIVE MODE: 현재 스코어 -- real tournament-total-to-par
         # PLUS current-round hole progress, joined by player_id from the
         # same live snapshot the R1 page itself reads (scripts/96).
@@ -261,10 +274,11 @@ def render_clean(
             f'<td>{row["official_k_rank"]}</td><td>{neo or "—"}</td><th scope="row">{identity_cell}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120 검증</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
-<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">공식 순위와 NEO 검증 순위 비교</h1><p>K-Ranking과 최근 경기력을 나란히 보는 선수 비교 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary["neo_ranked"]}</strong><span>분석 가능</span></div><div class="stat"><strong>{summary["validation_pending"]}</strong><span>데이터 부족</span></div>{week_stat}</div></section>
-<section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO 검증 순위</dt><dd>최근 경기력을 참고용으로 비교하는 NEO만의 순위 지표</dd></div><div><dt>최근 경기력</dt><dd>최근 5개·10개 대회의 SG</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
-<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO 검증 순위</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO 검증 순위</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div><p class="note">왜 선수마다 대회 수가 다른가? 선수마다 출전 이력이 다르기 때문에 분석 가능한 대회 수는 서로 다릅니다. 대회 수는 순위 점수가 아니라 결과를 확인한 표본의 참고 정보입니다.</p></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    document = f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
+<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">K-Ranking과 NEO Ranking</h1><p>KLPGA 공식 순위와 NEO 지표를 함께 보는 선수 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>—</strong><span>NEO Ranking</span></div><div class="stat"><strong>—</strong><span>NEO 지표</span></div>{week_stat}</div></section>
+<section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>—</dd></div><div><dt>최근 경기력</dt><dd>—</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
+<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO Ranking</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO Ranking</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+    return document
 
 
 def _neo_lab_html() -> str:
@@ -321,6 +335,32 @@ def build() -> dict:
         html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
         page.write_text(html, encoding="utf-8", newline="\n")
 
+    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
+    chronology = build_home_tournament_chronology(registry, _CONTEXT)
+    current_facts = chronology.get("current")
+    current_context = load_tournament_context(current_facts.game_code) if current_facts else None
+    current_stage_page = None
+    if current_context is not None:
+        tier2_path = current_context.artifact_path("tier2_publication_gate")
+        master_path = current_context.artifact_path("pre_public_master")
+        tier2 = json.loads(tier2_path.read_text(encoding="utf-8")) if tier2_path.is_file() else {}
+        if master_path.is_file() and tier2.get("overall_state") == "PASS":
+            path84 = ROOT / "scripts" / "84_build_ok_open_pre_website_candidate.py"
+            spec84 = importlib.util.spec_from_file_location("tournament_pre_site_builder", path84)
+            if spec84 is None or spec84.loader is None:
+                raise RuntimeError(f"cannot load PRE website builder: {path84}")
+            module84 = importlib.util.module_from_spec(spec84)
+            spec84.loader.exec_module(module84)
+            built84 = module84.build(current_context.game_code)
+            source_route = built84 / current_context.url_base.strip("/")
+            destination_route = OUTPUT / current_context.url_base.strip("/")
+            shutil.copytree(source_route, destination_route, dirs_exist_ok=True)
+            current_stage_page = destination_route / "pre" / "index.html"
+            import dataclasses
+            chronology["current"] = dataclasses.replace(
+                current_facts, url_base=f"{current_context.url_base}pre/"
+            )
+
     # PUBLIC UI correction (GLOBAL SPONSOR RULE, Red Team FAIL A): EVERY
     # promoted route is normalized here at promotion time -- including
     # already-generated ones (they already carry both slots; the
@@ -333,44 +373,42 @@ def build() -> dict:
     # evidence, never the raw evidence bytes themselves -- those live
     # only at klpga_pipeline/evidence/beta001/artifacts/, never under
     # docs/) is normalized exactly like every other public route below.
-    registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
-    sponsor_by_name = _official_sponsor_by_name()
-    known_names = _known_player_names()
+    sponsor_by_name = _official_sponsor_by_name(current_context)
+    known_names = _known_player_names(current_context)
     for page in OUTPUT.rglob("index.html"):
         html = page.read_text(encoding="utf-8")
         normalized = normalize_player_sponsor_mentions(html, sponsor_by_name, known_names=known_names)
         if normalized != html:
             page.write_text(normalized, encoding="utf-8", newline="\n")
 
-    # TOURNAMENT-DAY MODE: home_mode() is the ONLY switch -- it looks at
-    # ok_open_available_stages() (real, hand-extended data availability),
-    # never at today's date.
-    mode = home_mode()
-    current_score_cells_by_id = _current_score_cells_by_id() if mode == "TOURNAMENT_ACTIVE" else {}
-    sponsor_by_id = _official_sponsor_by_id()
+    mode = "TOURNAMENT_PRE" if current_stage_page is not None else "RANKING_DEFAULT"
+    current_score_cells_by_id = {}
+    sponsor_by_id = _official_sponsor_by_id(current_context)
+
+    # A registry may describe stage pages without a bare tournament hub.
+    # Resolve a card link to an actually generated stage, while chronology
+    # identity and ordering remain exclusively calendar driven.
+    import dataclasses
+    for slot, facts in list(chronology.items()):
+        if facts is None or not facts.url_base:
+            continue
+        bare_index = OUTPUT / facts.url_base.strip("/") / "index.html"
+        if bare_index.is_file():
+            continue
+        reg = registry.get(facts.game_code) or {}
+        stages = list((reg.get("hub_card") or {}).get("nav_stages") or reg.get("stage_order") or [])
+        resolved_url = ""
+        for stage in reversed(stages):
+            candidate = OUTPUT / facts.url_base.strip("/") / stage / "index.html"
+            if candidate.is_file():
+                resolved_url = f"{facts.url_base}{stage}/"
+                break
+        chronology[slot] = dataclasses.replace(facts, url_base=resolved_url)
 
     # PUBLIC UI Phase 8 -- HOME's three tournament cards (지난/이번/다음
     # 대회), resolved generically from the site registry + whichever
     # tournament is currently active. Rendered once, reused on whichever
     # branch below actually becomes root HOME.
-    chronology = build_home_tournament_chronology(registry, _CONTEXT)
-    active_entry = registry.get(_CONTEXT.game_code) or {}
-    if not active_entry.get("has_hub_index"):
-        # The active tournament has no landing page at its bare
-        # url_base (its PRE/R1/... stage pages ARE its only real
-        # routes) -- link its card to whichever stage is actually
-        # published right now, the same real resolution script 86's
-        # own hub-card CTA already uses, never a guessed/hardcoded stage.
-        # PUBLIC UI Phase 8 correction (FAIL 3): the active tournament
-        # can now resolve into EITHER the "current" or the "last" slot
-        # (once its own end_date has passed) -- patch whichever slot
-        # actually holds it, not only "current".
-        import dataclasses
-        stage_key, stage_url = ok_open_latest_available_stage()
-        for slot in ("current", "last", "next"):
-            facts = chronology.get(slot)
-            if facts is not None and facts.game_code == _CONTEXT.game_code:
-                chronology[slot] = dataclasses.replace(facts, url_base=stage_url)
     tournament_cards_html = render_tournament_cards_html(chronology)
 
     # RANKING PAGE -- HOME TOURNAMENT OWNERSHIP FIX: this is now ALWAYS
@@ -393,7 +431,7 @@ def build() -> dict:
     # test_p0_negative_regression.test_every_header_has_exactly_one_active_nav_item),
     # it is just the correct one now that RANKING has its own tab.
     ranking_page_html = inject_global_navigation(ranking_html, active_section="ranking")
-    ranking_page_html = ranking_page_html.replace("</body>", '<!-- legacy contract markers (PUBLIC UI Phase 8 correction FAIL 1: two internal validation-state marker phrases were dropped from this comment -- forbidden even non-rendered): NEO GOLF DATA · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
+    ranking_page_html = ranking_page_html.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
     (OUTPUT / "ranking").mkdir()
     (OUTPUT / "ranking" / "index.html").write_text(ranking_page_html, encoding="utf-8", newline="\n")
 
@@ -407,10 +445,8 @@ def build() -> dict:
     # keeps / == the ranking page, unchanged from all prior behavior.
     # Either way, root HOME (and only root HOME) also carries the three
     # tournament cards, right after the shared header.
-    if mode == "TOURNAMENT_ACTIVE":
-        stage_key, _ = ok_open_latest_available_stage()
-        stage_page_path = ok_root / stage_key / "index.html"
-        rendered_home = inject_global_navigation(stage_page_path.read_text(encoding="utf-8"), active_section="home")
+    if mode == "TOURNAMENT_PRE":
+        rendered_home = inject_global_navigation(current_stage_page.read_text(encoding="utf-8"), active_section="home")
         ranking_access = '<p class="home-ranking-access"><a href="/ranking/">K-Ranking × NEO Ranking 전체 보기</a></p>'
         if "</main>" in rendered_home:
             rendered_home = rendered_home.replace("</main>", ranking_access + "</main>", 1)
@@ -418,7 +454,7 @@ def build() -> dict:
             rendered_home = rendered_home.replace("</body>", ranking_access + "</body>", 1)
     else:
         rendered_home = inject_global_navigation(ranking_html, active_section="home")
-        rendered_home = rendered_home.replace("</body>", '<!-- legacy contract markers (PUBLIC UI Phase 8 correction FAIL 1: two internal validation-state marker phrases were dropped from this comment -- forbidden even non-rendered): NEO GOLF DATA · NEO Ranking · 최근 순위 --><a href="/">NEO GOLF DATA</a></body>')
+        rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
     rendered_home, header_count = re.subn(r"(</header>)", rf"\1{tournament_cards_html}", rendered_home, count=1)
     if header_count != 1:
         raise RuntimeError("root HOME must have exactly one </header> to attach the tournament cards after")
@@ -431,7 +467,20 @@ def build() -> dict:
     shutil.copyfile(preserved / "assets" / "neo-site.js", OUTPUT / "assets" / "neo-site.js")
     shutil.copyfile(preserved / "assets" / "neo.css", OUTPUT / "assets" / "neo.css")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "top120.js", OUTPUT / "assets" / "top120.js")
-    (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    public_dataset = {
+        "ranking_week": cohort.get("ranking_week"),
+        "official_source": cohort.get("official_source"),
+        "players": [
+            {
+                "player_id": str(row["player_id"]),
+                "player_name": row["player_name"],
+                "official_k_rank": row["official_k_rank"],
+                "sponsor": sponsor_by_id.get(str(row["player_id"])) or "",
+            }
+            for row in rows
+        ],
+    }
+    (OUTPUT / "data" / "neo-top120-evaluation.json").write_text(json.dumps(public_dataset, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     # P0-3 build provenance: stamp every page in the canonical output
     # with (1) the parent commit this candidate's source was checked out
     # from and (2) a build-id unique to this build/promotion event -- two

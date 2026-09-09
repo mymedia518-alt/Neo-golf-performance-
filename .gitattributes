@@ -1,2 +1,5 @@
 # Byte-exact historical publication evidence; preserve its original CRLF bytes.
 klpga_pipeline/evidence/beta001/artifacts/*_published_before_navigation_hotfix.html binary
+# Byte-exact sanctioned raw captures. Treat them as binary for whitespace
+# diagnostics so git diff --check never asks a builder to rewrite source bytes.
+klpga_pipeline/content/website_v2/incoming_evidence/**/*.html binary

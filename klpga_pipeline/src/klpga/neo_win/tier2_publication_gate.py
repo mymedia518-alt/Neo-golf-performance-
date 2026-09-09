@@ -47,6 +47,8 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
     sg_audit_path = CONTENT_DIR / "historical_sg_warehouse_corrected_audit_v2.json"
     profile_audit_path = context.artifact_path("data_center_profile_audit")
     sg_acceptance_path = context.artifact_path("sg_independent_acceptance")
+    sg_rank_path = context.artifact_path("pre_sg_total_rank_corrected_v2")
+    sg_band_path = context.artifact_path("pre_performance_row_retention_corrected_v2")
     required = (entry_path, current_path, rank_path, win_path, sg_path, sg_audit_path, profile_audit_path)
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     domains = []
@@ -90,11 +92,21 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
         # request label alone if the raw response can't back it up.
         rank_game_code = rank.get("game_code")
         provenance_reasons: list[str] = []
-        if not rank.get("raw_response_sha256"):
+        source_hashes = rank.get("raw_response_sha256")
+        if not source_hashes:
             provenance_reasons.append("no raw_response_sha256 recorded -- the official response was never hashed for audit")
+        if rank.get("collection_method") == "offline_combined_official_evidence":
+            required_hashes = {"period", "full_table"}
+            if not isinstance(source_hashes, dict) or set(source_hashes) != required_hashes or not all(
+                isinstance(value, str) and len(value) == 64 for value in source_hashes.values()
+            ):
+                provenance_reasons.append("combined offline evidence does not bind both official source hashes")
+            crosscheck = rank.get("evidence_crosscheck") or {}
+            if crosscheck.get("overlap_count") != 10 or crosscheck.get("mismatched") != 0:
+                provenance_reasons.append("combined offline evidence TOP10 cross-check did not pass")
         if rank.get("week_evidence_state") != "PROVEN" or not rank.get("returned_rank_week"):
             provenance_reasons.append("returned_rank_week is unproven -- the official response never confirmed which week it actually served")
-        elif rank.get("collection_method") != "offline_import" and rank.get("week_match") is not True:
+        elif rank.get("collection_method") not in {"offline_import", "offline_combined_official_evidence"} and rank.get("week_match") is not True:
             # week_match compares a REQUESTED week against what the live
             # response claimed to return -- meaningful only when a
             # request actually happened. A sanctioned offline import
@@ -129,7 +141,16 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
         else:
             rank_reason = "same-week official ranking snapshot validated with proven, matching, hashed provenance"
         domains.append(_result("K_RANKING", "PASS" if rank_ok else "BLOCK", ["T2-RANK-001"], rank_reason, ["official_klpga_rank"], rank_path))
-        win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]; win_ok = len(wr) == expected_count and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
+        win = json.loads(win_path.read_text(encoding="utf-8")); wr = win.get("records", win.get("players", [])); probs = [r.get("win_probability") for r in wr]
+        win_ok = (
+            win.get("game_code") == context.game_code
+            and len(wr) == expected_count
+            and len({str(r.get("player_id")) for r in wr}) == expected_count
+            and all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in probs)
+            and abs(sum(probs) - 1.0) <= 1e-6
+            and win.get("model_version") == "M4"
+            and win.get("future_data_excluded") is True
+        )
         domains.append(_result("WIN_PROBABILITY", "PASS" if win_ok else "BLOCK", ["T2-WIN-001"], f"{expected_count} pre-cutoff WIN probabilities validated" if win_ok else "forecast coverage/range failure", ["win_probability"], win_path))
         sg_audit = json.loads(sg_audit_path.read_text(encoding="utf-8")); arithmetic = sg_audit.get("arithmetic_validation", {}); acceptance = json.loads(sg_acceptance_path.read_text(encoding="utf-8")) if sg_acceptance_path.exists() else {}
         # SG SIGN-OFF (Phase 5 item 6): {"state": "ACCEPTED"} alone is
@@ -152,10 +173,35 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
                 reviewer and signed_at and claimed_hash and actual_hash
                 and claimed_hash == actual_hash
             )
-        accepted = sg_accepted if sg_accepted is not None else acceptance_valid
+            if acceptance.get("schema_version") == "neo_tournament_sg_independent_acceptance_v2":
+                bound = acceptance.get("artifacts") or {}
+                expected = {
+                    "entry_snapshot": context.artifact_path("entry_snapshot"),
+                    "sg_total_rank": sg_rank_path,
+                    "performance_bands": sg_band_path,
+                }
+                binding_ok = acceptance.get("game_code") == context.game_code
+                for key, expected_path in expected.items():
+                    record = bound.get(key) or {}
+                    binding_ok = binding_ok and bool(
+                        expected_path.is_file()
+                        and record.get("file") == expected_path.name
+                        and record.get("sha256") == _hash(expected_path)
+                    )
+                controls = acceptance.get("controls") or {}
+                binding_ok = binding_ok and bool(
+                    controls.get("future_data_excluded") is True
+                    and controls.get("warehouse_arithmetic_exceptions") == 0
+                    and controls.get("rank_reproduction_mismatches") == 0
+                    and controls.get("band_reproduction_mismatches") == 0
+                )
+                acceptance_valid = acceptance_valid and binding_ok
+        # The optional argument may force a stricter negative test, but can no
+        # longer turn an absent/stale acceptance into PASS.
+        accepted = acceptance_valid and sg_accepted is not False
         sg_evidence_path = sg_acceptance_path if acceptance_valid else sg_audit_path
         sg_ok = arithmetic.get("exceptions") == 0 and accepted
-        if acceptance and not acceptance_valid and sg_accepted is None:
+        if acceptance and not acceptance_valid:
             reason = "corrected SG arithmetic passes but the independent acceptance is incomplete or stale (missing reviewer/timestamp, or its recorded warehouse_sha256 no longer matches the actual warehouse content)"
         else:
             reason = "corrected SG evidence validated and independently accepted" if sg_ok else "corrected SG arithmetic passes but independent rank/band acceptance is pending"

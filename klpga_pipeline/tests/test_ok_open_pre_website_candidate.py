@@ -34,8 +34,11 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
 def test_manifest_points_to_canonical_master():
     out = builder.build()
     manifest = json.loads((out / "data" / "manifest.json").read_text(encoding="utf-8"))
-    assert manifest["source_master"].endswith("OK_OPEN_2026_PRE_PUBLIC_MASTER.json")
     assert manifest["entry_count"] == 120
+    assert "source_master" not in manifest and "source_master_sha256" not in manifest
+    evidence = json.loads(builder._CONTEXT.artifact_path("pre_website_build_evidence").read_text(encoding="utf-8"))
+    assert evidence["source_master"] == "OK_OPEN_2026_PRE_PUBLIC_MASTER.json"
+    assert len(evidence["source_master_sha256"]) == 64
 
 
 def test_mobile_table_containment_contract():
@@ -100,14 +103,14 @@ def test_public_ui_contract_generated_route():
     assert "aria-label='NEO 경기력" in html
 
 
-def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
+def test_all_54_hole_stage_routes_are_truthful_and_provenance_is_private():
     out = builder.build()
     root = out / "tournaments/2026/ok-savings-bank-open"
     for stage in ["pre", "r1", "r2", "final"]:
         page = root / stage / "index.html"
         assert page.exists()
         html = page.read_text(encoding="utf-8")
-        assert "neo-public-master-sha256" in html
+        assert "neo-public-master-sha256" not in html
         # FINAL has no real pipeline yet and must show the honest
         # "공식 데이터가 아직 없습니다" placeholder. PRE and R1 both have
         # real data (R1's page previously matched "아직" only by
@@ -126,13 +129,13 @@ def test_all_54_hole_stage_routes_are_truthful_and_hash_linked():
         assert "아직" in html or stage in ("pre", "r1", "r2")
     assert not (root / "r3").exists()
     manifest = json.loads((out / "data/manifest.json").read_text(encoding="utf-8"))
-    assert len(manifest["source_master_sha256"]) == 64
-    source = subprocess.check_output(["git", "cat-file", "-p", "HEAD:klpga_pipeline/content/website_v2/OK_OPEN_2026_PRE_PUBLIC_MASTER.json"])
-    expected = hashlib.sha256(source).hexdigest().upper()
-    assert manifest["source_master_sha256"] == expected
+    assert "source_master_sha256" not in manifest
+    evidence = json.loads(builder._CONTEXT.artifact_path("pre_website_build_evidence").read_text(encoding="utf-8"))
+    expected = hashlib.sha256(builder.MASTER.read_bytes()).hexdigest()
+    assert evidence["source_master_sha256"] == expected
     for stage in ["pre", "r1", "r2", "final"]:
         page = (root / stage / "index.html").read_text(encoding="utf-8")
-        assert f'name="neo-public-master-sha256" content="{expected}"' in page
+        assert "neo-public-master-sha256" not in page
 
 
 def test_stage_links_resolve_from_every_generated_stage_page():

@@ -270,17 +270,12 @@ def test_collect_rankings_offline_extracts_real_ranks_when_the_capture_does_prov
 
 
 # ---------------------------------------------------------------------------
-# tier2_publication_gate: KB must fail closed (BLOCK/HARD_STOP), never PASS
+# tier2_publication_gate: every domain must be independently evidenced
 # ---------------------------------------------------------------------------
 
-def test_tier2_gate_k_ranking_and_identity_pass_for_kb_but_overall_still_blocks():
-    """After the 55abb7c period-evidence capture and the identity
-    fallback fix, K_RANKING and IDENTITY genuinely PASS for KB on real
-    evidence -- but the gate as a whole must still refuse publication:
-    WIN_PROBABILITY has no populated historical corpus DB in this
-    sandbox (a real, non-fabricable input gap, not an evidence-capture
-    gap), and SG_DERIVED's independent human sign-off is a deliberate,
-    still-pending manual step. Neither is weakened here."""
+def test_tier2_gate_all_five_domains_pass_for_kb_after_bound_evidence():
+    """The canonical corpus and bound SG review close the former blockers
+    while the same fail-closed domain checks remain in force."""
     from klpga.neo_win.tier2_publication_gate import evaluate
 
     ctx = load_tournament_context(KB_GAME_CODE)
@@ -295,9 +290,12 @@ def test_tier2_gate_k_ranking_and_identity_pass_for_kb_but_overall_still_blocks(
         pytest.skip(f"run scripts 67/72/75 --game-code {KB_GAME_CODE} first to produce: {missing}")
     result = evaluate(ctx)
     by_domain = {d["domain"]: d["state"] for d in result["domains"]}
-    assert by_domain["K_RANKING"] == "PASS"
-    assert by_domain["IDENTITY"] == "PASS"
-    assert by_domain["WIN_PROBABILITY"] != "PASS"
-    assert by_domain["SG_DERIVED"] != "PASS"
-    assert result["overall_state"] != "PASS"
-    assert result["publication_allowed"] is False
+    assert by_domain == {
+        "IDENTITY": "PASS",
+        "TEAM_SPONSOR": "PASS",
+        "K_RANKING": "PASS",
+        "WIN_PROBABILITY": "PASS",
+        "SG_DERIVED": "PASS",
+    }
+    assert result["overall_state"] == "PASS"
+    assert result["publication_allowed"] is True
