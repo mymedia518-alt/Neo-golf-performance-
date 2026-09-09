@@ -450,12 +450,6 @@ def build() -> dict:
                 break
         chronology[slot] = dataclasses.replace(facts, url_base=resolved_url)
 
-    # PUBLIC UI Phase 8 -- HOME's three tournament cards (지난/이번/다음
-    # 대회), resolved generically from the site registry + whichever
-    # tournament is currently active. Rendered once, reused on whichever
-    # branch below actually becomes root HOME.
-    tournament_cards_html = render_tournament_cards_html(chronology)
-
     # RANKING PAGE -- HOME TOURNAMENT OWNERSHIP FIX: this is now ALWAYS
     # published at its own stable URL (/ranking/), the permanent
     # K-Ranking x NEO Ranking access point, regardless of tournament
@@ -480,21 +474,35 @@ def build() -> dict:
     (OUTPUT / "ranking").mkdir()
     (OUTPUT / "ranking" / "index.html").write_text(ranking_page_html, encoding="utf-8", newline="\n")
 
-    # ROOT HOME -- PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT correction):
-    # HOME is the permanent, player-centric NEO product entry page and
-    # must NEVER compose a tournament stage's own page body -- that was
-    # the prior "HOME TOURNAMENT OWNERSHIP FIX" rule, now explicitly
-    # superseded. / always renders the same ranking content as
-    # /ranking/ (still the one stable K-Ranking x NEO Ranking URL),
-    # with the three tournament cards attached right after the shared
-    # header as compact secondary navigation -- current tournament's
-    # own PRE/R1/R2/FINAL pages stay on their own dedicated routes
-    # under /tournaments/..., never copied into /.
-    rendered_home = inject_global_navigation(ranking_html, active_section="home")
+    # ROOT HOME -- KB TOURNAMENT-ONLY PUBLIC HOME, PRIORITY MODE (Project
+    # Owner decision): explicitly SUPERSEDES the prior "HOME/PRE ROLE
+    # AUDIT" rule (HOME must never compose a tournament stage's own page
+    # body -- that rule's own tests are updated alongside this change,
+    # not silently bypassed). For the current tournament period, / IS
+    # the current tournament's own validated stage page -- the identical
+    # bytes already published at its dedicated /tournaments/.../<stage>/
+    # URL (current_stage_page, built above), merely re-stamped with
+    # active_section="home" so the shared header highlights the correct
+    # tab. The old three-tournament-cards strip (지난/이번/다음 대회) is
+    # dropped from HOME entirely -- the Owner's own stated problem
+    # ("previous/current/next tournament three large horizontal panels"
+    # consuming HOME's vertical space; "the current tournament must
+    # dominate the page"). render_tournament_cards_html itself is
+    # untouched and still fully importable -- simply no longer spliced
+    # into HOME's own output. /ranking/ (the stable K-Ranking x NEO
+    # 경기력 URL) is completely unaffected by this change; so is every
+    # tournament's own /tournaments/.../ route tree.
+    if current_stage_page is not None:
+        rendered_home = inject_global_navigation(
+            current_stage_page.read_text(encoding="utf-8"), active_section="home",
+        )
+    else:
+        # RANKING_DEFAULT: no current tournament has a validated,
+        # publication-gate-approved stage yet -- HOME falls back to the
+        # same player-ranking content /ranking/ always shows, exactly as
+        # before this change, just without the retired card strip.
+        rendered_home = inject_global_navigation(ranking_html, active_section="home")
     rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
-    rendered_home, header_count = re.subn(r"(</header>)", rf"\1{tournament_cards_html}", rendered_home, count=1)
-    if header_count != 1:
-        raise RuntimeError("root HOME must have exactly one </header> to attach the tournament cards after")
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
     neo_lab_html = inject_global_navigation(_neo_lab_html(), active_section="neo-lab")

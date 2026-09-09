@@ -14,11 +14,25 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
 CONTENT = ROOT / "content" / "website_v2"
 
 import sys
 sys.path.insert(0, str(ROOT / "src"))
+
+# OWNER TEST-ISOLATION FIX (same defect class as
+# test_neo_top120_validation.py's own OUTPUT, fixed during NEO PRODUCT
+# CONTRACT RECOVERY): this was hardcoded to the real, tracked
+# candidate/neo-data-home-top120 directory -- disconnected from the
+# `built` fixture below, whose own module.build() call writes through
+# candidate_dir() to the pytest-isolated KLPGA_CANDIDATE_ROOT_OVERRIDE
+# temp directory (see tests/conftest.py). Every test in this file was
+# silently reading whatever content happened to already be sitting in
+# the real tracked directory from an earlier manual build, never what
+# `built` had just produced -- resolving OUTPUT the same way script 88
+# itself does fixes that for good.
+from klpga.tournament_context import candidate_dir  # noqa: E402
+
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 from klpga.website_v2.tournament_chronology import (  # noqa: E402
     TournamentCardFacts,
@@ -165,12 +179,29 @@ def test_unapproved_neo_ranking_keeps_structure_but_publishes_no_values():
 # 2 / 6 / 7 / 8. HOME tournament cards
 # ---------------------------------------------------------------------------
 
-def test_home_contains_last_current_next_tournament_cards(built):
+def test_home_no_longer_carries_the_tournament_cards_strip_by_owner_redesign(built):
+    """KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE (Project Owner
+    redesign decision) explicitly SUPERSEDES the "PUBLIC UI Phase 8"
+    contract this test used to enforce (/ always shows the ranking
+    page-head with a 지난/이번/다음 대회 tournament-cards strip attached
+    right after the header): while a current tournament has a
+    validated, publication-gate-approved stage page, / now literally IS
+    that page -- the Owner's own stated problem was "previous/current/
+    next tournament three large horizontal panels" consuming HOME's
+    vertical space. render_tournament_cards_html itself is untouched
+    and still directly tested below (see
+    test_real_official_schedule_drives_home_never_pipeline_stage_state
+    and its neighbors) -- just no longer spliced into HOME's own
+    output. The real invariant this test still guards -- HOME's
+    tournament identity is the real, calendar-selected current
+    tournament, not a stale or fabricated one -- now applies to HOME's
+    own hero <h1> directly."""
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert '<section class="t-tournament-cards"' in html
-    for kind, kicker in (("last", "지난 대회"), ("current", "이번 대회"), ("next", "다음 대회")):
-        assert f'data-tournament-card="{kind}"' in html
-        assert kicker in html
+    assert '<section class="t-tournament-cards"' not in html
+    assert "data-tournament-card=" not in html
+    assert "<h1" in html
+    h1 = html[html.index("<h1"):html.index("</h1>") + len("</h1>")]
+    assert "KB금융 골든라이프 챔피언십" in h1
 
 
 def test_real_official_schedule_drives_home_never_pipeline_stage_state():

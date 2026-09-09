@@ -86,18 +86,27 @@ def test_neo_recent_sg_is_never_labelled_as_official_sg_total():
     assert "최근 5개 대회 SG" in html
 
 
-def test_home_never_composes_a_tournament_stage_body():
-    """HOME/PRE ROLE AUDIT gate, exercised directly against script 88's
-    real output (see also tests/test_neo_top120_validation.py for the
-    fuller HOME-contract coverage)."""
+def test_home_becomes_the_current_tournament_stage_body_by_owner_design():
+    """KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE (Project Owner
+    redesign decision) explicitly SUPERSEDES the prior "HOME/PRE ROLE
+    AUDIT" gate this test used to enforce (HOME must never compose a
+    tournament stage's own page body): while a current tournament has a
+    validated, publication-gate-approved stage, / now literally IS that
+    page (see tests/test_neo_top120_validation.py's
+    test_home_becomes_the_current_tournament_stage_page_while_one_is_active
+    for the fuller HOME-contract coverage). The permanent, player-centric
+    K-Ranking x NEO 경기력 table keeps its own stable home at /ranking/,
+    completely unaffected by this."""
     spec88 = importlib.util.spec_from_file_location("product_recovery_s88", ROOT / "scripts" / "88_build_neo_top120_candidate.py")
     builder88 = importlib.util.module_from_spec(spec88)
     spec88.loader.exec_module(builder88)
     builder88.build()
     home_html = (builder88.OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "class='player-name'" not in home_html
-    assert "PRE 참가 선수" not in home_html
-    assert "data-player-row" in home_html
+    assert "class='player-name'" in home_html
+    assert "PRE 참가 선수" in home_html
+    assert "data-player-row" not in home_html
+    ranking_html = (builder88.OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert "data-player-row" in ranking_html
 
 
 def test_public_pre_summary_omits_internal_validation_metadata():

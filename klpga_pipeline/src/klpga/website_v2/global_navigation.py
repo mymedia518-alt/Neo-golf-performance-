@@ -11,12 +11,26 @@ NAVIGATION_MARKER = "data-neo-global-navigation"
 # define what "NEO" looks like or which section is active.
 GLOBAL_NAV_ITEMS = (
     ("home", "홈", "/"),
-    ("tournaments", "대회", "/tournaments/"),
+    ("tournaments", "이번 대회", "/tournaments/"),
     ("ranking", "랭킹", "/ranking/"),
     ("deep-dive", "딥다이브", "/deep-dive/"),
     ("neo-lab", "NEO LAB", "/neo-lab/"),
     ("about", "소개", "/about/"),
 )
+
+# KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE: for the current
+# tournament period the Project Owner asked for a minimal public nav
+# (홈 / 이번 대회 only) -- 랭킹/딥다이브/NEO LAB stay fully built and
+# reachable by direct URL (never deleted, never gated server-side), just
+# not linked from the persistent header. Implemented as a CSS-only
+# visibility rule (see .nav-secondary in neo-site.css) rather than
+# omitting these <a> elements outright, so a page whose own
+# active_section IS one of them (a visitor who lands on /ranking/
+# directly) still renders its own item as the exactly-one active nav
+# link the P0 regression suite requires
+# (test_every_header_has_exactly_one_active_nav_item) -- only marked
+# secondary, and therefore hidden, when it is NOT the current page.
+_SECONDARY_NAV_KEYS = frozenset({"ranking", "deep-dive", "neo-lab"})
 
 # PUBLIC UI Phase 8 -- the one immutable brand lockup every public page
 # must show in its top-left brand area: the "NEO GOLF DATA" wordmark,
@@ -43,6 +57,8 @@ def _nav_html(active_section: str | None) -> str:
     for key, label, url in GLOBAL_NAV_ITEMS:
         if key == active_section:
             links.append(f'<a href="{url}" class="is-active" aria-current="page">{label}</a>')
+        elif key in _SECONDARY_NAV_KEYS:
+            links.append(f'<a href="{url}" class="nav-secondary">{label}</a>')
         else:
             links.append(f'<a href="{url}">{label}</a>')
     return '<nav class="neo-global-nav" aria-label="주요 메뉴">\n' + "\n".join(links) + '\n</nav>'

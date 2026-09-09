@@ -786,7 +786,7 @@ def build(game_code: str | None = None) -> Path:
             f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th>"
             f"<td data-label='KLPGA K-RANKING'>{value(r.get('official_klpga_rank'))}</td>"
             f"<td data-label='NEO 경기력'><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td>"
-            f"<td data-label='최근 5개 대회 SG'>{value(r.get('sg_total_rank'))}</td>{prob_cells}</tr>"
+            f"<td data-label='최근 5개 대회 SG 순위'>{value(r.get('sg_total_rank'))}</td>{prob_cells}</tr>"
         )
     # base_url=None: OK Open has no distinct "overview" route the way KG
     # does (its PRE page IS the tournament's landing page) -- linking the
@@ -801,8 +801,12 @@ def build(game_code: str | None = None) -> Path:
     # is now the page's one, full-width panel. The withheld-model state
     # is already fully communicated by the absent probability columns,
     # exactly as R1's help text below already does for the live table.
-    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<section class=\"panel leaderboard-panel\" id=\"pre\"><div class=\"leaderboard-head\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">{pre_summary}</p></div><div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>최근 5개 대회 SG</th>{prob_header_cells}</tr></thead><tbody>{''.join(rows)}</tbody></table></div></section></main></body></html>"""
+    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<section class=\"panel leaderboard-panel\" id=\"pre\"><div class=\"leaderboard-head\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">{pre_summary}</p></div><div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>최근 5개 대회 SG 순위</th>{prob_header_cells}</tr></thead><tbody>{''.join(rows)}</tbody></table></div></section></main></body></html>"""
     old_meta = f"{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}"
+    # KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE: field size (참가
+    # 인원, e.g. "120명") joins the compact hero meta line, generically,
+    # from the same already-validated len(records) every other public
+    # count on this page already uses (never a separate/guessed number).
     meta_bits = [date_range]
     if _CONTEXT.venue:
         meta_bits.append(str(_CONTEXT.venue))
@@ -810,6 +814,7 @@ def build(game_code: str | None = None) -> Path:
         meta_bits.append(f"{_CONTEXT.holes}홀")
     if _CONTEXT.format:
         meta_bits.append(str(_CONTEXT.format))
+    meta_bits.append(f"{len(records)}명")
     html_doc = html_doc.replace(OK_DISPLAY_NAME, display_name).replace(old_meta, " · ".join(meta_bits))
     html_doc = html_doc.replace("다음 대회 · PRE", "PRE 분석").replace("예측 확정 전", "PRE")
     html_doc = html_doc.replace("NEO 경기력 구간", "NEO 경기력 ⓘ")
@@ -886,7 +891,7 @@ def build(game_code: str | None = None) -> Path:
     about = """<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · NEO 소개</title><link rel=\"stylesheet\" href=\"../assets/neo.css\"></head><body><header data-neo-global-navigation></header><main><section class=\"panel about\" id=\"about\"><p class=\"eyebrow\">NEO 소개</p><h1>결과만으로는 보이지 않는 경기력을 데이터에서 봅니다.</h1><p>NEO GOLF DATA는 KLPGA 공식 경기 기록을 바탕으로 선수들의 경기 데이터를 동일한 기준으로 측정하고 비교합니다.</p><p>우승, TOP10, 상금, K-RANKING은 선수가 쌓아온 중요한 결과입니다. NEO는 여기에 또 하나의 관점을 더합니다.</p><p>최근 공식 경기 데이터를 비교해 출전 선수들 사이에서 관측된 경기력의 상대적 위치를 보여줍니다.</p><p>이것은 선수의 가치나 미래 성적에 대한 등급이 아닙니다. 골프의 결과에는 큰 변동성이 있으며 높은 경기력 위치가 우승이나 TOP10을 보장하지 않습니다.</p><p>NEO는 분석 시점에 사용할 수 있었던 데이터를 보존하고, 실제 결과와 비교하며 분석 방법을 계속 검증합니다.</p></section></main></body></html>"""
     (OUT / "about").mkdir()
     (OUT / "about" / "index.html").write_text(inject_global_navigation(about), encoding="utf-8")
-    manifest = {"tournament": display_name, "game_code": _CONTEXT.game_code, "stage": "PRE", "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "최근 5개 대회 SG", *([label for _, label in _PROBABILITY_COLUMNS] if MODEL_VALIDATED_FOR_PUBLICATION else [])], "probability_distribution_publication_status": "APPROVED" if MODEL_VALIDATED_FOR_PUBLICATION else "BLOCKED"}
+    manifest = {"tournament": display_name, "game_code": _CONTEXT.game_code, "stage": "PRE", "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "최근 5개 대회 SG 순위", *([label for _, label in _PROBABILITY_COLUMNS] if MODEL_VALIDATED_FOR_PUBLICATION else [])], "probability_distribution_publication_status": "APPROVED" if MODEL_VALIDATED_FOR_PUBLICATION else "BLOCKED"}
     (OUT / "data").mkdir()
     (OUT / "data" / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     build_evidence = {
