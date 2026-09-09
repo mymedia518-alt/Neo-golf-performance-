@@ -1,0 +1,41 @@
+{
+  "feature_commit": "b7d69f50b5e4f7ae371f6abea914113bf44e032f",
+  "screenshots": [
+    {
+      "route": "home",
+      "path": "/",
+      "viewport": "1440x900",
+      "html_source": "klpga_pipeline/candidate/neo-data-home-top120/index.html",
+      "html_sha256": "a02974117c032e38c80c4c3f5b7f58fcccd11fb565134556d18092c4f7866925",
+      "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/home-desktop.png",
+      "screenshot_sha256": "71efc2a1adafb6b8d19a3f96eea6a65040f27754f34e44fff547334b295630ef"
+    },
+    {
+      "route": "home",
+      "path": "/",
+      "viewport": "390x844",
+      "html_source": "klpga_pipeline/candidate/neo-data-home-top120/index.html",
+      "html_sha256": "a02974117c032e38c80c4c3f5b7f58fcccd11fb565134556d18092c4f7866925",
+      "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/home-mobile.png",
+      "screenshot_sha256": "b3ad7d5dddd1254bbb356dcfb3abbf954606f349f4896df412da208890da4db2"
+    },
+    {
+      "route": "kb-pre",
+      "path": "/tournaments/2026/2026090003/pre/",
+      "viewport": "1440x900",
+      "html_source": "klpga_pipeline/candidate/neo-data-home-top120/tournaments/2026/2026090003/pre/index.html",
+      "html_sha256": "311beb5b75086a767d43dce4284d71217db449bcee9bcc46cb77a233a81f8f41",
+      "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/kb-pre-desktop.png",
+      "screenshot_sha256": "506326395eef9e4909a5ced7e380ec242b3f9d4e3df307c6f26227a00fa6f022"
+    },
+    {
+      "route": "kb-pre",
+      "path": "/tournaments/2026/2026090003/pre/",
+      "viewport": "390x844",
+      "html_source": "klpga_pipeline/candidate/neo-data-home-top120/tournaments/2026/2026090003/pre/index.html",
+      "html_sha256": "311beb5b75086a767d43dce4284d71217db449bcee9bcc46cb77a233a81f8f41",
+      "screenshot_file": "artifacts/website_v3_visual_qa/redesign_review/kb-pre-mobile.png",
+      "screenshot_sha256": "acf5f0ea8075a7b6133a294021daa41012f593b827e48e612d0985b191ff2814"
+    }
+  ]
+}
