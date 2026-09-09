@@ -355,6 +355,23 @@ def build() -> dict:
             source_route = built84 / current_context.url_base.strip("/")
             destination_route = OUTPUT / current_context.url_base.strip("/")
             shutil.copytree(source_route, destination_route, dirs_exist_ok=True)
+            # LIVE FAILURE FIX: the same neo.css relative-path repair
+            # applied to ok_root above (lines ~332-336) is required
+            # here too. That loop only covers _CONTEXT's own tree (the
+            # operationally active tournament, e.g. OK Open) -- but
+            # `current_context` (the chronology "current" tournament,
+            # e.g. KB while it is only upcoming) can be a DIFFERENT
+            # tournament, and this exact page's content is about to be
+            # read verbatim as root HOME below. A relative
+            # "../../../../assets/neo.css" is correct at this page's
+            # own nested URL (4 levels deep) but 404s once the same
+            # bytes become "/" (0 levels deep) -- confirmed the real
+            # cause of production HOME's broken/unstyled layout.
+            for page in destination_route.rglob("index.html"):
+                html = page.read_text(encoding="utf-8")
+                html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
+                html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
+                page.write_text(html, encoding="utf-8", newline="\n")
             current_stage_page = destination_route / "pre" / "index.html"
             import dataclasses
             chronology["current"] = dataclasses.replace(

@@ -6,6 +6,7 @@ import json
 import re
 import shutil
 import sys
+from datetime import date as _date
 from html import escape
 from pathlib import Path
 
@@ -17,7 +18,13 @@ from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E40
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.tournament_state import ok_open_available_stages  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity, verified_sponsor, normalize_player_sponsor_mentions  # noqa: E402
-from klpga.tournament_context import load_active_tournament_context, SITE_REGISTRY_PATH  # noqa: E402
+from klpga.website_v2.official_schedule import load_official_schedule  # noqa: E402
+from klpga.tournament_context import (  # noqa: E402
+    CONTENT_DIR,
+    load_active_tournament_context,
+    load_tournament_context,
+    SITE_REGISTRY_PATH,
+)
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home"
@@ -191,17 +198,53 @@ def _tournament_row_html(*, display_name: str, status: str, meta_line: str, nav_
             f'<a class="row-cta" href="{escape(cta_url)}">{escape(cta_label)}</a></div></div></section>')
 
 
+_HUB_DASH = "—"
+
+
+def _schedule_entries():
+    """{game_code: ScheduleEntry} from the same official schedule
+    (OFFICIAL_KLPGA_SCHEDULE.json) that
+    klpga.website_v2.tournament_chronology already treats as the ONLY
+    source of real calendar identity for HOME's 3-card widget (see
+    that module's own docstring: "Pipeline stage freshness must never
+    decide calendar identity in either direction -- only the official
+    schedule's own start_date/end_date does now"). The tournament hub
+    reuses the exact same signal so a tournament's hub-card status can
+    never disagree with its own chronology card. Also carries the
+    schedule's own real venue -- TournamentContext.venue only ever
+    reflects TOURNAMENT_SITE_REGISTRY.json (not every tournament has a
+    registry-level venue yet), so a tournament with a real, sourced
+    schedule venue but no registry venue would otherwise render a
+    dash for a fact that is genuinely already known."""
+    schedule = load_official_schedule(CONTENT_DIR / "OFFICIAL_KLPGA_SCHEDULE.json")
+    return {entry.game_code: entry for entry in schedule}
+
+
 def _tournament_cards_html() -> str:
     """One card per known tournament (TOURNAMENT_SITE_REGISTRY.json's
     hub_card entries, in registry order -- see its _hub_card_comment).
-    The currently active tournament's status/stage-availability is
-    computed live from TournamentContext + ok_open_available_stages()
-    (the same real validated-state function every other live page
-    reads), never a hardcoded literal that could go stale as the
-    tournament progresses; a completed tournament's card uses its own
-    recorded hub_card facts, since no live official-result artifact
-    exists for a tournament that is already over."""
+    Three shapes of hub_card, each rendered differently:
+      1. The currently active tournament (game_code == _CONTEXT.game_code):
+         status/stage-availability computed live from TournamentContext
+         + ok_open_available_stages(), the same real validated-state
+         function every other live page reads -- but calendar
+         completion (real schedule end_date) always overrides a stale
+         "still in progress" reading once the tournament's real dates
+         have passed (LIVE FAILURE FIX, Bug D).
+      2. A completed tournament with recorded static facts (hub_card
+         has "display_name"): uses its own recorded hub_card facts,
+         since no live official-result artifact exists for a
+         tournament that is already over.
+      3. Any other tournament with a hub_card (only "nav_stages", no
+         static facts -- e.g. a tournament with real pages published
+         that is neither active nor completed-with-recorded-facts):
+         resolved live from TournamentContext + the real schedule
+         dates, exactly like branch 1, so it is never silently
+         skipped (LIVE FAILURE FIX, Bug C) and never goes stale as
+         more of its real stages are built."""
     registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig"))["tournaments"]
+    schedule_entries = _schedule_entries()
+    today_iso = _date.today().isoformat()
     cards = []
     for game_code, entry in registry.items():
         hub = entry.get("hub_card")
@@ -212,17 +255,44 @@ def _tournament_cards_html() -> str:
         if game_code == _CONTEXT.game_code:
             available = ok_open_available_stages()
             display_name = _CONTEXT.tournament_name
-            status = "진행중" if any(stage != "pre" for stage in available) else "예정"
-            meta_line = f"{_CONTEXT.display_date_range} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}"
+            schedule_entry = schedule_entries.get(game_code)
+            calendar_ended = schedule_entry is not None and today_iso > schedule_entry.end_date
+            status = "종료" if calendar_ended else ("진행중" if any(stage != "pre" for stage in available) else "예정")
+            venue = _CONTEXT.venue or _HUB_DASH
+            holes = f"{_CONTEXT.holes}홀" if _CONTEXT.holes else _HUB_DASH
+            fmt = _CONTEXT.format or _HUB_DASH
+            meta_line = f"{_CONTEXT.display_date_range} · {venue} · {holes} {fmt}"
             cta_stage = next((stage for stage in reversed(nav_stages) if stage in available), "pre")
             cta_label = "사전 분석 보기 →" if cta_stage == "pre" else "예측 기록 보기 →"
-        else:
+        elif "display_name" in hub:
             available = {stage: f"{url_base}{stage}/" for stage in nav_stages}
             display_name = hub["display_name"]
             status = hub["status"]
             meta_line = f'{hub["date_range"]} · {hub["result_line"]}'
             cta_stage = hub["cta_stage"]
             cta_label = "예측 기록 보기 →"
+        else:
+            ctx = load_tournament_context(game_code)
+            available = {stage: f"{url_base}{stage}/" for stage in nav_stages}
+            display_name = ctx.tournament_name
+            schedule_entry = schedule_entries.get(game_code)
+            if schedule_entry is not None and today_iso > schedule_entry.end_date:
+                status = "종료"
+            elif schedule_entry is not None and today_iso >= schedule_entry.start_date:
+                status = "진행중"
+            else:
+                status = "예정"
+            # venue prefers the registry (ctx.venue, same field the
+            # active-tournament branch above uses) and falls back to
+            # the official schedule's own real, sourced venue -- a
+            # tournament with no registry-level venue yet is not
+            # necessarily a tournament with NO known venue at all.
+            venue = ctx.venue or (schedule_entry.venue if schedule_entry else None) or _HUB_DASH
+            holes = f"{ctx.holes}홀" if ctx.holes else _HUB_DASH
+            fmt = ctx.format or _HUB_DASH
+            meta_line = f"{ctx.display_date_range} · {venue} · {holes} {fmt}"
+            cta_stage = next((stage for stage in reversed(nav_stages) if stage in available), "pre")
+            cta_label = "사전 분석 보기 →" if cta_stage == "pre" else "예측 기록 보기 →"
         cards.append(_tournament_row_html(
             display_name=display_name, status=status, meta_line=meta_line, nav_stages=nav_stages,
             available_stages=available, cta_url=available.get(cta_stage, f"{url_base}{cta_stage}/"), cta_label=cta_label,
