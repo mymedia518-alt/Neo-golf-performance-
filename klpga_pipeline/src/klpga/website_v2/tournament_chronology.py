@@ -71,14 +71,32 @@ def _facts_from_schedule_entry(entry: ScheduleEntry, registry: dict) -> Tourname
     have for the same game_code -- url_base/winner/etc are registry-
     only fields with no calendar meaning, so a game_code missing from
     the registry entirely still gets a complete, real facts object
-    (url_base "", no result fields), never a skipped/blank card."""
+    (url_base "", no result fields), never a skipped/blank card.
+
+    A registry entry can also exist purely for internal bootstrap
+    purposes (klpga.tournament_context.ensure_site_registry_entry writes
+    a minimal, mechanical url_base for a brand-new game_code the moment
+    ANY pipeline prerequisite -- e.g. the entry-list snapshot -- starts
+    resolving a TournamentContext for it, long before any real public
+    page exists at that route). Exposing that internal url_base as a
+    clickable card link would be a dead link, not "no public page yet"
+    -- so url_base is only surfaced once the registry entry ALSO
+    declares real public content: either has_hub_index (a dedicated hub
+    index route was actually built) or a non-empty hub_card.nav_stages
+    (real stage pages were actually built and are meant to be shown).
+    Neither is written by ensure_site_registry_entry's bootstrap, only
+    by the scripts that actually build/promote real pages for a
+    tournament -- so this mirrors the same "no public page yet" -> ""
+    contract this docstring already promises, for the bootstrap-only
+    case too."""
     reg_entry = registry.get(entry.game_code) or {}
     hub = reg_entry.get("hub_card") or {}
+    has_real_public_page = bool(reg_entry.get("has_hub_index")) or bool(hub.get("nav_stages"))
     return TournamentCardFacts(
         game_code=entry.game_code,
         tournament_name=entry.tournament_name,
         date_range_display=_date_range_display(entry, hub),
-        url_base=str(reg_entry.get("url_base") or ""),
+        url_base=str(reg_entry.get("url_base") or "") if has_real_public_page else "",
         start_date=entry.start_date,
         end_date=entry.end_date,
         venue=entry.venue or reg_entry.get("venue"),

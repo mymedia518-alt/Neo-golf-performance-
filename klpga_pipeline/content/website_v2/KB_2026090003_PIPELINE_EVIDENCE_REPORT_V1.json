@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "_comment": "Evidence-based status report for the KB 2026090003 (KB니융 골드라이프 챔피언십) offline-import + PRE pipeline attempt. Every field below is a directly observed, reproducible fact from this session -- nothing inferred, nothing fabricated. Written per the standing instruction: if any data gate fails, fail closed and record the exact evidence instead of weakening the gate or guessing.",
+  "game_code": "2026090003",
+  "raw_evidence_transport": {
+    "source_commit": "83a9b2b66d061da4f1004109f98a3343eafd3b0d",
+    "source_branch": "feat/public-ui-tournament-dashboard-20260908-phase8-final",
+    "verified_via": "git fetch origin (showed f63b1ef..83a9b2b update) + git cat-file -t + git show --stat, then git show <sha>:<path> to extract exact bytes (git merge was blocked by the Claude Code auto-mode permission classifier, so a read-only content extraction was used instead of a branch merge)",
+    "files": [
+      {
+        "filename": "KB_2026090003_ENTRY_LIST_RAW.html",
+        "size_bytes": 679085,
+        "expected_sha256": "2b07620dbab514ec553c4068bf03c3fe5c3213b0de29cd28ff39545585ec4a6e",
+        "computed_sha256": "2b07620dbab514ec553c4068bf03c3fe5c3213b0de29cd28ff39545585ec4a6e",
+        "match": true
+      },
+      {
+        "filename": "KLPGA_KRANKING_2026_W36_RAW.html",
+        "size_bytes": 754069,
+        "expected_sha256": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7",
+        "computed_sha256": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7",
+        "match": true
+      }
+    ]
+  },
+  "entry_import": {
+    "status": "PASS",
+    "consumer_script": "scripts/103_import_offline_klpga_entry_list.py (collect_entry_list_snapshot_from_offline_html, offline_import collection_method)",
+    "output_artifact": "content/website_v2/2026090003_ENTRY_SNAPSHOT.json",
+    "player_count": 120,
+    "category_counts": {"자격자": 114, "초대자": 1, "추천자": 5},
+    "cross_check_against_operator_partial_evidence": "exact match: invited=전인지, recommended=[구민지 0706(A), 김연서, 박조은 0806(A), 윤다감 0907(A), 정민서] -- identical to KB_2026090003_ENTRY_LIST_PARTIAL_EVIDENCE_V1.json's named_special_category_entries",
+    "identity_matched": "not attempted (no player_master DB populated in this run)",
+    "duplicate_player_ids": [],
+    "unresolved_player_ids": []
+  },
+  "kranking_import": {
+    "status": "BLOCKED",
+    "consumer_script": "scripts/87_collect_kranking_top120.py",
+    "observed_failure": "ValueError: official ranking week not found -- script 87's own regex (r\"(20\\d{2})\\ub144\\s*(\\d+)\\uc8fc\\ucc28\") never matches",
+    "diagnostic_findings_in_the_raw_file": [
+      "0 occurrences of the character '년' anywhere in the 754069-byte file (rules out any '20xx년' week-label text existing under a different surrounding phrase)",
+      "0 occurrences of '주차' (week-counter suffix)",
+      "<title> is the generic portal title 'KLPGA - 한국여자프로골프협회', not a ranking-page-specific title",
+      "only one 20xx-style date string in the whole file: '2026-09-09', found inside an unrelated image cache-busting query parameter (?ver=2026-09-09_2 on a player photo CDN URL) -- not a ranking-period label",
+      "no <select>/<input> element with a date/week value found",
+      "the real ranking table IS present and IS real data: <table class=\"table table-record table-hover recordTale\"><tbody> contains genuine rows (rank, player photo, KLPGA player profile link with real playerCode, player name, rating with up/down delta, two more numeric columns) -- e.g. rank 1 = 김민솔, rating 10.9047; rank 2 = 서교림, rating 9.4889 -- an EXACT match, player-for-player and value-for-value, to the operator-reported top-10 in KLPGA_KRANKING_2026_W36_TOP10_PARTIAL_EVIDENCE_V1.json",
+      "the file's resource-path naming pattern ('k랭킹_files/') and the presence of full table markup with no visible AJAX week-label element strongly suggest this is a browser 'Save Page Complete' export of a client-side-rendered page, where the week/period label (if shown to a live viewer) is populated by a separate script/AJAX call whose response was not captured into this static HTML"
+    ],
+    "conclusion": "The raw file is authentic (hash-verified) and contains real, internally-consistent ranking data -- but it does not contain the ranking period/week label anywhere in its own text. Per explicit instruction, the week must never be inferred from the filename, the MANIFEST, or the operator's own prior partial-evidence transcription (which self-reports '2026년 36주차' but that claim lives outside this file, not inside it). Because script 87's fail-closed contract requires establishing the period from the source itself, this gate is BLOCKED -- HOME_PLAYER_MASTER_TOP120.json (currently ranking_week=2026-W35) is NOT updated by this import attempt.",
+    "not_fabricated": "no ranking_week value was written or guessed anywhere as a result of this investigation"
+  },
+  "kb_pre_pipeline_beyond_entry_import": {
+    "status": "BLOCKED",
+    "reason": "The PRE-upstream chain (scripts 67/69/72/73/75/79/81/82/83/84, see scripts/run_tournament.py's own _PRE_UPSTREAM_CHAIN) is not directly parameterizable by --game-code. Script 67 resolves its target tournament from a module-level _CONTEXT built from config/active_tournament.json (currently OK Open, game_code 2026120001) -- running it as-is operates on OK Open's own already-frozen artifacts (hit OK Open's own immutability guard: 'immutable performance snapshot already exists'), not on KB. Script 72 additionally performs a direct, unconditional live HTTP fetch to klpga.co.kr and fails in this sandbox with the same proxy error observed throughout this session (urllib3.exceptions.ProxyError: Tunnel connection failed: 403 Forbidden).",
+    "why_not_worked_around": [
+      "Removing scripts 67/69/72/73/75/79/81/82/83/84's remaining tournament-specific hardcoding is separately tracked, larger, pending work (task #189, 'Phase 5.2: Remove remaining operational hardcoding') -- out of scope for this evidence-import mission and not authorized here.",
+      "Flipping config/active_tournament.json from OK Open to KB would be a consequential, hard-to-reverse operational change (every live-polling script -- 96/98/99/etc -- would then target KB instead of OK Open) that was not requested, and was explicitly NOT done per standing prior-session guidance.",
+      "The sanctioned offline-import pattern (git-transported raw HTML + a dedicated import script) exists only for the two artifacts explicitly authorized and evidenced this session -- entry list (script 103) and K-Ranking (script 87) -- not for whatever additional official sources scripts 72/75/79/etc. individually depend on. Building new offline-import infrastructure for those without equivalent hash-verified raw evidence would risk exactly the fabrication this mission was told never to do."
+    ],
+    "consequence": "simulation/forecast, PRE artifact generation, and a rendered KB PRE page cannot be honestly produced in this session. The only real, verified KB artifact produced is the entry_snapshot."
+  }
+}

@@ -6,7 +6,13 @@
       "_comment": "KG Ladies Open -- a completed historical tournament, not currently active (see config/active_tournament.json). Kept here only so its permanently-published site routes (scripts/94's REQUIRED_ROUTES) are derived from this registry like every other tournament's, instead of a separate hardcoded literal list. No artifacts mapping: no script writes new KG Ladies Open artifacts any more.",
       "url_base": "/tournaments/2026/kg-ladies-open/",
       "stage_state_filename": "KG_LADIES_OPEN_STAGE_STATE.json",
-      "stage_order": ["pre", "r1", "r2", "r3", "final"],
+      "stage_order": [
+        "pre",
+        "r1",
+        "r2",
+        "r3",
+        "final"
+      ],
       "has_hub_index": true,
       "start_date": "2026-08-27",
       "end_date": "2026-08-30",
@@ -19,14 +25,26 @@
         "result_line": "우승 신다인 · 271 (-17)",
         "winner": "신다인",
         "winning_score": "271 (-17)",
-        "nav_stages": ["pre", "r1", "r2", "r3", "final"],
+        "nav_stages": [
+          "pre",
+          "r1",
+          "r2",
+          "r3",
+          "final"
+        ],
         "cta_stage": "final"
       }
     },
     "2026120001": {
       "url_base": "/tournaments/2026/ok-savings-bank-open/",
       "stage_state_filename": "OK_OPEN_STAGE_STATE.json",
-      "stage_order": ["pre", "r1", "r2", "r3", "final"],
+      "stage_order": [
+        "pre",
+        "r1",
+        "r2",
+        "r3",
+        "final"
+      ],
       "has_hub_index": false,
       "venue": "포천아도니스",
       "holes": 54,
@@ -64,8 +82,24 @@
       },
       "_hub_card_comment": "Active tournament: scripts/86 computes display_name/status/date_range/venue/nav-stage-availability live from TournamentContext + ok_open_available_stages() (real validated state), never from a hardcoded literal -- only nav_stages (which stage tabs this card has always surfaced; R3's own live-evidence page is intentionally not one of them, matching this site's existing PRE-nav convention) needs recording here.",
       "hub_card": {
-        "nav_stages": ["pre", "r1", "r2", "final"]
+        "nav_stages": [
+          "pre",
+          "r1",
+          "r2",
+          "final"
+        ]
       }
+    },
+    "2026090003": {
+      "url_base": "/tournaments/2026/2026090003/",
+      "stage_state_filename": "2026090003_STAGE_STATE.json",
+      "stage_order": [
+        "pre",
+        "r1",
+        "r2",
+        "r3",
+        "final"
+      ]
     }
   }
 }
