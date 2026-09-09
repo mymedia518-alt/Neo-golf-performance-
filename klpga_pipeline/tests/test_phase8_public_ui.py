@@ -432,12 +432,14 @@ def test_home_regular_tour_player_master_546_file_is_preserved_but_never_read_by
 # ---------------------------------------------------------------------------
 
 def test_sponsor_slot_appears_directly_below_every_player_name(built):
+    """OWNER DECISION (PRODUCT PRESENTATION RECOVERY): the sponsor
+    contract is GLOBAL -- HOME resolves the same way KB PRE does (see
+    tests/test_cross_tournament_sponsor_cache.py for the full six-point
+    gate coverage). The structural contract (both slots always present)
+    holds regardless of how many actually carry a real value."""
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     identities = re.findall(r'<span class="player-name">[^<]+</span><span class="player-sponsor">[^<]*</span>', html)
     assert len(identities) == 120
-    # The current KB build deliberately skipped optional profile-network
-    # enrichment; official sponsor absence is represented by a blank slot.
-    assert all('<span class="player-sponsor"></span>' in identity for identity in identities)
 
 
 def test_unverified_sponsor_remains_blank_never_guessed(built):
