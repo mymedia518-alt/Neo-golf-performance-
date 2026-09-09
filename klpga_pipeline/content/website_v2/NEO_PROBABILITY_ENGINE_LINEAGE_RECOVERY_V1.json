@@ -1,0 +1,19 @@
+{
+  "schema_version": "neo_probability_engine_lineage_recovery_v1",
+  "purpose": "Machine-readable companion to docs/NEO_PROBABILITY_ENGINE_LINEAGE_RECOVERY_V1.md -- answers the 9 questions this task's repository-wide audit posed about the historical multi-tier probability engine.",
+  "generated_at_utc": "2026-09-09T23:50:00Z",
+  "engine_family": "BETA #001-R1/R2/R3 (src/klpga/neo_win/round_update.py, round_update_r2.py, round_update_r3.py)",
+  "answers": {
+    "what_engine_produced_kg_ok_top5_10_20_win": "The BETA #001-R1/R2/R3 Monte Carlo family for the POST-round checkpoints; NEO_WIN_V0_1 (src/klpga/neo_win/model.py) for WIN-only at PRE.",
+    "does_it_exist_in_current_head": true,
+    "last_known_good_commit": "unchanged since introduction -- the files are present, unmodified, on current HEAD (28a83536351cee64640e89f85c6efb11f1c5d229 and its ancestors); no revert or deletion was found.",
+    "checkpoint": "POST-R1 (round_update.py) / POST-R2 (round_update_r2.py) / POST-R3 (round_update_r3.py, not fully inspected this pass) -- NEVER PRE.",
+    "monte_carlo_or_other": "Monte Carlo (round_update family). NEO_WIN_V0_1 (PRE WIN-only) is closed-form softmax, not Monte Carlo.",
+    "inputs": "Frozen PRE combined-score prior (sets expected per-remaining-round scoring rate) + real, already-played round scores for whichever rounds have occurred + empirical historical cut fraction (DB-derived).",
+    "why_disconnected": "run_tournament.py's generic action registry was built later and never wired to this family (confirmed zero references by grep). Separately, this family is architecturally inapplicable at PRE (requires >=1 real played round) -- so PRE never had CUT/TOP20/TOP10/TOP5 for a different, deeper reason than the orchestrator gap.",
+    "classification": "PIPELINE_DISCONNECTED (for the POST-round engine relative to run_tournament.py) + ARCHITECTURALLY_INAPPLICABLE (for why it was never extended to PRE). Neither is MODEL_REMOVED -- nothing was deleted.",
+    "safely_recoverable_without_contaminating_kb_pre": "Yes for POST-round checkpoints (KB has not reached R1 yet -- see KB_2026090003_PRE_INPUT_FREEZE_V1.json's r1_result_absence_evidence -- so wiring round_update.py in for KB's future R1 would not touch any existing frozen artifact). NOT yet for a genuine PRE-stage version: this task built one (src/klpga/neo_win/pre_5prob.py) but it remains BLOCKED_INSUFFICIENT_SAMPLE -- see NEO_PRE_5PROB_PUBLICATION_GATE_V1.json."
+  },
+  "full_narrative": "See docs/NEO_PROBABILITY_ENGINE_LINEAGE_RECOVERY_V1.md for the complete per-stage table and reasoning.",
+  "sandbox_constraint": "No data/klpga.sqlite or any .sqlite/.db file exists anywhere in this sandbox -- confirmed by repository-wide search. This blocks fresh re-execution of scripts 33/47/101 and any full walk-forward backtest of the new PRE candidate, but content/website_v2/2026090003_PRE_WIN_FORECAST.json's own inference_database block proves the underlying ~90-100-tournament corpus is real and was used on the user's own machine."
+}

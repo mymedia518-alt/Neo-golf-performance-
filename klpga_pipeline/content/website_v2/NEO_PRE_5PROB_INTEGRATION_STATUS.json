@@ -1,0 +1,10 @@
+{
+  "schema_version": "neo_pre_5prob_integration_status_v1",
+  "purpose": "Section 11 -- generic lifecycle integration of NEO_PRE_5PROB_V1 into run_tournament.py's registry.",
+  "generated_at_utc": "2026-09-09T23:55:00Z",
+  "status": "DEFERRED_PENDING_PUBLICATION_APPROVAL",
+  "reason": "run_tournament.py's action registry (build_registry, _prepare_pre_runner, etc.) is a production orchestrator with zero tournament-specific literals -- wiring in a model whose own publication gate is BLOCKED_INSUFFICIENT_SAMPLE (NEO_PRE_5PROB_PUBLICATION_GATE_V1.json) would mean the generic PRE pipeline could start emitting CUT/TOP20/TOP10/TOP5 values for ANY future tournament without the per-tournament BLOCKED status this task's evidence requires. That is a bigger, unintended change than 'wire in a helper function' -- it would silently widen what every future PRE run publishes.",
+  "no_conflict_with_historical_probability_semantics": "Confirmed no conflict exists with the round_update.py/round_update_r2.py/round_update_r3.py family's own semantics for POST-round checkpoints -- those remain entirely untouched by this task, and KB has not reached R1 yet (see KB_2026090003_PRE_INPUT_FREEZE_V1.json), so no wiring decision for THAT family was forced by this task either.",
+  "what_would_change_this": "Once NEO_PRE_5PROB_PUBLICATION_GATE_V1.json's global_verdict moves off BLOCKED_INSUFFICIENT_SAMPLE (via a real walk-forward backtest against the full historical corpus, run from an environment with data/klpga.sqlite present), a `_prepare_pre_runner` hook that calls `pre_5prob.build_pre_sim_inputs`/`simulate_pre_tournament` and writes a `<GAME_CODE>_PRE_5PROB_CANDIDATE.json` alongside the existing PRE_PUBLIC_MASTER artifact -- gated by that same publication-gate file, fail-closed -- would be the natural integration point. No code for this hook was written in this task, per the instruction not to wire a BLOCKED model into the live pipeline.",
+  "code_changed_in_run_tournament_py": false
+}
