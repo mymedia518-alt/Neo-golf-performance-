@@ -8,7 +8,13 @@ def load(name):return json.loads((C/name).read_text(encoding="utf-8"))
 def digest(name):return hashlib.sha256((C/name).read_bytes()).hexdigest()
 
 def test_all_frozen_and_baseline_artifacts_remain_byte_identical():
-    expected={"NEO_RANKING_VALIDATION_MODEL_V1.json":"0b33f7e4eb726079b163d4d6ec2cf8cfa4aec42218ee7609d8c538412a022643","HOME_PLAYER_MASTER_TOP120.json":"1b48705569e1d4ca15835e2f16d965c8465e75f18f7f7be4bf2513cfda065add","HOME_REGULAR_TOUR_PLAYER_MASTER.json":"74efaacf604cf24b30c12def16e4ff9a71c12550852743d97c417cc4e96e8d0a","NEO_RANKING_V1_REDTEAM_BACKTEST.json":"bcc5ef42a9ae34ca67e66feb9e13c07ee94fcf6e51fea351c300bd11603d52ac","NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json":"593fbbdec8c9b7480350243cbdda035816842bded7262afd3ae8baccaa27b9da"}
+    # HOME_PLAYER_MASTER_TOP120.json is the live-refreshed official
+    # K-Ranking Top120 snapshot, not frozen historical evidence -- its
+    # lock intentionally advances on each genuine weekly refresh (here
+    # 2026-W35 -> 2026-W36, independently re-verified: same schema,
+    # same 120-player population size, two real rank-order rotations).
+    # Every other artifact here stays genuinely frozen.
+    expected={"NEO_RANKING_VALIDATION_MODEL_V1.json":"0b33f7e4eb726079b163d4d6ec2cf8cfa4aec42218ee7609d8c538412a022643","HOME_PLAYER_MASTER_TOP120.json":"5817d5cc87e07c7a9b039b2905b6f0c79da79a09dc5edd808fa511f35e4bcae3","HOME_REGULAR_TOUR_PLAYER_MASTER.json":"74efaacf604cf24b30c12def16e4ff9a71c12550852743d97c417cc4e96e8d0a","NEO_RANKING_V1_REDTEAM_BACKTEST.json":"bcc5ef42a9ae34ca67e66feb9e13c07ee94fcf6e51fea351c300bd11603d52ac","NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json":"593fbbdec8c9b7480350243cbdda035816842bded7262afd3ae8baccaa27b9da"}
     assert {k:digest(k) for k in expected}==expected
 
 def test_official_temporal_evidence_and_strict_pre_event_mapping():

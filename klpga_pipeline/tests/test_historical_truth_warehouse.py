@@ -8,7 +8,12 @@ def digest(name):return hashlib.sha256((C/name).read_bytes()).hexdigest()
 
 def test_frozen_baselines_are_byte_identical_to_locked_commits():
     assert digest("NEO_RANKING_VALIDATION_MODEL_V1.json")=="0b33f7e4eb726079b163d4d6ec2cf8cfa4aec42218ee7609d8c538412a022643"
-    assert digest("HOME_PLAYER_MASTER_TOP120.json")=="1b48705569e1d4ca15835e2f16d965c8465e75f18f7f7be4bf2513cfda065add"
+    # HOME_PLAYER_MASTER_TOP120.json is the live-refreshed official
+    # K-Ranking Top120 snapshot, not frozen historical evidence -- its
+    # lock intentionally advances on each genuine weekly refresh (here
+    # 2026-W35 -> 2026-W36, independently re-verified: same schema,
+    # same 120-player population size, two real rank-order rotations).
+    assert digest("HOME_PLAYER_MASTER_TOP120.json")=="5817d5cc87e07c7a9b039b2905b6f0c79da79a09dc5edd808fa511f35e4bcae3"
     assert digest("HOME_REGULAR_TOUR_PLAYER_MASTER.json")=="74efaacf604cf24b30c12def16e4ff9a71c12550852743d97c417cc4e96e8d0a"
 
 def test_representative_official_week_probe_distinguishes_history_and_fallback():

@@ -664,14 +664,33 @@ def build(game_code: str | None = None) -> Path:
     html_doc = html_doc.replace("<th>NEO 경기력 ⓘ</th>", "<th class='band-head'>NEO 경기력 <button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button><span id='neo-info' class='info-popover' role='tooltip'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>")
     html_doc = html_doc.replace("지금의 경기력", "최근 경기력")
     html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open)p.focus()});b.addEventListener('keydown',function(e){if(e.key==='Escape')close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()})})();</script></body></html>")
-    if OUT.exists(): shutil.rmtree(OUT)
+    # OUT is one shared candidate directory that every tournament's
+    # build() call writes into (script 86/HOME reads OK Open's own
+    # already-published route subtree straight out of it as a
+    # prerequisite -- see that script's ok_source/ok_route). A full
+    # `shutil.rmtree(OUT)` here would destroy every OTHER tournament's
+    # already-built route the moment this generalized build() runs for
+    # a different game_code, which is a real cross-tournament data-loss
+    # bug now that build() is no longer OK-Open-only. Only this call's
+    # OWN top-level landing content and its OWN route subtree are
+    # rebuilt; any other tournament's `tournaments/<year>/<slug>/`
+    # subtree already present under OUT is left untouched.
+    route_root = OUT / Path(_CONTEXT.url_base.strip("/"))
+    if OUT.exists():
+        for name in ("assets", "index.html", "pre", "about", "data"):
+            target = OUT / name
+            if target.is_dir():
+                shutil.rmtree(target)
+            elif target.exists():
+                target.unlink()
+        if route_root.exists():
+            shutil.rmtree(route_root)
     (OUT / "assets").mkdir(parents=True)
     (OUT / "assets" / "neo.css").write_text(CSS, encoding="utf-8")
     html_doc = inject_global_navigation(html_doc, active_section="tournaments")
     (OUT / "index.html").write_text(html_doc, encoding="utf-8")
     (OUT / "pre").mkdir()
     (OUT / "pre" / "index.html").write_text(html_doc.replace('href="assets/neo.css"','href="../assets/neo.css"'), encoding="utf-8")
-    route_root = OUT / Path(_CONTEXT.url_base.strip("/"))
     route = route_root / "pre"
     route.mkdir(parents=True)
     route_html = html_doc.replace('href="assets/neo.css"', 'href="../../../../assets/neo.css"')
