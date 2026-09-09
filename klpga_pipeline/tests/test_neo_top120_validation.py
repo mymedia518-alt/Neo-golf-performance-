@@ -22,7 +22,26 @@ def load(name): return json.loads((CONTENT / name).read_text(encoding="utf-8"))
 
 
 @pytest.fixture(scope="module")
-def built():
+def _pinned_ok_open_window():
+    """This module's HOME-OWNERSHIP tests below are about the SHAPE of
+    "/" while a tournament is genuinely active (does it become the
+    stage page, never a ranking-page-head-plus-hero) -- a concern
+    orthogonal to whether OK Open's own real calendar window happens to
+    still be open on whatever real date this suite is run. Pinning
+    OK_END_DATE far in the future keeps that shape assertion stable
+    across time without re-deriving it from wall-clock "today" (see
+    test_home_falls_back_to_ranking_default_once_the_active_tournament_
+    has_calendar_ended below for the complementary, deliberately real-
+    calendar-aware test proving the opposite branch)."""
+    from klpga.website_v2 import tournament_state
+    mp = pytest.MonkeyPatch()
+    mp.setattr(tournament_state, "OK_END_DATE", "2099-12-31")
+    yield
+    mp.undo()
+
+
+@pytest.fixture(scope="module")
+def built(_pinned_ok_open_window):
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
     spec = importlib.util.spec_from_file_location("top120_builder", path); module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
     return module.build()
@@ -186,7 +205,7 @@ def test_http_routes_are_real_index_pages_not_directory_listings(built):
         thread.join(timeout=10)
 
 
-def test_tournament_state_never_infers_a_stage_from_todays_date():
+def test_tournament_state_never_infers_a_stage_from_todays_date(_pinned_ok_open_window):
     # The single source of truth: extend by hand (script 96, after a
     # real validated collection), never derive from a calendar. PRE
     # always qualifies; R1 now also qualifies because a real R1 cycle
@@ -367,12 +386,13 @@ def test_global_home_nav_points_to_root_and_root_resolves_to_the_tournament_expe
 def test_ranking_default_still_produces_k_ranking_neo_ranking_home(tmp_path, monkeypatch):
     # TEST 4: RANKING_DEFAULT (no active tournament) must still publish
     # the K-Ranking x NEO Ranking table as /'s own primary body, exactly
-    # as it always has. Real production state is TOURNAMENT_ACTIVE
-    # today, so this loads its OWN isolated module instance and
-    # redirects its OUTPUT to a tmp_path (never the shared candidate/
-    # tree the `built` fixture and every other test in this file use)
-    # and forces home_mode() to return RANKING_DEFAULT -- the real
-    # build() code path, exercised end-to-end, not a re-implementation.
+    # as it always has. `built` (this module's other tests) pins
+    # OK_END_DATE far in the future to exercise the TOURNAMENT_ACTIVE
+    # shape deterministically, so this test loads its OWN isolated
+    # module instance and redirects its OUTPUT to a tmp_path (never the
+    # shared candidate/ tree) and forces home_mode() to return
+    # RANKING_DEFAULT directly -- the real build() code path, exercised
+    # end-to-end, not a re-implementation.
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
     spec = importlib.util.spec_from_file_location("top120_builder_ranking_default", path)
     module = importlib.util.module_from_spec(spec)
@@ -404,6 +424,43 @@ def test_ranking_default_still_produces_k_ranking_neo_ranking_home(tmp_path, mon
     # cards -- /ranking/ never did and still doesn't.
     normalized_home = _re.sub(r'<section class="t-tournament-cards".*?</section>', "", normalized_home, count=1, flags=_re.S)
     assert ranking_html == normalized_home, "/ and /ranking/ must be identical (aside from the HOME-only owner marker, tournament cards, and which nav item is active) while RANKING_DEFAULT"
+
+
+def test_home_falls_back_to_ranking_default_once_the_active_tournament_has_calendar_ended(tmp_path, monkeypatch):
+    """Red Team closure: a stale active_tournament.json left pointing
+    at a tournament for days after it genuinely finished (that pointer
+    is only ever advanced by a separate, DB-driven process, never by
+    this build) must not keep publishing that tournament's last
+    validated stage page as /'s primary content once its own real,
+    officially-sourced end_date has passed -- home_mode() must fall
+    back to RANKING_DEFAULT purely from the calendar, exactly like
+    klpga.website_v2.tournament_chronology already does for the 이번
+    대회/지난 대회 cards, even though ok_open_available_stages() still
+    reports real validated data (PRE/R1/R2 never stop being "available"
+    just because the tournament is over).
+
+    Uses the real tournament_state.home_mode() (patches only
+    OK_END_DATE, its one real dependency on the active tournament's own
+    calendar fact) against a real past end_date -- this is the actual
+    bug this suite's other TOURNAMENT_ACTIVE tests were silently
+    exempt from until _pinned_ok_open_window pinned their own window
+    open, not a hypothetical."""
+    from klpga.website_v2 import tournament_state
+
+    monkeypatch.setattr(tournament_state, "OK_END_DATE", "2020-01-01")
+    assert tournament_state.home_mode() == "RANKING_DEFAULT"
+
+    path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
+    spec = importlib.util.spec_from_file_location("top120_builder_calendar_ended", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    module.OUTPUT = tmp_path / "candidate"
+    module.build()
+    html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert html.count("data-player-row") == 120, "/ must be the 120-row ranking table, not a stale stage page"
+    assert "공식 순위와 NEO 검증 순위 비교" in html
+    for marker in ("R2 · LIVE", "2라운드 공식 리더보드", "1라운드 공식 리더보드"):
+        assert marker not in html, f"stale OK Open stage content leaked into / after calendar end: {marker!r}"
 
 
 def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):
