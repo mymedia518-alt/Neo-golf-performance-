@@ -620,8 +620,18 @@ CSS = """
 .grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
 /* Public table is centered; numeric columns retain tabular numerals. */
 .data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player-name,.player-sponsor{text-align:center}
-.info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}.info-popover{display:none;position:absolute;z-index:2;max-width:260px;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400}.info-popover.is-open{display:block}
-@media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px;width:auto;max-width:none;margin:0}}
+.info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}
+/* OWNER UI FIX (NEO 경기력 tooltip overflow): position:fixed instead of
+   position:absolute -- the popover no longer needs (or is affected by)
+   any positioned ancestor, so it can never widen or overlap the table's
+   own column layout (the reported "extends across adjacent columns /
+   overlaps SG Total" defect) and is never clipped by .table-wrap's
+   overflow-x/overflow-y containment. JS (below) sets left/top from the
+   trigger button's real viewport position; max-width is clamped to the
+   viewport so it can never overflow off-screen either. */
+.info-popover{display:none;position:fixed;z-index:20;max-width:min(260px,calc(100vw - 2rem));padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400;line-height:1.5;text-align:left;white-space:normal;overflow-wrap:break-word;word-break:keep-all}
+.info-popover.is-open{display:block}
+@media(max-width:760px){.info-popover{left:16px!important;right:16px!important;top:112px!important;width:auto;max-width:none}}
 /* PRODUCT RECOVERY V1 REDESIGN -- KB PRE leaderboard: replaces the
    rejected two-column grid + "우승 가능성 변화" shell aside entirely.
    The player table is now the sole, full-width panel: a real
@@ -792,9 +802,17 @@ def build(game_code: str | None = None) -> Path:
     _relative_base = _CONTEXT.url_base.lstrip("/")
     html_doc = html_doc.replace(f'href="{_relative_base}', f'href="{_CONTEXT.url_base}')
     html_doc = html_doc.replace('<a href="#pre">예측 기록</a>', f'<a href="{_CONTEXT.url_base}pre/">예측 기록</a>')
-    html_doc = html_doc.replace("<th>NEO 경기력 ⓘ</th>", "<th class='band-head'>NEO 경기력 <button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button><span id='neo-info' class='info-popover' role='tooltip'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>")
+    html_doc = html_doc.replace("<th>NEO 경기력 ⓘ</th>", "<th class='band-head'>NEO 경기력 <button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button><span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>")
     html_doc = html_doc.replace("지금의 경기력", "최근 경기력")
-    html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open)p.focus()});b.addEventListener('keydown',function(e){if(e.key==='Escape')close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()})})();</script></body></html>")
+    # OWNER UI FIX (NEO 경기력 tooltip overflow): .info-popover is
+    # position:fixed (see CSS above), so it needs its viewport
+    # left/top computed from the trigger button's real position rather
+    # than relying on CSS static-position guesswork -- that guesswork
+    # was the root cause of the popover extending across neighboring
+    # columns / overlapping SG Total. Closes on scroll/resize (its
+    # fixed coordinates would otherwise drift away from the button)
+    # in addition to the pre-existing ESC/outside-click close.
+    html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}function place(){if(window.innerWidth<=760)return;const r=b.getBoundingClientRect();let left=Math.min(r.left,window.innerWidth-p.offsetWidth-16);left=Math.max(16,left);p.style.left=left+'px';p.style.top=(r.bottom+6)+'px'}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open){place();p.focus()}});b.addEventListener('keydown',function(e){if(e.key==='Escape')close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()});window.addEventListener('scroll',close,true);window.addEventListener('resize',close)})();</script></body></html>")
     # OUT is one shared candidate directory that every tournament's
     # build() call writes into (script 86/HOME reads OK Open's own
     # already-published route subtree straight out of it as a
