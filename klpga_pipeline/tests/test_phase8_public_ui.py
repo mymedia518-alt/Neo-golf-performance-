@@ -513,7 +513,11 @@ def test_normalization_pass_excludes_the_active_tournament_own_routes(built):
     already-correct output."""
     from klpga.website_v2.tournament_state import OK_BASE
     html = (OUTPUT / OK_BASE.strip("/") / "r1" / "index.html").read_text(encoding="utf-8")
-    assert "class='player'" in html  # OK Open's own established markup, untouched
+    # PRODUCT RECOVERY V1 (design-system consolidation, phase 1): OK
+    # Open's own generator now emits the shared player-name/player-sponsor
+    # classes too (see scripts/84's _player_identity_cell), so this
+    # exclusion-list test's own fixture markup moves with it.
+    assert "class='player-name'" in html  # OK Open's own established markup, untouched
 
 
 def test_sponsor_rule_enumerated_across_every_ok_open_stage_route(built):
@@ -527,8 +531,8 @@ def test_sponsor_rule_enumerated_across_every_ok_open_stage_route(built):
         path = OUTPUT / route
         assert path.is_file(), route
         html = path.read_text(encoding="utf-8")
-        name_spans = re.findall(r"<span class='player'>[^<]*</span>", html)
-        sponsor_spans = re.findall(r"<span class='sponsor'>[^<]*</span>", html)
+        name_spans = re.findall(r"<span class='player-name'>[^<]*</span>", html)
+        sponsor_spans = re.findall(r"<span class='player-sponsor'>[^<]*</span>", html)
         if not name_spans:
             continue  # R2 has no rendered leaderboard yet on this data snapshot
         checked_any_row = True

@@ -3,7 +3,7 @@
   "game_code": "2026090003",
   "cutoff": "2026-09-10T00:00:00+09:00",
   "entry_count": 120,
-  "generated_at": "2026-09-09T09:40:04Z",
+  "generated_at": "2026-09-09T14:11:37Z",
   "tier2_gate": "2026090003_TIER2_PUBLICATION_GATE.json",
   "source_artifacts": [
     "2026090003_CURRENT_PLAYER_MASTER.json",
@@ -12,6 +12,19 @@
     "2026090003_PRE_WIN_FORECAST.json"
   ],
   "no_unsupported_top_probabilities": true,
+  "probability_distribution_contract": {
+    "schema": [
+      "cut_probability",
+      "top20_probability",
+      "top10_probability",
+      "top5_probability",
+      "win_probability"
+    ],
+    "model_status": "BLOCKED",
+    "publication_status": "BLOCKED",
+    "checkpoint": "PRE",
+    "provenance": "src/klpga/neo_win/r1_live_probability.py:LIVE_PROBABILITY_MODEL_STATUS"
+  },
   "records": [
     {
       "player_id": "9174",
@@ -85,6 +98,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -178,6 +192,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -271,6 +286,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -364,6 +380,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -457,6 +474,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -550,6 +568,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -643,6 +662,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -736,6 +756,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -829,6 +850,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -922,6 +944,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1015,6 +1038,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1108,6 +1132,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1201,6 +1226,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1294,6 +1320,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1387,6 +1414,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1480,6 +1508,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1573,6 +1602,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1666,6 +1696,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1759,6 +1790,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1852,6 +1884,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -1945,6 +1978,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2038,6 +2072,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2131,6 +2166,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2224,6 +2260,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2317,6 +2354,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2410,6 +2448,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2503,6 +2542,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2596,6 +2636,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2689,6 +2730,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2782,6 +2824,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2875,6 +2918,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -2968,6 +3012,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3061,6 +3106,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3154,6 +3200,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3247,6 +3294,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3340,6 +3388,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3433,6 +3482,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3526,6 +3576,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3619,6 +3670,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3712,6 +3764,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3805,6 +3858,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3898,6 +3952,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -3991,6 +4046,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4084,6 +4140,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4177,6 +4234,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4270,6 +4328,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4363,6 +4422,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4456,6 +4516,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4549,6 +4610,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4642,6 +4704,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4735,6 +4798,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4828,6 +4892,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -4921,6 +4986,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5014,6 +5080,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5107,6 +5174,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5200,6 +5268,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5293,6 +5362,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5386,6 +5456,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5479,6 +5550,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5572,6 +5644,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5665,6 +5738,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5758,6 +5832,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5851,6 +5926,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -5944,6 +6020,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6037,6 +6114,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6130,6 +6208,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6223,6 +6302,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6316,6 +6396,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6409,6 +6490,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6502,6 +6584,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6595,6 +6678,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6688,6 +6772,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6781,6 +6866,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6874,6 +6960,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -6967,6 +7054,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7060,6 +7148,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7153,6 +7242,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7246,6 +7336,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7339,6 +7430,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7432,6 +7524,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7525,6 +7618,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7618,6 +7712,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7711,6 +7806,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7804,6 +7900,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7897,6 +7994,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -7990,6 +8088,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8083,6 +8182,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8176,6 +8276,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8269,6 +8370,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8362,6 +8464,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8455,6 +8558,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8548,6 +8652,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8641,6 +8746,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8734,6 +8840,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8827,6 +8934,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -8920,6 +9028,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9013,6 +9122,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9106,6 +9216,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9199,6 +9310,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9292,6 +9404,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9385,6 +9498,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9478,6 +9592,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9571,6 +9686,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9664,6 +9780,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9757,6 +9874,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9850,6 +9968,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -9943,6 +10062,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "VERY_LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10036,6 +10156,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10129,6 +10250,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "HIGH",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10222,6 +10344,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10315,6 +10438,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "TYPICAL",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10408,6 +10532,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10501,6 +10626,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10594,6 +10720,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "LOW",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10687,6 +10814,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10780,6 +10908,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10873,6 +11002,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -10966,6 +11096,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -11059,6 +11190,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",
@@ -11152,6 +11284,7 @@
           "validation_state": "PASS"
         }
       },
+      "cut_probability": null,
       "neo_performance_band": "INSUFFICIENT_EVIDENCE",
       "band_statistics": {
         "metric": "recent5 SG Total mean",

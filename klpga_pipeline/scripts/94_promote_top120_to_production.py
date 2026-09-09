@@ -177,8 +177,20 @@ def _validate_model_publication_gate(root: Path, label: str) -> None:
     is not "VALIDATED", the R1 page(s) actually being promoted must not
     contain any output derived from the blocked simulation. Checked
     against every route that could carry it (the dedicated R1 route,
-    plus root when TOURNAMENT_ACTIVE has root == the R1 stage page)."""
-    routes = [f"{_CONTEXT.url_base.strip('/')}/r1/index.html"]
+    plus root when TOURNAMENT_ACTIVE has root == the R1 stage page).
+
+    PRODUCT RECOVERY V1: also checks the operationally active
+    tournament's own PRE route -- scripts/84's own probability-
+    distribution columns (CUT/TOP20/TOP10/TOP5/WIN) are gated by this
+    exact same status. Deliberately scoped to ONLY this one active
+    tournament's own PRE page, not a blanket scan of every promoted
+    route: other tournaments' already-published R2/R3/FINAL pages
+    (e.g. KG Ladies Open, a completed tournament predating this gate)
+    legitimately carry real, already-approved TOP20/TOP10/TOP5/win
+    columns from a wholly different, non-blocked computation path
+    (round_update_r3.py) -- those must never be mistaken for this
+    gate's target."""
+    routes = [f"{_CONTEXT.url_base.strip('/')}/r1/index.html", f"{_CONTEXT.url_base.strip('/')}/pre/index.html"]
     if home_mode() == "TOURNAMENT_ACTIVE":
         stage_key, _ = ok_open_latest_available_stage()
         if stage_key == "r1":

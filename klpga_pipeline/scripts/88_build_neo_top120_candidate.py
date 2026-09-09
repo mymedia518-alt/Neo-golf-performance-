@@ -452,26 +452,18 @@ def build() -> dict:
     (OUTPUT / "ranking").mkdir()
     (OUTPUT / "ranking" / "index.html").write_text(ranking_page_html, encoding="utf-8", newline="\n")
 
-    # ROOT HOME -- the actual product rule (HOME TOURNAMENT OWNERSHIP
-    # FIX): while a tournament has any validated stage, / must BE that
-    # stage's own canonical page (the exact same content as its
-    # dedicated /tournaments/.../<stage>/ URL, already built above by
-    # refresh_preserved_candidate()/script 84 and copied into this
-    # candidate's own tournaments/ tree) -- never a hero teaser sitting
-    # above the ranking table. RANKING_DEFAULT (no active tournament)
-    # keeps / == the ranking page, unchanged from all prior behavior.
-    # Either way, root HOME (and only root HOME) also carries the three
-    # tournament cards, right after the shared header.
-    if mode == "TOURNAMENT_PRE":
-        rendered_home = inject_global_navigation(current_stage_page.read_text(encoding="utf-8"), active_section="home")
-        ranking_access = '<p class="home-ranking-access"><a href="/ranking/">K-Ranking × NEO Ranking 전체 보기</a></p>'
-        if "</main>" in rendered_home:
-            rendered_home = rendered_home.replace("</main>", ranking_access + "</main>", 1)
-        else:
-            rendered_home = rendered_home.replace("</body>", ranking_access + "</body>", 1)
-    else:
-        rendered_home = inject_global_navigation(ranking_html, active_section="home")
-        rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
+    # ROOT HOME -- PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT correction):
+    # HOME is the permanent, player-centric NEO product entry page and
+    # must NEVER compose a tournament stage's own page body -- that was
+    # the prior "HOME TOURNAMENT OWNERSHIP FIX" rule, now explicitly
+    # superseded. / always renders the same ranking content as
+    # /ranking/ (still the one stable K-Ranking x NEO Ranking URL),
+    # with the three tournament cards attached right after the shared
+    # header as compact secondary navigation -- current tournament's
+    # own PRE/R1/R2/FINAL pages stay on their own dedicated routes
+    # under /tournaments/..., never copied into /.
+    rendered_home = inject_global_navigation(ranking_html, active_section="home")
+    rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
     rendered_home, header_count = re.subn(r"(</header>)", rf"\1{tournament_cards_html}", rendered_home, count=1)
     if header_count != 1:
         raise RuntimeError("root HOME must have exactly one </header> to attach the tournament cards after")

@@ -74,7 +74,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10075",
@@ -147,7 +148,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10112",
@@ -220,7 +222,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10109",
@@ -293,7 +296,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9436",
@@ -366,7 +370,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10726",
@@ -439,7 +444,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9752",
@@ -512,7 +518,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9702",
@@ -585,7 +592,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10002",
@@ -658,7 +666,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10097",
@@ -731,7 +740,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10725",
@@ -804,7 +814,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10081",
@@ -877,7 +888,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8380",
@@ -950,7 +962,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9089",
@@ -1023,7 +1036,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8300",
@@ -1096,7 +1110,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11143",
@@ -1169,7 +1184,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9277",
@@ -1242,7 +1258,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8838",
@@ -1315,7 +1332,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9487",
@@ -1388,7 +1406,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9000",
@@ -1461,7 +1480,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8434",
@@ -1534,7 +1554,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11216",
@@ -1607,7 +1628,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10790",
@@ -1680,7 +1702,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8271",
@@ -1753,7 +1776,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10178",
@@ -1826,7 +1850,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9113",
@@ -1899,7 +1924,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9723",
@@ -1972,7 +1998,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10789",
@@ -2045,7 +2072,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9401",
@@ -2118,7 +2146,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10083",
@@ -2191,7 +2220,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10296",
@@ -2264,7 +2294,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9183",
@@ -2337,7 +2368,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8318",
@@ -2410,7 +2442,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8772",
@@ -2483,7 +2516,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9431",
@@ -2556,7 +2590,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9111",
@@ -2629,7 +2664,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11056",
@@ -2702,7 +2738,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9788",
@@ -2775,7 +2812,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10095",
@@ -2848,7 +2886,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8589",
@@ -2921,7 +2960,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "1485",
@@ -2994,7 +3034,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11134",
@@ -3067,7 +3108,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9134",
@@ -3140,7 +3182,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8881",
@@ -3213,7 +3256,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8386",
@@ -3286,7 +3330,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10022",
@@ -3359,7 +3404,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11057",
@@ -3432,7 +3478,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9135",
@@ -3505,7 +3552,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "4905",
@@ -3578,7 +3626,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "6916",
@@ -3651,7 +3700,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11060",
@@ -3724,7 +3774,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9465",
@@ -3797,7 +3848,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10867",
@@ -3870,7 +3922,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10139",
@@ -3943,7 +3996,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11045",
@@ -4016,7 +4070,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8799",
@@ -4089,7 +4144,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11926",
@@ -4162,7 +4218,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11066",
@@ -4235,7 +4292,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9714",
@@ -4308,7 +4366,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10146",
@@ -4381,7 +4440,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9990",
@@ -4454,7 +4514,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8884",
@@ -4527,7 +4588,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8883",
@@ -4600,7 +4662,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8392",
@@ -4673,7 +4736,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11649",
@@ -4746,7 +4810,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10481",
@@ -4819,7 +4884,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11040",
@@ -4892,7 +4958,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9652",
@@ -4965,7 +5032,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8246",
@@ -5038,7 +5106,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9503",
@@ -5111,7 +5180,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8859",
@@ -5184,7 +5254,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9784",
@@ -5257,7 +5328,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11469",
@@ -5330,7 +5402,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9759",
@@ -5403,7 +5476,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9708",
@@ -5476,7 +5550,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "7434",
@@ -5549,7 +5624,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8234",
@@ -5622,7 +5698,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "12038",
@@ -5695,7 +5772,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9449",
@@ -5768,7 +5846,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8811",
@@ -5841,7 +5920,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10138",
@@ -5914,7 +5994,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9145",
@@ -5987,7 +6068,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8355",
@@ -6060,7 +6142,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8243",
@@ -6133,7 +6216,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11374",
@@ -6206,7 +6290,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9082",
@@ -6279,7 +6364,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9389",
@@ -6352,7 +6438,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9765",
@@ -6425,7 +6512,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8840",
@@ -6498,7 +6586,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9820",
@@ -6571,7 +6660,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8770",
@@ -6644,7 +6734,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8430",
@@ -6717,7 +6808,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8972",
@@ -6790,7 +6882,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9136",
@@ -6863,7 +6956,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "1521",
@@ -6936,7 +7030,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11770",
@@ -7009,7 +7104,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9391",
@@ -7082,7 +7178,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8277",
@@ -7155,7 +7252,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8284",
@@ -7228,7 +7326,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10577",
@@ -7301,7 +7400,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9235",
@@ -7374,7 +7474,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11073",
@@ -7447,7 +7548,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11447",
@@ -7520,7 +7622,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9483",
@@ -7593,7 +7696,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9426",
@@ -7666,7 +7770,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9728",
@@ -7739,7 +7844,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10531",
@@ -7812,7 +7918,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9750",
@@ -7885,7 +7992,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9705",
@@ -7958,7 +8066,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10586",
@@ -8031,7 +8140,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11042",
@@ -8104,7 +8214,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10727",
@@ -8177,7 +8288,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "9937",
@@ -8250,7 +8362,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8240",
@@ -8323,7 +8436,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "8191",
@@ -8396,7 +8510,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11397",
@@ -8469,7 +8584,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11480",
@@ -8542,7 +8658,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "12069",
@@ -8615,7 +8732,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "11964",
@@ -8688,7 +8806,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     },
     {
       "player_id": "10698",
@@ -8761,7 +8880,8 @@
           "cutoff": "2026-09-10T00:00:00+09:00",
           "validation_state": "PASS"
         }
-      }
+      },
+      "cut_probability": null
     }
   ]
 }

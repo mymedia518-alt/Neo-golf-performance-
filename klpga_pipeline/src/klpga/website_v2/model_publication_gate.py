@@ -21,6 +21,16 @@ FORBIDDEN_MARKERS_WHEN_BLOCKED = (
     "<th>PRE 대비 Win Δ</th>",
     "<h2>NEO Movers",
     "NEO 예상 컷 (분포)",
+    # PRODUCT RECOVERY V1: the PRE page's own probability-distribution
+    # column headers (scripts/84's _PROBABILITY_COLUMNS) -- a distinct
+    # set of literal strings from the R1 live table's markers above,
+    # so they need their own entries for this gate to actually catch a
+    # PRE-side regression, not just an R1-side one.
+    "<th>컷 통과확률</th>",
+    "<th>TOP20</th>",
+    "<th>TOP10</th>",
+    "<th>TOP5</th>",
+    "<th>우승확률</th>",
 )
 
 
