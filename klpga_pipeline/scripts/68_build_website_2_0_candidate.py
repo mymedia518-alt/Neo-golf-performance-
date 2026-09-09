@@ -95,7 +95,8 @@ def load_inputs():
 
 def render_dashboard(schedule: dict, entries: list[dict], profiles: dict, current_stage: str = "\ub300\ud68c", checkpoints: list[dict] | None = None) -> str:
     stages = stage_labels(schedule["rounds"]); checkpoints = checkpoints or []
-    stage_html = "".join(f'<a href="{escape(stage_route(s))}" class="stage-tab{" active" if s == current_stage else ""}"{" aria-current=\"page\"" if s == current_stage else ""} data-stage="{escape(s)}">{escape(s)}</a>' for s in stages)
+    aria_current_attr = ' aria-current="page"'
+    stage_html = "".join(f'<a href="{escape(stage_route(s))}" class="stage-tab{" active" if s == current_stage else ""}"{aria_current_attr if s == current_stage else ""} data-stage="{escape(s)}">{escape(s)}</a>' for s in stages)
     rows, cards = [], []
     for entry in entries:
         pid = str(entry.get("player_id")); name = _clean_name(entry.get("canonical_name") or entry.get("player_name"), pid)
