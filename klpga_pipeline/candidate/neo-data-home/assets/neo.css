@@ -15,8 +15,18 @@
 .grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
 /* Public table is centered; numeric columns retain tabular numerals. */
 .data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player-name,.player-sponsor{text-align:center}
-.info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}.info-popover{display:none;position:absolute;z-index:2;max-width:260px;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400}.info-popover.is-open{display:block}
-@media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px;width:auto;max-width:none;margin:0}}
+.info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}
+/* OWNER UI FIX (NEO 경기력 tooltip overflow): position:fixed instead of
+   position:absolute -- the popover no longer needs (or is affected by)
+   any positioned ancestor, so it can never widen or overlap the table's
+   own column layout (the reported "extends across adjacent columns /
+   overlaps SG Total" defect) and is never clipped by .table-wrap's
+   overflow-x/overflow-y containment. JS (below) sets left/top from the
+   trigger button's real viewport position; max-width is clamped to the
+   viewport so it can never overflow off-screen either. */
+.info-popover{display:none;position:fixed;z-index:20;max-width:min(260px,calc(100vw - 2rem));padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400;line-height:1.5;text-align:left;white-space:normal;overflow-wrap:break-word;word-break:keep-all}
+.info-popover.is-open{display:block}
+@media(max-width:760px){.info-popover{left:16px!important;right:16px!important;top:112px!important;width:auto;max-width:none}}
 /* PRODUCT RECOVERY V1 REDESIGN -- KB PRE leaderboard: replaces the
    rejected two-column grid + "우승 가능성 변화" shell aside entirely.
    The player table is now the sole, full-width panel: a real
@@ -66,6 +76,22 @@
 .leaderboard-table{min-width:0}
 .leaderboard-table,.leaderboard-table thead,.leaderboard-table tbody{display:block;width:100%}
 .leaderboard-table thead{position:absolute;left:-9999px;top:-9999px}
+/* OWNER FOLLOW-UP (mobile NEO 경기력 info accessibility): the info
+   trigger lives inside thead th.band-head, which the rule above moves
+   off-screen along with the rest of the (redundant on mobile -- each
+   card already repeats every label via ::before) header row. Rather
+   than restoring the whole header or duplicating the button/popover
+   markup, give this ONE <th> (and only this one -- its siblings stay
+   off-screen with the rest of thead) its own position:fixed: fixed
+   positioning always escapes an ancestor's own position/offset (thead
+   being position:absolute;left:-9999px does not drag a
+   position:fixed descendant along with it, since none of the
+   ancestors here set transform/filter/perspective/will-change to
+   create a competing containing block), so it renders as a small
+   floating pill at a real on-screen location while thead itself stays
+   exactly as off-screen as before. Same DOM node, same button, same
+   #neo-info popover, same JS -- nothing is duplicated. */
+.leaderboard-table thead th.band-head{position:fixed;top:76px;left:auto;right:16px;z-index:15;display:inline-flex;align-items:center;gap:4px;width:auto;max-width:calc(100vw - 32px);padding:6px 10px;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 8px #17202a1a;color:var(--ink);font-size:12px;font-weight:800;text-transform:none;letter-spacing:normal;white-space:nowrap}
 .leaderboard-table tbody tr{display:flex;flex-wrap:wrap;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:#fff}
 .leaderboard-table tbody th[scope=row]{flex:1 1 100%;display:block;border-bottom:1px solid var(--line);padding:2px 0 6px;margin-bottom:4px;min-width:0;text-align:left}
 .leaderboard-table tbody td{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;border-left:1px solid var(--line);padding:2px 4px;text-align:center}
