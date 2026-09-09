@@ -138,16 +138,35 @@ class _AlwaysFailsSession:
 
 
 def test_collect_profiles_degrades_per_player_never_crashes_the_batch():
+    """On a live-fetch failure, identity itself must NOT collapse to
+    None: the entry snapshot's own real, officially-sourced player_name
+    is a legitimate (never guessed) fallback identity source --
+    identity_source records that this name is NOT a live reconfirmation.
+    Status/sponsor have no non-live source anywhere in this pipeline and
+    must stay honestly None -- never backfilled, never guessed."""
     mod72 = _load_script("72_collect_ok_open_public_master.py")
     entries = [{"player_id": "1", "player_name": "선수A"}, {"player_id": "2", "player_name": "선수B"}]
     out = mod72.collect_profiles(entries, session=_AlwaysFailsSession())
     assert len(out) == 2
-    for row in out:
-        assert row["identity_validation"] == "FAIL"
-        assert row["current_official_player_name"] is None
+    for row, entry in zip(out, entries):
+        assert row["identity_validation"] == "PASS"
+        assert row["identity_source"] == "entry_snapshot"
+        assert row["current_official_player_name"] == entry["player_name"]
         assert row["current_player_status"] is None
         assert row["current_official_sponsor"] is None
         assert "failure_reason" in row
+
+
+def test_collect_profiles_fails_closed_when_even_the_entry_snapshot_has_no_name():
+    """The one genuine failure case: no live name AND no entry-snapshot
+    name to fall back to -- identity is honestly unestablished, never
+    fabricated as a placeholder."""
+    mod72 = _load_script("72_collect_ok_open_public_master.py")
+    entries = [{"player_id": "1"}]
+    out = mod72.collect_profiles(entries, session=_AlwaysFailsSession())
+    assert out[0]["identity_validation"] == "FAIL"
+    assert out[0]["current_official_player_name"] is None
+    assert out[0]["identity_source"] == "live_profile"
 
 
 # ---------------------------------------------------------------------------
@@ -156,27 +175,39 @@ def test_collect_profiles_degrades_per_player_never_crashes_the_batch():
 # fetch when offline evidence exists.
 # ---------------------------------------------------------------------------
 
-def test_find_offline_kranking_html_locates_the_real_sanctioned_kb_capture():
+def test_find_offline_kranking_html_locates_every_real_sanctioned_kb_capture():
+    """Two real captures now coexist in the sanctioned KB evidence
+    directory -- the original ("...W36_RAW.html", which genuinely lacks
+    a provable period, see the BLOCKED test below) and the later,
+    period-proving one committed at 55abb7c
+    ("...W36_PERIOD_EVIDENCE_RAW.html"). Both are real, hash-verified
+    files; _find_offline_kranking_html must surface every candidate, not
+    silently pick one by filename -- selection-by-evidence is
+    _resolve_offline_kranking's job, tested separately below."""
     mod72 = _load_script("72_collect_ok_open_public_master.py")
-    path = mod72._find_offline_kranking_html(KB_GAME_CODE)
-    assert path is not None
-    assert path.name == "KLPGA_KRANKING_2026_W36_RAW.html"
-    assert path.is_file()
+    paths = mod72._find_offline_kranking_html(KB_GAME_CODE)
+    names = {p.name for p in paths}
+    assert "KLPGA_KRANKING_2026_W36_RAW.html" in names
+    assert "KLPGA_KRANKING_2026_W36_PERIOD_EVIDENCE_RAW.html" in names
+    assert all(p.is_file() for p in paths)
 
 
-def test_find_offline_kranking_html_returns_none_when_no_evidence_directory_exists():
+def test_find_offline_kranking_html_returns_empty_list_when_no_evidence_directory_exists():
     mod72 = _load_script("72_collect_ok_open_public_master.py")
-    assert mod72._find_offline_kranking_html("9999999999") is None
+    assert mod72._find_offline_kranking_html("9999999999") == []
 
 
-def test_collect_rankings_offline_reports_blocked_on_the_real_kb_capture_never_fabricates_a_rank():
-    """The real, hash-verified KB K-Ranking capture genuinely contains
-    no provable ranking-period label (see
-    KB_2026090003_PIPELINE_EVIDENCE_REPORT_V1.json's own diagnostic) --
-    this must surface as an honest BLOCKED state with every rank None,
-    never crash and never guess a week from the filename."""
+def test_collect_rankings_offline_reports_blocked_on_the_original_kb_capture_never_fabricates_a_rank():
+    """The ORIGINAL, hash-verified KB K-Ranking capture (a browser "Save
+    Page Complete" export -- see KB_2026090003_PIPELINE_EVIDENCE_REPORT_V1
+    .json's own diagnostic) genuinely contains no provable ranking-period
+    label -- this must surface as an honest BLOCKED state with every rank
+    None, never crash and never guess a week from the filename. Passed
+    directly by path (not via _find_offline_kranking_html, which now
+    also returns the later, period-proving capture alongside this one)."""
     mod72 = _load_script("72_collect_ok_open_public_master.py")
-    offline_path = mod72._find_offline_kranking_html(KB_GAME_CODE)
+    offline_path = ROOT / "content" / "website_v2" / "incoming_evidence" / KB_GAME_CODE / "KLPGA_KRANKING_2026_W36_RAW.html"
+    assert offline_path.is_file()
     ranking = mod72.collect_rankings_offline({"1", "2"}, offline_path, game_code=KB_GAME_CODE)
     assert ranking["week_evidence_state"] == "BLOCKED"
     assert ranking["returned_rank_week"] is None
@@ -184,6 +215,38 @@ def test_collect_rankings_offline_reports_blocked_on_the_real_kb_capture_never_f
     assert ranking["collection_method"] == "offline_import"
     assert all(r["official_rank"] is None for r in ranking["records"])
     assert all(r["validation_state"] == "UNAVAILABLE" for r in ranking["records"])
+
+
+def test_collect_rankings_offline_extracts_real_ranks_from_the_period_evidence_kb_capture():
+    """The NEW capture committed at 55abb7c genuinely does carry a real
+    "2026년 36주차" period label plus the ordered player array -- the
+    unmodified scripts/87 extractor, reused as-is (never a second
+    parsing rule), must succeed against it and recover real ranks that
+    match the previously reported top-10 partial evidence exactly."""
+    mod72 = _load_script("72_collect_ok_open_public_master.py")
+    offline_path = ROOT / "content" / "website_v2" / "incoming_evidence" / KB_GAME_CODE / "KLPGA_KRANKING_2026_W36_PERIOD_EVIDENCE_RAW.html"
+    assert offline_path.is_file()
+    ranking = mod72.collect_rankings_offline({"10725", "11134", "10146"}, offline_path, game_code=KB_GAME_CODE)
+    assert ranking["week_evidence_state"] == "PROVEN"
+    assert ranking["returned_rank_week"] == "2026-W36"
+    by_id = {r["player_id"]: r for r in ranking["records"]}
+    assert by_id["10725"]["official_rank"] == 1  # 김민솔
+    assert by_id["11134"]["official_rank"] == 2  # 서교림
+    assert by_id["10146"]["official_rank"] == 3  # 유현조
+
+
+def test_resolve_offline_kranking_prefers_the_proven_capture_over_the_blocked_one():
+    """With both real captures sitting in the same directory,
+    _resolve_offline_kranking must select evidence that actually proves
+    the period (never a live fetch, since sanctioned offline evidence
+    exists for this game_code at all) -- proven by result, not by
+    filename or directory order."""
+    mod72 = _load_script("72_collect_ok_open_public_master.py")
+    ranking = mod72._resolve_offline_kranking({"10725"}, KB_GAME_CODE)
+    assert ranking is not None
+    assert ranking["week_evidence_state"] == "PROVEN"
+    assert ranking["returned_rank_week"] == "2026-W36"
+    assert ranking["records"][0]["official_rank"] == 1
 
 
 def test_collect_rankings_offline_extracts_real_ranks_when_the_capture_does_prove_a_week(tmp_path):
@@ -210,7 +273,14 @@ def test_collect_rankings_offline_extracts_real_ranks_when_the_capture_does_prov
 # tier2_publication_gate: KB must fail closed (BLOCK/HARD_STOP), never PASS
 # ---------------------------------------------------------------------------
 
-def test_tier2_gate_never_passes_for_kb_given_the_real_evidence_state():
+def test_tier2_gate_k_ranking_and_identity_pass_for_kb_but_overall_still_blocks():
+    """After the 55abb7c period-evidence capture and the identity
+    fallback fix, K_RANKING and IDENTITY genuinely PASS for KB on real
+    evidence -- but the gate as a whole must still refuse publication:
+    WIN_PROBABILITY has no populated historical corpus DB in this
+    sandbox (a real, non-fabricable input gap, not an evidence-capture
+    gap), and SG_DERIVED's independent human sign-off is a deliberate,
+    still-pending manual step. Neither is weakened here."""
     from klpga.neo_win.tier2_publication_gate import evaluate
 
     ctx = load_tournament_context(KB_GAME_CODE)
@@ -224,7 +294,10 @@ def test_tier2_gate_never_passes_for_kb_given_the_real_evidence_state():
     if missing:
         pytest.skip(f"run scripts 67/72/75 --game-code {KB_GAME_CODE} first to produce: {missing}")
     result = evaluate(ctx)
+    by_domain = {d["domain"]: d["state"] for d in result["domains"]}
+    assert by_domain["K_RANKING"] == "PASS"
+    assert by_domain["IDENTITY"] == "PASS"
+    assert by_domain["WIN_PROBABILITY"] != "PASS"
+    assert by_domain["SG_DERIVED"] != "PASS"
     assert result["overall_state"] != "PASS"
     assert result["publication_allowed"] is False
-    rank_domain = next(d for d in result["domains"] if d["domain"] == "K_RANKING")
-    assert rank_domain["state"] != "PASS"

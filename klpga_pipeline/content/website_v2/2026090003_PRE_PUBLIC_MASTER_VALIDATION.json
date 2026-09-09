@@ -1,17 +1,18 @@
 {
-  "entrant_count": 120,
-  "identity_count": 0,
-  "current_name_coverage": 0,
-  "current_status_coverage": 0,
-  "sponsor_coverage": 0,
-  "klpga_rank_coverage": 0,
-  "neo_rank_coverage": 0,
-  "sg_total_rank_coverage": 115,
-  "top20_coverage": 0,
-  "top10_coverage": 0,
-  "top5_coverage": 0,
+  "entry_count": 120,
+  "identity_count": 120,
   "win_coverage": 0,
-  "neo_pre_rank_status": "PENDING_INDEPENDENT_METHOD_APPROVAL",
-  "ranking_week_evidence_state": "BLOCKED",
-  "website_generation": "NOT RUN"
+  "klpga_rank_coverage": 89,
+  "sg_total_rank_coverage": 115,
+  "band_distribution": {
+    "VERY_HIGH": 9,
+    "HIGH": 19,
+    "TYPICAL": 49,
+    "LOW": 19,
+    "VERY_LOW": 11,
+    "INSUFFICIENT_EVIDENCE": 13
+  },
+  "methodology": "field_median_standard_error",
+  "future_data_excluded": true,
+  "website_generation": "PENDING_MASTER_VALIDATION"
 }

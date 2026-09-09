@@ -1,0 +1,88 @@
+{
+  "schema_version": "neo_tier2_field_domain_publication_gate_v1",
+  "generated_at": "2026-09-09T08:51:16Z",
+  "overall_state": "BLOCK",
+  "domains": [
+    {
+      "domain": "IDENTITY",
+      "state": "PASS",
+      "check_ids": [
+        "T2-ID-001"
+      ],
+      "reason": "120 unique canonical identities validated",
+      "affected_fields": [
+        "player_id",
+        "current_official_player_name"
+      ],
+      "evidence": {
+        "source_artifact": "2026090003_CURRENT_PLAYER_MASTER.json",
+        "sha256": "41b8953414f729a5cf841738af980fdf8b39cba7c22e6500d16d918bbb981b91"
+      }
+    },
+    {
+      "domain": "TEAM_SPONSOR",
+      "state": "PASS",
+      "check_ids": [
+        "T2-TEAM-001"
+      ],
+      "reason": "official nulls or explicitly unavailable profiles preserved as null",
+      "affected_fields": [
+        "current_official_sponsor"
+      ],
+      "evidence": {
+        "source_artifact": "2026090003_CURRENT_PLAYER_MASTER.json",
+        "sha256": "41b8953414f729a5cf841738af980fdf8b39cba7c22e6500d16d918bbb981b91"
+      }
+    },
+    {
+      "domain": "K_RANKING",
+      "state": "PASS",
+      "check_ids": [
+        "T2-RANK-001"
+      ],
+      "reason": "same-week official ranking snapshot validated with proven, matching, hashed provenance",
+      "affected_fields": [
+        "official_klpga_rank"
+      ],
+      "evidence": {
+        "source_artifact": "2026090003_OFFICIAL_KLPGA_RANKING.json",
+        "sha256": "d79de48224241acd5d787458f9f14f29972d9429777b1fb0a4928fe7e82bfcd9"
+      }
+    },
+    {
+      "domain": "WIN_PROBABILITY",
+      "state": "BLOCK",
+      "check_ids": [
+        "T2-WIN-001"
+      ],
+      "reason": "forecast coverage/range failure",
+      "affected_fields": [
+        "win_probability"
+      ],
+      "evidence": {
+        "source_artifact": "2026090003_PRE_WIN_FORECAST.json",
+        "sha256": "59e6f59faa0fac993e98581a6ddc8818a53b2b3c674eb51ee9bb05e3804afd99"
+      }
+    },
+    {
+      "domain": "SG_DERIVED",
+      "state": "BLOCK",
+      "check_ids": [
+        "T2-SG-001",
+        "T2-SG-002"
+      ],
+      "reason": "corrected SG arithmetic passes but independent rank/band acceptance is pending",
+      "affected_fields": [
+        "sg_total_rank",
+        "neo_performance_band",
+        "band_statistics"
+      ],
+      "evidence": {
+        "source_artifact": "historical_sg_warehouse_corrected_audit_v2.json",
+        "sha256": "4c8b17e166a487462f7865b8eb9c357e17eb6f44b0df81cd4c7b91c4f4260a23"
+      }
+    }
+  ],
+  "publication_allowed": false,
+  "fail_closed_unknown": true
+}

@@ -4,24 +4,24 @@
   "collection_method": "offline_import",
   "game_code": "2026090003",
   "requested_rank_week": null,
-  "returned_rank_week": null,
-  "week_evidence_state": "BLOCKED",
+  "returned_rank_week": "2026-W36",
+  "week_evidence_state": "PROVEN",
   "week_match": null,
-  "ranking_date": null,
+  "ranking_date": "2026-W36",
   "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
-  "acquisition_source": "/tmp/claude-0/-home-user-Neo-golf-performance-/bee7b372-e13f-52b9-816d-77030a003a04/scratchpad/wt_tournament_engine/klpga_pipeline/content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_RAW.html",
-  "retrieved_at": "2026-09-09T08:12:39Z",
-  "raw_response_sha256": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7",
+  "acquisition_source": "/tmp/claude-0/-home-user-Neo-golf-performance-/bee7b372-e13f-52b9-816d-77030a003a04/scratchpad/wt_tournament_engine/klpga_pipeline/content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_PERIOD_EVIDENCE_RAW.html",
+  "retrieved_at": "2026-09-09T08:50:04Z",
+  "raw_response_sha256": "20a6b0b3cb10c8deaa8cbc3bd1dce9638b10aa6dea74447bd14562d095243224",
   "records": [
     {
       "player_id": "10002",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 45,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10022",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 103,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10075",
@@ -30,48 +30,48 @@
     },
     {
       "player_id": "10081",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 23,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10083",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 82,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10095",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 5,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10097",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 10,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10109",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 11,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10112",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 16,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10138",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 48,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10139",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 105,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10146",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 3,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10178",
@@ -80,8 +80,8 @@
     },
     {
       "player_id": "10296",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 31,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10481",
@@ -90,18 +90,18 @@
     },
     {
       "player_id": "10531",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 81,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10577",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 50,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10586",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 38,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10698",
@@ -110,28 +110,28 @@
     },
     {
       "player_id": "10725",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 1,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10726",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 63,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10727",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 97,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10789",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 55,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10790",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 111,
+      "validation_state": "PASS"
     },
     {
       "player_id": "10867",
@@ -145,58 +145,58 @@
     },
     {
       "player_id": "11042",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 71,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11045",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 37,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11056",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 60,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11057",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 57,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11060",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 89,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11066",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 30,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11073",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 58,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11134",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 2,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11143",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 24,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11216",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 66,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11374",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 100,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11397",
@@ -205,8 +205,8 @@
     },
     {
       "player_id": "11447",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 90,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11469",
@@ -220,13 +220,13 @@
     },
     {
       "player_id": "11649",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 19,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11770",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 33,
+      "validation_state": "PASS"
     },
     {
       "player_id": "11926",
@@ -250,13 +250,13 @@
     },
     {
       "player_id": "1485",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 47,
+      "validation_state": "PASS"
     },
     {
       "player_id": "1521",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 40,
+      "validation_state": "PASS"
     },
     {
       "player_id": "4905",
@@ -265,8 +265,8 @@
     },
     {
       "player_id": "6916",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 73,
+      "validation_state": "PASS"
     },
     {
       "player_id": "7434",
@@ -280,8 +280,8 @@
     },
     {
       "player_id": "8234",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 96,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8240",
@@ -290,8 +290,8 @@
     },
     {
       "player_id": "8243",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 17,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8246",
@@ -305,18 +305,18 @@
     },
     {
       "player_id": "8277",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 62,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8284",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 12,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8300",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 21,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8318",
@@ -325,13 +325,13 @@
     },
     {
       "player_id": "8355",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 93,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8380",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 74,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8386",
@@ -340,8 +340,8 @@
     },
     {
       "player_id": "8392",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 4,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8430",
@@ -355,53 +355,53 @@
     },
     {
       "player_id": "8589",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 39,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8770",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 69,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8772",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 14,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8799",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 102,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8811",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 51,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8838",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 79,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8840",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 119,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8859",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 56,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8881",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 8,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8883",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 27,
+      "validation_state": "PASS"
     },
     {
       "player_id": "8884",
@@ -415,63 +415,63 @@
     },
     {
       "player_id": "9000",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 77,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9082",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 18,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9089",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 95,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9111",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 109,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9113",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 7,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9134",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 43,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9135",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 25,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9136",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 87,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9145",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 32,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9174",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 115,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9183",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 72,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9235",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 28,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9277",
@@ -480,28 +480,28 @@
     },
     {
       "player_id": "9389",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 59,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9391",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 54,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9401",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 42,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9426",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 34,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9431",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 41,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9436",
@@ -510,23 +510,23 @@
     },
     {
       "player_id": "9449",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 36,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9465",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 49,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9483",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 78,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9487",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 53,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9503",
@@ -535,8 +535,8 @@
     },
     {
       "player_id": "9652",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 46,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9702",
@@ -545,18 +545,18 @@
     },
     {
       "player_id": "9705",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 85,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9708",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 65,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9714",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 68,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9723",
@@ -570,49 +570,48 @@
     },
     {
       "player_id": "9750",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 9,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9752",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 75,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9759",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 44,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9765",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 61,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9784",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 6,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9788",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 15,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9820",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 29,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9937",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 112,
+      "validation_state": "PASS"
     },
     {
       "player_id": "9990",
-      "official_rank": null,
-      "validation_state": "UNAVAILABLE"
+      "official_rank": 84,
+      "validation_state": "PASS"
     }
-  ],
-  "blocked_reason": "official ranking week not found"
+  ]
 }

@@ -70,8 +70,29 @@ def label_value(soup, label_text):
 def collect_profiles(entries, *, session=None):
     """Per-player official profile enrichment. A network failure on
     ANY one player must never abort the other entrants -- this is
-    confirmatory data (the entry snapshot's own player_name is already
-    real and sufficient identity), never a hard PRE prerequisite."""
+    confirmatory data, never a hard PRE prerequisite, because identity
+    itself is already established by the entry snapshot's own real,
+    officially-sourced player_name (drawn from the official KLPGA entry
+    list, itself either a live fetch or a sanctioned, hash-verified
+    offline import -- either way a real official source, never a
+    guess).
+
+    LIVE DEPENDENCY CLASSIFICATION (Priority-2 follow-up): the live
+    profile page (klpga.co.kr/web/profile/mainRecord) can confirm three
+    distinct things, and they are NOT equally critical:
+      - current_official_player_name: REQUIRED_FOR_CORRECTNESS in the
+        sense that a real name must exist, but NOT specifically a LIVE
+        one -- the entry snapshot's own player_name already satisfies
+        this. On a live-fetch failure this now falls back to that real
+        entry-snapshot name (never a guess: it is the same officially-
+        sourced string the entry list itself carries), with
+        identity_source recording which one was actually used so no
+        consumer can mistake a fallback for a live reconfirmation.
+      - current_player_status (등급) and current_official_sponsor
+        (소속): ENRICHMENT_ONLY -- no non-live official source for
+        these exists in this pipeline, so they stay honestly None on
+        failure, exactly as before. Never guessed, never backfilled
+        from the entry snapshot (which does not carry them)."""
     session = session if session is not None else requests.Session()
     session.headers.update({"User-Agent": "Mozilla/5.0", "Accept-Language": "ko-KR,ko;q=0.9"})
     out = []
@@ -91,6 +112,12 @@ def collect_profiles(entries, *, session=None):
             sponsor = label_value(soup, "소속")
         except requests.exceptions.RequestException as exc:
             failure_reason = f"official profile fetch unavailable: {exc}"
+        identity_source = "live_profile"
+        if current_name is None:
+            entry_name = e.get("player_name")
+            if entry_name:
+                current_name = entry_name
+                identity_source = "entry_snapshot"
         record = {
             "player_id": pid,
             "historical_source_names": list(dict.fromkeys([x for x in (e.get("player_name"), e.get("canonical_name")) if x])),
@@ -100,6 +127,7 @@ def collect_profiles(entries, *, session=None):
             "official_source": PROFILE_URL + "?playerCode=" + pid,
             "retrieved_at": now(),
             "identity_validation": "PASS" if current_name else "FAIL",
+            "identity_source": identity_source,
         }
         if failure_reason:
             record["failure_reason"] = failure_reason
@@ -213,17 +241,54 @@ def collect_rankings_offline(target_ids, offline_html_path: Path, *, game_code: 
     return payload
 
 
-def _find_offline_kranking_html(game_code: str) -> Path | None:
+def _find_offline_kranking_html(game_code: str) -> list[Path]:
     """The sanctioned offline-import quarantine directory (see
     content/website_v2/incoming_evidence/<game_code>/MANIFEST.json) --
     the only place this script ever looks for a K-Ranking capture
     without a live fetch, and only when a real hash-verified file has
-    actually landed there."""
+    actually landed there. Returns every candidate file found (sorted
+    by filename only for a deterministic iteration order, never as a
+    selection criterion) -- callers decide which one actually proves
+    the ranking period by attempting extraction, not by guessing from
+    a name."""
     d = CONTENT / "incoming_evidence" / str(game_code)
     if not d.is_dir():
-        return None
+        return []
     matches = sorted(d.glob("*KRANKING*RAW.html")) or sorted(d.glob("*KRANKING*.html"))
-    return matches[0] if matches else None
+    return matches
+
+
+def _resolve_offline_kranking(target_ids, game_code: str):
+    """Try every sanctioned offline K-Ranking capture for this
+    game_code and use whichever one actually proves the ranking period
+    (week_evidence_state == "PROVEN") -- evidence-based selection, never
+    filename-based. When more than one candidate proves a period, a
+    disagreement between them is a real integrity problem and must not
+    be silently resolved; when none prove a period, the most recently
+    attempted BLOCKED result is returned so the honest gap is still
+    recorded (never silently falls through to a live fetch, which would
+    contradict the sanctioned-evidence contract for a directory that
+    demonstrably has capture attempts in it already)."""
+    candidates = _find_offline_kranking_html(game_code)
+    if not candidates:
+        return None
+    proven = []
+    last_result = None
+    for path in candidates:
+        result = collect_rankings_offline(target_ids, path, game_code=game_code)
+        last_result = result
+        if result["week_evidence_state"] == "PROVEN":
+            proven.append(result)
+    if len(proven) > 1:
+        weeks = {r["returned_rank_week"] for r in proven}
+        if len(weeks) > 1:
+            raise RuntimeError(
+                f"multiple offline K-Ranking captures for game_code={game_code!r} PROVE different weeks "
+                f"({sorted(weeks)}) -- refusing to silently pick one; resolve the conflicting evidence first"
+            )
+    if proven:
+        return proven[0]
+    return last_result
 
 
 def build(game_code: str | None = None):
@@ -234,9 +299,9 @@ def build(game_code: str | None = None):
     entry = json.loads(entry_path.read_text(encoding="utf-8")); entries = entry["entries"]; ids = {str(e["player_id"]) for e in entries}
     profiles = collect_profiles(entries)
 
-    offline_path = _find_offline_kranking_html(GAME)
-    if offline_path is not None:
-        ranking = collect_rankings_offline(ids, offline_path, game_code=GAME)
+    offline_ranking = _resolve_offline_kranking(ids, GAME)
+    if offline_ranking is not None:
+        ranking = offline_ranking
     else:
         rank_week_param, ranking_date_label, _ = resolve_ranking_week(context.start_date)
         ranking = collect_rankings_live(ids, rank_week_param=rank_week_param, ranking_date_label=ranking_date_label)

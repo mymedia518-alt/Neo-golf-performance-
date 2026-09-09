@@ -94,7 +94,23 @@ def evaluate(context: TournamentContext, *, sg_accepted: bool | None = None) -> 
             provenance_reasons.append("no raw_response_sha256 recorded -- the official response was never hashed for audit")
         if rank.get("week_evidence_state") != "PROVEN" or not rank.get("returned_rank_week"):
             provenance_reasons.append("returned_rank_week is unproven -- the official response never confirmed which week it actually served")
-        elif rank.get("week_match") is not True:
+        elif rank.get("collection_method") != "offline_import" and rank.get("week_match") is not True:
+            # week_match compares a REQUESTED week against what the live
+            # response claimed to return -- meaningful only when a
+            # request actually happened. A sanctioned offline import
+            # (klpga.tournament_entry_bootstrap-style provenance: hashed
+            # raw bytes, independently re-parsed here by the exact same
+            # extractor a live fetch would use) never requested any
+            # particular week in the first place -- its PROVEN state
+            # already comes from directly re-deriving returned_rank_week
+            # from the captured bytes, which is a stronger, not weaker,
+            # guarantee than a live request/response comparison. Only an
+            # artifact explicitly marked collection_method="offline_import"
+            # gets this exemption -- anything else (including older
+            # artifacts with no collection_method at all, like OK Open's
+            # own frozen historical one) still requires week_match=True,
+            # so this never loosens the check for a live-fetched or
+            # unlabeled artifact.
             provenance_reasons.append(
                 f"requested_rank_week={rank.get('requested_rank_week')!r} does not match "
                 f"returned_rank_week={rank.get('returned_rank_week')!r}"
