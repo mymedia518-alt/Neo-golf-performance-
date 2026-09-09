@@ -651,6 +651,7 @@ CSS = """
    shrunk desktop table -- the primary player comparison (name,
    sponsor, K-Ranking, NEO band, SG) never requires horizontal
    scrolling on a phone. */
+.leaderboard-table{min-width:0}
 .leaderboard-table,.leaderboard-table thead,.leaderboard-table tbody,.leaderboard-table tr,.leaderboard-table th,.leaderboard-table td{display:block;width:100%}
 .leaderboard-table thead{position:absolute;left:-9999px;top:-9999px}
 .leaderboard-table tbody tr{margin-bottom:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
