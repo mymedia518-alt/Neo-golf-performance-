@@ -1,0 +1,16 @@
+{
+  "schema_version": "kb_pre_forecast_status_v1",
+  "purpose": "NEO KB MODEL VALIDATION Section 10: the KB PRE decision. No KB_2026090003_PRE_FORECAST_FROZEN_V1.json was created -- this file records why.",
+  "generated_at_utc": "2026-09-09T22:00:00Z",
+  "source_git_sha": "7201e5ab834f2859368c00ff0ea6427ec9e8c905",
+  "requirements_checklist": {
+    "pre_input_snapshot_predating_r1": {"result": "PASS", "evidence": "content/website_v2/KB_2026090003_PRE_INPUT_FREEZE_V1.json"},
+    "approved_model_version": {"result": "FAIL", "evidence": "content/website_v2/NEO_PUBLICATION_GATES_V1.json -- all five probability gates (C/D/E/F/G) are BLOCKED; no approved model version exists for any of CUT/TOP20/TOP10/TOP5/WIN"},
+    "reproducible_build": {"result": "NOT BLOCKING (moot given the above)", "evidence": "scripts/84's build() is deterministic given fixed input artifacts and a fixed git SHA -- not independently re-verified in this pass since the model-approval requirement already fails"},
+    "zero_kb_result_leakage": {"result": "PASS", "evidence": "content/website_v2/KB_2026090003_PRE_INPUT_FREEZE_V1.json's r1_result_absence_evidence block"}
+  },
+  "KB_PRE_FORECAST_STATUS": "BLOCKED_MODEL_NOT_APPROVED",
+  "clarification": "This status is deliberately NOT 'BLOCKED_TEMPORAL_INTEGRITY' -- the PRE input temporal-integrity check (Section 0) genuinely PASSED: a real, hash-verified PRE-only input snapshot exists and predates any KB R1 result. The forecast is blocked for a DIFFERENT, model-approval reason: none of CUT/TOP20/TOP10/TOP5/WIN has cleared its publication gate (see NEO_PUBLICATION_GATES_V1.json) -- four of the five have no implementation at all, and the fifth (WIN, model M4) has real historical backtest evidence but a disclosed, unfixed calibration defect and a mismatched publication-gate wiring. Reporting the more specific, accurate blocker is preferred over forcing this into the temporal-integrity bucket where it does not truthfully belong.",
+  "no_frozen_forecast_created": true,
+  "reason_no_frozen_forecast": "Per this task's own instruction ('Only after the historical validation: Determine whether a legitimate KB PRE forecast can exist... Required: ...approved model version...'), since no probability model has cleared its gate, generating KB_2026090003_PRE_FORECAST_FROZEN_V1.json with CUT/TOP20/TOP10/TOP5/WIN values would freeze numbers this audit has just shown are not approved for publication. None were generated."
+}

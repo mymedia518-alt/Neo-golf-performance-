@@ -1,0 +1,51 @@
+{
+  "schema_version": "kb_pre_input_freeze_v1",
+  "game_code": "2026090003",
+  "tournament_name": "KB금융 골든라이프 챔피언십",
+  "purpose": "NEO KB MODEL VALIDATION Section 0: freeze the latest provable PRE-event input snapshot that existed before any KB R1 result became available, per Project Owner order.",
+  "cutoff_utc": "2026-09-09T21:31:07Z",
+  "cutoff_kst": "2026-09-10T06:31:07+09:00",
+  "cutoff_basis": "Container clock at freeze time (date -u), converted to KST using this codebase's own timezone convention (src/klpga/website_v2/tournament_state.py's _KST = UTC+9, the same convention home_mode()/ok_open_available_stages() already use for all calendar-boundary decisions). KB's official start_date (content/website_v2/OFFICIAL_KLPGA_SCHEDULE.json) is 2026-09-10, so this cutoff falls on the tournament's own start date in KST -- the freeze is being made at or after the earliest possible moment KB play could begin, not comfortably before it, so the R1-absence evidence below is load-bearing.",
+  "source_git_sha": "7201e5ab834f2859368c00ff0ea6427ec9e8c905",
+  "k_ranking_snapshot": {
+    "ranking_date": "2026-W36",
+    "source_artifact": "content/website_v2/2026090003_OFFICIAL_KLPGA_RANKING.json",
+    "note": "requested_rank_week/returned_rank_week/week_match/week_evidence_state fields inside this artifact record whether the requested K-Ranking week was actually returned by the official source -- see that file directly for the fail-closed check already enforced elsewhere in this pipeline; not re-derived here."
+  },
+  "r1_result_absence_evidence": {
+    "claim": "No KB R1 (or later) official result has entered this repository as of the cutoff above.",
+    "evidence": [
+      "TOURNAMENT_SITE_REGISTRY.json's own 2026090003 entry declares stage_state_filename '2026090003_STAGE_STATE.json', but that file does not exist anywhere under content/website_v2/ as of the cutoff -- confirmed by direct filesystem search.",
+      "No file matching '2026090003' combined with 'r1'/'live'/'snapshot'/'stage_state' exists under content/website_v2/ (the same naming convention OK Open uses for its own real R1 artifacts, e.g. OK_OPEN_2026_R1_LIVE_SNAPSHOT.json, OK_OPEN_STAGE_STATE.json -- none of the KB equivalents exist).",
+      "TOURNAMENT_SITE_REGISTRY.json's 2026090003 hub_card.nav_stages is exactly ['pre'] with an explicit comment confirming 'KB has no r1/r2/r3/final page yet'.",
+      "This repository's own generic contract (src/klpga/website_v2/tournament_state.py: 'PRE is always available... every later stage is available ONLY once [the] STAGE_STATE_PATH says so -- never derived from today's date') means the absence of that file is itself the authoritative signal that no R1 data has been validated into this system for KB, independent of the real-world calendar date.",
+      "This sandbox's own outbound network access to klpga.co.kr is proxy-blocked (confirmed repeatedly this session via the hourly 'OK Open R1 Active Cycle' routine, which returns SKIP_WAIT every firing) -- no live collection for any tournament, KB included, has been technically possible from this environment."
+    ]
+  },
+  "frozen_input_artifacts": {
+    "2026090003_ENTRY_SNAPSHOT.json": {"sha256": "573831b519e50900c1e62b2785330c0d3246266a18c9f7d113be9411bf11f4b7", "bytes": 37012, "mtime_utc": "2026-09-09T12:56:44.433296Z", "role": "official field/entry list (player_count, roster)"},
+    "2026090003_CURRENT_PLAYER_MASTER.json": {"sha256": "ad943d76939e7e6f7f29e689a7d5047f074612a40d0aff911feea2728196ae77", "bytes": 364734, "mtime_utc": "2026-09-09T14:11:31.934872Z", "role": "player identity + sponsor evidence for the KB field"},
+    "2026090003_OFFICIAL_KLPGA_RANKING.json": {"sha256": "4bb6df853a1650d26c1666084dcb779e99f7eb3d434c0f800bdbe32c066c967e", "bytes": 14558, "mtime_utc": "2026-09-09T14:11:26.214872Z", "role": "official K-Ranking snapshot, ranking_date 2026-W36"},
+    "2026090003_PRE_PERFORMANCE_SNAPSHOT.json": {"sha256": "483d274ed8f33eeda8edbdcb1a4840dd39ceb95a0bdd426191620d96eb7a69f0", "bytes": 1118638, "mtime_utc": "2026-09-09T12:56:44.453209Z", "role": "per-player SG window profiles feeding PRE performance classification"},
+    "2026090003_PRE_PERFORMANCE_CORRECTED_V2.json": {"sha256": "7bc695529a16eac18a01bb1a57728336d991c050aba51e0d8466f5d44638980c", "bytes": 313314, "mtime_utc": "2026-09-09T21:05:32.450122Z", "role": "corrected PRE performance classification (neo_performance_band source)"},
+    "2026090003_PRE_SG_TOTAL_RANK.json": {"sha256": "649e54063c9d6c27d3fc3f44534d105ad806d9226fa5c7d9aa41ba4a7fd18562", "bytes": 19660, "mtime_utc": "2026-09-09T14:10:51.150396Z", "role": "SG Total rank artifact (sg_total_rank field origin)"},
+    "2026090003_PRE_SG_TOTAL_RANK_CORRECTED_V2.json": {"sha256": "433f959cfa3e8eb8a3a2b20a1b9192dc1f2adbf72f9747d6c2b494b3c46a1a7c", "bytes": 76632, "mtime_utc": "2026-09-09T12:56:44.457209Z", "role": "corrected SG Total rank artifact"},
+    "2026090003_SG_INDEPENDENT_ACCEPTANCE.json": {"sha256": "a3a85ded4e8276fd3d92830a69933ab5e70149c8e064e744a79b50d937b998b8", "bytes": 1436, "mtime_utc": "2026-09-09T12:56:44.493209Z", "role": "independent SG acceptance sign-off record"},
+    "2026090003_TIER2_PUBLICATION_GATE.json": {"sha256": "daecee8538899dc1bb1b9e4dcc3d7be459ad6dc54dd2713ad650753787aaa4eb", "bytes": 2630, "mtime_utc": "2026-09-09T12:56:44.493209Z", "role": "PRE page publication gate (overall_state, consumed by scripts/88 before copying KB's PRE route into HOME)"},
+    "2026090003_PRE_PUBLIC_MASTER.json": {"sha256": "94f7b19e258900c3fae3b5d8e3acef7888dfd1c61eb0d998110f21b59709e4f3", "bytes": 457978, "mtime_utc": "2026-09-09T14:11:37.081134Z", "role": "canonical public PRE master record set (source for scripts/84's rendered table)"},
+    "2026090003_PRE_PUBLIC_MASTER_VALIDATION.json": {"sha256": "433a21a3dcca6d718bec4947c790e57f4cd510a399ee9ecd487b27e1b5921708", "bytes": 341, "mtime_utc": "2026-09-09T14:11:37.081730Z", "role": "validation record for the public master"},
+    "2026090003_PRE_WIN_FORECAST.json": {"sha256": "afa0df2393048e2abb43bb3fba1386dc1a0c1a4b769f6d0deeebe543bdd3db8a", "bytes": 38279, "mtime_utc": "2026-09-09T14:11:17.018872Z", "role": "win_probability source artifact (see [PROBABILITY MODEL SPEC] audit -- publication status assessed separately, this freeze only records its identity/hash)"},
+    "2026090003_NEO_PRE_RANKING_EVIDENCE.json": {"sha256": "2ae2c1afcf05f375b566541ff97115ab6f244761585fb2a89c666cbd5b532c72", "bytes": 1120455, "mtime_utc": "2026-09-09T14:11:26.214872Z", "role": "NEO PRE ranking evidence trail"},
+    "2026090003_VALIDATION_PLAN.json": {"sha256": "77f284d43e7fcf94d9c2621e2d45de18027c60f72daefcc0625d695839f74e98", "bytes": 1919, "mtime_utc": "2026-09-09T12:56:44.493209Z", "role": "validation plan for this tournament's PRE build"},
+    "historical_sg_warehouse_corrected.json": {"sha256": "4812c205cba42924689a1e1c8890695f98b9d847cbfaecc02ade738f30a51407", "bytes": 34906586, "mtime_utc": "2026-09-09T12:56:47.481209Z", "role": "cross-tournament SG warehouse feeding HOME's recent_5_sg/recent_10_sg (shared, not KB-specific)"},
+    "NEO_RANKING_VALIDATION_MODEL_V1.json": {"sha256": "0b33f7e4eb726079b163d4d6ec2cf8cfa4aec42218ee7609d8c538412a022643", "bytes": 1135, "mtime_utc": "2026-09-09T12:56:45.193209Z", "role": "NEO Ranking V1 weights/config (publication_class VALIDATION_MODEL_NOT_PRODUCTION)"},
+    "HOME_PLAYER_MASTER_TOP120.json": {"sha256": "5817d5cc87e07c7a9b039b2905b6f0c79da79a09dc5edd808fa511f35e4bcae3", "bytes": 49864, "mtime_utc": "2026-09-09T12:56:44.817209Z", "role": "official K-Ranking Top120 cohort (shared, not KB-specific)"},
+    "TOURNAMENT_SITE_REGISTRY.json": {"sha256": "41316378eadf3f5907b7439b29026d0950c9aa9c426f24b767c103a5a3ec7a2b", "bytes": 8459, "mtime_utc": "2026-09-09T20:48:48.594146Z", "role": "route/venue registry (KB's venue entry added this task, see _venue_comment)"},
+    "OFFICIAL_KLPGA_SCHEDULE.json": {"sha256": "230a4cb13c474c5404368da8c6f4252d23a0ce450f279aca897f6d4bb90eb036", "bytes": 2639, "mtime_utc": "2026-09-09T12:56:45.193209Z", "role": "authoritative calendar identity (start_date/end_date/venue)"}
+  },
+  "hard_fail_check": {
+    "rule": "If an input cannot be proven PRE-event, it cannot be used to create a historical PRE forecast.",
+    "result": "PASS -- every artifact above is timestamped before or at the cutoff, and no KB R1/R2/R3/FINAL artifact exists anywhere in this repository to have leaked into any of them.",
+    "caveat": "This freeze proves NO KNOWN CONTAMINATION exists in this repository's own artifacts as of the cutoff. It does NOT by itself certify that any downstream PRE win_probability computation is methodologically valid -- that is evaluated separately (see [PROBABILITY MODEL SPEC] / gate sections of this task's final report)."
+  }
+}

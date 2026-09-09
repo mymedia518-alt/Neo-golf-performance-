@@ -1,0 +1,49 @@
+{
+  "schema_version": "neo_performance_lineage_audit_v1",
+  "purpose": "NEO KB MODEL VALIDATION Section 3: trace the public 'NEO 경기력' band (최상위/상위/중위/하위/최하위/데이터 부족) end-to-end and decide its publication status on real evidence.",
+  "generated_at_utc": "2026-09-09T21:45:00Z",
+  "source_git_sha": "7201e5ab834f2859368c00ff0ea6427ec9e8c905",
+  "producer": {
+    "script": "scripts/79_rebuild_corrected_sg_downstream.py",
+    "consumer": "scripts/83_build_ok_open_pre_public_master.py copies neo_performance_band unchanged into *_PRE_PUBLIC_MASTER.json records",
+    "legacy_dead_code": "scripts/73_build_ok_open_performance_bands.py computes the identical formula but its own output is always overwritten by script 83 -- confirmed dead code, not the live path."
+  },
+  "formula": {
+    "input": "each player's recent5 SG-Total window mean (windows.recent5.components.total.mean), eligibility requires sample >= 5",
+    "field_median": "median of recent5 SG-Total means across all players with sample >= 5",
+    "standard_error": "multi_season_sample_sd / sqrt(recent5_sample_n)",
+    "z_score": "(recent5_mean - field_median) / standard_error",
+    "thresholds": {
+      "INSUFFICIENT_EVIDENCE": "z is None or n < 5",
+      "VERY_HIGH": "z >= 1.96",
+      "HIGH": "z > 1.0",
+      "TYPICAL": "-1.0 <= z <= 1.0",
+      "LOW": "-1.96 < z < -1.0",
+      "VERY_LOW": "z <= -1.96"
+    },
+    "classifier_version": "Field-median comparison using each player's validated standard error; z boundaries +/-1.00 and +/-1.96; no within-band performance ordering."
+  },
+  "dependency_on_neo_ranking_v1": {
+    "verdict": "INDEPENDENT -- confirmed no code-level dependency.",
+    "evidence": "The band-computation chain (scripts 79/73/83, and the auditor script 85_accept_tournament_sg.py) never references validation_score, neo_validation_rank, or src/klpga/website_v2/top120_validation.py. NEO 경기력 uses only the raw recent5 SG-Total window, z-scored against the field median -- a single-metric statistic, not the 5-feature weighted composite (recent_5_sg 0.35 + recent_10_sg 0.25 + long_term_sg 0.25 + consistency 0.10 + sample_reliability 0.05) that NEO Ranking V1 uses.",
+    "implication": "NEO 경기력's publication status must be assessed on its OWN evidence -- it does not automatically inherit NEO Ranking V1's BLOCKED_FORMULA_NOT_APPROVED status just because both are SG-derived, but it also inherits every unresolved SG-input concern documented in NEO_SG_FORENSIC_AUDIT_V1.json (same warehouse, same unequal-exposure risk, since recent5 SG-Total is exactly the metric audited there)."
+  },
+  "publication_approval_artifact": {
+    "dedicated_gate_exists": false,
+    "closest_existing_gate": "src/klpga/neo_win/tier2_publication_gate.py's 'SG_DERIVED' domain, which requires scripts/85_accept_tournament_sg.py's human-reviewer sign-off (future_data_excluded=true, warehouse_arithmetic_exceptions=0, rank_reproduction_mismatches=0, band_reproduction_mismatches=0) for the CURRENT tournament being built.",
+    "what_this_gate_actually_checks": "Arithmetic/reproduction correctness of the band computation given the warehouse as-is -- it does NOT evaluate whether the underlying warehouse `total` values are themselves free of the unequal-exposure/identity-resolution defects documented in NEO_SG_FORENSIC_AUDIT_V1.json. A tournament can PASS SG_DERIVED while still being built on top of the confirmed identity-resolution bug.",
+    "explicit_publication_safety_review": "NONE FOUND. No document, config, or code comment asserts 'NEO 경기력 has been reviewed and approved for public display' as a standalone claim -- unlike NEO Ranking V1 (which has an explicit REJECT verdict on record, docs/NEO_RANKING_V1_REDTEAM_BACKTEST.md) or the R1-live probability engine (which has an explicit BLOCKED status and documented defect record, src/klpga/neo_win/r1_live_probability.py)."
+  },
+  "sample_data": [
+    {"player_id": "10097", "sg_total_rank": 11, "neo_performance_band": "VERY_HIGH"},
+    {"player_id": "8300", "sg_total_rank": 30, "neo_performance_band": "HIGH"},
+    {"player_id": "10075", "sg_total_rank": 76, "neo_performance_band": "TYPICAL"},
+    {"player_id": "9436", "sg_total_rank": 87, "neo_performance_band": "LOW"},
+    {"player_id": "9174", "sg_total_rank": 114, "neo_performance_band": "VERY_LOW"},
+    {"player_id": "10789", "sg_total_rank": 107, "neo_performance_band": "INSUFFICIENT_EVIDENCE"}
+  ],
+  "publication_gate_decision": {
+    "status": "BLOCKED",
+    "reason": "UI existence is not model approval, per this task's own instruction. No explicit publication-safety review or approval artifact exists for NEO 경기력 as a standalone public claim -- only an arithmetic-reproduction gate that assumes the warehouse inputs are already sound. Those inputs carry a confirmed, unresolved comparability risk (NEO_SG_FORENSIC_AUDIT_V1.json): ~34% of the live TOP120 population's most recent SG observation is a rounds=1 figure, and a material share of that bucket is a confirmed identity-resolution artifact rather than a genuine short-participation signal. Until (a) an explicit publication-safety review exists for this specific metric, independent of the SG_DERIVED arithmetic gate, and (b) the unequal-exposure risk is resolved or shown not to materially affect the band assignment, NEO 경기력 cannot be certified PASS on the evidence available."
+  }
+}

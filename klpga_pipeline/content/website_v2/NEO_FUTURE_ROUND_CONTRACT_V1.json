@@ -1,0 +1,14 @@
+{
+  "schema_version": "neo_future_round_contract_v1",
+  "purpose": "NEO KB MODEL VALIDATION Section 11: document (not implement -- no code changed) the operational contract for how future round checkpoints must be handled once/if a probability model is ever approved. This is a documentation-only artifact; the generic mechanisms it references already exist in this codebase.",
+  "generated_at_utc": "2026-09-09T22:05:00Z",
+  "contract": {
+    "PRE": "Freeze once, before the tournament's own start_date (see KB_2026090003_PRE_INPUT_FREEZE_V1.json for the concrete freeze pattern). Never recomputed once frozen.",
+    "R1_official_complete": "Only once the tournament's own STAGE_STATE.json file (generic per-tournament filename, TOURNAMENT_SITE_REGISTRY.json's stage_state_filename field) records r1 as validated -- exactly the same generic mechanism ok_open_available_stages() already enforces (src/klpga/website_v2/tournament_state.py). Validate the actual R1 result against the frozen PRE forecast; update CUT/TOP20/TOP10/TOP5/WIN for the field; freeze the R1 checkpoint as its own immutable artifact, never overwriting the PRE checkpoint file.",
+    "R2_official_complete": "CUT becomes the actual, known outcome (who made/missed the cut) rather than a forecast. Validate PRE's and R1's own CUT forecasts against that real outcome. Update TOP20/TOP10/TOP5/WIN for survivors only. Freeze the R2 checkpoint as its own immutable artifact.",
+    "R3_official_complete": "Update TOP20/TOP10/TOP5/WIN for survivors. Freeze the R3 checkpoint as its own immutable artifact.",
+    "FINAL": "No forecast is produced at FINAL -- FINAL is exclusively an evaluation step: compare every previously-frozen PRE/R1/R2/R3 forecast against the real final result.",
+    "hard_rule": "NEVER overwrite a previously-frozen checkpoint file. Each stage's forecast (once any model is approved to produce one) is its own immutable artifact, named per-stage (e.g. KB_2026090003_PRE_FORECAST_FROZEN_V1.json, KB_2026090003_R1_FORECAST_FROZEN_V1.json, ...), exactly mirroring the existing prediction_archive.py / PREDICTION_ARCHIVE.md pattern already used for BETA #001's own frozen-checkpoint history in this codebase."
+  },
+  "current_applicability": "KB is at PRE only; no R1/R2/R3/FINAL checkpoint exists yet and none should until R1 is officially collected and independently validated (see KB_2026090003_PRE_INPUT_FREEZE_V1.json's r1_result_absence_evidence). This contract is written now, ahead of need, purely as documentation -- no code was added or changed to enforce it in this task, per the explicit 'validation only' instruction."
+}

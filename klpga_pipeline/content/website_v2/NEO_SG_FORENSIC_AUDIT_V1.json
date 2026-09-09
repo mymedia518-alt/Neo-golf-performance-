@@ -1,0 +1,72 @@
+{
+  "schema_version": "neo_sg_forensic_audit_v1",
+  "purpose": "NEO KB MODEL VALIDATION Section 1+2: trace historical_sg_warehouse_corrected.json's `total` field to raw source, classify the unequal retained-round-count skew, and run a comparison-only exposure sensitivity test. No production code or weights were changed to produce this artifact.",
+  "generated_at_utc": "2026-09-09T21:40:00Z",
+  "source_git_sha": "7201e5ab834f2859368c00ff0ea6427ec9e8c905",
+  "warehouse_artifact": {
+    "path": "content/website_v2/historical_sg_warehouse_corrected.json",
+    "sha256": "4812c205cba42924689a1e1c8890695f98b9d847cbfaecc02ade738f30a51407",
+    "producer_script": "scripts/77_repair_sg_row_retention.py",
+    "raw_source": "Live scrape of https://klpga.co.kr/load/leaderboard/strokesGained_detail (SG values) and /load/leaderboard/roundLeaderboard (player_id identity resolution only), never a stored raw corpus -- no schema.sql table is involved (src/klpga/db/schema.sql's own sg_total column has never been populated from any environment this project has run in).",
+    "total_record_count": 43701
+  },
+  "section_1a_total_definition": {
+    "verdict": "total is a PER-ROUND-AVERAGE Strokes-Gained figure in BOTH scopes present in the warehouse -- never a summed cumulative value, despite the scope label 'tournament_cumulative' suggesting otherwise.",
+    "evidence": "Empirical additivity test on 6294 player-events with full contiguous single_round coverage AND a real tournament_cumulative row for the same (player_id, game_code): sum(single-round totals for rounds 1..N) / N reproduces the tournament_cumulative total to within rounding on every hand-checked example (e.g. player 9784, game_code 2025040001: single-round totals [4.31, 5.15, 4.17, 3.43] sum to 17.06; 17.06/4 = 4.265, matching the recorded tournament_cumulative total of 4.27). This directly confirms scripts/80_audit_corrected_sg_warehouse.py's own recorded claim: 'official tournament_cumulative values retained; no round summation performed'.",
+    "implication_for_section_2b": "Because total is already a per-round average, the 'ROUND-NORMALIZED' challenger the task asked for (divide total by rounds) is NOT mathematically valid: total has already been divided by the round count at the source. Dividing it again would silently corrupt every multi-round observation (e.g. a real 4-round average would be treated as if it were a quarter of itself). This challenger is reported as INVALID, not run, per the task's own instruction ('normalize... if mathematically valid given the proven meaning of total')."
+  },
+  "section_1b_1r_exposure_root_cause": {
+    "raw_rounds_distribution_before_dedup": {"1": 32574, "2": 4841, "3": 2902, "4": 3384},
+    "scope_distribution": {"single_round": 32249, "tournament_cumulative": 11452},
+    "post_dedup_rounds_distribution": {"1": 4856, "2": 121, "3": 2852, "4": 3315},
+    "classification": "PARSING/IDENTITY-RESOLUTION PIPELINE DEFECT, not a genuine WD/missed-cut signal. 100% of the 4856 retained rounds=1 observations are scope=='single_round' rows -- zero are genuine tournament_cumulative rows. No cut/WD/DQ/status field exists anywhere in the warehouse schema to independently classify these players.",
+    "mechanism": "scripts/77_repair_sg_row_retention.py resolves a tournament_cumulative row's player_id using ONLY the tournament's FINAL round's leaderboard (`maps.get(latest, {})`, latest = the highest round number found for that event). A player who did not appear on that final-round leaderboard (cut, withdrew, or otherwise did not finish) has their genuine multi-round cumulative row discarded with identity_state=UNRESOLVED_IDENTITY -- home_ranking.build_features's own RETAINED-only filter then drops it. That same player's individual single-round rows resolve fine (each is looked up against its own round's leaderboard), so their LAST individually-resolvable single-round figure survives as the 'most complete' retained observation for that event, mislabeled rounds=1 even though the player may genuinely have played 2 or 3 rounds before being cut.",
+    "confirmed_example": "player_id 8799 (오경은), game_code 2025040001 (a 4-round event): tournament_cumulative row exists with rounds=2 but identity_state=UNRESOLVED_IDENTITY (discarded); single_round rows for round=1 and round=2 both resolve (identity_state=RETAINED, rounds=1 each); the round=2 single-round row survives home_ranking's max-rounds tiebreak and is retained as this player's sole observation for this event -- reported as '1 retained round' when the player's real, unresolved cumulative record covered 2 rounds.",
+    "additional_context": "src/klpga/neo_win/round_update.py's own docstring documents the DB-backed corpus's real round-count structure as exactly {1, 2, 4} with 'ZERO 3-round players... the signature of a standard 36-hole cut'. The SG warehouse's post-dedup distribution includes a large rounds=3 bucket (2852) that has no counterpart in that real structure -- further confirming the warehouse's rounds values are pipeline artifacts of the identity-resolution mechanism above, not a faithful reproduction of genuine made-cut/missed-cut round counts.",
+    "no_normalization_exists": "home_ranking.py's build_features() (lines 40-77) applies zero scope filtering and zero round-count weighting -- every retained total, whatever its scope or rounds value, is averaged with identical weight in recent_5_sg/recent_10_sg/long_term_sg. scripts/79_rebuild_corrected_sg_downstream.py, a separate consumer, DOES filter to scope=='tournament_cumulative' only -- home_ranking.py (the one HOME/PRE actually renders through) does not apply the same filter, a real inconsistency between the two consumers of the same warehouse."
+  },
+  "section_1c_representative_transformations": {
+    "1_retained_round_case": {
+      "player_id": "8799", "game_code": "2025040001",
+      "raw_single_round_row": {"total": "single round's own field-relative SG figure", "rounds": 1, "scope": "single_round", "round": 2, "identity_state": "RETAINED"},
+      "discarded_cumulative_row": {"rounds": 2, "scope": "tournament_cumulative", "identity_state": "UNRESOLVED_IDENTITY"},
+      "warehouse_result_used_by_home_ranking": "the single_round row (rounds=1) -- the true 2-round cumulative figure is lost"
+    },
+    "4_retained_round_case": {
+      "player_id": "9784", "game_code": "2025040001",
+      "raw_rows": "4 single_round rows (round 1..4, totals 4.31/5.15/4.17/3.43) + 1 tournament_cumulative row (total 4.27, rounds=4)",
+      "warehouse_result_used_by_home_ranking": "the tournament_cumulative row (rounds=4, total=4.27, confirmed = mean of the 4 single-round totals)"
+    },
+    "2_and_3_retained_round_cases": "Genuine tournament_cumulative rows with rounds=2 or rounds=3 exist (121 and 2852 respectively post-dedup) wherever identity resolution against the final round's leaderboard succeeded for a player who did not play every round (e.g. a 3-round event, or a withdrawal after round 3 in a scheduled-4-round event) -- these are correctly-labeled genuine partial-tournament averages, unlike the mislabeled rounds=1 bucket above."
+  },
+  "section_1d_comparability_verdict": {
+    "units_are_comparable": true,
+    "reasoning": "Since total is a per-round-average quantity in both scopes (section 1a), a rounds=1 observation and a rounds=4 observation are on the SAME SCALE -- comparing them is not a unit-mismatch error.",
+    "but_precision_is_not_comparable": true,
+    "reasoning_2": "A 1-round average is a much noisier estimate of a player's underlying per-round skill in that event than a 4-round average is (standard error scales with 1/sqrt(rounds)). Treating a 1-round and a 4-round observation as equally informative (current method) is therefore statistically suboptimal, even though it is not a units error.",
+    "compounding_factor": "Because ~40/118 (34%) of the live TOP120 population's MOST RECENT retained SG observation has rounds=1 (see section 2 below), and the root cause of that bucket is a confirmed identity-resolution pipeline defect (not a genuine reflection of short participation), an unknown share of those noisy 1-round observations are actually silently-discarded higher-round averages -- compounding the precision problem with a data-loss problem.",
+    "overall_verdict": "UNRESOLVED, MODERATE-SEVERITY COMPARABILITY RISK -- confirmed real, not a unit-mismatch, but not negligible either. Recommend (outside this task's scope, which forbids tuning): (1) fix the identity-resolution lookup to try every round's leaderboard, not just the final one, before falling back to UNRESOLVED_IDENTITY; (2) consider precision/inverse-variance weighting by rounds count once (1) is fixed."
+  },
+  "section_2_exposure_sensitivity_test": {
+    "scope": "Comparison-only. No production method was changed. Computed directly against the real, current HOME_PLAYER_MASTER_TOP120.json cohort (120 official K-Ranked players) and the real historical_sg_warehouse_corrected.json, replicating home_ranking.build_features()'s exact dedup logic.",
+    "method_A_current": "One retained tournament observation = one equal weight in the trailing mean (production behavior, unchanged).",
+    "method_B_round_normalized": "INVALID -- see section 1a; not run (would double-divide an already-per-round-averaged figure).",
+    "method_C_round_weighted": "Weighted mean of the trailing-5 window, weight = max(rounds, 1) per observation (a simple precision proxy: more retained rounds -> more weight). Comparison-only.",
+    "population": "TOP120 K-Ranking cohort, 118/120 players had a computable recent_5_sg under both methods (2 players had zero retained SG observations under either method).",
+    "results": {
+      "spearman_rank_correlation_A_vs_C": 0.9184,
+      "top10_overlap": "10/10 unchanged -- zero Top10 membership changes between method A and method C",
+      "top20_overlap": "16/20 -- 4 players enter/leave the Top20 band depending on method",
+      "largest_rank_movers_current_to_weighted": [
+        {"player_id": "8380", "rank_delta": 39}, {"player_id": "11391", "rank_delta": 35},
+        {"player_id": "9183", "rank_delta": -34}, {"player_id": "11485", "rank_delta": -33},
+        {"player_id": "8883", "rank_delta": 31}, {"player_id": "9362", "rank_delta": 31},
+        {"player_id": "9820", "rank_delta": 30}, {"player_id": "11080", "rank_delta": 29},
+        {"player_id": "9784", "rank_delta": 24}, {"player_id": "9401", "rank_delta": 24}
+      ],
+      "low_sample_sensitivity": "8/120 TOP120 players have fewer than 5 total retained SG observations across their entire history -- these are the players most sensitive to any weighting-method change.",
+      "cut_vs_4r_survivor_split": "Of the 118 TOP120 players with a computable value, 40 (34%) have rounds=1 as their MOST RECENT retained observation and 75 (64%) have rounds=4 -- confirming the 1-round bucket materially overlaps the live, currently-ranked population, not just obscure/inactive players."
+    },
+    "conclusion": "Method choice (equal-weight vs round-weighted) does NOT change Top10 membership at all, but does move ~20% of Top20 membership and produces individual rank swings of 20-39 positions for specific players. This is a real, material sensitivity -- not decisive evidence that the current method is wrong, but decisive evidence that the exposure question cannot be dismissed as immaterial. No challenger was selected as a replacement; this is a comparison record only, per the task's explicit instruction not to select a method because it 'looks better'."
+  }
+}
