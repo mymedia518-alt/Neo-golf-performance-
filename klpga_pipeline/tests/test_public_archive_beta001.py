@@ -7,6 +7,7 @@ sha256-verified bytes, never mutating the frozen source."""
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 DOCS = REPO_ROOT / "docs"
+
+sys.path.insert(0, str(ROOT / "scripts"))
+from apply_public_site_lockdown import PLACEHOLDER_HTML  # noqa: E402
 
 _FORBIDDEN_STRINGS = (
     "R1 DATA UNAVAILABLE", "데이터 수집 지연 중", "reconstructed", "MODEL_A",
@@ -29,9 +33,19 @@ def test_docs_protected_does_not_exist():
 
 @pytest.mark.parametrize("stage", ("r1", "r2", "r3"))
 def test_public_archive_page_exists_with_global_header(stage):
+    """NEO PUBLIC SITE -- MAIN ONLY LOCKDOWN (see
+    scripts/apply_public_site_lockdown.py) deliberately replaces this
+    exact page with the site-wide "under construction" placeholder --
+    that is an intentional, reversible product decision, not a defect.
+    While locked down, the page must be EXACTLY the placeholder (never
+    a half-applied or corrupted variant); once unlocked, it must go
+    back to carrying the real global header this test originally
+    checked for."""
     page = DOCS / "archive" / "beta001" / stage / "index.html"
     assert page.is_file(), f"missing public archive route: {page}"
     html = page.read_text(encoding="utf-8")
+    if html == PLACEHOLDER_HTML:
+        return
     assert "neo-global-header" in html
     for word in ("NEO GOLF DATA", "NUMBER", "EVIDENCE", "ORACLE"):
         assert word in html
