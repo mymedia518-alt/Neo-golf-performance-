@@ -70,8 +70,15 @@ def assert_home_write_allowed(target_path: Path, writer_owner: str, *, repo_root
 def validate_top120_population(dataset: dict) -> None:
     """Hard stop: raises ValueError unless the dataset's records are
     exactly the 120-player K-Ranking population with ranks 1..120,
-    no gaps, no duplicates."""
-    records = dataset.get("records", [])
+    no gaps, no duplicates. Called against two legitimately different
+    dataset shapes: scripts/88's own in-memory pre-trim dataset (key
+    "records", full internal fields, validated before the public file
+    is written) and the final written neo-top120-evaluation.json (key
+    "players", the public-boundary-trimmed shape scripts/94 validates
+    post-promotion). Checking "players" first then falling back to
+    "records" handles both without weakening either -- each dict only
+    ever has one of the two keys."""
+    records = dataset.get("players", dataset.get("records", []))
     if len(records) != 120:
         raise ValueError(f"TOP120 population must be exactly 120 records, found {len(records)}")
     ranks = sorted(r["official_k_rank"] for r in records)
