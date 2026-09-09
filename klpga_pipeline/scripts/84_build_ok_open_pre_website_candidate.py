@@ -601,7 +601,7 @@ _PROBABILITY_COLUMNS = (
 
 CSS = """
 :root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--accent-soft:#e2f2f0;--soft:#f4f7f7;--band-1:#0c6b68;--band-2:#3f9188;--band-3:#8a97a3;--band-4:#c98a3a;--band-5:#b1503f}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:min(96vw,1680px);margin:auto;padding:22px clamp(1rem,2.5vw,2.5rem)}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
 /* PRODUCT RECOVERY V1 (real redesign, not content gating): the
    tournament header is now compact -- a slim single row, not a tall
    hero block -- so the player leaderboard is the dominant first-screen
@@ -625,13 +625,20 @@ CSS = """
    emphasized as a bold figure, NEO 경기력 rendered as a color-coded
    pill by band, 최근 5R SG emphasized) -- not the same bordered
    right-aligned data table with new copy pasted in. */
-.leaderboard-panel{padding:16px 18px 10px}
+.leaderboard-panel{padding:14px 16px 8px}
 .leaderboard-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.5rem;margin-bottom:10px}
 .leaderboard-head h2{margin:0}
 .leaderboard-head .note{margin:0}
+/* OWNER VISUAL REVIEW FAIL, item 3 (KB PRE DESKTOP): the leaderboard
+   was too narrow for the available desktop viewport -- fixed at the
+   container level (main{max-width} above, now min(96vw,1680px) instead
+   of a fixed 1240px) so the table itself has real room to use, plus a
+   tighter vertical rhythm per row (padding 12px -> 8px/10px) that packs
+   substantially more of the 120-player field into one screen without
+   touching font-size -- density from layout, not from shrinking text. */
 .leaderboard-table{width:100%;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums}
-.leaderboard-table thead th{position:sticky;top:0;padding:10px 12px;background:var(--soft);color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:normal;border-bottom:2px solid var(--line);text-align:center}
-.leaderboard-table tbody td,.leaderboard-table tbody th{padding:12px;border-bottom:1px solid var(--line);white-space:normal;text-align:center;font-size:14px}
+.leaderboard-table thead th{position:sticky;top:0;padding:9px 14px;background:var(--soft);color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;white-space:normal;border-bottom:2px solid var(--line);text-align:center}
+.leaderboard-table tbody td,.leaderboard-table tbody th{padding:8px 14px;border-bottom:1px solid var(--line);white-space:normal;text-align:center;font-size:14px}
 .leaderboard-table tbody tr:nth-child(even){background:#fafcfc}
 .leaderboard-table tbody tr:hover{background:var(--accent-soft)}
 .leaderboard-table tbody th[scope=row]{text-align:left;min-width:11rem}
@@ -647,17 +654,25 @@ CSS = """
 .band[aria-label="NEO 경기력 데이터 부족"]{background:#f1f2f4;color:#9aa5af;border:1px dashed #cbd3da}
 .leaderboard-panel .table-wrap:after{content:none}
 @media(max-width:760px){
-/* MOBILE LEADERBOARD: a deliberate stacked-card composition, never a
-   shrunk desktop table -- the primary player comparison (name,
-   sponsor, K-Ranking, NEO band, SG) never requires horizontal
-   scrolling on a phone. */
+/* OWNER VISUAL REVIEW FAIL, item 4 (KB PRE MOBILE): the first card
+   transformation worked (no horizontal scroll) but each card ran ~174px
+   tall -- three stacked label/value rows for K-Ranking/NEO 경기력/최근
+   5R SG. Redesigned as ONE compact metric row: player identity stays a
+   full-width header line at the top for fast scanning, then the three
+   metric <td>s become side-by-side stat cells sharing a single row
+   (flex-wrap forces the wrap point after the full-width <th>, so no
+   markup change was needed -- purely a layout change) instead of three
+   separate label:value lines. Brings a card down to roughly 100-110px.
+   Still zero horizontal scrolling. */
 .leaderboard-table{min-width:0}
-.leaderboard-table,.leaderboard-table thead,.leaderboard-table tbody,.leaderboard-table tr,.leaderboard-table th,.leaderboard-table td{display:block;width:100%}
+.leaderboard-table,.leaderboard-table thead,.leaderboard-table tbody{display:block;width:100%}
 .leaderboard-table thead{position:absolute;left:-9999px;top:-9999px}
-.leaderboard-table tbody tr{margin-bottom:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
-.leaderboard-table tbody th[scope=row]{border-bottom:1px solid var(--line);padding:4px 0 8px;margin-bottom:6px;min-width:0}
-.leaderboard-table tbody td{display:flex;justify-content:space-between;align-items:center;gap:.6rem;border:0;padding:5px 0;text-align:right}
-.leaderboard-table tbody td::before{content:attr(data-label);color:var(--muted);font-size:12px;font-weight:700;text-align:left}
+.leaderboard-table tbody tr{display:flex;flex-wrap:wrap;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:#fff}
+.leaderboard-table tbody th[scope=row]{flex:1 1 100%;display:block;border-bottom:1px solid var(--line);padding:2px 0 6px;margin-bottom:4px;min-width:0;text-align:left}
+.leaderboard-table tbody td{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;border-left:1px solid var(--line);padding:2px 4px;text-align:center}
+.leaderboard-table tbody td:first-of-type{border-left:0}
+.leaderboard-table tbody td::before{content:attr(data-label);color:var(--muted);font-size:9px;font-weight:700;line-height:1.2;text-align:center}
+.leaderboard-table tbody td:nth-child(2){font-size:14px}
 }
 /* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
 .r1-live-summary__grid{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px}.r1-live-summary__grid .label{display:block;color:var(--muted);font-size:12px}.r1-live-summary__grid strong{font-size:16px}

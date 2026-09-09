@@ -170,8 +170,77 @@ def test_home_is_korean_first_and_table_alignment_is_explicit(built):
     assert all(term not in html for term in (">HOME<", ">TOURNAMENTS<", ">DEEP DIVE<", ">ABOUT<", "production 아님"))
     css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
     assert ".home-table{width:100%;min-width:960px;table-layout:fixed}" in css
-    assert ".home-table th:nth-child(3),.home-table td:nth-child(3){width:12rem;text-align:left" in css
+    # OWNER VISUAL REVIEW FAIL, item 4: player leads the visual
+    # hierarchy and is column 1 (see
+    # test_home_table_never_shows_a_blocked_neo_ranking_column below
+    # for the content-level contract this CSS position serves).
+    assert ".home-table th:nth-child(1),.home-table td:nth-child(1){width:12rem;text-align:left" in css
     assert "font-variant-numeric:tabular-nums" in css
+
+
+def test_home_table_never_shows_a_blocked_neo_ranking_column(built):
+    """PRODUCT PRESENTATION RECOVERY (HOME METRIC AVAILABILITY AUDIT):
+    the composite NEO Ranking is a validation-only model score
+    (publication_class VALIDATION_MODEL_NOT_PRODUCTION) and must never
+    become a public table column -- not even one filled entirely with
+    dashes. Both the header cell and the never-populated data-neo-rank
+    sort attribute this used to carry are gone outright."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert "<th>NEO Ranking</th>" not in html
+    assert "data-neo-rank" not in html
+    assert '<option value="neo-rank">' not in html
+
+
+def test_home_table_visual_hierarchy_matches_owner_priority(built):
+    """OWNER VISUAL REVIEW FAIL, item 4: 선수(Player) leads the column
+    order, then K-Ranking, then the two primary recent-form columns in
+    priority order (최근 10R SG before 최근 5R SG -- NOT the reverse,
+    and never phrased as "10개 대회"/10 tournaments, which is a
+    distinct, not-yet-built future metric -- see item 6/COVERAGE
+    AUDIT). 장기 SG/변동성 stay real data but carry the metric-secondary
+    class (de-emphasized in CSS, never dropped, never a wider table)."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    header = html[html.index("<thead>"):html.index("</thead>")]
+    assert header.index("<th>선수</th>") < header.index("<th>K-Ranking</th>") < header.index("<th>최근 10R SG</th>") < header.index("<th>최근 5R SG</th>")
+    assert '<th class="metric-secondary">장기 SG</th>' in header
+    assert '<th class="metric-secondary">변동성</th>' in header
+    assert "최근 10개 대회" not in html, "10R (rounds) must never be phrased as 10 tournaments"
+    row = html[html.index("data-player-row"):]
+    row = row[:row.index("</tr>")]
+    assert row.index('scope="row"') < row.index('<td>')
+    assert '<td class="metric-secondary">' in row
+
+
+def test_home_table_renders_real_recent_sg_values_not_blanket_dashes(built):
+    """PRODUCT PRESENTATION RECOVERY (HOME METRIC AVAILABILITY AUDIT,
+    Class A): recent_5_sg/recent_10_sg/long_term_sg/volatility are
+    plain averages/stdevs off the corrected SG warehouse
+    (home_ranking.build_features's own "PASS_CORRECTED_SG_WAREHOUSE"
+    validation_state) -- a different thing from the blocked composite
+    NEO Ranking, and KB PRE already publishes this exact class of
+    metric under the same non-official "최근 5R SG" label. They must
+    render as real numbers for players with a connected SG feature set,
+    not the blanket "—" the previous renderer hardcoded regardless of
+    what evaluate() actually computed."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    dataset = json.loads((CONTENT / "historical_sg_warehouse_corrected.json").read_text(encoding="utf-8"))
+    cohort = json.loads((CONTENT / "HOME_PLAYER_MASTER_TOP120.json").read_text(encoding="utf-8"))
+    config = json.loads((CONTENT / "NEO_RANKING_VALIDATION_MODEL_V1.json").read_text(encoding="utf-8"))
+    rows, summary = evaluate(cohort, dataset, config)
+    connected = [r for r in rows if r["features"] is not None]
+    assert connected, "fixture must have at least one SG-connected player to make this test meaningful"
+    assert summary["sg_connected"] > 0
+    sample = connected[0]
+    from html import escape as _esc
+    expected = f'{sample["features"]["recent_5_sg"]:.2f}'
+    assert expected in html, "a real recent_5_sg value for an SG-connected player must appear in the rendered table"
+    assert f'{sample["features"]["long_term_sg"]:.2f}' in html
+    assert _esc(sample["player_name"]) in html
+    # the summary strip's two former dash placeholders ("NEO Ranking" /
+    # "NEO 지표" stats) are replaced by real connected-population counts
+    # -- recent10_ready, matching the owner's 10R-before-5R priority.
+    assert str(summary["sg_connected"]) in html
+    assert str(summary["recent10_ready"]) in html
 
 
 def test_http_routes_are_real_index_pages_not_directory_listings(built):

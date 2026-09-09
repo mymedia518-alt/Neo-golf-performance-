@@ -246,13 +246,38 @@ def render_clean(
     # page itself, not this table with a banner on top.
     cells = []
     for row in rows:
-        # The validation model remains available internally, but has no
-        # publication approval. Public NEO values therefore stay explicit
-        # missing values regardless of what the internal evaluation contains.
-        f = {}
-        neo = None
-        def val(key):
-            return "—"
+        # PRODUCT PRESENTATION RECOVERY (HOME METRIC AVAILABILITY AUDIT):
+        # two genuinely different things were both rendering as "—"
+        # here, for two genuinely different reasons --
+        #
+        #   1. The composite NEO Ranking (row["neo_validation_rank"]) is
+        #      a validation-only model score: NEO_RANKING_VALIDATION_MODEL_V1
+        #      .json's own publication_class is
+        #      "VALIDATION_MODEL_NOT_PRODUCTION" and weight_status is
+        #      "HEURISTIC_FOR_EVALUATION_NOT_FITTED_OR_APPROVED" -- the
+        #      SAME rule home_ranking.py's FORMULA_STATE enforces for the
+        #      persistent HOME population. Publication-blocked (Class B)
+        #      -- stays hidden, no exception, and the column itself is
+        #      removed below rather than left as 120 dash rows.
+        #
+        #   2. recent_5_sg/recent_10_sg/long_term_sg/volatility are a
+        #      DIFFERENT thing: each is a plain average/stdev read
+        #      straight off the corrected SG warehouse
+        #      (home_ranking.build_features's own
+        #      "validation_state": "PASS_CORRECTED_SG_WAREHOUSE") --
+        #      not a model, not a formula, not ranked. KB PRE already
+        #      publishes exactly this class of metric under the same
+        #      non-official "최근 5R SG" label (see the SG LABEL DECISION
+        #      contract in scripts/84 / test_product_recovery_v1.py).
+        #      These were blanket-blocked by this renderer alone, not by
+        #      any real publication gate on the data -- Class A. They
+        #      render for real now; a player genuinely below the
+        #      eligibility sample threshold (row["features"] is None,
+        #      "sg_join_state": "DATA_INSUFFICIENT") legitimately still
+        #      shows "—" (Class C, honestly unavailable for that player).
+        features = row.get("features") or {}
+        def val(key, digits=2):
+            return show(features.get(key), digits)
         # R1 ACTIVE MODE: 현재 스코어 -- real tournament-total-to-par
         # PLUS current-round hole progress, joined by player_id from the
         # same live snapshot the R1 page itself reads (scripts/96).
@@ -268,16 +293,30 @@ def render_clean(
         # placeholder markup at all) otherwise, never a guessed value.
         sponsor = (sponsor_by_id or {}).get(str(row["player_id"]))
         identity_cell = render_player_identity(row["player_name"], sponsor)
+        # OWNER VISUAL REVIEW FAIL, item 4 (HOME VISUAL HIERARCHY):
+        # 선수(Player) leads, then K-Ranking, then the two primary
+        # recent-form metrics in priority order (10R before 5R, per the
+        # owner's explicit ordering) -- 장기 SG/변동성 stay real data,
+        # just visually secondary (class="metric-secondary", styled
+        # smaller/muted in CSS, never dropped), and 현재 스코어 (live
+        # tournament data, distinct from the SG features) stays last.
         cells.append(
-            f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" data-neo-rank="{neo if neo else ""}" '
+            f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" '
             f'data-current-score="{cell.sort_score if cell.sort_score is not None else ""}" data-current-hole="{cell.sort_holes if cell.sort_holes is not None else ""}" data-current-status="{cell.sort_status}">'
-            f'<td>{row["official_k_rank"]}</td><td>{neo or "—"}</td><th scope="row">{identity_cell}</th><td>{val("recent_5_sg")}</td><td>{val("recent_10_sg")}</td><td>{val("long_term_sg")}</td><td>{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
+            f'<th scope="row">{identity_cell}</th><td>{row["official_k_rank"]}</td><td>{val("recent_10_sg")}</td><td>{val("recent_5_sg")}</td>'
+            f'<td class="metric-secondary">{val("long_term_sg")}</td><td class="metric-secondary">{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
+    # PRODUCT PRESENTATION RECOVERY: the summary strip's other two stats
+    # were "—"/"NEO Ranking" and "—"/"NEO 지표" -- both placeholders for
+    # the same blocked composite. Replaced with the two real, connected
+    # counts evaluate() already computes (summary["sg_connected"]/
+    # summary["recent5_ready"]) -- honest population-coverage numbers
+    # for the metric that actually renders below, never a guess.
     document = f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
-<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">K-Ranking과 NEO Ranking</h1><p>KLPGA 공식 순위와 NEO 지표를 함께 보는 선수 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>—</strong><span>NEO Ranking</span></div><div class="stat"><strong>—</strong><span>NEO 지표</span></div>{week_stat}</div></section>
-<section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>—</dd></div><div><dt>최근 경기력</dt><dd>—</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
-<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="neo-rank">NEO Ranking</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>K-Ranking</th><th>NEO Ranking</th><th>선수</th><th>최근 5개</th><th>최근 10개</th><th>장기 SG</th><th>변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">K-Ranking과 NEO Ranking</h1><p>KLPGA 공식 순위와 NEO 지표를 함께 보는 선수 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary.get("sg_connected", 0)}</strong><span>최근 SG 연결</span></div><div class="stat"><strong>{summary.get("recent10_ready", 0)}</strong><span>최근 10R SG 확보</span></div>{week_stat}</div></section>
+<section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>검증 중 · 공개 전</dd></div><div><dt>최근 경기력</dt><dd>최근 10·5라운드 평균 SG로 비교</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
+<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>선수</th><th>K-Ranking</th><th>최근 10R SG</th><th>최근 5R SG</th><th class="metric-secondary">장기 SG</th><th class="metric-secondary">변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
     return document
 
 
