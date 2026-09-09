@@ -1,0 +1,37 @@
+{
+  "schema_version": "neo_tournament_sg_independent_acceptance_v2",
+  "state": "ACCEPTED",
+  "game_code": "2026090003",
+  "accepted_at": "2026-09-09T11:21:42Z",
+  "accepted_by": "Project Owner",
+  "basis": "independent reproduction of frozen pre-cutoff SG rank and performance-band inputs",
+  "warehouse": "historical_sg_warehouse_corrected_v2.json",
+  "warehouse_sha256": "56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62",
+  "artifacts": {
+    "entry_snapshot": {
+      "file": "2026090003_ENTRY_SNAPSHOT.json",
+      "sha256": "573831b519e50900c1e62b2785330c0d3246266a18c9f7d113be9411bf11f4b7"
+    },
+    "sg_total_rank": {
+      "file": "2026090003_PRE_SG_TOTAL_RANK_CORRECTED_V2.json",
+      "sha256": "433f959cfa3e8eb8a3a2b20a1b9192dc1f2adbf72f9747d6c2b494b3c46a1a7c"
+    },
+    "performance_bands": {
+      "file": "2026090003_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json",
+      "sha256": "73a0bea3b553fe7a403c11a3c84d44628faa030bf71ab7e7468478bcf584b567"
+    }
+  },
+  "controls": {
+    "entry_count": 120,
+    "eligible_rank_count": 118,
+    "insufficient_rank_count": 2,
+    "rank_reproduction_mismatches": 0,
+    "band_reproduction_mismatches": 0,
+    "field_median": -0.19799999999999998,
+    "warehouse_arithmetic_exceptions": 0,
+    "eligible_pre_cutoff_warehouse_rows": 9341,
+    "excluded_unknown_date_rows": 2376,
+    "excluded_target_or_post_cutoff_rows": 0,
+    "future_data_excluded": true
+  }
+}
