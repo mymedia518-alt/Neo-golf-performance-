@@ -32,6 +32,7 @@ per-tournament Python constants.
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -40,6 +41,40 @@ _ROOT = Path(__file__).resolve().parents[2]
 ACTIVE_TOURNAMENT_PATH = _ROOT / "config" / "active_tournament.json"
 SITE_REGISTRY_PATH = _ROOT / "content" / "website_v2" / "TOURNAMENT_SITE_REGISTRY.json"
 CONTENT_DIR = _ROOT / "content" / "website_v2"
+
+# QA HARD STOP remediation (test/build isolation): every build script's
+# own OUTPUT/OUT constant used to hardcode `_ROOT / "candidate" / <name>`
+# directly -- the real, git-tracked directory -- so any test that called
+# a real build() function (most of this suite's integration tests do,
+# deliberately, to verify actual generated HTML rather than a mock)
+# wrote real files into the tracked repository tree, leaving `git
+# status` dirty after every test run with nothing but a fresh
+# neo-build-id/neo-build-source-commit provenance stamp (see
+# global_navigation.inject_build_provenance) -- never a real content
+# change, but a real repository-hygiene defect regardless.
+#
+# tests/conftest.py's pytest_configure hook sets
+# KLPGA_CANDIDATE_ROOT_OVERRIDE to a fresh, process-unique temp
+# directory (tempfile.mkdtemp()) before test collection begins, i.e.
+# before any script module below is ever imported -- every build
+# script now resolves its own OUTPUT/OUT through candidate_dir() below
+# instead of hardcoding the real path directly, so EVERY test run is
+# isolated with zero per-test-file changes required, and a real
+# `python scripts/NN_....py` invocation outside pytest (where this
+# env var is never set) is completely unaffected.
+CANDIDATE_ROOT = Path(os.environ["KLPGA_CANDIDATE_ROOT_OVERRIDE"]) if os.environ.get("KLPGA_CANDIDATE_ROOT_OVERRIDE") else _ROOT / "candidate"
+
+
+def candidate_dir(name: str) -> Path:
+    """Resolve one named build-output directory (e.g.
+    "neo-data-home-top120") under CANDIDATE_ROOT -- the real tracked
+    candidate/ tree by default, or a session-scoped temp directory
+    under pytest (see CANDIDATE_ROOT above). A test that needs its OWN
+    fully isolated, per-test copy (e.g. to assert on a synthetic
+    fixture without touching what other tests in the same session
+    built) still overrides the module's OUTPUT/OUT attribute directly
+    after import, exactly as before -- this only fixes the default."""
+    return CANDIDATE_ROOT / name
 
 
 class TournamentContextError(RuntimeError):

@@ -12,7 +12,6 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "candidate" / "website-v2-ok-open-pre"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
@@ -23,8 +22,10 @@ from klpga.website_v2.player_identity import (  # noqa: E402
     cross_tournament_verified_sponsor_cache, render_player_identity,
     sponsor_with_cross_tournament_fallback,
 )
-from klpga.tournament_context import load_active_tournament_context, load_tournament_context  # noqa: E402
+from klpga.tournament_context import candidate_dir, load_active_tournament_context, load_tournament_context  # noqa: E402
 from klpga.website_v2.tournament_state import OK_BASE, OK_DATE_RANGE, OK_DISPLAY_NAME, ok_open_available_stages  # noqa: E402
+
+OUT = candidate_dir("website-v2-ok-open-pre")
 
 # NEO TOURNAMENT PIPELINE: venue/holes/format have no home in
 # tournament_state.py's existing constants -- resolved here from the
