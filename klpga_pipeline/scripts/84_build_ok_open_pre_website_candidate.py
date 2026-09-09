@@ -681,6 +681,22 @@ CSS = """
 .leaderboard-table{min-width:0}
 .leaderboard-table,.leaderboard-table thead,.leaderboard-table tbody{display:block;width:100%}
 .leaderboard-table thead{position:absolute;left:-9999px;top:-9999px}
+/* OWNER FOLLOW-UP (mobile NEO 경기력 info accessibility): the info
+   trigger lives inside thead th.band-head, which the rule above moves
+   off-screen along with the rest of the (redundant on mobile -- each
+   card already repeats every label via ::before) header row. Rather
+   than restoring the whole header or duplicating the button/popover
+   markup, give this ONE <th> (and only this one -- its siblings stay
+   off-screen with the rest of thead) its own position:fixed: fixed
+   positioning always escapes an ancestor's own position/offset (thead
+   being position:absolute;left:-9999px does not drag a
+   position:fixed descendant along with it, since none of the
+   ancestors here set transform/filter/perspective/will-change to
+   create a competing containing block), so it renders as a small
+   floating pill at a real on-screen location while thead itself stays
+   exactly as off-screen as before. Same DOM node, same button, same
+   #neo-info popover, same JS -- nothing is duplicated. */
+.leaderboard-table thead th.band-head{position:fixed;top:76px;left:auto;right:16px;z-index:15;display:inline-flex;align-items:center;gap:4px;width:auto;max-width:calc(100vw - 32px);padding:6px 10px;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 8px #17202a1a;color:var(--ink);font-size:12px;font-weight:800;text-transform:none;letter-spacing:normal;white-space:nowrap}
 .leaderboard-table tbody tr{display:flex;flex-wrap:wrap;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:#fff}
 .leaderboard-table tbody th[scope=row]{flex:1 1 100%;display:block;border-bottom:1px solid var(--line);padding:2px 0 6px;margin-bottom:4px;min-width:0;text-align:left}
 .leaderboard-table tbody td{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;border-left:1px solid var(--line);padding:2px 4px;text-align:center}
@@ -812,7 +828,7 @@ def build(game_code: str | None = None) -> Path:
     # columns / overlapping SG Total. Closes on scroll/resize (its
     # fixed coordinates would otherwise drift away from the button)
     # in addition to the pre-existing ESC/outside-click close.
-    html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}function place(){if(window.innerWidth<=760)return;const r=b.getBoundingClientRect();let left=Math.min(r.left,window.innerWidth-p.offsetWidth-16);left=Math.max(16,left);p.style.left=left+'px';p.style.top=(r.bottom+6)+'px'}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open){place();p.focus()}});b.addEventListener('keydown',function(e){if(e.key==='Escape')close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()});window.addEventListener('scroll',close,true);window.addEventListener('resize',close)})();</script></body></html>")
+    html_doc = html_doc.replace("</body></html>", "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}function place(){if(window.innerWidth<=760)return;const r=b.getBoundingClientRect();let left=Math.min(r.left,window.innerWidth-p.offsetWidth-16);left=Math.max(16,left);p.style.left=left+'px';p.style.top=(r.bottom+6)+'px'}b.addEventListener('click',function(){const open=p.classList.toggle('is-open');b.setAttribute('aria-expanded',String(open));if(open){place();p.focus()}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p.classList.contains('is-open'))close()});document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()});window.addEventListener('scroll',close,true);window.addEventListener('resize',close)})();</script></body></html>")
     # OUT is one shared candidate directory that every tournament's
     # build() call writes into (script 86/HOME reads OK Open's own
     # already-published route subtree straight out of it as a

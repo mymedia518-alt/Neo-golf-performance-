@@ -127,6 +127,39 @@ def test_neo_info_tooltip_never_participates_in_table_width():
     assert "!b.contains(e.target)&&!p.contains(e.target)" in script
     assert "addEventListener('scroll',close,true)" in script
     assert "addEventListener('resize',close)" in script
+    # ESC must work regardless of what currently has focus -- p.focus()
+    # on open moves focus onto the popover span itself, so a listener
+    # scoped to only the trigger button never fires (found during the
+    # mobile accessibility follow-up's own verification pass).
+    assert "document.addEventListener('keydown',function(e){if(e.key==='Escape'" in script
+
+
+def test_neo_info_tooltip_is_reachable_on_mobile_not_hidden_with_thead():
+    """OWNER FOLLOW-UP (mobile NEO 경기력 info accessibility): the info
+    trigger lives inside thead th.band-head. The mobile card layout
+    moves the entire <thead> off-screen (left:-9999px) since every
+    label is already repeated per-card via ::before -- before this fix
+    that dragged the trigger off-screen too, with no way to reach it on
+    a real phone. Regression guard: this one <th> (and only this one --
+    real Playwright coverage in test_ok_open_pre_tooltip_browser.py
+    proves the rest of the header stays off-screen) must carry its own
+    position:fixed override inside the same mobile media query, or this
+    silently regresses back to "unreachable on mobile" the moment
+    someone touches this CSS again. Reuses the exact same button/
+    popover/JS -- no duplicated trigger, no duplicated explanation
+    copy."""
+    out = builder.build()
+    html = (out / "index.html").read_text(encoding="utf-8")
+    css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
+
+    assert html.count("class='info-control'") == 1, "the trigger must not be duplicated"
+    assert html.count("id='neo-info'") == 1, "the popover/explanation must not be duplicated"
+
+    mobile_block = css.split("@media(max-width:760px){", 1)[1]
+    assert "thead th.band-head{position:fixed" in mobile_block
+    # must still be scoped to just this one <th> -- the rest of thead
+    # (선수/KLPGA K-RANKING/최근 5R SG headers) stays off-screen
+    assert "thead{position:absolute;left:-9999px;top:-9999px}" in mobile_block
 
 
 def test_canonical_pre_route_and_stage_navigation_are_generated():
