@@ -1,16 +1,26 @@
 """Correct the prospective interpretation layer for the active tournament
 (klpga.tournament_context) without rewriting evidence."""
 from __future__ import annotations
-import hashlib, json, statistics, sys
+import argparse, hashlib, json, statistics, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
 sys.path.insert(0, str(ROOT / "src"))
-from klpga.tournament_context import load_active_tournament_context
+from klpga.tournament_context import load_tournament_context
 
-_CONTEXT = load_active_tournament_context()
+# NEO TOURNAMENT PIPELINE: module-level defaults, resolved for the
+# operationally-active tournament -- unchanged behavior for every
+# existing caller/test that imports this module and calls build() or
+# _correction_timestamp() with no arguments. build(game_code=...) below
+# REBINDS these same module globals (via `global`) for an explicit,
+# non-active game_code, rather than threading a context parameter
+# through every function -- this is what lets tests that
+# monkeypatch.setattr(module, "OUT", ...) directly (bypassing build())
+# keep working unchanged, since _correction_timestamp() still reads the
+# module-level name at call time either way.
+_CONTEXT = load_tournament_context()
 SOURCE = _CONTEXT.artifact_path("pre_performance_snapshot")
 OUT = _CONTEXT.artifact_path("pre_performance_corrected_v2")
 DIFF = _CONTEXT.artifact_path("pre_performance_classifier_diff_v2")
@@ -110,7 +120,21 @@ def corrected_profile(original):
     }
 
 
-def build():
+def build(game_code: str | None = None):
+    """game_code=None (default): operates on the module-level globals
+    resolved at import time (the operationally-active tournament) --
+    zero behavior change for every existing caller. An explicit
+    game_code rebinds _CONTEXT/SOURCE/OUT/DIFF/REPORT/CORRECTION_TIMESTAMP
+    to that tournament's own context before proceeding, without ever
+    touching active_tournament.json."""
+    if game_code is not None:
+        global _CONTEXT, SOURCE, OUT, DIFF, REPORT, CORRECTION_TIMESTAMP
+        _CONTEXT = load_tournament_context(game_code)
+        SOURCE = _CONTEXT.artifact_path("pre_performance_snapshot")
+        OUT = _CONTEXT.artifact_path("pre_performance_corrected_v2")
+        DIFF = _CONTEXT.artifact_path("pre_performance_classifier_diff_v2")
+        REPORT = _CONTEXT.artifact_path("pre_performance_classifier_report_v2", ext="md")
+        CORRECTION_TIMESTAMP = _correction_timestamp()
     raw = SOURCE.read_bytes(); original = json.loads(raw.decode("utf-8"))
     profiles = [corrected_profile(p) for p in original["profiles"]]
     # Evidence-ranked cohorts, never array slices.
@@ -149,12 +173,20 @@ def build():
         changes.append({"player_id":p["player_id"],"original_classification":{"level":old_level,"direction":old_dir,"composition":old_comp},"v2_classification":{"level":new_level,"direction":new_dir,"composition":new_comp},"what_changed":changed})
     diff={"schema_version":"neo_ok_open_pre_performance_classifier_diff_v2","original_artifact_sha256":v2["original_artifact_sha256"],"profiles":changes,"summary":{**counts,"entrants":len(changes),"supported_to_partially_supported":sum(1 for x in changes for c in x["what_changed"] if c["original"]=="SUPPORTED" and c["v2"]=="PARTIALLY_SUPPORTED"),"supported_to_contradicted":sum(1 for x in changes for c in x["what_changed"] if c["original"]=="SUPPORTED" and c["v2"]=="CONTRADICTED"),"supported_to_insufficient":sum(1 for x in changes for c in x["what_changed"] if c["original"]=="SUPPORTED" and c["v2"]=="INSUFFICIENT")}}
     DIFF.write_text(json.dumps(diff, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
-    lines=["# OK Open PRE Performance Classifier V2", "", f"Original artifact SHA-256: `{v2['original_artifact_sha256']}`", "", "Classifier uses evidence-ranked Recent5 SG Total against one all-pre-cutoff multi-season baseline. Direction and composition retain cross-window disagreement; variance groups use observed dispersion, not sample count.", "", "## Cohorts", ""]
+    lines=[f"# {_CONTEXT.tournament_name} PRE Performance Classifier V2", "", f"Original artifact SHA-256: `{v2['original_artifact_sha256']}`", "", "Classifier uses evidence-ranked Recent5 SG Total against one all-pre-cutoff multi-season baseline. Direction and composition retain cross-window disagreement; variance groups use observed dispersion, not sample count.", "", "## Cohorts", ""]
     for k, ids in groups.items(): lines.append(f"- **{k}**: {len(ids)} entrants")
     lines += ["", "## Diff summary", "", json.dumps(diff["summary"], ensure_ascii=False, indent=2), "", "Original artifact remains immutable; both original and corrected outputs are retained for prospective evaluation."]
     REPORT.write_text("\n".join(lines)+"\n", encoding="utf-8", newline="\n")
     return v2, diff
 
 
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--game-code", default=None, help="omit for the operationally-active tournament (default, unchanged historical behavior)")
+    args = ap.parse_args()
+    v2, diff = build(args.game_code)
+    print(json.dumps({"profiles":len(v2["profiles"]),"groups":{k:len(v) for k,v in v2["highlight_groups"].items()},"diff":diff["summary"]}, ensure_ascii=False))
+
+
 if __name__ == "__main__":
-    v2, diff = build(); print(json.dumps({"profiles":len(v2["profiles"]),"groups":{k:len(v) for k,v in v2["highlight_groups"].items()},"diff":diff["summary"]}, ensure_ascii=False))
+    main()

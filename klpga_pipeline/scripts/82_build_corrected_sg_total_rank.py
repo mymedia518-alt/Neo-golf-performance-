@@ -1,16 +1,13 @@
 """Build PRE SG Total rank from the canonical corrected warehouse only,
 for the active tournament (klpga.tournament_context)."""
 from __future__ import annotations
-import hashlib, json, sys
+import argparse, hashlib, json, sys
 from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; C=ROOT/"content"/"website_v2"
 sys.path.insert(0, str(ROOT / "src"))
-from klpga.tournament_context import load_active_tournament_context
+from klpga.tournament_context import load_tournament_context
 
-_CONTEXT = load_active_tournament_context()
-GAME_CODE = _CONTEXT.game_code
-CUTOFF = f"{_CONTEXT.start_date}T00:00:00+09:00"
 # historical_sg_warehouse_corrected_v2.json is a shared, cross-tournament
 # artifact (built by scripts 77/78) -- deliberately NOT routed through
 # TournamentContext.artifact_path(), which is per-tournament.
@@ -24,8 +21,6 @@ WH=C/"historical_sg_warehouse_corrected_v2.json"
 # from that mapping has no verified date and must be excluded, not
 # assumed safe.
 K_WEEK_MAPPING = C/"TOURNAMENT_K_WEEK_MAPPING_V1.json"
-ENTRY=_CONTEXT.artifact_path("entry_snapshot")
-OUT=_CONTEXT.artifact_path("pre_sg_total_rank_corrected_v2")
 
 def _verified_event_dates() -> dict:
     if not K_WEEK_MAPPING.exists():
@@ -33,7 +28,12 @@ def _verified_event_dates() -> dict:
     mapping = json.loads(K_WEEK_MAPPING.read_text(encoding="utf-8"))
     return {r["game_code"]: r["start_date"] for r in mapping.get("records", []) if r.get("start_date")}
 
-def main():
+def main(game_code: str | None = None):
+    _CONTEXT = load_tournament_context(game_code)
+    GAME_CODE = _CONTEXT.game_code
+    CUTOFF = f"{_CONTEXT.start_date}T00:00:00+09:00"
+    ENTRY=_CONTEXT.artifact_path("entry_snapshot")
+    OUT=_CONTEXT.artifact_path("pre_sg_total_rank_corrected_v2")
     w=json.loads(WH.read_text(encoding="utf-8")); entries=json.loads(ENTRY.read_text(encoding="utf-8"))["entries"]; by={}
     # PRE LEAKAGE (Phase 5 item 5): exclude unknown-date rows and any
     # row on/after this tournament's own cutoff -- the shared warehouse
@@ -58,4 +58,11 @@ def main():
     payload={"schema_version":"neo_tournament_pre_sg_total_rank_corrected_v2","game_code":GAME_CODE,"cutoff":CUTOFF,"window":"latest five pre-cutoff tournament_cumulative SG Total observations","scope":"official tournament_cumulative arithmetic mean of completed single-round SG; never summed","minimum_sample":1,"tie_rule":"equal full-precision means share competition rank; player_id orders computation only","missing_rule":"NULL rank when no validated observation","warehouse":WH.name,"warehouse_sha256":"56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62","generated_at":datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),"records":rec}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps({"eligible":len(ranked),"insufficient":len(rec)-len(ranked),"ties":len(ranked)-len({r['sg_total_mean'] for r in ranked})},ensure_ascii=False))
-if __name__=="__main__": main()
+
+def _cli():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--game-code", default=None, help="omit for the operationally-active tournament (default, unchanged historical behavior)")
+    args = ap.parse_args()
+    main(args.game_code)
+
+if __name__=="__main__": _cli()

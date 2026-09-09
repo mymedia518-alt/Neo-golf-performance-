@@ -1,31 +1,31 @@
-# OK저축은행 읏맨 오픈 PRE Performance Classifier V2
+# KB금융 골든라이프 챔피언십 PRE Performance Classifier V2
 
-Original artifact SHA-256: `d4b0bd6ceaa1dbbba10c15d95f2cf182b4bdef2de1b9057a2e813a55fdaf964b`
+Original artifact SHA-256: `483d274ed8f33eeda8edbdcb1a4840dd39ceb95a0bdd426191620d96eb7a69f0`
 
 Classifier uses evidence-ranked Recent5 SG Total against one all-pre-cutoff multi-season baseline. Direction and composition retain cross-window disagreement; variance groups use observed dispersion, not sample count.
 
 ## Cohorts
 
-- **CURRENT HIGH LEVEL**: 29 entrants
-- **RISING — SUPPORTED**: 7 entrants
-- **RISING — WINDOW CONFLICT**: 80 entrants
+- **CURRENT HIGH LEVEL**: 28 entrants
+- **RISING — SUPPORTED**: 5 entrants
+- **RISING — WINDOW CONFLICT**: 84 entrants
 - **HIGH VARIANCE / BAD TAIL**: 28 entrants
 - **HIGH CONSISTENCY**: 28 entrants
-- **APPROACH-LED**: 27 entrants
-- **PUTTING-LED**: 27 entrants
-- **LIMITED DATA**: 11 entrants
+- **APPROACH-LED**: 30 entrants
+- **PUTTING-LED**: 23 entrants
+- **LIMITED DATA**: 13 entrants
 
 ## Diff summary
 
 {
   "total": 0,
-  "direction": 104,
-  "composition": 40,
+  "direction": 106,
+  "composition": 38,
   "variance_group": 0,
-  "window_conflict": 80,
+  "window_conflict": 84,
   "entrants": 120,
-  "supported_to_partially_supported": 135,
-  "supported_to_contradicted": 5,
+  "supported_to_partially_supported": 137,
+  "supported_to_contradicted": 2,
   "supported_to_insufficient": 0
 }
 

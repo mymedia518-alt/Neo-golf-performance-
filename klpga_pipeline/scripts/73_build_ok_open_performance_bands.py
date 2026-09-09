@@ -13,21 +13,20 @@ already shipped this way for OK Open -- not a naming collision to
 fixed order.
 """
 from __future__ import annotations
-import json, math, statistics, sys
+import argparse, json, math, statistics, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from klpga.tournament_context import load_active_tournament_context
-
-_CONTEXT = load_active_tournament_context()
-CUTOFF = f"{_CONTEXT.start_date}T00:00:00+09:00"
+from klpga.tournament_context import load_tournament_context
 
 def now():
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-def main():
+def main(game_code: str | None = None):
+    _CONTEXT = load_tournament_context(game_code)
+    CUTOFF = f"{_CONTEXT.start_date}T00:00:00+09:00"
     master = json.loads(_CONTEXT.artifact_path("current_player_master").read_text(encoding="utf-8"))
     corrected = json.loads(_CONTEXT.artifact_path("pre_performance_corrected_v2").read_text(encoding="utf-8"))
     evidence = json.loads(_CONTEXT.artifact_path("neo_pre_ranking_evidence").read_text(encoding="utf-8"))
@@ -59,4 +58,11 @@ def main():
     report={"entry_count":len(out),"identity_count":sum(bool(r.get("current_official_player_name")) for r in out),"win_coverage":sum(r.get("win_probability") is not None for r in out),"klpga_rank_coverage":sum(r.get("official_klpga_rank") is not None for r in out),"sg_total_rank_coverage":sum(r.get("sg_total_rank") is not None for r in out),"band_distribution":counts,"methodology":"field_median_standard_error","future_data_excluded":True,"website_generation":"PENDING_MASTER_VALIDATION"}
     _CONTEXT.artifact_path("pre_public_master_validation").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8",newline="\n")
     print(json.dumps(report,ensure_ascii=False)); return 0
-if __name__ == "__main__": raise SystemExit(main())
+
+def _cli() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--game-code", default=None, help="omit for the operationally-active tournament (default, unchanged historical behavior)")
+    args = ap.parse_args()
+    return main(args.game_code)
+
+if __name__ == "__main__": raise SystemExit(_cli())

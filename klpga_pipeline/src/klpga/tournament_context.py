@@ -217,3 +217,104 @@ def load_active_tournament_context() -> TournamentContext:
     active = _load_json(ACTIVE_TOURNAMENT_PATH)
     registry = _load_json(SITE_REGISTRY_PATH).get("tournaments", {})
     return resolve_context(active, registry)
+
+
+def _load_context_from_schedule_and_registry(game_code: str) -> TournamentContext:
+    """Resolve a TournamentContext for a game_code that is NOT the one
+    operationally active in active_tournament.json (e.g. a tournament
+    whose PRE-stage evidence is being assembled ahead of its own
+    window opening, without disturbing which tournament the live-
+    polling scripts are currently targeting). Identity is built ONLY
+    from real, already-sourced artifacts -- never active_tournament.json
+    (reserved for the one tournament actually being live-polled) and
+    never a guess:
+
+      - content/website_v2/OFFICIAL_KLPGA_SCHEDULE.json (the
+        authoritative calendar -- klpga.website_v2.official_schedule)
+        supplies tournament_name/start_date/end_date, exactly the same
+        source klpga.website_v2.tournament_chronology already treats as
+        the only trustworthy calendar identity.
+      - TOURNAMENT_SITE_REGISTRY.json's own stage_order (already
+        real, either hand-curated or written by
+        ensure_site_registry_entry from a confirmed final_round_number)
+        supplies final_round_number, mechanically counted rather than
+        re-asked for.
+      - season is the real start_date's own year (never invented --
+        this is the same rule ensure_site_registry_entry itself already
+        applies when it first bootstraps an identity dict).
+      - current_round_number is 0: this path is only ever used for a
+        tournament that is not the operationally active one, so it has
+        by definition not yet had any round evidence collected through
+        the live lifecycle machinery.
+
+    Fails closed (TournamentContextError) if either source has no entry
+    for game_code -- never fabricates a date, name, or round count."""
+    from klpga.website_v2.official_schedule import load_official_schedule
+
+    registry = _load_json(SITE_REGISTRY_PATH).get("tournaments", {})
+    reg_entry = registry.get(str(game_code))
+    if reg_entry is None:
+        raise TournamentContextError(
+            f"no TOURNAMENT_SITE_REGISTRY.json entry for game_code={game_code!r} -- "
+            "add {url_base, stage_state_filename, stage_order} for this tournament "
+            "before operating on it"
+        )
+    schedule_path = CONTENT_DIR / "OFFICIAL_KLPGA_SCHEDULE.json"
+    schedule = {entry.game_code: entry for entry in load_official_schedule(schedule_path)}
+    schedule_entry = schedule.get(str(game_code))
+    if schedule_entry is None:
+        raise TournamentContextError(
+            f"no OFFICIAL_KLPGA_SCHEDULE.json entry for game_code={game_code!r} -- "
+            "real official tournament_name/start_date/end_date are required, never fabricated"
+        )
+    stage_order = reg_entry.get("stage_order") or []
+    final_round_number = sum(1 for stage in stage_order if stage.startswith("r") and stage[1:].isdigit())
+    if final_round_number == 0:
+        raise TournamentContextError(
+            f"TOURNAMENT_SITE_REGISTRY.json entry for game_code={game_code!r} has no r<N> "
+            "stages in stage_order -- final_round_number cannot be derived"
+        )
+    identity = {
+        "game_code": str(game_code),
+        "tournament_name": schedule_entry.tournament_name,
+        "season": int(schedule_entry.start_date[:4]),
+        "start_date": schedule_entry.start_date,
+        "end_date": schedule_entry.end_date,
+        "final_round_number": final_round_number,
+        "current_round_number": 0,
+    }
+    return resolve_context(identity, registry)
+
+
+def load_tournament_context(game_code: str | None = None) -> TournamentContext:
+    """The generic entry point every PRE-upstream script should call
+    instead of load_active_tournament_context() directly.
+
+    game_code=None (default): identical to load_active_tournament_context()
+    -- every existing caller/test that never passes a game_code keeps
+    its exact current behavior (reads active_tournament.json), so this
+    is a purely additive capability, never a behavior change for OK
+    Open's already-validated live path.
+
+    game_code given and it equals active_tournament.json's own
+    game_code: same as above -- the validated lifecycle record IS this
+    tournament's identity, so it is used (not re-derived from the
+    schedule) even though a game_code was supplied explicitly.
+
+    game_code given and it differs (or there is no active_tournament.json
+    yet): resolved from the official schedule + site registry via
+    _load_context_from_schedule_and_registry -- never touches
+    active_tournament.json, so a PRE-stage script pointed at a new
+    tournament never risks flipping which tournament is operationally
+    "active" for the live-polling scripts. Fails closed if either
+    source lacks a real entry for game_code."""
+    if game_code is None:
+        return load_active_tournament_context()
+    try:
+        active = _load_json(ACTIVE_TOURNAMENT_PATH)
+    except TournamentContextError:
+        active = None
+    if active is not None and str(active.get("game_code")) == str(game_code):
+        registry = _load_json(SITE_REGISTRY_PATH).get("tournaments", {})
+        return resolve_context(active, registry)
+    return _load_context_from_schedule_and_registry(game_code)

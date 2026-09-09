@@ -1,0 +1,618 @@
+{
+  "schema_version": "neo_tournament_official_klpga_ranking_v1",
+  "ranking_category": "K-RANKING (official weekly KLPGA ranking)",
+  "collection_method": "offline_import",
+  "game_code": "2026090003",
+  "requested_rank_week": null,
+  "returned_rank_week": null,
+  "week_evidence_state": "BLOCKED",
+  "week_match": null,
+  "ranking_date": null,
+  "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+  "acquisition_source": "/tmp/claude-0/-home-user-Neo-golf-performance-/bee7b372-e13f-52b9-816d-77030a003a04/scratchpad/wt_tournament_engine/klpga_pipeline/content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_RAW.html",
+  "retrieved_at": "2026-09-09T08:12:39Z",
+  "raw_response_sha256": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7",
+  "records": [
+    {
+      "player_id": "10002",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10022",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10075",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10081",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10083",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10095",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10097",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10109",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10112",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10138",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10139",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10146",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10178",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10296",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10481",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10531",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10577",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10586",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10698",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10725",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10726",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10727",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10789",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10790",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "10867",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11040",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11042",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11045",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11056",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11057",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11060",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11066",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11073",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11134",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11143",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11216",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11374",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11397",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11447",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11469",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11480",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11649",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11770",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11926",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "11964",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "12038",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "12069",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "1485",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "1521",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "4905",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "6916",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "7434",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8191",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8234",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8240",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8243",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8246",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8271",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8277",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8284",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8300",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8318",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8355",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8380",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8386",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8392",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8430",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8434",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8589",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8770",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8772",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8799",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8811",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8838",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8840",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8859",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8881",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8883",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8884",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "8972",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9000",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9082",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9089",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9111",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9113",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9134",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9135",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9136",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9145",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9174",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9183",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9235",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9277",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9389",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9391",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9401",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9426",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9431",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9436",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9449",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9465",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9483",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9487",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9503",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9652",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9702",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9705",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9708",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9714",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9723",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9728",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9750",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9752",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9759",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9765",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9784",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9788",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9820",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9937",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    },
+    {
+      "player_id": "9990",
+      "official_rank": null,
+      "validation_state": "UNAVAILABLE"
+    }
+  ],
+  "blocked_reason": "official ranking week not found"
+}
