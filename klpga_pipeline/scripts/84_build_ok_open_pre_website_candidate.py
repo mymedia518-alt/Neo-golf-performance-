@@ -175,24 +175,23 @@ def _fmt_delta_pct(current, pre_fraction) -> str:
 
 def _player_identity_cell(name, sponsor) -> str:
     """The ONE shared player-identity cell markup -- name (existing
-    emphasis/weight) plus an optional muted affiliation/sponsor
-    sub-line directly underneath. Reused by every OK Open stage table
-    that renders player rows (PRE today; R1 below; any future R2/R3/
-    FINAL row renderer should call this too) so affiliation handling
-    never diverges by stage. `sponsor` must already be the real,
-    player_id-resolved value (or None) -- this function never invents
-    one: a falsy sponsor simply omits the sub-line entirely rather
-    than rendering a placeholder dash, per "no affiliation line rather
-    than inventing one".
+    emphasis/weight) plus a sponsor slot directly underneath, ALWAYS
+    present structurally even when empty (never omitted, never a
+    guessed value or placeholder dash -- see render_player_identity's
+    own docstring). Reused by every OK Open stage table that renders
+    player rows (PRE today; R1 below; any future R2/R3/FINAL row
+    renderer should call this too) so affiliation handling never
+    diverges by stage.
 
-    PUBLIC UI Phase 8 correction (FAIL 2): delegates to the one shared
-    player-identity rule (src/klpga/website_v2/player_identity.py),
-    reused HOME/RANKING-side too -- only the CSS class names differ
-    (this page's own long-established .player/.sponsor styling, kept
-    as-is rather than reworked)."""
+    PUBLIC UI Phase 8 correction (FAIL 2) / PRODUCT RECOVERY V1
+    (design-system consolidation, phase 1): delegates to the one
+    shared player-identity rule (src/klpga/website_v2/player_identity.py)
+    and now also its default CSS classes (player-name/player-sponsor,
+    the same ones neo-site.css already styles for HOME/RANKING) --
+    this page's previously separate .player/.sponsor rules are removed
+    from its own CSS block below in favor of the shared ones."""
     return render_player_identity(
-        name if name is not None else "—", sponsor,
-        name_class="player", sponsor_class="sponsor", quote="'",
+        name if name is not None else "—", sponsor, quote="'",
     )
 
 
@@ -581,13 +580,32 @@ BANDS = {
     "INSUFFICIENT_EVIDENCE": "데이터 부족",
 }
 
+# PRODUCT RECOVERY V1: the recovered PRE contract includes a full
+# tournament outcome probability distribution (CUT/TOP20/TOP10/TOP5/
+# WIN) -- but MODEL_VALIDATED_FOR_PUBLICATION (same gate the R1 live
+# table below already enforces -- P0 MODEL SAFETY PATCH) means NONE of
+# it may render publicly on PRE either, WIN included, no exception,
+# until that gate flips (a separate, independently Red-Team-reviewed
+# model change -- never decided here). This single ordered list is the
+# only place the PRE renderer needs to touch once that happens: every
+# entry's own value is already real (win_probability) or an honest
+# None (cut/top20/top10/top5 -- see scripts/72's own placeholders),
+# never fabricated either way.
+_PROBABILITY_COLUMNS = (
+    ("cut_probability", "컷 통과확률"),
+    ("top20_probability", "TOP20"),
+    ("top10_probability", "TOP10"),
+    ("top5_probability", "TOP5"),
+    ("win_probability", "우승확률"),
+)
+
 CSS = """
 :root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--soft:#f4f7f7}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 14px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}.hero{padding:20px 0 18px;display:flex;justify-content:space-between;gap:30px;align-items:end}.status{font-size:14px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:7px 13px}.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:22px;align-items:start}.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.player{display:block;font-weight:700;text-align:left}.sponsor{display:block;color:var(--muted);font-size:12px;font-weight:400;text-align:left;margin-top:2px}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.evolution{display:flex;flex-direction:column}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:28px;display:block}.status{display:inline-block;margin-top:14px}.grid{grid-template-columns:1fr}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:1240px;margin:auto;padding:22px 28px}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 14px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}.hero{padding:20px 0 18px;display:flex;justify-content:space-between;gap:30px;align-items:end}.status{font-size:14px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:7px 13px}.grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,.8fr);gap:22px;align-items:start}.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.evolution{display:flex;flex-direction:column}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:28px;display:block}.status{display:inline-block;margin-top:14px}.grid{grid-template-columns:1fr}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
 /* MOBILE_CONTAINMENT */
 .grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
 /* Public table is centered; numeric columns retain tabular numerals. */
-.data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player,.sponsor{text-align:center}
+.data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player-name,.player-sponsor{text-align:center}
 .info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}.info-popover{display:none;position:absolute;z-index:2;max-width:260px;margin-top:6px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400}.info-popover.is-open{display:block}
 @media(max-width:760px){.info-popover{position:fixed;left:16px;right:16px;top:112px;width:auto;max-width:none;margin:0}}
 /* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
@@ -630,6 +648,19 @@ def build(game_code: str | None = None) -> Path:
     # but the gate must be explicit so a future refresh can never leak
     # a sponsor for a record whose identity was never confirmed.
     sponsor_by_id = {str(r.get("player_id")): verified_sponsor(r) for r in records}
+    # PRODUCT RECOVERY V1: real K-Ranking week reference for the compact
+    # PRE summary line -- read from the same official ranking artifact
+    # already used to join official_klpga_rank per record, never a
+    # separately guessed value. Omitted (not invented) if unavailable.
+    ranking_week = None
+    ranking_path = _CONTEXT.artifact_path("official_klpga_ranking")
+    if ranking_path.is_file():
+        try:
+            ranking_week = json.loads(ranking_path.read_text(encoding="utf-8")).get("ranking_date")
+        except (OSError, json.JSONDecodeError):
+            ranking_week = None
+    pre_summary = f"참가 {len(records)} · K-Ranking {ranking_week} · PRE" if ranking_week else f"참가 {len(records)} · PRE"
+    prob_header_cells = "".join(f"<th>{label}</th>" for _, label in _PROBABILITY_COLUMNS) if MODEL_VALIDATED_FOR_PUBLICATION else ""
     rows = []
     for r in records:
         name = r.get("current_official_player_name")
@@ -637,14 +668,30 @@ def build(game_code: str | None = None) -> Path:
         enum = r.get("neo_performance_band")
         band = BANDS.get(enum, "데이터 부족")
         accessible = {"VERY_HIGH":"최상위", "HIGH":"상위", "TYPICAL":"중위", "LOW":"하위", "VERY_LOW":"최하위", "INSUFFICIENT_EVIDENCE":"데이터 부족"}.get(enum, "데이터 부족")
-        rows.append(f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th><td>{value(r.get('official_klpga_rank'))}</td><td><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td><td>{value(r.get('sg_total_rank'))}</td><td class='win'>{pct(r.get('win_probability'))}</td></tr>")
+        # PRODUCT RECOVERY V1: the tournament outcome probability
+        # distribution (CUT/TOP20/TOP10/TOP5/WIN) is only ever rendered
+        # while MODEL_VALIDATED_FOR_PUBLICATION is True -- WIN has
+        # no exception, even though it is the one member of the set
+        # with a real computed value today. See _PROBABILITY_COLUMNS.
+        prob_cells = "".join(f"<td class='win'>{pct(r.get(key))}</td>" for key, _ in _PROBABILITY_COLUMNS) if MODEL_VALIDATED_FOR_PUBLICATION else ""
+        rows.append(f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th><td>{value(r.get('official_klpga_rank'))}</td><td><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td><td>{value(r.get('sg_total_rank'))}</td>{prob_cells}</tr>")
     # base_url=None: OK Open has no distinct "overview" route the way KG
     # does (its PRE page IS the tournament's landing page) -- linking the
     # breadcrumb's tournament-name crumb to a route that doesn't exist
     # would 404, so it renders as plain text instead (see breadcrumb_html).
     breadcrumb = breadcrumb_html(display_name, None, "PRE")
     stage_nav = stage_nav_html(_context_stage_items("pre", historical_ok_mode=historical_ok_mode))
-    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다.</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>SG Total 순위</th><th>우승확률</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div><div class=\"help\">K-RANKING이 ‘쌓아온 성과’를 보여준다면, NEO는 ‘지금의 경기력’을 봅니다. 두 지표는 서로 다른 시간축과 평가 기준을 사용합니다.</div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">참가 선수별 우승확률은 표에서 확인할 수 있습니다.</p></div></aside></div></main></body></html>"""
+    # PRODUCT RECOVERY V1: the "우승 가능성 변화" aside must never claim
+    # a probability distribution is already visible in the table while
+    # MODEL_VALIDATED_FOR_PUBLICATION is False -- its copy is honest
+    # about the current publication-gate state, and the DOM slot stays
+    # in place so approval later needs no redesign, only new copy.
+    evolution_note = (
+        "참가 선수별 우승 가능성 변화는 표에서 확인할 수 있습니다."
+        if MODEL_VALIDATED_FOR_PUBLICATION
+        else "NEO 우승 가능성 모델은 공식 검증 전까지 공개하지 않습니다."
+    )
+    html_doc = f"""<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · {OK_DISPLAY_NAME}</title><link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"assets/neo.css\"></head><body><header data-neo-global-navigation></header><main>{breadcrumb}<section class=\"hero\" id=\"tournament\"><div><p class=\"eyebrow\">다음 대회 · PRE</p><h1>{OK_DISPLAY_NAME}</h1><p class=\"meta\">{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}</p></div><strong class=\"status\">예측 확정 전</strong></section>{stage_nav}<div class=\"grid\"><section class=\"panel\" id=\"pre\"><h2>PRE 참가 선수 <small>{len(records)}명</small></h2><p class=\"note\">{pre_summary}</p><div class=\"table-wrap\"><table class=\"data\"><thead><tr><th>선수</th><th>KLPGA K-RANKING</th><th>NEO 경기력 구간</th><th>최근 5R SG</th>{prob_header_cells}</tr></thead><tbody>{''.join(rows)}</tbody></table></div></section><aside class=\"panel evolution\"><p class=\"eyebrow\">PRE · 우승 가능성 변화</p><h2>우승 가능성 변화</h2><p class=\"note\">검증된 PRE 체크포인트만 표시합니다. R1·R2·FINAL 결과가 생기기 전에는 관측값을 만들지 않습니다.</p><div class=\"checkpoint\"><div class=\"metric\">PRE</div><p class=\"note\">{evolution_note}</p></div></aside></div></main></body></html>"""
     old_meta = f"{OK_DATE_RANGE} · {_CONTEXT.venue} · {_CONTEXT.holes}홀 {_CONTEXT.format}"
     meta_bits = [date_range]
     if _CONTEXT.venue:
@@ -721,7 +768,7 @@ def build(game_code: str | None = None) -> Path:
     about = """<!doctype html><html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>NEO GOLF DATA · NEO 소개</title><link rel=\"stylesheet\" href=\"../assets/neo.css\"></head><body><header data-neo-global-navigation></header><main><section class=\"panel about\" id=\"about\"><p class=\"eyebrow\">NEO 소개</p><h1>결과만으로는 보이지 않는 경기력을 데이터에서 봅니다.</h1><p>NEO GOLF DATA는 KLPGA 공식 경기 기록을 바탕으로 선수들의 경기 데이터를 동일한 기준으로 측정하고 비교합니다.</p><p>우승, TOP10, 상금, K-RANKING은 선수가 쌓아온 중요한 결과입니다. NEO는 여기에 또 하나의 관점을 더합니다.</p><p>최근 공식 경기 데이터를 비교해 출전 선수들 사이에서 관측된 경기력의 상대적 위치를 보여줍니다.</p><p>이것은 선수의 가치나 미래 성적에 대한 등급이 아닙니다. 골프의 결과에는 큰 변동성이 있으며 높은 경기력 위치가 우승이나 TOP10을 보장하지 않습니다.</p><p>NEO는 분석 시점에 사용할 수 있었던 데이터를 보존하고, 실제 결과와 비교하며 분석 방법을 계속 검증합니다.</p></section></main></body></html>"""
     (OUT / "about").mkdir()
     (OUT / "about" / "index.html").write_text(inject_global_navigation(about), encoding="utf-8")
-    manifest = {"tournament": display_name, "game_code": _CONTEXT.game_code, "stage": "PRE", "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "SG Total 순위", "우승확률"]}
+    manifest = {"tournament": display_name, "game_code": _CONTEXT.game_code, "stage": "PRE", "entry_count": len(records), "public_columns": ["선수", "KLPGA K-RANKING", "NEO 경기력 ⓘ", "최근 5R SG", *([label for _, label in _PROBABILITY_COLUMNS] if MODEL_VALIDATED_FOR_PUBLICATION else [])], "probability_distribution_publication_status": "APPROVED" if MODEL_VALIDATED_FOR_PUBLICATION else "BLOCKED"}
     (OUT / "data").mkdir()
     (OUT / "data" / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     build_evidence = {

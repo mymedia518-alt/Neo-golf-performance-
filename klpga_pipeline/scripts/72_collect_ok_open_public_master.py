@@ -50,6 +50,7 @@ CONTENT = ROOT / "content" / "website_v2"
 sys.path.insert(0, str(ROOT / "src"))
 from klpga.tournament_context import load_tournament_context
 from klpga.kranking_week import extract_returned_week, resolve_ranking_week, response_sha256
+from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS
 
 PROFILE_URL = "https://klpga.co.kr/web/profile/mainRecord"
 RANK_URL = "https://k-rankings.klpga.co.kr/allplayer.jsp"
@@ -433,7 +434,7 @@ def build(game_code: str | None = None, *, db_path: Path | None = None, profile_
         pid = prof["player_id"]
         provenance = {"entry": entry_path.name, "profile": prof["official_source"], "ranking": ranking["official_source"], "performance": context.artifact_path("pre_performance_snapshot").name, "forecast": context.artifact_path("pre_win_forecast").name}
         field_provenance = {k: {"source_artifact": v, "official_source_reference": prof["official_source"] if k.startswith("current_") else (ranking["official_source"] if k == "official_klpga_rank" else None), "retrieved_at": prof["retrieved_at"], "cutoff": CUTOFF, "validation_state": "PASS" if v is not None else "UNAVAILABLE"} for k, v in {"current_official_player_name": prof["current_official_player_name"], "current_player_status": prof["current_player_status"], "current_official_sponsor": prof["current_official_sponsor"], "official_klpga_rank": rank_by.get(pid), "sg_total_rank": sg_rank.get(pid), "win_probability": prob.get(pid)}.items()}
-        master.append({**prof, "official_klpga_rank": rank_by.get(pid), "neo_pre_rank": None, "sg_total_rank": sg_rank.get(pid), "top20_probability": None, "top10_probability": None, "top5_probability": None, "win_probability": prob.get(pid), "validation_status": "PARTIAL_UPSTREAM" if prof["current_official_player_name"] and prob.get(pid) is not None else "UPSTREAM_GAP", "provenance": provenance, "field_provenance": field_provenance})
+        master.append({**prof, "official_klpga_rank": rank_by.get(pid), "neo_pre_rank": None, "sg_total_rank": sg_rank.get(pid), "cut_probability": None, "top20_probability": None, "top10_probability": None, "top5_probability": None, "win_probability": prob.get(pid), "validation_status": "PARTIAL_UPSTREAM" if prof["current_official_player_name"] and prob.get(pid) is not None else "UPSTREAM_GAP", "provenance": provenance, "field_provenance": field_provenance})
     context.artifact_path("current_player_master").write_text(json.dumps({"schema_version": "neo_tournament_current_player_master_v1", "game_code": GAME, "entry_count": len(master), "records": master}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     context.artifact_path("official_klpga_ranking").write_text(json.dumps(ranking, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     context.artifact_path("pre_win_forecast").write_text(json.dumps(forecast, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")

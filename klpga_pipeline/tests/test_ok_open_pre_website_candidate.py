@@ -17,11 +17,17 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     out = builder.build()
     html = (out / "index.html").read_text(encoding="utf-8")
     assert html.count("<tr>") - 1 == 120
-    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력", "SG Total 순위", "우승확률"]:
+    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력", "최근 5R SG"]:
         assert label in html
+    # PRODUCT RECOVERY V1: the tournament outcome probability
+    # distribution (CUT/TOP20/TOP10/TOP5/WIN) is withheld while
+    # MODEL_VALIDATED_FOR_PUBLICATION is False -- WIN has no exception.
     for forbidden in ["SCORE", "THRU", "현재 라운드", "TOP20", "TOP10", "TOP5", "player_id", "VERY_HIGH", "INSUFFICIENT_EVIDENCE"]:
         assert forbidden not in html
-    assert "K-RANKING은 누적 성과, NEO는 최근 경기력을 봅니다." in html
+    if not builder.MODEL_VALIDATED_FOR_PUBLICATION:
+        assert "우승확률" not in html
+        assert "SG Total" not in html
+    assert "참가 120 ·" in html and "· PRE" in html
     assert "★★★★★" not in html and "★★★★☆" not in html and "★★★☆☆" not in html and "★★☆☆☆" not in html and "★☆☆☆☆" not in html
     assert "데이터 부족" in html
     assert "aria-label='NEO 경기력" in html
@@ -53,7 +59,12 @@ def test_about_and_center_alignment_contract():
     about = (out / "about" / "index.html").read_text(encoding="utf-8")
     css = (out / "assets" / "neo.css").read_text(encoding="utf-8")
     assert "결과만으로는 보이지 않는 경기력을 데이터에서 봅니다." in about
-    assert ".player,.sponsor{text-align:center}" in css
+    # PRODUCT RECOVERY V1 (design-system consolidation, phase 1): the
+    # player identity cell now uses the shared player-name/player-sponsor
+    # classes neo-site.css already styles -- this page's own separate
+    # .player/.sponsor rule was removed, not just renamed.
+    assert ".player-name,.player-sponsor{text-align:center}" in css
+    assert ".player{display:block" not in css and ".sponsor{display:block" not in css
 
 
 def test_info_control_is_interactive_in_generated_html():
@@ -92,14 +103,20 @@ def test_public_ui_contract_generated_route():
     html = (out / "tournaments/2026/ok-savings-bank-open/pre/index.html").read_text(encoding="utf-8")
     assert html.count("<tr>") - 1 == 120
     assert "<th>선수</th>" in html
-    assert "KLPGA K-RANKING" in html and "SG Total" in html and "우승확률" in html
+    assert "KLPGA K-RANKING" in html and "최근 5R SG" in html
+    # PRODUCT RECOVERY V1: SG LABEL DECISION -- the NEO recent-5-round SG
+    # metric must never render under an official-looking label, and the
+    # probability distribution (WIN included) is withheld while blocked.
+    assert "SG Total" not in html and "SG 전체" not in html and "KLPGA SG" not in html
+    if not builder.MODEL_VALIDATED_FOR_PUBLICATION:
+        assert "우승확률" not in html
     assert all(x not in html for x in ["VERY_HIGH", "HIGH", "TYPICAL", "LOW", "VERY_LOW", "INSUFFICIENT_EVIDENCE", "TOP20", "TOP10", "TOP5", "player_id"])
     assert sum(html.count(c) for c in "★☆") == 0
     assert len(re.findall(r"<span class='band'[^>]*>데이터 부족</span>", html)) == 3
     assert "평가 보류" not in html
     assert "지금의 경기력" not in html and "지금 경기력" not in html
     assert "최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다." in html
-    assert ".player,.sponsor{text-align:center}" not in html  # style contract is in linked CSS
+    assert ".player-name,.player-sponsor{text-align:center}" not in html  # style contract is in linked CSS
     assert "aria-label='NEO 경기력" in html
 
 

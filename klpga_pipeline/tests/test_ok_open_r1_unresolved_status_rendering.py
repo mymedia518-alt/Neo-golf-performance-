@@ -109,7 +109,7 @@ def test_real_build_박결_and_김아현_are_never_shown_with_999_or_repeated_pl
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
     for name in ("박결", "김아현"):
-        idx = html.find(f"<span class='player'>{name}</span>")
+        idx = html.find(f"<span class='player-name'>{name}</span>")
         assert idx != -1, f"fixture assumption: {name} present in the real R1 snapshot"
         row_start = html.rfind("<tr>", 0, idx)
         row_end = html.find("</tr>", idx)
@@ -185,7 +185,7 @@ def test_incomplete_row_exact_markup_all_unresolved_cells_truly_empty():
     # present (empty here -- no sponsor evidence passed in).
     assert html == (
         "<tr><td></td>"
-        "<th scope='row'><span class='player'>박결</span><span class='sponsor'></span></th>"
+        "<th scope='row'><span class='player-name'>박결</span><span class='player-sponsor'></span></th>"
         "<td></td><td>10</td><td></td><td></td><td></td></tr>"
     )
 
@@ -197,6 +197,6 @@ def test_wd_row_exact_markup_status_cell_shows_wd_everything_else_empty():
     html = builder._r1_row_html(row, {}, lambda r: "")
     assert html == (
         "<tr><td></td>"
-        "<th scope='row'><span class='player'>선수W</span><span class='sponsor'></span></th>"
+        "<th scope='row'><span class='player-name'>선수W</span><span class='player-sponsor'></span></th>"
         "<td></td><td>7</td><td></td><td></td><td>WD</td></tr>"
     )

@@ -239,49 +239,49 @@ def test_tournament_state_never_infers_a_stage_from_todays_date(_pinned_ok_open_
 # somewhere on the page (the weak assertion that produced a false PASS
 # for the rejected hero approach).
 
-_RANKING_PAGE_HEAD_MARKERS = ("KLPGA 공식 K-Ranking 1~120위", "공식 순위와 NEO 검증 순위 비교", "ranking-compare-heading")
+# PRODUCT RECOVERY V1: corrected to strings render_clean() actually
+# emits today -- the previous second marker ("공식 순위와 NEO 검증 순위
+# 비교") never matched any real output (confirmed via direct search),
+# so the old TOURNAMENT_ACTIVE test asserting its ABSENCE was a
+# vacuous pass, never a real check.
+_RANKING_PAGE_HEAD_MARKERS = ("KLPGA 공식 K-Ranking 1~120위", "ranking-compare-heading")
 
 
-def test_home_does_not_contain_the_ranking_page_head_as_primary_body_while_a_tournament_is_active(built):
-    # TEST 1 (see NEO GOLF DATA -- HOME TOURNAMENT OWNERSHIP FIX spec).
-    assert home_mode() == "TOURNAMENT_ACTIVE"
+def test_home_is_always_player_ranking_first_even_while_a_tournament_is_active(built):
+    # PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT): supersedes the old
+    # "HOME TOURNAMENT OWNERSHIP FIX" -- HOME must NEVER compose a
+    # tournament stage's own page body, active tournament or not. It
+    # is always the same player-centric ranking content as /ranking/,
+    # with the tournament-cards strip attached as compact secondary
+    # navigation right after the shared header.
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker not in html, f"ranking page-head leaked into / while TOURNAMENT_ACTIVE: {marker!r}"
-    assert "data-player-row" not in html, "the 120-row ranking table must not be /'s primary body while a tournament is active"
-    assert "tournament-day-hero" not in html, "no hero banner either -- / must BE the stage page, not a teaser above one"
+        assert marker in html, f"ranking page-head must be /'s primary body: {marker!r} missing"
+    assert "data-player-row" in html, "the K-Ranking table must be /'s primary body"
 
 
-def test_home_contains_the_current_validated_tournament_stage_content_while_active(built):
-    """Official chronology selects KB PRE even while stale OK R2 exists."""
-    stage_html = (OUTPUT / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
+def test_home_does_not_contain_pre_stage_body_composition(built):
+    """HOME/PRE ROLE AUDIT gate: HOME containing PRE page body/template
+    composition => FAIL. The current tournament's own PRE page markup
+    (its player/sponsor row template, its .panel/.hero PRE-only shell)
+    must never appear inside /."""
     home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert "class='player-name'" not in home_html and "class='player'" not in home_html
+    assert "class='sponsor'" not in home_html
+    assert "PRE 참가 선수" not in home_html
+    assert "id=\"pre\"" not in home_html and "id='pre'" not in home_html
+
+
+def test_home_tournament_cards_strip_still_names_the_current_tournament(built):
+    """The compact tournament-cards strip (secondary navigation, not
+    the page body) still surfaces the real current tournament by name
+    -- HOME just no longer becomes that tournament's own page."""
+    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert "t-tournament-cards" in home_html
     assert "KB금융 골든라이프 챔피언십" in home_html
-    assert "R2 &middot; LIVE" not in home_html
-    import re as _re
-    stage_main = _re.search(r"<main>.*?</main>", stage_html, _re.S)
-    assert stage_main is not None
-    fingerprints = [value for value in _re.findall(r">([^<]{6,40})<", stage_main.group(0)) if value.strip()][:5]
-    assert fingerprints
-    assert all(value in home_html for value in fingerprints)
 
 
-def test_current_validated_stage_produces_matching_tournament_experience_on_home(built):
-    """HOME mirrors the current tournament's latest validated PRE page."""
-    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    stage_html = (OUTPUT / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
-    import re as _re
-    def body_after_header(value):
-        return _re.sub(r"^.*?</header>", "", value, count=1, flags=_re.S)
-    home_body = body_after_header(home_html)
-    stage_body = body_after_header(stage_html)
-    home_body = _re.sub(r"<p\s+class=[\"']home-ranking-access[\"'][^>]*>.*?</p>", "", home_body, count=1, flags=_re.S)
-    home_body = _re.sub(r'<section class="t-tournament-cards".*?</section>', "", home_body, count=1, flags=_re.S)
-    assert home_body == stage_body
-
-
-def test_home_has_exactly_one_h1_while_a_tournament_is_active(built):
-    # TEST 5.
+def test_home_has_exactly_one_h1(built):
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert html.count("<h1") == 1, "HOME must carry exactly one H1"
 
@@ -304,18 +304,24 @@ def test_dedicated_r1_url_still_works_independently_of_home(built):
     assert 'href="/">홈</a>' in html  # still carries the full global nav
 
 
-def test_global_home_nav_points_to_root_and_root_resolves_to_the_tournament_experience(built):
-    # TEST 8.
+def test_global_home_nav_points_to_root_and_root_resolves_to_the_ranking_experience(built):
+    # PRODUCT RECOVERY V1: root always resolves to the ranking
+    # experience (with the current tournament named in the compact
+    # cards strip), never a copied tournament stage experience.
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert 'href="/">홈</a>' in html or 'href="/" class="is-active"' in html
     for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker not in html
+        assert marker in html
     assert "KB금융 골든라이프 챔피언십" in html
     assert "R2 &middot; LIVE" not in html
 
 
 def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, monkeypatch):
-    """The legacy OK stage selector cannot replace the calendar-selected KB PRE."""
+    """PRODUCT RECOVERY V1: HOME is always the ranking experience now,
+    so this legacy stage selector has nothing left to override there --
+    what it must still never be able to do is make the tournament-cards
+    strip disagree with the real, calendar-selected current tournament
+    (KB), regardless of what the stale selector itself claims."""
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
     spec = importlib.util.spec_from_file_location("top120_builder_stale_mode", path)
     module = importlib.util.module_from_spec(spec)
@@ -326,7 +332,7 @@ def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, m
     html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
     assert "KB금융 골든라이프 챔피언십" in html
     assert "R2 &middot; LIVE" not in html
-    assert html.count("data-player-row") == 0
+    assert html.count("data-player-row") == 120
     assert (module.OUTPUT / "ranking/index.html").read_text(encoding="utf-8").count("data-player-row") == 120
 
 

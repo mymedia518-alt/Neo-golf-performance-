@@ -114,7 +114,7 @@ def test_scores_unchanged_and_win_probability_withheld_by_the_model_gate():
     leader = snapshot["player_table"][0]
     out = builder.build()
     html = (out / "tournaments/2026/ok-savings-bank-open/r1/index.html").read_text(encoding="utf-8")
-    th_idx = html.index(f"<span class='player'>{leader['player_name']}</span>")
+    th_idx = html.index(f"<span class='player-name'>{leader['player_name']}</span>")
     row_end = html.index("</tr>", th_idx)
     row_tail = html[th_idx:row_end]
     if leader.get("total_under_par_display"):

@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from klpga.tournament_context import load_tournament_context  # noqa: E402
+from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
 def main(game_code: str | None = None):
     # NEO TOURNAMENT PIPELINE: game_code/cutoff resolved from the shared
     # context instead of this script's own hardcoded literals -- see
@@ -30,7 +31,25 @@ def main(game_code: str | None = None):
     for row in base["records"]:
         pid=str(row["player_id"]); bp=b[pid]; rp=r[pid]
         out.append({**row,"neo_pre_rank":None,"sg_total_rank":rp.get("sg_total_rank"),"neo_performance_band":bp.get("neo_performance_band"),"band_statistics":bp.get("band_statistics"),"source_artifacts":{"identity":current_player_master_path.name,"sg_rank":sg_total_rank_path.name,"sg_band":row_retention_path.name,"win":pre_win_forecast_path.name},"validation_status":"PASS" if bp.get("neo_performance_band") != "INSUFFICIENT_EVIDENCE" else "INSUFFICIENT_EVIDENCE"})
-    artifact={"schema_version":"neo_ok_open_pre_public_master_v3","game_code":context.game_code,"cutoff":cutoff,"entry_count":len(out),"generated_at":datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),"tier2_gate":tier2_gate_path.name,"source_artifacts":[current_player_master_path.name,sg_total_rank_path.name,row_retention_path.name,pre_win_forecast_path.name],"no_unsupported_top_probabilities":True,"records":out}
+    # PRODUCT RECOVERY V1: the tournament outcome probability
+    # distribution (cut/top20/top10/top5/win) is a real, canonical part
+    # of the recovered PRE product contract -- it must never be
+    # silently dropped from the schema. This block is the single
+    # explicit gate a renderer must check before showing ANY of those
+    # five fields publicly (see LIVE_PROBABILITY_MODEL_STATUS's own
+    # docstring for why it is "BLOCKED" today, and
+    # model_publication_gate.py for the promotion-time hard-stop that
+    # backs this up). Flipping this to "VALIDATED" is a separate,
+    # independently Red-Team-reviewed model change -- never something
+    # this renderer/schema layer decides on its own.
+    probability_distribution_contract = {
+        "schema": ["cut_probability", "top20_probability", "top10_probability", "top5_probability", "win_probability"],
+        "model_status": LIVE_PROBABILITY_MODEL_STATUS,
+        "publication_status": "APPROVED" if LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED" else "BLOCKED",
+        "checkpoint": "PRE",
+        "provenance": "src/klpga/neo_win/r1_live_probability.py:LIVE_PROBABILITY_MODEL_STATUS",
+    }
+    artifact={"schema_version":"neo_ok_open_pre_public_master_v3","game_code":context.game_code,"cutoff":cutoff,"entry_count":len(out),"generated_at":datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),"tier2_gate":tier2_gate_path.name,"source_artifacts":[current_player_master_path.name,sg_total_rank_path.name,row_retention_path.name,pre_win_forecast_path.name],"no_unsupported_top_probabilities":True,"probability_distribution_contract":probability_distribution_contract,"records":out}
     context.artifact_path("pre_public_master").write_text(json.dumps(artifact,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     report={"entry_count":len(out),"identity_count":len({x["player_id"] for x in out}),"win_coverage":sum(x.get("win_probability") is not None for x in out),"klpga_rank_coverage":sum(x.get("official_klpga_rank") is not None for x in out),"sg_total_rank_coverage":sum(x.get("sg_total_rank") is not None for x in out),"band_distribution":{k:sum(x.get("neo_performance_band")==k for x in out) for k in ("VERY_HIGH","HIGH","TYPICAL","LOW","VERY_LOW","INSUFFICIENT_EVIDENCE")},"tier2":"PASS","website_generation":"NOT_RUN"}
     context.artifact_path("pre_public_master_validation").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
