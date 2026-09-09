@@ -1,6 +1,7 @@
 """Build the non-production NEO DATA HOME candidate and preserved routes."""
 from __future__ import annotations
 
+import csv
 import json
 import re
 import shutil
@@ -15,11 +16,74 @@ sys.path.insert(0, str(ROOT / "src"))
 from klpga.website_v2.home_ranking import join_home_rows, load_json  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.tournament_state import ok_open_available_stages  # noqa: E402
-from klpga.website_v2.player_identity import render_player_identity, verified_sponsor  # noqa: E402
+from klpga.website_v2.player_identity import render_player_identity, verified_sponsor, normalize_player_sponsor_mentions  # noqa: E402
 from klpga.tournament_context import load_active_tournament_context, SITE_REGISTRY_PATH  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 OUTPUT = ROOT / "candidate" / "neo-data-home"
+
+
+def _official_sponsor_by_name() -> dict[str, str]:
+    """PUBLIC UI correction (GLOBAL SPONSOR RULE): {player_name:
+    sponsor} from the official, identity-validated player master --
+    used to normalize already-built HTML (a completed tournament's
+    archived pages, e.g.) that shows a bare player name with no
+    player_id attribute to join on. Mirrors scripts/88's own helper of
+    the same name exactly, since this candidate needs the identical
+    global-sponsor-rule pass scripts/88 already applies to its own
+    output tree."""
+    path = _CONTEXT.artifact_path("current_player_master")
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out = {}
+    for row in data.get("records") or []:
+        sponsor = verified_sponsor(row)
+        name = row.get("current_official_player_name")
+        if sponsor and name:
+            out[str(name)] = sponsor
+    return out
+
+
+def _known_player_names() -> set[str]:
+    """PUBLIC UI correction (GLOBAL SPONSOR RULE): the broad "this bare
+    text is a real player name" roster -- mirrors scripts/88's own
+    helper of the same name exactly (see that docstring for the full
+    rationale)."""
+    names: set[str] = set()
+    top120_path = CONTENT / "HOME_PLAYER_MASTER_TOP120.json"
+    if top120_path.is_file():
+        try:
+            data = json.loads(top120_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        for row in data.get("records") or []:
+            name = row.get("player_name")
+            if name:
+                names.add(str(name))
+    ok_path = _CONTEXT.artifact_path("current_player_master")
+    if ok_path.is_file():
+        try:
+            data = json.loads(ok_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            data = {}
+        for row in data.get("records") or []:
+            name = row.get("current_official_player_name")
+            if name:
+                names.add(str(name))
+    for roster_csv in (ROOT / "data" / "roster").glob("*.csv"):
+        try:
+            with roster_csv.open(newline="", encoding="utf-8") as f:
+                for row in csv.DictReader(f):
+                    name = row.get("player_name")
+                    if name:
+                        names.add(str(name))
+        except OSError:
+            continue
+    return names
 
 # PUBLIC ARCHIVE correction (Red Team FAIL D): the frozen R1 evidence's
 # own published heading uses a developer-facing English label ("R1 DATA
@@ -89,7 +153,7 @@ def render_home(rows: list[dict], summary: dict) -> str:
         identity_cell = render_player_identity(row["player_name"], sponsor_by_name.get(row["player_name"]))
         body.append(
             f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" '
-            f'data-k-rank="{row["k_rank"] if row["k_rank"] is not None else 999999}">'
+            f'data-k-rank="{row["k_rank"] if row["k_rank"] is not None else ""}">'
             f'<td>{_cell_number(row["neo_rank"], row["neo_ranking_state"])}</td>'
             f'<td>{_cell_number(row["k_rank"], row["k_ranking_state"])}</td>'
             f'<th scope="row">{identity_cell}</th><td>{recent}</td>'
@@ -294,6 +358,14 @@ def build() -> dict:
     neo_css = (ROOT / "candidate" / "website-v2-ok-open-pre" / "assets" / "neo.css").read_text(encoding="utf-8")
     (OUTPUT / "assets" / "neo.css").write_text(neo_css, encoding="utf-8", newline="\n")
     shutil.copyfile(ROOT / "src" / "klpga" / "website_v2" / "static" / "home.js", OUTPUT / "assets" / "home.js")
+    # PUBLIC UI correction (GLOBAL SPONSOR RULE, Red Team FAIL A): every
+    # page in this candidate's own tree gets the same normalize pass
+    # scripts/88 applies to its own output -- including archive/beta001/
+    # (the sanitized public copy of the frozen KG evidence), which
+    # carries bare player-name buttons with no sponsor sibling until
+    # this runs. Computed once, reused for every page below.
+    sponsor_by_name = _official_sponsor_by_name()
+    known_names = _known_player_names()
     for page in OUTPUT.rglob("index.html"):
         relative = page.relative_to(OUTPUT)
         top = relative.parts[0] if relative.parts != (relative.name,) else None
@@ -307,6 +379,7 @@ def build() -> dict:
         if active_section is None and relative.name == "index.html" and len(relative.parts) == 1:
             active_section = "home"
         rendered = inject_global_navigation(page.read_text(encoding="utf-8"), active_section=active_section)
+        rendered = normalize_player_sponsor_mentions(rendered, sponsor_by_name, known_names=known_names)
         rendered = "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"
         page.write_text(rendered, encoding="utf-8", newline="\n")
     (OUTPUT / "data").mkdir(exist_ok=True)

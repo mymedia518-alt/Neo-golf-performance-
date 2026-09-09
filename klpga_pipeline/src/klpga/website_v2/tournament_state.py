@@ -44,6 +44,7 @@ OK_DISPLAY_NAME = _CONTEXT.tournament_name
 OK_BASE = _CONTEXT.url_base
 OK_DATE_RANGE = _CONTEXT.display_date_range
 OK_GAME_CODE = _CONTEXT.game_code
+OK_END_DATE = _CONTEXT.end_date
 
 STAGE_ORDER = _CONTEXT.stage_order
 STAGE_LABELS = _CONTEXT.stage_labels
@@ -137,10 +138,28 @@ def ok_open_tournament_is_complete() -> bool:
 
 def home_mode() -> str:
     """TOURNAMENT_ACTIVE while a real tournament has at least one
-    validated stage available; RANKING_DEFAULT otherwise (no active
-    tournament, or a future one with nothing validated yet). Never
-    guesses from a date -- reacts only to ok_open_available_stages()
-    actually holding an entry, so this flips back to RANKING_DEFAULT on
-    its own once a tournament fully wraps and a new build runs before
-    the next one has any validated data."""
-    return "TOURNAMENT_ACTIVE" if ok_open_available_stages() else "RANKING_DEFAULT"
+    validated stage available AND today (KST) has not yet passed that
+    same tournament's own official end_date; RANKING_DEFAULT otherwise
+    (no active tournament, a future one with nothing validated yet, or
+    the active-tournament pointer's calendar window has already
+    closed).
+
+    The end_date check does not "guess a stage from a date" (the thing
+    this module's own docstring forbids) -- it only stops treating a
+    tournament as ROOT HOME content once its own real, officially-
+    sourced end_date (the same field klpga.website_v2.
+    tournament_chronology already uses to move a tournament from 이번
+    대회 into 지난 대회) has passed, matching that same calendar-only
+    discipline. Without this, a stale active_tournament.json left
+    pointing at a tournament for days after it genuinely finished
+    (config/active_tournament.json is only ever advanced by a separate,
+    DB-driven process) would keep rendering that tournament's last
+    validated stage page at "/" indefinitely, even once chronology's
+    own cards correctly show it under 지난 대회 and a new tournament is
+    now 이번 대회."""
+    if not ok_open_available_stages():
+        return "RANKING_DEFAULT"
+    today_kst = datetime.datetime.now(_KST).date().isoformat()
+    if today_kst > OK_END_DATE:
+        return "RANKING_DEFAULT"
+    return "TOURNAMENT_ACTIVE"
