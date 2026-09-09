@@ -75,12 +75,15 @@ def test_approved_probability_distribution_would_render_all_five_members():
 
 
 def test_neo_recent_sg_is_never_labelled_as_official_sg_total():
-    """SG LABEL DECISION: the NEO recent-5-round SG ranking must never
-    render under a label that reads as the official KLPGA statistic."""
+    """SG LABEL DECISION: the NEO recent-5-tournament-event SG ranking
+    must never render under a label that reads as the official KLPGA
+    statistic, and (NEO PRODUCT CONTRACT RECOVERY item 2) must never
+    claim to be a per-round figure either -- it is the mean of the
+    last 5 retained tournament-level SG observations, not 5 rounds."""
     html = _kb_pre_html()
-    for forbidden_label in ("SG Total", "SG 전체", "KLPGA SG"):
+    for forbidden_label in ("SG Total", "SG 전체", "KLPGA SG", "5R SG", "10R SG"):
         assert forbidden_label not in html
-    assert "최근 5R SG" in html
+    assert "최근 5개 대회 SG" in html
 
 
 def test_home_never_composes_a_tournament_stage_body():

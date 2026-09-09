@@ -1,6 +1,19 @@
+import sys
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+
+# OWNER TEST-ISOLATION FIX: this module's own `import neo_tournament_runtime`
+# needs scripts/ on sys.path, but this file never added it itself -- it
+# only ever worked because some other, alphabetically-earlier test module
+# (tests/test_home_current_score_sort_browser.py, removed by NEO PRODUCT
+# CONTRACT RECOVERY item 1) happened to insert scripts/ onto sys.path as
+# a side effect, and that mutation persists for the rest of the pytest
+# process. Collection order is not a contract; this makes the dependency
+# explicit and self-contained instead of resting on another file's
+# unrelated import side effect.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from klpga.tournament_official_ingest import (
     OfficialRoundSnapshot,

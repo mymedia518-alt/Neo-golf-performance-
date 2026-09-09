@@ -23,7 +23,6 @@ from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, val
 from klpga.website_v2.tournament_state import (  # noqa: E402
     OK_DISPLAY_NAME, STAGE_LABELS, home_mode, ok_open_latest_available_stage,
 )
-from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
 from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
 from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
 from klpga.website_v2.player_identity import (  # noqa: E402
@@ -90,26 +89,6 @@ def show(value, digits=2) -> str:
     # PUBLIC UI Phase 8 correction (FAIL 1): a missing/unapproved metric
     # renders as "--" -- never an internal validation-state label.
     return "—" if value is None else f"{value:.{digits}f}"
-
-
-def _current_score_cells_by_id() -> dict[str, CurrentScoreCell]:
-    """{player_id: CurrentScoreCell} from the same live R1 snapshot
-    script 84's R1 page reads (written only by scripts/96 after a real
-    validated collection) -- score is the real tournament-cumulative
-    total_under_par (never today_under_par alone; see
-    current_score_display.py), holes_completed/status are the raw
-    fields, normalized only for display. Empty dict -- never a
-    fabricated score -- when no snapshot exists yet; a player absent
-    from the snapshot simply has no entry, which render_clean's lookup
-    treats identically to "no live data" (format_current_score(None,
-    ...))."""
-    if not R1_LIVE_SNAPSHOT.is_file():
-        return {}
-    snapshot = json.loads(R1_LIVE_SNAPSHOT.read_text(encoding="utf-8"))
-    return {
-        str(r.get("player_id")): format_current_score(r.get("total_under_par"), r.get("holes_completed"), r.get("status"))
-        for r in (snapshot.get("player_table") or [])
-    }
 
 
 def _latest_live_leader() -> tuple[str, str] | None:
@@ -252,7 +231,6 @@ def _known_player_names(context=None) -> set[str]:
 
 def render_clean(
     rows: list[dict], summary: dict, ranking_week: str | None = None,
-    current_score_cells_by_id: dict[str, CurrentScoreCell] | None = None,
     sponsor_by_id: dict[str, str] | None = None,
 ) -> str:
     # HOME TOURNAMENT OWNERSHIP FIX: this renders ONLY the K-Ranking x
@@ -287,7 +265,7 @@ def render_clean(
         #      "validation_state": "PASS_CORRECTED_SG_WAREHOUSE") --
         #      not a model, not a formula, not ranked. KB PRE already
         #      publishes exactly this class of metric under the same
-        #      non-official "최근 5R SG" label (see the SG LABEL DECISION
+        #      non-official "최근 5개 대회 SG" label (see the SG LABEL DECISION
         #      contract in scripts/84 / test_product_recovery_v1.py).
         #      These were blanket-blocked by this renderer alone, not by
         #      any real publication gate on the data -- Class A. They
@@ -298,15 +276,6 @@ def render_clean(
         features = row.get("features") or {}
         def val(key, digits=2):
             return show(features.get(key), digits)
-        # R1 ACTIVE MODE: 현재 스코어 -- real tournament-total-to-par
-        # PLUS current-round hole progress, joined by player_id from the
-        # same live snapshot the R1 page itself reads (scripts/96).
-        # format_current_score(None, ...) (== "—", NO_DATA) for a player
-        # with no live row (not in the field, hasn't teed off yet, or no
-        # tournament is currently active) -- never a guess. Sort reads
-        # the structured data-current-* attributes below, never the
-        # display string (see top120.js).
-        cell = (current_score_cells_by_id or {}).get(str(row["player_id"])) or format_current_score(None, None, None)
         # PUBLIC UI Phase 8 (sponsor rule): shown directly under the
         # player name only when an official-profile sponsor was
         # actually verified for this player -- absent entirely (no
@@ -318,13 +287,14 @@ def render_clean(
         # recent-form metrics in priority order (10R before 5R, per the
         # owner's explicit ordering) -- 장기 SG/변동성 stay real data,
         # just visually secondary (class="metric-secondary", styled
-        # smaller/muted in CSS, never dropped), and 현재 스코어 (live
-        # tournament data, distinct from the SG features) stays last.
+        # smaller/muted in CSS, never dropped). HOME is the persistent
+        # player-performance/ranking product; live/actual tournament
+        # score belongs to the tournament's own R1/R2/R3/FINAL round
+        # pages, never here (NEO PRODUCT CONTRACT RECOVERY item 1).
         cells.append(
-            f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" '
-            f'data-current-score="{cell.sort_score if cell.sort_score is not None else ""}" data-current-hole="{cell.sort_holes if cell.sort_holes is not None else ""}" data-current-status="{cell.sort_status}">'
+            f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}">'
             f'<th scope="row">{identity_cell}</th><td>{row["official_k_rank"]}</td><td>{val("recent_10_sg")}</td><td>{val("recent_5_sg")}</td>'
-            f'<td class="metric-secondary">{val("long_term_sg")}</td><td class="metric-secondary">{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
+            f'<td class="metric-secondary">{val("long_term_sg")}</td><td class="metric-secondary">{val("volatility")}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
     # PRODUCT PRESENTATION RECOVERY: the summary strip's other two stats
@@ -334,9 +304,9 @@ def render_clean(
     # summary["recent5_ready"]) -- honest population-coverage numbers
     # for the metric that actually renders below, never a guess.
     document = f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
-<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">K-Ranking과 NEO Ranking</h1><p>KLPGA 공식 순위와 NEO 지표를 함께 보는 선수 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary.get("sg_connected", 0)}</strong><span>최근 SG 연결</span></div><div class="stat"><strong>{summary.get("recent10_ready", 0)}</strong><span>최근 10R SG 확보</span></div>{week_stat}</div></section>
-<section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>검증 중 · 공개 전</dd></div><div><dt>최근 경기력</dt><dd>최근 10·5라운드 평균 SG로 비교</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
-<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>선수</th><th>K-Ranking</th><th>최근 10R SG</th><th>최근 5R SG</th><th class="metric-secondary">장기 SG</th><th class="metric-secondary">변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">K-Ranking과 NEO 경기력</h1><p>KLPGA 공식 순위와 NEO 지표를 함께 보는 선수 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary.get("sg_connected", 0)}</strong><span>최근 SG 연결</span></div><div class="stat"><strong>{summary.get("recent10_ready", 0)}</strong><span>최근 10개 대회 SG 확보</span></div>{week_stat}</div></section>
+<section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>검증 중 · 공개 전</dd></div><div><dt>최근 경기력</dt><dd>최근 10·5개 대회 SG 비교</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
+<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="name">선수명</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>선수</th><th>K-Ranking</th><th>최근 10개 대회 SG</th><th>최근 5개 대회 SG</th><th class="metric-secondary">장기 SG</th><th class="metric-secondary">변동성</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
     return document
 
 
@@ -458,7 +428,6 @@ def build() -> dict:
             page.write_text(normalized, encoding="utf-8", newline="\n")
 
     mode = "TOURNAMENT_PRE" if current_stage_page is not None else "RANKING_DEFAULT"
-    current_score_cells_by_id = {}
     sponsor_by_id = _official_sponsor_by_id(current_context)
 
     # A registry may describe stage pages without a bare tournament hub.
@@ -493,12 +462,12 @@ def build() -> dict:
     # state. During TOURNAMENT_ACTIVE it must NOT also be what /
     # renders (see the root HOME block below) -- a tournament hero glued
     # above this exact table was the REJECTED prior "fix".
-    ranking_html = render_clean(rows, summary, cohort.get("ranking_week"), current_score_cells_by_id=current_score_cells_by_id, sponsor_by_id=sponsor_by_id)
+    ranking_html = render_clean(rows, summary, cohort.get("ranking_week"), sponsor_by_id=sponsor_by_id)
     if mode == "TOURNAMENT_ACTIVE":
         stage_key, _ = ok_open_latest_available_stage()
         leader = _latest_live_leader_score()
         leader_text = f"Leader : {leader}" if leader is not None else "Leader : 검증 대기"
-        heading = f'<div class="section-heading"><div><p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO Ranking</h2><p class="home-leader-score">{leader_text}</p></div></div>'
+        heading = f'<div class="section-heading"><div><p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO 경기력</h2><p class="home-leader-score">{leader_text}</p></div></div>'
         ranking_html = re.sub(r'<div class="section-heading">.*?</div><div class="home-tools">', heading + '<div class="home-tools">', ranking_html, count=1, flags=re.S)
     # PUBLIC UI Phase 8: the dedicated /ranking/ page now marks its own
     # "ranking" nav item active (a real, distinct top-level destination)
