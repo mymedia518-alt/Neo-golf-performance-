@@ -17,8 +17,9 @@ def test_candidate_uses_public_master_and_renders_contract(tmp_path):
     out = builder.build()
     html = (out / "index.html").read_text(encoding="utf-8")
     assert html.count("<tr>") - 1 == 120
-    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력", "최근 5R SG"]:
+    for label in ["선수", "KLPGA K-RANKING", "NEO 경기력", "최근 5개 대회 SG"]:
         assert label in html
+    assert "5R SG" not in html and "10R SG" not in html and "라운드" not in html
     # PRODUCT RECOVERY V1: the tournament outcome probability
     # distribution (CUT/TOP20/TOP10/TOP5/WIN) is withheld while
     # MODEL_VALIDATED_FOR_PUBLICATION is False -- WIN has no exception.
@@ -158,7 +159,7 @@ def test_neo_info_tooltip_is_reachable_on_mobile_not_hidden_with_thead():
     mobile_block = css.split("@media(max-width:760px){", 1)[1]
     assert "thead th.band-head{position:fixed" in mobile_block
     # must still be scoped to just this one <th> -- the rest of thead
-    # (선수/KLPGA K-RANKING/최근 5R SG headers) stays off-screen
+    # (선수/KLPGA K-RANKING/최근 5개 대회 SG headers) stays off-screen
     assert "thead{position:absolute;left:-9999px;top:-9999px}" in mobile_block
 
 
@@ -178,11 +179,12 @@ def test_public_ui_contract_generated_route():
     html = (out / "tournaments/2026/ok-savings-bank-open/pre/index.html").read_text(encoding="utf-8")
     assert html.count("<tr>") - 1 == 120
     assert "<th>선수</th>" in html
-    assert "KLPGA K-RANKING" in html and "최근 5R SG" in html
-    # PRODUCT RECOVERY V1: SG LABEL DECISION -- the NEO recent-5-round SG
+    assert "KLPGA K-RANKING" in html and "최근 5개 대회 SG" in html
+    # PRODUCT RECOVERY V1: SG LABEL DECISION -- the NEO recent-5-event SG
     # metric must never render under an official-looking label, and the
     # probability distribution (WIN included) is withheld while blocked.
     assert "SG Total" not in html and "SG 전체" not in html and "KLPGA SG" not in html
+    assert "5R SG" not in html and "10R SG" not in html
     if not builder.MODEL_VALIDATED_FOR_PUBLICATION:
         assert "우승확률" not in html
     assert all(x not in html for x in ["VERY_HIGH", "HIGH", "TYPICAL", "LOW", "VERY_LOW", "INSUFFICIENT_EVIDENCE", "TOP20", "TOP10", "TOP5", "player_id"])

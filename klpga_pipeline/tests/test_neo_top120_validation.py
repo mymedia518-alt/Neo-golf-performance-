@@ -10,12 +10,24 @@ from pathlib import Path
 
 import pytest
 
+from klpga.tournament_context import candidate_dir
 from klpga.website_v2.top120_validation import evaluate, validate_cohort
 from klpga.website_v2.tournament_state import OK_DISPLAY_NAME, home_mode, ok_open_available_stages, ok_open_latest_available_stage
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
+# OWNER TEST-ISOLATION FIX: this used to be a hardcoded
+# `ROOT / "candidate" / "neo-data-home-top120"` -- the real, tracked
+# directory -- while the `built` fixture below runs the real script's
+# build(), whose own OUTPUT is resolved through candidate_dir() and
+# therefore writes to the pytest-isolated KLPGA_CANDIDATE_ROOT_OVERRIDE
+# temp directory (see tests/conftest.py). The two never pointed at the
+# same place: every test below was silently reading whatever stale
+# content happened to already be sitting in the real tracked directory
+# from an earlier manual (non-pytest) build, never what `built` had
+# just produced. Resolving OUTPUT the exact same way script 88 does
+# fixes that for good, not just for this task's own new assertions.
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 
 def load(name): return json.loads((CONTENT / name).read_text(encoding="utf-8"))
@@ -194,21 +206,72 @@ def test_home_table_never_shows_a_blocked_neo_ranking_column(built):
 def test_home_table_visual_hierarchy_matches_owner_priority(built):
     """OWNER VISUAL REVIEW FAIL, item 4: 선수(Player) leads the column
     order, then K-Ranking, then the two primary recent-form columns in
-    priority order (최근 10R SG before 최근 5R SG -- NOT the reverse,
-    and never phrased as "10개 대회"/10 tournaments, which is a
-    distinct, not-yet-built future metric -- see item 6/COVERAGE
-    AUDIT). 장기 SG/변동성 stay real data but carry the metric-secondary
-    class (de-emphasized in CSS, never dropped, never a wider table)."""
+    priority order (최근 10개 대회 SG before 최근 5개 대회 SG -- NOT the
+    reverse). 장기 SG/변동성 stay real data but carry the
+    metric-secondary class (de-emphasized in CSS, never dropped, never
+    a wider table)."""
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     header = html[html.index("<thead>"):html.index("</thead>")]
-    assert header.index("<th>선수</th>") < header.index("<th>K-Ranking</th>") < header.index("<th>최근 10R SG</th>") < header.index("<th>최근 5R SG</th>")
+    assert header.index("<th>선수</th>") < header.index("<th>K-Ranking</th>") < header.index("<th>최근 10개 대회 SG</th>") < header.index("<th>최근 5개 대회 SG</th>")
     assert '<th class="metric-secondary">장기 SG</th>' in header
     assert '<th class="metric-secondary">변동성</th>' in header
-    assert "최근 10개 대회" not in html, "10R (rounds) must never be phrased as 10 tournaments"
     row = html[html.index("data-player-row"):]
     row = row[:row.index("</tr>")]
     assert row.index('scope="row"') < row.index('<td>')
     assert '<td class="metric-secondary">' in row
+
+
+def test_home_never_uses_the_false_rounds_wording_for_sg(built):
+    """NEO PRODUCT CONTRACT RECOVERY item 2 (SG LABEL SEMANTICS): SG
+    LABEL DECISION forensic audit conclusively proved recent_5_sg/
+    recent_10_sg (home_ranking.build_features) are the mean of the
+    last 5/10 TOURNAMENT-level observations (one retained snapshot per
+    (player_id, game_code)), never actual rounds -- "최근 5R SG"/"최근
+    10R SG"/"...라운드..." are therefore false public labels and must
+    never reappear anywhere in the built HOME page (this exact
+    assertion is what makes the old wording impossible to silently
+    reintroduce)."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert "5R SG" not in html
+    assert "10R SG" not in html
+    assert "라운드" not in html, "SG copy must never claim these are rounds"
+    assert "최근 5개 대회 SG" in html
+    assert "최근 10개 대회 SG" in html
+
+
+def test_home_has_no_current_score_column_or_sort(built):
+    """NEO PRODUCT CONTRACT RECOVERY item 1 (HOME CONTRACT): HOME is
+    the persistent player-performance/ranking product, not a live
+    tournament board -- 현재 스코어 (current score) belongs only to the
+    tournament's own R1/R2/R3/FINAL round pages. Column, sort option,
+    and the JS sort branch that drove it must all be gone; a player row
+    must never carry a data-current-* sort attribute either."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert "현재 스코어" not in html
+    assert '<option value="current-score">' not in html
+    assert "data-current-score" not in html
+    assert "data-current-hole" not in html
+    assert "data-current-status" not in html
+    js = (OUTPUT / "assets" / "top120.js").read_text(encoding="utf-8")
+    assert "current-score" not in js
+    assert "currentScoreHasData" not in js
+
+
+def test_home_title_never_claims_a_neo_ranking_that_is_not_published(built):
+    """NEO PRODUCT CONTRACT RECOVERY item 3 (NEO RANKING AUDIT): the
+    NEO Ranking V1 validation pipeline is explicitly self-labeled
+    weight_status=HEURISTIC_FOR_EVALUATION_NOT_FITTED_OR_APPROVED and
+    publication_class=VALIDATION_MODEL_NOT_PRODUCTION -- not safe to
+    publish. The page must not claim a "NEO Ranking" the visible table
+    does not actually provide (the prior H1 "K-Ranking과 NEO Ranking"
+    was a product contradiction the Project Owner explicitly flagged);
+    the ranking-help panel's own "검증 중 · 공개 전" disclosure for NEO
+    Ranking is honest and stays."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert "<h1" in html
+    h1 = html[html.index("<h1"):html.index("</h1>") + len("</h1>")]
+    assert "NEO Ranking" not in h1
+    assert "<th>NEO Ranking</th>" not in html
 
 
 def test_home_table_renders_real_recent_sg_values_not_blanket_dashes(built):
@@ -218,7 +281,7 @@ def test_home_table_renders_real_recent_sg_values_not_blanket_dashes(built):
     (home_ranking.build_features's own "PASS_CORRECTED_SG_WAREHOUSE"
     validation_state) -- a different thing from the blocked composite
     NEO Ranking, and KB PRE already publishes this exact class of
-    metric under the same non-official "최근 5R SG" label. They must
+    metric under the same non-official "최근 5개 대회 SG" label. They must
     render as real numbers for players with a connected SG feature set,
     not the blanket "—" the previous renderer hardcoded regardless of
     what evaluate() actually computed."""
