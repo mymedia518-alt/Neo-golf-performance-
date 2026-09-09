@@ -92,6 +92,15 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .neo-global-header .neo-global-nav a.is-active,
 .neo-global-header .neo-global-nav a[aria-current=page]{color:#0f5c46;box-shadow:inset 0 -2px #0f5c46}
 
+/* KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE: 랭킹/딥다이브/NEO LAB
+   stay fully built and reachable by direct URL (see
+   global_navigation.py's _SECONDARY_NAV_KEYS) -- only their persistent
+   header link is hidden, and only on pages where that item is not
+   itself the current page (the nav's own active item is never marked
+   .nav-secondary, so a visitor who lands on /ranking/, /deep-dive/ or
+   /neo-lab/ directly still sees it highlighted as "here"). */
+.neo-global-nav a.nav-secondary{display:none}
+
 /* Compact breadcrumb ahead of every tournament page's title -- "which
    tournament, which point in time" must be answerable from the page
    title alone (UX spec 3). */

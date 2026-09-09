@@ -359,17 +359,24 @@ def test_tournament_state_never_infers_a_stage_from_todays_date(_pinned_ok_open_
 
 
 # ======================================================================
-# HOME TOURNAMENT OWNERSHIP FIX
+# KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE
 # ======================================================================
-# The prior "tournament hero glued above the ranking table" approach was
-# explicitly rejected: during TOURNAMENT_ACTIVE, / must literally BE the
-# current validated tournament stage's own canonical page (the identical
-# content as its dedicated /tournaments/.../<stage>/ URL) -- never a
-# banner sitting on top of the ranking-first page-head. These tests
-# distinguish that CORRECT shape from the WRONG one directly, rather
-# than merely checking that some tournament-related string exists
-# somewhere on the page (the weak assertion that produced a false PASS
-# for the rejected hero approach).
+# Project Owner redesign decision: explicitly SUPERSEDES the
+# "PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT)" rule that used to govern
+# this section (HOME must never compose a tournament stage's own page
+# body; / always shows the ranking-page-head with a compact
+# three-tournament-cards strip attached). That prior rule is retired
+# here, deliberately, along with the tests that enforced it -- while a
+# current tournament has a validated, publication-gate-approved stage
+# page, / must literally BE that page (the identical content as its own
+# dedicated /tournaments/.../<stage>/ URL), never the ranking table and
+# never a banner glued on top of it. The player-centric K-Ranking x NEO
+# 경기력 table keeps its own permanent, stable home at /ranking/,
+# completely unaffected by this change (see
+# test_home_is_korean_first_and_table_alignment_is_explicit and its
+# neighbors above, which already read from /ranking/, not /).
+
+_TOURNAMENT_HERO_MARKERS = ('class="hero"', "leaderboard-panel")
 
 # PRODUCT RECOVERY V1: corrected to strings render_clean() actually
 # emits today -- the previous second marker ("공식 순위와 NEO 검증 순위
@@ -379,37 +386,43 @@ def test_tournament_state_never_infers_a_stage_from_todays_date(_pinned_ok_open_
 _RANKING_PAGE_HEAD_MARKERS = ("KLPGA 공식 K-Ranking 1~120위", "ranking-compare-heading")
 
 
-def test_home_is_always_player_ranking_first_even_while_a_tournament_is_active(built):
-    # PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT): supersedes the old
-    # "HOME TOURNAMENT OWNERSHIP FIX" -- HOME must NEVER compose a
-    # tournament stage's own page body, active tournament or not. It
-    # is always the same player-centric ranking content as /ranking/,
-    # with the tournament-cards strip attached as compact secondary
-    # navigation right after the shared header.
+def test_home_becomes_the_current_tournament_stage_page_while_one_is_active(built):
+    """KB TOURNAMENT-ONLY PUBLIC HOME: while a current tournament has a
+    validated, publication-gate-approved stage page, / must BE that
+    page's own body -- the ranking-page-head content's permanent home
+    is /ranking/ (see test_home_is_korean_first_and_table_alignment_is_
+    explicit above, already reading from there), never /."""
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    for marker in _TOURNAMENT_HERO_MARKERS:
+        assert marker in html, f"tournament stage hero must be /'s primary body: {marker!r} missing"
+    assert "PRE 참가 선수" in html
     for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html, f"ranking page-head must be /'s primary body: {marker!r} missing"
-    assert "data-player-row" in html, "the K-Ranking table must be /'s primary body"
+        assert marker not in html, f"ranking page-head must not leak onto /: {marker!r} present"
+    assert "data-player-row" not in html, "/ must not carry the K-Ranking table's own row markup"
 
 
-def test_home_does_not_contain_pre_stage_body_composition(built):
-    """HOME/PRE ROLE AUDIT gate: HOME containing PRE page body/template
-    composition => FAIL. The current tournament's own PRE page markup
-    (its player/sponsor row template, its .panel/.hero PRE-only shell)
-    must never appear inside /."""
+def test_home_sponsor_slot_is_present_in_the_tournament_stage_body_now_shown_on_home(built):
+    """The current tournament's own player/sponsor identity cell (name
+    slot + sponsor slot, always both present -- see
+    player_identity.render_player_identity) is now HOME's own primary
+    content, since / literally is that tournament's own page."""
     home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "class='player-name'" not in home_html and "class='player'" not in home_html
-    assert "class='sponsor'" not in home_html
-    assert "PRE 참가 선수" not in home_html
-    assert "id=\"pre\"" not in home_html and "id='pre'" not in home_html
+    assert "class='player-name'" in home_html
+    assert "class='player-sponsor'" in home_html
 
 
-def test_home_tournament_cards_strip_still_names_the_current_tournament(built):
-    """The compact tournament-cards strip (secondary navigation, not
-    the page body) still surfaces the real current tournament by name
-    -- HOME just no longer becomes that tournament's own page."""
+def test_home_no_longer_carries_the_retired_tournament_cards_strip(built):
+    """The old 지난/이번/다음 대회 three-card strip is dropped from HOME
+    entirely (Project Owner: "previous/current/next tournament three
+    large horizontal panels" consuming HOME's vertical space was itself
+    the problem to solve) -- HOME's tournament identity is now carried
+    structurally, by literally being that tournament's own page, not by
+    a separate labelled card. render_tournament_cards_html itself is
+    untouched (see tests/test_phase8_public_ui.py) -- just no longer
+    spliced into HOME's own output."""
     home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "t-tournament-cards" in home_html
+    assert "t-tournament-cards" not in home_html
+    assert "data-tournament-card" not in home_html
     assert "KB금융 골든라이프 챔피언십" in home_html
 
 
@@ -436,24 +449,29 @@ def test_dedicated_r1_url_still_works_independently_of_home(built):
     assert 'href="/">홈</a>' in html  # still carries the full global nav
 
 
-def test_global_home_nav_points_to_root_and_root_resolves_to_the_ranking_experience(built):
-    # PRODUCT RECOVERY V1: root always resolves to the ranking
-    # experience (with the current tournament named in the compact
-    # cards strip), never a copied tournament stage experience.
+def test_global_home_nav_points_to_root_and_ranking_experience_stays_at_its_own_url(built):
+    # KB TOURNAMENT-ONLY PUBLIC HOME: root now resolves to the current
+    # tournament's own stage experience (see
+    # test_home_becomes_the_current_tournament_stage_page_while_one_is_active
+    # above) -- the ranking-page-head content keeps its own permanent
+    # home at /ranking/, completely independent of whatever / shows.
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert 'href="/">홈</a>' in html or 'href="/" class="is-active"' in html
+    ranking_html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html
-    assert "KB금융 골든라이프 챔피언십" in html
+        assert marker in ranking_html
     assert "R2 &middot; LIVE" not in html
 
 
 def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, monkeypatch):
-    """PRODUCT RECOVERY V1: HOME is always the ranking experience now,
-    so this legacy stage selector has nothing left to override there --
-    what it must still never be able to do is make the tournament-cards
-    strip disagree with the real, calendar-selected current tournament
-    (KB), regardless of what the stale selector itself claims."""
+    """HOME is now the current tournament's own stage page -- what a
+    stale legacy stage selector must still never be able to do is make
+    HOME disagree with the real, calendar-selected current tournament
+    (KB), regardless of what the stale selector itself claims, and
+    /ranking/ must independently keep its full 120-player population no
+    matter what HOME is currently showing (home_mode() is not actually
+    wired into build() at all -- this monkeypatch documents that it
+    cannot matter, whichever way build() is later refactored)."""
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
     spec = importlib.util.spec_from_file_location("top120_builder_stale_mode", path)
     module = importlib.util.module_from_spec(spec)
@@ -464,7 +482,6 @@ def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, m
     html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
     assert "KB금융 골든라이프 챔피언십" in html
     assert "R2 &middot; LIVE" not in html
-    assert html.count("data-player-row") == 120
     assert (module.OUTPUT / "ranking/index.html").read_text(encoding="utf-8").count("data-player-row") == 120
 
 
@@ -485,31 +502,19 @@ def test_stale_active_ok_context_cannot_override_calendar_chronology(tmp_path, m
 
 
 def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):
+    """KB TOURNAMENT-ONLY PUBLIC HOME: the retired tournament-cards strip
+    (which used to carry a labelled "current"-kind card) is gone from /
+    entirely -- see test_home_no_longer_carries_the_retired_tournament_
+    cards_strip above. The real invariant this test guards -- KG Ladies
+    Open (a completed, historical tournament) must never be presented as
+    if it were the current tournament -- now applies to HOME's own hero
+    identity directly, since / literally IS whichever tournament is
+    current."""
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    # PUBLIC UI Phase 8: KG Ladies Open is now legitimately named in
-    # HOME's own "지난 대회" (last completed tournament) card -- that is
-    # real, correct, registry-driven content, not a stale-active-
-    # tournament bug. The invariant this test actually guards is that
-    # KG is never shown INSIDE the "current"-kind card; it must still
-    # appear inside the "last"-kind card.
-    import re as _re
-    current_card = _re.search(r'data-tournament-card="current"[^>]*>.*?</article>', html, flags=_re.S)
-    assert current_card, "HOME must carry a 'current' tournament card"
-    assert "KG" not in current_card.group(0) and "레이디스" not in current_card.group(0), (
-        "KG Ladies Open must never appear inside the CURRENT tournament card"
-    )
-    # PUBLIC UI Phase 8 correction (FAIL 3): tournament_chronology is
-    # now purely date-driven (see test_phase8_public_ui.py's
-    # test_chronology_* boundary tests) -- whichever registered
-    # tournament ended most recently as of "today" wins the "last"
-    # slot. That is sometimes KG, sometimes another completed
-    # tournament (e.g. once OK Open's own scheduled window has also
-    # passed) -- never hardcode which one; the only real invariant this
-    # test guards is a non-empty "last" card.
-    last_card = _re.search(r'data-tournament-card="last"[^>]*>.*?</article>', html, flags=_re.S)
-    assert last_card and 'data-game-code' in last_card.group(0), (
-        "HOME must carry a real, non-empty 'last' tournament card"
-    )
+    assert "<h1" in html
+    h1 = html[html.index("<h1"):html.index("</h1>") + len("</h1>")]
+    assert "KG" not in h1 and "레이디스" not in h1, "KG Ladies Open must never be HOME's own current-tournament identity"
+    assert "KB금융 골든라이프 챔피언십" in h1
     # KG's own archive is preserved untouched elsewhere in the tree
     for route in ("tournaments/2026/kg-ladies-open/pre/index.html", "tournaments/2026/kg-ladies-open/r1/index.html",
                   "tournaments/2026/kg-ladies-open/r2/index.html", "tournaments/2026/kg-ladies-open/r3/index.html",
@@ -524,3 +529,68 @@ def test_ranking_h1_fits_one_line_and_never_font_shrunk_below_the_page_default(b
     # of the existing clamp() -- .home-head h1's own font-size rule
     # (shared regardless of h1/h2 tag) is untouched by this fix.
     assert ".home-head h1{margin:.3rem 0 .55rem;font-size:clamp(1.7rem,3.5vw,2.35rem)}" in css
+
+
+# ======================================================================
+# KB TOURNAMENT-ONLY PUBLIC HOME -- PRIORITY MODE, remaining coverage
+# ======================================================================
+
+def test_primary_public_nav_is_minimized_to_home_and_current_tournament(built):
+    """Project Owner decision: 랭킹/딥다이브/NEO LAB stay fully built and
+    reachable by direct URL (never deleted -- see the routes asserted
+    below), but are hidden from the persistent header nav via a CSS-only
+    rule (see global_navigation.py's _SECONDARY_NAV_KEYS / neo-site.css's
+    .nav-secondary) so the public nav reads as just 홈 / 이번 대회."""
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert 'href="/ranking/" class="nav-secondary">랭킹</a>' in html
+    assert 'href="/deep-dive/" class="nav-secondary">딥다이브</a>' in html
+    assert 'href="/neo-lab/" class="nav-secondary">NEO LAB</a>' in html
+    assert ">이번 대회</a>" in html
+    css = (OUTPUT / "assets" / "neo-site.css").read_text(encoding="utf-8")
+    assert ".neo-global-nav a.nav-secondary{display:none}" in css
+    # never deleted: still real, buildable, reachable routes.
+    for route in ("ranking/index.html", "deep-dive/index.html", "neo-lab/index.html"):
+        assert (OUTPUT / route).is_file(), route
+
+
+def test_ranking_page_still_marks_its_own_nav_item_active_when_visited_directly(built):
+    """A visitor landing on /ranking/ directly still sees "랭킹"
+    highlighted as the current page in its own header -- only OTHER
+    pages hide the link, per the nav-secondary CSS rule (see
+    _SECONDARY_NAV_KEYS's docstring in global_navigation.py)."""
+    ranking_html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
+    assert 'href="/ranking/" class="is-active" aria-current="page">랭킹</a>' in ranking_html
+    nav_html = ranking_html[ranking_html.index('<nav class="neo-global-nav"'):ranking_html.index("</nav>")]
+    assert "nav-secondary" not in nav_html.split(">랭킹<")[0].split("<a")[-1]
+
+
+def test_home_hero_shows_verified_venue_and_field_size_never_fabricated_holes(built):
+    """DATA FILL: venue (블랙스톤 이천) is populated from already-verified
+    official schedule evidence (see TOURNAMENT_SITE_REGISTRY.json's
+    2026090003 entry, _venue_comment), and field size (120명) from the
+    same validated entry_snapshot count every other public figure on
+    this page already uses. Hole count / par are deliberately NOT
+    asserted here -- no verified source exists for KB yet, so the page
+    must never show a fabricated "72홀"/"파72", matching the Owner's own
+    "do not guess" rule."""
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert "블랙스톤 이천" in html
+    assert "120명" in html
+    assert "72홀" not in html and "파 72" not in html and "Par 72" not in html
+
+
+def test_pre_leaderboard_sg_column_is_honestly_labelled_a_rank_not_a_value(built):
+    """LIVE FAIL #2 finding (discovered during this redesign): the PRE
+    leaderboard's SG column is fed by sg_total_rank (scripts/82's own
+    schema: an ordinal RANK derived from the mean of the latest five
+    pre-cutoff tournament_cumulative SG Total observations), not the raw
+    SG value itself -- an integer like 80 or 114 rendered under a label
+    that reads as an SG figure is itself misleading, even though the
+    words "5R"/"10R"/rounds were already fixed. Corrected to "...SG 순위"
+    (rank), matching what is actually shown; the underlying sg_total_
+    rank computation is completely untouched (no SG/model calculation
+    was changed -- see scripts/82_build_corrected_sg_total_rank.py)."""
+    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
+    assert "최근 5개 대회 SG 순위" in html
+    assert ">최근 5개 대회 SG<" not in html
+    assert "data-label='최근 5개 대회 SG'>" not in html
