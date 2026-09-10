@@ -9,6 +9,7 @@ it. No network access is used or required.
 """
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import sys
@@ -196,6 +197,33 @@ def test_final_status_line_pass_partial_fail():
 
 def test_output_never_written_by_importing_this_module():
     """Guard against accidental import-time side effects (e.g. main()
-    running at module scope) -- importing must never touch the real repo."""
+    running at module scope) -- importing must never CREATE, MODIFY, or
+    DELETE the real repo's output file.
+
+    This is a before/after comparison, not an absence check: a prior
+    legitimate run of scripts/106_recover_historical_r1_full_field.py
+    (e.g. via NEO_RECOVER_HISTORICAL_R1_FULL_FIELD.bat) leaves
+    NEO_HISTORICAL_R1_FULL_FIELD_V1.json sitting in the real repo on
+    purpose -- that is real, wanted operational output, never something
+    this test should demand the absence of. What must never happen is
+    the module *creating*, *modifying*, or *deleting* that file merely
+    by being imported."""
     real_output = ROOT / "content" / "website_v2" / "NEO_HISTORICAL_R1_FULL_FIELD_V1.json"
-    assert not real_output.exists()
+
+    existed_before = real_output.exists()
+    hash_before = hashlib.sha256(real_output.read_bytes()).hexdigest() if existed_before else None
+
+    # A genuinely fresh import (module-scope import above already ran
+    # once at collection time -- re-exec the same spec to observe any
+    # import-time side effect directly inside this test).
+    spec = importlib.util.spec_from_file_location(
+        "recover_historical_r1_full_field_reimport", ROOT / "scripts" / "106_recover_historical_r1_full_field.py"
+    )
+    fresh = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fresh)  # type: ignore[union-attr]
+
+    exists_after = real_output.exists()
+    assert exists_after == existed_before, "importing the module changed whether the real output file exists"
+    if existed_before:
+        hash_after = hashlib.sha256(real_output.read_bytes()).hexdigest()
+        assert hash_after == hash_before, "importing the module modified the real output file's content"
