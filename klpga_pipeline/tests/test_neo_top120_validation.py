@@ -4,6 +4,7 @@ import importlib.util
 import functools
 import http.server
 import json
+import re
 import threading
 import urllib.request
 from pathlib import Path
@@ -212,8 +213,18 @@ def test_home_table_visual_hierarchy_matches_owner_priority(built):
     assert "최근 10개 대회" not in html, "10R (rounds) must never be phrased as 10 tournaments"
     row = html[html.index("data-player-row"):]
     row = row[:row.index("</tr>")]
-    assert row.index('scope="row"') < row.index('<td>')
-    assert '<td class="metric-secondary">' in row
+    # MOBILE COLOR/READABILITY PASS (20260910): the first metric <td>
+    # (K-Ranking) now carries a k-rank-cell class + data-label attribute
+    # for the mobile color system/card layout -- '<td>' bare is no
+    # longer literally present, but the underlying invariant (선수 th
+    # still precedes every metric td) is unchanged, so match any '<td'
+    # tag, not only a bare unattributed one.
+    assert row.index('scope="row"') < row.index('<td')
+    # 장기 SG/변동성 now also carry a sign-color class alongside
+    # metric-secondary (positive/negative SG average) -- the class
+    # list must still CONTAIN metric-secondary, even though it is no
+    # longer the cell's only class.
+    assert re.search(r'<td class="[^"]*\bmetric-secondary\b[^"]*"', row)
 
 
 def test_home_table_renders_real_recent_sg_values_not_blanket_dashes(built):

@@ -298,6 +298,22 @@ def render_clean(
         features = row.get("features") or {}
         def val(key, digits=2):
             return show(features.get(key), digits)
+        # MOBILE COLOR/READABILITY PASS (20260910): a presentational
+        # sign class only, applied exclusively to genuine signed SG
+        # averages (positive = strokes gained = good, negative = lost =
+        # bad -- true for recent_10_sg/recent_5_sg/long_term_sg). Never
+        # applied to volatility (a non-negative magnitude, not a
+        # gained/lost value) or to 현재 스코어 (to-par follows the
+        # opposite, golf-specific convention -- under par is good --
+        # and already has its own display treatment elsewhere). Reads
+        # the same already-computed float the number itself renders
+        # from; classifies its sign only, never recomputes it.
+        def sg_cell(key, label, extra_class=""):
+            raw = features.get(key)
+            sign = "metric-empty" if raw is None else ("metric-pos" if raw > 0 else "metric-neg" if raw < 0 else "")
+            cls = " ".join(c for c in (extra_class, sign) if c)
+            cls_attr = f' class="{cls}"' if cls else ""
+            return f"<td{cls_attr} data-label=\"{escape(label)}\">{show(raw)}</td>"
         # R1 ACTIVE MODE: 현재 스코어 -- real tournament-total-to-par
         # PLUS current-round hole progress, joined by player_id from the
         # same live snapshot the R1 page itself reads (scripts/96).
@@ -323,8 +339,11 @@ def render_clean(
         cells.append(
             f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" data-k-rank="{row["official_k_rank"]}" '
             f'data-current-score="{cell.sort_score if cell.sort_score is not None else ""}" data-current-hole="{cell.sort_holes if cell.sort_holes is not None else ""}" data-current-status="{cell.sort_status}">'
-            f'<th scope="row">{identity_cell}</th><td>{row["official_k_rank"]}</td><td>{val("recent_10_sg")}</td><td>{val("recent_5_sg")}</td>'
-            f'<td class="metric-secondary">{val("long_term_sg")}</td><td class="metric-secondary">{val("volatility")}</td><td>{escape(cell.display)}</td></tr>'
+            f'<th scope="row">{identity_cell}</th><td class="k-rank-cell" data-label="K-Ranking">{row["official_k_rank"]}</td>'
+            + sg_cell("recent_10_sg", "최근 10R SG", "metric-sg")
+            + sg_cell("recent_5_sg", "최근 5R SG", "metric-sg")
+            + sg_cell("long_term_sg", "장기 SG", "metric-secondary")
+            + f'<td class="metric-secondary" data-label="변동성">{val("volatility")}</td><td data-label="현재 스코어">{escape(cell.display)}</td></tr>'
         )
     week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
     # PRODUCT PRESENTATION RECOVERY: the summary strip's other two stats
