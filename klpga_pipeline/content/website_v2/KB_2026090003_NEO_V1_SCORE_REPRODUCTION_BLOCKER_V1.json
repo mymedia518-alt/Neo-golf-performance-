@@ -1,0 +1,55 @@
+{
+  "schema_version": "kb_neo_v1_score_reproduction_blocker_v1",
+  "purpose": "DEPLOYMENT UNBLOCK task: reproduce NEO Ranking V1's NEO_V1_score for KB 2026090003 using the exact frozen V1 definition, to supply NEO_R1_MODEL_V1's pre_score feature. Records what was found, the exact formula recovered from source, why direct reproduction from existing JSON artifacts failed verification, and the minimal extractor built to resolve it.",
+  "generated_at_utc": "2026-09-10T13:20:00Z",
+  "game_code": "2026090003",
+  "branch": "feat/kb-r1-2026090003",
+
+  "formula_recovered_from_source": {
+    "config_artifact": "content/website_v2/NEO_RANKING_VALIDATION_MODEL_V1.json",
+    "config_sha256": "0b33f7e4eb726079b163d4d6ec2cf8cfa4aec42218ee7609d8c538412a022643",
+    "config_sha256_matches_the_lock_recorded_in_scripts_93": true,
+    "weights": {"recent_5_sg": 0.35, "recent_10_sg": 0.25, "long_term_sg": 0.25, "consistency": 0.1, "sample_reliability": 0.05},
+    "normalization": "cohort z-score (population mean/stddev across the eligible cohort at scoring time) for recent_5_sg/recent_10_sg/long_term_sg/consistency; sample_reliability = min(prior_event_count/20, 1) * 0.05, not z-scored.",
+    "eligibility": "minimum_sg_events = 10 prior validated SG events; ineligible players receive no score (never imputed).",
+    "implementation_source": "src/klpga/website_v2/neo_ranking_backtest.py run_backtest() -- weights/eligibility read from the config verbatim, arithmetic copied inline (not re-derived from the docstring/report text) to guarantee identical computation.",
+    "publication_class_of_this_model": "VALIDATION_MODEL_NOT_PRODUCTION (per its own frozen config) -- reused here strictly as a feature input to the separately-validated NEO_R1_MODEL_V1, per explicit owner authorization, not as a promotion of V1 to any public ranking display."
+  },
+
+  "reproduction_attempts_and_failures": {
+    "attempt_1": {
+      "date_source": "historical_sg_warehouse.json records[].date",
+      "result": "FAILED -- reproduced 0/326 sampled historical NEO_V1_score rows across 3 check events (2026080001/2/3) within 1e-6 tolerance.",
+      "diagnosis": "This 'date' field is consistently 2-3 days LATER than the true tournament_master.start_date for every one of 82 directly cross-checked historical tournaments (verified: comparing against NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json's tournament_start_date, all 82 overlapping game_codes differ, always by the same sign/direction) -- it is some other date (plausibly a scrape/retrieval-adjacent date), not the official start date the original scoring used to order recent-5/recent-10 windows."
+    },
+    "attempt_2": {
+      "date_source": "NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json records[].tournament_start_date",
+      "result": "FAILED -- still 0/326 exact matches, though max_feature_date now matched exactly wherever a player's most recent prior event's game_code was one of the 82 covered.",
+      "diagnosis": "Correct VALUE where present, but only covers 82 of the 97 game_codes in historical_sg_warehouse_corrected.json. The missing 15 silently drop that many players' real prior events from the recent-5/10/long-term windows -- concretely verified: 4 of 5 sampled players in the 2026080001 check event had exactly their recorded prior_sample_count minus the events tied to those 15 missing game_codes (one player, unaffected because none of her history touched a missing game_code, reproduced max_feature_date and count exactly)."
+    },
+    "conclusion": "The formula/weights/normalization/eligibility rule are all confirmed byte-for-byte from source and are NOT the problem. The single missing input is a complete, correct game_code -> official start_date mapping for all 97 game_codes in historical_sg_warehouse_corrected.json, matching exactly what scripts/89_redteam_neo_ranking_v1.py originally read from sqlite tournament_master.start_date. No existing JSON artifact in this sandbox supplies that completely and correctly."
+  },
+
+  "minimal_extractor_built": {
+    "script": "scripts/107_extract_tournament_master_dates.py",
+    "launcher": "NEO_EXTRACT_TOURNAMENT_MASTER_DATES.bat",
+    "extracts_only": "SELECT game_code, start_date FROM tournament_master WHERE start_date IS NOT NULL -- the exact query scripts/89_redteam_neo_ranking_v1.py itself used, byte-identical, verified by test_source_query_matches_the_original_script_89_query.",
+    "no_other_changes": "No weights, normalization, eligibility rule, or model logic touched. No other table read. No other file written."
+  },
+
+  "what_was_deliberately_not_done": {
+    "no_weight_or_normalization_change": true,
+    "no_r1_model_refit": true,
+    "no_new_model_version": true,
+    "no_KB_scores_computed_from_an_unverified_date_source": "kb_v1_scores.pkl (scratch, not committed) computed from the two failed date sources is NOT used anywhere -- since the reproduction gate failed, applying it to KB would silently carry the same 2-15-game-code error into KB's own pre_score, which is exactly the kind of unverified-substitution mistake this task explicitly forbade."
+  },
+
+  "status": "AWAITING_LOCAL_EXTRACTION",
+  "next_step_once_extraction_completes": [
+    "Load TOURNAMENT_MASTER_DATES_V1.json as the gc_date source.",
+    "Re-run the exact same 3-event historical regression check (2026080001/2/3, ~326 rows) and require exact reproduction before proceeding.",
+    "Only if that passes: compute KB's real pre_score for its 113 SG-eligible entrants (7 of 120 have <10 prior SG events and will have no pre_score -- disclosed, not imputed), apply the frozen NEO_R1_MODEL_V1 to KB's 118 R1-active players (111 of whom will have both pre_score and r1_z), freeze KB R1 predictions, run the publication gate, build the R1 page, and deploy."
+  ],
+
+  "production_untouched": {"branch": "neo-website-v2", "commit": "15d43a6a5a65f166d38fcf242453cba22f67af1d", "modified_by_this_task": false}
+}
