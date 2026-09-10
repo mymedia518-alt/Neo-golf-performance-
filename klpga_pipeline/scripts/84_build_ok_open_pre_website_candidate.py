@@ -14,7 +14,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from klpga.neo_win.r1_live_probability import LIVE_PROBABILITY_MODEL_STATUS  # noqa: E402
 from klpga.website_v2.freshness_gate import STALE_NOTICE_MARKER, is_snapshot_stale  # noqa: E402
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.shell import breadcrumb_html, stage_nav_html  # noqa: E402
@@ -53,12 +52,47 @@ def _bind_context(context) -> None:
 # A successfully executed simulation is not sufficient for publication
 # -- only klpga.neo_win.r1_live_probability.LIVE_PROBABILITY_MODEL_STATUS
 # == "VALIDATED" is. See that module for the full defect record.
-MODEL_VALIDATED_FOR_PUBLICATION = LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED"
+MODEL_VALIDATED_FOR_PUBLICATION = False
 MODEL_BLOCKED_NOTE = (
     "NEO 확률 지표(Cut%·Top20%·Top10%·Top5%·Win%·PRE 대비 Win Δ·NEO 예상 컷·NEO Movers)는 "
     "시뮬레이션 모델 점검(Red Team 검증)으로 검증 완료 전까지 비공개 처리됩니다. "
     "완료홀 기준 실제 스코어만 표시합니다."
 )
+
+
+def _pre_probability_publication_approved(context) -> bool:
+    """Bind PRE visibility to the immutable V2 snapshot, never R1 LIVE state."""
+    freeze_path = context.artifact_path("pre_5prob_v2_frozen")
+    evaluation_path = ROOT / "content" / "website_v2" / "NEO_PRE_5PROB_V2_WALK_FORWARD.json"
+    master_path = context.artifact_path("pre_public_master")
+    if not all(path.is_file() for path in (freeze_path, evaluation_path, master_path)):
+        return False
+    try:
+        freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+        evaluation = json.loads(evaluation_path.read_text(encoding="utf-8"))
+        master = json.loads(master_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    if (
+        freeze.get("gameCode") != context.game_code
+        or freeze.get("stage") != "PRE"
+        or freeze.get("model_version") != "NEO_PRE_5PROB_V2"
+        or freeze.get("official_field_count") != 120
+        or evaluation.get("overall_frozen_win_gate_pass") is not True
+        or freeze.get("source_hashes", {}).get("walk_forward_evaluation_sha256") != hashlib.sha256(evaluation_path.read_bytes()).hexdigest()
+        or master.get("pre_probability_publication", {}).get("status") != "APPROVED"
+    ):
+        return False
+    frozen_by = {str(row["playerCode"]): row for row in freeze.get("predictions", [])}
+    public_records = master.get("records", [])
+    if len(frozen_by) != 120 or len(public_records) != 120:
+        return False
+    probability_keys = ("cut_probability", "top20_probability", "top10_probability", "top5_probability", "win_probability")
+    for record in public_records:
+        frozen = frozen_by.get(str(record.get("player_id")))
+        if frozen is None or any(record.get(key) != frozen.get(key) for key in probability_keys):
+            return False
+    return True
 
 
 def _ok_stage_items(current: str) -> list[tuple[str, str | None, bool]]:
@@ -716,7 +750,9 @@ def value(value):
     return "—" if value is None else html.escape(str(value))
 
 def build(game_code: str | None = None) -> Path:
+    global MODEL_VALIDATED_FOR_PUBLICATION
     _bind_context(load_tournament_context(game_code))
+    MODEL_VALIDATED_FOR_PUBLICATION = _pre_probability_publication_approved(_CONTEXT)
     historical_ok_mode = _CONTEXT.url_base == OK_BASE
     display_name = _CONTEXT.tournament_name
     date_range = _CONTEXT.display_date_range

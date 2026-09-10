@@ -40,9 +40,10 @@ def test_probability_distribution_is_structurally_defined_in_the_canonical_schem
     contract = master["probability_distribution_contract"]
     assert contract["schema"] == ["cut_probability", "top20_probability", "top10_probability", "top5_probability", "win_probability"]
     assert contract["checkpoint"] == "PRE"
-    assert contract["model_status"] == builder84.LIVE_PROBABILITY_MODEL_STATUS
-    expected_publication_status = "APPROVED" if builder84.LIVE_PROBABILITY_MODEL_STATUS == "VALIDATED" else "BLOCKED"
-    assert contract["publication_status"] == expected_publication_status
+    assert contract["model_status"] == "VALIDATED"
+    assert contract["publication_status"] == "APPROVED"
+    assert contract["model_version"] == "NEO_PRE_5PROB_V2"
+    assert contract["provenance"] == "2026090003_PRE_5PROB_V2_FROZEN.json"
     for record in master["records"]:
         assert "cut_probability" in record and "win_probability" in record
 

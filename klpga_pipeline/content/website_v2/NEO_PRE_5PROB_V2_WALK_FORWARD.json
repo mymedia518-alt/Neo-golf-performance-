@@ -1,0 +1,1113 @@
+{
+  "schema_version": "NEO_PRE_5PROB_V2_WALK_FORWARD_V1",
+  "model": "V2B_M4_PL_PLUS_CUT_LOGIT",
+  "candidate_registry": [
+    {
+      "id": "V1_SCORE_NORMAL",
+      "status": "REJECTED",
+      "evidence": "neo_kb_pre_full_validation.json",
+      "reason": "failed frozen paired WIN log-loss gate vs M1 at thresholds 5/8/10"
+    },
+    {
+      "id": "V2A_M4_PL_ALL_OUTCOMES",
+      "status": "REJECTED",
+      "reason": "CUT log loss materially worse than uniform baseline",
+      "structure": "frozen M4 pre-event win weights extended to all rank outcomes"
+    },
+    {
+      "id": "V2B_M4_PL_PLUS_CUT_LOGIT",
+      "status": "SELECTED_IF_GATE_PASS",
+      "structure": "frozen M4 pre-event win weights extended to TOP/WIN finish order; CUT uses fold-fitted binary logistic MLE on explicit player_event.made_cut with frozen M4 features; no hand-set coefficient"
+    }
+  ],
+  "kb_excluded": "2026090003 not present in tournament_master/player_event/player_round; cutoff remains 2026-09-10",
+  "cut_truth": "player_event.made_cut only",
+  "simulation": {
+    "n_per_event": 5000,
+    "seed_base": 20260910
+  },
+  "thresholds": {
+    "5": {
+      "n": 97,
+      "WIN": {
+        "M0": {
+          "mean_log_loss": 4.759496451182101,
+          "mean_brier": 0.008597841139986986
+        },
+        "M1": {
+          "mean_log_loss": 4.133866516205286,
+          "mean_brier": 0.008526891878138406
+        },
+        "M4": {
+          "mean_log_loss": 4.019645657583443,
+          "mean_brier": 0.008520518364474186
+        },
+        "V2_vs_M0_log_loss": {
+          "statistic": 969.0,
+          "z": -5.062715322762466,
+          "p_value": 4.133268178829752e-07,
+          "n": 97,
+          "mean_diff": -0.7398507935986572,
+          "median_diff": -1.0108483707955238,
+          "metric": "log_loss"
+        },
+        "V2_vs_M1_log_loss": {
+          "statistic": 1829.0,
+          "z": -1.9682340309531408,
+          "p_value": 0.049041116357824155,
+          "n": 97,
+          "mean_diff": -0.11422085862184252,
+          "median_diff": -0.034999257484252144,
+          "metric": "log_loss"
+        },
+        "V2_vs_M1_brier": {
+          "statistic": 2149.0,
+          "z": -0.8167991316752522,
+          "p_value": 0.4140432285410507,
+          "n": 97,
+          "mean_diff": -6.3735136642188094e-06,
+          "median_diff": -1.5911910148998232e-05,
+          "metric": "brier_norm"
+        },
+        "primary_gate_pass": true
+      },
+      "tiers": {
+        "CUT": {
+          "M0": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.6868892422985624,
+            "mean_brier": 0.24687500560350994,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.6229706936391775,
+            "mean_brier": 0.21592992808043102,
+            "mean_auc": 0.7003854444765744
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.6194180984976793,
+            "mean_brier": 0.21432546168277686,
+            "mean_auc": 0.7018064253165528
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 190.0,
+            "z": -7.865739655692076,
+            "p_value": 3.552713678800501e-15,
+            "n": 97,
+            "mean_diff": -0.06747114380088312,
+            "median_diff": -0.0656563403906637
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1929.0,
+            "z": -1.6084106249288006,
+            "p_value": 0.10774527619344831,
+            "n": 97,
+            "mean_diff": -0.003552595141498172,
+            "median_diff": -0.0008418506986532792
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1882.0,
+            "z": -1.7775276257602406,
+            "p_value": 0.07548146968810499,
+            "n": 97,
+            "mean_diff": -0.001604466397654147,
+            "median_diff": -0.0005040237086092469
+          }
+        },
+        "TOP20": {
+          "M0": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.4931116692244506,
+            "mean_brier": 0.1568586369617923,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.4990950638357745,
+            "mean_brier": 0.1480696933800404,
+            "mean_auc": 0.7495826267368034
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.4927854375322248,
+            "mean_brier": 0.1463465322807855,
+            "mean_auc": 0.7497151637343618
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 2146.0,
+            "z": -0.8275938338559824,
+            "p_value": 0.4079005614892248,
+            "n": 97,
+            "mean_diff": -0.0003262316922258229,
+            "median_diff": -0.019422550784462755
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1573.0,
+            "z": -2.8893819503754514,
+            "p_value": 0.0038599990781438276,
+            "n": 97,
+            "mean_diff": -0.006309626303549731,
+            "median_diff": -0.006550284792873895
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1598.0,
+            "z": -2.7994260988693664,
+            "p_value": 0.005119353337242449,
+            "n": 97,
+            "mean_diff": -0.0017231610992548935,
+            "median_diff": -0.0008293081481481612
+          }
+        },
+        "TOP10": {
+          "M0": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.32523011317374484,
+            "mean_brier": 0.09005545566707468,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.31247271138702115,
+            "mean_brier": 0.08685647363287242,
+            "mean_auc": 0.7637190178966957
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.3096622314795127,
+            "mean_brier": 0.08615284567756486,
+            "mean_auc": 0.7662428101019862
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 1558.0,
+            "z": -2.943355461279103,
+            "p_value": 0.0032467539244973587,
+            "n": 97,
+            "mean_diff": -0.015567881694232105,
+            "median_diff": -0.01845439420356415
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1626.0,
+            "z": -2.6986755451825513,
+            "p_value": 0.006961601128053552,
+            "n": 97,
+            "mean_diff": -0.0028104799075084497,
+            "median_diff": -0.00393039279516158
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1735.0,
+            "z": -2.3064680326160207,
+            "p_value": 0.021084494366756523,
+            "n": 97,
+            "mean_diff": -0.0007036279553075595,
+            "median_diff": -0.0006646693333249992
+          }
+        },
+        "TOP5": {
+          "M0": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.20762776710923703,
+            "mean_brier": 0.05034468633858485,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.19268250601488807,
+            "mean_brier": 0.04876159058878664,
+            "mean_auc": 0.7845747356305461
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 97,
+            "mean_log_loss": 0.1915511777533345,
+            "mean_brier": 0.04869929169362524,
+            "mean_auc": 0.7911153889570526
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 1244.0,
+            "z": -4.073200956195531,
+            "p_value": 4.6371380430176856e-05,
+            "n": 97,
+            "mean_diff": -0.01607658935590254,
+            "median_diff": -0.023915695287312855
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1945.0,
+            "z": -1.5508388799649062,
+            "p_value": 0.12094030058006933,
+            "n": 97,
+            "mean_diff": -0.0011313282615535607,
+            "median_diff": -0.0010463235709455981
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 2201.0,
+            "z": -0.6296909605425953,
+            "p_value": 0.5288967979079122,
+            "n": 97,
+            "mean_diff": -6.229889516139468e-05,
+            "median_diff": -0.00019783333334999487
+          }
+        }
+      }
+    },
+    "8": {
+      "n": 94,
+      "WIN": {
+        "M0": {
+          "mean_log_loss": 4.756575108262862,
+          "mean_brier": 0.008624361390893903
+        },
+        "M1": {
+          "mean_log_loss": 4.124299385684678,
+          "mean_brier": 0.008555575097092672
+        },
+        "M4": {
+          "mean_log_loss": 4.00749955836237,
+          "mean_brier": 0.008548940357372062
+        },
+        "V2_vs_M0_log_loss": {
+          "statistic": 899.0,
+          "z": -5.026655693344106,
+          "p_value": 4.991072901638915e-07,
+          "n": 94,
+          "mean_diff": -0.7490755499004923,
+          "median_diff": -1.011666737131719,
+          "metric": "log_loss"
+        },
+        "V2_vs_M1_log_loss": {
+          "statistic": 1710.0,
+          "z": -1.9684278108969415,
+          "p_value": 0.04901883459463585,
+          "n": 94,
+          "mean_diff": -0.11679982732230845,
+          "median_diff": -0.03964063050149824,
+          "metric": "log_loss"
+        },
+        "V2_vs_M1_brier": {
+          "statistic": 2022.0,
+          "z": -0.7918962457631374,
+          "p_value": 0.4284211761945358,
+          "n": 94,
+          "mean_diff": -6.634739720610076e-06,
+          "median_diff": -1.4862769212617682e-05,
+          "metric": "brier_norm"
+        },
+        "primary_gate_pass": true
+      },
+      "tiers": {
+        "CUT": {
+          "M0": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.6866496234847781,
+            "mean_brier": 0.24675532493128155,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.6222101916887907,
+            "mean_brier": 0.21562264233054468,
+            "mean_auc": 0.7007684890800739
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.618691670652379,
+            "mean_brier": 0.21407841161861174,
+            "mean_auc": 0.7018813874246732
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 183.0,
+            "z": -7.72664479794604,
+            "p_value": 1.1102230246251565e-14,
+            "n": 94,
+            "mean_diff": -0.06795795283239914,
+            "median_diff": -0.06636588773867902
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1828.0,
+            "z": -1.523457539468131,
+            "p_value": 0.12764427593174243,
+            "n": 94,
+            "mean_diff": -0.0035185210364117024,
+            "median_diff": -0.0008314391126867382
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1830.0,
+            "z": -1.515915670460863,
+            "p_value": 0.12954067733559227,
+            "n": 94,
+            "mean_diff": -0.0015442307119329303,
+            "median_diff": -0.0003298873083624754
+          }
+        },
+        "TOP20": {
+          "M0": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.494030793233305,
+            "mean_brier": 0.15725581148218165,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.5012464589929961,
+            "mean_brier": 0.1484213580049997,
+            "mean_auc": 0.7498123300222603
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.4949405977185689,
+            "mean_brier": 0.14671750649413012,
+            "mean_auc": 0.7504064099452894
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 2058.0,
+            "z": -0.6561426036323138,
+            "p_value": 0.5117323746450901,
+            "n": 94,
+            "mean_diff": 0.0009098044852639294,
+            "median_diff": -0.01809342081190521
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1504.0,
+            "z": -2.7452403186455427,
+            "p_value": 0.006046660069178866,
+            "n": 94,
+            "mean_diff": -0.006305861274427175,
+            "median_diff": -0.006812789237734401
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1526.0,
+            "z": -2.662279759565595,
+            "p_value": 0.00776133420352898,
+            "n": 94,
+            "mean_diff": -0.0017038515108695725,
+            "median_diff": -0.0008222904074074305
+          }
+        },
+        "TOP10": {
+          "M0": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.3258421960643547,
+            "mean_brier": 0.09028525534337671,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.3129597267881363,
+            "mean_brier": 0.0870550513516517,
+            "mean_auc": 0.7655967686742035
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.31013802339050883,
+            "mean_brier": 0.0863346696537334,
+            "mean_auc": 0.7687005688664209
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 1475.0,
+            "z": -2.8545974192509287,
+            "p_value": 0.004309141352344392,
+            "n": 94,
+            "mean_diff": -0.01570417267384587,
+            "median_diff": -0.018645088542508154
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1548.0,
+            "z": -2.5793192004856476,
+            "p_value": 0.009899526452601393,
+            "n": 94,
+            "mean_diff": -0.0028217033976274857,
+            "median_diff": -0.003949589581769983
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1619.0,
+            "z": -2.3115828507276346,
+            "p_value": 0.020800682595307318,
+            "n": 94,
+            "mean_diff": -0.0007203816979183019,
+            "median_diff": -0.0006255321666590319
+          }
+        },
+        "TOP5": {
+          "M0": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.20846160025384847,
+            "mean_brier": 0.05060225931465265,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.193295134137902,
+            "mean_brier": 0.048962365098228565,
+            "mean_auc": 0.7851293562731797
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 94,
+            "mean_log_loss": 0.1924402614733466,
+            "mean_brier": 0.04895698356069948,
+            "mean_auc": 0.7917323702100973
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 1186.0,
+            "z": -3.944397490801151,
+            "p_value": 8.000086569426301e-05,
+            "n": 94,
+            "mean_diff": -0.016021338780501857,
+            "median_diff": -0.023980566215068874
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1837.0,
+            "z": -1.489519128935425,
+            "p_value": 0.13635071996359738,
+            "n": 94,
+            "mean_diff": -0.0008548726645553889,
+            "median_diff": -0.0010450335155374538
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 2119.0,
+            "z": -0.4261155989106406,
+            "p_value": 0.6700236142067579,
+            "n": 94,
+            "mean_diff": -5.381537529077842e-06,
+            "median_diff": -0.00019673629630925782
+          }
+        }
+      }
+    },
+    "10": {
+      "n": 92,
+      "WIN": {
+        "M0": {
+          "mean_log_loss": 4.7548670272971805,
+          "mean_brier": 0.008640301265024209
+        },
+        "M1": {
+          "mean_log_loss": 4.14195454677962,
+          "mean_brier": 0.008577281567249668
+        },
+        "M4": {
+          "mean_log_loss": 4.022924680752322,
+          "mean_brier": 0.008570497978883944
+        },
+        "V2_vs_M0_log_loss": {
+          "statistic": 889.0,
+          "z": -4.865423283973506,
+          "p_value": 1.142121067054802e-06,
+          "n": 92,
+          "mean_diff": -0.7319423465448586,
+          "median_diff": -0.9867139003026988,
+          "metric": "log_loss"
+        },
+        "V2_vs_M1_log_loss": {
+          "statistic": 1633.0,
+          "z": -1.9683645218476247,
+          "p_value": 0.04902611094368026,
+          "n": 92,
+          "mean_diff": -0.1190298660272981,
+          "median_diff": -0.03964063050149824,
+          "metric": "log_loss"
+        },
+        "V2_vs_M1_brier": {
+          "statistic": 1941.0,
+          "z": -0.7690444966664804,
+          "p_value": 0.4418668957103753,
+          "n": 92,
+          "mean_diff": -6.783588365722887e-06,
+          "median_diff": -1.5976856233291745e-05,
+          "metric": "brier_norm"
+        },
+        "primary_gate_pass": true
+      },
+      "tiers": {
+        "CUT": {
+          "M0": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.6865162456951506,
+            "mean_brier": 0.2466887248664068,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.6215901248502164,
+            "mean_brier": 0.2153150343044522,
+            "mean_auc": 0.7013888517199772
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.6179409167006584,
+            "mean_brier": 0.21372333221510922,
+            "mean_auc": 0.7023946131219037
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 177.0,
+            "z": -7.637877368158488,
+            "p_value": 2.220446049250313e-14,
+            "n": 92,
+            "mean_diff": -0.06857532899449205,
+            "median_diff": -0.06636588773867902
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1728.0,
+            "z": -1.5984443842105835,
+            "p_value": 0.10994411349472433,
+            "n": 92,
+            "mean_diff": -0.0036492081495578628,
+            "median_diff": -0.0008314391126867382
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1738.0,
+            "z": -1.5595054223540528,
+            "p_value": 0.11887680219738783,
+            "n": 92,
+            "mean_diff": -0.001591702089342968,
+            "median_diff": -0.0003298873083624754
+          }
+        },
+        "TOP20": {
+          "M0": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.4946826088399425,
+            "mean_brier": 0.15753781289361007,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.5037664707894143,
+            "mean_brier": 0.14902020977124797,
+            "mean_auc": 0.748878248227253
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.49734314044589706,
+            "mean_brier": 0.14729440047983908,
+            "mean_auc": 0.7494186332962203
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 2020.0,
+            "z": -0.4614266979998883,
+            "p_value": 0.6444925006879654,
+            "n": 92,
+            "mean_diff": 0.0026605316059545984,
+            "median_diff": -0.01634242372762798
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1440.0,
+            "z": -2.7198864856786664,
+            "p_value": 0.006530433012430725,
+            "n": 92,
+            "mean_diff": -0.006423330343517236,
+            "median_diff": -0.007120239519617849
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1465.0,
+            "z": -2.6225390810373397,
+            "p_value": 0.008727725738727932,
+            "n": 92,
+            "mean_diff": -0.0017258092914088973,
+            "median_diff": -0.0008793858922559045
+          }
+        },
+        "TOP10": {
+          "M0": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.3266746128795305,
+            "mean_brier": 0.0905811119942518,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.314337237440457,
+            "mean_brier": 0.08738621039552802,
+            "mean_auc": 0.7651421866793665
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.3114577585084206,
+            "mean_brier": 0.08665100325951276,
+            "mean_auc": 0.7682222593718495
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 1446.0,
+            "z": -2.696523108564748,
+            "p_value": 0.007006753579993585,
+            "n": 92,
+            "mean_diff": -0.015216854371109884,
+            "median_diff": -0.018327582589484637
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1482.0,
+            "z": -2.556342845881238,
+            "p_value": 0.01057788400118076,
+            "n": 92,
+            "mean_diff": -0.002879478932036397,
+            "median_diff": -0.003992908373210147
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 1551.0,
+            "z": -2.287664009071176,
+            "p_value": 0.022157095178398478,
+            "n": 92,
+            "mean_diff": -0.0007352071360152577,
+            "median_diff": -0.0006786733333333378
+          }
+        },
+        "TOP5": {
+          "M0": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.2087911278940075,
+            "mean_brier": 0.05070608757539558,
+            "mean_auc": 0.5
+          },
+          "M1": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.19376765894705655,
+            "mean_brier": 0.04908287853844005,
+            "mean_auc": 0.7854112181087508
+          },
+          "V2_M4_PL": {
+            "n_tournaments": 92,
+            "mean_log_loss": 0.19288459166289287,
+            "mean_brier": 0.04907692515325726,
+            "mean_auc": 0.7921352375226086
+          },
+          "V2_vs_M0_log_loss": {
+            "statistic": 1153.0,
+            "z": -3.8374346909610964,
+            "p_value": 0.00012432628428449277,
+            "n": 92,
+            "mean_diff": -0.015906536231114637,
+            "median_diff": -0.023980566215068874
+          },
+          "V2_vs_M1_log_loss": {
+            "statistic": 1750.0,
+            "z": -1.512778668126216,
+            "p_value": 0.13033588910474414,
+            "n": 92,
+            "mean_diff": -0.0008830672841636866,
+            "median_diff": -0.001292725926140957
+          },
+          "V2_vs_M1_brier": {
+            "statistic": 2035.0,
+            "z": -0.4030182552150923,
+            "p_value": 0.686934795025083,
+            "n": 92,
+            "mean_diff": -5.953385182789692e-06,
+            "median_diff": -0.0002207645454515121
+          }
+        }
+      }
+    }
+  },
+  "calibration_threshold5": {
+    "CUT": {
+      "M0": [
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 11428,
+          "mean_predicted": 0.5464648232411621,
+          "actual_rate": 0.5485649282464123
+        }
+      ],
+      "M1": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 112,
+          "mean_predicted": 0.04457759599336289,
+          "actual_rate": 0.14285714285714285
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 403,
+          "mean_predicted": 0.15603743275912424,
+          "actual_rate": 0.23573200992555832
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 2223,
+          "mean_predicted": 0.3162877004338972,
+          "actual_rate": 0.35852451641925326
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 3869,
+          "mean_predicted": 0.49979146831617594,
+          "actual_rate": 0.4771258723184285
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 3077,
+          "mean_predicted": 0.6866013257703231,
+          "actual_rate": 0.6785830354241144
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 1744,
+          "mean_predicted": 0.8684602991652967,
+          "actual_rate": 0.8182339449541285
+        }
+      ],
+      "V2_M4_PL": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 149,
+          "mean_predicted": 0.050829664462416144,
+          "actual_rate": 0.18120805369127516
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 396,
+          "mean_predicted": 0.15515999753514978,
+          "actual_rate": 0.22474747474747475
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 2148,
+          "mean_predicted": 0.3171182264067922,
+          "actual_rate": 0.3608007448789572
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 3779,
+          "mean_predicted": 0.5007088109222295,
+          "actual_rate": 0.46864249801534796
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 3201,
+          "mean_predicted": 0.6924039603772404,
+          "actual_rate": 0.6772883473914402
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 1755,
+          "mean_predicted": 0.8663256920014549,
+          "actual_rate": 0.81994301994302
+        }
+      ]
+    },
+    "TOP20": {
+      "M0": [
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 10879,
+          "mean_predicted": 0.16545638385881054,
+          "actual_rate": 0.18779299567974997
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 549,
+          "mean_predicted": 0.25500910746812383,
+          "actual_rate": 0.273224043715847
+        }
+      ],
+      "M1": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 7206,
+          "mean_predicted": 0.03548706633361088,
+          "actual_rate": 0.09658617818484597
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 1393,
+          "mean_predicted": 0.1414302943287868,
+          "actual_rate": 0.22684852835606603
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 1083,
+          "mean_predicted": 0.2824860572483841,
+          "actual_rate": 0.32132963988919666
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 717,
+          "mean_predicted": 0.49746889818688983,
+          "actual_rate": 0.4281729428172943
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 528,
+          "mean_predicted": 0.6911988636363636,
+          "actual_rate": 0.4734848484848485
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 501,
+          "mean_predicted": 0.9175592814371257,
+          "actual_rate": 0.5508982035928144
+        }
+      ],
+      "V2_M4_PL": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 6907,
+          "mean_predicted": 0.03518164181265383,
+          "actual_rate": 0.09251484001737367
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 1608,
+          "mean_predicted": 0.14156467661691544,
+          "actual_rate": 0.22014925373134328
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 1269,
+          "mean_predicted": 0.2827503546099291,
+          "actual_rate": 0.3136327817178881
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 674,
+          "mean_predicted": 0.49729050445103856,
+          "actual_rate": 0.46142433234421365
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 500,
+          "mean_predicted": 0.6921664,
+          "actual_rate": 0.436
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 470,
+          "mean_predicted": 0.9133982978723404,
+          "actual_rate": 0.5808510638297872
+        }
+      ]
+    },
+    "TOP10": {
+      "M0": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 10879,
+          "mean_predicted": 0.08272819192940527,
+          "actual_rate": 0.09559702178509054
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 549,
+          "mean_predicted": 0.12750455373406192,
+          "actual_rate": 0.1493624772313297
+        }
+      ],
+      "M1": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 8955,
+          "mean_predicted": 0.022747805695142377,
+          "actual_rate": 0.05572305974316025
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 916,
+          "mean_predicted": 0.14242401746724892,
+          "actual_rate": 0.1888646288209607
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 959,
+          "mean_predicted": 0.28440500521376433,
+          "actual_rate": 0.251303441084463
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 310,
+          "mean_predicted": 0.48680193548387096,
+          "actual_rate": 0.29354838709677417
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 214,
+          "mean_predicted": 0.6901897196261683,
+          "actual_rate": 0.38317757009345793
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 74,
+          "mean_predicted": 0.8713432432432432,
+          "actual_rate": 0.4864864864864865
+        }
+      ],
+      "V2_M4_PL": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 8872,
+          "mean_predicted": 0.024186406672678087,
+          "actual_rate": 0.053764652840396755
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 1066,
+          "mean_predicted": 0.14087692307692307,
+          "actual_rate": 0.19230769230769232
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 909,
+          "mean_predicted": 0.28281958195819584,
+          "actual_rate": 0.253025302530253
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 337,
+          "mean_predicted": 0.4846261127596439,
+          "actual_rate": 0.32047477744807124
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 164,
+          "mean_predicted": 0.6968853658536586,
+          "actual_rate": 0.4024390243902439
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 80,
+          "mean_predicted": 0.8819025,
+          "actual_rate": 0.45
+        }
+      ]
+    },
+    "TOP5": {
+      "M0": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 11428,
+          "mean_predicted": 0.04243962198109905,
+          "actual_rate": 0.051627581379068956
+        }
+      ],
+      "M1": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 9992,
+          "mean_predicted": 0.015993674939951963,
+          "actual_rate": 0.03292634107285829
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 859,
+          "mean_predicted": 0.1418896391152503,
+          "actual_rate": 0.15250291036088476
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 411,
+          "mean_predicted": 0.2879289537712895,
+          "actual_rate": 0.20194647201946472
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 142,
+          "mean_predicted": 0.4787704225352113,
+          "actual_rate": 0.2887323943661972
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 20,
+          "mean_predicted": 0.6797,
+          "actual_rate": 0.25
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 4,
+          "mean_predicted": 0.84745,
+          "actual_rate": 0.25
+        }
+      ],
+      "V2_M4_PL": [
+        {
+          "lo": 0,
+          "hi": 0.1,
+          "n": 10040,
+          "mean_predicted": 0.017241912350597608,
+          "actual_rate": 0.03247011952191235
+        },
+        {
+          "lo": 0.1,
+          "hi": 0.2,
+          "n": 825,
+          "mean_predicted": 0.14026521212121212,
+          "actual_rate": 0.16
+        },
+        {
+          "lo": 0.2,
+          "hi": 0.4,
+          "n": 402,
+          "mean_predicted": 0.2765144278606965,
+          "actual_rate": 0.22139303482587064
+        },
+        {
+          "lo": 0.4,
+          "hi": 0.6,
+          "n": 121,
+          "mean_predicted": 0.4726,
+          "actual_rate": 0.2644628099173554
+        },
+        {
+          "lo": 0.6,
+          "hi": 0.8,
+          "n": 33,
+          "mean_predicted": 0.6569757575757575,
+          "actual_rate": 0.30303030303030304
+        },
+        {
+          "lo": 0.8,
+          "hi": 1.0,
+          "n": 7,
+          "mean_predicted": 0.8784,
+          "actual_rate": 0.14285714285714285
+        }
+      ]
+    }
+  },
+  "overall_frozen_win_gate_pass": true
+}

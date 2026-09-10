@@ -1,8 +1,8 @@
-"""NEO PUBLIC SITE -- MAIN ONLY LOCKDOWN.
+"""NEO PUBLIC SITE -- APPROVED-ROUTES-ONLY LOCKDOWN.
 
 Regression coverage for scripts/apply_public_site_lockdown.py's effect
 on docs/ (the GitHub Pages publish root). Locks in: only docs/index.html
-serves real content; every other real page/data file was preserved
+and explicitly approved routes serve real content; every other real page/data file was preserved
 (never deleted) under docs_internal_archive/ and replaced in docs/ with
 the exact required placeholder; assets/CNAME/.nojekyll are untouched;
 and -- the hard requirement -- a DIRECT URL to a locked path (not just
@@ -74,6 +74,17 @@ def test_every_enumerated_locked_html_path_is_exactly_the_placeholder():
         assert content == lockdown.PLACEHOLDER_HTML, f"{rel} is not the exact placeholder"
 
 
+def test_kb_pre_is_the_only_released_tournament_route():
+    assert lockdown.RELEASED_HTML_PATHS == {
+        "tournaments/2026/2026090003/pre/index.html",
+    }
+    content = (DOCS / next(iter(lockdown.RELEASED_HTML_PATHS))).read_text(encoding="utf-8")
+    assert content != lockdown.PLACEHOLDER_HTML
+    assert "KB금융 골든라이프 챔피언십" in content
+    assert content.count("class='player-name'") == 120
+    assert content.count("class='player-sponsor'") == 120
+
+
 def test_placeholder_contains_all_four_required_lines():
     html = lockdown.PLACEHOLDER_HTML
     for required in ("NEO GOLF DATA", "공사중", "준비 중입니다.", "홈으로"):
@@ -136,7 +147,6 @@ def test_home_serves_real_content_over_http(docs_server):
 
 @pytest.mark.parametrize("path", [
     "tournaments/", "ranking/", "deep-dive/", "neo-lab/", "about/",
-    "tournaments/2026/2026090003/pre/",
     "tournaments/2026/kg-ladies-open/",
     "tournaments/2026/kg-ladies-open/final/",
     "tournaments/2026/kg-ladies-open/pre/",
@@ -159,6 +169,16 @@ def test_every_locked_path_shows_placeholder_via_direct_http_url(docs_server, pa
     assert "공사중" in body
     for leaked_name in ("김민솔", "서교림", "player-row", "data-player-row"):
         assert leaked_name not in body
+
+
+def test_released_kb_pre_serves_validated_page_via_direct_http_url(docs_server):
+    status, body = _get(docs_server, "tournaments/2026/2026090003/pre/")
+    assert status == 200
+    assert body != lockdown.PLACEHOLDER_HTML
+    assert "KB금융 골든라이프 챔피언십" in body
+    assert body.count("class='player-name'") == 120
+    assert body.count("class='player-sponsor'") == 120
+    assert body.count("class='win'") == 600
 
 
 @pytest.mark.parametrize("bypass_path", [
