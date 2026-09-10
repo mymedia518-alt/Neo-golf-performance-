@@ -1,0 +1,13 @@
+{
+  "schema_version": "kb_r1_official_status_evidence_v1",
+  "_provenance_honesty_note": "This session's own network access to klpga.co.kr is proxy-blocked (established repeatedly throughout this session). No live R1 leaderboard fetch was performed here. This file is a direct TRANSCRIPTION of the official R1 status the owner supplied verbatim in the KB 2026090003 -- R1 OFFICIAL STATUS UPDATE V1 task instruction -- exactly the same provenance class already used for KB_2026090003_ENTRY_LIST_PARTIAL_EVIDENCE_V1.json and OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json. Only the two explicit WD statuses below were supplied; no other player's R1 status (score, CUT, DQ, DNS, or active/in-progress) was reported, so none is asserted here -- see KB_2026090003_R1_STATUS_AUDIT_V1.json's non_wd_count/unknown_status_count fields for how the remaining 118 entrants are classified from this fact alone (absence of a WD report, never inferred from any score).",
+  "reported_by": "owner, via task instruction",
+  "reported_at_utc": "2026-09-10T07:00:00Z",
+  "game_code": "2026090003",
+  "klpga_status_definition": "WD = Withdrawn / 기권 (per KLPGA's own official status vocabulary, as stated by the owner).",
+  "identity_join_key": "player_id (exact match only -- never name-only)",
+  "records": [
+    {"player_id": "11374", "player_name": "전승희", "r1_status": "WD"},
+    {"player_id": "9788", "player_name": "박혜준", "r1_status": "WD"}
+  ]
+}

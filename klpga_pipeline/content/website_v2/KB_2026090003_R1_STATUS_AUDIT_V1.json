@@ -1,0 +1,36 @@
+{
+  "schema_version": "kb_r1_status_audit_v1",
+  "purpose": "KB 2026090003 -- R1 OFFICIAL STATUS UPDATE V1: record official R1 status (WD only, per the evidence actually supplied) against the frozen PRE 120-entrant field, and establish the eligibility contract for forward (R1+) simulation -- WITHOUT deleting WD players from any historical/PRE record and WITHOUT rewriting any frozen PRE probability. No probability model code was touched by this task.",
+  "generated_at_utc": "2026-09-10T07:00:00Z",
+  "game_code": "2026090003",
+
+  "official_entry_count": 120,
+  "pre_field_preserved": true,
+  "field_set_unchanged": true,
+  "pre_field_note": "content/website_v2/2026090003_ENTRY_SNAPSHOT.json, 2026090003_PRE_PUBLIC_MASTER.json, 2026090003_CURRENT_PLAYER_MASTER.json, and every PRE_* prediction/evidence artifact are untouched by this task -- verified by zero git diff on those paths. WD status is recorded as a NEW, additive R1-stage layer only; PRE ENTRY remains exactly 120 and historically immutable.",
+
+  "r1_status_source": "KB_2026090003_R1_OFFICIAL_STATUS_EVIDENCE_V1.json",
+  "source_sha256": "dbf1180275ed19a2021a11e4832a9e44cdd2f410029329c0347fcd3bd30c7776",
+  "r1_observed_count": 2,
+  "r1_observed_count_note": "Only 2 explicit official R1 statuses were supplied (both WD). No live R1 leaderboard/score snapshot was fetched or is available in this sandbox (klpga.co.kr proxy-blocked) -- this audit records status for exactly the players evidence exists for, never infers WD (or any other status) from a missing/partial score for anyone else.",
+
+  "wd_count": 2,
+  "wd_players": [
+    {"playerCode": "11374", "player_name": "전승희", "status": "WD"},
+    {"playerCode": "9788", "player_name": "박혜준", "status": "WD"}
+  ],
+
+  "non_wd_count": 118,
+  "non_wd_count_note": "official_entry_count (120) minus wd_count (2), by exclusion -- these 118 PRE entrants have no official adverse R1 status reported against them, so they are NOT classified WD/DQ/CUT/DNS; this is not an assertion that they are 'active' or hold any specific in-progress status, only that no WD evidence exists for them.",
+
+  "unknown_status_count": 0,
+  "unknown_status_count_note": "No conflicting or unresolved status report exists in the supplied evidence -- every one of the 120 PRE entrants is accounted for as either WD (2, explicit official evidence) or not-WD (118, by absence of any WD report), so there is no ambiguous case in this narrow WD-only status layer.",
+
+  "identity_unresolved": [],
+  "identity_check_note": "Both WD players resolved by exact player_id (playerCode) match against content/website_v2/2026090003_ENTRY_SNAPSHOT.json's 120 official entrants -- never name-only/fuzzy matching. 전승희 -> player_id 11374 (single, unambiguous match). 박혜준 -> player_id 9788 (single, unambiguous match). Both existed in PRE ENTRY before receiving R1 WD status.",
+
+  "forward_simulation_excluded_ids": ["11374", "9788"],
+  "forward_simulation_note": "historical_population (PRE ENTRY, 120 playerCodes, frozen) is kept fully separate from R1_forward_simulation_eligible_population (= historical_population minus forward_simulation_excluded_ids = 118 playerCodes). WD players 전승희/박혜준 remain in every historical/PRE record (never deleted) but must not be eligible to win or finish Top5/Top10/Top20 in any R1-forward simulation once wired in by a future task -- no probability model code or frozen PRE probability was modified by this task; this artifact only establishes the status/eligibility input contract.",
+
+  "r1_status_gate_status": "WD_RECORDED -- 2/2 supplied official WD statuses verified against PRE ENTRY by exact playerCode; PRE field integrity and immutability preserved; not a full R1 leaderboard ingestion (no scores collected or asserted)."
+}
