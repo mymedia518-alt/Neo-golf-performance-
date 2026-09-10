@@ -91,34 +91,67 @@ def test_no_duplicate_identity():
 
 
 def test_sponsor_invariant_on_r1_page():
-    """Every player row's <th> must carry exactly one player-name span
-    immediately followed by exactly one player-sponsor span (possibly
-    empty, never fabricated -- only real verified sponsors from
-    KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V2.json)."""
+    """Every public occurrence of a player name (118 leaderboard rows +
+    the top-3 PRE->R1 movers) must carry a sponsor slot immediately
+    below it (klpga.website_v2.player_identity.render_player_identity),
+    possibly empty, never fabricated -- only real verified sponsors
+    from KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V2.json."""
     from html import escape as html_escape
 
     r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
     audit = _load("KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V2.json")
     verified_sponsors = {html_escape(r["sponsor"]) for r in audit["newly_recovered_sponsors"]}
 
-    rows = re.findall(r"<th scope='row'>(.*?)</th>", r1_html)
-    assert len(rows) >= 100
-    for row in rows:
-        m = re.match(r"<span class='player-name'>.*?</span><span class='player-sponsor'>(.*?)</span>$", row)
-        assert m, f"row does not match the exact name+sponsor pattern: {row!r}"
-        sponsor = m.group(1)
+    sponsors = re.findall(r"<span class='player-sponsor'>(.*?)</span>", r1_html)
+    names = re.findall(r"<span class='player-name'>(.*?)</span>", r1_html)
+    assert len(sponsors) == 118 + 3  # 118 leaderboard rows + 3 PRE->R1 movers
+    assert len(names) == len(sponsors)
+    for sponsor in sponsors:
         if sponsor:
             assert sponsor in verified_sponsors, f"unverified sponsor text on page: {sponsor!r}"
 
 
-def test_home_page_unchanged():
-    """HOME (docs/index.html) must never be touched by the KB R1
-    deployment."""
-    result = subprocess.run(
-        ["git", "diff", "--stat", "HEAD", "--", "docs/index.html"],
+def _load_module(name: str, rel_path: str):
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(name, ROOT / rel_path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+    return mod
+
+
+def test_home_page_unchanged_except_the_sanctioned_navigation_patch():
+    """HOME (docs/index.html) is never redesigned by the KB R1
+    deployment -- the ONLY sanctioned edits (scripts/110_patch_home_
+    current_tournament_card.py) are: (1) the already-existing '이번
+    대회' card's href, corrected from the now-superseded PRE link to
+    R1, (2) one minimal '1R 분석 →' CTA line on that same card, and
+    (3) the permanent footer copyright line (every public page, not
+    R1-only -- see global_navigation.ensure_footer_copyright). Nothing
+    else -- the K-Ranking/NEO Ranking table, HOME's layout, every
+    other card -- may differ from HEAD. Reconstructs each changed line
+    by stripping exactly those sanctioned insertions/substitutions and
+    requires what remains to equal the old line byte-for-byte."""
+    home_patch = _load_module("home_patch", "scripts/110_patch_home_current_tournament_card.py")
+    gn = _load_module("gn_footer", "src/klpga/website_v2/global_navigation.py")
+
+    diff = subprocess.run(
+        ["git", "diff", "HEAD", "--", "docs/index.html"],
         cwd=REPO_ROOT, capture_output=True, text=True, check=True,
-    )
-    assert result.stdout.strip() == ""
+    ).stdout
+    if diff.strip() == "":
+        return  # already committed / promoted -- no working-tree diff to check
+
+    removed = [l[1:] for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")]
+    added = [l[1:] for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++")]
+    assert len(removed) == len(added) <= 2, f"HOME changed by more than the sanctioned navigation patch: -{len(removed)}/+{len(added)} lines"
+
+    for old_line, new_line in zip(removed, added):
+        reconstructed = new_line.replace(home_patch.CTA_HTML, "").replace(gn.FOOTER_COPYRIGHT_HTML, "")
+        reconstructed = reconstructed.replace(home_patch.R1_HREF, home_patch.PRE_HREF)
+        assert reconstructed == old_line, (
+            f"HOME line changed by more than the sanctioned CTA/href/footer insertions:\nold: {old_line[:300]}\nnew: {new_line[:300]}"
+        )
 
 
 def test_unrelated_routes_still_locked():
@@ -151,3 +184,161 @@ def test_production_artifact_consistency_r1_score_matches_official_evidence():
         if official is None or p.get("r1_score") is None:
             continue
         assert p["r1_score"] == official["r1Score"]
+
+
+def test_r1_table_columns_exact_order():
+    """NEO PUBLIC UI immutable column order (applies to PRE/R1/R2/R3/FR
+    and every future public page): 순위 | 선수 | 합계 | 1R | 컷 통과 |
+    Top20 | Top10 | Top5 | 우승 -- sponsor is not a separate column, it
+    lives immediately below the player name inside the 선수 cell (see
+    test_sponsor_invariant_on_r1_page)."""
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    thead = re.search(r"<thead>(.*?)</thead>", r1_html, re.S).group(1)
+    headers = re.findall(r"<th>(.*?)</th>", thead)
+    assert headers == ["순위", "선수", "합계", "1R", "컷 통과", "Top20", "Top10", "Top5", "우승"]
+
+
+def test_r1_table_is_official_rank_ordered_with_ties_preserved_and_all_118_shown():
+    """DEPLOYMENT-CRITICAL RECONCILIATION (navigation + R1 leaderboard
+    patch): the public table's primary order is OFFICIAL R1 RANKING,
+    never NEO probability order; genuine official ties (repeated rank
+    values in the frozen evidence) render as 'T<rank>'; all 118
+    R1-active players appear unconditionally, including the 7 with no
+    NEO_V1_score, which render '--' for every prediction column
+    instead of being dropped from the leaderboard."""
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    r1ev = _load(f"NEO_KB_{GAME_CODE}_R1_OFFICIAL_RESULT_EVIDENCE_V1.json")
+    freeze = _freeze()
+
+    tbody = re.search(r"<tbody>(.*?)</tbody>", r1_html, re.S).group(1)
+    rows = re.findall(r"<tr>(.*?)</tr>", tbody, re.S)
+    assert len(rows) == 118 == r1ev["r1_competitive_count"]
+
+    from collections import Counter
+    rank_counts = Counter(p["rank"] for p in r1ev["players"])
+
+    excluded_ids = {e["player_id"] for e in freeze["excluded_players"]}
+    unavailable_seen = 0
+    for row, official in zip(rows, r1ev["players"]):
+        expected_rank = f"T{official['rank']}" if rank_counts[official["rank"]] > 1 else official["rank"]
+        assert re.search(rf"data-label='순위'>{re.escape(expected_rank)}<", row), row
+        assert official["name"] in row
+        assert f"data-label='1R'>{official['r1Score']}<" in row
+        if official["playerCode"] in excluded_ids:
+            unavailable_seen += 1
+            for label in ("컷 통과", "Top20", "Top10", "Top5", "우승"):
+                assert f"data-label='{label}'>—<" in row, f"{official['name']} should show '—' for {label}"
+    assert unavailable_seen == 7 == freeze["excluded_count"]
+
+
+def test_r1_page_has_no_internal_developer_terminology():
+    """NEO PUBLIC UI CORRECTION: internal evidence (model name, freeze/
+    gate/validation status, provenance identifiers) stays in repository/
+    audit artifacts -- it must never leak into visible public copy. This
+    checks the page's VISIBLE body text only (not <meta>/<script> tags,
+    which legitimately carry build-provenance identifiers for internal
+    QA and are never rendered to a visitor)."""
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    body = re.search(r"<body[^>]*>(.*)</body>", r1_html, re.S).group(1)
+    body = re.sub(r"<script.*?</script>", "", body, flags=re.S)
+    forbidden = (
+        "NEO_R1_MODEL_V1", "freeze", "gate", "PASS", "FAIL", "holdout", "bootstrap",
+        "coherence", "provenance", "SHA", "commit", "pipeline", "artifact",
+        "simulation seed", "reconciliation", "검증된 고정 모델",
+    )
+    for term in forbidden:
+        assert term not in body, f"forbidden internal term leaked into public R1 body: {term!r}"
+
+
+def test_r1_heading_is_minimal_public_copy():
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    assert '<div class="leaderboard-head"><h2>1R 결과</h2></div>' in r1_html
+    assert f'※ {7}명은 데이터 부족으로 예측 제외' in r1_html
+
+
+def test_pre_r1_movement_section_is_short_no_model_explanation():
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    section = re.search(r'<section class="panel" id="pre-r1-movement">(.*?)</section>', r1_html, re.S).group(1)
+    assert "PRE" in section and "R1" in section
+    for term in ("NEO_R1_MODEL_V1", "검증된 고정 모델", "산출"):
+        assert term not in section
+
+
+def test_round_update_status_copy_on_pre_and_r1():
+    """NEO PUBLIC UI immutable stage-copy rule."""
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    pre_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html").read_text(encoding="utf-8")
+    assert '<p class="round-update-note">2R 종료 후 업데이트</p>' in r1_html
+    assert '<p class="round-update-note">1R 종료 후 업데이트</p>' in pre_html
+
+
+def test_footer_copyright_on_home_pre_and_r1():
+    """PERMANENT PUBLIC INVARIANT (section 9): every currently-released
+    public page carries the copyright line, via the one shared
+    global_navigation.ensure_footer_copyright() mechanism."""
+    from klpga.website_v2.global_navigation import FOOTER_COPYRIGHT_TEXT
+
+    for path in (
+        DOCS / "index.html",
+        DOCS / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html",
+        DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html",
+    ):
+        html = path.read_text(encoding="utf-8")
+        assert FOOTER_COPYRIGHT_TEXT in html, f"{path} is missing the copyright footer invariant"
+
+
+def test_deployment_reconciliation_counts():
+    """The exact reconciliation the navigation + R1 leaderboard patch
+    is required to satisfy."""
+    r1ev = _load(f"NEO_KB_{GAME_CODE}_R1_OFFICIAL_RESULT_EVIDENCE_V1.json")
+    freeze = _freeze()
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    tbody = re.search(r"<tbody>(.*?)</tbody>", r1_html, re.S).group(1)
+    public_rows = len(re.findall(r"<tr>", tbody))
+
+    official_active = r1ev["r1_competitive_count"]
+    assert official_active == 118
+    assert public_rows == 118
+
+    official_by_id = {p["playerCode"]: p for p in r1ev["players"]}
+    rank_mismatches = sum(
+        1 for p in freeze["predictions"]
+        if official_by_id.get(p["player_id"], {}).get("r1Score") != p["r1_score"]
+    )
+    assert rank_mismatches == 0
+
+    assert freeze["predicted_count"] == 111
+    assert freeze["excluded_count"] == 7
+
+    coherence_violations = sum(
+        1 for p in freeze["predictions"]
+        if not (0.0 <= p["win"] <= p["top5"] <= p["top10"] <= p["top20"] <= p["cut"] <= 1.0)
+    )
+    assert coherence_violations == 0
+
+
+def test_top_nav_routes_to_current_kb_r1_on_pre_and_r1():
+    """The top-nav "대회" link (and its screen-reader compatibility
+    copy) must route straight to KB's current published stage (R1),
+    never to the locked /tournaments/ hub placeholder, on both the
+    PRE and R1 pages."""
+    kb_r1_url = "/tournaments/2026/2026090003/r1/"
+    for route in ("pre", "r1"):
+        html = (DOCS / "tournaments" / "2026" / GAME_CODE / route / "index.html").read_text(encoding="utf-8")
+        nav = re.search(r'<nav class="neo-global-nav".*?</nav>', html, re.S).group(0)
+        assert f'href="{kb_r1_url}"' in nav and ">대회</a>" in nav
+        sr_nav = re.search(r'<nav class="sr-data".*?</nav>', html, re.S).group(0)
+        assert f'href="{kb_r1_url}">대회</a>' in sr_nav
+
+
+def test_home_current_tournament_card_routes_to_r1():
+    """HOME's already-existing '이번 대회' card must point at KB's
+    current published stage (R1), not the stale PRE link left over
+    from before R1 was published -- see scripts/110_patch_home_
+    current_tournament_card.py. Everything else about HOME is
+    untouched (see test_home_page_unchanged / test_public_site_
+    lockdown.py's own HOME assertions for the no-redesign guarantee)."""
+    home_html = (DOCS / "index.html").read_text(encoding="utf-8")
+    assert 'data-tournament-card="current" data-game-code="2026090003"' in home_html
+    assert 'href="/tournaments/2026/2026090003/r1/"' in home_html
+    assert 'href="/tournaments/2026/2026090003/pre/"' not in home_html

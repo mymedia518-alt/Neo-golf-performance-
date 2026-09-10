@@ -9,6 +9,17 @@ NAVIGATION_MARKER = "data-neo-global-navigation"
 # list. Every route's header is produced by _navigation_html() below (see
 # inject_global_navigation()) so there is exactly one place that can ever
 # define what "NEO" looks like or which section is active.
+#
+# The default "대회" destination stays the generic /tournaments/ hub --
+# this constant is shared by every build in the repo, including isolated
+# per-tournament/candidate builds and test fixtures that have no
+# knowledge of, and no route for, whichever tournament happens to be
+# currently live in production. A caller that needs "대회" to route to a
+# specific currently-published stage (e.g. scripts/109_build_kb_r1_page.py
+# routing it to KB's R1 page while KB is the only real public tournament
+# content) passes nav_overrides={"tournaments": "<url>"} to
+# inject_global_navigation()/navigation_html() instead of changing this
+# shared default -- see PUBLICATION FIX (KB 2026090003).
 GLOBAL_NAV_ITEMS = (
     ("home", "홈", "/"),
     ("tournaments", "대회", "/tournaments/"),
@@ -38,9 +49,11 @@ _BRAND_HTML = '''<a class="neo-global-brand" href="/">
 </a>'''
 
 
-def _nav_html(active_section: str | None) -> str:
+def _nav_html(active_section: str | None, nav_overrides: dict[str, str] | None = None) -> str:
+    overrides = nav_overrides or {}
     links = []
     for key, label, url in GLOBAL_NAV_ITEMS:
+        url = overrides.get(key, url)
         if key == active_section:
             links.append(f'<a href="{url}" class="is-active" aria-current="page">{label}</a>')
         else:
@@ -48,10 +61,13 @@ def _nav_html(active_section: str | None) -> str:
     return '<nav class="neo-global-nav" aria-label="주요 메뉴">\n' + "\n".join(links) + '\n</nav>'
 
 
-def navigation_html(active_section: str | None = None) -> str:
-    """The one canonical header, optionally with a section marked active."""
+def navigation_html(active_section: str | None = None, nav_overrides: dict[str, str] | None = None) -> str:
+    """The one canonical header, optionally with a section marked active
+    and/or a per-call nav_overrides={item_key: url} override (see
+    GLOBAL_NAV_ITEMS's own docstring for why this is an override, not a
+    change to the shared default)."""
     return (f'<header class="neo-global-header" {NAVIGATION_MARKER}>\n'
-            f'<div class="neo-global-header__inner">\n{_BRAND_HTML}\n{_nav_html(active_section)}\n</div></header>')
+            f'<div class="neo-global-header__inner">\n{_BRAND_HTML}\n{_nav_html(active_section, nav_overrides)}\n</div></header>')
 
 
 # Back-compat constant: the no-active-section rendering, still used by any
@@ -70,9 +86,47 @@ NAVIGATION_HTML = navigation_html(None)
 # "NEO GOLF DATA" link stacked under the real footer) per the v3 design
 # pass -- repeating the brand name at the very bottom of every page
 # read as leftover/placeholder chrome, not real content.
-_COMPATIBILITY_MARKER = ('<nav class="sr-data" aria-label="추가 탐색 링크">'
-    '<a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/">대회</a> '
-    '<a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>')
+def _compatibility_marker_html(nav_overrides: dict[str, str] | None = None) -> str:
+    tournaments_url = (nav_overrides or {}).get("tournaments", "/tournaments/")
+    return ('<nav class="sr-data" aria-label="추가 탐색 링크">'
+        '<a href="/">NEO GOLF DATA</a> <a href="/">홈</a> '
+        f'<a href="{tournaments_url}">대회</a> '
+        '<a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>')
+
+
+# Back-compat constant: the no-overrides rendering, still used by any
+# caller that has not been updated to pass nav_overrides explicitly.
+_COMPATIBILITY_MARKER = _compatibility_marker_html()
+
+# FOOTER COPYRIGHT INVARIANT (permanent, all public pages): every real
+# public page must carry this line somewhere in its footer -- see
+# ensure_footer_copyright() below, called from inject_global_navigation()
+# so every page that already goes through the one shared header pass
+# also gets this for free, with no per-page/per-script edits required.
+FOOTER_COPYRIGHT_CLASS = "site-footer__copyright"
+FOOTER_COPYRIGHT_TEXT = "© 2026 NEO GOLF DATA. All Rights Reserved."
+FOOTER_COPYRIGHT_HTML = f'<p class="{FOOTER_COPYRIGHT_CLASS}">{FOOTER_COPYRIGHT_TEXT}</p>'
+_SITE_FOOTER_RE = re.compile(r'(<footer class="site-footer"><div class="site-footer__inner">)(.*?)(</div></footer>)', re.S)
+
+
+def ensure_footer_copyright(html: str) -> str:
+    """Idempotent: if the copyright line is already present, no-op. If a
+    real <footer class="site-footer"> wrapper exists, the copyright line
+    is appended inside it (any existing tagline, e.g. "NEO · Number ·
+    Evidence · Oracle", is left untouched -- this only ADDS the
+    copyright, never replaces a page's own footer text). If no such
+    footer exists yet on this page at all, a minimal stand-alone one is
+    inserted before </body>."""
+    if FOOTER_COPYRIGHT_CLASS in html:
+        return html
+    html, count = _SITE_FOOTER_RE.subn(
+        lambda m: m.group(1) + m.group(2) + FOOTER_COPYRIGHT_HTML + m.group(3),
+        html, count=1,
+    )
+    if count == 1:
+        return html
+    minimal_footer = f'<footer class="site-footer"><div class="site-footer__inner">{FOOTER_COPYRIGHT_HTML}</div></footer>'
+    return html.replace("</body>", minimal_footer + "</body>", 1)
 
 # Two deliberately separate fields -- not one, and not a single SHA
 # claiming to name "this build's own commit".
@@ -152,16 +206,23 @@ def _repair_legacy_mojibake(html: str) -> str:
     except (UnicodeEncodeError, UnicodeDecodeError):
         return html
 
-def inject_global_navigation(html: str, active_section: str | None = None) -> str:
+def inject_global_navigation(html: str, active_section: str | None = None, nav_overrides: dict[str, str] | None = None) -> str:
     """Normalize retained HTML and inject one consistent global nav.
 
     active_section marks which of GLOBAL_NAV_ITEMS is "here" (aria-current
     + a visible active state) -- see navigation_html(). Callers that don't
     know their section yet can omit it; the header is still refreshed to
     the current canonical markup, just with no link marked active.
+
+    nav_overrides={item_key: url} overrides one or more GLOBAL_NAV_ITEMS
+    destinations for THIS call only (see that constant's own docstring) --
+    e.g. a page that must route "대회" to a specific currently-published
+    tournament stage instead of the generic hub, without changing where
+    every other build/page's "대회" link points.
     """
     html = _repair_legacy_mojibake(html)
-    canonical_header = navigation_html(active_section)
+    canonical_header = navigation_html(active_section, nav_overrides)
+    compat_marker = _compatibility_marker_html(nav_overrides)
     replacements = {
         ">HOME</a>": ">홈</a>", ">TOURNAMENTS</a>": ">대회</a>",
         ">DEEP DIVE</a>": ">딥다이브</a>", ">ABOUT</a>": ">소개</a>",
@@ -201,8 +262,23 @@ def inject_global_navigation(html: str, active_section: str | None = None) -> st
         if count != 1:
             raise ValueError("marked header present but could not be matched for refresh")
         if 'href="/">NEO GOLF DATA</a>' not in html:
-            html = html.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)
-        return html
+            html = html.replace('</body>', compat_marker + '</body>', 1)
+        else:
+            # Same "never trusted as already correct" rule as the header
+            # above: an existing compatibility marker is refreshed in
+            # place, not left frozen at whatever it happened to read the
+            # first time this page was stamped -- otherwise its own
+            # "대회" link (a second, separate copy of the destination the
+            # visible nav link above just refreshed) silently drifts out
+            # of sync on every subsequent nav change.
+            html, marker_count = re.subn(
+                r'<nav class="sr-data"[^>]*>.*?</nav>',
+                compat_marker.replace("\\", "\\\\"),
+                html, count=1, flags=re.S,
+            )
+            if marker_count != 1:
+                raise ValueError("compatibility marker present but could not be matched for refresh")
+        return ensure_footer_copyright(html)
     # No separate stylesheet is injected here: every real page template
     # already links /assets/neo-site.css itself (the one stylesheet that
     # actually styles .neo-global-header), so a second, drifting copy
@@ -216,4 +292,4 @@ def inject_global_navigation(html: str, active_section: str | None = None) -> st
         rendered, count = re.subn(r"(<header(?:\s|>))", rf"{canonical_header}\1", html, count=1, flags=re.IGNORECASE)
     if count != 1:
         raise ValueError("public HTML must contain an opening body or header element")
-    return rendered.replace('</body>', _COMPATIBILITY_MARKER + '</body>', 1)
+    return ensure_footer_copyright(rendered.replace('</body>', compat_marker + '</body>', 1))
