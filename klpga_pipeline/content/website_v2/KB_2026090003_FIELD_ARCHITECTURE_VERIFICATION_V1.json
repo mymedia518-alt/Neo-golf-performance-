@@ -1,0 +1,12 @@
+{
+  "schema_version": "kb_field_architecture_verification_v1",
+  "purpose": "NEO KB FIELD + SPONSOR INTEGRITY REPAIR V1, Phase 3: confirm the OFFICIAL ENTRY -> playerCode MASTER JOIN -> K-Ranking -> SG -> Sponsor -> validated NEO metrics architecture this task mandates ALREADY EXISTS and is already correct in 2026090003_CURRENT_PLAYER_MASTER.json / 2026090003_PRE_PUBLIC_MASTER.json -- the defect found by this audit is a stale production BUILD, never a data-architecture defect requiring new join logic.",
+  "generated_at_utc": "2026-09-10T00:00:00Z",
+  "invariant": "FIELD(gameCode) = OFFICIAL_ENTRY(gameCode); K-Ranking/SG/sponsor are enrichment-only and never determine field membership.",
+  "pre_public_master_matches_official_entry_exactly": true,
+  "current_player_master_matches_official_entry_exactly": true,
+  "pre_public_master_symmetric_difference": [],
+  "current_player_master_symmetric_difference": [],
+  "join_direction_confirmed": "LEFT JOIN from 2026090003_ENTRY_SNAPSHOT.json (identity_source=='entry_snapshot' on every record of 2026090003_CURRENT_PLAYER_MASTER.json/2026090003_PRE_PUBLIC_MASTER.json) -- K-Ranking (official_klpga_rank), SG (sg_total_rank), sponsor (current_official_sponsor) are all enrichment columns that can be null without removing the row.",
+  "conclusion": "No new join/field logic was written by this task -- scripts/83/84's existing entry_snapshot-based pipeline was already exactly correct. The only defect was that production's promoted docs/ was built from a stale, pre-tier2-PASS run of scripts/88, which falls back to a gameCode-agnostic K-Ranking TOP120 population when no current tournament has a PASSing Tier-2 gate yet."
+}
