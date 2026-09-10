@@ -1,0 +1,132 @@
+{
+  "schema_version": "kb_r1_model_v1_research_v1",
+  "purpose": "NEO GOLF DATA -- R1 MODEL V1 RESEARCH & VALIDATION. Determine whether a legitimate new R1-update model (PRE prior + observed R1 performance -> POST-R1 CUT/TOP20/TOP10/TOP5/WIN) can be built and walk-forward validated from NEO's existing historical data, with KB 2026090003 held out as a strict evaluation-only target. This artifact records the research, the decisive blocking finding, and why the publication decision is DATA_BLOCKED rather than a fabricated PASS.",
+  "generated_at_utc": "2026-09-10T08:20:00Z",
+  "game_code": "2026090003",
+  "branch": "feat/kb-r1-2026090003",
+  "continued_from_commit": "c2df15f",
+  "production_untouched": {
+    "branch": "neo-website-v2",
+    "commit": "15d43a6a5a65f166d38fcf242453cba22f67af1d",
+    "modified_by_this_task": false
+  },
+
+  "section_3_historical_dataset": {
+    "sources": {
+      "pre_features_and_outcomes": {
+        "file": "content/website_v2/NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json",
+        "sha256": "593fbbdec8c9b7480350243cbdda035816842bded7262afd3ae8baccaa27b9da",
+        "role": "Per player-event PRE-time features (frozen_model.V1_feature_contributions: recent_5_sg, recent_10_sg, long_term_sg, consistency, sample_reliability; each row's validation.future_leakage=false) and final tournament outcome (outcome.finish_position, made_cut, withdrawn, disqualified, tournament_SG_total). Built by scripts/92_build_historical_truth_warehouse.py; its own field.field_provenance is disclosed as SG_ROW_RECONSTRUCTED for 81/82 tournaments (HISTORICAL_TRUTH_COVERAGE_V1.json) -- i.e. this warehouse's own population is NOT an independently-verified entry list, it is reconstructed from which players have a Strokes-Gained row at all. This pre-existing, disclosed limitation is directly relevant to the blocking finding below."
+      },
+      "r1_observed_performance": {
+        "file": "content/website_v2/historical_sg_warehouse.json",
+        "sha256": "80dbdae7f2bcae69aed89de9111361a4ce86a3dcbd90e9072417c344b63ead78",
+        "role": "records where scope=='single_round' and round==1: real, leakage-safe (round-1-only) Strokes Gained component values (total, tee_to_green, off_the_tee, approach, around_green, putting) per player per tournament. This is the only R1-specific, non-KB, leakage-safe performance signal found anywhere in this sandbox (search order per task section 3: sqlite [absent, see KB_2026090003_R1_FEATURE_RECOVERY_V1.json], Truth Warehouse [PRE+outcome only, no R1-specific field], SG warehouse [used here], tournament snapshots [KB-only], BETA artifacts [none frozen, see below])."
+      }
+    },
+    "join_key": "(game_code, player_id)",
+    "kb_holdout_guard": {
+      "kb_game_code": "2026090003",
+      "kb_present_in_truth_warehouse": false,
+      "kb_present_in_r1_sg_warehouse": false,
+      "note": "KB genuinely does not appear in either source corpus -- the holdout required by section 2 needed no filtering, and this absence is itself asserted by an executable test (test_kb_never_appears_in_historical_corpus)."
+    },
+    "coverage": {
+      "tournament_count": 82,
+      "date_range": ["2023-09-01", "2026-08-27"],
+      "player_event_count_total_in_truth_warehouse": 7830,
+      "player_event_count_with_r1_sg_match": 4755,
+      "overall_join_rate": 0.6073,
+      "per_tournament_join_rate_mean": 0.6160,
+      "per_tournament_join_rate_min": 0.4906,
+      "per_tournament_join_rate_max": 1.0
+    }
+  },
+
+  "section_3_5_missingness_analysis": {
+    "purpose": "Task section 3 requires reporting exact missingness, not merely a coverage percentage. This is the decisive finding of the whole research task.",
+    "contingency": {
+      "made_cut_true_total": 4687,
+      "made_cut_true_matched_to_r1_sg": 4687,
+      "made_cut_true_match_rate": 1.0,
+      "made_cut_false_total": 3143,
+      "made_cut_false_matched_to_r1_sg": 68,
+      "made_cut_false_match_rate": 0.021635380209990455
+    },
+    "interpretation": "Every single eventual cut-survivor (4687/4687) has a matching round-1 Strokes-Gained record. Only 2.16% (68/3143) of eventual cut-missers do. This is not missing-completely-at-random: the mere PRESENCE of an R1 SG record in this corpus is a near-perfect (>99% precision, >99.9% since inverse is near-total for cut group) proxy for the made_cut outcome itself. Consistent with the corpus's own disclosed field_provenance=SG_ROW_RECONSTRUCTED (section 3 above): the warehouse's population is built FROM SG rows, and per-round SG detail was overwhelmingly retained only for players who played all four rounds.",
+    "consequence_for_cut_tier": "A walk-forward model trained on 'has R1 SG data' (or any feature derived only from rows that have it) to predict made_cut would not be learning a genuine R1-performance-to-outcome relationship -- it would be trivially reconstructing the labeling artifact of its own training corpus. This is a data-quality/coverage defect, not a temporal-leakage defect (no future round's content is used), but it is equally disqualifying: any CUT-tier metric computed from this dataset would be a measurement of the corpus's own construction, not of NEO's predictive skill. Per this task's own section 8 rule ('If statistical evidence is insufficient: WAIT/BLOCKED not PASS'), this is not repairable by clipping, imputation, or reweighting without inventing an unvalidated assumption about the missing 97.8% of cut-missers' R1 play -- which section 5 explicitly forbids ('Do NOT create tournament-result leakage'; no fabricated substitute values).",
+    "no_alternative_source_found": [
+      "sqlite corpus (klpga.sqlite / data/klpga.sqlite): absent from this sandbox -- re-confirmed; only ephemeral pytest-fixture sqlite files exist elsewhere in the sandbox (record counts 0-21, not a real corpus).",
+      "content/website_v2/historical_sg_series.json: same source (strokesGained_detail), single extra tournament, same structural limitation.",
+      "No full-field (cut-survivors + missers alike) raw round-1 strokes-to-par archive exists anywhere reachable in this sandbox."
+    ]
+  },
+
+  "section_4_r1_normalization_investigated": {
+    "definitions_considered": [
+      {"name": "r1_sg_total_raw", "formula": "SG warehouse round=1 record's `total` field", "leakage_safe": true, "status": "usable only for the ~61% join-covered subset, and that subset is outcome-correlated per section 3.5 -- not usable as a general-field R1 signal"},
+      {"name": "r1_sg_field_z", "formula": "(r1_sg_total_raw - round1_field_mean) / round1_field_stddev, computed only from that tournament's own round-1 records", "leakage_safe": true, "status": "same coverage limitation as above"},
+      {"name": "r1_sg_field_rank", "formula": "rank field already present on the SG warehouse record, presumably rank within that round's reported field", "leakage_safe": true, "status": "same coverage limitation as above"}
+    ],
+    "not_selected_because": "Task section 4 forbids selecting a normalization 'because it works on KB' -- moot here since none of the three passes the more basic requirement of covering the historical field regardless of eventual outcome. This is a data-availability finding, not a selection-among-valid-options decision."
+  },
+
+  "section_5_pre_prior_features_reused": {
+    "source": "NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json records[].frozen_model.V1_feature_contributions",
+    "fields": ["recent_5_sg", "recent_10_sg", "long_term_sg", "consistency", "sample_reliability"],
+    "leakage_status": "Every record's validation.future_leakage is false (pre-verified by the warehouse's own construction, scripts/92_build_historical_truth_warehouse.py); V1_feature_cutoff_date/V1_max_feature_date are strictly before tournament_start_date in all sampled rows checked.",
+    "note": "These were reused unmodified, per the task's explicit prohibition on changing SG calculation to improve results. No PRE feature was invented or altered."
+  },
+
+  "section_6_candidates": {
+    "status": "NOT SPECIFIED -- research stopped at the data-availability stage (sections 3-4) before model-candidate specification, per this task's own ordering (do not select/fit a model before the data problem is resolved). Baseline A (PRE-unchanged) remains trivially available since it uses no R1 input, but comparing it against any R1-informed candidate B/C/D requires the R1 signal this section could not establish for the full field."
+  },
+  "section_7_walk_forward": {"status": "NOT RUN -- blocked upstream by section 3.5"},
+  "section_8_sample_size_guard": {"status": "NOT EVALUATED -- no candidate model was fit"},
+  "section_9_coherence": {"status": "NOT APPLICABLE -- no probabilities were generated for any tier"},
+  "section_10_calibration": {"status": "NOT RUN -- blocked upstream by section 3.5"},
+  "section_11_model_selection": {"status": "NOT RUN -- no candidate passed to a selection stage"},
+  "section_12_freeze": {"status": "NOT FROZEN -- no NEO_R1_MODEL_V1 artifact exists; none was created by this task"},
+  "section_13_apply_to_kb": {"status": "NOT APPLIED -- no frozen model exists to apply; KB's 118 R1-eligible players received zero generated probabilities from this task"},
+  "section_14_kb_r1_freeze": {"status": "NOT CREATED -- no KB R1 5-tier prediction artifact exists"},
+  "section_15_pre_to_r1_movement": {"status": "NOT COMPUTED -- no R1 predictions exist to compare against PRE"},
+
+  "section_17_legacy_preservation": {
+    "round_update.py": {
+      "classification": "LEGACY / BETA R1 MODEL, not compatible with KB 2026090003 production inputs",
+      "modified_by_this_task": false,
+      "modified_by_any_task_this_session": false,
+      "reason": "Documented in KB_2026090003_R1_MODEL_BLOCKER_V1.json (commit 6657eb0) and KB_2026090003_R1_FEATURE_RECOVERY_V1.json (commit c2df15f): requires prior_avg_round_score_to_par / neo_consistency_stddev, which pre_v2.py's frozen output never stores, and the one existing adapter with real substitute data (tournament_pre_state.py) supplies a sign-inverted quantity (SG mean, positive=good) into a field the simulation treats as strokes-to-par (negative=good) -- proven by code trace + a concrete real KB player pair, not assumed."
+    },
+    "historical_research_artifacts": {
+      "deleted_by_this_task": [],
+      "note": "Nothing produced by KB_2026090003_R1_MODEL_BLOCKER_V1.json or KB_2026090003_R1_FEATURE_RECOVERY_V1.json was removed or altered; this artifact supersedes neither -- it extends the investigation with the historical-corpus attempt those two blockers explicitly deferred to ('owner decision: attempt option (b) / build a new model')."
+    }
+  },
+
+  "section_16_publication_decision": "DATA_BLOCKED",
+  "publication_decision_detail": {
+    "primary_reason": "CUT_TIER_MISSINGNESS_NOT_MCAR -- the only leakage-safe R1-performance source (round-1 Strokes-Gained records) is present for 100% of eventual cut-survivors and only 2.16% of eventual cut-missers in the entire 82-tournament, 7830-player-event historical corpus. This is a structural, corpus-construction artifact (field_provenance=SG_ROW_RECONSTRUCTED per the corpus's own pre-existing disclosure), not a fixable sampling gap.",
+    "why_this_blocks_the_full_five_tier_deliverable": "Task section 9 requires 0<=WIN<=TOP5<=TOP10<=TOP20<=CUT<=1 for every player, with CUT as the outer bound of the whole probability stack. Any CUT probability derived from this corpus would be measuring which historical rows happen to have an SG record, not genuine R1-performance-to-cut-outcome skill. Publishing TOP20/TOP10/TOP5/WIN without a validated CUT probability would either (a) silently assume every R1-observed player has already made the cut (false -- at KB's own application point, the cut has not yet happened) or (b) require inventing an unvalidated CUT probability, which section 11 and section 2 both forbid.",
+    "conditional_finding_not_acted_on": "Restricted to the made-cut sub-population only (where join coverage is a genuine, unbiased 100%), a real walk-forward comparison of PRE-only vs PRE+R1-SG-conditional-on-cut IS technically buildable for TOP20/TOP10/TOP5/WIN. This was deliberately NOT built or run in this task: it would answer a narrower, different question ('given a player is known to have made the cut, does R1 improve tier prediction') than the one KB's application requires (a player whose cut status is not yet known), and building it now -- before the CUT-tier blocker is resolved -- risks exactly the kind of piecemeal, KB-anticipating model construction section 2 forbids. It is recorded here as a documented future option, not as a partial result to publish.",
+    "not_tuned_to_pass_or_fail": "No feature was added, removed, or redefined by this task to force this outcome. The missingness pattern was discovered by direct counting against the two source files' real content, reported exactly as found (100.0% vs 2.16%, per-tournament match-rate range 49.06%-100.0%), before any model candidate was specified."
+  },
+
+  "what_would_unblock_this": [
+    "A full-field (not cut-survivor-only) round-1 raw score/strokes-to-par archive covering all 82+ historical tournaments -- most plausibly the absent sqlite corpus's player_round table (data/klpga.sqlite), reachable only from an environment where that database is actually present.",
+    "Alternatively, a re-collection pass against the live klpga.co.kr leaderboard source specifically capturing round-1 scores for CUT/WD/DQ players (not only the strokesGained_detail endpoint, which this task's evidence shows is effectively cut-survivor-only in the corpus as currently built)."
+  ],
+
+  "kb_evidence_reference": {
+    "file": "content/website_v2/NEO_KB_2026090003_R1_OFFICIAL_RESULT_EVIDENCE_V1.json",
+    "sha256": "39b28db58911b5f94796bacb5b42227a8457185f38b1051b2e9202866b03f942",
+    "used_for": "holdout-identity verification only (confirming KB's game_code never appears in the training corpus) -- never inspected for outcome content, never used to select or tune any normalization/candidate, consistent with section 2's strict-holdout requirement."
+  },
+
+  "pre_frozen_artifact_integrity": {
+    "file": "content/website_v2/2026090003_PRE_5PROB_V2_FROZEN.json",
+    "sha256_before_this_task": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "sha256_after_this_task": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "byte_identical": true
+  }
+}
