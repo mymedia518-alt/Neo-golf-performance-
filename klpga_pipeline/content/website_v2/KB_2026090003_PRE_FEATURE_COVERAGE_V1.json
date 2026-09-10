@@ -1,0 +1,91 @@
+{
+  "schema_version": "kb_pre_feature_coverage_v1",
+  "purpose": "KB 2026090003 PRE FROZEN RECONSTRUCTION V1, section 3: inventory of PRE-safe data actually available for the 120 official entrants, per feature family, without manufacturing any missing value.",
+  "generated_at_utc": "2026-09-10T07:15:00Z",
+  "game_code": "2026090003",
+  "stage": "PRE",
+  "field_count": 120,
+
+  "feature_families": [
+    {
+      "family": "official ENTRY / identity (player_id, name, qualification)",
+      "classification": "AVAILABLE_PRE_SAFE",
+      "coverage": {"available": 120, "missing": 0, "total": 120},
+      "source": "content/website_v2/2026090003_ENTRY_SNAPSHOT.json"
+    },
+    {
+      "family": "K-Ranking enrichment (official_rank)",
+      "classification": "AVAILABLE_PRE_SAFE",
+      "coverage": {"available": 120, "missing": 0, "total": 120},
+      "source": "content/website_v2/2026090003_OFFICIAL_KLPGA_RANKING.json",
+      "note": "K-Ranking enriches an official entrant (per this task's own rule); it is never used as a field-membership source. All 120 official entrants matched."
+    },
+    {
+      "family": "Strokes Gained history (current/recent3/recent5/recent10/season2026/multi_season windows x 6 components each: total/tee_to_green/off_the_tee/approach/around_green/putting)",
+      "classification": "AVAILABLE_PRE_SAFE",
+      "coverage_breakdown": {
+        "ENTRY + SUFFICIENT SG": 107,
+        "ENTRY + LIMITED SG": 8,
+        "ENTRY + NO OFFICIAL SG": 5,
+        "total": 120
+      },
+      "coverage": {"available_full_or_limited": 115, "no_official_sg": 5, "missing_entirely": 0, "total": 120},
+      "source": "content/website_v2/2026090003_PRE_PERFORMANCE_SNAPSHOT.json",
+      "note": "Every one of the 120 entrants has a profile row (never absent) -- 5 players are labeled 'NO OFFICIAL SG' (no real SG sample exists for them yet), which this audit reports as-is rather than manufacturing a synthetic value for them."
+    },
+    {
+      "family": "SG total rank (derived ranking of the above)",
+      "classification": "AVAILABLE_PRE_SAFE",
+      "coverage": {"available": 120, "missing": 0, "total": 120},
+      "source": "content/website_v2/2026090003_PRE_SG_TOTAL_RANK.json"
+    },
+    {
+      "family": "M4 win_probability (existing production PRE WIN-only model output)",
+      "classification": "AVAILABLE_PRE_SAFE",
+      "coverage": {"available": 120, "missing": 0, "total": 120},
+      "source": "content/website_v2/2026090003_PRE_WIN_FORECAST.json",
+      "note": "This is a DERIVED OUTPUT (a probability), not a raw per-player feature. It cannot itself serve as pre_5prob.py's required expected_round_score_to_par input -- inverting a softmax output back into a raw strokes-to-par value would produce an arbitrary-unit number, not a real score (see KB_2026090003_PRE_5PROB_STATUS.json's 'not_attempted' section, reproduced here rather than re-litigated)."
+    },
+    {
+      "family": "prior_avg_round_score_to_par (pre_5prob.py's REQUIRED raw score_field, strokes-to-par units)",
+      "classification": "MISSING",
+      "coverage": {"available": 0, "missing": 120, "total": 120},
+      "source": "NONE -- repository-wide search of every committed content/website_v2/2026090003_*.json artifact found this exact field name only as a metadata label inside 2026090003_PRE_WIN_FORECAST.json's own 'model_features' list (documenting which feature M4 consumed), never as an actual per-player value.",
+      "why_missing": "The underlying inference database (sha256 71a191b7...dac56ee3, 43,741,184 bytes, referenced by 2026090003_PRE_WIN_FORECAST.json's own inference_database block) is not present in this sandbox -- confirmed by a repository-wide search finding zero .sqlite/.db files anywhere in this worktree."
+    },
+    {
+      "family": "neo_consistency_stddev (pre_5prob.py's spread_field, same units as the score above)",
+      "classification": "MISSING",
+      "coverage": {"available": 0, "missing": 120, "total": 120},
+      "source": "NONE -- not present under this exact name in any committed KB artifact.",
+      "note": "A DIFFERENT stddev exists in SG units (2026090003_PRE_PERFORMANCE_SNAPSHOT.json's profiles[*].windows[*].components[*].{sample_sd,population_sd}), but pre_5prob.py's spread parameter must be in the SAME unit as its score parameter (strokes-to-par); substituting an SG-unit stddev for a strokes-to-par-unit stddev without a validated conversion would silently corrupt the Monte Carlo's units. Not attempted, per this task's own 'do not manufacture missing values' rule. pre_5prob.build_pre_sim_inputs does gracefully fall back to a population-mean spread when spread_field is absent -- this classification concerns the harder, non-optional score_field requirement above, which has no such fallback."
+    },
+    {
+      "family": "course/context features (venue-specific difficulty, weather, etc.)",
+      "classification": "UNPROVEN",
+      "coverage": {"available": null, "missing": null, "total": 120},
+      "source": "No search for this family was performed beyond confirming it is not referenced anywhere in pre_5prob.py's own required inputs (PreSimInput has exactly two fields: expected_round_score_to_par, spread). Not classified AVAILABLE or MISSING without evidence either way."
+    },
+    {
+      "family": "field-strength inputs (relative strength of this specific 120-entrant field vs. historical norms)",
+      "classification": "UNPROVEN",
+      "coverage": {"available": null, "missing": null, "total": 120},
+      "source": "Not required by pre_5prob.py's current implementation (PreSimInput has no field-strength parameter); not searched further."
+    },
+    {
+      "family": "empirical historical cut fraction (used by pre_5prob.py's cut logic, not per-player)",
+      "classification": "AVAILABLE_PRE_SAFE",
+      "coverage": {"available": "N/A -- global constant, not per-player", "missing": 0, "total": "N/A"},
+      "source": "src/klpga/neo_win/pre_5prob.py's DISCLOSED_HISTORICAL_CUT_FRACTION = 336/602, citing docs/SITE_STRUCTURE_TODO.md's own disclosed made_cut split (real evidence, not invented, not KB-specific -- a cross-tournament empirical constant)."
+    }
+  ],
+
+  "publication_relevant_summary": {
+    "player_coverage_for_pre_5prob_v1": {
+      "AVAILABLE_PRE_SAFE_score_field": 0,
+      "MISSING_score_field": 120,
+      "total": 120
+    },
+    "conclusion": "pre_5prob.py's hard-required per-player score_field (prior_avg_round_score_to_par) has 0/120 coverage for KB's real field in this sandbox. No probability generation is possible for any of the 120 entrants without either (a) the missing sqlite corpus, or (b) inventing a cross-unit conversion this task's own rules forbid. See KB_2026090003_PRE_PROBABILITY_SNAPSHOT_V1.json."
+  }
+}

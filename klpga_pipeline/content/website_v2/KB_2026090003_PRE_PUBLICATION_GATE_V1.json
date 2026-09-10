@@ -1,0 +1,54 @@
+{
+  "schema_version": "kb_pre_publication_gate_v1",
+  "purpose": "KB 2026090003 PRE FROZEN RECONSTRUCTION V1, section 10: the final PRE publication decision for the 5-tier (CUT/TOP20/TOP10/TOP5/WIN) probability layer. Generation success != publication PASS -- this gate evaluates both independently.",
+  "generated_at_utc": "2026-09-10T07:15:00Z",
+  "game_code": "2026090003",
+  "stage": "PRE",
+
+  "checks": {
+    "PRE_FIELD_INTEGRITY": {
+      "status": "PASS",
+      "evidence": "official_entry_count=120, unique playerCode=120, duplicates=0 (KB_2026090003_PRE_FIELD_FREEZE_V1.json). Field is the official ENTRY snapshot, never HOME TOP120, never K-Ranking-sourced."
+    },
+    "TEMPORAL_INTEGRITY": {
+      "status": "PASS",
+      "evidence": "KB_2026090003_PRE_TEMPORAL_AUDIT_V1.json -- explicit cutoff (2026-09-10T00:00:00+09:00) cross-verified against 7 independent existing PRE_* artifacts; temporal_leakage_count=0; the two known R1 WD facts are explicitly excluded and proven excluded by tests/test_kb_pre_frozen_reconstruction_v1.py's WD-leakage test."
+    },
+    "MODEL_PROVENANCE": {
+      "status": "DISCLOSED_NOT_FAITHFUL_RECONSTRUCTION",
+      "evidence": "KB_2026090003_PRE_MODEL_PROVENANCE_V1.json classifies NEO_PRE_5PROB_V1 (the only PRE-stage 5-tier model in this repository) as category B -- a new experimental implementation reusing already-validated feature definitions/constants, never in production, never previously used for any tournament. Not described as 'recovered'."
+    },
+    "INPUT_AVAILABILITY": {
+      "status": "BLOCKED_MISSING_INPUTS",
+      "evidence": "KB_2026090003_PRE_FEATURE_COVERAGE_V1.json -- 0/120 KB entrants have the model's required score_field (prior_avg_round_score_to_par); the underlying sqlite corpus is absent from this sandbox. No probability could legitimately be generated for any of the 120 official entrants (KB_2026090003_PRE_PROBABILITY_SNAPSHOT_V1.json: generated_count=0, blocked_count=120)."
+    },
+    "HISTORICAL_VALIDATION": {
+      "status": "BLOCKED_INSUFFICIENT_SAMPLE",
+      "evidence": "content/website_v2/NEO_PRE_5PROB_BACKTEST_V1.json / NEO_PRE_5PROB_PUBLICATION_GATE_V1.json (both from commit 4c0e8d7, independently re-confirmed by this task -- see below): N=2 historical events total (KG Ladies Open, OK Savings Bank Open), and one of the two (OK) cannot validate the cut dimension at all (n_missed_cut=0, CUT_SURVIVORS_ONLY field of 68/~120). This applies to the model in general, independent of KB."
+    },
+    "PROBABILITY_INVARIANTS": {
+      "status": "NOT_APPLICABLE",
+      "evidence": "0 <= WIN <= TOP5 <= TOP10 <= TOP20 <= 1 cannot be evaluated because zero probabilities were generated for KB. The invariant itself is verified elsewhere (NEO_PRE_5PROB_BACKTEST_V1.json's any_monotonicity_violation=false for the KG/OK smoke test, and tests/test_pre_5prob.py's dedicated monotonicity tests) -- it is a property of the model's own simulate_pre_tournament function, not something re-derived per tournament."
+    }
+  },
+
+  "publication_decision": "BLOCKED_MULTIPLE_REASONS",
+  "publication_decision_detail": {
+    "reason_1": "BLOCKED_MISSING_INPUTS -- KB's own real per-player raw features (prior_avg_round_score_to_par) are not exposed in any committed artifact in this sandbox; the source database is absent.",
+    "reason_2": "BLOCKED_INSUFFICIENT_VALIDATION -- even where NEO_PRE_5PROB_V1 CAN be run (KG, OK), its historical walk-forward sample is N=2, which this task's own rules treat as not statistically powered for any publication decision.",
+    "either_reason_alone_would_block": true,
+    "not_tuned_to_pass": "No weight, threshold, SG formula, volatility parameter, or simulation constant was changed by this task to make either check pass. Both gate failures are reported exactly as found."
+  },
+
+  "frozen_candidate_disposition": {
+    "frozen_snapshot_exists": true,
+    "frozen_snapshot_path": "content/website_v2/KB_2026090003_PRE_PROBABILITY_SNAPSHOT_V1.json",
+    "public_website_status": "OFF -- not wired into any public-facing page or build script by this task. No candidate/, docs/, or HOME/ranking/tournament page references this snapshot.",
+    "rationale": "Per this task's own rule 10: 'If probabilities are scientifically reconstructable but historical validation remains insufficient: preserve the frozen candidate snapshot, but keep it OFF the public website.' KB's case is stronger than that baseline (generation itself is blocked, not merely unvalidated), so the same OFF disposition applies a fortiori."
+  },
+
+  "what_would_unblock_this": [
+    "For INPUT_AVAILABILITY: running the equivalent feature-recomputation for KB from an environment where data/klpga.sqlite (or the corpus content/website_v2/2026090003_PRE_WIN_FORECAST.json's own inference_database block references) is actually present -- no code change, only real input data this sandbox lacks.",
+    "For HISTORICAL_VALIDATION: a real walk-forward backtest across the ~90-100-tournament corpus M4 itself was validated against, once that corpus is reachable from an environment with the sqlite database present."
+  ]
+}
