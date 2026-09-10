@@ -62,10 +62,19 @@ def _get(base: str, path: str) -> tuple[int, str]:
 # Static assertions on the file tree itself
 # ---------------------------------------------------------------------
 
-def test_home_page_is_untouched_real_content():
+def test_home_page_is_real_current_tournament_content():
+    """OWNER UI/ROUTING FINAL PATCH: root HOME temporarily shows the
+    current tournament's latest approved stage (KB R1) instead of the
+    K-Ranking x NEO Ranking page -- see scripts/109_build_kb_r1_page.py's
+    write_root_home() and home_ownership_guard.py's OWNER SUPERSESSION
+    note. The prior real HOME content is preserved, never deleted, at
+    docs_internal_archive/index.html (see test_previous_home_content_
+    preserved_in_archive in test_kb_r1_publication_gate.py)."""
     home = (DOCS / "index.html").read_text(encoding="utf-8")
-    assert "K-Ranking TOP120" in home or "player-row" in home or "data-player-row" in home
     assert "공사중" not in home
+    assert "K-Ranking TOP120" not in home and "player-row" not in home
+    assert "KB금융 골든라이프 챔피언십" in home
+    assert home.count("<tr>") >= 118  # the R1 leaderboard rows
 
 
 def test_every_enumerated_locked_html_path_is_exactly_the_placeholder():

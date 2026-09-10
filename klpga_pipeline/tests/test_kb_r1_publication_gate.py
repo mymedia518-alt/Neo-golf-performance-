@@ -13,7 +13,6 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -111,47 +110,40 @@ def test_sponsor_invariant_on_r1_page():
             assert sponsor in verified_sponsors, f"unverified sponsor text on page: {sponsor!r}"
 
 
-def _load_module(name: str, rel_path: str):
-    import importlib.util
+def test_root_home_is_current_kb_r1_owner_supersession():
+    """OWNER UI/ROUTING FINAL PATCH (section A/B): root HOME = current
+    tournament's latest approved stage (R1) -- a deliberate, owner-
+    approved, one-time ownership transfer (home_ownership_guard.py's
+    CURRENT_TOURNAMENT_OWNER), not a HOME redesign. Verifies root
+    carries the same R1 leaderboard/heading/reconciliation-critical
+    content as the dedicated R1 route, generated from the identical
+    build_r1_page() body (see scripts/109_build_kb_r1_page.py's
+    write_root_home()) -- never a second, independently maintained
+    copy."""
+    home_html = (DOCS / "index.html").read_text(encoding="utf-8")
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
 
-    spec = importlib.util.spec_from_file_location(name, ROOT / rel_path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
-    return mod
+    assert 'content="current-tournament-v1"' in home_html
+    assert '<div class="leaderboard-head"><h2>1R 결과</h2></div>' in home_html
+
+    home_tbody = re.search(r"<tbody>(.*?)</tbody>", home_html, re.S).group(1)
+    r1_tbody = re.search(r"<tbody>(.*?)</tbody>", r1_html, re.S).group(1)
+    assert home_tbody == r1_tbody, "root HOME's leaderboard body must be byte-identical to the R1 route's (single shared build_r1_page() source)"
+
+    nav = re.search(r'<nav class="neo-global-nav".*?</nav>', home_html, re.S).group(0)
+    assert '<a href="/" class="is-active" aria-current="page">홈</a>' in nav
+    assert f'<a href="/tournaments/2026/{GAME_CODE}/r1/">대회</a>' in nav
 
 
-def test_home_page_unchanged_except_the_sanctioned_navigation_patch():
-    """HOME (docs/index.html) is never redesigned by the KB R1
-    deployment -- the ONLY sanctioned edits (scripts/110_patch_home_
-    current_tournament_card.py) are: (1) the already-existing '이번
-    대회' card's href, corrected from the now-superseded PRE link to
-    R1, (2) one minimal '1R 분석 →' CTA line on that same card, and
-    (3) the permanent footer copyright line (every public page, not
-    R1-only -- see global_navigation.ensure_footer_copyright). Nothing
-    else -- the K-Ranking/NEO Ranking table, HOME's layout, every
-    other card -- may differ from HEAD. Reconstructs each changed line
-    by stripping exactly those sanctioned insertions/substitutions and
-    requires what remains to equal the old line byte-for-byte."""
-    home_patch = _load_module("home_patch", "scripts/110_patch_home_current_tournament_card.py")
-    gn = _load_module("gn_footer", "src/klpga/website_v2/global_navigation.py")
-
-    diff = subprocess.run(
-        ["git", "diff", "HEAD", "--", "docs/index.html"],
-        cwd=REPO_ROOT, capture_output=True, text=True, check=True,
-    ).stdout
-    if diff.strip() == "":
-        return  # already committed / promoted -- no working-tree diff to check
-
-    removed = [l[1:] for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")]
-    added = [l[1:] for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++")]
-    assert len(removed) == len(added) <= 2, f"HOME changed by more than the sanctioned navigation patch: -{len(removed)}/+{len(added)} lines"
-
-    for old_line, new_line in zip(removed, added):
-        reconstructed = new_line.replace(home_patch.CTA_HTML, "").replace(gn.FOOTER_COPYRIGHT_HTML, "")
-        reconstructed = reconstructed.replace(home_patch.R1_HREF, home_patch.PRE_HREF)
-        assert reconstructed == old_line, (
-            f"HOME line changed by more than the sanctioned CTA/href/footer insertions:\nold: {old_line[:300]}\nnew: {new_line[:300]}"
-        )
+def test_previous_home_content_preserved_in_archive():
+    """The prior real HOME (K-Ranking x NEO Ranking) is preserved,
+    never deleted, when root is superseded by the current tournament --
+    its own build/data implementation is untouched by this patch."""
+    archive_path = REPO_ROOT / "docs_internal_archive" / "index.html"
+    assert archive_path.is_file()
+    archived = archive_path.read_text(encoding="utf-8")
+    assert "K-Ranking TOP120" in archived or "player-row" in archived or "data-player-row" in archived
+    assert "공사중" not in archived
 
 
 def test_unrelated_routes_still_locked():
@@ -331,14 +323,39 @@ def test_top_nav_routes_to_current_kb_r1_on_pre_and_r1():
         assert f'href="{kb_r1_url}">대회</a>' in sr_nav
 
 
-def test_home_current_tournament_card_routes_to_r1():
-    """HOME's already-existing '이번 대회' card must point at KB's
-    current published stage (R1), not the stale PRE link left over
-    from before R1 was published -- see scripts/110_patch_home_
-    current_tournament_card.py. Everything else about HOME is
-    untouched (see test_home_page_unchanged / test_public_site_
-    lockdown.py's own HOME assertions for the no-redesign guarantee)."""
-    home_html = (DOCS / "index.html").read_text(encoding="utf-8")
-    assert 'data-tournament-card="current" data-game-code="2026090003"' in home_html
-    assert 'href="/tournaments/2026/2026090003/r1/"' in home_html
-    assert 'href="/tournaments/2026/2026090003/pre/"' not in home_html
+def test_ranking_deep_dive_neo_lab_about_still_locked():
+    """OWNER UI/ROUTING FINAL PATCH (section C/P): with root HOME now
+    the current tournament, every other unapproved product page (랭킹,
+    딥다이브, NEO LAB, 소개) must still show the standard construction
+    state -- already enforced by apply_public_site_lockdown.py's
+    LOCKED_HTML_PATHS; this locks in that the new root-HOME patch
+    didn't loosen it."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("lockdown", ROOT / "scripts" / "apply_public_site_lockdown.py")
+    lockdown = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lockdown)  # type: ignore[union-attr]
+
+    for rel in ("ranking/index.html", "deep-dive/index.html", "neo-lab/index.html", "about/index.html"):
+        assert rel in lockdown.LOCKED_HTML_PATHS
+        content = (DOCS / rel).read_text(encoding="utf-8")
+        assert content == lockdown.PLACEHOLDER_HTML, f"{rel} is not the exact placeholder"
+
+
+def test_pre_r1_movement_section_has_no_bullets_and_aligned_rows():
+    """Section I alignment-bug fix: PRE -> R1 uses the site's existing
+    .mover-list flex-row pattern (identity left, movement right, same
+    row, no <ul> default bullet -- list-style:none) instead of a bare
+    <ul>/<li> list, on both the R1 route and root HOME (same shared
+    body)."""
+    for path in (DOCS / "index.html", DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html"):
+        html = path.read_text(encoding="utf-8")
+        section = re.search(r'<section class="panel" id="pre-r1-movement">(.*?)</section>', html, re.S).group(1)
+        assert section.startswith("<h2>PRE → R1</h2>")
+        assert "주요 변동" not in section
+        assert "<ul class='mover-list'>" in section
+        rows = re.findall(r"<li>(.*?)</li>", section, re.S)
+        assert len(rows) == 3
+        for row in rows:
+            assert "<span class='player-name'>" in row and "<span class='player-sponsor'>" in row
+            assert "<span class='delta'>PRE " in row and "→ R1 " in row

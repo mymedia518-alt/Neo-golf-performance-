@@ -47,6 +47,12 @@ R1_PAGE = ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "r1" / "index.htm
 sys.path.insert(0, str(PIPELINE_ROOT / "src"))
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
+from klpga.website_v2.home_ownership_guard import (  # noqa: E402
+    CURRENT_TOURNAMENT_OWNER, TOP120_OWNER, assert_home_write_allowed, embed_owner, extract_owner,
+)
+
+DOCS_INDEX = ROOT / "docs" / "index.html"
+ARCHIVE_INDEX = ROOT / "docs_internal_archive" / "index.html"
 
 # PUBLICATION FIX (KB 2026090003): "대회" routes to KB's current
 # published stage (R1) for THIS page only -- never a change to
@@ -116,9 +122,14 @@ def build_r1_page() -> str:
             movers.append((p["player_name"], sponsor_by_id.get(p["player_id"], ""), pre_win, p["win"]))
     movers.sort(key=lambda m: (m[3] - m[2]), reverse=True)
     top_movers = movers[:3]
+    # Reuses the site's own existing .mover-list/.delta pattern (see
+    # scripts/84_build_ok_open_pre_website_candidate.py's _mover_line) --
+    # already-proven flex row (identity left, movement right, no
+    # bullets, border-bottom separator) instead of a second, newly
+    # invented layout, exactly what the alignment-bug fix calls for.
     movers_html = "".join(
-        f"<li>{render_player_identity(name, sponsor, quote=chr(39))} "
-        f"PRE {pre_w*100:.2f}% → R1 {r1_w*100:.2f}%</li>"
+        f"<li>{render_player_identity(name, sponsor, quote=chr(39))}"
+        f"<span class='delta'>PRE {pre_w*100:.2f}% → R1 {r1_w*100:.2f}%</span></li>"
         for name, sponsor, pre_w, r1_w in top_movers
     )
 
@@ -151,8 +162,8 @@ def build_r1_page() -> str:
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
         + footnote +
         "</section>"
-        '<section class="panel" id="pre-r1-movement"><h2>PRE → R1 주요 변동</h2>'
-        f"<ul>{movers_html}</ul>"
+        '<section class="panel" id="pre-r1-movement"><h2>PRE → R1</h2>'
+        f"<ul class='mover-list'>{movers_html}</ul>"
         "</section>"
     )
 
@@ -198,6 +209,24 @@ def update_pre_page_stage_nav(pre_html: str) -> str:
     return updated
 
 
+def write_root_home(root_html: str) -> None:
+    """OWNER-APPROVED SUPERSESSION: root HOME temporarily becomes the
+    current tournament's latest approved stage (R1) instead of the
+    K-Ranking x NEO Ranking page -- see home_ownership_guard.py's
+    OWNER SUPERSESSION note. The prior real HOME content is preserved
+    (never deleted) under docs_internal_archive/index.html, exactly
+    once, mirroring apply_public_site_lockdown.py's own archive-never-
+    overwrite pattern -- its build/data implementation is untouched."""
+    if DOCS_INDEX.is_file():
+        existing = DOCS_INDEX.read_text(encoding="utf-8")
+        if extract_owner(existing) != CURRENT_TOURNAMENT_OWNER and not ARCHIVE_INDEX.is_file():
+            ARCHIVE_INDEX.parent.mkdir(parents=True, exist_ok=True)
+            ARCHIVE_INDEX.write_text(existing, encoding="utf-8", newline="\n")
+
+    assert_home_write_allowed(DOCS_INDEX, CURRENT_TOURNAMENT_OWNER, repo_root=ROOT, allow_transfer_from=TOP120_OWNER)
+    DOCS_INDEX.write_text(embed_owner(root_html, CURRENT_TOURNAMENT_OWNER), encoding="utf-8", newline="\n")
+
+
 def main() -> int:
     # Refresh PRE's shared header/footer to the current canonical config
     # (global_navigation.py) before deriving anything from it, and route
@@ -210,7 +239,8 @@ def main() -> int:
     pre_html = _ensure_round_update_note(pre_html, "pre")
     header_prefix = pre_html.split("<main>", 1)[0] + "<main>"
     footer_suffix = "</main>" + pre_html.split("</main>", 1)[1]
-    r1_html = header_prefix.replace(">PRE 참가 선수", ">R1 업데이트").replace('"status">PRE<', '"status">R1<') + build_r1_page() + footer_suffix
+    r1_body = build_r1_page()
+    r1_html = header_prefix.replace(">PRE 참가 선수", ">R1 업데이트").replace('"status">PRE<', '"status">R1<') + r1_body + footer_suffix
     r1_html = r1_html.replace("<title>NEO GOLF DATA · KB금융 골든라이프 챔피언십</title>", "<title>NEO GOLF DATA · KB금융 골든라이프 챔피언십 R1</title>")
     r1_html = _ensure_round_update_note(r1_html, "r1")
 
@@ -220,7 +250,16 @@ def main() -> int:
     updated_pre_html = update_pre_page_stage_nav(pre_html)
     PRE_PAGE.write_text(updated_pre_html, encoding="utf-8", newline="\n")
 
-    print(json.dumps({"r1_page": str(R1_PAGE), "pre_page_updated": str(PRE_PAGE)}, ensure_ascii=False))
+    # ROOT HOME = current KB R1 (owner decision -- see write_root_home()).
+    # Reuses the exact same header_prefix/footer_suffix/body (r1_body)
+    # as the R1 route above (never a second, independently maintained
+    # copy), only re-marking "홈" (not "대회") as the active nav link.
+    home_header_prefix = inject_global_navigation(header_prefix, active_section="home", nav_overrides=NAV_OVERRIDES)
+    root_html = home_header_prefix + r1_body + footer_suffix
+    root_html = _ensure_round_update_note(root_html, "r1")
+    write_root_home(root_html)
+
+    print(json.dumps({"r1_page": str(R1_PAGE), "pre_page_updated": str(PRE_PAGE), "root_home": str(DOCS_INDEX)}, ensure_ascii=False))
     return 0
 
 
