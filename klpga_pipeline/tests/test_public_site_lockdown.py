@@ -74,15 +74,27 @@ def test_every_enumerated_locked_html_path_is_exactly_the_placeholder():
         assert content == lockdown.PLACEHOLDER_HTML, f"{rel} is not the exact placeholder"
 
 
-def test_kb_pre_is_the_only_released_tournament_route():
+def test_kb_pre_and_r1_are_the_only_released_tournament_routes():
+    """KB's R1 page was added (see scripts/109_build_kb_r1_page.py,
+    NEO_R1_MODEL_V1_FREEZE.json) once its own publication gate passed
+    -- this supersedes the earlier PRE-only expectation, it does not
+    weaken it: still exactly these two routes, nothing else."""
     assert lockdown.RELEASED_HTML_PATHS == {
         "tournaments/2026/2026090003/pre/index.html",
+        "tournaments/2026/2026090003/r1/index.html",
     }
-    content = (DOCS / next(iter(lockdown.RELEASED_HTML_PATHS))).read_text(encoding="utf-8")
-    assert content != lockdown.PLACEHOLDER_HTML
-    assert "KB금융 골든라이프 챔피언십" in content
-    assert content.count("class='player-name'") == 120
-    assert content.count("class='player-sponsor'") == 120
+    pre_content = (DOCS / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
+    assert pre_content != lockdown.PLACEHOLDER_HTML
+    assert "KB금융 골든라이프 챔피언십" in pre_content
+    assert pre_content.count("class='player-name'") == 120
+    assert pre_content.count("class='player-sponsor'") == 120
+
+    r1_content = (DOCS / "tournaments/2026/2026090003/r1/index.html").read_text(encoding="utf-8")
+    assert r1_content != lockdown.PLACEHOLDER_HTML
+    assert "KB금융 골든라이프 챔피언십" in r1_content
+    # 111 predicted + 7 excluded (no fabricated pre_score) = 118 R1-active rows shown
+    assert r1_content.count("class='player-name'") == 118
+    assert r1_content.count("class='player-sponsor'") == 118
 
 
 def test_placeholder_contains_all_four_required_lines():
