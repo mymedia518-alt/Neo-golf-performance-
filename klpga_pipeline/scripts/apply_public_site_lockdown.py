@@ -66,6 +66,7 @@ LOCKED_HTML_PATHS = [
 # recursive check for every other HTML file under docs/.
 RELEASED_HTML_PATHS = {
     "tournaments/2026/2026090003/pre/index.html",
+    "tournaments/2026/2026090003/r1/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the
