@@ -1,0 +1,30 @@
+{
+  "schema_version": "kb_field_integrity_audit_v2",
+  "supersedes": "KB_2026090003_FIELD_INTEGRITY_AUDIT_V1.json (that file's home_count framing was based on a rejected premise -- see OWNER DECISION below)",
+  "purpose": "OWNER DECISION (verbatim, binding): HOME and TOURNAMENT are two permanently separate player populations that must never substitute for or fall back to one another. HOME_RANKING_UNIVERSE = the persistent K-Ranking TOP120 comparison population (PRODUCT RECOVERY V1 -- unchanged, not audited for tournament-field correctness, K-Ranking TOP120 players who are not KB entrants -- e.g. 황유민 -- are CORRECTLY present there and this is NOT a defect). TOURNAMENT_FIELD(gameCode) = OFFICIAL_ENTRY(gameCode), exactly, with K-Ranking/SG/sponsor as enrichment-only columns that never add or remove a row. This artifact audits ONLY the second population -- the FIELD_INTEGRITY_PASS gate defined below depends solely on TOURNAMENT_FIELD vs OFFICIAL_ENTRY set equality. HOME's own population is out of scope for this gate by explicit owner instruction.",
+  "generated_at_utc": "2026-09-10T00:15:00Z",
+  "game_code": "2026090003",
+  "official_source": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090003 (operator-provided raw HTML, imported as content/website_v2/2026090003_ENTRY_SNAPSHOT.json)",
+  "official_source_sha256": "2b07620dbab514ec553c4068bf03c3fe5c3213b0de29cd28ff39545585ec4a6e",
+  "official_count": 120,
+  "tournament_count": 120,
+  "intersection_count": 120,
+  "TOURNAMENT_ONLY": [],
+  "OFFICIAL_ONLY": [],
+  "duplicates": {
+    "official": [],
+    "tournament": []
+  },
+  "unresolved_ids": [],
+  "cross_check_pre_public_master_vs_current_player_master": true,
+  "huang_yumin_status": {
+    "player_id": "10185",
+    "in_official_entry": false,
+    "in_kb_tournament_field": false,
+    "in_home_ranking_universe": true,
+    "classification": "CORRECTLY_ABSENT_FROM_TOURNAMENT_FIELD -- her presence on HOME is allowed and expected (K-Ranking TOP120 member); her absence from KB's tournament field is required (not a KB entrant) and confirmed here."
+  },
+  "FIELD_INTEGRITY_PASS": true,
+  "FIELD_INTEGRITY_STATUS": "PASS",
+  "gate_note": "HOME's player universe (including whether 황유민 or any other non-entrant K-Ranking player appears there) is explicitly NOT a condition of this gate, per owner decision."
+}

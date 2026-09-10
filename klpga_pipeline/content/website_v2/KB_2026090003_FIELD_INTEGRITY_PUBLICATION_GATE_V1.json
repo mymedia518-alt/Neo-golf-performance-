@@ -1,0 +1,18 @@
+{
+  "schema_version": "kb_field_integrity_publication_gate_v1",
+  "purpose": "Phase 8 (corrected per OWNER DECISION): FIELD_INTEGRITY_PASS decision for KB's TOURNAMENT_FIELD only. HOME's population is explicitly out of scope for this gate.",
+  "generated_at_utc": "2026-09-10T00:16:00Z",
+  "evidence_artifact": "KB_2026090003_FIELD_INTEGRITY_AUDIT_V2.json",
+  "checks": {
+    "official_count_is_120": true,
+    "tournament_count_is_120": true,
+    "official_ids_equal_tournament_ids": true,
+    "tournament_only_is_zero": true,
+    "official_only_is_zero": true,
+    "duplicates_is_zero": true,
+    "pre_public_master_and_current_player_master_agree": true
+  },
+  "FIELD_INTEGRITY_STATUS": "PASS",
+  "home_population_explicitly_excluded_from_this_gate": true,
+  "sponsor_gate_independent_note": "Sponsor completeness is NOT part of this gate -- 30 of 120 official entrants have no verified sponsor evidence anywhere (KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V1.json) and remain correctly visible with a blank sponsor slot; this is required, correct behavior."
+}

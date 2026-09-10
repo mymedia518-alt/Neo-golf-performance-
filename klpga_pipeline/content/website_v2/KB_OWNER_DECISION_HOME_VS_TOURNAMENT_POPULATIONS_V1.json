@@ -1,0 +1,19 @@
+{
+  "schema_version": "owner_decision_v1",
+  "title": "HOME vs TOURNAMENT player populations are permanently separate -- never substitute, never fall back",
+  "decided_at_utc": "2026-09-10T00:10:00Z",
+  "decision_scope": "Binding architecture decision for this codebase's site-generation pipeline (scripts/88 HOME, scripts/83-84 tournament pages). Recorded here so a future task cannot silently re-conflate the two populations again.",
+  "rule": {
+    "HOME_RANKING_UNIVERSE": "The persistent K-Ranking TOP120 comparison population that scripts/88 renders at '/' and '/ranking/' (PRODUCT RECOVERY V1 layout, unchanged by this decision). Its source is data/HOME_PLAYER_MASTER_TOP120.json (a generic, gameCode-agnostic K-Ranking snapshot). A K-Ranking top-120 player who is NOT entered in whichever tournament is currently in progress (e.g. 황유민 relative to KB 2026090003) correctly still appears here -- this is expected, not a defect, and must never be 'fixed' by removing such a player from HOME or by swapping HOME's population source to any tournament's entry list.",
+    "TOURNAMENT_FIELD(gameCode)": "= OFFICIAL_ENTRY(gameCode), exactly, for every tournament this codebase tracks. K-Ranking / SG / sponsor are enrichment-only columns joined onto this fixed row set by player_id -- they can be null without removing a row, and a K-Ranking TOP120 player who is not in this tournament's OFFICIAL_ENTRY must never be added to this population regardless of their K-Ranking rank. Currently implemented by 2026090003_ENTRY_SNAPSHOT.json -> 2026090003_CURRENT_PLAYER_MASTER.json / 2026090003_PRE_PUBLIC_MASTER.json (scripts/83, scripts/84) -- confirmed exact-set-equal with the official entry list; see KB_2026090003_FIELD_ARCHITECTURE_VERIFICATION_V1.json and KB_2026090003_FIELD_INTEGRITY_AUDIT_V2.json.",
+    "no_fallback_either_direction": "Confirmed by source inspection: scripts/83_build_ok_open_pre_public_master.py and scripts/84_build_ok_open_pre_website_candidate.py contain zero references to HOME_PLAYER_MASTER_TOP120.json. scripts/88_build_neo_top120_candidate.py's HOME rendering path is untouched by this task and does not consult any tournament's entry snapshot for its own population."
+  },
+  "corrected_task_goal": "The original framing of this task ('remove 황유민 from HOME') was rejected by the owner. The corrected goal, executed here: prove HOME_RANKING_UNIVERSE and TOURNAMENT_FIELD do not leak into each other, and lock KB's TOURNAMENT_FIELD to the official ENTRY 120 exact-set (already true -- no code change was required for this part; see KB_2026090003_FIELD_INTEGRITY_PUBLICATION_GATE_V1.json, PASS).",
+  "not_changed_by_this_task": [
+    "PRODUCT RECOVERY V1 (HOME layout/architecture)",
+    "HOME's player population source (still data/HOME_PLAYER_MASTER_TOP120.json)",
+    "Any tournament PRE-page-into-HOME composition (still never done)",
+    "NEO Ranking / probability model publication state",
+    "MAIN ONLY LOCKDOWN (docs/ public-site lockdown)"
+  ]
+}

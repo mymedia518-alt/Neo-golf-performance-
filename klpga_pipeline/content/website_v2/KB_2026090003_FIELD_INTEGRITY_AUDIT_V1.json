@@ -1,0 +1,277 @@
+{
+  "schema_version": "kb_field_integrity_audit_v1",
+  "purpose": "NEO KB FIELD + SPONSOR INTEGRITY REPAIR V1, Phase 2: exact-set comparison between the official KB entry list and the player universe actually rendered on production HOME at the time of this audit.",
+  "generated_at_utc": "2026-09-09T23:58:00Z",
+  "game_code": "2026090003",
+  "official_source": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090003 (operator-provided raw HTML, imported as content/website_v2/2026090003_ENTRY_SNAPSHOT.json)",
+  "official_source_sha256": "2b07620dbab514ec553c4068bf03c3fe5c3213b0de29cd28ff39545585ec4a6e",
+  "official_count": 120,
+  "home_count": 120,
+  "intersection_count": 89,
+  "official_only": [
+    {
+      "player_id": "10075",
+      "player_name": "고은혜"
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지"
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4"
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서"
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후"
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영"
+    },
+    {
+      "player_id": "11397",
+      "player_name": "구민지 0706(A)"
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서"
+    },
+    {
+      "player_id": "11480",
+      "player_name": "김연서"
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)"
+    },
+    {
+      "player_id": "11964",
+      "player_name": "윤다감 0907(A)"
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민"
+    },
+    {
+      "player_id": "12069",
+      "player_name": "박조은 0806(A)"
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주"
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민"
+    },
+    {
+      "player_id": "8191",
+      "player_name": "전인지"
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영"
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유"
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정"
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채"
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2"
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영"
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현"
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현"
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경"
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서"
+    }
+  ],
+  "home_only": [
+    {
+      "player_id": "10101",
+      "player_name": "임지유"
+    },
+    {
+      "player_id": "10114",
+      "player_name": "김나영"
+    },
+    {
+      "player_id": "10159",
+      "player_name": "강채연"
+    },
+    {
+      "player_id": "10185",
+      "player_name": "황유민"
+    },
+    {
+      "player_id": "10623",
+      "player_name": "강지선"
+    },
+    {
+      "player_id": "10821",
+      "player_name": "유아현"
+    },
+    {
+      "player_id": "11080",
+      "player_name": "길예람"
+    },
+    {
+      "player_id": "11136",
+      "player_name": "홍수민"
+    },
+    {
+      "player_id": "11211",
+      "player_name": "김도희3"
+    },
+    {
+      "player_id": "11391",
+      "player_name": "양윤서"
+    },
+    {
+      "player_id": "11485",
+      "player_name": "신지우"
+    },
+    {
+      "player_id": "11630",
+      "player_name": "정지효"
+    },
+    {
+      "player_id": "11640",
+      "player_name": "성아진"
+    },
+    {
+      "player_id": "12103",
+      "player_name": "전이안"
+    },
+    {
+      "player_id": "13404",
+      "player_name": "김서아"
+    },
+    {
+      "player_id": "13502",
+      "player_name": "왕 즈쉬엔"
+    },
+    {
+      "player_id": "1734",
+      "player_name": "이민지"
+    },
+    {
+      "player_id": "6781",
+      "player_name": "박주영"
+    },
+    {
+      "player_id": "8375",
+      "player_name": "김효주"
+    },
+    {
+      "player_id": "8424",
+      "player_name": "정슬기"
+    },
+    {
+      "player_id": "8854",
+      "player_name": "서연정"
+    },
+    {
+      "player_id": "8863",
+      "player_name": "윤혜림"
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경"
+    },
+    {
+      "player_id": "9156",
+      "player_name": "한빛나"
+    },
+    {
+      "player_id": "9362",
+      "player_name": "박지영"
+    },
+    {
+      "player_id": "9364",
+      "player_name": "박소혜"
+    },
+    {
+      "player_id": "9398",
+      "player_name": "손연정"
+    },
+    {
+      "player_id": "9748",
+      "player_name": "신유진"
+    },
+    {
+      "player_id": "9786",
+      "player_name": "주가인"
+    },
+    {
+      "player_id": "9807",
+      "player_name": "김서윤2"
+    },
+    {
+      "player_id": "9992",
+      "player_name": "최혜원"
+    }
+  ],
+  "duplicate_ids": {
+    "official": [],
+    "home": []
+  },
+  "unresolved_ids": [],
+  "huang_yumin_status": {
+    "player_id": "10185",
+    "in_official_entry": false,
+    "in_current_home_at_audit_time": true,
+    "classification": "HOME_ONLY"
+  },
+  "root_cause_summary": "Production HOME's player universe was built from data/HOME_PLAYER_MASTER_TOP120.json (a generic K-Ranking TOP120 snapshot, gameCode-agnostic) via scripts/88's RANKING_DEFAULT fallback mode, NOT from KB's own official entry-list-based pipeline (2026090003_CURRENT_PLAYER_MASTER.json / 2026090003_PRE_PUBLIC_MASTER.json, both already exact-match verified against 2026090003_ENTRY_SNAPSHOT.json -- see KB_2026090003_FIELD_ARCHITECTURE_VERIFICATION_V1.json). scripts/88's own logic already correctly selects the entry-list-based TOURNAMENT_PRE mode whenever 2026090003_TIER2_PUBLICATION_GATE.json.overall_state == 'PASS' (confirmed PASS at audit time) -- the live production docs/ was simply never rebuilt+re-promoted since that gate started passing. This is a stale-build/stale-promotion defect, not a data-join defect.",
+  "status": "SUPERSEDED_BY_V2",
+  "supersession_reason": "This file compared HOME_RANKING_UNIVERSE (as rendered on production HOME at audit time) against OFFICIAL_ENTRY and treated the mismatch (including 황유민 being present) as a defect. OWNER DECISION corrected this premise: HOME and TOURNAMENT are two permanently separate populations that must never be compared this way -- HOME is never gameCode-scoped, so a \"home_only\"/\"official_only\" diff against it is not a meaningful defect signal. See KB_2026090003_FIELD_INTEGRITY_AUDIT_V2.json for the corrected audit (TOURNAMENT_FIELD vs OFFICIAL_ENTRY only) and KB_OWNER_DECISION_HOME_VS_TOURNAMENT_POPULATIONS_V1.json for the full decision record. Retained here, unedited otherwise, as an honest record of the investigation path this task actually took."
+}
