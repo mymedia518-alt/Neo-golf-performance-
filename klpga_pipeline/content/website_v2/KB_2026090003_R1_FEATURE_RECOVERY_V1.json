@@ -1,0 +1,73 @@
+{
+  "schema_version": "kb_r1_feature_recovery_v1",
+  "purpose": "KB 2026090003 R1 CONTINUATION (owner decision): attempt to resolve option (b) -- reproduce round_update.py's required prior_avg_round_score_to_par / neo_consistency_stddev features leakage-safely from EXISTING historical data, before considering any new model. This is the full trace, in the 5 priority sources requested.",
+  "generated_at_utc": "2026-09-10T10:15:00Z",
+  "game_code": "2026090003",
+  "feature_definition_trace": {
+    "prior_avg_round_score_to_par": {
+      "canonical_source": "src/klpga/backtest/point_in_time_features.py (module docstring, verified by direct reading, not inferred from name)",
+      "formula": "sum(player_event.score_to_par) / sum(player_event.rounds_played), over every OTHER event strictly before the target tournament's effective start date -- a rounds-weighted per-round rate in STROKES-TO-PAR units (negative = under par = good), never an average of per-event totals.",
+      "source_table": "player_event (columns: score_to_par, rounds_played) inside data/klpga.sqlite",
+      "lookback_window": "unbounded -- every prior event for the player, weighted by rounds_played",
+      "cutoff_semantics": "temporal.is_strictly_before(event_date, target_effective_start_date); the target event's own rows are never included regardless of date",
+      "leakage_risk": "none by construction -- this is exactly the module this whole project relies on to prevent leakage (tests/test_point_in_time_features.py is the mandatory adversarial test suite for it)"
+    },
+    "neo_consistency_stddev": {
+      "canonical_source": "src/klpga/neo_win/consistency.py (module docstring)",
+      "formula": "population standard deviation of a player's per-event scoring outcomes (same prior_events restriction as above)",
+      "source_table": "player_event, same prior-event restriction"
+    }
+  },
+  "feature_source_search": {
+    "priority_1_sqlite": {
+      "searched": true,
+      "result": "ABSENT. Repository-wide search confirms zero .sqlite/.db files exist anywhere in this sandbox (re-confirmed this task, same finding as commits d47a068 and 6657eb0). player_event/player_round tables cannot be queried here."
+    },
+    "priority_2_historical_truth_warehouse": {
+      "searched": true,
+      "file": "content/website_v2/NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json (built by scripts/92_build_historical_truth_warehouse.py)",
+      "result": "WRONG DOMAIN. This warehouse tracks the separate, still-BLOCKED_FORMULA_NOT_APPROVED NEO Ranking model (frozen_model.NEO_V1_score/rank) versus K-Ranking and tournament_SG_total OUTCOME -- it does not carry player_event.score_to_par/rounds_played or anything usable to compute prior_avg_round_score_to_par."
+    },
+    "priority_3_sg_warehouse": {
+      "searched": true,
+      "files": [
+        "content/website_v2/historical_sg_warehouse.json (29,812 real tournament_cumulative/single_round records)",
+        "content/website_v2/2026090003_PRE_PERFORMANCE_SNAPSHOT.json (KB's own 120-player profile, built by scripts/67_build_ok_open_pre_performance.py from the same warehouse)"
+      ],
+      "result": "REAL DATA EXISTS BUT WRONG QUANTITY. Every record in this warehouse carries genuine Strokes Gained components (total/tee_to_green/off_the_tee/approach/around_green/putting) -- a real, leakage-safe, well-covered dataset -- but SG and score-to-par are DIFFERENT metrics with OPPOSITE sign conventions (SG: higher/positive = better; score-to-par: lower/negative = better). No score_to_par field exists anywhere in this warehouse.",
+      "existing_adapter_found": "src/klpga/tournament_pre_state.py:_pre_feature_snapshot() ALREADY populates a NeoWinEntrantSnapshot.prior_avg_round_score_to_par field directly from profile[\"windows\"][\"multi_season\"][\"components\"][\"total\"][\"mean\"] (an SG-total mean) and neo_consistency_stddev from profile[\"consistency\"][\"legacy_sample_sd\"]. This is structurally the exact object shape round_update.py consumes.",
+      "why_not_used": "PROVEN INCOMPATIBLE, not merely unvalidated -- see sign_inversion_proof below. Using it would silently corrupt round_update.simulate_post_round1's ranking direction, which is exactly the failure mode round_update.py's own module docstring warns against for the related shrinkage calculation."
+    },
+    "priority_4_existing_tournament_snapshots": {
+      "searched": true,
+      "result": "OUTPUT ONLY. 2026090003_PRE_WIN_FORECAST.json exposes win_probability (M4's derived output) and names prior_avg_round_score_to_par only as a metadata label in model_features -- never a per-player raw value (independently re-confirmed this task, same finding as commit d47a068)."
+    },
+    "priority_5_beta_artifacts_and_tests": {
+      "searched": true,
+      "result": "NO FROZEN GROUND TRUTH AVAILABLE. scripts/35/44/46 (the real historical BETA #001-R1/R2/R3 pipeline) read frozen NeoWinPredictionSnapshot archives from neo_win_predictions/<year>/*.json (archive_paths()) -- zero such files exist anywhere in this repository/sandbox, so there is no historical frozen prior_avg_round_score_to_par/neo_consistency_stddev value anywhere to validate a recovered feature against, for KG, OK, or any other tournament."
+    }
+  },
+  "sign_inversion_proof": {
+    "method": "round_update.simulate_post_round1 sorts thru36 = r1_score_to_par + r2 (line 270) ascending and takes the LOWEST totals as winners/leaders (lines 282-288) -- i.e. expected_round_score_to_par must be in the SAME lower-is-better strokes-to-par convention as the real r1_score_to_par it is added to, verified by direct reading of the simulation code (no sign-flip or rebasing step exists anywhere in build_sim_inputs_from_frozen_snapshot).",
+    "real_kb_evidence": [
+      {
+        "player_id": "10725",
+        "player_name": "김민솔",
+        "official_k_rank": 1,
+        "sg_multi_season_total_mean": 1.7934,
+        "note": "BEST real KLPGA-ranked player in the KB field"
+      },
+      {
+        "player_id": "8840",
+        "player_name": "정수빈",
+        "official_k_rank": 119,
+        "sg_multi_season_total_mean": 0.27,
+        "note": "WORST-ranked real player in the KB field with a profile"
+      }
+    ],
+    "conclusion": "If profile SG-total means were substituted directly for prior_avg_round_score_to_par, the #1-ranked real player (1.7934) would be assigned a WORSE (higher) expected per-round score-to-par than the #119-ranked player (0.27) -- round_update.py's Monte Carlo would then simulate the #1 player finishing BEHIND the #119 player on average, an inverted, factually wrong prediction. This is a proven correctness defect, not a documentation gap."
+  },
+  "FEATURE_RECOVERY_STATUS": "BLOCKED_DEFINITION_UNRECOVERABLE",
+  "reason_summary": "The real, leakage-safe historical data needed to compute the CORRECT prior_avg_round_score_to_par/neo_consistency_stddev (per_event score_to_par/rounds_played from player_event) is absent from this sandbox (no sqlite). A real, well-covered alternative dataset (Strokes Gained) exists for KB's 118 R1-eligible players, and an existing code adapter (tournament_pre_state.py) already wires it into round_update.py's exact input shape -- but that adapter computes a DIFFERENT, sign-inverted quantity under the historical field name, proven by direct code tracing plus a concrete real-player numeric example, not assumption. Using it would not be feature recovery -- it would be feeding round_update.py a wrong, uncalibrated substitute and calling it the real feature, which this task's owner decision explicitly forbids (\"Do NOT invent definitions\").",
+  "action_taken": "STOPPED at MODEL BLOCKED per this task's own Requirement 10. No new R1 model was designed. round_update.py was not modified. No probability was generated or fabricated. PRE frozen artifact untouched."
+}
