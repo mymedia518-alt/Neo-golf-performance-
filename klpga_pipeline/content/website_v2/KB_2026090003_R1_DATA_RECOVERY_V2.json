@@ -1,0 +1,92 @@
+{
+  "schema_version": "kb_r1_data_recovery_v2",
+  "purpose": "NEO GOLF DATA -- KB R1 DATA RECOVERY -> MODEL -> PRODUCTION DEPLOYMENT, Phase 1-3. Owner instruction: do not stop at DATA_BLOCKED merely because historical_sg_warehouse is survivor-biased -- recover full-field historical R1 truth independently before reopening model work. This artifact records what was actually found, what remains missing, and why the recovery is only partial.",
+  "generated_at_utc": "2026-09-10T11:10:00Z",
+  "game_code": "2026090003",
+  "branch": "feat/kb-r1-2026090003",
+  "continued_from_commit": "800870b",
+  "production_untouched": {
+    "branch": "neo-website-v2",
+    "commit": "15d43a6a5a65f166d38fcf242453cba22f67af1d",
+    "modified_by_this_task": false
+  },
+
+  "phase1_recovery_attempt": {
+    "instruction": "Trace the actual source behind the project's prior full-field R1 population reconstructions (e.g. 120/119/120-player examples) before assuming re-collection is required.",
+    "source_found": {
+      "file": "content/website_v2/HISTORICAL_R1_GROUPING_EVIDENCE_BLOCKER_RESOLUTION_V1.json",
+      "sha256": "dc3eebda37cc221757b54612e04b8471088b29dcdab566a6918ad2906562fc78",
+      "built_by": "scripts/93_resolve_historical_truth_blockers.py, using src/klpga/parsers/group_page_parser.py",
+      "raw_evidence_archive": "evidence/historical_r1_groupings_blocker_resolution_v1/ (82 gzipped official HTML captures, one per historical tournament, each with a recorded response_sha256)",
+      "official_endpoint": "GET https://klpga.co.kr/web/tourInfo/group?gameCode=<code> -- the Round 1/2/3/4 GROUPING (tee-time/pairing) page, published by KLPGA BEFORE each round is played, for logistics purposes.",
+      "field_provenance_of_this_source": "VERIFIED_R1_STARTER -- membership on this page is who was actually assigned a tee time to start the round, independent of that round's or any later round's outcome. Not reconstructed from Strokes-Gained rows.",
+      "coverage": "82/82 historical tournaments (exact 1:1 match with NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json's game_code set -- verified by set difference, both directions empty).",
+      "example_reconciliation": {
+        "2023090001": {"player_count": 120, "note": "matches the owner-cited '...R1 120' pattern"},
+        "2025090001": {"player_count": 120},
+        "2026080001": {"player_count": 119},
+        "note_on_owner_examples": "The owner's cited game_codes (2023040001, 2025090001, 2026080001) do not exactly match this artifact's game_code set or counts one-for-one (2023040001 is not among the 82; 2025090001/2026080001's counts are the reverse of what was cited) -- consistent with recalling the right SOURCE and pattern from memory without the exact numbers. The source itself is confirmed real and correctly identified."
+      },
+      "fields_available_per_player": ["player_id", "player_name", "starting_tee", "tee_time"],
+      "fields_NOT_available": ["r1_score", "r1_to_par", "r1_rank"]
+    },
+    "conclusion": "PARTIAL RECOVERY. This source resolves R1 PARTICIPATION (who genuinely started Round 1, at what tee time, regardless of eventual cut/WD/DQ outcome) -- it is NOT survivor-biased, unlike historical_sg_warehouse.json. It does NOT contain R1 SCORES. A grouping/tee-time page is a pre-round logistics page; it was never a results page and has no score column in any of the 82 captures (confirmed by group_page_parser.py's own documented table schema: starting_tee, tee_time, player identity/name only -- no score field exists on this page type)."
+  },
+
+  "phase1_exhaustive_search_for_full_field_scores": {
+    "instruction": "Search all existing archive/cache/snapshot material for a full-field (not cut-survivor-only) round-1 score source before concluding re-collection is required.",
+    "checked": [
+      {"source": "data/klpga.sqlite or any real sqlite corpus", "result": "ABSENT -- re-confirmed; only tiny pytest-fixture sqlite files (0-21 rows) exist anywhere in this sandbox, none is a real ~82-tournament corpus."},
+      {"source": "content/website_v2/historical_sg_warehouse.json / historical_sg_series.json", "result": "Present but survivor-biased at the source-page level (strokesGained_detail), not merely a join artifact -- see prior finding in KB_2026090003_R1_MODEL_V1_RESEARCH_V1.json."},
+      {"source": "evidence/ directory (all subdirectories)", "result": "Only historical_r1_groupings_blocker_resolution_v1/ contains a full 82-tournament per-round archive; historical_kranking_v1/, historical_kranking_snapshots_v1/, beta001/, current_round_2026120001_r3_20260906/ are unrelated (K-Ranking snapshots, BETA prediction artifacts, one live in-progress tournament capture) -- none contains historical full-field round scores."},
+      {"source": "Any archived roundLeaderboard/result HTML in tests/fixtures or content/", "result": "Only single-tournament test fixtures and KB's own live incoming_evidence exist -- no historical multi-tournament leaderboard corpus."}
+    ],
+    "conclusion": "No existing local/archived material anywhere in this sandbox contains full-field (cut-survivor + cut-miss alike) round-1 SCORES for the 82-tournament historical corpus. Only PARTICIPATION was recoverable."
+  },
+
+  "phase1_controlled_recollection_attempt": {
+    "instruction": "If existing archive evidence is insufficient, perform a controlled re-collection from official KLPGA sources rather than stopping.",
+    "action_taken": "Live reachability re-verified at the time of this task (not assumed from earlier session history):",
+    "checks": [
+      {"target": "https://klpga.co.kr/web/tourInfo/group?gameCode=2023090001", "result": "curl exit 56, CONNECT tunnel failed, HTTP 403 (agent-proxy policy denial)"},
+      {"target": "https://klpga.co.kr/ajax/tourInfo/getGameList", "result": "curl exit 56, CONNECT tunnel failed, HTTP 403 (agent-proxy policy denial)"}
+    ],
+    "conclusion": "Controlled re-collection is not executable from this sandbox: outbound access to klpga.co.kr is denied at the network/proxy layer (organization policy, not an application-level error), identically for both a page this task already has cached (group) and one it does not (getGameList). This is the same restriction independently confirmed multiple times earlier in this session (WebFetch EGRESS_BLOCKED, repeated curl 403). No historical full-field R1 score re-collection could be performed."
+  },
+
+  "phase2_full_field_warehouse": {
+    "status": "PARTIALLY BUILT -- participation only",
+    "note": "A generic point-in-time R1-participation warehouse could be built directly from HISTORICAL_R1_GROUPING_EVIDENCE_BLOCKER_RESOLUTION_V1.json (game_code, player_id, player_name, starting_tee, tee_time, field_size=player_count, source=official grouping page, source_sha256=response_sha256 per record) -- but per Phase 1's minimum-fields requirement (r1_score, r1_to_par, r1_rank, r1_status), the performance fields cannot be populated for any player, cut-survivor or not, from this source. Building this warehouse without the score fields would not move Phase 4 (model reopening) forward, since the R1 MODEL's entire purpose is to condition on R1 PERFORMANCE, not merely R1 attendance. It was therefore not materialized as a separate file in this task -- doing so would be busywork without unblocking anything downstream, and this artifact records the exact reusable join key/fields instead so it is not lost."
+  },
+
+  "phase3_survivor_bias_gate": {
+    "re_run_result": {
+      "made_cut_true_matched_to_r1_sg": "4687/4687 (100.0%) -- unchanged from KB_2026090003_R1_MODEL_V1_RESEARCH_V1.json, historical_sg_warehouse.json was not modified.",
+      "made_cut_false_matched_to_r1_sg": "68/3143 (2.16%) -- unchanged.",
+      "made_cut_true_matched_to_grouping_participation": "confirmed 100% for every sampled tournament (grouping page lists all starters; a player who made the cut necessarily started R1).",
+      "made_cut_false_matched_to_grouping_participation": "expected ~100% for cut-missers who actually started R1 (not verified row-by-row across all 82 tournaments in this task -- would require parsing all 82 gzip captures with group_page_parser.py, which was not run in full here since it cannot resolve the actual blocker (missing scores) even if participation coverage is confirmed complete)."
+    },
+    "verdict": "SG-based survivor bias is UNCHANGED (historical_sg_warehouse.json itself was correctly left unmodified -- fabricating scores into it would violate the no-invented-values rule). The NEW grouping source removes participation-level survivor bias but cannot remove performance-level survivor bias, because it carries no performance field at all. The gate this phase asks to re-run (R1-SG-match-rate by cut outcome) is therefore unchanged and remains disqualifying for CUT-tier modeling."
+  },
+
+  "phase4_10_status": "NOT REOPENED. Reopening the frozen research protocol (candidate specification, walk-forward, calibration, freeze) requires a full-field R1 PERFORMANCE feature, which Phase 1-3 above establish is still not recoverable in this sandbox -- from either existing archives (exhaustively checked) or live re-collection (network-blocked, freshly re-verified, not merely assumed). Proceeding to Phase 4 would require either (a) inventing R1 performance values for the ~97.8% of historical cut-missers who lack them -- explicitly forbidden by this task's own Phase 5 rule against fabricated updates and by the original research task's section 5 leakage rules -- or (b) restricting the model to the cut-survivor sub-population only, which was already identified and deliberately not pursued in KB_2026090003_R1_MODEL_V1_RESEARCH_V1.json because it answers a different question than the one KB's application needs and breaks the required CUT-anchored probability coherence stack.",
+
+  "final_status": "DATA_RECOVERY_BLOCKED",
+  "final_status_detail": {
+    "what_changed_since_800870b": "A real, unbiased, 82/82-tournament full-field R1 PARTICIPATION source was found and verified (HISTORICAL_R1_GROUPING_EVIDENCE_BLOCKER_RESOLUTION_V1.json, backed by 82 archived official HTML captures) -- this directly answers the owner's Phase 1 trace request and is a genuine partial recovery, not a repeat of the prior finding.",
+    "what_did_not_change": "Full-field R1 PERFORMANCE (scores) remains unrecoverable: no archived source contains it, the sqlite corpus is absent, and live re-collection from klpga.co.kr is network-blocked (freshly re-verified via direct curl against two endpoints, both 403 at the proxy layer). Since the R1 model's entire purpose is to condition on observed R1 performance, this is the actual blocker, and it is unchanged.",
+    "not_worked_around": "No score value was fabricated, imputed, or backed into the grouping/participation data to manufacture a workable dataset. No CUT-tier model was fit on the participation-only data pretending it substitutes for performance."
+  },
+
+  "what_would_unblock_this": [
+    "Network access to klpga.co.kr from an environment without this sandbox's proxy policy, to re-collect full-field round-by-round leaderboard results (not the strokesGained_detail endpoint) for the 82 historical tournaments -- the roundLeaderboard endpoint already has a working collector (src/klpga/collectors/leaderboard.py, fixed in this project's own history to retain CUT/WD/DQ players) that has simply never been run against these specific historical tournaments in an environment where it could reach the live site.",
+    "Alternatively, the absent sqlite corpus (data/klpga.sqlite) if it exists and is populated on a machine outside this sandbox, per the same access pattern already used earlier in this session for other KB artifacts (owner pushing a branch, or uploading the file directly)."
+  ],
+
+  "pre_frozen_artifact_integrity": {
+    "file": "content/website_v2/2026090003_PRE_5PROB_V2_FROZEN.json",
+    "sha256_before_this_task": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "sha256_after_this_task": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "byte_identical": true
+  }
+}
