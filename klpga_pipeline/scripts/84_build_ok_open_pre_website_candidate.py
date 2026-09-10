@@ -731,13 +731,48 @@ CSS = """
    exactly as off-screen as before. Same DOM node, same button, same
    #neo-info popover, same JS -- nothing is duplicated. */
 .leaderboard-table thead th.band-head{position:fixed;top:76px;left:auto;right:16px;z-index:15;display:inline-flex;align-items:center;gap:4px;width:auto;max-width:calc(100vw - 32px);padding:6px 10px;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 8px #17202a1a;color:var(--ink);font-size:12px;font-weight:800;text-transform:none;letter-spacing:normal;white-space:nowrap}
-.leaderboard-table tbody tr{display:flex;flex-wrap:wrap;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:#fff}
-.leaderboard-table tbody th[scope=row]{flex:1 1 100%;display:block;border-bottom:1px solid var(--line);padding:2px 0 6px;margin-bottom:4px;min-width:0;text-align:left}
-.leaderboard-table tbody td{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;border-left:1px solid var(--line);padding:2px 4px;text-align:center}
-.leaderboard-table tbody td:first-of-type{border-left:0}
+/* MOBILE HOTFIX 20260911 (KB current-page audit): the previous mobile
+   card packed every metric <td> into ONE flex row with flex:1 1 0 --
+   with 7-8 metric columns (PRE's K-RANKING/NEO 경기력/최근5R SG/4-5
+   probabilities, or a round-result page's 합계/1R/5 probabilities) that
+   shrank each cell to ~35-40px, which forced both the long Korean/
+   English labels ("KLPGA K-RANKING") and the probability values
+   ("88.75%") to hard-wrap one glyph per line inside the cell -- the
+   real root cause of the reported "숫자 겹침"/label collapse, not
+   something overflow:hidden could ever fix. A CSS Grid with
+   auto-fit/minmax now gives every metric cell a real minimum width
+   (84px) and WRAPS extra columns onto additional grid rows inside the
+   same card instead of over-shrinking them -- still zero horizontal
+   scroll, still one player = one card, just as many rows per card as
+   the metric count actually needs. */
+.leaderboard-table tbody tr{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:4px;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:#fff}
+.leaderboard-table tbody th[scope=row]{grid-column:1/-1;display:block;border-bottom:1px solid var(--line);padding:2px 0 6px;margin-bottom:2px;min-width:0;text-align:left}
+.leaderboard-table tbody td{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;background:var(--soft);border-radius:8px;padding:4px 4px;text-align:center}
 .leaderboard-table tbody td::before{content:attr(data-label);color:var(--muted);font-size:9px;font-weight:700;line-height:1.2;text-align:center}
 .leaderboard-table tbody td:nth-child(2){font-size:14px}
 }
+/* MOBILE HOTFIX 20260911 -- round-result leaderboards (R1/R2/R3/FINAL:
+   순위+선수+합계+해당라운드 스코어+5개 확률, in that fixed DOM order)
+   opt into this scoped layout via the leaderboard-table--rank-result
+   modifier class (added only by the round-result page builder -- PRE's
+   own leaderboard-table markup never carries this class, so PRE keeps
+   the generic auto-fit card above untouched). 순위/선수명/합계 read
+   first on one visual line (rank+name left, total score right), 해당
+   라운드 스코어 sits under 합계, and the 5 probability cells form their
+   own full-width 5-column row below -- matching the required public
+   leaderboard reading order (순위 -> 선수 -> 핵심 스코어 -> 스폰서 ->
+   보조 데이터), with sponsor rendered by player_identity.py directly
+   under the player name inside the same <th> (untouched invariant).
+   Both compound classes are on the same <table> element, so this rule
+   (2 classes) always outranks the generic 1-class rule above -- no
+   source-order dependency. */
+.leaderboard-table.leaderboard-table--rank-result tbody tr{grid-template-columns:repeat(5,1fr);grid-template-rows:auto auto;align-items:center;column-gap:6px;row-gap:4px}
+.leaderboard-table.leaderboard-table--rank-result tbody td:nth-child(1){grid-column:1;grid-row:1/3;background:transparent;font-size:16px;font-weight:800}
+.leaderboard-table.leaderboard-table--rank-result tbody th[scope=row]{grid-column:2/5;grid-row:1/3;border-bottom:0;padding:0;margin:0}
+.leaderboard-table.leaderboard-table--rank-result tbody td:nth-child(3){grid-column:5;grid-row:1;background:transparent;font-size:16px;font-weight:800;color:var(--ink)}
+.leaderboard-table.leaderboard-table--rank-result tbody td:nth-child(4){grid-column:5;grid-row:2;background:transparent;font-size:12px;color:var(--muted)}
+.leaderboard-table.leaderboard-table--rank-result tbody td:nth-child(n+5){grid-row:3;background:var(--soft)}
+
 /* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
 .r1-live-summary__grid{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px}.r1-live-summary__grid .label{display:block;color:var(--muted);font-size:12px}.r1-live-summary__grid strong{font-size:16px}
 .mover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.mover-grid h3{font-size:13px;color:var(--muted);margin:0 0 6px}
@@ -745,7 +780,11 @@ CSS = """
 """
 
 def pct(value):
-    return "—" if value is None else f"{float(value)*100:.2f}%"
+    # DECIMAL DISPLAY CONTRACT (mobile hotfix 20260911): every rendered
+    # percentage is formatted to exactly 1 decimal place at this render
+    # boundary only -- the underlying prediction JSON keeps its full
+    # stored precision untouched.
+    return "—" if value is None else f"{float(value)*100:.1f}%"
 def value(value):
     return "—" if value is None else html.escape(str(value))
 
