@@ -6,11 +6,16 @@ from pathlib import Path
 
 import pytest
 
+from klpga.tournament_context import candidate_dir
 from klpga.website_v2.home_ranking import FORMULA_STATE, build_features, join_home_rows, validate_population
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
-OUTPUT = ROOT / "candidate" / "neo-data-home"
+# SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: must resolve
+# through candidate_dir() (honors tests/conftest.py's
+# KLPGA_CANDIDATE_ROOT_OVERRIDE) -- see the identical fix and rationale
+# in test_public_sponsor_contract.py.
+OUTPUT = candidate_dir("neo-data-home")
 
 
 def _load_builder():

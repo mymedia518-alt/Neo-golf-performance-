@@ -14,11 +14,18 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
 CONTENT = ROOT / "content" / "website_v2"
 
 import sys
 sys.path.insert(0, str(ROOT / "src"))
+
+# SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: must resolve
+# through candidate_dir() (honors tests/conftest.py's
+# KLPGA_CANDIDATE_ROOT_OVERRIDE) -- see the identical fix and rationale
+# in test_public_sponsor_contract.py.
+from klpga.tournament_context import candidate_dir  # noqa: E402
+
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 from klpga.website_v2.tournament_chronology import (  # noqa: E402
     TournamentCardFacts,
@@ -79,12 +86,12 @@ def test_every_public_page_shows_number_evidence_oracle(html_files):
     for f in _visible_pages(html_files):
         text = f.read_text(encoding="utf-8")
         if not all(word in text for word in ("NEO GOLF DATA", "NUMBER", "EVIDENCE", "ORACLE")):
-            missing.append(str(f.relative_to(ROOT)))
+            missing.append(str(f.relative_to(OUTPUT)))
     assert missing == [], f"page(s) missing the NEO GOLF DATA / NUMBER / EVIDENCE / ORACLE brand lockup: {missing}"
 
 
 def test_klpga_performance_terminal_appears_nowhere(html_files):
-    offenders = [str(f.relative_to(ROOT)) for f in html_files if "KLPGA PERFORMANCE TERMINAL" in f.read_text(encoding="utf-8")]
+    offenders = [str(f.relative_to(OUTPUT)) for f in html_files if "KLPGA PERFORMANCE TERMINAL" in f.read_text(encoding="utf-8")]
     assert offenders == [], f"retired tagline still present: {offenders}"
 
 
@@ -97,7 +104,7 @@ def test_validating_never_appears_in_visible_public_ui(html_files):
     for f in _visible_pages(html_files):
         visible = _strip_head_and_evidence(f.read_text(encoding="utf-8"))
         if "VALIDATING" in visible:
-            offenders.append(str(f.relative_to(ROOT)))
+            offenders.append(str(f.relative_to(OUTPUT)))
     assert offenders == [], f"internal VALIDATING status visible on: {offenders}"
 
 
@@ -106,7 +113,7 @@ def test_wait_and_blocked_never_appear_as_visible_public_status(html_files):
     for f in _visible_pages(html_files):
         visible = _strip_head_and_evidence(f.read_text(encoding="utf-8"))
         if re.search(r"\bWAIT\b", visible) or re.search(r"\bBLOCKED\b", visible) or "NOT PUBLISHED" in visible:
-            offenders.append(str(f.relative_to(ROOT)))
+            offenders.append(str(f.relative_to(OUTPUT)))
     assert offenders == [], f"internal WAIT/BLOCKED/NOT PUBLISHED status visible on: {offenders}"
 
 
@@ -121,7 +128,7 @@ def test_no_internal_provenance_metadata_visible_in_body(html_files):
         visible = _strip_head_and_evidence(f.read_text(encoding="utf-8"))
         for needle in ("schema_version", "neo-build-id", "neo-build-source-commit", "SHA-256", "population_count", "k_ranking_join"):
             if needle in visible:
-                offenders.append((str(f.relative_to(ROOT)), needle))
+                offenders.append((str(f.relative_to(OUTPUT)), needle))
     assert offenders == [], f"internal pipeline metadata visible in page body: {offenders}"
 
 
@@ -149,7 +156,7 @@ def test_internal_validation_state_korean_phrases_never_appear_anywhere(html_fil
         text = f.read_text(encoding="utf-8")
         for phrase in forbidden:
             if phrase in text:
-                offenders.append((str(f.relative_to(ROOT)), phrase))
+                offenders.append((str(f.relative_to(OUTPUT)), phrase))
     assert offenders == [], f"internal validation-state phrase(s) still present: {offenders}"
 
 

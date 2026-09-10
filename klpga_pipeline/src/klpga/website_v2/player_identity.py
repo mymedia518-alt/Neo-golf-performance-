@@ -58,6 +58,32 @@ def verified_sponsor(record: dict) -> str | None:
 _NEVER_CHECKED_REASON = "optional live profile enrichment was not requested"
 
 
+_OPERATOR_REPORTED_EVIDENCE_FILENAME = "OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json"
+"""SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 (OWNER DECISION): a third,
+explicitly distinct evidence tier alongside a tournament's own direct
+collection and cross_tournament_verified_sponsor_cache's reuse of
+another tournament's collection. This session's own network access to
+klpga.co.kr is proxy-blocked, so it cannot fetch official profile pages
+itself -- when the operator reports having personally checked KLPGA's
+own official player/team information using real network access outside
+this session, that report is recorded verbatim (never fabricated,
+never given a fake retrieval timestamp) in this one file and reused
+here by exact player_id match only, under the identical conflict-drop
+discipline as every other tier. See that file's own
+_provenance_honesty_note for the full disclosure."""
+
+
+def _operator_reported_sponsor_rows(content_dir: Path) -> list[dict]:
+    path = content_dir / _OPERATOR_REPORTED_EVIDENCE_FILENAME
+    if not path.is_file():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    return data.get("records") or []
+
+
 def cross_tournament_verified_sponsor_cache(
     exclude_paths: set[Path] | None = None, content_dir: Path = CONTENT_DIR,
 ) -> dict[str, str]:
@@ -65,12 +91,27 @@ def cross_tournament_verified_sponsor_cache(
     tournament's own *_CURRENT_PLAYER_MASTER.json (whichever game_codes
     happen to exist -- never a hardcoded tournament name), each row
     already gated by verified_sponsor()'s own identity_validation==PASS
-    rule, plus a real official_source. A player_id whose sponsor value
-    disagrees across two different source tournaments is dropped
-    entirely (unresolved, never guessed which one is right)."""
+    rule, plus a real official_source -- PLUS (SPONSOR OFFICIAL-EVIDENCE
+    RECOVERY V2) any operator-reported rows in
+    OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json, an explicitly separate
+    evidence tier for real-world KLPGA checks this session's own
+    network access cannot perform itself (see
+    _operator_reported_sponsor_rows). A player_id whose sponsor value
+    disagrees across any two sources -- cross-tournament or operator-
+    reported -- is dropped entirely (unresolved, never guessed which
+    one is right)."""
     exclude = {p.resolve() for p in (exclude_paths or set())}
     cache: dict[str, str] = {}
     conflicts: set[str] = set()
+
+    def _consider(pid: str, sponsor: str | None) -> None:
+        if not pid or not sponsor:
+            return
+        if pid in cache and cache[pid] != sponsor:
+            conflicts.add(pid)
+            return
+        cache[pid] = sponsor
+
     for path in sorted(content_dir.glob("*_CURRENT_PLAYER_MASTER.json")):
         if path.resolve() in exclude:
             continue
@@ -82,13 +123,15 @@ def cross_tournament_verified_sponsor_cache(
             pid = str(row.get("player_id") or "").strip()
             if not pid or not row.get("official_source"):
                 continue
-            sponsor = verified_sponsor(row)
-            if not sponsor:
-                continue
-            if pid in cache and cache[pid] != sponsor:
-                conflicts.add(pid)
-                continue
-            cache[pid] = sponsor
+            _consider(pid, verified_sponsor(row))
+
+    for row in _operator_reported_sponsor_rows(content_dir):
+        pid = str(row.get("player_id") or "").strip()
+        sponsor = row.get("sponsor")
+        if row.get("evidence_status") != "VERIFIED_OFFICIAL_OPERATOR_REPORTED":
+            continue
+        _consider(pid, sponsor)
+
     for pid in conflicts:
         cache.pop(pid, None)
     return cache

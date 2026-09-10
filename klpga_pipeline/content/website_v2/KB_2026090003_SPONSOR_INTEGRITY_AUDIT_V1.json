@@ -591,5 +591,7 @@
     }
   ],
   "identity_unresolved_players": [],
-  "no_guessing_confirmed": "Every recovered sponsor traces to an exact player_id match against another tournament's own identity_validation=='PASS', official_source-backed record; player_ids with a cross-tournament sponsor DISAGREEMENT were dropped by cross_tournament_verified_sponsor_cache, never guessed at."
+  "no_guessing_confirmed": "Every recovered sponsor traces to an exact player_id match against another tournament's own identity_validation=='PASS', official_source-backed record; player_ids with a cross-tournament sponsor DISAGREEMENT were dropped by cross_tournament_verified_sponsor_cache, never guessed at.",
+  "status": "SUPERSEDED_BY_V2",
+  "supersession_reason": "SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 added a third evidence tier (operator-reported KLPGA checks) and corrected blank-slot terminology from an implicit NO_OFFICIAL_EVIDENCE framing to COLLECTION_BLOCKED (network access to klpga.co.kr is blocked in this sandbox, not proof evidence does not exist). See KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V2.json."
 }

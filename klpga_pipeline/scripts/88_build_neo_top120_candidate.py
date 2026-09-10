@@ -384,7 +384,22 @@ def build() -> dict:
         except PermissionError:
             pass
     OUTPUT.mkdir(parents=True); (OUTPUT / "assets").mkdir(); (OUTPUT / "data").mkdir()
-    preserved = ROOT / "candidate" / "neo-data-home"
+    # SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: this MUST go
+    # through candidate_dir() like every other build output (see
+    # tests/conftest.py's own KLPGA_CANDIDATE_ROOT_OVERRIDE comment) --
+    # a hardcoded ROOT/candidate/neo-data-home literal here bypassed that
+    # test-isolation redirect, so under pytest this read from whatever
+    # STALE content happened to already be sitting in the real,
+    # non-isolated candidate/neo-data-home/ (created by some earlier,
+    # non-isolated `python scripts/86_....py` invocation) while
+    # refresh_preserved_candidate()'s own script-86 build (called just
+    # above) correctly wrote its FRESH output to the isolated temp
+    # override instead -- a real, silent read/write path mismatch, not
+    # a lockdown-specific issue. Confirmed: with no stale leftover
+    # present, pytest failed outright (FileNotFoundError); with stale
+    # lockdown-placeholder leftovers present, pytest silently copied
+    # them forward -- both symptoms of the same root cause.
+    preserved = candidate_dir("neo-data-home")
     for route in ("tournaments", "about", "deep-dive", "archive"):
         shutil.copytree(preserved / route, OUTPUT / route)
     ok_root = OUTPUT / _CONTEXT.url_base.strip("/")

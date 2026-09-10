@@ -15,10 +15,18 @@ from pathlib import Path
 
 import pytest
 
+from klpga.tournament_context import candidate_dir
 from klpga.website_v2.player_identity import normalize_player_sponsor_mentions, render_player_identity, verified_sponsor
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
+# SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: must resolve
+# through candidate_dir() (honors tests/conftest.py's
+# KLPGA_CANDIDATE_ROOT_OVERRIDE) -- a hardcoded ROOT/candidate/... path
+# here silently read whatever STALE, git-tracked content happened to
+# already exist in the real candidate/ dir instead of the fresh build()
+# this file's own `built` fixture triggers below, which itself already
+# correctly writes through candidate_dir().
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 _NAME_SPONSOR_PAIR = re.compile(
     r"<span class=(['\"])(?:player-name|player)\1>[^<>]*</span>"

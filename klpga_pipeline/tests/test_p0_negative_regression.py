@@ -18,6 +18,7 @@ from urllib.parse import urlsplit
 
 import pytest
 
+from klpga.tournament_context import candidate_dir
 from klpga.website_v2.home_ownership_guard import (
     HomeOwnershipError,
     TOP120_OWNER,
@@ -26,7 +27,11 @@ from klpga.website_v2.home_ownership_guard import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
+# SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: must resolve
+# through candidate_dir() (honors tests/conftest.py's
+# KLPGA_CANDIDATE_ROOT_OVERRIDE) -- see the identical fix and rationale
+# in test_public_sponsor_contract.py.
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 # The exact, known mojibake byte pattern found live in production during
 # the Phase 0 audit: CP949 bytes saved into a UTF-8-declared file,
@@ -58,13 +63,13 @@ def test_no_known_mojibake_fragment_in_any_production_html(html_files):
     for f in html_files:
         text = f.read_text(encoding="utf-8")
         if any(frag in text for frag in KNOWN_MOJIBAKE_FRAGMENTS):
-            offenders.append(str(f.relative_to(ROOT)))
+            offenders.append(str(f.relative_to(OUTPUT)))
     assert offenders == [], f"known mojibake fragment found in: {offenders}"
 
 
 # 2. U+FFFD replacement character present
 def test_no_replacement_character_in_any_production_html(html_files):
-    offenders = [str(f.relative_to(ROOT)) for f in html_files if "�" in f.read_text(encoding="utf-8")]
+    offenders = [str(f.relative_to(OUTPUT)) for f in html_files if "�" in f.read_text(encoding="utf-8")]
     assert offenders == [], f"U+FFFD found in: {offenders}"
 
 
@@ -132,7 +137,7 @@ def test_no_internal_href_points_at_a_nonexistent_route(html_files):
             candidate = OUTPUT / path.lstrip("/")
             resolved = candidate if candidate.suffix else candidate / "index.html"
             if not resolved.is_file() and not (OUTPUT / path.lstrip("/")).is_file():
-                broken.append((str(f.relative_to(ROOT)), href))
+                broken.append((str(f.relative_to(OUTPUT)), href))
     assert broken == [], f"internal href(s) pointing at a nonexistent route: {broken}"
 
 
@@ -202,7 +207,7 @@ def test_no_internal_href_targets_a_missing_route_v3(html_files):
             candidate = OUTPUT / path.lstrip("/")
             resolved = candidate if candidate.suffix else candidate / "index.html"
             if not resolved.is_file() and not candidate.is_file():
-                broken.append((str(f.relative_to(ROOT)), href))
+                broken.append((str(f.relative_to(OUTPUT)), href))
     assert broken == [], f"internal href(s) with no matching route: {broken}"
 
 
@@ -215,7 +220,7 @@ def test_every_page_has_exactly_one_canonical_header(html_files):
         text = f.read_text(encoding="utf-8")
         count = len(re.findall(r'<header class="neo-global-header"', text))
         if count != 1:
-            offenders[str(f.relative_to(ROOT))] = count
+            offenders[str(f.relative_to(OUTPUT))] = count
     assert offenders == {}, f"expected exactly 1 canonical header per page: {offenders}"
 
 
@@ -231,9 +236,9 @@ def test_every_header_shows_canonical_brand_text(html_files):
     for f in pages:
         text = f.read_text(encoding="utf-8")
         if '<span class="neo-brand-mark">NEO GOLF DATA</span>' not in text or '<span class="neo-brand-legend"' not in text:
-            missing.append(str(f.relative_to(ROOT)))
+            missing.append(str(f.relative_to(OUTPUT)))
         if 'class="neo-brand-sub"' in text:
-            mixed_legacy.append(str(f.relative_to(ROOT)))
+            mixed_legacy.append(str(f.relative_to(OUTPUT)))
     assert missing == [], f"page(s) missing the canonical brand lockup in their header: {missing}"
     assert mixed_legacy == [], f"page(s) still carrying the retired one-line .neo-brand-sub variant: {mixed_legacy}"
 
@@ -249,9 +254,9 @@ def test_every_page_has_build_provenance_markers(html_files):
     for f in pages:
         text = f.read_text(encoding="utf-8")
         if 'meta name="neo-build-source-commit"' not in text:
-            missing_commit.append(str(f.relative_to(ROOT)))
+            missing_commit.append(str(f.relative_to(OUTPUT)))
         if 'meta name="neo-build-id"' not in text:
-            missing_id.append(str(f.relative_to(ROOT)))
+            missing_id.append(str(f.relative_to(OUTPUT)))
     assert missing_commit == [], f"page(s) missing the neo-build-source-commit <meta> tag: {missing_commit}"
     assert missing_id == [], f"page(s) missing the neo-build-id <meta> tag: {missing_id}"
 
@@ -267,7 +272,7 @@ def test_every_page_has_identical_build_id(html_files):
     for f in pages:
         match = re.search(r'meta name="neo-build-id" content="([^"]*)"', f.read_text(encoding="utf-8"))
         build_id = match.group(1) if match else "<MISSING>"
-        ids.setdefault(build_id, []).append(str(f.relative_to(ROOT)))
+        ids.setdefault(build_id, []).append(str(f.relative_to(OUTPUT)))
     assert len(ids) == 1, f"inconsistent neo-build-id across the built tree: {ids}"
 
 
@@ -286,7 +291,7 @@ def test_every_header_has_exactly_one_active_nav_item(html_files):
         nav_html = text[nav_start:nav_end] if nav_start != -1 else ""
         count = nav_html.count('aria-current="page"')
         if count != 1:
-            offenders[str(f.relative_to(ROOT))] = count
+            offenders[str(f.relative_to(OUTPUT))] = count
     assert offenders == {}, f"expected exactly one active nav item per page: {offenders}"
 
 
@@ -297,5 +302,5 @@ def test_every_tournament_page_has_breadcrumb(html_files):
         f for f in html_files
         if "protected" not in f.parts and "/tournaments/2026/" in f.as_posix()
     ]
-    offenders = [str(f.relative_to(ROOT)) for f in pages if '<nav class="breadcrumb"' not in f.read_text(encoding="utf-8")]
+    offenders = [str(f.relative_to(OUTPUT)) for f in pages if '<nav class="breadcrumb"' not in f.read_text(encoding="utf-8")]
     assert offenders == [], f"tournament page(s) missing the shared breadcrumb: {offenders}"
