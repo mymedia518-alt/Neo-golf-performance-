@@ -1,7 +1,7 @@
-"""NEO PUBLIC SITE -- MAIN ONLY LOCKDOWN.
+"""NEO PUBLIC SITE -- APPROVED-ROUTES-ONLY LOCKDOWN.
 
-Locks the published GitHub Pages tree (docs/) down to ONLY the main
-page ("/"). Every other real HTML page and the one stray data JSON
+Locks the published GitHub Pages tree (docs/) down to the main page
+and explicitly publication-approved routes. Every other real HTML page and the one stray data JSON
 file under docs/ is MOVED (never deleted) to docs_internal_archive/
 at the repo root -- a path outside GitHub Pages' publish root (docs/),
 so it is never served -- and replaced in place with a minimal
@@ -48,7 +48,6 @@ LOCKED_HTML_PATHS = [
     "neo-lab/index.html",
     "ranking/index.html",
     "tournaments/index.html",
-    "tournaments/2026/2026090003/pre/index.html",
     "tournaments/2026/kg-ladies-open/index.html",
     "tournaments/2026/kg-ladies-open/final/index.html",
     "tournaments/2026/kg-ladies-open/pre/index.html",
@@ -61,6 +60,13 @@ LOCKED_HTML_PATHS = [
     "tournaments/2026/ok-savings-bank-open/r2/index.html",
     "tournaments/2026/ok-savings-bank-open/r3/index.html",
 ]
+
+# Public pages that have independently passed their publication gate. Keeping
+# this allow-list explicit makes a release reviewable without weakening the
+# recursive check for every other HTML file under docs/.
+RELEASED_HTML_PATHS = {
+    "tournaments/2026/2026090003/pre/index.html",
+}
 
 # Non-HTML real content that is not an asset and is not linked from the
 # main page -- also locked down (removed from docs/, archived, NOT
@@ -130,7 +136,7 @@ def verify_lockdown() -> list[str]:
 
     for html_file in DOCS.rglob("*.html"):
         rel = str(html_file.relative_to(DOCS))
-        if rel == "index.html":
+        if rel == "index.html" or rel.replace("\\", "/") in RELEASED_HTML_PATHS:
             continue
         content = html_file.read_text(encoding="utf-8")
         if content != PLACEHOLDER_HTML:
@@ -153,4 +159,4 @@ if __name__ == "__main__":
         for p in problems:
             print(f"  - {p}")
         sys.exit(1)
-    print("VERIFY OK: only docs/index.html and docs/assets/** serve real content.")
+    print("VERIFY OK: only docs/index.html, approved routes, and docs/assets/** serve real content.")

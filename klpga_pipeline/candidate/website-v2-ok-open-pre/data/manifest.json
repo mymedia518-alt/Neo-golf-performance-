@@ -7,7 +7,12 @@
     "선수",
     "KLPGA K-RANKING",
     "NEO 경기력 ⓘ",
-    "최근 5R SG"
+    "최근 5R SG",
+    "컷 통과확률",
+    "TOP20",
+    "TOP10",
+    "TOP5",
+    "우승확률"
   ],
-  "probability_distribution_publication_status": "BLOCKED"
+  "probability_distribution_publication_status": "APPROVED"
 }
