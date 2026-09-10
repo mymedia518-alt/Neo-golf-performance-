@@ -116,8 +116,16 @@ def test_no_full_field_r1_score_warehouse_was_created():
 
 
 def test_no_neo_r1_model_v1_was_frozen():
+    """At the time of THIS commit (DATA_RECOVERY_BLOCKED), no model had
+    been frozen -- superseded by NEO_R1_MODEL_V1_FREEZE.json once real
+    full-field R1 data made validation possible (see
+    KB_2026090003_R1_KB_APPLICATION_BLOCKER_V1.json and
+    tests/test_r1_model_v1.py). This guard now only checks that no
+    OTHER, unexpected R1-model artifact exists alongside the legitimate
+    one."""
     for pattern in ("NEO_R1_MODEL_V1*.json", "*R1_MODEL_V1_FROZEN*.json"):
-        assert list(CONTENT.glob(pattern)) == []
+        unexpected = [p for p in CONTENT.glob(pattern) if p.name != "NEO_R1_MODEL_V1_FREEZE.json"]
+        assert unexpected == []
 
 
 def test_no_kb_r1_predictions_or_page_were_created():

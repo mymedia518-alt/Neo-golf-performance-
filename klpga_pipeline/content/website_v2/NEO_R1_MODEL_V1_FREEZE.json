@@ -1,0 +1,100 @@
+{
+  "schema_version": "neo_r1_model_v1_freeze",
+  "model_id": "NEO_R1_MODEL_V1",
+  "purpose": "Frozen record of the R1-update model validated by chronological walk-forward on the full-field historical R1 warehouse (survivor-bias resolved). After this freeze: NO KB-driven changes to any coefficient, feature definition, or selection rule below.",
+  "generated_at_utc": "2026-09-10T12:40:00Z",
+  "code_module": "src/klpga/neo_win/r1_model_v1.py",
+
+  "training_cutoff": "2026-08-27",
+  "training_corpus": {
+    "tournament_count": 82,
+    "player_event_count": 7827,
+    "date_range": ["2023-09-01", "2026-08-27"],
+    "excluded_rows": 3,
+    "excluded_reason": "3 player-events had a made_cut=true outcome with no finish_position on record -- excluded rather than guessed (never assigned a tier label from an assumption)."
+  },
+  "kb_holdout": {
+    "game_code": "2026090003",
+    "present_in_historical_truth_warehouse": false,
+    "present_in_historical_r1_full_field_warehouse": false,
+    "used_for_training_feature_selection_or_calibration": false,
+    "note": "KB never appears in either source corpus -- confirmed by direct membership check, not merely asserted."
+  },
+
+  "source_datasets": {
+    "NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json": {
+      "sha256": "593fbbdec8c9b7480350243cbdda035816842bded7262afd3ae8baccaa27b9da",
+      "role": "PRE-time features (frozen_model.NEO_V1_score) + final outcome (made_cut, finish_position) per historical player-event."
+    },
+    "NEO_HISTORICAL_R1_FULL_FIELD_V1.json": {
+      "sha256": "0adf8171cd88c1de108dcaca43cf3e9ae5206cbac86318766292c60f818b4432",
+      "role": "Full-field (CUT/WD/DQ-inclusive) round-1 raw scores, recovered on 2026-09-10 to replace the survivor-biased historical_sg_warehouse.json source -- see commit 9978ecf on feat/kb-r1-2026090003."
+    }
+  },
+  "survivor_bias_resolution": {
+    "before": {"cut_survivor_coverage": "4687/4687 = 100.00%", "cut_misser_coverage": "68/3143 = 2.16%"},
+    "after": {"cut_survivor_coverage": "4687/4687 = 100.00%", "cut_misser_coverage": "3143/3143 = 100.00%"},
+    "duplicate_containing_events": 0,
+    "field_size_mismatches_vs_grouping_evidence_gt10": 0,
+    "identity_unresolved_full_field_rows_not_in_truth_warehouse": 1852,
+    "identity_unresolved_disposition": "These 1852 full-field R1 starters have no matching Truth Warehouse outcome record (that warehouse's own population is itself SG_ROW_RECONSTRUCTED and incomplete) -- excluded from training since no supervised label exists for them. every Truth Warehouse row DID find a full-field R1 match (0 missing joins on the label side)."
+  },
+
+  "feature_definitions": {
+    "pre_score": {
+      "source": "NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json records[].frozen_model.NEO_V1_score",
+      "description": "PRE-time NEO Ranking V1 composite strength score, already leakage-verified by that warehouse's own construction (validation.future_leakage=false on every row). Higher = better.",
+      "not_reused_from": "This is NOT pre_v2.py / NEO_PRE_5PROB_V2 (KB's live PRE model) -- a structurally different model family. See KB_2026090003_R1_KB_APPLICATION_BLOCKER_V1.json for why."
+    },
+    "r1_z": {
+      "formula": "-(r1_to_par - field_mean) / field_stddev, computed per-tournament from that tournament's own full recovered R1 field only",
+      "leakage_safe": true,
+      "source": "NEO_HISTORICAL_R1_FULL_FIELD_V1.json"
+    }
+  },
+  "feature_standardization": {
+    "pre_score": {"mean": 0.0469895136744602, "std": 0.8694476250189915},
+    "r1_z": {"mean": 0.08811534179410624, "std": 0.9544810344206671},
+    "note": "Fit on the FULL 82-tournament corpus for this freeze (walk-forward validation itself used train-fold-only standardization at each step -- see validation_metrics)."
+  },
+
+  "model_form": "Nested conditional logistic chain -- P(made_cut), P(top20|made_cut), P(top10|top20), P(top5|top10), P(win|top5), each a 2-feature logistic regression (intercept + pre_score + r1_z), composed by multiplication. See src/klpga/neo_win/r1_model_v1.py module docstring for the exact equations and the coherence proof (0<=win<=top5<=top10<=top20<=cut<=1 by construction, never by clipping).",
+  "chain_coefficients": {
+    "made_cut": {"intercept": 0.5774392981724348, "coef_pre_score": 0.48250054273950177, "coef_r1_z": 1.7860838065233837, "n_train": 7827, "n_positive": 4687},
+    "top20": {"intercept": -1.4274163106098317, "coef_pre_score": 0.7665780609703265, "coef_r1_z": 1.028359438790535, "n_train": 4687, "n_positive": 1690},
+    "top10": {"intercept": -0.8313328152934988, "coef_pre_score": 0.3839540081075844, "coef_r1_z": 0.7827555492257763, "n_train": 1690, "n_positive": 872},
+    "top5": {"intercept": -0.8615642963900275, "coef_pre_score": 0.3569500327967934, "coef_r1_z": 0.6166529428188612, "n_train": 872, "n_positive": 446},
+    "win": {"intercept": -2.3624814258584754, "coef_pre_score": 0.17852802556084985, "coef_r1_z": 0.4897379112975217, "n_train": 446, "n_positive": 75}
+  },
+  "fitting_method": "Gradient descent, 300 iterations, learning rate 0.5, fixed L2 ridge 1e-3 (a disclosed numerical-stability constant, never tuned to favor a result) -- deterministic given the training rows, no stochastic step anywhere in fitting.",
+
+  "candidate_selection": {
+    "baseline_A": "PRE-unchanged (pre_score only, same nested-chain form)",
+    "candidate_B_selected": "pre_score + r1_z (this freeze)",
+    "candidate_C_considered_not_selected": "pre_score + r1_z + consistency -- walk-forward Brier improvement over B was <0.0006 on every tier (e.g. made_cut 0.14618 vs 0.14609), not a meaningful gain for the added complexity. Selection rule (fixed before this comparison): prefer the simplest candidate unless a more complex one improves tournament-level mean Brier by a non-trivial margin on a majority of tiers.",
+    "selection_finalized_before_kb_was_inspected": true
+  },
+
+  "validation_metrics": {
+    "method": "Chronological walk-forward, threshold=10 (minimum 10 strictly-prior tournaments to be an eligible target), 72 eligible target tournaments out of 82, refit at every step from a fresh train-fold-only standardization -- no target-tournament or later-tournament row ever entered a training fold.",
+    "per_tier": {
+      "made_cut": {"n_tournaments": 72, "n_positive_rows": 4151, "mean_brier_A": 0.21291, "mean_brier_B": 0.14618, "mean_brier_improvement": 0.06475, "bootstrap_95ci": [0.05647, 0.07186], "tournaments_b_beats_a": "69/72"},
+      "top20": {"n_tournaments": 72, "n_positive_rows": 1506, "mean_brier_A": 0.14582, "mean_brier_B": 0.11949, "mean_brier_improvement": 0.02670, "bootstrap_95ci": [0.02360, 0.02969], "tournaments_b_beats_a": "71/72"},
+      "top10": {"n_tournaments": 72, "n_positive_rows": 781, "mean_brier_A": 0.08936, "mean_brier_B": 0.07371, "mean_brier_improvement": 0.01535, "bootstrap_95ci": [0.01286, 0.01802], "tournaments_b_beats_a": "64/72"},
+      "top5": {"n_tournaments": 72, "n_positive_rows": 392, "mean_brier_A": 0.04941, "mean_brier_B": 0.04263, "mean_brier_improvement": 0.00677, "bootstrap_95ci": [0.00548, 0.00804], "tournaments_b_beats_a": "62/72"},
+      "win": {"n_tournaments": 72, "n_positive_rows": 67, "mean_brier_A": 0.00937, "mean_brier_B": 0.00907, "mean_brier_improvement": 0.00045, "bootstrap_95ci": [0.00024, 0.00067], "tournaments_b_beats_a": "45/72"}
+    },
+    "rare_event_guard": "WIN (67 positive rows / 72 tournaments) and TOP5 (392 positives) are the rare tiers this task's own rules flag for extra scrutiny. Both still show a 95% tournament-level paired bootstrap CI for the Brier improvement that excludes zero (WIN: [0.00024, 0.00067]) -- evidence judged sufficient to proceed, not WAIT/BLOCKED, but the margin is real and small and should not be overstated in any public-facing copy.",
+    "stability_by_period": {
+      "note": "eligible targets split into early/middle/late thirds (24 tournaments each); candidate B's mean Brier improvement over A stayed positive and of comparable magnitude in every period for every tier -- no degradation trend. Exact per-period numbers: made_cut [0.06562, 0.06303, 0.06560]; top20 [0.03043, 0.02372, 0.02596]; top10 [0.01829, 0.01477, 0.01298]; top5 [0.00709, 0.00797, 0.00525]; win [0.00049, 0.00053, 0.00033]."
+    },
+    "calibration": {
+      "made_cut": "6 bins [0,0.1)..[0.9,1.0]: predicted vs actual pairs (0.045,0.041) (0.196,0.154) (0.402,0.380) (0.606,0.552) (0.810,0.797) (0.952,0.945) -- modest overconfidence in the 0.5-0.7 band (~5pp), acceptable elsewhere.",
+      "top20": "predicted vs actual: (0.032,0.035) (0.191,0.175) (0.395,0.371) (0.590,0.594) (0.777,0.792) (0.924,1.000 [n=9]) -- reasonably calibrated across the range."
+    },
+    "coherence": "0 violations / 7018 predicted rows across both candidates in walk-forward -- guaranteed by the nested model form, not observed as an empirical coincidence."
+  },
+
+  "publication_decision_for_model_itself": "MODEL_VALIDATION_PASS",
+  "publication_decision_detail": "The model passes on its own terms: beats the PRE-unchanged baseline on all 5 tiers, statistically significant (bootstrap CI excludes zero) on all 5 tiers including the rare WIN/TOP5 tiers, stable across time, reasonably calibrated, structurally coherent, and selected via a rule fixed before any KB inspection. This freeze exists independently of whether the model can currently be APPLIED to KB -- see KB_2026090003_R1_KB_APPLICATION_BLOCKER_V1.json for that separate question."
+}

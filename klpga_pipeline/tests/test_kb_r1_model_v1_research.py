@@ -79,10 +79,17 @@ def test_historical_dataset_coverage_matches_real_source_files():
 
 
 def test_no_neo_r1_model_v1_was_frozen():
-    """The whole point of DATA_BLOCKED: no model freeze, no coefficients,
-    no simulation parameters were ever written."""
+    """At the time of THIS commit (DATA_BLOCKED by CUT-tier survivor
+    bias), no model freeze, coefficients, or simulation parameters had
+    been written -- superseded once real full-field R1 data resolved
+    that bias and validation passed (NEO_R1_MODEL_V1_FREEZE.json, see
+    KB_2026090003_R1_KB_APPLICATION_BLOCKER_V1.json /
+    tests/test_r1_model_v1.py). This guard now only checks that no
+    OTHER, unexpected R1-model artifact exists alongside the legitimate
+    one."""
     for pattern in ("NEO_R1_MODEL_V1*.json", "*R1_MODEL_V1_FROZEN*.json"):
-        assert list(CONTENT.glob(pattern)) == [], f"unexpected frozen-model artifact matching {pattern}"
+        unexpected = [p for p in CONTENT.glob(pattern) if p.name != "NEO_R1_MODEL_V1_FREEZE.json"]
+        assert unexpected == [], f"unexpected frozen-model artifact matching {pattern}: {unexpected}"
 
 
 def test_no_kb_r1_five_tier_predictions_were_generated():
