@@ -1,0 +1,208 @@
+{
+  "schema_version": "neo_historical_r1_full_field_v1_audit",
+  "generated_at_utc": "2026-09-10T11:10:02Z",
+  "events_expected": 82,
+  "events_recovered": 82,
+  "events_failed": 0,
+  "failed_game_codes": [],
+  "player_events_recovered_total": 9682,
+  "cut_survivor_coverage": {
+    "total": 4687,
+    "covered": 4687,
+    "rate": 1.0
+  },
+  "cut_misser_coverage": {
+    "total": 3143,
+    "covered": 3143,
+    "rate": 1.0
+  },
+  "wd_dq_row_count": 0,
+  "duplicates_within_event": 0,
+  "identity_unresolved_count": 1852,
+  "identity_unresolved_sample": [
+    {
+      "game_code": "2023090001",
+      "player_code": "10188",
+      "player_name": "이소미"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8868",
+      "player_name": "안소현"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "10185",
+      "player_name": "황유민"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "9235",
+      "player_name": "최은우"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "6442",
+      "player_name": "최혜용"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "10159",
+      "player_name": "강채연"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8424",
+      "player_name": "정슬기"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "9362",
+      "player_name": "박지영"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8890",
+      "player_name": "임진희"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8262",
+      "player_name": "인주연"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8859",
+      "player_name": "이승연"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8300",
+      "player_name": "김수지"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "10002",
+      "player_name": "김민별"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8301",
+      "player_name": "황예나"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "10101",
+      "player_name": "임지유 0506(A)"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "10022",
+      "player_name": "손예빈"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8318",
+      "player_name": "박단유"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "8215",
+      "player_name": "윤선정"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "6120",
+      "player_name": "김해림"
+    },
+    {
+      "game_code": "2023090001",
+      "player_code": "7926",
+      "player_name": "최가람"
+    }
+  ],
+  "source_hashes": {
+    "2023090001": "9fb420115a1ee4875c9adffe4b73fdf53b0cfdc6e7826b652eec2dd7d4c2a5f9",
+    "2023090002": "3c6fa5fd90c5de1b71cb67495cc4e19818b05de36ab303343e70a9d22d7a7d9c",
+    "2023090003": "f1771bebeeb74b1a517ac192dbe492842d09eb378af86f283e7e74b8c7e8336e",
+    "2023090004": "49d26c9392aef3b8f9a94527b46b78394b059e4b67a4f58a9b43c1ea517aad28",
+    "2023090005": "e005aaf31e202102162362f2ede8eb71c196d32ea8a12efb213e249d22b5c674",
+    "2023100001": "fcdb7e26cd54de229eb6cd4015cefebd24648d21ec30e07c47ce1819b50ecbda",
+    "2023110001": "e47ded7139d3d874a73471980e767e00676cd2f5a4a31eb7c4ab629ca5610786",
+    "2023110002": "d7c2238572ecc22927450db502b3b1428642dd6217cd994189a832d037498918",
+    "2024040017": "2cc91c57b7ddc2130aa5f67f2a1525d3bba41ea9ff47723a17944a201b47e298",
+    "2024040018": "5861899ea941ccb327c4d2b31c61f80b73fe23edcb4bfd7aa007b0e1cc181c74",
+    "2024040019": "7c725444192a84f1b07d705acf9d55cff16279b8b8aacbe2c166a025bf4a76cc",
+    "2024040020": "a7b82211ecd85315a72cc81d8625efc34ca73e933c212edf90a65bce560ee99a",
+    "2024050014": "3cc44f2d4b8fcaa3c5c179963efda65537617579002adb171c72f986c9580a6e",
+    "2024050015": "e351786edd31439bc700de8ab9a0bcd877a21c005959dd6e7837a1c2cb77f73a",
+    "2024050017": "a39dcf43854f200e5b563f966d64f967f88d632c62330719674e779ab25b354d",
+    "2024050018": "af7763b9c741a59aba0ece6fa0e0986d342ba0e428c1e3dd5002e32965eb3ab2",
+    "2024060013": "a8756c7fbf6ee34ad08f9e04bb4de3f8eaa93ac3e6892f95c68c838652e99293",
+    "2024060014": "5a85620d3fcd330d6b8cdc46b47a3a6a667364da6935f2e052acde975a83944b",
+    "2024060015": "7b678c16da290e7e77d11e36e0a0b331c043ad1f62fd0dae38f6c2ad506b4e82",
+    "2024060016": "a639e9392cff57d60a5fe626aefb47cf94302d3f529b1cac3bde17eb17763384",
+    "2024070016": "916fb0d41eb567e330aee3563aca7285152b6445c88ad1432b16b83755807daa",
+    "2024070017": "8709935e62ccc6f642aab1e11468533108408b1af05ea4fde609fe9b8ae96cf0",
+    "2024080014": "6544d1723bb3109f2ddbbfb714ac73031fa8175504b0679174ce6fd95dc0895e",
+    "2024080015": "c6a08ebbd85e823991f64d2bce1f327132ba7c511962ee5fc8f01043a94d00d4",
+    "2024080018": "a0e5d033b7bf855e4d5df1995d5a556885ed2a7d8374a4009c2e051d1b46e207",
+    "2024090006": "535f6c0ca85f75f7acd057cb2c0eecd9d3a9a372bf05f8c27ca683cc97146856",
+    "2024090007": "687fd91cba8eeb19441c8bf17fd924948c3ccee6ddc065f4a4e5c938c4b247d0",
+    "2024090008": "9347b0dba8d5567e53f5480b1fe473cc172e3abedf5430ea6945c06eb00d5041",
+    "2024090009": "84da1baba76ef87741bb0bb60fdb60b3254f73744ff48c1461b13de29f057d5d",
+    "2024100008": "caa32abdd50ce613a7dff3a38a274a46d8aaa8a24faad6062526e4b5658f04f5",
+    "2024100010": "72bc555b0c3ca0cb0c819dfbc02f52ff7bb0906faa366a4d22f7b5aa04b0ecf1",
+    "2024100011": "a3cc794a3d0b4836f674833a66dbb91bb499de7a33b3af785811490f7c3957ca",
+    "2024100012": "a79b50b97067b8df73fbdcd5ba25046cbf1655f2f36584dbdfe5aae03973d8c1",
+    "2024110007": "6ce173da0c1bdd6ccef8d3300af8b2aff0da869216cef6a1ec217cb6f481dc3f",
+    "2025040001": "3424c94cdae8972bec28e6d8c5e3b51796aab5a3547b4edd947e14b9376bd3d9",
+    "2025040002": "c29618535a65d4616dd2f9d4a04cdf3492c5a5384107d8a9ee665f3420fbe785",
+    "2025040003": "a6a1362f84fd7eba3ac467295f04c346139a70ff19883e2db86d257a9e57d99f",
+    "2025040004": "8d94f670cb06f654800f6677639a68c46fdff14c827c39522f44bf23f4066cdc",
+    "2025040005": "e4855111c93e41d22022845a627eb7dcb471c635d6c9c21917e72a07ac7cae93",
+    "2025050001": "222a2e1491fa28cd55a816c52810487dbf2f1428436e29ebe8d73ae306f90e44",
+    "2025050003": "b00198f8af4351a2f3ee85f82f2c3d311f0936ae2f014ea913f1371f3ca911c2",
+    "2025050004": "a1e0e28f3f2636a8ea9f313cc335991c97e797e48843af5002bc6b1e73f5aede",
+    "2025060001": "efb880ca082ceba53abb7bf4e4c9cd13327d6cc724031702f93b68b15ecb73f8",
+    "2025060002": "85fc432e8074979797fcf83e61103bb0668b837762c04d6e81067ba5a150ea46",
+    "2025060003": "b64ca70a2457b9ff0f4099223e1557b3f822037953629cd378f45753b8d370fa",
+    "2025060004": "be40782a76b81959e86eb23518500dc0674569244c1f736ececf594d463387aa",
+    "2025070001": "97dc1a36e62ee1da7f1f78119bba252791385a8fb905f570ed8bd3d9ab4c49ea",
+    "2025070002": "13420feac33d1904169e94add7f45caeb95186d0d062da18470b574f63c5b813",
+    "2025070003": "958b97c6f62432ba2455304aac906d27f1951d038c081c40139ece62069ec8f7",
+    "2025070004": "3a502fa59e6f8c7ceff38ae0770bd9e0f63090501e3ad83b43ce70ad8bdf959a",
+    "2025070005": "b9a4b311f5a3e9e6b4bb274b358986a91426b996d0d58aedbd42b73ab6e53e8b",
+    "2025080001": "a75e64a1b086127fda50b40266bdc78555130a85c6993d97747265a0e39effa5",
+    "2025080003": "20857548d83cc275ee6d5e65740a53356a723e7201d2122de126375d186b41a7",
+    "2025090001": "3616a7acced63b806ebb5cab546f6a1283b80b5ffe8a69507dd374cc27946826",
+    "2025090002": "5d3364735cc140126c0d2195824b476d8b4c237925db29f7612b70748cad397c",
+    "2025090003": "336c932e286e05d50e48bbaa25ec1505c392a06208838d35ba6797a21ec55a18",
+    "2025090004": "ffbf31ad24fc068b7dae972cdf5b71869c54fe48e72a5b7e4ba30d2a660db8db",
+    "2025100002": "23c2248891187db511fbdf142cb722d09353653bdb460255728c61a7494b7b7c",
+    "2025100003": "af0c4cb05933527877d22939f47967719805df0e75d309692e624894c1043049",
+    "2025100004": "ea9b323043f924f25481d6c70a8ebbfbaec42ae0f5e96dd65d61086848aae1a2",
+    "2025100005": "88855dbf6c216ea1e565d603fbe802731d22961f56053421645d51cdb28a2fb8",
+    "2025100012": "b138c7610c12e166f24c34c76db554e28a16c44985261c0bf7beb978f38b677c",
+    "2026030001": "7453af51b0550686fc0e7e290cfea20a0a08c7ffc80ef4c922c179ad4c19e797",
+    "2026040001": "0d959bbd2736e6ec1f28605b55712daa99d249c43816279b8b92bf81a7b71359",
+    "2026040002": "530e728f189e63ebdbbbbe90fee0c3d7bb9f8eec0d4fbdda1ba5fb6085bce956",
+    "2026040003": "89cf256b00695e2e67027a66dfae3094469774b097c750e134f3e1a08525da06",
+    "2026040004": "c8c7cfd48e8588bd2a77ba198f60a09685e9ca516be775dd62b8e73858a4d9ee",
+    "2026040005": "02fecac7e4435956c8238eff4f35410bccf2455b00ea1d8d2a97466d35f22af9",
+    "2026050001": "4c7008ba269f968bad81fe34321010b8b306f4f76ca83039b38f33be5ca67179",
+    "2026050003": "a5b8c65b70f3d4c1eedbcf07e3ae223842bda7ffca3b8b78d81d4c2d5505d26d",
+    "2026050004": "05059e7730ba9254b8de88e95e74b28f697ce72aedb70d94bee0e4f545fff66a",
+    "2026060001": "09e5c93e184403f97e95cf1cdecb955cb28f61f702bbff095cb69de36130f49c",
+    "2026060002": "c0db00aa2ab281a1fe0dbd404e72fcc2093f7b31097b2195d04b17e983566720",
+    "2026060003": "50df3a7b8cb3fe5a1faecaa20496908a4105b33a58c01c45eb9b7b9b45f57882",
+    "2026060004": "d23cc85232a94ac45a928f9103aa8a2211a49897294f518542b5ad17bc3a2867",
+    "2026070001": "60aa4f990a4ac367607efc743947fae2b790531585caa8fdaa3ecc70089ff432",
+    "2026070002": "abc3c57484d9cfa3b6e853b504f4edce0c939ce231a9aa4cde8e032905248855",
+    "2026070003": "f3a51cee1517e0b03c288907979782a6a59cf808cdf82e3085cd5b1c9ccc96ab",
+    "2026080001": "011df03c1fd9ca1ec561dd93ab6f85538ed0ea8b94f71fbd30e0c7a333186ed1",
+    "2026080002": "b6df9e73db87ee34eaf29657984fd52b66833ebb812aeeb59f15372d5b2748a9",
+    "2026080003": "0a1af93f1c778381f936408952413558a30154c246023e862d9b96a9f5c0ac7b",
+    "2026080004": "1c8df525ddc9018afdb471f0bb48b8569ada9e93b278c1b36f9dbcfb15d053a9"
+  }
+}
