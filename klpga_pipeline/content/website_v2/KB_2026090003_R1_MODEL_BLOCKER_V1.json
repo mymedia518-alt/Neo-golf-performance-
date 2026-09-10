@@ -1,0 +1,47 @@
+{
+  "schema_version": "kb_r1_model_blocker_v1",
+  "purpose": "KB 2026090003 R1 LOCAL TAKEOVER, Step 3: document the exact reason the R1 five-probability update is BLOCKED at the model level, before any freeze/deploy work is attempted -- proven by direct code inspection, not assumption.",
+  "generated_at_utc": "2026-09-10T09:55:00Z",
+  "game_code": "2026090003",
+  "r1_evidence_reconciliation": {
+    "status": "PASS",
+    "pre_official_entry_count": 120,
+    "official_wd_count": 2,
+    "r1_competitive_count": 118,
+    "duplicate_playerCode_count": 0,
+    "identity_unresolved_count": 0,
+    "exact_set_equality_with_official_entry": true,
+    "source_file": "NEO_KB_2026090003_R1_OFFICIAL_RESULT_EVIDENCE_V1.json",
+    "source_filename_claimed": "KLPGA - 1라운드 결과.html",
+    "source_sha256_claimed": "694783eeca2d896c99d1edf7f90c0f326ad69faf7a30fbd9362932356f0538d5",
+    "source_sha256_independently_verified_by_this_session": false,
+    "source_sha256_note": "This session never received the raw HTML file itself, only this structured JSON transcription of it (the owner-supplied evidence artifact). The sha256 above is the value asserted BY that evidence artifact, not independently recomputed here -- same provenance class as OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json/KB_2026090003_R1_OFFICIAL_STATUS_EVIDENCE_V1.json earlier this session.",
+    "r1_leader_check": {
+      "playerCode": "10586",
+      "name": "홍진영2",
+      "r1Score": 67,
+      "toPar": "-5",
+      "matches_owner_claim": true
+    }
+  },
+  "pre_frozen_artifact_integrity": {
+    "path": "content/website_v2/2026090003_PRE_5PROB_V2_FROZEN.json",
+    "sha256_before_r1_work": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "sha256_after_r1_work": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "byte_identical": true,
+    "modified_by_this_task": false
+  },
+  "MODEL_BLOCKER": {
+    "status": "BLOCKED_MODEL_INCOMPATIBLE",
+    "summary": "No existing, approved code path in this repository can legitimately combine KB official frozen PRE (NEO_PRE_5PROB_V2, produced by src/klpga/neo_win/pre_v2.py) with the official R1 result to produce updated CUT/TOP20/TOP10/TOP5/WIN for the 118 eligible players.",
+    "evidence": [
+      "pre_v2.py (MODEL_ID=NEO_PRE_5PROB_V2, the ACTUAL model behind 2026090003_PRE_5PROB_V2_FROZEN.json) is a closed-form conditional-logit (WIN) + Plackett-Luce (TOP5/TOP10/TOP20) + binary-logit (CUT) model. Its own module docstring states it \"has no tournament ID, date, player, sponsor, or post-start input\" -- it is architecturally PRE-ONLY by explicit design, with zero mechanism anywhere to incorporate a real, already-played round score.",
+      "The only R1-capable model in this codebase is src/klpga/neo_win/round_update.py (BETA #001-R1, a Monte Carlo simulator that DOES combine a frozen PRE prior with a real R1 score) -- but it is a completely different, older model lineage (NEO WIN v0.1 / M4) than the one that actually produced KBs frozen PRE.",
+      "round_update.build_sim_inputs_from_frozen_snapshot() requires each pre_snapshot.predictions[i] to expose .prior_avg_round_score_to_par and .neo_consistency_stddev attributes. 2026090003_PRE_5PROB_V2_FROZEN.jsons actual prediction fields are: cut_probability, feature_missing_rule, playerCode, playerName, prior_events_n, top10_probability, top20_probability, top5_probability, win_probability -- neither required field exists anywhere in it.",
+      "scripts/104_evaluate_pre_v2.py and scripts/105_build_pre_v2.py (the only scripts that operate on NEO_PRE_5PROB_V2) never import or call round_update.py -- confirmed by direct grep, not assumption. No adapter/bridge between the two model lineages exists anywhere in the repository.",
+      "This is the SAME underlying raw-feature gap independently established earlier this session (KB_2026090003_PRE_FEATURE_COVERAGE_V1.json, commit d47a068, branch feat/kb-pre-frozen-reconstruction-v1): prior_avg_round_score_to_par / neo_consistency_stddev have 0/120 real-value coverage for KB anywhere in this sandbox, and the underlying sqlite database that would let them be recomputed is absent here too."
+    ],
+    "what_would_unblock_this": "Either (a) a genuine port of round_update.py-style Monte Carlo R1-forward logic onto pre_v2.py methodology and its actual stored fields, explicitly reviewed and approved as a new model -- not attempted here per this task own \"do not rebuild PRE V2\" / \"do not invent probabilities\" rules -- or (b) running scripts/104/105s equivalent from an environment where the raw prior_avg_round_score_to_par/neo_consistency_stddev features (or the sqlite corpus behind them) are actually available, letting round_update.py be used as originally designed.",
+    "action_taken": "STOPPED per this task own explicit instruction (Step 3: \"If the existing production-approved model cannot legitimately generate the R1 five probabilities, STOP with the exact model blocker.\"). No R1 probabilities were generated or fabricated. No R1 freeze artifact was created. No public R1 page was built. Production was not touched."
+  }
+}
