@@ -1,0 +1,26 @@
+{
+  "schema_version": "kb_pre_field_freeze_v1",
+  "purpose": "KB 2026090003 PRE FROZEN RECONSTRUCTION V1, section 2: freeze the official PRE field from the already-verified official KB ENTRY snapshot -- never HOME TOP120, never K-Ranking-sourced. Includes WD players (their later status must not affect this freeze).",
+  "generated_at_utc": "2026-09-10T07:15:00Z",
+  "game_code": "2026090003",
+  "stage": "PRE",
+  "source": "content/website_v2/2026090003_ENTRY_SNAPSHOT.json",
+  "source_sha256": "573831b519e50900c1e62b2785330c0d3246266a18c9f7d113be9411bf11f4b7",
+  "PRE_FIELD_COUNT": 120,
+  "unique_playercode_count": 120,
+  "duplicates": 0,
+  "field_source_is_home_top120": false,
+  "field_source_is_k_ranking": false,
+  "k_ranking_role": "enrichment of an official entrant only, never a field-membership source",
+  "wd_players_preserved_in_field": [
+    "11374",
+    "9788"
+  ],
+  "wd_players_preserved_note": "전승희 (11374) and 박혜준 (9788) are both included in this PRE_FIELD_COUNT=120 freeze, exactly like every other official entrant. Their later R1 WD status (see KB_2026090003_R1_STATUS_AUDIT_V1.json, dated to R1, strictly after this PRE freeze) does not affect this freeze in any way -- it is not referenced, not joined, not excluded.",
+  "wd_players_present_check": [
+    "11374",
+    "9788"
+  ],
+  "all_wd_players_present": true,
+  "frozen": true
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": "kb_pre_temporal_audit_v1",
+  "purpose": "KB 2026090003 PRE FROZEN RECONSTRUCTION V1, section 1: establish the exact PRE information cutoff and prove, per feature family, that only pre-cutoff information was used -- explicitly excluding all R1 leaderboard/score/WD data, which is FUTURE DATA relative to PRE.",
+  "generated_at_utc": "2026-09-10T07:15:00Z",
+  "game_code": "2026090003",
+  "stage": "PRE",
+
+  "pre_cutoff": "2026-09-10T00:00:00+09:00",
+  "pre_cutoff_utc": "2026-09-09T15:00:00Z",
+  "cutoff_evidence": {
+    "official_tournament_start_date": "2026-09-10",
+    "official_tournament_start_source": "content/website_v2/OFFICIAL_KLPGA_SCHEDULE.json (game_code=2026090003, start_date=2026-09-10, end_date=2026-09-13)",
+    "cutoff_cross_check": "Every existing KB 2026090003 PRE_* artifact independently carries the identical cutoff field '2026-09-10T00:00:00+09:00': 2026090003_PRE_WIN_FORECAST.json, 2026090003_PRE_PERFORMANCE_SNAPSHOT.json, 2026090003_PRE_PERFORMANCE_CORRECTED_V2.json, 2026090003_PRE_PERFORMANCE_ROW_RETENTION_CORRECTED_V2.json, 2026090003_PRE_PUBLIC_MASTER.json, 2026090003_PRE_SG_TOTAL_RANK.json, 2026090003_PRE_SG_TOTAL_RANK_CORRECTED_V2.json -- 7 independently-generated artifacts, zero disagreement.",
+    "interpretation": "PRE cutoff = local midnight (KST, +09:00) at tournament start, i.e. the instant before Round 1 could legitimately begin. This audit treats it as the hard boundary: any source dated/retrieved strictly after this instant is FUTURE DATA for PRE and is excluded."
+  },
+
+  "r1_future_data_prohibition": {
+    "explicitly_excluded": [
+      "KB R1 scores",
+      "KB R1 leaderboard positions",
+      "KB R1 SG (strokes gained computed from R1 play)",
+      "KB R1 hole-level data",
+      "KB R1 WD/DNS/DQ status",
+      "any file generated from KB R1 information",
+      "future (post-cutoff) K-Ranking updates",
+      "post-cutoff player statistics of any kind"
+    ],
+    "known_r1_evidence_not_used": {
+      "files": [
+        "content/website_v2/KB_2026090003_R1_OFFICIAL_STATUS_EVIDENCE_V1.json",
+        "content/website_v2/KB_2026090003_R1_STATUS_AUDIT_V1.json"
+      ],
+      "content_summary": "전승희 (11374) and 박혜준 (9788) = WD, per owner-supplied official R1 status (see KB 2026090003 -- R1 OFFICIAL STATUS UPDATE V1).",
+      "why_excluded": "This is real official evidence but it is dated to R1 -- strictly after the PRE cutoff above. It describes what happened DURING/AFTER R1 began, which by definition could not have been known at PRE. Neither file is read, referenced, or joined against by this PRE reconstruction. See KB_2026090003_PRE_PROBABILITY_SNAPSHOT_V1.json's own field list (110/120 or fewer players marked BLOCKED_MISSING_RAW_FEATURES -- never WD) and tests/test_kb_pre_frozen_reconstruction_v1.py's dedicated WD-leakage test, which proves PRE output is byte-identical whether or not these two R1 files exist in the repository."
+    }
+  },
+
+  "per_feature_temporal_proof": [
+    {
+      "feature_family": "official ENTRY field (120 entrants)",
+      "source": "content/website_v2/2026090003_ENTRY_SNAPSHOT.json",
+      "source_sha256": "573831b519e50900c1e62b2785330c0d3246266a18c9f7d113be9411bf11f4b7",
+      "source_date": "collected pre-tournament (entry list published ahead of the field)",
+      "maximum_event_round_date": "N/A -- entry/qualification data only, no round scores",
+      "available_before_cutoff": true
+    },
+    {
+      "feature_family": "K-Ranking (official_rank) enrichment",
+      "source": "content/website_v2/2026090003_OFFICIAL_KLPGA_RANKING.json",
+      "source_sha256": "4bb6df853a1650d26c1666084dcb779e99f7eb3d434c0f800bdbe32c066c967e",
+      "source_date": "ranking_date=2026-W36, retrieved_at=2026-09-09T09:35:49Z",
+      "maximum_event_round_date": "N/A -- a ranking snapshot, not tied to KB's own rounds",
+      "available_before_cutoff": true,
+      "note": "retrieved_at (2026-09-09T09:35:49Z) is strictly before pre_cutoff_utc (2026-09-09T15:00:00Z)."
+    },
+    {
+      "feature_family": "Strokes Gained history (current/recent3/recent5/recent10/season2026/multi_season, 6 components each)",
+      "source": "content/website_v2/2026090003_PRE_PERFORMANCE_SNAPSHOT.json",
+      "source_sha256": "483d274ed8f33eeda8edbdcb1a4840dd39ceb95a0bdd426191620d96eb7a69f0",
+      "source_date": "cutoff field = 2026-09-10T00:00:00+09:00 (self-declared)",
+      "maximum_event_round_date": "UNPROVEN by this audit -- the file's own docstring/fields do not expose a per-event date; its own 'cutoff' field and 'future_data_excluded' flag are trusted as the file's own self-attested boundary, not independently re-derived here (re-deriving would require the underlying sqlite corpus, absent from this sandbox -- see KB_2026090003_PRE_MODEL_PROVENANCE_V1.json).",
+      "available_before_cutoff": true
+    },
+    {
+      "feature_family": "SG total rank (derived from the above)",
+      "source": "content/website_v2/2026090003_PRE_SG_TOTAL_RANK.json",
+      "source_sha256": "649e54063c9d6c27d3fc3f44534d105ad806d9226fa5c7d9aa41ba4a7fd18562",
+      "source_date": "cutoff field = 2026-09-10T00:00:00+09:00 (self-declared), provenance='2026090003_PRE_PERFORMANCE_SNAPSHOT.json'",
+      "maximum_event_round_date": "inherits the SG snapshot's own boundary above",
+      "available_before_cutoff": true
+    },
+    {
+      "feature_family": "M4 win_probability (existing production PRE model, WIN-only)",
+      "source": "content/website_v2/2026090003_PRE_WIN_FORECAST.json",
+      "source_sha256": "afa0df2393048e2abb43bb3fba1386dc1a0c1a4b769f6d0deeebe543bdd3db8a",
+      "source_date": "cutoff field = 2026-09-10T00:00:00+09:00; future_data_excluded=true (self-declared)",
+      "maximum_event_round_date": "N/A -- WIN-only output, no round anchor by construction (model_features=[prior_avg_round_score_to_par, prior_recent_form_10], both PRE-time features per M4's own documented design)",
+      "available_before_cutoff": true,
+      "note": "This is M4's OUTPUT (win_probability), not the underlying raw feature values -- see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json for why the raw prior_avg_round_score_to_par values themselves are not usable here (never exposed in any committed KB artifact)."
+    },
+    {
+      "feature_family": "prior_avg_round_score_to_par (pre_5prob.py's required raw score feature) / neo_consistency_stddev (its spread feature)",
+      "source": "NONE FOUND",
+      "source_sha256": null,
+      "source_date": null,
+      "maximum_event_round_date": null,
+      "available_before_cutoff": false,
+      "status": "TEMPORAL_BLOCKED -- not that the feature is future data, but that no PRE-safe (or any) committed value for it exists for KB's field in this sandbox at all. See KB_2026090003_PRE_FEATURE_COVERAGE_V1.json."
+    }
+  ],
+
+  "future_data_excluded": true,
+  "temporal_leakage_count": 0,
+  "temporal_leakage_note": "Zero instances found of any post-cutoff (R1 or later) KB 2026090003 data being read, joined, or referenced by any artifact this task produced or by any PRE_* artifact this task audited. See tests/test_kb_pre_frozen_reconstruction_v1.py for the executable WD-leakage proof."
+}

@@ -1,0 +1,750 @@
+{
+  "schema_version": "kb_pre_probability_snapshot_v1",
+  "purpose": "KB 2026090003 PRE FROZEN RECONSTRUCTION V1, section 5/7: attempted P(CUT)/P(TOP20)/P(TOP10)/P(TOP5)/P(WIN) generation for all 120 official entrants using NEO_PRE_5PROB_V1 (the only PRE-stage 5-tier model in this repository). Generation is BLOCKED for every player -- see reason per player below. This snapshot is immutable once frozen: it records the BLOCKED state honestly rather than inventing any probability value.",
+  "generated_at_utc": "2026-09-10T07:15:00Z",
+  "game_code": "2026090003",
+  "stage": "PRE",
+  "field_count": 120,
+  "cutoff": "2026-09-10T00:00:00+09:00",
+  "model_identifier": "NEO_PRE_5PROB_V1",
+  "model_commit": "4c0e8d7231b75d1b8fd038178e89085b599bc380",
+  "simulation_count": null,
+  "simulation_count_note": "No simulation was executed -- blocked before build_pre_sim_inputs could be called for any player (score_field=prior_avg_round_score_to_par missing for all 120).",
+  "future_data_excluded": true,
+  "temporal_leakage_count": 0,
+  "probability_relationship_enforced": "0 <= WIN <= TOP5 <= TOP10 <= TOP20 <= 1 (not applicable -- no probabilities generated)",
+  "generation_status": "BLOCKED_FOR_ALL_PLAYERS",
+  "generated_count": 0,
+  "blocked_count": 120,
+  "blocked_players": [
+    {
+      "playerCode": "9174",
+      "player_name": "강가율",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10075",
+      "player_name": "고은혜",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10112",
+      "player_name": "고지우",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10109",
+      "player_name": "고지원",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9436",
+      "player_name": "구래현",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10726",
+      "player_name": "김가희2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9752",
+      "player_name": "김나현2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9702",
+      "player_name": "김리안",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10002",
+      "player_name": "김민별",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10097",
+      "player_name": "김민선7",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10725",
+      "player_name": "김민솔",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10081",
+      "player_name": "김민주",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8380",
+      "player_name": "김새로미",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9089",
+      "player_name": "김소정",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8300",
+      "player_name": "김수지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11143",
+      "player_name": "김시현",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9277",
+      "player_name": "김아현",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8838",
+      "player_name": "김우정",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9487",
+      "player_name": "김재희",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9000",
+      "player_name": "김지수",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8434",
+      "player_name": "김지영2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11216",
+      "player_name": "김지윤2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10790",
+      "player_name": "김하은2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8271",
+      "player_name": "김효문",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10178",
+      "player_name": "김희지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9113",
+      "player_name": "노승희",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9723",
+      "player_name": "노원경",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10789",
+      "player_name": "리 슈잉",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9401",
+      "player_name": "마다솜",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10083",
+      "player_name": "마서영",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10296",
+      "player_name": "문정민",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9183",
+      "player_name": "박결",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8318",
+      "player_name": "박단유",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8772",
+      "player_name": "박민지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9431",
+      "player_name": "박보겸",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9111",
+      "player_name": "박서현",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11056",
+      "player_name": "박예지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9788",
+      "player_name": "박혜준",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10095",
+      "player_name": "방신실",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8589",
+      "player_name": "배소현",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11134",
+      "player_name": "서교림",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9134",
+      "player_name": "서어진",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8881",
+      "player_name": "성유진",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8386",
+      "player_name": "성은정",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10022",
+      "player_name": "손예빈",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11057",
+      "player_name": "송은아",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9135",
+      "player_name": "신다인",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "4905",
+      "player_name": "안선주",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "6916",
+      "player_name": "안송이",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11060",
+      "player_name": "안재희",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9465",
+      "player_name": "안지현",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10867",
+      "player_name": "양서후",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10139",
+      "player_name": "양효리",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11045",
+      "player_name": "양효진",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8799",
+      "player_name": "오경은",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11926",
+      "player_name": "유다겸(I)",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11066",
+      "player_name": "유서연2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9714",
+      "player_name": "유지나",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10146",
+      "player_name": "유현조",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9990",
+      "player_name": "윤수아",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8884",
+      "player_name": "윤화영",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8883",
+      "player_name": "이가영",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8392",
+      "player_name": "이다연",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11649",
+      "player_name": "이동은",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10481",
+      "player_name": "이서윤4",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11040",
+      "player_name": "이세영",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9652",
+      "player_name": "이세희",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8246",
+      "player_name": "이소영",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9503",
+      "player_name": "이슬기2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8859",
+      "player_name": "이승연",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9784",
+      "player_name": "이예원",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11469",
+      "player_name": "이윤서",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9759",
+      "player_name": "이율린",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9708",
+      "player_name": "이재윤",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "7434",
+      "player_name": "이정민",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8234",
+      "player_name": "이주미",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "12038",
+      "player_name": "이지민",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9449",
+      "player_name": "이지현3",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8811",
+      "player_name": "이채은2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10138",
+      "player_name": "임진영",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9145",
+      "player_name": "임희정",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8355",
+      "player_name": "장수연",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8243",
+      "player_name": "장은수",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11374",
+      "player_name": "전승희",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9082",
+      "player_name": "전예성",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9389",
+      "player_name": "전우리",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9765",
+      "player_name": "정소이",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8840",
+      "player_name": "정수빈",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9820",
+      "player_name": "정윤지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8770",
+      "player_name": "조아연",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8430",
+      "player_name": "조은채",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8972",
+      "player_name": "조정민",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9136",
+      "player_name": "조혜림",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "1521",
+      "player_name": "지한솔",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9391",
+      "player_name": "최가빈",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8277",
+      "player_name": "최민경",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8284",
+      "player_name": "최예림",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10577",
+      "player_name": "최예본",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9235",
+      "player_name": "최은우",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11073",
+      "player_name": "최정원",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11447",
+      "player_name": "한아름",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9483",
+      "player_name": "한지원",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9426",
+      "player_name": "한진선",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9728",
+      "player_name": "허윤서",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10531",
+      "player_name": "현세린",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9750",
+      "player_name": "홍정민",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9705",
+      "player_name": "홍지원",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10586",
+      "player_name": "홍진영2",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11042",
+      "player_name": "홍현지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10727",
+      "player_name": "황민정",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "9937",
+      "player_name": "황유나",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8240",
+      "player_name": "황정미",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "8191",
+      "player_name": "전인지",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11397",
+      "player_name": "구민지 0706(A)",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11480",
+      "player_name": "김연서",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "12069",
+      "player_name": "박조은 0806(A)",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "11964",
+      "player_name": "윤다감 0907(A)",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    },
+    {
+      "playerCode": "10698",
+      "player_name": "정민서",
+      "status": "BLOCKED",
+      "reason": "MISSING_RAW_FEATURE: prior_avg_round_score_to_par not present for this player_id in any committed KB 2026090003 artifact (see KB_2026090003_PRE_FEATURE_COVERAGE_V1.json)"
+    }
+  ],
+  "source_hashes": {
+    "entry_snapshot_sha256": "573831b519e50900c1e62b2785330c0d3246266a18c9f7d113be9411bf11f4b7",
+    "pre_win_forecast_sha256": "afa0df2393048e2abb43bb3fba1386dc1a0c1a4b769f6d0deeebe543bdd3db8a",
+    "pre_performance_snapshot_sha256": "483d274ed8f33eeda8edbdcb1a4840dd39ceb95a0bdd426191620d96eb7a69f0",
+    "pre_5prob_module_sha256": "895fab0dbf6c6cb0ecd894a2177b2392b41ca015bcdc6fa3e5f2557b2ac2f87b"
+  },
+  "no_synthetic_values_inserted": true,
+  "frozen": true,
+  "immutability_note": "This snapshot is treated as frozen evidence from the moment it is committed -- a future task must create a new _V2 artifact rather than editing this file in place, exactly as this session already treats KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V1.json (superseded, never rewritten) and content/website_v2/2026090003_PRE_WIN_FORECAST.json (frozen M4 output)."
+}
