@@ -89,7 +89,10 @@ def build_r1_page() -> str:
         return f"T{rank}" if rank_counts[rank] > 1 else rank
 
     def pct(v):
-        return "—" if v is None else f"{v * 100:.2f}%"
+        # DECIMAL DISPLAY CONTRACT (mobile hotfix 20260911): 1 decimal
+        # place at this render boundary only -- the frozen prediction
+        # JSON's stored precision is never touched.
+        return "—" if v is None else f"{v * 100:.1f}%"
 
     def cell(v, label):
         cls = "" if v is None else " class='win'"
@@ -129,7 +132,7 @@ def build_r1_page() -> str:
     # invented layout, exactly what the alignment-bug fix calls for.
     movers_html = "".join(
         f"<li>{render_player_identity(name, sponsor, quote=chr(39))}"
-        f"<span class='delta'>PRE {pre_w*100:.2f}% → R1 {r1_w*100:.2f}%</span></li>"
+        f"<span class='delta'>PRE {pre_w*100:.1f}% → R1 {r1_w*100:.1f}%</span></li>"
         for name, sponsor, pre_w, r1_w in top_movers
     )
 
@@ -156,7 +159,7 @@ def build_r1_page() -> str:
         '</ol></nav>'
         '<section class="panel leaderboard-panel" id="r1">'
         '<div class="leaderboard-head"><h2>1R 결과</h2></div>'
-        '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
+        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--rank-result"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>1R</th>"
         "<th>컷 통과</th><th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
