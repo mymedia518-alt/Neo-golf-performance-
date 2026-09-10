@@ -1,0 +1,42 @@
+{
+  "schema_version": "kb_r1_kb_application_blocker_v1",
+  "purpose": "NEO_R1_MODEL_V1 (NEO_R1_MODEL_V1_FREEZE.json) passed validation. This artifact documents why it cannot yet be applied to KB 2026090003's 118 R1-active players -- a distinct, later-discovered blocker, found only after the model itself was already frozen. This is not a model failure and not a data-recovery failure; it is a feature-availability gap at apply time.",
+  "generated_at_utc": "2026-09-10T12:45:00Z",
+  "game_code": "2026090003",
+  "model_id": "NEO_R1_MODEL_V1",
+
+  "the_problem": {
+    "summary": "NEO_R1_MODEL_V1's frozen features are pre_score (=NEO Ranking V1's NEO_V1_score) and r1_z. r1_z is computable for KB (its own official R1 evidence has real scores for all 118 active players). pre_score is NOT computable for KB.",
+    "why_pre_score_is_unavailable_for_kb": {
+      "trace": "NEO_V1_score's only source anywhere in this sandbox is content/website_v2/NEO_RANKING_V1_REDTEAM_BACKTEST.json (fields observations[].neo_score / neo_rank, joined into the Truth Warehouse by scripts/92_build_historical_truth_warehouse.py, line-verified: the join reads r['neo_score']/r['neo_rank'] straight from that backtest file's own pre-computed observations, it does not compute them itself).",
+      "kb_not_in_backtest": "NEO_RANKING_V1_REDTEAM_BACKTEST.json's events/observations cover only the 82 historical tournaments already in the Truth Warehouse -- KB (2026090003) is not among them.",
+      "why_it_cannot_simply_be_computed_now": "The NEO Ranking V1 model that produces NEO_V1_score is a SEPARATE model from NEO_PRE_5PROB_V2 (KB's actual live PRE model) and was documented earlier in this project's history as its own, still-unresolved effort (status BLOCKED_FORMULA_NOT_APPROVED in that separate thread) requiring point-in-time features the absent sqlite corpus computes. Re-deriving it for KB now, inside this task, would mean either (a) reusing a model formula that was never itself approved for production use, or (b) needing the same absent sqlite database already established as unreachable in this sandbox (KB_2026090003_R1_FEATURE_RECOVERY_V1.json, KB_2026090003_R1_MODEL_V1_RESEARCH_V1.json)."
+    }
+  },
+
+  "what_was_deliberately_not_done": {
+    "no_feature_substitution": "KB's own NEO_PRE_5PROB_V2 CUT/WIN/etc probabilities were NOT substituted in place of pre_score. They are a different quantity (already-combined tier probabilities from a differently-specified model, not the raw composite strength score the frozen coefficients above were fit against) -- plugging them in would silently change what the frozen coefficients mean, which is exactly the kind of unvalidated ad-hoc substitution KB_2026090003_R1_FEATURE_RECOVERY_V1.json's sign-inversion finding already proved is dangerous, not merely inconvenient.",
+    "no_refitting": "The frozen coefficients in NEO_R1_MODEL_V1_FREEZE.json were not touched, refit, or adjusted to accommodate a different feature set for KB -- the freeze rule ('after freeze: no KB-driven changes') applies precisely here.",
+    "no_partial_application": "No CUT/TOP20/TOP10/TOP5/WIN numbers were generated for any of KB's 118 active players using only r1_z with pre_score silently zeroed or omitted -- that would be a materially different, unvalidated model, not NEO_R1_MODEL_V1."
+  },
+
+  "status": "KB_APPLICATION_BLOCKED",
+  "what_would_unblock_this": [
+    "An owner decision to approve extending/running the NEO Ranking V1 model against KB specifically (a decision outside this task's authority -- that model's own validation thread is still open elsewhere in this project).",
+    "Access to the sqlite corpus (data/klpga.sqlite) this sandbox has repeatedly confirmed absent, which the NEO Ranking V1 point-in-time feature computation requires.",
+    "A NEW, separately-validated R1 model whose PRE feature is defined from something KB already has (e.g. NEO_PRE_5PROB_V2's own inputs) -- but that would be a different model requiring its own full walk-forward validation from scratch, not a substitution into this frozen one."
+  ],
+
+  "no_probabilities_generated_for_kb": true,
+  "pre_frozen_artifact_integrity": {
+    "file": "content/website_v2/2026090003_PRE_5PROB_V2_FROZEN.json",
+    "sha256_before_this_task": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "sha256_after_this_task": "456d465e05f919c96ab827a68004aafb1ad971a7a128e6b44c461c9eb41fef36",
+    "byte_identical": true
+  },
+  "production_untouched": {
+    "branch": "neo-website-v2",
+    "commit": "15d43a6a5a65f166d38fcf242453cba22f67af1d",
+    "modified_by_this_task": false
+  }
+}
