@@ -1,0 +1,23 @@
+{
+  "schema_version": "operator_reported_sponsor_evidence_v1",
+  "_provenance_honesty_note": "This session's own network access to klpga.co.kr / k-rankings.klpga.co.kr is proxy-blocked (confirmed again immediately before this file was written -- curl and WebFetch both returned EGRESS_BLOCKED / connect_rejected). Every sponsor value in this file is a TRANSCRIPTION of what the operator reported having personally checked against KLPGA's own official player/team information using real network access outside this session -- exactly the same provenance class already used for content/website_v2/KB_2026090003_ENTRY_LIST_PARTIAL_EVIDENCE_V1.json. None of these rows were fetched or independently verified by this session; none carry a real retrieval timestamp because no real retrieval happened here. This is recorded as its own distinct evidence tier -- never merged into or mislabeled as an automated official_source fetch.",
+  "reported_by": "operator, via real network access outside this session",
+  "reported_at_utc": "2026-09-10T06:10:00Z",
+  "verification_method": "operator states these were checked against KLPGA official player/team information and/or official player profile pages",
+  "identity_join_key": "player_id (exact match only -- never name-only)",
+  "cross_check_result": {
+    "player_id": "8284",
+    "player_name": "최예림",
+    "reported_sponsor": "휴온스",
+    "status": "INDEPENDENTLY_CORROBORATED",
+    "note": "This exact player_id/sponsor pair was already present and verified in this repo via a completely different route (OK_OPEN_2026_CURRENT_PLAYER_MASTER.json's own direct, identity_validation=PASS collection, reused here only as confirmation -- not the source of this entry)."
+  },
+  "records": [
+    {"player_id": "11134", "player_name": "서교림", "sponsor": "삼천리", "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"},
+    {"player_id": "10146", "player_name": "유현조", "sponsor": "롯데", "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"},
+    {"player_id": "8392", "player_name": "이다연", "sponsor": "메디힐", "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"},
+    {"player_id": "8772", "player_name": "박민지", "sponsor": "NH투자증권", "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"}
+  ],
+  "conflict_check": "Confirmed no existing *_CURRENT_PLAYER_MASTER.json record for player_id 11134/10146/8392/8772 carries any other sponsor value (all currently None/blank) -- no disagreement to drop.",
+  "not_the_complete_recovery_list": "The operator explicitly stated these 4 (plus the already-corroborated 5th) are spot-check examples, not an exhaustive recovery of every remaining blank. See KB_SPONSOR_RECOVERY_V2_STATUS.json for the full accounting of what remains unresolved and why."
+}

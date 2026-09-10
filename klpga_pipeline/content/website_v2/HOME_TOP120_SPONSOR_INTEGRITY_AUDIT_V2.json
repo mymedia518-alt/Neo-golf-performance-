@@ -1,648 +1,694 @@
 {
-  "schema_version": "home_top120_sponsor_integrity_audit_v1",
-  "purpose": "OWNER DECISION Section 4: sponsor slot status for HOME's full persistent K-Ranking TOP120 population -- independent of, and using the identical no-guessing evidence rule as, KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V1.json. HOME's own data source (data/HOME_PLAYER_MASTER_TOP120.json) carries no current_official_sponsor field at all -- it was never enriched for sponsor at all -- so every recovery here is necessarily a cross-tournament reuse, never a direct hit.",
-  "generated_at_utc": "2026-09-10T00:20:00Z",
+  "schema_version": "home_top120_sponsor_integrity_audit_v2",
+  "supersedes": "HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V1.json",
+  "purpose": "SPONSOR OFFICIAL-EVIDENCE RECOVERY V2, same evidence-tier expansion as KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V2.json, applied to HOME's population. HOME's own population/layout is unchanged (OWNER DECISION, KB_OWNER_DECISION_HOME_VS_TOURNAMENT_POPULATIONS_V1.json) -- only sponsor VALUES for existing HOME rows can change.",
+  "generated_at_utc": "2026-09-10T06:16:00Z",
   "home_population_count": 120,
-  "verified_sponsor_count": 76,
-  "blank_count": 44,
-  "evidence_source": "cross_tournament_verified_sponsor_cache() over every *_CURRENT_PLAYER_MASTER.json in content/website_v2 -- exact player_id match only, dropped on any cross-tournament disagreement, never a name-match, never a guess.",
+  "verified_sponsor_count": 80,
+  "collection_blocked_count": 40,
   "newly_recovered_sponsors": [
     {
       "player_id": "10725",
       "player_name": "김민솔",
       "sponsor": "두산건설 We've",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "sponsor": "롯데",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10095",
       "player_name": "방신실",
       "sponsor": "KB금융그룹",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9784",
       "player_name": "이예원",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9113",
       "player_name": "노승희",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8881",
       "player_name": "성유진",
       "sponsor": "대방건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9750",
       "player_name": "홍정민",
       "sponsor": "HJ중공업",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10097",
       "player_name": "김민선7",
       "sponsor": "대방건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10109",
       "player_name": "고지원",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8284",
       "player_name": "최예림",
       "sponsor": "휴온스",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9130",
       "player_name": "박현경",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "sponsor": "NH투자증권",
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9788",
       "player_name": "박혜준",
       "sponsor": "두산건설 We've",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10112",
       "player_name": "고지우",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8243",
       "player_name": "장은수",
       "sponsor": "굿빈스",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9082",
       "player_name": "전예성",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11649",
       "player_name": "이동은",
       "sponsor": "SBI저축은행",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8300",
       "player_name": "김수지",
       "sponsor": "동부건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10081",
       "player_name": "김민주",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11143",
       "player_name": "김시현",
       "sponsor": "NH투자증권",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9135",
       "player_name": "신다인",
       "sponsor": "요진건설산업",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8883",
       "player_name": "이가영",
       "sponsor": "NH투자증권",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9235",
       "player_name": "최은우",
       "sponsor": "아마노코리아",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9820",
       "player_name": "정윤지",
       "sponsor": "NH투자증권",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9145",
       "player_name": "임희정",
       "sponsor": "두산건설 We've",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11770",
       "player_name": "짜라위 분짠",
       "sponsor": "하나금융그룹",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9426",
       "player_name": "한진선",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9449",
       "player_name": "이지현3",
       "sponsor": "대선주조",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11045",
       "player_name": "양효진",
       "sponsor": "대보건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10586",
       "player_name": "홍진영2",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8589",
       "player_name": "배소현",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9431",
       "player_name": "박보겸",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9401",
       "player_name": "마다솜",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9134",
       "player_name": "서어진",
       "sponsor": "대보건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9759",
       "player_name": "이율린",
       "sponsor": "두산건설 We've",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10002",
       "player_name": "김민별",
       "sponsor": "하이트진로",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9652",
       "player_name": "이세희",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9465",
       "player_name": "안지현",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10577",
       "player_name": "최예본",
       "sponsor": "까르마",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8811",
       "player_name": "이채은2",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9487",
       "player_name": "김재희",
       "sponsor": "SK텔레콤",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9391",
       "player_name": "최가빈",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10789",
       "player_name": "리 슈잉",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8859",
       "player_name": "이승연",
       "sponsor": "까르마",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11057",
       "player_name": "송은아",
       "sponsor": "대보건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11073",
       "player_name": "최정원",
       "sponsor": "NH투자증권",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9389",
       "player_name": "전우리",
       "sponsor": "휴온스",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11056",
       "player_name": "박예지",
       "sponsor": "KB금융그룹",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8277",
       "player_name": "최민경",
       "sponsor": "휴온스",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10726",
       "player_name": "김가희2",
       "sponsor": "SBI저축은행",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9807",
       "player_name": "김서윤2",
       "sponsor": "셀트리온",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9708",
       "player_name": "이재윤",
       "sponsor": "삼천리",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11216",
       "player_name": "김지윤2",
       "sponsor": "SBI저축은행",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9714",
       "player_name": "유지나",
       "sponsor": "신협",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8770",
       "player_name": "조아연",
       "sponsor": "HJ중공업",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11042",
       "player_name": "홍현지",
       "sponsor": "기프트코",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9183",
       "player_name": "박결",
       "sponsor": "두산건설 We've",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "6916",
       "player_name": "안송이",
       "sponsor": "KB금융그룹",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8380",
       "player_name": "김새로미",
       "sponsor": "넥센그룹",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9483",
       "player_name": "한지원",
       "sponsor": "후라이드참잘하는집",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8838",
       "player_name": "김우정",
       "sponsor": "OK저축은행",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10531",
       "player_name": "현세린",
       "sponsor": "대방건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10083",
       "player_name": "마서영",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9990",
       "player_name": "윤수아",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9705",
       "player_name": "홍지원",
       "sponsor": "요진건설산업",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9136",
       "player_name": "조혜림",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11060",
       "player_name": "안재희",
       "sponsor": "DB손해보험",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "11447",
       "player_name": "한아름",
       "sponsor": "DB손해보험",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8355",
       "player_name": "장수연",
       "sponsor": "동부건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8234",
       "player_name": "이주미",
       "sponsor": "골든블루",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10727",
       "player_name": "황민정",
       "sponsor": "대보건설",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8799",
       "player_name": "오경은",
       "sponsor": "지솔알이에이치",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10022",
       "player_name": "손예빈",
       "sponsor": "메디힐",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10139",
       "player_name": "양효리",
       "sponsor": "참좋은여행",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "10790",
       "player_name": "김하은2",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9937",
       "player_name": "황유나",
       "sponsor": "리쥬란",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "9174",
       "player_name": "강가율",
       "sponsor": "세기P&C",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     },
     {
       "player_id": "8840",
       "player_name": "정수빈",
       "sponsor": "휴온스",
-      "source": "cross_tournament_reuse (*_CURRENT_PLAYER_MASTER.json)"
+      "status": "VERIFIED_OFFICIAL"
     }
   ],
-  "still_blank_players": [
-    {
-      "player_id": "11134",
-      "player_name": "서교림"
-    },
-    {
-      "player_id": "10146",
-      "player_name": "유현조"
-    },
-    {
-      "player_id": "8392",
-      "player_name": "이다연"
-    },
-    {
-      "player_id": "8772",
-      "player_name": "박민지"
-    },
+  "collection_blocked_players": [
     {
       "player_id": "10185",
-      "player_name": "황유민"
+      "player_name": "황유민",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "8375",
-      "player_name": "김효주"
+      "player_name": "김효주",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "6781",
-      "player_name": "박주영"
+      "player_name": "박주영",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11066",
-      "player_name": "유서연2"
+      "player_name": "유서연2",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10296",
-      "player_name": "문정민"
+      "player_name": "문정민",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9362",
-      "player_name": "박지영"
+      "player_name": "박지영",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "1521",
-      "player_name": "지한솔"
+      "player_name": "지한솔",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "1485",
-      "player_name": "빳차라쭈타 콩끄라판"
+      "player_name": "빳차라쭈타 콩끄라판",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10138",
-      "player_name": "임진영"
+      "player_name": "임진영",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11391",
-      "player_name": "양윤서"
+      "player_name": "양윤서",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9765",
-      "player_name": "정소이"
+      "player_name": "정소이",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11630",
-      "player_name": "정지효"
+      "player_name": "정지효",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10159",
-      "player_name": "강채연"
+      "player_name": "강채연",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9752",
-      "player_name": "김나현2"
+      "player_name": "김나현2",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10821",
-      "player_name": "유아현"
+      "player_name": "유아현",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9000",
-      "player_name": "김지수"
+      "player_name": "김지수",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11640",
-      "player_name": "성아진"
+      "player_name": "성아진",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11080",
-      "player_name": "길예람"
+      "player_name": "길예람",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11136",
-      "player_name": "홍수민"
+      "player_name": "홍수민",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "8854",
-      "player_name": "서연정"
+      "player_name": "서연정",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10623",
-      "player_name": "강지선"
+      "player_name": "강지선",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9364",
-      "player_name": "박소혜"
+      "player_name": "박소혜",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10114",
-      "player_name": "김나영"
+      "player_name": "김나영",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9089",
-      "player_name": "김소정"
+      "player_name": "김소정",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11485",
-      "player_name": "신지우"
+      "player_name": "신지우",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9748",
-      "player_name": "신유진"
+      "player_name": "신유진",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11374",
-      "player_name": "전승희"
+      "player_name": "전승희",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9786",
-      "player_name": "주가인"
+      "player_name": "주가인",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "11211",
-      "player_name": "김도희3"
+      "player_name": "김도희3",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9156",
-      "player_name": "한빛나"
+      "player_name": "한빛나",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "12103",
-      "player_name": "전이안"
+      "player_name": "전이안",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "13502",
-      "player_name": "왕 즈쉬엔"
+      "player_name": "왕 즈쉬엔",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9111",
-      "player_name": "박서현"
+      "player_name": "박서현",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "1734",
-      "player_name": "이민지"
+      "player_name": "이민지",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "8863",
-      "player_name": "윤혜림"
+      "player_name": "윤혜림",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "10101",
-      "player_name": "임지유"
+      "player_name": "임지유",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9398",
-      "player_name": "손연정"
+      "player_name": "손연정",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "8424",
-      "player_name": "정슬기"
+      "player_name": "정슬기",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "13404",
-      "player_name": "김서아"
+      "player_name": "김서아",
+      "status": "COLLECTION_BLOCKED"
     },
     {
       "player_id": "9992",
-      "player_name": "최혜원"
+      "player_name": "최혜원",
+      "status": "COLLECTION_BLOCKED"
     }
   ],
-  "not_a_manual_patch": "All 120 HOME players were checked by the same generic rule -- not a handful of manual fixes.",
-  "status": "SUPERSEDED_BY_V2",
-  "supersession_reason": "SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 added a third evidence tier (operator-reported KLPGA checks) and corrected blank-slot terminology from an implicit NO_OFFICIAL_EVIDENCE framing to COLLECTION_BLOCKED (network access to klpga.co.kr is blocked in this sandbox, not proof evidence does not exist). See HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2.json."
+  "sponsor_gate_status": "NOT_PASS -- collection_blocked_count > 0. Not classified NO_OFFICIAL_EVIDENCE."
 }

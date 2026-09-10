@@ -121,9 +121,13 @@ def test_cache_excludes_the_given_exclude_paths(tmp_path):
 
 def test_kb_pre_populates_real_cross_tournament_sponsors_not_guessed(tmp_path):
     """Integration proof against the real KB build: exactly the audited
-    90/120 KB field players get a real, PASS-gated, official-source-
-    backed sponsor from OK Open's own independent collection; the
-    other 30 stay genuinely blank (no qualifying evidence anywhere)."""
+    94/120 KB field players (SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 added
+    a third evidence tier -- operator-reported KLPGA checks -- to the
+    shared resolver itself, growing this from V1's 90 to 94) get a real,
+    PASS-gated, official-source-backed sponsor from either OK Open's own
+    independent collection or the operator-reported tier; the remaining
+    26 stay genuinely COLLECTION_BLOCKED (no qualifying evidence yet
+    collected, never guessed)."""
     out = builder84.build("2026090003")
     html = (out / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     import re
@@ -131,9 +135,8 @@ def test_kb_pre_populates_real_cross_tournament_sponsors_not_guessed(tmp_path):
     assert len(spans) == 120
     populated = sum(1 for s in spans if s.strip())
     kb = json.loads((CONTENT / "2026090003_CURRENT_PLAYER_MASTER.json").read_text(encoding="utf-8"))["records"]
-    ok_open = json.loads((CONTENT / "OK_OPEN_2026_CURRENT_PLAYER_MASTER.json").read_text(encoding="utf-8"))["records"]
-    ok_sponsor_by_id = {str(r["player_id"]): r.get("current_official_sponsor") for r in ok_open if verified_sponsor(r) and r.get("official_source")}
-    expected = len({str(r["player_id"]) for r in kb} & set(ok_sponsor_by_id))
+    cache = cross_tournament_verified_sponsor_cache(content_dir=CONTENT)
+    expected = len({str(r["player_id"]) for r in kb} & set(cache))
     assert populated == expected
     # every KB record's own current_official_sponsor is null (real
     # fixture state) -- so every populated sponsor in the rendered

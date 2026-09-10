@@ -326,6 +326,22 @@ def build() -> dict:
             # files; overwrite the deterministic outputs in place instead.
             pass
     shutil.copytree(REPO / "docs", OUTPUT, dirs_exist_ok=True)
+    # SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: docs/ can be
+    # in a MAIN ONLY LOCKDOWN state (every route but "/" replaced with
+    # the "under construction" placeholder -- see
+    # scripts/apply_public_site_lockdown.py). This candidate build's own
+    # "closed stage" pages (KG r1/r2, OK r3, etc. -- see the copytree
+    # calls below) were never meant to inherit that PUBLIC-facing
+    # publication state; they are pulled from docs/ only because it
+    # already carries their last real, correct content. When
+    # docs_internal_archive/ exists (the lockdown's own preserved
+    # originals, never deleted), overlay it on top of the docs/ bootstrap
+    # so this candidate build always reflects real content regardless of
+    # production's current public lockdown state -- production's own
+    # docs/ is never touched or unlocked by this.
+    archive_dir = REPO / "docs_internal_archive"
+    if archive_dir.is_dir():
+        shutil.copytree(archive_dir, OUTPUT, dirs_exist_ok=True)
     # HARD GUARANTEE (ARCHITECTURE correction): docs/ is only ever a
     # bootstrap SOURCE here, never trusted as already-correct -- any
     # protected/ this docs/ bootstrap copy carried forward (a stale

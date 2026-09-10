@@ -177,7 +177,13 @@ def test_home_and_kb_sponsor_recovery_use_the_same_shared_resolver():
 
 def test_official_sponsor_by_id_matches_the_home_sponsor_audit_exactly():
     """Calls the REAL scripts/88 function (not a re-implementation) to
-    confirm the audit's numbers are what production actually renders."""
+    confirm the audit's numbers are what production actually renders.
+
+    Compared against the V2 audit (SPONSOR OFFICIAL-EVIDENCE RECOVERY V2
+    added a third evidence tier -- operator-reported -- to the shared
+    resolver itself, so the count production actually renders moved from
+    V1's frozen 76 to V2's 80; the V1 audit file is kept only as
+    superseded historical evidence, not as the current expectation)."""
     import importlib.util
     spec = importlib.util.spec_from_file_location("m88_sponsor_check", ROOT / "scripts" / "88_build_neo_top120_candidate.py")
     m = importlib.util.module_from_spec(spec)
@@ -185,7 +191,7 @@ def test_official_sponsor_by_id_matches_the_home_sponsor_audit_exactly():
     sponsor_by_id = m._official_sponsor_by_id()
     home_ids = _home_ranking_universe_ids()
     covered = sum(1 for pid in home_ids if sponsor_by_id.get(pid))
-    home_audit = _load("HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V1.json")
+    home_audit = _load("HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2.json")
     assert covered == home_audit["verified_sponsor_count"]
 
 

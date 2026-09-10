@@ -10,12 +10,17 @@ from pathlib import Path
 
 import pytest
 
+from klpga.tournament_context import candidate_dir
 from klpga.website_v2.top120_validation import evaluate, validate_cohort
 from klpga.website_v2.tournament_state import OK_DISPLAY_NAME, home_mode, ok_open_available_stages, ok_open_latest_available_stage
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "content" / "website_v2"
-OUTPUT = ROOT / "candidate" / "neo-data-home-top120"
+# SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 regression fix: must resolve
+# through candidate_dir() (honors tests/conftest.py's
+# KLPGA_CANDIDATE_ROOT_OVERRIDE) -- see the identical fix and rationale
+# in test_public_sponsor_contract.py.
+OUTPUT = candidate_dir("neo-data-home-top120")
 
 
 def load(name): return json.loads((CONTENT / name).read_text(encoding="utf-8"))

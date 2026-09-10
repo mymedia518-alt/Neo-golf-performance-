@@ -1,0 +1,717 @@
+{
+  "schema_version": "kb_sponsor_integrity_audit_v2",
+  "supersedes": "KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V1.json",
+  "purpose": "SPONSOR OFFICIAL-EVIDENCE RECOVERY V2: re-run with the third evidence tier (OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json) merged into cross_tournament_verified_sponsor_cache. Every remaining blank is classified COLLECTION_BLOCKED (this sandbox's network access to klpga.co.kr/k-rankings.klpga.co.kr is proxy-blocked, confirmed again for this task -- see OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json), never NO_OFFICIAL_EVIDENCE, since non-existence of evidence was never proven for them.",
+  "generated_at_utc": "2026-09-10T06:15:00Z",
+  "official_field_count": 120,
+  "verified_sponsor_count": 94,
+  "verified_direct_this_tournament_count": 0,
+  "verified_cross_tournament_or_operator_reported_count": 94,
+  "collection_blocked_count": 26,
+  "identity_unresolved_count": 0,
+  "evidence_sources_used": [
+    "1. This tournament's own KLPGA official profile collection (2026090003_CURRENT_PLAYER_MASTER.json) -- 0 direct hits (enrichment never requested for this tournament).",
+    "2. Cross-tournament reuse of another tournament's own identity_validation=PASS, official_source-backed collection.",
+    "3. Operator-reported evidence (OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json) -- real KLPGA official checks performed outside this session, since this sandbox cannot reach klpga.co.kr itself."
+  ],
+  "newly_recovered_sponsors": [
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "sponsor": "세기P&C",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "sponsor": "후라이드참잘하는집",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "sponsor": "SBI저축은행",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "sponsor": "아마노코리아",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "sponsor": "하이트진로",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "sponsor": "대방건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "sponsor": "두산건설 We've",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "sponsor": "넥센그룹",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "sponsor": "동부건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "sponsor": "NH투자증권",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "sponsor": "OK저축은행",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "sponsor": "SK텔레콤",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "sponsor": "휴온스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "sponsor": "SBI저축은행",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "sponsor": "두산건설 We've",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "sponsor": "NH투자증권",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "sponsor": "KB금융그룹",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "sponsor": "두산건설 We've",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "sponsor": "KB금융그룹",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "sponsor": "대보건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "sponsor": "대방건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정",
+      "sponsor": "대선주조",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "sponsor": "대보건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "sponsor": "요진건설산업",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "sponsor": "만수정",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "sponsor": "KB금융그룹",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "sponsor": "DB손해보험",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후",
+      "sponsor": "세기P&C",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리",
+      "sponsor": "참좋은여행",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "sponsor": "대보건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "sponsor": "지솔알이에이치",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)",
+      "sponsor": "세기P&C",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "sponsor": "신협",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "sponsor": "롯데",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "sponsor": "휴온스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "sponsor": "NH투자증권",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "sponsor": "SBI저축은행",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "sponsor": "신협",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "sponsor": "두산건설 We've",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "sponsor": "큐캐피탈 파트너스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "sponsor": "까르마",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서",
+      "sponsor": "SBI저축은행",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "sponsor": "두산건설 We've",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민",
+      "sponsor": "진아건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "sponsor": "골든블루",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민",
+      "sponsor": "KB금융그룹",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "sponsor": "대선주조",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "sponsor": "두산건설 We've",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8355",
+      "player_name": "장수연",
+      "sponsor": "동부건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "sponsor": "굿빈스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "sponsor": "휴온스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "sponsor": "휴온스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "sponsor": "NH투자증권",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "sponsor": "HJ중공업",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "sponsor": "하나금융그룹",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "sponsor": "휴온스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "sponsor": "휴온스",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "sponsor": "까르마",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "sponsor": "아마노코리아",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원",
+      "sponsor": "NH투자증권",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "sponsor": "DB손해보험",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "sponsor": "후라이드참잘하는집",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "sponsor": "메디힐",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "sponsor": "대방건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "sponsor": "HJ중공업",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "sponsor": "요진건설산업",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "sponsor": "삼천리",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "sponsor": "기프트코",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정",
+      "sponsor": "대보건설",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "sponsor": "리쥬란",
+      "status": "VERIFIED_OFFICIAL"
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서",
+      "sponsor": "KB금융그룹",
+      "status": "VERIFIED_OFFICIAL"
+    }
+  ],
+  "collection_blocked_players": [
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "11374",
+      "player_name": "전승희",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "8191",
+      "player_name": "전인지",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "11397",
+      "player_name": "구민지 0706(A)",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "11480",
+      "player_name": "김연서",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "12069",
+      "player_name": "박조은 0806(A)",
+      "status": "COLLECTION_BLOCKED"
+    },
+    {
+      "player_id": "11964",
+      "player_name": "윤다감 0907(A)",
+      "status": "COLLECTION_BLOCKED"
+    }
+  ],
+  "identity_unresolved_players": [],
+  "sponsor_gate_status": "NOT_PASS -- collection_blocked_count > 0. Every remaining blank requires real klpga.co.kr network access this sandbox does not have; not classified NO_OFFICIAL_EVIDENCE."
+}

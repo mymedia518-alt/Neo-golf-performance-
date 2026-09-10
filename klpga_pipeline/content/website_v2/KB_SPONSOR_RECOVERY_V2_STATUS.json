@@ -1,0 +1,2186 @@
+{
+  "schema_version": "kb_sponsor_recovery_v2_status_v1",
+  "purpose": "SPONSOR OFFICIAL-EVIDENCE RECOVERY V2: consolidated per-player provenance for BOTH the KB official tournament field (120) and the HOME persistent ranking population (120), per the exact provenance fields required: player_id, player_name, sponsor, official_source, retrieval_date, evidence_status. Every COLLECTION_BLOCKED player means real klpga.co.kr network access was required and unavailable to this sandbox -- never asserted as NO_OFFICIAL_EVIDENCE (non-existence of a sponsor was never proven for them).",
+  "generated_at_utc": "2026-09-10T06:30:00Z",
+  "cross_tournament_conflicts_dropped": [],
+  "kb_tournament_field": {
+    "game_code": "2026090003",
+    "summary": {
+      "population_count": 120,
+      "verified_official_count": 94,
+      "collection_blocked_count": 26
+    },
+    "players": [
+      {
+        "player_id": "9174",
+        "player_name": "강가율",
+        "sponsor": "세기P&C",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9174",
+        "retrieval_date": "2026-08-31T15:56:18Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10075",
+        "player_name": "고은혜",
+        "sponsor": "후라이드참잘하는집",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10075",
+        "retrieval_date": "2026-08-31T15:56:19Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10112",
+        "player_name": "고지우",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10112",
+        "retrieval_date": "2026-08-31T15:56:20Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10109",
+        "player_name": "고지원",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10109",
+        "retrieval_date": "2026-08-31T15:56:21Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9436",
+        "player_name": "구래현",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10726",
+        "player_name": "김가희2",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10726",
+        "retrieval_date": "2026-08-31T15:56:23Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9752",
+        "player_name": "김나현2",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9702",
+        "player_name": "김리안",
+        "sponsor": "아마노코리아",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9702",
+        "retrieval_date": "2026-08-31T15:56:24Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10002",
+        "player_name": "김민별",
+        "sponsor": "하이트진로",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10002",
+        "retrieval_date": "2026-08-31T15:56:25Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10097",
+        "player_name": "김민선7",
+        "sponsor": "대방건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10097",
+        "retrieval_date": "2026-08-31T15:56:26Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10725",
+        "player_name": "김민솔",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10725",
+        "retrieval_date": "2026-08-31T15:56:27Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10081",
+        "player_name": "김민주",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10081",
+        "retrieval_date": "2026-08-31T15:56:28Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8380",
+        "player_name": "김새로미",
+        "sponsor": "넥센그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8380",
+        "retrieval_date": "2026-08-31T15:56:29Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9089",
+        "player_name": "김소정",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8300",
+        "player_name": "김수지",
+        "sponsor": "동부건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8300",
+        "retrieval_date": "2026-08-31T15:56:31Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11143",
+        "player_name": "김시현",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11143",
+        "retrieval_date": "2026-08-31T15:56:32Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9277",
+        "player_name": "김아현",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8838",
+        "player_name": "김우정",
+        "sponsor": "OK저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8838",
+        "retrieval_date": "2026-08-31T15:56:34Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9487",
+        "player_name": "김재희",
+        "sponsor": "SK텔레콤",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9487",
+        "retrieval_date": "2026-08-31T15:56:34Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9000",
+        "player_name": "김지수",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8434",
+        "player_name": "김지영2",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8434",
+        "retrieval_date": "2026-08-31T15:56:36Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11216",
+        "player_name": "김지윤2",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11216",
+        "retrieval_date": "2026-08-31T15:56:37Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10790",
+        "player_name": "김하은2",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10790",
+        "retrieval_date": "2026-08-31T15:56:38Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8271",
+        "player_name": "김효문",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10178",
+        "player_name": "김희지",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9113",
+        "player_name": "노승희",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9113",
+        "retrieval_date": "2026-08-31T15:56:40Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9723",
+        "player_name": "노원경",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10789",
+        "player_name": "리 슈잉",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10789",
+        "retrieval_date": "2026-08-31T15:56:42Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9401",
+        "player_name": "마다솜",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9401",
+        "retrieval_date": "2026-08-31T15:56:42Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10083",
+        "player_name": "마서영",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10083",
+        "retrieval_date": "2026-08-31T15:56:43Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10296",
+        "player_name": "문정민",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9183",
+        "player_name": "박결",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9183",
+        "retrieval_date": "2026-08-31T15:56:44Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8318",
+        "player_name": "박단유",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8772",
+        "player_name": "박민지",
+        "sponsor": "NH투자증권",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "9431",
+        "player_name": "박보겸",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9431",
+        "retrieval_date": "2026-08-31T15:56:46Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9111",
+        "player_name": "박서현",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11056",
+        "player_name": "박예지",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11056",
+        "retrieval_date": "2026-08-31T15:56:47Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9788",
+        "player_name": "박혜준",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9788",
+        "retrieval_date": "2026-08-31T15:56:49Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10095",
+        "player_name": "방신실",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10095",
+        "retrieval_date": "2026-08-31T15:56:50Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8589",
+        "player_name": "배소현",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8589",
+        "retrieval_date": "2026-08-31T15:56:51Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "1485",
+        "player_name": "빳차라쭈타 콩끄라판(I)",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11134",
+        "player_name": "서교림",
+        "sponsor": "삼천리",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "9134",
+        "player_name": "서어진",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9134",
+        "retrieval_date": "2026-08-31T15:56:53Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8881",
+        "player_name": "성유진",
+        "sponsor": "대방건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8881",
+        "retrieval_date": "2026-08-31T15:56:54Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8386",
+        "player_name": "성은정",
+        "sponsor": "대선주조",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8386",
+        "retrieval_date": "2026-08-31T15:56:54Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10022",
+        "player_name": "손예빈",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10022",
+        "retrieval_date": "2026-08-31T15:56:55Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11057",
+        "player_name": "송은아",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11057",
+        "retrieval_date": "2026-08-31T15:56:56Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9135",
+        "player_name": "신다인",
+        "sponsor": "요진건설산업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9135",
+        "retrieval_date": "2026-08-31T15:56:57Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "4905",
+        "player_name": "안선주",
+        "sponsor": "만수정",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=4905",
+        "retrieval_date": "2026-08-31T15:56:58Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "6916",
+        "player_name": "안송이",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=6916",
+        "retrieval_date": "2026-08-31T15:56:59Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11060",
+        "player_name": "안재희",
+        "sponsor": "DB손해보험",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11060",
+        "retrieval_date": "2026-08-31T15:57:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9465",
+        "player_name": "안지현",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9465",
+        "retrieval_date": "2026-08-31T15:57:01Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10867",
+        "player_name": "양서후",
+        "sponsor": "세기P&C",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10867",
+        "retrieval_date": "2026-08-31T15:57:02Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10139",
+        "player_name": "양효리",
+        "sponsor": "참좋은여행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10139",
+        "retrieval_date": "2026-08-31T15:57:03Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11045",
+        "player_name": "양효진",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11045",
+        "retrieval_date": "2026-08-31T15:57:03Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8799",
+        "player_name": "오경은",
+        "sponsor": "지솔알이에이치",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8799",
+        "retrieval_date": "2026-08-31T15:57:04Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11926",
+        "player_name": "유다겸(I)",
+        "sponsor": "세기P&C",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11926",
+        "retrieval_date": "2026-08-31T15:57:05Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11066",
+        "player_name": "유서연2",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9714",
+        "player_name": "유지나",
+        "sponsor": "신협",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9714",
+        "retrieval_date": "2026-08-31T15:57:07Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10146",
+        "player_name": "유현조",
+        "sponsor": "롯데",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "9990",
+        "player_name": "윤수아",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9990",
+        "retrieval_date": "2026-08-31T15:57:07Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8884",
+        "player_name": "윤화영",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8884",
+        "retrieval_date": "2026-08-31T15:57:09Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8883",
+        "player_name": "이가영",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8883",
+        "retrieval_date": "2026-08-31T15:57:10Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8392",
+        "player_name": "이다연",
+        "sponsor": "메디힐",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "11649",
+        "player_name": "이동은",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11649",
+        "retrieval_date": "2026-08-31T15:57:11Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10481",
+        "player_name": "이서윤4",
+        "sponsor": "신협",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10481",
+        "retrieval_date": "2026-08-31T15:57:12Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11040",
+        "player_name": "이세영",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11040",
+        "retrieval_date": "2026-08-31T15:57:12Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9652",
+        "player_name": "이세희",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9652",
+        "retrieval_date": "2026-08-31T15:57:14Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8246",
+        "player_name": "이소영",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8246",
+        "retrieval_date": "2026-08-31T15:57:14Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9503",
+        "player_name": "이슬기2",
+        "sponsor": "큐캐피탈 파트너스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9503",
+        "retrieval_date": "2026-08-31T15:57:15Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8859",
+        "player_name": "이승연",
+        "sponsor": "까르마",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8859",
+        "retrieval_date": "2026-08-31T15:57:16Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9784",
+        "player_name": "이예원",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9784",
+        "retrieval_date": "2026-08-31T15:57:17Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11469",
+        "player_name": "이윤서",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11469",
+        "retrieval_date": "2026-08-31T15:57:18Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9759",
+        "player_name": "이율린",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9759",
+        "retrieval_date": "2026-08-31T15:57:18Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9708",
+        "player_name": "이재윤",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9708",
+        "retrieval_date": "2026-08-31T15:57:19Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "7434",
+        "player_name": "이정민",
+        "sponsor": "진아건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=7434",
+        "retrieval_date": "2026-08-31T15:57:20Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8234",
+        "player_name": "이주미",
+        "sponsor": "골든블루",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8234",
+        "retrieval_date": "2026-08-31T15:57:21Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "12038",
+        "player_name": "이지민",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=12038",
+        "retrieval_date": "2026-08-31T15:57:22Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9449",
+        "player_name": "이지현3",
+        "sponsor": "대선주조",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9449",
+        "retrieval_date": "2026-08-31T15:57:23Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8811",
+        "player_name": "이채은2",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8811",
+        "retrieval_date": "2026-08-31T15:57:23Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10138",
+        "player_name": "임진영",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9145",
+        "player_name": "임희정",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9145",
+        "retrieval_date": "2026-08-31T15:57:24Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8355",
+        "player_name": "장수연",
+        "sponsor": "동부건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8355",
+        "retrieval_date": "2026-08-31T15:57:25Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8243",
+        "player_name": "장은수",
+        "sponsor": "굿빈스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8243",
+        "retrieval_date": "2026-08-31T15:57:26Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11374",
+        "player_name": "전승희",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9082",
+        "player_name": "전예성",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9082",
+        "retrieval_date": "2026-08-31T15:57:28Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9389",
+        "player_name": "전우리",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9389",
+        "retrieval_date": "2026-08-31T15:57:28Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9765",
+        "player_name": "정소이",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8840",
+        "player_name": "정수빈",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8840",
+        "retrieval_date": "2026-08-31T15:57:30Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9820",
+        "player_name": "정윤지",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9820",
+        "retrieval_date": "2026-08-31T15:57:31Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8770",
+        "player_name": "조아연",
+        "sponsor": "HJ중공업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8770",
+        "retrieval_date": "2026-08-31T15:57:32Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8430",
+        "player_name": "조은채",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8972",
+        "player_name": "조정민",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9136",
+        "player_name": "조혜림",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9136",
+        "retrieval_date": "2026-08-31T15:57:34Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "1521",
+        "player_name": "지한솔",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11770",
+        "player_name": "짜라위 분짠(I)",
+        "sponsor": "하나금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11770",
+        "retrieval_date": "2026-08-31T15:57:35Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9391",
+        "player_name": "최가빈",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9391",
+        "retrieval_date": "2026-08-31T15:57:36Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8277",
+        "player_name": "최민경",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8277",
+        "retrieval_date": "2026-08-31T15:57:37Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8284",
+        "player_name": "최예림",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8284",
+        "retrieval_date": "2026-08-31T15:57:37Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10577",
+        "player_name": "최예본",
+        "sponsor": "까르마",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10577",
+        "retrieval_date": "2026-08-31T15:57:38Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9235",
+        "player_name": "최은우",
+        "sponsor": "아마노코리아",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9235",
+        "retrieval_date": "2026-08-31T15:57:39Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11073",
+        "player_name": "최정원",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11073",
+        "retrieval_date": "2026-08-31T15:57:41Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11447",
+        "player_name": "한아름",
+        "sponsor": "DB손해보험",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11447",
+        "retrieval_date": "2026-08-31T15:57:41Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9483",
+        "player_name": "한지원",
+        "sponsor": "후라이드참잘하는집",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9483",
+        "retrieval_date": "2026-08-31T15:57:44Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9426",
+        "player_name": "한진선",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9426",
+        "retrieval_date": "2026-08-31T15:57:45Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9728",
+        "player_name": "허윤서",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10531",
+        "player_name": "현세린",
+        "sponsor": "대방건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10531",
+        "retrieval_date": "2026-08-31T15:57:46Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9750",
+        "player_name": "홍정민",
+        "sponsor": "HJ중공업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9750",
+        "retrieval_date": "2026-08-31T15:57:47Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9705",
+        "player_name": "홍지원",
+        "sponsor": "요진건설산업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9705",
+        "retrieval_date": "2026-08-31T15:57:48Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10586",
+        "player_name": "홍진영2",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10586",
+        "retrieval_date": "2026-08-31T15:57:49Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11042",
+        "player_name": "홍현지",
+        "sponsor": "기프트코",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11042",
+        "retrieval_date": "2026-08-31T15:57:50Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10727",
+        "player_name": "황민정",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10727",
+        "retrieval_date": "2026-08-31T15:57:51Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9937",
+        "player_name": "황유나",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9937",
+        "retrieval_date": "2026-08-31T15:57:52Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8240",
+        "player_name": "황정미",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8191",
+        "player_name": "전인지",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11397",
+        "player_name": "구민지 0706(A)",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11480",
+        "player_name": "김연서",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "12069",
+        "player_name": "박조은 0806(A)",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11964",
+        "player_name": "윤다감 0907(A)",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10698",
+        "player_name": "정민서",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10698",
+        "retrieval_date": "2026-08-31T15:57:59Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      }
+    ]
+  },
+  "home_ranking_population": {
+    "source": "HOME_PLAYER_MASTER_TOP120.json",
+    "summary": {
+      "population_count": 120,
+      "verified_official_count": 80,
+      "collection_blocked_count": 40
+    },
+    "players": [
+      {
+        "player_id": "10725",
+        "player_name": "김민솔",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10725",
+        "retrieval_date": "2026-08-31T15:56:27Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11134",
+        "player_name": "서교림",
+        "sponsor": "삼천리",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "10146",
+        "player_name": "유현조",
+        "sponsor": "롯데",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "8392",
+        "player_name": "이다연",
+        "sponsor": "메디힐",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "10095",
+        "player_name": "방신실",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10095",
+        "retrieval_date": "2026-08-31T15:56:50Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9784",
+        "player_name": "이예원",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9784",
+        "retrieval_date": "2026-08-31T15:57:17Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9113",
+        "player_name": "노승희",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9113",
+        "retrieval_date": "2026-08-31T15:56:40Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8881",
+        "player_name": "성유진",
+        "sponsor": "대방건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8881",
+        "retrieval_date": "2026-08-31T15:56:54Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9750",
+        "player_name": "홍정민",
+        "sponsor": "HJ중공업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9750",
+        "retrieval_date": "2026-08-31T15:57:47Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10097",
+        "player_name": "김민선7",
+        "sponsor": "대방건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10097",
+        "retrieval_date": "2026-08-31T15:56:26Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10109",
+        "player_name": "고지원",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10109",
+        "retrieval_date": "2026-08-31T15:56:21Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8284",
+        "player_name": "최예림",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8284",
+        "retrieval_date": "2026-08-31T15:57:37Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9130",
+        "player_name": "박현경",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9130",
+        "retrieval_date": "2026-08-31T15:56:49Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8772",
+        "player_name": "박민지",
+        "sponsor": "NH투자증권",
+        "official_source": "operator-reported: KLPGA official player/team information (verified outside this session)",
+        "retrieval_date": "2026-09-10T06:10:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "operator_reported"
+      },
+      {
+        "player_id": "9788",
+        "player_name": "박혜준",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9788",
+        "retrieval_date": "2026-08-31T15:56:49Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10112",
+        "player_name": "고지우",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10112",
+        "retrieval_date": "2026-08-31T15:56:20Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8243",
+        "player_name": "장은수",
+        "sponsor": "굿빈스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8243",
+        "retrieval_date": "2026-08-31T15:57:26Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9082",
+        "player_name": "전예성",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9082",
+        "retrieval_date": "2026-08-31T15:57:28Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11649",
+        "player_name": "이동은",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11649",
+        "retrieval_date": "2026-08-31T15:57:11Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10185",
+        "player_name": "황유민",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8300",
+        "player_name": "김수지",
+        "sponsor": "동부건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8300",
+        "retrieval_date": "2026-08-31T15:56:31Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8375",
+        "player_name": "김효주",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10081",
+        "player_name": "김민주",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10081",
+        "retrieval_date": "2026-08-31T15:56:28Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11143",
+        "player_name": "김시현",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11143",
+        "retrieval_date": "2026-08-31T15:56:32Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9135",
+        "player_name": "신다인",
+        "sponsor": "요진건설산업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9135",
+        "retrieval_date": "2026-08-31T15:56:57Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "6781",
+        "player_name": "박주영",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8883",
+        "player_name": "이가영",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8883",
+        "retrieval_date": "2026-08-31T15:57:10Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9235",
+        "player_name": "최은우",
+        "sponsor": "아마노코리아",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9235",
+        "retrieval_date": "2026-08-31T15:57:39Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9820",
+        "player_name": "정윤지",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9820",
+        "retrieval_date": "2026-08-31T15:57:31Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11066",
+        "player_name": "유서연2",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10296",
+        "player_name": "문정민",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9145",
+        "player_name": "임희정",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9145",
+        "retrieval_date": "2026-08-31T15:57:24Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11770",
+        "player_name": "짜라위 분짠",
+        "sponsor": "하나금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11770",
+        "retrieval_date": "2026-08-31T15:57:35Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9426",
+        "player_name": "한진선",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9426",
+        "retrieval_date": "2026-08-31T15:57:45Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9362",
+        "player_name": "박지영",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9449",
+        "player_name": "이지현3",
+        "sponsor": "대선주조",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9449",
+        "retrieval_date": "2026-08-31T15:57:23Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11045",
+        "player_name": "양효진",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11045",
+        "retrieval_date": "2026-08-31T15:57:03Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10586",
+        "player_name": "홍진영2",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10586",
+        "retrieval_date": "2026-08-31T15:57:49Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8589",
+        "player_name": "배소현",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8589",
+        "retrieval_date": "2026-08-31T15:56:51Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "1521",
+        "player_name": "지한솔",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9431",
+        "player_name": "박보겸",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9431",
+        "retrieval_date": "2026-08-31T15:56:46Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9401",
+        "player_name": "마다솜",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9401",
+        "retrieval_date": "2026-08-31T15:56:42Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9134",
+        "player_name": "서어진",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9134",
+        "retrieval_date": "2026-08-31T15:56:53Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9759",
+        "player_name": "이율린",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9759",
+        "retrieval_date": "2026-08-31T15:57:18Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10002",
+        "player_name": "김민별",
+        "sponsor": "하이트진로",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10002",
+        "retrieval_date": "2026-08-31T15:56:25Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9652",
+        "player_name": "이세희",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9652",
+        "retrieval_date": "2026-08-31T15:57:14Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "1485",
+        "player_name": "빳차라쭈타 콩끄라판",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10138",
+        "player_name": "임진영",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9465",
+        "player_name": "안지현",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9465",
+        "retrieval_date": "2026-08-31T15:57:01Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10577",
+        "player_name": "최예본",
+        "sponsor": "까르마",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10577",
+        "retrieval_date": "2026-08-31T15:57:38Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8811",
+        "player_name": "이채은2",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8811",
+        "retrieval_date": "2026-08-31T15:57:23Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11391",
+        "player_name": "양윤서",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9487",
+        "player_name": "김재희",
+        "sponsor": "SK텔레콤",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9487",
+        "retrieval_date": "2026-08-31T15:56:34Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9391",
+        "player_name": "최가빈",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9391",
+        "retrieval_date": "2026-08-31T15:57:36Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10789",
+        "player_name": "리 슈잉",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10789",
+        "retrieval_date": "2026-08-31T15:56:42Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8859",
+        "player_name": "이승연",
+        "sponsor": "까르마",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8859",
+        "retrieval_date": "2026-08-31T15:57:16Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11057",
+        "player_name": "송은아",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11057",
+        "retrieval_date": "2026-08-31T15:56:56Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11073",
+        "player_name": "최정원",
+        "sponsor": "NH투자증권",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11073",
+        "retrieval_date": "2026-08-31T15:57:41Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9389",
+        "player_name": "전우리",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9389",
+        "retrieval_date": "2026-08-31T15:57:28Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11056",
+        "player_name": "박예지",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11056",
+        "retrieval_date": "2026-08-31T15:56:47Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9765",
+        "player_name": "정소이",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8277",
+        "player_name": "최민경",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8277",
+        "retrieval_date": "2026-08-31T15:57:37Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10726",
+        "player_name": "김가희2",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10726",
+        "retrieval_date": "2026-08-31T15:56:23Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9807",
+        "player_name": "김서윤2",
+        "sponsor": "셀트리온",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9807",
+        "retrieval_date": "2026-08-31T15:56:29Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9708",
+        "player_name": "이재윤",
+        "sponsor": "삼천리",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9708",
+        "retrieval_date": "2026-08-31T15:57:19Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11216",
+        "player_name": "김지윤2",
+        "sponsor": "SBI저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11216",
+        "retrieval_date": "2026-08-31T15:56:37Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11630",
+        "player_name": "정지효",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9714",
+        "player_name": "유지나",
+        "sponsor": "신협",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9714",
+        "retrieval_date": "2026-08-31T15:57:07Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8770",
+        "player_name": "조아연",
+        "sponsor": "HJ중공업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8770",
+        "retrieval_date": "2026-08-31T15:57:32Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10159",
+        "player_name": "강채연",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11042",
+        "player_name": "홍현지",
+        "sponsor": "기프트코",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11042",
+        "retrieval_date": "2026-08-31T15:57:50Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9183",
+        "player_name": "박결",
+        "sponsor": "두산건설 We've",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9183",
+        "retrieval_date": "2026-08-31T15:56:44Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "6916",
+        "player_name": "안송이",
+        "sponsor": "KB금융그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=6916",
+        "retrieval_date": "2026-08-31T15:56:59Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8380",
+        "player_name": "김새로미",
+        "sponsor": "넥센그룹",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8380",
+        "retrieval_date": "2026-08-31T15:56:29Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9752",
+        "player_name": "김나현2",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10821",
+        "player_name": "유아현",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9000",
+        "player_name": "김지수",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9483",
+        "player_name": "한지원",
+        "sponsor": "후라이드참잘하는집",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9483",
+        "retrieval_date": "2026-08-31T15:57:44Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8838",
+        "player_name": "김우정",
+        "sponsor": "OK저축은행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8838",
+        "retrieval_date": "2026-08-31T15:56:34Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11640",
+        "player_name": "성아진",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10531",
+        "player_name": "현세린",
+        "sponsor": "대방건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10531",
+        "retrieval_date": "2026-08-31T15:57:46Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10083",
+        "player_name": "마서영",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10083",
+        "retrieval_date": "2026-08-31T15:56:43Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11080",
+        "player_name": "길예람",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9990",
+        "player_name": "윤수아",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9990",
+        "retrieval_date": "2026-08-31T15:57:07Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9705",
+        "player_name": "홍지원",
+        "sponsor": "요진건설산업",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9705",
+        "retrieval_date": "2026-08-31T15:57:48Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11136",
+        "player_name": "홍수민",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9136",
+        "player_name": "조혜림",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9136",
+        "retrieval_date": "2026-08-31T15:57:34Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8854",
+        "player_name": "서연정",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11060",
+        "player_name": "안재희",
+        "sponsor": "DB손해보험",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11060",
+        "retrieval_date": "2026-08-31T15:57:00Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11447",
+        "player_name": "한아름",
+        "sponsor": "DB손해보험",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=11447",
+        "retrieval_date": "2026-08-31T15:57:41Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10623",
+        "player_name": "강지선",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9364",
+        "player_name": "박소혜",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8355",
+        "player_name": "장수연",
+        "sponsor": "동부건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8355",
+        "retrieval_date": "2026-08-31T15:57:25Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10114",
+        "player_name": "김나영",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9089",
+        "player_name": "김소정",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8234",
+        "player_name": "이주미",
+        "sponsor": "골든블루",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8234",
+        "retrieval_date": "2026-08-31T15:57:21Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10727",
+        "player_name": "황민정",
+        "sponsor": "대보건설",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10727",
+        "retrieval_date": "2026-08-31T15:57:51Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11485",
+        "player_name": "신지우",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9748",
+        "player_name": "신유진",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "11374",
+        "player_name": "전승희",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9786",
+        "player_name": "주가인",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8799",
+        "player_name": "오경은",
+        "sponsor": "지솔알이에이치",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8799",
+        "retrieval_date": "2026-08-31T15:57:04Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "10022",
+        "player_name": "손예빈",
+        "sponsor": "메디힐",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10022",
+        "retrieval_date": "2026-08-31T15:56:55Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "11211",
+        "player_name": "김도희3",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10139",
+        "player_name": "양효리",
+        "sponsor": "참좋은여행",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10139",
+        "retrieval_date": "2026-08-31T15:57:03Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9156",
+        "player_name": "한빛나",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "12103",
+        "player_name": "전이안",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "13502",
+        "player_name": "왕 즈쉬엔",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9111",
+        "player_name": "박서현",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "1734",
+        "player_name": "이민지",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10790",
+        "player_name": "김하은2",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=10790",
+        "retrieval_date": "2026-08-31T15:56:38Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9937",
+        "player_name": "황유나",
+        "sponsor": "리쥬란",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9937",
+        "retrieval_date": "2026-08-31T15:57:52Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "8863",
+        "player_name": "윤혜림",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "10101",
+        "player_name": "임지유",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "9174",
+        "player_name": "강가율",
+        "sponsor": "세기P&C",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=9174",
+        "retrieval_date": "2026-08-31T15:56:18Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9398",
+        "player_name": "손연정",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8424",
+        "player_name": "정슬기",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "13404",
+        "player_name": "김서아",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      },
+      {
+        "player_id": "8840",
+        "player_name": "정수빈",
+        "sponsor": "휴온스",
+        "official_source": "https://klpga.co.kr/web/profile/mainRecord?playerCode=8840",
+        "retrieval_date": "2026-08-31T15:57:30Z",
+        "evidence_status": "VERIFIED_OFFICIAL",
+        "evidence_tier": "cross_tournament_reuse"
+      },
+      {
+        "player_id": "9992",
+        "player_name": "최혜원",
+        "sponsor": null,
+        "official_source": null,
+        "retrieval_date": null,
+        "evidence_status": "COLLECTION_BLOCKED",
+        "evidence_tier": null
+      }
+    ]
+  }
+}
