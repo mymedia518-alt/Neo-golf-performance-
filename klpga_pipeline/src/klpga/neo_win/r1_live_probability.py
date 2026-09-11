@@ -65,9 +65,13 @@ import statistics
 from dataclasses import dataclass
 from typing import Optional
 
-from klpga.neo_win.round_update import PlayerSimInput
+from klpga.neo_win.round_update import DEFAULT_N_SIMULATIONS, PlayerSimInput
 
-DEFAULT_N_SIMULATIONS = 5000
+# NEO MONTE CARLO PRODUCTION CONTRACT: this module previously declared
+# its own separate `DEFAULT_N_SIMULATIONS = 5000` literal -- now
+# imported directly from klpga.neo_win.round_update (the single shared
+# production constant, 10000) so this module can never silently drift
+# from the shared contract again.
 DEFAULT_CUT_FRACTION = 0.65
 MIN_SPREAD = 0.5
 _WINDOW_PREFERENCE = ("recent5", "recent10", "recent3", "season2026", "multi_season", "current")

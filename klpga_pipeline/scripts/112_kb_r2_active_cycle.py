@@ -72,6 +72,9 @@ from klpga.neo_win.r2_freeze import (  # noqa: E402
 from klpga.neo_win.r2_house_contract import load_expected_r2_field  # noqa: E402
 from klpga.neo_win.r2_probability_gate import ProbabilityGateError, validate_probability_gate  # noqa: E402
 from klpga.neo_win.r2_real_page import is_real_page, render_r2_real_page  # noqa: E402
+from klpga.neo_win.production_simulation_gate import (  # noqa: E402
+    ProductionSimulationContractError, assert_production_simulation_count,
+)
 from klpga.neo_win.r2_rendered_output_gate import RenderedOutputGateError, validate_r2_rendered_output  # noqa: E402
 from klpga.neo_win.r2_sg_pipeline import STATUS_AVAILABLE, SgIngestError, ingest_r2_sg  # noqa: E402
 from klpga.neo_win.r2_wait_page import render_r2_wait_page  # noqa: E402
@@ -828,9 +831,12 @@ def _publish_and_close(rows, expected, decision, build_id: str, seed: int) -> di
     active_ids = {r["player_id"] for r in rows if r.get("status", "ACTIVE") == "ACTIVE"}
     try:
         validate_probability_gate(forecast, expected_game_code=GAME_CODE, expected_active_player_ids=active_ids)
+        assert_production_simulation_count(forecast["n_simulations"], context="post_r2_final_forecast")
         probability_gate = (r2_publication_gate.PASS, "probability gate passed")
     except ProbabilityGateError as exc:
         return _summary("HARD_STOP", f"probability gate failed: {exc}", True)
+    except ProductionSimulationContractError as exc:
+        return _summary("HARD_STOP", f"production simulation contract failed: {exc}", True)
 
     # website build: the real renderer, fed ONLY by the three already-
     # gated canonical inputs above (frozen R2 records, the just-written

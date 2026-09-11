@@ -90,20 +90,22 @@ def test_every_enumerated_locked_html_path_is_exactly_the_placeholder():
         assert content == lockdown.PLACEHOLDER_HTML, f"{rel} is not the exact placeholder"
 
 
-def test_kb_pre_r1_and_r2_are_the_only_released_tournament_routes():
+def test_kb_pre_r1_r2_and_r3_are_the_only_released_tournament_routes():
     """KB's R1 page was added (see scripts/109_build_kb_r1_page.py,
     NEO_R1_MODEL_V1_FREEZE.json) once its own publication gate passed.
     R2 HOUSE (20260911) added a third: a real, truthful WAIT-state page
     (klpga.neo_win.r2_wait_page) is intentionally public before real R2
-    data exists -- this is NOT a weakening of the release list, since
-    that page fabricates nothing and the HOME STATE ROUTER separately
-    refuses to ever promote it to root HOME (STAGE_READINESS_MARKER)
-    until its own R2 publication gate passes. Still exactly these three
-    routes, nothing else."""
+    data exists. R3 HOUSE (fix/kb-r2-official-cut-gate-20260911) added
+    a fourth, same precedent exactly one round later (klpga.neo_win.
+    r3_wait_page) -- neither page fabricates anything, and the HOME
+    STATE ROUTER separately refuses to ever promote either to root HOME
+    (STAGE_READINESS_MARKER) until its own publication gate passes.
+    Still exactly these four routes, nothing else."""
     assert lockdown.RELEASED_HTML_PATHS == {
         "tournaments/2026/2026090003/pre/index.html",
         "tournaments/2026/2026090003/r1/index.html",
         "tournaments/2026/2026090003/r2/index.html",
+        "tournaments/2026/2026090003/r3/index.html",
     }
     pre_content = (DOCS / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     assert pre_content != lockdown.PLACEHOLDER_HTML
