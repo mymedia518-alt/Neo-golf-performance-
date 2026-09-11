@@ -32,18 +32,25 @@ no live data itself):
     status == "NOT_AVAILABLE" every SG cell renders the empty mark,
     never a guess.
 
-Row population and order: every ACTIVE-or-otherwise-real row in the
-FROZEN R2 EVIDENCE (r2_freeze["records"]) is shown -- never the
-forecast's or SG's own player set, which may legitimately be a subset
-(a player missing a PRE profile is excluded from simulation;
-see post_r2_forecast's own missing_players list) or absent entirely
-(SG NOT_AVAILABLE). A non-ACTIVE player (CUT/WD/DQ/DNS) is still shown
-with their real status and whatever real round_to_par/total_to_par
-they have -- never dropped, matching R1's own "never silently drop a
-real entrant" invariant. Ranking is DERIVED (ascending total_to_par,
-ties share a rank -- see r2_house_contract.py's own DERIVED
-classification for "rank"), the standard golf-leaderboard computation
-from a real score, never a separately fabricated number.
+PUBLIC MAIN-TABLE POPULATION (fix/kb-r2-official-cut-gate-20260911,
+R2 CUT SURVIVORS ONLY task): the public main table shows ONLY players
+with real, explicit status=="ACTIVE" in the FROZEN R2 EVIDENCE
+(r2_freeze["records"]) -- i.e. players who officially advanced past
+the R2 cut. CUT/WD/DQ/DNS players are never rendered as a public main-
+table row, and are never inferred from a missing row, rank, score, or
+population count -- the exclusion is driven entirely by each record's
+own explicit official `status` field, already established upstream by
+the real cut-boundary evidence (scripts/112's
+_collect_cut_boundary_evidence/_reconcile_cut_evidence). This is
+PUBLIC-VIEW FILTERING ONLY: the full frozen evidence (including every
+CUT/WD/DQ/DNS record) is passed in and used unmodified elsewhere
+(rendered-output gate population checks, audit artifacts, model
+inputs) -- nothing is deleted from r2_freeze itself, only excluded
+from this one table's rendered rows. Ranking is DERIVED (ascending
+total_to_par among the advancing population only, ties share a rank
+-- see r2_house_contract.py's own DERIVED classification for "rank"),
+the standard golf-leaderboard computation from a real score, never a
+separately fabricated number.
 """
 from __future__ import annotations
 
@@ -63,6 +70,7 @@ _stage_is_publication_ready docstring) but is emitted anyway as a
 positive, machine-checkable assertion for this page's own tests."""
 
 STATUS_LABEL = {"ACTIVE": "", "CUT": "CUT", "WD": "WD", "DQ": "DQ", "DNS": "DNS"}
+ADVANCING_STATUS = "ACTIVE"
 
 
 def _to_par_display(raw) -> str:
@@ -180,10 +188,18 @@ def render_r2_real_page(
     # see the PUBLIC TABLE COLUMN FIX task on this branch. SG data is
     # never deleted from the pipeline/artifacts, only from this one
     # public view.
-    ranks = _derive_display_ranks(records)
+    # PUBLIC MAIN TABLE = CUT SURVIVORS ONLY (fix/kb-r2-official-cut-
+    # gate-20260911, R2 CUT SURVIVORS ONLY task): `records` above stays
+    # the FULL frozen evidence (every CUT/WD/DQ/DNS record intact,
+    # untouched, still the module's return-value input for anything
+    # else a caller does with it); `advancing_records` is a display-
+    # only filter, driven strictly by each record's own explicit
+    # official status -- never inferred from a missing row/rank/score.
+    advancing_records = [r for r in records if r.get("status", "ACTIVE") == ADVANCING_STATUS]
+    ranks = _derive_display_ranks(advancing_records)
 
     rows_html = []
-    for row in sorted(records, key=_rank_sort_key):
+    for row in sorted(advancing_records, key=_rank_sort_key):
         pid = str(row["player_id"])
         # `data-player-id` -- a real audit hook (fix/kb-r2-official-
         # cut-gate-20260911): lets a rendered-output regression or
@@ -226,6 +242,7 @@ def render_r2_real_page(
         "<th>순위</th><th>선수</th><th>합계</th><th>2R</th>"
         "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
+        + f'<p class="note">총 {len(advancing_records)}명 (컷 통과 선수만 표시)</p>'
         + "</section>"
     )
 
