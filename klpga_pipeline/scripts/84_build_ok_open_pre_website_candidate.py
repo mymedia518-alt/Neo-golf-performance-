@@ -773,6 +773,60 @@ CSS = """
 .leaderboard-table.leaderboard-table--rank-result tbody td:nth-child(4){grid-column:5;grid-row:2;background:transparent;font-size:12px;color:var(--muted)}
 .leaderboard-table.leaderboard-table--rank-result tbody td:nth-child(n+5){grid-row:3;background:var(--soft)}
 
+/* R2 HOUSE real-data renderer (P0-1, 20260911): purely additive -- a
+   NEW modifier class, never used by any existing PRE/R1/KG/OK Open
+   page, so nothing above is touched. leaderboard-table--rank-result's
+   9-column shape (5 probability cells) can't hold R2's 13 columns
+   (rank, name+sponsor, total, round score, 5 SG cells, 4 forecast
+   probability cells) without the same "one glyph per line" collapse
+   the MOBILE HOTFIX 20260911 comment above already documents -- this
+   gives SG and probability each their own intentional, explicitly
+   placed full-width row (row3=SG, row4=probability) instead of
+   dumping all 9 metric cells into one row. Desktop is untouched: at
+   >760px tbody tr is never display:grid, so these grid-column/
+   grid-row declarations are inert and the table renders as a normal
+   13-column HTML table (table-wrap's existing overflow-x:auto is the
+   only desktop-width fallback needed). */
+.leaderboard-table.leaderboard-table--r2-full tbody tr{grid-template-columns:repeat(5,1fr);grid-template-rows:auto auto auto auto;align-items:center;column-gap:6px;row-gap:4px}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(1){grid-column:1;grid-row:1/3;background:transparent;font-size:16px;font-weight:800}
+.leaderboard-table.leaderboard-table--r2-full tbody th[scope=row]{grid-column:2/5;grid-row:1/3;border-bottom:0;padding:0;margin:0}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(3){grid-column:5;grid-row:1;background:transparent;font-size:16px;font-weight:800;color:var(--ink)}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(4){grid-column:5;grid-row:2;background:transparent;font-size:12px;color:var(--muted)}
+/* row3: SG TOTAL/OTT/APP/ARG/PUTT (DOM columns 5-9) -- one full 5-col row, accent-soft tint groups them visually as "SG". */
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(n+5):nth-child(-n+9){grid-row:3;background:var(--accent-soft)}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(5){grid-column:1}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(6){grid-column:2}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(7){grid-column:3}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(8){grid-column:4}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(9){grid-column:5}
+/* row4: WIN/TOP5/TOP10/TOP20 forecast probabilities (DOM columns 10-13) -- own full row, neutral --soft tint distinguishes it from the SG row above. */
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(n+10):nth-child(-n+13){grid-row:4;background:var(--soft)}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(10){grid-column:1}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(11){grid-column:2}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(12){grid-column:3}
+.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(13){grid-column:4}
+/* Missing-value convention ("--" cells: SG/forecast not yet available
+   for a given player) -- reuses the exact class name neo-site.css's
+   .home-table already established for the same convention
+   (cross-site consistency), scoped here to leaderboard-table since
+   neo.css has no such rule yet. Applies at every width (not just
+   mobile) since the "--" mark is shown in the flat desktop table too. */
+.leaderboard-table td.metric-empty{color:var(--muted)}
+/* Non-ACTIVE status (CUT/WD/DQ) badge, next to the player name -- a
+   small inline pill (reuses the .band family's visual language, own
+   color so it's never confused with a NEO 경기력 band) so a real
+   status is legible without needing a whole extra column. */
+.status-badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#f7e4e1;color:var(--band-5);font-size:11px;font-weight:800;vertical-align:middle}
+/* Narrow-phone wrap fix (360px QA finding): SG's signed 2-decimal
+   values ("+4.82") are 1-2 glyphs longer than rank-result's own
+   percentages at the same 5-column width, wrapping mid-number at the
+   360px breakpoint specifically (390/412 already had enough room).
+   One step smaller font in the two data rows only (identity/rank/
+   total keep their own already-tuned sizes) removes the wrap without
+   touching any other page's typography -- scoped to <=380px so
+   390/412 are untouched. */
+@media(max-width:380px){.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(n+5){font-size:12px}}
+
 /* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
 .r1-live-summary__grid{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px}.r1-live-summary__grid .label{display:block;color:var(--muted);font-size:12px}.r1-live-summary__grid strong{font-size:16px}
 .mover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.mover-grid h3{font-size:13px;color:var(--muted);margin:0 0 6px}

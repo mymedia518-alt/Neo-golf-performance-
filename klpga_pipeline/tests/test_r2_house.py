@@ -472,3 +472,114 @@ def test_decide_r2_cycle_publish_and_close_on_complete():
     rows = [{"player_id": "p1", "status": "ACTIVE", "holes_completed": "36"}]
     decision = decide_r2_cycle(rows, ["p1"], official_page_available=True, cut_known=True)
     assert decision.action == "PUBLISH_AND_CLOSE"
+
+
+# ---------------------------------------------------------------------
+# CASE: SG archaeology / ingestion pipeline (P0-2)
+# ---------------------------------------------------------------------
+
+def _sg_html(rows):
+    trs = ""
+    for rank, player, values, rounds in rows:
+        cells = [str(rank), player, *[str(v) for v in values], str(rounds)]
+        trs += "<tr>" + "".join(f"<td>{c}</td>" for c in cells) + "</tr>"
+    return f'<div id="record-one"><table><tbody>{trs}</tbody></table></div>'
+
+
+def test_sg_ingest_available_when_official_rows_reconcile():
+    from klpga.neo_win.r2_sg_pipeline import STATUS_AVAILABLE, parse_and_validate_r2_sg
+    # total=3.71 = 0.86+1.11+0.27+1.47; tee_to_green=2.24 = 0.86+1.11+0.27
+    html = _sg_html([(1, "선수A", [3.71, 2.24, 0.86, 1.11, 0.27, 1.47], 2)])
+    status, rows = parse_and_validate_r2_sg(html)
+    assert status == STATUS_AVAILABLE
+    assert rows[0]["player"] == "선수A"
+    assert rows[0]["total"] == 3.71
+
+
+def test_sg_ingest_not_available_when_endpoint_returns_nothing():
+    from klpga.neo_win.r2_sg_pipeline import STATUS_NOT_AVAILABLE, parse_and_validate_r2_sg
+    status, rows = parse_and_validate_r2_sg("<html><body>no table here</body></html>")
+    assert status == STATUS_NOT_AVAILABLE
+    assert rows == []
+
+
+def test_sg_ingest_corrupt_when_components_dont_reconcile():
+    from klpga.neo_win.r2_sg_pipeline import STATUS_CORRUPT, parse_and_validate_r2_sg
+    # total=9.99 does not equal the component sum -- real corruption
+    html = _sg_html([(1, "선수A", [9.99, 2.24, 0.86, 1.11, 0.27, 1.47], 2)])
+    status, rows = parse_and_validate_r2_sg(html)
+    assert status == STATUS_CORRUPT
+    assert rows == []
+
+
+def test_sg_join_resolves_by_exact_player_name():
+    from klpga.neo_win.r2_sg_pipeline import join_r2_sg_to_frozen_players
+    sg_rows = [{"player": "선수A", "total": 3.71, "tee_to_green": 2.24, "off_the_tee": 0.86, "approach": 1.11, "around_green": 0.27, "putting": 1.47}]
+    frozen_players = [{"player_id": "p1", "player_name": "선수A"}, {"player_id": "p2", "player_name": "선수B"}]
+    sg_by_id, unresolved = join_r2_sg_to_frozen_players(sg_rows, frozen_players)
+    assert sg_by_id["p1"]["total"] == 3.71
+    assert unresolved == []
+
+
+def test_sg_join_reports_unresolved_names_never_drops_silently():
+    from klpga.neo_win.r2_sg_pipeline import join_r2_sg_to_frozen_players
+    sg_rows = [{"player": "선수C", "total": 1.0, "tee_to_green": 1.0, "off_the_tee": 0.5, "approach": 0.3, "around_green": 0.1, "putting": 0.1}]
+    sg_by_id, unresolved = join_r2_sg_to_frozen_players(sg_rows, [{"player_id": "p1", "player_name": "선수A"}])
+    assert sg_by_id == {}
+    assert unresolved == ["선수C"]
+
+
+def test_sg_ingest_end_to_end_with_fake_client_available():
+    from klpga.neo_win.r2_sg_pipeline import STATUS_AVAILABLE, ingest_r2_sg
+
+    class _FakeSession:
+        def post(self, url, data=None, headers=None, timeout=None):
+            class _Resp:
+                text = _sg_html([(1, "선수A", [3.71, 2.24, 0.86, 1.11, 0.27, 1.47], 2)])
+                encoding = "utf-8"
+                def raise_for_status(self): return None
+            return _Resp()
+
+    class _FakeClient:
+        session = _FakeSession()
+
+    result = ingest_r2_sg(_FakeClient(), "TEST0001", [{"player_id": "p1", "player_name": "선수A"}])
+    assert result["status"] == STATUS_AVAILABLE
+    assert result["sg_by_player_id"]["p1"]["total"] == 3.71
+
+
+def test_sg_ingest_end_to_end_with_fake_client_not_available():
+    from klpga.neo_win.r2_sg_pipeline import STATUS_NOT_AVAILABLE, ingest_r2_sg
+
+    class _FakeSession:
+        def post(self, url, data=None, headers=None, timeout=None):
+            class _Resp:
+                text = "<html><body>no table here</body></html>"
+                encoding = "utf-8"
+                def raise_for_status(self): return None
+            return _Resp()
+
+    class _FakeClient:
+        session = _FakeSession()
+
+    result = ingest_r2_sg(_FakeClient(), "TEST0001", [{"player_id": "p1", "player_name": "선수A"}])
+    assert result["status"] == STATUS_NOT_AVAILABLE
+    assert result["sg_by_player_id"] == {}
+
+
+def test_sg_ingest_end_to_end_with_fake_client_corrupt_hard_stops():
+    from klpga.neo_win.r2_sg_pipeline import SgIngestError, ingest_r2_sg
+
+    class _FakeSession:
+        def post(self, url, data=None, headers=None, timeout=None):
+            class _Resp:
+                text = _sg_html([(1, "선수A", [9.99, 2.24, 0.86, 1.11, 0.27, 1.47], 2)])
+                encoding = "utf-8"
+                def raise_for_status(self): return None
+            return _Resp()
+
+    class _FakeClient:
+        session = _FakeSession()
+
+    with pytest.raises(SgIngestError):
+        ingest_r2_sg(_FakeClient(), "TEST0001", [{"player_id": "p1", "player_name": "선수A"}])

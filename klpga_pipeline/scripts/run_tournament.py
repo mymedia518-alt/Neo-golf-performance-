@@ -77,6 +77,16 @@ Sandbox note: any LIVE-stage action requires a real klpga.co.kr fetch
 script's own ingest) -- there is no offline stand-in, by design ("fail
 loudly rather than silently" per klpga.tournament_cycle). Use --dry-run
 to see the decision only.
+
+KB 2026090003 scope note (R2 HOUSE, 2026-09-11): KB's own PRE/R1/R2
+pages are NOT driven through this registry -- they run via a separate,
+dedicated, hardcoded-identity pipeline (scripts/109, scripts/111,
+scripts/112) predating this generic engine, and KB is not tracked via
+config/active_tournament.json (a different, OK-Open-lineage identity
+system this script itself persists to). See
+docs/NEO_TOURNAMENT_LEGACY_ACTION_BLOCKERS.md's own "KB 2026090003"
+section for why merging them is tracked separately (Phase 5.1), not
+assumed done by this file.
 """
 from __future__ import annotations
 
