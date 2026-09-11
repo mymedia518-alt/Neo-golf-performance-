@@ -67,13 +67,33 @@ def test_reconcile_leaves_matching_explicit_status_untouched(module):
     assert reconciled[0]["status"] == "WD"
 
 
-def test_reconcile_never_silently_overrides_a_disagreeing_explicit_status(module):
-    """The real P0-DUPLICATE-style safety net: if the primary source
-    already says WD for a player but the evidence page says CUT (or
-    vice versa), that is a genuine conflict between two real official
-    sources -- never silently resolved either way."""
+def test_reconcile_explicit_wd_wins_over_evidence_cut_never_a_conflict(module):
+    """SUPERSEDES the pre-real-live-execution version of this test
+    (fix/kb-r2-official-cut-gate-20260911, real --live run correction):
+    scoreRecord's own official_status="CUT" can never itself be
+    distinguished (at the evidence layer) from a section-derived
+    post-boundary CUT vs a literal CUT text cell -- so it is always
+    treated as the WEAKER, subordinate signal relative to the primary
+    source's own real, explicit WD -- the primary's WD wins, untouched,
+    and this is NOT a conflict (see _reconcile_cut_evidence's own
+    updated docstring, rule 3). A genuinely different pair of explicit
+    terminal statuses (e.g. WD vs DQ) still IS a real conflict -- see
+    test_reconcile_two_different_explicit_terminal_statuses_hard_stops
+    below."""
     rows = [{"player_id": "p1", "player_name": "선수B", "status": "WD"}]
     evidence = _evidence([{"player_name": "선수B", "official_status": "CUT", "rank_display": "T72"}], cut_boundary_published=True)
+    reconciled, conflicts = module._reconcile_cut_evidence(rows, evidence)
+    assert conflicts == []
+    assert reconciled[0]["status"] == "WD"  # untouched -- primary's real WD is authoritative
+
+
+def test_reconcile_two_different_explicit_terminal_statuses_hard_stops(module):
+    """The real conflict case the superseded test above was reaching
+    for with the wrong example: two genuinely different real, explicit
+    terminal determinations (neither is scoreRecord's ambiguous CUT) --
+    never silently resolved either way."""
+    rows = [{"player_id": "p1", "player_name": "선수B", "status": "WD"}]
+    evidence = _evidence([{"player_name": "선수B", "official_status": "DQ", "rank_display": "DQ"}], cut_boundary_published=True)
     reconciled, conflicts = module._reconcile_cut_evidence(rows, evidence)
     assert conflicts == ["선수B"]
     assert reconciled[0]["status"] == "WD"  # untouched, not silently overwritten
