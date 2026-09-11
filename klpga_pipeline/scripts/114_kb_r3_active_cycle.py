@@ -77,6 +77,7 @@ from klpga.neo_win.r3_real_page import is_real_page, render_r3_real_page  # noqa
 from klpga.neo_win.r3_rendered_output_gate import RenderedOutputGateError, validate_r3_rendered_output  # noqa: E402
 from klpga.neo_win.r3_wait_page import render_r3_wait_page  # noqa: E402
 from klpga.tournament_context import load_tournament_context  # noqa: E402
+from klpga.website_v2.kb_home_stage_router import sync_root_home_to_current_stage  # noqa: E402
 
 # See scripts/112_kb_r2_active_cycle.py's own P1 note for the full
 # archaeology: KB 2026090003 is deliberately NOT tracked via
@@ -342,11 +343,21 @@ def _publish_and_close(rows, expected_ids, decision, build_id: str, seed: int) -
         "website_build": (r3_publication_gate.PASS, "real R3 page rendered and written (klpga.neo_win.r3_real_page)"),
     })
 
+    # HOME ROUTING FIX (PRODUCTION HOME -> KB CURRENT STAGE ROUTING
+    # HOTFIX), forward-compatible with scripts/112's own identical
+    # sync call: once R3 genuinely publishes, root HOME advances to it
+    # here with no further code change -- see
+    # klpga.website_v2.kb_home_stage_router.
+    home_sync = None
+    if report.publication_allowed:
+        home_sync = sync_root_home_to_current_stage(_CONTEXT, repo_root=REPO_ROOT)
+
     return {
         "action": "PUBLISH_AND_CLOSE", "reason": decision.reason, "retrieved_at": decision.retrieved_at,
         "R3_PIPELINE_READY": True, "REAL_R3": "CONFIRMED", "R3_SNAPSHOT": "CREATED",
         "POST_R3_FORECAST": post_r3_forecast_status(_CONTEXT), "R3_PUBLICATION_READY": report.publication_allowed,
         "publication_gate": [(g.name, g.state, g.reason) for g in report.gates],
+        "home_sync": home_sync,
     }
 
 

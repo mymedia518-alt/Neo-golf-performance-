@@ -79,6 +79,7 @@ from klpga.neo_win.r2_rendered_output_gate import RenderedOutputGateError, valid
 from klpga.neo_win.r2_sg_pipeline import STATUS_AVAILABLE, SgIngestError, ingest_r2_sg  # noqa: E402
 from klpga.neo_win.r2_wait_page import render_r2_wait_page  # noqa: E402
 from klpga.tournament_context import load_tournament_context  # noqa: E402
+from klpga.website_v2.kb_home_stage_router import sync_root_home_to_current_stage  # noqa: E402
 
 # P1 OPERATOR INTEGRATION (red-team continuation, 2026-09-11) --
 # INVESTIGATED AND DELIBERATELY KEPT HARDCODED: load_tournament_context()
@@ -895,12 +896,25 @@ def _publish_and_close(rows, expected, decision, build_id: str, seed: int) -> di
         "website_build": (r2_publication_gate.PASS, "real R2 page rendered and written (klpga.neo_win.r2_real_page)"),
     })
 
+    # HOME ROUTING FIX (PRODUCTION HOME -> KB CURRENT STAGE ROUTING
+    # HOTFIX): root HOME must track whichever stage is REALLY current,
+    # never stay frozen on whatever scripts/109 wrote once for R1. Only
+    # syncs once R2 has genuinely passed its own publication gate above
+    # -- never on a HARD_STOP path (those all return earlier). Reuses
+    # the real page just written above verbatim; never rebuilds/
+    # resimulates anything. See klpga.website_v2.kb_home_stage_router
+    # for the real-evidence-based current-stage decision.
+    home_sync = None
+    if report.publication_allowed:
+        home_sync = sync_root_home_to_current_stage(_CONTEXT, repo_root=REPO_ROOT)
+
     return {
         "action": "PUBLISH_AND_CLOSE", "reason": decision.reason, "retrieved_at": decision.retrieved_at,
         "R2_HOUSE_READY": True, "REAL_R2": "CONFIRMED", "R2_SNAPSHOT": "CREATED",
         "POST_R2_FORECAST": post_r2_forecast_status(_CONTEXT), "R2_PUBLICATION_READY": report.publication_allowed,
         "SG_STATUS": sg_result["status"],
         "publication_gate": [(g.name, g.state, g.reason) for g in report.gates],
+        "home_sync": home_sync,
     }
 
 

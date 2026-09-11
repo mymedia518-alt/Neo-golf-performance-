@@ -291,6 +291,17 @@ def test_real_current_state_is_untouched_and_a_dry_run_never_regresses_a_real_pa
     real_r2_page = ROOT.parent / "docs" / "tournaments" / "2026" / "2026090003" / "r2" / "index.html"
     was_real_before = real_r2_page.is_file() and is_real_page(real_r2_page.read_text(encoding="utf-8"))
 
+    real_home = ROOT.parent / "docs" / "index.html"
+    # PRODUCTION HOME -> KB CURRENT STAGE ROUTING HOTFIX
+    # (fix/kb-r2-official-cut-gate-20260911): root HOME now legitimately
+    # mirrors whichever stage klpga.website_v2.kb_home_stage_router
+    # resolves as real-evidence-current -- once R2 genuinely publishes,
+    # HOME correctly DOES carry the r2-full leaderboard. What a dry run
+    # must never do is CHANGE that -- so capture the real, current
+    # before-state and assert it is unchanged after, rather than
+    # hardcoding a stale "HOME can never show R2 content" assumption.
+    home_had_r2_full_before = real_home.is_file() and "leaderboard-table--r2-full" in real_home.read_text(encoding="utf-8")
+
     result = module.run_cycle(live=False, build_id="REAL_STATE_CHECK")
     # REAL_R2/R2_PUBLICATION_READY are generic dry-run-convention values
     # scripts/112's own _summary() always reports for live=False,
@@ -312,11 +323,9 @@ def test_real_current_state_is_untouched_and_a_dry_run_never_regresses_a_real_pa
         else:
             assert is_wait_page(after) is True
 
-    real_home = ROOT.parent / "docs" / "index.html"
     if real_home.is_file():
         home_html = real_home.read_text(encoding="utf-8")
-        # HOME must not have been advanced to a real R2 page -- the
-        # r2-full leaderboard modifier only ever appears on a real,
-        # gate-passed R2 render (klpga.neo_win.r2_real_page), never on
-        # PRE/R1/the WAIT page.
-        assert "leaderboard-table--r2-full" not in home_html
+        # A dry run must never advance OR regress HOME's mirrored
+        # stage -- whatever it showed before this dry run, it must
+        # show identically after.
+        assert ("leaderboard-table--r2-full" in home_html) == home_had_r2_full_before
