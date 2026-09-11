@@ -110,27 +110,30 @@ def test_sponsor_invariant_on_r1_page():
             assert sponsor in verified_sponsors, f"unverified sponsor text on page: {sponsor!r}"
 
 
-def test_root_home_ownership_reverted_to_top120_owner():
-    """ROOT HOME RECOVERY (scripts/111_promote_top120_root_home_only.py):
-    the OWNER UI/ROUTING FINAL PATCH's CURRENT_TOURNAMENT_OWNER
-    supersession was explicitly documented as temporary
-    (home_ownership_guard.py's OWNER SUPERSESSION note: "if a future
-    owner decision reverses this one"). That reversal has now happened
-    -- root HOME is TOP120_OWNER's real K-Ranking x NEO Ranking page
-    again, never a second, independently maintained copy of the KB R1
-    leaderboard. The KB R1 page itself is untouched at its own route
-    (see test_r1_page_exists_and_stage_nav_links_to_pre_and_r1 and
-    test_unrelated_routes_still_locked's sibling coverage)."""
+def test_root_home_ownership_is_recognized_and_kb_r1_page_is_unaffected_either_way():
+    """ROOT HOME RECOVERY (scripts/111_promote_top120_root_home_only.py),
+    retargeted by PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911):
+    "root HOME is permanently reverted to TOP120_OWNER" was itself a
+    misinterpretation -- the HOME STATE ROUTER makes root HOME's owner
+    state-dependent (top120-v1 with no active tournament,
+    current-tournament-v1 while one -- possibly KB itself -- is active;
+    see tests/test_home_state_router.py for that contract's own
+    coverage). What THIS gate still protects, unconditionally, is that
+    KB's own dedicated R1 route is never affected by whichever owner
+    root HOME currently has -- it is a real, separately-addressable
+    page either way (see test_r1_page_exists_and_stage_nav_links_to_pre_and_r1
+    and test_unrelated_routes_still_locked's sibling coverage)."""
     home_html = (DOCS / "index.html").read_text(encoding="utf-8")
-
-    assert 'content="top120-v1"' in home_html
-    assert 'content="current-tournament-v1"' not in home_html
-    assert home_html.count("data-player-row") == 120
+    owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home_html)
+    assert owner_match is not None
+    assert owner_match.group(1) in ("top120-v1", "current-tournament-v1")
 
     nav = re.search(r'<nav class="neo-global-nav".*?</nav>', home_html, re.S).group(0)
     assert '<a href="/" class="is-active" aria-current="page">홈</a>' in nav
-    # "대회" now points at the tournaments hub, not the KB R1 route --
-    # KB no longer owns root HOME's active nav target.
+
+    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
+    assert "KB금융 골든라이프 챔피언십" in r1_html
+    assert r1_html.count("class='player-name'") > 0
     assert '<a href="/tournaments/">대회</a>' in nav
 
 

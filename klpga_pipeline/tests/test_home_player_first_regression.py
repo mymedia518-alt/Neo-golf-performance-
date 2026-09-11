@@ -1,14 +1,24 @@
-"""PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR (20260911).
+"""PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR (20260911), retargeted
+by PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911).
 
-Locks in the fix: root cause was scripts/88_build_neo_top120_candidate.py
-itself -- render_clean() always put an intro/coverage-stat block ahead
-of the player table, and build() always attached the three tournament
-cards (지난/이번/다음 대회) right after the shared header on root HOME.
-Both were deliberate design decisions from commits af2c31e/9bdb38b4
-(2026-09-08/09), invisible while root HOME was separately overridden to
-mirror KB R1 (2026-09-10 through today's ROOT HOME RECOVERY task) and
-exposed the moment that override was reverted and TOP120_OWNER's real
-content became reachable at "/" again.
+Original fix locked in here: root cause was
+scripts/88_build_neo_top120_candidate.py itself -- render_clean() always
+put an intro/coverage-stat block ahead of the player table, and build()
+always attached the three tournament cards (지난/이번/다음 대회) right
+after the shared header on root HOME.
+
+CORRECTION: "root HOME is always the player-first ranking table, never
+a tournament's own content" was itself a misinterpretation -- the
+correct policy is state-dependent (RULE A/B/C, see scripts/88's HOME
+STATE ROUTER comment and tests/test_home_state_router.py's 12-case
+coverage): root legitimately BECOMES the active tournament's own stage
+page while one is active. The invariants this file locks in (no
+tournament-card block, player-first structure, no internal-debug/
+tournament-phase leakage, correct player order) are still real -- they
+now hold PERMANENTLY at /ranking/, the one route whose content never
+depends on tournament state, rather than unconditionally at / (which
+the sponsor-invariant and idempotent-build checks below still also
+cover, since those two remain true regardless of HOME's state).
 
 Every test here reads the real production-bound candidate output
 (scripts/88's own build(), through the standard candidate_dir()
@@ -45,7 +55,15 @@ def built_module():
 
 @pytest.fixture(scope="module")
 def home_html(built_module) -> str:
-    return (OUTPUT / "index.html").read_text(encoding="utf-8")
+    # RETARGETED by PRODUCTION HOME PRODUCT POLICY CORRECTION: these
+    # invariants (no tournament cards, player-first structure, no
+    # debug/tournament-phase leakage, correct player order) are
+    # permanent facts about /ranking/, not / -- / is now state-
+    # dependent (see tests/test_home_state_router.py and
+    # tests/test_neo_top120_validation.py::
+    # test_home_becomes_the_active_tournament_stage_when_one_is_active
+    # for /'s own, state-aware coverage).
+    return (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
 
 
 TOURNAMENT_CARD_MARKERS = ("지난 대회", "이번 대회", "다음 대회", "t-tournament-card", "t-tournament-cards")
@@ -122,12 +140,17 @@ def test_home_player_order_matches_the_current_public_ranking(home_html):
 # TEST 5 + 6: sponsor invariant across every player-bearing public page
 # ---------------------------------------------------------------------
 
-@pytest.mark.parametrize("route", ["index.html", "ranking/index.html"])
-def test_sponsor_slot_invariant_holds(built_module, route):
+def test_sponsor_slot_invariant_holds(built_module):
     """render_player_identity() always emits the sponsor <span> --
     empty (no text) for an unverified player, never omitted -- so the
-    structural slot count matches the name count exactly, 1:1."""
-    html = (OUTPUT / route).read_text(encoding="utf-8")
+    structural slot count matches the name count exactly, 1:1. Checked
+    against /ranking/ (a fixed, always-120-player population regardless
+    of HOME state) -- / itself is state-dependent (TOP120's 120 players
+    at "/", or an active tournament's own field size and quote-style
+    when one is active) and gets its own sponsor-invariant coverage in
+    tests/test_home_state_router.py::
+    test_case_10_active_tournament_home_preserves_sponsor_invariant."""
+    html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     name_count = html.count('class="player-name"')
     sponsor_spans = re.findall(r'<span class="player-sponsor">([^<]*)</span>', html)
     assert name_count == 120

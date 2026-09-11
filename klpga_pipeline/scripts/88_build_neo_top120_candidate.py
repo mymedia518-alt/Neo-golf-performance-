@@ -19,9 +19,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.top120_validation import evaluate  # noqa: E402
 from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation  # noqa: E402
-from klpga.website_v2.home_ownership_guard import TOP120_OWNER, embed_owner, validate_top120_population  # noqa: E402
-from klpga.website_v2.tournament_state import (  # noqa: E402
-    OK_DISPLAY_NAME, STAGE_LABELS, home_mode, ok_open_latest_available_stage,
+from klpga.website_v2.home_ownership_guard import (  # noqa: E402
+    CURRENT_TOURNAMENT_OWNER, TOP120_OWNER, embed_owner, validate_top120_population,
 )
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
 from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
@@ -391,6 +390,49 @@ def _neo_lab_html() -> str:
             '</main><footer class="site-footer"><div class="site-footer__inner"><p>NEO GOLF DATA</p></div></footer></body></html>')
 
 
+def resolve_chronology_stages(chronology: dict, registry: dict, output: Path):
+    """HOME STATE ROUTER, decision step 1: resolve every chronology slot
+    -- "current" most importantly -- to whichever of its own real,
+    already-generated stage pages exists under `output` right now.
+    Pure/read-only: never builds, never writes, never guesses (a slot
+    with nothing real generated yet resolves to url_base=""). Generic
+    across any registered tournament via its own registry
+    nav_stages/stage_order, not hardcoded to any one tournament.
+    Returns a NEW dict (input `chronology` is not mutated)."""
+    import dataclasses
+    resolved = dict(chronology)
+    for slot, facts in list(resolved.items()):
+        if facts is None or not facts.url_base:
+            continue
+        bare_index = output / facts.url_base.strip("/") / "index.html"
+        if bare_index.is_file():
+            continue
+        reg = registry.get(facts.game_code) or {}
+        stages = list((reg.get("hub_card") or {}).get("nav_stages") or reg.get("stage_order") or [])
+        resolved_url = ""
+        for stage in reversed(stages):
+            candidate = output / facts.url_base.strip("/") / stage / "index.html"
+            if candidate.is_file():
+                resolved_url = f"{facts.url_base}{stage}/"
+                break
+        resolved[slot] = dataclasses.replace(facts, url_base=resolved_url)
+    return resolved
+
+
+def resolve_active_stage_page(chronology: dict, output: Path) -> Path | None:
+    """HOME STATE ROUTER, decision step 2: given an ALREADY-RESOLVED
+    chronology (see resolve_chronology_stages), the one path/None root
+    HOME's state comes from -- a real Path only when "current" resolved
+    to a real, already-generated stage page; None (-> the TOP120
+    player-first fallback) otherwise, including when there is no
+    current tournament at all, or its own current-tournament-specific
+    PRE-forced-build path (see build() below) also found nothing."""
+    current_facts = chronology.get("current")
+    if current_facts is not None and current_facts.url_base:
+        return output / current_facts.url_base.strip("/") / "index.html"
+    return None
+
+
 def build() -> dict:
     refresh_preserved_candidate()
     cohort = load("HOME_PLAYER_MASTER_TOP120.json")
@@ -434,10 +476,26 @@ def build() -> dict:
 
     registry = json.loads(SITE_REGISTRY_PATH.read_text(encoding="utf-8-sig")).get("tournaments", {})
     chronology = build_home_tournament_chronology(registry, _CONTEXT)
+
+    # HOME STATE ROUTER (PRODUCTION HOME PRODUCT POLICY CORRECTION,
+    # 20260911): resolve_chronology_stages() answers "does 'current'
+    # already have a real, already-generated stage page?" BEFORE
+    # deciding whether a PRE-only forced build is even needed below --
+    # see tests/test_home_state_router.py for the 12 required
+    # state-routing cases exercised directly against these two
+    # functions (import dataclasses is still needed here for the
+    # current-tournament-specific PRE-forced-build path just below).
+    import dataclasses
+    chronology = resolve_chronology_stages(chronology, registry, OUTPUT)
+
     current_facts = chronology.get("current")
     current_context = load_tournament_context(current_facts.game_code) if current_facts else None
-    current_stage_page = None
-    if current_context is not None:
+    active_stage_page = resolve_active_stage_page(chronology, OUTPUT)
+    if active_stage_page is None and current_context is not None:
+        # Nothing generated yet for the current tournament -- if its own
+        # publication gate has passed, build PRE (the only stage that
+        # can ever be the very first one) so a brand-new "이번 대회" is
+        # not silently left with no HOME content at all.
         tier2_path = current_context.artifact_path("tier2_publication_gate")
         master_path = current_context.artifact_path("pre_public_master")
         tier2 = json.loads(tier2_path.read_text(encoding="utf-8")) if tier2_path.is_file() else {}
@@ -469,8 +527,7 @@ def build() -> dict:
                 html = html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
                 html = html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
                 page.write_text(html, encoding="utf-8", newline="\n")
-            current_stage_page = destination_route / "pre" / "index.html"
-            import dataclasses
+            active_stage_page = destination_route / "pre" / "index.html"
             chronology["current"] = dataclasses.replace(
                 current_facts, url_base=f"{current_context.url_base}pre/"
             )
@@ -495,43 +552,15 @@ def build() -> dict:
         if normalized != html:
             page.write_text(normalized, encoding="utf-8", newline="\n")
 
-    mode = "TOURNAMENT_PRE" if current_stage_page is not None else "RANKING_DEFAULT"
     current_score_cells_by_id = {}
     sponsor_by_id = _official_sponsor_by_id(current_context)
-
-    # A registry may describe stage pages without a bare tournament hub.
-    # Resolve a card link to an actually generated stage, while chronology
-    # identity and ordering remain exclusively calendar driven.
-    import dataclasses
-    for slot, facts in list(chronology.items()):
-        if facts is None or not facts.url_base:
-            continue
-        bare_index = OUTPUT / facts.url_base.strip("/") / "index.html"
-        if bare_index.is_file():
-            continue
-        reg = registry.get(facts.game_code) or {}
-        stages = list((reg.get("hub_card") or {}).get("nav_stages") or reg.get("stage_order") or [])
-        resolved_url = ""
-        for stage in reversed(stages):
-            candidate = OUTPUT / facts.url_base.strip("/") / stage / "index.html"
-            if candidate.is_file():
-                resolved_url = f"{facts.url_base}{stage}/"
-                break
-        chronology[slot] = dataclasses.replace(facts, url_base=resolved_url)
 
     # RANKING PAGE -- HOME TOURNAMENT OWNERSHIP FIX: this is now ALWAYS
     # published at its own stable URL (/ranking/), the permanent
     # K-Ranking x NEO Ranking access point, regardless of tournament
-    # state. During TOURNAMENT_ACTIVE it must NOT also be what /
-    # renders (see the root HOME block below) -- a tournament hero glued
-    # above this exact table was the REJECTED prior "fix".
+    # state. It is never what / renders during an active tournament --
+    # see the root HOME block below.
     ranking_html = render_clean(rows, summary, cohort.get("ranking_week"), current_score_cells_by_id=current_score_cells_by_id, sponsor_by_id=sponsor_by_id)
-    if mode == "TOURNAMENT_ACTIVE":
-        stage_key, _ = ok_open_latest_available_stage()
-        leader = _latest_live_leader_score()
-        leader_text = f"Leader : {leader}" if leader is not None else "Leader : 검증 대기"
-        heading = f'<div class="section-heading"><div><p class="section-label">{escape(OK_DISPLAY_NAME)} · {escape(STAGE_LABELS[stage_key])}</p><h2>K-Ranking × NEO Ranking</h2><p class="home-leader-score">{leader_text}</p></div></div>'
-        ranking_html = re.sub(r'<div class="section-heading">.*?</div><div class="home-tools">', heading + '<div class="home-tools">', ranking_html, count=1, flags=re.S)
     # PUBLIC UI Phase 8: the dedicated /ranking/ page now marks its own
     # "ranking" nav item active (a real, distinct top-level destination)
     # rather than borrowing "home" -- every page still carries exactly
@@ -543,24 +572,41 @@ def build() -> dict:
     (OUTPUT / "ranking").mkdir()
     (OUTPUT / "ranking" / "index.html").write_text(ranking_page_html, encoding="utf-8", newline="\n")
 
-    # ROOT HOME -- PLAYER-FIRST HOME (PRODUCTION HOME REGRESSION
-    # ROOT-CAUSE + REPAIR, 20260911): HOME is the permanent, player-
-    # centric NEO product entry page and must NEVER compose a
-    # tournament stage's own page body, and must NEVER lead with
-    # tournament content either -- the PRODUCT RECOVERY V1 predecessor
-    # of this comment attached the three tournament cards (지난/이번/
-    # 다음 대회) right after the shared header as "compact secondary
-    # navigation"; in practice that put tournament cards ahead of the
-    # player table on every load, which is exactly the tournament-
-    # landing-page structure this invariant forbids. Tournament access
-    # is the existing "대회" nav item's job, not HOME's. / renders the
-    # same player-first ranking content as /ranking/ (still the one
-    # stable K-Ranking x NEO Ranking URL) with no cards attached;
-    # current tournament's own PRE/R1/R2/FINAL pages stay on their own
-    # dedicated routes under /tournaments/..., never copied into /.
-    rendered_home = inject_global_navigation(ranking_html, active_section="home")
-    rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
-    rendered_home = embed_owner(rendered_home, TOP120_OWNER)
+    # ROOT HOME -- HOME STATE ROUTER (PRODUCTION HOME PRODUCT POLICY
+    # CORRECTION, 20260911): / is state-dependent, decided ONLY by
+    # active_stage_page (resolved above from real, verified evidence --
+    # never guessed, never a hardcoded tournament, never an invented
+    # time window):
+    #   - active_stage_page is a real path -> a real active tournament
+    #     exists -> / becomes THAT tournament's own already-published,
+    #     already-gated stage page verbatim (its header/nav refreshed to
+    #     mark "홈" active instead of whatever section it marked on its
+    #     own dedicated route -- inject_global_navigation() already
+    #     refreshes a marked header in place, this is exactly what it is
+    #     for), owned by CURRENT_TOURNAMENT_OWNER.
+    #   - active_stage_page is None -> no active tournament -> / falls
+    #     back to the permanent player-first NEO Ranking/K-Ranking HOME
+    #     (render_clean(), same content as /ranking/, no tournament
+    #     cards -- the PRODUCT RECOVERY V1 predecessor of this comment
+    #     attached the three cards (지난/이번/다음 대회) right after the
+    #     header as "compact secondary navigation" on EVERY load, which
+    #     is exactly the tournament-landing-page structure this
+    #     fallback state must not have; tournament access when there is
+    #     no active tournament is the existing "대회" nav item's job),
+    #     owned by TOP120_OWNER.
+    # Either way there is exactly one writer of docs/index.html (this
+    # function) and exactly one decision point (active_stage_page).
+    if active_stage_page is not None:
+        stage_html = active_stage_page.read_text(encoding="utf-8")
+        stage_html = stage_html.replace('href="../../../../assets/neo.css"', 'href="/assets/neo.css"')
+        stage_html = stage_html.replace('href="../../../assets/neo.css"', 'href="/assets/neo.css"')
+        rendered_home = inject_global_navigation(stage_html, active_section="home")
+        rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
+        rendered_home = embed_owner(rendered_home, CURRENT_TOURNAMENT_OWNER)
+    else:
+        rendered_home = inject_global_navigation(ranking_html, active_section="home")
+        rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
+        rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
     neo_lab_html = inject_global_navigation(_neo_lab_html(), active_section="neo-lab")
     (OUTPUT / "neo-lab").mkdir()
@@ -602,7 +648,7 @@ def build() -> dict:
         raise RuntimeError(f"build-id inconsistency immediately after stamping (should be impossible): {stale}")
     summary["build_source_commit"] = source_sha
     summary["build_id"] = build_id
-    summary["home_mode"] = mode
+    summary["home_mode"] = "CURRENT_TOURNAMENT_HOME" if active_stage_page is not None else "RANKING_DEFAULT"
     print(json.dumps(summary, ensure_ascii=False))
     return summary
 

@@ -1,11 +1,17 @@
-"""ROOT HOME RECOVERY: promote ONLY the validated TOP120 candidate's
-index.html, plus the ONE shared CSS asset its new markup depends on
-(assets/neo-site.css), to production docs/. Transfers root-HOME
-ownership back from CURRENT_TOURNAMENT_OWNER to TOP120_OWNER -- the
-exact reversal home_ownership_guard.py's OWNER SUPERSESSION note already
-anticipated ("TOP120_OWNER's own build/promotion path (scripts 86/88/94)
+"""ROOT HOME PROMOTION: promote ONLY the candidate's own index.html
+(whichever HOME state scripts/88's build() decided -- TOP120_OWNER's
+player-first fallback, or CURRENT_TOURNAMENT_OWNER's active-tournament
+stage page, see that script's HOME STATE ROUTER), plus the ONE shared
+CSS asset its markup depends on (assets/neo-site.css), to production
+docs/. Supports ownership transfer in EITHER direction between the two
+recognized owners -- home_ownership_guard.py's OWNER SUPERSESSION note
+anticipated exactly this: "TOP120_OWNER's own build/promotion path
 ... still the sole legitimate writer for CURRENT_TOURNAMENT_OWNER to
-itself supersede, if a future owner decision reverses this one").
+itself supersede, if a future owner decision reverses this one" applies
+symmetrically the other way once a tournament becomes active again.
+Script 88 already decided WHICH state candidate/.../index.html carries;
+this script only promotes whatever that decision was -- it makes no
+state decision of its own.
 
 Deliberately narrower than scripts/94_promote_top120_to_production.py.
 That script mirrors the ENTIRE candidate tree (index.html, about,
@@ -68,7 +74,16 @@ DEST = REPO_ROOT / "docs" / "index.html"
 CSS_SOURCE = CANDIDATE / "assets" / "neo-site.css"
 CSS_DEST = REPO_ROOT / "docs" / "assets" / "neo-site.css"
 
+RECOGNIZED_OWNERS = (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER)
+
+# The shared stylesheet always needs the base nav/header classes (every
+# HOME state links it) plus the TOP120-page classes -- checked
+# unconditionally, not only when the candidate is currently in the
+# TOP120 fallback state, because this same file must still be correct
+# and complete for whichever state HOME is in NEXT time this script
+# runs, not just the state it happens to be promoting right now.
 REQUIRED_HOME_CSS_MARKERS = (
+    ".neo-global-nav{display:flex",
     "@media(max-width:760px)",
     ".home-table tbody tr{",
     ".metric-sg",
@@ -83,9 +98,9 @@ class RootHomePromotionError(Exception):
     pass
 
 
-def promote_root_home_only() -> str:
-    """Writes DEST from SOURCE and CSS_DEST from CSS_SOURCE. Returns the
-    previous HOME owner marker (for logging/reporting) on success.
+def promote_root_home_only() -> tuple[str, str]:
+    """Writes DEST from SOURCE and CSS_DEST from CSS_SOURCE. Returns
+    (previous_owner, new_owner) (for logging/reporting) on success.
     Raises RootHomePromotionError and writes nothing on any failure."""
     if not SOURCE.is_file():
         raise RootHomePromotionError(f"candidate root HOME not found: {SOURCE}")
@@ -94,8 +109,8 @@ def promote_root_home_only() -> str:
 
     html = SOURCE.read_text(encoding="utf-8")
     owner = extract_owner(html)
-    if owner != TOP120_OWNER:
-        raise RootHomePromotionError(f"candidate root HOME owner is {owner!r}, expected {TOP120_OWNER!r} -- refusing to promote")
+    if owner not in RECOGNIZED_OWNERS:
+        raise RootHomePromotionError(f"candidate root HOME owner is {owner!r}, expected one of {RECOGNIZED_OWNERS!r} -- refusing to promote")
 
     css = CSS_SOURCE.read_text(encoding="utf-8")
     missing = [marker for marker in REQUIRED_HOME_CSS_MARKERS if marker not in css]
@@ -103,26 +118,27 @@ def promote_root_home_only() -> str:
         raise RootHomePromotionError(f"candidate CSS is missing required HOME rule(s), refusing to promote a broken stylesheet: {missing}")
 
     previous_owner = extract_owner(DEST.read_text(encoding="utf-8")) if DEST.is_file() else None
+    allow_transfer_from = CURRENT_TOURNAMENT_OWNER if owner == TOP120_OWNER else TOP120_OWNER
     try:
-        assert_home_write_allowed(DEST, TOP120_OWNER, repo_root=REPO_ROOT, allow_transfer_from=CURRENT_TOURNAMENT_OWNER)
+        assert_home_write_allowed(DEST, owner, repo_root=REPO_ROOT, allow_transfer_from=allow_transfer_from)
     except Exception as exc:  # HomeOwnershipError
         raise RootHomePromotionError(str(exc)) from exc
 
     DEST.write_text(html, encoding="utf-8", newline="\n")
     CSS_DEST.write_text(css, encoding="utf-8", newline="\n")
-    return previous_owner or "<none>"
+    return previous_owner or "<none>", owner
 
 
 def main() -> int:
     try:
-        previous_owner = promote_root_home_only()
+        previous_owner, new_owner = promote_root_home_only()
     except RootHomePromotionError as exc:
         print(f"FATAL: {exc}")
         print("Aborting -- docs/ left untouched.")
         return 1
     print(f"promoted {SOURCE} -> {DEST}")
     print(f"promoted {CSS_SOURCE} -> {CSS_DEST}")
-    print(f"owner transfer: {previous_owner!r} -> {TOP120_OWNER!r}")
+    print(f"owner transfer: {previous_owner!r} -> {new_owner!r}")
     return 0
 
 

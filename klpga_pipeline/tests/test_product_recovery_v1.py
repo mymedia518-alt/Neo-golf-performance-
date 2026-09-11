@@ -84,18 +84,18 @@ def test_neo_recent_sg_is_never_labelled_as_official_sg_total():
     assert "최근 5R SG" in html
 
 
-def test_home_never_composes_a_tournament_stage_body():
-    """HOME/PRE ROLE AUDIT gate, exercised directly against script 88's
-    real output (see also tests/test_neo_top120_validation.py for the
-    fuller HOME-contract coverage)."""
-    spec88 = importlib.util.spec_from_file_location("product_recovery_s88", ROOT / "scripts" / "88_build_neo_top120_candidate.py")
-    builder88 = importlib.util.module_from_spec(spec88)
-    spec88.loader.exec_module(builder88)
-    builder88.build()
-    home_html = (builder88.OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "class='player-name'" not in home_html
-    assert "PRE 참가 선수" not in home_html
-    assert "data-player-row" in home_html
+# PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911): the invariant
+# this test locked in -- "HOME never composes a tournament stage's own
+# body" -- was itself a misinterpretation the correction reverses. The
+# HOME STATE ROUTER (scripts/88's build()) now legitimately makes /
+# BECOME the active tournament's own already-published stage page (PRE
+# included) whenever a real, verified tournament is active; only the
+# no-active-tournament fallback is the TOP120 ranking table. See
+# tests/test_home_state_router.py CASE 1-9 for that state-dependent
+# contract's dedicated coverage, and
+# tests/test_neo_top120_validation.py::
+# test_home_becomes_the_active_tournament_stage_when_one_is_active for
+# the direct inverse of this retired test.
 
 
 def test_public_pre_summary_omits_internal_validation_metadata():
