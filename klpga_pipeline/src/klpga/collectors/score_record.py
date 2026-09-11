@@ -120,3 +120,123 @@ def parse_score_record_html(html: str) -> list[dict]:
             raise ValueError(f"conflicting scoreRecord rows for player_name={row['player_name']!r}")
         by_name[row["player_name"]] = row
     return list(by_name.values())
+
+
+# ---------------------------------------------------------------------
+# R2+ round-tab, cut-boundary-aware parsing (KB 2026090003 R2 evidence-
+# gate task, 2026-09-11). CONFIRMED live structure, direct inspection
+# of a real, user-supplied captured scoreRecord response (saved-from
+# comment: "saved from url=(0066)https://klpga.co.kr/web/tourRecord/
+# scoreRecord?gameCode=2026090003"): the SAME confirmed endpoint above
+# embeds one <div id="round-<word>"> tab-pane per round that has
+# actually been played (e.g. #round-one, #round-two -- round-three/
+# round-four absent when not yet played), each with its OWN <table>
+# hole-by-hole scorecard, td.rank/td.name (same classes
+# parse_score_record_html already reads above) -- deliberately kept as
+# a SEPARATE function from parse_score_record_html rather than folded
+# into it: that function is R1-specific (its own "1R" header-text scan
+# only ever matches round-one's own table) and does not yet know about
+# the cut boundary at all; this one is round-tab-scoped by DOM id
+# (more precise than a header-text scan) and adds real cut-boundary
+# support, confirmed against the real captured page for R2:
+#
+#   <!-- 예상 CUT -->
+#   <tr class="table-cut">
+#       <td colspan="31" style="padding: 0;"><div class="bartitle-green">Missed Cut</div></td>
+#   </tr>
+#
+# CONFIRMED in the real captured page: 118 player rows + this one
+# divider row; the divider sits immediately after the last T58 row and
+# immediately before the first T72 row; the page's own real WD row
+# (a real player, rank cell literally reading "WD") is positioned
+# AFTER the divider yet keeps its own WD status -- see
+# parse_score_record_round_table's own docstring for the exact
+# precedence rule this exists to get right.
+# ---------------------------------------------------------------------
+
+_CUT_BOUNDARY_CLASS = "table-cut"
+_CUT_BOUNDARY_TEXT = "missed cut"
+_EXPLICIT_ROUND_STATUS_VALUES = {"WD", "DQ", "DNS", "CUT"}
+
+
+def _is_cut_boundary_row(tag) -> bool:
+    """True only for a real tr.table-cut row whose own text content
+    contains "Missed Cut" (case-insensitive) -- both the confirmed
+    class AND the confirmed text together, exactly matching the real
+    captured official markup, so an unrelated "table-cut"-classed row
+    can never false-positive on class alone."""
+    classes = tag.get("class") or []
+    if _CUT_BOUNDARY_CLASS not in classes:
+        return False
+    return _CUT_BOUNDARY_TEXT in tag.get_text(" ", strip=True).lower()
+
+
+def parse_score_record_round_table(html: str, *, round_tab_id: str) -> dict:
+    """Parse one round's own tab-pane (round_tab_id="round-two" for R2,
+    "round-three" for R3, etc. -- never hardcoded here, the caller
+    names the round) from the confirmed scoreRecord page. Raises
+    ValueError if that round's own tab-pane or table is missing --
+    e.g. the round hasn't been played/published yet -- rather than
+    returning an empty, easily-mistaken-for-"no cut yet" result.
+
+    Returns {"rows": [{"player_name": str, "rank_display": str,
+    "official_status": str | None}, ...], "cut_boundary_published":
+    bool}. Deliberately narrower than parse_score_record_html's own
+    return contract (no final_score/player_id) -- this function's one
+    job is CUT-gate evidence, not a general score extraction; a
+    caller needing scores continues to read them from the already-
+    tested primary collection path (klpga.collectors.leaderboard),
+    never duplicated here.
+
+    SECTION-DERIVED CUT precedence (requirement D, verified against
+    the real captured page's own WD row, which sits AFTER the
+    boundary): a row gets official_status="CUT" ONLY when (a) it is
+    physically positioned after a real tr.table-cut/"Missed Cut"
+    divider row, in the real document's own row order -- never guessed
+    from rank/score/arithmetic -- AND (b) its own rank cell did not
+    already carry an explicit WD/DQ/DNS/CUT status ("CUT" preserved
+    here purely for consistency with parse_score_record_html's own
+    "another explicit official signal" token scan above -- not
+    observed as literal rank-cell text in the real capture this
+    function was built and tested against; WD IS confirmed live). An
+    explicit status found on the row itself always wins and is never
+    overwritten, regardless of the row's position relative to the
+    boundary -- never infers CUT from a missing player either: a
+    player absent from this table contributes no row at all, in
+    either direction."""
+    soup = BeautifulSoup(html, "html.parser")
+    container = soup.select_one(f"#{round_tab_id}")
+    if container is None:
+        raise ValueError(f"scoreRecord round tab-pane #{round_tab_id} not found -- round not published yet")
+    table = container.find("table")
+    if table is None:
+        raise ValueError(f"scoreRecord table missing inside #{round_tab_id}")
+    tbody = table.find("tbody")
+    if tbody is None:
+        raise ValueError(f"scoreRecord tbody missing inside #{round_tab_id}")
+
+    rows: list[dict] = []
+    cut_boundary_published = False
+    past_boundary = False
+
+    for tr in tbody.find_all("tr", recursive=False):
+        if _is_cut_boundary_row(tr):
+            cut_boundary_published = True
+            past_boundary = True
+            continue
+
+        rank_cell = tr.select_one("td.rank")
+        name_cell = tr.select_one("td.name")
+        if rank_cell is None or name_cell is None:
+            continue
+        rank_display = " ".join(rank_cell.get_text(" ", strip=True).split())
+        player_name = " ".join(name_cell.get_text(" ", strip=True).split())
+
+        explicit_status = rank_display.upper() if rank_display.upper() in _EXPLICIT_ROUND_STATUS_VALUES else None
+        status = explicit_status
+        if status is None and past_boundary:
+            status = "CUT"  # SECTION-DERIVED, only when nothing explicit already claimed this row
+
+        rows.append({"player_name": player_name, "rank_display": rank_display, "official_status": status})
+
+    return {"rows": rows, "cut_boundary_published": cut_boundary_published}

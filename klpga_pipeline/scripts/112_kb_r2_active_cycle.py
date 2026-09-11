@@ -145,7 +145,7 @@ def _collect_live_r2() -> tuple[list[dict], bool, str | None]:
         return [], False, f"HARD_STOP:{type(exc).__name__}: {exc}"
 
 
-def _derive_cut_known(rows: list[dict]) -> bool:
+def _derive_cut_known(rows: list[dict], *, cut_boundary_published: bool = False) -> bool:
     """BUGFIX (fix/kb-r2-official-cut-gate-20260911): the ONE honest
     signal that the official CUT determination has actually been
     published for this round -- at least one collected row carries the
@@ -185,8 +185,84 @@ def _derive_cut_known(rows: list[dict]) -> bool:
     literal that could never become True even if the official source
     ever does start publishing an explicit CUT marker -- this function
     would correctly flip to True the moment real evidence appears,
-    with zero further code changes."""
-    return any(row.get("status") == "CUT" for row in rows)
+    with zero further code changes.
+
+    FINAL R2 EVIDENCE-GATE UPDATE (2026-09-11): `cut_boundary_published`
+    is the SECOND, independently-sufficient explicit official signal --
+    KLPGA's own real tr.table-cut/"Missed Cut" divider row on the
+    scoreRecord page (klpga.collectors.score_record.
+    parse_score_record_round_table), confirmed against a real captured
+    R2 response for gameCode=2026090003 (see _collect_cut_boundary_
+    evidence and this task's own final report). Either signal alone is
+    sufficient -- the literal per-row "CUT" text path above was never
+    observed live and may never fire in practice; the real boundary
+    row IS what a real page actually uses."""
+    return cut_boundary_published or any(row.get("status") == "CUT" for row in rows)
+
+
+def _collect_cut_boundary_evidence() -> tuple[dict | None, str | None]:
+    """Best-effort fetch + parse of the official scoreRecord page's own
+    R2 tab (klpga.collectors.score_record.fetch_score_record_html +
+    parse_score_record_round_table, round_tab_id="round-two") for real
+    cut-boundary evidence. Mirrors _collect_live_r2's own error
+    convention exactly: a network failure or "round not published yet"
+    is an ordinary, non-fatal WAIT (evidence simply unavailable this
+    cycle -- callers fall back to the a7a2a24 defensive path, never
+    blocked on it); a parser/programming defect is a HARD_STOP. Never
+    raises -- always returns (evidence_or_None, error_or_None)."""
+    try:
+        from klpga.collectors.score_record import fetch_score_record_html, parse_score_record_round_table
+        from klpga.http_client import PoliteHttpClient
+
+        client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "kb_r2_cut_evidence")
+        _status, html = fetch_score_record_html(client, GAME_CODE)
+        evidence = parse_score_record_round_table(html, round_tab_id="round-two")
+        return evidence, None
+    except requests.exceptions.RequestException as exc:
+        return None, f"WAIT:{type(exc).__name__}: {exc}"
+    except ValueError as exc:
+        # round-two tab-pane not published yet (or its table missing) --
+        # a real, expected WAIT state, never a programming defect.
+        return None, f"WAIT:{exc}"
+    except Exception as exc:  # noqa: BLE001 -- parser/programming defects are hard stops
+        return None, f"HARD_STOP:{type(exc).__name__}: {exc}"
+
+
+def _reconcile_cut_evidence(rows: list[dict], evidence: dict) -> tuple[list[dict], list[str]]:
+    """Overlays real, explicit WD/DQ/DNS/CUT statuses from the
+    scoreRecord cut-boundary evidence onto the primary roundLeaderboard
+    rows, joined by player_name (the only identity both real sources
+    actually carry -- see klpga.neo_win.r2_sg_pipeline's own
+    identity-join precedent for the same name-only-join situation).
+
+    Never silently overrides: a primary row that already carries its
+    own explicit, different status (real evidence from the primary
+    source) is left untouched and its name is recorded as a CONFLICT
+    instead -- callers must HARD_STOP on any conflict, never guess
+    which of two disagreeing real sources is right. A primary row with
+    no matching evidence row (name not found on the scoreRecord page)
+    is also left untouched -- absence of a match is not itself a
+    conflict, since the two pages may legitimately cover slightly
+    different real-time snapshots.
+
+    Returns (reconciled_rows, conflicting_player_names)."""
+    evidence_by_name = {r["player_name"]: r for r in evidence.get("rows", [])}
+    reconciled: list[dict] = []
+    conflicts: list[str] = []
+    for row in rows:
+        match = evidence_by_name.get(row.get("player_name"))
+        if match is None or match.get("official_status") is None:
+            reconciled.append(row)
+            continue
+        current_status = row.get("status")
+        if current_status in (None, "ACTIVE"):
+            reconciled.append({**row, "status": match["official_status"]})
+        elif current_status == match["official_status"]:
+            reconciled.append(row)
+        else:
+            conflicts.append(str(row.get("player_name")))
+            reconciled.append(row)
+    return reconciled, conflicts
 
 
 def _write_wait_page() -> bool:
@@ -215,10 +291,30 @@ def run_cycle(*, live: bool, build_id: str, seed: int = 20260911) -> dict:
     if error and error.startswith("HARD_STOP"):
         return _summary("HARD_STOP", error, freeze_exists)
 
+    # FINAL R2 EVIDENCE-GATE (2026-09-11): best-effort second evidence
+    # source, the official scoreRecord page's own real cut-boundary
+    # marker. Never blocks the primary path -- unavailable (network,
+    # round not published yet) degrades to cut_boundary_published=False,
+    # the exact a7a2a24 defensive behavior; a real disagreement between
+    # the two sources is a HARD_STOP, never silently resolved.
+    cut_evidence, cut_evidence_error = _collect_cut_boundary_evidence()
+    if cut_evidence_error and cut_evidence_error.startswith("HARD_STOP"):
+        return _summary("HARD_STOP", cut_evidence_error, freeze_exists)
+    cut_boundary_published = False
+    if cut_evidence is not None:
+        rows, conflicts = _reconcile_cut_evidence(rows, cut_evidence)
+        if conflicts:
+            return _summary(
+                "HARD_STOP",
+                f"cut-evidence conflict between roundLeaderboard and scoreRecord for: {sorted(conflicts)}",
+                freeze_exists,
+            )
+        cut_boundary_published = cut_evidence["cut_boundary_published"]
+
     decision = decide_r2_cycle(
         rows, sorted(expected.player_ids),
         official_page_available=official_page_available,
-        cut_known=_derive_cut_known(rows),  # explicit official evidence only -- see _derive_cut_known's own docstring
+        cut_known=_derive_cut_known(rows, cut_boundary_published=cut_boundary_published),
         freeze_exists=freeze_exists,
     )
 
