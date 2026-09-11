@@ -56,6 +56,7 @@ from __future__ import annotations
 
 from klpga.website_v2.global_navigation import inject_global_navigation
 from klpga.website_v2.player_identity import render_player_identity
+from klpga.website_v2.probability_format import format_public_probability
 from klpga.website_v2.shell import breadcrumb_html
 
 EMPTY_MARK = "—"
@@ -88,7 +89,7 @@ def _to_par_display(raw) -> str:
 def _pct_display(v) -> str:
     if v is None:
         return EMPTY_MARK
-    return f"{float(v):.1f}%"
+    return format_public_probability(v)
 
 
 def _sg_display(v) -> str:

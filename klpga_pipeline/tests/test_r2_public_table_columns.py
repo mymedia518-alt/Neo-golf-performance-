@@ -66,14 +66,22 @@ def test_real_page_win_is_the_last_cell_in_every_row():
 def test_real_page_every_percent_value_keeps_the_percent_sign_on_the_same_text_node():
     """'Keep each probability value and % on one line': the % must
     never be split into its own tag/node -- confirms the DOM never
-    gives the browser a place to break between the number and %."""
+    gives the browser a place to break between the number and %.
+
+    PROBABILITY FORMATTER HOTFIX (base fb4f165): a cell's text can now
+    also be the exact-zero "0%" or the near-zero "<0.1%" contract (see
+    klpga.website_v2.probability_format) -- both stay on one text node
+    just like the one-decimal case, so the underlying guarantee this
+    test checks is unchanged, only the accepted text shapes widen. The
+    extraction itself must match up to the literal `</td>`, not the
+    next `<`, because "<0.1%" itself starts with `<`."""
     html = _real_html()
-    win_cells = re.findall(r"<td class='win' data-label='(?:Top5|Top10|Top20|우승)'>([^<]*)</td>", html)
+    win_cells = re.findall(r"<td class='win' data-label='(?:Top5|Top10|Top20|우승)'>(.*?)</td>", html)
     assert win_cells, "no probability cells found"
     for cell_text in win_cells:
         if cell_text == "—":
             continue
-        assert re.fullmatch(r"[+-]?\d+\.\d%", cell_text), f"unexpected probability cell text: {cell_text!r}"
+        assert re.fullmatch(r"0%|<0\.1%|[+-]?\d+\.\d%", cell_text), f"unexpected probability cell text: {cell_text!r}"
 
 
 def test_real_page_official_rank_total_2r_unchanged_by_this_fix():
@@ -99,15 +107,21 @@ def test_real_page_stage_nav_still_intact_after_this_fix():
 def test_real_page_win_probabilities_unchanged_from_the_frozen_forecast():
     """The column fix is presentation-only -- every rendered probability
     must still trace exactly to the frozen forecast artifact (never
-    recomputed/recalibrated by this task)."""
+    recomputed/recalibrated by this task). PROBABILITY FORMATTER HOTFIX
+    (base fb4f165): expected display text now goes through the SAME
+    shared formatter the renderer itself uses, rather than a locally
+    duplicated `.1f%` rule -- keeps this real-data regression honest
+    against whatever the real formatter contract currently is."""
     import json
+
+    from klpga.website_v2.probability_format import format_public_probability
 
     forecast = json.loads((ROOT / "content" / "website_v2" / "2026090003_POST_R2_FINAL_FORECAST.json").read_text(encoding="utf-8"))
     html = _real_html()
     rows = _rows(html)
 
     def cell(row: str, label: str) -> str:
-        m = re.search(rf"data-label='{label}'[^>]*>([^<]*)<", row)
+        m = re.search(rf"data-label='{label}'[^>]*>(.*?)</td>", row)
         return m.group(1) if m else None
 
     rendered_by_id = {}
@@ -119,7 +133,7 @@ def test_real_page_win_probabilities_unchanged_from_the_frozen_forecast():
         }
 
     def expected_pct(v):
-        return "—" if v is None else f"{float(v):.1f}%"
+        return "—" if v is None else format_public_probability(v)
 
     checked = 0
     for r in forecast["records"]:
