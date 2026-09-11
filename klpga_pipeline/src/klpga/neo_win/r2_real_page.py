@@ -73,6 +73,20 @@ positive, machine-checkable assertion for this page's own tests."""
 STATUS_LABEL = {"ACTIVE": "", "CUT": "CUT", "WD": "WD", "DQ": "DQ", "DNS": "DNS"}
 ADVANCING_STATUS = "ACTIVE"
 
+NEXT_UPDATE_NOTICE = "R3 종료 후 업데이트"
+"""KB 2026090003's real, confirmed final_round_number is 3 -- R3 is
+this tournament's LAST competitive round (see post_r3_forecast.py's
+own remaining_rounds<1 handling and scripts/114's R3-is-the-final-round
+branch). The next public transition off this R2 page therefore happens
+after R3 completes, straight toward FINAL/result validation -- there is
+no POST-R3 win forecast to publish (nothing would remain to forecast).
+This notice is a static fact about the tournament's round shape, never
+computed from a live countdown or a guessed schedule. Reuses the
+existing `.note` class (already styled subtly -- see neo.css's
+`.meta,.note{color:var(--muted);font-size:14px}`) so no CSS change is
+needed; `next-update-note` is a second, purely semantic class -- a
+stable regression hook, not a new visual rule."""
+
 
 def _to_par_display(raw) -> str:
     if raw is None:
@@ -252,6 +266,7 @@ def render_r2_real_page(
         "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
         + f'<p class="note">총 {len(advancing_records)}명 (컷 통과 선수만 표시)</p>'
+        + f'<p class="note next-update-note">{NEXT_UPDATE_NOTICE}</p>'
         + "</section>"
     )
 
