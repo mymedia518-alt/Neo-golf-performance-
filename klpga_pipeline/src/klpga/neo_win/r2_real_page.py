@@ -217,9 +217,17 @@ def render_r2_real_page(
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
             f"<td data-label='합계'>{_to_par_display(_total_to_par(row))}</td>"
             f"<td data-label='2R'>{_to_par_display(row.get('r2_score_to_par'))}</td>"
-            + _cell(fc["top5_pct"] if fc else None, "Top5")
-            + _cell(fc["top10_pct"] if fc else None, "Top10")
+            # PROBABILITY COLUMN ORDER HOTFIX: TOP20, TOP10, TOP5 (widest
+            # -> narrowest population), WIN still last -- see the header
+            # row below, which carries the identical order. Each <td>
+            # moves as one unit with its own data-label attribute, so
+            # the CSS's generic `.leaderboard-table tbody td::before{
+            # content:attr(data-label)}` mobile caption and the
+            # `--r2-full` grid's nth-child(5..8) positional layout both
+            # follow this same order automatically -- no CSS change.
             + _cell(fc["top20_pct"] if fc else None, "Top20")
+            + _cell(fc["top10_pct"] if fc else None, "Top10")
+            + _cell(fc["top5_pct"] if fc else None, "Top5")
             + _cell(fc["win_pct"] if fc else None, "우승")
             + "</tr>"
         )
@@ -241,7 +249,7 @@ def render_r2_real_page(
         '<div class="leaderboard-head"><h2>2R 결과</h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>2R</th>"
-        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
+        "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
         + f'<p class="note">총 {len(advancing_records)}명 (컷 통과 선수만 표시)</p>'
         + "</section>"

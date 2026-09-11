@@ -2,7 +2,13 @@
 regression proving the real, committed R2 page carries the exact
 required PUBLIC column contract:
 
-    순위 | 선수 | 합계 | 2R | Top5 | Top10 | Top20 | 우승
+    순위 | 선수 | 합계 | 2R | Top20 | Top10 | Top5 | 우승
+
+PROBABILITY COLUMN ORDER HOTFIX (base dd4640f): the probability columns
+were reordered widest-population-first (TOP20, TOP10, TOP5), WIN still
+last -- desktop and mobile share this identical order since each `<td>`
+carries its own `data-label` and moves as one unit (see r2_real_page.py's
+own comment at the row-building call site).
 
 SG TOTAL/OTT/APP/ARG/PUTT are removed from this PUBLIC table (WIN moved
 to the last column) -- SG data itself is NOT deleted from any artifact,
@@ -20,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 REAL_PAGE_PATH = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090003" / "r2" / "index.html"
 
-REQUIRED_PUBLIC_COLUMNS = ["순위", "선수", "합계", "2R", "Top5", "Top10", "Top20", "우승"]
+REQUIRED_PUBLIC_COLUMNS = ["순위", "선수", "합계", "2R", "Top20", "Top10", "Top5", "우승"]
 FORBIDDEN_SG_LABELS = ["SG TOTAL", "SG OTT", "SG APP", "SG ARG", "SG PUTT"]
 
 
