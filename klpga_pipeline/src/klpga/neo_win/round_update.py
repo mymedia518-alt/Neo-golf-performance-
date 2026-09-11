@@ -88,7 +88,17 @@ from typing import Optional
 
 from klpga.models.candidates import ShrinkageParams
 
-DEFAULT_N_SIMULATIONS = 5000
+DEFAULT_N_SIMULATIONS = 10000
+"""NEO MONTE CARLO PRODUCTION CONTRACT (fix/kb-r2-official-cut-gate-
+20260911, explicit user directive): the standard NEO Tournament Model
+production simulation count is 10,000 -- shared by round_update.py,
+round_update_r2.py, round_update_r3.py, and r1_live_probability.py's
+own equivalent constant. Previously 5000 (the module's own real,
+verified-but-not-decided default, see post_r2_forecast.py's docstring
+history); changed to 10000 by explicit production-contract decision,
+never inferred or guessed. See klpga.neo_win.production_simulation_gate
+for the HARD_STOP check that enforces this on every real production
+forecast."""
 
 
 def shrink_to_original_units(raw: Optional[float], n: Optional[int], params: ShrinkageParams) -> Optional[float]:
