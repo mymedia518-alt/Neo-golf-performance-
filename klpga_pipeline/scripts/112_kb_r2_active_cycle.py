@@ -70,7 +70,8 @@ from klpga.neo_win.r2_freeze import (  # noqa: E402
 )
 from klpga.neo_win.r2_house_contract import load_expected_r2_field  # noqa: E402
 from klpga.neo_win.r2_probability_gate import ProbabilityGateError, validate_probability_gate  # noqa: E402
-from klpga.neo_win.r2_real_page import render_r2_real_page  # noqa: E402
+from klpga.neo_win.r2_real_page import is_real_page, render_r2_real_page  # noqa: E402
+from klpga.neo_win.r2_rendered_output_gate import RenderedOutputGateError, validate_r2_rendered_output  # noqa: E402
 from klpga.neo_win.r2_sg_pipeline import STATUS_AVAILABLE, SgIngestError, ingest_r2_sg  # noqa: E402
 from klpga.neo_win.r2_wait_page import render_r2_wait_page  # noqa: E402
 from klpga.tournament_context import load_tournament_context  # noqa: E402
@@ -621,10 +622,30 @@ def _apply_r1_scores(rows: list[dict], r1_score_by_player: dict[str, float]) -> 
 
 def _write_wait_page() -> bool:
     """Idempotent: only writes if the WAIT page is missing or stale.
-    Returns True if a write happened."""
-    html = render_r2_wait_page(tournament_name=_CONTEXT.tournament_name, game_code=GAME_CODE)
-    if R2_ROUTE_PATH.is_file() and R2_ROUTE_PATH.read_text(encoding="utf-8") == html:
-        return False
+
+    BUGFIX (fix/kb-r2-official-cut-gate-20260911, discovered while
+    verifying Task L's fix): NEVER overwrites an already-real,
+    gate-passed R2 page with the WAIT placeholder. The previous version
+    of this function compared unconditionally against the WAIT page's
+    own rendered HTML -- once a real R2 page has been published, its
+    content will always differ from the WAIT page, so EVERY subsequent
+    dry-run call (run_cycle(live=False), including a routine, "safe by
+    default, zero HTTP requests" health-check cycle -- see this
+    script's own module docstring) would silently regress the real,
+    published page back to the WAIT placeholder. Discovered because it
+    is exactly what happened to this repo's own real R2 page mid test
+    suite (klpga.neo_win.r2_end_to_end_synthetic's real-state-check test
+    calls run_cycle(live=False) against the real repo). Returns True if
+    a write happened."""
+    if R2_ROUTE_PATH.is_file():
+        current = R2_ROUTE_PATH.read_text(encoding="utf-8")
+        if is_real_page(current):
+            return False
+        html = render_r2_wait_page(tournament_name=_CONTEXT.tournament_name, game_code=GAME_CODE)
+        if current == html:
+            return False
+    else:
+        html = render_r2_wait_page(tournament_name=_CONTEXT.tournament_name, game_code=GAME_CODE)
     R2_ROUTE_PATH.parent.mkdir(parents=True, exist_ok=True)
     R2_ROUTE_PATH.write_text(html, encoding="utf-8", newline="\n")
     return True
@@ -784,6 +805,18 @@ def _publish_and_close(rows, expected, decision, build_id: str, seed: int) -> di
         r2_freeze={"records": rows}, forecast=forecast, sg_ingest=sg_result,
         sponsor_by_id=_load_sponsor_by_id(),
     )
+
+    # RENDERED-OUTPUT GATE (fix/kb-r2-official-cut-gate-20260911, real
+    # production visual QA correction): every gate above validates the
+    # canonical DATA artifacts -- nothing ever checked the actual
+    # rendered HTML against them. A failure here means the page must
+    # NEVER reach docs/ -- see r2_rendered_output_gate.py's own
+    # docstring for the real production incident this closes.
+    try:
+        validate_r2_rendered_output(real_html, {"records": rows})
+    except RenderedOutputGateError as exc:
+        return _summary("HARD_STOP", f"rendered output gate failed: {exc}", True)
+
     R2_ROUTE_PATH.parent.mkdir(parents=True, exist_ok=True)
     R2_ROUTE_PATH.write_text(real_html, encoding="utf-8", newline="\n")
 

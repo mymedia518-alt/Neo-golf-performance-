@@ -90,32 +90,65 @@ def _sg_display(v) -> str:
     return f"{float(v):+.2f}"
 
 
-def _derive_display_ranks(records: list[dict]) -> dict[str, str]:
-    """Ascending total_to_par (lower = better), missing/non-numeric
-    total_to_par sorts last (never assumed 0/best) -- ties (identical
-    total_to_par) share a rank with a "T" prefix, exactly R1's own
-    rank_display convention."""
-    def sort_key(r):
-        raw = r.get("total_to_par")
-        try:
-            return (0, int(raw))
-        except (TypeError, ValueError):
-            return (1, 0)
+def _total_to_par(row: dict):
+    """Real cumulative R1+R2 total-to-par. BUGFIX (fix/kb-r2-official-
+    cut-gate-20260911, real production visual QA correction): the R2
+    freeze schema (klpga.neo_win.r2_freeze, written by scripts/112's
+    _publish_and_close) has NEVER carried a `total_to_par` field --
+    every real row carries `r1_score_to_par` and `r2_score_to_par`
+    (the same two fields klpga.neo_win.round_update_r2.PlayerR2SimInput
+    and post_r2_forecast.py already key off of throughout the rest of
+    this pipeline). This module's OWN prior code read `row.get(
+    "total_to_par")`, which is None on every real row -- so every
+    player's rank sort key fell into the "missing" branch identically,
+    and every player (CUT included) rendered as a tied "T1". This
+    function is the ONE place that computes the real total, directly
+    from the two real fields the freeze actually has. Never fabricated:
+    None unless BOTH r1_score_to_par and r2_score_to_par are real,
+    non-null numbers (a player who has not yet completed -- or never
+    will complete, e.g. a mid-round WD -- correctly has no real total)."""
+    r1 = row.get("r1_score_to_par")
+    r2 = row.get("r2_score_to_par")
+    if r1 is None or r2 is None:
+        return None
+    try:
+        return float(r1) + float(r2)
+    except (TypeError, ValueError):
+        return None
 
-    ordered = sorted(records, key=sort_key)
+
+def _rank_sort_key(row: dict):
+    total = _total_to_par(row)
+    return (0, total) if total is not None else (1, 0)
+
+
+def _derive_display_ranks(records: list[dict]) -> dict[str, str]:
+    """Ascending real cumulative total (see _total_to_par -- lower is
+    better). A row with no real, complete total (either round score
+    missing/unresolved) NEVER receives a numeric or tied rank -- it
+    renders EMPTY_MARK ("--"), matching this page's own established
+    never-fabricate convention (previously, even before the
+    total_to_par field-name bug above, such a row would have received
+    a fabricated numeric "last place" rank it never actually earned --
+    also fixed here). Ties among rows that DO have a real total share a
+    rank with a "T" prefix, exactly R1's own rank_display convention."""
+    ordered = sorted(records, key=_rank_sort_key)
     ranks: dict[str, str] = {}
     current_rank = 0
     current_key = None
     tie_counts: dict[int, int] = {}
-    key_at_rank: dict[int, object] = {}
     for i, r in enumerate(ordered, start=1):
-        key = sort_key(r)
+        pid = str(r["player_id"])
+        key = _rank_sort_key(r)
+        if key[0] == 1:
+            ranks[pid] = EMPTY_MARK
+            continue
         if key != current_key:
             current_rank = i
             current_key = key
-        ranks[str(r["player_id"])] = str(current_rank)
+        ranks[pid] = str(current_rank)
         tie_counts[current_rank] = tie_counts.get(current_rank, 0) + 1
-    return {pid: (f"T{r}" if tie_counts[int(r)] > 1 else r) for pid, r in ranks.items()}
+    return {pid: (f"T{r}" if r != EMPTY_MARK and tie_counts.get(int(r), 0) > 1 else r) for pid, r in ranks.items()}
 
 
 def _cell(v, label: str) -> str:
@@ -153,19 +186,24 @@ def render_r2_real_page(
     ranks = _derive_display_ranks(records)
 
     rows_html = []
-    for row in sorted(records, key=lambda r: (ranks[str(r["player_id"])].lstrip("T").zfill(4), str(r["player_id"]))):
+    for row in sorted(records, key=_rank_sort_key):
         pid = str(row["player_id"])
+        # `data-player-id` -- a real audit hook (fix/kb-r2-official-
+        # cut-gate-20260911): lets a rendered-output regression or
+        # publication gate join back to the frozen evidence by stable
+        # player_id, never by display name (see this task's own
+        # invariant 9). Purely additive, never a visible change.
         status = row.get("status", "ACTIVE")
         identity = render_player_identity(row["player_name"], sponsor_by_id.get(pid), quote="'")
         status_badge = f" <span class='status-badge'>{STATUS_LABEL.get(status, status)}</span>" if status != "ACTIVE" else ""
         sg = sg_by_id.get(pid, {})
         fc = forecast_by_id.get(pid)
         rows_html.append(
-            "<tr>"
+            f"<tr data-player-id='{pid}'>"
             f"<td data-label='순위'>{ranks[pid]}</td>"
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
-            f"<td data-label='합계'>{_to_par_display(row.get('total_to_par'))}</td>"
-            f"<td data-label='2R'>{_to_par_display(row.get('round_to_par'))}</td>"
+            f"<td data-label='합계'>{_to_par_display(_total_to_par(row))}</td>"
+            f"<td data-label='2R'>{_to_par_display(row.get('r2_score_to_par'))}</td>"
             + _sg_cell(sg.get("total"), "SG TOTAL")
             + _sg_cell(sg.get("off_the_tee"), "SG OTT")
             + _sg_cell(sg.get("approach"), "SG APP")

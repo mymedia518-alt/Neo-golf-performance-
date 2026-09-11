@@ -18,10 +18,11 @@ monkeypatched to point there):
     -> HOME R2 eligibility (scripts/88's chronology resolver advances)
 
 A companion test in this file separately proves the REAL, CURRENT
-(empty) state is untouched by any of this: REAL_R2=WAIT,
-R2_SNAPSHOT=NOT_CREATED, POST_R2_FORECAST=NOT_CREATED,
-R2_PUBLICATION_READY=FALSE, HOME=R1 -- nothing fake leaks into what a
-real operator run against the real repo would see.
+state is untouched by any of this -- nothing fake leaks into what a
+real operator run against the real repo would see, and (BUGFIX,
+fix/kb-r2-official-cut-gate-20260911, discovered via this exact test)
+a dry run (live=False) must never regress KB's real, published R2 page
+back to the WAIT placeholder once it has genuinely gone live.
 """
 from __future__ import annotations
 
@@ -259,29 +260,51 @@ def test_full_end_to_end_synthetic_complete_r2_chain(context, tmp_path):
     assert resolved["current"].url_base == f"{url_base}r2/"
 
 
-def test_real_current_state_is_untouched_wait_and_home_stays_r1():
+def test_real_current_state_is_untouched_and_a_dry_run_never_regresses_a_real_page():
     """The mandatory companion run: against the REAL repo (not tmp_path,
-    no monkeypatching), the actual current KB state must still be
-    exactly WAIT/NOT_CREATED/FALSE/R1 -- nothing from the synthetic
-    fixture above leaks into it. Reuses the real operator script
-    exactly as an operator would run it."""
+    no monkeypatching), nothing from the synthetic fixture above leaks
+    into it, AND (the bug this test actually caught while verifying
+    fix/kb-r2-official-cut-gate-20260911's rendered-output fix) a dry
+    run must never regress an already-real, published R2 page back to
+    the WAIT placeholder. This test now works correctly whether KB's
+    real R2 has gone live yet or not -- it reads the real, current
+    on-disk state FIRST and asserts the dry run preserves it exactly,
+    rather than hardcoding a stale "always WAIT/empty" assumption.
+    Reuses the real operator script exactly as an operator would run
+    it."""
     import importlib.util
+
+    from klpga.neo_win.r2_real_page import is_real_page
+    from klpga.neo_win.r2_wait_page import is_wait_page
 
     ROOT = Path(__file__).resolve().parents[1]
     spec = importlib.util.spec_from_file_location("op112_real_state_check", ROOT / "scripts" / "112_kb_r2_active_cycle.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    result = module.run_cycle(live=False, build_id="REAL_STATE_CHECK")
-    assert result["REAL_R2"] == "WAIT"
-    assert result["R2_SNAPSHOT"] == "NOT_CREATED"
-    assert result["POST_R2_FORECAST"] == "NOT_CREATED"
-    assert result["R2_PUBLICATION_READY"] is False
-
     real_r2_page = ROOT.parent / "docs" / "tournaments" / "2026" / "2026090003" / "r2" / "index.html"
+    was_real_before = real_r2_page.is_file() and is_real_page(real_r2_page.read_text(encoding="utf-8"))
+
+    result = module.run_cycle(live=False, build_id="REAL_STATE_CHECK")
+    # REAL_R2/R2_PUBLICATION_READY are generic dry-run-convention values
+    # scripts/112's own _summary() always reports for live=False,
+    # regardless of prior published state -- not a claim about the real
+    # site's actual current content.
+    assert result["REAL_R2"] == "WAIT"
+    assert result["R2_PUBLICATION_READY"] is False
+    if was_real_before:
+        assert result["R2_SNAPSHOT"] == "CREATED"
+        assert result["POST_R2_FORECAST"] == "CREATED"
+    else:
+        assert result["R2_SNAPSHOT"] == "NOT_CREATED"
+        assert result["POST_R2_FORECAST"] == "NOT_CREATED"
+
     if real_r2_page.is_file():
-        from klpga.neo_win.r2_wait_page import is_wait_page
-        assert is_wait_page(real_r2_page.read_text(encoding="utf-8")) is True
+        after = real_r2_page.read_text(encoding="utf-8")
+        if was_real_before:
+            assert is_real_page(after) is True  # never regressed to WAIT by a dry run
+        else:
+            assert is_wait_page(after) is True
 
     real_home = ROOT.parent / "docs" / "index.html"
     if real_home.is_file():

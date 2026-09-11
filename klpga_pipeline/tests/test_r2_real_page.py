@@ -7,7 +7,21 @@ docs/, candidate/). This is exactly the "isolated synthetic TEST
 FIXTURES" the P0-1 spec requires, kept in its own file (not
 test_r2_house.py) so a reader can never mistake these numbers for real
 R2 evidence.
-"""
+
+FIELD-NAME CORRECTION (fix/kb-r2-official-cut-gate-20260911, real
+production visual QA failure): every fixture record here now uses the
+REAL R2 freeze schema's own field names -- `r1_score_to_par` and
+`r2_score_to_par` -- not the `round_to_par`/`total_to_par` names this
+file previously fabricated. Those two names were NEVER what the real
+freeze (klpga.neo_win.r2_freeze, written by scripts/112) actually
+produces, so every test in the previous version of this file exercised
+the renderer against a self-consistent but entirely fictional input
+shape -- which is exactly how a real production run (every rank T1,
+TOTAL/2R both "--" for all 118 real players) shipped with 168/168 green
+tests. See tests/test_r2_rendered_output_regression.py for the
+regression that checks the renderer against the REAL committed
+artifacts directly, and r2_real_page.py's own _total_to_par docstring
+for the full root-cause trace."""
 from __future__ import annotations
 
 import re
@@ -42,7 +56,7 @@ def _fixture_html(*, records, forecast_records=None, sg_status="AVAILABLE", sg_b
 
 
 def _rows(html: str) -> list[str]:
-    return re.findall(r"<tr>(?:(?!</tr>).)*</tr>", html.split("<tbody>", 1)[1].split("</tbody>", 1)[0])
+    return re.findall(r"<tr[^>]*>(?:(?!</tr>).)*</tr>", html.split("<tbody>", 1)[1].split("</tbody>", 1)[0])
 
 
 # ---------------------------------------------------------------------
@@ -69,9 +83,9 @@ def test_uses_the_r2_full_leaderboard_modifier_class():
 
 def test_row_count_matches_frozen_records_exactly_not_forecast_or_sg():
     records = [
-        {"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": -1, "total_to_par": -2},
-        {"player_id": "p2", "player_name": "선수이", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 1},
-        {"player_id": "p3", "player_name": "선수삼", "status": "CUT", "round_to_par": 5, "total_to_par": 8},
+        {"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": -1, "r2_score_to_par": -1},
+        {"player_id": "p2", "player_name": "선수이", "status": "ACTIVE", "r1_score_to_par": 1, "r2_score_to_par": 0},
+        {"player_id": "p3", "player_name": "선수삼", "status": "CUT", "r1_score_to_par": 3, "r2_score_to_par": 5},
     ]
     # forecast/SG only cover a SUBSET (p1) -- the real-world case of a
     # player excluded from simulation / SG join -- must not shrink the
@@ -96,14 +110,14 @@ def test_row_count_matches_frozen_records_exactly_not_forecast_or_sg():
 
 @pytest.mark.parametrize("status", ["CUT", "WD", "DQ"])
 def test_non_active_status_is_shown_never_silently_dropped(status):
-    records = [{"player_id": "p1", "player_name": "선수일", "status": status, "round_to_par": 4, "total_to_par": 6}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": status, "r1_score_to_par": 2, "r2_score_to_par": 4}]
     html = _fixture_html(records=records)
     assert "선수일" in html
     assert f"<span class='status-badge'>{status}</span>" in html
 
 
 def test_active_status_shows_no_badge():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": -1, "total_to_par": -1}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": -1}]
     html = _fixture_html(records=records)
     assert "status-badge" not in html
 
@@ -116,8 +130,8 @@ def test_active_status_shows_no_badge():
 
 def test_sponsor_slot_present_for_every_row_even_when_unknown():
     records = [
-        {"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0},
-        {"player_id": "p2", "player_name": "선수이", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0},
+        {"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0},
+        {"player_id": "p2", "player_name": "선수이", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0},
     ]
     html = _fixture_html(records=records, sponsor_by_id={"p1": "SYNTH SPONSOR CO"})
     assert html.count("class='player-name'") == 2
@@ -131,7 +145,7 @@ def test_sponsor_slot_present_for_every_row_even_when_unknown():
 
 
 def test_sponsor_immediately_follows_player_name_in_dom_order():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
     html = _fixture_html(records=records, sponsor_by_id={"p1": "SPONSOR X"})
     name_idx = html.index("class='player-name'")
     sponsor_idx = html.index("class='player-sponsor'")
@@ -139,25 +153,47 @@ def test_sponsor_immediately_follows_player_name_in_dom_order():
 
 
 # ---------------------------------------------------------------------
-# R2 score info: real round_to_par/total_to_par displayed; missing
-# value never rendered as 0/E, always the explicit empty mark.
+# R2 score info: real r1_score_to_par/r2_score_to_par displayed -- 2R
+# is the real r2_score_to_par, TOTAL is the real r1+r2 sum (see
+# r2_real_page._total_to_par -- there is no "total_to_par" field on the
+# real freeze; it is always COMPUTED here, never read off a nonexistent
+# key). A missing value never renders as 0/E, always the explicit empty
+# mark.
 # ---------------------------------------------------------------------
 
 def test_real_score_values_render_with_par_notation():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": -3, "total_to_par": 2}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 5, "r2_score_to_par": -3}]
     html = _fixture_html(records=records)
     row = _rows(html)[0]
     assert "data-label='2R'>-3<" in row
-    assert "data-label='합계'>+2<" in row
+    assert "data-label='합계'>+2<" in row  # 5 + (-3) = 2
+
+
+def test_total_is_the_real_sum_of_r1_and_r2_not_a_separately_read_field():
+    """The exact bug this fix corrects: TOTAL must be COMPUTED from the
+    real r1_score_to_par + r2_score_to_par, never read from a
+    "total_to_par" key the real freeze schema never has."""
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": -2}]
+    html = _fixture_html(records=records)
+    row = _rows(html)[0]
+    assert "data-label='합계'>-7<" in row  # -5 + -2 = -7, not "--"
 
 
 def test_missing_score_renders_empty_mark_never_zero():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": None, "total_to_par": None}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": None, "r2_score_to_par": None}]
     html = _fixture_html(records=records)
     row = _rows(html)[0]
     assert "data-label='2R'>—<" in row
     assert "data-label='합계'>—<" in row
     assert "data-label='2R'>0<" not in row
+
+
+def test_total_missing_when_only_r1_present_never_half_computed():
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": None}]
+    html = _fixture_html(records=records)
+    row = _rows(html)[0]
+    assert "data-label='합계'>—<" in row  # never fabricated as just r1's value
+    assert "data-label='2R'>—<" in row
 
 
 # ---------------------------------------------------------------------
@@ -166,7 +202,7 @@ def test_missing_score_renders_empty_mark_never_zero():
 # ---------------------------------------------------------------------
 
 def test_sg_available_renders_real_signed_values():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
     sg_by_id = {"p1": {"total": 3.21, "off_the_tee": 1.0, "approach": 0.8, "around_green": 0.3, "putting": 1.11}}
     html = _fixture_html(records=records, sg_by_id=sg_by_id, sg_status="AVAILABLE")
     row = _rows(html)[0]
@@ -176,7 +212,7 @@ def test_sg_available_renders_real_signed_values():
 
 
 def test_sg_not_available_renders_empty_mark_for_every_sg_cell_never_zero():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
     html = _fixture_html(records=records, sg_status="NOT_AVAILABLE")
     row = _rows(html)[0]
     for label in ("SG TOTAL", "SG OTT", "SG APP", "SG ARG", "SG PUTT"):
@@ -185,7 +221,7 @@ def test_sg_not_available_renders_empty_mark_for_every_sg_cell_never_zero():
 
 
 def test_sg_available_note_is_absent_when_sg_actually_shown():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
     sg_by_id = {"p1": {"total": 1.0, "off_the_tee": 0.4, "approach": 0.3, "around_green": 0.2, "putting": 0.1}}
     html = _fixture_html(records=records, sg_by_id=sg_by_id, sg_status="AVAILABLE")
     assert "스트로크 게인드 데이터가 아직" not in html
@@ -197,7 +233,7 @@ def test_sg_available_note_is_absent_when_sg_actually_shown():
 # ---------------------------------------------------------------------
 
 def test_forecast_probabilities_render_from_real_forecast_row():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
     forecast_records = [{"player_id": "p1", "win_pct": 12.5, "top5_pct": 40.25, "top10_pct": 60.0, "top20_pct": 80.0}]
     html = _fixture_html(records=records, forecast_records=forecast_records)
     row = _rows(html)[0]
@@ -206,7 +242,7 @@ def test_forecast_probabilities_render_from_real_forecast_row():
 
 
 def test_player_missing_from_forecast_gets_empty_mark_never_fabricated_probability():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "CUT", "round_to_par": 5, "total_to_par": 5}]
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "CUT", "r1_score_to_par": 0, "r2_score_to_par": 5}]
     html = _fixture_html(records=records, forecast_records=[])
     row = _rows(html)[0]
     for label in ("우승", "Top5", "Top10", "Top20"):
@@ -214,14 +250,17 @@ def test_player_missing_from_forecast_gets_empty_mark_never_fabricated_probabili
 
 
 # ---------------------------------------------------------------------
-# Ranking: DERIVED from real total_to_par, ties share a rank.
+# Ranking: DERIVED from the real cumulative total (r1+r2), ties share a
+# rank. THIS IS THE EXACT PRODUCTION BUG: reading a nonexistent
+# "total_to_par" field made every player's sort key identical, so
+# real ACTIVE and CUT players alike all rendered as a tied "T1".
 # ---------------------------------------------------------------------
 
-def test_ranking_ascending_by_total_to_par_ties_share_rank():
+def test_ranking_ascending_by_real_cumulative_total_ties_share_rank():
     records = [
-        {"player_id": "p1", "player_name": "A", "status": "ACTIVE", "round_to_par": 0, "total_to_par": -5},
-        {"player_id": "p2", "player_name": "B", "status": "ACTIVE", "round_to_par": 0, "total_to_par": -5},
-        {"player_id": "p3", "player_name": "C", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0},
+        {"player_id": "p1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": 0},
+        {"player_id": "p2", "player_name": "B", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": 0},
+        {"player_id": "p3", "player_name": "C", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0},
     ]
     html = _fixture_html(records=records)
     rows = _rows(html)
@@ -230,15 +269,36 @@ def test_ranking_ascending_by_total_to_par_ties_share_rank():
     assert "data-label='순위'>3<" in rows[2]
 
 
-def test_missing_total_to_par_sorts_last_never_assumed_best():
+def test_cut_player_with_real_scores_gets_a_real_distinct_rank_never_fabricated_t1():
+    """Reproduces the exact real production symptom: an ACTIVE leader,
+    a mid-field ACTIVE player, and a real CUT player with a real, worse
+    total -- none of them may all collapse onto a shared fake "T1"."""
     records = [
-        {"player_id": "p1", "player_name": "A", "status": "ACTIVE", "round_to_par": None, "total_to_par": None},
-        {"player_id": "p2", "player_name": "B", "status": "ACTIVE", "round_to_par": 0, "total_to_par": -2},
+        {"player_id": "p1", "player_name": "리더", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": -2},
+        {"player_id": "p2", "player_name": "중위권", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": -1},
+        {"player_id": "p3", "player_name": "컷탈락", "status": "CUT", "r1_score_to_par": 3, "r2_score_to_par": 5},
+    ]
+    html = _fixture_html(records=records)
+    by_name = {name: row for row in _rows(html) for name in ("리더", "중위권", "컷탈락") if name in row}
+    assert "data-label='순위'>1<" in by_name["리더"]
+    assert "data-label='순위'>2<" in by_name["중위권"]
+    assert "data-label='순위'>3<" in by_name["컷탈락"]
+    ranks_shown = [re.search(r"data-label='순위'>([^<]+)<", row).group(1) for row in _rows(html)]
+    assert ranks_shown.count("T1") == 0
+    assert ranks_shown.count("1") == 1  # exactly one real leader, never every row tied
+
+
+def test_missing_total_sorts_last_and_renders_empty_rank_never_a_fabricated_number():
+    records = [
+        {"player_id": "p1", "player_name": "A", "status": "WD", "r1_score_to_par": None, "r2_score_to_par": None},
+        {"player_id": "p2", "player_name": "B", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": -2},
     ]
     html = _fixture_html(records=records)
     rows = _rows(html)
     assert "B" in rows[0]
     assert "A" in rows[1]
+    assert "data-label='순위'>—<" in rows[1]  # never a fabricated "2" or any other number
+    assert "data-label='순위'>1<" in rows[0]
 
 
 # ---------------------------------------------------------------------
@@ -247,7 +307,7 @@ def test_missing_total_to_par_sorts_last_never_assumed_best():
 # ---------------------------------------------------------------------
 
 def test_real_page_is_never_mistaken_for_the_wait_page():
-    real_html = _fixture_html(records=[{"player_id": "p1", "player_name": "A", "status": "ACTIVE", "round_to_par": 0, "total_to_par": 0}])
+    real_html = _fixture_html(records=[{"player_id": "p1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}])
     wait_html = render_r2_wait_page(tournament_name=TOURNAMENT_NAME, game_code=GAME_CODE)
     assert is_real_page(real_html) is True
     assert is_wait_page(real_html) is False
