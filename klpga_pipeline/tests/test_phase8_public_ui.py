@@ -172,12 +172,13 @@ def test_unapproved_neo_ranking_keeps_structure_but_publishes_no_values():
 # 2 / 6 / 7 / 8. HOME tournament cards
 # ---------------------------------------------------------------------------
 
-def test_home_contains_last_current_next_tournament_cards(built):
-    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert '<section class="t-tournament-cards"' in html
-    for kind, kicker in (("last", "지난 대회"), ("current", "이번 대회"), ("next", "다음 대회")):
-        assert f'data-tournament-card="{kind}"' in html
-        assert kicker in html
+# test_home_contains_last_current_next_tournament_cards (formerly here)
+# is SUPERSEDED by PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR
+# (20260911): the tournament-cards block it required attaching to HOME
+# is exactly the structural regression that fix removed -- HOME must
+# lead with the player table, not tournament content. See
+# tests/test_home_player_first_regression.py::test_home_has_no_tournament_card_block
+# for the inverse invariant now locked in.
 
 
 def test_real_official_schedule_drives_home_never_pipeline_stage_state():

@@ -163,9 +163,13 @@ def test_every_public_route_has_global_home_navigation(built):
 def test_home_is_korean_first_and_table_alignment_is_explicit(built):
     # See test_candidate_contract_and_pending_handling: the ranking
     # table's permanent home is /ranking/, not necessarily /.
+    # PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR (20260911): the
+    # "KLPGA 공식 K-Ranking 1~120위" kicker was part of the intro/
+    # coverage-stat block that used to sit ahead of the player table on
+    # both / and /ranking/ (they share render_clean()) -- removed
+    # outright, not relocated, so this page is player-first too.
     html = (OUTPUT / "ranking" / "index.html").read_text(encoding="utf-8")
     assert html.count("data-player-row") == 120
-    assert "KLPGA 공식 K-Ranking 1~120위" in html
     # PUBLIC UI Phase 8 correction (FAIL 1): see
     # test_candidate_contract_and_pending_handling -- these are now
     # forbidden internal validation-state phrases, not required content.
@@ -324,24 +328,27 @@ def test_tournament_state_never_infers_a_stage_from_todays_date(_pinned_ok_open_
 # somewhere on the page (the weak assertion that produced a false PASS
 # for the rejected hero approach).
 
-# PRODUCT RECOVERY V1: corrected to strings render_clean() actually
-# emits today -- the previous second marker ("공식 순위와 NEO 검증 순위
-# 비교") never matched any real output (confirmed via direct search),
-# so the old TOURNAMENT_ACTIVE test asserting its ABSENCE was a
-# vacuous pass, never a real check.
-_RANKING_PAGE_HEAD_MARKERS = ("KLPGA 공식 K-Ranking 1~120위", "ranking-compare-heading")
+# PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR (20260911): the
+# kicker/H1 pair these markers used to check for ("KLPGA 공식 K-Ranking
+# 1~120위" / class="ranking-compare-heading") was the intro/coverage
+# block removed ahead of the player table -- the page's one real H1 is
+# now "TOP120 선수표" on the player-list section itself
+# (class="product-section home-primary"), so these markers check that
+# instead.
+_RANKING_PAGE_HEAD_MARKERS = ("TOP120 선수표", "home-primary")
 
 
 def test_home_is_always_player_ranking_first_even_while_a_tournament_is_active(built):
-    # PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT): supersedes the old
-    # "HOME TOURNAMENT OWNERSHIP FIX" -- HOME must NEVER compose a
-    # tournament stage's own page body, active tournament or not. It
-    # is always the same player-centric ranking content as /ranking/,
-    # with the tournament-cards strip attached as compact secondary
-    # navigation right after the shared header.
+    # PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT), further tightened by
+    # PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR: HOME must NEVER
+    # compose a tournament stage's own page body, active tournament or
+    # not, and must NEVER lead with tournament content either -- it is
+    # always the same player-first ranking content as /ranking/, with
+    # no tournament cards attached at all (see
+    # test_home_player_first_regression.py for that dedicated coverage).
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html, f"ranking page-head must be /'s primary body: {marker!r} missing"
+        assert marker in html, f"player-first heading must be /'s primary body: {marker!r} missing"
     assert "data-player-row" in html, "the K-Ranking table must be /'s primary body"
 
 
@@ -357,13 +364,14 @@ def test_home_does_not_contain_pre_stage_body_composition(built):
     assert "id=\"pre\"" not in home_html and "id='pre'" not in home_html
 
 
-def test_home_tournament_cards_strip_still_names_the_current_tournament(built):
-    """The compact tournament-cards strip (secondary navigation, not
-    the page body) still surfaces the real current tournament by name
-    -- HOME just no longer becomes that tournament's own page."""
-    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "t-tournament-cards" in home_html
-    assert "KB금융 골든라이프 챔피언십" in home_html
+# test_home_tournament_cards_strip_still_names_the_current_tournament
+# (formerly here) is SUPERSEDED by PRODUCTION HOME REGRESSION ROOT-
+# CAUSE + REPAIR (20260911): the tournament-cards strip it required is
+# exactly what put tournament content ahead of the player table on
+# every real HOME load -- it is now deliberately removed, not relocated.
+# Tournament access is the "대회" nav item's job. See
+# test_home_player_first_regression.py::test_home_has_no_tournament_card_block
+# for the inverse invariant this now locks in.
 
 
 def test_home_has_exactly_one_h1(built):
@@ -390,23 +398,26 @@ def test_dedicated_r1_url_still_works_independently_of_home(built):
 
 
 def test_global_home_nav_points_to_root_and_root_resolves_to_the_ranking_experience(built):
-    # PRODUCT RECOVERY V1: root always resolves to the ranking
-    # experience (with the current tournament named in the compact
-    # cards strip), never a copied tournament stage experience.
+    # PRODUCT RECOVERY V1, updated by PRODUCTION HOME REGRESSION
+    # ROOT-CAUSE + REPAIR: root always resolves to the player-first
+    # ranking experience, with no tournament content attached at all
+    # (the "compact cards strip" this comment used to describe is
+    # exactly the regression that fix removed).
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert 'href="/">홈</a>' in html or 'href="/" class="is-active"' in html
     for marker in _RANKING_PAGE_HEAD_MARKERS:
         assert marker in html
-    assert "KB금융 골든라이프 챔피언십" in html
     assert "R2 &middot; LIVE" not in html
 
 
 def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, monkeypatch):
     """PRODUCT RECOVERY V1: HOME is always the ranking experience now,
-    so this legacy stage selector has nothing left to override there --
-    what it must still never be able to do is make the tournament-cards
-    strip disagree with the real, calendar-selected current tournament
-    (KB), regardless of what the stale selector itself claims."""
+    so this legacy stage selector has nothing left to override there.
+    PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR: HOME no longer
+    carries a tournament-cards strip at all, so what this test now
+    locks in is that a stale/mismatched home_mode() cannot make HOME's
+    structure (still player-first, still 120 rows, no LIVE-stage
+    leakage) waver either."""
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
     spec = importlib.util.spec_from_file_location("top120_builder_stale_mode", path)
     module = importlib.util.module_from_spec(spec)
@@ -415,14 +426,16 @@ def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, m
     monkeypatch.setattr(module, "home_mode", lambda: "RANKING_DEFAULT")
     module.build()
     html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "KB금융 골든라이프 챔피언십" in html
+    for marker in _RANKING_PAGE_HEAD_MARKERS:
+        assert marker in html
     assert "R2 &middot; LIVE" not in html
     assert html.count("data-player-row") == 120
     assert (module.OUTPUT / "ranking/index.html").read_text(encoding="utf-8").count("data-player-row") == 120
 
 
 def test_stale_active_ok_context_cannot_override_calendar_chronology(tmp_path, monkeypatch):
-    """Changing the legacy OK end-date signal cannot change HOME identity."""
+    """Changing the legacy OK end-date signal cannot change HOME
+    identity or leak LIVE-stage content into it."""
     from klpga.website_v2 import tournament_state
     monkeypatch.setattr(tournament_state, "OK_END_DATE", "2020-01-01")
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
@@ -432,38 +445,23 @@ def test_stale_active_ok_context_cannot_override_calendar_chronology(tmp_path, m
     module.OUTPUT = tmp_path / "candidate"
     module.build()
     html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "KB금융 골든라이프 챔피언십" in html
+    for marker in _RANKING_PAGE_HEAD_MARKERS:
+        assert marker in html
     for marker in ("R2 &middot; LIVE", "2라운드 공식 리더보드", "1라운드 공식 리더보드"):
         assert marker not in html
 
 
-def test_kg_ladies_open_is_never_shown_as_the_current_active_tournament(built):
-    html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    # PUBLIC UI Phase 8: KG Ladies Open is now legitimately named in
-    # HOME's own "지난 대회" (last completed tournament) card -- that is
-    # real, correct, registry-driven content, not a stale-active-
-    # tournament bug. The invariant this test actually guards is that
-    # KG is never shown INSIDE the "current"-kind card; it must still
-    # appear inside the "last"-kind card.
-    import re as _re
-    current_card = _re.search(r'data-tournament-card="current"[^>]*>.*?</article>', html, flags=_re.S)
-    assert current_card, "HOME must carry a 'current' tournament card"
-    assert "KG" not in current_card.group(0) and "레이디스" not in current_card.group(0), (
-        "KG Ladies Open must never appear inside the CURRENT tournament card"
-    )
-    # PUBLIC UI Phase 8 correction (FAIL 3): tournament_chronology is
-    # now purely date-driven (see test_phase8_public_ui.py's
-    # test_chronology_* boundary tests) -- whichever registered
-    # tournament ended most recently as of "today" wins the "last"
-    # slot. That is sometimes KG, sometimes another completed
-    # tournament (e.g. once OK Open's own scheduled window has also
-    # passed) -- never hardcode which one; the only real invariant this
-    # test guards is a non-empty "last" card.
-    last_card = _re.search(r'data-tournament-card="last"[^>]*>.*?</article>', html, flags=_re.S)
-    assert last_card and 'data-game-code' in last_card.group(0), (
-        "HOME must carry a real, non-empty 'last' tournament card"
-    )
-    # KG's own archive is preserved untouched elsewhere in the tree
+# test_kg_ladies_open_is_never_shown_as_the_current_active_tournament
+# (formerly here) is SUPERSEDED by PRODUCTION HOME REGRESSION ROOT-
+# CAUSE + REPAIR (20260911): it asserted structure (a "current"
+# tournament-card article) inside HOME's own HTML, which no longer
+# exists -- HOME carries no tournament cards of any kind now. The real
+# underlying invariant this test protected (KG Ladies Open, a
+# completed tournament, must never be resolved as the CURRENT active
+# one) lives in build_home_tournament_chronology()'s own date-driven
+# resolver logic, not in HOME's rendering, and is independently covered
+# by test_phase8_public_ui.py's test_chronology_* boundary tests and
+# test_real_official_schedule_drives_home_never_pipeline_stage_state.
     for route in ("tournaments/2026/kg-ladies-open/pre/index.html", "tournaments/2026/kg-ladies-open/r1/index.html",
                   "tournaments/2026/kg-ladies-open/r2/index.html", "tournaments/2026/kg-ladies-open/r3/index.html",
                   "tournaments/2026/kg-ladies-open/final/index.html"):

@@ -25,7 +25,6 @@ from klpga.website_v2.tournament_state import (  # noqa: E402
 )
 from klpga.website_v2.current_score_display import CurrentScoreCell, format_current_score  # noqa: E402
 from klpga.website_v2.tournament_chronology import build_home_tournament_chronology  # noqa: E402
-from klpga.website_v2.tournament_cards import render_tournament_cards_html  # noqa: E402
 from klpga.website_v2.player_identity import (  # noqa: E402
     cross_tournament_verified_sponsor_cache, normalize_player_sponsor_mentions,
     render_player_identity, sponsor_with_cross_tournament_fallback, verified_sponsor,
@@ -345,17 +344,22 @@ def render_clean(
             + sg_cell("long_term_sg", "장기 SG", "metric-secondary")
             + f'<td class="metric-secondary" data-label="변동성">{val("volatility")}</td><td data-label="현재 스코어">{escape(cell.display)}</td></tr>'
         )
-    week_stat = f'<div class="stat"><strong>{escape(ranking_week)}</strong><span>기준 주차</span></div>' if ranking_week else ""
-    # PRODUCT PRESENTATION RECOVERY: the summary strip's other two stats
-    # were "—"/"NEO Ranking" and "—"/"NEO 지표" -- both placeholders for
-    # the same blocked composite. Replaced with the two real, connected
-    # counts evaluate() already computes (summary["sg_connected"]/
-    # summary["recent5_ready"]) -- honest population-coverage numbers
-    # for the metric that actually renders below, never a guess.
+    # PLAYER-FIRST HOME (PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR,
+    # 20260911): the primary content -- the player table -- now renders
+    # FIRST, immediately after the shared header, with no intro/coverage
+    # block ahead of it. The removed "page-head home-head" block (kicker
+    # + H1 "K-Ranking과 NEO Ranking" + coverage-count stats like "118
+    # 최근 SG 연결"/"108 최근 10R SG 확보") was internal data-pipeline
+    # coverage reporting, not user-facing product copy -- it does not
+    # come back in any form. The player-comparison heading is promoted
+    # to the page's one H1 in place of the removed one. The K-Ranking/
+    # NEO Ranking/SG glossary ("ranking-help") is still genuinely useful
+    # context, so it is kept, just moved below the table instead of
+    # blocking it.
     document = f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>K-Ranking TOP120</title><link rel="stylesheet" href="/assets/neo-site.css"><script src="/assets/top120.js" defer></script></head><body><header data-neo-global-navigation></header><main>
-<section class="page-head home-head"><p class="kicker">KLPGA 공식 K-Ranking 1~120위</p><h1 class="ranking-compare-heading">K-Ranking과 NEO Ranking</h1><p>KLPGA 공식 순위와 NEO 지표를 함께 보는 선수 화면입니다.</p><div class="home-summary"><div class="stat"><strong>120</strong><span>공식 선수</span></div><div class="stat"><strong>{summary.get("sg_connected", 0)}</strong><span>최근 SG 연결</span></div><div class="stat"><strong>{summary.get("recent10_ready", 0)}</strong><span>최근 10R SG 확보</span></div>{week_stat}</div></section>
+<section class="product-section home-primary"><div class="section-heading"><div><p class="section-label">선수 비교</p><h1>TOP120 선수표</h1></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>선수</th><th>K-Ranking</th><th>최근 10R SG</th><th>최근 5R SG</th><th class="metric-secondary">장기 SG</th><th class="metric-secondary">변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section>
 <section class="ranking-help" aria-label="순위 안내"><div><dt>K-Ranking</dt><dd>KLPGA가 매주 발표하는 공식 순위</dd></div><div><dt>NEO Ranking</dt><dd>검증 중 · 공개 전</dd></div><div><dt>최근 경기력</dt><dd>최근 10·5라운드 평균 SG로 비교</dd></div><div><dt>SG</dt><dd>필드 평균 대비 얻거나 잃은 타수</dd></div></section>
-<section class="product-section"><div class="section-heading"><div><p class="section-label">선수 비교</p><h2>TOP120 선수표</h2></div></div><div class="home-tools"><label for="player-search">선수 검색</label><input id="player-search" type="search" placeholder="선수명 입력"><label for="home-sort">정렬</label><select id="home-sort"><option value="k-rank">K-Ranking</option><option value="name">선수명</option><option value="current-score">현재 스코어</option></select><output id="home-count">120명</output></div><div class="table-scroll" tabindex="0" aria-label="선수표 가로 스크롤"><table class="data-table home-table"><thead><tr><th>선수</th><th>K-Ranking</th><th>최근 10R SG</th><th>최근 5R SG</th><th class="metric-secondary">장기 SG</th><th class="metric-secondary">변동성</th><th>현재 스코어</th></tr></thead><tbody>{''.join(cells)}</tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
+</main><footer class="site-footer"><div class="site-footer__inner"><p>NEO · Number · Evidence · Oracle</p></div></footer></body></html>'''
     return document
 
 
@@ -515,12 +519,6 @@ def build() -> dict:
                 break
         chronology[slot] = dataclasses.replace(facts, url_base=resolved_url)
 
-    # PUBLIC UI Phase 8 -- HOME's three tournament cards (지난/이번/다음
-    # 대회), resolved generically from the site registry + whichever
-    # tournament is currently active. Rendered once, reused on whichever
-    # branch below actually becomes root HOME.
-    tournament_cards_html = render_tournament_cards_html(chronology)
-
     # RANKING PAGE -- HOME TOURNAMENT OWNERSHIP FIX: this is now ALWAYS
     # published at its own stable URL (/ranking/), the permanent
     # K-Ranking x NEO Ranking access point, regardless of tournament
@@ -545,21 +543,23 @@ def build() -> dict:
     (OUTPUT / "ranking").mkdir()
     (OUTPUT / "ranking" / "index.html").write_text(ranking_page_html, encoding="utf-8", newline="\n")
 
-    # ROOT HOME -- PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT correction):
-    # HOME is the permanent, player-centric NEO product entry page and
-    # must NEVER compose a tournament stage's own page body -- that was
-    # the prior "HOME TOURNAMENT OWNERSHIP FIX" rule, now explicitly
-    # superseded. / always renders the same ranking content as
-    # /ranking/ (still the one stable K-Ranking x NEO Ranking URL),
-    # with the three tournament cards attached right after the shared
-    # header as compact secondary navigation -- current tournament's
-    # own PRE/R1/R2/FINAL pages stay on their own dedicated routes
-    # under /tournaments/..., never copied into /.
+    # ROOT HOME -- PLAYER-FIRST HOME (PRODUCTION HOME REGRESSION
+    # ROOT-CAUSE + REPAIR, 20260911): HOME is the permanent, player-
+    # centric NEO product entry page and must NEVER compose a
+    # tournament stage's own page body, and must NEVER lead with
+    # tournament content either -- the PRODUCT RECOVERY V1 predecessor
+    # of this comment attached the three tournament cards (지난/이번/
+    # 다음 대회) right after the shared header as "compact secondary
+    # navigation"; in practice that put tournament cards ahead of the
+    # player table on every load, which is exactly the tournament-
+    # landing-page structure this invariant forbids. Tournament access
+    # is the existing "대회" nav item's job, not HOME's. / renders the
+    # same player-first ranking content as /ranking/ (still the one
+    # stable K-Ranking x NEO Ranking URL) with no cards attached;
+    # current tournament's own PRE/R1/R2/FINAL pages stay on their own
+    # dedicated routes under /tournaments/..., never copied into /.
     rendered_home = inject_global_navigation(ranking_html, active_section="home")
     rendered_home = rendered_home.replace("</body>", '<a class="sr-only" href="/">NEO GOLF DATA</a></body>')
-    rendered_home, header_count = re.subn(r"(</header>)", rf"\1{tournament_cards_html}", rendered_home, count=1)
-    if header_count != 1:
-        raise RuntimeError("root HOME must have exactly one </header> to attach the tournament cards after")
     rendered_home = embed_owner(rendered_home, TOP120_OWNER)
     (OUTPUT / "index.html").write_text(rendered_home, encoding="utf-8", newline="\n")
     neo_lab_html = inject_global_navigation(_neo_lab_html(), active_section="neo-lab")
