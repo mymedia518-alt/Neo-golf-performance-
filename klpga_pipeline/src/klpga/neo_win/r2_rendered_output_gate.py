@@ -22,12 +22,21 @@ official value". Raises RenderedOutputGateError (write nothing, HARD_
 STOP the cycle) on any divergence. Called from scripts/112's
 _publish_and_close immediately after render_r2_real_page and BEFORE the
 page is ever written to docs/ -- a failing render must never reach
-production."""
+production.
+
+R2 CUT SURVIVORS ONLY (fix/kb-r2-official-cut-gate-20260911): the
+public main table renders ONLY officially-advancing (status=="ACTIVE")
+players -- see r2_real_page.py's own module docstring. This gate's
+population check is scoped to match: rendered population must equal
+the ADVANCING subset of the frozen evidence exactly, never the full
+frozen population. A CUT/WD/DQ/DNS record appearing as a rendered row
+-- or an advancing record missing one -- is a HARD_STOP."""
 from __future__ import annotations
 
 import re
 
 EMPTY_MARK = "—"
+ADVANCING_STATUS = "ACTIVE"
 
 
 class RenderedOutputGateError(RuntimeError):
@@ -94,43 +103,47 @@ def validate_r2_rendered_output(html: str, r2_freeze: dict) -> None:
     partial mismatch.
 
     Checks, in order:
-      1. Rendered population == frozen population exactly (by player_id).
-      2. For EVERY frozen record: rendered TOTAL and 2R exactly equal
-         the real, computed r1_score_to_par + r2_score_to_par / real
-         r2_score_to_par -- not merely "present", the EXACT real value.
-         A record with incomplete data must render EMPTY_MARK for both,
-         never a fabricated number.
-      3. For EVERY frozen record: rendered rank is EMPTY_MARK if and
+      1. Rendered population == the ADVANCING (status=="ACTIVE") subset
+         of the frozen population exactly (by player_id) -- a CUT/WD/
+         DQ/DNS record must NEVER appear as a rendered row, and every
+         advancing record must always appear.
+      2. For EVERY advancing record: rendered TOTAL and 2R exactly
+         equal the real, computed r1_score_to_par + r2_score_to_par /
+         real r2_score_to_par -- not merely "present", the EXACT real
+         value. A record with incomplete data must render EMPTY_MARK
+         for both, never a fabricated number.
+      3. For EVERY advancing record: rendered rank is EMPTY_MARK if and
          only if that record has no real, complete total -- never a
          fabricated numeric/tied rank for incomplete data, and never
          EMPTY_MARK for a player who DOES have a real, complete total.
-      4. For every non-ACTIVE record: the rendered status badge matches
-         the frozen status exactly.
-      5. Population-scale sanity: if the frozen evidence has 2 or more
-         DISTINCT real totals among players with complete data, the
-         rendered page must show 2 or more DISTINCT rank values among
-         those same players -- catches exactly the real production bug
-         (every rank collapsing onto one fabricated shared value) even
-         if some future defect produces a self-consistent-looking but
-         still-wrong single wrong value per player."""
+      4. Population-scale sanity: if the advancing population has 2 or
+         more DISTINCT real totals among players with complete data,
+         the rendered page must show 2 or more DISTINCT rank values
+         among those same players -- catches exactly the real
+         production bug (every rank collapsing onto one fabricated
+         shared value) even if some future defect produces a self-
+         consistent-looking but still-wrong single wrong value per
+         player."""
     records = r2_freeze["records"]
     rendered = parse_rendered_rows(html)
 
-    freeze_ids = {str(r["player_id"]) for r in records}
+    advancing_records = [r for r in records if r.get("status", "ACTIVE") == ADVANCING_STATUS]
+    advancing_ids = {str(r["player_id"]) for r in advancing_records}
     rendered_ids = set(rendered)
-    if rendered_ids != freeze_ids:
-        missing = freeze_ids - rendered_ids
-        extra = rendered_ids - freeze_ids
+    if rendered_ids != advancing_ids:
+        missing = advancing_ids - rendered_ids
+        extra = rendered_ids - advancing_ids
         raise RenderedOutputGateError(
-            f"rendered population diverges from frozen evidence: "
-            f"{len(missing)} missing ({sorted(missing)[:5]}), {len(extra)} unexpected extra ({sorted(extra)[:5]})"
+            f"rendered PUBLIC MAIN TABLE population diverges from the official advancing field: "
+            f"{len(missing)} advancing player(s) missing ({sorted(missing)[:5]}), "
+            f"{len(extra)} non-advancing/unexpected row(s) present ({sorted(extra)[:5]})"
         )
 
     distinct_totals_seen = set()
     distinct_ranks_seen = set()
     complete_population_size = 0
 
-    for record in records:
+    for record in advancing_records:
         pid = str(record["player_id"])
         name = record.get("player_name", pid)
         row = rendered[pid]
@@ -163,13 +176,6 @@ def validate_r2_rendered_output(html: str, r2_freeze: dict) -> None:
             complete_population_size += 1
             distinct_totals_seen.add(real_total)
             distinct_ranks_seen.add(row["rank"])
-
-        status = record.get("status", "ACTIVE")
-        if status != "ACTIVE" and row["status_badge"] != status:
-            raise RenderedOutputGateError(
-                f"status badge diverges from frozen evidence for {name} ({pid}): "
-                f"rendered {row['status_badge']!r}, expected {status!r}"
-            )
 
     if complete_population_size >= 2 and len(distinct_totals_seen) >= 2 and len(distinct_ranks_seen) < 2:
         raise RenderedOutputGateError(

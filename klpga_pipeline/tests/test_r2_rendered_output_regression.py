@@ -17,15 +17,13 @@ carried those field names -- every real row only ever has
 None for every real row, which made every player's rank sort key
 identical -- hence the universal fake "T1".
 
-WHY 168/168 EXISTING TESTS MISSED IT: every fixture in
-tests/test_r2_real_page.py (before this fix) manually constructed
-synthetic `records` using the WRONG field names (`round_to_par`/
-`total_to_par`) -- i.e. exactly the shape the (buggy) renderer expected
--- so those tests were self-consistently testing a fictional contract
-that the real collector/freeze writer never actually produces. No test
-anywhere previously parsed ACTUAL rendered HTML and cross-checked it
-against the REAL frozen evidence artifact -- this file is that missing
-check.
+R2 CUT SURVIVORS ONLY (fix/kb-r2-official-cut-gate-20260911, later on
+this same branch): the public main table population contract changed
+again -- it now shows ONLY officially-advancing (status=="ACTIVE")
+players, never CUT/WD/DQ/DNS. This file's population/spot-check tests
+are scoped to the ACTIVE population accordingly; a dedicated test below
+proves every CUT/WD player is positively ABSENT from the rendered page
+(never merely untested).
 
 Every test here reads the REAL, committed artifacts directly:
 content/website_v2/2026090003_R2_FROZEN_EVIDENCE.json (the frozen
@@ -91,53 +89,68 @@ def _expected_to_par_display(v) -> str:
     return f"+{n}" if n > 0 else str(n)
 
 
+def _active_ids(real_freeze: dict) -> set[str]:
+    return {str(r["player_id"]) for r in real_freeze["records"] if r.get("status", "ACTIVE") == "ACTIVE"}
+
+
+def _non_advancing_ids(real_freeze: dict) -> set[str]:
+    return {str(r["player_id"]) for r in real_freeze["records"] if r.get("status", "ACTIVE") != "ACTIVE"}
+
+
 # ---------------------------------------------------------------------
-# Population-scale sanity: the real page has exactly the real freeze's
-# own population, and rendered fields are not universally empty/broken
-# at population scale (the exact shape of the real production failure).
+# Population-scale sanity: the real page shows exactly the ADVANCING
+# (status=="ACTIVE") subset of the real freeze -- CUT/WD/DQ/DNS players
+# are positively excluded, never merely untested -- and rendered fields
+# are not universally empty/broken at population scale (the exact shape
+# of the real production failure).
 # ---------------------------------------------------------------------
 
-def test_rendered_population_matches_real_freeze_exactly(real_freeze, rendered_rows_by_player_id):
-    freeze_ids = {str(r["player_id"]) for r in real_freeze["records"]}
-    assert set(rendered_rows_by_player_id) == freeze_ids
-    assert len(rendered_rows_by_player_id) == real_freeze["observed_player_count"]
+def test_rendered_population_matches_the_advancing_subset_of_real_freeze(real_freeze, rendered_rows_by_player_id):
+    active_ids = _active_ids(real_freeze)
+    assert set(rendered_rows_by_player_id) == active_ids
+    assert len(rendered_rows_by_player_id) == 71, "real KB R2 official advancing field is 71 players"
+
+
+def test_no_cut_wd_dq_dns_player_appears_in_the_rendered_page(real_freeze, real_html, rendered_rows_by_player_id):
+    non_advancing_ids = _non_advancing_ids(real_freeze)
+    assert non_advancing_ids, "test setup: real freeze must have real CUT/WD players to prove exclusion against"
+    assert non_advancing_ids.isdisjoint(rendered_rows_by_player_id)
+    for pid in non_advancing_ids:
+        assert f"data-player-id='{pid}'" not in real_html
 
 
 def test_rank_population_is_not_universally_t1_or_missing(real_freeze, rendered_rows_by_player_id):
     """The exact real production failure: every rank collapsed to a
     fake tied T1. A real leaderboard population must have real,
-    distinct ranks across a meaningful fraction of ACTIVE/CUT players
-    with real, complete scores."""
-    active_or_cut_ids = [str(r["player_id"]) for r in real_freeze["records"] if r["status"] in ("ACTIVE", "CUT")]
-    ranks = [_cell(rendered_rows_by_player_id[pid], "순위") for pid in active_or_cut_ids]
+    distinct ranks across a meaningful fraction of the advancing
+    players with real, complete scores."""
+    active_ids = sorted(_active_ids(real_freeze))
+    ranks = [_cell(rendered_rows_by_player_id[pid], "순위") for pid in active_ids]
     distinct_ranks = set(ranks)
     assert len(distinct_ranks) > 10, f"rank population is far too uniform: {sorted(distinct_ranks)[:10]}..."
     assert ranks.count("T1") < len(ranks), "every player rendered as a fake tied T1 -- the real production bug"
     assert "1" in distinct_ranks or "T1" in distinct_ranks  # a real leader must exist
 
 
-def test_total_and_2r_are_not_universally_empty_for_active_and_cut_players(real_freeze, rendered_rows_by_player_id):
-    ids_with_complete_real_data = [
-        str(r["player_id"]) for r in real_freeze["records"]
-        if r["status"] in ("ACTIVE", "CUT") and r.get("r1_score_to_par") is not None and r.get("r2_score_to_par") is not None
-    ]
-    assert ids_with_complete_real_data, "test setup: real freeze must have some complete ACTIVE/CUT rows"
-    totals = [_cell(rendered_rows_by_player_id[pid], "합계") for pid in ids_with_complete_real_data]
-    twos = [_cell(rendered_rows_by_player_id[pid], "2R") for pid in ids_with_complete_real_data]
-    assert totals.count("—") == 0, "TOTAL rendered empty for players with real, complete scores"
-    assert twos.count("—") == 0, "2R rendered empty for players with real, complete scores"
+def test_total_and_2r_are_not_universally_empty_for_the_advancing_population(real_freeze, rendered_rows_by_player_id):
+    active_ids = sorted(_active_ids(real_freeze))
+    assert active_ids, "test setup: real freeze must have an advancing population"
+    totals = [_cell(rendered_rows_by_player_id[pid], "합계") for pid in active_ids]
+    twos = [_cell(rendered_rows_by_player_id[pid], "2R") for pid in active_ids]
+    assert totals.count("—") == 0, "TOTAL rendered empty for advancing players with real, complete scores"
+    assert twos.count("—") == 0, "2R rendered empty for advancing players with real, complete scores"
 
 
 # ---------------------------------------------------------------------
-# Per-player spot checks: rendered rank/TOTAL/2R/status for REAL player
-# identities, compared directly against the frozen official evidence --
-# not merely "the HTML element exists".
+# Per-player spot checks: rendered rank/TOTAL/2R for REAL advancing
+# player identities, compared directly against the frozen official
+# evidence -- not merely "the HTML element exists".
 # ---------------------------------------------------------------------
 
-def test_every_active_or_cut_player_with_complete_data_has_the_exact_real_total_and_2r(real_freeze, rendered_rows_by_player_id):
+def test_every_advancing_player_has_the_exact_real_total_and_2r(real_freeze, rendered_rows_by_player_id):
     checked = 0
     for record in real_freeze["records"]:
-        if record["status"] not in ("ACTIVE", "CUT"):
+        if record.get("status", "ACTIVE") != "ACTIVE":
             continue
         pid = str(record["player_id"])
         expected_total = _real_total_to_par(record)
@@ -146,50 +159,40 @@ def test_every_active_or_cut_player_with_complete_data_has_the_exact_real_total_
         assert _cell(row, "합계") == _expected_to_par_display(expected_total), f"TOTAL mismatch for {record['player_name']} ({pid})"
         assert _cell(row, "2R") == _expected_to_par_display(expected_2r), f"2R mismatch for {record['player_name']} ({pid})"
         checked += 1
-    assert checked > 50, "sanity: should have checked a real, population-scale number of players"
+    assert checked == 71, "sanity: should have checked exactly the real 71-player advancing population"
 
 
-def test_every_player_with_missing_score_data_renders_empty_never_fabricated(real_freeze, rendered_rows_by_player_id):
-    checked_any = False
-    for record in real_freeze["records"]:
-        if record.get("r1_score_to_par") is not None and record.get("r2_score_to_par") is not None:
-            continue
-        pid = str(record["player_id"])
-        row = rendered_rows_by_player_id[pid]
-        assert _cell(row, "합계") == "—", f"TOTAL fabricated for incomplete-data player {record['player_name']}"
-        assert _cell(row, "2R") == "—" or record.get("r2_score_to_par") is not None
-        assert _cell(row, "순위") == "—", f"rank fabricated for incomplete-data player {record['player_name']}"
-        checked_any = True
-    assert checked_any, "test setup: real freeze must have at least one incomplete-data row (e.g. the real WD player)"
-
-
-def test_status_badge_matches_frozen_evidence_for_every_non_active_player(real_freeze, rendered_rows_by_player_id):
-    checked = 0
-    for record in real_freeze["records"]:
-        if record["status"] == "ACTIVE":
-            continue
-        pid = str(record["player_id"])
-        row = rendered_rows_by_player_id[pid]
-        assert f"<span class='status-badge'>{record['status']}</span>" in row, f"status badge mismatch for {record['player_name']}"
-        checked += 1
-    assert checked > 0
+def test_no_status_badge_appears_in_the_public_main_table(rendered_rows_by_player_id):
+    """Every rendered row is an ACTIVE (advancing) player, and ACTIVE
+    players never carry a status badge (STATUS_LABEL["ACTIVE"] == "") --
+    so no 'status-badge' span should exist anywhere among the rendered
+    rows. Complements test_no_cut_wd_dq_dns_player_appears_in_the_
+    rendered_page: that test proves non-advancing players are excluded
+    by id, this one proves nothing CUT/WD-shaped leaked into an
+    otherwise-ACTIVE row either."""
+    for pid, row in rendered_rows_by_player_id.items():
+        assert "status-badge" not in row, f"unexpected status badge in advancing player's row ({pid})"
 
 
 def test_cut_players_never_share_the_active_leaders_rank(real_freeze, rendered_rows_by_player_id):
     """The exact real symptom: CUT players displayed as T1 alongside
-    real leaders. A CUT player's real total must always be worse (a
-    real, distinct rank number) than the field leader's, never equal to
-    rank 1/T1 unless their own real score genuinely ties for the lead
-    (never true for a real CUT boundary)."""
+    real leaders. Now that CUT players are excluded from the public
+    table entirely, the strongest available proof is that no rank in
+    the rendered table is ever attributable to a CUT player -- restated
+    as: the leader's rank is real and unique, and the rendered
+    population contains zero CUT-status ids (proven separately above)."""
     leader_pid = min(
-        (r for r in real_freeze["records"] if r["status"] == "ACTIVE"),
+        (r for r in real_freeze["records"] if r.get("status", "ACTIVE") == "ACTIVE"),
         key=lambda r: _real_total_to_par(r) if _real_total_to_par(r) is not None else float("inf"),
     )["player_id"]
     leader_rank = _cell(rendered_rows_by_player_id[str(leader_pid)], "순위")
+    assert leader_rank in ("1", "T1")
 
-    cut_ranks = {
-        _cell(rendered_rows_by_player_id[str(r["player_id"])], "순위")
-        for r in real_freeze["records"] if r["status"] == "CUT"
-    }
-    assert leader_rank not in cut_ranks, "a CUT player shares the real leader's rank -- the exact production bug"
-    assert "T1" not in cut_ranks and "1" not in cut_ranks
+    cut_ids = {str(r["player_id"]) for r in real_freeze["records"] if r.get("status") == "CUT"}
+    assert cut_ids.isdisjoint(rendered_rows_by_player_id), "a CUT player rendered in the public main table at all"
+
+
+def test_footer_reports_the_exact_real_advancing_count(real_freeze, real_html):
+    active_count = len(_active_ids(real_freeze))
+    assert active_count == 71
+    assert f"총 {active_count}명 (컷 통과 선수만 표시)" in real_html

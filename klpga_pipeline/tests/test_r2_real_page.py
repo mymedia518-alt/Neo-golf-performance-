@@ -99,10 +99,12 @@ def test_uses_the_r2_full_leaderboard_modifier_class():
 
 # ---------------------------------------------------------------------
 # Never fabricates a player row -- population must be exactly the
-# frozen R2 evidence's own records, no more, no fewer.
+# ADVANCING (status=="ACTIVE") subset of the frozen R2 evidence, no
+# more, no fewer (fix/kb-r2-official-cut-gate-20260911, R2 CUT
+# SURVIVORS ONLY task -- see r2_real_page.py's own module docstring).
 # ---------------------------------------------------------------------
 
-def test_row_count_matches_frozen_records_exactly_not_forecast_or_sg():
+def test_row_count_matches_the_advancing_subset_not_forecast_sg_or_the_full_freeze():
     records = [
         {"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": -1, "r2_score_to_par": -1},
         {"player_id": "p2", "player_name": "선수이", "status": "ACTIVE", "r1_score_to_par": 1, "r2_score_to_par": 0},
@@ -110,8 +112,10 @@ def test_row_count_matches_frozen_records_exactly_not_forecast_or_sg():
     ]
     # forecast/SG only cover a SUBSET (p1) -- the real-world case of a
     # player excluded from simulation / SG join -- must not shrink the
-    # rendered population, and an extra forecast/SG player (p9, not in
-    # the freeze at all) must never leak a row that was never frozen.
+    # rendered ADVANCING population, and an extra forecast/SG player
+    # (p9, not in the freeze at all) must never leak a row that was
+    # never frozen. p3 (CUT) must never render at all, regardless of
+    # having real scores.
     forecast_records = [
         {"player_id": "p1", "win_pct": 5.0, "top5_pct": 20.0, "top10_pct": 40.0, "top20_pct": 60.0},
         {"player_id": "p9", "win_pct": 99.0, "top5_pct": 99.0, "top10_pct": 99.0, "top20_pct": 99.0},
@@ -120,21 +124,36 @@ def test_row_count_matches_frozen_records_exactly_not_forecast_or_sg():
                 "p9": {"total": 9.0, "off_the_tee": 9.0, "approach": 9.0, "around_green": 9.0, "putting": 9.0}}
     html = _fixture_html(records=records, forecast_records=forecast_records, sg_by_id=sg_by_id)
     rows = _rows(html)
-    assert len(rows) == 3
-    assert "선수일" in html and "선수이" in html and "선수삼" in html
+    assert len(rows) == 2
+    assert "선수일" in html and "선수이" in html
+    assert "선수삼" not in html  # CUT -- excluded from the public main table entirely
     assert "9.0" not in html and "99.0" not in html  # p9 never rendered -- not a real frozen entrant
 
 
 # ---------------------------------------------------------------------
-# CUT/WD/DQ players are shown, never dropped, with a real status badge
+# CUT/WD/DQ players are EXCLUDED from the public main table entirely
+# (R2 CUT SURVIVORS ONLY) -- never inferred from a missing row, always
+# driven by the record's own explicit official status.
 # ---------------------------------------------------------------------
 
 @pytest.mark.parametrize("status", ["CUT", "WD", "DQ"])
-def test_non_active_status_is_shown_never_silently_dropped(status):
+def test_non_active_status_is_excluded_from_the_public_main_table(status):
     records = [{"player_id": "p1", "player_name": "선수일", "status": status, "r1_score_to_par": 2, "r2_score_to_par": 4}]
     html = _fixture_html(records=records)
-    assert "선수일" in html
-    assert f"<span class='status-badge'>{status}</span>" in html
+    assert len(_rows(html)) == 0
+    assert "선수일" not in html
+    assert "status-badge" not in html
+
+
+def test_footer_reports_the_real_advancing_count_never_the_full_field():
+    records = [
+        {"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0},
+        {"player_id": "p2", "player_name": "선수이", "status": "ACTIVE", "r1_score_to_par": 1, "r2_score_to_par": 0},
+        {"player_id": "p3", "player_name": "선수삼", "status": "CUT", "r1_score_to_par": 3, "r2_score_to_par": 5},
+    ]
+    html = _fixture_html(records=records)
+    assert "총 2명 (컷 통과 선수만 표시)" in html
+    assert "총 3명" not in html
 
 
 def test_active_status_shows_no_badge():
@@ -249,7 +268,11 @@ def test_forecast_probabilities_render_from_real_forecast_row():
 
 
 def test_player_missing_from_forecast_gets_empty_mark_never_fabricated_probability():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "CUT", "r1_score_to_par": 0, "r2_score_to_par": 5}]
+    """An ACTIVE (advancing) player can still legitimately be excluded
+    from the forecast simulation (e.g. a missing PRE profile) -- a
+    scenario distinct from CUT status, which now excludes the row from
+    the public table entirely regardless of forecast coverage."""
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 5}]
     html = _fixture_html(records=records, forecast_records=[])
     row = _rows(html)[0]
     for label in ("우승", "Top5", "Top10", "Top20"):
@@ -276,28 +299,36 @@ def test_ranking_ascending_by_real_cumulative_total_ties_share_rank():
     assert "data-label='순위'>3<" in rows[2]
 
 
-def test_cut_player_with_real_scores_gets_a_real_distinct_rank_never_fabricated_t1():
-    """Reproduces the exact real production symptom: an ACTIVE leader,
-    a mid-field ACTIVE player, and a real CUT player with a real, worse
-    total -- none of them may all collapse onto a shared fake "T1"."""
+def test_cut_player_never_appears_and_active_players_get_real_distinct_ranks():
+    """Reproduces the exact real production symptom (every rank
+    collapsing to a fake tied "T1"), now under the R2 CUT SURVIVORS
+    ONLY contract: an ACTIVE leader and a mid-field ACTIVE player get
+    real, distinct ranks -- and a real CUT player, even with a real
+    (worse) total, never appears in the rendered table at all."""
     records = [
         {"player_id": "p1", "player_name": "리더", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": -2},
         {"player_id": "p2", "player_name": "중위권", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": -1},
         {"player_id": "p3", "player_name": "컷탈락", "status": "CUT", "r1_score_to_par": 3, "r2_score_to_par": 5},
     ]
     html = _fixture_html(records=records)
-    by_name = {name: row for row in _rows(html) for name in ("리더", "중위권", "컷탈락") if name in row}
+    rows = _rows(html)
+    assert len(rows) == 2
+    assert "컷탈락" not in html
+    by_name = {name: row for row in rows for name in ("리더", "중위권") if name in row}
     assert "data-label='순위'>1<" in by_name["리더"]
     assert "data-label='순위'>2<" in by_name["중위권"]
-    assert "data-label='순위'>3<" in by_name["컷탈락"]
-    ranks_shown = [re.search(r"data-label='순위'>([^<]+)<", row).group(1) for row in _rows(html)]
+    ranks_shown = [re.search(r"data-label='순위'>([^<]+)<", row).group(1) for row in rows]
     assert ranks_shown.count("T1") == 0
     assert ranks_shown.count("1") == 1  # exactly one real leader, never every row tied
 
 
 def test_missing_total_sorts_last_and_renders_empty_rank_never_a_fabricated_number():
+    """An ACTIVE (advancing) player can still have incomplete round
+    data (e.g. a weather-delayed finish) -- distinct from WD/CUT, which
+    now exclude the row from the table entirely regardless of data
+    completeness."""
     records = [
-        {"player_id": "p1", "player_name": "A", "status": "WD", "r1_score_to_par": None, "r2_score_to_par": None},
+        {"player_id": "p1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": None, "r2_score_to_par": None},
         {"player_id": "p2", "player_name": "B", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": -2},
     ]
     html = _fixture_html(records=records)

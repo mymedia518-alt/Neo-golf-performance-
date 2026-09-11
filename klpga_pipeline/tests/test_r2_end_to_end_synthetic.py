@@ -211,9 +211,15 @@ def test_full_end_to_end_synthetic_complete_r2_chain(context, tmp_path):
         sponsor_by_id={"e1": "SYNTH SPONSOR"},
     )
     assert is_real_page(real_html)
-    assert real_html.count("class='player-name'") == 5  # every frozen record shown, CUT/WD included
-    assert "가상선수사" in real_html and "CUT</span>" in real_html
-    assert "가상선수오" in real_html and "WD</span>" in real_html
+    # R2 CUT SURVIVORS ONLY (fix/kb-r2-official-cut-gate-20260911): the
+    # public main table shows ONLY the 3 ACTIVE (advancing) players --
+    # CUT/WD are excluded from the table entirely, though they remain
+    # fully intact in `freeze` (asserted == 5 in STEP 3 above) and every
+    # other canonical artifact this test built.
+    assert real_html.count("class='player-name'") == 3
+    assert "가상선수사" not in real_html
+    assert "가상선수오" not in real_html
+    assert "총 3명 (컷 통과 선수만 표시)" in real_html
 
     # STEP 9: publication gate -- every named gate PASS.
     report = r2_publication_gate.evaluate_r2_publication_gate(GAME_CODE, {
