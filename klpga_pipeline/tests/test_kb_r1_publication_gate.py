@@ -122,7 +122,16 @@ def test_root_home_ownership_is_recognized_and_kb_r1_page_is_unaffected_either_w
     KB's own dedicated R1 route is never affected by whichever owner
     root HOME currently has -- it is a real, separately-addressable
     page either way (see test_r1_page_exists_and_stage_nav_links_to_pre_and_r1
-    and test_unrelated_routes_still_locked's sibling coverage)."""
+    and test_unrelated_routes_still_locked's sibling coverage).
+
+    PRODUCTION HOME -> KB CURRENT STAGE ROUTING HOTFIX
+    (fix/kb-r2-official-cut-gate-20260911): while CURRENT_TOURNAMENT_OWNER
+    owns root HOME, its "대회" link is no longer assumed to be the
+    generic /tournaments/ hub -- klpga.website_v2.kb_home_stage_router
+    now keeps it pointed at KB's REAL current stage (see
+    tests/test_kb_home_stage_router.py for that contract's own
+    coverage), never a frozen snapshot of whichever stage was current
+    the one time root HOME was last written."""
     home_html = (DOCS / "index.html").read_text(encoding="utf-8")
     owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home_html)
     assert owner_match is not None
@@ -134,7 +143,11 @@ def test_root_home_ownership_is_recognized_and_kb_r1_page_is_unaffected_either_w
     r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
     assert "KB금융 골든라이프 챔피언십" in r1_html
     assert r1_html.count("class='player-name'") > 0
-    assert '<a href="/tournaments/">대회</a>' in nav
+    tournaments_href = re.search(r'<a href="([^"]+)">대회</a>', nav).group(1)
+    if owner_match.group(1) == "top120-v1":
+        assert tournaments_href == "/tournaments/"
+    else:
+        assert tournaments_href.startswith(f"/tournaments/2026/{GAME_CODE}/")
 
 
 def test_previous_home_content_preserved_in_archive():
