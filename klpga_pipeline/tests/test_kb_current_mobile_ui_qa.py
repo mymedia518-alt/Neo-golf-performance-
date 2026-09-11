@@ -100,7 +100,13 @@ def browser():
         b.close()
 
 
-@pytest.mark.parametrize("route_key", ["root", "pre", "r1"])
+# ROOT HOME RECOVERY (scripts/111_promote_top120_root_home_only.py):
+# root ("/") is no longer KB content -- it reverted to the TOP120
+# K-Ranking page, which has its own dedicated overflow coverage in
+# tests/test_home_mobile_color_readability.py. This file's overflow
+# check specifically waits on ".leaderboard-table", KB's own markup,
+# so it stays scoped to the two routes KB still actually owns.
+@pytest.mark.parametrize("route_key", ["pre", "r1"])
 @pytest.mark.parametrize("width,height", VIEWPORTS)
 def test_no_horizontal_overflow(browser, base_url, width, height, route_key):
     context = browser.new_context(viewport={"width": width, "height": height})

@@ -110,29 +110,28 @@ def test_sponsor_invariant_on_r1_page():
             assert sponsor in verified_sponsors, f"unverified sponsor text on page: {sponsor!r}"
 
 
-def test_root_home_is_current_kb_r1_owner_supersession():
-    """OWNER UI/ROUTING FINAL PATCH (section A/B): root HOME = current
-    tournament's latest approved stage (R1) -- a deliberate, owner-
-    approved, one-time ownership transfer (home_ownership_guard.py's
-    CURRENT_TOURNAMENT_OWNER), not a HOME redesign. Verifies root
-    carries the same R1 leaderboard/heading/reconciliation-critical
-    content as the dedicated R1 route, generated from the identical
-    build_r1_page() body (see scripts/109_build_kb_r1_page.py's
-    write_root_home()) -- never a second, independently maintained
-    copy."""
+def test_root_home_ownership_reverted_to_top120_owner():
+    """ROOT HOME RECOVERY (scripts/111_promote_top120_root_home_only.py):
+    the OWNER UI/ROUTING FINAL PATCH's CURRENT_TOURNAMENT_OWNER
+    supersession was explicitly documented as temporary
+    (home_ownership_guard.py's OWNER SUPERSESSION note: "if a future
+    owner decision reverses this one"). That reversal has now happened
+    -- root HOME is TOP120_OWNER's real K-Ranking x NEO Ranking page
+    again, never a second, independently maintained copy of the KB R1
+    leaderboard. The KB R1 page itself is untouched at its own route
+    (see test_r1_page_exists_and_stage_nav_links_to_pre_and_r1 and
+    test_unrelated_routes_still_locked's sibling coverage)."""
     home_html = (DOCS / "index.html").read_text(encoding="utf-8")
-    r1_html = (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html").read_text(encoding="utf-8")
 
-    assert 'content="current-tournament-v1"' in home_html
-    assert '<div class="leaderboard-head"><h2>1R 결과</h2></div>' in home_html
-
-    home_tbody = re.search(r"<tbody>(.*?)</tbody>", home_html, re.S).group(1)
-    r1_tbody = re.search(r"<tbody>(.*?)</tbody>", r1_html, re.S).group(1)
-    assert home_tbody == r1_tbody, "root HOME's leaderboard body must be byte-identical to the R1 route's (single shared build_r1_page() source)"
+    assert 'content="top120-v1"' in home_html
+    assert 'content="current-tournament-v1"' not in home_html
+    assert home_html.count("data-player-row") == 120
 
     nav = re.search(r'<nav class="neo-global-nav".*?</nav>', home_html, re.S).group(0)
     assert '<a href="/" class="is-active" aria-current="page">홈</a>' in nav
-    assert f'<a href="/tournaments/2026/{GAME_CODE}/r1/">대회</a>' in nav
+    # "대회" now points at the tournaments hub, not the KB R1 route --
+    # KB no longer owns root HOME's active nav target.
+    assert '<a href="/tournaments/">대회</a>' in nav
 
 
 def test_previous_home_content_preserved_in_archive():
@@ -346,9 +345,12 @@ def test_pre_r1_movement_section_has_no_bullets_and_aligned_rows():
     """Section I alignment-bug fix: PRE -> R1 uses the site's existing
     .mover-list flex-row pattern (identity left, movement right, same
     row, no <ul> default bullet -- list-style:none) instead of a bare
-    <ul>/<li> list, on both the R1 route and root HOME (same shared
-    body)."""
-    for path in (DOCS / "index.html", DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html"):
+    <ul>/<li> list, on the R1 route. ROOT HOME RECOVERY
+    (scripts/111_promote_top120_root_home_only.py) reverted root HOME
+    away from the KB R1 mirror, so this is no longer also checked
+    against docs/index.html -- see test_root_home_ownership_reverted_
+    to_top120_owner for root HOME's own current content."""
+    for path in (DOCS / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html",):
         html = path.read_text(encoding="utf-8")
         section = re.search(r'<section class="panel" id="pre-r1-movement">(.*?)</section>', html, re.S).group(1)
         assert section.startswith("<h2>PRE → R1</h2>")
