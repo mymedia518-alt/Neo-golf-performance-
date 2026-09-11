@@ -67,6 +67,14 @@ LOCKED_HTML_PATHS = [
 RELEASED_HTML_PATHS = {
     "tournaments/2026/2026090003/pre/index.html",
     "tournaments/2026/2026090003/r1/index.html",
+    # R2 HOUSE (20260911): a real, truthful WAIT-state page (no
+    # fabricated leaderboard/SG/CUT/probability -- klpga.neo_win.
+    # r2_wait_page.render_r2_wait_page) is intentionally public even
+    # before real R2 data exists. This is NOT the same as an early
+    # leak of real results -- the HOME STATE ROUTER separately refuses
+    # to ever advance root HOME to this page (see scripts/88's
+    # STAGE_READINESS_MARKER) until its own publication gate passes.
+    "tournaments/2026/2026090003/r2/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the
