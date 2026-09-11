@@ -1,22 +1,27 @@
 """R2 HOUSE: SG (strokes gained) precondition gate.
 
-VERIFIED FROZEN R2 -> SG calculation -> OTT/APP/ARG/PUTT/TOTAL.
+VERIFIED FROZEN R2 -> SG ingestion (klpga.neo_win.r2_sg_pipeline,
+CLASSIFICATION B -- see that module's own docstring for the full
+archaeology) -> OTT/APP/ARG/PUTT/TOTAL.
 
-HONEST STATE (confirmed by repository archaeology, 2026-09-11): this
-codebase has no live, per-round OTT/APP/ARG/PUTT/TOTAL SG calculator
-anywhere. The only SG data that exists is a prior-season, cross-
-tournament warehouse (`historical_sg_warehouse*.json`, built by
-scripts/62-64/80) used exclusively for PRE-stage prior form -- never a
-live/current-round source. KB's own real R1 model
-(scripts/108_apply_r1_model_to_kb.py) does not use SG at all; it scores
-players via a field-relative z-score of round-to-par instead. This gate
-module is therefore the enforceable PRECONDITION for whatever future
-live per-round SG source is eventually built, not a wrapper around one
-that already exists -- calling `require_verified_frozen_r2_for_sg`
-before any real SG number is computed/published is what stays
-permanently true regardless of when/whether a live SG collector is
-added. It must never be bypassed to publish a real SG number computed
-from incomplete/unfrozen R2 evidence.
+CORRECTION (2026-09-11, second pass): an earlier version of this
+module's docstring said no official per-round SG source exists at all.
+That was wrong -- re-archaeology (scripts/63_collect_historical_sg_
+warehouse.py) found the real, already-implemented, already-production-
+proven parser: klpga.website_v2.official_data.parse_sg_html/
+validate_sg_record, reading KLPGA's own strokesGained_detail endpoint
+per round. r2_sg_pipeline.py wires it for R2 specifically. What remains
+correctly unverified (sandbox has no live network access, confirmed
+blocked all session) is whether that endpoint actually populates
+round=2 data WHILE the tournament is still in progress -- r2_sg_
+pipeline fails safe (WAIT, never fabricated) if it doesn't.
+
+This gate module remains the enforceable PRECONDITION regardless of
+that outcome: calling `require_verified_frozen_r2_for_sg` before any
+real SG number is computed/published is what stays permanently true --
+it must never be bypassed to publish a real SG number computed from
+incomplete/unfrozen R2 evidence, whichever of AVAILABLE/NOT_AVAILABLE
+the live ingestion turns out to report.
 """
 from __future__ import annotations
 

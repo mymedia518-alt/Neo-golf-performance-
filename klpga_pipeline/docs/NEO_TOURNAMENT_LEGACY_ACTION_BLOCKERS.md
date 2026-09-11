@@ -31,3 +31,33 @@ KG Ladies Open, BETA #001, or other event-specific script.
 
 Validated factual publication and model publication remain
 separate gates.
+
+## KB 2026090003 (R2 HOUSE, 2026-09-11): a deliberately separate operator surface
+
+KB's PRE/R1/R2 pages are built by their own dedicated, hardcoded-identity
+scripts (`109_build_kb_r1_page.py`, `111_promote_top120_root_home_only.py`,
+`112_kb_r2_active_cycle.py`) -- NOT through `run_tournament.py`'s generic
+`TournamentActionRegistry`, and NOT tracked via `config/active_tournament.json`
+(that file tracks OK Open's own R1/R2 live-polling lineage, `96`/`98`/`99`,
+a completely separate identity system). This predates run_tournament.py's
+"Phase 5" generic-engine work and was confirmed, not assumed: pointing
+script 112 at `load_tournament_context()` with no argument (the generic
+"active tournament" resolver `96`/`99` use) was tried during R2 HOUSE's
+P1 pass and reverted after it proved actively wrong -- with OK Open as
+the real active tournament, it silently made script 112 evaluate OK
+Open's R2 state while still presenting itself as KB's operator, exactly
+the silent-wrong-tournament failure a "single canonical entry point"
+requirement exists to prevent.
+
+Within KB's own scope, there is exactly one canonical R2 entry point:
+`112_kb_r2_active_cycle.py`'s own module docstring classifies every
+other script that could plausibly touch KB's R2
+(`101_ok_open_post_r2_final_forecast.py`, `71_ok_open_r2_readiness.py`,
+`run_beta001_r2_update.py`, `deploy_r2_production_homepage.py`,
+`generate_r2_frozen_forecast.py`) as LEGACY/EVENT_SPECIFIC/NOT_PRODUCTION.
+
+Fully merging KB onto the generic engine (so `run_tournament.py
+--game-code 2026090003` drives it too, retiring the hardcoded scripts
+entirely) is real, larger work -- tracked as Phase 5.1 above
+("Investigate real scheduler path + retire competing operator paths"),
+not a P1 item this pass claims to have done.

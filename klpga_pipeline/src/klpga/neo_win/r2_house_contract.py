@@ -57,6 +57,12 @@ R2_FIELD_CONTRACT: dict[str, str] = {
     "inghole": OPTIONAL,
     "starting_tee": OPTIONAL,
     "completed_holes": DERIVED,  # via round_progress.resolve_completed_holes(inghole, starting_tee)
+    # KLPGA's live leaderboard collector (klpga.collectors.leaderboard)
+    # carries no per-row official rank field -- DERIVED at display time
+    # only (ascending total_to_par, ties share a rank), the same
+    # standard-golf-leaderboard computation every stage of this project
+    # already does from a score, never a separately fabricated number.
+    "rank": DERIVED,
     # official source identity/provenance -- REQUIRED for the freeze
     "official_source_url": REQUIRED,
     "collected_at": REQUIRED,
@@ -65,13 +71,17 @@ R2_FIELD_CONTRACT: dict[str, str] = {
     # every already-collected OK Open/KG Ladies Open/KB snapshot this
     # session; never fabricated as equal to collected_at.
     "official_data_timestamp": UNAVAILABLE,
-    # live per-round strokes-gained (OTT/APP/ARG/PUTT/TOTAL) -- no live,
-    # per-round SG collector exists anywhere in this codebase (confirmed:
-    # SG data here is exclusively a prior-season, cross-tournament
-    # warehouse, never a per-round live source); a real per-round SG
-    # value from KLPGA's own official R2 source is UNAVAILABLE until
-    # such a collector is built -- never computed from incomplete/live
-    # data as a substitute (see r2_sg_gate.py).
+    # strokes-gained (OTT/APP/ARG/PUTT/TOTAL) -- UNAVAILABLE from THIS
+    # (leaderboard) collection specifically: KLPGA's live leaderboard
+    # response carries no SG columns. SG_ARCHAEOLOGY CORRECTION
+    # (2026-09-11): this does NOT mean no real per-round SG source
+    # exists -- klpga.neo_win.r2_sg_pipeline (CLASSIFICATION B) ingests
+    # it separately from KLPGA's own strokesGained_detail endpoint,
+    # already production-proven by scripts/63_collect_historical_sg_
+    # warehouse.py, and joins it onto the frozen R2 leaderboard rows by
+    # player identity. Still never computed from incomplete/live data
+    # as a substitute, and still gated by r2_sg_gate.py's precondition
+    # (frozen+hash-verified R2 evidence) before any join happens.
     "sg_ott": UNAVAILABLE,
     "sg_app": UNAVAILABLE,
     "sg_arg": UNAVAILABLE,
