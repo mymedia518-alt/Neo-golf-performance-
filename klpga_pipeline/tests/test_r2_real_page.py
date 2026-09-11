@@ -69,10 +69,12 @@ def _rows(html: str) -> list[str]:
 # ---------------------------------------------------------------------
 
 def test_header_carries_all_8_required_public_columns_in_order():
+    """PROBABILITY COLUMN ORDER HOTFIX: TOP20, TOP10, TOP5 (widest ->
+    narrowest population), WIN still last."""
     html = _fixture_html(records=[])
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     labels = re.findall(r"<th>([^<]*)</th>", header)
-    assert labels == ["순위", "선수", "합계", "2R", "Top5", "Top10", "Top20", "우승"]
+    assert labels == ["순위", "선수", "합계", "2R", "Top20", "Top10", "Top5", "우승"]
 
 
 def test_no_sg_column_appears_in_the_public_r2_table():

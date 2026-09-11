@@ -107,7 +107,7 @@ def test_5_desktop_markup_contract_unchanged():
     assert "leaderboard-table--r2-full" in html
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     labels = re.findall(r"<th>([^<]*)</th>", header)
-    assert labels == ["순위", "선수", "합계", "2R", "Top5", "Top10", "Top20", "우승"]
+    assert labels == ["순위", "선수", "합계", "2R", "Top20", "Top10", "Top5", "우승"]
     assert "<span class='player-name'>선수일</span>" in html
     assert "<span class='player-sponsor'>테스트스폰서</span>" in html
 
