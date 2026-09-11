@@ -53,6 +53,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -102,6 +103,8 @@ R1_FREEZE_PATH = CONTENT / f"{GAME_CODE}_R1_5PROB_FROZEN_V1.json"
 PRE_PERFORMANCE_SNAPSHOT_PATH = _CONTEXT.artifact_path("pre_performance_snapshot")
 SPONSOR_AUDIT_PATH = CONTENT / f"KB_{GAME_CODE}_SPONSOR_INTEGRITY_AUDIT_V2.json"
 R2_ROUTE_PATH = REPO_ROOT / "docs" / _CONTEXT.url_base.strip("/") / "r2" / "index.html"
+PRE_PAGE_PATH = REPO_ROOT / "docs" / _CONTEXT.url_base.strip("/") / "pre" / "index.html"
+R1_PAGE_PATH = REPO_ROOT / "docs" / _CONTEXT.url_base.strip("/") / "r1" / "index.html"
 
 
 def _load_sponsor_by_id() -> dict:
@@ -620,6 +623,42 @@ def _apply_r1_scores(rows: list[dict], r1_score_by_player: dict[str, float]) -> 
     return updated
 
 
+_DISABLED_R2_STAGE_NAV_ITEM = '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R2</span></li>'
+_DISABLED_R2_STAGE_NAV_RE = re.compile(re.escape(_DISABLED_R2_STAGE_NAV_ITEM))
+_R2_STAGE_NAV_LINK = f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/r2/">R2</a></li>'
+
+
+def _enable_r2_stage_nav_link(html: str) -> str:
+    """BUGFIX (fix/kb-r2-official-cut-gate-20260911, real navigation red
+    team): mirrors scripts/109's own established, already-approved
+    update_pre_page_stage_nav pattern EXACTLY -- the one canonical
+    mechanism this codebase already uses to retroactively mark a newly
+    published stage clickable in an ALREADY-BUILT sibling page's own
+    stage-nav. Idempotent (returns the input unchanged if already
+    linked) and fail-loud (raises ValueError, never silently no-ops, if
+    the expected disabled-R2 placeholder isn't found exactly once) --
+    never a redesign of the navigation system, never a second/competing
+    mechanism.
+
+    PRE's and R1's own pages are static, hand-carried files (scripts/
+    109's own module docstring) -- they were built and committed BEFORE
+    R2's real page existed, so their own <nav class="stage-nav"> still
+    shows R2 as a disabled <span>, which is exactly what a real user
+    clicking through PRE or R1 sees. This function's ONLY effect is
+    replacing that one <li> substring with a real link to R2's real
+    route -- every other byte (breadcrumb, leaderboard/prediction data,
+    sponsor info, footer, everything) is untouched; this NEVER
+    regenerates or reprocesses any frozen historical content. R2's own
+    page's stage-nav (klpga.neo_win.r2_real_page) already correctly
+    links PRE and R1 and is not touched by this function."""
+    if _R2_STAGE_NAV_LINK in html:
+        return html  # idempotent: already linked by an earlier run
+    updated, count = _DISABLED_R2_STAGE_NAV_RE.subn(_R2_STAGE_NAV_LINK, html, count=1)
+    if count != 1:
+        raise ValueError("expected exactly one disabled R2 stage-nav placeholder -- refusing to guess")
+    return updated
+
+
 def _write_wait_page() -> bool:
     """Idempotent: only writes if the WAIT page is missing or stale.
 
@@ -819,6 +858,22 @@ def _publish_and_close(rows, expected, decision, build_id: str, seed: int) -> di
 
     R2_ROUTE_PATH.parent.mkdir(parents=True, exist_ok=True)
     R2_ROUTE_PATH.write_text(real_html, encoding="utf-8", newline="\n")
+
+    # STAGE-NAV ACTIVATION (fix/kb-r2-official-cut-gate-20260911, real
+    # navigation red team): PRE's and R1's own already-built pages each
+    # carry their own static stage-nav, baked in before R2 existed --
+    # their R2 entry is still a disabled placeholder. This is the
+    # established, idempotent, source/builder-level mechanism
+    # (mirroring scripts/109's own update_pre_page_stage_nav) that
+    # activates it now that R2 is real -- touches ONLY that one <li> in
+    # each file, never PRE/R1's historical leaderboard/prediction
+    # content. See _enable_r2_stage_nav_link's own docstring.
+    for stage_page_path in (PRE_PAGE_PATH, R1_PAGE_PATH):
+        if stage_page_path.is_file():
+            stage_page_path.write_text(
+                _enable_r2_stage_nav_link(stage_page_path.read_text(encoding="utf-8")),
+                encoding="utf-8", newline="\n",
+            )
 
     report = r2_publication_gate.evaluate_r2_publication_gate(GAME_CODE, {
         "official_source_verified": (r2_publication_gate.PASS, "real klpga.co.kr collection, official page available"),
