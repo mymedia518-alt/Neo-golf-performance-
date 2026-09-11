@@ -390,29 +390,62 @@ def _neo_lab_html() -> str:
             '</main><footer class="site-footer"><div class="site-footer__inner"><p>NEO GOLF DATA</p></div></footer></body></html>')
 
 
+STAGE_READINESS_MARKER = 'name="neo-stage-publication-ready" content="false"'
+"""R2 HOUSE (PRODUCTION HOME PRODUCT POLICY, 20260911 addendum): a real
+stage page's mere existence on disk was, until now, sufficient for
+resolve_chronology_stages() to treat it as the tournament's latest
+stage -- correct for every stage this router has handled so far, but
+wrong the moment a stage page is published in a truthful WAIT/empty
+state ahead of real data (see R2 HOUSE's r2_wait_page.py) -- an empty
+R2 page must never itself advance HOME from R1 to R2.
+
+This marker is opt-OUT, not opt-in, for backward compatibility: its
+ABSENCE (every stage page ever built before this addendum, and every
+stage page once its real publication gate has passed) means "ready",
+exactly the prior unconditional behavior. Its PRESENCE, with
+content="false", is the one explicit signal a WAIT-state page emits to
+be skipped by this resolver -- see
+klpga.neo_win.r2_wait_page.embed_stage_not_ready_marker, the only
+writer of this exact string."""
+
+
+def _stage_is_publication_ready(candidate: Path) -> bool:
+    """True (ready) unless `candidate` explicitly opts out via
+    STAGE_READINESS_MARKER -- see that constant's docstring for why
+    absence, not presence, is the ready state."""
+    try:
+        html = candidate.read_text(encoding="utf-8")
+    except OSError:
+        return True
+    return STAGE_READINESS_MARKER not in html
+
+
 def resolve_chronology_stages(chronology: dict, registry: dict, output: Path):
     """HOME STATE ROUTER, decision step 1: resolve every chronology slot
     -- "current" most importantly -- to whichever of its own real,
-    already-generated stage pages exists under `output` right now.
-    Pure/read-only: never builds, never writes, never guesses (a slot
-    with nothing real generated yet resolves to url_base=""). Generic
-    across any registered tournament via its own registry
-    nav_stages/stage_order, not hardcoded to any one tournament.
-    Returns a NEW dict (input `chronology` is not mutated)."""
+    already-generated, publication-ready stage pages exists under
+    `output` right now (see _stage_is_publication_ready -- a stage page
+    published in a truthful WAIT/empty state opts OUT of being picked
+    here, see STAGE_READINESS_MARKER). Pure/read-only: never builds,
+    never writes, never guesses (a slot with nothing real/ready
+    generated yet resolves to url_base=""). Generic across any
+    registered tournament via its own registry nav_stages/stage_order,
+    not hardcoded to any one tournament. Returns a NEW dict (input
+    `chronology` is not mutated)."""
     import dataclasses
     resolved = dict(chronology)
     for slot, facts in list(resolved.items()):
         if facts is None or not facts.url_base:
             continue
         bare_index = output / facts.url_base.strip("/") / "index.html"
-        if bare_index.is_file():
+        if bare_index.is_file() and _stage_is_publication_ready(bare_index):
             continue
         reg = registry.get(facts.game_code) or {}
         stages = list((reg.get("hub_card") or {}).get("nav_stages") or reg.get("stage_order") or [])
         resolved_url = ""
         for stage in reversed(stages):
             candidate = output / facts.url_base.strip("/") / stage / "index.html"
-            if candidate.is_file():
+            if candidate.is_file() and _stage_is_publication_ready(candidate):
                 resolved_url = f"{facts.url_base}{stage}/"
                 break
         resolved[slot] = dataclasses.replace(facts, url_base=resolved_url)
