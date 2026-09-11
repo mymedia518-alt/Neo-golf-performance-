@@ -265,6 +265,66 @@ def _reconcile_cut_evidence(rows: list[dict], evidence: dict) -> tuple[list[dict
     return reconciled, conflicts
 
 
+def _apply_r2_cumulative_completion(rows: list[dict], expected_player_ids) -> list[dict]:
+    """BUGFIX (fix/kb-r2-official-cut-gate-20260911): reconciles
+    _collect_live_r2's per-row `holes_completed` -- which klpga.parsers.
+    round_progress.resolve_completed_holes computes as CURRENT-ROUND-ONLY
+    (0-18) by design, see that module's own docstring -- with
+    r2_readiness.assess_r2's own separate, deliberate contract that an R2
+    row's `holes_completed` means CUMULATIVE completion across R1+R2 (its
+    "36"/"F"/"FINAL" check). Neither of those two modules is wrong or
+    needs to change: round_progress is correctly generic and reused
+    across every round of every tournament; assess_r2's "36" is a
+    self-contained, already-tested R2-specific completeness signal. The
+    actual defect is entirely in HOW this script's own _collect_live_r2
+    fed one straight into the other -- passing R2's own 0-18 value
+    directly into a field assess_r2 expects to already be cumulative,
+    which real data could never satisfy.
+
+    R1 completion (18 real holes) is NEVER re-derived here via arithmetic
+    or a second live fetch -- it is an already-established fact taken
+    directly from KB's own real, committed R1 evidence artifact's own
+    contract: every player_id in expected_player_ids (NEO_KB_..._R1_
+    OFFICIAL_RESULT_EVIDENCE_V1.json's `players[]`, i.e.
+    r1_forward_population) really did complete R1's 18 holes -- that
+    artifact's own `contract` dict explicitly documents r1_forward_
+    population as EXCLUDING every official R1 WD (tracked separately in
+    its own `official_wd` list), so a player only reaches expected_
+    player_ids at all once R1 completion is a confirmed fact. Adding that
+    guaranteed 18 to R2's own real, already-tee-adjusted current-round
+    value is the ONLY arithmetic this function performs -- it never
+    touches identity, WD/DQ/DNS status, rank, or score.
+
+    A row whose player_id is not in expected_player_ids is left
+    completely untouched (no cumulative computed) -- that is a genuine
+    identity anomaly assess_r2's own separate, pre-existing HARD_STOP
+    path already catches; this function is not the place to reason about
+    it. A row whose holes_completed cannot be parsed as an int (already
+    "F"/"FINAL", or absent) is also left untouched -- never coerced or
+    guessed.
+
+    KNOWN, DISCLOSED, OUT-OF-SCOPE LIMITATION: _collect_live_r2 itself
+    hardcodes starting_tee=None when calling resolve_completed_holes, so
+    a real 10th-tee starter's own current-round value is only as correct
+    as that (separate, pre-existing) wiring gap allows -- this function
+    adds the guaranteed R1 18 to whatever current-round value it is
+    given, it does not and cannot fix how that current-round value itself
+    was derived. See this task's final report [REMAINING BLOCKERS]."""
+    expected = {str(pid) for pid in expected_player_ids}
+    updated: list[dict] = []
+    for row in rows:
+        if str(row.get("player_id")) not in expected:
+            updated.append(row)
+            continue
+        try:
+            r2_round_holes = int(row["holes_completed"])
+        except (KeyError, TypeError, ValueError):
+            updated.append(row)
+            continue
+        updated.append({**row, "holes_completed": str(18 + r2_round_holes)})
+    return updated
+
+
 def _write_wait_page() -> bool:
     """Idempotent: only writes if the WAIT page is missing or stale.
     Returns True if a write happened."""
@@ -310,6 +370,13 @@ def run_cycle(*, live: bool, build_id: str, seed: int = 20260911) -> dict:
                 freeze_exists,
             )
         cut_boundary_published = cut_evidence["cut_boundary_published"]
+
+    # BUGFIX (fix/kb-r2-official-cut-gate-20260911): _collect_live_r2's
+    # holes_completed is R2's own current-round-only value (0-18);
+    # assess_r2 expects a cumulative R1+R2 value ("36"/"F"/"FINAL"). See
+    # _apply_r2_cumulative_completion's own docstring for the full
+    # semantic-contract trace.
+    rows = _apply_r2_cumulative_completion(rows, expected.player_ids)
 
     decision = decide_r2_cycle(
         rows, sorted(expected.player_ids),
