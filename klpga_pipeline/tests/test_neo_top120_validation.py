@@ -338,30 +338,32 @@ def test_tournament_state_never_infers_a_stage_from_todays_date(_pinned_ok_open_
 _RANKING_PAGE_HEAD_MARKERS = ("TOP120 선수표", "home-primary")
 
 
-def test_home_is_always_player_ranking_first_even_while_a_tournament_is_active(built):
-    # PRODUCT RECOVERY V1 (HOME/PRE ROLE AUDIT), further tightened by
-    # PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR: HOME must NEVER
-    # compose a tournament stage's own page body, active tournament or
-    # not, and must NEVER lead with tournament content either -- it is
-    # always the same player-first ranking content as /ranking/, with
-    # no tournament cards attached at all (see
-    # test_home_player_first_regression.py for that dedicated coverage).
+# PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911): the two tests
+# formerly here (test_home_is_always_player_ranking_first_even_while_a_
+# tournament_is_active, test_home_does_not_contain_pre_stage_body_
+# composition) encoded exactly the invariant this correction reverses --
+# "HOME must always be player-ranking-first, never a tournament stage's
+# own body" was itself a misinterpretation of the earlier regression fix.
+# The correct policy (RULE A/B/C, see scripts/88_build_neo_top120_
+# candidate.py's HOME STATE ROUTER comment) is state-dependent: while a
+# real, verified tournament is active, / legitimately BECOMES that
+# tournament's own already-published stage page body (PRE included) --
+# only the no-active-tournament fallback is player-ranking-first. See
+# tests/test_home_state_router.py CASE 1-9 for that state-dependent
+# contract's dedicated, exhaustive coverage.
+def test_home_becomes_the_active_tournament_stage_when_one_is_active(built):
+    """The direct inverse of the retired invariant above, proven against
+    TODAY's real chronology (KB is the genuinely current, in-window
+    tournament with a real, already-published R1 page as of 2026-09-11)
+    rather than a synthetic fixture -- / must be OWNED by
+    CURRENT_TOURNAMENT_OWNER and carry that tournament's real stage
+    content, not the ranking table, whenever a real active tournament
+    exists."""
+    from klpga.website_v2.home_ownership_guard import CURRENT_TOURNAMENT_OWNER, extract_owner
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html, f"player-first heading must be /'s primary body: {marker!r} missing"
-    assert "data-player-row" in html, "the K-Ranking table must be /'s primary body"
-
-
-def test_home_does_not_contain_pre_stage_body_composition(built):
-    """HOME/PRE ROLE AUDIT gate: HOME containing PRE page body/template
-    composition => FAIL. The current tournament's own PRE page markup
-    (its player/sponsor row template, its .panel/.hero PRE-only shell)
-    must never appear inside /."""
-    home_html = (OUTPUT / "index.html").read_text(encoding="utf-8")
-    assert "class='player-name'" not in home_html and "class='player'" not in home_html
-    assert "class='sponsor'" not in home_html
-    assert "PRE 참가 선수" not in home_html
-    assert "id=\"pre\"" not in home_html and "id='pre'" not in home_html
+    assert extract_owner(html) == CURRENT_TOURNAMENT_OWNER
+    assert "data-player-row" not in html, "an active-tournament HOME must not be the K-Ranking table"
+    assert "class='player-name'" in html, "the active tournament's own stage body must compose /"
 
 
 # test_home_tournament_cards_strip_still_names_the_current_tournament
@@ -397,58 +399,78 @@ def test_dedicated_r1_url_still_works_independently_of_home(built):
     assert 'href="/">홈</a>' in html  # still carries the full global nav
 
 
-def test_global_home_nav_points_to_root_and_root_resolves_to_the_ranking_experience(built):
-    # PRODUCT RECOVERY V1, updated by PRODUCTION HOME REGRESSION
-    # ROOT-CAUSE + REPAIR: root always resolves to the player-first
-    # ranking experience, with no tournament content attached at all
-    # (the "compact cards strip" this comment used to describe is
-    # exactly the regression that fix removed).
+def test_global_home_nav_points_to_root(built):
+    # PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911): "root always
+    # resolves to the ranking experience" is no longer true -- it is
+    # state-dependent (see tests/test_home_state_router.py). What is
+    # still an unconditional invariant, in every HOME state, is that the
+    # nav's 홈 link always points at / itself.
     html = (OUTPUT / "index.html").read_text(encoding="utf-8")
     assert 'href="/">홈</a>' in html or 'href="/" class="is-active"' in html
-    for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html
-    assert "R2 &middot; LIVE" not in html
+    assert "R2 &middot; LIVE" not in html, "no in-progress LIVE-round leakage regardless of HOME state"
 
 
-def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path, monkeypatch):
-    """PRODUCT RECOVERY V1: HOME is always the ranking experience now,
-    so this legacy stage selector has nothing left to override there.
-    PRODUCTION HOME REGRESSION ROOT-CAUSE + REPAIR: HOME no longer
-    carries a tournament-cards strip at all, so what this test now
-    locks in is that a stale/mismatched home_mode() cannot make HOME's
-    structure (still player-first, still 120 rows, no LIVE-stage
-    leakage) waver either."""
+def test_stale_home_mode_cannot_override_official_current_tournament(tmp_path):
+    """PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911): HOME STATE
+    ROUTER decoupled root HOME's decision entirely from the legacy
+    OK-Open-scoped home_mode()/tournament_state module -- scripts/88 no
+    longer imports it at all (see the HOME STATE ROUTER comment there).
+    What this test now locks in is that decoupling itself: home_mode()
+    is not even referenced by the builder module, so there is nothing
+    left to stub -- a stale/mismatched legacy signal has no path left
+    into root HOME's decision (which is driven only by
+    build_home_tournament_chronology + resolve_active_stage_page, see
+    tests/test_home_state_router.py for that contract's own coverage)."""
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
+    src = path.read_text(encoding="utf-8")
+    # "home_mode" itself still legitimately appears as the OUTPUT
+    # summary dict's own key name (summary["home_mode"]) -- the thing
+    # that must be gone is any import/call of the legacy function.
+    assert "import home_mode" not in src and "home_mode()" not in src, (
+        "root HOME's decision must not depend on the legacy, _CONTEXT-scoped home_mode()"
+    )
     spec = importlib.util.spec_from_file_location("top120_builder_stale_mode", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    assert not hasattr(module, "home_mode")
     module.OUTPUT = tmp_path / "candidate"
-    monkeypatch.setattr(module, "home_mode", lambda: "RANKING_DEFAULT")
     module.build()
-    html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
-    for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html
-    assert "R2 &middot; LIVE" not in html
-    assert html.count("data-player-row") == 120
     assert (module.OUTPUT / "ranking/index.html").read_text(encoding="utf-8").count("data-player-row") == 120
 
 
 def test_stale_active_ok_context_cannot_override_calendar_chronology(tmp_path, monkeypatch):
-    """Changing the legacy OK end-date signal cannot change HOME
-    identity or leak LIVE-stage content into it."""
+    """PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911): the legacy
+    OK-Open-scoped OK_END_DATE signal must have ZERO effect on root
+    HOME's decision now -- proven directly by building twice (default
+    OK_END_DATE, then an artificially-expired one) and asserting the
+    two builds' root HOME owner/content are identical, rather than
+    asserting a specific fixed shape (root's real shape is state-
+    dependent on today's actual chronology -- see
+    tests/test_home_state_router.py -- and must stay that way regardless
+    of what OK_END_DATE says)."""
     from klpga.website_v2 import tournament_state
-    monkeypatch.setattr(tournament_state, "OK_END_DATE", "2020-01-01")
+    from klpga.website_v2.home_ownership_guard import extract_owner
+
     path = ROOT / "scripts" / "88_build_neo_top120_candidate.py"
-    spec = importlib.util.spec_from_file_location("top120_builder_calendar_current", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    module.OUTPUT = tmp_path / "candidate"
-    module.build()
-    html = (module.OUTPUT / "index.html").read_text(encoding="utf-8")
-    for marker in _RANKING_PAGE_HEAD_MARKERS:
-        assert marker in html
+
+    spec_a = importlib.util.spec_from_file_location("top120_builder_calendar_baseline", path)
+    module_a = importlib.util.module_from_spec(spec_a)
+    spec_a.loader.exec_module(module_a)
+    module_a.OUTPUT = tmp_path / "candidate_baseline"
+    module_a.build()
+    baseline_html = (module_a.OUTPUT / "index.html").read_text(encoding="utf-8")
+
+    monkeypatch.setattr(tournament_state, "OK_END_DATE", "2020-01-01")
+    spec_b = importlib.util.spec_from_file_location("top120_builder_calendar_current", path)
+    module_b = importlib.util.module_from_spec(spec_b)
+    spec_b.loader.exec_module(module_b)
+    module_b.OUTPUT = tmp_path / "candidate_expired_ok_end_date"
+    module_b.build()
+    expired_html = (module_b.OUTPUT / "index.html").read_text(encoding="utf-8")
+
+    assert extract_owner(baseline_html) == extract_owner(expired_html)
     for marker in ("R2 &middot; LIVE", "2라운드 공식 리더보드", "1라운드 공식 리더보드"):
-        assert marker not in html
+        assert marker not in expired_html
 
 
 # test_kg_ladies_open_is_never_shown_as_the_current_active_tournament

@@ -14,6 +14,7 @@ against the production-bound docs/ tree itself, never candidate/.
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -49,15 +50,25 @@ def test_production_docs_root_home_actually_contains_the_feature():
     """This is the check that was skipped before: read docs/index.html
     itself (what GitHub Pages actually serves), not
     candidate/neo-data-home-top120/index.html (what the earlier task
-    verified instead)."""
+    verified instead). HOME STATE ROUTER (20260911): root HOME is now
+    state-dependent -- owner is TOP120_OWNER (player-first fallback) or
+    CURRENT_TOURNAMENT_OWNER (an active tournament's own stage page),
+    never anything else, and each state has its own real content, never
+    a sentinel either way."""
     home = (DOCS / "index.html").read_text(encoding="utf-8")
-    assert 'content="top120-v1"' in home
-    assert home.count("data-player-row") == 120
-    assert home.count('class="player-name"') == 120
-    assert len([m for m in home.split('class="player-sponsor"') if True]) - 1 > 0
-    assert "metric-sg" in home
-    assert "k-rank-cell" in home
+    owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home)
+    assert owner_match is not None, "root HOME must carry a neo-home-owner marker"
+    owner = owner_match.group(1)
+    assert owner in ("top120-v1", "current-tournament-v1")
     assert "999999" not in home
+    if owner == "top120-v1":
+        assert home.count("data-player-row") == 120
+        assert home.count('class="player-name"') == 120
+        assert "metric-sg" in home
+        assert "k-rank-cell" in home
+    else:
+        assert home.count("class='player-name'") > 0
+        assert "KB금융" in home or "챔피언십" in home
 
 
 def test_production_docs_root_home_has_mobile_breakpoint_css():
@@ -109,6 +120,7 @@ def _top120_home_html(owner: str = TOP120_OWNER) -> str:
 
 def _valid_home_css() -> str:
     return (
+        ".neo-global-nav{display:flex}"
         "@media(max-width:760px){.home-table tbody tr{display:grid}}"
         ".metric-sg{}.k-rank-cell{}.metric-pos{}.metric-neg{}.metric-empty{}"
     )
@@ -137,7 +149,10 @@ def _wire_promotion_paths(promotion_module, monkeypatch, tmp_path, *, css: str |
     return candidate_root, docs
 
 
-def test_promotion_refuses_when_candidate_owner_is_not_top120_owner(tmp_path, promotion_module, monkeypatch):
+def test_promotion_refuses_when_candidate_owner_is_not_a_recognized_owner(tmp_path, promotion_module, monkeypatch):
+    """Both TOP120_OWNER and CURRENT_TOURNAMENT_OWNER are accepted (the
+    HOME STATE ROUTER can legitimately hand either one to this script)
+    -- an unrelated third owner is still refused outright."""
     candidate_root, docs = _wire_promotion_paths(promotion_module, monkeypatch, tmp_path)
     promotion_module.SOURCE.write_text(_top120_home_html(owner="some-other-owner"), encoding="utf-8")
 
@@ -174,16 +189,36 @@ def test_promotion_refuses_when_existing_owner_is_not_the_anticipated_transfer_s
 
 
 def test_promotion_succeeds_transferring_from_current_tournament_owner(tmp_path, promotion_module, monkeypatch):
+    """Fallback direction: CURRENT_TOURNAMENT_OWNER -> TOP120_OWNER (the
+    active tournament ended, HOME falls back to player-first ranking)."""
     candidate_root, docs = _wire_promotion_paths(promotion_module, monkeypatch, tmp_path)
     promotion_module.SOURCE.write_text(_top120_home_html(owner=TOP120_OWNER), encoding="utf-8")
     promotion_module.DEST.write_text(embed_owner("<html>old KB content</html>", CURRENT_TOURNAMENT_OWNER), encoding="utf-8")
 
-    previous_owner = promotion_module.promote_root_home_only()
+    previous_owner, new_owner = promotion_module.promote_root_home_only()
     assert previous_owner == CURRENT_TOURNAMENT_OWNER
+    assert new_owner == TOP120_OWNER
     written = promotion_module.DEST.read_text(encoding="utf-8")
     assert 'content="top120-v1"' in written
     assert "old KB content" not in written
     assert promotion_module.CSS_DEST.read_text(encoding="utf-8") == _valid_home_css()
+
+
+def test_promotion_succeeds_transferring_from_top120_owner(tmp_path, promotion_module, monkeypatch):
+    """The symmetric direction: TOP120_OWNER -> CURRENT_TOURNAMENT_OWNER
+    (a tournament becomes active, HOME switches to its stage page) --
+    the same sanctioned mechanism running the other way, not a
+    one-directional bypass."""
+    candidate_root, docs = _wire_promotion_paths(promotion_module, monkeypatch, tmp_path)
+    promotion_module.SOURCE.write_text(_top120_home_html(owner=CURRENT_TOURNAMENT_OWNER), encoding="utf-8")
+    promotion_module.DEST.write_text(embed_owner("<html>old TOP120 content</html>", TOP120_OWNER), encoding="utf-8")
+
+    previous_owner, new_owner = promotion_module.promote_root_home_only()
+    assert previous_owner == TOP120_OWNER
+    assert new_owner == CURRENT_TOURNAMENT_OWNER
+    written = promotion_module.DEST.read_text(encoding="utf-8")
+    assert 'content="current-tournament-v1"' in written
+    assert "old TOP120 content" not in written
 
 
 def test_promotion_writes_nothing_else(tmp_path, promotion_module, monkeypatch):

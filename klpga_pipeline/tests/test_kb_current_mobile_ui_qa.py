@@ -100,13 +100,16 @@ def browser():
         b.close()
 
 
-# ROOT HOME RECOVERY (scripts/111_promote_top120_root_home_only.py):
-# root ("/") is no longer KB content -- it reverted to the TOP120
-# K-Ranking page, which has its own dedicated overflow coverage in
-# tests/test_home_mobile_color_readability.py. This file's overflow
-# check specifically waits on ".leaderboard-table", KB's own markup,
-# so it stays scoped to the two routes KB still actually owns.
-@pytest.mark.parametrize("route_key", ["pre", "r1"])
+# HOME STATE ROUTER (PRODUCTION HOME PRODUCT POLICY CORRECTION,
+# 20260911): root ("/") is state-dependent again -- while KB is the
+# real, chronologically-current active tournament (today's real state),
+# / literally IS KB's own R1 page content (verbatim, via
+# scripts/88_build_neo_top120_candidate.py's active_stage_page copy),
+# so it carries the identical ".leaderboard-table" markup and gets the
+# same overflow coverage as KB's own dedicated route. The no-active-
+# tournament fallback (TOP120 K-Ranking page) has its own dedicated
+# overflow coverage in tests/test_home_mobile_color_readability.py.
+@pytest.mark.parametrize("route_key", ["root", "pre", "r1"])
 @pytest.mark.parametrize("width,height", VIEWPORTS)
 def test_no_horizontal_overflow(browser, base_url, width, height, route_key):
     context = browser.new_context(viewport={"width": width, "height": height})

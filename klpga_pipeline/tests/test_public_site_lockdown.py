@@ -12,6 +12,7 @@ docs/ over HTTP and requesting every locked path.
 from __future__ import annotations
 
 import http.server
+import re
 import socket
 import threading
 import time
@@ -62,21 +63,25 @@ def _get(base: str, path: str) -> tuple[int, str]:
 # Static assertions on the file tree itself
 # ---------------------------------------------------------------------
 
-def test_home_page_is_the_real_top120_page():
-    """ROOT HOME RECOVERY (scripts/111_promote_top120_root_home_only.py):
-    the OWNER UI/ROUTING FINAL PATCH's temporary supersession (root HOME
-    -> current tournament's latest approved stage, KB R1) has been
-    reversed -- root HOME is TOP120_OWNER's real K-Ranking x NEO
-    Ranking page again. KB's own R1 content is untouched at its own
-    route (tests/test_kb_r1_publication_gate.py)."""
+def test_home_page_is_never_the_lockdown_placeholder_and_carries_a_recognized_owner():
+    """PRODUCTION HOME PRODUCT POLICY CORRECTION (20260911): "root HOME
+    is TOP120_OWNER's page again" is no longer a permanent fact -- the
+    HOME STATE ROUTER makes root HOME state-dependent (TOP120_OWNER's
+    K-Ranking x NEO Ranking page with no active tournament,
+    CURRENT_TOURNAMENT_OWNER's copy of the active tournament's own
+    latest stage -- possibly KB itself -- while one is active; see
+    tests/test_home_state_router.py for that contract's own coverage).
+    What this lockdown gate still guarantees unconditionally: root is
+    never the "공사중" placeholder other locked-down routes carry, and
+    always carries a recognized, real owner marker -- never a blank or
+    third-party page. KB's own R1 content is separately verified
+    untouched at its own dedicated route
+    (tests/test_kb_r1_publication_gate.py)."""
     home = (DOCS / "index.html").read_text(encoding="utf-8")
     assert "공사중" not in home
-    assert "K-Ranking TOP120" in home and "data-player-row" in home
-    # KB may still legitimately appear inside the page's own tournament
-    # chronology card (e.g. "현재 대회"/"다음 대회") -- what must be gone
-    # is the OLD supersession's dedicated R1 leaderboard section.
-    assert '<div class="leaderboard-head"><h2>1R 결과</h2></div>' not in home
-    assert home.count("data-player-row") == 120
+    owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home)
+    assert owner_match is not None
+    assert owner_match.group(1) in ("top120-v1", "current-tournament-v1")
 
 
 def test_every_enumerated_locked_html_path_is_exactly_the_placeholder():

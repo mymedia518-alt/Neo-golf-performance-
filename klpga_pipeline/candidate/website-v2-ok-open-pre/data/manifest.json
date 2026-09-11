@@ -1,18 +1,13 @@
 {
-  "tournament": "KB금융 골든라이프 챔피언십",
-  "game_code": "2026090003",
+  "tournament": "OK저축은행 읏맨 오픈",
+  "game_code": "2026120001",
   "stage": "PRE",
   "entry_count": 120,
   "public_columns": [
     "선수",
     "KLPGA K-RANKING",
     "NEO 경기력 ⓘ",
-    "최근 5R SG",
-    "컷 통과확률",
-    "TOP20",
-    "TOP10",
-    "TOP5",
-    "우승확률"
+    "최근 5R SG"
   ],
-  "probability_distribution_publication_status": "APPROVED"
+  "probability_distribution_publication_status": "BLOCKED"
 }
