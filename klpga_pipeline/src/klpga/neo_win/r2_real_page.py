@@ -47,7 +47,6 @@ from a real score, never a separately fabricated number.
 """
 from __future__ import annotations
 
-from klpga.neo_win.r2_sg_pipeline import SG_KEYS, STATUS_AVAILABLE
 from klpga.website_v2.global_navigation import inject_global_navigation
 from klpga.website_v2.player_identity import render_player_identity
 from klpga.website_v2.shell import breadcrumb_html
@@ -157,12 +156,6 @@ def _cell(v, label: str) -> str:
     return f"<td{cls} data-label='{label}'>{display}</td>"
 
 
-def _sg_cell(v, label: str) -> str:
-    display = _sg_display(v)
-    cls = " class='metric-empty'" if v is None else ""
-    return f"<td{cls} data-label='{label}'>{display}</td>"
-
-
 def render_r2_real_page(
     *,
     tournament_name: str,
@@ -181,8 +174,12 @@ def render_r2_real_page(
     quiet fabrication)."""
     records = r2_freeze["records"]
     forecast_by_id = {str(r["player_id"]): r for r in forecast.get("records", [])}
-    sg_available = sg_ingest.get("status") == STATUS_AVAILABLE
-    sg_by_id = sg_ingest.get("sg_by_player_id", {}) if sg_available else {}
+    # sg_ingest is accepted for call-site/interface compatibility with
+    # scripts/112 (which still ingests and validates real SG data every
+    # cycle) but is no longer rendered in the PUBLIC R2 main table --
+    # see the PUBLIC TABLE COLUMN FIX task on this branch. SG data is
+    # never deleted from the pipeline/artifacts, only from this one
+    # public view.
     ranks = _derive_display_ranks(records)
 
     rows_html = []
@@ -196,7 +193,6 @@ def render_r2_real_page(
         status = row.get("status", "ACTIVE")
         identity = render_player_identity(row["player_name"], sponsor_by_id.get(pid), quote="'")
         status_badge = f" <span class='status-badge'>{STATUS_LABEL.get(status, status)}</span>" if status != "ACTIVE" else ""
-        sg = sg_by_id.get(pid, {})
         fc = forecast_by_id.get(pid)
         rows_html.append(
             f"<tr data-player-id='{pid}'>"
@@ -204,15 +200,10 @@ def render_r2_real_page(
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
             f"<td data-label='합계'>{_to_par_display(_total_to_par(row))}</td>"
             f"<td data-label='2R'>{_to_par_display(row.get('r2_score_to_par'))}</td>"
-            + _sg_cell(sg.get("total"), "SG TOTAL")
-            + _sg_cell(sg.get("off_the_tee"), "SG OTT")
-            + _sg_cell(sg.get("approach"), "SG APP")
-            + _sg_cell(sg.get("around_green"), "SG ARG")
-            + _sg_cell(sg.get("putting"), "SG PUTT")
-            + _cell(fc["win_pct"] if fc else None, "우승")
             + _cell(fc["top5_pct"] if fc else None, "Top5")
             + _cell(fc["top10_pct"] if fc else None, "Top10")
             + _cell(fc["top20_pct"] if fc else None, "Top20")
+            + _cell(fc["win_pct"] if fc else None, "우승")
             + "</tr>"
         )
 
@@ -233,13 +224,8 @@ def render_r2_real_page(
         '<div class="leaderboard-head"><h2>2R 결과</h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>2R</th>"
-        "<th>SG TOTAL</th><th>SG OTT</th><th>SG APP</th><th>SG ARG</th><th>SG PUTT</th>"
-        "<th>우승</th><th>Top5</th><th>Top10</th><th>Top20</th>"
+        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
-        + (
-            '<p class="note">※ 공식 스트로크 게인드 데이터가 아직 발표되지 않아 SG 항목은 이 페이지에 표시되지 않습니다.</p>'
-            if not sg_available else ""
-        )
         + "</section>"
     )
 
