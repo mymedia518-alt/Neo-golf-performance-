@@ -400,6 +400,9 @@ def _collect_cut_boundary_evidence() -> tuple[dict | None, str | None]:
         return None, f"HARD_STOP:{type(exc).__name__}: {exc}"
 
 
+_TERMINAL_STATUSES = frozenset({"WD", "DQ", "DNS", "CUT"})
+
+
 def _reconcile_cut_evidence(rows: list[dict], evidence: dict) -> tuple[list[dict], list[str]]:
     """Overlays real, explicit WD/DQ/DNS/CUT statuses from the
     scoreRecord cut-boundary evidence onto the primary roundLeaderboard
@@ -407,15 +410,53 @@ def _reconcile_cut_evidence(rows: list[dict], evidence: dict) -> tuple[list[dict
     actually carry -- see klpga.neo_win.r2_sg_pipeline's own
     identity-join precedent for the same name-only-join situation).
 
-    Never silently overrides: a primary row that already carries its
-    own explicit, different status (real evidence from the primary
-    source) is left untouched and its name is recorded as a CONFLICT
-    instead -- callers must HARD_STOP on any conflict, never guess
-    which of two disagreeing real sources is right. A primary row with
-    no matching evidence row (name not found on the scoreRecord page)
-    is also left untouched -- absence of a match is not itself a
-    conflict, since the two pages may legitimately cover slightly
-    different real-time snapshots.
+    GENERIC STATUS-PRECEDENCE CONTRACT (fix/kb-r2-official-cut-gate-
+    20260911, real-live-execution correction: a real --live run against
+    gameCode=2026090003 HARD_STOPped on "cut-evidence conflict ... for:
+    ['양서후']" even though the real scoreRecord evidence explicitly
+    shows 양서후 = WD, physically after the Missed Cut boundary. Root
+    cause: the primary roundLeaderboard source's real status for that
+    player was NOT itself an explicit competing determination -- it was
+    ACTIVE/unset/the confirmed data-rank="999" INCOMPLETE sentinel
+    (klpga.parsers.leaderboard_parser's own confirmed "did not complete
+    this round, could mean anything, never CUT specifically" contract,
+    see _derive_cut_known's docstring) -- but the previous `current_
+    status in (None, "ACTIVE")` check only recognized two of the many
+    real non-terminal placeholder values roundLeaderboard can emit, so
+    it fell through to the conflict branch by omission, not because the
+    two sources genuinely disagreed. Fixed generically (never by
+    player_id/name), by naming the actual real terminal-status set
+    (WD/DQ/DNS/explicit-literal-CUT) instead of enumerating every
+    non-terminal placeholder:
+
+      1. current_status not in _TERMINAL_STATUSES (covers None, "ACTIVE",
+         the "INCOMPLETE" 999-sentinel, and any other real non-terminal
+         placeholder) -> never a real competing determination; always
+         safe to enrich from the evidence's official_status.
+      2. current_status == official_status -> already agree, untouched.
+      3. current_status is terminal, official_status == "CUT" -> the
+         scoreRecord page's own real per-row official_status cannot
+         itself distinguish a literal "CUT" text cell from a
+         section-derived (post-Missed-Cut-boundary) CUT (both come out
+         identically as official_status="CUT" from
+         parse_score_record_round_table); to stay safely conservative
+         this evidence-side CUT is always treated as the WEAKER,
+         subordinate signal here and never overrides the primary
+         source's own real, explicit WD/DQ/DNS/CUT -- the primary
+         status wins, untouched, no conflict.
+      4. Otherwise: two genuinely different real, explicit terminal
+         statuses (e.g. primary WD vs evidence DQ, or primary's own
+         literal CUT vs evidence WD) -- a real disagreement between two
+         official sources, never silently resolved -- recorded as a
+         CONFLICT; callers must HARD_STOP.
+
+    A primary row with no matching evidence row (name not found on the
+    scoreRecord page) is left untouched -- absence of a match is not
+    itself a conflict, since the two pages may legitimately cover
+    slightly different real-time snapshots. A player entirely missing
+    from `rows` is never touched by this function at all -- absence is
+    never evidence of WD/CUT (see assess_r2's own separate, unmodified
+    "entrant absent" HARD_STOP for that case).
 
     Returns (reconciled_rows, conflicting_player_names)."""
     evidence_by_name = {r["player_name"]: r for r in evidence.get("rows", [])}
@@ -427,10 +468,13 @@ def _reconcile_cut_evidence(rows: list[dict], evidence: dict) -> tuple[list[dict
             reconciled.append(row)
             continue
         current_status = row.get("status")
-        if current_status in (None, "ACTIVE"):
-            reconciled.append({**row, "status": match["official_status"]})
-        elif current_status == match["official_status"]:
+        official_status = match["official_status"]
+        if current_status not in _TERMINAL_STATUSES:
+            reconciled.append({**row, "status": official_status})
+        elif current_status == official_status:
             reconciled.append(row)
+        elif official_status == "CUT":
+            reconciled.append(row)  # primary's own explicit terminal status wins over evidence's CUT
         else:
             conflicts.append(str(row.get("player_name")))
             reconciled.append(row)
