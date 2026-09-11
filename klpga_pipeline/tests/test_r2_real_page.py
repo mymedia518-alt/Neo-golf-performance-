@@ -60,15 +60,36 @@ def _rows(html: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------
-# Required public column structure (13 columns, exact order)
+# Required public column structure (8 columns, exact order -- R2 PUBLIC
+# TABLE COLUMN FIX, fix/kb-r2-official-cut-gate-20260911: SG TOTAL/OTT/
+# APP/ARG/PUTT removed from the PUBLIC table, WIN moved to the last
+# column. SG data itself is untouched in the pipeline/artifacts -- see
+# tests/test_r2_house.py and r2_sg_pipeline.py's own tests -- only no
+# longer rendered by this PUBLIC renderer.)
 # ---------------------------------------------------------------------
 
-def test_header_carries_all_13_required_columns_in_order():
+def test_header_carries_all_8_required_public_columns_in_order():
     html = _fixture_html(records=[])
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     labels = re.findall(r"<th>([^<]*)</th>", header)
-    assert labels == ["순위", "선수", "합계", "2R", "SG TOTAL", "SG OTT", "SG APP", "SG ARG", "SG PUTT",
-                       "우승", "Top5", "Top10", "Top20"]
+    assert labels == ["순위", "선수", "합계", "2R", "Top5", "Top10", "Top20", "우승"]
+
+
+def test_no_sg_column_appears_in_the_public_r2_table():
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
+    sg_by_id = {"p1": {"total": 3.21, "off_the_tee": 1.0, "approach": 0.8, "around_green": 0.3, "putting": 1.11}}
+    html = _fixture_html(records=records, sg_by_id=sg_by_id, sg_status="AVAILABLE")
+    for label in ("SG TOTAL", "SG OTT", "SG APP", "SG ARG", "SG PUTT"):
+        assert label not in html
+
+
+def test_win_is_the_last_cell_in_every_row():
+    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
+    forecast_records = [{"player_id": "p1", "win_pct": 12.5, "top5_pct": 40.0, "top10_pct": 60.0, "top20_pct": 80.0}]
+    html = _fixture_html(records=records, forecast_records=forecast_records)
+    row = _rows(html)[0]
+    last_cell = re.findall(r"<td[^>]*data-label='([^']+)'", row)[-1]
+    assert last_cell == "우승"
 
 
 def test_uses_the_r2_full_leaderboard_modifier_class():
@@ -197,34 +218,20 @@ def test_total_missing_when_only_r1_present_never_half_computed():
 
 
 # ---------------------------------------------------------------------
-# SG TOTAL/OTT/APP/ARG/PUTT: real values when AVAILABLE, honest empty
-# mark when NOT_AVAILABLE -- never fabricated/interpolated.
+# SG TOTAL/OTT/APP/ARG/PUTT: no longer rendered on this PUBLIC page
+# (R2 PUBLIC TABLE COLUMN FIX) regardless of sg_ingest's status -- the
+# parameter is still accepted (call-site compatibility with
+# scripts/112, which keeps ingesting/validating real SG data every
+# cycle) but has zero effect on the rendered HTML. See
+# test_no_sg_column_appears_in_the_public_r2_table above.
 # ---------------------------------------------------------------------
 
-def test_sg_available_renders_real_signed_values():
+def test_sg_ingest_input_never_affects_public_output_available_or_not():
     records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
     sg_by_id = {"p1": {"total": 3.21, "off_the_tee": 1.0, "approach": 0.8, "around_green": 0.3, "putting": 1.11}}
-    html = _fixture_html(records=records, sg_by_id=sg_by_id, sg_status="AVAILABLE")
-    row = _rows(html)[0]
-    assert "data-label='SG TOTAL'>+3.21<" in row
-    assert "data-label='SG OTT'>+1.00<" in row
-    assert "data-label='SG PUTT'>+1.11<" in row
-
-
-def test_sg_not_available_renders_empty_mark_for_every_sg_cell_never_zero():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
-    html = _fixture_html(records=records, sg_status="NOT_AVAILABLE")
-    row = _rows(html)[0]
-    for label in ("SG TOTAL", "SG OTT", "SG APP", "SG ARG", "SG PUTT"):
-        assert f"data-label='{label}' class='metric-empty'>—<" in row or f"class='metric-empty' data-label='{label}'>—<" in row
-    assert "스트로크 게인드 데이터가 아직" in html  # honest disclosure note, only when unavailable
-
-
-def test_sg_available_note_is_absent_when_sg_actually_shown():
-    records = [{"player_id": "p1", "player_name": "선수일", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0}]
-    sg_by_id = {"p1": {"total": 1.0, "off_the_tee": 0.4, "approach": 0.3, "around_green": 0.2, "putting": 0.1}}
-    html = _fixture_html(records=records, sg_by_id=sg_by_id, sg_status="AVAILABLE")
-    assert "스트로크 게인드 데이터가 아직" not in html
+    html_available = _fixture_html(records=records, sg_by_id=sg_by_id, sg_status="AVAILABLE")
+    html_not_available = _fixture_html(records=records, sg_status="NOT_AVAILABLE")
+    assert html_available == html_not_available
 
 
 # ---------------------------------------------------------------------
