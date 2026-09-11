@@ -541,6 +541,84 @@ def _apply_r2_cumulative_completion(rows: list[dict], expected_player_ids) -> li
     return updated
 
 
+def _num_to_par(v) -> float | None:
+    """Same numeric convention klpga.neo_win.post_r2_forecast._num
+    already uses for score-to-par text ("E"/"EVEN" -> 0.0, a leading
+    "+" stripped, "-5" -> -5.0) -- duplicated here (not imported) to
+    keep this collection-time join independent of that later-stage
+    module, matching this script's own established style of inlining
+    small pure helpers rather than reaching into downstream consumers."""
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return float(v)
+    s = str(v).strip().upper().replace("+", "")
+    if s in ("E", "EVEN"):
+        return 0.0
+    if s in ("", "-"):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
+def _load_r1_score_by_player(r1_evidence: dict) -> dict[str, float]:
+    """Pure: real R1 to-par score by player_id, taken directly from the
+    same real, committed R1 evidence artifact (NEO_KB_..._R1_OFFICIAL_
+    RESULT_EVIDENCE_V1.json's `players[]`) that expected_player_ids is
+    already derived from -- its own real `toPar` field (e.g. "-5",
+    "E"), never re-derived from `r1Score` (raw strokes) or re-fetched
+    live. A player whose real toPar can't be parsed is simply absent
+    from the returned map -- never a guessed 0."""
+    scores: dict[str, float] = {}
+    for p in r1_evidence.get("players", []):
+        v = _num_to_par(p.get("toPar"))
+        if v is not None:
+            scores[str(p["playerCode"])] = v
+    return scores
+
+
+def _apply_r1_scores(rows: list[dict], r1_score_by_player: dict[str, float]) -> list[dict]:
+    """BUGFIX (fix/kb-r2-official-cut-gate-20260911, real --live
+    execution correction): a real live run reached the probability gate
+    and HARD_STOPped with "population mismatch: 71 missing" -- the
+    generated forecast's own missing_players evidence showed profile=
+    true, r2_score=true, r1_score=false for every one of them.
+
+    ROOT CAUSE: _collect_live_r2() hardcodes `"r1_score_to_par": None`
+    on every row it builds -- R1's real score was simply never joined
+    into the R2 collection at all, live or otherwise, so every ACTIVE
+    row written into the R2 freeze carried a permanently-null r1_score_
+    to_par. klpga.neo_win.post_r2_forecast.run_post_r2_forecast reads
+    r1_score_to_par directly off the FROZEN r2_freeze record (never
+    re-derives it) and excludes any row where it is None -- exactly
+    reproducing the real HARD_STOP's own missing_players evidence.
+
+    FIX: R1's real score, like R1's real 18-hole completion in
+    _apply_r2_cumulative_completion above, is an already-established
+    fact from that SAME real, committed R1 evidence artifact -- never
+    re-derived via arithmetic, never re-fetched live. This function
+    joins it onto every row whose player_id has a real R1 score in
+    `r1_score_by_player` (see _load_r1_score_by_player), overwriting
+    whatever placeholder r1_score_to_par _collect_live_r2 set (there is
+    no competing PRIMARY source for this field the way there is for
+    status -- R1's official evidence is the one and only real source of
+    a player's R1 score, so this is a direct fill, not a conflict-aware
+    reconciliation). A row whose player_id has no real R1 score in the
+    evidence is left completely untouched -- never fabricated, never
+    coerced to 0."""
+    updated: list[dict] = []
+    for row in rows:
+        pid = str(row.get("player_id"))
+        r1_score = r1_score_by_player.get(pid)
+        if r1_score is None:
+            updated.append(row)
+            continue
+        updated.append({**row, "r1_score_to_par": r1_score})
+    return updated
+
+
 def _write_wait_page() -> bool:
     """Idempotent: only writes if the WAIT page is missing or stale.
     Returns True if a write happened."""
@@ -615,6 +693,14 @@ def run_cycle(*, live: bool, build_id: str, seed: int = 20260911) -> dict:
     # _apply_r2_cumulative_completion's own docstring for the full
     # semantic-contract trace.
     rows = _apply_r2_cumulative_completion(rows, expected.player_ids)
+
+    # BUGFIX (fix/kb-r2-official-cut-gate-20260911, probability-gate real
+    # --live correction): _collect_live_r2 hardcodes r1_score_to_par=None
+    # on every row; join the real R1 to-par score from the same R1
+    # evidence artifact expected.player_ids is already derived from. See
+    # _apply_r1_scores's own docstring for the full root-cause trace.
+    r1_evidence = json.loads(R1_EVIDENCE_PATH.read_text(encoding="utf-8"))
+    rows = _apply_r1_scores(rows, _load_r1_score_by_player(r1_evidence))
 
     decision = decide_r2_cycle(
         rows, sorted(expected.player_ids),
