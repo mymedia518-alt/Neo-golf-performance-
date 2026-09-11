@@ -119,11 +119,26 @@ def _collect_live_r2() -> tuple[list[dict], bool, str | None]:
     """Real HTTP collection for R2, mirroring scripts/96's
     _collect_live() error-handling convention exactly: a network
     failure is an ordinary WAIT (returned via `error`, never raised),
-    a parser/programming defect is a HARD_STOP."""
+    a parser/programming defect is a HARD_STOP.
+
+    BUGFIX (fix/kb-r2-official-cut-gate-20260911, starting-tee pass):
+    this no longer resolves holes_completed itself. KLPGA's real
+    data-inghole is the LAST ACTUAL COURSE HOLE played (klpga.parsers.
+    leaderboard_parser's own confirmed contract), not a completed-hole
+    count -- correct only for a real 1-tee (OUT) start. Calling
+    resolve_completed_holes(raw, None) here (the previous behavior)
+    silently assumed every player started at tee 1, which is unsafe:
+    for a real 10-tee starter it can fabricate a false-complete 18 from
+    a partial round (see _resolve_r2_starting_tee_and_holes's own
+    docstring, test case C). The raw course-hole value is now carried
+    through under `_raw_inghole` -- a private, non-contract key never
+    read by assess_r2/build_r2_frozen_evidence/the renderers -- and
+    only `_resolve_r2_starting_tee_and_holes` (called from run_cycle
+    with the real, separately-fetched official starting-tee evidence)
+    is allowed to turn it into the real `holes_completed` field."""
     try:
         from klpga.collectors.leaderboard import fetch_round_leaderboard
         from klpga.http_client import PoliteHttpClient
-        from klpga.parsers.round_progress import resolve_completed_holes
 
         client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "kb_r2_active")
         rows = fetch_round_leaderboard(client, GAME_CODE, 2, use_cache=False)
@@ -132,7 +147,7 @@ def _collect_live_r2() -> tuple[list[dict], bool, str | None]:
                 "player_id": r.player_code,
                 "player_name": r.player_name,
                 "status": r.status or "ACTIVE",
-                "holes_completed": str(resolve_completed_holes(r.holes_completed, None).completed),
+                "_raw_inghole": r.holes_completed,
                 "r1_score_to_par": None,
                 "r2_score_to_par": r.today_under_par if r.today_under_par is not None else r.total_under_par,
             }
@@ -143,6 +158,163 @@ def _collect_live_r2() -> tuple[list[dict], bool, str | None]:
         return [], False, f"WAIT:{type(exc).__name__}: {exc}"
     except Exception as exc:  # noqa: BLE001 -- parser/programming defects are hard stops
         return [], False, f"HARD_STOP:{type(exc).__name__}: {exc}"
+
+
+_UNRESOLVED_STARTING_TEE = "UNRESOLVED_STARTING_TEE"
+
+
+def _build_starting_tee_map(groupings) -> dict:
+    """Pure: turns a list of klpga.parsers.group_page_parser.GroupingRow
+    (real parsed rows from the official group/tee-time page's Round 2
+    grouping table) into {"tee_by_player": {player_code: starting_tee},
+    "ambiguous_player_ids": frozenset({player_code, ...})}. Factored out
+    of _collect_r2_starting_tee_evidence so this ambiguity rule is
+    directly unit-testable with synthetic GroupingRow objects, without
+    any real HTTP fetch.
+
+    A player_code that appears more than once in `groupings` with two
+    DIFFERING starting_tee values is placed in ambiguous_player_ids and
+    excluded from tee_by_player entirely -- a genuine identity/data
+    conflict, never silently resolved by picking either value (mirrors
+    _reconcile_cut_evidence's own conflict discipline elsewhere in this
+    script). A player_code repeated with the SAME starting_tee value
+    (e.g. present on more than one tee-time row by a page quirk) is not
+    a conflict."""
+    tee_by_player: dict[str, str] = {}
+    ambiguous: set[str] = set()
+    for g in groupings:
+        if g.starting_tee is None:
+            continue
+        pid = g.player_code
+        if pid in ambiguous:
+            continue
+        if pid in tee_by_player and tee_by_player[pid] != g.starting_tee:
+            ambiguous.add(pid)
+            del tee_by_player[pid]
+            continue
+        tee_by_player[pid] = g.starting_tee
+    return {"tee_by_player": tee_by_player, "ambiguous_player_ids": frozenset(ambiguous)}
+
+
+def _collect_r2_starting_tee_evidence() -> tuple[dict | None, str | None]:
+    """Best-effort fetch + parse of the official group/tee-time page's
+    own Round 2 grouping (klpga.collectors.group_page.
+    fetch_group_page_html + klpga.parsers.group_page_parser.
+    parse_round_grouping(round_number=2)) -- the SAME real, confirmed
+    source scripts/96's own _fetch_round1_starting_tees already uses
+    for R1, joined here by the one stable official identity the group
+    page itself carries directly: player_code (a[href*="playerCode="],
+    see that parser's own module docstring) -- never player_name alone.
+    This is a STRONGER identity than _reconcile_cut_evidence's
+    name-only join above, which is only a name join because that is
+    genuinely the sole identity the scoreRecord page carries; the group
+    page carries player_code directly, so that identity is used here.
+
+    Returns (evidence, error). evidence = {"tee_by_player":
+    {player_code: starting_tee, ...}, "ambiguous_player_ids":
+    frozenset({player_code, ...})}. A player_code is placed in
+    ambiguous_player_ids (and excluded from tee_by_player) if the real
+    grouping table lists it more than once with two DIFFERING
+    starting_tee values -- a genuine data conflict, never silently
+    resolved by picking either (mirrors _reconcile_cut_evidence's own
+    conflict discipline).
+
+    Mirrors _collect_cut_boundary_evidence's own error convention
+    exactly: a network failure, or Round 2's grouping not being
+    published yet (ValueError from parse_round_grouping), is an
+    ordinary, non-fatal WAIT -- evidence is simply None, and callers
+    (_resolve_r2_starting_tee_and_holes) must never silently assume tee
+    1 for a player with no real evidence; they leave that player's
+    holes_completed as the explicit _UNRESOLVED_STARTING_TEE sentinel,
+    which naturally routes through assess_r2's own existing, unmodified
+    completion check to WAIT -- exactly the same "missing secondary
+    evidence degrades to the primary gate's own WAIT" pattern already
+    used for cut-boundary evidence in this script. A parser/programming
+    defect is a HARD_STOP. Never raises."""
+    try:
+        from klpga.collectors.group_page import fetch_group_page_html
+        from klpga.http_client import PoliteHttpClient
+        from klpga.parsers.group_page_parser import parse_round_grouping
+
+        client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "kb_r2_starting_tee")
+        _status, html_text = fetch_group_page_html(client, GAME_CODE)
+        groupings = parse_round_grouping(html_text, round_number=2)
+        return _build_starting_tee_map(groupings), None
+    except requests.exceptions.RequestException as exc:
+        return None, f"WAIT:{type(exc).__name__}: {exc}"
+    except ValueError as exc:
+        # Round 2's grouping tab-pane not published yet (or its table
+        # missing) -- a real, expected WAIT state, never a programming
+        # defect.
+        return None, f"WAIT:{exc}"
+    except Exception as exc:  # noqa: BLE001 -- parser/programming defects are hard stops
+        return None, f"HARD_STOP:{type(exc).__name__}: {exc}"
+
+
+def _resolve_r2_starting_tee_and_holes(rows: list[dict], tee_evidence: dict | None) -> tuple[list[dict], list[str]]:
+    """The ONLY place allowed to turn a row's raw `_raw_inghole` (last
+    actual course hole played) into the real `holes_completed`
+    (current-round completed-hole count) -- via klpga.parsers.
+    round_progress.resolve_completed_holes, unmodified, fed a REAL
+    starting_tee looked up from `tee_evidence["tee_by_player"]` by the
+    row's own player_id. Never derives starting tee from `_raw_inghole`
+    itself, rank, score, row order, OUT/IN score, or player count --
+    the only inputs read here are the row's player_id and the
+    independently-collected tee_evidence.
+
+    Three cases per row:
+      1. Real, unambiguous starting_tee found for this player_id ->
+         holes_completed = str(resolve_completed_holes(raw, tee).completed),
+         a real, tee-adjusted current-round count.
+      2. player_id is in tee_evidence's ambiguous_player_ids (two real
+         group-page entries disagreeing on this player's starting tee)
+         -> holes_completed = _UNRESOLVED_STARTING_TEE, AND the
+         player_id is returned in `conflicts` -- callers MUST HARD_STOP
+         on any conflict, exactly like _reconcile_cut_evidence's own
+         conflict contract. Never silently guesses which tee is real.
+      3. No evidence at all for this player_id (tee_evidence is None,
+         evidence collection failed/not-yet-published, or this
+         player_id simply isn't in tee_by_player) -> holes_completed =
+         _UNRESOLVED_STARTING_TEE, no conflict recorded (absence is not
+         itself a conflict). This sentinel never matches assess_r2's
+         own "36"/"F"/"FINAL" cumulative-completion check, so an
+         ACTIVE/CUT row with unresolved starting tee correctly WAITs --
+         it can NEVER be silently treated as complete. WD/DQ/DNS rows
+         are unaffected either way, since assess_r2 never checks
+         holes_completed for those statuses.
+
+    Returns (resolved_rows, conflicting_player_ids); the private
+    `_raw_inghole` key is stripped from every returned row -- it is
+    never part of the R2 field contract (klpga.neo_win.
+    r2_house_contract) and must never reach the freeze evidence writer
+    or any renderer."""
+    from klpga.parsers.round_progress import resolve_completed_holes
+
+    tee_by_player = (tee_evidence or {}).get("tee_by_player", {})
+    ambiguous_ids = set((tee_evidence or {}).get("ambiguous_player_ids", ()))
+
+    resolved: list[dict] = []
+    conflicts: list[str] = []
+    for row in rows:
+        raw_inghole = row.get("_raw_inghole")
+        player_id = str(row.get("player_id"))
+        clean_row = {k: v for k, v in row.items() if k != "_raw_inghole"}
+
+        if player_id in ambiguous_ids:
+            conflicts.append(player_id)
+            clean_row["holes_completed"] = _UNRESOLVED_STARTING_TEE
+            resolved.append(clean_row)
+            continue
+
+        starting_tee = tee_by_player.get(player_id)
+        if starting_tee is None:
+            clean_row["holes_completed"] = _UNRESOLVED_STARTING_TEE
+            resolved.append(clean_row)
+            continue
+
+        clean_row["holes_completed"] = str(resolve_completed_holes(raw_inghole, starting_tee).completed)
+        resolved.append(clean_row)
+    return resolved, conflicts
 
 
 def _derive_cut_known(rows: list[dict], *, cut_boundary_published: bool = False) -> bool:
@@ -350,6 +522,28 @@ def run_cycle(*, live: bool, build_id: str, seed: int = 20260911) -> dict:
     rows, official_page_available, error = _collect_live_r2()
     if error and error.startswith("HARD_STOP"):
         return _summary("HARD_STOP", error, freeze_exists)
+
+    # STARTING-TEE EVIDENCE-GATE (fix/kb-r2-official-cut-gate-20260911):
+    # the real, official group/tee-time page's own Round 2 grouping is
+    # the ONLY source ever allowed to turn a row's raw last-course-hole
+    # value into a real current-round completed-hole count. Missing
+    # evidence (page unavailable / not yet published) never blocks the
+    # cycle here -- it degrades every affected row's holes_completed to
+    # the explicit _UNRESOLVED_STARTING_TEE sentinel, which naturally
+    # routes through assess_r2's own existing, unmodified completion
+    # check to WAIT. A real conflict (two group-page entries disagreeing
+    # on one player's starting tee) is never silently resolved -- it is
+    # a HARD_STOP, exactly like a cut-evidence conflict below.
+    tee_evidence, tee_evidence_error = _collect_r2_starting_tee_evidence()
+    if tee_evidence_error and tee_evidence_error.startswith("HARD_STOP"):
+        return _summary("HARD_STOP", tee_evidence_error, freeze_exists)
+    rows, tee_conflicts = _resolve_r2_starting_tee_and_holes(rows, tee_evidence)
+    if tee_conflicts:
+        return _summary(
+            "HARD_STOP",
+            f"ambiguous official starting-tee evidence (conflicting group-page entries) for: {sorted(tee_conflicts)}",
+            freeze_exists,
+        )
 
     # FINAL R2 EVIDENCE-GATE (2026-09-11): best-effort second evidence
     # source, the official scoreRecord page's own real cut-boundary
