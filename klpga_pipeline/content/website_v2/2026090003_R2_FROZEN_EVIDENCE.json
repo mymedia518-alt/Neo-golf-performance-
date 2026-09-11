@@ -1,0 +1,1209 @@
+{
+  "schema_version": "neo_r2_frozen_evidence_v1",
+  "game_code": "2026090003",
+  "round": 2,
+  "official_source_identity": "klpga.co.kr roundLeaderboard",
+  "official_source_url": null,
+  "collection_timestamp": "2026-09-11T12:59:24Z",
+  "raw_official_response_sha256": "2bdddf80c350c1d19120fbd90df64f22e932292e8b280d3dfa86d13051285a92",
+  "parsed_canonical_sha256": "2bdddf80c350c1d19120fbd90df64f22e932292e8b280d3dfa86d13051285a92",
+  "expected_field_count": 118,
+  "observed_player_count": 118,
+  "status_counts": {
+    "ACTIVE": 71,
+    "CUT": 46,
+    "WD": 1,
+    "DQ": 0,
+    "DNS": 0
+  },
+  "cut_wd_dq_evidence": [
+    {
+      "player_id": "9089",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8246",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9465",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8772",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10146",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11480",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "4905",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8277",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9714",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9135",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9820",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10789",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11042",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8380",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10109",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9759",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "12038",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9705",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10083",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8271",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9136",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8972",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9000",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9483",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10531",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9937",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11073",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "6916",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8884",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11469",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8355",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11216",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10178",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11964",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8770",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "12069",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10481",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11397",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8434",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "8430",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9750",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9503",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9728",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "9174",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "7434",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "11040",
+      "status": "CUT",
+      "evidence": "official R2 leaderboard row"
+    },
+    {
+      "player_id": "10867",
+      "status": "WD",
+      "evidence": "official R2 leaderboard row"
+    }
+  ],
+  "feature_cutoff": "END_OF_R2",
+  "pre_freeze_artifact": "2026090003_PRE_PUBLIC_MASTER.json",
+  "pre_freeze_sha256": "f6a373a4dc9dab95da0d727e3ffe3417326b46a83daf979aeb3a78e1c8a7ceb4",
+  "r1_freeze_artifact": "2026090003_R1_5PROB_FROZEN_V1.json",
+  "r1_freeze_sha256": "14aaf1c2f6e39778853aafad8f5e531e193b9fa0879c4f955cc9564d74431ef5",
+  "code_commit": "80ada5fc663a30fe9952cef380a4f43ea95c1e97",
+  "build_id": "20260911T125921Z",
+  "records": [
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "status": "ACTIVE",
+      "r1_score_to_par": -5.0,
+      "r2_score_to_par": -2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2.0,
+      "r2_score_to_par": -3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3.0,
+      "r2_score_to_par": -2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3.0,
+      "r2_score_to_par": -2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": -3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": -3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": -1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": -1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": -2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10075",
+      "player_name": "고은혜",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": -4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": -2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": -1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": -1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": -1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10698",
+      "player_name": "정민서",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "status": "ACTIVE",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": -1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8191",
+      "player_name": "전인지",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 1,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11926",
+      "player_name": "유다겸(I)",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 7,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "status": "CUT",
+      "r1_score_to_par": 2.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "status": "CUT",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "status": "CUT",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11480",
+      "player_name": "김연서",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "status": "CUT",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "status": "CUT",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "status": "CUT",
+      "r1_score_to_par": -1.0,
+      "r2_score_to_par": 9,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "status": "CUT",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "status": "CUT",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "status": "CUT",
+      "r1_score_to_par": 10.0,
+      "r2_score_to_par": 0,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "status": "CUT",
+      "r1_score_to_par": 8.0,
+      "r2_score_to_par": 2,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8271",
+      "player_name": "김효문",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민",
+      "status": "CUT",
+      "r1_score_to_par": 6.0,
+      "r2_score_to_par": 4,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "status": "CUT",
+      "r1_score_to_par": 4.0,
+      "r2_score_to_par": 6,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "status": "CUT",
+      "r1_score_to_par": 8.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원",
+      "status": "CUT",
+      "r1_score_to_par": 3.0,
+      "r2_score_to_par": 8,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "status": "CUT",
+      "r1_score_to_par": 9.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8355",
+      "player_name": "장수연",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 7,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지",
+      "status": "CUT",
+      "r1_score_to_par": 8.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11964",
+      "player_name": "윤다감 0907(A)",
+      "status": "CUT",
+      "r1_score_to_par": 10.0,
+      "r2_score_to_par": 3,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "status": "CUT",
+      "r1_score_to_par": 7.0,
+      "r2_score_to_par": 6,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "12069",
+      "player_name": "박조은 0806(A)",
+      "status": "CUT",
+      "r1_score_to_par": 10.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "status": "CUT",
+      "r1_score_to_par": 10.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11397",
+      "player_name": "구민지 0706(A)",
+      "status": "CUT",
+      "r1_score_to_par": 10.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "status": "CUT",
+      "r1_score_to_par": 5.0,
+      "r2_score_to_par": 10,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채",
+      "status": "CUT",
+      "r1_score_to_par": 11.0,
+      "r2_score_to_par": 5,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민",
+      "status": "CUT",
+      "r1_score_to_par": 6.0,
+      "r2_score_to_par": 10,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "status": "CUT",
+      "r1_score_to_par": 9.0,
+      "r2_score_to_par": 8,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "status": "CUT",
+      "r1_score_to_par": 9.0,
+      "r2_score_to_par": 8,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "status": "CUT",
+      "r1_score_to_par": 9.0,
+      "r2_score_to_par": 9,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "7434",
+      "player_name": "이정민",
+      "status": "CUT",
+      "r1_score_to_par": 9.0,
+      "r2_score_to_par": 9,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "status": "CUT",
+      "r1_score_to_par": 9.0,
+      "r2_score_to_par": 10,
+      "holes_completed": "36"
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후",
+      "status": "WD",
+      "r1_score_to_par": 10.0,
+      "r2_score_to_par": null,
+      "holes_completed": "19"
+    }
+  ]
+}
