@@ -145,6 +145,50 @@ def _collect_live_r2() -> tuple[list[dict], bool, str | None]:
         return [], False, f"HARD_STOP:{type(exc).__name__}: {exc}"
 
 
+def _derive_cut_known(rows: list[dict]) -> bool:
+    """BUGFIX (fix/kb-r2-official-cut-gate-20260911): the ONE honest
+    signal that the official CUT determination has actually been
+    published for this round -- at least one collected row carries the
+    official leaderboard parser's own literal status=="CUT" (set only
+    when KLPGA's roundLeaderboard response itself has data-rank="CUT"
+    on that row, klpga.parsers.leaderboard_parser.parse_rank -- a
+    direct, explicit read of the official source's own text, never a
+    computation this pipeline performs).
+
+    Deliberately does NOT look at: rank, score, holes_completed, row
+    count, which players are missing from `rows` vs. the expected
+    field, or any cut-line arithmetic -- none of those are the official
+    source stating a real CUT, and inferring from any of them is
+    exactly the fabrication this gate exists to prevent (see
+    r2_readiness.assess_r2's own "no CUT inferred" reason string, which
+    this function's return value feeds directly). A player who is
+    simply absent from this round's rows (WD/DQ elsewhere in the
+    tournament, or not yet reached in collection) never contributes a
+    "CUT" status here, because there is no row for them to read a
+    status off of -- absence is not evidence.
+
+    Also NOT a signal: the confirmed data-rank="999" sentinel (parsed
+    as status="INCOMPLETE" -- "did not complete this round," which
+    could mean anything from "still playing" to WD/DQ, never CUT
+    specifically) and explicit WD/DQ statuses (real, but a different
+    determination than CUT -- assess_r2 counts and returns them under
+    their own status, untouched by this function).
+
+    Archaeology note (klpga.collectors.aggregate's own module
+    docstring, CONFIRMED live 2026-08-24): KLPGA's roundLeaderboard
+    endpoint has never actually been observed emitting literal "CUT"
+    text at all in any real captured response -- so in practice this
+    currently evaluates False against real live data, the same
+    behavior the previous hardcoded `cut_known=False` produced. The
+    defect being fixed is not "the wrong boolean value today" (both
+    versions currently produce WAIT against real data) but a hardcoded
+    literal that could never become True even if the official source
+    ever does start publishing an explicit CUT marker -- this function
+    would correctly flip to True the moment real evidence appears,
+    with zero further code changes."""
+    return any(row.get("status") == "CUT" for row in rows)
+
+
 def _write_wait_page() -> bool:
     """Idempotent: only writes if the WAIT page is missing or stale.
     Returns True if a write happened."""
@@ -174,7 +218,7 @@ def run_cycle(*, live: bool, build_id: str, seed: int = 20260911) -> dict:
     decision = decide_r2_cycle(
         rows, sorted(expected.player_ids),
         official_page_available=official_page_available,
-        cut_known=False,  # never inferred from unconfirmed live rank-text CUT/WD/DQ -- see leaderboard_parser.py
+        cut_known=_derive_cut_known(rows),  # explicit official evidence only -- see _derive_cut_known's own docstring
         freeze_exists=freeze_exists,
     )
 
