@@ -1,0 +1,10 @@
+{
+  "schema": "EXPOSURE_AUDIT_CANDIDATE_EVENTS",
+  "selection_rule": "explicit official final/CUT evidence required; absence never implies CUT",
+  "candidates": [
+    {"gameCode":"2026120001","season":2026,"event_name":"OK Savings Bank OK MAN Open","event_format":"3-round (tournament.json gameMethod=0; archived R1/R2/R3)","R1_evidence":true,"R2_evidence":true,"R3_evidence":true,"R4_evidence":false,"FINAL_evidence":false,"explicit_CUT_evidence":false,"explicit_WD_evidence":false,"coverage_verdict":"UNRESOLVED_FINAL_STATUS"},
+    {"gameCode":"2023090001","season":2023,"event_name":"KG Ladies Open","event_format":"unknown","R1_evidence":true,"R2_evidence":false,"R3_evidence":false,"R4_evidence":false,"FINAL_evidence":false,"explicit_CUT_evidence":false,"explicit_WD_evidence":false,"coverage_verdict":"R1_ONLY"}
+  ],
+  "selected_gameCode": null,
+  "selection_verdict": "NO_EVENT_MEETS_EXPLICIT_FINAL_AND_CUT_REQUIREMENT"
+}
