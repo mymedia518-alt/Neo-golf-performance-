@@ -1,0 +1,322 @@
+{
+  "forecast_provenance": {
+    "path": "C:\\Users\\user\\Desktop\\Neo-golf-official-tournament-warehouse-v1\\klpga_pipeline\\content\\website_v2\\2026090003_POST_R2_FINAL_FORECAST.json",
+    "sha256": "ad65227f59c19562005b3140c5bbdcf9713d90ae61f2df00e46d9ab9e97c8367",
+    "build_id": "20260911T125921Z",
+    "collection_timestamp": "20260911T125921Z",
+    "n_simulations": 10000,
+    "source_round": 2,
+    "feature_cutoff": "END_OF_R2",
+    "code_commit": "8a7692cb97d223e1af37493713396ecaad576674"
+  },
+  "join": {
+    "forecast_rows": 71,
+    "matched": 71,
+    "wd_preserved": 1
+  },
+  "outcome_definitions": {
+    "WIN": "actual final rank == 1; WD excluded",
+    "TOP5": "actual final rank <= 5; WD excluded",
+    "TOP10": "actual final rank <= 10; WD excluded",
+    "TOP20": "actual final rank <= 20; WD excluded"
+  },
+  "validation": {
+    "win": {
+      "eligible_n": 70,
+      "actual_hits": 1,
+      "top_probability_selection_hits": 0
+    },
+    "top5": {
+      "eligible_n": 70,
+      "actual_hits": 5,
+      "top_probability_selection_hits": 2
+    },
+    "top10": {
+      "eligible_n": 70,
+      "actual_hits": 10,
+      "top_probability_selection_hits": 5
+    },
+    "top20": {
+      "eligible_n": 70,
+      "actual_hits": 23,
+      "top_probability_selection_hits": 16
+    }
+  },
+  "r3_top20_plus_boundary": [
+    {
+      "playerCode": "11056",
+      "playerName": "박예지",
+      "neo_final_rank": 19,
+      "win_pct": 0.0,
+      "top5_pct": 0.64,
+      "top10_pct": 14.24,
+      "top20_pct": 67.83,
+      "actual_rank": 1,
+      "actual_status": null
+    },
+    {
+      "playerCode": "11066",
+      "playerName": "유서연2",
+      "neo_final_rank": 15,
+      "win_pct": 0.0,
+      "top5_pct": 1.34,
+      "top10_pct": 13.31,
+      "top20_pct": 52.79,
+      "actual_rank": 2,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9431",
+      "playerName": "박보겸",
+      "neo_final_rank": 3,
+      "win_pct": 3.93,
+      "top5_pct": 75.95,
+      "top10_pct": 97.5,
+      "top20_pct": 99.94,
+      "actual_rank": 2,
+      "actual_status": null
+    },
+    {
+      "playerCode": "10586",
+      "playerName": "홍진영2",
+      "neo_final_rank": 1,
+      "win_pct": 53.11,
+      "top5_pct": 99.84,
+      "top10_pct": 100.0,
+      "top20_pct": 100.0,
+      "actual_rank": 4,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9449",
+      "playerName": "이지현3",
+      "neo_final_rank": 10,
+      "win_pct": 0.0,
+      "top5_pct": 8.29,
+      "top10_pct": 64.03,
+      "top20_pct": 98.56,
+      "actual_rank": 4,
+      "actual_status": null
+    },
+    {
+      "playerCode": "10095",
+      "playerName": "방신실",
+      "neo_final_rank": 5,
+      "win_pct": 2.63,
+      "top5_pct": 70.59,
+      "top10_pct": 96.54,
+      "top20_pct": 99.93,
+      "actual_rank": 6,
+      "actual_status": null
+    },
+    {
+      "playerCode": "11134",
+      "playerName": "서교림",
+      "neo_final_rank": 2,
+      "win_pct": 36.28,
+      "top5_pct": 97.86,
+      "top10_pct": 99.96,
+      "top20_pct": 100.0,
+      "actual_rank": 6,
+      "actual_status": null
+    },
+    {
+      "playerCode": "11770",
+      "playerName": "짜라위 분짠(I)",
+      "neo_final_rank": 14,
+      "win_pct": 0.0,
+      "top5_pct": 1.76,
+      "top10_pct": 28.06,
+      "top20_pct": 85.72,
+      "actual_rank": 6,
+      "actual_status": null
+    },
+    {
+      "playerCode": "8386",
+      "playerName": "성은정",
+      "neo_final_rank": 26,
+      "win_pct": 0.0,
+      "top5_pct": 0.1,
+      "top10_pct": 5.41,
+      "top20_pct": 51.4,
+      "actual_rank": 6,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9389",
+      "playerName": "전우리",
+      "neo_final_rank": 20,
+      "win_pct": 0.0,
+      "top5_pct": 0.58,
+      "top10_pct": 12.77,
+      "top20_pct": 64.95,
+      "actual_rank": 6,
+      "actual_status": null
+    },
+    {
+      "playerCode": "10081",
+      "playerName": "김민주",
+      "neo_final_rank": 13,
+      "win_pct": 0.0,
+      "top5_pct": 3.25,
+      "top10_pct": 33.04,
+      "top20_pct": 85.71,
+      "actual_rank": 11,
+      "actual_status": null
+    },
+    {
+      "playerCode": "8811",
+      "playerName": "이채은2",
+      "neo_final_rank": 38,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.04,
+      "top20_pct": 2.09,
+      "actual_rank": 11,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9082",
+      "playerName": "전예성",
+      "neo_final_rank": 16,
+      "win_pct": 0.0,
+      "top5_pct": 0.95,
+      "top10_pct": 16.05,
+      "top20_pct": 68.8,
+      "actual_rank": 11,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9426",
+      "playerName": "한진선",
+      "neo_final_rank": 6,
+      "win_pct": 0.1,
+      "top5_pct": 21.98,
+      "top10_pct": 74.53,
+      "top20_pct": 98.14,
+      "actual_rank": 11,
+      "actual_status": null
+    },
+    {
+      "playerCode": "10790",
+      "playerName": "김하은2",
+      "neo_final_rank": 18,
+      "win_pct": 0.0,
+      "top5_pct": 0.76,
+      "top10_pct": 11.39,
+      "top20_pct": 53.53,
+      "actual_rank": 15,
+      "actual_status": null
+    },
+    {
+      "playerCode": "11060",
+      "playerName": "안재희",
+      "neo_final_rank": 37,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.29,
+      "actual_rank": 15,
+      "actual_status": null
+    },
+    {
+      "playerCode": "11143",
+      "playerName": "김시현",
+      "neo_final_rank": 33,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.04,
+      "top20_pct": 2.51,
+      "actual_rank": 15,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9113",
+      "playerName": "노승희",
+      "neo_final_rank": 25,
+      "win_pct": 0.0,
+      "top5_pct": 0.11,
+      "top10_pct": 3.06,
+      "top20_pct": 34.11,
+      "actual_rank": 15,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9784",
+      "playerName": "이예원",
+      "neo_final_rank": 12,
+      "win_pct": 0.0,
+      "top5_pct": 3.52,
+      "top10_pct": 30.99,
+      "top20_pct": 79.94,
+      "actual_rank": 15,
+      "actual_status": null
+    },
+    {
+      "playerCode": "10296",
+      "playerName": "문정민",
+      "neo_final_rank": 34,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.22,
+      "top20_pct": 8.78,
+      "actual_rank": 20,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9111",
+      "playerName": "박서현",
+      "neo_final_rank": 35,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.01,
+      "top20_pct": 0.08,
+      "actual_rank": 20,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9134",
+      "playerName": "서어진",
+      "neo_final_rank": 22,
+      "win_pct": 0.0,
+      "top5_pct": 0.36,
+      "top10_pct": 11.61,
+      "top20_pct": 68.98,
+      "actual_rank": 20,
+      "actual_status": null
+    },
+    {
+      "playerCode": "9391",
+      "playerName": "최가빈",
+      "neo_final_rank": 4,
+      "win_pct": 3.84,
+      "top5_pct": 83.73,
+      "top10_pct": 99.22,
+      "top20_pct": 100.0,
+      "actual_rank": 20,
+      "actual_status": null
+    },
+    {
+      "playerCode": "10097",
+      "playerName": "김민선7",
+      "neo_final_rank": 27,
+      "win_pct": 0.0,
+      "top5_pct": 0.07,
+      "top10_pct": 3.54,
+      "top20_pct": 37.49,
+      "actual_rank": 24,
+      "actual_status": null
+    },
+    {
+      "playerCode": "11649",
+      "playerName": "이동은",
+      "neo_final_rank": 28,
+      "win_pct": 0.0,
+      "top5_pct": 0.06,
+      "top10_pct": 3.08,
+      "top20_pct": 27.77,
+      "actual_rank": 24,
+      "actual_status": null
+    }
+  ]
+}
