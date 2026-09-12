@@ -1,0 +1,20 @@
+{
+  "schema":"NEO_EXPOSURE_GATE_DECOMPOSITION_V1",
+  "frozen_control":"V1",
+  "candidate":"V2B",
+  "validation_baseline_commit":"3558821",
+  "old_gate_reproduction":{"V1":{"n":104,"spearman_rounds_vs_rank":-0.3576961802206767,"reference":-0.358},"V2B":{"n":105,"spearman_rounds_vs_rank":-0.29729564397267816,"reference":-0.297},"reproducibility":"PASS"},
+  "predeclared_method":"rank-transform rounds, official SG TOTAL, and NEO score; residualize rounds and NEO score separately on official-SG rank; Pearson-correlate residuals.",
+  "rounds_vs_official_sg":"NOT_EVALUABLE_NO_SAFE_ALIGNED_OFFICIAL_SG_ROUND_DATA",
+  "official_sg_vs_v1":"NOT_EVALUABLE",
+  "official_sg_vs_v2b":"NOT_EVALUABLE",
+  "partial_association":{"V1":"NOT_EVALUABLE","V2B":"NOT_EVALUABLE"},
+  "within_skill_band":{"V1":"NOT_EVALUABLE","V2B":"NOT_EVALUABLE","bands":"predeclared quintiles if N supports"},
+  "underlying_score_test":"NOT_EVALUABLE",
+  "sample_reliability_effect":"Existing artifacts show V1/V2B include sample-reliability terms, but no decomposition dataset safely separates confidence from skill level.",
+  "negative_control":"NOT_EVALUABLE",
+  "permutation":{"status":"NOT_RUN_NO_SAFE_ALIGNED_DATA","seed":20260912,"permutations":1000},
+  "classification":"INSUFFICIENT_EVIDENCE",
+  "v2b_status":"MUST_REMAIN_BLOCKED",
+  "model_changes":false
+}
