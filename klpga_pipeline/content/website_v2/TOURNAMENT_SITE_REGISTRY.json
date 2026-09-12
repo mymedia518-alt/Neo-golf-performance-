@@ -98,8 +98,11 @@
         "r1",
         "r2",
         "r3",
+        "fr",
         "final"
       ],
+      "final_round_number": 4,
+      "_final_round_number_comment": "ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-v1-20260912): this tournament is a genuine FOUR competitive-round event, not three. Evidence: (1) the official R3 leaderboard raw capture (evidence/KB_2026090003_R3/KB_2026090003_R3_OFFICIAL_RAW_...html) carries its own '4R' column header (_orderType=\"round4score\") and every player row already has a data-round4score attribute (empty, pending); (2) OFFICIAL_KLPGA_SCHEDULE.json / KLPGA_2026_09_SCHEDULE_SCREENSHOT_EVIDENCE.json record this event running Thu 09.10-Sun 09.13 (4 days), matching 하나금융그룹 챔피언십's identical 4-day/1.5B-purse profile, versus the confirmed-3-round OK저축은행 웃맨오픈's Fri-Sun (3-day) span. This explicit field exists because the generic derivation in tournament_context.py (counting 'rN' entries already present in stage_order) mechanically undercounted this tournament as 3 rounds -- it only reflected how many round pages had been built so far, not the tournament's real round count. Setting this field explicitly overrides that fallback for THIS game_code only; every other tournament's context resolution is unaffected. Per the permanent NEO public-stage convention, competitive round 4 is publicly labeled 'FR' (Final Round), never 'r4' or 'FINAL' -- 'FINAL' is reserved for the distinct post-tournament result/validation stage that follows FR.",
       "_hub_card_comment": "LIVE FAILURE FIX: nav_stages honestly lists only the stage(s) actually published so far ([\"pre\", \"r1\"] -- confirmed real, R1 published via scripts/109_build_kb_r1_page.py + apply_public_site_lockdown.py's RELEASED_HTML_PATHS; KB has no r2/r3/final page yet). No display_name/status/date_range/result_line here (unlike a completed tournament's hub_card): those are resolved live from TournamentContext + the official schedule by scripts/86's tournament-hub builder for any entry that has nav_stages but no static facts, so this entry never goes stale as more real stages are built -- update nav_stages here (never the other static fields) once a stage is genuinely published.",
       "hub_card": {
         "nav_stages": ["pre", "r1"]

@@ -55,11 +55,16 @@ DOCS_INDEX = DOCS / "index.html"
 # Section 1: the REAL, currently-committed generated site.
 # ---------------------------------------------------------------------
 
-def test_real_kb_current_stage_resolves_to_r2():
+def test_real_kb_current_stage_resolves_to_r3():
+    """ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-
+    v1-20260912): a real, hash-verified R3 freeze now exists for
+    2026090003 (official evidence proved this tournament's true
+    final_round_number is 4 and R3 has genuinely concluded) --
+    kb_current_stage() correctly advances past r2."""
     from klpga.tournament_context import load_tournament_context
 
     context = load_tournament_context(GAME_CODE)
-    assert kb_current_stage(context) == "r2"
+    assert kb_current_stage(context) == "r3"
 
 
 def test_home_home_kb_equals_r2_while_r2_is_current():
@@ -102,20 +107,23 @@ def test_r2_to_pre_and_r2_to_r1_reachable_on_the_real_site():
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r1/">R1</a>' in html
 
 
-def test_r3_wait_page_existing_does_not_promote_home_to_r3():
-    """The R3 WAIT page file genuinely exists on disk (published
-    earlier this session) -- its mere existence must never promote
-    HOME/current-stage past R2, since no real R3 freeze evidence
-    exists yet."""
-    assert R3_WAIT_PAGE.is_file(), "test precondition: the R3 WAIT page must exist for this to be a real check"
+def test_r3_freeze_now_real_but_home_not_auto_resynced():
+    """ROUND-CONTEXT CORRECTION UPDATE: the R3 page at this path is now
+    the real, published R3 result page (not merely a WAIT page), backed
+    by a real, hash-verified R3 freeze -- kb_current_stage() correctly
+    reflects that. What this test actually still guards: a real freeze
+    existing does not, by itself, auto-rewrite HOME -- only an explicit
+    sync_root_home_to_current_stage() call does, and none was made in
+    this task's scope."""
+    assert R3_WAIT_PAGE.is_file(), "test precondition: the R3 page must exist for this to be a real check"
     from klpga.neo_win.r3_freeze import r3_freeze_exists
     from klpga.tournament_context import load_tournament_context
 
     context = load_tournament_context(GAME_CODE)
-    assert r3_freeze_exists(context) is False
-    assert kb_current_stage(context) == "r2"
+    assert r3_freeze_exists(context) is True
+    assert kb_current_stage(context) == "r3"
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">R3<' not in home_html
+    assert '"status">R3<' not in home_html  # HOME still shows R2 -- not auto-resynced
 
 
 def test_pre_and_r1_historical_content_untouched_by_the_sync():

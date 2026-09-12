@@ -1,9 +1,32 @@
 {
-  "gameCode": "2026090003",
+  "schema_version": "neo_r3_frozen_evidence_v1",
+  "game_code": "2026090003",
   "round": 3,
-  "r3_status": "CONFIRMED_COMPLETE",
-  "source_artifact": "KB_2026090003_R3_OFFICIAL_FINAL.json",
-  "r2_source_artifact": "2026090003_R2_FROZEN_EVIDENCE.json",
+  "official_source_identity": "klpga.co.kr roundLeaderboard (recapture, evidence/KB_2026090003_R3/)",
+  "official_source_url": null,
+  "collection_timestamp": "2026-09-12T07:54:28.948633+00:00",
+  "raw_official_response_sha256": "58b8db32104c4679d3f4e8f0704d0737095aa9d52c9ee11a1e1e9761a23ba1d9",
+  "parsed_canonical_sha256": "e0337687d2608dd222a11d83447539e814a166e0b2ad1b690771e79595bdf346",
+  "expected_field_count": 71,
+  "observed_player_count": 71,
+  "status_counts": {
+    "ACTIVE": 70,
+    "WD": 1,
+    "DQ": 0,
+    "DNS": 0
+  },
+  "wd_dq_dns_evidence": [
+    {
+      "player_id": "8881",
+      "status": "WD",
+      "evidence": "official R3 leaderboard row: explicit non-numeric status text overrides rank-999 sentinel (see leaderboard_parser.py status-precedence fix)"
+    }
+  ],
+  "feature_cutoff": "END_OF_R3",
+  "r2_freeze_artifact": "2026090003_R2_FROZEN_EVIDENCE.json",
+  "r2_freeze_sha256": "6f2916b5028ada11b1d01969392eb2686ee47ec837cb0001e374dff626bf39c4",
+  "code_commit": "c6ab49c1915b075febafedcc121c97e900e309f7",
+  "build_id": "20260912T000000Z_POST_R3",
   "records": [
     {
       "player_id": "11056",
@@ -12,8 +35,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": -4.0,
-      "r3_strokes": 68,
-      "total_strokes": 211
+      "made_cut": true
     },
     {
       "player_id": "11066",
@@ -22,8 +44,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": -4.0,
-      "r3_strokes": 68,
-      "total_strokes": 212
+      "made_cut": true
     },
     {
       "player_id": "9431",
@@ -32,8 +53,7 @@
       "r1_score_to_par": -2.0,
       "r2_score_to_par": -3,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 212
+      "made_cut": true
     },
     {
       "player_id": "9449",
@@ -42,8 +62,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": -2.0,
-      "r3_strokes": 70,
-      "total_strokes": 213
+      "made_cut": true
     },
     {
       "player_id": "10586",
@@ -52,8 +71,7 @@
       "r1_score_to_par": -5.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 213
+      "made_cut": true
     },
     {
       "player_id": "11770",
@@ -62,8 +80,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": -2.0,
-      "r3_strokes": 70,
-      "total_strokes": 214
+      "made_cut": true
     },
     {
       "player_id": "11134",
@@ -72,8 +89,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": 3.0,
-      "r3_strokes": 75,
-      "total_strokes": 214
+      "made_cut": true
     },
     {
       "player_id": "8386",
@@ -82,8 +98,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 214
+      "made_cut": true
     },
     {
       "player_id": "9389",
@@ -92,8 +107,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": -3,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 214
+      "made_cut": true
     },
     {
       "player_id": "10095",
@@ -102,8 +116,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": -3,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 214
+      "made_cut": true
     },
     {
       "player_id": "9082",
@@ -112,8 +125,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 215
+      "made_cut": true
     },
     {
       "player_id": "10081",
@@ -122,8 +134,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 215
+      "made_cut": true
     },
     {
       "player_id": "8811",
@@ -132,8 +143,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": -4.0,
-      "r3_strokes": 68,
-      "total_strokes": 215
+      "made_cut": true
     },
     {
       "player_id": "9426",
@@ -142,8 +152,7 @@
       "r1_score_to_par": -2.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 215
+      "made_cut": true
     },
     {
       "player_id": "11143",
@@ -152,8 +161,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": -3.0,
-      "r3_strokes": 69,
-      "total_strokes": 216
+      "made_cut": true
     },
     {
       "player_id": "9113",
@@ -162,8 +170,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 216
+      "made_cut": true
     },
     {
       "player_id": "11060",
@@ -172,8 +179,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": -3.0,
-      "r3_strokes": 69,
-      "total_strokes": 216
+      "made_cut": true
     },
     {
       "player_id": "9784",
@@ -182,8 +188,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 216
+      "made_cut": true
     },
     {
       "player_id": "10790",
@@ -192,8 +197,7 @@
       "r1_score_to_par": -2.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 216
+      "made_cut": true
     },
     {
       "player_id": "9111",
@@ -202,8 +206,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": -2.0,
-      "r3_strokes": 70,
-      "total_strokes": 217
+      "made_cut": true
     },
     {
       "player_id": "9134",
@@ -212,8 +215,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 217
+      "made_cut": true
     },
     {
       "player_id": "10296",
@@ -222,8 +224,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": -2.0,
-      "r3_strokes": 70,
-      "total_strokes": 217
+      "made_cut": true
     },
     {
       "player_id": "9391",
@@ -232,8 +233,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": 6.0,
-      "r3_strokes": 78,
-      "total_strokes": 217
+      "made_cut": true
     },
     {
       "player_id": "10097",
@@ -242,8 +242,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 218
+      "made_cut": true
     },
     {
       "player_id": "1521",
@@ -252,8 +251,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": -3.0,
-      "r3_strokes": 69,
-      "total_strokes": 218
+      "made_cut": true
     },
     {
       "player_id": "11649",
@@ -262,8 +260,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 218
+      "made_cut": true
     },
     {
       "player_id": "9487",
@@ -272,8 +269,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 218
+      "made_cut": true
     },
     {
       "player_id": "8392",
@@ -282,8 +278,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 218
+      "made_cut": true
     },
     {
       "player_id": "8589",
@@ -292,8 +287,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": -2.0,
-      "r3_strokes": 70,
-      "total_strokes": 219
+      "made_cut": true
     },
     {
       "player_id": "10022",
@@ -302,8 +296,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 219
+      "made_cut": true
     },
     {
       "player_id": "8234",
@@ -312,8 +305,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": -4,
       "r3_score_to_par": 3.0,
-      "r3_strokes": 75,
-      "total_strokes": 219
+      "made_cut": true
     },
     {
       "player_id": "11057",
@@ -322,8 +314,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": -3.0,
-      "r3_strokes": 69,
-      "total_strokes": 219
+      "made_cut": true
     },
     {
       "player_id": "8243",
@@ -332,8 +323,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 219
+      "made_cut": true
     },
     {
       "player_id": "9652",
@@ -342,8 +332,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 219
+      "made_cut": true
     },
     {
       "player_id": "8300",
@@ -352,8 +341,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 220
+      "made_cut": true
     },
     {
       "player_id": "9990",
@@ -362,8 +350,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 220
+      "made_cut": true
     },
     {
       "player_id": "8838",
@@ -372,8 +359,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 220
+      "made_cut": true
     },
     {
       "player_id": "1485",
@@ -382,8 +368,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 220
+      "made_cut": true
     },
     {
       "player_id": "9235",
@@ -392,8 +377,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 220
+      "made_cut": true
     },
     {
       "player_id": "9708",
@@ -402,8 +386,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 220
+      "made_cut": true
     },
     {
       "player_id": "8191",
@@ -412,8 +395,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 221
+      "made_cut": true
     },
     {
       "player_id": "9401",
@@ -422,8 +404,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": -1.0,
-      "r3_strokes": 71,
-      "total_strokes": 221
+      "made_cut": true
     },
     {
       "player_id": "8799",
@@ -432,8 +413,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 221
+      "made_cut": true
     },
     {
       "player_id": "11447",
@@ -442,8 +422,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 221
+      "made_cut": true
     },
     {
       "player_id": "8284",
@@ -452,8 +431,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 6.0,
-      "r3_strokes": 78,
-      "total_strokes": 221
+      "made_cut": true
     },
     {
       "player_id": "10725",
@@ -462,8 +440,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "8883",
@@ -472,8 +449,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": 0.0,
-      "r3_strokes": 72,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "10138",
@@ -482,8 +458,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "9752",
@@ -492,8 +467,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "9436",
@@ -502,8 +476,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "10698",
@@ -512,8 +485,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 2.0,
-      "r3_strokes": 74,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "10075",
@@ -522,8 +494,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 6.0,
-      "r3_strokes": 78,
-      "total_strokes": 222
+      "made_cut": true
     },
     {
       "player_id": "8859",
@@ -532,8 +503,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 223
+      "made_cut": true
     },
     {
       "player_id": "10726",
@@ -542,8 +512,7 @@
       "r1_score_to_par": 5.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 1.0,
-      "r3_strokes": 73,
-      "total_strokes": 223
+      "made_cut": true
     },
     {
       "player_id": "9702",
@@ -552,8 +521,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 3.0,
-      "r3_strokes": 75,
-      "total_strokes": 223
+      "made_cut": true
     },
     {
       "player_id": "9765",
@@ -562,8 +530,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 224
+      "made_cut": true
     },
     {
       "player_id": "10112",
@@ -572,8 +539,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 225
+      "made_cut": true
     },
     {
       "player_id": "10139",
@@ -582,8 +548,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": 5.0,
-      "r3_strokes": 77,
-      "total_strokes": 225
+      "made_cut": true
     },
     {
       "player_id": "10577",
@@ -592,8 +557,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 225
+      "made_cut": true
     },
     {
       "player_id": "8240",
@@ -602,8 +566,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 5.0,
-      "r3_strokes": 77,
-      "total_strokes": 225
+      "made_cut": true
     },
     {
       "player_id": "8840",
@@ -612,8 +575,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 226
+      "made_cut": true
     },
     {
       "player_id": "9145",
@@ -622,8 +584,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 226
+      "made_cut": true
     },
     {
       "player_id": "11926",
@@ -632,8 +593,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
-      "r3_strokes": 76,
-      "total_strokes": 226
+      "made_cut": true
     },
     {
       "player_id": "9183",
@@ -642,8 +602,7 @@
       "r1_score_to_par": 5.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 5.0,
-      "r3_strokes": 77,
-      "total_strokes": 227
+      "made_cut": true
     },
     {
       "player_id": "10002",
@@ -652,8 +611,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 7,
       "r3_score_to_par": 5.0,
-      "r3_strokes": 77,
-      "total_strokes": 227
+      "made_cut": true
     },
     {
       "player_id": "9723",
@@ -662,8 +620,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 7.0,
-      "r3_strokes": 79,
-      "total_strokes": 228
+      "made_cut": true
     },
     {
       "player_id": "11045",
@@ -672,8 +629,7 @@
       "r1_score_to_par": 7.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": 6.0,
-      "r3_strokes": 78,
-      "total_strokes": 228
+      "made_cut": true
     },
     {
       "player_id": "8318",
@@ -682,8 +638,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 7.0,
-      "r3_strokes": 79,
-      "total_strokes": 228
+      "made_cut": true
     },
     {
       "player_id": "9277",
@@ -692,8 +647,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 8.0,
-      "r3_strokes": 80,
-      "total_strokes": 228
+      "made_cut": true
     },
     {
       "player_id": "10727",
@@ -702,8 +656,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": 12.0,
-      "r3_strokes": 84,
-      "total_strokes": 234
+      "made_cut": true
     },
     {
       "player_id": "8881",
@@ -712,8 +665,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": null,
-      "r3_strokes": null,
-      "total_strokes": null
+      "made_cut": true
     }
   ]
 }

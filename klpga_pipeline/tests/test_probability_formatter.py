@@ -161,9 +161,20 @@ def test_real_r2_forecast_every_win_pct_formats_per_contract():
 
 
 # ---------------------------------------------------------------------
-# 7/8: HOME still resolves to R2; R3 WAIT does not promote it. Reuses
-# the real, currently-committed generated site -- proves the formatter
-# change didn't disturb the fb4f165 HOME routing contract.
+# 7/8: HOME (docs/index.html) is untouched by this session's real R3
+# freeze/forecast work -- proves the formatter change (and the
+# round-context correction, research/official-tournament-warehouse-v1-
+# 20260912) didn't disturb the fb4f165 HOME routing contract.
+#
+# ROUND-CONTEXT CORRECTION UPDATE: a real, hash-verified R3 freeze now
+# genuinely exists for 2026090003 (official evidence proved this
+# tournament's true final_round_number is 4, and the genuine R3 result
+# has concluded) -- kb_current_stage() correctly advances to "r3" to
+# reflect that real evidence. What these tests actually guard --
+# HOME's own docs/index.html staying byte-level R2 unless someone
+# explicitly calls sync_root_home_to_current_stage() -- remains true
+# and is asserted directly below; a real freeze existing does not, by
+# itself, auto-rewrite HOME.
 # ---------------------------------------------------------------------
 
 def test_7_home_still_resolves_to_r2():
@@ -171,7 +182,7 @@ def test_7_home_still_resolves_to_r2():
     from klpga.website_v2.kb_home_stage_router import kb_current_stage
 
     context = load_tournament_context("2026090003")
-    assert kb_current_stage(context) == "r2"
+    assert kb_current_stage(context) == "r3"
 
     from pathlib import Path
     repo_root = Path(__file__).resolve().parents[2]
@@ -193,6 +204,6 @@ def test_8_r3_wait_does_not_promote_home():
     repo_root = Path(__file__).resolve().parents[2]
     r3_wait_page = repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "r3" / "index.html"
     assert r3_wait_page.is_file()
-    assert r3_freeze_exists(context) is False
+    assert r3_freeze_exists(context) is True  # a real, hash-verified freeze now exists
     home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
-    assert '"status">R3<' not in home_html
+    assert '"status">R3<' not in home_html  # HOME still not resynced -- a deliberate, separate act

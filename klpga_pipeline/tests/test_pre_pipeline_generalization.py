@@ -57,10 +57,19 @@ def test_default_context_is_unchanged_from_load_active_tournament_context():
 
 
 def test_kb_context_resolves_from_schedule_and_registry_never_active_tournament_json():
+    """ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-
+    v1-20260912): final_round_number is 4, not 3 -- official evidence
+    (the R3 leaderboard's own 4R column/round4score attributes, plus
+    the official 4-day Thu-Sun schedule) proved this is a genuine
+    four-round event; see TOURNAMENT_SITE_REGISTRY.json's own
+    "_final_round_number_comment" for the full evidence trail. The
+    schedule/registry resolution path exercised by this test now reads
+    that explicit, evidence-backed override rather than mechanically
+    counting stage_order's rN entries."""
     ctx = load_tournament_context(KB_GAME_CODE)
     assert ctx.game_code == KB_GAME_CODE
     assert ctx.tournament_name == "KB금융 골든라이프 챔피언십"
-    assert ctx.final_round_number == 3
+    assert ctx.final_round_number == 4
     assert ctx.current_round_number == 0
     assert ctx.season == int(ctx.start_date[:4])
     # never the operationally-active tournament's own identity

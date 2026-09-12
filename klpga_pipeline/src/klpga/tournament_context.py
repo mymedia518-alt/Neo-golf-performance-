@@ -303,7 +303,24 @@ def _load_context_from_schedule_and_registry(game_code: str) -> TournamentContex
             "real official tournament_name/start_date/end_date are required, never fabricated"
         )
     stage_order = reg_entry.get("stage_order") or []
-    final_round_number = sum(1 for stage in stage_order if stage.startswith("r") and stage[1:].isdigit())
+    if "final_round_number" in reg_entry:
+        # EVIDENCE-BACKED OVERRIDE (round-context correction,
+        # research/official-tournament-warehouse-v1-20260912): counting
+        # "rN" stages already present in stage_order only tells you how
+        # many round pages have been BUILT so far, not the tournament's
+        # true round count -- a tournament whose 4th round hasn't been
+        # published yet mechanically undercounts as 3 (see
+        # TOURNAMENT_SITE_REGISTRY.json's own
+        # "_final_round_number_comment" for 2026090003, the real
+        # incident this guards against). A registry entry that has
+        # already recorded a real, evidence-backed round count wins
+        # over the mechanical count. Every tournament that does NOT set
+        # this field keeps the exact prior counting behavior below --
+        # this is additive, never a behavior change for an entry that
+        # omits it.
+        final_round_number = int(reg_entry["final_round_number"])
+    else:
+        final_round_number = sum(1 for stage in stage_order if stage.startswith("r") and stage[1:].isdigit())
     if final_round_number == 0:
         raise TournamentContextError(
             f"TOURNAMENT_SITE_REGISTRY.json entry for game_code={game_code!r} has no r<N> "

@@ -74,14 +74,24 @@ STATUS_LABEL = {"ACTIVE": "", "CUT": "CUT", "WD": "WD", "DQ": "DQ", "DNS": "DNS"
 ADVANCING_STATUS = "ACTIVE"
 
 NEXT_UPDATE_NOTICE = "R3 종료 후 업데이트"
-"""KB 2026090003's real, confirmed final_round_number is 3 -- R3 is
-this tournament's LAST competitive round (see post_r3_forecast.py's
-own remaining_rounds<1 handling and scripts/114's R3-is-the-final-round
-branch). The next public transition off this R2 page therefore happens
-after R3 completes, straight toward FINAL/result validation -- there is
-no POST-R3 win forecast to publish (nothing would remain to forecast).
-This notice is a static fact about the tournament's round shape, never
-computed from a live countdown or a guessed schedule. Reuses the
+"""ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-v1-
+20260912): an earlier session incorrectly treated KB 2026090003's
+final_round_number as 3 ("R3 is this tournament's LAST competitive
+round"). Official evidence (the R3 leaderboard's own '4R' column +
+round4score attributes, plus the official 4-day Thu-Sun schedule)
+proves this is a genuine FOUR competitive-round event -- see
+TOURNAMENT_SITE_REGISTRY.json's "_final_round_number_comment" for the
+full evidence trail. R3 is NOT this tournament's final round; the true
+final competitive round is publicly labeled "FR" (never "r4" or
+"FINAL" -- see the NEO public-stage convention PRE/R1/R2/R3/FR/FINAL).
+
+The notice text itself ("R3 종료 후 업데이트") remains correct regardless
+of this correction -- R2's own next public transition genuinely is R3,
+whether or not R3 turns out to be the tournament's last round. What was
+wrong was the REASONING that no POST-R3 forecast would ever exist; a
+genuine POST-R3 -> FR forecast is now built (see post_r3_forecast.py)
+once R3 concludes. This notice is a static fact about what page comes
+next, never computed from a live countdown or a guessed schedule. Reuses the
 existing `.note` class (already styled subtly -- see neo.css's
 `.meta,.note{color:var(--muted);font-size:14px}`) so no CSS change is
 needed; `next-update-note` is a second, purely semantic class -- a
