@@ -1,0 +1,26 @@
+{
+  "schema": "NEO_CALIBRATION_LEDGER_V1",
+  "append_only": true,
+  "required_fields": [
+    "gameCode",
+    "forecast_stage",
+    "forecast_timestamp",
+    "forecast_artifact_sha",
+    "model_version",
+    "model_commit",
+    "input_cutoff",
+    "simulation_count",
+    "playerCode",
+    "WIN",
+    "TOP5",
+    "TOP10",
+    "TOP20",
+    "CUT_probability",
+    "official_final_outcome",
+    "outcome_source",
+    "outcome_artifact_sha",
+    "validation_metrics",
+    "validation_timestamp"
+  ],
+  "immutability": "historical rows are never rewritten"
+}
