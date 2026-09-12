@@ -1,0 +1,1 @@
+{"status":"PARTIAL","evidence":"Existing leaderboard parser preserves data-inghole as an observed source attribute; no verified finishHole semantic fixture was found.","rule":"Do not treat ingHole alone as completed-hole count."}

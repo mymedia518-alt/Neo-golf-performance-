@@ -1,0 +1,17 @@
+{
+  "population_completeness": "UNVERIFIED",
+  "sampled_gameCodes": [
+    "2023090001",
+    "2023090002",
+    "2023090003"
+  ],
+  "source_family_counts": {
+    "scoreRecord": 3,
+    "tourInfo": 0,
+    "entry": 0,
+    "group": 0,
+    "mainRecord": 0,
+    "liveMap": 0
+  },
+  "real_rows": 348
+}
