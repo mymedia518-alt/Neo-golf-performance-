@@ -1,0 +1,29 @@
+{
+  "model_id": "neo-ranking-validation-v1",
+  "frozen_as": "NEO_RANKING_V1_FROZEN",
+  "status": "HEURISTIC_FOR_EVALUATION_NOT_FITTED_OR_APPROVED",
+  "role": "control -- never changed after this freeze; every V2A/V2B comparison in this phase is measured against this exact, unmodified formula",
+  "source_config_file": "NEO_RANKING_VALIDATION_MODEL_V1.json",
+  "source_code": [
+    "klpga.website_v2.top120_validation.evaluate",
+    "klpga.website_v2.neo_ranking_backtest.run_backtest",
+    "klpga.website_v2.home_ranking.build_features"
+  ],
+  "formula": {
+    "eligibility": {"minimum_sg_events": 10, "identity_validation": "PASS"},
+    "features": {
+      "recent_5_sg": {"weight": 0.35, "transform": "cohort_zscore"},
+      "recent_10_sg": {"weight": 0.25, "transform": "cohort_zscore"},
+      "long_term_sg": {"weight": 0.25, "transform": "cohort_zscore"},
+      "consistency": {"weight": 0.10, "source": "negative_volatility", "transform": "cohort_zscore"},
+      "sample_reliability": {"weight": 0.05, "transform": "min(sample_count / 20, 1)"}
+    },
+    "rank_rule": "descending validation_score, then player_id"
+  },
+  "known_blockers_at_freeze_time": {
+    "A_exposure_bias": "Spearman(official_sg_rounds, NEO_rank) = -0.358 (dac6a09, NEO_EXPOSURE_BIAS_AUDIT.json); 43.6% of consumed observations are single-round-only totals averaged identically with full 4-round totals (2026-09-12 NEO Ranking Publication Validation report, Section 4)",
+    "B_cohort_zscore_dependency": "swapping one unrelated player in the TOP120 pool changed 13.1% of otherwise-unaffected players' ranks (2026-09-12 NEO Ranking Publication Validation report, Section 13)"
+  },
+  "frozen_at": "2026-09-12, start of NEO_RANKING_FINAL_VALIDATION_DEPLOYMENT_CANDIDATE phase",
+  "not_modified_in_this_phase": true
+}
