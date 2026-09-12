@@ -237,6 +237,12 @@ def parse_round_leaderboard_html(
         detail = _find_detail_tag(row)
 
         rank_display, rank_numeric, tie_flag, status = parse_rank(_attr(row, "data-rank"))
+        # Explicit disposition text is stronger evidence than the site's
+        # rank=999 incomplete sentinel.  Preserve the raw rank but classify
+        # the player as WD/DQ/CUT when the official row visibly supplies it.
+        explicit_status = next((s for s in ("WD", "DQ", "CUT", "DNS") if re.search(rf"\b{s}\b", row.get_text(" ", strip=True), re.I)), None)
+        if explicit_status:
+            status = explicit_status
 
         # CONFIRMED live, 2026-08-24: when data-rank is the "999"
         # sentinel (status == "INCOMPLETE"), data-totunderpar /
