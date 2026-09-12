@@ -1,0 +1,54 @@
+{
+  "schema": "NEO_VALIDATION_FRAMEWORK_V1",
+  "status": "READY_TO_FREEZE",
+  "layers": {
+    "A_skill_validation": {
+      "independent_reference": "official KLPGA SG",
+      "metrics": [
+        "Pearson",
+        "Spearman",
+        "MAE",
+        "RMSE",
+        "skill-controlled exposure"
+      ]
+    },
+    "B_predictive_validation": {
+      "method": "strict walk-forward",
+      "targets": [
+        "next round",
+        "next 3 rounds",
+        "next 5 rounds"
+      ],
+      "future_leakage": "forbidden"
+    },
+    "C_probability_validation": {
+      "targets": [
+        "WIN",
+        "TOP5",
+        "TOP10",
+        "TOP20",
+        "CUT"
+      ],
+      "metrics": [
+        "Brier",
+        "log loss",
+        "calibration",
+        "reliability bins",
+        "ranking discrimination"
+      ],
+      "freeze_before_outcome": true
+    }
+  },
+  "principles": [
+    "round count is not a skill bonus",
+    "sample size primarily affects uncertainty",
+    "skill/exposure separately validated",
+    "walk-forward prediction",
+    "immutable forecasts",
+    "postmortems do not rewrite forecasts",
+    "new candidates require new out-of-sample evidence"
+  ],
+  "provenance": {
+    "audit_sha256": "37d1fa53af0e942aebba3cab1d2fdc6efad7d51585b527985dcf4884a53b63c7"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "NEO_EXPOSURE_GATE_V2_PROPOSAL",
+  "status": "PREDECLARED_NOT_APPLIED",
+  "purpose": "test mechanical exposure after independent SG control",
+  "unit": "player with official SG total and measured rounds joined by playerCode",
+  "statistic": "standardized measured-round coefficient in NEO score ~ official SG + measured rounds, plus residual exposure correlation",
+  "threshold_rationale": "must be frozen before any V2B retest; no threshold applied in this run",
+  "minimum_N": ">=100 aligned players",
+  "failure_condition": "material positive exposure coefficient reproducibly exceeds frozen threshold in both score and residual diagnostics",
+  "insufficient_evidence_condition": "N below minimum, round semantics unclear, or confidence interval crosses practical-null region",
+  "procedure": "use dac6a09 official SG snapshot; rank-transform/standardize; run regression, residual, predeclared quintiles, matched pairs, seeded permutation seed 20260912/1000; do not retest V2B here"
+}
