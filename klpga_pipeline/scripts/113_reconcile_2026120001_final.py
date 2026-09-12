@@ -17,7 +17,7 @@ def main():
  z=zipfile.ZipFile(ZIP); allrows=[]; manifest=[]
  for n in range(3):
   fn=f'leaderboard-{n}.html'; b=z.read(fn); manifest.append({'file':fn,'round':n+1,'sha256':hashlib.sha256(b).hexdigest(),'source_type':'official_scoreRecord_archived'})
-  seen={(r['playerCode'],r['round']) for r in allrows}; allrows += [r for r in rows(b,n+1) if (r['playerCode'],r['round']) not in seen]
+  seen={(r['playerCode'],r['round']) for r in allrows}; batch=rows(b,n+1); allrows += [r for i,r in enumerate(batch) if (r['playerCode'],r['round']) not in seen and not any((q['playerCode'],q['round'])==(r['playerCode'],r['round']) for q in batch[:i])]
  r1=json.loads((WT/'content/website_v2/OK_OPEN_2026_R1_LIVE_SNAPSHOT.json').read_text(encoding='utf-8'))
  codes=sorted({str(p.get('player_id')) for p in r1.get('leaderboard',[]) if p.get('player_id')} | {r['playerCode'] for r in allrows}); final={c:{'playerCode':c,'rounds':[r['round'] for r in allrows if r['playerCode']==c],'status':next((r['status'] for r in reversed(allrows) if r['playerCode']==c and r['status']), 'OTHER_OFFICIAL_STATUS')} for c in codes}
  counts={}
