@@ -1,0 +1,25 @@
+{
+  "gameCode": "2026120001",
+  "source_manifest": [
+    {
+      "file": "leaderboard-0.html",
+      "round": 1,
+      "sha256": "8e990993f8500ba7758e6ce55e1390d32ef39677c8e4dc6a6219d735923f60da",
+      "source_type": "official_scoreRecord_archived"
+    },
+    {
+      "file": "leaderboard-1.html",
+      "round": 2,
+      "sha256": "0e5d40f2ca51c2c0fc73f643a8fb11523d1e010aaddec1b5331eeddffa629c7b",
+      "source_type": "official_scoreRecord_archived"
+    },
+    {
+      "file": "leaderboard-2.html",
+      "round": 3,
+      "sha256": "3e60c15e9fcbc3e0baf6bba254dd728d3826df5aeda3b91974cb1f26b9d0371f",
+      "source_type": "official_scoreRecord_archived"
+    }
+  ],
+  "players": [],
+  "status_counts": {}
+}
