@@ -30,8 +30,18 @@ def test_header_carries_the_exact_8_column_contract_win_last_no_sg():
     html = _fixture_html(records=[])
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     labels = re.findall(r"<th>([^<]*)</th>", header)
-    assert labels == ["순위", "선수", "합계", "3R", "Top5", "Top10", "Top20", "우승"]
+    assert labels == ["순위", "선수", "합계", "3R", "Top20", "Top10", "Top5", "우승"]
     assert "SG" not in html
+
+
+def test_header_groups_r3_outcome_and_r2_prediction_separately():
+    """R3 FINAL WEB DRY-RUN task: any R2 probability shown on R3's page
+    must be visually grouped/labeled as historical prediction, never
+    mixed with R3's own real outcome columns."""
+    html = _fixture_html(records=[])
+    header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
+    assert '<th colspan="4">R3 결과 (공식)</th>' in header
+    assert '<th colspan="4">R2 종료 후 예측</th>' in header
 
 
 def test_uses_the_established_house_leaderboard_class():

@@ -130,6 +130,7 @@ def render_final_candidate_page(
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/pre/">사전 분석 PRE</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r1/">R1</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r2/">R2</a></li>'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r3/">R3</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/final/" aria-current="page">FINAL</a></li>'
         '</ol></nav>'
         '<section class="panel leaderboard-panel" id="final">'
@@ -139,8 +140,7 @@ def render_final_candidate_page(
         "<tr><th>순위</th><th>선수</th><th>합계</th><th>R3</th>"
         "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th></tr>"
         "</thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
-        + f'<p class="note">총 {len(records)}명 (공식 FINAL 결과)</p>'
-        + f'<p class="note">TOP20/TOP10/TOP5/우승 열은 {HISTORICAL_PREDICTION_LABEL}값이며, 결과를 알고 다시 계산한 값이 아닙니다.</p>'
+        + f'<p class="note">총 {len(records)}명</p>'
         + "</section>"
     )
 

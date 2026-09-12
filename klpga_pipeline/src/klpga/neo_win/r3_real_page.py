@@ -41,18 +41,40 @@ score, never a separately fabricated number.
 
 Sponsor invariant preserved exactly (render_player_identity, same as R2).
 
-Public main table columns (WIN last, no SG):
-  순위 | 선수 | 합계 | 3R | Top5 | Top10 | Top20 | 우승
+Public main table columns (WIN last, no SG), grouped under two header
+bands (R3 FINAL WEB DRY-RUN task, section 1/5 -- R3 is a real public
+stage in its own right, and any R2 probability shown here is frozen
+HISTORICAL prediction, never a new R3-based forecast, so it must never
+share a header band with R3's own real outcome columns):
+  R3 결과 (공식): 순위 | 선수 | 합계 | 3R
+  R2 종료 후 예측: Top20 | Top10 | Top5 | 우승
+Column order/labeling matches klpga.neo_win.r2_real_page and
+klpga.neo_win.final_real_page exactly (TOP20/TOP10/TOP5, WIN last).
+
+`forecast` is deliberately whatever the caller's own frozen prediction
+artifact is -- for KB (final_round_number=3), that is R2's OWN frozen
+forecast (klpga.neo_win.post_r2_forecast), since post_r3_forecast
+correctly refuses to produce anything once remaining_rounds<1. This
+module never computes a new probability itself either way; it only ever
+carries through whatever `forecast` dict it is given, under the fixed
+"R2 종료 후 예측" label.
 
 Stage navigation once R3 is published: PRE/R1/R2 clickable, R3 current
 (aria-current), FINAL disabled -- FINAL only activates once the
-tournament actually finishes, never here.
+tournament actually finishes and a human has separately approved
+publication (klpga.neo_win.final_publication_gate), never merely
+because this page exists.
 """
 from __future__ import annotations
 
+import re
+
 from klpga.website_v2.global_navigation import inject_global_navigation
 from klpga.website_v2.player_identity import render_player_identity
+from klpga.website_v2.probability_format import format_public_probability
 from klpga.website_v2.shell import breadcrumb_html
+
+HISTORICAL_PREDICTION_LABEL = "R2 종료 후 예측"
 
 EMPTY_MARK = "—"
 STAGE_READY_META = '<meta name="neo-stage-publication-ready" content="true">'
@@ -74,9 +96,15 @@ def _to_par_display(raw) -> str:
 
 
 def _pct_display(v) -> str:
+    """R3 FINAL WEB DRY-RUN task: switched from a plain one-decimal
+    format to the SAME shared formatter R2/FINAL already use
+    (0 -> "0%", 0<p<0.1 -> "<0.1%", else one decimal) -- the identical
+    R2 forecast value must render identically on every page that shows
+    it, never differently depending on which stage's page happens to be
+    displaying it."""
     if v is None:
         return EMPTY_MARK
-    return f"{float(v):.1f}%"
+    return format_public_probability(v)
 
 
 def _total_to_par(row: dict):
@@ -169,9 +197,9 @@ def render_r3_real_page(
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
             f"<td data-label='합계'>{_to_par_display(_total_to_par(row))}</td>"
             f"<td data-label='3R'>{_to_par_display(row.get('r3_score_to_par'))}</td>"
-            + _cell(fc["top5_pct"] if fc else None, "Top5")
-            + _cell(fc["top10_pct"] if fc else None, "Top10")
             + _cell(fc["top20_pct"] if fc else None, "Top20")
+            + _cell(fc["top10_pct"] if fc else None, "Top10")
+            + _cell(fc["top5_pct"] if fc else None, "Top5")
             + _cell(fc["win_pct"] if fc else None, "우승")
             + "</tr>"
         )
@@ -191,10 +219,11 @@ def render_r3_real_page(
         '</ol></nav>'
         '<section class="panel leaderboard-panel" id="r3">'
         '<div class="leaderboard-head"><h2>3R 결과</h2></div>'
-        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead><tr>'
-        "<th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
-        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
-        "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
+        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead>'
+        f'<tr><th colspan="4">R3 결과 (공식)</th><th colspan="4">{HISTORICAL_PREDICTION_LABEL}</th></tr>'
+        "<tr><th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
+        "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th></tr>"
+        "</thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
         + f'<p class="note">총 {len(advancing_records)}명</p>'
         + "</section>"
     )
@@ -219,3 +248,42 @@ def render_r3_real_page(
 
 def is_real_page(html: str) -> bool:
     return STAGE_READY_META in html and "leaderboard-table--r2-full" in html
+
+
+_ROW_RE = re.compile(
+    r"<tr data-player-id='(?P<pid>[^']+)'>"
+    r"<td data-label='순위'>(?P<rank>.*?)</td>"
+    r"<th scope='row' data-label='선수'>(?P<identity>.*?)</th>"
+    r"<td data-label='합계'>(?P<total>.*?)</td>"
+    r"<td data-label='3R'>(?P<r3>.*?)</td>"
+    r"<td[^>]*data-label='Top20'>(?P<top20>.*?)</td>"
+    r"<td[^>]*data-label='Top10'>(?P<top10>.*?)</td>"
+    r"<td[^>]*data-label='Top5'>(?P<top5>.*?)</td>"
+    r"<td[^>]*data-label='우승'>(?P<win>.*?)</td>"
+    r"</tr>",
+    re.DOTALL,
+)
+_SPONSOR_RE = re.compile(r"<span class='player-sponsor'>(?P<sponsor>.*?)</span>")
+
+
+def parse_r3_real_page(html: str) -> list[dict]:
+    """Reads a rendered R3 page back into per-player dicts -- the same
+    mechanism klpga.neo_win.final_real_page.parse_final_candidate_page
+    provides for FINAL, used for rendered-output QA and regression
+    tests. Never guesses a field it cannot find."""
+    rows = []
+    for m in _ROW_RE.finditer(html):
+        sponsor_m = _SPONSOR_RE.search(m.group("identity"))
+        rows.append({
+            "player_id": m.group("pid"),
+            "rank": m.group("rank"),
+            "total_display": m.group("total"),
+            "r3_display": m.group("r3"),
+            "top20_display": m.group("top20"),
+            "top10_display": m.group("top10"),
+            "top5_display": m.group("top5"),
+            "win_display": m.group("win"),
+            "sponsor": (sponsor_m.group("sponsor") if sponsor_m else ""),
+            "has_status_badge": "status-badge" in m.group("identity"),
+        })
+    return rows

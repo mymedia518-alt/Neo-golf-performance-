@@ -42,8 +42,11 @@ from klpga.neo_win.final_real_page import (
     parse_final_candidate_page,
     render_final_candidate_page,
 )
+from klpga.neo_win.r3_freeze import build_r3_frozen_evidence, r3_freeze_exists, verify_r3_freeze_hash, write_r3_freeze_immutable
+from klpga.neo_win.r3_real_page import is_real_page as is_r3_real_page, parse_r3_real_page, render_r3_real_page
 from klpga.neo_win.r3_result_input import (
     build_final_validation_dataset,
+    build_r3_frozen_records,
     extract_r3_official_result,
     validate_r3_result,
 )
@@ -268,8 +271,9 @@ def test_sponsor_slot_present_when_known_and_blank_never_guessed_when_unknown(dr
 
 
 # ---------------------------------------------------------------------
-# Section 9: HOME transition dry run -- STATE A / STATE B, entirely on
-# isolated synthetic contexts. Never touches the real KB repo.
+# Section 6/9: HOME transition dry run -- the full STATE A / B / C / D
+# sequence, entirely on isolated synthetic contexts. Never touches the
+# real KB repo. Proves file existence ALONE can never skip R3.
 # ---------------------------------------------------------------------
 
 @pytest.fixture
@@ -291,30 +295,69 @@ def home_router_synth(tmp_path, monkeypatch):
     return context, repo_root, content_dir
 
 
-def test_state_a_home_stays_r2_when_only_a_final_candidate_json_exists(home_router_synth):
-    """Section 9's own explicit requirement: a FINAL candidate JSON (or
-    even a rendered FINAL HTML file) existing on disk must NEVER by
-    itself promote HOME -- publication evidence must be a real, separate
-    gate."""
+def _write_minimal_r3_freeze(context, repo_root) -> None:
+    """The minimal real write path to make r3_freeze_exists(context) and
+    verify_r3_freeze_hash(context) both true -- used to move a synthetic
+    context from STATE B/C into a place where STATE D can be tested."""
+    r2_freeze_path = context.artifact_path("r2_frozen_evidence")
+    r2_freeze_path.parent.mkdir(parents=True, exist_ok=True)
+    r2_freeze_path.write_text('{"records": []}', encoding="utf-8")
+    evidence = build_r3_frozen_evidence(
+        context=context, official_source_identity="test", official_source_url=None,
+        collection_timestamp="2099-01-03T00:00:00Z", raw_official_response=b"[]",
+        records=[{"player_id": "p1", "player_name": "P", "status": "ACTIVE",
+                  "r1_score_to_par": -1, "r2_score_to_par": -1, "r3_score_to_par": 0}],
+        expected_field_count=1, status_counts={"ACTIVE": 1}, wd_dq_dns_evidence=[],
+        r2_freeze_path=r2_freeze_path, repo_root=repo_root, build_id="TESTB1",
+    )
+    write_r3_freeze_immutable(context, evidence)
+    assert r3_freeze_exists(context) and verify_r3_freeze_hash(context)
+
+
+def test_state_a_r2_current_before_any_official_r3_result(home_router_synth):
+    """STATE A: nothing R3-related exists yet -- HOME stays at R2."""
     context, repo_root, content_dir = home_router_synth
+    assert r3_freeze_exists(context) is False
+    assert final_published_evidence_exists(context) is False
+    assert kb_current_stage(context) not in ("r3", "final")
+
+
+def test_state_b_validated_official_r3_result_makes_r3_current(home_router_synth):
+    """STATE B: a real, hash-verified R3 freeze exists (mirroring a
+    genuine official-result collection+validation pass) -- R3 becomes
+    current, never skipped straight to FINAL."""
+    context, repo_root, content_dir = home_router_synth
+    _write_minimal_r3_freeze(context, repo_root)
+    assert kb_current_stage(context) == "r3"
+
+
+def test_state_c_final_candidate_alone_never_advances_past_r3(home_router_synth):
+    """STATE C: a FINAL candidate JSON (or even a rendered FINAL HTML
+    file) existing on disk -- both produced automatically the instant
+    validation passes, long before any human approval -- must NEVER by
+    itself promote past R3. Section 1/6's own explicit requirement."""
+    context, repo_root, content_dir = home_router_synth
+    _write_minimal_r3_freeze(context, repo_root)
     candidate_path = context.artifact_path("final_validation_candidate")
     candidate_path.write_text(json.dumps({"records": []}), encoding="utf-8")
     assert final_published_evidence_exists(context) is False
-    assert kb_current_stage(context) != "final"
+    assert kb_current_stage(context) == "r3"
 
-    # Also write a real-looking rendered FINAL HTML file at the stage
-    # path HOME-sync would read from -- still must not promote.
     final_page = repo_root / "docs" / "tournaments" / "2099" / "SYNHOME01" / "final" / "index.html"
     final_page.parent.mkdir(parents=True, exist_ok=True)
     final_page.write_text("<html><body><main><strong class=\"status\">FINAL</strong></main></body></html>", encoding="utf-8")
-    assert kb_current_stage(context) != "final"
+    assert kb_current_stage(context) == "r3"  # still r3 -- the FINAL HTML file's mere existence changes nothing
 
 
-def test_state_b_home_advances_to_final_only_after_the_real_publication_gate_passes(home_router_synth):
+def test_state_d_explicit_final_publication_approval_makes_final_current(home_router_synth):
+    """STATE D: R3 evidence exists AND a real, hash-bound
+    final_published_evidence artifact exists -- only now does FINAL
+    become current."""
     context, repo_root, content_dir = home_router_synth
+    _write_minimal_r3_freeze(context, repo_root)
     candidate_path = context.artifact_path("final_validation_candidate")
     candidate_path.write_text(json.dumps({"records": []}), encoding="utf-8")
-    assert kb_current_stage(context) != "final"
+    assert kb_current_stage(context) == "r3"
 
     evidence = build_final_published_evidence(context, approved_by="TEST_HUMAN_APPROVER")
     evidence_path = context.artifact_path("final_published_evidence")
@@ -336,12 +379,27 @@ def test_state_b_home_advances_to_final_only_after_the_real_publication_gate_pas
     assert "final-body-marker" in home_html
 
 
+def test_final_published_evidence_alone_without_r3_freeze_never_promotes_home(home_router_synth):
+    """RED TEAM (section 6/17): even a hypothetical stray/miswritten
+    final_published_evidence, with NO real R3 freeze behind it at all,
+    must never promote HOME past R2 -- R3 evidence is a hard,
+    structural prerequisite for "final", not just a convention."""
+    context, repo_root, content_dir = home_router_synth
+    candidate_path = context.artifact_path("final_validation_candidate")
+    candidate_path.write_text(json.dumps({"records": []}), encoding="utf-8")
+    evidence = build_final_published_evidence(context, approved_by="TEST_HUMAN_APPROVER")
+    context.artifact_path("final_published_evidence").write_text(json.dumps(evidence, ensure_ascii=False), encoding="utf-8")
+    assert r3_freeze_exists(context) is False
+    assert kb_current_stage(context) != "final"
+
+
 def test_stale_final_published_evidence_never_matches_a_regenerated_candidate(home_router_synth):
     """Section 17 red team: a candidate regenerated after evidence was
     written (e.g. R3 result corrected) must invalidate the old
     evidence's hash binding -- never let a stale approval silently
     cover a different candidate."""
     context, repo_root, content_dir = home_router_synth
+    _write_minimal_r3_freeze(context, repo_root)
     candidate_path = context.artifact_path("final_validation_candidate")
     candidate_path.write_text(json.dumps({"records": []}), encoding="utf-8")
     evidence = build_final_published_evidence(context, approved_by="TEST_HUMAN_APPROVER")
@@ -351,6 +409,7 @@ def test_stale_final_published_evidence_never_matches_a_regenerated_candidate(ho
     candidate_path.write_text(json.dumps({"records": [{"changed": True}]}), encoding="utf-8")
     assert verify_final_published_hash(context) is False
     assert kb_current_stage(context) != "final"
+    assert kb_current_stage(context) == "r3"  # falls back to r3, never further back than the real evidence supports
 
 
 def test_real_kb_current_stage_is_still_r2_unaffected_by_this_task():
@@ -460,12 +519,19 @@ def test_desktop_and_mobile_share_identical_markup_and_data_label_contract(dry_r
 # Section 14: navigation.
 # ---------------------------------------------------------------------
 
-def test_navigation_pre_r1_r2_final_present_with_correct_hrefs(dry_run_html_and_candidate):
+def test_navigation_pre_r1_r2_r3_final_present_with_correct_hrefs(dry_run_html_and_candidate):
+    """Section 1: PRE -> R1 -> R2 -> R3 -> FINAL -- R3 must never be
+    collapsed out of the public stage progression."""
     html, _candidate = dry_run_html_and_candidate
     assert f'href="/tournaments/2026/{SYN_GAME_CODE}/pre/"' in html
     assert f'href="/tournaments/2026/{SYN_GAME_CODE}/r1/"' in html
     assert f'href="/tournaments/2026/{SYN_GAME_CODE}/r2/"' in html
+    assert f'href="/tournaments/2026/{SYN_GAME_CODE}/r3/"' in html
     assert f'href="/tournaments/2026/{SYN_GAME_CODE}/final/" aria-current="page"' in html
+    # FINAL is aria-current only on FINAL's own page; R3's own link here
+    # must never itself carry aria-current (that would mean two "current"
+    # stages at once).
+    assert f'href="/tournaments/2026/{SYN_GAME_CODE}/r3/" aria-current="page"' not in html
 
 
 # ---------------------------------------------------------------------
@@ -641,7 +707,11 @@ def test_run_end_to_end_dry_run_produces_final_candidate_and_web_qa_pass(script1
     assert result["final_web_qa_passed"] is True
     assert result["production_deployed"] is False
     assert result["final_published_evidence_written"] is False
-    assert result["home_still_r2"] is True
+    assert result["home_synced_by_this_script"] is False
+    # R3 is a real, freezable stage BEFORE FINAL exists -- the router
+    # must now resolve "r3" for this context (never skipped to "final",
+    # since no final_published_evidence was ever written by run()).
+    assert result["kb_current_stage_after_this_run"] == "r3"
 
     web_path = Path(result["final_web_candidate_path"])
     assert web_path.is_file()
@@ -650,9 +720,25 @@ def test_run_end_to_end_dry_run_produces_final_candidate_and_web_qa_pass(script1
     rendered = parse_final_candidate_page(html)
     assert len(rendered) == 71
 
+    r3_web_path = Path(result["r3_web_candidate_path"])
+    assert r3_web_path.is_file()
+    assert "docs" not in r3_web_path.parts
+    r3_html = r3_web_path.read_text(encoding="utf-8")
+    assert is_r3_real_page(r3_html)
+    r3_rendered = parse_r3_real_page(r3_html)
+    assert len(r3_rendered) == 70  # 71 R2-ACTIVE minus the 1 WD in this fixture
+
+    from klpga.neo_win.r3_freeze import r3_freeze_exists as _r3_exists, verify_r3_freeze_hash as _r3_verify
+    assert _r3_exists(context) and _r3_verify(context)
+
     candidate = json.loads(Path(result["candidate_path"]).read_text(encoding="utf-8"))
     assert candidate["post_r3_win_forecast_generated"] is False
     assert not final_published_evidence_exists(context)  # never auto-approved
+
+    # Re-running the exact same command again must be safe (idempotent
+    # R3 freeze re-use, never a crash, never a second freeze attempt).
+    result2 = module.run(game_code="SYNRUN01")
+    assert result2["action"] == "FINAL_CANDIDATE_READY", result2
 
 
 def test_run_hard_stops_if_rendered_html_ever_disagrees_with_the_candidate_json(script117_synth, monkeypatch):
@@ -698,3 +784,154 @@ def test_run_never_writes_under_docs_and_never_writes_publication_evidence(scrip
     after = subprocess.run(["git", "status", "--short"], capture_output=True, text=True, cwd=str(REPO_ROOT)).stdout
     assert before == after, "run() must leave the real tracked repository untouched"
     assert final_published_evidence_exists(context) is False
+
+
+# ---------------------------------------------------------------------
+# Section 8: permanent regression tests against the specific real-review
+# failures raised on this preview (RED TEAM: VISUAL PREVIEW FAIL).
+# ---------------------------------------------------------------------
+
+def test_regression_r3_stage_never_disappears_regardless_of_final_round_number(home_router_synth):
+    """A tournament whose final_round_number is 3 must NOT collapse R3
+    out of the public stage progression -- R3 is a distinct stage from
+    FINAL, always, never merely a synonym for "the last round"."""
+    context, repo_root, content_dir = home_router_synth
+    assert context.final_round_number == 3
+    assert "r3" in context.stage_order
+    assert "final" in context.stage_order
+    assert context.stage_order.index("r3") < context.stage_order.index("final")
+    _write_minimal_r3_freeze(context, repo_root)
+    assert kb_current_stage(context) == "r3"  # reachable on its own, distinct from "final"
+
+
+def test_regression_r3_result_never_automatically_becomes_final(home_router_synth):
+    """A validated R3 freeze existing is NOT, by itself, a FINAL
+    publication -- FINAL requires its own separate, explicit,
+    human-approved evidence every time."""
+    context, repo_root, content_dir = home_router_synth
+    _write_minimal_r3_freeze(context, repo_root)
+    assert kb_current_stage(context) == "r3"
+    assert final_published_evidence_exists(context) is False
+    # Even a FINAL candidate existing on top of the real R3 freeze changes nothing:
+    context.artifact_path("final_validation_candidate").write_text(json.dumps({"records": []}), encoding="utf-8")
+    assert kb_current_stage(context) == "r3"
+
+
+def test_regression_synthetic_sponsor_can_never_enter_the_render_output_undeclared():
+    """A renderer must never introduce a sponsor value that was not
+    present in its own `sponsor_by_id` input -- the rendered sponsor set
+    is always a subset of the input mapping's values, for BOTH the R3
+    and FINAL renderers."""
+    ids = _ACTIVE_71
+    r2_freeze, r2_forecast, raw_rows = _tie_and_wd_dataset()
+    active_ids = {str(r["player_id"]) for r in r2_freeze["records"] if r.get("status") == "ACTIVE"}
+    rows, unresolved = extract_r3_official_result(raw_rows, active_ids)
+    r3_records = build_r3_frozen_records(r2_freeze=r2_freeze, r3_rows=rows)
+    real_sponsor_input = {"syn0": "REAL AUDIT SPONSOR CO"}  # everyone else deliberately absent -> must render blank
+
+    r3_html = render_r3_real_page(
+        tournament_name="T", game_code=SYN_GAME_CODE, date_range="x",
+        r3_freeze={"records": r3_records}, forecast=r2_forecast, sponsor_by_id=real_sponsor_input,
+    )
+    for row in parse_r3_real_page(r3_html):
+        assert row["sponsor"] in ("", *real_sponsor_input.values())
+
+    report, dataset = _build_candidate(r2_freeze, r2_forecast, raw_rows)
+    candidate = {
+        "schema_version": 1, "artifact": "final_validation_candidate", "game_code": SYN_GAME_CODE,
+        "tournament_name": "T", "final_round_number": 3, "r2_active_population": 71,
+        "post_r3_win_forecast_generated": False, "records": dataset,
+    }
+    final_html = render_final_candidate_page(tournament_name="T", game_code=SYN_GAME_CODE, date_range="x", candidate=candidate, sponsor_by_id=real_sponsor_input)
+    for row in parse_final_candidate_page(final_html):
+        assert row["sponsor"] in ("", *real_sponsor_input.values())
+
+
+def test_regression_script117_never_fabricates_a_sponsor_beyond_the_real_audit_loader(script117_synth, monkeypatch):
+    """RED TEAM item 2: scripts/117 must pass the REAL audit-file
+    loader's own dict straight through to both renderers, unmodified --
+    never a second, locally-invented sponsor mapping. Proven by
+    monkeypatching the loader to a known, distinctive dict and asserting
+    both renderers receive it byte-for-byte."""
+    module, context, ids = script117_synth
+    _r2_freeze, _r2_forecast, raw_rows = _tie_and_wd_dataset()
+
+    def _fake_fetch(client, game_code, round_number, *, use_cache=True):
+        return raw_rows
+
+    import klpga.collectors.leaderboard as leaderboard_mod
+    monkeypatch.setattr(leaderboard_mod, "fetch_round_leaderboard", _fake_fetch)
+
+    known_sponsor_map = {"syn0": "KNOWN AUDIT SPONSOR"}
+    monkeypatch.setattr(module, "_load_sponsor_by_id", lambda game_code: dict(known_sponsor_map))
+
+    seen = {}
+    real_r3_render = module.render_r3_real_page
+    real_final_render = module.render_final_candidate_page
+
+    def _spy_r3(**kwargs):
+        seen["r3"] = kwargs["sponsor_by_id"]
+        return real_r3_render(**kwargs)
+
+    def _spy_final(**kwargs):
+        seen["final"] = kwargs["sponsor_by_id"]
+        return real_final_render(**kwargs)
+
+    monkeypatch.setattr(module, "render_r3_real_page", _spy_r3)
+    monkeypatch.setattr(module, "render_final_candidate_page", _spy_final)
+
+    result = module.run(game_code="SYNRUN01")
+    assert result["action"] == "FINAL_CANDIDATE_READY", result
+    assert seen["r3"] == known_sponsor_map
+    assert seen["final"] == known_sponsor_map
+
+
+def test_regression_uniform_dummy_probabilities_never_silently_replace_real_variation():
+    """A real frozen R2 forecast has genuinely varying probabilities
+    across 71 players (see the real KB forecast, 46 distinct top20_pct
+    values) -- a rendered R3 or FINAL page must faithfully preserve that
+    variation, never homogenize/replace it with a single dummy value."""
+    ids = _ACTIVE_71
+    r2_freeze = _synthetic_r2_freeze(ids)
+    varying_forecast = {
+        "records": [
+            {"player_id": pid, "neo_final_rank": i + 1, "r2_total_to_par": -2,
+             "top20_pct": round(5.0 + i * 1.3, 1), "top10_pct": round(2.0 + i * 0.7, 1),
+             "top5_pct": round(0.5 + i * 0.3, 1), "win_pct": round(0.01 + i * 0.02, 2)}
+            for i, pid in enumerate(ids)
+        ],
+    }
+    raw_rows = [_row(pid, f"SynPlayer{pid}", r3=0, total=0) for pid in ids]
+    active_ids = {str(r["player_id"]) for r in r2_freeze["records"]}
+    rows, unresolved = extract_r3_official_result(raw_rows, active_ids)
+    r3_records = build_r3_frozen_records(r2_freeze=r2_freeze, r3_rows=rows)
+    r3_html = render_r3_real_page(
+        tournament_name="T", game_code=SYN_GAME_CODE, date_range="x",
+        r3_freeze={"records": r3_records}, forecast=varying_forecast, sponsor_by_id={},
+    )
+    top20_values = {row["top20_display"] for row in parse_r3_real_page(r3_html)}
+    assert len(top20_values) > 1, "rendered TOP20 values must vary player-to-player, never collapse to one dummy value"
+
+
+def test_regression_verbose_internal_validation_copy_never_leaks_into_public_ui():
+    """Section 4: public copy must be minimal -- no internal-validation
+    explanation of what the prediction column means or is not. Uses a
+    deliberately clean tournament_name (unlike this file's other shared
+    fixtures, which intentionally embed "SYNTHETIC" in the name for
+    test-only clarity) so this check targets only the RENDERER's own
+    copy, never a test fixture's own naming choice."""
+    candidate = {
+        "schema_version": 1, "artifact": "final_validation_candidate", "game_code": SYN_GAME_CODE,
+        "tournament_name": "CLEAN NAME OPEN", "final_round_number": 3, "r2_active_population": 1,
+        "post_r3_win_forecast_generated": False,
+        "records": [{"player_id": "a", "player_name": "A", "r2_rank": 1, "r2_total": -2,
+                     "r2_top20": 50.0, "r2_top10": 20.0, "r2_top5": 10.0, "r2_win": 1.0,
+                     "r3_score": -1, "final_total": -3, "final_rank": "1", "final_status": "ACTIVE",
+                     "winner_flag": True, "top5_flag": True, "top10_flag": True, "top20_flag": True}],
+    }
+    html = render_final_candidate_page(tournament_name="CLEAN NAME OPEN", game_code=SYN_GAME_CODE, date_range="x", candidate=candidate, sponsor_by_id={})
+    forbidden = ("공식 FINAL 결과", "결과를 알고 다시 계산", "재계산", "SYNTHETIC", "PREVIEW")
+    for phrase in forbidden:
+        assert phrase not in html, f"forbidden internal/verbose copy leaked into public HTML: {phrase!r}"
+    assert "R2 종료 후 예측" in html  # the one label that IS allowed/sufficient
+    assert '<p class="note">총 1명</p>' in html  # plain population note, no appended explanation
