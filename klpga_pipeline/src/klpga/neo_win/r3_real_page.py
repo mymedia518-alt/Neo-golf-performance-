@@ -177,7 +177,13 @@ def render_r3_real_page(
         pid = str(row["player_id"])
         status = row.get("status", "ACTIVE")
         identity = render_player_identity(row["player_name"], sponsor_by_id.get(pid), quote="'")
-        status_badge = f" <span class='status-badge'>{STATUS_LABEL.get(status, status)}</span>" if status != "ACTIVE" else ""
+        # VISUAL GATE FIX (bottom-row defect): the 순위 cell already
+        # shows WD/DQ/DNS via display_rank below -- a second status
+        # badge inside the identity cell duplicated that status and
+        # forced a third stacked line unique to this one row, breaking
+        # the otherwise-uniform row height (and with it the table's
+        # bottom border) purely as a side effect. Status is shown
+        # exactly once, in 순위, for every row.
         # WD/DQ/DNS never receive forecast probabilities even if a
         # future defect somehow left a stray entry for them in the
         # forecast dict -- the population filter belongs on the
@@ -194,7 +200,7 @@ def render_r3_real_page(
         rows_html.append(
             f"<tr data-player-id='{pid}'>"
             f"<td data-label='순위'>{display_rank}</td>"
-            f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
+            f"<th scope='row' data-label='선수'>{identity}</th>"
             f"<td data-label='합계'>{total_display}</td>"
             f"<td data-label='3R'>{r3_display}</td>"
             + _cell(fc["top20_pct"] if fc else None, "Top20")
