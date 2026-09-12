@@ -22,8 +22,21 @@ Does ALL of the following, and nothing else:
   5. On full success: writes the FINAL validation candidate artifact
      (2026090003_FINAL_VALIDATION_CANDIDATE.json) -- a real, reviewable
      file under content/website_v2/, NEVER published to docs/, NEVER
-     wired into HOME, NEVER auto-deployed. A human reviews it and
-     decides production promotion separately.
+     wired into HOME, NEVER auto-deployed.
+  6. Renders that candidate into a real FINAL web page (klpga.neo_win.
+     final_real_page.render_final_candidate_page) under
+     candidate/<game_code>_final_web_candidate/index.html -- NEVER
+     under docs/. Reads the rendered HTML back (klpga.neo_win.
+     final_real_page.parse_final_candidate_page) and cross-checks every
+     player's rendered rank/identity against the candidate JSON --
+     ANY mismatch is a HARD STOP, never a silently-shipped divergence
+     (R3 FINAL WEB DRY-RUN task, section 6/16: "JSON은 맞는데 HTML이
+     틀릴 수 있는가?" must never pass unnoticed).
+  7. STOPS. Never writes klpga.neo_win.final_publication_gate's
+     `final_published_evidence` artifact, never touches root HOME,
+     never deploys to production -- a human reviews the generated FINAL
+     web candidate and decides production promotion as an entirely
+     separate, later step.
 
 NEVER builds a POST-R3 win forecast (KB's final_round_number is 3 --
 there is nothing left to forecast; see klpga.neo_win.post_r3_forecast's
@@ -41,6 +54,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.neo_win.final_real_page import parse_final_candidate_page, render_final_candidate_page  # noqa: E402
 from klpga.neo_win.r2_freeze import load_r2_freeze, verify_r2_freeze_hash  # noqa: E402
 from klpga.neo_win.r3_result_input import (  # noqa: E402
     R2FreezeProtectionError,
@@ -51,13 +65,26 @@ from klpga.neo_win.r3_result_input import (  # noqa: E402
     validate_r3_result,
     verify_r2_state_unchanged,
 )
-from klpga.tournament_context import load_tournament_context  # noqa: E402
+from klpga.tournament_context import candidate_dir, load_tournament_context  # noqa: E402
 
 DEFAULT_GAME_CODE = "2026090003"
+CONTENT = ROOT / "content" / "website_v2"
 
 
 def _final_candidate_path(context) -> Path:
     return context.artifact_path("final_validation_candidate")
+
+
+def _load_sponsor_by_id(game_code: str) -> dict:
+    """Same verified-official sponsor source scripts/109 and 112 already
+    use for R1/R2 -- never a second, independently-sourced sponsor
+    mapping. Missing file -> empty dict (every row's sponsor slot
+    renders empty, never guessed)."""
+    path = CONTENT / f"KB_{game_code}_SPONSOR_INTEGRITY_AUDIT_V2.json"
+    if not path.is_file():
+        return {}
+    audit = json.loads(path.read_text(encoding="utf-8"))
+    return {r["player_id"]: r["sponsor"] for r in audit.get("newly_recovered_sponsors", [])}
 
 
 def run(*, game_code: str) -> dict:
@@ -136,13 +163,54 @@ def run(*, game_code: str) -> dict:
     candidate_path.parent.mkdir(parents=True, exist_ok=True)
     candidate_path.write_text(json.dumps(candidate, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
+    # FINAL WEB CANDIDATE + GENERATED HTML QA (R3 FINAL WEB DRY-RUN task,
+    # sections 4/6/16): render the exact same candidate into real HTML,
+    # then read it straight back and cross-check every player, player by
+    # player, against the JSON that produced it. Written ONLY under
+    # candidate/ (never docs/) -- this is a reviewable artifact, not a
+    # publication.
+    sponsor_by_id = _load_sponsor_by_id(game_code)
+    final_html = render_final_candidate_page(
+        tournament_name=context.tournament_name,
+        game_code=context.game_code,
+        date_range=context.display_date_range,
+        candidate=candidate,
+        sponsor_by_id=sponsor_by_id,
+    )
+    final_web_dir = candidate_dir(f"{game_code}_final_web_candidate")
+    final_web_dir.mkdir(parents=True, exist_ok=True)
+    final_web_path = final_web_dir / "index.html"
+    final_web_path.write_text(final_html, encoding="utf-8", newline="\n")
+
+    rendered_rows = parse_final_candidate_page(final_html)
+    qa_errors = []
+    if len(rendered_rows) != len(dataset):
+        qa_errors.append(f"rendered row count {len(rendered_rows)} != candidate record count {len(dataset)}")
+    rendered_by_id = {r["player_id"]: r for r in rendered_rows}
+    for record in dataset:
+        pid = str(record["player_id"])
+        rendered = rendered_by_id.get(pid)
+        if rendered is None:
+            qa_errors.append(f"player_id={pid} missing from rendered FINAL web candidate HTML")
+            continue
+        expected_rank = record["final_rank"] or "—"
+        if rendered["final_rank"] != expected_rank:
+            qa_errors.append(f"player_id={pid} rendered final_rank={rendered['final_rank']!r} != candidate final_rank={expected_rank!r}")
+    if qa_errors:
+        # Never ship a candidate whose own rendered HTML disagrees with
+        # the JSON that produced it -- HARD STOP, not a degraded PASS.
+        return {"action": "HARD_STOP", "reason": "FINAL web candidate rendered-output QA failed", "qa_errors": qa_errors}
+
     return {
         "action": "FINAL_CANDIDATE_READY",
         "reason": "R3 official result validated and joined against the frozen R2 forecast",
         "candidate_path": str(candidate_path),
         "records_written": len(dataset),
+        "final_web_candidate_path": str(final_web_path),
+        "final_web_qa_passed": True,
         "home_still_r2": True,
         "production_deployed": False,
+        "final_published_evidence_written": False,
     }
 
 
@@ -153,7 +221,7 @@ def main() -> int:
 
     result = run(game_code=args.game_code)
     print(json.dumps(result, ensure_ascii=False))
-    return 0 if result["action"] not in ("BLOCKED",) else 1
+    return 0 if result["action"] not in ("BLOCKED", "HARD_STOP") else 1
 
 
 if __name__ == "__main__":
