@@ -2,9 +2,11 @@
 research/official-tournament-warehouse-v1-20260912): every competitive
 round page (R1/R2/R3/FR) must show THAT round's own official strokes
 together with its score relative to par, in ONE reusable formatter --
-never a cumulative tournament stroke total (that belongs on FINAL
-only, see klpga.neo_win.r3_real_page's own module docstring), and never
-a second, round-specific reinvention of the same to-par notation.
+never a second, round-specific reinvention of the same to-par
+notation. A round page's cumulative (합계) column, when present,
+reuses this SAME to-par notation for the running total through that
+round -- see klpga.website_v2.round_page_contract's PUBLIC_ROUND_PAGE_
+001 for the semantic rule that 합계 must never be a raw stroke count.
 
 format_to_par mirrors the exact notation every round page already used
 independently (E / +N / -N) -- consolidated here so it is defined once.

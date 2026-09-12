@@ -3,29 +3,39 @@
 Mirrors klpga.neo_win.r2_rendered_output_gate exactly, one round later
 (including that module's own R2 CUT SURVIVORS ONLY population scoping):
 parses the ACTUAL generated HTML (never a synthetic fixture) and
-cross-verifies rank/3R/probabilities for EVERY ADVANCING
+cross-verifies rank/합계/3R/probabilities for EVERY ADVANCING
 (status=="ACTIVE") player against the frozen R3 evidence directly --
-(ROUND-PAGE SHARED CONTRACT, VISUAL-ARTIFACT-001 remediation: R3's
-public table has no cumulative-total column -- 3R is the round's own
-score, via klpga.website_v2.round_score_format.format_round_score --
-ranking is still computed from the real cumulative total internally,
-just never displayed)
 not "does the element exist", but "does the rendered value match the
 real official value". Raises RenderedOutputGateError (write nothing,
 HARD_STOP the cycle) on any divergence. A WD/DQ/DNS record appearing as
 a rendered row -- or an advancing record missing -- is itself a
 HARD_STOP (population divergence), since the public main table shows
 ONLY the advancing population.
+
+NEO_EXECUTABLE_CONTRACT_V1 / PUBLIC_ROUND_PAGE_001 (klpga.website_v2.
+round_page_contract): 합계 IS a real public column, but its VALUE must
+always be the cumulative score relative to par through R3 -- never a
+raw cumulative stroke count. This gate re-derives the expected 합계
+from the real r1/r2/r3_score_to_par fields (never trusting any
+precomputed "total_strokes"-shaped field) and additionally runs the
+rendered value through the semantic contract check, so a raw-stroke
+substitution HARD STOPs (ROUND_PAGE_CUMULATIVE_SCORE_SEMANTICS_INVALID)
+even if it happened to match some other, wrongly-computed "expected"
+value.
 """
 from __future__ import annotations
 
 import re
 
-from klpga.website_v2.round_score_format import format_round_score
+from klpga.website_v2.round_page_contract import (
+    RoundPageContractError,
+    assert_cumulative_score_is_relative_to_par,
+)
+from klpga.website_v2.round_score_format import format_round_score, format_to_par
 
 EMPTY_MARK = "—"
 ADVANCING_STATUS = "ACTIVE"
-REQUIRED_HEADER_ORDER = ("순위", "선수", "3R", "TOP20", "TOP10", "TOP5", "우승")
+REQUIRED_HEADER_ORDER = ("순위", "선수", "합계", "3R", "TOP20", "TOP10", "TOP5", "우승")
 
 
 class RenderedOutputGateError(RuntimeError):
@@ -58,7 +68,7 @@ def _expected_pct_display(v) -> str:
 
 
 def parse_rendered_rows(html: str) -> dict[str, dict]:
-    """Pure: {player_id: {"rank": str, "round3": str,
+    """Pure: {player_id: {"rank": str, "total": str, "round3": str,
     "top5": str, "top10": str, "top20": str, "win": str}} parsed
     directly from the real generated HTML's own `<tr data-player-id=
     '...'>` rows -- joined by the renderer's own stable player_id
@@ -87,6 +97,7 @@ def parse_rendered_rows(html: str) -> dict[str, dict]:
             raise RenderedOutputGateError(f"sponsor contract broken for player_id {pid}: missing player-name/player-sponsor slot")
         parsed[pid] = {
             "rank": cell(row, "순위"),
+            "total": cell(row, "합계"),
             "round3": cell(row, "3R"),
             "top5": cell(row, "Top5"),
             "top10": cell(row, "Top10"),
@@ -106,7 +117,7 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
       0a. No SG column anywhere in the page (SG must never appear in
           the public main table).
       0b. Header is EXACTLY REQUIRED_HEADER_ORDER, in order -- the
-          7-column public contract (no cumulative-total column).
+          8-column public contract (합계 present).
       0c. (inside parse_rendered_rows) no player_id is rendered more
           than once (duplicate player), and every row carries a
           structurally present player-name/player-sponsor slot
@@ -115,10 +126,16 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
          of the frozen population exactly (by player_id) -- a WD/DQ/DNS
          record must NEVER appear as a rendered row, and every
          advancing record must always appear.
-      2. For EVERY advancing record: rendered 3R exactly equals
-         format_round_score(r3_strokes, r3_score_to_par) -- not merely
-         "present", the EXACT real value. A record with no real r3
-         strokes must render EMPTY_MARK.
+      2. For EVERY advancing record: rendered 합계 exactly equals
+         format_to_par(r1+r2+r3_score_to_par) and rendered 3R exactly
+         equals format_round_score(r3_strokes, r3_score_to_par) -- not
+         merely "present", the EXACT real value. Additionally, 합계 is
+         run through PUBLIC_ROUND_PAGE_001's semantic check (raises
+         ROUND_PAGE_CUMULATIVE_SCORE_SEMANTICS_INVALID if it isn't a
+         real to-par notation) so a raw-stroke substitution HARD STOPs
+         even if some other bug made it match a wrongly-computed
+         "expected" value too. A record with incomplete data must
+         render EMPTY_MARK for both 합계 and 3R.
       3. For EVERY advancing record: rendered rank is EMPTY_MARK if and
          only if that record has no real, complete total.
       4. For EVERY advancing record: rendered WIN/TOP5/TOP10/TOP20
@@ -169,9 +186,23 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
         pid = str(record["player_id"])
         name = record.get("player_name", pid)
         row = rendered[pid]
-        real_total = record.get("total_strokes") if record.get("total_strokes") is not None else _real_total_to_par(record)
+        # PUBLIC_ROUND_PAGE_001: the expected 합계 is ALWAYS the real
+        # cumulative to-par sum -- never a "total_strokes"-shaped raw
+        # field, regardless of whether the frozen record happens to
+        # carry one (this gate does not trust that field's semantics).
+        real_total = _real_total_to_par(record)
+        expected_total_display = format_to_par(real_total)
         expected_round3_display = format_round_score(record.get("r3_strokes"), record.get("r3_score_to_par"))
 
+        try:
+            assert_cumulative_score_is_relative_to_par(row["total"], player=name)
+        except RoundPageContractError as exc:
+            raise RenderedOutputGateError(str(exc)) from exc
+        if row["total"] != expected_total_display:
+            raise RenderedOutputGateError(
+                f"합계 diverges from frozen evidence for {name} ({pid}): "
+                f"rendered {row['total']!r}, expected {expected_total_display!r}"
+            )
         if row["round3"] != expected_round3_display:
             raise RenderedOutputGateError(
                 f"3R diverges from frozen evidence for {name} ({pid}): "

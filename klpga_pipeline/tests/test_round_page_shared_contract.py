@@ -1,10 +1,12 @@
 """VISUAL-ARTIFACT-001 remediation (research/official-tournament-
 warehouse-v1-20260912): regression tests for the shared round-page
-presentation contract (klpga.website_v2.round_score_format), so this
-same class of defect -- a round page reintroducing a cumulative total,
-using a stale/prior-round forecast, leaking internal simulation copy,
-or losing the relative-to-par presentation -- cannot silently
-reappear on R1/R2/R3/FR without a test failing first.
+presentation contract (klpga.website_v2.round_score_format) and its
+executable companion contract PUBLIC_ROUND_PAGE_001 (klpga.website_v2.
+round_page_contract), so this same class of defect -- a round page
+substituting a raw cumulative stroke count for 합계, using a stale/
+prior-round forecast, leaking internal simulation copy, or losing the
+relative-to-par presentation -- cannot silently reappear on R1/R2/R3/FR
+without a test failing first.
 
 Provenance/source assertions are used wherever possible (does the
 rendered value trace back to the real frozen artifact) rather than
@@ -14,7 +16,10 @@ from __future__ import annotations
 
 import re
 
+import pytest
+
 from klpga.neo_win.r3_real_page import render_r3_real_page
+from klpga.neo_win.r3_rendered_output_gate import RenderedOutputGateError, validate_r3_rendered_output
 from klpga.website_v2.round_score_format import EMPTY_MARK, format_round_score, format_to_par
 
 
@@ -71,11 +76,37 @@ def _render(records, forecast=None):
     )
 
 
-def test_round_page_never_reintroduces_cumulative_total_column():
-    html = _render([_active("p1", r3_strokes=68, r3_score_to_par=-4, total_strokes=211)])
-    assert "data-label='합계'" not in html
+def test_round_page_displays_cumulative_total_as_relative_to_par_never_raw_strokes():
+    """PUBLIC_ROUND_PAGE_001 (klpga.website_v2.round_page_contract):
+    R1/R2/R3/FR MAY display 합계 -- and R3's real renderer does -- but
+    its VALUE must always be the cumulative score relative to par
+    through that round, never a raw cumulative stroke count, even when
+    a bogus 'total_strokes'-shaped field is present on the record."""
+    html = _render([_active("p1", r1_score_to_par=0, r2_score_to_par=-1, r3_strokes=68, r3_score_to_par=-4, total_strokes=211)])
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
-    assert "합계" not in header
+    assert "합계" in header
+    assert "data-label='합계'>-5<" in html
+    assert "211" not in html
+
+
+def test_round_page_cumulative_total_semantics_hard_stop_on_raw_strokes():
+    """Negative-mutation, end-to-end via the real rendered-output gate:
+    VALID 합계 (-5, relative to par) passes; INVALID 합계 (211, a raw
+    cumulative stroke count substituted in) must HARD STOP with
+    ROUND_PAGE_CUMULATIVE_SCORE_SEMANTICS_INVALID. The contract detects
+    semantics, not merely the column's presence/name."""
+    records = [_active("p1", r1_score_to_par=0, r2_score_to_par=-1, r3_strokes=68, r3_score_to_par=-4)]
+    forecast = {"records": []}
+    html = _render(records, forecast["records"])
+
+    # VALID: the real rendered page, as-is, must pass the gate.
+    validate_r3_rendered_output(html, {"records": records}, forecast)
+    assert "data-label='합계'>-5<" in html
+
+    # INVALID: tamper 합계's own cell to a raw-stroke-shaped value.
+    tampered = html.replace("data-label='합계'>-5<", "data-label='합계'>211<", 1)
+    with pytest.raises(RenderedOutputGateError, match="ROUND_PAGE_CUMULATIVE_SCORE_SEMANTICS_INVALID"):
+        validate_r3_rendered_output(tampered, {"records": records}, forecast)
 
 
 def test_round_page_score_keeps_relative_to_par_presentation():
