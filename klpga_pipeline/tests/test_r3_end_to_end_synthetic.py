@@ -252,7 +252,13 @@ def test_full_chain_publishes_with_wd_player_excluded_from_main_table(context, t
 
     rows_html = re.findall(r"<tr data-player-id='([^']+)'>", real_html.split("<tbody>", 1)[1].split("</tbody>", 1)[0])
     assert set(rows_html) == {"e1", "e2", "e3"}  # explicit WD is rendered with status
-    assert "status-badge'>WD</span>" in real_html
+    # VISUAL GATE FIX (bottom-row defect): WD is shown exactly once, in
+    # the 순위 cell -- the identity cell's own duplicate status badge
+    # was removed since it forced an extra stacked line unique to this
+    # row, breaking the table's otherwise-uniform row height.
+    e3_row = re.search(r"<tr data-player-id='e3'>((?:(?!</tr>).)*)</tr>", real_html).group(1)
+    assert e3_row.count("WD") == 1
+    assert "status-badge" not in real_html
 
     report = r3_publication_gate.evaluate_r3_publication_gate(GAME_CODE, {
         "official_source_verified": (r3_publication_gate.PASS, "x"),

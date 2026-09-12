@@ -23,6 +23,37 @@ def test_non_active_status_has_no_finishing_rank_or_score(status):
     row=rows(html)[0]
     assert f">{status}<" in row and "data-label='합계'>—<" in row and "data-label='3R'>—<" in row
 
+@pytest.mark.parametrize("status", ["WD", "DQ", "DNS"])
+def test_non_active_status_appears_exactly_once_no_duplicate_badge(status):
+    """VISUAL GATE FIX (bottom-row defect): status was previously shown
+    TWICE -- once as the 순위 cell's own display_rank, and again via a
+    second '<span class=\"status-badge\">' inside the identity cell,
+    forcing that one row's identity cell onto a third stacked line and
+    breaking the table's otherwise-uniform row height (and with it, the
+    bottom border). This must hold generically for any final-row status
+    (WD/DQ/DNS), not just as a WD-specific patch: the identity cell's
+    own <th> markup for a non-ACTIVE row must be structurally identical
+    to an ACTIVE row's (name + sponsor spans only, nothing appended),
+    so a non-ACTIVE row is never taller than a normal row regardless of
+    table position."""
+    html = render([
+        active("p1"),
+        active("p2", status=status, r3_score_to_par=None),
+    ])
+    active_row = next(r for r in rows(html) if r.startswith("<tr data-player-id='p1'>"))
+    other_row = next(r for r in rows(html) if r.startswith("<tr data-player-id='p2'>"))
+    assert other_row.count(">" + status + "<") == 1
+    assert "status-badge" not in other_row
+    active_identity = re.search(r"<th scope='row'.*?</th>", active_row).group(0)
+    other_identity = re.search(r"<th scope='row'.*?</th>", other_row).group(0)
+    active_span_count = active_identity.count("<span")
+    other_span_count = other_identity.count("<span")
+    assert other_span_count == active_span_count, (
+        f"{status} row's identity cell has {other_span_count} spans vs "
+        f"{active_span_count} for an ACTIVE row -- a structural mismatch "
+        "would make this row taller and break the table's bottom border"
+    )
+
 def test_cumulative_total_is_relative_to_par_not_raw_strokes():
     """PUBLIC_ROUND_PAGE_001: 합계 IS shown, but its value is the
     cumulative score relative to par through R3 -- never a raw
