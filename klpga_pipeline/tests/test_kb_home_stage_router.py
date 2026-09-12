@@ -67,32 +67,35 @@ def test_real_kb_current_stage_resolves_to_r3():
     assert kb_current_stage(context) == "r3"
 
 
-def test_home_home_kb_equals_r2_while_r2_is_current():
-    """HOME -> KB = R2: root HOME's own status badge and stage-nav must
-    show R2, never a stale R1 snapshot."""
+def test_home_home_kb_equals_r3_while_r3_is_current():
+    """ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-
+    v1-20260912), pre-deploy R3 candidate sync: HOME -> KB = R3. Root
+    HOME's own status badge and stage-nav must show R3 -- via an
+    explicit sync_root_home_to_current_stage() call, never a stale R2
+    snapshot."""
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">R2<' in html
+    assert '"status">R3<' in html
     assert extract_owner(html) == CURRENT_TOURNAMENT_OWNER
-    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r2/" aria-current="page">R2</a>' in html
-    # never a stale disabled R2 placeholder (the exact reported bug)
-    assert '<span class="stage-nav__disabled" aria-disabled="true">R2</span>' not in html
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r3/" aria-current="page">R3</a>' in html
+    # never a stale disabled R3 placeholder (the exact reported bug class)
+    assert '<span class="stage-nav__disabled" aria-disabled="true">R3</span>' not in html
 
 
-def test_home_body_mirrors_the_real_published_r2_page_exactly():
-    """HOME's <main>...</main> body must be byte-identical to R2's own
+def test_home_body_mirrors_the_real_published_r3_page_exactly():
+    """HOME's <main>...</main> body must be byte-identical to R3's own
     real, already-gated page body -- proves HOME is a mirror, never an
     independent rebuild that could silently diverge or fabricate."""
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    r2_html = R2_PAGE.read_text(encoding="utf-8")
+    r3_html = R3_WAIT_PAGE.read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    r2_body = r2_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    assert home_body == r2_body
+    r3_body = r3_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    assert home_body == r3_body
 
 
-def test_home_tournaments_nav_override_points_at_r2_not_r1():
+def test_home_tournaments_nav_override_points_at_r3_not_r2():
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert 'href="/tournaments/2026/2026090003/r2/">대회<' in html
-    assert 'href="/tournaments/2026/2026090003/r1/">대회<' not in html
+    assert 'href="/tournaments/2026/2026090003/r3/">대회<' in html
+    assert 'href="/tournaments/2026/2026090003/r2/">대회<' not in html
 
 
 def test_pre_to_r2_and_r1_to_r2_reachable_on_the_real_site():
@@ -107,14 +110,16 @@ def test_r2_to_pre_and_r2_to_r1_reachable_on_the_real_site():
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r1/">R1</a>' in html
 
 
-def test_r3_freeze_now_real_but_home_not_auto_resynced():
-    """ROUND-CONTEXT CORRECTION UPDATE: the R3 page at this path is now
-    the real, published R3 result page (not merely a WAIT page), backed
-    by a real, hash-verified R3 freeze -- kb_current_stage() correctly
-    reflects that. What this test actually still guards: a real freeze
-    existing does not, by itself, auto-rewrite HOME -- only an explicit
-    sync_root_home_to_current_stage() call does, and none was made in
-    this task's scope."""
+def test_r3_freeze_is_real_and_home_was_explicitly_resynced_to_it():
+    """ROUND-CONTEXT CORRECTION UPDATE, pre-deploy R3 candidate: the R3
+    page at this path is the real, published R3 result page (not merely
+    a WAIT page), backed by a real, hash-verified R3 freeze --
+    kb_current_stage() correctly reflects that. What this test guards:
+    HOME now mirrors it, because sync_root_home_to_current_stage() was
+    explicitly called for this candidate (Section 1, HOME->R3 sync) --
+    a real freeze existing is necessary but was never, by itself,
+    sufficient; the explicit sync call is what actually produced this
+    HOME body."""
     assert R3_WAIT_PAGE.is_file(), "test precondition: the R3 page must exist for this to be a real check"
     from klpga.neo_win.r3_freeze import r3_freeze_exists
     from klpga.tournament_context import load_tournament_context
@@ -123,7 +128,7 @@ def test_r3_freeze_now_real_but_home_not_auto_resynced():
     assert r3_freeze_exists(context) is True
     assert kb_current_stage(context) == "r3"
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">R3<' not in home_html  # HOME still shows R2 -- not auto-resynced
+    assert '"status">R3<' in home_html  # HOME was explicitly resynced to R3 this session
 
 
 def test_pre_and_r1_historical_content_untouched_by_the_sync():

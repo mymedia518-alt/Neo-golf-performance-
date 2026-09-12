@@ -55,5 +55,16 @@
       "note": "No R4/FR/FINAL official data exists anywhere in this worktree as of this ledger's build -- confirmed by repo-wide search finding zero R4/FINAL-labeled artifacts for this game_code and every player's raw-evidence data-round4score attribute being present but empty."
     }
   },
-  "comparison_policy": "Any R2-vs-R3(-vs-FR) predictive comparison MUST explicitly disclose evidence class A's round-context defect and must never present class A's hit-rates as proof of the model's true-final predictive performance -- only class B (and, once available, a genuine POST-R3-vs-class-C comparison) may be used for that claim."
+  "comparison_policy": "Any R2-vs-R3(-vs-FR) predictive comparison MUST explicitly disclose evidence class A's round-context defect and must never present class A's hit-rates as proof of the model's true-final predictive performance -- only class B (and, once available, a genuine POST-R3-vs-class-C comparison) may be used for that claim.",
+  "incidents": [
+    {
+      "incident_id": "ROUND-CONTEXT-001",
+      "cause": "Public stage/page state (how many round pages had been built and published so far) was confused with the tournament's actual official competitive round count. TournamentContext.final_round_number was mechanically derived by counting 'rN' entries already present in TOURNAMENT_SITE_REGISTRY.json's stage_order, which only reflects pages built so far.",
+      "observed_consequence": "The frozen POST-R2 forecast (evidence class A above) was built with remaining_rounds=1 instead of the correct 2, because final_round_number resolved to 3 instead of the true 4.",
+      "permanent_invariant": "official competitive round count <-> TournamentContext.final_round_number <-> forecast remaining_rounds must agree before any forecast is generated. A mismatch discovered at forecast-generation time is a HARD STOP, never a silent proceed.",
+      "resolution": "TOURNAMENT_SITE_REGISTRY.json's 2026090003 entry now carries an explicit, evidence-backed final_round_number=4 field (see round_context_correction above); tournament_context.py prefers it over the mechanical rN-count fallback only when present, leaving every other tournament's resolution unchanged.",
+      "discovered_in": "research/official-tournament-warehouse-v1-20260912",
+      "affected_game_code": "2026090003"
+    }
+  ]
 }
