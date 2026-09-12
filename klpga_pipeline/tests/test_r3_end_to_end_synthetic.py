@@ -20,7 +20,7 @@ END-OF-ROUND PIPELINE NOW" task:
   - rerun after freeze -> HARD_STOP (immutability), never overwrites
   - historical PRE/R1/R2 immutability -- ONLY the stage-nav <li> changes
   - navigation transition -- PRE/R1/R2 gain a real R3 link, FINAL stays disabled
-  - exact 8-column public contract
+  - exact 7-column public contract (no cumulative-total column)
 
 A companion "R3 is the final round" test separately proves a genuine
 3-round tournament's shape (final_round_number=3, entirely synthetic
@@ -272,10 +272,10 @@ def test_full_chain_publishes_with_wd_player_excluded_from_main_table(context, t
 
 
 def test_rendered_output_mismatch_hard_stops():
-    records = [{"player_id": "e1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0, "r3_score_to_par": 0}]
+    records = [{"player_id": "e1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0, "r3_score_to_par": 0, "r3_strokes": 72}]
     forecast = {"records": []}
     html = render_r3_real_page(tournament_name="X", game_code="TEST0003", date_range="d", r3_freeze={"records": records}, forecast=forecast, sponsor_by_id={})
-    tampered = html.replace(">E<", ">+9<", 1)
+    tampered = html.replace(">72 (E)<", ">72 (+9)<", 1)
     with pytest.raises(RenderedOutputGateError):
         validate_r3_rendered_output(tampered, {"records": records}, forecast)
 
@@ -414,15 +414,16 @@ def test_stage_nav_activation_fails_loud_never_guesses():
 
 
 # ---------------------------------------------------------------------
-# 11. exact 8-column public contract (also covered in
-# test_r3_real_page.py directly; re-proven here as part of the E2E
-# chain's own real renderer output, not a separate assumption).
+# 11. exact 7-column public contract (VISUAL-ARTIFACT-001 remediation:
+# no cumulative-total column -- also covered in test_r3_real_page.py
+# directly; re-proven here as part of the E2E chain's own real
+# renderer output, not a separate assumption).
 # ---------------------------------------------------------------------
 
-def test_exact_8_column_public_contract_end_to_end():
+def test_exact_7_column_public_contract_end_to_end():
     records = [{"player_id": "e1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0, "r3_score_to_par": 0}]
     html = render_r3_real_page(tournament_name="X", game_code="TEST0003", date_range="d", r3_freeze={"records": records}, forecast={"records": []}, sponsor_by_id={})
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     labels = re.findall(r"<th>([^<]*)</th>", header)
-    assert labels == ["순위", "선수", "합계", "3R", "TOP20", "TOP10", "TOP5", "우승"]
+    assert labels == ["순위", "선수", "3R", "TOP20", "TOP10", "TOP5", "우승"]
     assert "SG" not in html
