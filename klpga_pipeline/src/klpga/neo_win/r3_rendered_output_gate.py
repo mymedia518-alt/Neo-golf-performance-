@@ -16,9 +16,15 @@ from __future__ import annotations
 
 import re
 
+from klpga.website_v2.probability_format import format_public_probability
+
 EMPTY_MARK = "—"
 ADVANCING_STATUS = "ACTIVE"
-REQUIRED_HEADER_ORDER = ("순위", "선수", "합계", "3R", "Top5", "Top10", "Top20", "우승")
+# R3 FINAL WEB DRY-RUN task: reordered to match R2/FINAL's established
+# public contract (TOP20/TOP10/TOP5, WIN last) and grouped under two
+# header bands (R3's own real outcome vs "R2 종료 후 예측") -- see
+# klpga.neo_win.r3_real_page's own module docstring.
+REQUIRED_HEADER_ORDER = ("순위", "선수", "합계", "3R", "Top20", "Top10", "Top5", "우승")
 
 
 class RenderedOutputGateError(RuntimeError):
@@ -51,7 +57,7 @@ def _expected_to_par_display(v) -> str:
 def _expected_pct_display(v) -> str:
     if v is None:
         return EMPTY_MARK
-    return f"{float(v):.1f}%"
+    return format_public_probability(v)
 
 
 def parse_rendered_rows(html: str) -> dict[str, dict]:

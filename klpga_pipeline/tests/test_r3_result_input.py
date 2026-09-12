@@ -15,6 +15,7 @@ import pytest
 from klpga.neo_win.r3_result_input import (
     R2FreezeProtectionError,
     build_final_validation_dataset,
+    build_r3_frozen_records,
     extract_r3_official_result,
     snapshot_r2_state,
     validate_r3_result,
@@ -199,6 +200,31 @@ def test_r2_freeze_protection_hard_stops_when_r2_changes(tmp_path, monkeypatch):
 
     with pytest.raises(R2FreezeProtectionError):
         verify_r2_state_unchanged(context, before)
+
+
+def test_build_r3_frozen_records_merges_r2_scores_with_r3_evidence():
+    """R3 FINAL WEB DRY-RUN task section 1: R3 must exist as a real,
+    freezable public stage -- this is the per-player record shape
+    klpga.neo_win.r3_freeze/r3_real_page require, built ONLY from R2's
+    own frozen r1/r2 scores plus this module's own evidence-gated R3
+    result (never a second, independently-sourced r1/r2 number)."""
+    active_ids = _ACTIVE_71[:3] + [_ACTIVE_71[3]]
+    r2_freeze = _r2_freeze(_ACTIVE_71)
+    raw_rows = [_row(pid, f"Player{pid}", r3=1, total=0) for pid in _ACTIVE_71[:3]]
+    raw_rows.append(_row(_ACTIVE_71[3], f"Player{_ACTIVE_71[3]}", status="WD"))
+    rows, unresolved = extract_r3_official_result(raw_rows, set(active_ids))
+    records = build_r3_frozen_records(r2_freeze=r2_freeze, r3_rows=rows)
+    assert len(records) == 4
+    by_id = {r["player_id"]: r for r in records}
+    for pid in _ACTIVE_71[:3]:
+        assert by_id[pid]["r1_score_to_par"] == -1  # from _r2_freeze fixture
+        assert by_id[pid]["r2_score_to_par"] == -1
+        assert by_id[pid]["r3_score_to_par"] == 1
+        assert by_id[pid]["status"] == "ACTIVE"
+    wd_pid = _ACTIVE_71[3]
+    assert by_id[wd_pid]["status"] == "WD"
+    assert by_id[wd_pid]["r3_score_to_par"] is None
+    assert set(records[0]) == {"player_id", "player_name", "status", "r1_score_to_par", "r2_score_to_par", "r3_score_to_par"}
 
 
 def test_final_dataset_carries_the_exact_raw_r2_probability_values_unchanged():

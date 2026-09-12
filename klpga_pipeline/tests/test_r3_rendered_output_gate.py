@@ -40,7 +40,7 @@ def test_catches_total_divergence():
     records = [{"player_id": "p1", "player_name": "리더", "status": "ACTIVE", "r1_score_to_par": -5, "r2_score_to_par": -2, "r3_score_to_par": -1}]
     broken_html = (
         "<thead><tr><th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
-        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th></tr></thead>"
+        "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th></tr></thead>"
         "<table><tbody>"
         "<tr data-player-id='p1'><td data-label='순위'>1</td>"
         "<span class='player-name'></span><span class='player-sponsor'></span>"
@@ -84,7 +84,7 @@ def test_catches_fabricated_rank_for_incomplete_data():
     records = [{"player_id": "p1", "player_name": "진행중", "status": "ACTIVE", "r1_score_to_par": 1, "r2_score_to_par": 0, "r3_score_to_par": None}]
     broken_html = (
         "<thead><tr><th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
-        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th></tr></thead>"
+        "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th></tr></thead>"
         "<table><tbody>"
         "<tr data-player-id='p1'><td data-label='순위'>1</td>"
         "<span class='player-name'></span><span class='player-sponsor'></span>"
@@ -113,7 +113,7 @@ def test_catches_rank_population_invalid_uniform_rank_despite_differing_totals()
     ]
     broken_html = (
         "<thead><tr><th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
-        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th></tr></thead>"
+        "<th>Top20</th><th>Top10</th><th>Top5</th><th>우승</th></tr></thead>"
         "<table><tbody>"
         "<tr data-player-id='p1'><td data-label='순위'>T1</td>"
         "<span class='player-name'></span><span class='player-sponsor'></span>"

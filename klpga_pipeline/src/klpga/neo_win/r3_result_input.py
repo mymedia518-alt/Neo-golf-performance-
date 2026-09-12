@@ -253,6 +253,35 @@ def verify_r2_state_unchanged(context, before: dict[str, Optional[str]]) -> None
         raise R2FreezeProtectionError(f"R2 frozen artifacts changed during R3 result collection -- HARD STOP: {changed}")
 
 
+def build_r3_frozen_records(*, r2_freeze: dict, r3_rows: list[R3OfficialResultRow]) -> list[dict]:
+    """R3 FINAL WEB DRY-RUN task, section 1: R3 MUST exist as a real
+    public stage in its own right -- FINAL must never be reachable by
+    collapsing R2 straight into FINAL. This builds the exact per-player
+    record shape klpga.neo_win.r3_freeze.build_r3_frozen_evidence /
+    klpga.neo_win.r3_real_page.render_r3_real_page already require
+    (player_id, player_name, status, r1_score_to_par, r2_score_to_par,
+    r3_score_to_par), merging R2's own frozen r1/r2 scores with this
+    module's own real, evidence-gated R3 result -- never a second,
+    independently-sourced r1/r2 number. `status` is carried through
+    from `r3_rows` verbatim (already real evidence-only, per
+    extract_r3_official_result's own contract) -- R3FrozenEvidence's own
+    __post_init__ rejects anything outside {ACTIVE, WD, DQ, DNS}, so a
+    'CUT' status (settled at R2, never valid at R3) can never reach it."""
+    r2_by_id = {str(r["player_id"]): r for r in r2_freeze["records"]}
+    records = []
+    for r in r3_rows:
+        r2_row = r2_by_id.get(r.player_id, {})
+        records.append({
+            "player_id": r.player_id,
+            "player_name": r.player_name,
+            "status": r.official_status,
+            "r1_score_to_par": r2_row.get("r1_score_to_par"),
+            "r2_score_to_par": r2_row.get("r2_score_to_par"),
+            "r3_score_to_par": r.r3_score,
+        })
+    return records
+
+
 def build_final_validation_dataset(
     *, r2_freeze: dict, r2_forecast: dict, r3_rows: list[R3OfficialResultRow]
 ) -> list[dict]:
