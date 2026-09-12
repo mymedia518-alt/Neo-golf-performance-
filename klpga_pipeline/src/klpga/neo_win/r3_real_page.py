@@ -41,11 +41,13 @@ score, never a separately fabricated number.
 
 Sponsor invariant preserved exactly (render_player_identity, same as R2).
 
-Public main table columns (WIN last, no SG, no cumulative tournament
-total -- ROUND-PAGE SHARED CONTRACT, klpga.website_v2.round_score_
-format: a round page shows THAT round's own score, never a cumulative
-tournament stroke total; cumulative totals belong on FINAL only):
-  순위 | 선수 | 3R | TOP20 | TOP10 | TOP5 | 우승
+Public main table columns (WIN last, no SG -- PUBLIC_ROUND_PAGE_001,
+klpga.website_v2.round_page_contract: 합계 IS shown, but its VALUE is
+always the cumulative score relative to par through R3, e.g. "-4",
+never a raw cumulative stroke count like "211"; 3R uses the shared
+klpga.website_v2.round_score_format for that round's own strokes +
+relative-to-par):
+  순위 | 선수 | 합계 | 3R | TOP20 | TOP10 | TOP5 | 우승
 
 Stage navigation once R3 is published: PRE/R1/R2 clickable, R3 current
 (aria-current), FR and FINAL both disabled -- per the NEO public-stage
@@ -58,7 +60,8 @@ from __future__ import annotations
 
 from klpga.website_v2.global_navigation import inject_global_navigation
 from klpga.website_v2.player_identity import render_player_identity
-from klpga.website_v2.round_score_format import format_round_score
+from klpga.website_v2.round_page_contract import assert_cumulative_score_is_relative_to_par
+from klpga.website_v2.round_score_format import format_round_score, format_to_par
 from klpga.website_v2.shell import breadcrumb_html
 
 EMPTY_MARK = "—"
@@ -66,14 +69,6 @@ STAGE_READY_META = '<meta name="neo-stage-publication-ready" content="true">'
 
 STATUS_LABEL = {"ACTIVE": "", "WD": "WD", "DQ": "DQ", "DNS": "DNS"}
 ADVANCING_STATUS = "ACTIVE"
-
-NEXT_UPDATE_NOTICE = "FR 종료 후 업데이트"
-"""PUBLIC UI IMMUTABLE INVARIANT (mirrors klpga.neo_win.r2_real_page's
-own established next-update-note contract, one stage later): a static
-fact about which stage page comes next -- never computed from a live
-countdown or a guessed schedule, never mentions simulation counts,
-freeze status, or provenance. Reuses R2's own `.note`/`next-update-
-note` classes verbatim -- no new CSS needed, no R3-specific styling."""
 
 
 def _pct_display(v) -> str:
@@ -187,11 +182,18 @@ def render_r3_real_page(
         # ADVANCING status alone, never on "was this id found".
         fc = forecast_by_id.get(pid) if status == ADVANCING_STATUS else None
         display_rank = ranks.get(pid, STATUS_LABEL.get(status, status) or EMPTY_MARK)
+        # PUBLIC_ROUND_PAGE_001: 합계 is ALWAYS the cumulative score
+        # relative to par through R3 -- computed from the three real
+        # r1/r2/r3_score_to_par fields, never a raw cumulative stroke
+        # count (a WD/incomplete player correctly has none -> EMPTY_MARK).
+        total_display = format_to_par(_total_to_par(row))
+        assert_cumulative_score_is_relative_to_par(total_display, player=row["player_name"])
         r3_display = format_round_score(row.get("r3_strokes"), row.get("r3_score_to_par"))
         rows_html.append(
             f"<tr data-player-id='{pid}'>"
             f"<td data-label='순위'>{display_rank}</td>"
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
+            f"<td data-label='합계'>{total_display}</td>"
             f"<td data-label='3R'>{r3_display}</td>"
             + _cell(fc["top20_pct"] if fc else None, "Top20")
             + _cell(fc["top10_pct"] if fc else None, "Top10")
@@ -216,12 +218,10 @@ def render_r3_real_page(
         '</ol></nav>'
         '<section class="panel leaderboard-panel" id="r3">'
         '<div class="leaderboard-head"><h2>3R 결과</h2><p class="note">확률은 R3 종료 후 예측값</p></div>'
-        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r3-full"><thead><tr>'
-        "<th>순위</th><th>선수</th><th>3R</th>"
+        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead><tr>'
+        "<th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
         "<th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
-        + f'<p class="note">총 {len(records)}명</p>'
-        + f'<p class="note next-update-note">{NEXT_UPDATE_NOTICE}</p>'
         + "</section>"
     )
 
@@ -244,4 +244,4 @@ def render_r3_real_page(
 
 
 def is_real_page(html: str) -> bool:
-    return STAGE_READY_META in html and "leaderboard-table--r3-full" in html
+    return STAGE_READY_META in html and "leaderboard-table--r2-full" in html

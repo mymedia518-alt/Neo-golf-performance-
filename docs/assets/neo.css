@@ -64,16 +64,6 @@
 .leaderboard-table .player-sponsor{font-size:12px}
 .leaderboard-table tbody td:nth-child(2){font-weight:800;color:var(--accent);font-size:15px}
 .leaderboard-table tbody td:nth-child(4){font-weight:800;color:var(--ink)}
-/* VISUAL-ARTIFACT-001 remediation: leaderboard-table--r3-full is the R3
-   round-page shape after removing the public 합계 (cumulative total)
-   column -- one score column fewer than leaderboard-table--r2-full, so
-   DOM column 3 (was 합계, now 3R) needs the same bold/ink treatment
-   the general td:nth-child(4) rule above gave the old 4th column, and
-   that same general rule must be neutralized here since DOM column 4
-   is now Top20 (a probability, never bold/ink) -- a higher-specificity
-   override, never touching the shared rule itself or any other page. */
-.leaderboard-table.leaderboard-table--r3-full tbody td:nth-child(3){font-weight:800;color:var(--ink)}
-.leaderboard-table.leaderboard-table--r3-full tbody td:nth-child(4){font-weight:400;color:inherit}
 .band[aria-label="NEO 경기력 최상위"]{background:var(--band-1);color:#fff}
 .band[aria-label="NEO 경기력 상위"]{background:var(--band-2);color:#fff}
 .band[aria-label="NEO 경기력 중위"]{background:#eef1f3;color:var(--band-3)}
@@ -178,23 +168,6 @@
 .leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(4){grid-column:4;grid-row:2;background:transparent;font-size:12px;color:var(--muted)}
 /* row3: Top5/Top10/Top20/우승 (DOM columns 5-8) -- one full 4-col row, own tint distinguishes it from the rank/total header block above. */
 .leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(n+5){grid-row:3;background:var(--soft)}
-
-/* VISUAL-ARTIFACT-001 remediation (research/official-tournament-
-   warehouse-v1-20260912): R3's own round-page shape, one score column
-   fewer than leaderboard-table--r2-full above (순위+선수+3R+4개 확률,
-   DOM columns 1-7 -- the public 합계/cumulative-total column was
-   removed per the round-page shared contract: a round page shows THAT
-   round's own score only). A NEW modifier class -- r2-full's own rows
-   above are completely untouched, so R2 (and any other page still
-   using r2-full) renders exactly as before. Rank+name+3R now fit on
-   ONE row (no second stacked number needed once there is only one
-   score to show), then the 4 probability cells form their own
-   full-width row below, same tint convention as r2-full's row3. */
-.leaderboard-table.leaderboard-table--r3-full tbody tr{grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;align-items:center;column-gap:6px;row-gap:4px}
-.leaderboard-table.leaderboard-table--r3-full tbody td:nth-child(1){grid-column:1;grid-row:1;background:transparent;font-size:16px;font-weight:800}
-.leaderboard-table.leaderboard-table--r3-full tbody th[scope=row]{grid-column:2/4;grid-row:1;border-bottom:0;padding:0;margin:0}
-.leaderboard-table.leaderboard-table--r3-full tbody td:nth-child(3){grid-column:4;grid-row:1;background:transparent;font-size:16px;font-weight:800;color:var(--ink)}
-.leaderboard-table.leaderboard-table--r3-full tbody td:nth-child(n+4){grid-row:2;background:var(--soft)}
 /* Missing-value convention ("--" cells: SG/forecast not yet available
    for a given player) -- reuses the exact class name neo-site.css's
    .home-table already established for the same convention
@@ -217,7 +190,6 @@
    touching any other page's typography -- scoped to <=380px so
    390/412 are untouched. */
 @media(max-width:380px){.leaderboard-table.leaderboard-table--r2-full tbody td:nth-child(n+5){font-size:12px}}
-@media(max-width:380px){.leaderboard-table.leaderboard-table--r3-full tbody td:nth-child(n+4){font-size:12px}}
 
 /* R1 ACTIVE MODE: live summary + movers, scoped to this OK Open page's own CSS -- never touches the shared neo-site.css. */
 .r1-live-summary__grid{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px}.r1-live-summary__grid .label{display:block;color:var(--muted);font-size:12px}.r1-live-summary__grid strong{font-size:16px}
