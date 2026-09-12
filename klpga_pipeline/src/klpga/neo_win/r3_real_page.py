@@ -73,10 +73,25 @@ def _to_par_display(raw) -> str:
     return f"+{n}" if n > 0 else str(n)
 
 
+def _official_score_display(raw) -> str:
+    """Display official stroke totals without inventing an under-par value."""
+    if raw is None:
+        return EMPTY_MARK
+    try:
+        return str(int(raw))
+    except (TypeError, ValueError):
+        return EMPTY_MARK
+
+
 def _pct_display(v) -> str:
     if v is None:
         return EMPTY_MARK
-    return f"{float(v):.1f}%"
+    p = float(v)
+    if p == 0:
+        return "0%"
+    if 0 < p < 0.1:
+        return "&lt;0.1%"
+    return f"{p:.1f}%"
 
 
 def _total_to_par(row: dict):
@@ -97,6 +112,11 @@ def _total_to_par(row: dict):
 
 
 def _rank_sort_key(row: dict):
+    if row.get("total_strokes") is not None:
+        try:
+            return (0, float(row["total_strokes"]))
+        except (TypeError, ValueError):
+            pass
     total = _total_to_par(row)
     return (0, total) if total is not None else (1, 0)
 
@@ -157,18 +177,29 @@ def render_r3_real_page(
     ranks = _derive_display_ranks(advancing_records)
 
     rows_html = []
-    for row in sorted(advancing_records, key=_rank_sort_key):
+    # Include every confirmed row in the public result, including explicit
+    # WD/DQ/DNS statuses. Status is read only from frozen official evidence.
+    display_records = sorted(
+        records,
+        key=lambda r: (_rank_sort_key(r) if r.get("status", "ACTIVE") == ADVANCING_STATUS else (2, 0)),
+    )
+    for row in display_records:
         pid = str(row["player_id"])
         status = row.get("status", "ACTIVE")
         identity = render_player_identity(row["player_name"], sponsor_by_id.get(pid), quote="'")
         status_badge = f" <span class='status-badge'>{STATUS_LABEL.get(status, status)}</span>" if status != "ACTIVE" else ""
         fc = forecast_by_id.get(pid)
+        display_rank = ranks.get(pid, STATUS_LABEL.get(status, status) or EMPTY_MARK)
+        total_display = (_official_score_display(row.get("total_strokes"))
+                         if "total_strokes" in row else _to_par_display(_total_to_par(row)))
+        r3_display = (_official_score_display(row.get("r3_strokes"))
+                      if "r3_strokes" in row else _to_par_display(row.get("r3_score_to_par")))
         rows_html.append(
             f"<tr data-player-id='{pid}'>"
-            f"<td data-label='순위'>{ranks[pid]}</td>"
+            f"<td data-label='순위'>{display_rank}</td>"
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
-            f"<td data-label='합계'>{_to_par_display(_total_to_par(row))}</td>"
-            f"<td data-label='3R'>{_to_par_display(row.get('r3_score_to_par'))}</td>"
+            f"<td data-label='합계'>{total_display}</td>"
+            f"<td data-label='3R'>{r3_display}</td>"
             + _cell(fc["top5_pct"] if fc else None, "Top5")
             + _cell(fc["top10_pct"] if fc else None, "Top10")
             + _cell(fc["top20_pct"] if fc else None, "Top20")
@@ -195,7 +226,11 @@ def render_r3_real_page(
         "<th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
         "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
-        + f'<p class="note">총 {len(advancing_records)}명</p>'
+        + f'<p class="note">총 {len(advancing_records)}명 · R2 종료 후 예측</p>'
+        + '<section class="panel forecast-context" aria-label="R2 종료 후 예측">'
+        + '<h2>R2 종료 후 예측</h2>'
+        + '<p class="note">R3 결과 발표 전 고정된 10,000회 예측입니다. R3 결과를 입력으로 재계산하지 않았습니다.</p>'
+        + '</section>'
         + "</section>"
     )
 

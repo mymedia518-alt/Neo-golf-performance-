@@ -51,7 +51,12 @@ def _expected_to_par_display(v) -> str:
 def _expected_pct_display(v) -> str:
     if v is None:
         return EMPTY_MARK
-    return f"{float(v):.1f}%"
+    p = float(v)
+    if p == 0:
+        return "0%"
+    if 0 < p < 0.1:
+        return "&lt;0.1%"
+    return f"{p:.1f}%"
 
 
 def parse_rendered_rows(html: str) -> dict[str, dict]:
@@ -146,7 +151,9 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
     forecast_by_id = {str(r["player_id"]): r for r in forecast.get("records", [])}
 
     advancing_records = [r for r in records if r.get("status", "ACTIVE") == ADVANCING_STATUS]
-    advancing_ids = {str(r["player_id"]) for r in advancing_records}
+    # Public R3 truth includes explicit non-active status rows (WD/DQ/DNS);
+    # absence is never used to infer status.
+    advancing_ids = {str(r["player_id"]) for r in records}
     rendered_ids = set(rendered)
     if rendered_ids != advancing_ids:
         missing = advancing_ids - rendered_ids
@@ -161,13 +168,13 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
     distinct_ranks_seen = set()
     complete_population_size = 0
 
-    for record in advancing_records:
+    for record in records:
         pid = str(record["player_id"])
         name = record.get("player_name", pid)
         row = rendered[pid]
-        real_total = _real_total_to_par(record)
-        expected_total_display = _expected_to_par_display(real_total)
-        expected_round3_display = _expected_to_par_display(record.get("r3_score_to_par"))
+        real_total = record.get("total_strokes") if record.get("total_strokes") is not None else _real_total_to_par(record)
+        expected_total_display = (str(int(real_total)) if record.get("total_strokes") is not None else _expected_to_par_display(real_total))
+        expected_round3_display = (str(int(record["r3_strokes"])) if record.get("r3_strokes") is not None else _expected_to_par_display(record.get("r3_score_to_par")))
 
         if row["total"] != expected_total_display:
             raise RenderedOutputGateError(
@@ -180,7 +187,10 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
                 f"rendered {row['round3']!r}, expected {expected_round3_display!r}"
             )
 
-        if real_total is None:
+        if record.get("status", "ACTIVE") != ADVANCING_STATUS:
+            if row["rank"] != record.get("status"):
+                raise RenderedOutputGateError(f"status rank diverges for {name} ({pid})")
+        elif real_total is None:
             if row["rank"] != EMPTY_MARK:
                 raise RenderedOutputGateError(
                     f"fabricated rank for incomplete-data player {name} ({pid}): "
