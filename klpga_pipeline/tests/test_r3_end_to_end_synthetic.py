@@ -247,7 +247,7 @@ def test_full_chain_publishes_with_wd_player_excluded_from_main_table(context, t
     validate_r3_rendered_output(real_html, {"records": SYNTHETIC_R3_ROWS}, forecast)  # must not raise
 
     rows_html = re.findall(r"<tr data-player-id='([^']+)'>", real_html.split("<tbody>", 1)[1].split("</tbody>", 1)[0])
-    assert set(rows_html) == {"e1", "e2"}  # WD excluded from public main table
+    assert set(rows_html) == {"e1", "e2", "e3"}  # explicit WD is rendered with status
     assert "가상선수삼" not in real_html
 
     report = r3_publication_gate.evaluate_r3_publication_gate(GAME_CODE, {
