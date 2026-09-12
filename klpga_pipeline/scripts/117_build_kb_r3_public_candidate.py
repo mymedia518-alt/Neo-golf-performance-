@@ -15,7 +15,13 @@ from klpga.neo_win.r3_rendered_output_gate import validate_r3_rendered_output  #
 GAME = "2026090003"
 FINAL = ROOT / "evidence" / "KB_2026090003_R3" / "KB_2026090003_R3_OFFICIAL_FINAL.json"
 R2 = ROOT / "content" / "website_v2" / f"{GAME}_R2_FROZEN_EVIDENCE.json"
-FORECAST = ROOT / "content" / "website_v2" / f"{GAME}_POST_R2_FINAL_FORECAST.json"
+# ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-v1-
+# 20260912): the R3 page must show the genuine POST-R3 -> FR forecast,
+# never the frozen POST-R2 forecast (which was itself built with a
+# now-corrected round-count defect -- see
+# 2026090003_POST_R2_FORECAST_AUDIT_CLASSIFICATION.json). The frozen
+# POST-R2 artifact is preserved byte-for-byte and never read here.
+FORECAST = ROOT / "content" / "website_v2" / f"{GAME}_POST_R3_FINAL_FORECAST.json"
 SPONSORS = ROOT / "content" / "website_v2" / f"KB_{GAME}_SPONSOR_INTEGRITY_AUDIT_V2.json"
 OUT = REPO / "docs" / "tournaments" / "2026" / GAME / "r3" / "index.html"
 JOINED = ROOT / "evidence" / "KB_2026090003_R3" / "KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json"
@@ -34,13 +40,19 @@ def main() -> None:
         pid = str(row["playerCode"])
         status = row.get("raw_status") or "ACTIVE"
         prior = r2.get(pid, {})
+        # r3_score_to_par: real strokes minus 72 -- par 72 independently
+        # confirmed (not assumed) by cross-checking every sampled
+        # player's raw-evidence data-totunderpar against
+        # r1_score_to_par + r2_score_to_par + (r3_strokes-72); see
+        # scripts/126's own module docstring for the full check.
+        r3_score_to_par = (float(row["r3_score"]) - 72.0) if status == "ACTIVE" and row.get("r3_score") is not None else None
         records.append({
             "player_id": pid,
             "player_name": row["playerName"],
             "status": status,
             "r1_score_to_par": prior.get("r1_score_to_par"),
             "r2_score_to_par": prior.get("r2_score_to_par"),
-            "r3_score_to_par": None,
+            "r3_score_to_par": r3_score_to_par,
             "r3_strokes": row.get("r3_score"),
             "total_strokes": row.get("cumulative_score"),
         })
@@ -54,7 +66,7 @@ def main() -> None:
     html = render_r3_real_page(
         tournament_name="KB금융 골든라이프 챔피언십",
         game_code=GAME,
-        date_range="2026.09.10–2026.09.12",
+        date_range="2026.09.10–2026.09.13",
         r3_freeze={"records": records},
         forecast=forecast,
         sponsor_by_id=sponsor_by_id,

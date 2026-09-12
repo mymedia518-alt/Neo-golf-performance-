@@ -22,11 +22,14 @@ END-OF-ROUND PIPELINE NOW" task:
   - navigation transition -- PRE/R1/R2 gain a real R3 link, FINAL stays disabled
   - exact 8-column public contract
 
-A companion "R3 is the final round" test separately proves the real,
-confirmed KB 2026090003 shape (final_round_number=3) is handled
-correctly: the forecast step is a legitimate no-op (PASS, not
-HARD_STOP), and the real R3 page still publishes with every
-probability cell honestly EMPTY_MARK.
+A companion "R3 is the final round" test separately proves a genuine
+3-round tournament's shape (final_round_number=3, entirely synthetic
+here -- NOT KB 2026090003, which a prior session incorrectly believed
+belonged in this category; official evidence corrected KB 2026090003
+to final_round_number=4, see TOURNAMENT_SITE_REGISTRY.json's own
+"_final_round_number_comment") is handled correctly: the forecast step
+is a legitimate no-op (PASS, not HARD_STOP), and the real R3 page
+still publishes with every probability cell honestly EMPTY_MARK.
 
 NOTHING here ever asserts REAL_R3=CONFIRMED against real production
 data -- this file proves the pipeline machinery works; the operator's
@@ -278,8 +281,10 @@ def test_rendered_output_mismatch_hard_stops():
 
 
 # ---------------------------------------------------------------------
-# 8. R3 IS THE FINAL ROUND (real KB 2026090003 shape,
-# final_round_number=3): forecast is a legitimate no-op, never a
+# 8. R3 IS THE FINAL ROUND (a genuine synthetic 3-round tournament
+# shape, final_round_number=3 -- e.g. OK저축은행 웃맨오픈/2026120001, NOT
+# KB 2026090003, which official evidence corrected to
+# final_round_number=4): forecast is a legitimate no-op, never a
 # HARD_STOP, and the real page still publishes with honest EMPTY_MARK
 # probability cells.
 # ---------------------------------------------------------------------
@@ -287,7 +292,10 @@ def test_rendered_output_mismatch_hard_stops():
 def test_r3_is_the_final_round_forecast_refuses_but_is_not_a_pipeline_bug(context, tmp_path):
     """post_r3_forecast.py's own precondition: when R3 IS the final
     round (remaining_rounds < 1), it correctly refuses to write a
-    forecast artifact -- this is the exact real KB 2026090003 shape."""
+    forecast artifact -- a genuine 3-round tournament's real shape
+    (synthetic game_code/context here; see
+    tests/test_2026090003_round_context.py for the proof that KB
+    2026090003 itself is NOT this shape)."""
     r3_final_context = _context(tmp_path, final_round_number=3)
     r2_path = _write_real_r2_freeze(r3_final_context, tmp_path)
     evidence = build_r3_frozen_evidence(
@@ -313,7 +321,7 @@ def test_r3_is_the_final_round_real_page_still_publishes_with_empty_probabilitie
         {"player_id": "e2", "player_name": "B", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0, "r3_score_to_par": 1},
     ]
     forecast = {"records": []}
-    html = render_r3_real_page(tournament_name="KB TEST", game_code="2026090003", date_range="d", r3_freeze={"records": records}, forecast=forecast, sponsor_by_id={})
+    html = render_r3_real_page(tournament_name="SYNTHETIC 3-ROUND TEST OPEN", game_code=GAME_CODE, date_range="d", r3_freeze={"records": records}, forecast=forecast, sponsor_by_id={})
     assert is_real_page(html)
     validate_r3_rendered_output(html, {"records": records}, forecast)  # must not raise
     for pid in ("e1", "e2"):

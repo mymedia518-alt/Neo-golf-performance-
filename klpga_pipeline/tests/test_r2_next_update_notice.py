@@ -1,12 +1,19 @@
 """R2 PUBLIC PAGE -- RESTORE NEXT UPDATE NOTICE (base f52d0a6).
 
-KB 2026090003's real, confirmed final_round_number is 3 -- R3 is this
-tournament's LAST competitive round. The next public transition off
-the R2 page therefore happens after R3 completes, straight toward
-FINAL/result validation -- there is no POST-R3 win forecast to
-publish. klpga.neo_win.r2_real_page now carries a static
-"R3 종료 후 업데이트" notice below the leaderboard so a visitor knows
-when to expect the next update.
+klpga.neo_win.r2_real_page carries a static "R3 종료 후 업데이트" notice
+below the leaderboard so a visitor knows when to expect the next
+update -- correct regardless of round count, since R2's own next
+public transition genuinely is R3.
+
+ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-v1-
+20260912): this file previously asserted KB 2026090003's
+final_round_number is 3 (R3 being its last competitive round) as an
+already-"confirmed" fact. Official evidence (the R3 leaderboard's own
+4R column/round4score attributes + the official 4-day Thu-Sun
+schedule) proves this is a genuine FOUR competitive-round event -- see
+TOURNAMENT_SITE_REGISTRY.json's "_final_round_number_comment". A
+genuine POST-R3 forecast (targeting FR, competitive round 4) is now
+built via post_r3_forecast.py once R3 concludes.
 
 Desktop and mobile are the SAME markup (no separate mobile template),
 so proving the notice is present in the real generated HTML covers
@@ -85,18 +92,21 @@ def test_notice_does_not_disturb_population_or_formatter():
         assert re.fullmatch(r"0%|<0\.1%|[+-]?\d+\.\d%", cell_text)
 
 
-def test_no_post_r3_forecast_artifact_exists():
-    """This tournament's final_round_number is 3 -- there is nothing
-    to forecast after R3 completes, so no post_r3_final_forecast
-    artifact should exist (mirrors post_r3_forecast.py's own
-    remaining_rounds<1 refusal -- see that module's PostR3ForecastError
-    handling in scripts/114's R3-is-the-final-round branch)."""
+def test_final_round_number_is_four_with_one_remaining_round_after_r3():
+    """ROUND-CONTEXT CORRECTION: this tournament's final_round_number
+    is 4 (a genuine four-round event, corrected from an earlier
+    session's incorrect final_round_number=3 belief -- see
+    TOURNAMENT_SITE_REGISTRY.json's own evidence trail). One
+    competitive round (FR, round 4) remains after R3, so a genuine
+    POST-R3 forecast IS buildable via post_r3_forecast.py -- see
+    tests/test_post_r3_forecast.py and
+    tests/test_2026090003_round_context.py for the forecast-artifact
+    and context-correction regressions themselves."""
     from klpga.tournament_context import load_tournament_context
 
     context = load_tournament_context("2026090003")
-    assert context.final_round_number == 3
-    forecast_path = context.artifact_path("post_r3_final_forecast")
-    assert not forecast_path.is_file(), "a POST-R3 win forecast must never exist for a final_round_number=3 tournament"
+    assert context.final_round_number == 4
+    assert context.final_round_number - 3 == 1
 
 
 def test_synthetic_render_always_includes_the_notice():

@@ -33,8 +33,10 @@ def test_probability_formatter_contract():
 def test_sponsor_slot_and_navigation_contract():
     html=render([active()], sponsors={"p1":"OFFICIAL SPONSOR"})
     assert "OFFICIAL SPONSOR" in html and "class='player-sponsor'" in html
-    assert 'aria-current="page">R3' in html and 'aria-disabled="true">FINAL' in html
+    assert 'aria-current="page">R3' in html and 'aria-disabled="true">FR' in html and 'aria-disabled="true">FINAL' in html
 
 def test_next_update_copy_and_real_page_marker():
+    """ROUND-CONTEXT CORRECTION: next-update copy now points at FR (the
+    actual next stage in PRE/R1/R2/R3/FR/FINAL), not FINAL directly."""
     html=render([active()])
-    assert "FINAL 종료 후 업데이트" in html and is_real_page(html)
+    assert "FR 종료 후 업데이트" in html and is_real_page(html)

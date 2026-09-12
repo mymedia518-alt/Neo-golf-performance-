@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "artifact_type": "post_r2_forecast_audit_classification",
+  "subject_artifact_path": "content/website_v2/2026090003_POST_R2_FINAL_FORECAST.json",
+  "subject_artifact_sha256": "ad65227f59c19562005b3140c5bbdcf9713d90ae61f2df00e46d9ab9e97c8367",
+  "subject_artifact_immutable": true,
+  "subject_artifact_modified_by_this_script": false,
+  "classification": "HISTORICAL_FORECAST_WITH_ROUND_CONTEXT_ERROR",
+  "defect": {
+    "recorded_remaining_rounds": 1,
+    "correct_remaining_rounds_at_end_of_r2": 2,
+    "recorded_final_round_number_at_build_time": 3,
+    "correct_final_round_number": 4,
+    "root_cause": "TournamentContext.final_round_number for gameCode 2026090003 was mechanically derived by counting 'rN' stages already present in TOURNAMENT_SITE_REGISTRY.json's stage_order (pre,r1,r2,r3,final = 3), which reflects how many round pages had been built so far, not the tournament's true round count. Official evidence (the R3 leaderboard's own 4R column / round4score attributes, plus the official 4-day Thu-Sun schedule) proves this is a genuine 4-round event. post_r2_forecast.py computed remaining_rounds = final_round_number - 2 = 1 and passed it directly into simulate_post_round2(remaining_rounds=1), which drew only ONE round's worth of Monte Carlo variance per player instead of the correct TWO (R3 and R4).",
+    "practical_effect": "The frozen forecast's WIN/TOP5/TOP10/TOP20 percentages were calibrated to predict 'leader after R3', not the true tournament winner after R4/FR. Its filename and public label ('POST_R2_FINAL_FORECAST') implies a true-final forecast; this classification exists precisely because that implication is not correct for the underlying computation performed."
+  },
+  "handling_rule": "Do not rewrite this artifact's metadata or regenerate its predictions. It is preserved exactly as originally computed, as real historical evidence of system state at build time. It must never be presented as, or substituted for, a correctly-specified true-final forecast, and must never be mixed into formal model-performance claims as if its tournament horizon were correctly specified -- see 2026090003_VALIDATION_LEDGER.json's evidence-class A entry.",
+  "corrective_action_taken": "TOURNAMENT_SITE_REGISTRY.json's 2026090003 entry now carries an explicit, evidence-backed final_round_number=4 field; a genuine POST-R3 forecast (content/website_v2/2026090003_POST_R3_FINAL_FORECAST.json) has been built with the corrected remaining_rounds=1 at the END_OF_R3 checkpoint. This is a forward-only correction -- the original POST-R2 artifact is never replaced."
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tournament_validation_ledger",
+  "game_code": "2026090003",
+  "tournament_name": "KB금융 골든라이프 챔피언십",
+  "round_context_correction": {
+    "corrected_final_round_number": 4,
+    "public_stage_sequence": [
+      "pre",
+      "r1",
+      "r2",
+      "r3",
+      "fr",
+      "final"
+    ],
+    "fr_meaning": "FR = Final Round = the actual fourth competitive round (never publicly labeled 'r4')",
+    "final_meaning": "FINAL = the distinct post-tournament result/validation stage that follows FR",
+    "evidence_summary": "Official R3 leaderboard raw capture has its own '4R' column (_orderType=round4score) with every player's data-round4score attribute present (empty, pending); official schedule (OFFICIAL_KLPGA_SCHEDULE.json / KLPGA_2026_09_SCHEDULE_SCREENSHOT_EVIDENCE.json) records a 4-day Thu-Sun span (09.10-09.13), matching the confirmed 4-round 하나금융그룹 챔피언십's identical profile, versus the confirmed-3-round OK저축은행 웃맨오픈's 3-day Fri-Sun span."
+  },
+  "evidence_classes": {
+    "A_ORIGINAL_POST_R2_FORECAST": {
+      "description": "The original, immutable POST-R2 forecast. Never rewritten.",
+      "path": "content/website_v2/2026090003_POST_R2_FINAL_FORECAST.json",
+      "sha256": "ad65227f59c19562005b3140c5bbdcf9713d90ae61f2df00e46d9ab9e97c8367",
+      "classification": "HISTORICAL_FORECAST_WITH_ROUND_CONTEXT_ERROR",
+      "recorded_remaining_rounds": 1,
+      "correct_remaining_rounds_at_time_of_build": 2,
+      "context_error_discovered": true,
+      "usable_for_formal_model_performance_claims": false,
+      "usable_for": "diagnostic / historical-system-state comparison ONLY -- see R2_to_R3 comparison note below",
+      "audit_classification_artifact": "content/website_v2/2026090003_POST_R2_FORECAST_AUDIT_CLASSIFICATION.json"
+    },
+    "B_POST_R3_FORECAST": {
+      "description": "The genuine POST-R3 -> FR forecast, built with the corrected tournament context.",
+      "path": "content/website_v2/2026090003_POST_R3_FINAL_FORECAST.json",
+      "sha256": "016d02966bd57f88f466a5acfb4da480d3895fa4f28181157472d5ef5622141f",
+      "r3_freeze_path": "content/website_v2/2026090003_R3_FROZEN_EVIDENCE.json",
+      "r3_freeze_sha256": "f72fe911840329bbbc954d9c35e2fb81cfa8a4db6847df16c710a2741ca179d5",
+      "final_round_number": 4,
+      "remaining_rounds": 1,
+      "feature_cutoff": "END_OF_R3",
+      "n_simulations": 10000,
+      "seed": 20260912,
+      "code_commit": "c6ab49c1915b075febafedcc121c97e900e309f7",
+      "build_id": "20260912T000000Z_POST_R3",
+      "future_data_excluded": true,
+      "context_correctly_specified": true,
+      "usable_for_formal_model_performance_claims": true
+    },
+    "C_FR_FINAL_TRUTH": {
+      "description": "The real FR (competitive round 4) result and post-tournament FINAL outcome. Not yet available.",
+      "status": "PENDING",
+      "path": null,
+      "sha256": null,
+      "note": "No R4/FR/FINAL official data exists anywhere in this worktree as of this ledger's build -- confirmed by repo-wide search finding zero R4/FINAL-labeled artifacts for this game_code and every player's raw-evidence data-round4score attribute being present but empty."
+    }
+  },
+  "comparison_policy": "Any R2-vs-R3(-vs-FR) predictive comparison MUST explicitly disclose evidence class A's round-context defect and must never present class A's hit-rates as proof of the model's true-final predictive performance -- only class B (and, once available, a genuine POST-R3-vs-class-C comparison) may be used for that claim."
+}

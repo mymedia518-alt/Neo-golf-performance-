@@ -261,10 +261,15 @@ def _publish_and_close(rows, expected_ids, decision, build_id: str, seed: int) -
     )
     write_r3_freeze_immutable(_CONTEXT, evidence)
 
-    # R3-IS-THE-FINAL-ROUND CASE: some tournaments (KB 2026090003
-    # confirmed among them -- final_round_number=3) have NO round left
-    # to forecast once R3 completes; a "POST-R3 forecast" is
-    # mathematically a no-op there, never a real error. Detected BEFORE
+    # R3-IS-THE-FINAL-ROUND CASE: a genuine 3-round tournament
+    # (final_round_number=3, e.g. OK저축은행 웃맨오픈/2026120001 -- NOT KB
+    # 2026090003, which a prior session incorrectly believed belonged
+    # here; see TOURNAMENT_SITE_REGISTRY.json's own
+    # "_final_round_number_comment" for the official 4R-column/schedule
+    # evidence that corrected KB 2026090003 to final_round_number=4)
+    # has NO round left to forecast once R3 completes; a "POST-R3
+    # forecast" is mathematically a no-op there, never a real error.
+    # Detected BEFORE
     # calling run_post_r3_forecast (whose own remaining_rounds<1 check
     # exists as a defensive backstop for a caller who skips this) so
     # the real R3 page can still publish -- with every forecast cell
