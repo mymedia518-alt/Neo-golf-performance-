@@ -26,6 +26,17 @@ once `klpga.neo_win.r3_wait_page` has run, long before R3 has actually
 concluded -- its existence must NEVER promote HOME to R3). Evidence
 checked, most-advanced stage first:
 
+  final: `klpga.neo_win.final_publication_gate`'s own hash-verified
+      `final_published_evidence` artifact exists -- NOT merely a FINAL
+      candidate JSON or a rendered FINAL HTML file existing (both are
+      produced automatically by scripts/117 the instant R3's result
+      passes validation, long before any human deploy approval; see
+      that gate module's own docstring). Nothing in the R3 RESULT-ONLY
+      INPUT PREPARATION or R3 FINAL WEB DRY-RUN work writes this
+      artifact for real KB, so this branch is a real, generic
+      capability that stays permanently dormant for production until a
+      separate, future, human-invoked promotion step actually creates
+      it.
   r3: `klpga.neo_win.r3_freeze`'s real, hash-verified freeze exists --
       the round has genuinely concluded with real official evidence
       bound to it (`build_r3_frozen_evidence` requires every record's
@@ -54,6 +65,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from klpga.neo_win.final_publication_gate import final_published_evidence_exists, verify_final_published_hash
 from klpga.neo_win.post_r2_forecast import STAGE_CREATED as _R2_STAGE_CREATED, post_r2_forecast_status
 from klpga.neo_win.r2_freeze import r2_freeze_exists, verify_r2_freeze_hash
 from klpga.neo_win.r3_freeze import r3_freeze_exists, verify_r3_freeze_hash
@@ -88,6 +100,8 @@ def kb_current_stage(context: TournamentContext) -> str:
     """The most-advanced KB stage with REAL publication evidence behind
     it -- see module docstring. Never inferred from HTML file existence
     alone."""
+    if final_published_evidence_exists(context) and verify_final_published_hash(context):
+        return "final"
     if r3_freeze_exists(context) and verify_r3_freeze_hash(context):
         return "r3"
     if (
