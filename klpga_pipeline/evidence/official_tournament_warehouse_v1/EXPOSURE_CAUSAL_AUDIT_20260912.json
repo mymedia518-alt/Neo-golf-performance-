@@ -1,0 +1,9 @@
+{
+  "status":"EXPOSURE_AUDIT_INSUFFICIENT",
+  "reason":"No repository event has both complete multi-round evidence and explicit final CUT/status evidence.",
+  "2026120001":"FINAL_STATUS_UNRESOLVED",
+  "old_gate":{"V1":-0.358,"V2B":-0.297,"assessment":"CONFOUNDED_OR_PARTIAL_NOT_RETESTABLE"},
+  "matched_analysis":"NOT_EVALUABLE",
+  "counterfactual_exposure_diagnostic":"NOT_EVALUABLE",
+  "v2b_decision":"V2B_REMAINS_BLOCKED"
+}
