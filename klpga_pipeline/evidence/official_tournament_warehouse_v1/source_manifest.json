@@ -1,0 +1,1 @@
+{"schema":"OFFICIAL_TOURNAMENT_WAREHOUSE_V1","status":"CODE_READY_EVIDENCE_NOT_INGESTED","source_families":["tourInfo","entry","group","scoreRecord","mainRecord","liveMap"],"raw_policy":"content_addressed_sha256","missing_values":"NULL"}

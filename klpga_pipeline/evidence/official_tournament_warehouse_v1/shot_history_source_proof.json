@@ -1,0 +1,1 @@
+{"status":"BLOCKED","reason":"Small proof capture not available in current worktree; no mass scrape attempted.","required_call":"getShotData(gameCode, playerCode, round, hole)"}

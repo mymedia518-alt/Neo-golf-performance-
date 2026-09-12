@@ -1,0 +1,2794 @@
+{
+  "schema": "NEO_OFFICIAL_ROUND_EXPOSURE_V1",
+  "status": "REAL_ARCHIVED_OFFICIAL_OBSERVATIONS",
+  "rows": [
+    {
+      "playerCode": "9113",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 65,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10188",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10586",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8868",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8240",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8282",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10185",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9483",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9503",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9235",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6442",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10159",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8424",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9362",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8890",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8262",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8284",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8859",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8300",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9134",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10002",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9449",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8301",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10101",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9391",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8854",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8883",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9389",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9384",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10022",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9000",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9237",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "1456",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8764",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "1521",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8318",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8811",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8215",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6120",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10112",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9981",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7926",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9759",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9183",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9111",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8200",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9487",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8431",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9431",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "4905",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9807",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8772",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9401",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7434",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9820",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11066",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8277",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9752",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8243",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8589",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10095",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9790",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8773",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10093",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7889",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9120",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9109",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9082",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9821",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10178",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8782",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9748",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10618",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6781",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7439",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8289",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9089",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9136",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8891",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10296",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10139",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10789",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7469",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10577",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10083",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9652",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10727",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9796",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9277",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8791",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8371",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10021",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10109",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8321",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8370",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8234",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9746",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10531",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8355",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8317",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8181",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9765",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7912",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8378",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10182",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9465",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10081",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8838",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10146",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9990",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9116",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8434",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8251",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9745",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10157",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8268",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9938",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11533",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": true,
+      "round_score": 83,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8872",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": false,
+      "round_score": null,
+      "completion_status": "INCOMPLETE"
+    },
+    {
+      "playerCode": "9730",
+      "gameCode": "2023090001",
+      "round": 1,
+      "round_played": false,
+      "round_score": null,
+      "completion_status": "INCOMPLETE"
+    },
+    {
+      "playerCode": "8883",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9431",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9784",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8881",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9483",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9120",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8284",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8782",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9237",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11066",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8191",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10618",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8838",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9705",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9401",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8868",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8773",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8854",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8289",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7469",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8890",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8277",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10178",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9745",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8240",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9109",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9362",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8770",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8431",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6120",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8392",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9503",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9384",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10188",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9765",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9807",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9130",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9145",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9426",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7889",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9235",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10531",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9652",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10112",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10146",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "1521",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8300",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10109",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8764",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7434",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10586",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8772",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9752",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8215",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10577",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9981",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9106",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9821",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6916",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8811",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8181",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9487",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10002",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7912",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9134",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8251",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10097",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10081",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8589",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9183",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6781",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9389",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9730",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "4905",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8246",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9113",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10789",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 80,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9746",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 81,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10095",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 81,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10159",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 81,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "1456",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 81,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7439",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 81,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8859",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 81,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10022",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9136",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8424",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9391",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8891",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9465",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10185",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9938",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 82,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10083",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 83,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8180",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 83,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9000",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 83,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9082",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 83,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9277",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 84,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8234",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 84,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7963",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 85,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8262",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 85,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8434",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 86,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8370",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 86,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9449",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 86,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10071",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 86,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9116",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 86,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10157",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 87,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9759",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": true,
+      "round_score": 89,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9820",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": false,
+      "round_score": null,
+      "completion_status": "INCOMPLETE"
+    },
+    {
+      "playerCode": "9750",
+      "gameCode": "2023090002",
+      "round": 1,
+      "round_played": false,
+      "round_score": null,
+      "completion_status": "INCOMPLETE"
+    },
+    {
+      "playerCode": "9784",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10296",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8284",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9401",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8838",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8782",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9431",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 66,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9981",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9765",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10097",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7469",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9759",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9796",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 67,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11066",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9113",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6120",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8317",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9130",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10081",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "1456",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 68,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10531",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10725",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9277",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9483",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 69,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8431",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10185",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9145",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9746",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6442",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10022",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8234",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9730",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9106",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8811",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8891",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8262",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9136",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9807",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8859",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8773",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7926",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8906",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9237",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9652",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9487",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10618",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 70,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8181",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11411",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10083",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8764",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10188",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8215",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10157",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9820",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "4905",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10095",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9449",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8380",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8289",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8881",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7163",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8301",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8240",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8246",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 71,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10577",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7889",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7912",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9000",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8424",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7963",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9705",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9391",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8300",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9120",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8392",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10789",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9821",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9748",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9503",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8434",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9384",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8268",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10178",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11059",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8370",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8868",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9990",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 72,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9938",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8251",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9111",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8589",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9426",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8872",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10182",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10112",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "7439",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8282",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8180",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8200",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9082",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6443",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9109",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 73,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10109",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "6781",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8791",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8277",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9116",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 74,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8318",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10586",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9134",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9389",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 75,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9089",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10159",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8378",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "11045",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 76,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "8770",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "10139",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 77,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9752",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 78,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9745",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": true,
+      "round_score": 79,
+      "completion_status": "ACTIVE"
+    },
+    {
+      "playerCode": "9465",
+      "gameCode": "2023090003",
+      "round": 1,
+      "round_played": false,
+      "round_score": null,
+      "completion_status": "INCOMPLETE"
+    }
+  ],
+  "counts": {
+    "rows": 348,
+    "players_1_round": 145
+  }
+}
