@@ -1,0 +1,27 @@
+{
+  "schema_version": "operator_reported_sponsor_evidence_v2",
+  "supersedes": "none -- additive to OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json, same evidence tier",
+  "_provenance_honesty_note": "This session's own network access to klpga.co.kr / k-rankings.klpga.co.kr remains proxy-blocked. This entry's sponsor values were TRANSCRIBED by this session from a screenshot the operator supplied directly in chat, showing an official-style KLPGA leaderboard with sponsor logos rendered next to each player's name. Never independently fetched by this session -- same evidence tier as V1 (operator-reported, outside-session real access), never mislabeled as an automated official_source fetch.",
+  "reported_by": "operator, via a screenshot of an official-style KLPGA leaderboard supplied directly in chat",
+  "reported_at_utc": "2026-09-12T14:10:00Z",
+  "verification_method": "operator-supplied screenshot showing sponsor logos next to player names on an official-style leaderboard render",
+  "identity_join_key": "player_id (exact match only -- never name-only)",
+  "cross_check_result": [
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "note": "Screenshot's own R1/R2/R3/합계/3R-to-par values (74/75/69, total 218, 3R -3) exactly match this session's own frozen R3 official truth and rendered R3 page (rank T24, 합계 +2, 3R 69 (-3)) -- confirms the screenshot is showing the same official R3 leaderboard, not a different round or a stale snapshot."
+    },
+    {
+      "player_id": "8191",
+      "player_name": "전인지",
+      "note": "Screenshot's own R1/R2/R3/합계/3R-to-par values (75/75/71, total 221, 3R -1) exactly match this session's own frozen R3 official truth and rendered R3 page (rank T41, 합계 +5, 3R 71 (-1)) -- same cross-check as above."
+    }
+  ],
+  "records": [
+    {"player_id": "1521", "player_name": "지한솔", "sponsor": "동부건설", "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"},
+    {"player_id": "8191", "player_name": "전인지", "sponsor": "KB금융그룹", "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"}
+  ],
+  "conflict_check": "Confirmed KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V2.json currently lists both player_id 1521 and 8191 as COLLECTION_BLOCKED (no prior sponsor value on record for either) -- no disagreement to resolve, this is new evidence closing a previously-open gap, not a correction of an existing value.",
+  "not_the_complete_recovery_list": "The operator explicitly confirmed a third player in this same visible gap, player_id 9111 (박서현), was checked and found to have no visible sponsor -- this is NOT included in `records` above since it is an absence claim, not a positive sponsor value, and no screenshot region evidencing 박서현 specifically was supplied. 박서현 therefore remains COLLECTION_BLOCKED, rendering blank exactly as before -- unchanged by this file."
+}

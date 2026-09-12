@@ -22,7 +22,11 @@ R2 = ROOT / "content" / "website_v2" / f"{GAME}_R2_FROZEN_EVIDENCE.json"
 # 2026090003_POST_R2_FORECAST_AUDIT_CLASSIFICATION.json). The frozen
 # POST-R2 artifact is preserved byte-for-byte and never read here.
 FORECAST = ROOT / "content" / "website_v2" / f"{GAME}_POST_R3_FINAL_FORECAST.json"
-SPONSORS = ROOT / "content" / "website_v2" / f"KB_{GAME}_SPONSOR_INTEGRITY_AUDIT_V2.json"
+# VISUAL GATE remediation (research/official-tournament-warehouse-v1-
+# 20260912): V3 merges OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json (two
+# more players' sponsors closed) on top of V2 -- see
+# KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3.json's own "purpose" field.
+SPONSORS = ROOT / "content" / "website_v2" / f"KB_{GAME}_SPONSOR_INTEGRITY_AUDIT_V3.json"
 OUT = REPO / "docs" / "tournaments" / "2026" / GAME / "r3" / "index.html"
 JOINED = ROOT / "evidence" / "KB_2026090003_R3" / "KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json"
 

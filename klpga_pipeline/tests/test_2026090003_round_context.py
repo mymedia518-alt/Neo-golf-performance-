@@ -232,9 +232,14 @@ def test_r3_page_leader_matches_post_r3_forecast_not_post_r2(real_r3_html, post_
     assert f"data-label='Top10'>{expected_top10}<" in row
 
 
-def test_r3_page_carries_r3_forecast_labeling_not_stale_r2_labeling(real_r3_html):
-    assert "R3 종료 후 예측" in real_r3_html
+def test_r3_page_carries_no_stale_r2_labeling(real_r3_html):
+    """VISUAL GATE remediation: the R3/probability explanatory note
+    ("R3 종료 후 예측값" and equivalent) was removed from the public
+    page entirely -- the real invariant this test protects is that no
+    STALE round labeling (R2's own wording) ever leaks onto the R3
+    page, which still holds trivially once all such copy is gone."""
     assert "R2 종료 후 예측" not in real_r3_html
+    assert "종료 후 예측" not in real_r3_html
 
 
 def test_r3_page_wd_row_has_no_probability_values(real_r3_html):
@@ -243,8 +248,11 @@ def test_r3_page_wd_row_has_no_probability_values(real_r3_html):
         assert f"data-label='{label}'>—<" in row
 
 
-def test_r3_page_stage_nav_has_fr_and_final_both_disabled(real_r3_html):
+def test_r3_page_stage_nav_has_fr_disabled_no_final(real_r3_html):
+    """VISUAL GATE remediation: FINAL is removed from R3's own nav
+    entirely (not even as a disabled placeholder) -- nav is exactly
+    PRE/R1/R2/R3/FR."""
     nav = re.search(r'<nav class="stage-nav".*?</nav>', real_r3_html, re.DOTALL).group(0)
     assert nav.count('<span class="stage-nav__disabled" aria-disabled="true">FR</span>') == 1
-    assert nav.count('<span class="stage-nav__disabled" aria-disabled="true">FINAL</span>') == 1
+    assert "FINAL" not in nav
     assert 'href="/tournaments/2026/2026090003/r3/" aria-current="page">R3</a>' in nav

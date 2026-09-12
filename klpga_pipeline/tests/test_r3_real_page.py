@@ -57,9 +57,12 @@ def test_probability_formatter_contract():
     assert "data-label='우승'>0%<" in html and "data-label='Top5'>&lt;0.1%<" in html and "12.5%" in html
 
 def test_sponsor_slot_and_navigation_contract():
+    """Navigation is PRE/R1/R2/R3/FR only -- FINAL is deliberately
+    omitted from R3's own nav (not even as a disabled placeholder)."""
     html=render([active()], sponsors={"p1":"OFFICIAL SPONSOR"})
     assert "OFFICIAL SPONSOR" in html and "class='player-sponsor'" in html
-    assert 'aria-current="page">R3' in html and 'aria-disabled="true">FR' in html and 'aria-disabled="true">FINAL' in html
+    assert 'aria-current="page">R3' in html and 'aria-disabled="true">FR' in html
+    assert "FINAL" not in html
 
 def test_real_page_marker_and_no_bottom_copy():
     """Public bottom copy (population count, next-update note,
@@ -79,6 +82,14 @@ def test_no_internal_operational_copy_in_public_page():
     for forbidden in ("10,000회", "10000회", "시뮬레이션", "고정된", "미래 데이터",
                       "freeze", "provenance", "build_id", "seed"):
         assert forbidden not in html, f"internal-facing copy leaked into public page: {forbidden!r}"
+
+def test_no_r3_probability_explanation_copy():
+    """VISUAL GATE remediation: no visible copy explaining that the
+    probabilities are R3-specific/checkpoint-derived -- the public page
+    shows the table with no probability/checkpoint explanatory note."""
+    html=render([active()])
+    assert "종료 후 예측값" not in html
+    assert "<p class=\"note\">" not in html
 
 def test_cumulative_score_semantics_hard_stop_is_reachable():
     """The executable contract's semantic check is real, not decorative
