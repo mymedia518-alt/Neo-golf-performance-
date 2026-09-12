@@ -1,0 +1,13 @@
+{
+  "V1_spearman_official_rounds_vs_rank": -0.3576961802206767,
+  "V1_reference_known": -0.358,
+  "V2A_spearman_official_rounds_vs_rank": -0.30103175246167907,
+  "V1_spearman_official_rounds_vs_score": 0.3576961802206767,
+  "V2A_spearman_official_rounds_vs_score": 0.30103175246167907,
+  "V1_spearman_official_rounds_vs_sample_reliability": 0.26737186366480686,
+  "V2A_spearman_official_rounds_vs_sample_reliability": 0.2867168512041323,
+  "n_V1": 104,
+  "n_V2A": 105,
+  "absolute_exposure_correlation_declined": true,
+  "relative_reduction_pct": 15.8
+}

@@ -1,0 +1,27 @@
+{
+  "V1": {
+    "n": 107,
+    "score_changed": 107,
+    "rank_label_changed": 14,
+    "score_changed_pct": 100.0,
+    "rank_label_changed_pct": 13.08
+  },
+  "V2A": {
+    "n": 108,
+    "score_changed": 108,
+    "rank_label_changed": 26,
+    "score_changed_pct": 100.0,
+    "rank_label_changed_pct": 24.07
+  },
+  "V2B": {
+    "n": 108,
+    "score_changed": 0,
+    "rank_label_changed": 8,
+    "score_changed_pct": 0.0,
+    "rank_label_changed_pct": 7.41
+  },
+  "note": "SCORE change is the substantive test (does a player's own assessed skill move when an unrelated player is swapped?); RANK_LABEL change is an unavoidable list-position artifact of re-sorting a finite displayed set whenever its membership changes, even when every score is invariant.",
+  "V2B_gate": "PASS",
+  "V2A_gate": "FAIL",
+  "V1_gate": "FAIL"
+}

@@ -1,0 +1,67 @@
+{
+  "predeclared_tolerance": {
+    "core_metrics": [
+      "spearman_neo_rank_vs_finish",
+      "spearman_neo_score_vs_subsequent_sg_next1",
+      "spearman_neo_score_vs_subsequent_sg_next3",
+      "spearman_neo_score_vs_subsequent_sg_next5",
+      "made_cut_auc"
+    ],
+    "core_metric_max_tolerated_decline": 0.05,
+    "secondary_metrics": [
+      "top10_precision",
+      "top20_precision"
+    ],
+    "secondary_metric_max_tolerated_decline": 0.03,
+    "pass_condition": "for EVERY core metric, (V1_value - V2A_value) <= 0.05, OR V2A_value >= V1_value; AND for every secondary metric, (V1_value - V2A_value) <= 0.03, OR V2A_value >= V1_value",
+    "fail_condition": "ANY core metric declines by more than 0.05, or any secondary metric declines by more than 0.03 -- regardless of how much exposure bias improves"
+  },
+  "comparison": {
+    "tournament_count": {
+      "V1": 72,
+      "V2A": 76
+    },
+    "observation_count": {
+      "V1": 6753,
+      "V2A": 6779
+    },
+    "spearman_neo_rank_vs_finish": {
+      "V1": 0.4751971849627182,
+      "V2A": 0.4604562133981222
+    },
+    "spearman_neo_score_vs_subsequent_sg_next1": {
+      "V1": 0.4200135979026168,
+      "V2A": 0.40232440363105276
+    },
+    "spearman_neo_score_vs_subsequent_sg_next3": {
+      "V1": 0.5410097260148692,
+      "V2A": 0.5188586258373749,
+      "n": {
+        "V1": 6179,
+        "V2A": 6217
+      }
+    },
+    "spearman_neo_score_vs_subsequent_sg_next5": {
+      "V1": 0.596244344939681,
+      "V2A": 0.5732230881555336,
+      "n": {
+        "V1": 5817,
+        "V2A": 5860
+      }
+    },
+    "made_cut_auc": {
+      "V1": 0.7047237072047374,
+      "V2A": 0.6872214907007862
+    },
+    "top10_precision": {
+      "V1": 0.35555555555555557,
+      "V2A": 0.34285714285714286
+    },
+    "top20_precision": {
+      "V1": 0.49444444444444446,
+      "V2A": 0.49088345864661653
+    }
+  },
+  "failures_exceeding_predeclared_tolerance": [],
+  "PREDICTIVE_VALIDATION_GATE": "PASS"
+}

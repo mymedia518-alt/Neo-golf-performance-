@@ -1,0 +1,74 @@
+{
+  "gate_table": {
+    "V1": {
+      "DATA": "PASS",
+      "IDENTITY": "PASS",
+      "TEMPORAL": "PASS",
+      "SG_INTEGRITY": "PASS",
+      "REPRODUCIBILITY": "PASS",
+      "OFFICIAL_SG_VALIDATION": "PASS",
+      "EXPOSURE_BIAS": "FAIL",
+      "PREDICTIVE_VALIDATION": "PASS (is the control against which others are measured)",
+      "STABILITY": "N/A (control)",
+      "EXPLAINABILITY": "N/A (control)",
+      "COHORT_DEPENDENCY": "FAIL"
+    },
+    "V2A": {
+      "DATA": "PASS",
+      "IDENTITY": "PASS",
+      "TEMPORAL": "PASS",
+      "SG_INTEGRITY": "PASS",
+      "REPRODUCIBILITY": "PASS",
+      "OFFICIAL_SG_VALIDATION": "PASS",
+      "EXPOSURE_BIAS": "FAIL",
+      "PREDICTIVE_VALIDATION": "PASS",
+      "STABILITY": "PASS (full report + mechanical mover explanations produced)",
+      "EXPLAINABILITY": "PASS (mechanical_reason present on every stability mover)",
+      "COHORT_DEPENDENCY": "FAIL"
+    },
+    "V2B": {
+      "DATA": "PASS",
+      "IDENTITY": "PASS",
+      "TEMPORAL": "PASS",
+      "SG_INTEGRITY": "PASS",
+      "REPRODUCIBILITY": "PASS",
+      "OFFICIAL_SG_VALIDATION": "PASS",
+      "EXPOSURE_BIAS": "FAIL",
+      "PREDICTIVE_VALIDATION": "PASS",
+      "STABILITY": "PASS (full report + mechanical mover explanations produced)",
+      "EXPLAINABILITY": "PASS (mechanical_reason present on every stability mover)",
+      "COHORT_DEPENDENCY": "PASS"
+    }
+  },
+  "failing_gates_by_candidate": {
+    "V1": [
+      "EXPOSURE_BIAS",
+      "COHORT_DEPENDENCY"
+    ],
+    "V2A": [
+      "EXPOSURE_BIAS",
+      "COHORT_DEPENDENCY"
+    ],
+    "V2B": [
+      "EXPOSURE_BIAS"
+    ]
+  },
+  "required_gates": [
+    "DATA",
+    "IDENTITY",
+    "TEMPORAL",
+    "SG_INTEGRITY",
+    "REPRODUCIBILITY",
+    "OFFICIAL_SG_VALIDATION",
+    "EXPOSURE_BIAS",
+    "PREDICTIVE_VALIDATION",
+    "STABILITY",
+    "EXPLAINABILITY",
+    "COHORT_DEPENDENCY"
+  ],
+  "inherited_baseline_gate_note": "Inherited from Section 0 frozen dac6a09 facts (WAREHOUSE_READY=READY) -- unchanged by V2A/V2B, which modify only skill-estimation and cohort-normalization on top of the same warehouse/pipeline.",
+  "exposure_bias_materiality_standard": "see NEO_EXPOSURE_BIAS_MATERIALITY_RULING.json -- applied identically to V2A and V2B, both FAIL",
+  "selected_model": null,
+  "NEO_RANKING_PUBLICATION": "BLOCKED",
+  "rationale": "No candidate passes ALL 11 required gates. V1 and V2A both fail EXPOSURE_BIAS and COHORT_DEPENDENCY. V2B fixes COHORT_DEPENDENCY (0% score-change under cohort swap, vs 100% for V1/V2A) but does NOT materially reduce EXPOSURE_BIAS (-0.297 vs V1's -0.358, a 16.9% relative reduction that leaves the correlation in the same medium effect-size band -- not material per the pre-declared standard). Per Section 11's explicit no-exceptions rule, publication is BLOCKED. No HOME deployment candidate is produced; Sections 15-20 are not executed."
+}
