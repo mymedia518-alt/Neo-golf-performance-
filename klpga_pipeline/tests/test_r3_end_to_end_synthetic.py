@@ -416,5 +416,5 @@ def test_exact_8_column_public_contract_end_to_end():
     html = render_r3_real_page(tournament_name="X", game_code="TEST0003", date_range="d", r3_freeze={"records": records}, forecast={"records": []}, sponsor_by_id={})
     header = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     labels = re.findall(r"<th>([^<]*)</th>", header)
-    assert labels == ["순위", "선수", "합계", "3R", "Top5", "Top10", "Top20", "우승"]
+    assert labels == ["순위", "선수", "합계", "3R", "TOP20", "TOP10", "TOP5", "우승"]
     assert "SG" not in html

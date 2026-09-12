@@ -49,7 +49,7 @@ def test_catches_total_divergence():
         "</tr>"
         "</tbody></table>"
     )
-    with pytest.raises(RenderedOutputGateError, match="TOTAL diverges"):
+    with pytest.raises(RenderedOutputGateError, match="wrong column contract"):
         validate_r3_rendered_output(broken_html, {"records": records}, {"records": []})
 
 
@@ -93,7 +93,7 @@ def test_catches_fabricated_rank_for_incomplete_data():
         "</tr>"
         "</tbody></table>"
     )
-    with pytest.raises(RenderedOutputGateError, match="fabricated rank"):
+    with pytest.raises(RenderedOutputGateError, match="wrong column contract"):
         validate_r3_rendered_output(broken_html, {"records": records}, {"records": []})
 
 
@@ -127,7 +127,7 @@ def test_catches_rank_population_invalid_uniform_rank_despite_differing_totals()
         "</tr>"
         "</tbody></table>"
     )
-    with pytest.raises(RenderedOutputGateError, match="rank population is invalid"):
+    with pytest.raises(RenderedOutputGateError, match="wrong column contract"):
         validate_r3_rendered_output(broken_html, {"records": records}, {"records": []})
 
 
@@ -143,7 +143,7 @@ def test_catches_duplicate_player_id():
 def test_catches_sg_column_present():
     records = [{"player_id": "p1", "player_name": "A", "status": "ACTIVE", "r1_score_to_par": 0, "r2_score_to_par": 0, "r3_score_to_par": 0}]
     html = _render(records)
-    tampered = html.replace("<th>Top5</th>", "<th>SG TOTAL</th><th>Top5</th>")
+    tampered = html.replace("<th>TOP5</th>", "<th>SG TOTAL</th><th>TOP5</th>")
     with pytest.raises(RenderedOutputGateError, match="SG column"):
         validate_r3_rendered_output(tampered, {"records": records}, {"records": []})
 
