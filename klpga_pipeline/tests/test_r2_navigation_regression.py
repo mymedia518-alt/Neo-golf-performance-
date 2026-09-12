@@ -170,9 +170,25 @@ def test_5_r2_is_marked_current_default_on_its_own_page():
 
 
 @pytest.mark.parametrize("page", [PRE_PAGE, R1_PAGE, R2_PAGE])
-def test_6_r3_remains_disabled(page):
+def test_6_r3_is_not_disabled_once_real(page):
+    """ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-
+    v1-20260912), pre-deploy R3 candidate: a real, hash-verified R3
+    freeze now exists for 2026090003, so R3's own stage-nav activation
+    (mirroring scripts/112's established _enable_r2_stage_nav_link
+    pattern, one stage later) has run against PRE/R1/R2's own files --
+    exactly like test_4 above proved for R2 once IT became real."""
     html = page.read_text(encoding="utf-8")
-    assert '<span class="stage-nav__disabled" aria-disabled="true">R3</span>' in html
+    assert '<span class="stage-nav__disabled" aria-disabled="true">R3</span>' not in html
+    assert _href(html, "R3") == f"/tournaments/2026/{GAME_CODE}/r3/"
+
+
+@pytest.mark.parametrize("page", [PRE_PAGE, R1_PAGE, R2_PAGE])
+def test_6b_fr_remains_disabled(page):
+    """FR (the true, not-yet-played 4th competitive round) is the only
+    round-stage that must still be disabled everywhere -- R3 is real,
+    FR is not."""
+    html = page.read_text(encoding="utf-8")
+    assert '<span class="stage-nav__disabled" aria-disabled="true">FR</span>' in html
 
 
 @pytest.mark.parametrize("page", [PRE_PAGE, R1_PAGE, R2_PAGE])

@@ -378,4 +378,4 @@ def test_stage_nav_links_pre_and_r1_r2_current_r3_final_disabled():
     assert f'href="/tournaments/2026/{GAME_CODE}/pre/"' in html
     assert f'href="/tournaments/2026/{GAME_CODE}/r1/"' in html
     assert f'href="/tournaments/2026/{GAME_CODE}/r2/" aria-current="page"' in html
-    assert html.count('class="stage-nav__disabled"') == 2  # R3 + FINAL only
+    assert html.count('class="stage-nav__disabled"') == 3  # R3 + FR + FINAL
