@@ -50,11 +50,13 @@ relative-to-par):
   순위 | 선수 | 합계 | 3R | TOP20 | TOP10 | TOP5 | 우승
 
 Stage navigation once R3 is published: PRE/R1/R2 clickable, R3 current
-(aria-current), FR and FINAL both disabled -- per the NEO public-stage
-convention PRE/R1/R2/R3/FR/FINAL, FR is the actual fourth competitive
-round's own result page (never publicly labeled "R4" or "FINAL") and
-FINAL is the distinct post-tournament result/validation stage that
-follows it; neither activates here, only once each genuinely publishes.
+(aria-current), FR disabled -- PRE/R1/R2/R3/FR only; FINAL is
+deliberately omitted from R3's own nav (it is the distinct post-
+tournament result/validation stage that follows FR, not yet relevant
+while R3 is current, and never surfaced here even as a disabled
+placeholder). FR is the actual fourth competitive round's own result
+page (never publicly labeled "R4"); it activates only once it
+genuinely publishes.
 """
 from __future__ import annotations
 
@@ -214,10 +216,9 @@ def render_r3_real_page(
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r2/">R2</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r3/" aria-current="page">R3</a></li>'
         '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FINAL</span></li>'
         '</ol></nav>'
         '<section class="panel leaderboard-panel" id="r3">'
-        '<div class="leaderboard-head"><h2>3R 결과</h2><p class="note">확률은 R3 종료 후 예측값</p></div>'
+        '<div class="leaderboard-head"><h2>3R 결과</h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
         "<th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th>"

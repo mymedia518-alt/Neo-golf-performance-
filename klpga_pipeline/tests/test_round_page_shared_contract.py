@@ -148,9 +148,12 @@ def test_no_internal_simulation_or_provenance_copy_leaks_into_the_public_page():
         assert forbidden not in html, f"internal copy leaked: {forbidden!r}"
 
 
-def test_fr_and_final_both_disabled_r3_current_no_r4_label():
+def test_fr_disabled_final_omitted_r3_current_no_r4_label():
+    """VISUAL GATE remediation: FINAL is removed from R3's own nav
+    entirely (not even as a disabled placeholder) -- nav is exactly
+    PRE/R1/R2/R3/FR."""
     html = _render([_active("p1", r3_strokes=68, r3_score_to_par=-4)])
     assert 'aria-current="page">R3' in html
     assert '<span class="stage-nav__disabled" aria-disabled="true">FR</span>' in html
-    assert '<span class="stage-nav__disabled" aria-disabled="true">FINAL</span>' in html
+    assert "FINAL" not in html
     assert ">R4<" not in html and "/r4/" not in html
