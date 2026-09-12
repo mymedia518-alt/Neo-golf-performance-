@@ -6,7 +6,7 @@
   "official_source_url": null,
   "collection_timestamp": "2026-09-12T07:54:28.948633+00:00",
   "raw_official_response_sha256": "58b8db32104c4679d3f4e8f0704d0737095aa9d52c9ee11a1e1e9761a23ba1d9",
-  "parsed_canonical_sha256": "e0337687d2608dd222a11d83447539e814a166e0b2ad1b690771e79595bdf346",
+  "parsed_canonical_sha256": "4bdd6ecd167c062cc784ef2227f97abc4c41cb6598ddea4276bf2c33cc381584",
   "expected_field_count": 71,
   "observed_player_count": 71,
   "status_counts": {
@@ -25,7 +25,7 @@
   "feature_cutoff": "END_OF_R3",
   "r2_freeze_artifact": "2026090003_R2_FROZEN_EVIDENCE.json",
   "r2_freeze_sha256": "6f2916b5028ada11b1d01969392eb2686ee47ec837cb0001e374dff626bf39c4",
-  "code_commit": "c6ab49c1915b075febafedcc121c97e900e309f7",
+  "code_commit": "965dd6c3d5473b380bb4dfd020fffde039029287",
   "build_id": "20260912T000000Z_POST_R3",
   "records": [
     {
@@ -35,6 +35,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": -4.0,
+      "r3_strokes": 68,
       "made_cut": true
     },
     {
@@ -44,6 +45,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": -4.0,
+      "r3_strokes": 68,
       "made_cut": true
     },
     {
@@ -53,6 +55,7 @@
       "r1_score_to_par": -2.0,
       "r2_score_to_par": -3,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -62,6 +65,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": -2.0,
+      "r3_strokes": 70,
       "made_cut": true
     },
     {
@@ -71,6 +75,7 @@
       "r1_score_to_par": -5.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -80,6 +85,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": -2.0,
+      "r3_strokes": 70,
       "made_cut": true
     },
     {
@@ -89,6 +95,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": 3.0,
+      "r3_strokes": 75,
       "made_cut": true
     },
     {
@@ -98,6 +105,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -107,6 +115,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": -3,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -116,6 +125,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": -3,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -125,6 +135,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -134,6 +145,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -143,6 +155,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": -4.0,
+      "r3_strokes": 68,
       "made_cut": true
     },
     {
@@ -152,6 +165,7 @@
       "r1_score_to_par": -2.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -161,6 +175,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": -3.0,
+      "r3_strokes": 69,
       "made_cut": true
     },
     {
@@ -170,6 +185,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -179,6 +195,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": -3.0,
+      "r3_strokes": 69,
       "made_cut": true
     },
     {
@@ -188,6 +205,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -197,6 +215,7 @@
       "r1_score_to_par": -2.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -206,6 +225,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": -2.0,
+      "r3_strokes": 70,
       "made_cut": true
     },
     {
@@ -215,6 +235,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -224,6 +245,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": -2.0,
+      "r3_strokes": 70,
       "made_cut": true
     },
     {
@@ -233,6 +255,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": -2,
       "r3_score_to_par": 6.0,
+      "r3_strokes": 78,
       "made_cut": true
     },
     {
@@ -242,6 +265,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -251,6 +275,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": -3.0,
+      "r3_strokes": 69,
       "made_cut": true
     },
     {
@@ -260,6 +285,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -269,6 +295,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -278,6 +305,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -287,6 +315,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": -2.0,
+      "r3_strokes": 70,
       "made_cut": true
     },
     {
@@ -296,6 +325,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -305,6 +335,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": -4,
       "r3_score_to_par": 3.0,
+      "r3_strokes": 75,
       "made_cut": true
     },
     {
@@ -314,6 +345,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": -3.0,
+      "r3_strokes": 69,
       "made_cut": true
     },
     {
@@ -323,6 +355,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -332,6 +365,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -341,6 +375,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -350,6 +385,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -359,6 +395,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -368,6 +405,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -377,6 +415,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -386,6 +425,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -395,6 +435,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -404,6 +445,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": -1.0,
+      "r3_strokes": 71,
       "made_cut": true
     },
     {
@@ -413,6 +455,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -422,6 +465,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -431,6 +475,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 6.0,
+      "r3_strokes": 78,
       "made_cut": true
     },
     {
@@ -440,6 +485,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -449,6 +495,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": 0.0,
+      "r3_strokes": 72,
       "made_cut": true
     },
     {
@@ -458,6 +505,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -467,6 +515,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -476,6 +525,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -485,6 +535,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 2.0,
+      "r3_strokes": 74,
       "made_cut": true
     },
     {
@@ -494,6 +545,7 @@
       "r1_score_to_par": 0.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 6.0,
+      "r3_strokes": 78,
       "made_cut": true
     },
     {
@@ -503,6 +555,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -512,6 +565,7 @@
       "r1_score_to_par": 5.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 1.0,
+      "r3_strokes": 73,
       "made_cut": true
     },
     {
@@ -521,6 +575,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 3.0,
+      "r3_strokes": 75,
       "made_cut": true
     },
     {
@@ -530,6 +585,7 @@
       "r1_score_to_par": 2.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -539,6 +595,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -548,6 +605,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": 5.0,
+      "r3_strokes": 77,
       "made_cut": true
     },
     {
@@ -557,6 +615,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 4,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -566,6 +625,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 3,
       "r3_score_to_par": 5.0,
+      "r3_strokes": 77,
       "made_cut": true
     },
     {
@@ -575,6 +635,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -584,6 +645,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -593,6 +655,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 4.0,
+      "r3_strokes": 76,
       "made_cut": true
     },
     {
@@ -602,6 +665,7 @@
       "r1_score_to_par": 5.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 5.0,
+      "r3_strokes": 77,
       "made_cut": true
     },
     {
@@ -611,6 +675,7 @@
       "r1_score_to_par": -1.0,
       "r2_score_to_par": 7,
       "r3_score_to_par": 5.0,
+      "r3_strokes": 77,
       "made_cut": true
     },
     {
@@ -620,6 +685,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 1,
       "r3_score_to_par": 7.0,
+      "r3_strokes": 79,
       "made_cut": true
     },
     {
@@ -629,6 +695,7 @@
       "r1_score_to_par": 7.0,
       "r2_score_to_par": -1,
       "r3_score_to_par": 6.0,
+      "r3_strokes": 78,
       "made_cut": true
     },
     {
@@ -638,6 +705,7 @@
       "r1_score_to_par": 3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": 7.0,
+      "r3_strokes": 79,
       "made_cut": true
     },
     {
@@ -647,6 +715,7 @@
       "r1_score_to_par": 4.0,
       "r2_score_to_par": 0,
       "r3_score_to_par": 8.0,
+      "r3_strokes": 80,
       "made_cut": true
     },
     {
@@ -656,6 +725,7 @@
       "r1_score_to_par": 1.0,
       "r2_score_to_par": 5,
       "r3_score_to_par": 12.0,
+      "r3_strokes": 84,
       "made_cut": true
     },
     {
@@ -665,6 +735,7 @@
       "r1_score_to_par": -3.0,
       "r2_score_to_par": 2,
       "r3_score_to_par": null,
+      "r3_strokes": null,
       "made_cut": true
     }
   ]

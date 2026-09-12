@@ -35,7 +35,7 @@
       "path": "content/website_v2/2026090003_POST_R3_FINAL_FORECAST.json",
       "sha256": "016d02966bd57f88f466a5acfb4da480d3895fa4f28181157472d5ef5622141f",
       "r3_freeze_path": "content/website_v2/2026090003_R3_FROZEN_EVIDENCE.json",
-      "r3_freeze_sha256": "f72fe911840329bbbc954d9c35e2fb81cfa8a4db6847df16c710a2741ca179d5",
+      "r3_freeze_sha256": "9b7022d11ab2a7579ec475579441f23f913296904a958d297217195566b154fe",
       "final_round_number": 4,
       "remaining_rounds": 1,
       "feature_cutoff": "END_OF_R3",
@@ -63,6 +63,15 @@
       "observed_consequence": "The frozen POST-R2 forecast (evidence class A above) was built with remaining_rounds=1 instead of the correct 2, because final_round_number resolved to 3 instead of the true 4.",
       "permanent_invariant": "official competitive round count <-> TournamentContext.final_round_number <-> forecast remaining_rounds must agree before any forecast is generated. A mismatch discovered at forecast-generation time is a HARD STOP, never a silent proceed.",
       "resolution": "TOURNAMENT_SITE_REGISTRY.json's 2026090003 entry now carries an explicit, evidence-backed final_round_number=4 field (see round_context_correction above); tournament_context.py prefers it over the mechanical rN-count fallback only when present, leaving every other tournament's resolution unchanged.",
+      "discovered_in": "research/official-tournament-warehouse-v1-20260912",
+      "affected_game_code": "2026090003"
+    },
+    {
+      "incident_id": "VISUAL-ARTIFACT-001",
+      "cause": "Automated generated-HTML QA verified the candidate worktree's own files directly and reported PASS, but the sandbox-only localhost URL offered to the user for visual review was never actually reachable from the user's own browser (this session runs in an isolated remote container, not on the user's machine) -- so whatever the user's browser rendered was not proven to be this candidate's artifact, and turned out to show stale POST-R2-vintage values.",
+      "observed_consequence": "User-reported visual gate failure citing old POST-R2 probability values (e.g. 홍진영2 53.1%, 서교림 36.3%) that do not exist anywhere in this candidate's actual committed docs/ tree -- confirmed by direct hash/content verification against git HEAD at the time of the report.",
+      "permanent_invariant": "A visual gate must verify the exact artifact hash being served/rendered, not merely a source file or another worktree's generated HTML -- and a local-preview URL must never be presented to the user as directly openable unless it is genuinely reachable from their own browser.",
+      "resolution": "Final report's [LOCAL PREVIEW] fields now require reporting the exact served path, git HEAD, and file SHA256 alongside the URL, and the exact candidate files are additionally delivered to the user directly (not only via a sandbox-local URL) so visual review does not depend on sandbox-to-user network reachability.",
       "discovered_in": "research/official-tournament-warehouse-v1-20260912",
       "affected_game_code": "2026090003"
     }

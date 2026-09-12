@@ -3,8 +3,13 @@
 Mirrors klpga.neo_win.r2_rendered_output_gate exactly, one round later
 (including that module's own R2 CUT SURVIVORS ONLY population scoping):
 parses the ACTUAL generated HTML (never a synthetic fixture) and
-cross-verifies rank/TOTAL/3R/probabilities for EVERY ADVANCING
+cross-verifies rank/3R/probabilities for EVERY ADVANCING
 (status=="ACTIVE") player against the frozen R3 evidence directly --
+(ROUND-PAGE SHARED CONTRACT, VISUAL-ARTIFACT-001 remediation: R3's
+public table has no cumulative-total column -- 3R is the round's own
+score, via klpga.website_v2.round_score_format.format_round_score --
+ranking is still computed from the real cumulative total internally,
+just never displayed)
 not "does the element exist", but "does the rendered value match the
 real official value". Raises RenderedOutputGateError (write nothing,
 HARD_STOP the cycle) on any divergence. A WD/DQ/DNS record appearing as
@@ -16,9 +21,11 @@ from __future__ import annotations
 
 import re
 
+from klpga.website_v2.round_score_format import format_round_score
+
 EMPTY_MARK = "—"
 ADVANCING_STATUS = "ACTIVE"
-REQUIRED_HEADER_ORDER = ("순위", "선수", "합계", "3R", "TOP20", "TOP10", "TOP5", "우승")
+REQUIRED_HEADER_ORDER = ("순위", "선수", "3R", "TOP20", "TOP10", "TOP5", "우승")
 
 
 class RenderedOutputGateError(RuntimeError):
@@ -39,15 +46,6 @@ def _real_total_to_par(record: dict):
         return None
 
 
-def _expected_to_par_display(v) -> str:
-    if v is None:
-        return EMPTY_MARK
-    n = int(v)
-    if n == 0:
-        return "E"
-    return f"+{n}" if n > 0 else str(n)
-
-
 def _expected_pct_display(v) -> str:
     if v is None:
         return EMPTY_MARK
@@ -60,7 +58,7 @@ def _expected_pct_display(v) -> str:
 
 
 def parse_rendered_rows(html: str) -> dict[str, dict]:
-    """Pure: {player_id: {"rank": str, "total": str, "round3": str,
+    """Pure: {player_id: {"rank": str, "round3": str,
     "top5": str, "top10": str, "top20": str, "win": str}} parsed
     directly from the real generated HTML's own `<tr data-player-id=
     '...'>` rows -- joined by the renderer's own stable player_id
@@ -89,7 +87,6 @@ def parse_rendered_rows(html: str) -> dict[str, dict]:
             raise RenderedOutputGateError(f"sponsor contract broken for player_id {pid}: missing player-name/player-sponsor slot")
         parsed[pid] = {
             "rank": cell(row, "순위"),
-            "total": cell(row, "합계"),
             "round3": cell(row, "3R"),
             "top5": cell(row, "Top5"),
             "top10": cell(row, "Top10"),
@@ -109,7 +106,7 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
       0a. No SG column anywhere in the page (SG must never appear in
           the public main table).
       0b. Header is EXACTLY REQUIRED_HEADER_ORDER, in order -- the
-          8-column public contract.
+          7-column public contract (no cumulative-total column).
       0c. (inside parse_rendered_rows) no player_id is rendered more
           than once (duplicate player), and every row carries a
           structurally present player-name/player-sponsor slot
@@ -118,10 +115,10 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
          of the frozen population exactly (by player_id) -- a WD/DQ/DNS
          record must NEVER appear as a rendered row, and every
          advancing record must always appear.
-      2. For EVERY advancing record: rendered TOTAL and 3R exactly
-         equal the real, computed r1+r2+r3_score_to_par / real
-         r3_score_to_par -- not merely "present", the EXACT real value.
-         A record with incomplete data must render EMPTY_MARK for both.
+      2. For EVERY advancing record: rendered 3R exactly equals
+         format_round_score(r3_strokes, r3_score_to_par) -- not merely
+         "present", the EXACT real value. A record with no real r3
+         strokes must render EMPTY_MARK.
       3. For EVERY advancing record: rendered rank is EMPTY_MARK if and
          only if that record has no real, complete total.
       4. For EVERY advancing record: rendered WIN/TOP5/TOP10/TOP20
@@ -173,14 +170,8 @@ def validate_r3_rendered_output(html: str, r3_freeze: dict, forecast: dict) -> N
         name = record.get("player_name", pid)
         row = rendered[pid]
         real_total = record.get("total_strokes") if record.get("total_strokes") is not None else _real_total_to_par(record)
-        expected_total_display = (str(int(real_total)) if record.get("total_strokes") is not None else _expected_to_par_display(real_total))
-        expected_round3_display = (str(int(record["r3_strokes"])) if record.get("r3_strokes") is not None else _expected_to_par_display(record.get("r3_score_to_par")))
+        expected_round3_display = format_round_score(record.get("r3_strokes"), record.get("r3_score_to_par"))
 
-        if row["total"] != expected_total_display:
-            raise RenderedOutputGateError(
-                f"TOTAL diverges from frozen evidence for {name} ({pid}): "
-                f"rendered {row['total']!r}, expected {expected_total_display!r}"
-            )
         if row["round3"] != expected_round3_display:
             raise RenderedOutputGateError(
                 f"3R diverges from frozen evidence for {name} ({pid}): "

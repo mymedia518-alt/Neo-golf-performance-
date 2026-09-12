@@ -81,6 +81,13 @@ def _r3_freeze_records() -> tuple[list[dict], dict]:
             "player_id": row["player_id"], "player_name": row["player_name"], "status": status,
             "r1_score_to_par": row.get("r1_score_to_par"), "r2_score_to_par": row.get("r2_score_to_par"),
             "r3_score_to_par": r3_score_to_par,
+            # ROUND-PAGE SHARED CONTRACT (VISUAL-ARTIFACT-001 remediation):
+            # the real official R3 strokes themselves must be persisted
+            # alongside the derived r3_score_to_par -- the public R3 page
+            # displays both together ("68 (-4)"), never to-par alone.
+            # Previously computed here and then silently discarded; None
+            # for non-ACTIVE rows, exactly mirroring r3_score_to_par.
+            "r3_strokes": row.get("r3_strokes"),
             "made_cut": True,  # single-cut format settled at R2 (round_update_r3.py's own documented invariant); every R3 population record is, by construction, a real cutmaker
         })
     return records, status_counts, wd_dq_dns_evidence, final
