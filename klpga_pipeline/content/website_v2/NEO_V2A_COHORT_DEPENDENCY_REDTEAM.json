@@ -1,0 +1,9 @@
+{
+  "removed_player": "최혜원",
+  "players_common_to_both_runs": 108,
+  "players_whose_rank_changed_solely_from_removing_one_unrelated_player": 26,
+  "pct_changed": 24.1,
+  "V1_reference_known_pct_changed": 13.1,
+  "gate": "FAIL",
+  "expected": "FAIL -- V2A does not touch cohort z-scoring, per instruction (exposure only, this phase)"
+}

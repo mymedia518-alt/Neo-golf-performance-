@@ -1,0 +1,12 @@
+{
+  "declared_before_viewing_results": true,
+  "declared_at": "2026-09-12, immediately before running scripts/119_neo_v2a_predictive_validation, before any V1-vs-V2A comparison number was computed",
+  "rule": {
+    "core_metrics": ["spearman_neo_rank_vs_finish", "spearman_neo_score_vs_subsequent_sg_next1", "spearman_neo_score_vs_subsequent_sg_next3", "spearman_neo_score_vs_subsequent_sg_next5", "made_cut_auc"],
+    "core_metric_max_tolerated_decline": 0.05,
+    "secondary_metrics": ["top10_precision", "top20_precision"],
+    "secondary_metric_max_tolerated_decline": 0.03,
+    "pass_condition": "for EVERY core metric, (V1_value - V2A_value) <= 0.05, OR V2A_value >= V1_value; AND for every secondary metric, (V1_value - V2A_value) <= 0.03, OR V2A_value >= V1_value",
+    "fail_condition": "ANY core metric declines by more than 0.05, or any secondary metric declines by more than 0.03 -- regardless of how much exposure bias improves"
+  }
+}

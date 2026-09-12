@@ -1,0 +1,29 @@
+{
+  "purpose": "Document the single, consistently-applied standard used to judge whether a candidate's exposure-bias reduction is MATERIAL (Section 6: 'absolute exposure correlation must MATERIALLY decline, not just cross zero'). Written once, applied identically to V2A and V2B so the same evidence is not read two different ways depending on which model needs to pass.",
+  "baseline": {
+    "source": "Section 0 frozen fact (dac6a09, feat/klpga-official-sg-validation-20260912)",
+    "V1_spearman_official_sg_rounds_vs_neo_rank": -0.358,
+    "note": "Recomputed on this worktree's cohort/warehouse as -0.3576961802206767 (n=104) -- consistent with the frozen -0.358 figure, confirming no drift."
+  },
+  "standard_applied": {
+    "rule": "A reduction is MATERIAL only if it moves the correlation to a qualitatively different effect-size band (Cohen's conventions for |r|: negligible <0.10, small 0.10-0.29, medium 0.30-0.49, large >=0.50) AND represents a large relative reduction (>=~40%) of the original bias magnitude, not merely a modest shrinkage that leaves the correlation in the same band.",
+    "rationale": "The mission explicitly warns against accepting 'crossing zero' or any nominal decline as sufficient. A candidate that goes from a medium-to-large negative correlation to a still-medium negative correlation has NOT solved exposure bias -- a ranking consumer would still see roughly the same systematic advantage for high-round players. This standard is declared once, in writing, before being applied to any candidate's number below, so it cannot be tuned post-hoc to rescue a preferred model."
+  },
+  "V2A": {
+    "spearman": -0.30103175246167907,
+    "relative_reduction_vs_V1": 0.1584,
+    "effect_size_band": "medium (0.30 <= |r| < 0.50)",
+    "band_changed_from_V1": false,
+    "verdict": "NOT MATERIAL -- 15.8% relative reduction, still medium effect size, same band as V1 (-0.358, also medium/borderline-large). Residual exposure bias remains substantial.",
+    "gate": "FAIL"
+  },
+  "V2B": {
+    "spearman": -0.29729564397267816,
+    "relative_reduction_vs_V1": 0.1692,
+    "effect_size_band": "medium (0.30 <= |r| < 0.50, at the boundary)",
+    "band_changed_from_V1": false,
+    "verdict": "NOT MATERIAL -- 16.9% relative reduction, essentially identical to V2A's result. This is architecturally expected: V2B changes only the cohort z-scoring step relative to V2A, not the round-normalized/shrinkage skill-estimation layer that both V2A and V2B share and that V1 lacks. The exposure-bias source lives in the skill-estimation layer, and V2A already captured essentially all of the improvement that round-normalization + shrinkage provides; V2B's cohort-independence fix does not further address exposure at all, by design (Section 3/12 scoped V2A to exposure-only and V2B to cohort-only).",
+    "gate": "FAIL"
+  },
+  "consistency_check": "Both V2A and V2B are ruled FAIL under the identical standard stated above, using their own real computed numbers -- no threshold was adjusted between evaluating V2A and evaluating V2B."
+}

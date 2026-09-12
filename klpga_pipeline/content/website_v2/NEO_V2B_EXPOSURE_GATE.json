@@ -1,0 +1,10 @@
+{
+  "V1_spearman_rounds_vs_rank": -0.3576961802206767,
+  "V2A_spearman_rounds_vs_rank": -0.30103175246167907,
+  "V2B_spearman_rounds_vs_rank": -0.29729564397267816,
+  "n": {
+    "V1": 104,
+    "V2A": 105,
+    "V2B": 105
+  }
+}
