@@ -161,23 +161,24 @@ def test_real_r2_forecast_every_win_pct_formats_per_contract():
 
 
 # ---------------------------------------------------------------------
-# 7/8: HOME (docs/index.html) is untouched by this session's real R3
-# freeze/forecast work -- proves the formatter change (and the
-# round-context correction, research/official-tournament-warehouse-v1-
-# 20260912) didn't disturb the fb4f165 HOME routing contract.
+# 7/8: HOME (docs/index.html) tracks the real, current tournament
+# stage. The formatter change (and the round-context correction,
+# research/official-tournament-warehouse-v1-20260912) didn't disturb
+# the fb4f165 HOME routing contract -- HOME's body is still exactly a
+# mirror of whichever stage's real page is current, produced only by
+# an explicit sync_root_home_to_current_stage() call, never implicitly.
 #
 # ROUND-CONTEXT CORRECTION UPDATE: a real, hash-verified R3 freeze now
 # genuinely exists for 2026090003 (official evidence proved this
 # tournament's true final_round_number is 4, and the genuine R3 result
 # has concluded) -- kb_current_stage() correctly advances to "r3" to
-# reflect that real evidence. What these tests actually guard --
-# HOME's own docs/index.html staying byte-level R2 unless someone
-# explicitly calls sync_root_home_to_current_stage() -- remains true
-# and is asserted directly below; a real freeze existing does not, by
-# itself, auto-rewrite HOME.
+# reflect that real evidence. In this session's pre-deploy candidate
+# work, HOME was explicitly resynced to R3 via that same pipeline
+# function (not by hand-patching docs/index.html), so HOME's body is
+# now byte-identical to the real R3 page's body -- asserted below.
 # ---------------------------------------------------------------------
 
-def test_7_home_still_resolves_to_r2():
+def test_7_home_now_resolves_to_r3_via_explicit_sync():
     from klpga.tournament_context import load_tournament_context
     from klpga.website_v2.kb_home_stage_router import kb_current_stage
 
@@ -187,14 +188,14 @@ def test_7_home_still_resolves_to_r2():
     from pathlib import Path
     repo_root = Path(__file__).resolve().parents[2]
     home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
-    assert '"status">R2<' in home_html
-    r2_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "r2" / "index.html").read_text(encoding="utf-8")
+    assert '"status">R3<' in home_html
+    r3_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "r3" / "index.html").read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    r2_body = r2_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    assert home_body == r2_body
+    r3_body = r3_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    assert home_body == r3_body
 
 
-def test_8_r3_wait_does_not_promote_home():
+def test_8_r3_freeze_is_real_and_home_mirrors_it():
     from pathlib import Path
 
     from klpga.neo_win.r3_freeze import r3_freeze_exists
@@ -202,8 +203,8 @@ def test_8_r3_wait_does_not_promote_home():
 
     context = load_tournament_context("2026090003")
     repo_root = Path(__file__).resolve().parents[2]
-    r3_wait_page = repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "r3" / "index.html"
-    assert r3_wait_page.is_file()
+    r3_page = repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "r3" / "index.html"
+    assert r3_page.is_file()
     assert r3_freeze_exists(context) is True  # a real, hash-verified freeze now exists
     home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
-    assert '"status">R3<' not in home_html  # HOME still not resynced -- a deliberate, separate act
+    assert '"status">R2<' not in home_html  # HOME was explicitly resynced this session, not left stale on R2
