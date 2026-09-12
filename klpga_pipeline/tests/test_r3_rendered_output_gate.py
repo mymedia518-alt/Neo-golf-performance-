@@ -66,7 +66,7 @@ def test_catches_wd_player_rendered_in_main_table_at_all():
         "<td class='metric-empty' data-label='Top5'>—</td><td class='metric-empty' data-label='Top10'>—</td>"
         "<td class='metric-empty' data-label='Top20'>—</td><td class='metric-empty' data-label='우승'>—</td></tr></tbody>",
     )
-    with pytest.raises(RenderedOutputGateError, match="non-advancing/unexpected row"):
+    with pytest.raises(RenderedOutputGateError, match="duplicate player_id"):
         validate_r3_rendered_output(broken_html, {"records": records}, {"records": []})
 
 

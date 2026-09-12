@@ -226,10 +226,11 @@ def render_r3_real_page(
         "<th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
         "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
-        + f'<p class="note">총 {len(advancing_records)}명 · R2 종료 후 예측</p>'
+        + f'<p class="note">총 {len(records)}명 · R2 종료 후 예측</p>'
         + '<section class="panel forecast-context" aria-label="R2 종료 후 예측">'
         + '<h2>R2 종료 후 예측</h2>'
         + '<p class="note">R3 결과 발표 전 고정된 10,000회 예측입니다. R3 결과를 입력으로 재계산하지 않았습니다.</p>'
+        + '<p class="note next-update">FINAL 종료 후 업데이트</p>'
         + '</section>'
         + "</section>"
     )
