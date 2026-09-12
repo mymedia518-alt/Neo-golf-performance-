@@ -1,0 +1,319 @@
+{
+  "TOTAL": {
+    "N": 104,
+    "Pearson": 0.7325124429192568,
+    "Spearman": 0.7370759904513117,
+    "MAE": 0.6294615384615384,
+    "RMSE": 0.8191667905678494,
+    "mean_bias_NEO_minus_OFFICIAL": -0.3843846153846154
+  },
+  "OTT": "NOT_EVALUABLE: no frozen player-level NEO OTT feature exists (home_ranking.build_features aggregates only the warehouse 'total' field, never off_the_tee)",
+  "APP": "NOT_EVALUABLE: same reason as OTT (approach)",
+  "ARG": "NOT_EVALUABLE: same reason as OTT (around_green)",
+  "PUTT": "NOT_EVALUABLE: same reason as OTT (putting)",
+  "NEO_HIGHER_THAN_OFFICIAL": [
+    {
+      "playerCode": "9362",
+      "player_name": "박지영",
+      "NEO_SG": 1.898,
+      "OFFICIAL_SG": -1.49,
+      "difference": 3.388,
+      "official_sg_rounds": 3,
+      "NEO_sample_size": 63,
+      "NEO_rank": 29
+    },
+    {
+      "playerCode": "8355",
+      "player_name": "장수연",
+      "NEO_SG": -0.232,
+      "OFFICIAL_SG": -1.74,
+      "difference": 1.508,
+      "official_sg_rounds": 36,
+      "NEO_sample_size": 76,
+      "NEO_rank": 107
+    },
+    {
+      "playerCode": "9174",
+      "player_name": "강가율",
+      "NEO_SG": -1.465,
+      "OFFICIAL_SG": -2.38,
+      "difference": 0.915,
+      "official_sg_rounds": 43,
+      "NEO_sample_size": 71,
+      "NEO_rank": 105
+    },
+    {
+      "playerCode": "10531",
+      "player_name": "현세린",
+      "NEO_SG": -0.767,
+      "OFFICIAL_SG": -1.48,
+      "difference": 0.713,
+      "official_sg_rounds": 46,
+      "NEO_sample_size": 91,
+      "NEO_rank": 104
+    },
+    {
+      "playerCode": "9364",
+      "player_name": "박소혜",
+      "NEO_SG": -0.464,
+      "OFFICIAL_SG": -1.12,
+      "difference": 0.656,
+      "official_sg_rounds": 6,
+      "NEO_sample_size": 31,
+      "NEO_rank": 92
+    },
+    {
+      "playerCode": "10002",
+      "player_name": "김민별",
+      "NEO_SG": 1.081,
+      "OFFICIAL_SG": 0.48,
+      "difference": 0.601,
+      "official_sg_rounds": 61,
+      "NEO_sample_size": 89,
+      "NEO_rank": 31
+    },
+    {
+      "playerCode": "9750",
+      "player_name": "홍정민",
+      "NEO_SG": 1.077,
+      "OFFICIAL_SG": 0.49,
+      "difference": 0.587,
+      "official_sg_rounds": 25,
+      "NEO_sample_size": 75,
+      "NEO_rank": 52
+    },
+    {
+      "playerCode": "10114",
+      "player_name": "김나영",
+      "NEO_SG": -0.209,
+      "OFFICIAL_SG": -0.7,
+      "difference": 0.491,
+      "official_sg_rounds": 10,
+      "NEO_sample_size": 52,
+      "NEO_rank": 77
+    },
+    {
+      "playerCode": "6916",
+      "player_name": "안송이",
+      "NEO_SG": 0.138,
+      "OFFICIAL_SG": -0.35,
+      "difference": 0.488,
+      "official_sg_rounds": 54,
+      "NEO_sample_size": 83,
+      "NEO_rank": 62
+    },
+    {
+      "playerCode": "9183",
+      "player_name": "박결",
+      "NEO_SG": 0.017,
+      "OFFICIAL_SG": -0.46,
+      "difference": 0.477,
+      "official_sg_rounds": 42,
+      "NEO_sample_size": 88,
+      "NEO_rank": 49
+    },
+    {
+      "playerCode": "9113",
+      "player_name": "노승희",
+      "NEO_SG": 1.505,
+      "OFFICIAL_SG": 1.08,
+      "difference": 0.425,
+      "official_sg_rounds": 65,
+      "NEO_sample_size": 94,
+      "NEO_rank": 7
+    },
+    {
+      "playerCode": "8300",
+      "player_name": "김수지",
+      "NEO_SG": 1.686,
+      "OFFICIAL_SG": 1.27,
+      "difference": 0.416,
+      "official_sg_rounds": 64,
+      "NEO_sample_size": 81,
+      "NEO_rank": 19
+    },
+    {
+      "playerCode": "9820",
+      "player_name": "정윤지",
+      "NEO_SG": 1.25,
+      "OFFICIAL_SG": 0.94,
+      "difference": 0.31,
+      "official_sg_rounds": 53,
+      "NEO_sample_size": 85,
+      "NEO_rank": 43
+    },
+    {
+      "playerCode": "8589",
+      "player_name": "배소현",
+      "NEO_SG": 0.952,
+      "OFFICIAL_SG": 0.66,
+      "difference": 0.292,
+      "official_sg_rounds": 64,
+      "NEO_sample_size": 88,
+      "NEO_rank": 23
+    },
+    {
+      "playerCode": "10095",
+      "player_name": "방신실",
+      "NEO_SG": 1.59,
+      "OFFICIAL_SG": 1.31,
+      "difference": 0.28,
+      "official_sg_rounds": 63,
+      "NEO_sample_size": 84,
+      "NEO_rank": 15
+    }
+  ],
+  "OFFICIAL_HIGHER_THAN_NEO": [
+    {
+      "playerCode": "8424",
+      "player_name": "정슬기",
+      "NEO_SG": -0.528,
+      "OFFICIAL_SG": 1.9,
+      "difference": -2.428,
+      "official_sg_rounds": 6,
+      "NEO_sample_size": 46,
+      "NEO_rank": 57
+    },
+    {
+      "playerCode": "10083",
+      "player_name": "마서영",
+      "NEO_SG": -1.126,
+      "OFFICIAL_SG": 0.56,
+      "difference": -1.686,
+      "official_sg_rounds": 67,
+      "NEO_sample_size": 69,
+      "NEO_rank": 69
+    },
+    {
+      "playerCode": "8243",
+      "player_name": "장은수",
+      "NEO_SG": -0.431,
+      "OFFICIAL_SG": 1.2,
+      "difference": -1.631,
+      "official_sg_rounds": 69,
+      "NEO_sample_size": 55,
+      "NEO_rank": 38
+    },
+    {
+      "playerCode": "11374",
+      "player_name": "전승희",
+      "NEO_SG": -0.951,
+      "OFFICIAL_SG": 0.52,
+      "difference": -1.471,
+      "official_sg_rounds": 32,
+      "NEO_sample_size": 34,
+      "NEO_rank": 76
+    },
+    {
+      "playerCode": "9990",
+      "player_name": "윤수아",
+      "NEO_SG": -0.747,
+      "OFFICIAL_SG": 0.68,
+      "difference": -1.427,
+      "official_sg_rounds": 69,
+      "NEO_sample_size": 68,
+      "NEO_rank": 73
+    },
+    {
+      "playerCode": "9465",
+      "player_name": "안지현",
+      "NEO_SG": -0.685,
+      "OFFICIAL_SG": 0.7,
+      "difference": -1.385,
+      "official_sg_rounds": 64,
+      "NEO_sample_size": 64,
+      "NEO_rank": 58
+    },
+    {
+      "playerCode": "8380",
+      "player_name": "김새로미",
+      "NEO_SG": -1.08,
+      "OFFICIAL_SG": 0.17,
+      "difference": -1.25,
+      "official_sg_rounds": 57,
+      "NEO_sample_size": 57,
+      "NEO_rank": 86
+    },
+    {
+      "playerCode": "9135",
+      "player_name": "신다인",
+      "NEO_SG": -0.058,
+      "OFFICIAL_SG": 1.19,
+      "difference": -1.248,
+      "official_sg_rounds": 65,
+      "NEO_sample_size": 73,
+      "NEO_rank": 27
+    },
+    {
+      "playerCode": "8799",
+      "player_name": "오경은",
+      "NEO_SG": -1.298,
+      "OFFICIAL_SG": -0.08,
+      "difference": -1.218,
+      "official_sg_rounds": 33,
+      "NEO_sample_size": 41,
+      "NEO_rank": 90
+    },
+    {
+      "playerCode": "9759",
+      "player_name": "이율린",
+      "NEO_SG": -1.656,
+      "OFFICIAL_SG": -0.47,
+      "difference": -1.186,
+      "official_sg_rounds": 57,
+      "NEO_sample_size": 70,
+      "NEO_rank": 99
+    },
+    {
+      "playerCode": "11770",
+      "player_name": "짜라위 분짠",
+      "NEO_SG": -0.22,
+      "OFFICIAL_SG": 0.95,
+      "difference": -1.17,
+      "official_sg_rounds": 47,
+      "NEO_sample_size": 30,
+      "NEO_rank": 44
+    },
+    {
+      "playerCode": "11066",
+      "player_name": "유서연2",
+      "NEO_SG": 0.091,
+      "OFFICIAL_SG": 1.23,
+      "difference": -1.139,
+      "official_sg_rounds": 70,
+      "NEO_sample_size": 64,
+      "NEO_rank": 28
+    },
+    {
+      "playerCode": "10109",
+      "player_name": "고지원",
+      "NEO_SG": 0.166,
+      "OFFICIAL_SG": 1.29,
+      "difference": -1.124,
+      "official_sg_rounds": 54,
+      "NEO_sample_size": 79,
+      "NEO_rank": 39
+    },
+    {
+      "playerCode": "11134",
+      "player_name": "서교림",
+      "NEO_SG": 1.278,
+      "OFFICIAL_SG": 2.38,
+      "difference": -1.102,
+      "official_sg_rounds": 65,
+      "NEO_sample_size": 48,
+      "NEO_rank": 2
+    },
+    {
+      "playerCode": "10296",
+      "player_name": "문정민",
+      "NEO_SG": 0.336,
+      "OFFICIAL_SG": 1.42,
+      "difference": -1.084,
+      "official_sg_rounds": 63,
+      "NEO_sample_size": 79,
+      "NEO_rank": 16
+    }
+  ],
+  "note": "NEO SG uses long_term_sg (career mean of all historical event totals, frozen/unmodified); OFFICIAL SG TOTAL is klpga.co.kr's own season-2026-scoped figure. These differ in TIME WINDOW (career vs one season) by construction, not merely by measurement error -- this is an observation, not a claimed cause of any specific divergence (causes are not inferred here)."
+}

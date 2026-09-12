@@ -1,0 +1,21 @@
+{
+  "profile_sg_identity_join": {
+    "PROFILE_PLAYERS": 153,
+    "SG_PLAYERS": 242,
+    "MATCHED_PLAYER_CODES": 150,
+    "PROFILE_ONLY_COUNT": 3,
+    "SG_ONLY_COUNT": 89,
+    "NAME_CONFLICTS_FOR_SAME_CODE": []
+  },
+  "neo_identity_join": {
+    "WAREHOUSE_MATCHED_TO_NEO": 112,
+    "NEO_WITHOUT_OFFICIAL_PROFILE_COUNT": 16,
+    "NEO_WITHOUT_OFFICIAL_SG_COUNT": 9
+  },
+  "ambiguous_name_differences_same_playercode": [
+    {"playerCode": "11770", "player_name_base": "짜라위 분짠", "neo_name": "짜라위 분짠", "profile_name": "짜라위 분짠(I)", "sg_name": "짜라위 분짠(I)", "classification": "NORMALIZATION_ONLY_DIFFERENCE", "evidence": "record_report/SG both append (I) -- observed foreign-player marker pattern repeated across multiple unrelated rows in the same sources"},
+    {"playerCode": "1485", "player_name_base": "빳차라쭈타 콩끄라판", "neo_name": "빳차라쭈타 콩끄라판", "profile_name": "빳차라쭈타 콩끄라판(I)", "sg_name": "빳차라쭈타 콩끄라판(I)", "classification": "NORMALIZATION_ONLY_DIFFERENCE", "evidence": "same (I) pattern as 11770"},
+    {"playerCode": "11391", "player_name_base": "양윤서", "neo_name": "양윤서", "profile_name": "양윤서 0801(A)", "sg_name": null, "classification": "NORMALIZATION_ONLY_DIFFERENCE", "evidence": "birth-date + amateur (A) marker, same pattern observed on 2 other low-money tail rows in the profile source; player absent from SG source entirely"}
+  ],
+  "identity_gate_verdict": "PASS -- no case found where one playerCode maps to two genuinely different actual people; all 3 differences are suffix-only normalization on an identical base name, confirmed consistent across NEO/Profile/SG independently"
+}
