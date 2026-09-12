@@ -1,0 +1,78 @@
+{
+  "spearman": {
+    "official_sg_total": {
+      "N": 99,
+      "Spearman": -0.8363451958211382
+    },
+    "average_score": {
+      "N": 99,
+      "Spearman": 0.8390218863604252
+    },
+    "gir_rate": {
+      "N": 99,
+      "Spearman": -0.6830820418833187
+    },
+    "birdie_rate": {
+      "N": 99,
+      "Spearman": -0.6115758202904942
+    },
+    "recovery_rate": {
+      "N": 99,
+      "Spearman": -0.54286951144094
+    }
+  },
+  "top_n_distributions": {
+    "top10": {
+      "official_sg_total": {
+        "top_n_mean": 1.889,
+        "all_matched_mean": 0.4461538461538461,
+        "top_n_count": 10
+      },
+      "average_score": {
+        "top_n_mean": 70.61116,
+        "all_matched_mean": 72.05299797979798,
+        "top_n_count": 10
+      },
+      "gir_rate": {
+        "top_n_mean": 74.40096,
+        "all_matched_mean": 70.75802828282828,
+        "top_n_count": 10
+      }
+    },
+    "top20": {
+      "official_sg_total": {
+        "top_n_mean": 1.67,
+        "all_matched_mean": 0.4461538461538461,
+        "top_n_count": 20
+      },
+      "average_score": {
+        "top_n_mean": 70.867475,
+        "all_matched_mean": 72.05299797979798,
+        "top_n_count": 20
+      },
+      "gir_rate": {
+        "top_n_mean": 74.63441,
+        "all_matched_mean": 70.75802828282828,
+        "top_n_count": 20
+      }
+    },
+    "top50": {
+      "official_sg_total": {
+        "top_n_mean": 1.0658,
+        "all_matched_mean": 0.4461538461538461,
+        "top_n_count": 50
+      },
+      "average_score": {
+        "top_n_mean": 71.41855714285714,
+        "all_matched_mean": 72.05299797979798,
+        "top_n_count": 49
+      },
+      "gir_rate": {
+        "top_n_mean": 72.90387551020407,
+        "all_matched_mean": 70.75802828282828,
+        "top_n_count": 49
+      }
+    }
+  },
+  "early_signal": "EARLY_SIGNAL = NOT_EVALUABLE_SINGLE_SNAPSHOT"
+}

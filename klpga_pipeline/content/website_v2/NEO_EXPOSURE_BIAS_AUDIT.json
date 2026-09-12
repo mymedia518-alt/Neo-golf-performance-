@@ -1,0 +1,64 @@
+{
+  "bins": {
+    "1-4": {
+      "N": 2,
+      "mean_official_sg": 0.45000000000000007,
+      "median_official_sg": 0.45000000000000007,
+      "mean_neo_sg": 1.721,
+      "median_neo_sg": 1.721,
+      "mean_neo_rank": 17.5,
+      "median_neo_rank": 17.5
+    },
+    "5-9": {
+      "N": 5,
+      "mean_official_sg": -0.18800000000000008,
+      "median_official_sg": -1.07,
+      "mean_neo_sg": -0.5708,
+      "median_neo_sg": -0.528,
+      "mean_neo_rank": 71.0,
+      "median_neo_rank": 91
+    },
+    "10-19": {
+      "N": 4,
+      "mean_official_sg": 0.03000000000000004,
+      "median_official_sg": -0.145,
+      "mean_neo_sg": -0.16524999999999998,
+      "median_neo_sg": -0.3685,
+      "mean_neo_rank": 66.5,
+      "median_neo_rank": 79.0
+    },
+    "20-39": {
+      "N": 7,
+      "mean_official_sg": -0.21285714285714286,
+      "median_official_sg": -0.08,
+      "mean_neo_sg": -0.41428571428571426,
+      "median_neo_sg": -0.624,
+      "mean_neo_rank": 72.71428571428571,
+      "median_neo_rank": 68
+    },
+    "40-59": {
+      "N": 43,
+      "mean_official_sg": 0.2525581395348837,
+      "median_official_sg": 0.3,
+      "mean_neo_sg": -0.08106976744186047,
+      "median_neo_sg": 0.007,
+      "mean_neo_rank": 58.72093023255814,
+      "median_neo_rank": 56
+    },
+    "60+": {
+      "N": 43,
+      "mean_official_sg": 0.8593023255813954,
+      "median_official_sg": 0.86,
+      "mean_neo_sg": 0.29960465116279067,
+      "median_neo_sg": 0.331,
+      "mean_neo_rank": 41.86046511627907,
+      "median_neo_rank": 38
+    }
+  },
+  "spearman_official_sg_rounds_vs_neo_rank": -0.3576961802206767,
+  "spearman_official_sg_rounds_vs_neo_sg": 0.2148555485994302,
+  "spearman_official_sg_rounds_vs_neo_sample_reliability": 0.26737186366480686,
+  "tournament_exposure_event_count_cut_completion_comparison": "NOT_EVALUABLE: no frozen per-player event_count/cut_count/3R-4R-completion feature exists at the TOP120-cohort level in this codebase (that granularity exists only inside the separate, unmerged research/neo-ranking-v2 branch's Phase B/cut-selection work, not in this production-based worktree)",
+  "red_team_question": "측정 라운드가 많다는 이유만으로 NEO Ranking이 높아지는 경향이 존재하는가?",
+  "red_team_answer": "부분적으로 그렇다 (PARTIALLY YES, evidenced): official_sg_rounds vs NEO rank Spearman = -0.3576961802206767 (negative Spearman means MORE rounds correlates with a BETTER/lower rank number). This is a raw correlation only -- SG performance level is not held constant in this specific calculation (a full performance-controlled analysis is NOT_EVALUABLE within this single-snapshot phase; the bin table above lets a reader see whether mean official SG differs meaningfully across round-count bins alongside the rank pattern)."
+}
