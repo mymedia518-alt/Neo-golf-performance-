@@ -18,7 +18,7 @@ import re
 
 EMPTY_MARK = "—"
 ADVANCING_STATUS = "ACTIVE"
-REQUIRED_HEADER_ORDER = ("순위", "선수", "합계", "3R", "Top5", "Top10", "Top20", "우승")
+REQUIRED_HEADER_ORDER = ("순위", "선수", "합계", "3R", "TOP20", "TOP10", "TOP5", "우승")
 
 
 class RenderedOutputGateError(RuntimeError):

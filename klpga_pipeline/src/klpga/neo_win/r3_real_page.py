@@ -42,7 +42,7 @@ score, never a separately fabricated number.
 Sponsor invariant preserved exactly (render_player_identity, same as R2).
 
 Public main table columns (WIN last, no SG):
-  순위 | 선수 | 합계 | 3R | Top5 | Top10 | Top20 | 우승
+  순위 | 선수 | 합계 | 3R | TOP20 | TOP10 | TOP5 | 우승
 
 Stage navigation once R3 is published: PRE/R1/R2 clickable, R3 current
 (aria-current), FINAL disabled -- FINAL only activates once the
@@ -200,9 +200,9 @@ def render_r3_real_page(
             f"<th scope='row' data-label='선수'>{identity}{status_badge}</th>"
             f"<td data-label='합계'>{total_display}</td>"
             f"<td data-label='3R'>{r3_display}</td>"
-            + _cell(fc["top5_pct"] if fc else None, "Top5")
-            + _cell(fc["top10_pct"] if fc else None, "Top10")
             + _cell(fc["top20_pct"] if fc else None, "Top20")
+            + _cell(fc["top10_pct"] if fc else None, "Top10")
+            + _cell(fc["top5_pct"] if fc else None, "Top5")
             + _cell(fc["win_pct"] if fc else None, "우승")
             + "</tr>"
         )
@@ -221,10 +221,10 @@ def render_r3_real_page(
         '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FINAL</span></li>'
         '</ol></nav>'
         '<section class="panel leaderboard-panel" id="r3">'
-        '<div class="leaderboard-head"><h2>3R 결과</h2></div>'
+        '<div class="leaderboard-head"><h2>3R 결과</h2><p class="note">확률은 R2 종료 후 예측값</p></div>'
         '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--r2-full"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>3R</th>"
-        "<th>Top5</th><th>Top10</th><th>Top20</th><th>우승</th>"
+        "<th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
         + f'<p class="note">총 {len(records)}명 · R2 종료 후 예측</p>'
         + '<section class="panel forecast-context" aria-label="R2 종료 후 예측">'
