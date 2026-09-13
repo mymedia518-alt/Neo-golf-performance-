@@ -11,7 +11,20 @@
 .panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}
 .table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:16px}.status{display:inline-block;margin-top:8px}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
 /* MOBILE_CONTAINMENT */
-.grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden}
+/* KB FR BUILD (2026-09-13) fix: this rule's own overflow-y:hidden was
+   a latent vertical-clipping defect on every .table-wrap on the site
+   (PRE/R1/R2/R3/FINAL/FR alike) -- .table-wrap has no explicit height
+   here, so today its clientHeight always equals its scrollHeight and
+   nothing is actually clipped (verified via Playwright on the real FR
+   page: 39/39 rows, last row's getBoundingClientRect fully inside the
+   viewport after a real window.scrollTo to the bottom), but that
+   safety held only by coincidence -- any future rule giving this
+   container a height (a flex/grid ancestor stretch, a max-height media
+   query, a future modal embedding) would have silently hidden rows
+   with zero warning. overflow-y:visible removes the risk entirely:
+   this class's only real job is horizontal scroll-on-mobile-wide-
+   tables (overflow-x:auto), never vertical containment. */
+.grid > *,.panel{min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:visible}
 /* Public table is centered; numeric columns retain tabular numerals. */
 .data th,.data td{text-align:center}.data th:first-child,.data td:first-child{text-align:center}.player-name,.player-sponsor{text-align:center}
 .info-control{border:0;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;padding:2px 4px}
