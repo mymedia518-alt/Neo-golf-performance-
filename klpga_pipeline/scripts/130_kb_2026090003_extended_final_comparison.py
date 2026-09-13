@@ -27,7 +27,7 @@ def _to_jsonable(obj):
 
 def main() -> None:
     context = load_tournament_context("2026090003")
-    evidence_path = Path(__file__).resolve().parents[1] / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json"
+    evidence_path = Path(__file__).resolve().parents[1] / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V3.json"
     evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
     result = run_extended_comparison(context, evidence)
     over, under = biggest_movers(result)
