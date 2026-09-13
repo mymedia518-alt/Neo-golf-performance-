@@ -1,0 +1,201 @@
+{
+  "schema_version": "fr_official_leaderboard_recovery.v2",
+  "mission": "MISSION I -- KB FR OFFICIAL 70/70 RECOVERY FROM KLPGA GROUP LEADERBOARD",
+  "supersedes": null,
+  "additive_to": "content/website_v2/KB_2026090003_FR_OFFICIAL_LEADERBOARD_RECOVERY_V1.json",
+  "game_code": "2026090003",
+  "recovery_attempted_at_utc": "2026-09-13T14:48:37Z",
+  "new_source_cited": {
+    "url": "https://klpga.co.kr/web/leaderboard/leaderboard_group?gameCode=2026090003",
+    "claimed_distinction_from_prior_ajax_endpoint": true,
+    "retrieval_attempts": [
+      {
+        "method": "python requests (direct HTTPS)",
+        "target": "https://klpga.co.kr/web/leaderboard/leaderboard_group?gameCode=2026090003",
+        "result": "requests.exceptions.ProxyError: Tunnel connection failed: 403 Forbidden"
+      },
+      {
+        "method": "headless Chromium (Playwright, /opt/pw-browsers/chromium)",
+        "target": "https://klpga.co.kr/web/leaderboard/leaderboard_group?gameCode=2026090003",
+        "result": "net::ERR_TUNNEL_CONNECTION_FAILED"
+      },
+      {
+        "method": "WebFetch tool",
+        "target": "https://klpga.co.kr/web/leaderboard/leaderboard_group?gameCode=2026090003",
+        "result": "EGRESS_BLOCKED: Access to klpga.co.kr is blocked by the network egress proxy"
+      }
+    ],
+    "retrieval_result": "BLOCKED at the network-egress-proxy / domain level across all three independent retrieval mechanisms -- this is not specific to the previously-blocked AJAX endpoint; the entire klpga.co.kr domain is blocked in this sandbox regardless of path or tool"
+  },
+  "supplied_text_rows_evaluated": [
+    {
+      "player_name": "박보겸",
+      "player_id": "9431",
+      "identity_resolved_against_r3_active_roster": true,
+      "supplied_r1": 70,
+      "supplied_r2": 69,
+      "supplied_r3": 73,
+      "supplied_fr": 71,
+      "supplied_total": 283,
+      "supplied_to_par": -5,
+      "r1_r2_r3_matches_existing_r3_official_evidence": true,
+      "arithmetic_valid": true,
+      "already_in_v3_confirmed_evidence": true,
+      "conflict_with_v3": false,
+      "accepted_as_newly_recovered": false
+    },
+    {
+      "player_name": "이세희",
+      "player_id": "9652",
+      "identity_resolved_against_r3_active_roster": true,
+      "supplied_r1": 71,
+      "supplied_r2": 72,
+      "supplied_r3": 76,
+      "supplied_fr": 78,
+      "supplied_total": 297,
+      "supplied_to_par": 9,
+      "r1_r2_r3_matches_existing_r3_official_evidence": true,
+      "arithmetic_valid": true,
+      "already_in_v3_confirmed_evidence": false,
+      "accepted_as_newly_recovered": true
+    },
+    {
+      "player_name": "김수지",
+      "player_id": "8300",
+      "identity_resolved_against_r3_active_roster": true,
+      "supplied_r1": 73,
+      "supplied_r2": 74,
+      "supplied_r3": 73,
+      "supplied_fr": 79,
+      "supplied_total": 299,
+      "supplied_to_par": 11,
+      "r1_r2_r3_matches_existing_r3_official_evidence": true,
+      "arithmetic_valid": true,
+      "already_in_v3_confirmed_evidence": false,
+      "accepted_as_newly_recovered": true
+    },
+    {
+      "player_name": "김우정",
+      "player_id": "8838",
+      "identity_resolved_against_r3_active_roster": true,
+      "supplied_r1": 73,
+      "supplied_r2": 76,
+      "supplied_r3": 71,
+      "supplied_fr": 72,
+      "supplied_total": 292,
+      "supplied_to_par": 4,
+      "r1_r2_r3_matches_existing_r3_official_evidence": true,
+      "arithmetic_valid": true,
+      "already_in_v3_confirmed_evidence": true,
+      "conflict_with_v3": false,
+      "accepted_as_newly_recovered": false
+    },
+    {
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "player_id": "1485",
+      "identity_resolved_against_r3_active_roster": true,
+      "supplied_r1": 73,
+      "supplied_r2": 73,
+      "supplied_r3": 74,
+      "supplied_fr": 73,
+      "supplied_total": 293,
+      "supplied_to_par": 5,
+      "r1_r2_r3_matches_existing_r3_official_evidence": true,
+      "arithmetic_valid": true,
+      "already_in_v3_confirmed_evidence": true,
+      "conflict_with_v3": false,
+      "accepted_as_newly_recovered": false
+    },
+    {
+      "player_name": "최은우",
+      "player_id": "9235",
+      "identity_resolved_against_r3_active_roster": true,
+      "supplied_r1": 71,
+      "supplied_r2": 76,
+      "supplied_r3": 73,
+      "supplied_fr": 76,
+      "supplied_total": 296,
+      "supplied_to_par": 8,
+      "r1_r2_r3_matches_existing_r3_official_evidence": true,
+      "arithmetic_valid": true,
+      "already_in_v3_confirmed_evidence": false,
+      "accepted_as_newly_recovered": true
+    }
+  ],
+  "conflicts_with_existing_v3_evidence": [],
+  "newly_recovered_fr_scores": [
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "sponsor": null,
+      "r1_strokes": 71,
+      "r2_strokes": 72,
+      "r3_strokes": 76,
+      "fr_strokes": 78,
+      "final_total_strokes": 297,
+      "final_to_par": 9,
+      "final_position": null,
+      "status": "ACTIVE",
+      "evidence_tier": "OPERATOR_REPORTED_EXTERNAL_CROSS_VERIFIED",
+      "not_direct_klpga_automated_ingestion": true,
+      "source_note": "supplied as text in the Mission I instructions (no screenshot attached); accepted only after R1/R2/R3 strokes matched this repo's own pre-existing official R3 evidence exactly, and FR arithmetic (R1+R2+R3+FR=TOT, TOT-288=to_par) validated"
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "sponsor": null,
+      "r1_strokes": 73,
+      "r2_strokes": 74,
+      "r3_strokes": 73,
+      "fr_strokes": 79,
+      "final_total_strokes": 299,
+      "final_to_par": 11,
+      "final_position": null,
+      "status": "ACTIVE",
+      "evidence_tier": "OPERATOR_REPORTED_EXTERNAL_CROSS_VERIFIED",
+      "not_direct_klpga_automated_ingestion": true,
+      "source_note": "supplied as text in the Mission I instructions (no screenshot attached); accepted only after R1/R2/R3 strokes matched this repo's own pre-existing official R3 evidence exactly, and FR arithmetic (R1+R2+R3+FR=TOT, TOT-288=to_par) validated"
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "sponsor": null,
+      "r1_strokes": 71,
+      "r2_strokes": 76,
+      "r3_strokes": 73,
+      "fr_strokes": 76,
+      "final_total_strokes": 296,
+      "final_to_par": 8,
+      "final_position": null,
+      "status": "ACTIVE",
+      "evidence_tier": "OPERATOR_REPORTED_EXTERNAL_CROSS_VERIFIED",
+      "not_direct_klpga_automated_ingestion": true,
+      "source_note": "supplied as text in the Mission I instructions (no screenshot attached); accepted only after R1/R2/R3 strokes matched this repo's own pre-existing official R3 evidence exactly, and FR arithmetic (R1+R2+R3+FR=TOT, TOT-288=to_par) validated"
+    }
+  ],
+  "newly_recovered_count": 3,
+  "completeness_gate": {
+    "expected_fr_field": 70,
+    "fr_score_verified_before_this_mission": 39,
+    "fr_score_newly_recovered_this_mission": 3,
+    "fr_score_verified_total": 42,
+    "fr_score_missing": 28,
+    "unmatched": 0,
+    "ambiguous": 0,
+    "unsupported": 0,
+    "conflicts": 0,
+    "status": "BLOCKED_DATA_INCOMPLETE"
+  },
+  "r3_freeze_check": {
+    "expected_sha256": "016d02966bd57f88f466a5acfb4da480d3895fa4f28181157472d5ef5622141f",
+    "actual_sha256": "016d02966bd57f88f466a5acfb4da480d3895fa4f28181157472d5ef5622141f",
+    "unchanged": true
+  },
+  "existing_evidence_files_untouched": [
+    "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V1.json",
+    "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json",
+    "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V3.json",
+    "KB_2026090003_FR_OFFICIAL_LEADERBOARD_RECOVERY_V1.json"
+  ],
+  "status": "BLOCKED_DATA_INCOMPLETE"
+}
