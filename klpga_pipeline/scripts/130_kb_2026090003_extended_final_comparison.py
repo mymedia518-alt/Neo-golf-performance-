@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from klpga.neo_win.final_partial_evidence_validator import run_extended_comparison
+from klpga.neo_win.final_partial_evidence_validator import run_extended_comparison, biggest_movers
 from klpga.tournament_context import load_tournament_context
 
 
@@ -27,10 +27,15 @@ def _to_jsonable(obj):
 
 def main() -> None:
     context = load_tournament_context("2026090003")
-    evidence_path = Path(__file__).resolve().parents[1] / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V1.json"
+    evidence_path = Path(__file__).resolve().parents[1] / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json"
     evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
     result = run_extended_comparison(context, evidence)
-    print(json.dumps(_to_jsonable(result), ensure_ascii=False, indent=2))
+    over, under = biggest_movers(result)
+    print(json.dumps({
+        "comparison": _to_jsonable(result),
+        "biggest_overestimated": _to_jsonable(over),
+        "biggest_underestimated": _to_jsonable(under),
+    }, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
