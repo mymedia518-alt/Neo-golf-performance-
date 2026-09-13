@@ -90,7 +90,7 @@ def test_every_enumerated_locked_html_path_is_exactly_the_placeholder():
         assert content == lockdown.PLACEHOLDER_HTML, f"{rel} is not the exact placeholder"
 
 
-def test_kb_pre_r1_r2_and_r3_are_the_only_released_tournament_routes():
+def test_kb_pre_r1_r2_r3_and_final_are_the_only_released_tournament_routes():
     """KB's R1 page was added (see scripts/109_build_kb_r1_page.py,
     NEO_R1_MODEL_V1_FREEZE.json) once its own publication gate passed.
     R2 HOUSE (20260911) added a third: a real, truthful WAIT-state page
@@ -100,12 +100,16 @@ def test_kb_pre_r1_r2_and_r3_are_the_only_released_tournament_routes():
     r3_wait_page) -- neither page fabricates anything, and the HOME
     STATE ROUTER separately refuses to ever promote either to root HOME
     (STAGE_READINESS_MARKER) until its own publication gate passes.
-    Still exactly these four routes, nothing else."""
+    FINAL PAGE GO (2026-09-13) added a fifth: a real, evidence-gated
+    FINAL result page (klpga.neo_win.final_real_page), only ever built
+    once scripts/131's own zero-review_required/unmatched hard stop
+    passes. Still exactly these five routes, nothing else."""
     assert lockdown.RELEASED_HTML_PATHS == {
         "tournaments/2026/2026090003/pre/index.html",
         "tournaments/2026/2026090003/r1/index.html",
         "tournaments/2026/2026090003/r2/index.html",
         "tournaments/2026/2026090003/r3/index.html",
+        "tournaments/2026/2026090003/final/index.html",
     }
     pre_content = (DOCS / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     assert pre_content != lockdown.PLACEHOLDER_HTML

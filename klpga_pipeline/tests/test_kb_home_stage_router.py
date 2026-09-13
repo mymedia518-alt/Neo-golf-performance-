@@ -16,7 +16,7 @@ root HOME. Both scripts/112 and scripts/114 now call the sync on every
 real PUBLISH_AND_CLOSE.
 
 Section 1 tests the REAL, currently-committed generated site under
-docs/ directly (must show R2 is the current stage now). Section 2 tests
+docs/ directly (must show FINAL is the current stage now). Section 2 tests
 the router's genericity/evidence-only decision with fully isolated,
 synthetic tournament_context fixtures -- proving it would ALSO block
 promotion to a stage whose WAIT page merely exists (never real freeze
@@ -48,6 +48,7 @@ PRE_PAGE = TOURNAMENT_DIR / "pre" / "index.html"
 R1_PAGE = TOURNAMENT_DIR / "r1" / "index.html"
 R2_PAGE = TOURNAMENT_DIR / "r2" / "index.html"
 R3_WAIT_PAGE = TOURNAMENT_DIR / "r3" / "index.html"
+FINAL_PAGE = TOURNAMENT_DIR / "final" / "index.html"
 DOCS_INDEX = DOCS / "index.html"
 
 
@@ -55,47 +56,45 @@ DOCS_INDEX = DOCS / "index.html"
 # Section 1: the REAL, currently-committed generated site.
 # ---------------------------------------------------------------------
 
-def test_real_kb_current_stage_resolves_to_r3():
-    """ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-
-    v1-20260912): a real, hash-verified R3 freeze now exists for
-    2026090003 (official evidence proved this tournament's true
-    final_round_number is 4 and R3 has genuinely concluded) --
-    kb_current_stage() correctly advances past r2."""
+def test_real_kb_current_stage_resolves_to_final():
+    """FINAL PAGE GO (2026-09-13): a real, fully-identity-resolved
+    (zero review_required/unmatched) FINAL evidence file now exists for
+    2026090003 (V3, positions 1-39) and its `final_confirmed_evidence`
+    registry pointer is wired -- kb_current_stage() correctly advances
+    past r3 to "final"."""
     from klpga.tournament_context import load_tournament_context
 
     context = load_tournament_context(GAME_CODE)
-    assert kb_current_stage(context) == "r3"
+    assert kb_current_stage(context) == "final"
 
 
-def test_home_home_kb_equals_r3_while_r3_is_current():
-    """ROUND-CONTEXT CORRECTION (research/official-tournament-warehouse-
-    v1-20260912), pre-deploy R3 candidate sync: HOME -> KB = R3. Root
-    HOME's own status badge and stage-nav must show R3 -- via an
-    explicit sync_root_home_to_current_stage() call, never a stale R2
-    snapshot."""
+def test_home_home_kb_equals_final_while_final_is_current():
+    """FINAL PAGE GO (2026-09-13): HOME -> KB = FINAL. Root HOME's own
+    status badge and stage-nav must show FINAL -- via an explicit
+    sync_root_home_to_current_stage() call, never a stale R3 snapshot."""
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">R3<' in html
+    assert '"status">FINAL<' in html
     assert extract_owner(html) == CURRENT_TOURNAMENT_OWNER
-    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r3/" aria-current="page">R3</a>' in html
-    # never a stale disabled R3 placeholder (the exact reported bug class)
-    assert '<span class="stage-nav__disabled" aria-disabled="true">R3</span>' not in html
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/final/" aria-current="page">FINAL</a>' in html
+    # never a stale disabled FINAL placeholder
+    assert '<span class="stage-nav__disabled" aria-disabled="true">FINAL</span>' not in html
 
 
-def test_home_body_mirrors_the_real_published_r3_page_exactly():
-    """HOME's <main>...</main> body must be byte-identical to R3's own
-    real, already-gated page body -- proves HOME is a mirror, never an
-    independent rebuild that could silently diverge or fabricate."""
+def test_home_body_mirrors_the_real_published_final_page_exactly():
+    """HOME's <main>...</main> body must be byte-identical to FINAL's
+    own real, already-gated page body -- proves HOME is a mirror, never
+    an independent rebuild that could silently diverge or fabricate."""
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    r3_html = R3_WAIT_PAGE.read_text(encoding="utf-8")
+    final_html = FINAL_PAGE.read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    r3_body = r3_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    assert home_body == r3_body
+    final_body = final_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    assert home_body == final_body
 
 
-def test_home_tournaments_nav_override_points_at_r3_not_r2():
+def test_home_tournaments_nav_override_points_at_final_not_r3():
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert 'href="/tournaments/2026/2026090003/r3/">대회<' in html
-    assert 'href="/tournaments/2026/2026090003/r2/">대회<' not in html
+    assert 'href="/tournaments/2026/2026090003/final/">대회<' in html
+    assert 'href="/tournaments/2026/2026090003/r3/">대회<' not in html
 
 
 def test_pre_to_r2_and_r1_to_r2_reachable_on_the_real_site():
@@ -110,25 +109,38 @@ def test_r2_to_pre_and_r2_to_r1_reachable_on_the_real_site():
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r1/">R1</a>' in html
 
 
-def test_r3_freeze_is_real_and_home_was_explicitly_resynced_to_it():
-    """ROUND-CONTEXT CORRECTION UPDATE, pre-deploy R3 candidate: the R3
-    page at this path is the real, published R3 result page (not merely
-    a WAIT page), backed by a real, hash-verified R3 freeze --
-    kb_current_stage() correctly reflects that. What this test guards:
-    HOME now mirrors it, because sync_root_home_to_current_stage() was
-    explicitly called for this candidate (Section 1, HOME->R3 sync) --
-    a real freeze existing is necessary but was never, by itself,
-    sufficient; the explicit sync call is what actually produced this
-    HOME body."""
-    assert R3_WAIT_PAGE.is_file(), "test precondition: the R3 page must exist for this to be a real check"
+def test_final_evidence_is_real_and_home_was_explicitly_resynced_to_it():
+    """FINAL PAGE GO update: the FINAL page at this path is the real,
+    published FINAL result page (39/39 positions, zero review_required/
+    unmatched V3 evidence) -- kb_current_stage() correctly reflects
+    that. What this test guards: HOME now mirrors it, because
+    sync_root_home_to_current_stage() was explicitly called for this
+    build -- real evidence existing is necessary but was never, by
+    itself, sufficient; the explicit sync call is what actually
+    produced this HOME body."""
+    assert FINAL_PAGE.is_file(), "test precondition: the FINAL page must exist for this to be a real check"
+    from klpga.website_v2.kb_home_stage_router import _final_evidence_confirmed
+    from klpga.tournament_context import load_tournament_context
+
+    context = load_tournament_context(GAME_CODE)
+    assert _final_evidence_confirmed(context) is True
+    assert kb_current_stage(context) == "final"
+    home_html = DOCS_INDEX.read_text(encoding="utf-8")
+    assert '"status">FINAL<' in home_html  # HOME was explicitly resynced to FINAL this session
+
+
+def test_r3_freeze_still_real_but_no_longer_the_current_stage():
+    """The R3 freeze that used to be the current-stage evidence remains
+    real and untouched -- FINAL simply outranks it now that FINAL's own
+    evidence is confirmed complete, exactly mirroring how r3 previously
+    outranked r2 once ITS evidence appeared, with no code change to the
+    r3 check itself."""
     from klpga.neo_win.r3_freeze import r3_freeze_exists
     from klpga.tournament_context import load_tournament_context
 
     context = load_tournament_context(GAME_CODE)
     assert r3_freeze_exists(context) is True
-    assert kb_current_stage(context) == "r3"
-    home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">R3<' in home_html  # HOME was explicitly resynced to R3 this session
+    assert R3_WAIT_PAGE.is_file()
 
 
 def test_pre_and_r1_historical_content_untouched_by_the_sync():
@@ -293,3 +305,74 @@ def test_synthetic_sync_refuses_to_promote_to_a_stage_with_no_real_page_file(syn
     assert kb_current_stage(context) == "r3"
     with pytest.raises(KbHomeStageRouterError):
         sync_root_home_to_current_stage(context, repo_root=repo_root)
+
+
+# ---------------------------------------------------------------------
+# Section 3: the "final" tier (FINAL PAGE GO, 2026-09-13) -- isolated,
+# synthetic evidence proving the completeness gate is a real
+# conditional (review_required/unmatched rows block it, zero of them
+# unblock it), and that it outranks r3 exactly as r3 outranks r2/r1.
+# ---------------------------------------------------------------------
+
+def _write_final_evidence(context, content_dir: Path, records: list) -> Path:
+    path = context.artifact_path("final_confirmed_evidence")
+    assert path.parent == content_dir  # sanity: still redirected under the isolated CONTENT_DIR
+    path.write_text(json.dumps({"confirmed_records": records}, ensure_ascii=False), encoding="utf-8")
+    return path
+
+
+def test_synthetic_final_tier_blocked_while_review_required_rows_remain(synth):
+    """The exact completeness bar scripts/131 itself hard-stops on: one
+    unresolved row is enough to keep the router at r3, never "final"."""
+    import klpga.tournament_context as tc
+
+    context, repo_root, write_page = synth
+    _write_final_evidence(context, tc.CONTENT_DIR, [
+        {"player_id": "1", "player_name": "P1", "review_required": False},
+        {"player_id": None, "player_name": "P2", "review_required": True},
+    ])
+    assert kb_current_stage(context) == "r1"  # unchanged: r3 isn't even real evidence here yet
+
+
+def test_synthetic_final_tier_confirmed_and_outranks_r3(synth):
+    """Once every confirmed row is fully identity-resolved (zero
+    review_required, zero player_id:null), "final" outranks r3 --
+    mirrors the real KB fix end-to-end on synthetic data, no code
+    change needed for genericity."""
+    import klpga.tournament_context as tc
+
+    context, repo_root, write_page = synth
+    repo_root.mkdir(parents=True, exist_ok=True)
+    r2_freeze_path = repo_root / "r2_freeze.json"
+    r2_freeze_path.write_text("{}", encoding="utf-8")
+    raw = json.dumps([]).encode("utf-8")
+    evidence = build_r3_frozen_evidence(
+        context=context, official_source_identity="test", official_source_url=None,
+        collection_timestamp="2026-02-03T00:00:00Z", raw_official_response=raw,
+        records=[], expected_field_count=0, status_counts={}, wd_dq_dns_evidence=[],
+        r2_freeze_path=r2_freeze_path, repo_root=repo_root, build_id="B1",
+    )
+    write_r3_freeze_immutable(context, evidence)
+    write_page("r3", "R3", "r3-real-marker")
+    assert kb_current_stage(context) == "r3"  # real r3 evidence, but no final evidence yet
+
+    _write_final_evidence(context, tc.CONTENT_DIR, [
+        {"player_id": "1", "player_name": "P1", "review_required": False},
+        {"player_id": "2", "player_name": "P2", "review_required": False},
+    ])
+    assert kb_current_stage(context) == "final"
+
+    write_page("final", "FINAL", "final-real-marker")
+    result = sync_root_home_to_current_stage(context, repo_root=repo_root)
+    assert result["current_stage"] == "final"
+    home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
+    assert "final-real-marker" in home_html
+    assert "r3-real-marker" not in home_html
+
+
+def test_synthetic_final_tier_ignored_when_evidence_file_absent(synth):
+    """No final_confirmed_evidence artifact at all (the common case for
+    every tournament that hasn't reached FINAL yet) must never raise or
+    silently promote -- it just falls through to r3/r2/r1/pre as before."""
+    context, _repo_root, _write = synth
+    assert kb_current_stage(context) == "r1"
