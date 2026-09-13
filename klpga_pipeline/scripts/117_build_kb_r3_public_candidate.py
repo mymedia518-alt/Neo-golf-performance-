@@ -67,6 +67,12 @@ def main() -> None:
         "source_artifact": FINAL.name, "r2_source_artifact": R2.name,
         "records": records,
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    # NEO WIN FINAL BUILD (2026-09-13): the real FINAL page now exists
+    # (klpga.neo_win.final_real_page, docs/.../final/index.html) --
+    # R3's own nav gets a genuine FINAL link, per final_href's contract
+    # (never assumed, only passed once the FINAL page is confirmed real).
+    final_page = REPO / "docs" / "tournaments" / "2026" / GAME / "final" / "index.html"
+    final_href = f"/tournaments/2026/{GAME}/final/" if final_page.is_file() else None
     html = render_r3_real_page(
         tournament_name="KB금융 골든라이프 챔피언십",
         game_code=GAME,
@@ -74,6 +80,7 @@ def main() -> None:
         r3_freeze={"records": records},
         forecast=forecast,
         sponsor_by_id=sponsor_by_id,
+        final_href=final_href,
     )
     validate_r3_rendered_output(html, {"records": records}, forecast)
     OUT.parent.mkdir(parents=True, exist_ok=True)

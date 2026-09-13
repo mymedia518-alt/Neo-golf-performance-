@@ -26,6 +26,18 @@ once `klpga.neo_win.r3_wait_page` has run, long before R3 has actually
 concluded -- its existence must NEVER promote HOME to R3). Evidence
 checked, most-advanced stage first:
 
+  final: the tournament's registered `final_confirmed_evidence`
+      artifact (context.artifact_path -- for KB, the current
+      OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V*.json pointed at by
+      its TOURNAMENT_SITE_REGISTRY.json entry) exists, parses, has at
+      least one confirmed position, AND has zero `review_required`/
+      `player_id: null` rows among its `confirmed_records` -- exactly
+      the same completeness bar `scripts/131_build_kb_final_page.py`
+      itself hard-stops on before rendering. A tournament with no
+      `final_confirmed_evidence` mapping (every tournament except KB
+      today) always falls through this check -- there is no generic
+      fallback filename for it (unlike r1's), since this evidence's
+      versioned-and-superseded naming has no fixed final name.
   r3: `klpga.neo_win.r3_freeze`'s real, hash-verified freeze exists --
       the round has genuinely concluded with real official evidence
       bound to it (`build_r3_frozen_evidence` requires every record's
@@ -52,6 +64,7 @@ freeze exists and R3 genuinely publishes, calling this same function
 again advances HOME to R3 with no code change here."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from klpga.neo_win.post_r2_forecast import STAGE_CREATED as _R2_STAGE_CREATED, post_r2_forecast_status
@@ -84,10 +97,34 @@ def _r1_frozen_prediction_path(context: TournamentContext) -> Path:
     return context.artifact_path("r1_5prob_frozen_v1")
 
 
+def _final_evidence_confirmed(context: TournamentContext) -> bool:
+    """True only if this tournament has a registered
+    `final_confirmed_evidence` artifact, it parses, and every confirmed
+    record is fully identity-resolved (no `review_required`, no
+    `player_id: null`) -- the exact same bar
+    `scripts/131_build_kb_final_page.py` hard-stops on. A tournament
+    with no registry mapping (context.artifact_path's own generic
+    fallback would invent a filename nothing ever writes) always
+    returns False here, never raises."""
+    path = context.artifact_path("final_confirmed_evidence")
+    if not path.is_file():
+        return False
+    try:
+        evidence = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    records = evidence.get("confirmed_records") or []
+    if not records:
+        return False
+    return all(not r.get("review_required") and r.get("player_id") is not None for r in records)
+
+
 def kb_current_stage(context: TournamentContext) -> str:
     """The most-advanced KB stage with REAL publication evidence behind
     it -- see module docstring. Never inferred from HTML file existence
     alone."""
+    if _final_evidence_confirmed(context):
+        return "final"
     if r3_freeze_exists(context) and verify_r3_freeze_hash(context):
         return "r3"
     if (

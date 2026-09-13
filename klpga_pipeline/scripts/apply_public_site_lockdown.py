@@ -82,6 +82,14 @@ RELEASED_HTML_PATHS = {
     # data exists. HOME STATE ROUTER separately refuses to advance to
     # this page until its own publication gate passes.
     "tournaments/2026/2026090003/r3/index.html",
+    # FINAL PAGE GO (2026-09-13): the real FINAL page
+    # (klpga.neo_win.final_real_page.render_final_real_page) is public
+    # once its own gate passed -- scripts/131_build_kb_final_page.py
+    # hard-stops before writing this file unless the V3 operator-
+    # supplied-official-screenshot evidence has zero review_required/
+    # unmatched rows. It explicitly scopes itself to "FINAL 상위 39명
+    # 공식 결과 기준" and never claims a complete 70-player field.
+    "tournaments/2026/2026090003/final/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the
