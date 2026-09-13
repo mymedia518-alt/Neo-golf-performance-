@@ -116,7 +116,7 @@ def test_raises_when_winner_unmatched(tmp_path, monkeypatch):
         pev.run_extended_comparison(context, evidence)
 
 
-def test_real_kb_2026090003_extended_evidence_end_to_end():
+def test_real_kb_2026090003_extended_evidence_v1_end_to_end():
     evidence_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V1.json"
     evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
     from klpga.tournament_context import load_tournament_context
@@ -135,6 +135,70 @@ def test_real_kb_2026090003_extended_evidence_end_to_end():
         all_unmatched_seen.update(result.topk[k].unmatched_actual_names)
     assert "이예린" in all_unmatched_seen
     assert "홍정혜2" in all_unmatched_seen
+
+
+def test_real_kb_2026090003_extended_evidence_v2_resolves_most_identities():
+    """V2 (zoomed re-capture) must resolve nearly all of V1's
+    review_required identities -- only the two genuinely-unreadable
+    names (이예린, 홍정혜2, both outside the re-captured T11-T36 region)
+    should remain unmatched."""
+    evidence_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    from klpga.tournament_context import load_tournament_context
+    context = load_tournament_context("2026090003")
+    result = pev.run_extended_comparison(context, evidence)
+    assert result.positions_confirmed_gapless_through == 39
+    names = {u["player_name"] for u in result.unmatched_confirmed_names}
+    assert names == {"이예린", "홍정혜2"}
+    # previously-unresolved names must now have real player_ids
+    by_name = {c.player_name: c for c in result.confirmed_players}
+    assert by_name["짜라위 분짠(I)"].player_id == "11770"
+    assert by_name["빳차라쭈타 콩끄라판(I)"].player_id == "1485"
+    assert by_name["이주미"].player_id == "8234"
+    assert by_name["문정민"].player_id == "10296"
+
+
+def test_v1_evidence_file_preserved_unchanged_as_provenance():
+    """Phase 11-style rule: V2 must never silently overwrite V1 --
+    both files coexist, V2 explicitly names what it supersedes."""
+    v1_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V1.json"
+    v2_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json"
+    assert v1_path.is_file()
+    v1 = json.loads(v1_path.read_text(encoding="utf-8"))
+    v2 = json.loads(v2_path.read_text(encoding="utf-8"))
+    assert v1["schema_version"] == "operator_supplied_official_screenshot_final_v1"
+    assert "supersedes" in v2
+    assert "V1" in v2["supersedes"]
+
+
+def test_biggest_movers_real_evidence():
+    evidence_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    from klpga.tournament_context import load_tournament_context
+    context = load_tournament_context("2026090003")
+    result = pev.run_extended_comparison(context, evidence)
+    over, under = pev.biggest_movers(result, n=3)
+    assert all(c.rank_delta < 0 for c in over)
+    assert all(c.rank_delta > 0 for c in under)
+    # 이채은2: NEO predicted 14, actually finished at position 36 -- the
+    # single largest overestimate in the confirmed field.
+    assert over[0].player_name == "이채은2"
+    assert over[0].rank_delta == 14 - 36
+
+
+def test_biggest_movers_excludes_unmatched(tmp_path, monkeypatch):
+    monkeypatch.setattr(tournament_context, "CONTENT_DIR", tmp_path)
+    _write_snapshot(tmp_path)
+    context = _context()
+    confirmed = [
+        _rec("P1", "Player1", 1, 1, "1"),
+        {"player_id": None, "player_name": "Mystery", "final_rank": "2", "position_from": 2, "position_to": 2},
+    ]
+    evidence = {"confirmed_records": confirmed, "unsupported_full_field_metrics": []}
+    result = pev.run_extended_comparison(context, evidence)
+    over, under = pev.biggest_movers(result)
+    all_names = {c.player_name for c in (over + under)}
+    assert "Mystery" not in all_names
 
 
 def test_never_writes_the_immutable_official_final_truth(tmp_path, monkeypatch):

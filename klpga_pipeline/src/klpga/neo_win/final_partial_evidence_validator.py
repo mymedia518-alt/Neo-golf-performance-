@@ -47,6 +47,8 @@ class ConfirmedPlayerComparison:
     neo_win_probability_pct: float
     actual_final_rank: str
     r3_actual_standing_note: str
+    actual_position_from: int | None = None
+    rank_delta: int | None = None  # neo_predicted_rank - actual_position_from; positive = beat NEO's prediction
 
 
 @dataclass(frozen=True)
@@ -294,10 +296,14 @@ def run_extended_comparison(context: TournamentContext, operator_evidence: dict)
         fr = forecast_by_id.get(pid)
         if fr is None:
             raise PartialEvidenceBlocked(f"confirmed player_id={pid!r} ({rec.get('player_name')}) has no entry in the frozen R3 forecast")
+        predicted_rank = int(fr["neo_final_rank"])
+        position_from = rec.get("position_from")
         confirmed_comparisons.append(ConfirmedPlayerComparison(
             player_id=pid, player_name=rec.get("player_name", fr.get("player_name", "")),
-            neo_predicted_rank=int(fr["neo_final_rank"]), neo_win_probability_pct=float(fr["win_pct"]),
+            neo_predicted_rank=predicted_rank, neo_win_probability_pct=float(fr["win_pct"]),
             actual_final_rank=str(rec.get("final_rank")), r3_actual_standing_note="",
+            actual_position_from=int(position_from) if position_from is not None else None,
+            rank_delta=(predicted_rank - int(position_from)) if position_from is not None else None,
         ))
 
     max_position = max(int(r["position_to"]) for r in confirmed if r.get("position_to") is not None)
@@ -318,3 +324,15 @@ def run_extended_comparison(context: TournamentContext, operator_evidence: dict)
         confirmed_players=confirmed_comparisons, unmatched_confirmed_names=unmatched,
         blocked_metrics=list(operator_evidence.get("unsupported_full_field_metrics") or []),
     )
+
+
+def biggest_movers(result: ExtendedFinalComparison, *, n: int = 5) -> tuple[list, list]:
+    """(overestimated, underestimated) among ID-matched confirmed
+    players only, ranked by |rank_delta|. rank_delta = neo_predicted_rank
+    - actual_position_from: negative = NEO ranked them better than they
+    actually finished (overestimated); positive = NEO ranked them worse
+    than they actually finished (underestimated)."""
+    scored = [c for c in result.confirmed_players if c.rank_delta is not None]
+    overestimated = sorted([c for c in scored if c.rank_delta < 0], key=lambda c: c.rank_delta)[:n]
+    underestimated = sorted([c for c in scored if c.rank_delta > 0], key=lambda c: -c.rank_delta)[:n]
+    return overestimated, underestimated
