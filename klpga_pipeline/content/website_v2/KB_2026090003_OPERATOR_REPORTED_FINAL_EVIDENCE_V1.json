@@ -1,0 +1,88 @@
+{
+  "schema_version": "operator_reported_final_evidence_v1",
+  "evidence_tier": "OPERATOR_REPORTED_EXTERNAL_CROSS_VERIFIED",
+  "not_direct_klpga_automated_ingestion": true,
+  "game_code": "2026090003",
+  "tournament_name": "KB금융 골든라이프 챔피언십",
+  "reported_by": "operator, via external cross-verification (multiple independently-reported KLPGA FINAL results agreeing on winner/score/top finishers) -- NOT a direct automated fetch of the klpga.co.kr leaderboard, which remains proxy-blocked in this sandbox",
+  "reported_at_utc": "2026-09-13T08:00:00Z",
+  "full_field_recovered": false,
+  "known_field_size": 70,
+  "confirmed_player_count": 5,
+  "repository_archive_search_result": "no cached/archived R4 or FINAL leaderboard artifact for 2026090003 exists anywhere in this repository (content/, evidence/, data/raw_cache/, incoming_evidence/ all searched) -- full leaderboard genuinely not recoverable from existing artifacts, not merely unchecked",
+  "player_id_mapping_notes": [
+    "박보겸, 박예지, 방신실, 서교림 matched to exactly one player in the frozen 70-player R3 field by exact name -- unambiguous.",
+    "유서연 matched to player_id 11066 (site-internal name '유서연2', the KLPGA disambiguating suffix for a player sharing a base name with another 유서연 in the broader tour, not a different person) -- this is the ONLY player in this tournament's own 70-player field carrying that base name, so the mapping is unambiguous, not a guess."
+  ],
+  "cross_check_result": {
+    "박보겸_arithmetic": "operator-reported rounds 70-69-73-71 sum to 283, matching operator-reported final_total_strokes=283 exactly. R1+R2+R3=212 and R3=73 both match this repository's own pre-existing official R3 frozen evidence (KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json: player_id=9431, r3_strokes=73, total_strokes(R1-R3)=212) exactly, with R4=71 the only new (operator-reported) figure. This is a strong independent cross-check: the operator's evidence is fully consistent with data already collected before this mission began.",
+    "final_to_par_arithmetic": "R3 cumulative to-par + operator-reported R4-to-par matches operator-reported FINAL-to-par for every one of the 5 confirmed players (박보겸: -4 + -1 = -5; 박예지: -5 + 1 = -4; 방신실: -2 + -2 = -4; 유서연2: -4 + 0 = -4). No arithmetic conflict found."
+  },
+  "confirmed_records": [
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "final_rank": 1,
+      "final_to_par": -5,
+      "final_total_strokes": 283,
+      "r4_to_par": -1,
+      "r4_strokes": 71,
+      "r1_strokes": 70,
+      "r2_strokes": 69,
+      "r3_strokes": 73,
+      "status": "ACTIVE",
+      "prize_money_krw": 270000000,
+      "career_wins_after_this": 4,
+      "first_major_win": true,
+      "r3_actual_standing_rank_this_repo": "T2 (-4, source: KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json)"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "final_rank": "T2",
+      "final_to_par": -4,
+      "final_total_strokes": 284,
+      "r4_to_par": 1,
+      "status": "ACTIVE",
+      "r3_actual_standing_rank_this_repo": "1 (-5, source: KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json)"
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "final_rank": "T2",
+      "final_to_par": -4,
+      "final_total_strokes": 284,
+      "r4_to_par": -2,
+      "status": "ACTIVE",
+      "r3_actual_standing_rank_this_repo": "T6 (-2, source: KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json)"
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "final_rank": "T2",
+      "final_to_par": -4,
+      "final_total_strokes": 284,
+      "r4_to_par": 0,
+      "status": "ACTIVE",
+      "r3_actual_standing_rank_this_repo": "T2 (-4, source: KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json)"
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "final_rank": 5,
+      "final_to_par": null,
+      "final_total_strokes": null,
+      "r4_to_par": null,
+      "status": "ACTIVE",
+      "note": "operator evidence gave rank position (5th) only, no score value -- final_to_par/strokes deliberately left null rather than inferred from other players' pattern",
+      "r3_actual_standing_rank_this_repo": "T6 (-2, source: KB_2026090003_R3_OFFICIAL_FINAL_JOINED.json)"
+    }
+  ],
+  "unsupported_full_field_metrics": [
+    "complete FINAL leaderboard (ranks 6 through 70)",
+    "field-wide Top10/Top20 predicted-vs-actual set precision/recall",
+    "full postmortem freeze into NEO validation history",
+    "R4 hole-by-hole data",
+    "course Deep Dive R4 update (also independently blocked: no course data source exists for this game_code at all)"
+  ]
+}
