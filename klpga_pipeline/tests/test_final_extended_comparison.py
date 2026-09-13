@@ -186,6 +186,49 @@ def test_biggest_movers_real_evidence():
     assert over[0].rank_delta == 14 - 36
 
 
+def test_real_kb_2026090003_extended_evidence_v3_fully_resolved():
+    """V3 (final zoomed crop of positions 8 and T9) must leave zero
+    unmatched / zero review_required across all 39 confirmed positions."""
+    evidence_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V3.json"
+    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    assert all(not r["review_required"] for r in evidence["confirmed_records"])
+    assert all(r["player_id"] is not None for r in evidence["confirmed_records"])
+    from klpga.tournament_context import load_tournament_context
+    context = load_tournament_context("2026090003")
+    result = pev.run_extended_comparison(context, evidence)
+    assert result.positions_confirmed_gapless_through == 39
+    assert result.unmatched_confirmed_names == []
+    assert len(result.confirmed_players) == 39
+    for k in (5, 10, 20):
+        assert result.topk[k].supported is True
+        assert result.topk[k].unmatched_actual_names == []
+    by_name = {c.player_name: c for c in result.confirmed_players}
+    assert by_name["이예원"].player_id == "9784"
+    assert by_name["홍진영2"].player_id == "10586"
+
+
+def test_v1_v2_evidence_files_preserved_unchanged_through_v3():
+    v1_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V1.json"
+    v2_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V2.json"
+    v3_path = REPO_ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V3.json"
+    assert v1_path.is_file() and v2_path.is_file()
+    v1 = json.loads(v1_path.read_text(encoding="utf-8"))
+    v2 = json.loads(v2_path.read_text(encoding="utf-8"))
+    v3 = json.loads(v3_path.read_text(encoding="utf-8"))
+    assert v1["schema_version"] == "operator_supplied_official_screenshot_final_v1"
+    assert v2["schema_version"] == "operator_supplied_official_screenshot_final_v2"
+    assert "V2" in v3["supersedes"]
+
+
+def test_r3_frozen_snapshot_unchanged_after_v3():
+    from klpga.neo_win import final_pre_freeze
+    from klpga.tournament_context import load_tournament_context
+    context = load_tournament_context("2026090003")
+    assert final_pre_freeze.detect_snapshot_drift(context) is False
+    manifest = final_pre_freeze.load_freeze_manifest(context)
+    assert manifest["snapshot_sha256"] == "016d02966bd57f88f466a5acfb4da480d3895fa4f28181157472d5ef5622141f"
+
+
 def test_biggest_movers_excludes_unmatched(tmp_path, monkeypatch):
     monkeypatch.setattr(tournament_context, "CONTENT_DIR", tmp_path)
     _write_snapshot(tmp_path)
