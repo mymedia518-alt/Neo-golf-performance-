@@ -50,16 +50,18 @@ relative-to-par):
   순위 | 선수 | 합계 | 3R | TOP20 | TOP10 | TOP5 | 우승
 
 Stage navigation once R3 is published: PRE/R1/R2 clickable, R3 current
-(aria-current), FR disabled -- PRE/R1/R2/R3/FR by default. A FINAL
-link is appended after FR ONLY when the caller passes `final_href`
-(non-None) -- this module never assumes FINAL exists for a given
-tournament; the caller must have already confirmed the real FINAL
-page was published (klpga.neo_win.final_real_page) before passing a
-href. Omitting `final_href` (the default) reproduces the exact prior
-PRE/R1/R2/R3/FR-only nav for every tournament that has no FINAL page
-yet. FR is the actual fourth competitive round's own result page
-(never publicly labeled "R4"); it activates only once it genuinely
-publishes.
+(aria-current), FR disabled by default -- PRE/R1/R2/R3/FR. FR becomes a
+plain link instead of the disabled placeholder ONLY when the caller
+passes `fr_href` (non-None); a FINAL link is appended after FR ONLY
+when the caller passes `final_href` (non-None) too. This module never
+assumes either page exists for a given tournament -- the caller must
+have already confirmed the real page was published
+(klpga.neo_win.fr_real_page / klpga.neo_win.final_real_page) before
+passing either href. Omitting both (the default) reproduces the exact
+prior PRE/R1/R2/R3/FR(disabled)-only nav for every tournament that has
+neither page yet. FR is the actual fourth competitive round's own
+result page (never publicly labeled "R4"); it activates only once it
+genuinely publishes.
 """
 from __future__ import annotations
 
@@ -151,6 +153,7 @@ def render_r3_real_page(
     r3_freeze: dict,
     forecast: dict,
     sponsor_by_id: dict,
+    fr_href: str | None = None,
     final_href: str | None = None,
 ) -> str:
     """The complete, real HTML for R3's public route once the
@@ -225,7 +228,11 @@ def render_r3_real_page(
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r1/">R1</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r2/">R2</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{game_code}/r3/" aria-current="page">R3</a></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li>'
+        + (
+            f'<li class="stage-nav__item"><a class="stage-nav__link" href="{fr_href}">FR</a></li>'
+            if fr_href else
+            '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li>'
+        )
         + (f'<li class="stage-nav__item"><a class="stage-nav__link" href="{final_href}">FINAL</a></li>' if final_href else "")
         + '</ol></nav>'
         '<section class="panel leaderboard-panel" id="r3">'
