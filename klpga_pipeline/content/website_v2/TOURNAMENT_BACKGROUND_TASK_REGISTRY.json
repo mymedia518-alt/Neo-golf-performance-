@@ -1,0 +1,38 @@
+{
+  "schema_version": "tournament_background_task_registry_v1",
+  "tasks": [
+    {
+      "tournament_id": "2026120001",
+      "tournament_name": "OK저축은행 오픈",
+      "stage": "closed",
+      "task_type": "scheduled_validation_cycle",
+      "created_at": "2026-09-04T04:37:37Z",
+      "enabled": false,
+      "lifecycle_status": "CLOSED",
+      "task_id": "trig_01B1r6bm1NWeSmPQjxQyGv6U",
+      "schedule": "37 * * * *"
+    },
+    {
+      "tournament_id": "2026090003",
+      "tournament_name": "KB금융 골든라이프 챔피언십",
+      "stage": "closed",
+      "task_type": "wait_process",
+      "created_at": "2026-09-13T10:21:00Z",
+      "enabled": false,
+      "lifecycle_status": "CLOSED",
+      "task_id": "bgunp82ic",
+      "schedule": null
+    },
+    {
+      "tournament_id": null,
+      "tournament_name": "골프 블로그 초안 자동 생성",
+      "stage": "pre",
+      "task_type": "unrelated_automation",
+      "created_at": "2026-08-15T07:39:52Z",
+      "enabled": true,
+      "lifecycle_status": "ACTIVE",
+      "task_id": "trig_01CyDvvrQtku5WgZQsWoLeD2",
+      "schedule": "0 23 * * *"
+    }
+  ]
+}
