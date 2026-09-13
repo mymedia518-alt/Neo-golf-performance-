@@ -165,3 +165,156 @@ def run_partial_comparison(context: TournamentContext, operator_evidence: dict) 
         confirmed_players=confirmed_comparisons,
         blocked_metrics=list(operator_evidence.get("unsupported_full_field_metrics") or []),
     )
+
+
+# ----------------------------------------------------------------
+# Extended comparison: for a richer evidence file that names actual
+# leaderboard POSITIONS (position_from/position_to per record, with
+# ties spanning a range) rather than assuming "confirmed == exactly
+# the top 5". Supports player_id=None (a confirmed position whose
+# player identity could not be unambiguously OCR-matched) -- such
+# records still count toward position-gap coverage but are excluded
+# from any player_id-keyed comparison against the NEO forecast.
+# ----------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class TopKSetComparison:
+    k: int
+    supported: bool
+    reason: str
+    predicted_ids: list
+    actual_ids: list
+    hits: list
+    predicted_only: list
+    actual_only: list
+    precision: float
+    recall: float
+    unmatched_actual_names: list  # confirmed players occupying this top-k with no player_id match
+
+
+def _positions_gapless_through(confirmed: list, k: int) -> bool:
+    covered = set()
+    for rec in confirmed:
+        pf, pt = rec.get("position_from"), rec.get("position_to")
+        if pf is None or pt is None:
+            return False
+        covered.update(range(int(pf), int(pt) + 1))
+    return all(p in covered for p in range(1, k + 1))
+
+
+def topk_set_comparison(forecast_by_id: dict, confirmed: list, name_by_id: dict, k: int) -> TopKSetComparison:
+    if not _positions_gapless_through(confirmed, k):
+        return TopKSetComparison(
+            k=k, supported=False,
+            reason=f"confirmed positions are not gapless from 1 through {k}",
+            predicted_ids=[], actual_ids=[], hits=[], predicted_only=[], actual_only=[],
+            precision=0.0, recall=0.0, unmatched_actual_names=[],
+        )
+    predicted_ids = {pid for pid, r in forecast_by_id.items() if int(r["neo_final_rank"]) <= k}
+    in_range = [rec for rec in confirmed if int(rec["position_from"]) <= k]
+    actual_ids = {str(rec["player_id"]) for rec in in_range if rec.get("player_id") is not None}
+    unmatched_names = [rec["player_name"] for rec in in_range if rec.get("player_id") is None]
+
+    hits = sorted(predicted_ids & actual_ids)
+    predicted_only = sorted(predicted_ids - actual_ids)
+    actual_only = sorted(actual_ids - predicted_ids)
+    precision = len(hits) / len(predicted_ids) if predicted_ids else 0.0
+    recall = len(hits) / len(actual_ids) if actual_ids else 0.0
+
+    def _named(ids):
+        return [{"player_id": pid, "player_name": name_by_id.get(pid, "")} for pid in ids]
+
+    return TopKSetComparison(
+        k=k, supported=True, reason="positions 1..k gapless in confirmed evidence",
+        predicted_ids=_named(predicted_ids), actual_ids=_named(actual_ids),
+        hits=_named(hits), predicted_only=_named(predicted_only), actual_only=_named(actual_only),
+        precision=precision, recall=recall, unmatched_actual_names=unmatched_names,
+    )
+
+
+@dataclass(frozen=True)
+class ExtendedFinalComparison:
+    winner_player_id: str
+    winner_name: str
+    winner_neo_win_probability_pct: float
+    winner_neo_probability_rank: int
+    winner_hit: bool
+    brier_norm: float
+    log_loss: float
+    reciprocal_rank: float
+    field_size: int
+    positions_confirmed_gapless_through: int
+    topk: dict  # {5: TopKSetComparison, 10: ..., 20: ...}
+    confirmed_players: list  # ConfirmedPlayerComparison for every ID-matched record
+    unmatched_confirmed_names: list  # [{position, name}] for review
+    blocked_metrics: list
+
+
+def run_extended_comparison(context: TournamentContext, operator_evidence: dict) -> ExtendedFinalComparison:
+    if operator_evidence.get("full_field_recovered"):
+        raise PartialEvidenceBlocked(
+            "this module is for PARTIAL (operator-tier, incomplete-field) evidence only -- "
+            "a full-field recovery should go through final_truth.py / final_validator.py instead"
+        )
+    snapshot = load_pre_final_snapshot(context)
+    forecast_by_id = {str(r["player_id"]): r for r in snapshot["records"]}
+
+    confirmed = operator_evidence.get("confirmed_records") or []
+    if not confirmed:
+        raise PartialEvidenceBlocked("operator evidence has zero confirmed records")
+
+    winner_records = [r for r in confirmed if str(r.get("final_rank")) == "1"]
+    if len(winner_records) != 1:
+        raise PartialEvidenceBlocked(f"expected exactly one confirmed winner (final_rank=1), found {len(winner_records)}")
+    winner = winner_records[0]
+    winner_id = winner.get("player_id")
+    if winner_id is None:
+        raise PartialEvidenceBlocked("confirmed winner has no player_id match -- cannot score without identity")
+    winner_id = str(winner_id)
+    if winner_id not in forecast_by_id:
+        raise PartialEvidenceBlocked(f"confirmed winner player_id={winner_id!r} has no entry in the frozen R3 forecast")
+
+    raw_probabilities = {pid: float(r["win_pct"]) / 100.0 for pid, r in forecast_by_id.items()}
+    prediction = make_prediction(
+        target_event_id=context.game_code, target_game_code=context.game_code,
+        target_start_date=context.start_date, raw_probabilities=raw_probabilities,
+        winner=winner_id, prior_events_n_by_player={},
+    )
+
+    name_by_id = {pid: r["player_name"] for pid, r in forecast_by_id.items()}
+    confirmed_comparisons = []
+    unmatched = []
+    for rec in confirmed:
+        pid = rec.get("player_id")
+        if pid is None:
+            unmatched.append({"position": rec.get("final_rank"), "player_name": rec.get("player_name")})
+            continue
+        pid = str(pid)
+        fr = forecast_by_id.get(pid)
+        if fr is None:
+            raise PartialEvidenceBlocked(f"confirmed player_id={pid!r} ({rec.get('player_name')}) has no entry in the frozen R3 forecast")
+        confirmed_comparisons.append(ConfirmedPlayerComparison(
+            player_id=pid, player_name=rec.get("player_name", fr.get("player_name", "")),
+            neo_predicted_rank=int(fr["neo_final_rank"]), neo_win_probability_pct=float(fr["win_pct"]),
+            actual_final_rank=str(rec.get("final_rank")), r3_actual_standing_note="",
+        ))
+
+    max_position = max(int(r["position_to"]) for r in confirmed if r.get("position_to") is not None)
+    gapless_through = 0
+    for k in range(1, max_position + 1):
+        if _positions_gapless_through(confirmed, k):
+            gapless_through = k
+
+    topk = {k: topk_set_comparison(forecast_by_id, confirmed, name_by_id, k) for k in (5, 10, 20)}
+
+    return ExtendedFinalComparison(
+        winner_player_id=winner_id, winner_name=name_by_id.get(winner_id, ""),
+        winner_neo_win_probability_pct=float(forecast_by_id[winner_id]["win_pct"]),
+        winner_neo_probability_rank=int(forecast_by_id[winner_id]["neo_final_rank"]),
+        winner_hit=top_k_hit(prediction, 1), brier_norm=brier_norm(prediction), log_loss=log_loss(prediction),
+        reciprocal_rank=reciprocal_rank(prediction), field_size=prediction.field_size,
+        positions_confirmed_gapless_through=gapless_through, topk=topk,
+        confirmed_players=confirmed_comparisons, unmatched_confirmed_names=unmatched,
+        blocked_metrics=list(operator_evidence.get("unsupported_full_field_metrics") or []),
+    )
