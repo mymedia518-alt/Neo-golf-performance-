@@ -1,0 +1,24 @@
+{
+  "schema_version": "neo_pre_final_freeze_manifest_v1",
+  "status": "FROZEN",
+  "game_code": "2026090003",
+  "tournament_name": "KB금융 골든라이프 챔피언십",
+  "forecast_source_round": "R3",
+  "snapshot_type": "PRE_FINAL_R3",
+  "snapshot_artifact": "2026090003_POST_R3_FINAL_FORECAST.json",
+  "created_at": "20260912T000000Z_POST_R3",
+  "verified_at": "2026-09-13T04:52:04Z",
+  "model_version": "20260912T000000Z_POST_R3",
+  "code_commit": "c6ab49c1915b075febafedcc121c97e900e309f7",
+  "seed": 20260912,
+  "input_fingerprint": "e0337687d2608dd222a11d83447539e814a166e0b2ad1b690771e79595bdf346",
+  "snapshot_sha256": "016d02966bd57f88f466a5acfb4da480d3895fa4f28181157472d5ef5622141f",
+  "player_count": 70,
+  "future_data_excluded": true,
+  "future_leakage_check": "PASS",
+  "surprise_classification_rule": {
+    "neo_high_if": "neo_final_rank <= 10",
+    "actual_high_if": "final_rank <= 10",
+    "rationale": "matches the existing top10_pct / top_k_hit(10) threshold already used as this project's secondary headline metric -- not invented for this classification"
+  }
+}
