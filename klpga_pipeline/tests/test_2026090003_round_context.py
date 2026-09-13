@@ -248,15 +248,17 @@ def test_r3_page_wd_row_has_no_probability_values(real_r3_html):
         assert f"data-label='{label}'>—<" in row
 
 
-def test_r3_page_stage_nav_has_fr_disabled_and_final_link(real_r3_html):
-    """FINAL PAGE GO (2026-09-13) superseded the earlier VISUAL GATE
-    remediation note: FINAL genuinely exists now (a real, gated page at
-    klpga.neo_win.final_real_page), so R3's own nav gets a real FINAL
-    link after the still-disabled FR placeholder -- nav is
-    PRE/R1/R2/R3/FR/FINAL, never FINAL as aria-current here (R3's own
+def test_r3_page_stage_nav_has_real_fr_and_final_links(real_r3_html):
+    """KB FR BUILD (2026-09-13) superseded the earlier VISUAL GATE
+    remediation note: FR and FINAL both genuinely exist now (real,
+    gated pages at klpga.neo_win.fr_real_page / final_real_page), so
+    R3's own nav gets real links to both -- nav is PRE/R1/R2/R3/FR/
+    FINAL, with neither FR nor FINAL as aria-current here (R3's own
     page keeps R3 current)."""
     nav = re.search(r'<nav class="stage-nav".*?</nav>', real_r3_html, re.DOTALL).group(0)
-    assert nav.count('<span class="stage-nav__disabled" aria-disabled="true">FR</span>') == 1
+    assert '<span class="stage-nav__disabled"' not in nav
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/fr/">FR</a>' in nav
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/final/">FINAL</a>' in nav
+    assert 'href="/tournaments/2026/2026090003/fr/" aria-current="page"' not in nav
     assert 'href="/tournaments/2026/2026090003/final/" aria-current="page"' not in nav
     assert 'href="/tournaments/2026/2026090003/r3/" aria-current="page">R3</a>' in nav

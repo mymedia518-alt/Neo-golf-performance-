@@ -90,6 +90,14 @@ RELEASED_HTML_PATHS = {
     # unmatched rows. It explicitly scopes itself to "FINAL 상위 39명
     # 공식 결과 기준" and never claims a complete 70-player field.
     "tournaments/2026/2026090003/final/index.html",
+    # KB FR BUILD (2026-09-13): the real FR page
+    # (klpga.neo_win.fr_real_page.render_fr_real_page) is public once
+    # its own gate passed -- scripts/132_build_kb_fr_page.py hard-stops
+    # before writing this file unless all 39 confirmed positions are
+    # fully identity-resolved AND internally arithmetic-consistent
+    # (R1+R2+R3+FR == total, total-288 == to-par). Unlike FINAL, this
+    # page carries zero model analysis -- pure R1/R2/R3/FR/합계 results.
+    "tournaments/2026/2026090003/fr/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the

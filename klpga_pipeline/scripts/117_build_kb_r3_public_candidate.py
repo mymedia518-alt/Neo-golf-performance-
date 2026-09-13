@@ -73,6 +73,12 @@ def main() -> None:
     # (never assumed, only passed once the FINAL page is confirmed real).
     final_page = REPO / "docs" / "tournaments" / "2026" / GAME / "final" / "index.html"
     final_href = f"/tournaments/2026/{GAME}/final/" if final_page.is_file() else None
+    # KB FR BUILD (2026-09-13): same contract, one round earlier -- FR
+    # (klpga.neo_win.fr_real_page, docs/.../fr/index.html) genuinely
+    # exists now, so R3's own nav gets a real FR link instead of the
+    # disabled placeholder.
+    fr_page = REPO / "docs" / "tournaments" / "2026" / GAME / "fr" / "index.html"
+    fr_href = f"/tournaments/2026/{GAME}/fr/" if fr_page.is_file() else None
     html = render_r3_real_page(
         tournament_name="KB금융 골든라이프 챔피언십",
         game_code=GAME,
@@ -80,6 +86,7 @@ def main() -> None:
         r3_freeze={"records": records},
         forecast=forecast,
         sponsor_by_id=sponsor_by_id,
+        fr_href=fr_href,
         final_href=final_href,
     )
     validate_r3_rendered_output(html, {"records": records}, forecast)
