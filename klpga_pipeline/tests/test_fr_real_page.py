@@ -206,11 +206,29 @@ DOCS = ROOT.parent / "docs"
 FR_ROUTE = "/tournaments/2026/2026090003/fr/"
 
 
+def _real_current_production_evidence() -> dict:
+    """MISSION J (2026-09-13): production now builds FR from the
+    validated, complete 70-player official dataset via
+    scripts/138_build_kb_fr_page_full70.py, not the 39-row V3 evidence
+    scripts/132 used before the 70/70 DATA GATE passed. Load the same
+    evidence the live docs/ page was actually built from, so this test
+    file never re-drifts from whatever is really on disk."""
+    import importlib.util
+    import sys as _sys
+
+    spec = importlib.util.spec_from_file_location(
+        "kb_fr_build_full70", ROOT / "scripts" / "138_build_kb_fr_page_full70.py"
+    )
+    mod = importlib.util.module_from_spec(spec)
+    _sys.modules["kb_fr_build_full70"] = mod
+    spec.loader.exec_module(mod)
+    return mod.build_evidence()
+
+
 def _real_last_confirmed_record() -> dict:
-    evidence_path = ROOT / "content" / "website_v2" / "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V3.json"
-    evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    evidence = _real_current_production_evidence()
     records = sorted(evidence["confirmed_records"], key=lambda r: r["position_from"])
-    assert len(records) == 39
+    assert len(records) == 70
     return records[-1]
 
 
@@ -263,7 +281,7 @@ def test_final_player_row_reachable_by_real_page_scroll(fr_browser, fr_base_url,
     page.goto(f"{fr_base_url}{FR_ROUTE}", wait_until="networkidle")
 
     rows = page.locator("tr[data-player-id]")
-    assert rows.count() == 39
+    assert rows.count() == 70
 
     first_row = rows.first
     first_box = first_row.bounding_box()
