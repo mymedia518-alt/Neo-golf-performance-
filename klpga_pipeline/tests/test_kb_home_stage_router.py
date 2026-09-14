@@ -80,25 +80,38 @@ def test_home_home_kb_equals_final_while_final_is_current():
     assert '<span class="stage-nav__disabled" aria-disabled="true">FINAL</span>' not in html
 
 
+def _strip_section(html: str, section_id: str) -> str:
+    start = html.find(f'<section class="product-section" id="{section_id}">')
+    if start == -1:
+        return html
+    end = html.index("</section>", start) + len("</section>")
+    return html[:start] + html[end:]
+
+
 def test_home_body_mirrors_the_real_published_final_page_exactly():
     """HOME's <main>...</main> body must be byte-identical to FINAL's own
     real, already-gated page body -- proves HOME is a mirror, never an
     independent rebuild that could silently diverge or fabricate --
-    except for exactly one deliberate, explicitly-requested addition: a
-    static <figure id="r3-forecast-visual"> visual (operator-supplied
-    image + a fixed caption, no ranking/leaderboard data of its own)
-    that exists on HOME only, never on FINAL. Stripping that one section
-    out of HOME's body must restore byte-identity with FINAL -- anything
-    else diverging is still a real failure."""
+    except for exactly two deliberate, explicitly-requested divergences:
+    (1) a static <figure id="r3-forecast-visual"> visual (operator-
+    supplied image + a fixed caption, no ranking/leaderboard data of its
+    own) that exists on HOME only, never on FINAL; (2) the
+    id="biggest-movers" section, whose markup was restructured on HOME
+    only (row-per-player containers instead of a bare <ul><li> list, to
+    fix a reported alignment/bullet bug -- see
+    test_home_biggest_movers_rows_are_structured_and_bullet_free) while
+    /final/ was explicitly left untouched, so its own copy keeps the old
+    markup. Stripping exactly those two sections out of HOME's body must
+    restore byte-identity with FINAL -- anything else diverging is still
+    a real failure."""
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
     final_html = FINAL_PAGE.read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
     final_body = final_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
 
-    figure_start = home_body.find('<section class="product-section" id="r3-forecast-visual">')
-    if figure_start != -1:
-        figure_end = home_body.index("</section>", figure_start) + len("</section>")
-        home_body = home_body[:figure_start] + home_body[figure_end:]
+    home_body = _strip_section(home_body, "r3-forecast-visual")
+    home_body = _strip_section(home_body, "biggest-movers")
+    final_body = _strip_section(final_body, "biggest-movers")
 
     assert home_body == final_body
 
@@ -117,6 +130,51 @@ def test_home_forecast_visual_figure_has_no_ranking_or_leaderboard_markup():
     assert "<table" not in figure_html
     assert 'src="/assets/kb-2026090003-r3-forecast-vs-final.png"' in figure_html
     assert "<figcaption>NEO R3 예측 → 실제 결과</figcaption>" in figure_html
+
+
+def test_home_biggest_movers_rows_are_structured_and_bullet_free():
+    """The reported bug: player name/sponsor and the rank-change text
+    were not aligned on one row, a bare bullet rendered on its own line,
+    and left/right columns didn't line up -- root-caused to a plain
+    <ul><li> whose only children were block-level .player-name/
+    .player-sponsor followed by a bare inline change span, giving the
+    browser no single row container to align. Fix: every mover is now
+    one <li class='movers-row'> containing exactly one
+    'movers-row__player' block (name+sponsor) and one
+    'movers-row__change' element (the arrow/rank text) -- verified here
+    structurally (no bare <li> without the row class) and verified to
+    still carry the exact same 5-up/5-down player<->number pairs FINAL's
+    own (untouched) copy has, proving the restructure changed markup
+    only, never the data."""
+    import re
+
+    home_html = DOCS_INDEX.read_text(encoding="utf-8")
+    final_html = FINAL_PAGE.read_text(encoding="utf-8")
+
+    start = home_html.find('<section class="product-section" id="biggest-movers">')
+    assert start != -1
+    end = home_html.index("</section>", start) + len("</section>")
+    movers_html = home_html[start:end]
+
+    all_li = re.findall(r"<li[^>]*>", movers_html)
+    assert all_li, "expected at least one mover row"
+    assert all(li == "<li class='movers-row'>" for li in all_li)
+    assert "<ul>" not in movers_html  # every list here must opt out of default bullets
+    assert movers_html.count("movers-row__player") == len(all_li)
+    assert movers_html.count("movers-row__change") == len(all_li)
+
+    def _pairs(html: str, section_id: str) -> set[tuple[str, str]]:
+        s = html.find(f'<section class="product-section" id="{section_id}">')
+        e = html.index("</section>", s) + len("</section>")
+        block = html[s:e]
+        names = re.findall(r"<span class='player-name'>([^<]*)</span>", block)
+        changes = re.findall(r"(?:NEO 예상[^<]*)", block)
+        return set(zip(names, changes))
+
+    home_pairs = _pairs(home_html, "biggest-movers")
+    final_pairs = _pairs(final_html, "biggest-movers")
+    assert len(home_pairs) == 10
+    assert home_pairs == final_pairs
 
 
 def test_home_tournaments_nav_override_points_at_final_not_r3():
