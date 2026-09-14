@@ -237,3 +237,29 @@
 
 /* HOME forecast-visual figure: click-to-enlarge link around a responsive image, original ratio preserved. */
 .forecast-visual{margin:0}.forecast-visual a{display:block}.forecast-visual img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px}.forecast-visual figcaption{margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
+
+/* HOME "주요 순위 변동" (biggest-movers) row fix: purely additive, NEW
+   classes only (movers-list/movers-row/movers-row__*), never used by
+   any other page's markup, so nothing else on the site is touched. Root
+   cause of the reported bug was structural, not cosmetic: the list used
+   a bare <ul><li> (default disc bullet + default list padding) whose
+   only two children were .player-name/.player-sponsor -- both already
+   display:block site-wide (see .player-name/.player-sponsor above) --
+   followed by a bare inline <span class='win'>, so the browser had
+   nothing to lay the name/sponsor block and the change text out on one
+   row; the bullet then sat beside the now-stacked block content instead
+   of the whole row. Fixed by giving each player its own row container
+   (movers-row) with two explicit children -- a player block
+   (movers-row__player, itself flex-column so name/sponsor keep
+   stacking exactly as before) and the change text (movers-row__change)
+   -- so the row's own flex layout controls left/right alignment
+   directly instead of relying on inline flow around block children. */
+.movers-list{list-style:none;margin:0;padding:0}
+.movers-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}
+.movers-row:last-child{border-bottom:0}
+.movers-row__player{display:flex;flex-direction:column;min-width:0}
+.movers-row__change{flex-shrink:0;white-space:nowrap;text-align:right}
+@media(max-width:760px){
+  .movers-row{flex-direction:column;align-items:flex-start;gap:4px}
+  .movers-row__change{white-space:normal;text-align:left}
+}
