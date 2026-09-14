@@ -81,14 +81,42 @@ def test_home_home_kb_equals_final_while_final_is_current():
 
 
 def test_home_body_mirrors_the_real_published_final_page_exactly():
-    """HOME's <main>...</main> body must be byte-identical to FINAL's
-    own real, already-gated page body -- proves HOME is a mirror, never
-    an independent rebuild that could silently diverge or fabricate."""
+    """HOME's <main>...</main> body must be byte-identical to FINAL's own
+    real, already-gated page body -- proves HOME is a mirror, never an
+    independent rebuild that could silently diverge or fabricate --
+    except for exactly one deliberate, explicitly-requested addition: a
+    static <figure id="r3-forecast-visual"> visual (operator-supplied
+    image + a fixed caption, no ranking/leaderboard data of its own)
+    that exists on HOME only, never on FINAL. Stripping that one section
+    out of HOME's body must restore byte-identity with FINAL -- anything
+    else diverging is still a real failure."""
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
     final_html = FINAL_PAGE.read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
     final_body = final_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+
+    figure_start = home_body.find('<section class="product-section" id="r3-forecast-visual">')
+    if figure_start != -1:
+        figure_end = home_body.index("</section>", figure_start) + len("</section>")
+        home_body = home_body[:figure_start] + home_body[figure_end:]
+
     assert home_body == final_body
+
+
+def test_home_forecast_visual_figure_has_no_ranking_or_leaderboard_markup():
+    """The one permitted HOME-only addition must be a static image +
+    fixed caption only -- no data-player-id rows, no rank/score table
+    markup of its own that could diverge from or duplicate FINAL's real
+    leaderboard data."""
+    home_html = DOCS_INDEX.read_text(encoding="utf-8")
+    start = home_html.find('<section class="product-section" id="r3-forecast-visual">')
+    assert start != -1, "expected HOME forecast-visual figure section not found"
+    end = home_html.index("</section>", start) + len("</section>")
+    figure_html = home_html[start:end]
+    assert "data-player-id" not in figure_html
+    assert "<table" not in figure_html
+    assert 'src="/assets/kb-2026090003-r3-forecast-vs-final.png"' in figure_html
+    assert "<figcaption>NEO R3 예측 → 실제 결과</figcaption>" in figure_html
 
 
 def test_home_tournaments_nav_override_points_at_final_not_r3():

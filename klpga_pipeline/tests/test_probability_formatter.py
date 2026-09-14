@@ -192,6 +192,14 @@ def test_7_home_now_resolves_to_final_via_explicit_sync():
     final_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "final" / "index.html").read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
     final_body = final_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    # HOME carries exactly one deliberate, explicitly-requested addition
+    # beyond FINAL's own body: a static forecast-visual figure (image +
+    # fixed caption, no ranking data of its own). Strip it before the
+    # mirror check so this test still fails on any OTHER divergence.
+    figure_start = home_body.find('<section class="product-section" id="r3-forecast-visual">')
+    if figure_start != -1:
+        figure_end = home_body.index("</section>", figure_start) + len("</section>")
+        home_body = home_body[:figure_start] + home_body[figure_end:]
     assert home_body == final_body
 
 
