@@ -195,8 +195,11 @@ def test_7_home_now_shows_hana_pre_not_kb_final():
     from pathlib import Path
     repo_root = Path(__file__).resolve().parents[2]
     home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
-    assert '"status">PRE<' in home_html
-    assert '"status">FINAL<' not in home_html
+    # HERO STATUS BADGE REMOVAL (2026-09-16): the standalone hero status
+    # badge is gone from every Hana HOME/PRE build -- the stage-nav's own
+    # aria-current="page" PRE item is the sole stage-state signal now.
+    assert '<strong class="status">' not in home_html
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/" aria-current="page">사전 분석 PRE</a>' in home_html
     assert "하나금융그룹 챔피언십" in home_html
     hana_pre_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090002" / "pre" / "index.html").read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]

@@ -1,0 +1,135 @@
+{
+  "schema_version": "1.0",
+  "purpose": "KGA-official-basis review for 3 named amateur (A) entrants in the Hana Financial Group Championship (2026090002) 108-player field -- investigates whether their currently-published PRE probabilities have a genuine KGA (대한골프협회) official basis, per explicit instruction that KLPGA SG must never be estimated/applied to amateurs and that insufficient-sample players must show DATA_INSUFFICIENT rather than a fabricated probability.",
+  "game_code": "2026090002",
+  "generated_at_utc": "2026-09-16T14:13:52Z",
+  "target_players": [
+    "오수민 0809(A)",
+    "양윤서 0801(A)",
+    "권은 0906(A)"
+  ],
+  "method": "For each target player: (1) read their real HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json and HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json records to identify exactly what basis their currently-published probability used; (2) search this repository exhaustively for any genuine KGA official amateur ranking/tournament-record evidence; (3) attempt live retrieval from every known KGA domain spelling; (4) apply the explicit decision rule: KGA-official-basis probability only if genuine KGA data is found AND the player has a sufficient official round/tournament sample -- otherwise DATA_INSUFFICIENT, never a KLPGA-SG-proxy estimate and never a fabricated number.",
+  "records": [
+    {
+      "player_id": "11944",
+      "official_display_name": "오수민 0809(A)",
+      "entry_category": "eligible",
+      "klpga_k_rank": null,
+      "current_official_klpga_sg": null,
+      "prior_m4_model_treatment": {
+        "analysis_status_in_m4": "PASS",
+        "win_probability_previously_shown": 0.0014116160245334396,
+        "cut_probability_previously_shown": 0.4760355754148294,
+        "input_actually_used_by_m4": "historical_sample (avg_total/avg_ott/avg_app/avg_arg/avg_putt) from historical_sg_warehouse_corrected_v2.json, despite current_official_sg being null for this player",
+        "finding": "The M4 model produced a PASS status and real probability values for this amateur entrant by substituting historical KLPGA Strokes Gained averages as an input feature. This is KLPGA SG data (a professional-tour metric), not KGA official amateur ranking/record data, and its use here as an estimation basis for an amateur player violates the rule that KLPGA SG must never be estimated/applied to amateurs."
+      },
+      "kga_official_data_search": {
+        "repo_evidence_files_checked": "exhaustive grep across klpga_pipeline/content, src, scripts, tests, evidence, and this session's upload directory for KGA/대한골프협회/아마추어 랭킹 references -- none found for this player or in general",
+        "live_network_attempts": [
+          {
+            "url": "https://www.kga.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "http://www.kgagolf.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "https://kgagolf.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "https://www.golfkorea.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          }
+        ],
+        "conclusion": "No genuine KGA (대한골프협회) official ranking or tournament-record data for this player is available in this repository or reachable from this environment."
+      },
+      "decision": "DATA_INSUFFICIENT",
+      "decision_basis": "Per explicit instruction: KLPGA SG must never be estimated for amateurs, and a player's probability must never be fabricated without genuine official (KGA) basis. Since no genuine KGA raw data source is available or reachable, and the existing KLPGA-SG-proxy-derived probability is itself an improper basis for an amateur entrant, this player's 5 public probability cells (컷 통과확률/TOP20/TOP10/TOP5/우승확률) and NEO 경기력 band are set to the site's existing '데이터 부족' convention, identical in treatment to the already-published 5 foreign DATA_INSUFFICIENT entrants. K-Ranking sort position is unaffected (players with a real k_rank keep their numeric sort position; players without one join the existing name-sorted DATA_INSUFFICIENT trailing group)."
+    },
+    {
+      "player_id": "11391",
+      "official_display_name": "양윤서 0801(A)",
+      "entry_category": "eligible",
+      "klpga_k_rank": 52,
+      "current_official_klpga_sg": null,
+      "prior_m4_model_treatment": {
+        "analysis_status_in_m4": "PASS",
+        "win_probability_previously_shown": 0.0009008081586118646,
+        "cut_probability_previously_shown": 0.3740167924767238,
+        "input_actually_used_by_m4": "historical_sample (avg_total/avg_ott/avg_app/avg_arg/avg_putt) from historical_sg_warehouse_corrected_v2.json, despite current_official_sg being null for this player",
+        "finding": "The M4 model produced a PASS status and real probability values for this amateur entrant by substituting historical KLPGA Strokes Gained averages as an input feature. This is KLPGA SG data (a professional-tour metric), not KGA official amateur ranking/record data, and its use here as an estimation basis for an amateur player violates the rule that KLPGA SG must never be estimated/applied to amateurs."
+      },
+      "kga_official_data_search": {
+        "repo_evidence_files_checked": "exhaustive grep across klpga_pipeline/content, src, scripts, tests, evidence, and this session's upload directory for KGA/대한골프협회/아마추어 랭킹 references -- none found for this player or in general",
+        "live_network_attempts": [
+          {
+            "url": "https://www.kga.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "http://www.kgagolf.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "https://kgagolf.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "https://www.golfkorea.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          }
+        ],
+        "conclusion": "No genuine KGA (대한골프협회) official ranking or tournament-record data for this player is available in this repository or reachable from this environment."
+      },
+      "decision": "DATA_INSUFFICIENT",
+      "decision_basis": "Per explicit instruction: KLPGA SG must never be estimated for amateurs, and a player's probability must never be fabricated without genuine official (KGA) basis. Since no genuine KGA raw data source is available or reachable, and the existing KLPGA-SG-proxy-derived probability is itself an improper basis for an amateur entrant, this player's 5 public probability cells (컷 통과확률/TOP20/TOP10/TOP5/우승확률) and NEO 경기력 band are set to the site's existing '데이터 부족' convention, identical in treatment to the already-published 5 foreign DATA_INSUFFICIENT entrants. K-Ranking sort position is unaffected (players with a real k_rank keep their numeric sort position; players without one join the existing name-sorted DATA_INSUFFICIENT trailing group)."
+    },
+    {
+      "player_id": "12706",
+      "official_display_name": "권은 0906(A)",
+      "entry_category": "eligible",
+      "klpga_k_rank": null,
+      "current_official_klpga_sg": null,
+      "prior_m4_model_treatment": {
+        "analysis_status_in_m4": "PASS",
+        "win_probability_previously_shown": 0.00010944920337903761,
+        "cut_probability_previously_shown": 0.18770109845081895,
+        "input_actually_used_by_m4": "historical_sample (avg_total/avg_ott/avg_app/avg_arg/avg_putt) from historical_sg_warehouse_corrected_v2.json, despite current_official_sg being null for this player",
+        "finding": "The M4 model produced a PASS status and real probability values for this amateur entrant by substituting historical KLPGA Strokes Gained averages as an input feature. This is KLPGA SG data (a professional-tour metric), not KGA official amateur ranking/record data, and its use here as an estimation basis for an amateur player violates the rule that KLPGA SG must never be estimated/applied to amateurs."
+      },
+      "kga_official_data_search": {
+        "repo_evidence_files_checked": "exhaustive grep across klpga_pipeline/content, src, scripts, tests, evidence, and this session's upload directory for KGA/대한골프협회/아마추어 랭킹 references -- none found for this player or in general",
+        "live_network_attempts": [
+          {
+            "url": "https://www.kga.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "http://www.kgagolf.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "https://kgagolf.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          },
+          {
+            "url": "https://www.golfkorea.or.kr",
+            "result": "blocked by egress proxy policy (403 CONNECT denial)"
+          }
+        ],
+        "conclusion": "No genuine KGA (대한골프협회) official ranking or tournament-record data for this player is available in this repository or reachable from this environment."
+      },
+      "decision": "DATA_INSUFFICIENT",
+      "decision_basis": "Per explicit instruction: KLPGA SG must never be estimated for amateurs, and a player's probability must never be fabricated without genuine official (KGA) basis. Since no genuine KGA raw data source is available or reachable, and the existing KLPGA-SG-proxy-derived probability is itself an improper basis for an amateur entrant, this player's 5 public probability cells (컷 통과확률/TOP20/TOP10/TOP5/우승확률) and NEO 경기력 band are set to the site's existing '데이터 부족' convention, identical in treatment to the already-published 5 foreign DATA_INSUFFICIENT entrants. K-Ranking sort position is unaffected (players with a real k_rank keep their numeric sort position; players without one join the existing name-sorted DATA_INSUFFICIENT trailing group)."
+    }
+  ],
+  "summary": {
+    "players_reviewed": 3,
+    "players_with_genuine_kga_official_data_found": 0,
+    "players_reclassified_to_data_insufficient": 3,
+    "players_kept_on_klpga_sg_proxy_basis": 0,
+    "new_probabilities_computed_from_kga_data": 0
+  }
+}

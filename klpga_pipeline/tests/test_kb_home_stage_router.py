@@ -76,11 +76,16 @@ def test_home_shows_hana_pre_despite_kb_final_being_kbs_own_current_stage():
     kb_current_stage() still correctly resolves to "final" for KB's own
     context (test_real_kb_current_stage_resolves_to_final, above) --
     that internal state is untouched. What changed is that root HOME no
-    longer mirrors it: HOME's own status badge and stage-nav now show
-    Hana Financial Group Championship's PRE page instead."""
+    longer mirrors it: HOME's own stage-nav now shows Hana Financial
+    Group Championship's PRE page instead.
+
+    HERO STATUS BADGE REMOVAL (2026-09-16): the standalone hero
+    `<strong class="status">` badge is gone from every Hana HOME/PRE
+    build -- the stage-nav's own aria-current="page" item (checked
+    below) is the single source of stage state now, so this test no
+    longer looks for the badge at all."""
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">PRE<' in html
-    assert '"status">FINAL<' not in html
+    assert '<strong class="status">' not in html
     assert extract_owner(html) == CURRENT_TOURNAMENT_OWNER
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/" aria-current="page">사전 분석 PRE</a>' in html
     # KB's own FINAL stage-nav wiring must not leak onto HOME
@@ -207,9 +212,14 @@ def _check_home_style_table_contract(html: str, *, label: str) -> None:
     columns (최근 5R SG removed, 2026-09-16 -- that internal-only metric
     is never rendered on this public page, though the underlying SG
     evidence file and its analysis remain on disk untouched), exactly
-    108 rows, K-Ranking ascending sort, and the 5 DATA_INSUFFICIENT
-    foreign entrants each showing 데이터 부족 in all 5 probability
-    columns."""
+    108 rows, K-Ranking ascending sort, and exactly 8 DATA_INSUFFICIENT
+    entrants each showing 데이터 부족 in all 5 probability columns: the
+    original 5 foreign entrants, plus 3 named amateur (A) entrants
+    reclassified 2026-09-16 (AMATEUR KGA-BASIS REVIEW -- see
+    HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json) after their M4
+    probabilities were found to rest on an improper historical-KLPGA-SG
+    proxy basis with no genuine KGA official data available to replace
+    it."""
     import re
 
     assert "최근 5R SG" not in html, f"{label}: 최근 5R SG must not appear anywhere in the public page"
@@ -241,8 +251,9 @@ def _check_home_style_table_contract(html: str, *, label: str) -> None:
     assert all(k is not None for k in k_ranks[:first_missing])
     assert all(k is None for k in k_ranks[first_missing:]), f"{label}: players without a K-Ranking must sort last"
 
-    assert len(insufficient_rows) == 5, (
-        f"{label}: expected exactly 5 DATA_INSUFFICIENT players with all 5 probability cells showing 데이터 부족"
+    assert len(insufficient_rows) == 8, (
+        f"{label}: expected exactly 8 DATA_INSUFFICIENT players with all 5 probability cells showing 데이터 부족 "
+        "(5 foreign entrants + 3 amateur entrants reclassified per the AMATEUR KGA-BASIS REVIEW)"
     )
 
 
@@ -299,8 +310,12 @@ def test_kb_final_evidence_still_real_but_home_was_explicitly_repointed_to_hana(
     assert _final_evidence_confirmed(context) is True
     assert kb_current_stage(context) == "final"
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">FINAL<' not in home_html  # explicit override: HOME shows Hana PRE, not KB's real FINAL
-    assert '"status">PRE<' in home_html
+    # HERO STATUS BADGE REMOVAL (2026-09-16): no standalone hero status
+    # badge exists anymore on any Hana HOME/PRE build -- the stage-nav's
+    # own aria-current="page" PRE item (already asserted in
+    # test_home_shows_hana_pre_despite_kb_final_being_kbs_own_current_stage,
+    # above) is the sole stage-state signal now.
+    assert '<strong class="status">' not in home_html
     final_html = FINAL_PAGE.read_text(encoding="utf-8")
     assert '"status">FINAL<' in final_html  # KB's own dedicated FINAL page file is untouched
 
