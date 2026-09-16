@@ -1,0 +1,260 @@
+#!/usr/bin/env python3
+"""Build the Hana Financial Group Championship (game_code 2026090002)
+PRE page, replicating docs/tournaments/2026/2026090003/pre/index.html's
+exact HTML structure, CSS, and 9-column table layout verbatim --
+only the tournament info and the 108-player table content are
+Hana-specific. No new sections, no new CSS classes are introduced.
+
+Inputs (all real, operator-committed evidence -- see each file's own
+provenance fields):
+  - HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json   (108 official entries,
+    player_id + name + entry_category, KLPGA entry/tourInfo pages)
+  - HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json (K-Ranking, joined by
+    player_id)
+  - HANA_2026090002_SEASON_SG_SORTED_V1.json      (season SG rank,
+    "missing KLPGA SG last as 데이터 부족" -- used for the 최근 5R SG
+    column, matching the reference page's own convention of showing an
+    integer rank rather than a raw SG decimal in that column)
+  - HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json (M4 win-model,
+    60,000-simulation Monte Carlo; neo_rank/neo_score_display +
+    cut/top20/top10/top5/win probabilities + analysis_status per player)
+
+Column mapping (identical 9 columns/order to the KB reference):
+  선수            -> official_display_name; sponsor slot always blank
+                     (no sponsor evidence exists anywhere in the Hana
+                     data files -- never guessed)
+  KLPGA K-RANKING -> k_rank; "-" if this specific player has none
+  NEO 경기력       -> quintile band of win_probability among the 103
+                     PASS players (documented below); "데이터 부족" for
+                     the 5 DATA_INSUFFICIENT players. The band span also
+                     carries the M4 file's own neo_score_display value,
+                     formatted to exactly two decimal places, as a
+                     data-neo-score attribute -- present without adding
+                     a new visible column or changing the KB reference's
+                     cell markup/CSS.
+  최근 5R SG       -> season_sg_rank; "데이터 부족" for players that file
+                     itself marks SG-insufficient
+  컷 통과확률/TOP20/TOP10/TOP5/우승확률
+                  -> M4 probabilities; "데이터 부족" (all 5 cells) for
+                     the 5 DATA_INSUFFICIENT players
+
+Row order: M4's own neo_rank field, ascending (per explicit instruction) --
+this is the source file's pre-computed win_probability-descending order,
+used as-is rather than re-derived.
+
+Monotonicity gate (CUT >= TOP20 >= TOP10 >= TOP5 >= WIN): checked and
+reported, never silently clipped/corrected -- see printed summary.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
+CONTENT = ROOT / "content" / "website_v2"
+GAME_CODE = "2026090002"
+REFERENCE_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090003" / "pre" / "index.html"
+OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html"
+
+
+def _load(name: str) -> dict:
+    return json.loads((CONTENT / name).read_text(encoding="utf-8"))
+
+
+def _pct(p: float) -> str:
+    return f"{p * 100:.1f}%"
+
+
+def main() -> None:
+    entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json")
+    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json")
+    sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V1.json")
+    m4 = _load("HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json")
+
+    entry_ids = {r["player_id"] for r in entry["records"]}
+    input_ids = {r["player_id"] for r in player_input["records"]}
+    m4_ids = {r["playerCode"] for r in m4["records"]}
+    assert entry_ids == input_ids == m4_ids, "player_id sets diverge across Hana source files"
+    assert len(entry_ids) == 108 == len(entry["records"]), "expected exactly 108 unique official entries"
+
+    by_id_input = {r["player_id"]: r for r in player_input["records"]}
+    by_id_sg = {r["player_id"]: r for r in sg_sorted["records"]}
+    by_id_m4 = {r["playerCode"]: r for r in m4["records"]}
+
+    # ---- Monotonicity gate: CUT >= TOP20 >= TOP10 >= TOP5 >= WIN ----
+    # Checked and reported here, never silently clipped/corrected.
+    violations = []
+    for r in m4["records"]:
+        vals = (r["cut_probability"], r["top20_probability"], r["top10_probability"], r["top5_probability"], r["win_probability"])
+        if not all(a >= b - 1e-9 for a, b in zip(vals, vals[1:])):
+            violations.append((r["playerCode"], r["playerName"], vals))
+
+    # ---- NEO 경기력 band: quintile of win_probability among PASS players ----
+    # Documented, transparent rule (this repo's own original KB band
+    # algorithm could not be located in this branch's history to
+    # replicate exactly) -- equal-count quintiles over the 103
+    # analyzable players, highest win_probability first.
+    pass_ids_by_win = [
+        r["playerCode"] for r in sorted(
+            (r for r in m4["records"] if r["analysis_status"] == "PASS"),
+            key=lambda r: -r["win_probability"],
+        )
+    ]
+    n = len(pass_ids_by_win)
+    band_labels = ["최상위", "상위", "중위", "하위", "최하위"]
+    band_by_id: dict[str, str] = {}
+    for i, pid in enumerate(pass_ids_by_win):
+        band_by_id[pid] = band_labels[min(4, i * 5 // n)]
+
+    rows_data = []
+    for pid in entry_ids:
+        inp = by_id_input[pid]
+        sg = by_id_sg[pid]
+        rec = by_id_m4[pid]
+        insufficient = rec["analysis_status"] != "PASS"
+        rows_data.append({
+            "player_id": pid,
+            "name": inp["official_display_name"],
+            "k_rank": inp.get("k_rank"),
+            "neo_rank": rec["neo_rank"],
+            "neo_score": rec["neo_score_display"],
+            "band": "데이터 부족" if insufficient else band_by_id[pid],
+            "sg_rank": None if sg.get("season_sg_status") != "확인" else sg.get("season_sg_rank"),
+            "insufficient": insufficient,
+            "cut": rec["cut_probability"],
+            "top20": rec["top20_probability"],
+            "top10": rec["top10_probability"],
+            "top5": rec["top5_probability"],
+            "win": rec["win_probability"],
+        })
+
+    # Row order: M4's own neo_rank, ascending (explicit instruction).
+    rows_data.sort(key=lambda r: r["neo_rank"])
+
+    rows_html = []
+    for r in rows_data:
+        k_rank_cell = str(r["k_rank"]) if r["k_rank"] is not None else "—"
+        neo_score_str = f"{r['neo_score']:.2f}"
+        band_cell = (
+            f"<span class='band' role='img' aria-label='NEO 경기력 {r['band']}' "
+            f"data-neo-score='{neo_score_str}'>{r['band']}</span>"
+        )
+        sg_cell = str(r["sg_rank"]) if r["sg_rank"] is not None else "데이터 부족"
+        if r["insufficient"]:
+            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "데이터 부족"
+        else:
+            cut_cell, top20_cell, top10_cell, top5_cell, win_cell = (
+                _pct(r["cut"]), _pct(r["top20"]), _pct(r["top10"]), _pct(r["top5"]), _pct(r["win"])
+            )
+        rows_html.append(
+            f"<tr><th scope='row'><span class='player-name'>{r['name']}</span><span class='player-sponsor'></span></th>"
+            f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
+            f"<td data-label='NEO 경기력'>{band_cell}</td>"
+            f"<td data-label='최근 5R SG'>{sg_cell}</td>"
+            f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
+            f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
+            f"<td class='win' data-label='TOP10'>{top10_cell}</td>"
+            f"<td class='win' data-label='TOP5'>{top5_cell}</td>"
+            f"<td class='win' data-label='우승확률'>{win_cell}</td></tr>"
+        )
+
+    # Header + hero, adapted from the reference's own literal markup
+    # (byte-for-byte structure/classes; only tournament-specific text
+    # and hrefs are substituted).
+    header = (
+        '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<title>NEO GOLF DATA · 하나금융그룹 챔피언십</title>'
+        '<link rel="stylesheet" href="/assets/neo-site.css">'
+        '<link rel="stylesheet" href="../../../../assets/neo.css"></head><body>'
+        '<header class="neo-global-header" data-neo-global-navigation>'
+        '<div class="neo-global-header__inner">'
+        '<a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span>'
+        '<span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span>'
+        '<span class="neo-brand-legend__item">EVIDENCE</span>'
+        '<span class="neo-brand-legend__item">ORACLE</span></span></a>'
+        '<nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a>'
+        f'<a href="/tournaments/2026/{GAME_CODE}/pre/" class="is-active" aria-current="page">대회</a>'
+        '<a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a>'
+        '<a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header>'
+        '<main><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>'
+        '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
+        '<a href="/tournaments/">대회</a>'
+        '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
+        '<span>하나금융그룹 챔피언십</span>'
+        '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
+        '<span aria-current="page">PRE</span></nav>'
+        '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
+        '<h1>하나금융그룹 챔피언십</h1><p class="meta">2026.09.17 — 09.20</p></div>'
+        '<strong class="status">PRE</strong>'
+        '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
+    )
+
+    # Stage-nav: brand-new tournament, only PRE exists yet -- every
+    # forward stage is the same disabled placeholder the KB reference
+    # itself started from, never a link to a page that does not exist.
+    stage_nav = (
+        '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">사전 분석 PRE</a></li>'
+        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R1</span></li>'
+        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R2</span></li>'
+        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li>'
+        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li>'
+        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FINAL</span></li>'
+        '</ol></nav>'
+    )
+
+    table_section = (
+        '<section class="panel leaderboard-panel" id="pre">'
+        '<div class="leaderboard-head"><h2>PRE 참가 선수 <small>108명</small></h2>'
+        f'<p class="note">참가 108 · K-Ranking 2026-W38 · PRE</p></div>'
+        '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
+        "<th>선수</th><th>KLPGA K-RANKING</th>"
+        "<th class='band-head'>NEO 경기력 "
+        "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
+        "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>"
+        "<th>최근 5R SG</th><th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
+        "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
+    )
+
+    # info-popover JS, verbatim from the reference (no new script logic).
+    info_js = (
+        "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');"
+        "if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}"
+        "function place(){if(window.innerWidth<=760)return;const r=b.getBoundingClientRect();"
+        "let left=Math.min(r.left,window.innerWidth-p.offsetWidth-16);left=Math.max(16,left);"
+        "p.style.left=left+'px';p.style.top=(r.bottom+6)+'px'}"
+        "b.addEventListener('click',function(){const open=p.classList.toggle('is-open');"
+        "b.setAttribute('aria-expanded',String(open));if(open){place();p.focus()}});"
+        "document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p.classList.contains('is-open'))close()});"
+        "document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()});"
+        "window.addEventListener('scroll',close,true);window.addEventListener('resize',close)})();</script>"
+    )
+
+    footer = (
+        '</main>' + info_js +
+        '<nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> '
+        f'<a href="/tournaments/2026/{GAME_CODE}/pre/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>'
+        '<footer class="site-footer"><div class="site-footer__inner">'
+        '<p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p>'
+        '</div></footer></body></html>'
+    )
+
+    html = header + stage_nav + table_section + footer
+
+    OUT_PAGE.parent.mkdir(parents=True, exist_ok=True)
+    OUT_PAGE.write_text(html, encoding="utf-8", newline="\n")
+
+    print(json.dumps({
+        "written": str(OUT_PAGE),
+        "rows": len(rows_data),
+        "analysis_pass": sum(1 for r in rows_data if not r["insufficient"]),
+        "data_insufficient": sum(1 for r in rows_data if r["insufficient"]),
+        "monotonicity_violations": violations,
+        "win_probability_sum": sum(r["win"] for r in rows_data),
+    }, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()
