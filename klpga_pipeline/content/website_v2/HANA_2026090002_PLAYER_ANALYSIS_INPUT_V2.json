@@ -1,0 +1,3051 @@
+{
+  "schema_version": "neo_hana_player_analysis_input_v2",
+  "game_code": "2026090002",
+  "tournament_name": "하나금융그룹 챔피언십",
+  "as_of": "2026-09-15",
+  "purpose": "analysis_input_only_not_publication",
+  "sources": [
+    "HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json",
+    "HOME_PLAYER_MASTER_TOP120_2026_W36.json",
+    "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+    "historical_sg_warehouse_corrected_v2.json",
+    "HANA_2026090002_FOREIGN_LPGA_ANALYSIS_EVIDENCE_V1.json"
+  ],
+  "coverage": {
+    "players": 108,
+    "k_rank": 103,
+    "current_official_sg": 95,
+    "historical": 103,
+    "ready_for_review": 95,
+    "partial_data": 13,
+    "no_data": 13,
+    "foreign_lpga_reviewed": 5,
+    "foreign_model_normalization_pending": 5
+  },
+  "publication_gate": "BLOCKED_UNTIL_NEO_INPUT_REVIEW",
+  "records": [
+    {
+      "player_id": "9174",
+      "official_display_name": "강가율",
+      "entry_category": "eligible",
+      "k_rank": 115,
+      "k_name": "강가율",
+      "current_official_sg": {
+        "total": -2.38,
+        "ott": -0.08,
+        "app": -1.07,
+        "arg": -0.29,
+        "putt": -0.95,
+        "rounds": 43,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 263,
+        "events": 71,
+        "avg_total": -1.01,
+        "avg_ott": -0.1,
+        "avg_app": -0.447,
+        "avg_arg": -0.188,
+        "avg_putt": -0.274
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10112",
+      "official_display_name": "고지우",
+      "entry_category": "eligible",
+      "k_rank": 16,
+      "k_name": "고지우",
+      "current_official_sg": {
+        "total": 0.81,
+        "ott": 0.39,
+        "app": 0.46,
+        "arg": 0.05,
+        "putt": -0.1,
+        "rounds": 46,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 381,
+        "events": 94,
+        "avg_total": 0.562,
+        "avg_ott": 0.383,
+        "avg_app": 0.42,
+        "avg_arg": -0.008,
+        "avg_putt": -0.233
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10109",
+      "official_display_name": "고지원",
+      "entry_category": "eligible",
+      "k_rank": 11,
+      "k_name": "고지원",
+      "current_official_sg": {
+        "total": 1.29,
+        "ott": 0.46,
+        "app": 0.55,
+        "arg": 0.22,
+        "putt": 0.06,
+        "rounds": 54,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 337,
+        "events": 84,
+        "avg_total": 0.422,
+        "avg_ott": 0.338,
+        "avg_app": 0.186,
+        "avg_arg": 0.038,
+        "avg_putt": -0.14
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "12706",
+      "official_display_name": "권은 0906(A)",
+      "entry_category": "eligible",
+      "k_rank": 515,
+      "k_name": "권은",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 16,
+        "events": 5,
+        "avg_total": -4.951,
+        "avg_ott": -0.587,
+        "avg_app": -3.25,
+        "avg_arg": -0.061,
+        "avg_putt": -1.054
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "10726",
+      "official_display_name": "김가희2",
+      "entry_category": "eligible",
+      "k_rank": 63,
+      "k_name": "김가희2",
+      "current_official_sg": {
+        "total": 0.68,
+        "ott": 0.65,
+        "app": 0.09,
+        "arg": 0.1,
+        "putt": -0.16,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 78,
+        "events": 20,
+        "avg_total": 0.683,
+        "avg_ott": 0.65,
+        "avg_app": 0.115,
+        "avg_arg": 0.097,
+        "avg_putt": -0.179
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10002",
+      "official_display_name": "김민별",
+      "entry_category": "eligible",
+      "k_rank": 45,
+      "k_name": "김민별",
+      "current_official_sg": {
+        "total": 0.48,
+        "ott": 0.3,
+        "app": -0.13,
+        "arg": -0.15,
+        "putt": 0.45,
+        "rounds": 61,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 392,
+        "events": 94,
+        "avg_total": 1.082,
+        "avg_ott": 0.506,
+        "avg_app": 0.686,
+        "avg_arg": -0.059,
+        "avg_putt": -0.051
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10097",
+      "official_display_name": "김민선7",
+      "entry_category": "eligible",
+      "k_rank": 10,
+      "k_name": "김민선7",
+      "current_official_sg": {
+        "total": 1.98,
+        "ott": 0.71,
+        "app": 1.13,
+        "arg": 0.15,
+        "putt": 0.0,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 394,
+        "events": 94,
+        "avg_total": 1.141,
+        "avg_ott": 0.504,
+        "avg_app": 0.721,
+        "avg_arg": -0.036,
+        "avg_putt": -0.048
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10725",
+      "official_display_name": "김민솔",
+      "entry_category": "eligible",
+      "k_rank": 1,
+      "k_name": "김민솔",
+      "current_official_sg": {
+        "total": 2.32,
+        "ott": 1.17,
+        "app": 0.73,
+        "arg": 0.14,
+        "putt": 0.28,
+        "rounds": 61,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 143,
+        "events": 32,
+        "avg_total": 1.644,
+        "avg_ott": 1.111,
+        "avg_app": 0.393,
+        "avg_arg": 0.01,
+        "avg_putt": 0.131
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10081",
+      "official_display_name": "김민주",
+      "entry_category": "eligible",
+      "k_rank": 23,
+      "k_name": "김민주",
+      "current_official_sg": {
+        "total": 1.71,
+        "ott": 0.22,
+        "app": 0.93,
+        "arg": 0.15,
+        "putt": 0.42,
+        "rounds": 73,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 421,
+        "events": 101,
+        "avg_total": 0.798,
+        "avg_ott": 0.13,
+        "avg_app": 0.385,
+        "avg_arg": 0.198,
+        "avg_putt": 0.086
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8380",
+      "official_display_name": "김새로미",
+      "entry_category": "eligible",
+      "k_rank": 74,
+      "k_name": "김새로미",
+      "current_official_sg": {
+        "total": 0.17,
+        "ott": -0.16,
+        "app": -0.08,
+        "arg": 0.14,
+        "putt": 0.27,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 209,
+        "events": 59,
+        "avg_total": -0.41,
+        "avg_ott": -0.169,
+        "avg_app": -0.336,
+        "avg_arg": -0.062,
+        "avg_putt": 0.158
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9089",
+      "official_display_name": "김소정",
+      "entry_category": "eligible",
+      "k_rank": 95,
+      "k_name": "김소정",
+      "current_official_sg": {
+        "total": -0.62,
+        "ott": -0.26,
+        "app": 0.2,
+        "arg": -0.49,
+        "putt": -0.07,
+        "rounds": 54,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 154,
+        "events": 44,
+        "avg_total": -0.768,
+        "avg_ott": -0.261,
+        "avg_app": -0.06,
+        "avg_arg": -0.266,
+        "avg_putt": -0.181
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8300",
+      "official_display_name": "김수지",
+      "entry_category": "eligible",
+      "k_rank": 21,
+      "k_name": "김수지",
+      "current_official_sg": {
+        "total": 1.27,
+        "ott": 0.6,
+        "app": 0.97,
+        "arg": -0.02,
+        "putt": -0.28,
+        "rounds": 64,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 374,
+        "events": 85,
+        "avg_total": 1.85,
+        "avg_ott": 0.774,
+        "avg_app": 1.196,
+        "avg_arg": -0.005,
+        "avg_putt": -0.116
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11143",
+      "official_display_name": "김시현",
+      "entry_category": "eligible",
+      "k_rank": 24,
+      "k_name": "김시현",
+      "current_official_sg": {
+        "total": 1.15,
+        "ott": 0.42,
+        "app": 0.52,
+        "arg": 0.09,
+        "putt": 0.11,
+        "rounds": 71,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 202,
+        "events": 48,
+        "avg_total": 0.74,
+        "avg_ott": 0.331,
+        "avg_app": 0.561,
+        "avg_arg": -0.164,
+        "avg_putt": 0.011
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9277",
+      "official_display_name": "김아현",
+      "entry_category": "eligible",
+      "k_rank": 140,
+      "k_name": "김아현",
+      "current_official_sg": {
+        "total": -1.16,
+        "ott": -0.19,
+        "app": -0.21,
+        "arg": 0.06,
+        "putt": -0.83,
+        "rounds": 49,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 153,
+        "events": 44,
+        "avg_total": -0.926,
+        "avg_ott": -0.212,
+        "avg_app": -0.199,
+        "avg_arg": 0.051,
+        "avg_putt": -0.566
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8838",
+      "official_display_name": "김우정",
+      "entry_category": "eligible",
+      "k_rank": 79,
+      "k_name": "김우정",
+      "current_official_sg": {
+        "total": -0.24,
+        "ott": -0.21,
+        "app": 0.44,
+        "arg": -0.11,
+        "putt": -0.36,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 383,
+        "events": 96,
+        "avg_total": 0.177,
+        "avg_ott": -0.049,
+        "avg_app": 0.256,
+        "avg_arg": 0.032,
+        "avg_putt": -0.063
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9487",
+      "official_display_name": "김재희",
+      "entry_category": "eligible",
+      "k_rank": 53,
+      "k_name": "김재희",
+      "current_official_sg": {
+        "total": 0.42,
+        "ott": 0.15,
+        "app": 0.25,
+        "arg": 0.11,
+        "putt": -0.09,
+        "rounds": 61,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 380,
+        "events": 92,
+        "avg_total": 0.595,
+        "avg_ott": 0.337,
+        "avg_app": 0.29,
+        "avg_arg": -0.005,
+        "avg_putt": -0.027
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9000",
+      "official_display_name": "김지수",
+      "entry_category": "eligible",
+      "k_rank": 77,
+      "k_name": "김지수",
+      "current_official_sg": {
+        "total": 0.24,
+        "ott": -0.12,
+        "app": 0.2,
+        "arg": 0.19,
+        "putt": -0.03,
+        "rounds": 59,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 331,
+        "events": 86,
+        "avg_total": 0.207,
+        "avg_ott": 0.024,
+        "avg_app": 0.166,
+        "avg_arg": 0.067,
+        "avg_putt": -0.05
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8434",
+      "official_display_name": "김지영2",
+      "entry_category": "eligible",
+      "k_rank": 161,
+      "k_name": "김지영2",
+      "current_official_sg": {
+        "total": -3.99,
+        "ott": -0.1,
+        "app": -4.78,
+        "arg": -0.05,
+        "putt": 0.94,
+        "rounds": 36,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 119,
+        "events": 39,
+        "avg_total": -3.039,
+        "avg_ott": 0.14,
+        "avg_app": -3.854,
+        "avg_arg": -0.04,
+        "avg_putt": 0.715
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11216",
+      "official_display_name": "김지윤2",
+      "entry_category": "eligible",
+      "k_rank": 66,
+      "k_name": "김지윤2",
+      "current_official_sg": {
+        "total": -0.28,
+        "ott": -0.25,
+        "app": -0.14,
+        "arg": 0.02,
+        "putt": 0.09,
+        "rounds": 48,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 69,
+        "events": 21,
+        "avg_total": -0.505,
+        "avg_ott": -0.366,
+        "avg_app": -0.186,
+        "avg_arg": -0.064,
+        "avg_putt": 0.11
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10178",
+      "official_display_name": "김희지",
+      "entry_category": "eligible",
+      "k_rank": 340,
+      "k_name": "김희지",
+      "current_official_sg": {
+        "total": -2.29,
+        "ott": -1.99,
+        "app": -0.63,
+        "arg": 0.0,
+        "putt": 0.33,
+        "rounds": 45,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 322,
+        "events": 92,
+        "avg_total": -1.097,
+        "avg_ott": -1.093,
+        "avg_app": -0.411,
+        "avg_arg": -0.027,
+        "avg_putt": 0.433
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9113",
+      "official_display_name": "노승희",
+      "entry_category": "eligible",
+      "k_rank": 7,
+      "k_name": "노승희",
+      "current_official_sg": {
+        "total": 1.08,
+        "ott": 0.0,
+        "app": 0.68,
+        "arg": 0.08,
+        "putt": 0.32,
+        "rounds": 65,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 433,
+        "events": 99,
+        "avg_total": 1.477,
+        "avg_ott": 0.283,
+        "avg_app": 0.878,
+        "avg_arg": 0.126,
+        "avg_putt": 0.19
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9723",
+      "official_display_name": "노원경",
+      "entry_category": "eligible",
+      "k_rank": 175,
+      "k_name": "노원경",
+      "current_official_sg": {
+        "total": -1.5,
+        "ott": -0.13,
+        "app": -0.92,
+        "arg": -0.22,
+        "putt": -0.23,
+        "rounds": 52,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 73,
+        "events": 21,
+        "avg_total": -1.76,
+        "avg_ott": -0.206,
+        "avg_app": -1.066,
+        "avg_arg": -0.252,
+        "avg_putt": -0.236
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10789",
+      "official_display_name": "리 슈잉",
+      "entry_category": "eligible",
+      "k_rank": 55,
+      "k_name": "리 슈잉",
+      "current_official_sg": {
+        "total": -0.55,
+        "ott": -0.38,
+        "app": -0.36,
+        "arg": 0.04,
+        "putt": 0.14,
+        "rounds": 52,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 9,
+        "events": 3,
+        "avg_total": -2.173,
+        "avg_ott": -0.459,
+        "avg_app": -1.25,
+        "avg_arg": -0.876,
+        "avg_putt": 0.414
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "1599",
+      "official_display_name": "리디아 고",
+      "entry_category": "eligible",
+      "k_rank": 420,
+      "k_name": "리디아 고",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 10,
+        "events": 2,
+        "avg_total": 1.279,
+        "avg_ott": 0.219,
+        "avg_app": 0.889,
+        "avg_arg": 0.626,
+        "avg_putt": -0.457
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "9401",
+      "official_display_name": "마다솜",
+      "entry_category": "eligible",
+      "k_rank": 42,
+      "k_name": "마다솜",
+      "current_official_sg": {
+        "total": 0.7,
+        "ott": -0.67,
+        "app": 0.48,
+        "arg": 0.12,
+        "putt": 0.76,
+        "rounds": 58,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 361,
+        "events": 90,
+        "avg_total": 0.92,
+        "avg_ott": -0.232,
+        "avg_app": 0.553,
+        "avg_arg": 0.136,
+        "avg_putt": 0.462
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10083",
+      "official_display_name": "마서영",
+      "entry_category": "eligible",
+      "k_rank": 82,
+      "k_name": "마서영",
+      "current_official_sg": {
+        "total": 0.56,
+        "ott": 0.33,
+        "app": -0.4,
+        "arg": 0.02,
+        "putt": 0.61,
+        "rounds": 67,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 254,
+        "events": 72,
+        "avg_total": -1.143,
+        "avg_ott": -0.334,
+        "avg_app": -1.132,
+        "avg_arg": -0.114,
+        "avg_putt": 0.437
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10296",
+      "official_display_name": "문정민",
+      "entry_category": "eligible",
+      "k_rank": 31,
+      "k_name": "문정민",
+      "current_official_sg": {
+        "total": 1.42,
+        "ott": 0.78,
+        "app": 0.66,
+        "arg": 0.04,
+        "putt": -0.07,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 323,
+        "events": 82,
+        "avg_total": 0.724,
+        "avg_ott": 0.57,
+        "avg_app": 0.475,
+        "avg_arg": -0.055,
+        "avg_putt": -0.267
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9183",
+      "official_display_name": "박결",
+      "entry_category": "eligible",
+      "k_rank": 72,
+      "k_name": "박결",
+      "current_official_sg": {
+        "total": -0.46,
+        "ott": -0.44,
+        "app": -0.63,
+        "arg": 0.41,
+        "putt": 0.2,
+        "rounds": 42,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 361,
+        "events": 92,
+        "avg_total": 0.247,
+        "avg_ott": -0.27,
+        "avg_app": 0.011,
+        "avg_arg": 0.38,
+        "avg_putt": 0.125
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8318",
+      "official_display_name": "박단유",
+      "entry_category": "eligible",
+      "k_rank": 142,
+      "k_name": "박단유",
+      "current_official_sg": {
+        "total": -0.61,
+        "ott": 0.1,
+        "app": -0.94,
+        "arg": -0.06,
+        "putt": 0.28,
+        "rounds": 59,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 189,
+        "events": 53,
+        "avg_total": -0.886,
+        "avg_ott": -0.154,
+        "avg_app": -0.964,
+        "avg_arg": -0.151,
+        "avg_putt": 0.382
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8772",
+      "official_display_name": "박민지",
+      "entry_category": "eligible",
+      "k_rank": 14,
+      "k_name": "박민지",
+      "current_official_sg": {
+        "total": 1.5,
+        "ott": 0.57,
+        "app": 0.89,
+        "arg": 0.09,
+        "putt": -0.06,
+        "rounds": 50,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 315,
+        "events": 73,
+        "avg_total": 1.55,
+        "avg_ott": 0.536,
+        "avg_app": 0.81,
+        "avg_arg": 0.184,
+        "avg_putt": 0.02
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9431",
+      "official_display_name": "박보겸",
+      "entry_category": "eligible",
+      "k_rank": 41,
+      "k_name": "박보겸",
+      "current_official_sg": {
+        "total": 0.4,
+        "ott": 0.04,
+        "app": 0.31,
+        "arg": 0.35,
+        "putt": -0.29,
+        "rounds": 58,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 379,
+        "events": 97,
+        "avg_total": 0.173,
+        "avg_ott": 0.262,
+        "avg_app": -0.069,
+        "avg_arg": 0.069,
+        "avg_putt": -0.089
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9111",
+      "official_display_name": "박서현",
+      "entry_category": "eligible",
+      "k_rank": 109,
+      "k_name": "박서현",
+      "current_official_sg": {
+        "total": -0.57,
+        "ott": -0.29,
+        "app": -0.3,
+        "arg": 0.0,
+        "putt": 0.01,
+        "rounds": 56,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 128,
+        "events": 36,
+        "avg_total": -0.693,
+        "avg_ott": -0.274,
+        "avg_app": -0.133,
+        "avg_arg": -0.015,
+        "avg_putt": -0.271
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9364",
+      "official_display_name": "박소혜",
+      "entry_category": "eligible",
+      "k_rank": 92,
+      "k_name": "박소혜",
+      "current_official_sg": {
+        "total": -1.12,
+        "ott": -0.9,
+        "app": 0.49,
+        "arg": 0.1,
+        "putt": -0.81,
+        "rounds": 6,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 104,
+        "events": 32,
+        "avg_total": -0.953,
+        "avg_ott": -0.779,
+        "avg_app": -0.618,
+        "avg_arg": 0.257,
+        "avg_putt": 0.187
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11056",
+      "official_display_name": "박예지",
+      "entry_category": "eligible",
+      "k_rank": 60,
+      "k_name": "박예지",
+      "current_official_sg": {
+        "total": 0.08,
+        "ott": -0.17,
+        "app": 0.19,
+        "arg": -0.07,
+        "putt": 0.12,
+        "rounds": 66,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 176,
+        "events": 44,
+        "avg_total": -0.283,
+        "avg_ott": -0.191,
+        "avg_app": -0.169,
+        "avg_arg": -0.06,
+        "avg_putt": 0.137
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9130",
+      "official_display_name": "박현경",
+      "entry_category": "eligible",
+      "k_rank": 13,
+      "k_name": "박현경",
+      "current_official_sg": {
+        "total": 1.56,
+        "ott": 0.29,
+        "app": 0.64,
+        "arg": 0.05,
+        "putt": 0.58,
+        "rounds": 53,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 392,
+        "events": 90,
+        "avg_total": 1.896,
+        "avg_ott": 0.471,
+        "avg_app": 0.593,
+        "avg_arg": 0.277,
+        "avg_putt": 0.555
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9788",
+      "official_display_name": "박혜준",
+      "entry_category": "eligible",
+      "k_rank": 15,
+      "k_name": "박혜준",
+      "current_official_sg": {
+        "total": 1.61,
+        "ott": 0.75,
+        "app": 1.11,
+        "arg": -0.07,
+        "putt": -0.17,
+        "rounds": 65,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 316,
+        "events": 75,
+        "avg_total": 1.169,
+        "avg_ott": 0.622,
+        "avg_app": 0.805,
+        "avg_arg": -0.013,
+        "avg_putt": -0.246
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10095",
+      "official_display_name": "방신실",
+      "entry_category": "eligible",
+      "k_rank": 5,
+      "k_name": "방신실",
+      "current_official_sg": {
+        "total": 1.31,
+        "ott": -0.17,
+        "app": 0.76,
+        "arg": 0.28,
+        "putt": 0.43,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 376,
+        "events": 89,
+        "avg_total": 1.648,
+        "avg_ott": 0.401,
+        "avg_app": 1.149,
+        "avg_arg": 0.28,
+        "avg_putt": -0.182
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8589",
+      "official_display_name": "배소현",
+      "entry_category": "eligible",
+      "k_rank": 39,
+      "k_name": "배소현",
+      "current_official_sg": {
+        "total": 0.66,
+        "ott": 0.6,
+        "app": 0.57,
+        "arg": -0.1,
+        "putt": -0.41,
+        "rounds": 64,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 399,
+        "events": 93,
+        "avg_total": 1.119,
+        "avg_ott": 0.733,
+        "avg_app": 0.623,
+        "avg_arg": -0.013,
+        "avg_putt": -0.225
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "1485",
+      "official_display_name": "빳차라쭈타 콩끄라판(I)",
+      "entry_category": "eligible",
+      "k_rank": 47,
+      "k_name": "빳차라쭈타 콩끄라판",
+      "current_official_sg": {
+        "total": 0.65,
+        "ott": 0.76,
+        "app": -0.2,
+        "arg": 0.17,
+        "putt": -0.08,
+        "rounds": 53,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 64,
+        "events": 15,
+        "avg_total": 0.544,
+        "avg_ott": 0.758,
+        "avg_app": -0.316,
+        "avg_arg": 0.151,
+        "avg_putt": -0.049
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11134",
+      "official_display_name": "서교림",
+      "entry_category": "eligible",
+      "k_rank": 2,
+      "k_name": "서교림",
+      "current_official_sg": {
+        "total": 2.38,
+        "ott": 0.7,
+        "app": 0.99,
+        "arg": 0.16,
+        "putt": 0.52,
+        "rounds": 65,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 202,
+        "events": 48,
+        "avg_total": 1.299,
+        "avg_ott": 0.479,
+        "avg_app": 0.894,
+        "avg_arg": 0.074,
+        "avg_putt": -0.148
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9134",
+      "official_display_name": "서어진",
+      "entry_category": "eligible",
+      "k_rank": 43,
+      "k_name": "서어진",
+      "current_official_sg": {
+        "total": 0.99,
+        "ott": 0.07,
+        "app": 0.35,
+        "arg": 0.24,
+        "putt": 0.33,
+        "rounds": 64,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 414,
+        "events": 98,
+        "avg_total": 0.87,
+        "avg_ott": -0.036,
+        "avg_app": 0.167,
+        "avg_arg": 0.271,
+        "avg_putt": 0.469
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8881",
+      "official_display_name": "성유진",
+      "entry_category": "eligible",
+      "k_rank": 8,
+      "k_name": "성유진",
+      "current_official_sg": {
+        "total": 1.57,
+        "ott": 0.31,
+        "app": 0.82,
+        "arg": 0.11,
+        "putt": 0.32,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 300,
+        "events": 68,
+        "avg_total": 1.619,
+        "avg_ott": 0.521,
+        "avg_app": 0.941,
+        "avg_arg": 0.141,
+        "avg_putt": 0.017
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8773",
+      "official_display_name": "송가은",
+      "entry_category": "eligible",
+      "k_rank": 148,
+      "k_name": "송가은",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 238,
+        "events": 63,
+        "avg_total": -0.074,
+        "avg_ott": -0.436,
+        "avg_app": -0.217,
+        "avg_arg": 0.037,
+        "avg_putt": 0.542
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "11057",
+      "official_display_name": "송은아",
+      "entry_category": "eligible",
+      "k_rank": 57,
+      "k_name": "송은아",
+      "current_official_sg": {
+        "total": 0.54,
+        "ott": 0.84,
+        "app": -0.03,
+        "arg": -0.12,
+        "putt": -0.15,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 201,
+        "events": 49,
+        "avg_total": 0.07,
+        "avg_ott": 0.746,
+        "avg_app": 0.025,
+        "avg_arg": -0.227,
+        "avg_putt": -0.475
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9135",
+      "official_display_name": "신다인",
+      "entry_category": "eligible",
+      "k_rank": 25,
+      "k_name": "신다인",
+      "current_official_sg": {
+        "total": 1.19,
+        "ott": 0.9,
+        "app": 0.47,
+        "arg": -0.05,
+        "putt": -0.14,
+        "rounds": 65,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 287,
+        "events": 74,
+        "avg_total": 0.197,
+        "avg_ott": 0.524,
+        "avg_app": -0.154,
+        "avg_arg": -0.03,
+        "avg_putt": -0.143
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "6916",
+      "official_display_name": "안송이",
+      "entry_category": "eligible",
+      "k_rank": 73,
+      "k_name": "안송이",
+      "current_official_sg": {
+        "total": -0.35,
+        "ott": -0.03,
+        "app": -0.49,
+        "arg": 0.19,
+        "putt": -0.02,
+        "rounds": 54,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 351,
+        "events": 88,
+        "avg_total": 0.428,
+        "avg_ott": 0.113,
+        "avg_app": 0.118,
+        "avg_arg": 0.122,
+        "avg_putt": 0.075
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11060",
+      "official_display_name": "안재희",
+      "entry_category": "eligible",
+      "k_rank": 89,
+      "k_name": "안재희",
+      "current_official_sg": {
+        "total": -0.33,
+        "ott": 0.27,
+        "app": 0.08,
+        "arg": -0.05,
+        "putt": -0.63,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 86,
+        "events": 22,
+        "avg_total": -0.511,
+        "avg_ott": 0.281,
+        "avg_app": 0.087,
+        "avg_arg": -0.147,
+        "avg_putt": -0.731
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9465",
+      "official_display_name": "안지현",
+      "entry_category": "eligible",
+      "k_rank": 49,
+      "k_name": "안지현",
+      "current_official_sg": {
+        "total": 0.7,
+        "ott": 0.01,
+        "app": -0.21,
+        "arg": 0.26,
+        "putt": 0.64,
+        "rounds": 64,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 254,
+        "events": 69,
+        "avg_total": -0.587,
+        "avg_ott": -0.912,
+        "avg_app": -0.357,
+        "avg_arg": 0.146,
+        "avg_putt": 0.536
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11391",
+      "official_display_name": "양윤서 0801(A)",
+      "entry_category": "eligible",
+      "k_rank": 52,
+      "k_name": "양윤서",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 37,
+        "events": 10,
+        "avg_total": -0.148,
+        "avg_ott": 0.165,
+        "avg_app": 0.568,
+        "avg_arg": -0.181,
+        "avg_putt": -0.702
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "11045",
+      "official_display_name": "양효진",
+      "entry_category": "eligible",
+      "k_rank": 37,
+      "k_name": "양효진",
+      "current_official_sg": {
+        "total": 0.86,
+        "ott": 0.46,
+        "app": 0.5,
+        "arg": -0.07,
+        "putt": -0.04,
+        "rounds": 67,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 84,
+        "events": 20,
+        "avg_total": 0.781,
+        "avg_ott": 0.431,
+        "avg_app": 0.504,
+        "avg_arg": -0.071,
+        "avg_putt": -0.084
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11944",
+      "official_display_name": "오수민 0809(A)",
+      "entry_category": "eligible",
+      "k_rank": 153,
+      "k_name": "오수민",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 67,
+        "events": 17,
+        "avg_total": 0.1,
+        "avg_ott": 0.342,
+        "avg_app": 0.36,
+        "avg_arg": -0.067,
+        "avg_putt": -0.538
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "13502",
+      "official_display_name": "왕 즈쉬엔",
+      "entry_category": "eligible",
+      "k_rank": 108,
+      "k_name": "왕 즈쉬엔",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 69,
+        "events": 18,
+        "avg_total": -0.412,
+        "avg_ott": -0.326,
+        "avg_app": 0.26,
+        "avg_arg": -0.217,
+        "avg_putt": -0.129
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "9714",
+      "official_display_name": "유지나",
+      "entry_category": "eligible",
+      "k_rank": 68,
+      "k_name": "유지나",
+      "current_official_sg": {
+        "total": -0.32,
+        "ott": -0.11,
+        "app": 0.21,
+        "arg": 0.01,
+        "putt": -0.44,
+        "rounds": 66,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 291,
+        "events": 72,
+        "avg_total": -0.016,
+        "avg_ott": 0.132,
+        "avg_app": 0.023,
+        "avg_arg": -0.066,
+        "avg_putt": -0.106
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10146",
+      "official_display_name": "유현조",
+      "entry_category": "eligible",
+      "k_rank": 3,
+      "k_name": "유현조",
+      "current_official_sg": {
+        "total": 2.23,
+        "ott": 0.4,
+        "app": 1.16,
+        "arg": 0.13,
+        "putt": 0.54,
+        "rounds": 56,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 310,
+        "events": 69,
+        "avg_total": 1.981,
+        "avg_ott": 0.625,
+        "avg_app": 0.912,
+        "avg_arg": 0.129,
+        "avg_putt": 0.316
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8884",
+      "official_display_name": "윤화영",
+      "entry_category": "eligible",
+      "k_rank": 139,
+      "k_name": "윤화영",
+      "current_official_sg": {
+        "total": -1.13,
+        "ott": -0.45,
+        "app": -0.13,
+        "arg": -0.15,
+        "putt": -0.4,
+        "rounds": 51,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 164,
+        "events": 47,
+        "avg_total": -0.93,
+        "avg_ott": -0.331,
+        "avg_app": -0.347,
+        "avg_arg": -0.098,
+        "avg_putt": -0.154
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11264",
+      "official_display_name": "이 민",
+      "entry_category": "eligible",
+      "k_rank": null,
+      "k_name": null,
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 0,
+        "events": 0,
+        "avg_total": null,
+        "avg_ott": null,
+        "avg_app": null,
+        "avg_arg": null,
+        "avg_putt": null
+      },
+      "analysis_status": "DATA_INSUFFICIENT",
+      "foreign_lpga_analysis": {
+        "player_id": "11264",
+        "official_klpga_name": "이 민",
+        "lpga_name": "Min Lee",
+        "lpga_profile": "https://www.lpga.com/athletes/min-lee/88910/overview",
+        "lpga_stats": "https://www.lpga.com/athletes/min-lee/88910/stats",
+        "verified": {
+          "tour_joined": 2015,
+          "career_wins": 0,
+          "career_top10": 1,
+          "career_top25": 11,
+          "career_earnings_usd": 932700,
+          "sg_total": -4.28,
+          "sg_tee_to_green": -1.11,
+          "sg_off_the_tee": -1.99,
+          "sg_approach": 0.31,
+          "sg_around_green": 0.57,
+          "sg_putting": -2.25
+        },
+        "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+      }
+    },
+    {
+      "player_id": "8883",
+      "official_display_name": "이가영",
+      "entry_category": "eligible",
+      "k_rank": 27,
+      "k_name": "이가영",
+      "current_official_sg": {
+        "total": 0.88,
+        "ott": 0.25,
+        "app": 0.34,
+        "arg": 0.09,
+        "putt": 0.21,
+        "rounds": 62,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 418,
+        "events": 98,
+        "avg_total": 1.21,
+        "avg_ott": 0.384,
+        "avg_app": 0.707,
+        "avg_arg": 0.089,
+        "avg_putt": 0.03
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8392",
+      "official_display_name": "이다연",
+      "entry_category": "eligible",
+      "k_rank": 4,
+      "k_name": "이다연",
+      "current_official_sg": {
+        "total": 2.04,
+        "ott": 0.32,
+        "app": 1.31,
+        "arg": 0.17,
+        "putt": 0.24,
+        "rounds": 54,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 329,
+        "events": 77,
+        "avg_total": 1.678,
+        "avg_ott": 0.066,
+        "avg_app": 1.028,
+        "avg_arg": 0.084,
+        "avg_putt": 0.501
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "1734",
+      "official_display_name": "이민지",
+      "entry_category": "eligible",
+      "k_rank": 110,
+      "k_name": "이민지",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 10,
+        "events": 2,
+        "avg_total": 3.943,
+        "avg_ott": 0.864,
+        "avg_app": 2.049,
+        "avg_arg": 0.51,
+        "avg_putt": 0.52
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "11040",
+      "official_display_name": "이세영",
+      "entry_category": "eligible",
+      "k_rank": 133,
+      "k_name": "이세영",
+      "current_official_sg": {
+        "total": -0.81,
+        "ott": 0.63,
+        "app": 0.05,
+        "arg": -0.27,
+        "putt": -1.23,
+        "rounds": 54,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 71,
+        "events": 19,
+        "avg_total": -0.784,
+        "avg_ott": 0.685,
+        "avg_app": 0.075,
+        "avg_arg": -0.244,
+        "avg_putt": -1.3
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9652",
+      "official_display_name": "이세희",
+      "entry_category": "eligible",
+      "k_rank": 46,
+      "k_name": "이세희",
+      "current_official_sg": {
+        "total": 0.58,
+        "ott": 0.28,
+        "app": 0.12,
+        "arg": 0.05,
+        "putt": 0.13,
+        "rounds": 59,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 351,
+        "events": 87,
+        "avg_total": 0.27,
+        "avg_ott": 0.035,
+        "avg_app": 0.352,
+        "avg_arg": -0.09,
+        "avg_putt": -0.026
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8246",
+      "official_display_name": "이소영",
+      "entry_category": "eligible",
+      "k_rank": 125,
+      "k_name": "이소영",
+      "current_official_sg": {
+        "total": -1.31,
+        "ott": 0.1,
+        "app": -1.48,
+        "arg": -0.04,
+        "putt": 0.11,
+        "rounds": 52,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 379,
+        "events": 95,
+        "avg_total": 0.07,
+        "avg_ott": 0.246,
+        "avg_app": -0.474,
+        "avg_arg": -0.01,
+        "avg_putt": 0.309
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9503",
+      "official_display_name": "이슬기2",
+      "entry_category": "eligible",
+      "k_rank": 198,
+      "k_name": "이슬기2",
+      "current_official_sg": {
+        "total": -2.02,
+        "ott": -1.33,
+        "app": -0.52,
+        "arg": -0.09,
+        "putt": -0.07,
+        "rounds": 42,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 193,
+        "events": 57,
+        "avg_total": -1.437,
+        "avg_ott": -0.966,
+        "avg_app": -0.194,
+        "avg_arg": -0.058,
+        "avg_putt": -0.219
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8859",
+      "official_display_name": "이승연",
+      "entry_category": "eligible",
+      "k_rank": 56,
+      "k_name": "이승연",
+      "current_official_sg": {
+        "total": 0.57,
+        "ott": 0.39,
+        "app": 0.23,
+        "arg": 0.04,
+        "putt": -0.09,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 409,
+        "events": 100,
+        "avg_total": 0.677,
+        "avg_ott": 0.42,
+        "avg_app": 0.214,
+        "avg_arg": 0.008,
+        "avg_putt": 0.035
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9784",
+      "official_display_name": "이예원",
+      "entry_category": "eligible",
+      "k_rank": 6,
+      "k_name": "이예원",
+      "current_official_sg": {
+        "total": 1.83,
+        "ott": 0.67,
+        "app": 0.42,
+        "arg": 0.28,
+        "putt": 0.45,
+        "rounds": 52,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 385,
+        "events": 87,
+        "avg_total": 1.844,
+        "avg_ott": 0.591,
+        "avg_app": 0.552,
+        "avg_arg": 0.219,
+        "avg_putt": 0.482
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "12604",
+      "official_display_name": "이와이 아키",
+      "entry_category": "eligible",
+      "k_rank": null,
+      "k_name": null,
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 0,
+        "events": 0,
+        "avg_total": null,
+        "avg_ott": null,
+        "avg_app": null,
+        "avg_arg": null,
+        "avg_putt": null
+      },
+      "analysis_status": "DATA_INSUFFICIENT",
+      "foreign_lpga_analysis": {
+        "player_id": "12604",
+        "official_klpga_name": "이와이 아키",
+        "lpga_name": "Aki Iwai",
+        "lpga_profile": "https://www.lpga.com/athletes/aki-iwai/102175/overview",
+        "lpga_stats": "https://www.lpga.com/athletes/aki-iwai/102175/stats",
+        "verified": {
+          "tour_joined": 2025,
+          "career_wins": 1,
+          "career_top10": 11,
+          "career_top25": 22,
+          "official_earnings_usd": 1400000,
+          "sg_total": 1.04,
+          "sg_tee_to_green": 0.95,
+          "sg_off_the_tee": 0.17,
+          "sg_approach": 0.53,
+          "sg_around_green": 0.25,
+          "sg_putting": -0.01
+        },
+        "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+      }
+    },
+    {
+      "player_id": "13839",
+      "official_display_name": "이와이 치지",
+      "entry_category": "eligible",
+      "k_rank": null,
+      "k_name": null,
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 0,
+        "events": 0,
+        "avg_total": null,
+        "avg_ott": null,
+        "avg_app": null,
+        "avg_arg": null,
+        "avg_putt": null
+      },
+      "analysis_status": "DATA_INSUFFICIENT",
+      "foreign_lpga_analysis": {
+        "player_id": "13839",
+        "official_klpga_name": "이와이 치지",
+        "lpga_name": "Chizzy Iwai",
+        "lpga_profile": "https://www.lpga.com/athletes/chizzy-iwai/102161/overview",
+        "lpga_stats": "https://www.lpga.com/athletes/chizzy-iwai/102161/stats",
+        "verified": {
+          "tour_joined": 2025,
+          "career_wins": 1,
+          "career_top10": 10,
+          "career_top25": 23,
+          "official_earnings_usd": 738900,
+          "sg_total": 0.7,
+          "sg_tee_to_green": 0.66,
+          "sg_off_the_tee": 0.46,
+          "sg_approach": 0.0,
+          "sg_around_green": 0.2,
+          "sg_putting": 0.01
+        },
+        "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+      }
+    },
+    {
+      "player_id": "9759",
+      "official_display_name": "이율린",
+      "entry_category": "eligible",
+      "k_rank": 44,
+      "k_name": "이율린",
+      "current_official_sg": {
+        "total": -0.47,
+        "ott": -1.1,
+        "app": 0.5,
+        "arg": -0.04,
+        "putt": 0.18,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 261,
+        "events": 71,
+        "avg_total": -1.222,
+        "avg_ott": -1.098,
+        "avg_app": 0.103,
+        "avg_arg": -0.146,
+        "avg_putt": -0.081
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9708",
+      "official_display_name": "이재윤",
+      "entry_category": "eligible",
+      "k_rank": 65,
+      "k_name": "이재윤",
+      "current_official_sg": {
+        "total": -0.08,
+        "ott": -0.12,
+        "app": 0.0,
+        "arg": -0.32,
+        "putt": 0.36,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 184,
+        "events": 47,
+        "avg_total": -0.013,
+        "avg_ott": 0.226,
+        "avg_app": -0.157,
+        "avg_arg": -0.185,
+        "avg_putt": 0.102
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "7434",
+      "official_display_name": "이정민",
+      "entry_category": "eligible",
+      "k_rank": 182,
+      "k_name": "이정민",
+      "current_official_sg": {
+        "total": -0.91,
+        "ott": -1.32,
+        "app": 0.12,
+        "arg": 0.29,
+        "putt": 0.01,
+        "rounds": 33,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 293,
+        "events": 78,
+        "avg_total": -0.47,
+        "avg_ott": -0.837,
+        "avg_app": 0.376,
+        "avg_arg": 0.236,
+        "avg_putt": -0.246
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8234",
+      "official_display_name": "이주미",
+      "entry_category": "eligible",
+      "k_rank": 96,
+      "k_name": "이주미",
+      "current_official_sg": {
+        "total": 0.0,
+        "ott": 0.21,
+        "app": -0.01,
+        "arg": -0.12,
+        "putt": -0.08,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 286,
+        "events": 73,
+        "avg_total": 0.025,
+        "avg_ott": 0.343,
+        "avg_app": 0.082,
+        "avg_arg": -0.27,
+        "avg_putt": -0.13
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "12038",
+      "official_display_name": "이지민",
+      "entry_category": "eligible",
+      "k_rank": 136,
+      "k_name": "이지민",
+      "current_official_sg": {
+        "total": -1.5,
+        "ott": 0.16,
+        "app": -0.45,
+        "arg": 0.18,
+        "putt": -1.4,
+        "rounds": 48,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 65,
+        "events": 19,
+        "avg_total": -1.501,
+        "avg_ott": 0.19,
+        "avg_app": -0.371,
+        "avg_arg": 0.15,
+        "avg_putt": -1.47
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9449",
+      "official_display_name": "이지현3",
+      "entry_category": "eligible",
+      "k_rank": 36,
+      "k_name": "이지현3",
+      "current_official_sg": {
+        "total": 1.25,
+        "ott": 0.23,
+        "app": 0.47,
+        "arg": 0.19,
+        "putt": 0.36,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 329,
+        "events": 83,
+        "avg_total": 0.673,
+        "avg_ott": 0.134,
+        "avg_app": 0.09,
+        "avg_arg": 0.084,
+        "avg_putt": 0.366
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8811",
+      "official_display_name": "이채은2",
+      "entry_category": "eligible",
+      "k_rank": 51,
+      "k_name": "이채은2",
+      "current_official_sg": {
+        "total": 0.71,
+        "ott": 0.1,
+        "app": 0.21,
+        "arg": 0.09,
+        "putt": 0.31,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 399,
+        "events": 100,
+        "avg_total": 0.121,
+        "avg_ott": -0.021,
+        "avg_app": 0.018,
+        "avg_arg": 0.02,
+        "avg_putt": 0.103
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11411",
+      "official_display_name": "이효송",
+      "entry_category": "eligible",
+      "k_rank": 448,
+      "k_name": "이효송",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 15,
+        "events": 3,
+        "avg_total": -0.908,
+        "avg_ott": -0.632,
+        "avg_app": -0.581,
+        "avg_arg": 0.295,
+        "avg_putt": 0.009
+      },
+      "analysis_status": "DATA_INSUFFICIENT"
+    },
+    {
+      "player_id": "10138",
+      "official_display_name": "임진영",
+      "entry_category": "eligible",
+      "k_rank": 48,
+      "k_name": "임진영",
+      "current_official_sg": {
+        "total": 0.4,
+        "ott": 0.17,
+        "app": 0.33,
+        "arg": -0.09,
+        "putt": 0.0,
+        "rounds": 51,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 297,
+        "events": 74,
+        "avg_total": 0.417,
+        "avg_ott": 0.241,
+        "avg_app": 0.082,
+        "avg_arg": 0.035,
+        "avg_putt": 0.059
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9145",
+      "official_display_name": "임희정",
+      "entry_category": "eligible",
+      "k_rank": 32,
+      "k_name": "임희정",
+      "current_official_sg": {
+        "total": 0.71,
+        "ott": 0.65,
+        "app": 0.38,
+        "arg": -0.05,
+        "putt": -0.26,
+        "rounds": 53,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 358,
+        "events": 88,
+        "avg_total": 0.834,
+        "avg_ott": 0.567,
+        "avg_app": 0.659,
+        "avg_arg": 0.07,
+        "avg_putt": -0.461
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8355",
+      "official_display_name": "장수연",
+      "entry_category": "eligible",
+      "k_rank": 93,
+      "k_name": "장수연",
+      "current_official_sg": {
+        "total": -1.74,
+        "ott": -0.56,
+        "app": -1.56,
+        "arg": 0.13,
+        "putt": 0.25,
+        "rounds": 36,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 310,
+        "events": 79,
+        "avg_total": -0.015,
+        "avg_ott": 0.13,
+        "avg_app": -0.278,
+        "avg_arg": -0.002,
+        "avg_putt": 0.135
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8243",
+      "official_display_name": "장은수",
+      "entry_category": "eligible",
+      "k_rank": 17,
+      "k_name": "장은수",
+      "current_official_sg": {
+        "total": 1.2,
+        "ott": -0.15,
+        "app": 0.64,
+        "arg": 0.2,
+        "putt": 0.51,
+        "rounds": 69,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 227,
+        "events": 58,
+        "avg_total": -0.097,
+        "avg_ott": -0.714,
+        "avg_app": -0.012,
+        "avg_arg": 0.084,
+        "avg_putt": 0.544
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "7963",
+      "official_display_name": "장하나",
+      "entry_category": "eligible",
+      "k_rank": null,
+      "k_name": null,
+      "current_official_sg": {
+        "total": -1.99,
+        "ott": -1.43,
+        "app": 0.05,
+        "arg": 0.25,
+        "putt": -0.86,
+        "rounds": 6,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 132,
+        "events": 47,
+        "avg_total": -6.238,
+        "avg_ott": -3.455,
+        "avg_app": -3.422,
+        "avg_arg": -0.095,
+        "avg_putt": 0.733
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9082",
+      "official_display_name": "전예성",
+      "entry_category": "eligible",
+      "k_rank": 18,
+      "k_name": "전예성",
+      "current_official_sg": {
+        "total": 1.73,
+        "ott": 0.17,
+        "app": 0.55,
+        "arg": 0.19,
+        "putt": 0.81,
+        "rounds": 59,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 382,
+        "events": 90,
+        "avg_total": 1.266,
+        "avg_ott": 0.03,
+        "avg_app": 0.548,
+        "avg_arg": 0.112,
+        "avg_putt": 0.577
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9389",
+      "official_display_name": "전우리",
+      "entry_category": "eligible",
+      "k_rank": 59,
+      "k_name": "전우리",
+      "current_official_sg": {
+        "total": 0.13,
+        "ott": 0.07,
+        "app": 0.09,
+        "arg": -0.03,
+        "putt": 0.01,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 382,
+        "events": 98,
+        "avg_total": -0.27,
+        "avg_ott": 0.192,
+        "avg_app": -0.391,
+        "avg_arg": -0.002,
+        "avg_putt": -0.069
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9765",
+      "official_display_name": "정소이",
+      "entry_category": "eligible",
+      "k_rank": 61,
+      "k_name": "정소이",
+      "current_official_sg": {
+        "total": 0.47,
+        "ott": -0.07,
+        "app": 0.62,
+        "arg": -0.06,
+        "putt": -0.01,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 380,
+        "events": 99,
+        "avg_total": -0.145,
+        "avg_ott": 0.025,
+        "avg_app": 0.366,
+        "avg_arg": -0.165,
+        "avg_putt": -0.371
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8840",
+      "official_display_name": "정수빈",
+      "entry_category": "eligible",
+      "k_rank": 119,
+      "k_name": "정수빈",
+      "current_official_sg": {
+        "total": -2.91,
+        "ott": -1.92,
+        "app": -1.36,
+        "arg": 0.47,
+        "putt": -0.1,
+        "rounds": 46,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 158,
+        "events": 45,
+        "avg_total": -2.884,
+        "avg_ott": -1.281,
+        "avg_app": -1.802,
+        "avg_arg": 0.228,
+        "avg_putt": -0.029
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9820",
+      "official_display_name": "정윤지",
+      "entry_category": "eligible",
+      "k_rank": 29,
+      "k_name": "정윤지",
+      "current_official_sg": {
+        "total": 0.94,
+        "ott": 0.8,
+        "app": 0.17,
+        "arg": 0.02,
+        "putt": -0.03,
+        "rounds": 53,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 383,
+        "events": 89,
+        "avg_total": 1.403,
+        "avg_ott": 0.666,
+        "avg_app": 0.796,
+        "avg_arg": -0.005,
+        "avg_putt": -0.055
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8770",
+      "official_display_name": "조아연",
+      "entry_category": "eligible",
+      "k_rank": 69,
+      "k_name": "조아연",
+      "current_official_sg": {
+        "total": 0.3,
+        "ott": -0.67,
+        "app": -0.11,
+        "arg": 0.57,
+        "putt": 0.52,
+        "rounds": 47,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 363,
+        "events": 92,
+        "avg_total": 0.022,
+        "avg_ott": -0.602,
+        "avg_app": -0.555,
+        "avg_arg": 0.606,
+        "avg_putt": 0.573
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8972",
+      "official_display_name": "조정민",
+      "entry_category": "eligible",
+      "k_rank": 233,
+      "k_name": "조정민",
+      "current_official_sg": {
+        "total": -2.33,
+        "ott": -1.28,
+        "app": -1.8,
+        "arg": 0.32,
+        "putt": 0.43,
+        "rounds": 48,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 119,
+        "events": 35,
+        "avg_total": -1.706,
+        "avg_ott": -0.936,
+        "avg_app": -1.25,
+        "avg_arg": 0.246,
+        "avg_putt": 0.234
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9136",
+      "official_display_name": "조혜림",
+      "entry_category": "eligible",
+      "k_rank": 87,
+      "k_name": "조혜림",
+      "current_official_sg": {
+        "total": -0.38,
+        "ott": 0.21,
+        "app": -0.37,
+        "arg": 0.0,
+        "putt": -0.22,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 392,
+        "events": 99,
+        "avg_total": -0.071,
+        "avg_ott": 0.115,
+        "avg_app": 0.072,
+        "avg_arg": -0.115,
+        "avg_putt": -0.142
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "1521",
+      "official_display_name": "지한솔",
+      "entry_category": "eligible",
+      "k_rank": 40,
+      "k_name": "지한솔",
+      "current_official_sg": {
+        "total": 0.73,
+        "ott": -0.06,
+        "app": 0.55,
+        "arg": 0.28,
+        "putt": -0.03,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 395,
+        "events": 95,
+        "avg_total": 0.976,
+        "avg_ott": 0.151,
+        "avg_app": 0.537,
+        "avg_arg": 0.267,
+        "avg_putt": 0.021
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11770",
+      "official_display_name": "짜라위 분짠(I)",
+      "entry_category": "eligible",
+      "k_rank": 33,
+      "k_name": "짜라위 분짠",
+      "current_official_sg": {
+        "total": 0.95,
+        "ott": 0.22,
+        "app": 0.57,
+        "arg": 0.17,
+        "putt": -0.02,
+        "rounds": 47,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 123,
+        "events": 30,
+        "avg_total": 0.336,
+        "avg_ott": 0.01,
+        "avg_app": 0.518,
+        "avg_arg": 0.08,
+        "avg_putt": -0.273
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "6085",
+      "official_display_name": "청 야니",
+      "entry_category": "eligible",
+      "k_rank": null,
+      "k_name": null,
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 0,
+        "events": 0,
+        "avg_total": null,
+        "avg_ott": null,
+        "avg_app": null,
+        "avg_arg": null,
+        "avg_putt": null
+      },
+      "analysis_status": "DATA_INSUFFICIENT",
+      "foreign_lpga_analysis": {
+        "player_id": "6085",
+        "official_klpga_name": "청 야니",
+        "lpga_name": "Yani Tseng",
+        "lpga_profile": "https://www.lpga.com/athletes/yani-tseng/82897/overview",
+        "lpga_stats": "https://www.lpga.com/athletes/yani-tseng/82897/stats",
+        "verified": {
+          "tour_joined": 2008,
+          "career_wins": 15,
+          "career_top10": 67,
+          "career_top25": 117,
+          "official_career_earnings_usd": 10600000,
+          "sg_total": -0.56,
+          "sg_tee_to_green": -0.27,
+          "sg_off_the_tee": -0.53,
+          "sg_approach": -0.48,
+          "sg_around_green": 0.74,
+          "sg_putting": -0.6
+        },
+        "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+      }
+    },
+    {
+      "player_id": "9391",
+      "official_display_name": "최가빈",
+      "entry_category": "eligible",
+      "k_rank": 54,
+      "k_name": "최가빈",
+      "current_official_sg": {
+        "total": 0.5,
+        "ott": -0.14,
+        "app": 0.18,
+        "arg": 0.18,
+        "putt": 0.27,
+        "rounds": 65,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 426,
+        "events": 102,
+        "avg_total": 0.592,
+        "avg_ott": 0.257,
+        "avg_app": 0.237,
+        "avg_arg": 0.03,
+        "avg_putt": 0.068
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8277",
+      "official_display_name": "최민경",
+      "entry_category": "eligible",
+      "k_rank": 62,
+      "k_name": "최민경",
+      "current_official_sg": {
+        "total": 0.47,
+        "ott": -0.33,
+        "app": 0.45,
+        "arg": 0.09,
+        "putt": 0.26,
+        "rounds": 57,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 386,
+        "events": 95,
+        "avg_total": 0.505,
+        "avg_ott": -0.334,
+        "avg_app": 0.35,
+        "avg_arg": 0.071,
+        "avg_putt": 0.418
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "8284",
+      "official_display_name": "최예림",
+      "entry_category": "eligible",
+      "k_rank": 12,
+      "k_name": "최예림",
+      "current_official_sg": {
+        "total": 1.65,
+        "ott": 0.12,
+        "app": 0.78,
+        "arg": 0.32,
+        "putt": 0.42,
+        "rounds": 66,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 406,
+        "events": 97,
+        "avg_total": 1.365,
+        "avg_ott": 0.311,
+        "avg_app": 0.951,
+        "avg_arg": 0.227,
+        "avg_putt": -0.124
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10577",
+      "official_display_name": "최예본",
+      "entry_category": "eligible",
+      "k_rank": 50,
+      "k_name": "최예본",
+      "current_official_sg": {
+        "total": 0.93,
+        "ott": 0.03,
+        "app": 0.6,
+        "arg": 0.02,
+        "putt": 0.29,
+        "rounds": 69,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 267,
+        "events": 67,
+        "avg_total": 0.379,
+        "avg_ott": 0.159,
+        "avg_app": 0.318,
+        "avg_arg": -0.15,
+        "avg_putt": 0.053
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9235",
+      "official_display_name": "최은우",
+      "entry_category": "eligible",
+      "k_rank": 28,
+      "k_name": "최은우",
+      "current_official_sg": {
+        "total": 1.0,
+        "ott": 0.2,
+        "app": 0.55,
+        "arg": 0.2,
+        "putt": 0.06,
+        "rounds": 58,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 406,
+        "events": 94,
+        "avg_total": 0.999,
+        "avg_ott": 0.135,
+        "avg_app": 0.561,
+        "avg_arg": 0.224,
+        "avg_putt": 0.079
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11073",
+      "official_display_name": "최정원",
+      "entry_category": "eligible",
+      "k_rank": 58,
+      "k_name": "최정원",
+      "current_official_sg": {
+        "total": 0.52,
+        "ott": 0.41,
+        "app": -0.7,
+        "arg": 0.06,
+        "putt": 0.74,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 83,
+        "events": 21,
+        "avg_total": 0.311,
+        "avg_ott": 0.36,
+        "avg_app": -0.753,
+        "avg_arg": 0.022,
+        "avg_putt": 0.682
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "13146",
+      "official_display_name": "플로렌스 이본 비세라",
+      "entry_category": "eligible",
+      "k_rank": 692,
+      "k_name": "플로렌스 이본 비세라",
+      "current_official_sg": null,
+      "historical_sample": {
+        "rows": 0,
+        "events": 0,
+        "avg_total": null,
+        "avg_ott": null,
+        "avg_app": null,
+        "avg_arg": null,
+        "avg_putt": null
+      },
+      "analysis_status": "DATA_INSUFFICIENT",
+      "foreign_lpga_analysis": {
+        "player_id": "13146",
+        "official_klpga_name": "플로렌스 이본 비세라",
+        "lpga_name": "Florence Yvon Bisera",
+        "lpga_rolex_ranking": "https://www.lpga.com/-/media/files/rolex-test-documents/2026/rolexrankings_07_27_2026.pdf",
+        "verified": {
+          "rolex_name": "BISERA, Florence Yvon",
+          "rolex_id": "11563",
+          "country": "PHI",
+          "ranking_week": "2026-07-27",
+          "ranking": 553,
+          "events": 13,
+          "total_points": 5.1385,
+          "average": 0.1468
+        },
+        "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+      }
+    },
+    {
+      "player_id": "11447",
+      "official_display_name": "한아름",
+      "entry_category": "eligible",
+      "k_rank": 90,
+      "k_name": "한아름",
+      "current_official_sg": {
+        "total": 0.24,
+        "ott": 0.12,
+        "app": 0.03,
+        "arg": 0.07,
+        "putt": 0.02,
+        "rounds": 64,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 186,
+        "events": 49,
+        "avg_total": -0.645,
+        "avg_ott": 0.029,
+        "avg_app": -0.422,
+        "avg_arg": -0.079,
+        "avg_putt": -0.175
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9483",
+      "official_display_name": "한지원",
+      "entry_category": "eligible",
+      "k_rank": 78,
+      "k_name": "한지원",
+      "current_official_sg": {
+        "total": 0.02,
+        "ott": 0.32,
+        "app": 0.03,
+        "arg": -0.24,
+        "putt": -0.1,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 374,
+        "events": 96,
+        "avg_total": -0.029,
+        "avg_ott": 0.227,
+        "avg_app": -0.01,
+        "avg_arg": -0.156,
+        "avg_putt": -0.089
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9426",
+      "official_display_name": "한진선",
+      "entry_category": "eligible",
+      "k_rank": 34,
+      "k_name": "한진선",
+      "current_official_sg": {
+        "total": 1.24,
+        "ott": 0.37,
+        "app": 0.63,
+        "arg": -0.07,
+        "putt": 0.31,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 386,
+        "events": 91,
+        "avg_total": 1.064,
+        "avg_ott": 0.131,
+        "avg_app": 0.709,
+        "avg_arg": -0.04,
+        "avg_putt": 0.264
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10531",
+      "official_display_name": "현세린",
+      "entry_category": "eligible",
+      "k_rank": 81,
+      "k_name": "현세린",
+      "current_official_sg": {
+        "total": -1.48,
+        "ott": -0.71,
+        "app": -0.31,
+        "arg": -0.18,
+        "putt": -0.28,
+        "rounds": 46,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 378,
+        "events": 96,
+        "avg_total": -0.083,
+        "avg_ott": -0.59,
+        "avg_app": -0.204,
+        "avg_arg": 0.104,
+        "avg_putt": 0.607
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9750",
+      "official_display_name": "홍정민",
+      "entry_category": "eligible",
+      "k_rank": 9,
+      "k_name": "홍정민",
+      "current_official_sg": {
+        "total": 0.49,
+        "ott": -0.04,
+        "app": 0.55,
+        "arg": -0.08,
+        "putt": 0.07,
+        "rounds": 25,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 326,
+        "events": 79,
+        "avg_total": 1.349,
+        "avg_ott": 0.498,
+        "avg_app": 0.831,
+        "avg_arg": 0.032,
+        "avg_putt": -0.011
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9705",
+      "official_display_name": "홍지원",
+      "entry_category": "recommended",
+      "k_rank": 85,
+      "k_name": "홍지원",
+      "current_official_sg": {
+        "total": 0.12,
+        "ott": -0.19,
+        "app": 0.3,
+        "arg": 0.0,
+        "putt": 0.0,
+        "rounds": 58,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 408,
+        "events": 99,
+        "avg_total": 0.193,
+        "avg_ott": -0.185,
+        "avg_app": 0.151,
+        "avg_arg": 0.09,
+        "avg_putt": 0.137
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10586",
+      "official_display_name": "홍진영2",
+      "entry_category": "recommended",
+      "k_rank": 38,
+      "k_name": "홍진영2",
+      "current_official_sg": {
+        "total": 0.93,
+        "ott": 0.35,
+        "app": 0.19,
+        "arg": 0.22,
+        "putt": 0.17,
+        "rounds": 63,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 399,
+        "events": 98,
+        "avg_total": 0.242,
+        "avg_ott": 0.247,
+        "avg_app": -0.136,
+        "avg_arg": 0.078,
+        "avg_putt": 0.053
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "11042",
+      "official_display_name": "홍현지",
+      "entry_category": "recommended",
+      "k_rank": 71,
+      "k_name": "홍현지",
+      "current_official_sg": {
+        "total": 0.72,
+        "ott": 0.45,
+        "app": 0.14,
+        "arg": 0.13,
+        "putt": 0.01,
+        "rounds": 61,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 289,
+        "events": 73,
+        "avg_total": 0.226,
+        "avg_ott": 0.397,
+        "avg_app": 0.267,
+        "avg_arg": -0.058,
+        "avg_putt": -0.381
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "9937",
+      "official_display_name": "황유나",
+      "entry_category": "recommended",
+      "k_rank": 112,
+      "k_name": "황유나",
+      "current_official_sg": {
+        "total": -0.42,
+        "ott": -0.01,
+        "app": -0.22,
+        "arg": 0.12,
+        "putt": -0.3,
+        "rounds": 60,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 204,
+        "events": 55,
+        "avg_total": -0.802,
+        "avg_ott": 0.034,
+        "avg_app": -0.32,
+        "avg_arg": -0.06,
+        "avg_putt": -0.456
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    },
+    {
+      "player_id": "10185",
+      "official_display_name": "황유민",
+      "entry_category": "recommended",
+      "k_rank": 20,
+      "k_name": "황유민",
+      "current_official_sg": {
+        "total": 2.39,
+        "ott": 0.44,
+        "app": 0.54,
+        "arg": 0.07,
+        "putt": 1.35,
+        "rounds": 4,
+        "source_capture": "KLPGA_2026_SEASON_SG_FULL_CAPTURE_V1.json",
+        "identity_match": "player_id"
+      },
+      "historical_sample": {
+        "rows": 266,
+        "events": 61,
+        "avg_total": 1.692,
+        "avg_ott": 0.569,
+        "avg_app": 0.616,
+        "avg_arg": 0.09,
+        "avg_putt": 0.417
+      },
+      "analysis_status": "READY_FOR_REVIEW"
+    }
+  ],
+  "k_ranking_restoration": {
+    "purpose": "restore k_rank for entrants ranked below the TOP-120 cutoff, using the same 2026-W36 official K-Ranking capture already archived for KB 2026090003",
+    "full_table_source": "incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_RAW.html",
+    "full_table_population_count": 756,
+    "parser": "87_collect_kranking_top120.extract_full_table",
+    "v1_k_rank_crosscheck": "PASS -- all 85 pre-existing k_rank values re-derived from the full table with zero mismatches",
+    "restored_count": 18,
+    "restored": [
+      {
+        "player_id": "12706",
+        "official_display_name": "권은 0906(A)",
+        "restored_k_rank": 515
+      },
+      {
+        "player_id": "9277",
+        "official_display_name": "김아현",
+        "restored_k_rank": 140
+      },
+      {
+        "player_id": "8434",
+        "official_display_name": "김지영2",
+        "restored_k_rank": 161
+      },
+      {
+        "player_id": "10178",
+        "official_display_name": "김희지",
+        "restored_k_rank": 340
+      },
+      {
+        "player_id": "9723",
+        "official_display_name": "노원경",
+        "restored_k_rank": 175
+      },
+      {
+        "player_id": "1599",
+        "official_display_name": "리디아 고",
+        "restored_k_rank": 420
+      },
+      {
+        "player_id": "8318",
+        "official_display_name": "박단유",
+        "restored_k_rank": 142
+      },
+      {
+        "player_id": "8773",
+        "official_display_name": "송가은",
+        "restored_k_rank": 148
+      },
+      {
+        "player_id": "11944",
+        "official_display_name": "오수민 0809(A)",
+        "restored_k_rank": 153
+      },
+      {
+        "player_id": "8884",
+        "official_display_name": "윤화영",
+        "restored_k_rank": 139
+      },
+      {
+        "player_id": "11040",
+        "official_display_name": "이세영",
+        "restored_k_rank": 133
+      },
+      {
+        "player_id": "8246",
+        "official_display_name": "이소영",
+        "restored_k_rank": 125
+      },
+      {
+        "player_id": "9503",
+        "official_display_name": "이슬기2",
+        "restored_k_rank": 198
+      },
+      {
+        "player_id": "7434",
+        "official_display_name": "이정민",
+        "restored_k_rank": 182
+      },
+      {
+        "player_id": "12038",
+        "official_display_name": "이지민",
+        "restored_k_rank": 136
+      },
+      {
+        "player_id": "11411",
+        "official_display_name": "이효송",
+        "restored_k_rank": 448
+      },
+      {
+        "player_id": "8972",
+        "official_display_name": "조정민",
+        "restored_k_rank": 233
+      },
+      {
+        "player_id": "13146",
+        "official_display_name": "플로렌스 이본 비세라",
+        "restored_k_rank": 692
+      }
+    ],
+    "still_missing_count": 5,
+    "still_missing": [
+      {
+        "player_id": "11264",
+        "official_display_name": "이 민"
+      },
+      {
+        "player_id": "12604",
+        "official_display_name": "이와이 아키"
+      },
+      {
+        "player_id": "13839",
+        "official_display_name": "이와이 치지"
+      },
+      {
+        "player_id": "7963",
+        "official_display_name": "장하나"
+      },
+      {
+        "player_id": "6085",
+        "official_display_name": "청 야니"
+      }
+    ]
+  }
+}
