@@ -46,6 +46,22 @@ public-facing render step for that column was removed, matching this
 build's existing "fix the source, never hand-patch the generated
 HTML" convention. The public table is now 8 columns.
 
+ROSTER CORRECTION (2026-09-16): the official entry list changed --
+박현경 (9130) withdrew/was removed and 김리안 (9702) was added. The
+updated official capture (klpga.co.kr entry page, same URL/gameCode,
+re-verified via its own saved-from-url marker) was re-parsed via
+141_regenerate_hana_entry_list_v2.py into OFFICIAL_ENTRY_LIST_V2/
+ENTRY_FLAG_MATCH_V2, then 142_rebuild_hana_player_input_for_roster_
+swap.py regenerated PLAYER_ANALYSIS_INPUT_V3 and SEASON_SG_SORTED_V2
+for the corrected 108-player population from raw sources (never a hand
+patch). M4 (130_build_hana_pre_m4.py) and this build were both re-run
+end to end against the corrected roster -- 김리안's win/cut/top20/top10/
+top5 probabilities are her own, genuinely computed values (prior_
+events_n=43, prior_recent_form_10_n=10, PASS), never copied from
+박현경's prior output. Her K-Ranking (131) is the repo's own archived
+official capture value; an operator-stated 135 was not used (see
+142's own module docstring for the full provenance note).
+
 K-RANKING BEYOND-TOP-120 RESTORATION (2026-09-16): PLAYER_ANALYSIS_
 INPUT_V1's k_rank only covered the official K-Ranking TOP-120 -- 23 of
 108 entrants below that cutoff rendered "-" even when a real official
@@ -147,7 +163,7 @@ def _load_country_by_id() -> dict[str, str]:
     from the official KLPGA entry page's own /country/XXX.png flag
     paths (never estimated from player names; see that file's own
     `source`/`validation` fields for the full verification trail)."""
-    match = _load("HANA_2026090002_ENTRY_FLAG_MATCH_V1.json")
+    match = _load("HANA_2026090002_ENTRY_FLAG_MATCH_V2.json")
     return {r["player_id"]: r["country_code"] for r in match["records"]}
 
 
@@ -207,10 +223,10 @@ def _load_amateur_kga_insufficient_ids() -> set[str]:
 
 
 def main() -> None:
-    entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json")
-    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V2.json")
-    sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V1.json")
-    m4 = _load("HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json")
+    entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json")
+    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V3.json")
+    sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V2.json")
+    m4 = _load("HANA_2026090002_PRE_M4_60000_CANDIDATE_V2.json")
     amateur_kga_insufficient_ids = _load_amateur_kga_insufficient_ids()
 
     entry_ids = {r["player_id"] for r in entry["records"]}
