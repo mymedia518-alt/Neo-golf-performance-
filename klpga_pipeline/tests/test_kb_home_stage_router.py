@@ -195,44 +195,77 @@ def test_home_tournaments_nav_override_points_at_hana_pre_not_kb():
     assert 'href="/tournaments/2026/2026090003/r3/">대회<' not in html
 
 
-def test_home_has_hana_pre_link_108_players_9_columns_k_ranking_sorted():
-    """HANA PRE FULL REPLACEMENT (2026-09-16) contract, verified
-    directly against HOME's own file content (independent of the
-    byte-identity-with-Hana's-own-page check above, so this still holds
-    even if that mirroring approach changes later):
-      - a real link to Hana Financial Group Championship's PRE page
-        (game_code 2026090002)
-      - exactly 108 player rows
-      - exactly the 9 required columns, in order
-      - rows sorted by KLPGA K-Ranking ascending, players without a
-        K-Ranking sorted last
-    """
+EXPECTED_PUBLIC_COLUMNS = [
+    "선수", "KLPGA K-RANKING", "NEO 경기력",
+    "컷 통과확률", "TOP20", "TOP10", "TOP5", "우승확률",
+]
+
+
+def _check_home_style_table_contract(html: str, *, label: str) -> None:
+    """Shared assertions for both HOME and Hana's own PRE page, since
+    HOME's body is a byte-identical mirror of it: exactly 8 public
+    columns (최근 5R SG removed, 2026-09-16 -- that internal-only metric
+    is never rendered on this public page, though the underlying SG
+    evidence file and its analysis remain on disk untouched), exactly
+    108 rows, K-Ranking ascending sort, and the 5 DATA_INSUFFICIENT
+    foreign entrants each showing 데이터 부족 in all 5 probability
+    columns."""
     import re
 
-    home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert 'href="/tournaments/2026/2026090002/pre/"' in home_html
+    assert "최근 5R SG" not in html, f"{label}: 최근 5R SG must not appear anywhere in the public page"
 
-    thead = re.search(r"<thead>(.*?)</thead>", home_html, re.DOTALL).group(1)
+    thead = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
     headers = re.findall(r"<th[^>]*>(.*?)(?:<button|</th>)", thead, re.DOTALL)
     headers = [re.sub(r"<[^>]+>", "", h).strip() for h in headers]
-    assert headers == [
-        "선수", "KLPGA K-RANKING", "NEO 경기력", "최근 5R SG",
-        "컷 통과확률", "TOP20", "TOP10", "TOP5", "우승확률",
-    ]
+    assert headers == EXPECTED_PUBLIC_COLUMNS, f"{label}: expected exactly the 8 public columns, got {headers}"
 
-    tbody = re.search(r"<tbody>(.*?)</tbody>", home_html, re.DOTALL).group(1)
+    tbody = re.search(r"<tbody>(.*?)</tbody>", html, re.DOTALL).group(1)
     rows = re.findall(r"<tr[^>]*>(.*?)</tr>", tbody, re.DOTALL)
-    assert len(rows) == 108
+    assert len(rows) == 108, f"{label}: expected exactly 108 player rows"
 
     k_ranks = []
+    insufficient_rows = []
     for row in rows:
         cell = re.search(r"data-label='KLPGA K-RANKING'>([^<]*)<", row).group(1)
         k_ranks.append(int(cell) if cell != "—" else None)
+        prob_cells = re.findall(
+            r"data-label='(?:컷 통과확률|TOP20|TOP10|TOP5|우승확률)'>(.*?)</td>", row, re.DOTALL
+        )
+        assert len(prob_cells) == 5, f"{label}: expected exactly 5 probability columns per row"
+        if all("데이터 부족" in c for c in prob_cells):
+            insufficient_rows.append(row)
+
     present = [k for k in k_ranks if k is not None]
-    assert present == sorted(present), "K-Ranking must be ascending among players who have one"
+    assert present == sorted(present), f"{label}: K-Ranking must be ascending among players who have one"
     first_missing = k_ranks.index(None) if None in k_ranks else len(k_ranks)
     assert all(k is not None for k in k_ranks[:first_missing])
-    assert all(k is None for k in k_ranks[first_missing:]), "players without a K-Ranking must sort last"
+    assert all(k is None for k in k_ranks[first_missing:]), f"{label}: players without a K-Ranking must sort last"
+
+    assert len(insufficient_rows) == 5, (
+        f"{label}: expected exactly 5 DATA_INSUFFICIENT players with all 5 probability cells showing 데이터 부족"
+    )
+
+
+def test_home_has_hana_pre_link_108_players_8_columns_k_ranking_sorted():
+    """HANA PRE FULL REPLACEMENT (2026-09-16) + PUBLIC-UI SG REDACTION
+    (2026-09-16) contract, verified directly against HOME's own file
+    content (independent of the byte-identity-with-Hana's-own-page
+    check above, so this still holds even if that mirroring approach
+    changes later): a real link to Hana Financial Group Championship's
+    PRE page (game_code 2026090002), plus the shared table contract."""
+    home_html = DOCS_INDEX.read_text(encoding="utf-8")
+    assert 'href="/tournaments/2026/2026090002/pre/"' in home_html
+    _check_home_style_table_contract(home_html, label="HOME")
+
+
+def test_hana_pre_page_itself_has_108_players_8_columns_k_ranking_sorted():
+    """Same shared table contract, checked directly against Hana's own
+    PRE page file (not just inherited via the byte-identity-with-HOME
+    check) -- so a regression in Hana's own build output is caught even
+    if HOME's mirroring step is ever skipped or broken."""
+    assert HANA_PRE_PAGE.is_file(), "test precondition: the Hana PRE page must exist for this to be a real check"
+    hana_html = HANA_PRE_PAGE.read_text(encoding="utf-8")
+    _check_home_style_table_contract(hana_html, label="Hana PRE page")
 
 
 def test_pre_to_r2_and_r1_to_r2_reachable_on_the_real_site():

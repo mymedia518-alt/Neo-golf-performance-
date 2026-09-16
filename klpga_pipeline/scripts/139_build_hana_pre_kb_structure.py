@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 """Build the Hana Financial Group Championship (game_code 2026090002)
 PRE page, replicating docs/tournaments/2026/2026090003/pre/index.html's
-exact HTML structure, CSS, and 9-column table layout verbatim --
-only the tournament info and the 108-player table content are
-Hana-specific. No new sections, no new CSS classes are introduced.
+exact HTML structure and CSS verbatim -- only the tournament info and
+the 108-player table content are Hana-specific. No new sections, no
+new CSS classes are introduced.
+
+PUBLIC-UI SG REDACTION (2026-09-16): the public table intentionally
+omits a "최근 5R SG" column -- that internal-only metric is never
+rendered on this public page. The underlying season-SG evidence file
+and its analysis are untouched on disk (HANA_2026090002_SEASON_SG_
+SORTED_V1.json, loaded below as `sg_sorted`/`by_id_sg`) -- only the
+public-facing render step for that column was removed, matching this
+build's existing "fix the source, never hand-patch the generated
+HTML" convention. The public table is now 8 columns.
 
 Inputs (all real, operator-committed evidence -- see each file's own
 provenance fields):
@@ -11,15 +20,15 @@ provenance fields):
     player_id + name + entry_category, KLPGA entry/tourInfo pages)
   - HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json (K-Ranking, joined by
     player_id)
-  - HANA_2026090002_SEASON_SG_SORTED_V1.json      (season SG rank,
-    "missing KLPGA SG last as 데이터 부족" -- used for the 최근 5R SG
-    column, matching the reference page's own convention of showing an
-    integer rank rather than a raw SG decimal in that column)
+  - HANA_2026090002_SEASON_SG_SORTED_V1.json      (season SG rank --
+    loaded and still validated below for player_id-set consistency,
+    but its season_sg_rank value is internal-only and never rendered
+    on the public page; see PUBLIC-UI SG REDACTION above)
   - HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json (M4 win-model,
     60,000-simulation Monte Carlo; neo_rank/neo_score_display +
     cut/top20/top10/top5/win probabilities + analysis_status per player)
 
-Column mapping (identical 9 columns/order to the KB reference):
+Column mapping (8 public columns, in order):
   선수            -> official_display_name; sponsor slot always blank
                      (no sponsor evidence exists anywhere in the Hana
                      data files -- never guessed)
@@ -32,8 +41,6 @@ Column mapping (identical 9 columns/order to the KB reference):
                      data-neo-score attribute -- present without adding
                      a new visible column or changing the KB reference's
                      cell markup/CSS.
-  최근 5R SG       -> season_sg_rank; "데이터 부족" for players that file
-                     itself marks SG-insufficient
   컷 통과확률/TOP20/TOP10/TOP5/우승확률
                   -> M4 probabilities; "데이터 부족" (all 5 cells) for
                      the 5 DATA_INSUFFICIENT players
@@ -163,7 +170,6 @@ def main() -> None:
             f"<span class='band' role='img' aria-label='NEO 경기력 {r['band']}' "
             f"data-neo-score='{neo_score_str}'>{band_text}</span>"
         )
-        sg_cell = str(r["sg_rank"]) if r["sg_rank"] is not None else _NOWRAP
         if r["insufficient"]:
             cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
         else:
@@ -174,7 +180,6 @@ def main() -> None:
             f"<tr><th scope='row'><span class='player-name'>{r['name']}</span><span class='player-sponsor'></span></th>"
             f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
             f"<td data-label='NEO 경기력'>{band_cell}</td>"
-            f"<td data-label='최근 5R SG'>{sg_cell}</td>"
             f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
             f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
             f"<td class='win' data-label='TOP10'>{top10_cell}</td>"
@@ -229,14 +234,13 @@ def main() -> None:
 
     table_section = (
         '<section class="panel leaderboard-panel" id="pre">'
-        '<div class="leaderboard-head"><h2>PRE 참가 선수 <small>108명</small></h2>'
-        f'<p class="note">참가 108 · K-Ranking 2026-W38 · PRE</p></div>'
+        '<div class="leaderboard-head"><h2>PRE 참가 선수 <small>108명</small></h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
         "<th>선수</th><th>KLPGA K-RANKING</th>"
         "<th class='band-head'>NEO 경기력 "
         "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
         "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>"
-        "<th>최근 5R SG</th><th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
+        "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
     )
 
