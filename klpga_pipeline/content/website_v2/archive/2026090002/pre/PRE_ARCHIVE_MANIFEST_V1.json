@@ -1,0 +1,180 @@
+{
+  "schema_version": "pre_archive_manifest_v1",
+  "purpose": "Version-locked snapshot of the exact raw/input/output/verification materials that produced the Hana PRE (game_code 2026090002) public page at base_commit -- purely additive, never overwrites any file outside this archive directory, and this script refuses to overwrite an already-archived file even on re-run.",
+  "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9",
+  "base_branch": "fix/hana-2026090002-pre-20260915",
+  "archived_at_utc": "2026-09-16T19:45:00Z",
+  "archive_root": "klpga_pipeline/content/website_v2/archive/2026090002/pre",
+  "file_count": 21,
+  "verification": "Each file's sha256 was computed three ways and cross-checked for exact agreement: (1) the bytes read from `git show <base_commit>:<path>` before writing, (2) the bytes re-read from the archived copy on disk after writing, (3) an independently re-invoked `git show` hash computed after the write completed. All three matched for every one of the 21 files.",
+  "records": [
+    {
+      "category": "RAW",
+      "original_path": "klpga_pipeline/content/website_v2/incoming_evidence/2026090002/HANA_2026090002_ENTRY_LIST_RAW_V2.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/incoming_evidence/2026090002/HANA_2026090002_ENTRY_LIST_RAW_V2.html",
+      "sha256": "7a4812cb3be7a642f05854bb7540dac68efba8532634f4ea671d3d0378a87e9c",
+      "bytes": 610317,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "RAW",
+      "original_path": "klpga_pipeline/content/website_v2/incoming_evidence/2026090002/KLPGA_KRANKING_2026_LATEST_V2_RAW.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/incoming_evidence/2026090002/KLPGA_KRANKING_2026_LATEST_V2_RAW.html",
+      "sha256": "5632e0cae30267f2f7c37f1cce5807e4134fcc099c2babd55294ad429391d81e",
+      "bytes": 752388,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "RAW",
+      "original_path": "klpga_pipeline/content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_RAW.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/incoming_evidence/2026090003/KLPGA_KRANKING_2026_W36_RAW.html",
+      "sha256": "d0b6c22287744c6bbabd2b8f172521c83085aa5ec63385a392b4fafccaa5b8c7",
+      "bytes": 754069,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HANA_2026090002_ENTRY_FLAG_MATCH_V2.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HANA_2026090002_ENTRY_FLAG_MATCH_V2.json",
+      "sha256": "85ccd733669c0b554f493d706e5fe5fd1420a7d09cd5ecbbdc56a4beba799294",
+      "bytes": 15318,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json",
+      "sha256": "5fd1297358bad5b83aa146ba1ce201e4f1f191b3aaf0e7a24ace5de14db31953",
+      "bytes": 14326,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HANA_2026090002_PLAYER_ANALYSIS_INPUT_V4.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HANA_2026090002_PLAYER_ANALYSIS_INPUT_V4.json",
+      "sha256": "fc866fcb2a700b22621f32ba410fbbe10fc408795c1d4625e3e9177f1d94fa2a",
+      "bytes": 74687,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HANA_2026090002_SEASON_SG_SORTED_V3.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HANA_2026090002_SEASON_SG_SORTED_V3.json",
+      "sha256": "2c3fda632165865c7ae112518b7c84d13bb65cff46cdca6c474e107ad6fe2388",
+      "bytes": 80091,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HANA_2026090002_PRE_M4_60000_CANDIDATE_V2.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HANA_2026090002_PRE_M4_60000_CANDIDATE_V2.json",
+      "sha256": "074ca754fa89428c8cd4facd88b4b7a346c3c82dc2fafdbdd4f606309ba8d79d",
+      "bytes": 132001,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json",
+      "sha256": "4fd248e6f2c6d8980b1e7d98bdba2cb22345b13e5939a1e469fa0c1508a4e8a7",
+      "bytes": 10642,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3.json",
+      "sha256": "831f55381f3c9a4f7dca47da84385892ab473320b8258b8ff149f152c0350be2",
+      "bytes": 18795,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2.json",
+      "sha256": "4ad8c50bd96abfbc2069deb49a25d4deb32556e3afcb5542f2cf71c1df4a110f",
+      "bytes": 16761,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json",
+      "sha256": "50e630dee6aa45be55b0d56469683d898a1510cc9ff73feba673cf589f90bd1d",
+      "bytes": 2894,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/OPERATOR_REPORTED_SPONSOR_EVIDENCE_V3.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/content/website_v2/OPERATOR_REPORTED_SPONSOR_EVIDENCE_V3.json",
+      "sha256": "78bfec991a14646486e5290e1df0e81febf1e99cbeb39d599e0ba1605dc9b5fa",
+      "bytes": 4932,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "OUTPUT",
+      "original_path": "docs/tournaments/2026/2026090002/pre/index.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/docs/tournaments/2026/2026090002/pre/index.html",
+      "sha256": "0edf6a7cd434a2a3df1270a333d2e8892270016b6150b9446f0dada3e2e59ffe",
+      "bytes": 95232,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "OUTPUT",
+      "original_path": "docs/index.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/docs/index.html",
+      "sha256": "13731494a478c79a8ba9470ec0bf9fc18bb910f2f82f6232934e7d69ff703e47",
+      "bytes": 108805,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/130_build_hana_pre_m4.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/scripts/130_build_hana_pre_m4.py",
+      "sha256": "f551ad131572381450b8e23948b5b66fd559e21256c6595da1d7ee2dbd78e63b",
+      "bytes": 6997,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/139_build_hana_pre_kb_structure.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/scripts/139_build_hana_pre_kb_structure.py",
+      "sha256": "d0104ab312d8d8ade578a6c637a08ede57d1b2a03bac1fbcd8871f47af5a2e48",
+      "bytes": 29511,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/141_regenerate_hana_entry_list_v2.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/scripts/141_regenerate_hana_entry_list_v2.py",
+      "sha256": "32def1b811e13a9090b1315491a2119ab975416736bb27931d704ff51b8f2850",
+      "bytes": 7002,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/142_rebuild_hana_player_input_for_roster_swap.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/scripts/142_rebuild_hana_player_input_for_roster_swap.py",
+      "sha256": "d18ed5c9dde5d0681393474ddced3a5546adfbb2dff02b36439655d15c79bc91",
+      "bytes": 8905,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/143_refresh_hana_kranking_from_latest_capture.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/scripts/143_refresh_hana_kranking_from_latest_capture.py",
+      "sha256": "0eef6170b43701c8198c5a0dd123dbd54e7585e5a965aff1f4a8323f89b0ea2d",
+      "bytes": 9610,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/144_recover_hana_sponsor_evidence.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026090002/pre/klpga_pipeline/scripts/144_recover_hana_sponsor_evidence.py",
+      "sha256": "e4b39e741fe8b4d7f0c3df7b95f691a9e5fb80ef274c03edfa7cc407e76754b2",
+      "bytes": 8085,
+      "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
+    }
+  ]
+}
