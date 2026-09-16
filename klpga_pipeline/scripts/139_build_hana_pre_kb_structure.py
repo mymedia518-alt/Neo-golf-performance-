@@ -29,9 +29,18 @@ provenance fields):
     cut/top20/top10/top5/win probabilities + analysis_status per player)
 
 Column mapping (8 public columns, in order):
-  선수            -> official_display_name; sponsor slot always blank
-                     (no sponsor evidence exists anywhere in the Hana
-                     data files -- never guessed)
+  선수            -> [official flag image] official_display_name [official
+                     sponsor]. Flag: country_code from
+                     HANA_2026090002_ENTRY_FLAG_MATCH_V1.json (itself
+                     extracted only from the official KLPGA entry page's
+                     own /country/XXX.png paths -- see that file's own
+                     `source`/`validation` fields). Sponsor: only players
+                     with a VERIFIED_OFFICIAL sponsor record somewhere in
+                     the repo (KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3 /
+                     HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2 /
+                     OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2, joined by
+                     player_id) get a sponsor value; every other player's
+                     sponsor slot is blank, never guessed.
   KLPGA K-RANKING -> k_rank; "-" if this specific player has none
   NEO 경기력       -> quintile band of win_probability among the 103
                      PASS players (documented below); "데이터 부족" for
@@ -65,6 +74,7 @@ white-space:nowrap span instead.
 from __future__ import annotations
 
 import json
+from html import escape as _esc
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,6 +96,52 @@ def _pct(p: float) -> str:
 _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 
 
+def _load_country_by_id() -> dict[str, str]:
+    """playerCode -> country_code (e.g. 'KOR'), sourced only from
+    HANA_2026090002_ENTRY_FLAG_MATCH_V1.json -- itself extracted purely
+    from the official KLPGA entry page's own /country/XXX.png flag
+    paths (never estimated from player names; see that file's own
+    `source`/`validation` fields for the full verification trail)."""
+    match = _load("HANA_2026090002_ENTRY_FLAG_MATCH_V1.json")
+    return {r["player_id"]: r["country_code"] for r in match["records"]}
+
+
+def _load_sponsor_by_id() -> dict[str, str]:
+    """playerCode -> official sponsor, merged from every VERIFIED_OFFICIAL
+    evidence source already in the repo (same identity-join-by-player_id
+    convention this codebase already uses -- see e.g.
+    KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3.json's own
+    "verified_cross_tournament_or_operator_reported_count" field: an
+    official sponsor is the PLAYER's attribute, not a tournament-
+    specific one, so a value verified for the same player_id elsewhere
+    is reused here rather than re-guessed). A player_id with no
+    verified sponsor anywhere is simply absent from the returned dict
+    -- the caller renders an empty sponsor slot, never a guess. Any
+    disagreement between sources for the same player_id is a hard
+    failure, never silently resolved."""
+    sources: list[tuple[str, str, str, set[str]]] = [
+        ("KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3.json", "newly_recovered_sponsors", "status", {"VERIFIED_OFFICIAL"}),
+        ("HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2.json", "newly_recovered_sponsors", "status", {"VERIFIED_OFFICIAL"}),
+        ("OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json", "records", "evidence_status", {"VERIFIED_OFFICIAL_OPERATOR_REPORTED"}),
+    ]
+    sponsor_by_id: dict[str, str] = {}
+    for filename, list_key, status_key, allowed in sources:
+        data = _load(filename)
+        for r in data[list_key]:
+            if r.get(status_key) not in allowed:
+                continue
+            sponsor = r.get("sponsor")
+            if not sponsor:
+                continue
+            pid = str(r["player_id"])
+            existing = sponsor_by_id.get(pid)
+            assert existing is None or existing == sponsor, (
+                f"conflicting verified sponsor for player_id {pid}: {existing!r} vs {sponsor!r} ({filename})"
+            )
+            sponsor_by_id[pid] = sponsor
+    return sponsor_by_id
+
+
 def main() -> None:
     entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json")
     player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json")
@@ -101,6 +157,9 @@ def main() -> None:
     by_id_input = {r["player_id"]: r for r in player_input["records"]}
     by_id_sg = {r["player_id"]: r for r in sg_sorted["records"]}
     by_id_m4 = {r["playerCode"]: r for r in m4["records"]}
+    country_by_id = _load_country_by_id()
+    assert set(country_by_id) == entry_ids, "country_code coverage diverges from the 108 official entries"
+    sponsor_by_id = _load_sponsor_by_id()
 
     # ---- Monotonicity gate: CUT >= TOP20 >= TOP10 >= TOP5 >= WIN ----
     # Checked and reported here, never silently clipped/corrected.
@@ -136,6 +195,8 @@ def main() -> None:
         rows_data.append({
             "player_id": pid,
             "name": inp["official_display_name"],
+            "country_code": country_by_id[pid],
+            "sponsor": sponsor_by_id.get(pid, ""),
             "k_rank": inp.get("k_rank"),
             "neo_rank": rec["neo_rank"],
             "neo_score": rec["neo_score_display"],
@@ -176,8 +237,22 @@ def main() -> None:
             cut_cell, top20_cell, top10_cell, top5_cell, win_cell = (
                 _pct(r["cut"]), _pct(r["top20"]), _pct(r["top10"]), _pct(r["top5"]), _pct(r["win"])
             )
+        # Flag-left / name / sponsor-right, all on one line: neo-site.css
+        # sets .player-name/.player-sponsor to display:block site-wide
+        # (stacked layout, used elsewhere), so an inline display:inline
+        # override on just these two generated spans is required to lay
+        # them out beside the flag on one row -- same technique as this
+        # file's own _NOWRAP span, an inline style scoped to the
+        # generated markup only, never a CSS file edit.
+        flag_cell = (
+            f"<img src='/assets/flags/{r['country_code']}.svg' alt='' width='16' height='12' "
+            f"style='display:inline-block;vertical-align:middle;margin-right:4px'>"
+        )
+        sponsor_text = _esc(r["sponsor"]) if r["sponsor"] else ""
         rows_html.append(
-            f"<tr><th scope='row'><span class='player-name'>{r['name']}</span><span class='player-sponsor'></span></th>"
+            f"<tr><th scope='row' style='white-space:nowrap'>{flag_cell}"
+            f"<span class='player-name' style='display:inline;vertical-align:middle'>{r['name']}</span>"
+            f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
             f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
             f"<td data-label='NEO 경기력'>{band_cell}</td>"
             f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
@@ -214,7 +289,8 @@ def main() -> None:
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
         '<span aria-current="page">PRE</span></nav>'
         '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
-        '<h1>하나금융그룹 챔피언십</h1><p class="meta">2026.09.17 — 09.20</p></div>'
+        '<h1>하나금융그룹 챔피언십</h1><p class="meta">2026.09.17 — 09.20</p>'
+        '<p class="meta">2025 우승 이다연 · 279타(-9)</p></div>'
         '<strong class="status">PRE</strong>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
