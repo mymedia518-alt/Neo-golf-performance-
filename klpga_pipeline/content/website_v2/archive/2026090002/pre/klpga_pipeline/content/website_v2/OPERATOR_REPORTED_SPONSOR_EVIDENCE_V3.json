@@ -1,0 +1,111 @@
+{
+  "schema_version": "operator_reported_sponsor_evidence_v2",
+  "supersedes": "none -- additive to OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json, same evidence tier",
+  "_provenance_honesty_note": "Sponsor values extracted directly by this script from incoming_evidence/2026090002/HANA_2026090002_ENTRY_LIST_RAW_V2.html (the same already-archived official KLPGA entry page capture used by 141_regenerate_hana_entry_list_v2.py for this roster's names/countries -- re-verified byte-identical to a fresh copy the operator supplied for this request). This script never fetched klpga.co.kr itself (network egress remains proxy-blocked). Each sponsor's outbound-link domain and logo image code were parsed strictly by player_id (never by name). Domain -> company-name identity was confirmed by the operator, combining this session's structural extraction with the operator's business-identity confirmation -- same evidence tier as OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json's own precedent (VERIFIED_OFFICIAL_OPERATOR_REPORTED).",
+  "reported_by": "operator, cross-checked by this session against the already-archived official entry-list raw HTML",
+  "reported_at_utc": "2026-09-16T19:25:00Z",
+  "verification_method": "Raw HTML re-parsed for each player_id's <span class='tb-spon'> sponsor link; domain and sponsor logo image code extracted programmatically and found distinct per sponsor company (no duplicate/copy-pasted value); the 4 players explicitly required to stay blank were independently confirmed to carry no sponsor span at all in the same raw HTML.",
+  "identity_join_key": "player_id (exact match only -- never name-only)",
+  "cross_check_result": [
+    {
+      "player_id": "1599",
+      "player_name": "리디아 고",
+      "sponsor_domain": "www.hanafn.com",
+      "sponsor_image_code": "00100056",
+      "note": "domain and image code independently extracted from the raw HTML row for this exact player_id"
+    },
+    {
+      "player_id": "12706",
+      "player_name": "권은 0906(A)",
+      "sponsor_domain": "www.hanafn.com",
+      "sponsor_image_code": "00100056",
+      "note": "domain and image code independently extracted from the raw HTML row for this exact player_id"
+    },
+    {
+      "player_id": "1734",
+      "player_name": "이민지",
+      "sponsor_domain": "www.hanafn.com",
+      "sponsor_image_code": "00100056",
+      "note": "domain and image code independently extracted from the raw HTML row for this exact player_id"
+    },
+    {
+      "player_id": "10185",
+      "player_name": "황유민",
+      "sponsor_domain": "www.lotte.co.kr",
+      "sponsor_image_code": "00100085",
+      "note": "domain and image code independently extracted from the raw HTML row for this exact player_id"
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "sponsor_domain": "dbcon.dongbu.co.kr",
+      "sponsor_image_code": "00100162",
+      "note": "domain and image code independently extracted from the raw HTML row for this exact player_id"
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "sponsor_domain": "www.dbcons.co.kr",
+      "sponsor_image_code": "00100102",
+      "note": "domain and image code independently extracted from the raw HTML row for this exact player_id"
+    },
+    {
+      "player_id": "7963",
+      "player_name": "장하나",
+      "note": "confirmed NO <span class='tb-spon'> present -- stays blank"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "note": "confirmed NO <span class='tb-spon'> present -- stays blank"
+    },
+    {
+      "player_id": "8773",
+      "player_name": "송가은",
+      "note": "confirmed NO <span class='tb-spon'> present -- stays blank"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "note": "confirmed NO <span class='tb-spon'> present -- stays blank"
+    }
+  ],
+  "records": [
+    {
+      "player_id": "1599",
+      "player_name": "리디아 고",
+      "sponsor": "하나금융그룹",
+      "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"
+    },
+    {
+      "player_id": "12706",
+      "player_name": "권은 0906(A)",
+      "sponsor": "하나금융그룹",
+      "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"
+    },
+    {
+      "player_id": "1734",
+      "player_name": "이민지",
+      "sponsor": "하나금융그룹",
+      "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"
+    },
+    {
+      "player_id": "10185",
+      "player_name": "황유민",
+      "sponsor": "롯데",
+      "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "sponsor": "동부건설",
+      "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "sponsor": "대방건설",
+      "evidence_status": "VERIFIED_OFFICIAL_OPERATOR_REPORTED"
+    }
+  ]
+}
