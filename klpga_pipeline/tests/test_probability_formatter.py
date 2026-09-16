@@ -169,51 +169,47 @@ def test_real_r2_forecast_every_win_pct_formats_per_contract():
 # an explicit sync_root_home_to_current_stage() call, never implicitly.
 #
 # FINAL PAGE GO UPDATE: a real, fully-identity-resolved (V3, zero
-# review_required/unmatched) FINAL evidence file now genuinely exists
-# for 2026090003 (positions 1-39) -- kb_current_stage() correctly
-# advances to "final" to reflect that real evidence, outranking r3
-# exactly as r3 previously outranked r2. In this session's build, HOME
-# was explicitly resynced to FINAL via that same pipeline function (not
-# by hand-patching docs/index.html), so HOME's body is now
-# byte-identical to the real FINAL page's body -- asserted below.
+# review_required/unmatched) FINAL evidence file exists for 2026090003
+# (positions 1-39) -- kb_current_stage() still correctly resolves KB's
+# OWN internal current stage to "final" for KB's own context. That
+# evidence and that resolution are both still real and unchanged.
+#
+# HANA PRE FULL REPLACEMENT (2026-09-16): root HOME no longer displays
+# whatever KB's own stage router resolves to -- by explicit,
+# user-directed product-policy decision, root HOME was deliberately
+# repointed to represent Hana Financial Group Championship PRE (game_
+# code 2026090002) instead. This is a product decision layered on top
+# of (not a bug in) the stage-router mechanism: KB's own stage/evidence
+# state is untouched, and KB's own /final/ page is untouched -- HOME
+# simply no longer mirrors it. HOME's body is now byte-identical to the
+# real Hana PRE page's body instead -- asserted below.
 # ---------------------------------------------------------------------
 
-def test_7_home_now_resolves_to_final_via_explicit_sync():
+def test_7_home_now_shows_hana_pre_not_kb_final():
     from klpga.tournament_context import load_tournament_context
     from klpga.website_v2.kb_home_stage_router import kb_current_stage
 
     context = load_tournament_context("2026090003")
-    assert kb_current_stage(context) == "final"
+    assert kb_current_stage(context) == "final"  # KB's own internal state: unaffected by the HOME override
 
     from pathlib import Path
     repo_root = Path(__file__).resolve().parents[2]
     home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
-    assert '"status">FINAL<' in home_html
-    final_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "final" / "index.html").read_text(encoding="utf-8")
+    assert '"status">PRE<' in home_html
+    assert '"status">FINAL<' not in home_html
+    assert "하나금융그룹 챔피언십" in home_html
+    hana_pre_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090002" / "pre" / "index.html").read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    final_body = final_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    hana_body = hana_pre_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    assert home_body == hana_body
 
-    def _strip_section(html: str, section_id: str) -> str:
-        s = html.find(f'<section class="product-section" id="{section_id}">')
-        if s == -1:
-            return html
-        e = html.index("</section>", s) + len("</section>")
-        return html[:s] + html[e:]
-
-    # HOME carries two deliberate, explicitly-requested divergences from
-    # FINAL's own body: (1) a static forecast-visual figure (image +
-    # fixed caption, no ranking data of its own), HOME-only; (2) the
-    # biggest-movers section, restructured on HOME only (row-per-player
-    # containers, fixing a reported bullet/alignment bug) while /final/
-    # was explicitly left untouched. Strip both before the mirror check
-    # so this test still fails on any OTHER divergence.
-    home_body = _strip_section(home_body, "r3-forecast-visual")
-    home_body = _strip_section(home_body, "biggest-movers")
-    final_body = _strip_section(final_body, "biggest-movers")
-    assert home_body == final_body
+    # KB's own /final/ page is completely untouched by this override.
+    final_html = (repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "final" / "index.html").read_text(encoding="utf-8")
+    assert '"status">FINAL<' in final_html
+    assert "KB금융 골든라이프 챔피언십" in final_html
 
 
-def test_8_final_evidence_is_real_and_home_mirrors_it():
+def test_8_final_evidence_is_real_and_kb_page_intact_though_home_shows_hana():
     from pathlib import Path
 
     from klpga.website_v2.kb_home_stage_router import _final_evidence_confirmed
@@ -223,6 +219,7 @@ def test_8_final_evidence_is_real_and_home_mirrors_it():
     repo_root = Path(__file__).resolve().parents[2]
     final_page = repo_root / "docs" / "tournaments" / "2026" / "2026090003" / "final" / "index.html"
     assert final_page.is_file()
-    assert _final_evidence_confirmed(context) is True  # real, fully-resolved V3 evidence now exists
+    assert _final_evidence_confirmed(context) is True  # real, fully-resolved V3 evidence, still true
     home_html = (repo_root / "docs" / "index.html").read_text(encoding="utf-8")
-    assert '"status">R3<' not in home_html  # HOME was explicitly resynced this session, not left stale on R3
+    assert '"status">R3<' not in home_html
+    assert '"status">FINAL<' not in home_html  # explicit product override: HOME shows Hana PRE, not KB FINAL

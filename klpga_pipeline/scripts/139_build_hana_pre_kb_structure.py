@@ -38,12 +38,22 @@ Column mapping (identical 9 columns/order to the KB reference):
                   -> M4 probabilities; "데이터 부족" (all 5 cells) for
                      the 5 DATA_INSUFFICIENT players
 
-Row order: M4's own neo_rank field, ascending (per explicit instruction) --
-this is the source file's pre-computed win_probability-descending order,
-used as-is rather than re-derived.
+Row order (per explicit instruction, superseding the earlier neo_rank
+sort): HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1's own k_rank, ascending.
+Players with a real k_rank come first, in K-Ranking order. Players
+without a k_rank sort last, broken into two sub-groups: the 18
+domestic no-k_rank players first (win_probability descending, this
+build's existing tie-break convention), then the 5 DATA_INSUFFICIENT
+foreign entrants as their own trailing group (sorted by name for a
+stable, ranking-free order, since their probabilities are explicitly
+unreliable).
 
 Monotonicity gate (CUT >= TOP20 >= TOP10 >= TOP5 >= WIN): checked and
 reported, never silently clipped/corrected -- see printed summary.
+
+"데이터 부족" cells never wrap to a second line: the CSS file itself is
+never touched, so each such cell's text is wrapped in an inline
+white-space:nowrap span instead.
 """
 from __future__ import annotations
 
@@ -64,6 +74,9 @@ def _load(name: str) -> dict:
 
 def _pct(p: float) -> str:
     return f"{p * 100:.1f}%"
+
+
+_NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 
 
 def main() -> None:
@@ -129,20 +142,30 @@ def main() -> None:
             "win": rec["win_probability"],
         })
 
-    # Row order: M4's own neo_rank, ascending (explicit instruction).
-    rows_data.sort(key=lambda r: r["neo_rank"])
+    # Row order (explicit instruction): k_rank ascending; no-k_rank
+    # players last, with the 5 DATA_INSUFFICIENT foreign entrants forming
+    # their own trailing sub-group after the other no-k_rank players.
+    def _sort_key(r):
+        if r["k_rank"] is not None:
+            return (0, r["k_rank"], 0, "")
+        if r["insufficient"]:
+            return (2, 0, 0, r["name"])
+        return (1, 0, -r["win"], "")
+
+    rows_data.sort(key=_sort_key)
 
     rows_html = []
     for r in rows_data:
         k_rank_cell = str(r["k_rank"]) if r["k_rank"] is not None else "—"
         neo_score_str = f"{r['neo_score']:.2f}"
+        band_text = f"<span style='white-space:nowrap'>{r['band']}</span>" if r["insufficient"] else r["band"]
         band_cell = (
             f"<span class='band' role='img' aria-label='NEO 경기력 {r['band']}' "
-            f"data-neo-score='{neo_score_str}'>{r['band']}</span>"
+            f"data-neo-score='{neo_score_str}'>{band_text}</span>"
         )
-        sg_cell = str(r["sg_rank"]) if r["sg_rank"] is not None else "데이터 부족"
+        sg_cell = str(r["sg_rank"]) if r["sg_rank"] is not None else _NOWRAP
         if r["insufficient"]:
-            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "데이터 부족"
+            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
         else:
             cut_cell, top20_cell, top10_cell, top5_cell, win_cell = (
                 _pct(r["cut"]), _pct(r["top20"]), _pct(r["top10"]), _pct(r["top5"]), _pct(r["win"])
