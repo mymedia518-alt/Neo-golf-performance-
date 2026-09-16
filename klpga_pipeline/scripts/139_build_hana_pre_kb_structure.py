@@ -5,6 +5,36 @@ exact HTML structure and CSS verbatim -- only the tournament info and
 the 108-player table content are Hana-specific. No new sections, no
 new CSS classes are introduced.
 
+AMATEUR KGA-BASIS REVIEW (2026-09-16): 3 named amateur (A) entrants
+(오수민 0809(A), 양윤서 0801(A), 권은 0906(A)) previously showed real M4
+probabilities that were actually computed from historical KLPGA
+Strokes Gained averages substituted for their missing current_official_
+sg -- an improper basis, since KLPGA SG must never be estimated for an
+amateur. No genuine KGA (대한골프협회) official ranking/record data for
+these players exists in this repo or was reachable live (every KGA
+domain is blocked by this environment's egress policy) -- see
+HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json for the full investigation
+per player. Per the explicit no-fabrication rule, all three are now
+forced to DATA_INSUFFICIENT (see _load_amateur_kga_insufficient_ids())
+rather than kept on that improper basis or given any new estimated
+probability. Their K-Ranking sort position is unaffected: 양윤서 (k_rank
+52) stays at her numeric position; 오수민/권은 (no k_rank) join the
+existing name-sorted DATA_INSUFFICIENT trailing group, unchanged
+mechanism from before. CORRECTION (same day): forcing these 3 to
+DATA_INSUFFICIENT does NOT remove them from the NEO 경기력 quintile
+band pool -- that pool/its thresholds stay the original 103-player
+computation unconditionally, so the other 100 real players' band
+labels are byte-for-byte unchanged from before this review. Only the
+3 amateurs' own row output is overridden to 데이터 부족 (their band
+entry in band_by_id is simply never read).
+
+HERO STATUS BADGE REMOVAL (2026-09-16): the standalone `<strong
+class="status">PRE</strong>` badge that used to sit in the hero section
+is removed -- the stage-nav's own "사전 분석 PRE" item (already the
+current-stage indicator via aria-current="page") is the single source
+of stage state now, not a second, redundant badge. R1/R2/R3/FR stage-
+nav placeholders and the no-FINAL-yet policy are unchanged.
+
 PUBLIC-UI SG REDACTION (2026-09-16): the public table intentionally
 omits a "최근 5R SG" column -- that internal-only metric is never
 rendered on this public page. The underlying season-SG evidence file
@@ -142,11 +172,31 @@ def _load_sponsor_by_id() -> dict[str, str]:
     return sponsor_by_id
 
 
+def _load_amateur_kga_insufficient_ids() -> set[str]:
+    """playerCode set forced to DATA_INSUFFICIENT regardless of the M4
+    model's own PASS status, sourced from
+    HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json. That file documents,
+    per named amateur entrant, that the M4 model had actually reached
+    PASS by substituting historical KLPGA Strokes Gained averages for
+    the missing current_official_sg -- an improper basis for an amateur
+    (KLPGA SG must never be estimated for amateurs) -- and that no
+    genuine KGA (대한골프협회) official ranking/record data was found in
+    this repo or reachable live to compute a legitimate replacement
+    probability. Never hardcoded here as bare player IDs -- always
+    loaded from that evidence file so the reasoning stays inspectable."""
+    analysis = _load("HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json")
+    return {
+        r["player_id"] for r in analysis["records"]
+        if r["decision"] == "DATA_INSUFFICIENT"
+    }
+
+
 def main() -> None:
     entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json")
     player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json")
     sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V1.json")
     m4 = _load("HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json")
+    amateur_kga_insufficient_ids = _load_amateur_kga_insufficient_ids()
 
     entry_ids = {r["player_id"] for r in entry["records"]}
     input_ids = {r["player_id"] for r in player_input["records"]}
@@ -174,6 +224,18 @@ def main() -> None:
     # algorithm could not be located in this branch's history to
     # replicate exactly) -- equal-count quintiles over the 103
     # analyzable players, highest win_probability first.
+    # NOTE (2026-09-16, reverted same day): forcing 3 amateur entrants to
+    # DATA_INSUFFICIENT was briefly also implemented by excluding them
+    # from this quintile pool -- mathematically defensible (their basis
+    # was improper to begin with) but it shifted 7 other real players'
+    # displayed band label even though those players' own win_probability
+    # never changed. Per explicit instruction, the original 103-player
+    # pool/thresholds are preserved unconditionally: the 3 amateurs stay
+    # IN this pool (their own band is simply never rendered, since
+    # `insufficient` below overrides their row to 데이터 부족 regardless
+    # of what band_by_id says for them), so every other real PASS
+    # player's label is byte-for-byte identical to before this file's
+    # amateur-KGA review existed.
     pass_ids_by_win = [
         r["playerCode"] for r in sorted(
             (r for r in m4["records"] if r["analysis_status"] == "PASS"),
@@ -191,7 +253,7 @@ def main() -> None:
         inp = by_id_input[pid]
         sg = by_id_sg[pid]
         rec = by_id_m4[pid]
-        insufficient = rec["analysis_status"] != "PASS"
+        insufficient = rec["analysis_status"] != "PASS" or pid in amateur_kga_insufficient_ids
         rows_data.append({
             "player_id": pid,
             "name": inp["official_display_name"],
@@ -237,20 +299,28 @@ def main() -> None:
             cut_cell, top20_cell, top10_cell, top5_cell, win_cell = (
                 _pct(r["cut"]), _pct(r["top20"]), _pct(r["top10"]), _pct(r["top5"]), _pct(r["win"])
             )
-        # Flag-left / name / sponsor-right, all on one line: neo-site.css
-        # sets .player-name/.player-sponsor to display:block site-wide
-        # (stacked layout, used elsewhere), so an inline display:inline
-        # override on just these two generated spans is required to lay
-        # them out beside the flag on one row -- same technique as this
-        # file's own _NOWRAP span, an inline style scoped to the
-        # generated markup only, never a CSS file edit.
+        # Flag-left / name / sponsor-right, all on one line, horizontally
+        # centered within the cell: neo.css sets .leaderboard-table tbody
+        # th[scope=row] to text-align:left (both desktop and the mobile
+        # card layout), and neo-site.css sets .player-name/.player-sponsor
+        # to display:block site-wide (stacked layout, used elsewhere) --
+        # so inline style overrides on just these generated elements are
+        # required (text-align:center on the <th> itself beats both the
+        # desktop and mobile CSS rules in one shot, since an inline style
+        # always outranks a stylesheet rule regardless of media query;
+        # display:inline on the two spans lets them sit beside the flag
+        # on one row). Same technique as this file's own _NOWRAP span --
+        # an inline style scoped to the generated markup only, never a
+        # CSS file edit. Vertical centering needs no override: a table
+        # cell's UA-default vertical-align is already "middle", and
+        # neither neo.css rule sets vertical-align on this element.
         flag_cell = (
             f"<img src='/assets/flags/{r['country_code']}.svg' alt='' width='16' height='12' "
             f"style='display:inline-block;vertical-align:middle;margin-right:4px'>"
         )
         sponsor_text = _esc(r["sponsor"]) if r["sponsor"] else ""
         rows_html.append(
-            f"<tr><th scope='row' style='white-space:nowrap'>{flag_cell}"
+            f"<tr><th scope='row' style='white-space:nowrap;text-align:center'>{flag_cell}"
             f"<span class='player-name' style='display:inline;vertical-align:middle'>{r['name']}</span>"
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
             f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
@@ -291,7 +361,6 @@ def main() -> None:
         '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
         '<h1>하나금융그룹 챔피언십</h1><p class="meta">2026.09.17 — 09.20</p>'
         '<p class="meta">2025 우승 이다연 · 279타(-9)</p></div>'
-        '<strong class="status">PRE</strong>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 

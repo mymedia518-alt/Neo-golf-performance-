@@ -106,8 +106,19 @@ def test_kb_pre_r1_r2_r3_final_and_fr_are_the_only_released_tournament_routes():
     passes. KB FR BUILD (2026-09-13) added a sixth: a real, evidence-
     gated FR RESULT page (klpga.neo_win.fr_real_page) -- zero model
     analysis, only ever built once scripts/132's own identity +
-    arithmetic hard stop passes. Still exactly these six routes,
-    nothing else."""
+    arithmetic hard stop passes.
+
+    HANA PRE BUILD (fix/hana-2026090002-pre-20260915) added a seventh,
+    for a different tournament entirely (game_code 2026090002): the
+    real Hana Financial Group Championship PRE page (scripts/
+    139_build_hana_pre_kb_structure.py), gated on its own 108-entrant
+    identity-consistency hard stop and never rendering a fabricated
+    probability -- the 5 foreign entrants and 3 named amateur (A)
+    entrants lacking a genuine KGA official basis show 데이터 부족 in
+    every probability cell instead. Root HOME mirrors this page's body
+    byte-for-byte (kb_home_stage_router's explicit product-policy
+    repoint, 2026-09-16). Still exactly these seven routes, nothing
+    else."""
     assert lockdown.RELEASED_HTML_PATHS == {
         "tournaments/2026/2026090003/pre/index.html",
         "tournaments/2026/2026090003/r1/index.html",
@@ -115,12 +126,19 @@ def test_kb_pre_r1_r2_r3_final_and_fr_are_the_only_released_tournament_routes():
         "tournaments/2026/2026090003/r3/index.html",
         "tournaments/2026/2026090003/final/index.html",
         "tournaments/2026/2026090003/fr/index.html",
+        "tournaments/2026/2026090002/pre/index.html",
     }
     pre_content = (DOCS / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     assert pre_content != lockdown.PLACEHOLDER_HTML
     assert "KB금융 골든라이프 챔피언십" in pre_content
     assert pre_content.count("class='player-name'") == 120
     assert pre_content.count("class='player-sponsor'") == 120
+
+    hana_pre_content = (DOCS / "tournaments/2026/2026090002/pre/index.html").read_text(encoding="utf-8")
+    assert hana_pre_content != lockdown.PLACEHOLDER_HTML
+    assert "하나금융그룹 챔피언십" in hana_pre_content
+    assert hana_pre_content.count("class='player-name'") == 108
+    assert hana_pre_content.count("class='player-sponsor'") == 108
 
     r1_content = (DOCS / "tournaments/2026/2026090003/r1/index.html").read_text(encoding="utf-8")
     assert r1_content != lockdown.PLACEHOLDER_HTML
