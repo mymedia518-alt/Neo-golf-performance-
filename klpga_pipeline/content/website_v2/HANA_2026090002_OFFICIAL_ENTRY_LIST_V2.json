@@ -1,0 +1,585 @@
+{
+  "schema_version": "neo_official_entry_list_v2",
+  "tournament": {
+    "name": "하나금융그룹 챔피언십",
+    "game_code": "2026090002",
+    "dates": [
+      "2026-09-17",
+      "2026-09-20"
+    ],
+    "venue": "더헤븐",
+    "course": "West, South",
+    "par": 72,
+    "format": "72홀 스트로크 플레이"
+  },
+  "source": {
+    "entry_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090002",
+    "tournament_url": "https://klpga.co.kr/web/tourInfo/tourInfo?gameCode=2026090002",
+    "retrieved_at": "2026-09-16",
+    "verification": "updated official KLPGA entry page capture, re-parsed via the repo's existing entry_list_parser; supersedes V1 (박현경 9130 removed, 김리안 9702 added).",
+    "raw_html_path": "klpga_pipeline/content/website_v2/incoming_evidence/2026090002/HANA_2026090002_ENTRY_LIST_RAW_V2.html",
+    "raw_html_sha256": "7a4812cb3be7a642f05854bb7540dac68efba8532634f4ea671d3d0378a87e9c",
+    "roster_change_from_v1": {
+      "removed": [
+        {
+          "player_id": "9130",
+          "name": "박현경"
+        }
+      ],
+      "added": [
+        {
+          "player_id": "9702",
+          "name": "김리안"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "total": 108,
+    "eligible": 103,
+    "recommended": 5,
+    "invited": 0
+  },
+  "records": [
+    {
+      "player_id": "9174",
+      "official_display_name": "강가율",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10112",
+      "official_display_name": "고지우",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10109",
+      "official_display_name": "고지원",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10726",
+      "official_display_name": "김가희2",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9702",
+      "official_display_name": "김리안",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10002",
+      "official_display_name": "김민별",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10097",
+      "official_display_name": "김민선7",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10725",
+      "official_display_name": "김민솔",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10081",
+      "official_display_name": "김민주",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8380",
+      "official_display_name": "김새로미",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9089",
+      "official_display_name": "김소정",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8300",
+      "official_display_name": "김수지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11143",
+      "official_display_name": "김시현",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9277",
+      "official_display_name": "김아현",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8838",
+      "official_display_name": "김우정",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9487",
+      "official_display_name": "김재희",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9000",
+      "official_display_name": "김지수",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8434",
+      "official_display_name": "김지영2",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11216",
+      "official_display_name": "김지윤2",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10178",
+      "official_display_name": "김희지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9113",
+      "official_display_name": "노승희",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9723",
+      "official_display_name": "노원경",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10789",
+      "official_display_name": "리 슈잉",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "1599",
+      "official_display_name": "리디아 고",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9401",
+      "official_display_name": "마다솜",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10083",
+      "official_display_name": "마서영",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10296",
+      "official_display_name": "문정민",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9183",
+      "official_display_name": "박결",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8318",
+      "official_display_name": "박단유",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8772",
+      "official_display_name": "박민지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9431",
+      "official_display_name": "박보겸",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9111",
+      "official_display_name": "박서현",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11056",
+      "official_display_name": "박예지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9788",
+      "official_display_name": "박혜준",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10095",
+      "official_display_name": "방신실",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8589",
+      "official_display_name": "배소현",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "1485",
+      "official_display_name": "빳차라쭈타 콩끄라판(I)",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11134",
+      "official_display_name": "서교림",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9134",
+      "official_display_name": "서어진",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8881",
+      "official_display_name": "성유진",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8773",
+      "official_display_name": "송가은",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11057",
+      "official_display_name": "송은아",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9135",
+      "official_display_name": "신다인",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "6916",
+      "official_display_name": "안송이",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11060",
+      "official_display_name": "안재희",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9465",
+      "official_display_name": "안지현",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11391",
+      "official_display_name": "양윤서 0801(A)",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11045",
+      "official_display_name": "양효진",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "13502",
+      "official_display_name": "왕 즈쉬엔",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9714",
+      "official_display_name": "유지나",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10146",
+      "official_display_name": "유현조",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8884",
+      "official_display_name": "윤화영",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11264",
+      "official_display_name": "이 민",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8883",
+      "official_display_name": "이가영",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8392",
+      "official_display_name": "이다연",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "1734",
+      "official_display_name": "이민지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11040",
+      "official_display_name": "이세영",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9652",
+      "official_display_name": "이세희",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8246",
+      "official_display_name": "이소영",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9503",
+      "official_display_name": "이슬기2",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8859",
+      "official_display_name": "이승연",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9784",
+      "official_display_name": "이예원",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "12604",
+      "official_display_name": "이와이 아키",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "13839",
+      "official_display_name": "이와이 치지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9759",
+      "official_display_name": "이율린",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9708",
+      "official_display_name": "이재윤",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "7434",
+      "official_display_name": "이정민",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8234",
+      "official_display_name": "이주미",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "12038",
+      "official_display_name": "이지민",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9449",
+      "official_display_name": "이지현3",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8811",
+      "official_display_name": "이채은2",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10138",
+      "official_display_name": "임진영",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9145",
+      "official_display_name": "임희정",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8355",
+      "official_display_name": "장수연",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8243",
+      "official_display_name": "장은수",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "7963",
+      "official_display_name": "장하나",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9082",
+      "official_display_name": "전예성",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9389",
+      "official_display_name": "전우리",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9765",
+      "official_display_name": "정소이",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8840",
+      "official_display_name": "정수빈",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9820",
+      "official_display_name": "정윤지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8770",
+      "official_display_name": "조아연",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8972",
+      "official_display_name": "조정민",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9136",
+      "official_display_name": "조혜림",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "1521",
+      "official_display_name": "지한솔",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11770",
+      "official_display_name": "짜라위 분짠(I)",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "6085",
+      "official_display_name": "청 야니",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9391",
+      "official_display_name": "최가빈",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8277",
+      "official_display_name": "최민경",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "8284",
+      "official_display_name": "최예림",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10577",
+      "official_display_name": "최예본",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9235",
+      "official_display_name": "최은우",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11073",
+      "official_display_name": "최정원",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "13146",
+      "official_display_name": "플로렌스 이본 비세라",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11447",
+      "official_display_name": "한아름",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9483",
+      "official_display_name": "한지원",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9426",
+      "official_display_name": "한진선",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10531",
+      "official_display_name": "현세린",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9750",
+      "official_display_name": "홍정민",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9705",
+      "official_display_name": "홍지원",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "10586",
+      "official_display_name": "홍진영2",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "11042",
+      "official_display_name": "홍현지",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "9937",
+      "official_display_name": "황유나",
+      "entry_category": "eligible"
+    },
+    {
+      "player_id": "12706",
+      "official_display_name": "권은 0906(A)",
+      "entry_category": "recommended"
+    },
+    {
+      "player_id": "9364",
+      "official_display_name": "박소혜",
+      "entry_category": "recommended"
+    },
+    {
+      "player_id": "11944",
+      "official_display_name": "오수민 0809(A)",
+      "entry_category": "recommended"
+    },
+    {
+      "player_id": "11411",
+      "official_display_name": "이효송",
+      "entry_category": "recommended"
+    },
+    {
+      "player_id": "10185",
+      "official_display_name": "황유민",
+      "entry_category": "recommended"
+    }
+  ]
+}
