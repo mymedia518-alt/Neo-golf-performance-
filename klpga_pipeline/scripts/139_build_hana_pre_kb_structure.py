@@ -75,6 +75,28 @@ event). No number is ever guessed for those 5. The sort below already
 orders by k_rank ascending with no-k_rank last, so no sort-logic
 change was needed -- only the data source improved.
 
+K-RANKING SNAPSHOT REFRESH (2026-09-16): an operator flagged 16 named
+players as apparently missing/wrong K-Ranking values. Direct
+re-verification against the archived 2026-W36 capture showed the build
+already matched that source exactly (0 mismatches) -- nothing was
+missing, the operator was looking at a newer snapshot. A fresh official
+capture was supplied (same klpga.co.kr/web/record/publicRecordDetail
+page, saved-from-url re-verified), archived unmodified as
+KLPGA_KRANKING_2026_LATEST_V2_RAW.html (W36 file preserved, untouched).
+Parsing it with the SAME extract_full_table() parser reproduced the
+operator's 16 numbers exactly and showed 646 of 741 common player_ids
+differ from W36 -- a whole newer snapshot, not a 16-player patch.
+scripts/143_refresh_hana_kranking_from_latest_capture.py therefore
+re-derives k_rank/k_name for the FULL 108-player Hana field from this
+one new snapshot only (never a per-player mix of old/new sources),
+producing PLAYER_ANALYSIS_INPUT_V4.json and SEASON_SG_SORTED_V3.json
+(current_official_sg/historical_sample/analysis_status carried forward
+unchanged from V3 -- only k_rank/k_name are re-sourced). 김리안 (9702)
+now shows 135 (was 131 under W36); 박현경 (9130) remains absent (not in
+the entry list). 81 of 108 Hana entrants' k_rank changed, 22 unchanged,
+5 remain "-" (genuinely absent from both captures). Matched by
+player_id only, never by name.
+
 Inputs (all real, operator-committed evidence -- see each file's own
 provenance fields):
   - HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json   (108 official entries,
@@ -99,9 +121,18 @@ Column mapping (8 public columns, in order):
                      with a VERIFIED_OFFICIAL sponsor record somewhere in
                      the repo (KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3 /
                      HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2 /
-                     OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2, joined by
+                     OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2 /
+                     OPERATOR_REPORTED_SPONSOR_EVIDENCE_V3, joined by
                      player_id) get a sponsor value; every other player's
                      sponsor slot is blank, never guessed.
+
+  SPONSOR RECOVERY (2026-09-16): 리디아 고(1599)/권은(12706)/이민지(1734)/
+  황유민(10185)/문정민(10296)/임진영(10138)'s sponsors were recovered by
+  scripts/144_recover_hana_sponsor_evidence.py from the already-archived
+  official entry-list capture (the same raw HTML 141 already used for
+  names/countries), never from name-based guessing. 장하나/박단유/송가은/
+  김아현 were independently confirmed (by the same script) to carry no
+  sponsor span in that raw HTML and stay blank.
   KLPGA K-RANKING -> k_rank; "-" if this specific player has none
   NEO 경기력       -> quintile band of win_probability among the 103
                      PASS players (documented below); "데이터 부족" for
@@ -184,6 +215,7 @@ def _load_sponsor_by_id() -> dict[str, str]:
         ("KB_2026090003_SPONSOR_INTEGRITY_AUDIT_V3.json", "newly_recovered_sponsors", "status", {"VERIFIED_OFFICIAL"}),
         ("HOME_TOP120_SPONSOR_INTEGRITY_AUDIT_V2.json", "newly_recovered_sponsors", "status", {"VERIFIED_OFFICIAL"}),
         ("OPERATOR_REPORTED_SPONSOR_EVIDENCE_V2.json", "records", "evidence_status", {"VERIFIED_OFFICIAL_OPERATOR_REPORTED"}),
+        ("OPERATOR_REPORTED_SPONSOR_EVIDENCE_V3.json", "records", "evidence_status", {"VERIFIED_OFFICIAL_OPERATOR_REPORTED"}),
     ]
     sponsor_by_id: dict[str, str] = {}
     for filename, list_key, status_key, allowed in sources:
@@ -224,8 +256,8 @@ def _load_amateur_kga_insufficient_ids() -> set[str]:
 
 def main() -> None:
     entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json")
-    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V3.json")
-    sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V2.json")
+    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V4.json")
+    sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V3.json")
     m4 = _load("HANA_2026090002_PRE_M4_60000_CANDIDATE_V2.json")
     amateur_kga_insufficient_ids = _load_amateur_kga_insufficient_ids()
 
@@ -330,28 +362,30 @@ def main() -> None:
             cut_cell, top20_cell, top10_cell, top5_cell, win_cell = (
                 _pct(r["cut"]), _pct(r["top20"]), _pct(r["top10"]), _pct(r["top5"]), _pct(r["win"])
             )
-        # Flag-left / name / sponsor-right, all on one line, horizontally
-        # centered within the cell: neo.css sets .leaderboard-table tbody
-        # th[scope=row] to text-align:left (both desktop and the mobile
-        # card layout), and neo-site.css sets .player-name/.player-sponsor
-        # to display:block site-wide (stacked layout, used elsewhere) --
-        # so inline style overrides on just these generated elements are
-        # required (text-align:center on the <th> itself beats both the
-        # desktop and mobile CSS rules in one shot, since an inline style
-        # always outranks a stylesheet rule regardless of media query;
-        # display:inline on the two spans lets them sit beside the flag
-        # on one row). Same technique as this file's own _NOWRAP span --
-        # an inline style scoped to the generated markup only, never a
-        # CSS file edit. Vertical centering needs no override: a table
-        # cell's UA-default vertical-align is already "middle", and
-        # neither neo.css rule sets vertical-align on this element.
+        # Flag / name / sponsor, in that order, all left-aligned on one
+        # line within the cell: neo-site.css sets .player-name/.player-
+        # sponsor to display:block site-wide (stacked layout, used
+        # elsewhere) -- so inline style overrides on just these generated
+        # elements are required (text-align:left on the <th> itself beats
+        # both the desktop and mobile CSS rules in one shot, since an
+        # inline style always outranks a stylesheet rule regardless of
+        # media query; display:inline on the two spans lets them sit
+        # beside the flag on one row). white-space:nowrap on the <th>
+        # keeps flag/name/sponsor on a single line on mobile too -- same
+        # technique as this file's own _NOWRAP span, an inline style
+        # scoped to the generated markup only, never a CSS file edit.
+        # The flag <img> carries alt='' -- no country code, country name,
+        # or emoji is ever rendered as visible text. Vertical centering
+        # needs no override: a table cell's UA-default vertical-align is
+        # already "middle", and neither neo.css rule sets vertical-align
+        # on this element.
         flag_cell = (
             f"<img src='/assets/flags/{r['country_code']}.svg' alt='' width='16' height='12' "
             f"style='display:inline-block;vertical-align:middle;margin-right:4px'>"
         )
         sponsor_text = _esc(r["sponsor"]) if r["sponsor"] else ""
         rows_html.append(
-            f"<tr><th scope='row' style='white-space:nowrap;text-align:center'>{flag_cell}"
+            f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}"
             f"<span class='player-name' style='display:inline;vertical-align:middle'>{r['name']}</span>"
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
             f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
@@ -382,7 +416,24 @@ def main() -> None:
         f'<a href="/tournaments/2026/{GAME_CODE}/pre/" class="is-active" aria-current="page">대회</a>'
         '<a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a>'
         '<a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header>'
-        '<main><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>'
+        # MOBILE-ONLY TOURNAMENT-INFO LINE BREAK (2026-09-16): desktop
+        # keeps the single-line "더헤븐 · West, South · Par 72 · 72홀
+        # 스트로크 플레이" exactly as before; on mobile the separator
+        # before "72홀..." is replaced with a real line break instead,
+        # per explicit instruction. Never touches docs/assets/neo.css --
+        # this is a small <style> scoped to this page's own <main>
+        # (HTML5 permits <style> in body flow content), using the same
+        # 760px breakpoint neo.css itself already uses everywhere else
+        # for its own mobile layout switch, so it matches the existing
+        # site convention rather than inventing a new one. Because
+        # hana_home_swap.py copies this whole <main> byte-for-byte into
+        # HOME, HOME picks up the identical mobile behavior for free --
+        # no HOME-specific styling needed.
+        '<main><style>@media(max-width:760px){'
+        '.hana-tourinfo-sep{display:none}'
+        '.hana-tourinfo-holes{display:block}'
+        '}</style>'
+        '<nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>'
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
         '<a href="/tournaments/">대회</a>'
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
@@ -392,7 +443,9 @@ def main() -> None:
         '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
         '<h1>하나금융그룹 챔피언십</h1><p class="meta">2026.09.17 — 09.20</p>'
         '<p class="meta">2025 우승 이다연 · 279타(-9)</p>'
-        '<p class="meta">더헤븐 · West, South · Par 72 · 72홀 스트로크 플레이</p></div>'
+        '<p class="meta">더헤븐 · West, South · Par 72'
+        '<span class="hana-tourinfo-sep"> · </span>'
+        '<span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 
