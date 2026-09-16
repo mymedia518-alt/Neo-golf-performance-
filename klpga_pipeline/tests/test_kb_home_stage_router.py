@@ -68,16 +68,28 @@ def test_real_kb_current_stage_resolves_to_final():
     assert kb_current_stage(context) == "final"
 
 
-def test_home_home_kb_equals_final_while_final_is_current():
-    """FINAL PAGE GO (2026-09-13): HOME -> KB = FINAL. Root HOME's own
-    status badge and stage-nav must show FINAL -- via an explicit
-    sync_root_home_to_current_stage() call, never a stale R3 snapshot."""
+def test_home_shows_hana_pre_despite_kb_final_being_kbs_own_current_stage():
+    """HANA PRE FULL REPLACEMENT (2026-09-16), superseding FINAL PAGE
+    GO's HOME=FINAL contract: root HOME's represented tournament is now
+    an explicit product-policy choice, not automatically whichever
+    tournament's own stage router resolves furthest. KB's own
+    kb_current_stage() still correctly resolves to "final" for KB's own
+    context (test_real_kb_current_stage_resolves_to_final, above) --
+    that internal state is untouched. What changed is that root HOME no
+    longer mirrors it: HOME's own stage-nav now shows Hana Financial
+    Group Championship's PRE page instead.
+
+    HERO STATUS BADGE REMOVAL (2026-09-16): the standalone hero
+    `<strong class="status">` badge is gone from every Hana HOME/PRE
+    build -- the stage-nav's own aria-current="page" item (checked
+    below) is the single source of stage state now, so this test no
+    longer looks for the badge at all."""
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">FINAL<' in html
+    assert '<strong class="status">' not in html
     assert extract_owner(html) == CURRENT_TOURNAMENT_OWNER
-    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/final/" aria-current="page">FINAL</a>' in html
-    # never a stale disabled FINAL placeholder
-    assert '<span class="stage-nav__disabled" aria-disabled="true">FINAL</span>' not in html
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/" aria-current="page">사전 분석 PRE</a>' in html
+    # KB's own FINAL stage-nav wiring must not leak onto HOME
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/final/" aria-current="page">FINAL</a>' not in html
 
 
 def _strip_section(html: str, section_id: str) -> str:
@@ -88,80 +100,84 @@ def _strip_section(html: str, section_id: str) -> str:
     return html[:start] + html[end:]
 
 
-def test_home_body_mirrors_the_real_published_final_page_exactly():
-    """HOME's <main>...</main> body must be byte-identical to FINAL's own
-    real, already-gated page body -- proves HOME is a mirror, never an
-    independent rebuild that could silently diverge or fabricate --
-    except for exactly two deliberate, explicitly-requested divergences:
-    (1) a static <figure id="r3-forecast-visual"> visual (operator-
-    supplied image + a fixed caption, no ranking/leaderboard data of its
-    own) that exists on HOME only, never on FINAL; (2) the
-    id="biggest-movers" section, whose markup was restructured on HOME
-    only (row-per-player containers instead of a bare <ul><li> list, to
-    fix a reported alignment/bullet bug -- see
-    test_home_biggest_movers_rows_are_structured_and_bullet_free) while
-    /final/ was explicitly left untouched, so its own copy keeps the old
-    markup. Stripping exactly those two sections out of HOME's body must
-    restore byte-identity with FINAL -- anything else diverging is still
-    a real failure."""
+HANA_PRE_PAGE = DOCS / "tournaments" / "2026" / "2026090002" / "pre" / "index.html"
+
+
+def test_home_body_mirrors_the_real_published_hana_pre_page_exactly():
+    """HANA PRE FULL REPLACEMENT (2026-09-16): HOME's <main>...</main>
+    body must now be byte-identical to Hana Financial Group
+    Championship's own real, already-built PRE page body -- proves HOME
+    is a mirror of that page, never an independent rebuild that could
+    silently diverge or fabricate. Unlike the previous KB-FINAL mirror
+    contract, there are zero permitted divergent sections here: HOME's
+    body is a straight, unmodified copy of the Hana PRE page's own
+    hero + single PRE-table structure (no HOME-only additions)."""
+    assert HANA_PRE_PAGE.is_file(), "test precondition: the Hana PRE page must exist for this to be a real check"
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    final_html = FINAL_PAGE.read_text(encoding="utf-8")
+    hana_html = HANA_PRE_PAGE.read_text(encoding="utf-8")
     home_body = home_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    final_body = final_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    hana_body = hana_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
 
-    home_body = _strip_section(home_body, "r3-forecast-visual")
-    home_body = _strip_section(home_body, "biggest-movers")
-    final_body = _strip_section(final_body, "biggest-movers")
-
-    assert home_body == final_body
+    assert home_body == hana_body
 
 
-def test_home_forecast_visual_figure_has_no_ranking_or_leaderboard_markup():
-    """The one permitted HOME-only addition must be a static image +
-    fixed caption only -- no data-player-id rows, no rank/score table
-    markup of its own that could diverge from or duplicate FINAL's real
-    leaderboard data."""
+KB_ONLY_HOME_SECTION_IDS = (
+    "r3-forecast-visual", "final-leaderboard", "forecast-vs-result",
+    "neo-validation", "biggest-movers", "why-the-winner-won",
+)
+
+
+def test_home_has_no_leftover_kb_only_sections_or_explanations():
+    """HANA PRE FULL REPLACEMENT (2026-09-16): every KB-only product
+    section previously mirrored onto HOME from KB's own FINAL page (the
+    R3-forecast-visual figure, the full FINAL leaderboard, forecast-vs-
+    result, NEO validation, biggest-movers, and the winner-analysis
+    write-up) must be completely absent from HOME now -- Hana's own PRE
+    page has none of that data (it hasn't happened yet), and nothing
+    KB-specific may linger as stale/unnecessary content on the new
+    HOME body."""
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    start = home_html.find('<section class="product-section" id="r3-forecast-visual">')
-    assert start != -1, "expected HOME forecast-visual figure section not found"
-    end = home_html.index("</section>", start) + len("</section>")
-    figure_html = home_html[start:end]
-    assert "data-player-id" not in figure_html
-    assert "<table" not in figure_html
-    assert 'src="/assets/kb-2026090003-r3-forecast-vs-final.png"' in figure_html
-    assert "<figcaption>NEO R3 예측 → 실제 결과</figcaption>" in figure_html
+    for section_id in KB_ONLY_HOME_SECTION_IDS:
+        assert f'<section class="product-section" id="{section_id}">' not in home_html, (
+            f"KB-only section {section_id!r} must not remain on HOME after the Hana PRE swap"
+        )
+    assert "우승 포인트" not in home_html
+    assert "골든라이프" not in home_html
 
 
-def test_home_biggest_movers_rows_are_structured_and_bullet_free():
-    """The reported bug: player name/sponsor and the rank-change text
-    were not aligned on one row, a bare bullet rendered on its own line,
-    and left/right columns didn't line up -- root-caused to a plain
-    <ul><li> whose only children were block-level .player-name/
-    .player-sponsor followed by a bare inline change span, giving the
-    browser no single row container to align. Fix: every mover is now
-    one <li class='movers-row'> containing exactly one
-    'movers-row__player' block (name+sponsor) and one
-    'movers-row__change' element (the arrow/rank text) -- verified here
-    structurally (no bare <li> without the row class) and verified to
-    still carry the exact same 5-up/5-down player<->number pairs FINAL's
-    own (untouched) copy has, proving the restructure changed markup
-    only, never the data."""
+def test_home_omits_biggest_movers_but_kb_final_page_still_has_it_structured_and_bullet_free():
+    """HANA PRE FULL REPLACEMENT (2026-09-16): HOME no longer carries a
+    biggest-movers section at all (Hana's PRE stage has no results to
+    move between -- covered by test_home_has_no_leftover_kb_only_
+    sections_or_explanations too; re-asserted here for this specific
+    section as this test's own direct precondition).
+
+    What this test still protects, unchanged from before the Hana
+    swap: KB's own dedicated FINAL page file was never touched by that
+    swap, so its biggest-movers section must still exist with exactly
+    the same shape and exactly the same data it had before on this
+    branch -- 10 mover rows, each carrying a player-name span and its
+    own rank-change text (this branch's own KB FINAL page file predates
+    the separate movers-row bullet-alignment fix, which -- per that
+    fix's own original test coverage -- was only ever hand-patched onto
+    HOME, deliberately never propagated to /final/'s own copy; that
+    historical fact is what is being preserved here, not re-asserted as
+    if it were new)."""
     import re
 
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    final_html = FINAL_PAGE.read_text(encoding="utf-8")
+    assert '<section class="product-section" id="biggest-movers">' not in home_html
 
-    start = home_html.find('<section class="product-section" id="biggest-movers">')
-    assert start != -1
-    end = home_html.index("</section>", start) + len("</section>")
-    movers_html = home_html[start:end]
+    final_html = FINAL_PAGE.read_text(encoding="utf-8")
+    start = final_html.find('<section class="product-section" id="biggest-movers">')
+    assert start != -1, "KB's own FINAL page must still have its biggest-movers section"
+    end = final_html.index("</section>", start) + len("</section>")
+    movers_html = final_html[start:end]
 
     all_li = re.findall(r"<li[^>]*>", movers_html)
-    assert all_li, "expected at least one mover row"
-    assert all(li == "<li class='movers-row'>" for li in all_li)
-    assert "<ul>" not in movers_html  # every list here must opt out of default bullets
-    assert movers_html.count("movers-row__player") == len(all_li)
-    assert movers_html.count("movers-row__change") == len(all_li)
+    assert len(all_li) == 10, "expected exactly 10 mover rows (5 up, 5 down)"
+    assert movers_html.count("class='player-name'") == 10
+    assert movers_html.count("NEO 예상") == 10
 
     def _pairs(html: str, section_id: str) -> set[tuple[str, str]]:
         s = html.find(f'<section class="product-section" id="{section_id}">')
@@ -171,16 +187,96 @@ def test_home_biggest_movers_rows_are_structured_and_bullet_free():
         changes = re.findall(r"(?:NEO 예상[^<]*)", block)
         return set(zip(names, changes))
 
-    home_pairs = _pairs(home_html, "biggest-movers")
     final_pairs = _pairs(final_html, "biggest-movers")
-    assert len(home_pairs) == 10
-    assert home_pairs == final_pairs
+    assert len(final_pairs) == 10
 
 
-def test_home_tournaments_nav_override_points_at_final_not_r3():
+def test_home_tournaments_nav_override_points_at_hana_pre_not_kb():
+    """HANA PRE FULL REPLACEMENT (2026-09-16): the global-nav '대회'
+    override now points at Hana's PRE page, not at any KB stage."""
     html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert 'href="/tournaments/2026/2026090003/final/">대회<' in html
+    assert 'href="/tournaments/2026/2026090002/pre/">대회<' in html
+    assert 'href="/tournaments/2026/2026090003/final/">대회<' not in html
     assert 'href="/tournaments/2026/2026090003/r3/">대회<' not in html
+
+
+EXPECTED_PUBLIC_COLUMNS = [
+    "선수", "KLPGA K-RANKING", "NEO 경기력",
+    "컷 통과확률", "TOP20", "TOP10", "TOP5", "우승확률",
+]
+
+
+def _check_home_style_table_contract(html: str, *, label: str) -> None:
+    """Shared assertions for both HOME and Hana's own PRE page, since
+    HOME's body is a byte-identical mirror of it: exactly 8 public
+    columns (최근 5R SG removed, 2026-09-16 -- that internal-only metric
+    is never rendered on this public page, though the underlying SG
+    evidence file and its analysis remain on disk untouched), exactly
+    108 rows, K-Ranking ascending sort, and exactly 8 DATA_INSUFFICIENT
+    entrants each showing 데이터 부족 in all 5 probability columns: the
+    original 5 foreign entrants, plus 3 named amateur (A) entrants
+    reclassified 2026-09-16 (AMATEUR KGA-BASIS REVIEW -- see
+    HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json) after their M4
+    probabilities were found to rest on an improper historical-KLPGA-SG
+    proxy basis with no genuine KGA official data available to replace
+    it."""
+    import re
+
+    assert "최근 5R SG" not in html, f"{label}: 최근 5R SG must not appear anywhere in the public page"
+
+    thead = re.search(r"<thead>(.*?)</thead>", html, re.DOTALL).group(1)
+    headers = re.findall(r"<th[^>]*>(.*?)(?:<button|</th>)", thead, re.DOTALL)
+    headers = [re.sub(r"<[^>]+>", "", h).strip() for h in headers]
+    assert headers == EXPECTED_PUBLIC_COLUMNS, f"{label}: expected exactly the 8 public columns, got {headers}"
+
+    tbody = re.search(r"<tbody>(.*?)</tbody>", html, re.DOTALL).group(1)
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", tbody, re.DOTALL)
+    assert len(rows) == 108, f"{label}: expected exactly 108 player rows"
+
+    k_ranks = []
+    insufficient_rows = []
+    for row in rows:
+        cell = re.search(r"data-label='KLPGA K-RANKING'>([^<]*)<", row).group(1)
+        k_ranks.append(int(cell) if cell != "—" else None)
+        prob_cells = re.findall(
+            r"data-label='(?:컷 통과확률|TOP20|TOP10|TOP5|우승확률)'>(.*?)</td>", row, re.DOTALL
+        )
+        assert len(prob_cells) == 5, f"{label}: expected exactly 5 probability columns per row"
+        if all("데이터 부족" in c for c in prob_cells):
+            insufficient_rows.append(row)
+
+    present = [k for k in k_ranks if k is not None]
+    assert present == sorted(present), f"{label}: K-Ranking must be ascending among players who have one"
+    first_missing = k_ranks.index(None) if None in k_ranks else len(k_ranks)
+    assert all(k is not None for k in k_ranks[:first_missing])
+    assert all(k is None for k in k_ranks[first_missing:]), f"{label}: players without a K-Ranking must sort last"
+
+    assert len(insufficient_rows) == 8, (
+        f"{label}: expected exactly 8 DATA_INSUFFICIENT players with all 5 probability cells showing 데이터 부족 "
+        "(5 foreign entrants + 3 amateur entrants reclassified per the AMATEUR KGA-BASIS REVIEW)"
+    )
+
+
+def test_home_has_hana_pre_link_108_players_8_columns_k_ranking_sorted():
+    """HANA PRE FULL REPLACEMENT (2026-09-16) + PUBLIC-UI SG REDACTION
+    (2026-09-16) contract, verified directly against HOME's own file
+    content (independent of the byte-identity-with-Hana's-own-page
+    check above, so this still holds even if that mirroring approach
+    changes later): a real link to Hana Financial Group Championship's
+    PRE page (game_code 2026090002), plus the shared table contract."""
+    home_html = DOCS_INDEX.read_text(encoding="utf-8")
+    assert 'href="/tournaments/2026/2026090002/pre/"' in home_html
+    _check_home_style_table_contract(home_html, label="HOME")
+
+
+def test_hana_pre_page_itself_has_108_players_8_columns_k_ranking_sorted():
+    """Same shared table contract, checked directly against Hana's own
+    PRE page file (not just inherited via the byte-identity-with-HOME
+    check) -- so a regression in Hana's own build output is caught even
+    if HOME's mirroring step is ever skipped or broken."""
+    assert HANA_PRE_PAGE.is_file(), "test precondition: the Hana PRE page must exist for this to be a real check"
+    hana_html = HANA_PRE_PAGE.read_text(encoding="utf-8")
+    _check_home_style_table_contract(hana_html, label="Hana PRE page")
 
 
 def test_pre_to_r2_and_r1_to_r2_reachable_on_the_real_site():
@@ -195,15 +291,17 @@ def test_r2_to_pre_and_r2_to_r1_reachable_on_the_real_site():
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090003/r1/">R1</a>' in html
 
 
-def test_final_evidence_is_real_and_home_was_explicitly_resynced_to_it():
-    """FINAL PAGE GO update: the FINAL page at this path is the real,
-    published FINAL result page (39/39 positions, zero review_required/
-    unmatched V3 evidence) -- kb_current_stage() correctly reflects
-    that. What this test guards: HOME now mirrors it, because
-    sync_root_home_to_current_stage() was explicitly called for this
-    build -- real evidence existing is necessary but was never, by
-    itself, sufficient; the explicit sync call is what actually
-    produced this HOME body."""
+def test_kb_final_evidence_still_real_but_home_was_explicitly_repointed_to_hana():
+    """FINAL PAGE GO's own evidence-completeness contract for KB
+    (39/39 positions, zero review_required/unmatched V3 evidence) is
+    still real and still true -- kb_current_stage() still correctly
+    resolves KB's own context to "final". What changed, by explicit
+    HANA PRE FULL REPLACEMENT (2026-09-16) product-policy decision, is
+    that root HOME is no longer produced by mirroring whatever KB's own
+    router resolves to: it was deliberately repointed to Hana's PRE
+    page instead. This test guards both halves at once -- KB's real
+    evidence/router state is untouched, AND HOME correctly does not
+    show KB's FINAL status despite that evidence being real."""
     assert FINAL_PAGE.is_file(), "test precondition: the FINAL page must exist for this to be a real check"
     from klpga.website_v2.kb_home_stage_router import _final_evidence_confirmed
     from klpga.tournament_context import load_tournament_context
@@ -212,7 +310,34 @@ def test_final_evidence_is_real_and_home_was_explicitly_resynced_to_it():
     assert _final_evidence_confirmed(context) is True
     assert kb_current_stage(context) == "final"
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '"status">FINAL<' in home_html  # HOME was explicitly resynced to FINAL this session
+    # HERO STATUS BADGE REMOVAL (2026-09-16): no standalone hero status
+    # badge exists anymore on any Hana HOME/PRE build -- the stage-nav's
+    # own aria-current="page" PRE item (already asserted in
+    # test_home_shows_hana_pre_despite_kb_final_being_kbs_own_current_stage,
+    # above) is the sole stage-state signal now.
+    assert '<strong class="status">' not in home_html
+    final_html = FINAL_PAGE.read_text(encoding="utf-8")
+    assert '"status">FINAL<' in final_html  # KB's own dedicated FINAL page file is untouched
+
+
+def test_kb_final_page_itself_retains_full_original_structure_and_data():
+    """HANA PRE FULL REPLACEMENT (2026-09-16): the swap touches only
+    docs/index.html (root HOME) -- KB's own dedicated FINAL page file
+    must still have every one of its original sections, its original
+    title, and its original 39-position result set, completely
+    unaffected by root HOME no longer mirroring it."""
+    final_html = FINAL_PAGE.read_text(encoding="utf-8")
+    # r3-forecast-visual was always a HOME-only addition, never part of
+    # KB's own FINAL page file -- not expected here.
+    for section_id in (
+        "tournament", "final-leaderboard", "forecast-vs-result",
+        "neo-validation", "biggest-movers", "why-the-winner-won",
+    ):
+        assert f'id="{section_id}"' in final_html, f"KB FINAL page must still have its {section_id!r} section"
+    assert "KB금융 골든라이프 챔피언십" in final_html
+    assert '"status">FINAL<' in final_html
+    assert "우승 포인트" in final_html
+    assert final_html.count("data-player-id=") == 39
 
 
 def test_r3_freeze_still_real_but_no_longer_the_current_stage():

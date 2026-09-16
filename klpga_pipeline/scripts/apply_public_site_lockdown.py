@@ -98,6 +98,21 @@ RELEASED_HTML_PATHS = {
     # (R1+R2+R3+FR == total, total-288 == to-par). Unlike FINAL, this
     # page carries zero model analysis -- pure R1/R2/R3/FR/합계 results.
     "tournaments/2026/2026090003/fr/index.html",
+    # HANA PRE BUILD (fix/hana-2026090002-pre-20260915): the real PRE
+    # page for the Hana Financial Group Championship (game_code
+    # 2026090002) -- scripts/139_build_hana_pre_kb_structure.py hard-
+    # asserts the 108-entrant identity set is consistent across every
+    # source file (entry list / player analysis input / M4 model /
+    # country-flag match) before writing this file, and never renders a
+    # fabricated probability: the 5 foreign entrants plus 3 named
+    # amateur (A) entrants lacking a genuine KGA official basis (see
+    # HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json) show 데이터 부족 in
+    # every probability cell, never an estimated number. Root HOME
+    # mirrors this page's body byte-for-byte (klpga.website_v2.
+    # kb_home_stage_router's explicit product-policy repoint, 2026-09-
+    # 16), so releasing this path is what makes HOME's own content
+    # legitimate too.
+    "tournaments/2026/2026090002/pre/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the
