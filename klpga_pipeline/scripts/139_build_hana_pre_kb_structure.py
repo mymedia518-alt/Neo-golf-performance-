@@ -17,10 +17,12 @@ HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json for the full investigation
 per player. Per the explicit no-fabrication rule, all three are now
 forced to DATA_INSUFFICIENT (see _load_amateur_kga_insufficient_ids())
 rather than kept on that improper basis or given any new estimated
-probability. Their K-Ranking sort position is unaffected: 양윤서 (k_rank
-52) stays at her numeric position; 오수민/권은 (no k_rank) join the
-existing name-sorted DATA_INSUFFICIENT trailing group, unchanged
-mechanism from before. CORRECTION (same day): forcing these 3 to
+probability. Their K-Ranking sort position is unaffected by the
+DATA_INSUFFICIENT override: each still sorts by her own real k_rank
+(양윤서 52, 오수민 153, 권은 515 as of the 2026-09-16 K-RANKING
+BEYOND-TOP-120 RESTORATION below) -- DATA_INSUFFICIENT only overrides
+the probability/band cells, never the K-RANKING column or sort key.
+CORRECTION (same day): forcing these 3 to
 DATA_INSUFFICIENT does NOT remove them from the NEO 경기력 quintile
 band pool -- that pool/its thresholds stay the original 103-player
 computation unconditionally, so the other 100 real players' band
@@ -44,12 +46,25 @@ public-facing render step for that column was removed, matching this
 build's existing "fix the source, never hand-patch the generated
 HTML" convention. The public table is now 8 columns.
 
+K-RANKING BEYOND-TOP-120 RESTORATION (2026-09-16): PLAYER_ANALYSIS_
+INPUT_V1's k_rank only covered the official K-Ranking TOP-120 -- 23 of
+108 entrants below that cutoff rendered "-" even when a real official
+rank existed. scripts/140_restore_hana_full_kranking.py re-parses the
+SAME 2026-W36 official capture (already archived in full, 756 players,
+for KB 2026090003) via the existing extract_full_table() parser and
+joins by player_id, producing PLAYER_ANALYSIS_INPUT_V2.json: 18 of the
+23 gained their real k_rank, 5 remain "-" because they are genuinely
+absent from the official table (never appeared in a K-Ranking-counted
+event). No number is ever guessed for those 5. The sort below already
+orders by k_rank ascending with no-k_rank last, so no sort-logic
+change was needed -- only the data source improved.
+
 Inputs (all real, operator-committed evidence -- see each file's own
 provenance fields):
   - HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json   (108 official entries,
     player_id + name + entry_category, KLPGA entry/tourInfo pages)
-  - HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json (K-Ranking, joined by
-    player_id)
+  - HANA_2026090002_PLAYER_ANALYSIS_INPUT_V2.json (K-Ranking, joined by
+    player_id -- see K-RANKING BEYOND-TOP-120 RESTORATION above)
   - HANA_2026090002_SEASON_SG_SORTED_V1.json      (season SG rank --
     loaded and still validated below for player_id-set consistency,
     but its season_sg_rank value is internal-only and never rendered
@@ -193,7 +208,7 @@ def _load_amateur_kga_insufficient_ids() -> set[str]:
 
 def main() -> None:
     entry = _load("HANA_2026090002_OFFICIAL_ENTRY_LIST_V1.json")
-    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V1.json")
+    player_input = _load("HANA_2026090002_PLAYER_ANALYSIS_INPUT_V2.json")
     sg_sorted = _load("HANA_2026090002_SEASON_SG_SORTED_V1.json")
     m4 = _load("HANA_2026090002_PRE_M4_60000_CANDIDATE_V1.json")
     amateur_kga_insufficient_ids = _load_amateur_kga_insufficient_ids()
@@ -360,7 +375,8 @@ def main() -> None:
         '<span aria-current="page">PRE</span></nav>'
         '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
         '<h1>하나금융그룹 챔피언십</h1><p class="meta">2026.09.17 — 09.20</p>'
-        '<p class="meta">2025 우승 이다연 · 279타(-9)</p></div>'
+        '<p class="meta">2025 우승 이다연 · 279타(-9)</p>'
+        '<p class="meta">더헤븐 · West, South · Par 72 · 72홀 스트로크 플레이</p></div>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 
