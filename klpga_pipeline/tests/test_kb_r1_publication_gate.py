@@ -127,11 +127,21 @@ def test_root_home_ownership_is_recognized_and_kb_r1_page_is_unaffected_either_w
     PRODUCTION HOME -> KB CURRENT STAGE ROUTING HOTFIX
     (fix/kb-r2-official-cut-gate-20260911): while CURRENT_TOURNAMENT_OWNER
     owns root HOME, its "대회" link is no longer assumed to be the
-    generic /tournaments/ hub -- klpga.website_v2.kb_home_stage_router
-    now keeps it pointed at KB's REAL current stage (see
+    generic /tournaments/ hub -- it points at whichever real tournament
+    root HOME is currently representing (see
     tests/test_kb_home_stage_router.py for that contract's own
     coverage), never a frozen snapshot of whichever stage was current
-    the one time root HOME was last written."""
+    the one time root HOME was last written.
+
+    HANA PRE FULL REPLACEMENT (2026-09-16): root HOME's represented
+    tournament is now an explicit product-policy choice, not always KB
+    -- HOME currently represents Hana Financial Group Championship PRE
+    (game_code 2026090002), while KB's own dedicated R1 route below
+    remains real and completely unaffected either way, which is what
+    this gate actually protects. The current-tournament-v1 href check
+    below is intentionally generic (any real /tournaments/2026/.../
+    path), not hardcoded to KB's own GAME_CODE, since which tournament
+    root HOME represents is no longer assumed to be KB."""
     home_html = (DOCS / "index.html").read_text(encoding="utf-8")
     owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home_html)
     assert owner_match is not None
@@ -147,7 +157,10 @@ def test_root_home_ownership_is_recognized_and_kb_r1_page_is_unaffected_either_w
     if owner_match.group(1) == "top120-v1":
         assert tournaments_href == "/tournaments/"
     else:
-        assert tournaments_href.startswith(f"/tournaments/2026/{GAME_CODE}/")
+        assert re.match(r"^/tournaments/2026/[^/]+/[^/]+/$", tournaments_href), (
+            f"current-tournament-v1 owner must point '대회' at a real, specific "
+            f"tournament stage path, got {tournaments_href!r}"
+        )
 
 
 def test_previous_home_content_preserved_in_archive():

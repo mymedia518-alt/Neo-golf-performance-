@@ -1,0 +1,55 @@
+{
+  "schema_version": "neo_hana_foreign_lpga_analysis_evidence_v1",
+  "game_code": "2026090002",
+  "tournament_name": "하나금융그룹 챔피언십",
+  "as_of": "2026-09-15",
+  "purpose": "foreign_player_analysis_input_only_not_publication",
+  "provenance": "LPGA official athlete pages and LPGA-hosted Rolex Women's World Golf Rankings PDF pages reviewed on 2026-09-15. These are cross-tour reference inputs; they are not substituted for KLPGA SG values.",
+  "players": [
+    {
+      "player_id": "11264",
+      "official_klpga_name": "이 민",
+      "lpga_name": "Min Lee",
+      "lpga_profile": "https://www.lpga.com/athletes/min-lee/88910/overview",
+      "lpga_stats": "https://www.lpga.com/athletes/min-lee/88910/stats",
+      "verified": {"tour_joined": 2015, "career_wins": 0, "career_top10": 1, "career_top25": 11, "career_earnings_usd": 932700, "sg_total": -4.28, "sg_tee_to_green": -1.11, "sg_off_the_tee": -1.99, "sg_approach": 0.31, "sg_around_green": 0.57, "sg_putting": -2.25},
+      "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+    },
+    {
+      "player_id": "12604",
+      "official_klpga_name": "이와이 아키",
+      "lpga_name": "Aki Iwai",
+      "lpga_profile": "https://www.lpga.com/athletes/aki-iwai/102175/overview",
+      "lpga_stats": "https://www.lpga.com/athletes/aki-iwai/102175/stats",
+      "verified": {"tour_joined": 2025, "career_wins": 1, "career_top10": 11, "career_top25": 22, "official_earnings_usd": 1400000, "sg_total": 1.04, "sg_tee_to_green": 0.95, "sg_off_the_tee": 0.17, "sg_approach": 0.53, "sg_around_green": 0.25, "sg_putting": -0.01},
+      "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+    },
+    {
+      "player_id": "13839",
+      "official_klpga_name": "이와이 치지",
+      "lpga_name": "Chizzy Iwai",
+      "lpga_profile": "https://www.lpga.com/athletes/chizzy-iwai/102161/overview",
+      "lpga_stats": "https://www.lpga.com/athletes/chizzy-iwai/102161/stats",
+      "verified": {"tour_joined": 2025, "career_wins": 1, "career_top10": 10, "career_top25": 23, "official_earnings_usd": 738900, "sg_total": 0.7, "sg_tee_to_green": 0.66, "sg_off_the_tee": 0.46, "sg_approach": 0.0, "sg_around_green": 0.2, "sg_putting": 0.01},
+      "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+    },
+    {
+      "player_id": "6085",
+      "official_klpga_name": "청 야니",
+      "lpga_name": "Yani Tseng",
+      "lpga_profile": "https://www.lpga.com/athletes/yani-tseng/82897/overview",
+      "lpga_stats": "https://www.lpga.com/athletes/yani-tseng/82897/stats",
+      "verified": {"tour_joined": 2008, "career_wins": 15, "career_top10": 67, "career_top25": 117, "official_career_earnings_usd": 10600000, "sg_total": -0.56, "sg_tee_to_green": -0.27, "sg_off_the_tee": -0.53, "sg_approach": -0.48, "sg_around_green": 0.74, "sg_putting": -0.6},
+      "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+    },
+    {
+      "player_id": "13146",
+      "official_klpga_name": "플로렌스 이본 비세라",
+      "lpga_name": "Florence Yvon Bisera",
+      "lpga_rolex_ranking": "https://www.lpga.com/-/media/files/rolex-test-documents/2026/rolexrankings_07_27_2026.pdf",
+      "verified": {"rolex_name": "BISERA, Florence Yvon", "rolex_id": "11563", "country": "PHI", "ranking_week": "2026-07-27", "ranking": 553, "events": 13, "total_points": 5.1385, "average": 0.1468},
+      "analysis_status": "FOREIGN_LPGA_REVIEWED_MODEL_NORMALIZATION_PENDING"
+    }
+  ],
+  "publication_gate": "BLOCKED_UNTIL_CROSS_TOUR_NORMALIZATION_AND_INPUT_REVIEW"
+}
