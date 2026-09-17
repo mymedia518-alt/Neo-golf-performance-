@@ -111,6 +111,13 @@ R1_OG_IMAGE_URL = "https://www.neogolfdata.com/assets/hana-2026090002-r1-og.png"
 R1_OG_IMAGE_WIDTH = 2400
 R1_OG_IMAGE_HEIGHT = 1260
 
+# Short-URL alias for the tournament share page (operator instruction):
+# docs/2026090002/index.html -- same real R1 108-player screen, same
+# title/description/image as /share/2026090002/, only og:url differs
+# (the short root-level path itself). Never modifies
+# SHARE_TOURNAMENT_PAGE or the R1 OG image it points at.
+SHORT_SHARE_PAGE = REPO_ROOT / "docs" / GAME_CODE / "index.html"
+
 # Real, currently-published stages only (docs/tournaments/2026/2026090002/
 # has exactly pre/ and r1/ today) -- R2/R3/FR render as disabled
 # placeholders, the exact same convention R1's own stage-nav already
@@ -394,7 +401,48 @@ def build_share_tournament() -> None:
     print("rows:", row_count)
 
 
+def build_short_share() -> None:
+    """docs/2026090002/index.html -- a short-URL alias for
+    /share/2026090002/ (operator instruction). Identical real R1
+    108-player body, identical title/description/image; only og:url
+    points at the short path itself. Never writes SHARE_TOURNAMENT_PAGE
+    or any other existing route, and never touches the R1 OG image
+    file it references."""
+    current_stage_href = f"{URL_BASE}{_CURRENT_STAGE}/"
+    rows_html, row_count = _build_rows_html()
+    assert row_count == 108, f"expected 108 R1 rows on the short share-page leaderboard, got {row_count}"
+
+    head = (
+        f'<head><meta name="neo-stage-publication-ready" content="true"><meta charset="utf-8">'
+        f'<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f'<title>NEO GOLF DATA · {TOURNAMENT_NAME} R1</title>'
+        f'<meta property="og:title" content="NEO GOLF DATA · {TOURNAMENT_NAME} R1">'
+        f'<meta property="og:description" content="{TOURNAMENT_NAME} R1 공식 결과와 NEO 분석">'
+        f'<meta property="og:url" content="https://www.neogolfdata.com/{GAME_CODE}/">'
+        f'<meta property="og:type" content="website">'
+        f'<meta property="og:image" content="{R1_OG_IMAGE_URL}">'
+        f'<meta property="og:image:width" content="{R1_OG_IMAGE_WIDTH}">'
+        f'<meta property="og:image:height" content="{R1_OG_IMAGE_HEIGHT}">'
+        f'<meta name="twitter:card" content="summary_large_image">'
+        f'<meta name="twitter:image" content="{R1_OG_IMAGE_URL}">'
+        f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css"></head>'
+    )
+    html = f'<!DOCTYPE html>\n<html lang="ko">{head}{_body_html(current_stage_href, rows_html)}</html>'
+
+    assert "우승 (3).png" not in html and "kb-2026090003" not in html, (
+        "short share page must never reference the KB FINAL image"
+    )
+    assert "KB금융그룹 챔피언십" not in html, "short share page must never reference the KB FINAL tournament name"
+    assert R1_OG_IMAGE_URL in html, "short share page must carry the real R1-screenshot image, never omit it"
+
+    SHORT_SHARE_PAGE.parent.mkdir(parents=True, exist_ok=True)
+    SHORT_SHARE_PAGE.write_text(html, encoding="utf-8")
+    print("wrote", SHORT_SHARE_PAGE)
+    print("rows:", row_count)
+
+
 if __name__ == "__main__":
     build()
     build_share()
     build_share_tournament()
+    build_short_share()
