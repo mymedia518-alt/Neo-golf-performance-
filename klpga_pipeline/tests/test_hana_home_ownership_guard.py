@@ -1,9 +1,14 @@
 """Tests for the "no round-page builder may ever write to root HOME"
-guard (operator-flagged incident: an earlier HOME mirror script had
-overwritten docs/index.html with the R1 leaderboard body -- root HOME
-must always be www.neogolfdata.com / neogolfdata.com's real first
-screen, built only by scripts/156_build_home_page.py, never a copy of
-a tournament round page's body).
+guard (operator-flagged incident: an earlier scratchpad script had
+overwritten docs/index.html directly from a round-page builder's own
+output path, bypassing any dedicated homepage identity at all). root
+HOME (www.neogolfdata.com / neogolfdata.com) has exactly one legitimate
+writer, scripts/156_build_home_page.py -- per later, separate operator
+instruction, 156 itself is free to render the current tournament's R1
+leaderboard directly into root HOME (see
+test_hana_home_r1_data_consistency.py for that contract); what this
+guard prevents is any *other* script (151/R2/R3/FR builders, present
+or future) writing to docs/index.html directly.
 
 Two lines of defense, both exercised here:
 1. klpga.website_v2.home_ownership_guard.assert_not_root_home() itself
@@ -81,13 +86,14 @@ def test_no_hana_script_other_than_156_writes_docs_index_html():
     )
 
 
-def test_home_page_output_has_no_leaderboard_table_and_no_kb_final_image():
+def test_home_page_output_never_references_the_kb_final_image():
     """Builds the real homepage via its real script and inspects the
     actual generated docs/index.html -- not the builder's own source
-    text, which legitimately contains these same strings inside its
-    own guard assertions (see 156_build_home_page.py's `assert
-    "leaderboard-table" not in html` etc.) and would otherwise false-
-    positive a source-text scan."""
+    text. Per later operator instruction, root HOME's leaderboard-table
+    IS now expected (see test_hana_home_r1_data_consistency.py for the
+    full R1-mirror contract); the one thing that must never appear,
+    under either architecture, is the KB FINAL tournament's own result
+    image."""
     import importlib.util
 
     spec = importlib.util.spec_from_file_location("_build_home_page", SCRIPTS_DIR / "156_build_home_page.py")
@@ -96,7 +102,6 @@ def test_home_page_output_has_no_leaderboard_table_and_no_kb_final_image():
     module.build()
 
     html = module.DOCS_INDEX.read_text(encoding="utf-8")
-    assert "leaderboard-table" not in html, "docs/index.html must never embed a player leaderboard table"
     assert "우승 (3).png" not in html and "kb-2026090003" not in html, (
         "docs/index.html must never reference the KB FINAL tournament image"
     )
