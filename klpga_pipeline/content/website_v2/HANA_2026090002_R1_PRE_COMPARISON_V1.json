@@ -1,0 +1,2171 @@
+{
+  "schema_version": "neo_hana_r1_pre_comparison_v1",
+  "game_code": "2026090002",
+  "round_number": 1,
+  "as_of": "2026-09-17",
+  "internal_only": true,
+  "purpose": "R2/R3/FINAL 단계의 모델 검증을 위한 내부 기록. PRE(사전예측, 고정값)와 R1(실제 결과)을 같은 선수 행에 나란히 보관하되 절대 하나의 값으로 합치지 않는다. 이 파일은 공개 R1 페이지에 렌더링 되지 않는다.",
+  "population": {
+    "common_to_pre_and_r1": 107,
+    "pre_only_not_in_r1": 1
+  },
+  "records": [
+    {
+      "player_id": "1485",
+      "official_display_name": "빳차라쭈타 콩끄라판(I)",
+      "pre": {
+        "k_rank": 46,
+        "analysis_status": "PASS",
+        "win_probability": 0.004743143572668833,
+        "cut_probability": 0.6763268203647798,
+        "top20_probability": 0.12426666666666666,
+        "top10_probability": 0.054283333333333336,
+        "top5_probability": 0.026166666666666668
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "1521",
+      "official_display_name": "지한솔",
+      "pre": {
+        "k_rank": 40,
+        "analysis_status": "PASS",
+        "win_probability": 0.009887818784157005,
+        "cut_probability": 0.7835349366789522,
+        "top20_probability": 0.23845,
+        "top10_probability": 0.10658333333333334,
+        "top5_probability": 0.05046666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "1599",
+      "official_display_name": "리디아 고",
+      "pre": {
+        "k_rank": 428,
+        "analysis_status": "PASS",
+        "win_probability": 0.0020328453408165487,
+        "cut_probability": 0.5138399513787676,
+        "top20_probability": 0.055266666666666665,
+        "top10_probability": 0.023966666666666667,
+        "top5_probability": 0.010833333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "95",
+        "rank": 95,
+        "total_strokes": 80,
+        "total_under_par_display": "8"
+      }
+    },
+    {
+      "player_id": "1734",
+      "official_display_name": "이민지",
+      "pre": {
+        "k_rank": 112,
+        "analysis_status": "PASS",
+        "win_probability": 0.012027022527643792,
+        "cut_probability": 0.7098210970213082,
+        "top20_probability": 0.28545,
+        "top10_probability": 0.13151666666666667,
+        "top5_probability": 0.062316666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "6085",
+      "official_display_name": "청 야니",
+      "pre": {
+        "k_rank": null,
+        "analysis_status": "DATA_INSUFFICIENT",
+        "win_probability": 0.0022245581255763425,
+        "cut_probability": 0.5178739783408405,
+        "top20_probability": 0.05868333333333333,
+        "top10_probability": 0.025383333333333334,
+        "top5_probability": 0.011266666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "6916",
+      "official_display_name": "안송이",
+      "pre": {
+        "k_rank": 76,
+        "analysis_status": "PASS",
+        "win_probability": 0.003367249548730913,
+        "cut_probability": 0.666443326418675,
+        "top20_probability": 0.08841666666666667,
+        "top10_probability": 0.0385,
+        "top5_probability": 0.01755
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "7434",
+      "official_display_name": "이정민",
+      "pre": {
+        "k_rank": 186,
+        "analysis_status": "PASS",
+        "win_probability": 0.0009575036454149895,
+        "cut_probability": 0.4110190600453114,
+        "top20_probability": 0.026416666666666668,
+        "top10_probability": 0.011216666666666666,
+        "top5_probability": 0.00495
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "101",
+        "rank": 101,
+        "total_strokes": 82,
+        "total_under_par_display": "10"
+      }
+    },
+    {
+      "player_id": "7963",
+      "official_display_name": "장하나",
+      "pre": {
+        "k_rank": null,
+        "analysis_status": "PASS",
+        "win_probability": 2.6905078801515925e-05,
+        "cut_probability": 0.02588499033609926,
+        "top20_probability": 0.0006666666666666666,
+        "top10_probability": 0.00028333333333333335,
+        "top5_probability": 0.0001
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "83",
+        "rank": 83,
+        "total_strokes": 78,
+        "total_under_par_display": "6"
+      }
+    },
+    {
+      "player_id": "8234",
+      "official_display_name": "이주미",
+      "pre": {
+        "k_rank": 90,
+        "analysis_status": "PASS",
+        "win_probability": 0.0036567083233314235,
+        "cut_probability": 0.557684289323955,
+        "top20_probability": 0.09573333333333334,
+        "top10_probability": 0.04108333333333333,
+        "top5_probability": 0.019383333333333332
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "3",
+        "rank": 3,
+        "total_strokes": 70,
+        "total_under_par_display": "-2"
+      }
+    },
+    {
+      "player_id": "8243",
+      "official_display_name": "장은수",
+      "pre": {
+        "k_rank": 18,
+        "analysis_status": "PASS",
+        "win_probability": 0.011344572221044307,
+        "cut_probability": 0.6449104332378118,
+        "top20_probability": 0.27125,
+        "top10_probability": 0.12271666666666667,
+        "top5_probability": 0.059116666666666665
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "8246",
+      "official_display_name": "이소영",
+      "pre": {
+        "k_rank": 126,
+        "analysis_status": "PASS",
+        "win_probability": 0.0006351781325420124,
+        "cut_probability": 0.47383766908512187,
+        "top20_probability": 0.01775,
+        "top10_probability": 0.00785,
+        "top5_probability": 0.00385
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "102",
+        "rank": 102,
+        "total_strokes": 83,
+        "total_under_par_display": "11"
+      }
+    },
+    {
+      "player_id": "8277",
+      "official_display_name": "최민경",
+      "pre": {
+        "k_rank": 65,
+        "analysis_status": "PASS",
+        "win_probability": 0.003787651507694364,
+        "cut_probability": 0.6710979102090041,
+        "top20_probability": 0.09965,
+        "top10_probability": 0.04251666666666667,
+        "top5_probability": 0.019616666666666668
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "8284",
+      "official_display_name": "최예림",
+      "pre": {
+        "k_rank": 12,
+        "analysis_status": "PASS",
+        "win_probability": 0.0680793075841092,
+        "cut_probability": 0.8932860431724682,
+        "top20_probability": 0.85185,
+        "top10_probability": 0.5576833333333333,
+        "top5_probability": 0.31315
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "8300",
+      "official_display_name": "김수지",
+      "pre": {
+        "k_rank": 23,
+        "analysis_status": "PASS",
+        "win_probability": 0.01917371469273463,
+        "cut_probability": 0.8843651865725952,
+        "top20_probability": 0.4182,
+        "top10_probability": 0.20088333333333333,
+        "top5_probability": 0.09813333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "16",
+        "rank": 16,
+        "total_strokes": 72,
+        "total_under_par_display": "0"
+      }
+    },
+    {
+      "player_id": "8318",
+      "official_display_name": "박단유",
+      "pre": {
+        "k_rank": 143,
+        "analysis_status": "PASS",
+        "win_probability": 0.0018421909701501343,
+        "cut_probability": 0.43096863722523493,
+        "top20_probability": 0.051116666666666664,
+        "top10_probability": 0.02155,
+        "top5_probability": 0.01005
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "8355",
+      "official_display_name": "장수연",
+      "pre": {
+        "k_rank": 95,
+        "analysis_status": "PASS",
+        "win_probability": 0.0002727210509220522,
+        "cut_probability": 0.38299974328199254,
+        "top20_probability": 0.00755,
+        "top10_probability": 0.0031333333333333335,
+        "top5_probability": 0.0014666666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "8380",
+      "official_display_name": "김새로미",
+      "pre": {
+        "k_rank": 75,
+        "analysis_status": "PASS",
+        "win_probability": 0.008202082264877267,
+        "cut_probability": 0.6203244426640884,
+        "top20_probability": 0.20628333333333335,
+        "top10_probability": 0.09266666666666666,
+        "top5_probability": 0.043583333333333335
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "8392",
+      "official_display_name": "이다연",
+      "pre": {
+        "k_rank": 4,
+        "analysis_status": "PASS",
+        "win_probability": 0.03317254859097816,
+        "cut_probability": 0.8782190675039362,
+        "top20_probability": 0.61175,
+        "top10_probability": 0.3269166666666667,
+        "top5_probability": 0.1673
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "8434",
+      "official_display_name": "김지영2",
+      "pre": {
+        "k_rank": 167,
+        "analysis_status": "PASS",
+        "win_probability": 2.9001163384909767e-05,
+        "cut_probability": 0.09244674528519663,
+        "top20_probability": 0.00085,
+        "top10_probability": 0.00038333333333333334,
+        "top5_probability": 0.00011666666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "83",
+        "rank": 83,
+        "total_strokes": 78,
+        "total_under_par_display": "6"
+      }
+    },
+    {
+      "player_id": "8589",
+      "official_display_name": "배소현",
+      "pre": {
+        "k_rank": 39,
+        "analysis_status": "PASS",
+        "win_probability": 0.009850645669944643,
+        "cut_probability": 0.7978545427357401,
+        "top20_probability": 0.2382,
+        "top10_probability": 0.10658333333333334,
+        "top5_probability": 0.050866666666666664
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "8770",
+      "official_display_name": "조아연",
+      "pre": {
+        "k_rank": 71,
+        "analysis_status": "PASS",
+        "win_probability": 0.0012532768953767727,
+        "cut_probability": 0.5170387543578887,
+        "top20_probability": 0.03353333333333333,
+        "top10_probability": 0.014033333333333333,
+        "top5_probability": 0.0063
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "8772",
+      "official_display_name": "박민지",
+      "pre": {
+        "k_rank": 14,
+        "analysis_status": "PASS",
+        "win_probability": 0.02240088663766235,
+        "cut_probability": 0.8576738529394043,
+        "top20_probability": 0.4676666666666667,
+        "top10_probability": 0.23155,
+        "top5_probability": 0.11271666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "1",
+        "rank": 1,
+        "total_strokes": 69,
+        "total_under_par_display": "-3"
+      }
+    },
+    {
+      "player_id": "8773",
+      "official_display_name": "송가은",
+      "pre": {
+        "k_rank": 149,
+        "analysis_status": "PASS",
+        "win_probability": 0.0030486140736189554,
+        "cut_probability": 0.5590541998741805,
+        "top20_probability": 0.08296666666666666,
+        "top10_probability": 0.03581666666666666,
+        "top5_probability": 0.01705
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "8811",
+      "official_display_name": "이채은2",
+      "pre": {
+        "k_rank": 52,
+        "analysis_status": "PASS",
+        "win_probability": 0.007559456306884362,
+        "cut_probability": 0.6725776894855635,
+        "top20_probability": 0.18873333333333334,
+        "top10_probability": 0.0841,
+        "top5_probability": 0.039316666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "8838",
+      "official_display_name": "김우정",
+      "pre": {
+        "k_rank": 78,
+        "analysis_status": "PASS",
+        "win_probability": 0.002279370784374735,
+        "cut_probability": 0.5931638081058875,
+        "top20_probability": 0.06125,
+        "top10_probability": 0.025583333333333333,
+        "top5_probability": 0.01145
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "83",
+        "rank": 83,
+        "total_strokes": 78,
+        "total_under_par_display": "6"
+      }
+    },
+    {
+      "player_id": "8840",
+      "official_display_name": "정수빈",
+      "pre": {
+        "k_rank": 111,
+        "analysis_status": "PASS",
+        "win_probability": 0.0009864018420349618,
+        "cut_probability": 0.22456501178396074,
+        "top20_probability": 0.025916666666666668,
+        "top10_probability": 0.01045,
+        "top5_probability": 0.004833333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "8859",
+      "official_display_name": "이승연",
+      "pre": {
+        "k_rank": 59,
+        "analysis_status": "PASS",
+        "win_probability": 0.006153959682582302,
+        "cut_probability": 0.741961247711871,
+        "top20_probability": 0.15761666666666665,
+        "top10_probability": 0.06768333333333333,
+        "top5_probability": 0.03166666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "99",
+        "rank": 99,
+        "total_strokes": 81,
+        "total_under_par_display": "9"
+      }
+    },
+    {
+      "player_id": "8881",
+      "official_display_name": "성유진",
+      "pre": {
+        "k_rank": 8,
+        "analysis_status": "PASS",
+        "win_probability": 0.04916260736580108,
+        "cut_probability": 0.8918747858404892,
+        "top20_probability": 0.7505666666666667,
+        "top10_probability": 0.4386333333333333,
+        "top5_probability": 0.23631666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "1",
+        "rank": 1,
+        "total_strokes": 69,
+        "total_under_par_display": "-3"
+      }
+    },
+    {
+      "player_id": "8883",
+      "official_display_name": "이가영",
+      "pre": {
+        "k_rank": 30,
+        "analysis_status": "PASS",
+        "win_probability": 0.009925976845561226,
+        "cut_probability": 0.814506197381803,
+        "top20_probability": 0.24358333333333335,
+        "top10_probability": 0.1096,
+        "top5_probability": 0.05266666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "8884",
+      "official_display_name": "윤화영",
+      "pre": {
+        "k_rank": 141,
+        "analysis_status": "PASS",
+        "win_probability": 0.001460746992452134,
+        "cut_probability": 0.4335145914742615,
+        "top20_probability": 0.039216666666666664,
+        "top10_probability": 0.017016666666666666,
+        "top5_probability": 0.007733333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "8972",
+      "official_display_name": "조정민",
+      "pre": {
+        "k_rank": 236,
+        "analysis_status": "PASS",
+        "win_probability": 0.000764416265384766,
+        "cut_probability": 0.3093051618380233,
+        "top20_probability": 0.020583333333333332,
+        "top10_probability": 0.008883333333333333,
+        "top5_probability": 0.004
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "9000",
+      "official_display_name": "김지수",
+      "pre": {
+        "k_rank": 79,
+        "analysis_status": "PASS",
+        "win_probability": 0.0029042829100900227,
+        "cut_probability": 0.5950318404258528,
+        "top20_probability": 0.0788,
+        "top10_probability": 0.03386666666666667,
+        "top5_probability": 0.015066666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "89",
+        "rank": 89,
+        "total_strokes": 79,
+        "total_under_par_display": "7"
+      }
+    },
+    {
+      "player_id": "9082",
+      "official_display_name": "전예성",
+      "pre": {
+        "k_rank": 16,
+        "analysis_status": "PASS",
+        "win_probability": 0.023742259528570887,
+        "cut_probability": 0.8588086111963465,
+        "top20_probability": 0.48806666666666665,
+        "top10_probability": 0.24218333333333333,
+        "top5_probability": 0.12025
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9089",
+      "official_display_name": "김소정",
+      "pre": {
+        "k_rank": 105,
+        "analysis_status": "PASS",
+        "win_probability": 0.0009971498629729792,
+        "cut_probability": 0.40578310561569875,
+        "top20_probability": 0.02825,
+        "top10_probability": 0.011583333333333333,
+        "top5_probability": 0.005333333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "9113",
+      "official_display_name": "노승희",
+      "pre": {
+        "k_rank": 7,
+        "analysis_status": "PASS",
+        "win_probability": 0.02815056313446728,
+        "cut_probability": 0.8820997989813953,
+        "top20_probability": 0.5485833333333333,
+        "top10_probability": 0.2815,
+        "top5_probability": 0.14015
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "9134",
+      "official_display_name": "서어진",
+      "pre": {
+        "k_rank": 43,
+        "analysis_status": "PASS",
+        "win_probability": 0.013138838454307817,
+        "cut_probability": 0.7970794862241122,
+        "top20_probability": 0.3056,
+        "top10_probability": 0.13901666666666668,
+        "top5_probability": 0.06675
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9135",
+      "official_display_name": "신다인",
+      "pre": {
+        "k_rank": 28,
+        "analysis_status": "PASS",
+        "win_probability": 0.01746196379278421,
+        "cut_probability": 0.737081109101548,
+        "top20_probability": 0.39195,
+        "top10_probability": 0.18911666666666666,
+        "top5_probability": 0.09271666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9136",
+      "official_display_name": "조혜림",
+      "pre": {
+        "k_rank": 88,
+        "analysis_status": "PASS",
+        "win_probability": 0.003531786420518602,
+        "cut_probability": 0.5882845059625657,
+        "top20_probability": 0.094,
+        "top10_probability": 0.041,
+        "top5_probability": 0.019283333333333333
+      },
+      "r1": {
+        "status": "WD",
+        "rank_display": "999",
+        "rank": null,
+        "total_strokes": null,
+        "total_under_par_display": null
+      }
+    },
+    {
+      "player_id": "9145",
+      "official_display_name": "임희정",
+      "pre": {
+        "k_rank": 35,
+        "analysis_status": "PASS",
+        "win_probability": 0.003964551849159594,
+        "cut_probability": 0.698511189904581,
+        "top20_probability": 0.10343333333333334,
+        "top10_probability": 0.04446666666666667,
+        "top5_probability": 0.020783333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "16",
+        "rank": 16,
+        "total_strokes": 72,
+        "total_under_par_display": "0"
+      }
+    },
+    {
+      "player_id": "9174",
+      "official_display_name": "강가율",
+      "pre": {
+        "k_rank": 118,
+        "analysis_status": "PASS",
+        "win_probability": 0.0003863306446615667,
+        "cut_probability": 0.32119948239280943,
+        "top20_probability": 0.0105,
+        "top10_probability": 0.0045,
+        "top5_probability": 0.002
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "9183",
+      "official_display_name": "박결",
+      "pre": {
+        "k_rank": 74,
+        "analysis_status": "PASS",
+        "win_probability": 0.002660036752231716,
+        "cut_probability": 0.6026052203003612,
+        "top20_probability": 0.07008333333333333,
+        "top10_probability": 0.030933333333333334,
+        "top5_probability": 0.014033333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "9235",
+      "official_display_name": "최은우",
+      "pre": {
+        "k_rank": 29,
+        "analysis_status": "PASS",
+        "win_probability": 0.010715358495898969,
+        "cut_probability": 0.775857852466742,
+        "top20_probability": 0.26163333333333333,
+        "top10_probability": 0.11871666666666666,
+        "top5_probability": 0.056666666666666664
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9277",
+      "official_display_name": "김아현",
+      "pre": {
+        "k_rank": 137,
+        "analysis_status": "PASS",
+        "win_probability": 0.0007417570611591139,
+        "cut_probability": 0.33849005132351334,
+        "top20_probability": 0.019783333333333333,
+        "top10_probability": 0.008533333333333334,
+        "top5_probability": 0.004033333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "89",
+        "rank": 89,
+        "total_strokes": 79,
+        "total_under_par_display": "7"
+      }
+    },
+    {
+      "player_id": "9364",
+      "official_display_name": "박소혜",
+      "pre": {
+        "k_rank": 92,
+        "analysis_status": "PASS",
+        "win_probability": 0.00130798266891353,
+        "cut_probability": 0.42007552604773507,
+        "top20_probability": 0.0369,
+        "top10_probability": 0.015683333333333334,
+        "top5_probability": 0.007233333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9389",
+      "official_display_name": "전우리",
+      "pre": {
+        "k_rank": 54,
+        "analysis_status": "PASS",
+        "win_probability": 0.005064545911164482,
+        "cut_probability": 0.5841818579121617,
+        "top20_probability": 0.13093333333333335,
+        "top10_probability": 0.05846666666666667,
+        "top5_probability": 0.027016666666666668
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "9391",
+      "official_display_name": "최가빈",
+      "pre": {
+        "k_rank": 53,
+        "analysis_status": "PASS",
+        "win_probability": 0.006899021092329845,
+        "cut_probability": 0.7267258595426347,
+        "top20_probability": 0.17623333333333333,
+        "top10_probability": 0.0772,
+        "top5_probability": 0.03531666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9401",
+      "official_display_name": "마다솜",
+      "pre": {
+        "k_rank": 42,
+        "analysis_status": "PASS",
+        "win_probability": 0.004520064377145496,
+        "cut_probability": 0.7267493520317099,
+        "top20_probability": 0.11808333333333333,
+        "top10_probability": 0.05081666666666667,
+        "top5_probability": 0.023933333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "9426",
+      "official_display_name": "한진선",
+      "pre": {
+        "k_rank": 36,
+        "analysis_status": "PASS",
+        "win_probability": 0.0126354941102696,
+        "cut_probability": 0.8154264601386959,
+        "top20_probability": 0.2999833333333333,
+        "top10_probability": 0.13821666666666665,
+        "top5_probability": 0.06401666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "89",
+        "rank": 89,
+        "total_strokes": 79,
+        "total_under_par_display": "7"
+      }
+    },
+    {
+      "player_id": "9431",
+      "official_display_name": "박보겸",
+      "pre": {
+        "k_rank": 21,
+        "analysis_status": "PASS",
+        "win_probability": 0.007894474837655674,
+        "cut_probability": 0.6990769009435404,
+        "top20_probability": 0.20031666666666667,
+        "top10_probability": 0.08975,
+        "top5_probability": 0.0426
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "3",
+        "rank": 3,
+        "total_strokes": 70,
+        "total_under_par_display": "-2"
+      }
+    },
+    {
+      "player_id": "9449",
+      "official_display_name": "이지현3",
+      "pre": {
+        "k_rank": 33,
+        "analysis_status": "PASS",
+        "win_probability": 0.02575302064991904,
+        "cut_probability": 0.8005263003797747,
+        "top20_probability": 0.5157333333333334,
+        "top10_probability": 0.26138333333333336,
+        "top5_probability": 0.12925
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "9465",
+      "official_display_name": "안지현",
+      "pre": {
+        "k_rank": 51,
+        "analysis_status": "PASS",
+        "win_probability": 0.0031557290334362593,
+        "cut_probability": 0.5279246844234958,
+        "top20_probability": 0.08333333333333333,
+        "top10_probability": 0.035383333333333336,
+        "top5_probability": 0.015616666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "9483",
+      "official_display_name": "한지원",
+      "pre": {
+        "k_rank": 81,
+        "analysis_status": "PASS",
+        "win_probability": 0.0031079050653165592,
+        "cut_probability": 0.5901225145716652,
+        "top20_probability": 0.0824,
+        "top10_probability": 0.03648333333333333,
+        "top5_probability": 0.01675
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "9487",
+      "official_display_name": "김재희",
+      "pre": {
+        "k_rank": 55,
+        "analysis_status": "PASS",
+        "win_probability": 0.004016276840757236,
+        "cut_probability": 0.693487125186366,
+        "top20_probability": 0.10496666666666667,
+        "top10_probability": 0.044616666666666666,
+        "top5_probability": 0.020166666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "9503",
+      "official_display_name": "이슬기2",
+      "pre": {
+        "k_rank": 204,
+        "analysis_status": "PASS",
+        "win_probability": 0.0005284528553008222,
+        "cut_probability": 0.2900828807951097,
+        "top20_probability": 0.014566666666666667,
+        "top10_probability": 0.006516666666666666,
+        "top5_probability": 0.0030833333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "95",
+        "rank": 95,
+        "total_strokes": 80,
+        "total_under_par_display": "8"
+      }
+    },
+    {
+      "player_id": "9652",
+      "official_display_name": "이세희",
+      "pre": {
+        "k_rank": 47,
+        "analysis_status": "PASS",
+        "win_probability": 0.006282888420677906,
+        "cut_probability": 0.6726002899827431,
+        "top20_probability": 0.16051666666666667,
+        "top10_probability": 0.07076666666666667,
+        "top5_probability": 0.0339
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "9702",
+      "official_display_name": "김리안",
+      "pre": {
+        "k_rank": 135,
+        "analysis_status": "PASS",
+        "win_probability": 0.0010767530013962023,
+        "cut_probability": 0.46186405093683713,
+        "top20_probability": 0.03025,
+        "top10_probability": 0.012383333333333333,
+        "top5_probability": 0.005566666666666667
+      },
+      "r1": {
+        "status": "WD",
+        "rank_display": "999",
+        "rank": null,
+        "total_strokes": null,
+        "total_under_par_display": null
+      }
+    },
+    {
+      "player_id": "9705",
+      "official_display_name": "홍지원",
+      "pre": {
+        "k_rank": 86,
+        "analysis_status": "PASS",
+        "win_probability": 0.006575733898818836,
+        "cut_probability": 0.6593703261517097,
+        "top20_probability": 0.16505,
+        "top10_probability": 0.07426666666666666,
+        "top5_probability": 0.034883333333333336
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "9708",
+      "official_display_name": "이재윤",
+      "pre": {
+        "k_rank": 62,
+        "analysis_status": "PASS",
+        "win_probability": 0.0011773069164069988,
+        "cut_probability": 0.5127822345988666,
+        "top20_probability": 0.03325,
+        "top10_probability": 0.014533333333333334,
+        "top5_probability": 0.0066
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "83",
+        "rank": 83,
+        "total_strokes": 78,
+        "total_under_par_display": "6"
+      }
+    },
+    {
+      "player_id": "9714",
+      "official_display_name": "유지나",
+      "pre": {
+        "k_rank": 69,
+        "analysis_status": "PASS",
+        "win_probability": 0.005547030219276978,
+        "cut_probability": 0.6334334357360458,
+        "top20_probability": 0.14536666666666667,
+        "top10_probability": 0.0641,
+        "top5_probability": 0.029733333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "9723",
+      "official_display_name": "노원경",
+      "pre": {
+        "k_rank": 181,
+        "analysis_status": "PASS",
+        "win_probability": 0.00039953477456699605,
+        "cut_probability": 0.2751601457347588,
+        "top20_probability": 0.01115,
+        "top10_probability": 0.0046,
+        "top5_probability": 0.002116666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "83",
+        "rank": 83,
+        "total_strokes": 78,
+        "total_under_par_display": "6"
+      }
+    },
+    {
+      "player_id": "9750",
+      "official_display_name": "홍정민",
+      "pre": {
+        "k_rank": 10,
+        "analysis_status": "PASS",
+        "win_probability": 0.008517261648979802,
+        "cut_probability": 0.808875722957775,
+        "top20_probability": 0.2127,
+        "top10_probability": 0.09295,
+        "top5_probability": 0.04373333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "99",
+        "rank": 99,
+        "total_strokes": 81,
+        "total_under_par_display": "9"
+      }
+    },
+    {
+      "player_id": "9759",
+      "official_display_name": "이율린",
+      "pre": {
+        "k_rank": 45,
+        "analysis_status": "PASS",
+        "win_probability": 0.0010152548471238515,
+        "cut_probability": 0.3268484390092283,
+        "top20_probability": 0.027683333333333334,
+        "top10_probability": 0.011983333333333334,
+        "top5_probability": 0.0054
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "95",
+        "rank": 95,
+        "total_strokes": 80,
+        "total_under_par_display": "8"
+      }
+    },
+    {
+      "player_id": "9765",
+      "official_display_name": "정소이",
+      "pre": {
+        "k_rank": 61,
+        "analysis_status": "PASS",
+        "win_probability": 0.0048168776870266775,
+        "cut_probability": 0.5966116735691668,
+        "top20_probability": 0.1264,
+        "top10_probability": 0.05586666666666667,
+        "top5_probability": 0.025566666666666668
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "9784",
+      "official_display_name": "이예원",
+      "pre": {
+        "k_rank": 6,
+        "analysis_status": "PASS",
+        "win_probability": 0.019240731360359104,
+        "cut_probability": 0.8896508688174614,
+        "top20_probability": 0.41551666666666665,
+        "top10_probability": 0.20036666666666667,
+        "top5_probability": 0.09758333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "9788",
+      "official_display_name": "박혜준",
+      "pre": {
+        "k_rank": 15,
+        "analysis_status": "PASS",
+        "win_probability": 0.024047572667536744,
+        "cut_probability": 0.8439828378460431,
+        "top20_probability": 0.49543333333333334,
+        "top10_probability": 0.24996666666666667,
+        "top5_probability": 0.12345
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "9820",
+      "official_display_name": "정윤지",
+      "pre": {
+        "k_rank": 34,
+        "analysis_status": "PASS",
+        "win_probability": 0.012108889516280965,
+        "cut_probability": 0.8380241789744981,
+        "top20_probability": 0.2876666666666667,
+        "top10_probability": 0.12888333333333332,
+        "top5_probability": 0.061016666666666663
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "9937",
+      "official_display_name": "황유나",
+      "pre": {
+        "k_rank": 116,
+        "analysis_status": "PASS",
+        "win_probability": 0.0021064529069685775,
+        "cut_probability": 0.454778591563222,
+        "top20_probability": 0.057433333333333336,
+        "top10_probability": 0.024566666666666667,
+        "top5_probability": 0.010666666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "10002",
+      "official_display_name": "김민별",
+      "pre": {
+        "k_rank": 48,
+        "analysis_status": "PASS",
+        "win_probability": 0.013264411062555088,
+        "cut_probability": 0.8071355672897655,
+        "top20_probability": 0.3139,
+        "top10_probability": 0.1461,
+        "top5_probability": 0.06891666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "10081",
+      "official_display_name": "김민주",
+      "pre": {
+        "k_rank": 25,
+        "analysis_status": "PASS",
+        "win_probability": 0.028403811332736992,
+        "cut_probability": 0.8266822767107568,
+        "top20_probability": 0.5502,
+        "top10_probability": 0.28271666666666667,
+        "top5_probability": 0.1408
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "10083",
+      "official_display_name": "마서영",
+      "pre": {
+        "k_rank": 83,
+        "analysis_status": "PASS",
+        "win_probability": 0.0030702381933023887,
+        "cut_probability": 0.4006972916083018,
+        "top20_probability": 0.07873333333333334,
+        "top10_probability": 0.03398333333333333,
+        "top5_probability": 0.015966666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "10095",
+      "official_display_name": "방신실",
+      "pre": {
+        "k_rank": 5,
+        "analysis_status": "PASS",
+        "win_probability": 0.0192749365160737,
+        "cut_probability": 0.8703353047156003,
+        "top20_probability": 0.4191666666666667,
+        "top10_probability": 0.20551666666666665,
+        "top5_probability": 0.09983333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "10097",
+      "official_display_name": "김민선7",
+      "pre": {
+        "k_rank": 9,
+        "analysis_status": "PASS",
+        "win_probability": 0.03248723252449714,
+        "cut_probability": 0.8580374068088572,
+        "top20_probability": 0.6019333333333333,
+        "top10_probability": 0.318,
+        "top5_probability": 0.15991666666666668
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "10109",
+      "official_display_name": "고지원",
+      "pre": {
+        "k_rank": 11,
+        "analysis_status": "PASS",
+        "win_probability": 0.0053215983164011035,
+        "cut_probability": 0.6799219378822074,
+        "top20_probability": 0.13906666666666667,
+        "top10_probability": 0.06091666666666667,
+        "top5_probability": 0.028316666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "16",
+        "rank": 16,
+        "total_strokes": 72,
+        "total_under_par_display": "0"
+      }
+    },
+    {
+      "player_id": "10112",
+      "official_display_name": "고지우",
+      "pre": {
+        "k_rank": 19,
+        "analysis_status": "PASS",
+        "win_probability": 0.007820216455711695,
+        "cut_probability": 0.7425426005783882,
+        "top20_probability": 0.19825,
+        "top10_probability": 0.08753333333333334,
+        "top5_probability": 0.041183333333333336
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "10138",
+      "official_display_name": "임진영",
+      "pre": {
+        "k_rank": 49,
+        "analysis_status": "PASS",
+        "win_probability": 0.0023740336873846195,
+        "cut_probability": 0.6213747550325969,
+        "top20_probability": 0.06308333333333334,
+        "top10_probability": 0.026583333333333334,
+        "top5_probability": 0.012383333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "10146",
+      "official_display_name": "유현조",
+      "pre": {
+        "k_rank": 3,
+        "analysis_status": "PASS",
+        "win_probability": 0.0553495155112511,
+        "cut_probability": 0.9104377954595056,
+        "top20_probability": 0.7865333333333333,
+        "top10_probability": 0.47683333333333333,
+        "top5_probability": 0.2616
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "3",
+        "rank": 3,
+        "total_strokes": 70,
+        "total_under_par_display": "-2"
+      }
+    },
+    {
+      "player_id": "10178",
+      "official_display_name": "김희지",
+      "pre": {
+        "k_rank": 343,
+        "analysis_status": "PASS",
+        "win_probability": 0.0006842021588538785,
+        "cut_probability": 0.2975467940383589,
+        "top20_probability": 0.018783333333333332,
+        "top10_probability": 0.0078,
+        "top5_probability": 0.0037166666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "89",
+        "rank": 89,
+        "total_strokes": 79,
+        "total_under_par_display": "7"
+      }
+    },
+    {
+      "player_id": "10185",
+      "official_display_name": "황유민",
+      "pre": {
+        "k_rank": 26,
+        "analysis_status": "PASS",
+        "win_probability": 0.025232544212245404,
+        "cut_probability": 0.8764618828513197,
+        "top20_probability": 0.51165,
+        "top10_probability": 0.2581,
+        "top5_probability": 0.13046666666666668
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "3",
+        "rank": 3,
+        "total_strokes": 70,
+        "total_under_par_display": "-2"
+      }
+    },
+    {
+      "player_id": "10296",
+      "official_display_name": "문정민",
+      "pre": {
+        "k_rank": 32,
+        "analysis_status": "PASS",
+        "win_probability": 0.03175048204060996,
+        "cut_probability": 0.8072864491781557,
+        "top20_probability": 0.5945666666666667,
+        "top10_probability": 0.31256666666666666,
+        "top5_probability": 0.1595
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "10531",
+      "official_display_name": "현세린",
+      "pre": {
+        "k_rank": 84,
+        "analysis_status": "PASS",
+        "win_probability": 0.000923970047986691,
+        "cut_probability": 0.48754496594623037,
+        "top20_probability": 0.02535,
+        "top10_probability": 0.01105,
+        "top5_probability": 0.005083333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "10577",
+      "official_display_name": "최예본",
+      "pre": {
+        "k_rank": 50,
+        "analysis_status": "PASS",
+        "win_probability": 0.0030618504598346366,
+        "cut_probability": 0.5950182027821963,
+        "top20_probability": 0.08335,
+        "top10_probability": 0.03555,
+        "top5_probability": 0.016616666666666665
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "102",
+        "rank": 102,
+        "total_strokes": 83,
+        "total_under_par_display": "11"
+      }
+    },
+    {
+      "player_id": "10586",
+      "official_display_name": "홍진영2",
+      "pre": {
+        "k_rank": 38,
+        "analysis_status": "PASS",
+        "win_probability": 0.005943825924452877,
+        "cut_probability": 0.6715856292861436,
+        "top20_probability": 0.15365,
+        "top10_probability": 0.06598333333333334,
+        "top5_probability": 0.0318
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "10725",
+      "official_display_name": "김민솔",
+      "pre": {
+        "k_rank": 1,
+        "analysis_status": "PASS",
+        "win_probability": 0.0454784029610221,
+        "cut_probability": 0.8875454798701644,
+        "top20_probability": 0.7214166666666667,
+        "top10_probability": 0.4149333333333333,
+        "top5_probability": 0.218
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "10726",
+      "official_display_name": "김가희2",
+      "pre": {
+        "k_rank": 64,
+        "analysis_status": "PASS",
+        "win_probability": 0.0022476672717683297,
+        "cut_probability": 0.5529459293856964,
+        "top20_probability": 0.06041666666666667,
+        "top10_probability": 0.025116666666666666,
+        "top5_probability": 0.011533333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "74",
+        "rank": 74,
+        "total_strokes": 77,
+        "total_under_par_display": "5"
+      }
+    },
+    {
+      "player_id": "10789",
+      "official_display_name": "리 슈잉",
+      "pre": {
+        "k_rank": 58,
+        "analysis_status": "PASS",
+        "win_probability": 0.0009864803990660893,
+        "cut_probability": 0.4814542512433683,
+        "top20_probability": 0.026583333333333334,
+        "top10_probability": 0.010916666666666667,
+        "top5_probability": 0.004833333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "104",
+        "rank": 104,
+        "total_strokes": 84,
+        "total_under_par_display": "12"
+      }
+    },
+    {
+      "player_id": "11040",
+      "official_display_name": "이세영",
+      "pre": {
+        "k_rank": 132,
+        "analysis_status": "PASS",
+        "win_probability": 0.0006230703962606672,
+        "cut_probability": 0.3532844613857955,
+        "top20_probability": 0.017516666666666666,
+        "top10_probability": 0.0072833333333333335,
+        "top5_probability": 0.0035
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "11042",
+      "official_display_name": "홍현지",
+      "pre": {
+        "k_rank": 72,
+        "analysis_status": "PASS",
+        "win_probability": 0.0034096632917436343,
+        "cut_probability": 0.6397824410978876,
+        "top20_probability": 0.09345,
+        "top10_probability": 0.039016666666666665,
+        "top5_probability": 0.0183
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "11045",
+      "official_display_name": "양효진",
+      "pre": {
+        "k_rank": 41,
+        "analysis_status": "PASS",
+        "win_probability": 0.005928544174006123,
+        "cut_probability": 0.6390029051107019,
+        "top20_probability": 0.15305,
+        "top10_probability": 0.06783333333333333,
+        "top5_probability": 0.030466666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "11056",
+      "official_display_name": "박예지",
+      "pre": {
+        "k_rank": 44,
+        "analysis_status": "PASS",
+        "win_probability": 0.006087201567170389,
+        "cut_probability": 0.5837091624853236,
+        "top20_probability": 0.15395,
+        "top10_probability": 0.06586666666666667,
+        "top5_probability": 0.03145
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "11057",
+      "official_display_name": "송은아",
+      "pre": {
+        "k_rank": 57,
+        "analysis_status": "PASS",
+        "win_probability": 0.004342456397140587,
+        "cut_probability": 0.630592331005335,
+        "top20_probability": 0.11365,
+        "top10_probability": 0.04926666666666667,
+        "top5_probability": 0.023066666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    },
+    {
+      "player_id": "11060",
+      "official_display_name": "안재희",
+      "pre": {
+        "k_rank": 82,
+        "analysis_status": "PASS",
+        "win_probability": 0.0021698924225200837,
+        "cut_probability": 0.4793921162915849,
+        "top20_probability": 0.0568,
+        "top10_probability": 0.023683333333333334,
+        "top5_probability": 0.01115
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "16",
+        "rank": 16,
+        "total_strokes": 72,
+        "total_under_par_display": "0"
+      }
+    },
+    {
+      "player_id": "11073",
+      "official_display_name": "최정원",
+      "pre": {
+        "k_rank": 60,
+        "analysis_status": "PASS",
+        "win_probability": 0.002934255722990331,
+        "cut_probability": 0.530793395161905,
+        "top20_probability": 0.0777,
+        "top10_probability": 0.033466666666666665,
+        "top5_probability": 0.015716666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "56",
+        "rank": 56,
+        "total_strokes": 76,
+        "total_under_par_display": "4"
+      }
+    },
+    {
+      "player_id": "11134",
+      "official_display_name": "서교림",
+      "pre": {
+        "k_rank": 2,
+        "analysis_status": "PASS",
+        "win_probability": 0.0783794939910109,
+        "cut_probability": 0.8706995000246324,
+        "top20_probability": 0.8868666666666667,
+        "top10_probability": 0.6030333333333333,
+        "top5_probability": 0.34825
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "11143",
+      "official_display_name": "김시현",
+      "pre": {
+        "k_rank": 22,
+        "analysis_status": "PASS",
+        "win_probability": 0.006117949288871035,
+        "cut_probability": 0.7025472688541906,
+        "top20_probability": 0.15588333333333335,
+        "top10_probability": 0.06818333333333333,
+        "top5_probability": 0.0321
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "11216",
+      "official_display_name": "김지윤2",
+      "pre": {
+        "k_rank": 67,
+        "analysis_status": "PASS",
+        "win_probability": 0.0014547348823801846,
+        "cut_probability": 0.4431962427572053,
+        "top20_probability": 0.040683333333333335,
+        "top10_probability": 0.017916666666666668,
+        "top5_probability": 0.00825
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "11264",
+      "official_display_name": "이 민",
+      "pre": {
+        "k_rank": null,
+        "analysis_status": "DATA_INSUFFICIENT",
+        "win_probability": 0.0022245581255763425,
+        "cut_probability": 0.5178739783408405,
+        "top20_probability": 0.06118333333333333,
+        "top10_probability": 0.026166666666666668,
+        "top5_probability": 0.012333333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "89",
+        "rank": 89,
+        "total_strokes": 79,
+        "total_under_par_display": "7"
+      }
+    },
+    {
+      "player_id": "11391",
+      "official_display_name": "양윤서 0801(A)",
+      "pre": {
+        "k_rank": 56,
+        "analysis_status": "PASS",
+        "win_probability": 0.000924372770807405,
+        "cut_probability": 0.37401679247672387,
+        "top20_probability": 0.024283333333333334,
+        "top10_probability": 0.009866666666666666,
+        "top5_probability": 0.004633333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "16",
+        "rank": 16,
+        "total_strokes": 72,
+        "total_under_par_display": "0"
+      }
+    },
+    {
+      "player_id": "11411",
+      "official_display_name": "이효송",
+      "pre": {
+        "k_rank": 454,
+        "analysis_status": "PASS",
+        "win_probability": 0.0004549155845311621,
+        "cut_probability": 0.3458257737116161,
+        "top20_probability": 0.01195,
+        "top10_probability": 0.00485,
+        "top5_probability": 0.0022833333333333334
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "83",
+        "rank": 83,
+        "total_strokes": 78,
+        "total_under_par_display": "6"
+      }
+    },
+    {
+      "player_id": "11447",
+      "official_display_name": "한아름",
+      "pre": {
+        "k_rank": 89,
+        "analysis_status": "PASS",
+        "win_probability": 0.006431333903366809,
+        "cut_probability": 0.5732625223472471,
+        "top20_probability": 0.16548333333333334,
+        "top10_probability": 0.07208333333333333,
+        "top5_probability": 0.03456666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "7",
+        "rank": 7,
+        "total_strokes": 71,
+        "total_under_par_display": "-1"
+      }
+    },
+    {
+      "player_id": "11770",
+      "official_display_name": "짜라위 분짠(I)",
+      "pre": {
+        "k_rank": 31,
+        "analysis_status": "PASS",
+        "win_probability": 0.006335822261298133,
+        "cut_probability": 0.6445049202327479,
+        "top20_probability": 0.16075,
+        "top10_probability": 0.06965,
+        "top5_probability": 0.03351666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "39",
+        "rank": 39,
+        "total_strokes": 75,
+        "total_under_par_display": "3"
+      }
+    },
+    {
+      "player_id": "11944",
+      "official_display_name": "오수민 0809(A)",
+      "pre": {
+        "k_rank": 155,
+        "analysis_status": "PASS",
+        "win_probability": 0.0014485430703967902,
+        "cut_probability": 0.4760355754148294,
+        "top20_probability": 0.04006666666666667,
+        "top10_probability": 0.016516666666666666,
+        "top5_probability": 0.007866666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "95",
+        "rank": 95,
+        "total_strokes": 80,
+        "total_under_par_display": "8"
+      }
+    },
+    {
+      "player_id": "12038",
+      "official_display_name": "이지민",
+      "pre": {
+        "k_rank": 136,
+        "analysis_status": "PASS",
+        "win_probability": 0.0008601229461820077,
+        "cut_probability": 0.3447906691930329,
+        "top20_probability": 0.02475,
+        "top10_probability": 0.009816666666666666,
+        "top5_probability": 0.004166666666666667
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "89",
+        "rank": 89,
+        "total_strokes": 79,
+        "total_under_par_display": "7"
+      }
+    },
+    {
+      "player_id": "12604",
+      "official_display_name": "이와이 아키",
+      "pre": {
+        "k_rank": null,
+        "analysis_status": "DATA_INSUFFICIENT",
+        "win_probability": 0.0022245581255763425,
+        "cut_probability": 0.5178739783408405,
+        "top20_probability": 0.05965,
+        "top10_probability": 0.024866666666666665,
+        "top5_probability": 0.0115
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "31",
+        "rank": 31,
+        "total_strokes": 74,
+        "total_under_par_display": "2"
+      }
+    },
+    {
+      "player_id": "12706",
+      "official_display_name": "권은 0906(A)",
+      "pre": {
+        "k_rank": 519,
+        "analysis_status": "PASS",
+        "win_probability": 0.00011231233023693858,
+        "cut_probability": 0.1877010984508189,
+        "top20_probability": 0.0034,
+        "top10_probability": 0.0013333333333333333,
+        "top5_probability": 0.0005833333333333334
+      },
+      "r1": {
+        "status": "WD",
+        "rank_display": "999",
+        "rank": null,
+        "total_strokes": null,
+        "total_under_par_display": null
+      }
+    },
+    {
+      "player_id": "13146",
+      "official_display_name": "플로렌스 이본 비세라",
+      "pre": {
+        "k_rank": 687,
+        "analysis_status": "DATA_INSUFFICIENT",
+        "win_probability": 0.0022245581255763425,
+        "cut_probability": 0.5178739783408405,
+        "top20_probability": 0.0597,
+        "top10_probability": 0.0257,
+        "top5_probability": 0.012116666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "104",
+        "rank": 104,
+        "total_strokes": 84,
+        "total_under_par_display": "12"
+      }
+    },
+    {
+      "player_id": "13502",
+      "official_display_name": "왕 즈쉬엔",
+      "pre": {
+        "k_rank": 109,
+        "analysis_status": "PASS",
+        "win_probability": 0.0015926320823040426,
+        "cut_probability": 0.4828690655218606,
+        "top20_probability": 0.04348333333333333,
+        "top10_probability": 0.018216666666666666,
+        "top5_probability": 0.008083333333333333
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "16",
+        "rank": 16,
+        "total_strokes": 72,
+        "total_under_par_display": "0"
+      }
+    },
+    {
+      "player_id": "13839",
+      "official_display_name": "이와이 치지",
+      "pre": {
+        "k_rank": null,
+        "analysis_status": "DATA_INSUFFICIENT",
+        "win_probability": 0.0022245581255763425,
+        "cut_probability": 0.5178739783408405,
+        "top20_probability": 0.061116666666666666,
+        "top10_probability": 0.026516666666666668,
+        "top5_probability": 0.012466666666666666
+      },
+      "r1": {
+        "status": null,
+        "rank_display": "22",
+        "rank": 22,
+        "total_strokes": 73,
+        "total_under_par_display": "1"
+      }
+    }
+  ],
+  "pre_only_records": [
+    {
+      "player_id": "9111",
+      "official_display_name": "박서현",
+      "pre": {
+        "k_rank": 102,
+        "analysis_status": "PASS",
+        "win_probability": 0.0013198146370161717,
+        "cut_probability": 0.4583963220365898,
+        "top20_probability": 0.03601666666666667,
+        "top10_probability": 0.01445,
+        "top5_probability": 0.006566666666666667
+      },
+      "r1": null,
+      "note": "PRE 108명 엔트리에 있었으나 R1 공식 리더보드에 전혀 나타나지 않음 -- R1 값 없음"
+    }
+  ]
+}
