@@ -107,6 +107,6 @@ def test_pre_r1_pages_and_json_data_untouched_by_home_rebuild():
     assert '"content" / "website_v2"' in source or "CONTENT" in source
     assert "write_text" in source
     write_targets = sorted(set(re.findall(r"(\w+)\.write_text\(", source)))
-    assert write_targets == ["DOCS_INDEX", "SHARE_PAGE"], (
-        f"156_build_home_page.py must only ever call write_text on DOCS_INDEX/SHARE_PAGE, found writes to: {write_targets}"
+    assert write_targets == ["DOCS_INDEX", "SHARE_PAGE", "SHARE_TOURNAMENT_PAGE"], (
+        f"156_build_home_page.py must only ever call write_text on these three targets, found writes to: {write_targets}"
     )

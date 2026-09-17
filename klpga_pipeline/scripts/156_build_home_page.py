@@ -101,6 +101,16 @@ TOURNAMENT_VENUE_META = "더헤븐 · West, South · Par 72"
 GAME_CODE = "2026090002"
 URL_BASE = f"/tournaments/2026/{GAME_CODE}/"
 
+# Tournament-specific share route (operator instruction: a second,
+# game-code-scoped share URL, distinct from the generic /share/ cache
+# bust above, carrying its own tournament-named OG copy and a real
+# screenshot of the actual R1 first screen as its image -- never the
+# generic brand card, never the KB FINAL image).
+SHARE_TOURNAMENT_PAGE = REPO_ROOT / "docs" / "share" / GAME_CODE / "index.html"
+R1_OG_IMAGE_URL = "https://www.neogolfdata.com/assets/hana-2026090002-r1-og.png"
+R1_OG_IMAGE_WIDTH = 2400
+R1_OG_IMAGE_HEIGHT = 1260
+
 # Real, currently-published stages only (docs/tournaments/2026/2026090002/
 # has exactly pre/ and r1/ today) -- R2/R3/FR render as disabled
 # placeholders, the exact same convention R1's own stage-nav already
@@ -343,6 +353,48 @@ def build_share() -> None:
     print("rows:", row_count)
 
 
+def build_share_tournament() -> None:
+    """docs/share/2026090002/index.html -- a tournament-named share
+    route (operator instruction) carrying Hana-specific OG copy and a
+    real screenshot of the actual R1 first screen as its image (see
+    scratchpad/shoot_r1_og.py, run separately since this module has no
+    browser dependency) -- never the generic /share/ brand card, never
+    the KB FINAL image/text. Same real homepage body as root HOME.
+    Never writes docs/index.html or the generic docs/share/index.html."""
+    current_stage_href = f"{URL_BASE}{_CURRENT_STAGE}/"
+    rows_html, row_count = _build_rows_html()
+    assert row_count == 108, f"expected 108 R1 rows on the tournament share-page leaderboard, got {row_count}"
+
+    head = (
+        f'<head><meta name="neo-stage-publication-ready" content="true"><meta charset="utf-8">'
+        f'<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f'<title>NEO GOLF DATA · {TOURNAMENT_NAME} R1</title>'
+        f'<meta property="og:title" content="NEO GOLF DATA · {TOURNAMENT_NAME} R1">'
+        f'<meta property="og:description" content="{TOURNAMENT_NAME} R1 공식 결과와 NEO 분석">'
+        f'<meta property="og:url" content="https://www.neogolfdata.com/share/{GAME_CODE}/">'
+        f'<meta property="og:type" content="website">'
+        f'<meta property="og:image" content="{R1_OG_IMAGE_URL}">'
+        f'<meta property="og:image:width" content="{R1_OG_IMAGE_WIDTH}">'
+        f'<meta property="og:image:height" content="{R1_OG_IMAGE_HEIGHT}">'
+        f'<meta name="twitter:card" content="summary_large_image">'
+        f'<meta name="twitter:image" content="{R1_OG_IMAGE_URL}">'
+        f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css"></head>'
+    )
+    html = f'<!DOCTYPE html>\n<html lang="ko">{head}{_body_html(current_stage_href, rows_html)}</html>'
+
+    assert "우승 (3).png" not in html and "kb-2026090003" not in html, (
+        "tournament share page must never reference the KB FINAL image"
+    )
+    assert "KB금융그룹 챔피언십" not in html, "tournament share page must never reference the KB FINAL tournament name"
+    assert R1_OG_IMAGE_URL in html, "tournament share page must carry the real R1-screenshot image, never omit it"
+
+    SHARE_TOURNAMENT_PAGE.parent.mkdir(parents=True, exist_ok=True)
+    SHARE_TOURNAMENT_PAGE.write_text(html, encoding="utf-8")
+    print("wrote", SHARE_TOURNAMENT_PAGE)
+    print("rows:", row_count)
+
+
 if __name__ == "__main__":
     build()
     build_share()
+    build_share_tournament()
