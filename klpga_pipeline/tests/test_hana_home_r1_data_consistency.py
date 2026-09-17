@@ -100,11 +100,13 @@ def test_pre_r1_pages_and_json_data_untouched_by_home_rebuild():
     """Requirement 7: rebuilding the homepage must never touch the PRE
     page, the R1 original page's own file identity/content beyond its
     own builder's normal output, the PRE archive, or any JSON data
-    file -- 156 only ever writes docs/index.html."""
+    file -- 156 only ever writes docs/index.html and, since the /share/
+    cache-bust route was added, docs/share/index.html (see
+    test_hana_share_page.py)."""
     source = (SCRIPTS_DIR / "156_build_home_page.py").read_text(encoding="utf-8")
     assert '"content" / "website_v2"' in source or "CONTENT" in source
     assert "write_text" in source
-    write_targets = re.findall(r"(\w+)\.write_text\(", source)
-    assert write_targets == ["DOCS_INDEX"], (
-        f"156_build_home_page.py must only ever call write_text on DOCS_INDEX, found writes to: {write_targets}"
+    write_targets = sorted(set(re.findall(r"(\w+)\.write_text\(", source)))
+    assert write_targets == ["DOCS_INDEX", "SHARE_PAGE"], (
+        f"156_build_home_page.py must only ever call write_text on DOCS_INDEX/SHARE_PAGE, found writes to: {write_targets}"
     )
