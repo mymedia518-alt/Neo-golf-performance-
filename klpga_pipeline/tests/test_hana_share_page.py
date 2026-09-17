@@ -115,6 +115,6 @@ def test_root_home_pre_and_r1_pages_are_unaffected_by_the_share_route():
 
     source = (SCRIPTS_DIR / "156_build_home_page.py").read_text(encoding="utf-8")
     write_targets = sorted(set(re.findall(r"(\w+)\.write_text\(", source)))
-    assert write_targets == ["DOCS_INDEX", "SHARE_PAGE"], (
-        f"156_build_home_page.py must only ever write DOCS_INDEX and SHARE_PAGE, found: {write_targets}"
+    assert write_targets == ["DOCS_INDEX", "SHARE_PAGE", "SHARE_TOURNAMENT_PAGE"], (
+        f"156_build_home_page.py must only ever write these three targets, found: {write_targets}"
     )
