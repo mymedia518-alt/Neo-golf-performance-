@@ -1,0 +1,18 @@
+{
+  "schema_version": "hana_r1_new_entrant_identity_evidence_v1",
+  "game_code": "2026090002",
+  "purpose": "양서후(10867) has no PRE-stage entry (never in HANA_2026090002_ENTRY_FLAG_MATCH_V2.json) -- this file recovers her country flag and sponsor directly from the official R1 raw leaderboard capture, independently cross-checked against the entry list raw's own record of the same sponsor image code. Additive, R1-scoped only; PRE evidence files are never touched.",
+  "source_r1_raw": "klpga_pipeline/content/website_v2/incoming_evidence/2026090002/HANA_2026090002_R1_LEADERBOARD_RAW_V1.html",
+  "source_entry_list_raw_cross_check": "klpga_pipeline/content/website_v2/incoming_evidence/2026090002/HANA_2026090002_ENTRY_LIST_RAW_V2.html",
+  "records": [
+    {
+      "player_id": "10867",
+      "official_display_name": "양서후",
+      "country_code": "KOR",
+      "sponsor": "세기P&C",
+      "sponsor_image_code": "00100262",
+      "sponsor_domain": "www.saeki.co.kr",
+      "evidence_status": "VERIFIED_OFFICIAL_R1_LEADERBOARD"
+    }
+  ]
+}
