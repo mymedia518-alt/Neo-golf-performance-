@@ -449,13 +449,15 @@ def main() -> None:
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 
-    # Stage-nav: brand-new tournament, only PRE exists yet -- every
-    # forward stage is the same disabled placeholder the KB reference
-    # itself started from, never a link to a page that does not exist.
+    # Stage-nav: R1 has since been published (see
+    # 151_build_hana_r1_page.py) and links there now -- every stage
+    # still without a real page stays the same disabled placeholder the
+    # KB reference itself started from, never a link to a page that
+    # does not exist.
     stage_nav = (
         '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">사전 분석 PRE</a></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R1</span></li>'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/r1/">R1</a></li>'
         '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R2</span></li>'
         '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li>'
         '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li>'
