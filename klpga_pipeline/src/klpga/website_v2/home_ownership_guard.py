@@ -36,6 +36,26 @@ class HomeOwnershipError(Exception):
     """Raised when a non-owning writer attempts to write the production HOME."""
 
 
+def assert_not_root_home(output_path: Path, *, repo_root: Path) -> None:
+    """Hard stop, no bypass: raises HomeOwnershipError if output_path
+    resolves to the canonical production HOME (<repo_root>/docs/
+    index.html). For a per-round tournament page builder (PRE/R1/R2/R3/
+    FR): that builder's own output must always live at its own stage
+    URL (docs/tournaments/.../<stage>/index.html), never at root HOME --
+    root HOME has exactly one legitimate writer, its own dedicated
+    homepage builder (see scripts/156_build_home_page.py), which never
+    mirrors a round page's body into it. Unlike assert_home_write_allowed
+    above (which arbitrates BETWEEN root HOME's two recognized owners),
+    this has no owner concept and no bypass: a round-page builder calling
+    this always fails if its target is root HOME, full stop."""
+    canonical_home = (repo_root / "docs" / "index.html").resolve()
+    if output_path.resolve() == canonical_home:
+        raise HomeOwnershipError(
+            f"HOME OWNERSHIP GUARD: a per-round tournament page builder must never write to "
+            f"{canonical_home} (root HOME) -- its output must stay at its own stage URL."
+        )
+
+
 def extract_owner(html: str) -> str | None:
     marker = f'<meta name="{OWNER_META_NAME}" content="'
     start = html.find(marker)
