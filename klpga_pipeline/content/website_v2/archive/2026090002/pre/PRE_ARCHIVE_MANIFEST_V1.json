@@ -176,5 +176,25 @@
       "bytes": 8085,
       "base_commit": "c7a28578fa3652a3295e1377f8411753a393a1d9"
     }
-  ]
+  ],
+  "dataset_summary": {
+    "game_code": "2026090002",
+    "total_players": 108,
+    "band_insufficient_count": 8,
+    "band_insufficient_player_ids": [
+      "6085",
+      "11264",
+      "11391",
+      "11944",
+      "12604",
+      "12706",
+      "13146",
+      "13839"
+    ],
+    "band_insufficient_note": "count of players whose 경기력 band renders as '데이터 부족' on the live PRE page (139_build_hana_pre_kb_structure.py's `insufficient` boolean: M4 analysis_status != PASS, OR forced by HANA_2026090002_AMATEUR_KGA_ANALYSIS_V1.json) -- distinct from PLAYER_ANALYSIS_INPUT_V4.json's own coverage.data_insufficient (13), which measures season-SG data availability, a different metric. Both numbers are independently real; this one is the rendered-band count.",
+    "kim_rian_9702_k_rank": 135,
+    "park_hyun_kyung_9130_status": "excluded (absent from the official 108-player entry list)",
+    "verified_against": "the already-archived copies of PLAYER_ANALYSIS_INPUT_V4.json, PRE_M4_60000_CANDIDATE_V2.json and AMATEUR_KGA_ANALYSIS_V1.json under this same archive directory -- never the live working tree",
+    "amended_at_utc": "2026-09-17T00:00:00Z"
+  }
 }
