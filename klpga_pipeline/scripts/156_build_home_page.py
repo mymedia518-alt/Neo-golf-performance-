@@ -45,10 +45,29 @@ language.
 og:title/description/url/type + twitter:card stay homepage-generic
 (NEO GOLF DATA brand identity, never a specific tournament's name) --
 per explicit prior operator instruction, unaffected by this change.
-og:image remains intentionally omitted (see prior instruction: the
-only image files in docs/assets/ are the KB FINAL tournament's own
-result image, which must never be the homepage's representative
-image).
+og:image on root HOME remains intentionally omitted (see prior
+instruction: the only image files in docs/assets/ were the KB FINAL
+tournament's own result image, which must never be the homepage's
+representative image) -- root HOME's own <head> is left byte-for-byte
+untouched by this module's later SHARE-PAGE addition below.
+
+SHARE PAGE (operator instruction: Threads' cached link-preview for
+www.neogolfdata.com kept showing the old KB FINAL page even after root
+HOME was fixed, because Threads caches a URL's OG tags rather than
+re-fetching on every share). A second, cache-bust-only route,
+docs/share/index.html, is built from this exact same real homepage
+body (identical header/hero/leaderboard/stage-nav/footer -- genuinely
+"the real NEO GOLF DATA homepage screen", never a stripped-down or
+fabricated substitute) under its own URL
+(https://www.neogolfdata.com/share/) with its own fresh OG tags,
+including a real, newly-rendered representative image
+(docs/assets/og-neo-golf-data.png -- a brand card built from this
+site's own established colors/wordmark via
+scratchpad/shoot_og.py+og_card.html, sha256 confirmed distinct from
+both KB FINAL image files) that Threads has never cached before. Root
+HOME (docs/index.html) itself is not modified by adding this route:
+build() below is untouched from before; only a new build_share()
+function and its own head/output-path constants are added.
 """
 from __future__ import annotations
 
@@ -70,6 +89,10 @@ from klpga.website_v2.home_ownership_guard import (  # noqa: E402
 )
 
 DOCS_INDEX = REPO_ROOT / "docs" / "index.html"
+SHARE_PAGE = REPO_ROOT / "docs" / "share" / "index.html"
+OG_IMAGE_URL = "https://www.neogolfdata.com/assets/og-neo-golf-data.png"
+OG_IMAGE_WIDTH = 2400
+OG_IMAGE_HEIGHT = 1260
 
 TOURNAMENT_NAME = "하나금융그룹 챔피언십"
 TOURNAMENT_DATE_META = "2026.09.17 — 09.20"
@@ -221,13 +244,54 @@ def _build_rows_html() -> tuple[str, int]:
     return "".join(rows_html), len(rows_html)
 
 
+def _body_html(current_stage_href: str, rows_html: str) -> str:
+    """The real NEO GOLF DATA homepage screen -- header, hero, stage-nav,
+    full R1 leaderboard, footer. Shared verbatim by root HOME (build())
+    and the /share/ cache-bust route (build_share()) below so the two
+    can never visually diverge; only each page's own <head> differs."""
+    return (
+        f'<body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner">'
+        f'<a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span>'
+        f'<span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span>'
+        f'<span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a>'
+        f'<nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/" class="is-active" aria-current="page">홈</a>'
+        f'<a href="{current_stage_href}">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a>'
+        f'<a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header>'
+        f'<main><style>@media(max-width:760px){{.hana-tourinfo-sep{{display:none}}.hana-tourinfo-holes{{display:block}}}}</style>'
+        f'<section class="hero" id="home-hero"><div><p class="eyebrow">R1 결과</p><h1>{TOURNAMENT_NAME}</h1>'
+        f'<p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">{TOURNAMENT_WINNER_META}</p>'
+        f'<p class="meta">{TOURNAMENT_VENUE_META}<span class="hana-tourinfo-sep"> · </span>'
+        f'<span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div>'
+        f'<p class="round-update-note">2R 종료 후 업데이트</p></section>{_stage_nav_html()}'
+        f'<section class="panel leaderboard-panel" id="r1"><div class="leaderboard-head"><h2>R1 결과 <small>108명</small></h2></div>'
+        f'<div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll">'
+        f'<thead><tr><th>순위</th><th>선수</th><th>1R</th><th>NEO 경기력</th><th>컷 통과율</th><th>TOP20</th><th>TOP10</th>'
+        f'<th>TOP5</th><th>우승확률</th></tr></thead><tbody>{rows_html}</tbody></table></div></section></main>'
+        f'<nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> '
+        f'<a href="{current_stage_href}">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>'
+        f'<footer class="site-footer"><div class="site-footer__inner">'
+        f'<p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body>'
+    )
+
+
 def build() -> None:
     current_stage_href = f"{URL_BASE}{_CURRENT_STAGE}/"
     rows_html, row_count = _build_rows_html()
     assert row_count == 108, f"expected 108 R1 rows on the homepage leaderboard, got {row_count}"
 
-    html = f"""<!DOCTYPE html>
-<html lang="ko"><head><meta name="neo-home-owner" content="{CURRENT_TOURNAMENT_OWNER}"><meta name="neo-stage-publication-ready" content="true"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO GOLF DATA · {TOURNAMENT_NAME}</title><meta property="og:title" content="NEO GOLF DATA"><meta property="og:description" content="KLPGA 공식 데이터 기반 골프 분석"><meta property="og:url" content="https://neogolfdata.com/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css"></head><body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner"><a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span><span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span><span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a><nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/" class="is-active" aria-current="page">홈</a><a href="{current_stage_href}">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a><a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header><main><style>@media(max-width:760px){{.hana-tourinfo-sep{{display:none}}.hana-tourinfo-holes{{display:block}}}}</style><section class="hero" id="home-hero"><div><p class="eyebrow">R1 결과</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">{TOURNAMENT_WINNER_META}</p><p class="meta">{TOURNAMENT_VENUE_META}<span class="hana-tourinfo-sep"> · </span><span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div><p class="round-update-note">2R 종료 후 업데이트</p></section>{_stage_nav_html()}<section class="panel leaderboard-panel" id="r1"><div class="leaderboard-head"><h2>R1 결과 <small>108명</small></h2></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>1R</th><th>NEO 경기력</th><th>컷 통과율</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody>{rows_html}</tbody></table></div></section></main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="{current_stage_href}">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
+    head = (
+        f'<head><meta name="neo-home-owner" content="{CURRENT_TOURNAMENT_OWNER}">'
+        f'<meta name="neo-stage-publication-ready" content="true"><meta charset="utf-8">'
+        f'<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f'<title>NEO GOLF DATA · {TOURNAMENT_NAME}</title>'
+        f'<meta property="og:title" content="NEO GOLF DATA">'
+        f'<meta property="og:description" content="KLPGA 공식 데이터 기반 골프 분석">'
+        f'<meta property="og:url" content="https://neogolfdata.com/">'
+        f'<meta property="og:type" content="website">'
+        f'<meta name="twitter:card" content="summary_large_image">'
+        f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css"></head>'
+    )
+    html = f'<!DOCTYPE html>\n<html lang="ko">{head}{_body_html(current_stage_href, rows_html)}</html>'
 
     assert "우승 (3).png" not in html and "kb-2026090003" not in html, "homepage must never reference the KB FINAL image"
 
@@ -242,5 +306,43 @@ def build() -> None:
     print("rows:", row_count)
 
 
+def build_share() -> None:
+    """docs/share/index.html -- a cache-bust-only route so Threads'
+    stale link-preview cache for www.neogolfdata.com (still showing the
+    old KB FINAL page) can be replaced by sharing this new URL instead.
+    Same real homepage body as root HOME; its own head carries fresh OG
+    tags including a real, newly-rendered representative image that was
+    never part of the KB FINAL page. Never writes docs/index.html."""
+    current_stage_href = f"{URL_BASE}{_CURRENT_STAGE}/"
+    rows_html, row_count = _build_rows_html()
+    assert row_count == 108, f"expected 108 R1 rows on the share-page leaderboard, got {row_count}"
+
+    head = (
+        f'<head><meta name="neo-stage-publication-ready" content="true"><meta charset="utf-8">'
+        f'<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f'<title>NEO GOLF DATA</title>'
+        f'<meta property="og:title" content="NEO GOLF DATA">'
+        f'<meta property="og:description" content="KLPGA 공식 데이터 기반 골프 분석">'
+        f'<meta property="og:url" content="https://www.neogolfdata.com/share/">'
+        f'<meta property="og:type" content="website">'
+        f'<meta property="og:image" content="{OG_IMAGE_URL}">'
+        f'<meta property="og:image:width" content="{OG_IMAGE_WIDTH}">'
+        f'<meta property="og:image:height" content="{OG_IMAGE_HEIGHT}">'
+        f'<meta name="twitter:card" content="summary_large_image">'
+        f'<meta name="twitter:image" content="{OG_IMAGE_URL}">'
+        f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css"></head>'
+    )
+    html = f'<!DOCTYPE html>\n<html lang="ko">{head}{_body_html(current_stage_href, rows_html)}</html>'
+
+    assert "우승 (3).png" not in html and "kb-2026090003" not in html, "share page must never reference the KB FINAL image"
+    assert OG_IMAGE_URL in html, "share page must carry the new representative image, never omit it"
+
+    SHARE_PAGE.parent.mkdir(parents=True, exist_ok=True)
+    SHARE_PAGE.write_text(html, encoding="utf-8")
+    print("wrote", SHARE_PAGE)
+    print("rows:", row_count)
+
+
 if __name__ == "__main__":
     build()
+    build_share()
