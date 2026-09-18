@@ -23,19 +23,27 @@ probability_format already validate elsewhere -- no new template
 system, no new CSS.
 
 LIVE RED TEAM FIX (design parity): an earlier version of this page
-added R2-only design elements not present on R1 -- an extra hero line,
-an explanatory paragraph above the table, a stale "R3 종료 후
-업데이트" note, and the `leaderboard-table--r2-full` CSS modifier
-(a real, different grid layout class from an earlier KB build, never
-actually visible here since `--flat-scroll` overrides it at every
-width except one narrow-phone font-size rule). All four are removed:
-R2's page container/hero/stage-nav/table header/row height/player-
-sponsor rendering/typography/borders/probability typography now match
-R1's exactly, component for component. Only the column SET itself
-(순위/선수/1R/2R/합계/TOP20/TOP10/TOP5/우승확률, reflecting R2's own
-two-round-plus-cut data) and the CUT badge (reusing the site's
-existing .status-badge class, never a new style) differ from R1, by
-necessity of what stage this page reports.
+added R2-only design elements not present on R1 -- an extra hero
+meta line and an explanatory paragraph above the table. Both are
+removed: R2's page container/hero/stage-nav/table header/row height/
+player-sponsor rendering/typography/borders/probability typography
+now match R1's exactly, component for component. Only the column SET
+itself (순위/선수/1R/2R/합계/TOP20/TOP10/TOP5/우승확률, reflecting
+R2's own two-round-plus-cut data) and the CUT badge (reusing the
+site's existing .status-badge class, never a new style) differ from
+R1, by necessity of what stage this page reports.
+
+COPY-ONLY FOLLOWUP (operator instruction): the hero's
+"R3 종료 후 업데이트" note is real, forward-looking, publicly useful
+copy -- same role as R1's own "2R 종료 후 업데이트" note, same
+markup/position/style (`<p class="round-update-note">`, a sibling of
+the hero's inner `<div>`) -- restored here, distinct from the
+explanatory-paragraph removal above (which was internal validation
+copy, not a stage-progress note). The leaderboard heading also now
+states the cut-survivor count next to the row count
+("R2 결과 102명 · 컷 통과 64명"), rendered from `len(active_rows)` --
+the same already-verified freeze-evidence made-cut population used
+for the probability columns -- never a separate hardcoded number.
 """
 from __future__ import annotations
 
@@ -208,7 +216,7 @@ def main() -> None:
     final_rows = rows_html
 
     html = f"""<!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO GOLF DATA · {TOURNAMENT_NAME}</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../../assets/neo.css"></head><body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner"><a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span><span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span><span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a><nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a><a href="/tournaments/2026/2026090002/r2/" class="is-active" aria-current="page">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a><a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header><main><style>@media(max-width:760px){{.hana-tourinfo-sep{{display:none}}.hana-tourinfo-holes{{display:block}}}}</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">R2</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">R2 결과</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">{TOURNAMENT_WINNER_META}</p><p class="meta">{TOURNAMENT_VENUE_META}<span class="hana-tourinfo-sep"> · </span><span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/" aria-current="page">R2</a></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li></ol></nav><section class="panel leaderboard-panel" id="r2"><div class="leaderboard-head"><h2>R2 결과 <small>102명</small></h2></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>1R</th><th>2R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody>{''.join(final_rows)}</tbody></table></div></section></main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/r2/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO GOLF DATA · {TOURNAMENT_NAME}</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../../assets/neo.css"></head><body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner"><a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span><span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span><span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a><nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a><a href="/tournaments/2026/2026090002/r2/" class="is-active" aria-current="page">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a><a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header><main><style>@media(max-width:760px){{.hana-tourinfo-sep{{display:none}}.hana-tourinfo-holes{{display:block}}}}</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">R2</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">R2 결과</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">{TOURNAMENT_WINNER_META}</p><p class="meta">{TOURNAMENT_VENUE_META}<span class="hana-tourinfo-sep"> · </span><span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div><p class="round-update-note">R3 종료 후 업데이트</p></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/" aria-current="page">R2</a></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li></ol></nav><section class="panel leaderboard-panel" id="r2"><div class="leaderboard-head"><h2>R2 결과 <small>{len(score_rows)}명 · 컷 통과 {len(active_rows)}명</small></h2></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>1R</th><th>2R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody>{''.join(final_rows)}</tbody></table></div></section></main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/r2/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
 
     assert_not_root_home(R2_PAGE, repo_root=REPO_ROOT)
     R2_PAGE.parent.mkdir(parents=True, exist_ok=True)
