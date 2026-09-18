@@ -160,12 +160,44 @@ def test_r2_page_cut_survivors_show_real_nonzero_probabilities():
         assert "%" not in win_cell.group(1)
 
 
-def test_r2_page_cumulative_score_is_to_par_never_raw_strokes():
+def test_r2_page_first_cumulative_column_is_to_par_never_raw_strokes():
+    """COLUMN RESTRUCTURE (2026-09-18, later same-day relabel): there are
+    now TWO columns sharing the header/data-label text '합계' by explicit
+    operator instruction -- the 3rd cell (to-par: E/-N/+N) and the 8th
+    cell (raw cumulative strokes, what was labeled '토탈' until the
+    relabel). Since the label alone can no longer disambiguate them,
+    this test checks by fixed column position instead."""
     html = R2_PAGE.read_text(encoding="utf-8")
-    cells = re.findall(r"data-label='합계'>([^<]*)<", html)
-    assert cells
-    for cell in cells:
-        assert cell == "—" or re.fullmatch(r"E|[+-]\d{1,2}", cell), f"'합계' cell {cell!r} is not to-par notation"
+    rows = re.findall(r"<tr>.*?</tr>", html, re.S)
+    data_rows = [r for r in rows if "data-label='순위'" in r]
+    assert data_rows
+    for r in data_rows:
+        cells = re.findall(r">([^<]*)</t[dh]>", r)
+        to_par_cell = cells[2]
+        assert to_par_cell == "—" or re.fullmatch(r"E|[+-]\d{1,2}", to_par_cell), \
+            f"first '합계' (to-par) cell {to_par_cell!r} is not to-par notation"
+
+
+def test_r2_page_second_cumulative_column_is_raw_strokes_never_to_par():
+    """The 8th cell (second '합계' column) must be the real cumulative
+    raw strokes (e.g. 140), never to-par notation -- confirms the header
+    relabel did not also change what value is rendered."""
+    html = R2_PAGE.read_text(encoding="utf-8")
+    rows = re.findall(r"<tr>.*?</tr>", html, re.S)
+    data_rows = [r for r in rows if "data-label='순위'" in r]
+    assert data_rows
+    for r in data_rows:
+        cells = re.findall(r">([^<]*)</t[dh]>", r)
+        raw_total_cell = cells[7]
+        assert re.fullmatch(r"\d{2,3}", raw_total_cell), \
+            f"second '합계' (raw cumulative strokes) cell {raw_total_cell!r} is not a raw stroke count"
+
+
+def test_r2_page_header_has_two_hapgye_columns_at_positions_3_and_8():
+    html = R2_PAGE.read_text(encoding="utf-8")
+    header = re.search(r"<thead><tr>(.*?)</tr></thead>", html, re.S).group(1)
+    headers = re.findall(r"<th>([^<]*)</th>", header)
+    assert headers == ["순위", "선수", "합계", "1R", "2R", "3R", "4R", "합계", "TOP20", "TOP10", "TOP5", "우승"]
 
 
 def test_pre_and_r1_pages_untouched_by_r2_build():
