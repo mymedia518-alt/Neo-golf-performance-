@@ -132,7 +132,7 @@ def test_r2_page_has_102_score_rows_wd_excluded():
 def test_r2_page_cut_missed_rows_show_em_dash_never_zero_percent():
     html = R2_PAGE.read_text(encoding="utf-8")
     rows = re.findall(r"<tr>.*?</tr>", html, re.S)
-    cut_rows = [r for r in rows if "r2-cut-badge" in r]
+    cut_rows = [r for r in rows if "status-badge" in r]
     assert len(cut_rows) == 38
     for r in cut_rows:
         for label in ("TOP20", "TOP10", "TOP5", "우승확률"):
@@ -145,7 +145,7 @@ def test_r2_page_cut_missed_rows_show_em_dash_never_zero_percent():
 def test_r2_page_cut_survivors_show_real_nonzero_probabilities():
     html = R2_PAGE.read_text(encoding="utf-8")
     rows = re.findall(r"<tr>.*?</tr>", html, re.S)
-    active_rows = [r for r in rows if "data-label='순위'" in r and "r2-cut-badge" not in r]
+    active_rows = [r for r in rows if "data-label='순위'" in r and "status-badge" not in r]
     assert len(active_rows) == 64
     for r in active_rows:
         win_cell = re.search(r"data-label='우승확률'>([^<]*)<", r)

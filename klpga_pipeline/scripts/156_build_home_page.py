@@ -87,6 +87,7 @@ from klpga.website_v2.home_ownership_guard import (  # noqa: E402
     CURRENT_TOURNAMENT_OWNER,
     assert_home_write_allowed,
 )
+from klpga.website_v2.hana_home_stage_router import current_stage_main_html  # noqa: E402
 
 DOCS_INDEX = REPO_ROOT / "docs" / "index.html"
 SHARE_PAGE = REPO_ROOT / "docs" / "share" / "index.html"
@@ -119,10 +120,13 @@ R1_OG_IMAGE_HEIGHT = 1260
 SHORT_SHARE_PAGE = REPO_ROOT / "docs" / GAME_CODE / "index.html"
 
 # Real, currently-published stages only (docs/tournaments/2026/2026090002/
-# has exactly pre/ and r1/ today) -- R2/R3/FR render as disabled
+# now has pre/, r1/, and r2/) -- R3/FR still render as disabled
 # placeholders, the exact same convention R1's own stage-nav already
-# uses for its own not-yet-published stages.
-_PUBLISHED_STAGES = {"pre", "r1"}
+# uses for its own not-yet-published stages. Used only by the R1-
+# anchored share-page builders below (build_share/build_share_
+# tournament/build_short_share) -- root HOME itself (build()) no
+# longer uses this constant, see hana_home_stage_router.
+_PUBLISHED_STAGES = {"pre", "r1", "r2"}
 _STAGE_LABELS = [("pre", "사전 분석 PRE"), ("r1", "R1"), ("r2", "R2"), ("r3", "R3"), ("fr", "FR")]
 _CURRENT_STAGE = "r1"
 
@@ -292,9 +296,21 @@ def _body_html(current_stage_href: str, rows_html: str) -> str:
 
 
 def build() -> None:
-    current_stage_href = f"{URL_BASE}{_CURRENT_STAGE}/"
-    rows_html, row_count = _build_rows_html()
-    assert row_count == 108, f"expected 108 R1 rows on the homepage leaderboard, got {row_count}"
+    """LIVE RED TEAM FIX (root cause, not a one-line hardcode): HOME
+    used to always embed a hardcoded duplicate of R1's own leaderboard
+    (`_CURRENT_STAGE = "r1"` literal + `_build_rows_html()`'s R1-only
+    JSON reads), so it never advanced when R2 went live. HOME's
+    <main> content now mirrors whichever stage
+    klpga.website_v2.hana_home_stage_router.hana_current_stage()
+    determines is real, evidence-backed CURRENT (r2 now that its
+    gated forecast artifact exists) -- read verbatim from that stage's
+    own already-published page, never rebuilt/resimulated. HOME's own
+    <head>/<header>/<footer> shell (including its deliberately
+    homepage-generic OG tags) is unchanged; only the "대회" nav
+    destination and the embedded leaderboard body now track the real
+    current stage."""
+    stage, main_html = current_stage_main_html(repo_root=REPO_ROOT)
+    current_stage_href = f"{URL_BASE}{stage}/"
 
     head = (
         f'<head><meta name="neo-home-owner" content="{CURRENT_TOURNAMENT_OWNER}">'
@@ -308,7 +324,21 @@ def build() -> None:
         f'<meta name="twitter:card" content="summary_large_image">'
         f'<link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css"></head>'
     )
-    html = f'<!DOCTYPE html>\n<html lang="ko">{head}{_body_html(current_stage_href, rows_html)}</html>'
+    body = (
+        f'<body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner">'
+        f'<a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span>'
+        f'<span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span>'
+        f'<span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a>'
+        f'<nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/" class="is-active" aria-current="page">홈</a>'
+        f'<a href="{current_stage_href}">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a>'
+        f'<a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header>'
+        f'{main_html}'
+        f'<nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> '
+        f'<a href="{current_stage_href}">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>'
+        f'<footer class="site-footer"><div class="site-footer__inner">'
+        f'<p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body>'
+    )
+    html = f'<!DOCTYPE html>\n<html lang="ko">{head}{body}</html>'
 
     assert "우승 (3).png" not in html and "kb-2026090003" not in html, "homepage must never reference the KB FINAL image"
 
@@ -320,7 +350,7 @@ def build() -> None:
     )
     DOCS_INDEX.write_text(html, encoding="utf-8")
     print("wrote", DOCS_INDEX)
-    print("rows:", row_count)
+    print("current_stage:", stage)
 
 
 def build_share() -> None:

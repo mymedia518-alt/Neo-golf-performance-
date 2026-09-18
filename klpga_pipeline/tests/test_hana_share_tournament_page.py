@@ -49,14 +49,23 @@ def test_tournament_share_page_exists():
 
 
 def test_tournament_share_page_shows_the_real_r1_108_player_screen():
-    """Requirement 3: same R1 108-player screen as docs/index.html."""
+    """Requirement 3: same R1 108-player screen (LIVE RED TEAM FIX: root
+    HOME now mirrors Hana's real current stage, r2, instead of always
+    showing R1 -- see test_hana_home_r1_data_consistency.py -- so this
+    route's own R1-screenshot invariant is checked against R1's own
+    real data directly, not against HOME. Checked by real player-name
+    content, not raw body bytes: this route's own _body_html() template
+    has always used a structurally different hero markup --
+    id="home-hero" -- from R1's own real page's id="tournament" hero, a
+    pre-existing, unrelated divergence.)"""
     _rebuild()
-    home_html = HOME_PAGE.read_text(encoding="utf-8")
+    r1_html = R1_PAGE.read_text(encoding="utf-8")
     page_html = SHARE_TOURNAMENT_PAGE.read_text(encoding="utf-8")
-    home_body = home_html[home_html.index("<body>"):]
-    page_body = page_html[page_html.index("<body>"):]
-    assert home_body == page_body, "tournament share page body must be byte-identical to root HOME's body"
     assert page_html.count("<tr>") >= 108
+    r1_names = set(re.findall(r"class='player-name'[^>]*>([^<]*)<", r1_html))
+    page_names = set(re.findall(r"class='player-name'[^>]*>([^<]*)<", page_html))
+    assert len(r1_names) == 108
+    assert r1_names == page_names, "tournament share page must show the same real 108 R1 players as R1's own page"
 
 
 def test_tournament_share_page_og_tags_are_exactly_as_specified():
