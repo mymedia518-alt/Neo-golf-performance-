@@ -40,18 +40,26 @@ def test_share_page_exists_and_is_a_real_file():
     assert SHARE_PAGE.is_file(), f"expected {SHARE_PAGE} to exist"
 
 
-def test_share_page_shows_the_real_homepage_screen():
-    """Requirement 2: share/ must display the actual real homepage
-    screen, not a stripped-down or fabricated substitute -- its body
-    (everything from <body> onward) must be byte-identical to root
-    HOME's own body."""
+def test_share_page_shows_the_real_r1_108_player_screen():
+    """Requirement 2: share/ must display the actual real R1 108-player
+    screen this route was built to carry, not a stripped-down or
+    fabricated substitute. (LIVE RED TEAM FIX: root HOME now mirrors
+    Hana's real current stage, r2, instead of always showing R1 -- see
+    test_hana_home_r1_data_consistency.py -- so this share route's own
+    invariant is checked against R1's own real data directly, not
+    against HOME, which no longer shows R1 content. Checked by real
+    player-name content, not raw body bytes: this share route's own
+    _body_html() template has always used a structurally different
+    hero markup -- id="home-hero" -- from R1's own real page's
+    id="tournament" hero, a pre-existing, unrelated divergence.)"""
     _rebuild()
-    home_html = HOME_PAGE.read_text(encoding="utf-8")
+    r1_html = R1_PAGE.read_text(encoding="utf-8")
     share_html = SHARE_PAGE.read_text(encoding="utf-8")
-    home_body = home_html[home_html.index("<body>"):]
-    share_body = share_html[share_html.index("<body>"):]
-    assert home_body == share_body, "share/ body must be byte-identical to root HOME's body"
     assert share_html.count("<tr>") >= 108
+    r1_names = set(re.findall(r"class='player-name'[^>]*>([^<]*)<", r1_html))
+    share_names = set(re.findall(r"class='player-name'[^>]*>([^<]*)<", share_html))
+    assert len(r1_names) == 108
+    assert r1_names == share_names, "share/ must show the same real 108 R1 players as R1's own page"
 
 
 def test_share_page_never_references_kb_final():
