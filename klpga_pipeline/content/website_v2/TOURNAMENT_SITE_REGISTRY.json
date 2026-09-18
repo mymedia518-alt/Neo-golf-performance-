@@ -90,6 +90,24 @@
         ]
       }
     },
+    "2026090002": {
+      "url_base": "/tournaments/2026/2026090002/",
+      "stage_state_filename": "2026090002_STAGE_STATE.json",
+      "stage_order": [
+        "pre",
+        "r1",
+        "r2",
+        "r3",
+        "fr",
+        "final"
+      ],
+      "final_round_number": 4,
+      "_final_round_number_comment": "Hana (2026090002) is a genuine FOUR competitive-round event, same schema/reasoning as 2026090003's own _final_round_number_comment: OFFICIAL_KLPGA_SCHEDULE.json records this event running 2026-09-17 to 2026-09-20 (4 days), the identical 4-day profile 2026090003's own comment already cites 하나금융그룹 챔피언십 as matching. Counting 'rN' entries already present in stage_order would mechanically undercount this tournament (only 2 round pages built so far) as 2 rounds, not 4 -- this explicit override prevents that, exactly as it already does for 2026090003. Per the permanent NEO public-stage convention, competitive round 4 is publicly labeled 'FR', never 'r4' or 'FINAL'.",
+      "_hub_card_comment": "Mirrors 2026090003's own hub_card convention: nav_stages honestly lists only the stage(s) actually published so far ([\"pre\", \"r1\"] via scripts/130 and scripts/149+152). No display_name/status/date_range/result_line here -- update nav_stages once a stage is genuinely published, never the other static fields.",
+      "hub_card": {
+        "nav_stages": ["pre", "r1"]
+      }
+    },
     "2026090003": {
       "url_base": "/tournaments/2026/2026090003/",
       "stage_state_filename": "2026090003_STAGE_STATE.json",
