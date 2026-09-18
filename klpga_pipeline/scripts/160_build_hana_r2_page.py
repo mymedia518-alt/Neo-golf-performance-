@@ -44,6 +44,21 @@ states the cut-survivor count next to the row count
 ("R2 결과 102명 · 컷 통과 64명"), rendered from `len(active_rows)` --
 the same already-verified freeze-evidence made-cut population used
 for the probability columns -- never a separate hardcoded number.
+
+MODEL PROMOTION (operator instruction, 2026-09-18): the probability
+columns now source from 2026090002_POST_R3_CANDIDATE_FREEZE_V1.json
+(scripts/166_hana_post_r3_candidate_freeze.py) instead of
+2026090002_POST_R2_FINAL_FORECAST.json -- the walk-forward-validated
+BASE+R1SG+R2SG model (research/hana-current-sg-model-validation-
+20260918, commit 2975036), gated PASS on all 5 pre-registered
+criteria (p<0.05, bootstrap CI excludes zero, both SG coefficients
+negative, chronological split-half sign-stable). Same 64 official cut
+survivors, same actual R1/R2 scores, same PRE-frozen historical
+expected/spread, same remaining_rounds=2/n_simulations=60000/seed as
+the original forecast -- the ONLY difference is the validated
+additive current-SG update to each player's expected_round_score_to_
+par. 2026090002_POST_R2_FINAL_FORECAST.json itself is never modified;
+this page simply now reads the newer, gated candidate file.
 """
 from __future__ import annotations
 
@@ -137,7 +152,7 @@ def _player_cell(pid: str, name: str, country_by_id: dict[str, str], sponsor_by_
 
 def main() -> None:
     freeze = _load("2026090002_R2_FROZEN_EVIDENCE.json")
-    forecast = _load("2026090002_POST_R2_FINAL_FORECAST.json")
+    forecast = _load("2026090002_POST_R3_CANDIDATE_FREEZE_V1.json")
     forecast_by_id = {r["player_id"]: r for r in forecast["records"]}
 
     all_records = freeze["records"]
