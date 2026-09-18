@@ -1,0 +1,170 @@
+{
+  "schema_version": 2,
+  "artifact": "HANA_2026090002_CURRENT_SG_VALIDATION_REPORT_V2",
+  "supersedes": "HANA_2026090002_CURRENT_SG_VALIDATION_REPORT_V1.json (R2 SG was not yet found/uploaded when V1 ran)",
+  "purpose": "RED TEAM MODEL CORRECTION research/validation report -- NOT a production forecast, NEVER read by any page builder.",
+  "evidence": {
+    "cut_survivor_population": 64,
+    "duplicates_in_population": 0,
+    "r1_sg_matched": 64,
+    "r1_sg_missing": [],
+    "r1_sg_duplicate_player_ids": 0,
+    "r2_sg_evidence_exists": true,
+    "r2_sg_matched": 64,
+    "r2_sg_missing": [],
+    "r2_sg_duplicate_player_ids": 0,
+    "r1_and_r2_full_match": 64,
+    "r1_and_r2_full_match_of": 64,
+    "identity_ambiguity_found": false,
+    "r1_sg_single_round_verified": true,
+    "r2_sg_single_round_verified": true
+  },
+  "walk_forward_validation": {
+    "leakage_reverification": {
+      "2026090002_absent_from_historical_warehouse": true,
+      "2026090003_absent_from_historical_warehouse": true
+    },
+    "n_player_rounds": 6104,
+    "n_events": 96,
+    "n_evaluated_events": 95,
+    "min_training_rows": 30,
+    "per_model": {
+      "BASE": {
+        "n": 6050,
+        "mae": 2.361985610163407,
+        "rmse": 2.9865868615180884
+      },
+      "R1SG": {
+        "n": 6050,
+        "mae": 2.3584723368002836,
+        "rmse": 2.984225321041209
+      },
+      "R2SG": {
+        "n": 6050,
+        "mae": 2.3593389035372567,
+        "rmse": 2.981986427504695
+      },
+      "R1SG_R2SG": {
+        "n": 6050,
+        "mae": 2.3530210968521232,
+        "rmse": 2.975590427208342
+      }
+    },
+    "event_wins": {
+      "BASE": 20,
+      "R1SG": 25,
+      "R2SG": 16,
+      "R1SG_R2SG": 34
+    },
+    "final_coefficients": {
+      "BASE": {
+        "intercept": -0.05710026316779408,
+        "base": 0.7066650410145461
+      },
+      "R1SG": {
+        "intercept": 0.06730089163137384,
+        "base": 0.6830335780897955,
+        "r1_sg_total": -0.06981598627279884
+      },
+      "R2SG": {
+        "intercept": 0.09478223128978418,
+        "base": 0.6779161367850176,
+        "r2_sg_total": -0.09180485302500141
+      },
+      "R1SG_R2SG": {
+        "intercept": 0.298569627503575,
+        "base": 0.6392277072909517,
+        "r1_sg_total": -0.0950101102426164,
+        "r2_sg_total": -0.11265478884756121
+      }
+    },
+    "significance_vs_base_paired_wilcoxon_on_event_level_mae": {
+      "R1SG": {
+        "statistic": 2734.0,
+        "z": 1.6833282405044154,
+        "p_value": 0.0923115663611156,
+        "n": 95,
+        "mean_diff": 0.0033903712198694353,
+        "median_diff": 0.002618921957140863
+      },
+      "R2SG": {
+        "statistic": 2489.0,
+        "z": 0.7739226860973994,
+        "p_value": 0.43897651301803897,
+        "n": 95,
+        "mean_diff": 0.0028141695252544992,
+        "median_diff": 0.0026544192599136096
+      },
+      "R1SG_R2SG": {
+        "statistic": 2821.0,
+        "z": 2.0062600088040496,
+        "p_value": 0.04482851437868196,
+        "n": 95,
+        "mean_diff": 0.00900383814998942,
+        "median_diff": 0.010367248114072414
+      }
+    },
+    "stability_checks": {
+      "R1SG": {
+        "first_half_n": 47,
+        "first_half_mean_diff": 0.003234692669195284,
+        "first_half_p": 0.23803573546329915,
+        "second_half_n": 48,
+        "second_half_mean_diff": 0.003542806467404541,
+        "second_half_p": 0.19802583721293976,
+        "split_half_same_sign": true,
+        "bootstrap_ci_95": {
+          "lo": -0.000927598941864136,
+          "hi": 0.007911371545807004
+        },
+        "bootstrap_ci_excludes_zero": false
+      },
+      "R2SG": {
+        "first_half_n": 47,
+        "first_half_mean_diff": 0.002949297526372334,
+        "first_half_p": 0.41214924104591466,
+        "second_half_n": 48,
+        "second_half_mean_diff": 0.0026818566908266193,
+        "second_half_p": 0.7157778471028227,
+        "split_half_same_sign": true,
+        "bootstrap_ci_95": {
+          "lo": -0.0030238496427065394,
+          "hi": 0.008641973128822993
+        },
+        "bootstrap_ci_excludes_zero": false
+      },
+      "R1SG_R2SG": {
+        "first_half_n": 47,
+        "first_half_mean_diff": 0.009959754594452568,
+        "first_half_p": 0.14860831277304198,
+        "second_half_n": 48,
+        "second_half_mean_diff": 0.008067836631452588,
+        "second_half_p": 0.14957208601166272,
+        "split_half_same_sign": true,
+        "bootstrap_ci_95": {
+          "lo": 0.0006964208681128418,
+          "hi": 0.017261849414396006
+        },
+        "bootstrap_ci_excludes_zero": true
+      }
+    },
+    "significance_alpha": 0.05,
+    "gate_criteria": {
+      "p_lt_0.05": true,
+      "bootstrap_ci_excludes_zero": true,
+      "coef_r1sg_negative": true,
+      "coef_r2sg_negative": true,
+      "split_half_same_sign": true
+    },
+    "gate_pass": true
+  },
+  "gate_criteria": {
+    "p_lt_0.05": true,
+    "bootstrap_ci_excludes_zero": true,
+    "coef_r1sg_negative": true,
+    "coef_r2sg_negative": true,
+    "split_half_same_sign": true
+  },
+  "model_promotion": "PASS",
+  "model_promotion_rationale": "All 5 pre-registered criteria evaluated (p<0.05 alone is explicitly NOT sufficient per operator instruction): p-value, bootstrap 95% CI on the paired event-level MAE improvement, both SG coefficient directions, and chronological split-half sign-stability. See gate_criteria for the individual pass/fail of each."
+}

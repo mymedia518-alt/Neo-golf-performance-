@@ -93,6 +93,25 @@ class PlayerR2SimInput:
     as of Round 2's real conclusion) — None means genuinely unknown
     (SKIP + LOG), never guessed True/False."""
 
+    # RED TEAM MODEL CORRECTION (operator instruction, 2026-09-18):
+    # current-tournament ROUND-SCOPED Strokes Gained, kept as two
+    # independent numeric fields -- NEVER pre-combined into one
+    # composite value. Each defaults to None (genuinely unavailable,
+    # never a fabricated/interpolated 0). Purely additive: neither
+    # field is read anywhere in this module today --
+    # `simulate_post_round2` and `expected_round_score_to_par`'s own
+    # computation are completely unchanged by their presence. A
+    # separate, explicitly-gated walk-forward-validated update path
+    # (see klpga.neo_win.current_sg_walk_forward /
+    # klpga.neo_win.current_sg_challenger) is required before any
+    # caller may use these fields to adjust
+    # `expected_round_score_to_par` -- adding them here is the input
+    # CONTRACT only, not a behavior change.
+    r1_sg_total: Optional[float] = None
+    r2_sg_total: Optional[float] = None
+    r1_sg_source: Optional[str] = None
+    r2_sg_source: Optional[str] = None
+
 
 def build_r2_sim_inputs_from_frozen_snapshot(
     pre_snapshot,
