@@ -1,0 +1,43 @@
+{
+  "schema_version": "neo_roster_discrepancy_audit_v1",
+  "game_code": "2026090002",
+  "purpose": "Factual record only -- not a conclusion, not a blocker. R2 freeze source of truth is the real official R2 leaderboard (content/website_v2/incoming_evidence/2026090002/HANA_2026090002_R2_OFFICIAL_RAW.html), never the entry-list snapshot. This file records an observed mismatch between two independently-sourced artifacts for future investigation; it does not assert a cause.",
+  "compared_sources": {
+    "entry_snapshot": "HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json (108 records)",
+    "r2_leaderboard": "content/website_v2/incoming_evidence/2026090002/HANA_2026090002_R2_OFFICIAL_RAW.html, parsed via klpga.parsers.leaderboard_parser.parse_round_leaderboard_html (105 rows)"
+  },
+  "observed_facts": [
+    {
+      "fact": "present_in_entry_snapshot_absent_from_r2_leaderboard",
+      "player_id": "9111",
+      "player_name": "박서현",
+      "note": "Listed in HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json as entry_category=eligible. Does not appear as any row (ACTIVE/CUT/WD) on the real R2 leaderboard capture."
+    },
+    {
+      "fact": "present_in_entry_snapshot_absent_from_r2_leaderboard",
+      "player_id": "12706",
+      "player_name": "권은 0906(A)",
+      "note": "Same as above."
+    },
+    {
+      "fact": "present_in_entry_snapshot_absent_from_r2_leaderboard",
+      "player_id": "9702",
+      "player_name": "김리안",
+      "note": "Same as above."
+    },
+    {
+      "fact": "present_in_entry_snapshot_absent_from_r2_leaderboard",
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "note": "Same as above."
+    },
+    {
+      "fact": "present_on_r2_leaderboard_absent_from_entry_snapshot",
+      "player_id": "10867",
+      "player_name": "양서후",
+      "note": "Appears as a real, scored row on the R2 leaderboard capture (status=None, a valid score). Not present in HANA_2026090002_OFFICIAL_ENTRY_LIST_V2.json's 108 records at all."
+    }
+  ],
+  "explicitly_not_concluded": "No official-evidence basis exists in this repo to label the 4 entry-snapshot-only players as WD/DNS, or to characterize 양서후's presence as a roster substitution/replacement. Any such determination requires separate official confirmation (e.g. an official withdrawal notice or a corrected/superseding entry list) before being recorded as fact.",
+  "impact_on_r2_build": "None. The R2 freeze (2026090002_R2_FROZEN_EVIDENCE.json) and forecast (2026090002_POST_R2_FINAL_FORECAST.json) are built entirely from the real R2 leaderboard's own 105 rows -- the entry snapshot is not a dependency of either artifact. This discrepancy does not block publication."
+}
