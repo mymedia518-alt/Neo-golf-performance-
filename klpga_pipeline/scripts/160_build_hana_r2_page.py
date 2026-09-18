@@ -61,10 +61,17 @@ par. 2026090002_POST_R2_FINAL_FORECAST.json itself is never modified;
 this page simply now reads the newer, gated candidate file.
 
 COLUMN RESTRUCTURE (operator instruction, 2026-09-18): the public
-column set is now 순위/선수/합계/1R/2R/3R/4R/토탈/TOP20/TOP10/TOP5/우승.
-합계 stays the to-par notation (E/-N/+N) it always was; 1R/2R/토탈 are
-now the player's REAL official raw strokes for that round (not to-par),
-and 3R/4R always render EMPTY_MARK since those rounds have not been
+column set is now 순위/선수/합계/1R/2R/3R/4R/합계/TOP20/TOP10/TOP5/우승 --
+두 번째 '합계' 컬럼은 최초 배포 시 헤더/data-label만 '토탈'이었던 것을
+'합계'로 재명명한 것으로, 값(누적 실타수)은 전혀 바뀌지 않는다(operator
+instruction, later same day: "뒤쪽 누적타수 컬럼 표시 토탈을 합계로만
+변경"). 첫 번째 '합계'는 지금까지처럼 to-par 표기(E/-N/+N)이고, 두 번째
+'합계'는 그 라운드까지의 실제 누적 타수(raw strokes) -- 같은 헤더 텍스트를
+쓰지만 서로 다른 두 컬럼으로, 혼동을 피하려면 to-par는 항상 3번째,
+누적 실타수는 항상 8번째 컬럼이라는 고정 위치로 구분한다.
+1R/2R and the second 합계 column are the player's REAL official raw
+strokes for that round/cumulative-through-round (not to-par); 3R/4R
+always render EMPTY_MARK since those rounds have not been
 played yet. The raw strokes are never fabricated or derived by PAR
 arithmetic: they are read directly, read-only, by re-parsing the SAME
 already-ingested official raw evidence scripts/158 itself parsed to
@@ -296,7 +303,7 @@ def main() -> None:
             f"<td data-label='2R'>{_esc(r2_display)}</td>"
             f"<td data-label='3R'>{EMPTY_MARK}</td>"
             f"<td data-label='4R'>{EMPTY_MARK}</td>"
-            f"<td data-label='토탈'>{_esc(total_raw_display)}</td>"
+            f"<td data-label='합계'>{_esc(total_raw_display)}</td>"
             f"<td class='{'win' if top20 != EMPTY_MARK else 'metric-empty'}' data-label='TOP20'>{_esc(top20)}</td>"
             f"<td class='{'win' if top10 != EMPTY_MARK else 'metric-empty'}' data-label='TOP10'>{_esc(top10)}</td>"
             f"<td class='{'win' if top5 != EMPTY_MARK else 'metric-empty'}' data-label='TOP5'>{_esc(top5)}</td>"
@@ -308,7 +315,7 @@ def main() -> None:
 
     html = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO GOLF DATA · {TOURNAMENT_NAME}</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../../assets/neo.css"></head><body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner"><a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span><span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span><span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a><nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a><a href="/tournaments/2026/2026090002/r2/" class="is-active" aria-current="page">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a><a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header><main><style>@media(max-width:760px){{.hana-tourinfo-sep{{display:none}}.hana-tourinfo-holes{{display:block}}}}
-/* R2 COLUMN RESTRUCTURE (operator instruction, 2026-09-18): 합계/1R/2R/3R/4R/토탈
+/* R2 COLUMN RESTRUCTURE (operator instruction, 2026-09-18): 합계/1R/2R/3R/4R/합계(누적)
    packed tighter on mobile -- centered, minimal side padding -- while player
    name/sponsor keep their existing readability; TOP20/TOP10/TOP5/우승 and
    순위/선수 are untouched. Horizontal scroll (table-wrap--flat-scroll's own
@@ -319,7 +326,7 @@ def main() -> None:
 .leaderboard-table.leaderboard-table--flat-scroll thead th:nth-child(n+3):nth-child(-n+8),
 .leaderboard-table.leaderboard-table--flat-scroll tbody td:nth-child(n+3):nth-child(-n+8){{padding-left:6px;padding-right:6px;text-align:center}}
 }}
-</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">R2</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">R2 결과</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">{TOURNAMENT_WINNER_META}</p><p class="meta">{TOURNAMENT_VENUE_META}<span class="hana-tourinfo-sep"> · </span><span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div><p class="round-update-note">R3 종료 후 업데이트</p></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/" aria-current="page">R2</a></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li></ol></nav><section class="panel leaderboard-panel" id="r2"><div class="leaderboard-head"><h2>R2 결과 <small>{len(score_rows)}명 · 컷 통과 {len(active_rows)}명</small></h2></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>1R</th><th>2R</th><th>3R</th><th>4R</th><th>토탈</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th></tr></thead><tbody>{''.join(final_rows)}</tbody></table></div></section></main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/r2/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
+</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">R2</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">R2 결과</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">{TOURNAMENT_WINNER_META}</p><p class="meta">{TOURNAMENT_VENUE_META}<span class="hana-tourinfo-sep"> · </span><span class="hana-tourinfo-holes">72홀 스트로크 플레이</span></p></div><p class="round-update-note">R3 종료 후 업데이트</p></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/" aria-current="page">R2</a></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li><li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li></ol></nav><section class="panel leaderboard-panel" id="r2"><div class="leaderboard-head"><h2>R2 결과 <small>{len(score_rows)}명 · 컷 통과 {len(active_rows)}명</small></h2></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>1R</th><th>2R</th><th>3R</th><th>4R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th></tr></thead><tbody>{''.join(final_rows)}</tbody></table></div></section></main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/r2/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
 
     assert_not_root_home(R2_PAGE, repo_root=REPO_ROOT)
     R2_PAGE.parent.mkdir(parents=True, exist_ok=True)
