@@ -130,27 +130,34 @@ def test_r2_page_has_102_score_rows_wd_excluded():
 
 
 def test_r2_page_cut_missed_rows_show_em_dash_never_zero_percent():
+    """COLUMN RESTRUCTURE (2026-09-18): the header text/data-label is now
+    '우승' (was '우승확률') and probability cells drop the trailing '%' --
+    both are display-string changes only, not a data change; a cut-missed
+    row must still show a bare em-dash, never a numeric "0"."""
     html = R2_PAGE.read_text(encoding="utf-8")
     rows = re.findall(r"<tr>.*?</tr>", html, re.S)
     cut_rows = [r for r in rows if "status-badge" in r]
     assert len(cut_rows) == 38
     for r in cut_rows:
-        for label in ("TOP20", "TOP10", "TOP5", "우승확률"):
+        for label in ("TOP20", "TOP10", "TOP5", "우승"):
             cell = re.search(rf"data-label='{label}'>([^<]*)<", r)
             assert cell is not None
             assert cell.group(1) == "—", f"cut-missed row shows {cell.group(1)!r} for {label}, expected em-dash"
-            assert "0%" not in r
+            assert re.search(rf"data-label='{label}'>0<", r) is None, f"cut-missed row shows a fabricated 0 for {label}"
 
 
 def test_r2_page_cut_survivors_show_real_nonzero_probabilities():
+    """COLUMN RESTRUCTURE (2026-09-18): header/data-label '우승확률' ->
+    '우승'; cell values no longer carry a trailing '%'."""
     html = R2_PAGE.read_text(encoding="utf-8")
     rows = re.findall(r"<tr>.*?</tr>", html, re.S)
     active_rows = [r for r in rows if "data-label='순위'" in r and "status-badge" not in r]
     assert len(active_rows) == 64
     for r in active_rows:
-        win_cell = re.search(r"data-label='우승확률'>([^<]*)<", r)
+        win_cell = re.search(r"data-label='우승'>([^<]*)<", r)
         assert win_cell is not None
         assert win_cell.group(1) != "—"
+        assert "%" not in win_cell.group(1)
 
 
 def test_r2_page_cumulative_score_is_to_par_never_raw_strokes():
