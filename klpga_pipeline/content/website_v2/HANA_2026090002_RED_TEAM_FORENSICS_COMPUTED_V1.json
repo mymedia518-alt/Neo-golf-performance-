@@ -4082,5 +4082,74 @@
         14
       ]
     ]
+  },
+  "neo_philosophy_kpis": {
+    "priority_1_round_performance": {
+      "pre_to_r1": {
+        "available": false,
+        "reason": "no expected-round-score artifact frozen at PRE (probability-only forecast)"
+      },
+      "r1_to_r2": {
+        "available": false,
+        "reason": "no expected-round-score artifact frozen at post-R1 (probability-only forecast)"
+      },
+      "r2_to_r3": {
+        "available": true,
+        "source": "HANA_2026090002_R2_R3_OOS_VALIDATION_REPORT_V1.json (reused verbatim, not recomputed)",
+        "historical_baseline": {
+          "mae": 2.482757812500001,
+          "rmse": 3.199036364306641,
+          "bias": -1.7959921875000004
+        },
+        "current_sg_updated": {
+          "mae": 2.6212070221378156,
+          "rmse": 3.342055714761655,
+          "bias": -2.094763702817923
+        }
+      }
+    },
+    "priority_2_current_sg": {
+      "expected_sg_source": "2026090002_PRE_PERFORMANCE_SNAPSHOT.json (recent5-window total SG mean, standing baseline reused across all rounds)",
+      "r1": {
+        "n": 98,
+        "mae": 2.3589,
+        "rmse": 2.9537,
+        "bias": -0.5778
+      },
+      "r2": {
+        "n": 96,
+        "mae": 2.269,
+        "rmse": 2.8105,
+        "bias": -0.6927
+      },
+      "r3": {
+        "n": 61,
+        "mae": 2.1206,
+        "rmse": 2.8581,
+        "bias": -1.026
+      }
+    },
+    "priority_3_performance_rank": {
+      "pre_to_r1": {
+        "basis": "win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
+        "n": 104,
+        "mean_abs_rank_error": 23.683
+      },
+      "r1_to_r2": {
+        "basis": "win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
+        "n": 102,
+        "mean_abs_rank_error": 17.833
+      },
+      "r2_to_r3_proxy": {
+        "basis": "win-probability rank (same proxy method as earlier stages, for direct comparison)",
+        "n": 64,
+        "mean_abs_rank_error": 13.031
+      },
+      "r2_to_r3_true": {
+        "basis": "TRUE performance rank -- ranked by updated_expected_round_score_to_par directly",
+        "n": 64,
+        "mean_abs_rank_error": 15.594
+      }
+    }
   }
 }
