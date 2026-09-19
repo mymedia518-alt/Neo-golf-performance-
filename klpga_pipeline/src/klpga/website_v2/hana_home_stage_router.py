@@ -17,6 +17,11 @@ never rebuilding or resimulating anything.
 
 `hana_current_stage()` checks REAL PUBLICATION EVIDENCE only, most
 advanced first:
+  r3: the real, official R3 frozen evidence (2026090002_R3_FROZEN_
+      EVIDENCE.json, built from operator-supplied official R3 evidence)
+      AND its own FINAL-stage forecast preview (2026090002_POST_R4_
+      FINAL_PREVIEW.json, built from the already-validated/promoted
+      R1SG_R2SG model -- no retraining) both exist.
   r2: Hana's real, generic `post_r2_final_forecast` artifact exists
       (`klpga.neo_win.post_r2_forecast.post_r2_forecast_status() ==
       STAGE_CREATED`) -- that file is ONLY ever written after
@@ -29,9 +34,9 @@ advanced first:
   pre: always available (ships with the repo).
 
 This is a real, generic router for THIS tournament, not an R2-specific
-hardcode: once a real R3 stage genuinely publishes for Hana with its
-own equivalent evidence artifact, extending the check below (one more
-`if`) advances HOME to R3 with no other code change.
+hardcode: once a real FR/FINAL stage genuinely publishes for Hana with
+its own equivalent evidence artifact, extending the check below (one
+more `if`) advances HOME past R3 with no other code change.
 """
 from __future__ import annotations
 
@@ -48,6 +53,8 @@ from klpga.tournament_context import load_tournament_context  # noqa: E402
 GAME_CODE = "2026090002"
 CONTENT = _ROOT / "content" / "website_v2"
 R1_ANALYSIS_PATH = CONTENT / "HANA_2026090002_R1_ANALYSIS_V1.json"
+R3_FREEZE_PATH = CONTENT / "2026090002_R3_FROZEN_EVIDENCE.json"
+R4_FINAL_PREVIEW_PATH = CONTENT / "2026090002_POST_R4_FINAL_PREVIEW.json"
 
 
 class HanaHomeStageRouterError(RuntimeError):
@@ -57,6 +64,8 @@ class HanaHomeStageRouterError(RuntimeError):
 
 def hana_current_stage() -> str:
     context = load_tournament_context(GAME_CODE)
+    if R3_FREEZE_PATH.is_file() and R4_FINAL_PREVIEW_PATH.is_file():
+        return "r3"
     if post_r2_forecast_status(context) == _R2_STAGE_CREATED:
         return "r2"
     if R1_ANALYSIS_PATH.is_file():

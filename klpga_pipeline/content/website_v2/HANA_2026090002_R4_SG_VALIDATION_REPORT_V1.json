@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "artifact": "HANA_2026090002_R4_SG_VALIDATION_REPORT_V1",
+  "purpose": "Walk-forward validation of whether the SAME Current-SG model architecture already validated/promoted for R1SG_R2SG (R1+R2 SG predicting R3) extends to R1SG_R2SG_R3SG (R1+R2+R3 SG predicting R4/FINAL). NOT a new model kind -- same OLS/walk-forward/gate methodology, one more round.",
+  "leakage_reverification": {
+    "2026090002_absent_from_historical_warehouse": true,
+    "2026090003_absent_from_historical_warehouse": true
+  },
+  "n_player_rounds": 3219,
+  "n_events": 51,
+  "n_evaluated_events": 50,
+  "min_training_rows": 30,
+  "per_model": {
+    "BASE": {
+      "n": 3154,
+      "mae": 2.437702119863006,
+      "rmse": 3.1173586050674595
+    },
+    "R1SG": {
+      "n": 3154,
+      "mae": 2.438378286800333,
+      "rmse": 3.1213216018742838
+    },
+    "R2SG": {
+      "n": 3154,
+      "mae": 2.4357347144651005,
+      "rmse": 3.1154923399877816
+    },
+    "R3SG": {
+      "n": 3154,
+      "mae": 2.4320271618111127,
+      "rmse": 3.1098289810711446
+    },
+    "R1SG_R2SG_R3SG": {
+      "n": 3154,
+      "mae": 2.4300160083017346,
+      "rmse": 3.1114787092353575
+    }
+  },
+  "event_wins": {
+    "BASE": 5,
+    "R1SG": 8,
+    "R2SG": 9,
+    "R3SG": 10,
+    "R1SG_R2SG_R3SG": 18
+  },
+  "final_coefficients": {
+    "BASE": {
+      "intercept": 0.28582552240509546,
+      "base": 0.741503503595448
+    },
+    "R1SG": {
+      "intercept": 0.3568945205592654,
+      "base": 0.7280757744757905,
+      "r1_sg_total": -0.03886503607991079
+    },
+    "R2SG": {
+      "intercept": 0.408666469113307,
+      "base": 0.7176092247589512,
+      "r2_sg_total": -0.07200603553045465
+    },
+    "R3SG": {
+      "intercept": 0.30168600272063373,
+      "base": 0.670936239298071,
+      "r3_sg_total": -0.08478896021937204
+    },
+    "R1SG_R2SG_R3SG": {
+      "intercept": 0.5375077236108625,
+      "base": 0.6311245470706829,
+      "r1_sg_total": -0.05606702467192016,
+      "r2_sg_total": -0.07889108069756176,
+      "r3_sg_total": -0.07789425311960702
+    }
+  },
+  "significance_vs_base_paired_wilcoxon_on_event_level_mae": {
+    "R1SG": {
+      "statistic": 697.0,
+      "z": 0.569543441794264,
+      "p_value": 0.5689873983539737,
+      "n": 50,
+      "mean_diff": -0.0006498108986681705,
+      "median_diff": 0.0023277869795685913
+    },
+    "R2SG": {
+      "statistic": 716.0,
+      "z": 0.7529557366093659,
+      "p_value": 0.4514765131569414,
+      "n": 50,
+      "mean_diff": 0.0025355743723362557,
+      "median_diff": 0.007378368827566817
+    },
+    "R3SG": {
+      "statistic": 826.0,
+      "z": 1.8148163908020614,
+      "p_value": 0.06955213065466115,
+      "n": 50,
+      "mean_diff": 0.005524509576130732,
+      "median_diff": 0.0026676758843624526
+    },
+    "R1SG_R2SG_R3SG": {
+      "statistic": 766.0,
+      "z": 1.2356196703333184,
+      "p_value": 0.21659996951243232,
+      "n": 50,
+      "mean_diff": 0.008017658030749409,
+      "median_diff": 0.005912934852117857
+    }
+  },
+  "stability_checks": {
+    "R1SG": {
+      "first_half_n": 25,
+      "first_half_mean_diff": -0.003733706443178475,
+      "first_half_p": 0.6473709883196748,
+      "second_half_n": 25,
+      "second_half_mean_diff": 0.002434084645842134,
+      "second_half_p": 0.19651934789959524,
+      "split_half_same_sign": false,
+      "bootstrap_ci_95": {
+        "lo": -0.004827870003149864,
+        "hi": 0.003202456344372022
+      },
+      "bootstrap_ci_excludes_zero": false
+    },
+    "R2SG": {
+      "first_half_n": 25,
+      "first_half_mean_diff": 0.0079693891876315,
+      "first_half_p": 0.0672992995238677,
+      "second_half_n": 25,
+      "second_half_mean_diff": -0.002898240442958988,
+      "second_half_p": 0.553882691983272,
+      "split_half_same_sign": false,
+      "bootstrap_ci_95": {
+        "lo": -0.005681492515396949,
+        "hi": 0.010755389797965451
+      },
+      "bootstrap_ci_excludes_zero": false
+    },
+    "R3SG": {
+      "first_half_n": 25,
+      "first_half_mean_diff": 0.0022904676289228387,
+      "first_half_p": 0.43521405327757545,
+      "second_half_n": 25,
+      "second_half_mean_diff": 0.008758551523338624,
+      "second_half_p": 0.09527036954999812,
+      "split_half_same_sign": true,
+      "bootstrap_ci_95": {
+        "lo": -0.00013279839857811116,
+        "hi": 0.010863886573176211
+      },
+      "bootstrap_ci_excludes_zero": false
+    },
+    "R1SG_R2SG_R3SG": {
+      "first_half_n": 25,
+      "first_half_mean_diff": 0.007947095671197654,
+      "first_half_p": 0.43521405327757545,
+      "second_half_n": 25,
+      "second_half_mean_diff": 0.008088220390301161,
+      "second_half_p": 0.33272043464084833,
+      "split_half_same_sign": true,
+      "bootstrap_ci_95": {
+        "lo": -0.0047225104360254285,
+        "hi": 0.020014980060285414
+      },
+      "bootstrap_ci_excludes_zero": false
+    }
+  },
+  "significance_alpha": 0.05,
+  "gate_criteria": {
+    "p_lt_0.05": false,
+    "bootstrap_ci_excludes_zero": false,
+    "coef_r1sg_negative": true,
+    "coef_r2sg_negative": true,
+    "coef_r3sg_negative": true,
+    "split_half_same_sign": true
+  },
+  "gate_pass": false,
+  "model_promotion": "FAIL"
+}

@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "artifact": "HANA_2026090002_R4_BASELINE_NO_CURRENT_SG_V1",
+  "purpose": "Research-only BASELINE (no current-SG adjustment) FINAL-stage comparison, never published",
+  "seed": 20260918,
+  "n_simulations": 60000,
+  "remaining_rounds": 1,
+  "win_probability_sum_pct": 100.00000000000001,
+  "records": [
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "historical_expected": -0.594,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0283,
+      "top20_pct": 12.0817
+    },
+    {
+      "player_id": "6085",
+      "player_name": "청 야니",
+      "historical_expected": 0.0,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.015,
+      "top20_pct": 0.865
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "historical_expected": -0.254,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.255,
+      "top20_pct": 24.9967
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "historical_expected": -1.998,
+      "win_pct": 31.946667,
+      "top5_pct": 98.4383,
+      "top10_pct": 99.995,
+      "top20_pct": 100.0
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "historical_expected": -0.626,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.015,
+      "top20_pct": 9.8767
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "historical_expected": -2.704,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.4417
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "historical_expected": -1.808,
+      "win_pct": 0.0,
+      "top5_pct": 0.1217,
+      "top10_pct": 30.9417,
+      "top20_pct": 97.9683
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "historical_expected": -0.328,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.1983
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "historical_expected": -1.314,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.02
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "historical_expected": -2.2,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0033,
+      "top20_pct": 2.3567
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "historical_expected": -0.95,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0017,
+      "top20_pct": 4.8683
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "historical_expected": -0.71,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.3233,
+      "top20_pct": 35.565
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "historical_expected": -1.544,
+      "win_pct": 4.288333,
+      "top5_pct": 94.6317,
+      "top10_pct": 99.9933,
+      "top20_pct": 100.0
+    },
+    {
+      "player_id": "8773",
+      "player_name": "송가은",
+      "historical_expected": 0.028,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "historical_expected": -1.042,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0033,
+      "top20_pct": 1.3717
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "historical_expected": -0.092,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "historical_expected": -1.56,
+      "win_pct": 0.0,
+      "top5_pct": 0.155,
+      "top10_pct": 25.6133,
+      "top20_pct": 95.725
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "historical_expected": -1.468,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0517,
+      "top20_pct": 25.5683
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "historical_expected": -1.608,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "historical_expected": -0.888,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "historical_expected": -1.348,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0217,
+      "top20_pct": 8.8383
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "historical_expected": -1.512,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 1.535
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "historical_expected": -0.65,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0383,
+      "top20_pct": 12.575
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "historical_expected": 0.394,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0033,
+      "top20_pct": 3.5667
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "historical_expected": -0.426,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.1117
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "historical_expected": -1.866,
+      "win_pct": 0.0,
+      "top5_pct": 0.185,
+      "top10_pct": 33.2533,
+      "top20_pct": 97.6167
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "historical_expected": 0.594,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "9364",
+      "player_name": "박소혜",
+      "historical_expected": -0.658,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "historical_expected": -1.012,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "historical_expected": -1.836,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.075,
+      "top20_pct": 16.3033
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "historical_expected": -0.746,
+      "win_pct": 0.0,
+      "top5_pct": 1.31,
+      "top10_pct": 58.9967,
+      "top20_pct": 99.2233
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "historical_expected": -2.35,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.035,
+      "top20_pct": 22.2983
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "historical_expected": -0.418,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 1.0
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "historical_expected": -0.01,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0067,
+      "top20_pct": 6.1333
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "historical_expected": -0.89,
+      "win_pct": 0.0,
+      "top5_pct": 0.0367,
+      "top10_pct": 30.77,
+      "top20_pct": 99.1733
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "historical_expected": -0.762,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0033,
+      "top20_pct": 10.2483
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "historical_expected": -0.102,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "historical_expected": -0.588,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0067
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "historical_expected": -2.158,
+      "win_pct": 0.0,
+      "top5_pct": 0.105,
+      "top10_pct": 19.7383,
+      "top20_pct": 90.0083
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "historical_expected": 0.082,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "historical_expected": -0.39,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.265,
+      "top20_pct": 28.405
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "historical_expected": -1.528,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "historical_expected": -1.5,
+      "win_pct": 45.466667,
+      "top5_pct": 99.725,
+      "top10_pct": 100.0,
+      "top20_pct": 100.0
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "historical_expected": -1.152,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.4417
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "historical_expected": -0.802,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0033
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "historical_expected": -2.558,
+      "win_pct": 0.0,
+      "top5_pct": 0.54,
+      "top10_pct": 54.4217,
+      "top20_pct": 99.5233
+    },
+    {
+      "player_id": "10185",
+      "player_name": "황유민",
+      "historical_expected": -1.742,
+      "win_pct": 9.82,
+      "top5_pct": 92.1817,
+      "top10_pct": 99.9417,
+      "top20_pct": 100.0
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "historical_expected": -2.01,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.985,
+      "top20_pct": 44.795
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "historical_expected": 0.468,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0033,
+      "top20_pct": 2.5883
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "historical_expected": -1.246,
+      "win_pct": 0.001667,
+      "top5_pct": 6.2167,
+      "top10_pct": 94.1983,
+      "top20_pct": 100.0
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "historical_expected": -1.964,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0967,
+      "top20_pct": 9.2767
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "historical_expected": -1.144,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.365
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "historical_expected": 0.288,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "historical_expected": -0.544,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.065,
+      "top20_pct": 28.465
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "historical_expected": -0.532,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 1.6667,
+      "top20_pct": 60.1567
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "historical_expected": -0.654,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.005,
+      "top20_pct": 2.5133
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "historical_expected": -0.03,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.005
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "historical_expected": -2.8,
+      "win_pct": 0.0,
+      "top5_pct": 0.0017,
+      "top10_pct": 3.9933,
+      "top20_pct": 66.1167
+    },
+    {
+      "player_id": "11391",
+      "player_name": "양윤서 0801(A)",
+      "historical_expected": -1.7175,
+      "win_pct": 8.23,
+      "top5_pct": 93.3317,
+      "top10_pct": 99.9767,
+      "top20_pct": 100.0
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "historical_expected": -0.936,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.785,
+      "top20_pct": 42.7717
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "historical_expected": -2.234,
+      "win_pct": 0.005,
+      "top5_pct": 7.325,
+      "top10_pct": 92.6333,
+      "top20_pct": 99.9967
+    },
+    {
+      "player_id": "12604",
+      "player_name": "이와이 아키",
+      "historical_expected": 0.0,
+      "win_pct": 0.058333,
+      "top5_pct": 1.7783,
+      "top10_pct": 19.8667,
+      "top20_pct": 60.9967
+    },
+    {
+      "player_id": "13502",
+      "player_name": "왕 즈쉬엔",
+      "historical_expected": -0.294,
+      "win_pct": 0.0,
+      "top5_pct": 0.0,
+      "top10_pct": 0.0,
+      "top20_pct": 0.0
+    },
+    {
+      "player_id": "13839",
+      "player_name": "이와이 치지",
+      "historical_expected": 0.0,
+      "win_pct": 0.183333,
+      "top5_pct": 3.9167,
+      "top10_pct": 30.915,
+      "top20_pct": 73.0383
+    }
+  ]
+}
