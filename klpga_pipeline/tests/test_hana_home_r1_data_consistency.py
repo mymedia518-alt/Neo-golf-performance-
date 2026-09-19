@@ -8,10 +8,19 @@ current_stage_main_html()) for the real, evidence-based stage
 detection this test exercises.
 
 156_build_home_page.py now reads its <main> content directly from
-whichever stage's own real page is currently current (r2, since its
-gated post_r2_final_forecast artifact exists) -- verbatim, never
-recomputed -- so this test compares HOME's body against that same real
-page's own <main> region, byte for byte."""
+whichever stage's own real page is currently current -- verbatim,
+never recomputed -- so this test compares HOME's body against that
+same real page's own <main> region, byte for byte.
+
+R3 -> FINAL PIPELINE UPDATE (operator instruction, 2026-09-19): the
+real current stage has advanced to r3 (2026090002_R3_FROZEN_EVIDENCE.
+json + 2026090002_POST_R4_FINAL_PREVIEW.json both now exist, built
+from real official R3 evidence and the already-validated/promoted
+R1SG_R2SG model reused exactly as promoted). These tests are updated
+to the new real current-stage page (R3, 64 rows, no cut event) --
+mirroring the same "current stage advances, tests track real evidence"
+pattern already established when R1 -> R2 previously advanced this
+same HOME."""
 from __future__ import annotations
 
 import re
@@ -25,6 +34,7 @@ SCRIPTS_DIR = KLPGA_ROOT / "scripts"
 
 HOME_PAGE = REPO_ROOT / "docs" / "index.html"
 R2_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "r2" / "index.html"
+R3_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "r3" / "index.html"
 
 _MAIN_RE = re.compile(r"<main>.*?</main>", re.S)
 _TBODY_RE = re.compile(r"<tbody>(.*?)</tbody>", re.S)
@@ -41,48 +51,48 @@ def _rows(html: str) -> list[str]:
     return _ROW_RE.findall(match.group(1))
 
 
-def test_home_current_stage_is_r2():
+def test_home_current_stage_is_r3():
     from klpga.website_v2.hana_home_stage_router import hana_current_stage
     sys.path.insert(0, str(KLPGA_ROOT / "src"))
-    assert hana_current_stage() == "r2"
+    assert hana_current_stage() == "r3"
 
 
-def test_home_and_r2_main_content_are_byte_identical():
+def test_home_and_r3_main_content_are_byte_identical():
     _rebuild()
     home_html = HOME_PAGE.read_text(encoding="utf-8")
-    r2_html = R2_PAGE.read_text(encoding="utf-8")
+    r3_html = R3_PAGE.read_text(encoding="utf-8")
     home_main = _MAIN_RE.search(home_html)
-    r2_main = _MAIN_RE.search(r2_html)
-    assert home_main and r2_main
-    assert home_main.group(0) == r2_main.group(0), (
-        "HOME's <main> must mirror the current stage (r2) page's own <main> verbatim"
+    r3_main = _MAIN_RE.search(r3_html)
+    assert home_main and r3_main
+    assert home_main.group(0) == r3_main.group(0), (
+        "HOME's <main> must mirror the current stage (r3) page's own <main> verbatim"
     )
 
 
-def test_home_and_r2_leaderboard_rows_are_byte_identical():
+def test_home_and_r3_leaderboard_rows_are_byte_identical():
     _rebuild()
     home_rows = _rows(HOME_PAGE.read_text(encoding="utf-8"))
-    r2_rows = _rows(R2_PAGE.read_text(encoding="utf-8"))
-    assert len(home_rows) == 102, f"homepage must show all 102 R2 score rows, got {len(home_rows)}"
-    assert len(r2_rows) == 102, f"R2 page itself must show 102 rows, got {len(r2_rows)}"
-    assert home_rows == r2_rows
+    r3_rows = _rows(R3_PAGE.read_text(encoding="utf-8"))
+    assert len(home_rows) == 64, f"homepage must show all 64 R3 finisher rows, got {len(home_rows)}"
+    assert len(r3_rows) == 64, f"R3 page itself must show 64 rows, got {len(r3_rows)}"
+    assert home_rows == r3_rows
 
 
 def test_home_page_shows_leaderboard_without_extra_navigation():
     html = HOME_PAGE.read_text(encoding="utf-8")
     assert "leaderboard-table" in html, "homepage must embed the current-stage leaderboard table directly"
-    assert html.count("<tr>") >= 102
+    assert html.count("<tr>") >= 64
 
 
 def test_home_page_header_clearly_identifies_tournament_and_round():
     html = HOME_PAGE.read_text(encoding="utf-8")
     assert "하나금융그룹 챔피언십" in html
-    assert "R2 결과" in html
+    assert "R3 결과" in html
 
 
-def test_home_page_tournaments_nav_points_at_r2():
+def test_home_page_tournaments_nav_points_at_r3():
     html = HOME_PAGE.read_text(encoding="utf-8")
-    assert '<a href="/tournaments/2026/2026090002/r2/">대회</a>' in html
+    assert '<a href="/tournaments/2026/2026090002/r3/">대회</a>' in html
 
 
 def test_home_page_keeps_all_five_stage_links():

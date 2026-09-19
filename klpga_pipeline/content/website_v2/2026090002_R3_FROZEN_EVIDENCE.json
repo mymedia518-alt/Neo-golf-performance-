@@ -1,0 +1,666 @@
+{
+  "schema_version": "neo_r3_frozen_evidence_v1",
+  "game_code": "2026090002",
+  "round": 3,
+  "official_source_identity": "klpga.co.kr web/leaderboard/leaderboard (gameCode=2026090002), operator-supplied real R3 capture",
+  "official_source_url": "https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026090002",
+  "collection_timestamp": "2026-09-19T09:48:51Z",
+  "raw_official_response_sha256": "3864b81ccda358f9793607ee806218055b0e8ae26568962c1d05223cc79d1167",
+  "parsed_canonical_sha256": "90118f5b8d874ed86e0fef8597d006b00c7d838d94f05221213815e199ccbb7b",
+  "expected_field_count": 64,
+  "observed_player_count": 64,
+  "status_counts": {
+    "ACTIVE": 64,
+    "WD": 0,
+    "DQ": 0,
+    "DNS": 0
+  },
+  "wd_dq_dns_evidence": [],
+  "feature_cutoff": "END_OF_R3",
+  "r2_freeze_artifact": "2026090002_R2_FROZEN_EVIDENCE.json",
+  "r2_freeze_sha256": "a5f3a76f093f55ae34e88397cac8e4c77b59b8e6a2626621bb7842247e1f8e87",
+  "code_commit": "31cbb7918f6ded6e5e3fb96b1deb87df4fd5f4cf",
+  "build_id": "hana_r3_freeze_20260919T094851Z",
+  "records": [
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": -5,
+      "r3_total_under_par": -8,
+      "made_cut": true
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": -3,
+      "r3_score_to_par": -3,
+      "r3_total_under_par": -7,
+      "made_cut": true
+    },
+    {
+      "player_id": "11391",
+      "player_name": "양윤서 0801(A)",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": -5,
+      "r3_total_under_par": -6,
+      "made_cut": true
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": -5,
+      "r3_total_under_par": -6,
+      "made_cut": true
+    },
+    {
+      "player_id": "10185",
+      "player_name": "황유민",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": -3,
+      "r3_total_under_par": -6,
+      "made_cut": true
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": -3,
+      "made_cut": true
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": -5,
+      "r3_total_under_par": -2,
+      "made_cut": true
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": -2,
+      "r3_total_under_par": -2,
+      "made_cut": true
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": -1,
+      "made_cut": true
+    },
+    {
+      "player_id": "13839",
+      "player_name": "이와이 치지",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": -1,
+      "made_cut": true
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2,
+      "r2_score_to_par": 4,
+      "r3_score_to_par": -2,
+      "r3_total_under_par": 0,
+      "made_cut": true
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "status": "ACTIVE",
+      "r1_score_to_par": -3,
+      "r2_score_to_par": 3,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 0,
+      "made_cut": true
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": -3,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 0,
+      "made_cut": true
+    },
+    {
+      "player_id": "12604",
+      "player_name": "이와이 아키",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 0,
+      "made_cut": true
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 0,
+      "made_cut": true
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 1,
+      "made_cut": true
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 3,
+      "r3_score_to_par": -3,
+      "r3_total_under_par": 1,
+      "made_cut": true
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미",
+      "status": "ACTIVE",
+      "r1_score_to_par": -2,
+      "r2_score_to_par": 3,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 2,
+      "made_cut": true
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": -2,
+      "r3_total_under_par": 2,
+      "made_cut": true
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 2,
+      "made_cut": true
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 2,
+      "made_cut": true
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 2,
+      "made_cut": true
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": -2,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": -1,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": -1,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": 3,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": 4,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 3,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 3,
+      "made_cut": true
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "status": "ACTIVE",
+      "r1_score_to_par": -1,
+      "r2_score_to_par": 5,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "status": "ACTIVE",
+      "r1_score_to_par": 7,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": -2,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 0,
+      "r3_total_under_par": 4,
+      "made_cut": true
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 5,
+      "made_cut": true
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 3,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 5,
+      "made_cut": true
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": -1,
+      "r3_total_under_par": 5,
+      "made_cut": true
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 5,
+      "made_cut": true
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": -3,
+      "r3_score_to_par": 5,
+      "r3_total_under_par": 5,
+      "made_cut": true
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 4,
+      "r3_total_under_par": 6,
+      "made_cut": true
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0,
+      "r2_score_to_par": 3,
+      "r3_score_to_par": 3,
+      "r3_total_under_par": 6,
+      "made_cut": true
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 6,
+      "made_cut": true
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 6,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 6,
+      "made_cut": true
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": 3,
+      "r3_total_under_par": 6,
+      "made_cut": true
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 4,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "9937",
+      "player_name": "황유나",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": 0,
+      "r3_score_to_par": 3,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2,
+      "r2_score_to_par": 4,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "status": "ACTIVE",
+      "r1_score_to_par": 1,
+      "r2_score_to_par": 5,
+      "r3_score_to_par": 1,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 7,
+      "made_cut": true
+    },
+    {
+      "player_id": "8773",
+      "player_name": "송가은",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 2,
+      "r3_total_under_par": 8,
+      "made_cut": true
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": -2,
+      "r3_score_to_par": 7,
+      "r3_total_under_par": 8,
+      "made_cut": true
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "status": "ACTIVE",
+      "r1_score_to_par": 5,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 4,
+      "r3_total_under_par": 8,
+      "made_cut": true
+    },
+    {
+      "player_id": "6085",
+      "player_name": "청 야니",
+      "status": "ACTIVE",
+      "r1_score_to_par": 4,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 3,
+      "r3_total_under_par": 8,
+      "made_cut": true
+    },
+    {
+      "player_id": "9364",
+      "player_name": "박소혜",
+      "status": "ACTIVE",
+      "r1_score_to_par": 3,
+      "r2_score_to_par": 2,
+      "r3_score_to_par": 4,
+      "r3_total_under_par": 9,
+      "made_cut": true
+    },
+    {
+      "player_id": "13502",
+      "player_name": "왕 즈쉬엔",
+      "status": "ACTIVE",
+      "r1_score_to_par": 0,
+      "r2_score_to_par": 5,
+      "r3_score_to_par": 4,
+      "r3_total_under_par": 9,
+      "made_cut": true
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현",
+      "status": "ACTIVE",
+      "r1_score_to_par": 7,
+      "r2_score_to_par": -1,
+      "r3_score_to_par": 6,
+      "r3_total_under_par": 12,
+      "made_cut": true
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "status": "ACTIVE",
+      "r1_score_to_par": 2,
+      "r2_score_to_par": 1,
+      "r3_score_to_par": 10,
+      "r3_total_under_par": 13,
+      "made_cut": true
+    }
+  ]
+}
