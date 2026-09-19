@@ -113,13 +113,15 @@ def _pre_probabilities(context: TournamentContext) -> dict[str, float]:
     return probabilities
 
 
-def run_postmortem(context: TournamentContext) -> PostmortemResult:
-    """The generic POSTMORTEM lifecycle stage. Raises PostmortemBlocked
-    (never returns a partial/fabricated result) if the final round
-    isn't officially complete yet, or the winner isn't in the PRE
-    field. Writes context.artifact_path("postmortem_report") -- a new
-    artifact_type, resolved through the same compatibility-mapping /
-    generic-fallback contract as every other artifact."""
+def build_postmortem_result(context: TournamentContext) -> PostmortemResult:
+    """The pure computation behind run_postmortem, with no file write --
+    lets a downstream consumer (e.g. the POST_TOURNAMENT_REPORT
+    generator) obtain a fresh, in-memory PostmortemResult on a cycle
+    where the persisted postmortem_report artifact is already valid
+    and must NOT be recomputed/overwritten on disk. Deterministic and
+    side-effect-free: same PRE forecast + same final snapshot always
+    yields the same result, so calling this again is never "recomputing
+    an immutable artifact" -- only the write in run_postmortem is."""
     final_snapshot = _final_round_snapshot(context)
     winner = _identify_winner(final_snapshot)
     probabilities = _pre_probabilities(context)
@@ -139,38 +141,48 @@ def run_postmortem(context: TournamentContext) -> PostmortemResult:
         prior_events_n_by_player={},
     )
     summary = summarize_model(context.game_code, [prediction])
-
     output_path = context.artifact_path("postmortem_report")
-    payload = {
-        "schema_version": 1,
-        "artifact": output_path.stem,
-        "game_code": context.game_code,
-        "tournament_name": context.tournament_name,
-        "final_round_number": context.final_round_number,
-        "winner": winner,
-        "field_size": prediction.field_size,
-        "log_loss": log_loss(prediction),
-        "brier_norm": brier_norm(prediction),
-        "winner_rank": winner_rank(prediction),
-        "top5_hit": top_k_hit(prediction, 5),
-        "top10_hit": top_k_hit(prediction, 10),
-        "reciprocal_rank": reciprocal_rank(prediction),
-        "pre_source": "pre_win_forecast",
-        "final_source": f"r{context.final_round_number}_live_snapshot",
-        "evaluation_library": "klpga.models.metrics",
-    }
-    output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
     return PostmortemResult(
         game_code=context.game_code,
         tournament_name=context.tournament_name,
         prediction=prediction,
-        log_loss=payload["log_loss"],
-        brier_norm=payload["brier_norm"],
-        winner_rank=payload["winner_rank"],
-        top5_hit=payload["top5_hit"],
-        top10_hit=payload["top10_hit"],
-        reciprocal_rank=payload["reciprocal_rank"],
+        log_loss=log_loss(prediction),
+        brier_norm=brier_norm(prediction),
+        winner_rank=winner_rank(prediction),
+        top5_hit=top_k_hit(prediction, 5),
+        top10_hit=top_k_hit(prediction, 10),
+        reciprocal_rank=reciprocal_rank(prediction),
         summary=summary,
         output_path=output_path,
     )
+
+
+def run_postmortem(context: TournamentContext) -> PostmortemResult:
+    """The generic POSTMORTEM lifecycle stage. Raises PostmortemBlocked
+    (never returns a partial/fabricated result) if the final round
+    isn't officially complete yet, or the winner isn't in the PRE
+    field. Writes context.artifact_path("postmortem_report") -- a new
+    artifact_type, resolved through the same compatibility-mapping /
+    generic-fallback contract as every other artifact."""
+    result = build_postmortem_result(context)
+    payload = {
+        "schema_version": 1,
+        "artifact": result.output_path.stem,
+        "game_code": context.game_code,
+        "tournament_name": context.tournament_name,
+        "final_round_number": context.final_round_number,
+        "winner": result.prediction.winner,
+        "field_size": result.prediction.field_size,
+        "log_loss": result.log_loss,
+        "brier_norm": result.brier_norm,
+        "winner_rank": result.winner_rank,
+        "top5_hit": result.top5_hit,
+        "top10_hit": result.top10_hit,
+        "reciprocal_rank": result.reciprocal_rank,
+        "pre_source": "pre_win_forecast",
+        "final_source": f"r{context.final_round_number}_live_snapshot",
+        "evaluation_library": "klpga.models.metrics",
+    }
+    result.output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return result

@@ -435,25 +435,54 @@ def _close_final_runner():
     def _run(context: ActionContext, decision) -> ActionResult:
         from klpga.tournament_historical_manifest import write_historical_manifest_if_absent
         from klpga.tournament_lifecycle import infer_post_evaluated
-        from klpga.tournament_postmortem import run_postmortem
+        from klpga.tournament_postmortem import build_postmortem_result, run_postmortem
+        from klpga.neo_win.post_tournament_report import (
+            build_post_tournament_report_inputs,
+            write_post_tournament_report_if_absent,
+        )
         lifecycle = resolve_or_bootstrap_lifecycle(game_code=context.game_code, db_path=DEFAULT_DB_PATH)
         tctx = resolve_context(lifecycle, _load_registry_json())
         report_path = tctx.artifact_path("postmortem_report")
 
         postmortem_already_valid = infer_post_evaluated(tctx)
-        if not postmortem_already_valid:
-            result = run_postmortem(tctx)
-            report_path = result.output_path
+        if postmortem_already_valid:
+            postmortem_result = build_postmortem_result(tctx)
+        else:
+            postmortem_result = run_postmortem(tctx)
+            report_path = postmortem_result.output_path
 
         manifest_path, manifest_written = write_historical_manifest_if_absent(tctx)
 
-        changed = (not postmortem_already_valid) or manifest_written
-        if postmortem_already_valid and not manifest_written:
-            message = f"final already closed; postmortem and historical manifest already valid ({report_path}, {manifest_path})"
-        elif postmortem_already_valid and manifest_written:
-            message = f"postmortem already valid; resumed and completed historical manifest at {manifest_path}"
+        # NEO STANDARD ARTIFACT (operator instruction, 2026-09-19, starting
+        # with Hana 2026090002): once FR/POSTMORTEM is genuinely valid,
+        # generate POST_TOURNAMENT_REPORT.md -- write-once, Evidence
+        # Artifact only (content/website_v2/, never docs/), same
+        # resumable idempotency as the historical manifest above.
+        tournament_report_inputs = build_post_tournament_report_inputs(tctx, postmortem_result)
+        tournament_report_path, tournament_report_written = write_post_tournament_report_if_absent(
+            tctx.game_code, tournament_report_inputs, tctx,
+        )
+
+        resumed_something = manifest_written or tournament_report_written
+        changed = (not postmortem_already_valid) or resumed_something
+        if postmortem_already_valid and not resumed_something:
+            message = (
+                f"final already closed; postmortem, historical manifest, and POST_TOURNAMENT_REPORT "
+                f"already valid ({report_path}, {manifest_path}, {tournament_report_path})"
+            )
+        elif postmortem_already_valid and resumed_something:
+            completed = []
+            if manifest_written:
+                completed.append(f"historical manifest at {manifest_path}")
+            if tournament_report_written:
+                completed.append(f"POST_TOURNAMENT_REPORT at {tournament_report_path}")
+            message = f"postmortem already valid; resumed and completed {' and '.join(completed)}"
         else:
-            message = f"final closed; postmortem written: {report_path}; historical manifest written: {manifest_path}"
+            message = (
+                f"final closed; postmortem written: {report_path}; "
+                f"historical manifest written: {manifest_path}; "
+                f"POST_TOURNAMENT_REPORT written: {tournament_report_path}"
+            )
         return ActionResult(action=decision.action, availability=ActionAvailability.READY, changed=changed, message=message)
     return _run
 
