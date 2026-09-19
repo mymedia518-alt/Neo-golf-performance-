@@ -4084,7 +4084,111 @@
     ]
   },
   "neo_philosophy_kpis": {
-    "priority_1_round_performance": {
+    "priority_1_performance_sustainability": {
+      "current_sg_to_next_round_sg": {
+        "r1_sg_to_r2_sg": {
+          "n": 102,
+          "pearson_r": 0.1171
+        },
+        "r2_sg_to_r3_sg": {
+          "n": 64,
+          "pearson_r": 0.0251
+        }
+      },
+      "performance_stability_score_to_score": {
+        "r1_to_r2": {
+          "n": 102,
+          "pearson_r": 0.1276
+        },
+        "r2_to_r3": {
+          "n": 64,
+          "pearson_r": 0.0241
+        }
+      },
+      "variance_field_score_to_par": {
+        "r1": {
+          "n": 102,
+          "mean": 3.1961,
+          "stddev": 3.0934
+        },
+        "r2": {
+          "n": 102,
+          "mean": 2.0588,
+          "stddev": 2.9266
+        },
+        "r3": {
+          "n": 64,
+          "mean": 0.8125,
+          "stddev": 2.7776
+        }
+      },
+      "regression_to_mean": {
+        "r1_to_r2": {
+          "n": 102,
+          "field_mean_round_n": 3.1961,
+          "correlation": -0.6838,
+          "interpretation": "reversion (regression to the mean)"
+        },
+        "r2_to_r3": {
+          "n": 64,
+          "field_mean_round_n": 0.6406,
+          "correlation": -0.5765,
+          "interpretation": "reversion (regression to the mean)"
+        }
+      },
+      "expected_sg_accuracy": {
+        "expected_sg_source": "2026090002_PRE_PERFORMANCE_SNAPSHOT.json (recent5-window total SG mean, standing baseline reused across all rounds)",
+        "r1": {
+          "n": 98,
+          "mae": 2.3589,
+          "rmse": 2.9537,
+          "bias": -0.5778
+        },
+        "r2": {
+          "n": 96,
+          "mae": 2.269,
+          "rmse": 2.8105,
+          "bias": -0.6927
+        },
+        "r3": {
+          "n": 61,
+          "mae": 2.1206,
+          "rmse": 2.8581,
+          "bias": -1.026
+        }
+      }
+    },
+    "priority_2_performance_ranking": {
+      "pre_to_r1": {
+        "basis": "win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
+        "n": 104,
+        "mae": 23.683,
+        "bias": 4.51,
+        "rank_correlation": 0.4826
+      },
+      "r1_to_r2": {
+        "basis": "win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
+        "n": 102,
+        "mae": 17.833,
+        "bias": 4.108,
+        "rank_correlation": 0.7061
+      },
+      "r2_to_r3_proxy": {
+        "basis": "win-probability rank (same proxy method as earlier stages, for direct comparison)",
+        "n": 64,
+        "mae": 13.031,
+        "bias": 2.188,
+        "rank_correlation": 0.5863
+      },
+      "r2_to_r3_true": {
+        "basis": "TRUE performance rank -- ranked by updated_expected_round_score_to_par directly",
+        "n": 64,
+        "mae": 15.594,
+        "bias": 2.188,
+        "rank_correlation": 0.4365
+      }
+    },
+    "priority_3_round_score": {
       "pre_to_r1": {
         "available": false,
         "reason": "no expected-round-score artifact frozen at PRE (probability-only forecast)"
@@ -4106,49 +4210,6 @@
           "rmse": 3.342055714761655,
           "bias": -2.094763702817923
         }
-      }
-    },
-    "priority_2_current_sg": {
-      "expected_sg_source": "2026090002_PRE_PERFORMANCE_SNAPSHOT.json (recent5-window total SG mean, standing baseline reused across all rounds)",
-      "r1": {
-        "n": 98,
-        "mae": 2.3589,
-        "rmse": 2.9537,
-        "bias": -0.5778
-      },
-      "r2": {
-        "n": 96,
-        "mae": 2.269,
-        "rmse": 2.8105,
-        "bias": -0.6927
-      },
-      "r3": {
-        "n": 61,
-        "mae": 2.1206,
-        "rmse": 2.8581,
-        "bias": -1.026
-      }
-    },
-    "priority_3_performance_rank": {
-      "pre_to_r1": {
-        "basis": "win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
-        "n": 104,
-        "mean_abs_rank_error": 23.683
-      },
-      "r1_to_r2": {
-        "basis": "win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
-        "n": 102,
-        "mean_abs_rank_error": 17.833
-      },
-      "r2_to_r3_proxy": {
-        "basis": "win-probability rank (same proxy method as earlier stages, for direct comparison)",
-        "n": 64,
-        "mean_abs_rank_error": 13.031
-      },
-      "r2_to_r3_true": {
-        "basis": "TRUE performance rank -- ranked by updated_expected_round_score_to_par directly",
-        "n": 64,
-        "mean_abs_rank_error": 15.594
       }
     }
   }
