@@ -355,15 +355,15 @@ def rank_error(deltas_subset):
     errs = [abs(d[5]) for d in deltas_subset]
     return dict(n=len(errs), mean_abs_rank_error=round(sum(errs) / len(errs), 3))
 
-# --- Priority 1: Round Performance (Expected Round Score -> Actual Round Score) ---
+# --- Priority 3 (V2): Round Score (Expected Round Score -> Actual Round Score) ---
 # HONEST CONSTRAINT: no expected-round-score field was ever frozen for the
 # PRE->R1 or R1->R2 checkpoints (those stages only persisted win/cut/topN
 # PROBABILITIES, never a raw expected stroke value) -- only the R2->R3
 # checkpoint (candidate_freeze) has one. Reporting N/A for the first two
-# rather than fabricating a proxy value.
+# rather than fabricating a proxy value. Never estimated.
 oos_path = D / "HANA_2026090002_R2_R3_OOS_VALIDATION_REPORT_V1.json"
 oos = json.loads(oos_path.read_text(encoding="utf-8")) if oos_path.is_file() else None
-priority1_round_performance = dict(
+priority3_round_score = dict(
     pre_to_r1=dict(available=False, reason="no expected-round-score artifact frozen at PRE (probability-only forecast)"),
     r1_to_r2=dict(available=False, reason="no expected-round-score artifact frozen at post-R1 (probability-only forecast)"),
     r2_to_r3=dict(
@@ -380,12 +380,11 @@ priority1_round_performance = dict(
     ) if oos else dict(available=False, reason="OOS validation report not found"),
 )
 
-# --- Priority 2: Current SG (Expected SG -> Actual SG) ---
-# Expected SG = the player's own PRE-tournament standing baseline
-# (PRE_PERFORMANCE_SNAPSHOT recent5-window total SG mean), the only
-# "expected SG" quantity this pipeline ever freezes. Reused unchanged as
-# the expectation for all three rounds (no in-tournament SG forecast is
-# recomputed round to round in this codebase).
+# --- Priority 1 (V2): Performance Sustainability ---
+# Does current-round performance (SG or relative score) persist into the
+# NEXT round, and how much does the field regress toward the mean /
+# show momentum / vary round to round? All computed from real, already-
+# frozen SG and score values -- no new prediction.
 pre_snapshot = load("2026090002_PRE_PERFORMANCE_SNAPSHOT.json")
 expected_sg_by_id = {}
 for prof in pre_snapshot["profiles"]:
@@ -399,20 +398,65 @@ def sg_accuracy(actual_sg_by_id):
     pairs = [(expected_sg_by_id[p], actual_sg_by_id[p]) for p in common]
     return mae_rmse_bias(pairs) if pairs else dict(n=0)
 
-priority2_current_sg = dict(
-    expected_sg_source="2026090002_PRE_PERFORMANCE_SNAPSHOT.json (recent5-window total SG mean, standing baseline reused across all rounds)",
-    r1=sg_accuracy(r1sg_by_id),
-    r2=sg_accuracy(r2sg_by_id),
-    r3=sg_accuracy(r3sg_by_id),
+# Current SG -> Next Round SG persistence (does a good SG round predict a good NEXT SG round?)
+common_r1sg_r2sg = sorted(set(r1sg_by_id) & set(r2sg_by_id))
+corr_r1sg_r2sg = pearson([r1sg_by_id[p] for p in common_r1sg_r2sg], [r2sg_by_id[p] for p in common_r1sg_r2sg])
+common_r2sg_r3sg = sorted(set(r2sg_by_id) & set(r3sg_by_id))
+corr_r2sg_r3sg = pearson([r2sg_by_id[p] for p in common_r2sg_r3sg], [r3sg_by_id[p] for p in common_r2sg_r3sg])
+
+# Score-to-score persistence (field-relative consistency / momentum signal)
+common_r1r2_score = sorted(set(r1_score_by_id) & set(r2_score_by_id))
+corr_r1r2_score = pearson([r1_score_by_id[p] for p in common_r1r2_score], [r2_score_by_id[p] for p in common_r1r2_score])
+common_r2r3_score = sorted(set(r2_score_by_id) & set(r3_score_by_id))
+corr_r2r3_score = pearson([r2_score_by_id[p] for p in common_r2r3_score], [r3_score_by_id[p] for p in common_r2r3_score])
+
+# Variance / spread of the field's raw round score-to-par each round
+def field_variance(score_by_id):
+    vals = list(score_by_id.values())
+    return dict(n=len(vals), mean=round(mean(vals), 4), stddev=round(pstdev(vals), 4)) if vals else dict(n=0)
+
+# Regression-to-the-mean test: correlate (score_N - field_mean_N) with (score_N+1 - score_N).
+# Strongly negative => reversion (players far from the mean move back toward it).
+# Near-zero/positive => momentum (relative position persists or compounds).
+def regression_to_mean(score_n_by_id, score_n1_by_id):
+    common = sorted(set(score_n_by_id) & set(score_n1_by_id))
+    if not common:
+        return dict(n=0)
+    field_mean_n = mean(score_n_by_id[p] for p in common)
+    deviations = [score_n_by_id[p] - field_mean_n for p in common]
+    changes = [score_n1_by_id[p] - score_n_by_id[p] for p in common]
+    r = pearson(deviations, changes)
+    return dict(n=len(common), field_mean_round_n=round(field_mean_n, 4), correlation=round(r, 4) if r == r else None,
+                interpretation="reversion (regression to the mean)" if r < -0.15 else ("momentum (relative position persists)" if r > 0.15 else "no strong signal either way"))
+
+priority1_performance_sustainability = dict(
+    current_sg_to_next_round_sg=dict(
+        r1_sg_to_r2_sg=dict(n=len(common_r1sg_r2sg), pearson_r=round(corr_r1sg_r2sg, 4)),
+        r2_sg_to_r3_sg=dict(n=len(common_r2sg_r3sg), pearson_r=round(corr_r2sg_r3sg, 4)),
+    ),
+    performance_stability_score_to_score=dict(
+        r1_to_r2=dict(n=len(common_r1r2_score), pearson_r=round(corr_r1r2_score, 4)),
+        r2_to_r3=dict(n=len(common_r2r3_score), pearson_r=round(corr_r2r3_score, 4)),
+    ),
+    variance_field_score_to_par=dict(
+        r1=field_variance(r1_score_by_id), r2=field_variance(r2_score_by_id), r3=field_variance(r3_score_by_id),
+    ),
+    regression_to_mean=dict(
+        r1_to_r2=regression_to_mean(r1_score_by_id, r2_score_by_id),
+        r2_to_r3=regression_to_mean(r2_score_by_id, r3_score_by_id),
+    ),
+    expected_sg_accuracy=dict(
+        expected_sg_source="2026090002_PRE_PERFORMANCE_SNAPSHOT.json (recent5-window total SG mean, standing baseline reused across all rounds)",
+        r1=sg_accuracy(r1sg_by_id), r2=sg_accuracy(r2sg_by_id), r3=sg_accuracy(r3sg_by_id),
+    ),
 )
 
-# --- Priority 3: Performance Rank (Expected Performance Rank -> Actual Performance Rank) ---
+# --- Priority 2 (V2): Performance Ranking (Expected Performance Rank -> Actual Performance Rank) ---
 # PRE/R1->R2: no raw expected score exists, so the win-probability-based
 # rank already computed above is reused as an explicit PROXY (documented,
-# never silently treated as the "true" performance rank the philosophy
-# calls for). R2->R3: a TRUE performance rank is available and computed
-# fresh here, ranking players by updated_expected_round_score_to_par
-# (ascending = better predicted performance) -- independent of win_pct.
+# never silently treated as the "true" performance rank). R2->R3: a TRUE
+# performance rank is also computed, ranking by updated_expected_round_
+# score_to_par directly -- independent of win_pct.
 true_perf_rank_r2r3 = {
     r["player_id"]: rank for rank, r in enumerate(
         sorted(cand_by_id.values(), key=lambda r: (r["updated_expected_round_score_to_par"], r["player_id"])), start=1
@@ -423,21 +467,36 @@ true_perf_deltas_r2r3 = [
     for pid in sorted(set(true_perf_rank_r2r3) & set(r3_rank))
 ]
 
-priority3_performance_rank = dict(
+def rank_stats(deltas_subset):
+    if not deltas_subset:
+        return dict(n=0)
+    errs = [d[5] for d in deltas_subset]
+    abs_errs = [abs(e) for e in errs]
+    pred_ranks = [d[3] for d in deltas_subset]
+    act_ranks = [d[4] for d in deltas_subset]
+    r = pearson(pred_ranks, act_ranks)
+    return dict(
+        n=len(errs),
+        mae=round(sum(abs_errs) / len(abs_errs), 3),
+        bias=round(sum(errs) / len(errs), 3),
+        rank_correlation=round(r, 4) if r == r else None,
+    )
+
+priority2_performance_ranking = dict(
     pre_to_r1=dict(basis="win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
-                    **rank_error([d for d in deltas if d[0] == "PRE->R1"])),
+                    **rank_stats([d for d in deltas if d[0] == "PRE->R1"])),
     r1_to_r2=dict(basis="win-probability rank (PROXY -- no raw expected score exists at this checkpoint)",
-                  **rank_error([d for d in deltas if d[0] == "R1->R2"])),
+                  **rank_stats([d for d in deltas if d[0] == "R1->R2"])),
     r2_to_r3_proxy=dict(basis="win-probability rank (same proxy method as earlier stages, for direct comparison)",
-                         **rank_error([d for d in deltas if d[0] == "R2->R3"])),
+                         **rank_stats([d for d in deltas if d[0] == "R2->R3"])),
     r2_to_r3_true=dict(basis="TRUE performance rank -- ranked by updated_expected_round_score_to_par directly",
-                        **rank_error(true_perf_deltas_r2r3)),
+                        **rank_stats(true_perf_deltas_r2r3)),
 )
 
 RESULT["neo_philosophy_kpis"] = dict(
-    priority_1_round_performance=priority1_round_performance,
-    priority_2_current_sg=priority2_current_sg,
-    priority_3_performance_rank=priority3_performance_rank,
+    priority_1_performance_sustainability=priority1_performance_sustainability,
+    priority_2_performance_ranking=priority2_performance_ranking,
+    priority_3_round_score=priority3_round_score,
 )
 
 out_path = D / "HANA_2026090002_RED_TEAM_FORENSICS_COMPUTED_V1.json"
