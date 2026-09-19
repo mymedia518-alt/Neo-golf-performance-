@@ -1,8 +1,10 @@
-# NEO RED TEAM — FULL TOURNAMENT FORENSICS
-## 하나금융그룹 챔피언십 (2026090002)
+# NEO BENCHMARK REPORT V1
+## 하나금융그룹 챔피언십 (2026090002) — Research Report
 
 **NEO predicts sustainable performance, not isolated outcomes.**
 (NEO는 일회성 결과가 아니라 지속 가능한 경기력을 예측한다.)
+
+**Current SG is a feature, not the target. NEO predicts Performance, not SG.**
 
 **문서 상태: DRAFT / INTERIM — R3까지만 확정.** FINAL(R4) 공식 리더보드 증거가 아직 존재하지 않아 (`2026090002_POST_R4_FINAL_PREVIEW.json`의 `status`가 명시적으로 `"PREVIEW -- not yet promoted"`), R3→FINAL 구간과 FINAL 결과 섹션, 그리고 완결된 NEO SCORECARD는 이 문서에서 **BLOCKED**로 표시한다.
 
@@ -11,23 +13,37 @@
 **사용된 원본 아티팩트** (모두 `klpga_pipeline/content/website_v2/`):
 `HANA_2026090002_R1_PRE_COMPARISON_V1.json`, `HANA_2026090002_R1_ANALYSIS_V1.json`, `2026090002_R2_FROZEN_EVIDENCE.json`, `2026090002_POST_R2_FINAL_FORECAST.json`, `2026090002_POST_R3_CANDIDATE_FREEZE_V1.json`, `2026090002_R3_FROZEN_EVIDENCE.json`, `2026090002_POST_R4_FINAL_PREVIEW.json` (참조용, 실제 결과 아님), `HANA_2026090002_R1_SG_V1.json`, `HANA_2026090002_R2_SG_V1.json`, `HANA_2026090002_R3_SG_V1.json`, `2026090002_PRE_PERFORMANCE_SNAPSHOT.json`, `HANA_2026090002_R2_R3_OOS_VALIDATION_REPORT_V1.json`.
 
+이 문서는 향후 모든 KLPGA/LPGA/PGA 대회의 기준이 되는 **NEO Benchmark Report V1**이다. 가독성, 과학성, 재현성, Evidence를 최우선으로 한다.
+
 ---
 
 # NEO PHILOSOPHY
 
-NEO의 목적은 "우승자를 맞추는 것"이 아니다. NEO의 목적은 **"다음 라운드에서 얼마나 좋은 경기력을 보여줄 것인가"**를 예측하는 것이다. 골프는 상대평가이므로, 같은 68타를 쳐도 다른 선수가 65타를 치면 우승하지 못한다 — 우승은 본인의 경기력뿐 아니라 상대 선수의 경기력까지 포함된 결과다. 따라서 **Winner는 Reference Only(참고 지표)**이며, **Performance Sustainability가 Primary Objective(주 목적)**다.
-
-이 보고서는 다음 5단계 우선순위로 구성된다:
+NEO의 목적은 "우승자를 맞추는 것"이 아니다. NEO의 목적은 **"다음 라운드에서 얼마나 좋은 경기력을 보여줄 것인가"**를 예측하는 것이다. 골프는 상대평가이므로, 같은 68타를 쳐도 다른 선수가 65타를 치면 우승하지 못한다 — 우승은 본인의 경기력뿐 아니라 상대 선수의 경기력까지 포함된 결과다. 따라서 **Winner는 Reference Only(참고 지표)**이며, **Performance Continuity가 Primary Objective(주 목적)**다.
 
 | Priority | 지표 | 정의 |
 |---|---|---|
-| 1 (최우선) | Performance Sustainability | Current SG → Next Round SG, Stability, Variance, Consistency, Regression, Momentum |
+| 1 (최우선) | Performance Continuity | Current SG → Next Round SG, Stability, Variance, Mean-Reversion Signal |
 | 2 | Performance Ranking | Expected Performance Rank → Actual Performance Rank (Rank Error, MAE, Bias, Correlation) |
-| 3 | Round Score | Expected Round Score → Actual Round Score (Freeze Evidence 존재하는 경우만, 없으면 N/A) |
+| 3 | Round Performance | Expected Round Score → Actual Round Score (Freeze Evidence 존재하는 경우만, 없으면 N/A) |
 | 4 | Top20 / Top10 / Top5 | Precision / Recall / F1 |
 | 5 (참고용) | Winner | Reference Only — 대표 KPI에서 제외 |
 
-이 철학 변경(V2)은 NEO 프로젝트 전체의 공식 철학이다. 앞으로 생성되는 POST_TOURNAMENT_REPORT, RED TEAM REPORT, VALIDATION REPORT는 모두 동일한 철학을 적용하며, 이 문서는 NEO 프로젝트의 공식 Benchmark Report Template이 된다.
+---
+
+# KEY DISCOVERIES
+
+이번 대회에서 가장 중요한 발견 5가지다 (상세 근거는 이후 섹션 참조):
+
+① **Top5 Prediction Precision = 80%** — R2→R3 단계에서 상위 5명 예측 정밀도가 가장 높았다.
+
+② **Performance Ranking Accuracy가 PRE → R1 → R2 → R3 전 구간에서 계속 향상되었다** (순위 MAE: 23.683 → 17.833 → 13.031).
+
+③ **Mean-Reversion Signal 관찰됨** (R1→R2 correlation=-0.6838, R2→R3 correlation=-0.5765). _이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
+
+④ **Probability Ranking이 Raw Expected Score보다 더 정확했다** (R2→R3: 확률기반 순위 MAE 13.031 vs 원시 스코어 기반 순위 MAE 15.594).
+
+⑤ **Winner는 대표 KPI가 아니라 Reference Metric이다.** 이번 대회에서 우승 후보는 3단계 모두 실제 리더와 일치하지 않았으나, 이는 NEO의 목적함수와 무관한 참고 정보일 뿐이다.
 
 ---
 
@@ -38,38 +54,41 @@ NEO의 목적은 "우승자를 맞추는 것"이 아니다. NEO의 목적은 **"
 3. Stage 2 — R1 → R2 Forensics
 4. Stage 3 — R2 → R3 Forensics
 5. Stage 4 — R3 → FINAL (BLOCKED)
-6. 단계별 정확도 비교 (Sustainability-First)
+6. 단계별 정확도 비교
 7. 선수별 분석 (Cross-Stage)
 8. Biggest Movers (단계별)
-9. Current SG 분석 (Stability / Variance / Consistency / Regression / Momentum)
+9. Current SG 분석 (Feature, not Target)
 10. Monte Carlo 분석
 11. Calibration / Brier / Log Loss / Reliability / Sharpness
 12. 모델 분석 (Root Cause Analysis)
 13. 코스 영향 (BLOCKED)
 14. 선수 분석 (Closest / Overvalued / Undervalued / Surprise)
 15. NEO Philosophy Validation
-16. MODEL INSIGHTS
-17. 콘텐츠 분석
-18. NEO SCORECARD (INTERIM)
-19. MODEL IMPROVEMENT ROADMAP
+16. WHAT NEO LEARNED
+17. WHAT GOLF TAUGHT THE MODEL
+18. CONFIDENCE
+19. RESEARCH VS PRODUCTION
+20. 콘텐츠 분석
+21. NEO SCORECARD (INTERIM)
+22. MODEL IMPROVEMENT ROADMAP (Evidence Strength 순)
 
 ---
 
 # 1. Executive Summary
 
-NEO의 철학에 따라, Winner Prediction이 아닌 **Performance Sustainability**를 중심으로 3개 실측 전환 구간(PRE→R1, R1→R2, R2→R3)을 평가한다.
+NEO의 철학에 따라, Winner Prediction이 아닌 **Performance Continuity**를 중심으로 3개 실측 전환 구간(PRE→R1, R1→R2, R2→R3)을 평가한다.
 
-## Priority 1 — Performance Sustainability
+## Priority 1 — Performance Continuity
 
 | 지표 | R1→R2 | R2→R3 |
 |---|---|---|
 | Current SG → Next Round SG (r) | 0.1171 | 0.0251 |
-| Performance Stability, score-to-score (r) | 0.1276 | 0.0241 |
-| Regression to Mean (r) | -0.6838 | -0.5765 |
+| Performance Continuity, score-to-score (r) | 0.1276 | 0.0241 |
+| Mean-Reversion Signal (r) | -0.6838 | -0.5765 |
 
-**핵심 발견**: 지속성(SG→SG, Score→Score) 상관계수는 0에 가깝지만(0.1171, 0.0251 / 0.1276, 0.0241), 평균회귀(Regression to Mean) 상관계수는 두 구간 모두 강한 음수다(-0.6838, -0.5765) — **모멘텀보다 평균회귀가 압도적으로 강한 신호**다. 즉 이번 대회에서 "한 라운드 잘 친 선수가 다음 라운드도 잘 친다"는 근거는 약하고, "튀는 성적은 평균으로 되돌아온다"는 근거는 매우 강하다.
+**핵심 발견**: 연속성(SG→SG, Score→Score) 상관계수는 0에 가깝지만, Mean-Reversion Signal 상관계수는 두 구간 모두 강한 음수다. _이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
 
-Expected SG(본인 시즌 기준선) 대비 정확도는 라운드가 진행될수록 개선된다: MAE 2.36 → 2.27 → 2.12.
+Expected SG(본인 시즌 기준선) 대비 정확도는 라운드가 진행될수록 개선된다: MAE 2.36 → 2.27 → 2.12. (Current SG is a feature, not the target.)
 
 ## Priority 2 — Performance Ranking
 
@@ -80,9 +99,9 @@ Expected SG(본인 시즌 기준선) 대비 정확도는 라운드가 진행될�
 | R2→R3(Proxy) | win-probability rank (same proxy method as earlier stages, for direct comparison) | 64 | 13.031 | +2.188 | 0.5863 |
 | R2→R3(True) | TRUE performance rank -- ranked by updated_expected_round_score_to_par directly | 64 | 15.594 | +2.188 | 0.4365 |
 
-순위 오차(MAE)는 라운드가 진행될수록 뚜렷이 개선된다(23.683 → 17.833 → 13.031). 다만 Rank Correlation은 단조롭지 않다 — R1→R2(0.7061)가 R2→R3(0.5863)보다 오히려 높다. 이는 R2→R3에서 필드가 64명으로 좁혀지며(range restriction) 상관계수가 구조적으로 낮아지는 통계적 효과일 수 있다 — 절대 오차(MAE)와 상관계수(Correlation)는 서로 다른 것을 측정하므로 혼동하지 않아야 한다. Bias는 모든 단계에서 양수(+2~+5)로, 모델이 시스템적으로 실제보다 좋은 순위를 예측하는 낙관 편향(optimism bias)이 있음을 시사한다.
+순위 오차(MAE)는 라운드가 진행될수록 뚜렷이 개선된다. Rank Correlation은 단조롭지 않다 (range restriction 가능성). Bias는 모든 단계에서 양수 — 낙관 편향(optimism bias).
 
-## Priority 3 — Round Score
+## Priority 3 — Round Performance
 
 | Stage | 가용성 | MAE | RMSE | Bias |
 |---|---|---|---|---|
@@ -103,7 +122,7 @@ PRE→R1, R1→R2 단계는 Freeze Evidence에 원시 예측 스코어가 존재
 
 ## Priority 5 — Winner (Reference Only)
 
-우승 후보는 3단계 모두 실제 리더와 일치하지 않았다 (0/3, Reference Only). 이 수치는 대표 성능으로 사용하지 않는다 — NEO의 대표 성능은 Priority 1-3(Performance Sustainability, Performance Ranking, Round Score)이다.
+우승 후보는 3단계 모두 실제 리더와 일치하지 않았다 (0/3, Reference Only). 이 수치는 대표 성능으로 사용하지 않는다.
 
 ---
 
@@ -113,15 +132,15 @@ PRE→R1, R1→R2 단계는 Freeze Evidence에 원시 예측 스코어가 존재
 
 ## Performance Analysis (Priority 1-3)
 
-### Priority 1 — Performance Sustainability
+### Priority 1 — Performance Continuity
 
-**Expected SG → Actual SG**
+**Expected SG → Actual SG** _(Current SG is a feature, not the target — NEO predicts Performance, not SG.)_
 
 | Round | N | MAE | RMSE | Bias |
 |---|---|---|---|---|
 | r1 | 98 | 2.3589 | 2.9537 | -0.5778 |
 
-**Current SG → Next Round SG / Performance Stability / Variance / Regression to Mean**: 이전 대회 내 라운드가 없어 PRE→R1 단계에서는 지속성(persistence)·회귀(regression)·모멘텀 분석이 원천적으로 불가능하다 (최소 2개 라운드 필요). N/A로 명시하며 추정하지 않는다.
+**Continuity / Stability / Variance / Mean-Reversion**: 이전 대회 내 라운드가 없어 PRE→R1 단계에서는 연속성(continuity)·평균회귀 신호·모멘텀 분석이 원천적으로 불가능하다 (최소 2개 라운드 필요). N/A로 명시하며 추정하지 않는다.
 
 ### Priority 2 — Performance Ranking
 
@@ -133,7 +152,7 @@ PRE→R1, R1→R2 단계는 Freeze Evidence에 원시 예측 스코어가 존재
 | Bias | +4.510 |
 | Rank Correlation | 0.4826 |
 
-### Priority 3 — Round Score (Expected Round Score → Actual Round Score)
+### Priority 3 — Round Performance (Expected Round Score → Actual Round Score)
 
 **N/A** — no expected-round-score artifact frozen at PRE (probability-only forecast). 절대 추정하지 않는다.
 
@@ -163,7 +182,7 @@ PRE→R1, R1→R2 단계는 Freeze Evidence에 원시 예측 스코어가 존재
 
 예측: **서교림** — 실제 R1 리더: **박민지** (실제순위 1) — Reference Only, 대표 성능 아님.
 
-PRE 모델은 K-Rank/최근성적 기반 사전 예측만 가지고 있었다. Winner 불일치는 NEO의 주 목적(Performance Sustainability)과 무관한 참고 정보일 뿐이다.
+PRE 모델은 K-Rank/최근성적 기반 사전 예측만 가지고 있었다. Winner 불일치는 NEO의 주 목적(Performance Continuity)과 무관한 참고 정보일 뿐이다.
 
 ---
 
@@ -175,23 +194,23 @@ PRE 모델은 K-Rank/최근성적 기반 사전 예측만 가지고 있었다. W
 
 ## Performance Analysis (Priority 1-3)
 
-### Priority 1 — Performance Sustainability
+### Priority 1 — Performance Continuity
 
-**Expected SG → Actual SG**
+**Expected SG → Actual SG** _(Current SG is a feature, not the target — NEO predicts Performance, not SG.)_
 
 | Round | N | MAE | RMSE | Bias |
 |---|---|---|---|---|
 | r2 | 96 | 2.2690 | 2.8105 | -0.6927 |
 
-**Current SG → Next Round SG** (지속성): N=102, Pearson r=0.1171
+**Current SG → Next Round SG** (연속성): N=102, Pearson r=0.1171
 
-**Performance Stability** (라운드 간 상대순위 일관성, score-to-score): N=102, Pearson r=0.1276
+**Performance Continuity** (라운드 간 상대순위 일관성, score-to-score): N=102, Pearson r=0.1276
 
 **Variance** (필드 전체 스코어 분산): R1 stddev=3.0934, R2 stddev=2.9266
 
-**Regression to Mean**: N=102, correlation=-0.6838 → **reversion (regression to the mean)**
+**Mean-Reversion Signal observed**: N=102, correlation=-0.6838
 
-**Momentum**: 지속성 상관계수(r=0.1171, 0.1276)가 0에 가깝고 회귀 상관계수(r=-0.6838)가 강한 음수라는 것은, 모멘텀(momentum)보다 평균회귀(regression to mean)가 압도적으로 강한 신호다는 뜻이다 — 즉 이번 대회에서 한 라운드 잘 친 선수가 다음 라운드에도 계속 잘 친다는 근거는 약하고, 오히려 평균으로 되돌아가는 경향이 훨씬 강하다.
+_이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
 
 ### Priority 2 — Performance Ranking
 
@@ -203,7 +222,7 @@ PRE 모델은 K-Rank/최근성적 기반 사전 예측만 가지고 있었다. W
 | Bias | +4.108 |
 | Rank Correlation | 0.7061 |
 
-### Priority 3 — Round Score (Expected Round Score → Actual Round Score)
+### Priority 3 — Round Performance (Expected Round Score → Actual Round Score)
 
 **N/A** — no expected-round-score artifact frozen at post-R1 (probability-only forecast). 절대 추정하지 않는다.
 
@@ -243,23 +262,23 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 
 ## Performance Analysis (Priority 1-3)
 
-### Priority 1 — Performance Sustainability
+### Priority 1 — Performance Continuity
 
-**Expected SG → Actual SG**
+**Expected SG → Actual SG** _(Current SG is a feature, not the target — NEO predicts Performance, not SG.)_
 
 | Round | N | MAE | RMSE | Bias |
 |---|---|---|---|---|
 | r3 | 61 | 2.1206 | 2.8581 | -1.0260 |
 
-**Current SG → Next Round SG** (지속성): N=64, Pearson r=0.0251
+**Current SG → Next Round SG** (연속성): N=64, Pearson r=0.0251
 
-**Performance Stability** (라운드 간 상대순위 일관성, score-to-score): N=64, Pearson r=0.0241
+**Performance Continuity** (라운드 간 상대순위 일관성, score-to-score): N=64, Pearson r=0.0241
 
 **Variance** (필드 전체 스코어 분산): R2 stddev=2.9266, R3 stddev=2.7776
 
-**Regression to Mean**: N=64, correlation=-0.5765 → **reversion (regression to the mean)**
+**Mean-Reversion Signal observed**: N=64, correlation=-0.5765
 
-**Momentum**: 지속성 상관계수(r=0.0251, 0.0241)가 0에 가깝고 회귀 상관계수(r=-0.5765)가 강한 음수라는 것은, 모멘텀(momentum)보다 평균회귀(regression to mean)가 압도적으로 강한 신호다는 뜻이다 — 즉 이번 대회에서 한 라운드 잘 친 선수가 다음 라운드에도 계속 잘 친다는 근거는 약하고, 오히려 평균으로 되돌아가는 경향이 훨씬 강하다.
+_이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
 
 ### Priority 2 — Performance Ranking
 
@@ -271,7 +290,7 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 | Bias | +2.188 |
 | Rank Correlation | 0.5863 |
 
-### Priority 3 — Round Score (Expected Round Score → Actual Round Score)
+### Priority 3 — Round Performance (Expected Round Score → Actual Round Score)
 
 | Model | MAE | RMSE | Bias |
 |---|---|---|---|
@@ -306,7 +325,7 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 
 예측: **장은수** — 실제 R3 리더: **김민선7** (실제순위 1) — Reference Only, 대표 성능 아님.
 
-김민선7는 R2 시점 예측 3위에서 실제 R3 1위로 상승했다 — 이는 Winner 적중 여부와 무관하게, 아래 Priority 1-3 Performance 지표가 이 이변을 설명하는 진짜 근거임을 재확인시켜 준다.
+김민선7는 R2 시점 예측 3위에서 실제 R3 1위로 상승했다 — 이는 Winner 적중 여부와 무관하게, Priority 1-3 Performance 지표가 이 이변을 설명하는 진짜 근거임을 재확인시켜 준다.
 
 ---
 
@@ -316,14 +335,16 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 
 ---
 
-# 6. 단계별 정확도 비교 (Sustainability-First)
+# 6. 단계별 정확도 비교
 
-## Priority 1: Performance Sustainability
+## Priority 1: Performance Continuity
 
-| 전환 구간 | SG 지속성(r) | Score 안정성(r) | 평균회귀(r) |
+| 전환 구간 | SG 연속성(r) | Score 연속성(r) | Mean-Reversion Signal(r) |
 |---|---|---|---|
 | R1→R2 | 0.1171 | 0.1276 | -0.6838 |
 | R2→R3 | 0.0251 | 0.0241 | -0.5765 |
+
+_이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
 
 ## Priority 2: Performance Ranking
 
@@ -334,7 +355,7 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 | R2→R3(Proxy) | 13.031 | +2.188 | 0.5863 |
 | R2→R3(True) | 15.594 | +2.188 | 0.4365 |
 
-## Priority 3: Round Score
+## Priority 3: Round Performance
 
 | Stage | MAE | RMSE | Bias |
 |---|---|---|---|
@@ -740,9 +761,11 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 
 ---
 
-# 9. Current SG 분석 (Stability / Variance / Consistency / Regression / Momentum)
+# 9. Current SG 분석 (Feature, not Target)
 
-## Expected SG → Actual SG (Priority 1 핵심 KPI)
+**Current SG is a feature, not the target. NEO predicts Performance, not SG.** 이 섹션의 모든 지표는 Current SG가 Performance Continuity를 설명하는 데 얼마나 기여하는지를 보기 위한 것이지, SG 자체를 최적화 목표로 삼는 것이 아니다.
+
+## Expected SG → Actual SG
 
 | Round | N | MAE | RMSE | Bias |
 |---|---|---|---|---|
@@ -752,14 +775,14 @@ Winner 불일치보다 위의 Performance 지표(Priority 1-3)가 이 단계의 
 
 Expected SG는 PRE_PERFORMANCE_SNAPSHOT의 recent5(또는 season2026) 윈도우 SG 평균 — 대회 시작 전 고정된 본인 기준선이다.
 
-## Current SG → Next Round SG (지속성)
+## Current SG → Next Round SG (연속성)
 
 | 구간 | N | Pearson r |
 |---|---|---|
 | R1 SG → R2 SG | 102 | 0.1171 |
 | R2 SG → R3 SG | 64 | 0.0251 |
 
-## Performance Stability (Consistency, score-to-score)
+## Performance Continuity (score-to-score)
 
 | 구간 | N | Pearson r |
 |---|---|---|
@@ -774,16 +797,16 @@ Expected SG는 PRE_PERFORMANCE_SNAPSHOT의 recent5(또는 season2026) 윈도우 
 | R2 | 102 | 2.0588 | 2.9266 |
 | R3 | 64 | 0.8125 | 2.7776 |
 
-필드 분산은 라운드가 진행될수록 줄어든다 (3.0934 → 2.9266 → 2.7776) — 컷으로 하위권이 탈락하며 필드가 좁혀지는 자연스러운 효과다.
+## Mean-Reversion Signal
 
-## Regression to Mean / Momentum
+| 구간 | N | 필드 평균(N라운드) | Correlation |
+|---|---|---|---|
+| R1 → R2 | 102 | 3.1961 | -0.6838 |
+| R2 → R3 | 64 | 0.6406 | -0.5765 |
 
-| 구간 | N | 필드 평균(N라운드) | Correlation | 해석 |
-|---|---|---|---|---|
-| R1 → R2 | 102 | 3.1961 | -0.6838 | reversion (regression to the mean) |
-| R2 → R3 | 64 | 0.6406 | -0.5765 | reversion (regression to the mean) |
+_이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
 
-**해석**: (필드 평균 대비 편차) vs (다음 라운드 변화량)의 상관계수가 두 구간 모두 강한 음수다 — 평균보다 훨씬 잘 치거나 못 친 선수일수록 다음 라운드에 평균 쪽으로 되돌아오는 경향이 뚜렷하다. 이는 "Current SG/Score의 다음 라운드 예측력이 거의 0"이라는 기존 발견과 정확히 같은 현상을 다른 각도에서 재확인한 것이다 — 지속성이 약한 이유는 무작위성 때문이 아니라 **체계적인 평균회귀** 때문이다.
+**해석**: (필드 평균 대비 편차) vs (다음 라운드 변화량)의 상관계수가 두 구간 모두 강한 음수다 — 평균보다 훨씬 잘 치거나 못 친 선수일수록 다음 라운드에 평균 쪽으로 되돌아오는 패턴이 관찰된다. 이는 "Current SG/Score의 다음 라운드 예측력이 거의 0"이라는 발견과 같은 현상을 다른 각도에서 재확인한 것이다.
 
 ---
 
@@ -865,31 +888,31 @@ N=105, Brier=0.14248, LogLoss=0.42807, ECE(Reliability gap)=0.07581, Sharpness(s
 
 N=64, Brier=0.13722, LogLoss=0.42538, ECE(Reliability gap)=0.11092, Sharpness(stddev)=0.35907
 
-**해석:** Brier Score는 PRE(0.16666) → R1→R2(0.11459)까지 개선되지만 R2→R3(0.13722)에서 재악화된다. 이 섹션은 Priority 4 보조 지표로, Priority 1-3(Performance Sustainability/Ranking/Round Score)만큼의 비중을 두지 않는다.
+**해석:** Brier Score는 PRE(0.16666) → R1→R2(0.11459)까지 개선되지만 R2→R3(0.13722)에서 재악화된다. 이 섹션은 Priority 4 보조 지표다.
 
 ---
 
 # 12. 모델 분석 (Root Cause Analysis)
 
-## 가장 잘 맞은 요소 (Performance Sustainability 관점)
+## 가장 잘 맞은 요소
 
-1. **평균회귀(Regression to Mean) 신호가 매우 강하고 일관적이다** (R1→R2 r=-0.6838, R2→R3 r=-0.5765) — 이는 골프의 본질적 통계 특성을 NEO가 실측으로 재확인한 것이며, 향후 모델링에 직접 활용할 수 있는 강력하고 신뢰할 수 있는 신호다.
+1. **Mean-Reversion Signal이 매우 강하고 일관적이다** (R1→R2 r=-0.6838, R2→R3 r=-0.5765). _이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
 2. **Expected SG 정확도가 라운드마다 개선된다** (MAE 2.36 → 2.27 → 2.12).
 3. **Performance Ranking의 절대 오차(MAE)가 뚜렷하게 개선된다** (23.683 → 17.833 → 13.031).
 4. **Top-N 분류(Priority 4)도 동일한 개선 패턴**을 보이며 Priority 2의 개선을 뒷받침한다.
 
-## 아직 부족한 요소 (Performance Sustainability 관점)
+## 아직 부족한 요소
 
-1. **Priority 3 (Round Score)이 PRE→R1, R1→R2 단계에서 아예 측정 불가능하다** — 원시 예측 스코어가 Freeze되지 않아서다. 파이프라인 설계의 공백이며, Roadmap Priority 7의 최우선 개선 과제다.
-2. **Current SG → Next Round SG 지속성이 매우 약하다** (r=0.1171, r=0.0251) — 그러나 이는 "모델 실패"가 아니라 **평균회귀라는 실제 골프 현상**이 원인임을 위에서 규명했다.
-3. **Performance Ranking Bias가 모든 단계에서 양수**다 — 모델이 시스템적으로 낙관적인 순위를 예측하는 경향이 있다.
-4. **R2→R3에서 Rank Correlation이 R1→R2보다 낮다**(0.5863 vs 0.7061) — range restriction(필드 축소) 효과일 가능성이 높으며, 절대 오차(MAE)는 오히려 개선되었으므로 지표 간 해석에 주의가 필요하다.
+1. **Priority 3 (Round Performance)이 PRE→R1, R1→R2 단계에서 아예 측정 불가능하다** — 파이프라인 설계의 공백이며, Roadmap의 개선 과제다.
+2. **Current SG → Next Round SG 연속성이 매우 약하다** (r=0.1171, r=0.0251) — Mean-Reversion Signal이 이 현상의 유력한 설명이다 (단일 대회 결과).
+3. **Performance Ranking Bias가 모든 단계에서 양수**다 — 낙관 편향 경향.
+4. **R2→R3에서 Rank Correlation이 R1→R2보다 낮다** — range restriction(필드 축소) 효과 가능성.
 
 ## Why (원인 분석)
 
-- **평균회귀가 강한 이유**: 하루 라운드 성적은 그날의 컨디션·핀 위치·바람 등 일시적 요인에 크게 좌우된다. 통계적으로 이는 정상적인 현상이며, NEO가 이를 정량적으로 포착했다는 것 자체가 연구적 가치다.
-- **Round Score 결측의 원인**: 파이프라인이 원래 확률 기반 예측으로 설계되어, 원시 기대 스코어는 R2 이후부터만 persist되기 시작했다.
-- **Rank Correlation 비단조성의 원인**: R2→R3 필드가 64명으로 좁혀지며 순위 값의 분산 자체가 줄어들어(range restriction), 상관계수가 통계적으로 낮게 나올 수 있다 — 이는 예측력 저하가 아니라 표본 특성의 문제일 가능성이 있다.
+- **Mean-Reversion Signal이 강하게 관찰된 이유**: 하루 라운드 성적은 그날의 컨디션·핀 위치·바람 등 일시적 요인에 크게 좌우된다. 이는 단일 대회 관찰이며, 다중 대회 검증이 필요하다.
+- **Round Performance 결측의 원인**: 파이프라인이 원래 확률 기반 예측으로 설계되어, 원시 기대 스코어는 R2 이후부터만 persist되기 시작했다.
+- **Rank Correlation 비단조성의 원인**: R2→R3 필드가 64명으로 좁혀지며 순위 값의 분산 자체가 줄어들어(range restriction), 상관계수가 통계적으로 낮게 나올 수 있다.
 
 ---
 
@@ -963,102 +986,171 @@ N=64, Brier=0.13722, LogLoss=0.42538, ECE(Reliability gap)=0.11092, Sharpness(st
 
 Evidence:
 
-1. **Winner 적중은 3단계 모두 실패했지만(0/3), Performance Ranking MAE는 뚜렷이 개선되었다** (23.683 → 17.833 → 13.031). 만약 NEO가 Winner Prediction 모델이었다면 이 개선은 무의미했을 것이다 — 하지만 NEO는 Performance Sustainability 모델이므로, "정확한 상대적 경기력 순위를 맞히는 능력"이 개선되었다는 사실 자체가 모델이 제대로 작동하고 있다는 증거다.
-2. **김민선7 사례**: R2 시점 우승확률 순위 3위였던 선수가 실제 R3에서 1위가 되었다. Winner 관점에서는 "예측 실패"처럼 보이지만, Performance 관점에서는 김민선7의 개별 경기력이 R3에서 크게 향상되었다는 것을 NEO의 확률 모델이 (사후적으로) 정확히 반영했다 — Section 8의 Biggest Movers에서 김민선7의 win% 상승(11.0→45.5)이 가장 크게 나타난다.
-3. **평균회귀(Regression to Mean) 신호가 강하게 확인되었다** (섹션 9) — 골프는 상대평가이며 개별 라운드 성적의 변동성이 크다는 것을 통계적으로 실증했다. Winner는 이 변동성의 최종 산물이므로, 애초에 안정적으로 예측 가능한 대상이 아니다.
-4. **Current SG의 라운드 간 지속성이 거의 0**이라는 사실은, "이번 라운드 잘 친 선수가 다음 라운드도 잘 친다"는 가정 자체가 성립하지 않음을 보여준다 — 이는 Winner 예측이 구조적으로 어려운 이유(누적된 우연성)를 뒷받침하는 동시에, NEO가 "다음 라운드 경기력"이라는 더 안정적으로 측정 가능한 대상에 집중해야 하는 이유를 정당화한다.
+1. **Winner 적중은 3단계 모두 실패했지만(0/3, Reference Only), Performance Ranking MAE는 뚜렷이 개선되었다** (23.683 → 17.833 → 13.031). NEO가 Winner Prediction 모델이었다면 이 개선은 무의미했을 것이다.
+2. **김민선7 사례**: R2 시점 우승확률 순위 3위였던 선수가 실제 R3에서 1위가 되었다. Performance 관점에서는 김민선7의 개별 경기력이 R3에서 크게 향상되었다는 것을 NEO의 확률 모델이 반영했다.
+3. **Mean-Reversion Signal이 관찰되었다** (섹션 9, 단일 대회 결과) — 골프는 상대평가이며 개별 라운드 성적의 변동성이 크다는 것을 실증했다.
+4. **Current SG의 라운드 간 연속성이 거의 0**이라는 사실은, "이번 라운드 잘 친 선수가 다음 라운드도 잘 친다"는 가정이 성립하지 않음을 보여준다.
 
 ---
 
-# 16. MODEL INSIGHTS — TOP10 연구 결과
+# 16. WHAT NEO LEARNED
 
-1. **평균회귀가 지속성보다 압도적으로 강한 신호다** (r=-0.68, -0.58 vs r≈0.02-0.13) — 이번 대회 최대 발견.
-2. Performance Ranking MAE가 3단계 내내 뚜렷이 개선된다 (23.7 → 17.8 → 13.0) — Performance Sustainability가 실제로 학습되고 있다는 직접 증거.
-3. Rank Correlation과 Rank MAE가 서로 다른 방향으로 움직일 수 있다 (R2→R3에서 MAE는 개선, Correlation은 하락) — range restriction 효과로 추정.
-4. Performance Ranking Bias가 모든 단계에서 양수(+2~+5) — NEO가 시스템적으로 낙관적인 순위를 예측하는 경향.
-5. Expected SG(본인 시즌 기준선) 정확도는 라운드마다 개선되지만, Current SG→Next Round SG 지속성은 그렇지 않다 — 두 지표는 서로 다른 질문에 답한다.
-6. R2→R3에서 "진짜" Performance Rank(원시 스코어 기반)가 확률기반 Proxy보다 부정확했다 — Monte Carlo 확률이 spread 정보까지 반영해 더 안정적인 순위 신호를 만든다는 가설.
-7. 필드 분산(Variance)이 라운드마다 줄어든다 (3.09 → 2.93 → 2.78) — 컷으로 인한 자연스러운 필드 압축.
-8. Round Score(Priority 3)는 파이프라인 구조상 R2→R3에서만 측정 가능하다 — PRE/R1 단계의 구조적 공백.
-9. 컷확률 calibration이 이번 대회에서 가장 신뢰할 수 있는 확률 추정이었다 (Brier 0.142, ECE 0.076).
-10. Winner Prediction과 Performance Prediction은 서로 다른 목적함수다 — Winner 0/3이면서 Performance Ranking이 개선되는 것이 동시에 가능하다는 것이 이번 대회로 실증되었다.
+1. Winner 예측과 Performance 예측은 서로 다른 목적함수다 — 하나가 개선되어도 다른 하나는 개선되지 않을 수 있다.
+2. Current SG는 다음 라운드를 직접 예측하는 신호로는 약하지만, 본인 기준선(Expected SG) 대비 정확도는 개선 가능한 지표다.
+3. 확률 기반 순위(Monte Carlo)가 원시 기대 스코어보다 안정적인 순위 신호를 만들 수 있다.
+4. 필드가 좁아질수록(컷 이후) 상관계수 기반 지표는 구조적으로 낮아질 수 있다 — 절대 오차 지표와 병행 해석이 필요하다.
+5. NEO의 순위 예측에는 일관된 낙관 편향(+2~+5)이 존재한다.
+6. 평균회귀로 보이는 패턴이 관찰되었지만, 단일 대회로는 이를 안정적 특성으로 단정할 수 없다.
+7. 컷확률처럼 이진 사건에 가까운 예측은 확률 기반 예측(top-N/win)보다 calibration이 더 안정적일 수 있다.
+8. Round Performance(원시 기대 스코어)가 파이프라인 초기 단계에 존재하지 않으면, 모델의 신뢰도 진단 자체가 불가능해진다.
+9. Biggest Movers 분석이 개별 선수의 이변을 설명하는 데 Winner 적중 여부보다 유용하다.
+10. 하나의 대회만으로는 Performance Continuity의 "진짜" 강도를 확정할 수 없다 — 다중 대회 누적이 필수다.
 
 ---
 
-# 17. 콘텐츠 분석 (제안 — 사실 발표 아님, 편집 아이디어)
+# 17. WHAT GOLF TAUGHT THE MODEL
+
+1. 골프는 상대평가다 — 개인 성적이 아무리 좋아도 상대가 더 잘 치면 진다.
+2. 하루 라운드 성적은 변동성이 크고, 그 변동성 중 상당 부분은 평균 주변으로 되돌아오는 경향을 보인다 (단일 대회 관찰).
+3. 컷은 필드를 인위적으로 좁히며, 이는 통계적 지표(특히 상관계수)의 해석에 영향을 준다.
+4. 우승은 다수의 우연적 요인이 누적된 결과이므로, 개별 대회 단위로 우승자를 예측하는 것은 본질적으로 어렵다.
+5. SG는 이미 일어난 일을 잘 설명하지만, 아직 일어나지 않은 일을 잘 예측하지는 못한다.
+6. 골프 경기력은 완전히 무작위도, 완전히 지속적이지도 않다 — 그 중간 어딘가에 있다.
+7. 라운드마다 필드의 분산이 줄어드는 것은 무작위가 아니라 선수 구성 변화(컷)의 자연스러운 결과다.
+8. 확률 기반 접근(Monte Carlo)이 단일 기대값보다 골프의 불확실성을 더 잘 담아낼 수 있다.
+9. 코스/조건에 따라 필드 전체의 SG가 시즌 평균보다 체계적으로 낮아질 수 있다.
+10. 골프에서 "이번 대회의 진실"과 "장기적으로 검증된 진실"은 다르다 — 하나의 대회는 가설을 제시할 뿐, 증명하지 않는다.
+
+---
+
+# 18. CONFIDENCE
+
+| 발견 | Confidence | 근거 |
+|---|---|---|
+| Top5 Precision 80% | High | 직접 계산된 confusion matrix, 재현 가능 |
+| Performance Ranking MAE 개선 추세 | High | 3단계 모두 동일 방법론으로 일관되게 관찰됨 |
+| Mean-Reversion Signal | Low | 단일 대회, 2개 구간만 관찰, 다중 대회 검증 필요 |
+| Probability Ranking이 Raw Score보다 정확 | Medium | 단일 대회 R2→R3 한 구간에서만 확인됨 |
+| Current SG → Next Round SG 연속성 약함 | Medium | 2개 구간 일관된 관찰이나 표본 크기(N=64~102) 제한적 |
+| Performance Ranking Bias(낙관 편향) | Medium | 4개 지점 모두 양수로 일관되나 단일 대회 |
+| 컷확률 Calibration 우수 | Medium | N=105, 단일 대회 단일 지표 |
+| Winner는 Reference Metric | High | 철학적 정의이자 방법론적 결정, 데이터로 반박 불가능한 설계 원칙 |
+
+---
+
+# 19. RESEARCH VS PRODUCTION
+
+**Production (현재 운영 가능한 것)**
+
+- Performance Ranking (Priority 2) — MAE/Bias/Correlation 계산 방법론은 즉시 운영 가능.
+- Expected SG → Actual SG (Priority 1 하위 지표) — 이미 존재하는 PRE 스냅샷만으로 매 라운드 계산 가능.
+- Top20/Top10/Top5 Precision/Recall/F1 (Priority 4) — 이미 운영 중인 확률 예측을 그대로 사용.
+- 컷확률 Calibration — script 172의 기존 방법론, 이미 검증됨.
+
+**Research (추가 검증이 필요한 것)**
+
+- Mean-Reversion Signal — 단일 대회 관찰, 다중 대회 누적 검증 전까지 프로덕션 KPI로 승격 금지.
+- Current SG → Next Round SG 연속성의 선수별 개인차 — 이번 대회는 필드 평균만 확인, 개인별 지속성 차이는 미검증.
+- Probability Ranking vs Raw Expected Score의 우위 — 단일 구간(R2→R3) 관찰이며 일반화 여부 불확실.
+- Momentum Feature 후보 — 이번 대회 데이터는 모멘텀보다 평균회귀를 시사하지만, 선수 유형별 차이가 있을 수 있어 별도 연구가 필요.
+- Round Performance(Priority 3)의 PRE/R1 단계 확장 — 신규 파이프라인 구현이 필요한 연구 과제.
+
+**절대 섞지 않는다**: Production 지표는 지금 웹사이트/보고서에 실제 사용 가능하다고 명시적으로 표시하고, Research 지표는 "단일 대회, 검증 필요"라는 라벨 없이는 어떤 대표 KPI로도 격상하지 않는다.
+
+---
+
+# 20. 콘텐츠 분석 (제안 — 사실 발표 아님, 편집 아이디어)
 
 ## Threads 소재 10개
 1. "NEO는 우승자를 안 맞힌다 — 지속 가능한 경기력을 맞힌다"
-2. "평균회귀 r=-0.68 — 골프에서 가장 강력한 통계 신호"
-3. "김민선7, R2 3위 예측에서 R3 우승확률 1위로 — Performance Sustainability로 본 대역전"
-4. "Current SG, 다음 라운드 못 맞힌다? 그 이유는 무작위가 아니라 평균회귀"
+2. "Mean-Reversion Signal 관찰 — 하지만 아직 확정 아니다 (단일 대회)"
+3. "김민선7, R2 3위 예측에서 R3 우승확률 1위로"
+4. "Current SG는 목표가 아니라 Feature다 — NEO는 SG를 맞히지 않는다"
 5. "골프는 상대평가다 — NEO가 우승자 대신 경기력을 예측하는 이유"
 6. "Performance Ranking MAE 23.7 → 17.8 → 13.0, 3단계 개선의 기록"
 7. "확률 기반 순위 vs 원시 스코어 기반 순위, 어느 쪽이 더 정확할까"
 8. "NEO가 시스템적으로 낙관적인 이유 — Ranking Bias +2~+5의 정체"
-9. "Rank Correlation이 내려가도 MAE는 개선될 수 있다? 통계의 함정"
-10. "NEO Philosophy V2: 일회성 결과가 아니라 지속 가능한 경기력을 예측한다"
+9. "Top5 예측 정밀도 80% — 어디까지 신뢰할 수 있나 (Confidence: High)"
+10. "NEO Benchmark Report V1: 다음 대회부터 무엇이 비교되는가"
 
 ## 블로그 소재 10개
-1. "NEO 철학 V2: Performance Sustainability가 왜 Winner보다 중요한가"
-2. "평균회귀(Regression to Mean)로 다시 읽는 하나금융 챔피언십"
-3. "Current SG → Next Round SG, 지속성이 약한 진짜 이유"
-4. "Performance Ranking의 5가지 지표: MAE, Bias, Correlation이 말해주는 것"
-5. "Round Score가 없는 단계, 있는 단계 — 파이프라인의 숨은 공백"
-6. "김민선7 케이스 스터디: Performance Sustainability 관점에서 본 폭발적 라운드"
-7. "NEO Philosophy Validation: 이번 대회가 증명한 것"
-8. "Variance와 Consistency: 필드가 좁아질 때 무슨 일이 일어나는가"
-9. "NEO Model Insights TOP10 — 이번 대회 최대 발견"
-10. "MODEL IMPROVEMENT ROADMAP: 다음 대회부터 무엇이 달라지는가"
+1. "NEO Benchmark Report V1이 되는 방법: Research Report의 조건"
+2. "Mean-Reversion Signal로 다시 읽는 하나금융 챔피언십 (검증 필요)"
+3. "Current SG → Next Round SG, 연속성이 약한 진짜 이유"
+4. "Performance Ranking의 4가지 지표: MAE, Bias, Correlation이 말해주는 것"
+5. "Round Performance가 없는 단계, 있는 단계 — 파이프라인의 숨은 공백"
+6. "WHAT NEO LEARNED / WHAT GOLF TAUGHT THE MODEL: 이번 대회의 양방향 교훈"
+7. "NEO Philosophy Validation: 이번 대회가 보여준 것"
+8. "Research vs Production: NEO 지표를 섞지 않는 이유"
+9. "Confidence 등급표: NEO의 모든 발견에 신뢰도를 붙이는 이유"
+10. "MODEL IMPROVEMENT ROADMAP: Evidence Strength로 정렬한 다음 단계"
 
 ## Deep Dive 소재 10개
-1. 평균회귀 딥다이브: R1→R2, R2→R3 두 구간의 통계적 증거 완전 분해
-2. 김민선7 역전 드라마: Performance Sustainability 관점에서 본 R3 라운드
-3. Current SG 지속성 실험: 왜 상관계수가 0에 가까운가
+1. Mean-Reversion Signal 딥다이브: R1→R2, R2→R3 두 구간의 통계적 증거와 한계
+2. 김민선7 역전 드라마: Performance Continuity 관점에서 본 R3 라운드
+3. Current SG 연속성 실험: 왜 상관계수가 0에 가까운가
 4. Performance Ranking Bias 원인 분석: NEO는 왜 낙관적인가
 5. Rank Correlation vs Rank MAE: 같은 데이터, 다른 결론
 6. Priority 3 결측 공백 분석: PRE/R1 단계에 원시 기대 스코어가 없는 구조적 이유
-7. 필드 Variance 압축 과정: 108명에서 64명까지
+7. Research vs Production 분류 기준: 이번 대회 지표 전수 분류
 8. 과대평가/과소평가 선수군 공통점 분석
 9. NEO Philosophy Validation 근거 4가지 완전 해설
-10. 다음 대회 벤치마크와 이번 대회 Performance Sustainability 지표 비교 설계
+10. Confidence 등급 산정 방법론: High/Medium/Low를 나누는 기준
 
 ---
 
-# 18. NEO SCORECARD (INTERIM — R3까지)
+# 21. NEO SCORECARD (INTERIM — R3까지)
 
 **주의: 이것은 최종 벤치마크가 아니다.** FINAL 공식 증거가 없어 4단계 중 3단계만 평가했다. Winner는 철학상 Scorecard 축에서 제외한다 (Reference Only).
 
-Performance Sustainability: ★★★☆☆ (3/5) — 평균회귀 신호는 강력하고 신뢰할 수 있으나, 지속성(SG/Score 모두)은 약함
-Performance Ranking: ★★★★☆ (4/5) — MAE 기준 3단계 내내 뚜렷이 개선; Correlation은 range restriction으로 비단조적
-Round Score: ★★☆☆☆ (2/5) — R2→R3만 측정 가능, PRE/R1은 구조적 결측
+Performance Continuity: ★★★☆☆ (3/5) — Mean-Reversion Signal은 강력하나 단일 대회(Confidence: Low); 연속성 자체는 약함
+Performance Ranking: ★★★★☆ (4/5) — MAE 기준 3단계 내내 뚜렷이 개선(Confidence: High); Correlation은 range restriction으로 비단조적
+Round Performance: ★★☆☆☆ (2/5) — R2→R3만 측정 가능, PRE/R1은 구조적 결측
 Calibration: ★★★☆☆ (3/5) — 컷확률은 우수, Top20 확률은 R2→R3에서 재악화
 Validation: ★★★★☆ (4/5) — 모든 수치가 기존 Freeze/Evidence에서 재현 가능, 결정론적 재현 확인
 Deployment: N/A — 이 문서는 배포 아티팩트 아님, 내부 검증 문서
 Data Quality: ★★★★☆ (4/5) — WD 처리·식별자 정합성 확인됨; 홀별 코스 데이터·PRE/R1 원시 기대 스코어만 결측
-Content Value: ★★★★★ (5/5) — Threads/블로그/Deep Dive 소재 30개 + Model Insights 10개 도출
-Research Value: ★★★★★ (5/5) — 평균회귀 신호의 최초 정량화 + Performance Sustainability 5개 지표 최초 구축
+Content Value: ★★★★★ (5/5) — Threads/블로그/Deep Dive 소재 30개 + WHAT NEO LEARNED/WHAT GOLF TAUGHT 20개 도출
+Research Value: ★★★★★ (5/5) — Mean-Reversion Signal 최초 관찰 + Research/Production 명시적 분리
 
-**Overall Grade: B+ (INTERIM, R3 기준, Performance Sustainability 관점) — FINAL 확보 후 재평가 필요**
-
----
-
-# 19. MODEL IMPROVEMENT ROADMAP
-
-**Priority 1 — Performance Sustainability.** Current SG→Next Round SG 지속성이 약한 이유(평균회귀)를 이미 규명했다(Evidence: r=-0.68, -0.58). 다음 단계는 회귀 강도 자체를 피처로 활용하는 것 — "이 선수의 이번 라운드 편차가 평균으로 얼마나 되돌아올 것인가"를 명시적으로 모델링한다.
-
-**Priority 2 — Current SG.** Expected SG 정확도는 개선되고 있다(Evidence: MAE 2.36→2.12). 본인 기준선을 계절 내내 갱신하는 rolling 방식으로 발전시킨다.
-
-**Priority 3 — Performance Ranking.** MAE는 개선되나 Bias가 지속적으로 양수다(Evidence: +2~+5 전 단계). 낙관 편향을 보정하는 후처리 캘리브레이션을 검토한다.
-
-**Priority 4 — Calibration.** R2→R3에서 Top20 확률 calibration이 재악화된다(Evidence: Brier 0.115→0.137). 필드 축소에 따른 재보정(recalibration) 로직이 필요하다.
-
-**Priority 5 — Momentum Feature.** 이번 대회에서는 모멘텀보다 평균회귀가 압도적으로 강했다(Evidence: 지속성 r≈0.02-0.13 vs 회귀 r=-0.68,-0.58). 하지만 이는 단일 대회 표본이므로, 다중 대회 누적 데이터로 모멘텀/회귀 강도가 선수별로 다른지(개인차) 검증이 필요하다.
-
-**Priority 6 — Hole Context.** 홀별 난이도/Danger Hole/Birdie Hole 분석이 이번 대회에서는 증거 부재로 BLOCKED였다(Evidence: Section 13). 홀별 스코어카드 원본 수집 파이프라인을 추가해야 Performance Sustainability 분석의 해상도를 높일 수 있다.
-
-**Priority 7 — Expected Round Score Freeze.** Priority 3(Round Score)이 PRE→R1, R1→R2에서 측정 불가능했다(Evidence: Section 6). NEO Philosophy V2 하에서 Round Score는 Priority 3의 핵심 KPI이므로, 모든 단계에서 원시 기대 스코어를 명시적으로 Freeze하는 파이프라인 확장이 필요하다 — 이것이 다음 대회부터 이 Roadmap의 최우선 실행 과제다.
+**Overall Grade: B+ (INTERIM, R3 기준) — FINAL 확보 후 재평가 필요**
 
 ---
 
-*이 문서는 `klpga_pipeline/content/website_v2/HANA_2026090002_NEO_RED_TEAM_FORENSICS_V1.md`로 저장되었으며, 내부 검증 문서로만 사용된다. 공개 페이지에 게시되지 않는다. NEO 프로젝트의 공식 Benchmark Report Template이다.*
+# 22. MODEL IMPROVEMENT ROADMAP (Evidence Strength 순)
+
+## High Evidence
+
+**Performance Ranking 낙관 편향 보정.** 모든 단계에서 Bias가 일관되게 양수(+2~+5)로 나타났다(Evidence: Section 6, N=64~104, 4개 지점 전부). 후처리 캘리브레이션으로 즉시 개선 가능한 영역이다.
+
+**컷확률 Calibration 유지·확산.** 컷확률 calibration이 이번 대회에서 가장 신뢰할 수 있는 확률 추정이었다(Evidence: Brier 0.142, ECE 0.076, N=105). 다른 이진 사건(예: Top20 달성 여부)에도 동일 방법론을 적용한다.
+
+## Medium Evidence
+
+**Expected SG 기준선 고도화.** Expected SG 정확도가 라운드마다 개선되는 추세가 확인되었다(Evidence: MAE 2.36→2.27→2.12). Rolling 기준선으로 발전시켜 정확도를 추가로 높인다.
+
+**Probability Ranking 우선 사용.** R2→R3에서 확률 기반 순위가 원시 기대 스코어보다 정확했다(Evidence: MAE 13.0 vs 15.6, 단일 구간). 순위 산출 시 확률 기반 방법을 기본값으로 우선한다.
+
+**Calibration 재보정 로직.** R2→R3에서 Top20 확률 calibration이 재악화된다(Evidence: Brier 0.115→0.137). 필드 축소에 따른 재보정 로직을 검토한다.
+
+## Research (프로덕션 승격 전 추가 검증 필요)
+
+**Mean-Reversion Feature화.** 이번 대회에서 관찰된 신호(Evidence: r=-0.68, -0.58)를 다중 대회로 검증한 뒤에만 예측 피처로 승격을 검토한다. _이 발견은 단일 대회 결과이며, 향후 대회에 걸친 추가 검증이 필요하다 (This finding is based on a single tournament and requires validation across future tournaments.)_
+
+**Momentum Feature 연구.** 이번 대회는 모멘텀보다 평균회귀가 강했으나(Evidence: 연속성 r≈0.02-0.13 vs 회귀 r=-0.68,-0.58), 선수별 개인차 존재 가능성을 다중 대회로 검증해야 한다.
+
+**Hole Context 확장.** 홀별 난이도/Danger Hole/Birdie Hole 분석이 증거 부재로 BLOCKED였다(Evidence: Section 13). 홀별 스코어카드 원본 수집 파이프라인 신규 구축이 선행되어야 한다.
+
+**Round Performance(Priority 3) Freeze 확장.** PRE→R1, R1→R2에서 측정 불가능했다(Evidence: Section 6). 모든 단계에서 원시 기대 스코어를 명시적으로 Freeze하는 파이프라인 확장이 필요하다 — Research 단계이지만 다음 대회 전 구현이 권장된다.
+
+---
+
+The purpose of this report is not to prove that NEO is correct.
+
+The purpose is to understand where the model works, where it fails, and how it improves.
+
+This document is the baseline for continuous improvement.
+
+---
+
+*이 문서는 `klpga_pipeline/content/website_v2/HANA_2026090002_NEO_RED_TEAM_FORENSICS_V1.md`로 저장되었으며, 내부 검증 문서로만 사용된다. 공개 페이지에 게시되지 않는다. NEO 프로젝트의 공식 Benchmark Report V1이다.*
