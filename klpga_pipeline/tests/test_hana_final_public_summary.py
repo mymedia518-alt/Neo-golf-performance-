@@ -167,3 +167,71 @@ def test_final_truth_uses_the_full_official_player_name():
     truth = json.loads(truth_path.read_text(encoding="utf-8"))
     winner = next(r for r in truth["records"] if str(r["player_id"]) == "10097")
     assert winner["player_name"] == "김민선7"
+
+
+# ---------------------------------------------------------------
+# FINAL video insert (2026-09-20): operator-supplied video, placed
+# after the hero and before the rest of the FINAL content, no
+# redesign, no autoplay/loop/forced-mute, responsive width.
+# ---------------------------------------------------------------
+
+VIDEO_SRC = "/assets/tournaments/2026090002/hana-final-win-probability.mp4"
+
+
+def test_render_final_video_section_has_required_attrs_and_no_forbidden_ones():
+    from klpga.neo_win.final_real_page import render_final_video_section
+    html = render_final_video_section(video_src=VIDEO_SRC, caption="4R 전 NEO 우승확률")
+    assert "controls" in html
+    assert "playsinline" in html
+    assert "autoplay" not in html
+    assert "loop" not in html
+    assert "muted" not in html
+    assert VIDEO_SRC in html
+    assert "width:100%" in html
+    for term in FORBIDDEN_JARGON:
+        assert term not in html
+
+
+def test_real_hana_final_page_video_is_positioned_after_hero_before_leaderboard():
+    path = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "final" / "index.html"
+    html = path.read_text(encoding="utf-8")
+    assert 'id="final-video"' in html
+    hero_pos = html.index('id="tournament"')
+    video_pos = html.index('id="final-video"')
+    leaderboard_pos = html.index('id="final-leaderboard"')
+    assert hero_pos < video_pos < leaderboard_pos, "video must sit between the hero and the rest of the FINAL content"
+
+
+def test_real_hana_final_page_video_element_is_a_real_html5_video_with_the_expected_attrs():
+    path = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "final" / "index.html"
+    html = path.read_text(encoding="utf-8")
+    video_tag = re.search(r"<video[^>]*>", html)
+    assert video_tag is not None
+    tag = video_tag.group(0)
+    assert "controls" in tag
+    assert "playsinline" in tag
+    assert "autoplay" not in tag
+    assert "loop" not in tag
+    assert "muted" not in tag
+    assert VIDEO_SRC in tag
+    assert "width:100%" in tag
+    assert "max-width:100%" in tag
+
+
+def test_real_hana_home_page_mirrors_the_same_video_section():
+    path = REPO_ROOT / "docs" / "index.html"
+    html = path.read_text(encoding="utf-8")
+    assert 'id="final-video"' in html
+    assert VIDEO_SRC in html
+
+
+def test_video_file_actually_exists_at_the_referenced_path_bytewise():
+    """VIDEO_SRC is a site-root-absolute URL; on disk that is
+    docs/<the rest of the path>. Confirms the referenced file exists
+    and is a real MP4, and that it was copied verbatim (not
+    re-encoded) from the operator-supplied original."""
+    video_path = REPO_ROOT / "docs" / VIDEO_SRC.lstrip("/")
+    assert video_path.is_file(), f"referenced video file does not exist on disk: {video_path}"
+    assert video_path.stat().st_size > 0
+    header = video_path.read_bytes()[:12]
+    assert header[4:8] == b"ftyp", "expected a valid MP4 (ISO Base Media) file signature"

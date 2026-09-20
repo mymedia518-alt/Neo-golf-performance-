@@ -62,7 +62,11 @@ from klpga.parsers.leaderboard_parser import parse_round_leaderboard_html  # noq
 from klpga.tournament_context import load_tournament_context  # noqa: E402
 from klpga.neo_win import final_validator  # noqa: E402
 from klpga.neo_win.final_truth import load_final_truth  # noqa: E402
-from klpga.neo_win.final_real_page import render_final_hero_forecast_line, render_final_public_summary  # noqa: E402
+from klpga.neo_win.final_real_page import (  # noqa: E402
+    render_final_hero_forecast_line,
+    render_final_public_summary,
+    render_final_video_section,
+)
 
 FINAL_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "final" / "index.html"
 assert_not_root_home(FINAL_PAGE, repo_root=REPO_ROOT)
@@ -74,6 +78,8 @@ TOURNAMENT_DATE_META = "2026.09.17 — 09.20"
 TOURNAMENT_VENUE_META = "더헤븐 · West, South · Par 72"
 EMPTY_MARK = "—"
 SCOPE_LABEL = "FINAL 공식 결과 전체 64명 기준"
+FINAL_VIDEO_SRC = "/assets/tournaments/2026090002/hana-final-win-probability.mp4"
+FINAL_VIDEO_CAPTION = "4R 전 NEO 우승확률"
 
 
 def _load(name: str) -> dict:
@@ -273,6 +279,7 @@ def main() -> None:
         top10_predicted=top10["predicted_population"],
         top10_hit=top10["hit_count"],
     )
+    video_html = render_final_video_section(video_src=FINAL_VIDEO_SRC, caption=FINAL_VIDEO_CAPTION)
 
     winner_identity = _player_cell(winner_truth["player_id"], winner_truth["player_name"], country_by_id, sponsor_by_id)
     del runner_up  # kept for potential future use; not rendered separately (already appears in the leaderboard)
@@ -284,7 +291,7 @@ def main() -> None:
 .leaderboard-table.leaderboard-table--flat-scroll thead th:nth-child(n+3):nth-child(-n+8),
 .leaderboard-table.leaderboard-table--flat-scroll tbody td:nth-child(n+3):nth-child(-n+8){{padding-left:6px;padding-right:6px;text-align:center}}
 }}
-</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">FINAL</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">FINAL</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">우승 {winner_identity} {winner_to_par} ({winner_truth['rounds_completed']}라운드 합계 {raw_by_id[winner_truth['player_id']].total_strokes}타)</p>{hero_forecast_line}<p class="meta">{TOURNAMENT_VENUE_META}</p></div></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/">R2</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r3/">R3</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/final/" aria-current="page">FINAL</a></li></ol></nav><section class="panel leaderboard-panel" id="final-leaderboard"><div class="leaderboard-head"><h2>FINAL 결과 <small>{len(truth['records'])}명</small></h2><p class="note">{SCOPE_LABEL}</p></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>1R</th><th>2R</th><th>3R</th><th>4R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th></tr></thead><tbody>{''.join(rows_html)}</tbody></table></div></section>{public_summary_html}</main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/final/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
+</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">FINAL</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">FINAL</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">우승 {winner_identity} {winner_to_par} ({winner_truth['rounds_completed']}라운드 합계 {raw_by_id[winner_truth['player_id']].total_strokes}타)</p>{hero_forecast_line}<p class="meta">{TOURNAMENT_VENUE_META}</p></div></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/">R2</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r3/">R3</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/final/" aria-current="page">FINAL</a></li></ol></nav>{video_html}<section class="panel leaderboard-panel" id="final-leaderboard"><div class="leaderboard-head"><h2>FINAL 결과 <small>{len(truth['records'])}명</small></h2><p class="note">{SCOPE_LABEL}</p></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>1R</th><th>2R</th><th>3R</th><th>4R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th></tr></thead><tbody>{''.join(rows_html)}</tbody></table></div></section>{public_summary_html}</main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/final/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
 
     assert_not_root_home(FINAL_PAGE, repo_root=REPO_ROOT)
     FINAL_PAGE.parent.mkdir(parents=True, exist_ok=True)

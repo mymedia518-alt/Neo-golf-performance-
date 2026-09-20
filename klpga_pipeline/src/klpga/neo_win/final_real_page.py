@@ -391,3 +391,30 @@ def render_final_public_summary(
         "</ul>"
         "</section>"
     )
+
+
+# ----------------------------------------------------------------
+# GENERIC extension (2026-09-20, Hana 2026090002 FINAL video insert):
+# an operator-supplied video, placed right after the hero (winner/
+# score/NEO-forecast-vs-actual) and before the rest of the FINAL page
+# so the hero is never pushed below the fold by the video. No
+# redesign -- plain HTML5 <video> with controls, no autoplay/loop/
+# forced mute, responsive width, native aspect ratio. `video_src` is
+# always an absolute site-root path (e.g. "/assets/tournaments/
+# 2026090002/hana-final-win-probability.mp4"), never a path relative
+# to the page's own directory -- this section's markup gets mirrored
+# verbatim onto root HOME (a different directory depth), so a
+# relative path would silently 404 there.
+# ----------------------------------------------------------------
+
+
+def render_final_video_section(*, video_src: str, caption: str) -> str:
+    return (
+        '<section class="panel" id="final-video">'
+        f'<p class="note">{caption}</p>'
+        '<video controls playsinline '
+        'style="display:block;width:100%;max-width:100%;height:auto" '
+        f'src="{video_src}">'
+        "</video>"
+        "</section>"
+    )
