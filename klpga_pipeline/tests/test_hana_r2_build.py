@@ -216,15 +216,21 @@ def test_pre_and_r1_stage_nav_now_link_to_r2():
     assert r2_link in r1_page.read_text(encoding="utf-8")
 
 
-def test_r2_page_stage_nav_links_back_to_pre_and_r1_and_forward_to_r3_leaves_fr_disabled():
+def test_r2_page_stage_nav_links_back_to_pre_and_r1_and_forward_to_r3_and_final():
     """R3 -> FINAL PIPELINE UPDATE (operator instruction, 2026-09-19):
     R3 is now a real, published stage (scripts/175 retroactively
     enabled its link on PRE/R1/R2) -- R2's own stage-nav must link
-    forward to it instead of leaving it disabled. FR remains disabled
-    (no real FR-stage evidence exists yet)."""
+    forward to it instead of leaving it disabled.
+
+    FINAL BUILD UPDATE (2026-09-20): FINAL is now also a real,
+    published stage (scripts/182 retroactively enabled its link on
+    PRE/R1/R2/R3, replacing the disabled "FR" placeholder -- no
+    separate "FR" raw round-4 page was ever built for Hana, see
+    182_enable_hana_final_stage_nav_link.py's own module docstring) --
+    R2's own stage-nav must link forward to FINAL too."""
     html = R2_PAGE.read_text(encoding="utf-8")
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">' in html
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">' in html
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/" aria-current="page">R2</a>' in html
     assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/r3/">R3</a>' in html
-    assert '<span class="stage-nav__disabled" aria-disabled="true">FR</span>' in html
+    assert '<a class="stage-nav__link" href="/tournaments/2026/2026090002/final/">FINAL</a>' in html

@@ -20,7 +20,18 @@ R1SG_R2SG model reused exactly as promoted). These tests are updated
 to the new real current-stage page (R3, 64 rows, no cut event) --
 mirroring the same "current stage advances, tests track real evidence"
 pattern already established when R1 -> R2 previously advanced this
-same HOME."""
+same HOME.
+
+FINAL BUILD UPDATE (2026-09-20): the real current stage has advanced
+to `final` -- the write-once FinalTruth artifact
+(2026090002_FINAL_TRUTH.json, scripts/178, built from the real official
+4R leaderboard capture) now exists AND the real FINAL page
+(docs/tournaments/2026/2026090002/final/index.html, scripts/181) has
+been published -- see hana_home_stage_router.hana_current_stage()'s own
+`final` check. These tests are updated to the new real current-stage
+page (FINAL, 64 rows: 63 ACTIVE + 1 WD) -- the same "current stage
+advances, tests track real evidence" pattern, now applied one stage
+further."""
 from __future__ import annotations
 
 import re
@@ -35,6 +46,7 @@ SCRIPTS_DIR = KLPGA_ROOT / "scripts"
 HOME_PAGE = REPO_ROOT / "docs" / "index.html"
 R2_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "r2" / "index.html"
 R3_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "r3" / "index.html"
+FINAL_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "final" / "index.html"
 
 _MAIN_RE = re.compile(r"<main>.*?</main>", re.S)
 _TBODY_RE = re.compile(r"<tbody>(.*?)</tbody>", re.S)
@@ -51,31 +63,31 @@ def _rows(html: str) -> list[str]:
     return _ROW_RE.findall(match.group(1))
 
 
-def test_home_current_stage_is_r3():
+def test_home_current_stage_is_final():
     from klpga.website_v2.hana_home_stage_router import hana_current_stage
     sys.path.insert(0, str(KLPGA_ROOT / "src"))
-    assert hana_current_stage() == "r3"
+    assert hana_current_stage() == "final"
 
 
-def test_home_and_r3_main_content_are_byte_identical():
+def test_home_and_final_main_content_are_byte_identical():
     _rebuild()
     home_html = HOME_PAGE.read_text(encoding="utf-8")
-    r3_html = R3_PAGE.read_text(encoding="utf-8")
+    final_html = FINAL_PAGE.read_text(encoding="utf-8")
     home_main = _MAIN_RE.search(home_html)
-    r3_main = _MAIN_RE.search(r3_html)
-    assert home_main and r3_main
-    assert home_main.group(0) == r3_main.group(0), (
-        "HOME's <main> must mirror the current stage (r3) page's own <main> verbatim"
+    final_main = _MAIN_RE.search(final_html)
+    assert home_main and final_main
+    assert home_main.group(0) == final_main.group(0), (
+        "HOME's <main> must mirror the current stage (final) page's own <main> verbatim"
     )
 
 
-def test_home_and_r3_leaderboard_rows_are_byte_identical():
+def test_home_and_final_leaderboard_rows_are_byte_identical():
     _rebuild()
     home_rows = _rows(HOME_PAGE.read_text(encoding="utf-8"))
-    r3_rows = _rows(R3_PAGE.read_text(encoding="utf-8"))
-    assert len(home_rows) == 64, f"homepage must show all 64 R3 finisher rows, got {len(home_rows)}"
-    assert len(r3_rows) == 64, f"R3 page itself must show 64 rows, got {len(r3_rows)}"
-    assert home_rows == r3_rows
+    final_rows = _rows(FINAL_PAGE.read_text(encoding="utf-8"))
+    assert len(home_rows) == 64, f"homepage must show all 64 FINAL rows (63 ACTIVE + 1 WD), got {len(home_rows)}"
+    assert len(final_rows) == 64, f"FINAL page itself must show 64 rows, got {len(final_rows)}"
+    assert home_rows == final_rows
 
 
 def test_home_page_shows_leaderboard_without_extra_navigation():
@@ -87,18 +99,23 @@ def test_home_page_shows_leaderboard_without_extra_navigation():
 def test_home_page_header_clearly_identifies_tournament_and_round():
     html = HOME_PAGE.read_text(encoding="utf-8")
     assert "하나금융그룹 챔피언십" in html
-    assert "R3 결과" in html
+    assert "FINAL" in html
 
 
-def test_home_page_tournaments_nav_points_at_r3():
+def test_home_page_tournaments_nav_points_at_final():
     html = HOME_PAGE.read_text(encoding="utf-8")
-    assert '<a href="/tournaments/2026/2026090002/r3/">대회</a>' in html
+    assert '<a href="/tournaments/2026/2026090002/final/">대회</a>' in html
 
 
-def test_home_page_keeps_all_five_stage_links():
+def test_home_page_keeps_all_stage_links():
     html = HOME_PAGE.read_text(encoding="utf-8")
-    for label in ("사전 분석 PRE", "R1", "R2", "R3", "FR"):
+    for label in ("사전 분석 PRE", "R1", "R2", "R3", "FINAL"):
         assert label in html
+
+
+def test_home_page_shows_the_real_winner():
+    html = HOME_PAGE.read_text(encoding="utf-8")
+    assert "김민선7" in html
 
 
 def test_pre_r1_r2_pages_and_json_data_untouched_by_home_rebuild():

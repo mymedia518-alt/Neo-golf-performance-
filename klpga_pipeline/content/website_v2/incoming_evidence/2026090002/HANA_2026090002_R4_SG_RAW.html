@@ -1,0 +1,3879 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>KLPGA - 한국여자프로골프협회</title>
+
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="https://klpga.co.kr/resources/web/images/klpga_favicon.png">
+<link rel="stylesheet" type="text/css" href="./4RSG_files/bootstrap.css">
+<link href="./4RSG_files/style.css" rel="stylesheet" type="text/css">
+<link href="./4RSG_files/cnpsCustom.css" rel="stylesheet" type="text/css">
+<link href="./4RSG_files/swiper.min.css" rel="stylesheet" type="text/css">
+<link href="./4RSG_files/bootstrap-datepicker3.css" rel="stylesheet" type="text/css">
+<script src="./4RSG_files/jquery.min.js.다운로드"></script>
+<script src="./4RSG_files/bootstrap.js.다운로드"></script>
+<script src="./4RSG_files/custom.js.다운로드"></script>
+<script src="./4RSG_files/swiper.min.js.다운로드"></script>
+<script src="./4RSG_files/bootstrap-datepicker.js.다운로드"></script>
+<script src="./4RSG_files/bootstrap-datepicker.ko.min.js.다운로드"></script>
+<script type="text/javascript" src="./4RSG_files/jquery.cookie.js.다운로드"></script>
+
+<!--차트 js -->
+<script type="text/javascript" src="./4RSG_files/Chart.min.js.다운로드"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async="" src="./4RSG_files/js(1)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-28SRW4K5KQ');
+</script>
+
+<script>
+
+document.oncontextmenu = function(){return false;}
+
+$(document).ready(function() {
+	
+	$("#sessionTourType ul a, #sessionNation ul a").click(function(event) {
+		event.preventDefault();
+		
+		var lang = "";
+		var tourType = "";
+		
+		if($(this).attr("data-type") == "lang") {
+			lang = $(this).attr("data-lang");
+			tourType = "RE";
+		}
+		if($(this).attr("data-type") == "tourType") {
+			lang = "kr";
+			tourType = $(this).attr("data-tourType");
+		}
+		changeBasicInfo(lang, tourType);
+	});
+	
+	
+});
+
+
+function goMenuLinkPage(url, tourType) {
+	lang = "kr";
+	changeBasicInfo(lang, tourType);
+	location.href = url;
+}
+
+function changeBasicInfo(lang, tourType) {
+	
+	$.ajax({
+		  url : "/common/ajaxChangeBasicInfo"
+		, type : "POST"
+		, data : {
+			  lang : lang
+			, tourType : tourType
+		}
+		, datatype : "json"
+		, async : false
+		, success : function(res, status, xhr) {
+			location.reload();
+		}
+		, error : function(request, status, error) {
+			//alert(error);
+		}
+	}).fail(function(errObj) {
+		try {
+			console.error(errObj);
+		} catch (e) {
+		}
+	}); //ajax
+}
+
+
+function favoritAction(arg){
+	
+	if(!""){
+		
+		$(arg).prop("checked",false);
+		alert("kr" != "en" ? "즐겨찾기 선수 서비스는 로그인 후 이용 하실 수 있습니다." : "The Bookmarked Players service is available after you log in.");
+		
+		var form = $('<form></form>');
+		form.attr('action', "/web/login");
+		form.attr('method', 'post');
+		form.appendTo('body');
+		form.find("input[name=returnUrl]").remove();
+		form.append($("<input/>", {type:'hidden',name:'returnUrl', value:window.location.pathname}));
+		form.submit();
+		return;
+	}
+
+	$.ajax({
+		"url" : "/common/actionFavoritPlayer"
+	    , "type"  : "POST"
+	    , "data"  : {
+	    	favoritPlayerCode : $(arg).attr("_favoritPlayerCode")
+  		}
+		, success: function(res,ststus,xhr) {
+			var evalData = eval(res);
+			var result = evalData.result;
+			var favoritListCount = evalData.favoritListCount;
+			
+			if(result == 1){
+				if(favoritListCount > 0){
+					$(".section-favorit").css("display","");	
+				}else {
+					$(".section-favorit").css("display","none");
+				}
+				
+				// 즐겨찾기 등록
+				if($(arg).is(":checked")){
+					$("[id=favoritItem_"+$(arg).attr("_favoritPlayerCode")+"]").css("display", "");
+					$("input[_favoritPlayerCode="+$(arg).attr("_favoritPlayerCode")+"]").prop("checked", true);
+				}
+				// 즐겨찾기 해제
+				else {
+					$("[id=favoritItem_"+$(arg).attr("_favoritPlayerCode")+"]").css("display", "none");
+					$("input[type=checkbox][_favoritPlayerCode="+$(arg).attr("_favoritPlayerCode")+"]").prop("checked", false);
+				}
+			}
+			else {
+				location.reload();
+			}
+			
+		}
+		, error:function(request,status,error){
+	    }
+	});
+	
+	
+	
+	
+}
+
+function truncateString(title, length) {
+	if(typeof title !== 'string') {
+		return "";
+	}
+
+	length = length >= 0 ? length : 0;
+	
+	if (title.length > length) {
+		return title.substring(0, length) + "...";
+	} else {
+		return title;
+	}
+}
+
+function go3dMap(gameCode, playerCode, round, hole, arrayTrueHole){
+	
+	$("[name=gameCode]").val(gameCode);
+	$("[name=playerCode]").val(playerCode);
+	$("[name=round]").val(round);
+	$("[name=hole]").val(hole);
+	$("[name=lang]").val("kr");
+	$("[name=arrayTrueHole]").val(arrayTrueHole);
+	
+	//$("#form3D").attr("action", "http://106.255.251.210:1012/web/map3d/index");
+	$("#form3D").attr("action", "https://cmpro.klpga.co.kr/web/map3d/index");
+	
+	$("#form3D").attr("target", "_black");
+    $("#form3D").submit();
+};
+
+	
+</script>
+<style>
+.share-wrapper ul li a { background-color: #6a86c7; }
+.share-wrapper ul li a:hover { background-color: #185dc4; }
+.nav-fullwidthmc .nav-link { padding: 0.9rem 0 0.9rem; }
+.navbar-search {
+	margin: 4px 15px;
+}
+
+</style>
+<script>
+	function msgAlert(msg) {
+		if (msg != "" && msg != null) {
+			if (msg.indexOf("success") > -1) {
+				if (msg == "success_delete") {
+					alert("삭제 하였습니다.");
+				} else if (msg == "success_insert") {
+					alert("등록 하였습니다.");
+				} else if(msg == "success_update"){
+					alert("수정 하였습니다.");
+				} else if(msg == "success_reg"){
+					alert("저장 하였습니다.");
+				} else if(msg == "success_apply"){
+					alert("신청이 완료되었습니다.");
+				} else if(msg == "success_applyCancel"){
+					alert("신청을 취소 하였습니다.");
+				} else if(msg == "success_changePwd"){
+					alert("비밀번호가 변경되었습니다.");
+				} else if(msg == "success_insertPractice"){
+					alert("공식연습신청이 정상적으로 신청되었습니다.");
+				} else if(msg == "success_inserProxyPractice"){
+					alert("대리 공식연습신청이 정상적으로 신청되었습니다.");
+				} else if(msg == "success_deletePractice"){
+					alert("공식연습신청이 정상적으로 취소되었습니다.");
+				} else if(msg == "success_cancelVBank"){
+					alert("가상 계좌 취소 되었습니다.");
+				} else if(msg == "success_giveUp"){
+					alert("기권 신청 성공하였습니다.");
+				} else if(msg == "success_insertGiveUpFile"){
+					alert("증빙 자료 첨부하였습니다.");
+				} else if(msg == "success_deleteGiveUpFile"){
+					alert("증빙 자료 삭제하였습니다.");
+				} else {
+					alert("성공 하였습니다.");
+				}
+					
+			} else if (msg.indexOf("fail") > -1) {
+				if(msg == "fail_noSession"){
+					alert("로그인 정보가 없습니다.");
+				} else if(msg == "fail_noParam"){
+					alert("정상적으로 처리되지 못했습니다.");
+				} else if(msg =="fail_applyTerm"){
+					alert("신청 가능 기간이 아닙니다.");
+				} else if(msg == "fail_applyLevel"){
+					alert("신청 가능 등급이 아닙니다.");
+				} else if(msg == "fail_applyAuthority"){
+					alert("회원님은 해당 대회 신청에 대한 권한이 없습니다.");
+				} else if(msg =="fail_boardAuthority"){
+					alert("회원님은 해당 게시글에 대한 권한이 없습니다.");
+				} else if(msg =="fail_applyCancelAuthority"){
+					alert("회원님은 해당 신청취소 대한 권한이 없습니다.");
+				} else if(msg =="fail_canceled"){
+					alert("이미 취소처리 되었습니다.");
+				} else if(msg == "fail_access"){
+					alert("잘못된 접근입니다.");
+				} else if(msg == "fail_modify"){
+					alert("정상적으로 수정되지 않았습니다.");
+				} else if(msg == "fail_wrongPwd"){
+					alert("현재 비밀번호가 맞지 않습니다.");
+				} else if(msg == "fail_practiceInEntry"){
+					alert("대회 신청자만 연습신청이 가능합니다.");
+				} else if(msg == "fail_reservedSeat"){
+					alert("다른 선수가 신청되어 있습니다.\n\n다시 신청하여 주시기 바랍니다.");
+				} else if(msg == "fail_reservedPlayer"){
+					alert("이미 공식연습신청이 되어 있습니다.\n\n공식연습신청 변경은 본인만 가능합니다.");
+				} else if(msg == "fail_cancelVBank"){
+					alert("가상 계좌 취소가 실패하였습니다.");
+				} else if(msg == "fail_giveUp"){
+					alert("기권 신청에 실패하였습니다.");
+				} else if(msg == "fail_alreadyGiveUp"){
+					alert("이미 기권 신청한 대회입니다.");
+				} else if(msg == "fail_giveUpFile"){
+					alert("기권 정보가 없습니다.");
+				} else if(msg == "fail_accessLevel"){
+					alert("KLPGA 협회 회원만 접근가능한 페이지입니다.");
+				} else if(msg == "fail_accessLevel2"){
+					alert("정회원, 준회원, 티칭회원만 신청가능합니다.");
+				}  else {
+					alert("정상적으로 처리되지 못했습니다.");
+				}
+			} else {
+				alert(msg);
+			}
+		}
+	}
+	
+	function formatDateString(dateString, pattern) {
+		var str = "";
+		
+		try {
+			var year = dateString.substring(0, 4);
+			var month = parseInt(dateString.substring(4, 6), 10);
+			var day = parseInt(dateString.substring(6, 8), 10);
+			var hour = dateString.substring(8, 10);
+	
+			var date = new Date(year, month - 1, day);
+			var dayOfWeek = getDayOfWeek(date);
+	
+			str = pattern
+				.replace(/yyyy/g, year)
+				.replace(/yy/g, year.substring(2, 4))
+				.replace(/MM/g, month < 10 ? '0' + month : month)
+				.replace(/M/g, month)
+				.replace(/dd/g, day < 10 ? '0' + day : day)
+				.replace(/d/g, day)
+				.replace(/HH/g, hour < 10 ? '0' + hour : hour)
+				.replace(/H/g, hour)
+				.replace(/E/g, dayOfWeek);
+		} catch(e) {
+			str = dateString;
+		}
+		
+		return str;
+	}
+
+
+	function getDayOfWeek(date) {
+		var daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+		var dayOfWeekIndex = date.getDay();
+		return daysOfWeek[dayOfWeekIndex];
+	}
+	
+	function goTop() {
+		$('html, body').stop().animate({scrollTop: 0}, 0);
+	}
+	
+	function addComma(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	function addUnitComma(x) {
+		x = Number(x); // 숫자로 변환 (문자열도 처리 가능)
+
+		if (x >= 1000000000) {
+			return (x/1000000000).toFixed(1).replace('.0', '') + "B";
+		} else if (x>=1000000) {
+			return (x/1000000).toFixed(1).replace('.0', '') + "M";
+		} /* else if (x>=10000) {
+			return (x/1000).toFixed(1).replace('.0', '') + "K";
+		}  */else {
+			return addComma(x);
+		}
+	}
+	
+	function parseUnitTextToNumber(text) {
+		var num = parseFloat(text);
+		if (text.includes("B")) return num * 1000000000;
+		if (text.includes("M")) return num * 1000000;
+		if (text.includes("K")) return num * 1000;
+		return parseInt(text.replace(/,/g, ""));
+	}
+	
+	function downLoadFile(fileName) {
+		downLoadFileAction(fileName, "/");
+	}
+	
+	function downLoadFile(fileName, filePath) {
+		downLoadFileAction(fileName, filePath);
+	}
+	
+	function downLoadFile2(id){
+		var fileName = "";
+		fileName = $(id).closest("p").find(".fileName").val();
+		downLoadFileAction(fileName, "/");
+	}
+	
+	function downLoadFileAction(fileName, filePath){
+		var form = $('<form></form>');
+		form.attr('action', "/common/fileDownload");
+		form.attr('method', 'post');
+		form.attr('target', '_self');
+		form.appendTo('body');
+		form.find("input[name=fileName]").remove();
+		form.find("input[name=filePath]").remove();
+		form.append($("<input/>", {type:'hidden',name:'fileName', value:fileName}));
+		form.append($("<input/>", {type:'hidden',name:'filePath', value:filePath}));
+		form.submit();
+		
+	}
+	
+	function cutString(str, num){
+		var resultStr = "";
+		if(str.length > num) resultStr = str.substring(0,num+1) + "...";
+		else resultStr = str;
+		
+		return resultStr;
+	}
+</script><link rel="stylesheet" href="chrome-extension://cgococegfcmmfcjggpgelfbjkkncclkf/static/css/imageSearch.css"><link rel="stylesheet" href="chrome-extension://cgococegfcmmfcjggpgelfbjkkncclkf/static/css/translateOverlay.css"><script src="chrome-extension://ecmeogcbcoalojmkfkmancobmiahaigg/content_script/content_script.js"></script><style type="text/css">.resize-observer[data-v-8859cc6c]{position:absolute;top:0;left:0;z-index:-1;width:100%;height:100%;border:none;background-color:transparent;pointer-events:none;display:block;overflow:hidden;opacity:0}.resize-observer[data-v-8859cc6c] object{display:block;position:absolute;top:0;left:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1}</style><style type="text/css">x-vue-echarts{display:flex;flex-direction:column;width:100%;height:100%;min-width:0}
+.vue-echarts-inner{flex-grow:1;min-width:0;width:auto!important;height:auto!important}
+</style><style>/* Update Required Modal Overlay */
+.lilys-update-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal */
+.lilys-update-modal {
+  position: relative;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  min-width: 320px;
+  max-width: 400px;
+  box-shadow: 0px 8px 40px 0px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.lilys-update-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #71717a;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.lilys-update-modal__close:hover {
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.lilys-update-modal__icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.lilys-update-modal__title {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 150%;
+  color: #18181b;
+  margin-bottom: 8px;
+}
+
+.lilys-update-modal__desc {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #71717a;
+  margin-bottom: 24px;
+}
+
+.lilys-update-modal__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lilys-update-modal__btn {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lilys-update-modal__btn--primary {
+  background: #d4f542;
+  border: none;
+  color: #1a1a1a;
+}
+
+.lilys-update-modal__btn--primary:hover {
+  background: #c9ea3d;
+}
+
+.lilys-update-modal__btn--secondary {
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  color: #71717a;
+}
+
+.lilys-update-modal__btn--secondary:hover {
+  background: #f4f4f5;
+  color: #18181b;
+}
+</style><style>/* Popup Overlay */
+.lilys-disable-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Popup */
+.lilys-disable-popup {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 200px;
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.lilys-disable-popup__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #71717A;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lilys-disable-popup__close:hover {
+  color: #18181B;
+}
+
+.lilys-disable-popup__title {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  color: #18181B;
+  margin-bottom: 16px;
+}
+
+.lilys-disable-popup__btn {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #E4E4E7;
+  border-radius: 8px;
+  background: #ffffff;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #18181B;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-bottom: 8px;
+}
+
+.lilys-disable-popup__btn:last-child {
+  margin-bottom: 0;
+}
+
+.lilys-disable-popup__btn:hover {
+  background: #F4F4F5;
+}
+
+.lilys-disable-popup__btn--secondary {
+  border: none;
+  color: #71717A;
+  font-size: 13px;
+}
+
+.lilys-disable-popup__btn--secondary:hover {
+  background: transparent;
+  color: #18181B;
+}
+</style><style>/* Website Button Wrapper */
+.lilys-website-button-wrapper {
+  position: fixed;
+  right: -88px; /* 접힌 상태: 아이콘만 보이도록 */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999999;
+  transition: right 0.3s ease;
+}
+
+/* Wrapper hover시 펼침 */
+.lilys-website-button-wrapper:hover {
+  right: 0;
+}
+
+/* 드래그 중에는 transition 비활성화 */
+.lilys-website-button-wrapper.lilys-website-button--dragging {
+  transition: none !important;
+}
+
+/* Close Button */
+.lilys-website-button__close {
+  position: absolute;
+  top: -4px;
+  left: -7px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1000000;
+}
+
+.lilys-website-button__close-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.lilys-website-button-wrapper:hover .lilys-website-button__close {
+  opacity: 1;
+}
+
+.lilys-website-button__close:hover {
+  opacity: 0.8;
+}
+
+/* Website Button */
+.lilys-website-button {
+  position: relative;
+
+  height: 40px;
+  width: 130px;
+  padding: 0 10px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: #ffffff;
+  border: 1px solid #E4E4E7;
+  border-radius: 10px 0 0 10px;
+
+  box-shadow: 0px 4px 30px 0px #ADADAD66;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 드래그 중에는 transition 비활성화 */
+.lilys-website-button--dragging {
+  cursor: grabbing !important;
+}
+
+/* Loading state */
+.lilys-website-button--loading {
+  width: 145px;
+}
+
+.lilys-website-button-wrapper--loading {
+  right: -103px; /* 아이콘만 보이도록 */
+}
+
+.lilys-website-button-wrapper--loading:hover {
+  right: 0;
+}
+
+/* Completed state */
+.lilys-website-button--completed {
+  justify-content: flex-start;
+  width: 120px;
+}
+
+.lilys-website-button-wrapper--completed {
+  right: -78px; /* 아이콘만 보이도록 */
+}
+
+.lilys-website-button-wrapper--completed:hover {
+  right: 0;
+}
+
+.lilys-website-button-wrapper--completed:hover .lilys-website-button--completed {
+  width: 135px;
+}
+
+.lilys-website-button:disabled {
+  cursor: default;
+}
+
+.lilys-website-button:disabled:hover {
+  transform: none;
+}
+
+/* Icon */
+.lilys-website-button__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Icon container (for check badge) */
+.lilys-website-button__icon-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Check badge */
+.lilys-website-button__check {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+/* Text */
+.lilys-website-button__text {
+  margin-left: 7px;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* Loading state - Spinner */
+.lilys-website-button__spinner {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Arrow icon */
+.lilys-website-button__arrow {
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+</style><style>.lilys-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999999;
+
+  padding: 12px 20px;
+  background: #1a1a1a;
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+
+  opacity: 0;
+  animation: lilys-toast-fade-in 0.3s ease forwards;
+}
+
+.lilys-toast--hiding {
+  animation: lilys-toast-fade-out 0.3s ease forwards;
+}
+
+@keyframes lilys-toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes lilys-toast-fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+</style><style>/* PDF Button - 둥근 floating 버튼 */
+.lilys-pdf-button {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  z-index: 999999;
+
+  height: 40px;
+  min-width: 157px;
+  padding: 0 10px;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: #ffffff;
+  border: 1px solid #E4E4E7;
+  border-radius: 10px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Completed state - space between for arrow */
+.lilys-pdf-button--completed {
+  justify-content: space-between;
+}
+
+.lilys-pdf-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.lilys-pdf-button:disabled {
+  cursor: default;
+}
+
+.lilys-pdf-button:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon */
+.lilys-pdf-button__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Content wrapper (아이콘 + 텍스트 그룹) */
+.lilys-pdf-button__content {
+  display: flex;
+  align-items: center;
+}
+
+/* Icon container (for check badge) */
+.lilys-pdf-button__icon-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Check badge */
+.lilys-pdf-button__check {
+  position: absolute;
+  right: -4px;
+  bottom: -3px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+/* Text */
+.lilys-pdf-button__text {
+  margin-left: 7px;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* Loading state - Spinner */
+.lilys-pdf-button__spinner {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Arrow icon */
+.lilys-pdf-button__arrow {
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+</style><style>/* YouTube Button - Title variant (타이틀 아래) */
+.lilys-youtube-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 40px;
+  min-width: 157px;
+  padding: 0 10px;
+  margin: 0;
+  border: 1px solid #E4E4E7;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: none;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+
+/* Completed state - space between for arrow */
+.lilys-youtube-btn--completed {
+  justify-content: space-between;
+}
+
+.lilys-youtube-btn:hover {
+  opacity: 1;
+}
+
+.lilys-youtube-btn:disabled {
+  cursor: default;
+}
+
+/* Title variant - 유튜브 타이틀 아래 */
+.lilys-youtube-btn--title {
+  margin: 13px 8px 13px 0;
+}
+
+/* Icon */
+.lilys-youtube-btn__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Left wrapper (icon + text) for completed state */
+.lilys-youtube-btn__left {
+  display: flex;
+  align-items: center;
+}
+
+/* Icon container (for check badge) */
+.lilys-youtube-btn__icon-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Check badge */
+.lilys-youtube-btn__check {
+  position: absolute;
+  right: -4px;
+  bottom: -1px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+/* Text */
+.lilys-youtube-btn__text {
+  margin-left: 7px;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  color: #1a1a1a;
+  white-space: nowrap;
+}
+
+/* Loading state - Spinner */
+.lilys-youtube-btn__spinner {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Arrow icon */
+.lilys-youtube-btn__arrow {
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   Sidebar variant - 카드 형태 (관련 동영상 위)
+   ======================================== */
+.lilys-youtube-btn-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 61px;
+  padding: 14.5px 16px;
+  margin-bottom: 60px;
+  background: #ffffff;
+  border: 1px solid #E4E4E7;
+  border-radius: 10px;
+  box-shadow: none;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+
+.lilys-youtube-btn-card--loading {
+  cursor: default;
+}
+
+/* Logo wrapper */
+.lilys-youtube-btn-card__logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Logo icon */
+.lilys-youtube-btn-card__logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Logo container (for check badge) */
+.lilys-youtube-btn-card__logo-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Check badge */
+.lilys-youtube-btn-card__check {
+  position: absolute;
+  right: -4px;
+  bottom: -1px;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+/* Logo text (LilysAI) */
+.lilys-youtube-btn-card__logo-text {
+  height: 29px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Status text (로딩/완료 상태에서 로고 텍스트 자리에 표시) */
+.lilys-youtube-btn-card__status-text {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: #1a1a1a;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Spinner */
+.lilys-youtube-btn-card__spinner {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+/* Action button (연두색 버튼) */
+.lilys-youtube-btn-card__action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background: #DFFF32;
+  border-radius: 8px;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  color: #1a1a1a;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lilys-youtube-btn-card__action-btn:hover {
+  background: #c9ea3d;
+}
+
+/* Arrow inside action button */
+.lilys-youtube-btn-card__arrow {
+  width: 12px;
+  height: 12px;
+  margin-left: 8px;
+  pointer-events: none;
+}
+</style><style data-glasp-print="rule">@media print{[data-glasp-print="hide"]{display:none !important}}</style></head>
+
+
+
+
+
+
+ 
+
+
+<body ap-style=""><form id="form3D" name="form3D" method="post">
+	<input type="hidden" name="gameCode">
+	<input type="hidden" name="playerCode">
+	<input type="hidden" name="round">
+	<input type="hidden" name="hole">
+	<input type="hidden" name="courseCode">
+	<input type="hidden" name="lang">
+	<input type="hidden" name="arrayTrueHole">
+</form>
+
+
+	
+		
+		
+			
+		
+	
+	
+	
+	
+		
+		
+			
+		
+	
+	
+	
+	<!-- 드림투어 리더보드 오픈 설정 -->
+	
+		
+		
+			
+		
+	
+	
+	<!-- 이벤트 리더보드 오픈 설정 -->
+	
+		
+		
+			
+		
+	
+	
+	<!-- 이벤트 방송 오픈 설정 -->
+	
+		
+		
+		
+		
+			
+			
+		
+	
+	
+	<!-- 인기상/홍보모델 투표 오픈 설정 -->
+	
+		
+		
+			
+		
+	
+	
+	<!-- 대상시상식 메인 오픈 설정 -->
+	
+		
+		
+			
+		
+	
+	
+	<!-- 대상시상식 방송 오픈 설정 -->
+	
+		
+		
+			
+			
+		
+	
+	
+	<header class="site-header cambio_header">
+
+		<div class="header-menu">
+			<div class="container">
+
+				<a class="top-brand" href="https://klpga.co.kr/web/main/index"><img src="./4RSG_files/KLPGA2.png" width="60px" height="18.61px"></a>
+				<div class="top-navi">
+					<ul>
+						<li><a href="https://klpga.co.kr/about/main/index">ABOUT KLPGA</a></li>
+						<li><a href="https://data.klpga.co.kr/" target="_blank">DATA CENTER</a></li>
+						<li><a href="https://k-rankings.klpga.co.kr/" target="_blank">K-RANKING</a></li>
+						
+							
+							
+								<li><a href="https://edu.klpga.co.kr/main.do" target="_blank">KLPGA 아카데미</a></li>
+							
+						
+						<li><a href="https://museum.klpga.co.kr/" target="_blank">온라인 박물관</a></li>
+						<li><a href="https://smartstore.naver.com/klpga" target="_blank">OFFICIAL STORE</a></li>
+					</ul>
+				</div>
+				<div class="top-right">
+					<ul>
+						<li id="sessionNation" class="right-lang"><details>
+								<summary>
+									<img src="./4RSG_files/header-lang.svg">
+								</summary>
+								<ul>
+									<li><a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" data-lang="kr" data-type="lang">한국어</a></li>
+									<li><a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" data-lang="en" data-type="lang">English</a></li>
+								</ul>
+							</details>
+						</li>
+							
+						<li class="right-member">
+							
+								
+									<a href="https://klpga.co.kr/web/login"><img src="./4RSG_files/header-member.svg"> Login</a>
+								
+								
+							
+						</li>
+						
+						<li class="right-share">
+							<details>
+								<summary>
+									<img src="./4RSG_files/header-share.svg">
+								</summary>
+								<div class="share-wrapper">
+									<h4 class="font-fscompact">Follow Us</h4>
+									<ul>
+										<li><a href="https://www.instagram.com/klpgatour" target="_blank"><img src="./4RSG_files/icon-sns-in.svg"></a></li>
+										<li><a href="https://www.youtube.com/klpgatour" target="_blank"><img src="./4RSG_files/icon-sns-yt.svg"></a></li>
+										<li><a href="https://www.facebook.com/korealpga" target="_blank"><img src="./4RSG_files/icon-sns-fb.svg"></a></li>
+										<li><a href="https://tv.naver.com/klpgatv" target="_blank"><img src="./4RSG_files/icon-sns-ntv.svg"></a></li>
+										<li><a href="https://blog.naver.com/klpgapr" target="_blank"><img src="./4RSG_files/icon-sns-bl.svg"></a></li>
+										<li><a href="https://post.naver.com/klpgapr" target="_blank"><img src="./4RSG_files/icon-sns-npost.svg"></a></li>
+										<li><a href="http://pf.kakao.com/_cuXCT" target="_blank"><img src="./4RSG_files/icon-sns-ch.svg"></a></li>
+									</ul>
+								</div>
+							</details>
+						</li>
+						<!-- 
+						<li style="padding-bottom: 0px;">
+							<a href="https://smartstore.naver.com/klpga" target="_blank"><img src="/resources/web/images/store_lg.png"></a>
+						</li>
+						 -->
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="main-menu">
+			<div class="container">
+				<nav class="navbar navbar-expand-lg">
+					<!-- collapse menu -->
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+						<div id="navi-icon" class="closed">
+							<span class="navi-icon-line"></span>
+							<span class="navi-icon-line"></span>
+							<span class="navi-icon-line"></span>
+						</div>
+					</button>
+					<!-- main nav 탭메뉴 -->
+					<ul class="navbar-nav main-nav">
+						
+							
+								<li class="nav-item"><a class="nav-link" href="https://klpga.co.kr/web/leaderboard/leaderboard">리더보드</a></li>
+							
+							
+						
+						<li class="nav-item"><a class="nav-link" href="https://klpga.co.kr/web/schedule/schedule">투어일정</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://klpga.co.kr/web/player/search">선수</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://klpga.co.kr/web/record/publicRecord">기록</a></li>
+						
+							
+								
+							
+							
+						
+						<li class="nav-item"><a class="nav-link" href="https://klpga.co.kr/web/media/news">미디어</a></li>
+						
+						<li class="nav-item"><a class="nav-link" href="https://klpga.co.kr/web/event/event">이벤트</a></li>
+						
+						
+					</ul>
+					<!-- right nav -->
+					<ul class="navbar-nav right-nav ms-md-auto">
+						<li id="sessionTourType" class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002#" role="button" aria-expanded="false">
+								
+									KLPGA투어
+									
+									
+									
+								
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" data-tourtype="RE" data-type="tourType">KLPGA투어</a></li>
+								<li><a class="dropdown-item" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" data-tourtype="DR" data-type="tourType">드림투어</a></li>
+								<li><a class="dropdown-item" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" data-tourtype="JT" data-type="tourType">점프투어</a></li>
+								<li><a class="dropdown-item" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" data-tourtype="SN" data-type="tourType">챔피언스투어</a></li>
+							</ul>
+						</li>
+						<li class="nav-item pc-only">
+							<button id="calendar" class="btn" data-bs-toggle="modal" data-bs-target="#calendarModal">
+								<img src="./4RSG_files/menu-calendar.svg">
+							</button>
+						</li>
+						<li class="nav-item">
+							<div class="navbar-search">
+								<script>
+									function goSearch(arg){
+									    if(arg.keyCode == 13){ 
+									    	searchForm.submit();
+									    }
+									}
+								</script>
+								<form class="d-flex" action="https://klpga.co.kr/web/search" method="post" name="searchForm">
+									<input class="form-control form-control-search me-2" list="datalistOptions" id="searchleft" name="searchText" type="search" placeholder="Search KLPGA" aria-label="Search" onkeypress="JavaScript:goSearch(this.form)">
+									<label class="btn-search " for="searchleft">
+										<span><img src="./4RSG_files/icon-search.svg"></span>
+									</label>
+									<!-- 
+									<datalist id="datalistOptions">
+										<option value="KLPGA 투어 일정">
+										<option value="제22회 하이트진로 챔피언십 리더보드">
+										<option value="박민지">
+										<option value="상금순위">
+										<option value="2022 루키">
+									</datalist>
+									 -->
+								</form>
+							</div>
+						</li>
+						<!-- 
+						<li class="nav-item mc-only">
+							<ul style="position: absolute; top:0; right: 0;" >
+								<li id="sessionNation" class="right-lang" style=""><details>
+								<summary>
+									<img src="/resources/web/images/header-lang-white.svg">
+								</summary>
+								<ul style="left:-90px; width: 100px; top:52px;">
+									<li><a href="" data-lang="kr" data-type="lang">Korean</a></li>
+									<li><a href="" data-lang="en" data-type="lang">English</a></li>
+								</ul>
+								</details>
+								</li>
+							</ul>
+							</div>
+						</li>
+						 -->
+					</ul>
+
+				</nav>
+			</div>
+
+
+			<!-- collapse menu -->
+			<div class="collapse" id="navbarNavDropdown">
+				<div class="container">
+
+					<!--*********************************** PC용 전체메뉴 ***********************************-->
+					<div class="pc-only">
+						<div class="d-flex align-items-start">
+
+							<!-- 전체보기 탭메뉴-->
+							<div class="nav flex-column nav-pills nav-fullwidth me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+								<button class="nav-link active" id="v-fullwidth-klpga-tab" data-bs-toggle="pill" data-bs-target="#v-fullwidth-klpga" type="button" role="tab" aria-controls="v-fullwidth-klpga" aria-selected="true"><b>KLPGA 투어</b></button>
+								<button class="nav-link" id="v-fullwidth-dream-tab" data-bs-toggle="pill" data-bs-target="#v-fullwidth-dream" type="button" role="tab" aria-controls="v-fullwidth-dream" aria-selected="false"><b>드림투어</b></button>
+								<button class="nav-link" id="v-fullwidth-jump-tab" data-bs-toggle="pill" data-bs-target="#v-fullwidth-jump" type="button" role="tab" aria-controls="v-fullwidth-jump" aria-selected="false"><b>점프투어</b></button>
+								<button class="nav-link" id="v-fullwidth-champions-tab" data-bs-toggle="pill" data-bs-target="#v-fullwidth-champions" type="button" role="tab" aria-controls="v-fullwidth-champions" aria-selected="false"><b>챔피언스투어</b></button>
+								<button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="location.href='/web/schedule/schedule?tourType=WT'"><b>드림 윈터투어</b></button>
+								<button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="location.href='/web/schedule/schedule?tourType=SEED'"><b>시드순위전</b></button>
+								<button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="location.href='/web/schedule/schedule?tourType=POTE'"><b>선발전/아마추어대회</b></button>
+								<button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="location.href='/web/schedule/schedule?tourType=EV'"><b>이벤트</b></button>
+							</div>
+
+							<!-- 전체보기 탭 컨텐츠-->
+							<div class="tab-content" id="v-fullwidth-tabContent">
+
+								<!-- KLPGA 투어 -->
+								<div class="tab-pane fade show active" id="v-fullwidth-klpga" role="tabpanel" aria-labelledby="v-fullwidth-klpga-tab">
+									<div class="title d-flex justify-content-between">
+										<h1>KLPGA 투어</h1>
+										<h2 class="fw-bold">
+											<a href="https://klpga.co.kr/web/main/index">HOME <span class="ms-2"><img src="./4RSG_files/badge-arrow.svg"></span></a>
+										</h2>
+									</div>
+									<div class="row g-0 sitemap">
+										<div class="col">
+											<a href="javascript:void(0);" onclick="goMenuLinkPage('/web/leaderboard/leaderboard','RE')" class="cat-title">리더보드</a>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="goMenuLinkPage('/web/schedule/schedule','RE')" class="cat-title">투어일정</a>
+											
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/feedTotal','RE')">피드</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/tourInfo','RE')">대회정보</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/leaderboard/leaderboard','RE')">리더보드</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/liveMap','RE')">선수 위치찾기</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/entry','RE')">참가자 명단</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/group','RE')">조 편성표</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/course','RE')">코스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourRecord/historyRecord','RE')">대회기록</a></li>
+											</ul>
+											
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/player/search','RE');" class="cat-title">선수</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/search','RE')">선수검색</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/team','RE')">구단</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/seed','RE')">시드권</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/rookie','RE')">루키</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/powerRanking','RE')">파워랭킹</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/winners','RE')">위너스클럽</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/k10','RE')">K-10 CLUB</a></li>
+												<!-- <li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/model','RE')">홍보모델</a></li> -->
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="goMenuLinkPage('/web/record/publicRecord','RE')" class="cat-title">기록</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/record/publicRecord','RE')">공식기록</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/record/locationRecord','RE')">거리기록</a></li>
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/media/news','RE');" class="cat-title">미디어</a>
+											<ul class="cat-media">
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/news','RE')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-news.svg"></span>뉴스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/video','RE')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-video.svg"></span>동영상</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/photo','RE')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>사진</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/wallPaper','RE')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>월페이퍼</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/members','RE')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-members.svg"></span>KLPGA멤버스</a></li>
+											</ul>
+										</div>
+										<!-- <div class="col">
+											<a href="" class="cat-title">마이페이지</a>
+											<ul>
+												<li><a href="">로그인</a></li>
+											</ul>
+										</div> -->
+									</div>
+								</div>
+
+								<!-- 드림투어 -->
+								<div class="tab-pane fade" id="v-fullwidth-dream" role="tabpanel" aria-labelledby="v-fullwidth-dream-tab">
+									<div class="title d-flex justify-content-between">
+										<h1>드림투어</h1>
+										<h2 class="fw-bold">
+											<a href="https://klpga.co.kr/web/main/index">HOME <span class="ms-2"><img src="./4RSG_files/badge-arrow.svg"></span></a>
+										</h2>
+									</div>
+									<div class="row sitemap">
+										
+										<div class="col">
+											<a href="javascript:void(0);" onclick="goMenuLinkPage('/web/schedule/schedule','DR')" class="cat-title">투어일정</a>
+											
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/feedTotal','DR')">피드</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/tourInfo','DR')">대회정보</a></li>
+												<!-- <li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/leaderboard/leaderboard','DR')">리더보드</a></li> -->
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/entry','DR')">참가자 명단</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/group','DR')">조 편성표</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/course','DR')">코스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourRecord/mainRecord','DR')">대회기록</a></li>
+											</ul>
+											
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/player/search','DR');" class="cat-title">선수</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/search','DR')">선수검색</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/seed','DR')">시드권</a></li>
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/record/publicRecord','DR');" class="cat-title">기록</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/record/publicRecord','DR')">공식기록</a></li>
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/media/news','DR');" class="cat-title">미디어</a>
+											<ul class="cat-media">
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/news','DR')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-news.svg"></span>뉴스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/video','DR')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-video.svg"></span>동영상</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/photo','DR')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>사진</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/wallPaper','DR')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>월페이퍼</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/members','DR')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-members.svg"></span>KLPGA멤버스</a></li>
+											</ul>
+										</div>
+										<!-- <div class="col">
+											<a href="" class="cat-title">마이페이지</a>
+											<ul>
+												<li><a href="">로그인</a></li>
+											</ul>
+										</div> -->
+									</div>
+								</div>
+
+								<!-- 점프투어 -->
+								<div class="tab-pane fade" id="v-fullwidth-jump" role="tabpanel" aria-labelledby="v-fullwidth-jump-tab">
+									<div class="title d-flex justify-content-between">
+										<h1>점프투어</h1>
+										<h2 class="fw-bold">
+											<a href="https://klpga.co.kr/web/main/index">HOME <span class="ms-2"><img src="./4RSG_files/badge-arrow.svg"></span></a>
+										</h2>
+									</div>
+									<div class="row sitemap">
+										<div class="col">
+											<a href="javascript:void(0);" onclick="goMenuLinkPage('/web/schedule/schedule','JT')" class="cat-title">투어일정</a>
+											
+										</div>
+										
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/player/search','JT');" class="cat-title">선수</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/search','JT')">선수검색</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/seed','JT')">시드권</a></li>
+												
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/record/publicRecord','JT');" class="cat-title">기록</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/record/publicRecord','JT')">공식기록</a></li>
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/media/news','JT');" class="cat-title">미디어</a>
+											<ul class="cat-media">
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/news','JT')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-news.svg"></span>뉴스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/video','JT')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-video.svg"></span>동영상</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/photo','JT')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>사진</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/wallPaper','JT')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>월페이퍼</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/members','JT')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-members.svg"></span>KLPGA멤버스</a></li>
+											</ul>
+										</div>
+										<!-- <div class="col">
+											<a href="" class="cat-title">마이페이지</a>
+											<ul>
+												<li><a href="">로그인</a></li>
+											</ul>
+										</div> -->
+									</div>
+								</div>
+
+								<!-- 챔피언스투어 -->
+								<div class="tab-pane fade" id="v-fullwidth-champions" role="tabpanel" aria-labelledby="v-fullwidth-champions-tab">
+									<div class="title d-flex justify-content-between">
+										<h1>챔피언스투어</h1>
+										<h2 class="fw-bold">
+											<a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002">HOME <span class="ms-2"><img src="./4RSG_files/badge-arrow.svg"></span></a>
+										</h2>
+									</div>
+									<div class="row sitemap">
+									
+										<div class="col">
+											<a href="javascript:void(0);" onclick="goMenuLinkPage('/web/schedule/schedule','SN')" class="cat-title">투어일정</a>
+											
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/feedTotal','SN')">피드</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/tourInfo','SN')">대회정보</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/entry','SN')">참가자 명단</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/group','SN')">조 편성표</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourInfo/course','SN')">코스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/tourRecord/mainRecord','SN')">대회기록</a></li>
+											</ul>
+											
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/player/search','SN');" class="cat-title">선수</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/search','SN')">선수검색</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/player/seed','SN')">시드권</a></li>
+												
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/record/publicRecord','SN');" class="cat-title">기록</a>
+											<ul>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/record/publicRecord','SN')">공식기록</a></li>
+											</ul>
+										</div>
+										<div class="col">
+											<a href="javascript:void(0);" onclick="javascipt:goMenuLinkPage('/web/media/news','SN');" class="cat-title">미디어</a>
+											<ul class="cat-media">
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/news','SN')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-news.svg"></span>뉴스</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/video','SN')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-video.svg"></span>동영상</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/photo','SN')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>사진</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/wallPaper','SN')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-photo.svg"></span>월페이퍼</a></li>
+												<li><a href="javascript:void(0);" onclick="goMenuLinkPage('/web/media/members','SN')"><span class="inline-icon">
+													<img src="./4RSG_files/icon-fullwidth-members.svg"></span>KLPGA멤버스</a></li>
+											</ul>
+										</div>
+										<!-- <div class="col">
+											<a href="" class="cat-title">마이페이지</a>
+											<ul>
+												<li><a href="">로그인</a></li>
+											</ul>
+										</div> -->
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- end PC용 전체메뉴 -->
+
+
+					<!--*********************************** 모바일용 전체메뉴 ***********************************-->
+					<div class="mc-only">
+						<!-- 모바일전체 탭메뉴 -->
+						<div class="nav flex-column nav-fullwidthmc me-3" style="position: unset;">
+							<button onclick="goMenuLinkPage('/web/main/index','RE')" class="nav-link">홈</button>
+							
+							<button onclick="goMenuLinkPage('/web/leaderboard/leaderboard','RE')" class="nav-link">리더보드</button>
+							
+							<button onclick="goMenuLinkPage('/web/schedule/schedule','RE')" class="nav-link">투어일정</button>
+							<button onclick="goMenuLinkPage('/web/player/search','RE')" class="nav-link">선수</button>
+							<button onclick="goMenuLinkPage('/web/record/publicRecord','RE')" class="nav-link">기록</button>
+							
+							<button onclick="goMenuLinkPage('/web/media/news','RE')" class="nav-link">미디어</button>
+							
+							
+							<button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="location.href='/web/schedule/schedule?tourType=SEED'">시드순위전</button>
+							<button class="nav-link" data-bs-toggle="pill" type="button" role="tab" aria-selected="false" onclick="location.href='/web/schedule/schedule?tourType=POTE'">선발전/아마추어대회</button>
+							
+							
+								<button class="nav-link" onclick="location.href='/web/login'">Login</button>
+							
+							
+							
+						</div>
+
+						<div class="nav flex-column footer-navi" style="position: unset;">
+							<ul>
+								
+									
+										<li><a class="nav-link" href="javascript:changeBasicInfo('en', 'RE');">English</a></li>
+									
+									
+								 
+								<li><a class="nav-link" href="https://klpga.co.kr/about/main/index">ABOUT KLPGA</a></li>
+								<li><a class="nav-link" href="https://data.klpga.co.kr/">DATA CENTER</a></li>
+								<li><a class="nav-link" href="https://k-rankings.klpga.co.kr/">K-RANKING</a></li>
+								
+									
+									
+										<li><a class="nav-link" href="https://edu.klpga.co.kr/main.do" target="_blank">KLPGA 아카데미</a></li>
+									
+								
+								<li><a class="nav-link" href="https://museum.klpga.co.kr/" target="_blank">온라인 박물관</a></li>
+								<li><a class="nav-link" href="https://smartstore.naver.com/klpga" target="_blank">OFFICIAL STORE</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- end 모바일용 전체메뉴 -->
+
+
+				</div>
+			</div>
+
+		</div>
+		<!-- end .main-menu -->
+		
+	</header>
+	<!-- end .site-header -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+function tourInfoMenuGameChange(gameCode){
+	var nowURL = window.location.href;
+	if(nowURL.indexOf("?")>-1){
+		nowURL = nowURL.split("?")[0];
+	}
+	location.href = nowURL+"?gameCode="+gameCode;
+}
+</script>
+
+<style>
+	#tourInfoMenuSection .me-2 {
+		margin-right: 1.0rem !important;
+	}
+	
+	@media (max-width: 1200px) {
+		.custom-section-pagemenu { margin-top: 0px; }
+	}
+	@media (min-width: 992px){
+		.custom-col-lg { flex:unset; width: unset; }
+	}
+</style>
+
+
+<!----------------------------------------- // pageheader section -------------------------------------------->
+<section id="tourInfoMenuSection" class="section-area section-pageheader">
+	<div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-12">
+                <select class="form-select form-select-lg form-select-tour" onchange="tourInfoMenuGameChange(this.value)">
+                	
+                		<option value="2019100001">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2020090033">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2021090020">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2022090005">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2023090004">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2024090009">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2025090003">하나금융그룹 챔피언십</option>
+                    
+                		<option value="2026090002" selected="">하나금융그룹 챔피언십</option>
+                    
+                </select>
+            </div>
+            <div class="col-12 col-lg-2 custom-col-lg"></div>
+            <div class="col-12 col-lg-4 custom-col-lg">
+                <div class="pageheader-logo"><img src="./4RSG_files/default_2026090002_620_248_m.png" onerror="this.src='https://cdn.klpga.co.kr/DATA/image/mainBanner/default_img_620_248_m.png'"></div>
+            </div>
+            <div class="col-12 col-lg-5 custom-col-lg">
+                <ul class="list-group mt-4">
+                    <li class="list-group-item d-flex"><span class="me-2"><img src="./4RSG_files/icon-li-flag.svg"></span>
+                    	
+						
+						
+						2026. 09. 17 
+						
+							
+	                     	
+	                     	
+	                     	
+	                     	(목)
+	                     	
+	                     	
+                     	
+						-
+						09. 20
+						
+							(일)
+	                     	
+	                     	
+	                     	
+	                     	
+	                     	
+	                     	
+                     	
+                    </li>
+                    <li class="list-group-item d-flex"><span class="me-2"><img src="./4RSG_files/icon-li-flag.svg"></span>
+                    	더헤븐
+                    	
+                    		<span class="fw-thin mx-2">|</span>West, South
+                    	
+                    	<span class="fw-thin mx-2">|</span>Par 72
+                    	
+                    	<span class="fw-thin mx-2">|</span>72홀 스트로크 플레이
+                    	
+                   		
+                    </li>
+                    
+                    <li class="list-group-item d-flex"><span class="me-2">
+                    	<img src="./4RSG_files/icon-li-location.svg"></span>
+                    	
+                    		
+                    		경기도 안산시
+                    	
+                    </li>
+                    
+                    <li class="list-group-item d-flex">
+                    	<span class="me-2">
+                    		<img src="./4RSG_files/icon-li-money.svg">
+                    	</span>
+                    	
+							
+                         	
+                          	
+                         	
+                          	
+	                           	총상금 : 1,500,000,000 
+	                    		
+									원
+									
+									
+									
+								
+								
+                          	
+						
+                    </li>
+                    
+                    
+                    <li class="list-group-item d-flex">
+                    	<span class="me-2">
+                    		<img src="./4RSG_files/icon-li-weather.svg">
+                    	</span>
+                    	<span class="fillter-white me-2">
+                    	<img src="./4RSG_files/sunny.svg" width="20px">
+                    	</span> 23 ℃
+                    </li>
+                    
+                </ul>
+            </div>
+            <div class="col-12 col-lg-1 custom-col-lg"></div>
+        </div>
+        
+    </div>
+</section>
+
+<!----------------------------------------- // pagemenu section -------------------------------------------->
+<section class="section-area section-pagemenu pagemenu-tourInfo custom-section-pagemenu cambio_header" id="tourInfoPagemenu" style="z-index:20">
+	<div class="container-fluid">
+	        <ul class="nav">
+	        	
+	            <li class="nav-item">
+	                <a class="nav-link " href="https://klpga.co.kr/web/tourInfo/feedTotal?gameCode=2026090002">피드</a>
+	            </li>
+	            
+	            <li class="nav-item">
+	                <a class="nav-link " href="https://klpga.co.kr/web/tourInfo/tourInfo?gameCode=2026090002">대회정보</a>
+	            </li>
+	            
+	            
+	            
+	            
+				
+				
+				
+	            
+	            	 <!-- 매치 경기가 아닐때 -->
+			            <li class="nav-item">
+			                <a class="nav-link active" href="https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026090002">리더보드</a>
+			            </li>
+			        
+	            
+	            
+					<li class="nav-item">
+						<a class="nav-link " href="https://klpga.co.kr/web/teamLeaderboard2/main?gameCode=2026090002">구단 리더보드</a>
+					</li>
+				
+	            
+            		
+	            
+	            
+	            
+	            <li class="nav-item">
+	                <a class="nav-link " href="https://klpga.co.kr/web/tourInfo/liveMap?gameCode=2026090002">선수 위치찾기</a>
+	            </li>
+	            
+	            
+	            <li class="nav-item">
+	                <a class="nav-link " href="https://klpga.co.kr/web/tourInfo/entry?gameCode=2026090002">참가자 명단</a>
+	            </li>
+	            
+	            <li class="nav-item">
+	                <a class="nav-link " href="https://klpga.co.kr/web/tourInfo/group?gameCode=2026090002">조 편성표</a>
+	            </li>
+	            
+	            
+	            	
+	            	
+	            		<li class="nav-item">
+			                <a class="nav-link " href="https://klpga.co.kr/web/tourInfo/holeInfo?gameCode=2026090002">코스정보</a>
+			            </li>
+			            
+			            <li class="nav-item">
+			            	
+			            		
+			            		
+					                <a class="nav-link " href="https://klpga.co.kr/web/tourRecord/scoreRecord?gameCode=2026090002">대회기록</a>
+			            		
+			            	
+			            </li>
+	            	
+	            	
+	            	
+	            	
+	            	
+	            	
+	            	
+	            	
+	            
+	            
+	        </ul>
+			
+        
+    </div>
+    
+    <script type="text/javascript">
+    	
+    	
+    	
+    	
+    </script>
+</section>
+
+<!-- 세부 메뉴 분기 -->
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		<section class="section-area section-pagemenu-sub">
+			<div class="container-fluid">
+		        <ul class="nav">
+		            <li class="nav-item">
+		            	<a class="nav-link" href="https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026090002"> 리더보드
+		                </a>
+		            </li>
+		            <li class="nav-item">
+		                <a class="nav-link " href="https://klpga.co.kr/web/leaderboard/leaderboard_group?gameCode=2026090002">조별보기</a>
+		            </li>
+		            <li class="nav-item">
+		                <a class="nav-link " href="https://klpga.co.kr/web/leaderboard/liveData?gameCode=2026090002">LIVE DATA</a>
+		            </li>
+		            <li class="nav-item">
+		            	<a class="nav-link " href="https://klpga.co.kr/web/leaderboard/leaderboard_top5?gameCode=2026090002">진행라운드 TOP5 비교</a>
+		            </li>
+		            
+		            <li class="nav-item">
+		            	<a class="nav-link active" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002">스트로크 게인드</a>
+		            </li>
+		            
+		        </ul>
+		    </div>
+		</section>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+<style>
+</style>
+
+<script type="text/javascript">
+if("RE" != "RE") {
+	goMenuLinkPage("/web/schedule/schedule", "RE");
+}
+
+$(document).ready(function(){
+	var gameFinish = "F"
+	var round = "4";
+	
+	if(gameFinish == "F") {
+		round = "";
+	}
+	
+	$("#round-tab button[data-round='"+round+"']").addClass("active");
+	getSgList(round);
+	
+	$("#round-tab button").click(function() {
+		var round = $(this).attr("data-round");
+		
+		$("#round-tab button").removeClass("active");
+		$(this).addClass("active");
+		
+		getSgList(round);
+	});
+	
+});
+
+function getSgList(round) {
+	var gameCode = "2026090002";
+	
+	var params = new Object();
+	params.gameCode = gameCode;
+	params.round = round;
+	
+	$("#sgDetail").load("/load/leaderboard/strokesGained_detail", params, function(responseText, textStatus, XMLHttpRequest) {
+		if (XMLHttpRequest.status != 200) {
+			console.log("error");
+		}
+	});
+}
+
+
+</script>
+
+<!----------------------------------------- // section content -------------------------------------------->
+<section class="section-area section-content">
+	<div class="container">
+
+		<!-- 리더보드 탭메뉴 컨텐츠 시작 -->
+		<div class="tab-content" id="leaderboard-tabContent">
+
+			<div class="section-title-position">
+				<div class="page-search">
+				</div>
+			</div>
+			<!--------------------------------------------------------------------------------------------------------------------------->
+			<!-------------------------------------------- 리더보드 컨텐츠 : FULL LEADERBOARD -------------------------------------------->
+			<!--------------------------------------------------------------------------------------------------------------------------->
+			<div class="tab-pane fade show active" id="leaderboard-full" role="tabpanel" aria-labelledby="leaderboard-full-tab">
+				
+				<div class="section-title-top">
+					<h2 class="content-title">Strokes Gained</h2>
+				</div>
+
+				<!-- 라운드 탭메뉴 -->
+				<div class="row justify-content-between">
+					<div class="col-12 col-lg-6">
+						<ul class="nav nav-pills nav-custom mb-3" id="round-tab" role="tablist">
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link" data-round="1">1R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link" data-round="2">2R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link" data-round="3">3R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link active" data-round="4">FR</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" data-round="">TOTAL</button>
+							</li>
+						</ul>
+					</div>
+					<div class="col-12 col-lg-6"></div>
+				</div>
+			</div>
+			<!-- end .container -->
+		</div>
+		
+		<div id="sgDetail" class="tab-content">
+
+
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	$(".btnOrder").click(function(){
+		var dataName = $(this).attr("_orderType");
+		var order = "desc";
+		
+		if($(this).hasClass("sort-asc")){
+			order = "desc";
+		} else if($(this).hasClass("sort-desc")){
+			order = "asc";
+		}
+		$(this).parent().children().removeClass("sort-asc sort-desc");
+		$(this).addClass("sort-"+order);
+		
+		listSort(dataName, order);
+	});
+});
+
+function listSort(dataName, order){
+	
+	$targetObj = $("#record-one tbody tr");
+	
+	$("#record-one tbody").html(
+		$targetObj.sort(function(a, b){
+			$(a).find("td:eq(0)").html($(a).data(dataName)==999 ? '' : $(a).data(dataName));
+			$(b).find("td:eq(0)").html($(b).data(dataName)==999 ? '' : $(b).data(dataName));
+			if($(a).data(dataName)!=999){
+				if(order=="desc"){
+					if($(a).data(dataName)<$(b).data(dataName)) return -1;
+					else return 1;
+				}
+				else {
+					if($(a).data(dataName)<$(b).data(dataName)) return 1;
+					else return -1;
+				}	
+			}
+		})
+	);
+}
+</script>
+<style>
+.table-blue tr th, .table-blue tr td {
+	border: 0px;
+}
+.rank {
+    /* font-size: 1rem; */
+    color: #acaaaa;
+}
+</style>
+<div class="tab-pane fade show active" id="record-one" role="tabpanel" aria-labelledby="record-one-tab">
+	<div class="table-responsive">
+		<table class="table table-blue text-center fixed-start fixed-second-60 table-hover">
+			<thead>
+				<tr>
+					<th style="min-width: 60px;">순위</th>
+					<th style="min-width: 90px;">선수명</th>
+					<th class="btnOrder sort-desc" _ordertype="sgrank" style="min-width: 110px;">SG : 전체 </th>
+					<th class="btnOrder" _ordertype="teetogreenrank" style="min-width: 130px;">SG : 티샷 to 그린</th>
+					<th class="btnOrder" _ordertype="driverrank" style="min-width: 110px;">SG : 티샷</th>
+					<th class="btnOrder" _ordertype="approachrank" style="min-width: 110px;">SG : 어프로치</th>
+					<th class="btnOrder" _ordertype="aroundrank" style="min-width: 110px;">SG : 그린주변</th>
+					<th class="btnOrder" _ordertype="putterrank" style="min-width: 110px;">SG : 퍼팅</th>
+					<th style="min-width: 110px;">라운드 수</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+					<tr data-sgrank="1" data-teetogreenrank="3" data-driverrank="24" data-approachrank="2" data-aroundrank="33" data-putterrank="3">
+						<td class="bg-white">1</td>
+						<td class="bg-lightblue">이세희</td>
+						<td>6.33<span class="rank">(1)</span></td>
+						<td>3.57<span class="rank">(3)</span></td>
+						<td>0.33<span class="rank">(24)</span></td>
+						<td>3.26<span class="rank">(2)</span></td>
+						<td>-0.02<span class="rank">(33)</span></td>
+						<td>2.76<span class="rank">(3)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="2" data-teetogreenrank="7" data-driverrank="12" data-approachrank="4" data-aroundrank="54" data-putterrank="13">
+						<td class="bg-white">2</td>
+						<td class="bg-lightblue">김민선7</td>
+						<td>4.10<span class="rank">(2)</span></td>
+						<td>2.77<span class="rank">(7)</span></td>
+						<td>0.72<span class="rank">(12)</span></td>
+						<td>2.87<span class="rank">(4)</span></td>
+						<td>-0.82<span class="rank">(54)</span></td>
+						<td>1.34<span class="rank">(13)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="3" data-teetogreenrank="6" data-driverrank="24" data-approachrank="11" data-aroundrank="9" data-putterrank="23">
+						<td class="bg-white">3</td>
+						<td class="bg-lightblue">이와이 아키</td>
+						<td>4.07<span class="rank">(3)</span></td>
+						<td>3.10<span class="rank">(6)</span></td>
+						<td>0.33<span class="rank">(24)</span></td>
+						<td>1.67<span class="rank">(11)</span></td>
+						<td>1.10<span class="rank">(9)</span></td>
+						<td>0.96<span class="rank">(23)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="4" data-teetogreenrank="28" data-driverrank="23" data-approachrank="26" data-aroundrank="40" data-putterrank="2">
+						<td class="bg-white">4</td>
+						<td class="bg-lightblue">이와이 치지</td>
+						<td>3.84<span class="rank">(4)</span></td>
+						<td>0.60<span class="rank">(28)</span></td>
+						<td>0.38<span class="rank">(23)</span></td>
+						<td>0.32<span class="rank">(26)</span></td>
+						<td>-0.10<span class="rank">(40)</span></td>
+						<td>3.24<span class="rank">(2)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="5" data-teetogreenrank="11" data-driverrank="26" data-approachrank="18" data-aroundrank="13" data-putterrank="15">
+						<td class="bg-white">5</td>
+						<td class="bg-lightblue">왕 즈쉬엔</td>
+						<td>3.25<span class="rank">(5)</span></td>
+						<td>1.98<span class="rank">(11)</span></td>
+						<td>0.29<span class="rank">(26)</span></td>
+						<td>0.97<span class="rank">(18)</span></td>
+						<td>0.72<span class="rank">(13)</span></td>
+						<td>1.27<span class="rank">(15)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="6" data-teetogreenrank="25" data-driverrank="9" data-approachrank="16" data-aroundrank="58" data-putterrank="5">
+						<td class="bg-white">6</td>
+						<td class="bg-lightblue">서교림</td>
+						<td>3.24<span class="rank">(6)</span></td>
+						<td>0.88<span class="rank">(25)</span></td>
+						<td>0.86<span class="rank">(9)</span></td>
+						<td>1.04<span class="rank">(16)</span></td>
+						<td>-1.03<span class="rank">(58)</span></td>
+						<td>2.36<span class="rank">(5)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="7" data-teetogreenrank="10" data-driverrank="31" data-approachrank="3" data-aroundrank="55" data-putterrank="22">
+						<td class="bg-white">7</td>
+						<td class="bg-lightblue">김재희</td>
+						<td>3.20<span class="rank">(7)</span></td>
+						<td>2.22<span class="rank">(10)</span></td>
+						<td>0.14<span class="rank">(31)</span></td>
+						<td>2.93<span class="rank">(3)</span></td>
+						<td>-0.86<span class="rank">(55)</span></td>
+						<td>0.98<span class="rank">(22)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="8" data-teetogreenrank="27" data-driverrank="6" data-approachrank="42" data-aroundrank="18" data-putterrank="4">
+						<td class="bg-white">8</td>
+						<td class="bg-lightblue">유현조</td>
+						<td>3.19<span class="rank">(8)</span></td>
+						<td>0.72<span class="rank">(27)</span></td>
+						<td>1.00<span class="rank">(6)</span></td>
+						<td>-0.68<span class="rank">(42)</span></td>
+						<td>0.39<span class="rank">(18)</span></td>
+						<td>2.47<span class="rank">(4)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="9" data-teetogreenrank="13" data-driverrank="15" data-approachrank="12" data-aroundrank="46" data-putterrank="15">
+						<td class="bg-white">9</td>
+						<td class="bg-lightblue">박예지</td>
+						<td>3.13<span class="rank">(9)</span></td>
+						<td>1.87<span class="rank">(13)</span></td>
+						<td>0.55<span class="rank">(15)</span></td>
+						<td>1.63<span class="rank">(12)</span></td>
+						<td>-0.32<span class="rank">(46)</span></td>
+						<td>1.27<span class="rank">(15)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="10" data-teetogreenrank="2" data-driverrank="34" data-approachrank="5" data-aroundrank="8" data-putterrank="44">
+						<td class="bg-white">10</td>
+						<td class="bg-lightblue">이다연</td>
+						<td>2.89<span class="rank">(10)</span></td>
+						<td>3.88<span class="rank">(2)</span></td>
+						<td>0.11<span class="rank">(34)</span></td>
+						<td>2.66<span class="rank">(5)</span></td>
+						<td>1.11<span class="rank">(8)</span></td>
+						<td>-0.99<span class="rank">(44)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="11" data-teetogreenrank="24" data-driverrank="40" data-approachrank="13" data-aroundrank="45" data-putterrank="12">
+						<td class="bg-white">11</td>
+						<td class="bg-lightblue">한진선</td>
+						<td>2.38<span class="rank">(11)</span></td>
+						<td>0.99<span class="rank">(24)</span></td>
+						<td>-0.19<span class="rank">(40)</span></td>
+						<td>1.45<span class="rank">(13)</span></td>
+						<td>-0.27<span class="rank">(45)</span></td>
+						<td>1.39<span class="rank">(12)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="12" data-teetogreenrank="17" data-driverrank="41" data-approachrank="9" data-aroundrank="43" data-putterrank="25">
+						<td class="bg-white">12</td>
+						<td class="bg-lightblue">안재희</td>
+						<td>2.18<span class="rank">(12)</span></td>
+						<td>1.28<span class="rank">(17)</span></td>
+						<td>-0.22<span class="rank">(41)</span></td>
+						<td>1.69<span class="rank">(9)</span></td>
+						<td>-0.19<span class="rank">(43)</span></td>
+						<td>0.90<span class="rank">(25)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="13" data-teetogreenrank="32" data-driverrank="28" data-approachrank="35" data-aroundrank="25" data-putterrank="9">
+						<td class="bg-white">13</td>
+						<td class="bg-lightblue">박단유</td>
+						<td>2.17<span class="rank">(13)</span></td>
+						<td>0.40<span class="rank">(32)</span></td>
+						<td>0.24<span class="rank">(28)</span></td>
+						<td>0.08<span class="rank">(35)</span></td>
+						<td>0.09<span class="rank">(25)</span></td>
+						<td>1.77<span class="rank">(9)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="14" data-teetogreenrank="29" data-driverrank="31" data-approachrank="39" data-aroundrank="16" data-putterrank="10">
+						<td class="bg-white">14</td>
+						<td class="bg-lightblue">최예림</td>
+						<td>2.06<span class="rank">(14)</span></td>
+						<td>0.46<span class="rank">(29)</span></td>
+						<td>0.14<span class="rank">(31)</span></td>
+						<td>-0.21<span class="rank">(39)</span></td>
+						<td>0.53<span class="rank">(16)</span></td>
+						<td>1.60<span class="rank">(10)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="15" data-teetogreenrank="18" data-driverrank="3" data-approachrank="29" data-aroundrank="36" data-putterrank="26">
+						<td class="bg-white">15</td>
+						<td class="bg-lightblue">송은아</td>
+						<td>2.03<span class="rank">(15)</span></td>
+						<td>1.19<span class="rank">(18)</span></td>
+						<td>1.03<span class="rank">(3)</span></td>
+						<td>0.23<span class="rank">(29)</span></td>
+						<td>-0.07<span class="rank">(36)</span></td>
+						<td>0.84<span class="rank">(26)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="16" data-teetogreenrank="4" data-driverrank="2" data-approachrank="8" data-aroundrank="28" data-putterrank="52">
+						<td class="bg-white">16</td>
+						<td class="bg-lightblue">김민솔</td>
+						<td>1.72<span class="rank">(16)</span></td>
+						<td>3.14<span class="rank">(4)</span></td>
+						<td>1.29<span class="rank">(2)</span></td>
+						<td>1.80<span class="rank">(8)</span></td>
+						<td>0.05<span class="rank">(28)</span></td>
+						<td>-1.42<span class="rank">(52)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="17" data-teetogreenrank="15" data-driverrank="56" data-approachrank="7" data-aroundrank="21" data-putterrank="32">
+						<td class="bg-white">17</td>
+						<td class="bg-lightblue">현세린</td>
+						<td>1.63<span class="rank">(17)</span></td>
+						<td>1.45<span class="rank">(15)</span></td>
+						<td>-1.11<span class="rank">(56)</span></td>
+						<td>2.29<span class="rank">(7)</span></td>
+						<td>0.27<span class="rank">(21)</span></td>
+						<td>0.18<span class="rank">(32)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="18" data-teetogreenrank="8" data-driverrank="3" data-approachrank="9" data-aroundrank="32" data-putterrank="51">
+						<td class="bg-white">18</td>
+						<td class="bg-lightblue">배소현</td>
+						<td>1.42<span class="rank">(18)</span></td>
+						<td>2.73<span class="rank">(8)</span></td>
+						<td>1.03<span class="rank">(3)</span></td>
+						<td>1.69<span class="rank">(9)</span></td>
+						<td>0.00<span class="rank">(32)</span></td>
+						<td>-1.31<span class="rank">(51)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="19" data-teetogreenrank="36" data-driverrank="16" data-approachrank="38" data-aroundrank="48" data-putterrank="18">
+						<td class="bg-white">19</td>
+						<td class="bg-lightblue">김우정</td>
+						<td>1.27<span class="rank">(19)</span></td>
+						<td>0.01<span class="rank">(36)</span></td>
+						<td>0.53<span class="rank">(16)</span></td>
+						<td>-0.11<span class="rank">(38)</span></td>
+						<td>-0.41<span class="rank">(48)</span></td>
+						<td>1.26<span class="rank">(18)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="20" data-teetogreenrank="46" data-driverrank="10" data-approachrank="54" data-aroundrank="47" data-putterrank="7">
+						<td class="bg-white">20</td>
+						<td class="bg-lightblue">김새로미</td>
+						<td>1.21<span class="rank">(20)</span></td>
+						<td>-1.04<span class="rank">(46)</span></td>
+						<td>0.76<span class="rank">(10)</span></td>
+						<td>-1.47<span class="rank">(54)</span></td>
+						<td>-0.33<span class="rank">(47)</span></td>
+						<td>2.25<span class="rank">(7)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="21" data-teetogreenrank="16" data-driverrank="14" data-approachrank="15" data-aroundrank="50" data-putterrank="36">
+						<td class="bg-white">21</td>
+						<td class="bg-lightblue">임희정</td>
+						<td>1.18<span class="rank">(21)</span></td>
+						<td>1.35<span class="rank">(16)</span></td>
+						<td>0.64<span class="rank">(14)</span></td>
+						<td>1.34<span class="rank">(15)</span></td>
+						<td>-0.62<span class="rank">(50)</span></td>
+						<td>-0.17<span class="rank">(36)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="22" data-teetogreenrank="23" data-driverrank="45" data-approachrank="17" data-aroundrank="20" data-putterrank="33">
+						<td class="bg-white">22</td>
+						<td class="bg-lightblue">홍지원</td>
+						<td>1.11<span class="rank">(22)</span></td>
+						<td>1.00<span class="rank">(23)</span></td>
+						<td>-0.35<span class="rank">(45)</span></td>
+						<td>1.00<span class="rank">(17)</span></td>
+						<td>0.35<span class="rank">(20)</span></td>
+						<td>0.11<span class="rank">(33)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="23" data-teetogreenrank="34" data-driverrank="26" data-approachrank="36" data-aroundrank="42" data-putterrank="24">
+						<td class="bg-white">23</td>
+						<td class="bg-lightblue">홍현지</td>
+						<td>1.01<span class="rank">(23)</span></td>
+						<td>0.06<span class="rank">(34)</span></td>
+						<td>0.29<span class="rank">(26)</span></td>
+						<td>-0.06<span class="rank">(36)</span></td>
+						<td>-0.17<span class="rank">(42)</span></td>
+						<td>0.95<span class="rank">(24)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="24" data-teetogreenrank="55" data-driverrank="61" data-approachrank="48" data-aroundrank="36" data-putterrank="1">
+						<td class="bg-white">24</td>
+						<td class="bg-lightblue">서어진</td>
+						<td>1.00<span class="rank">(24)</span></td>
+						<td>-2.52<span class="rank">(55)</span></td>
+						<td>-1.43<span class="rank">(61)</span></td>
+						<td>-1.02<span class="rank">(48)</span></td>
+						<td>-0.07<span class="rank">(36)</span></td>
+						<td>3.52<span class="rank">(1)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="24" data-teetogreenrank="30" data-driverrank="43" data-approachrank="21" data-aroundrank="35" data-putterrank="31">
+						<td class="bg-white">24</td>
+						<td class="bg-lightblue">장은수</td>
+						<td>1.00<span class="rank">(24)</span></td>
+						<td>0.44<span class="rank">(30)</span></td>
+						<td>-0.23<span class="rank">(43)</span></td>
+						<td>0.72<span class="rank">(21)</span></td>
+						<td>-0.05<span class="rank">(35)</span></td>
+						<td>0.55<span class="rank">(31)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="26" data-teetogreenrank="20" data-driverrank="35" data-approachrank="27" data-aroundrank="12" data-putterrank="35">
+						<td class="bg-white">26</td>
+						<td class="bg-lightblue">김수지</td>
+						<td>0.98<span class="rank">(26)</span></td>
+						<td>1.12<span class="rank">(20)</span></td>
+						<td>0.08<span class="rank">(35)</span></td>
+						<td>0.27<span class="rank">(27)</span></td>
+						<td>0.77<span class="rank">(12)</span></td>
+						<td>-0.14<span class="rank">(35)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="27" data-teetogreenrank="5" data-driverrank="11" data-approachrank="19" data-aroundrank="1" data-putterrank="56">
+						<td class="bg-white">27</td>
+						<td class="bg-lightblue">김소정</td>
+						<td>0.95<span class="rank">(27)</span></td>
+						<td>3.12<span class="rank">(5)</span></td>
+						<td>0.73<span class="rank">(11)</span></td>
+						<td>0.87<span class="rank">(19)</span></td>
+						<td>1.52<span class="rank">(1)</span></td>
+						<td>-2.17<span class="rank">(56)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="28" data-teetogreenrank="14" data-driverrank="52" data-approachrank="14" data-aroundrank="7" data-putterrank="42">
+						<td class="bg-white">28</td>
+						<td class="bg-lightblue">성유진</td>
+						<td>0.93<span class="rank">(28)</span></td>
+						<td>1.83<span class="rank">(14)</span></td>
+						<td>-0.65<span class="rank">(52)</span></td>
+						<td>1.35<span class="rank">(14)</span></td>
+						<td>1.12<span class="rank">(7)</span></td>
+						<td>-0.89<span class="rank">(42)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="29" data-teetogreenrank="43" data-driverrank="33" data-approachrank="54" data-aroundrank="15" data-putterrank="11">
+						<td class="bg-white">29</td>
+						<td class="bg-lightblue">최은우</td>
+						<td>0.88<span class="rank">(29)</span></td>
+						<td>-0.71<span class="rank">(43)</span></td>
+						<td>0.12<span class="rank">(33)</span></td>
+						<td>-1.47<span class="rank">(54)</span></td>
+						<td>0.65<span class="rank">(15)</span></td>
+						<td>1.58<span class="rank">(11)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="30" data-teetogreenrank="41" data-driverrank="47" data-approachrank="32" data-aroundrank="38" data-putterrank="18">
+						<td class="bg-white">30</td>
+						<td class="bg-lightblue">이지현3</td>
+						<td>0.87<span class="rank">(30)</span></td>
+						<td>-0.39<span class="rank">(41)</span></td>
+						<td>-0.46<span class="rank">(47)</span></td>
+						<td>0.17<span class="rank">(32)</span></td>
+						<td>-0.09<span class="rank">(38)</span></td>
+						<td>1.26<span class="rank">(18)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="31" data-teetogreenrank="38" data-driverrank="22" data-approachrank="25" data-aroundrank="56" data-putterrank="21">
+						<td class="bg-white">31</td>
+						<td class="bg-lightblue">빳차라쭈타 콩끄라판(I)</td>
+						<td>0.83<span class="rank">(31)</span></td>
+						<td>-0.19<span class="rank">(38)</span></td>
+						<td>0.39<span class="rank">(22)</span></td>
+						<td>0.38<span class="rank">(25)</span></td>
+						<td>-0.97<span class="rank">(56)</span></td>
+						<td>1.02<span class="rank">(21)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="32" data-teetogreenrank="9" data-driverrank="13" data-approachrank="6" data-aroundrank="52" data-putterrank="57">
+						<td class="bg-white">32</td>
+						<td class="bg-lightblue">박민지</td>
+						<td>0.25<span class="rank">(32)</span></td>
+						<td>2.46<span class="rank">(9)</span></td>
+						<td>0.71<span class="rank">(13)</span></td>
+						<td>2.40<span class="rank">(6)</span></td>
+						<td>-0.65<span class="rank">(52)</span></td>
+						<td>-2.21<span class="rank">(57)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="33" data-teetogreenrank="1" data-driverrank="1" data-approachrank="1" data-aroundrank="53" data-putterrank="61">
+						<td class="bg-white">33</td>
+						<td class="bg-lightblue">양윤서 0801(A)</td>
+						<td>0.23<span class="rank">(33)</span></td>
+						<td>3.92<span class="rank">(1)</span></td>
+						<td>1.35<span class="rank">(1)</span></td>
+						<td>3.35<span class="rank">(1)</span></td>
+						<td>-0.78<span class="rank">(53)</span></td>
+						<td>-3.69<span class="rank">(61)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="34" data-teetogreenrank="12" data-driverrank="7" data-approachrank="28" data-aroundrank="14" data-putterrank="54">
+						<td class="bg-white">34</td>
+						<td class="bg-lightblue">문정민</td>
+						<td>0.16<span class="rank">(34)</span></td>
+						<td>1.89<span class="rank">(12)</span></td>
+						<td>0.98<span class="rank">(7)</span></td>
+						<td>0.24<span class="rank">(28)</span></td>
+						<td>0.67<span class="rank">(14)</span></td>
+						<td>-1.74<span class="rank">(54)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="35" data-teetogreenrank="47" data-driverrank="58" data-approachrank="22" data-aroundrank="49" data-putterrank="14">
+						<td class="bg-white">35</td>
+						<td class="bg-lightblue">전예성</td>
+						<td>0.09<span class="rank">(35)</span></td>
+						<td>-1.20<span class="rank">(47)</span></td>
+						<td>-1.24<span class="rank">(58)</span></td>
+						<td>0.58<span class="rank">(22)</span></td>
+						<td>-0.53<span class="rank">(49)</span></td>
+						<td>1.29<span class="rank">(14)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="36" data-teetogreenrank="19" data-driverrank="17" data-approachrank="23" data-aroundrank="31" data-putterrank="48">
+						<td class="bg-white">36</td>
+						<td class="bg-lightblue">김가희2</td>
+						<td>0.04<span class="rank">(36)</span></td>
+						<td>1.13<span class="rank">(19)</span></td>
+						<td>0.52<span class="rank">(17)</span></td>
+						<td>0.57<span class="rank">(23)</span></td>
+						<td>0.04<span class="rank">(31)</span></td>
+						<td>-1.09<span class="rank">(48)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="37" data-teetogreenrank="56" data-driverrank="36" data-approachrank="46" data-aroundrank="61" data-putterrank="6">
+						<td class="bg-white">37</td>
+						<td class="bg-lightblue">한아름</td>
+						<td>-0.41<span class="rank">(37)</span></td>
+						<td>-2.73<span class="rank">(56)</span></td>
+						<td>-0.02<span class="rank">(36)</span></td>
+						<td>-0.92<span class="rank">(46)</span></td>
+						<td>-1.78<span class="rank">(61)</span></td>
+						<td>2.32<span class="rank">(6)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="38" data-teetogreenrank="42" data-driverrank="18" data-approachrank="51" data-aroundrank="25" data-putterrank="34">
+						<td class="bg-white">38</td>
+						<td class="bg-lightblue">김민별</td>
+						<td>-0.74<span class="rank">(38)</span></td>
+						<td>-0.63<span class="rank">(42)</span></td>
+						<td>0.49<span class="rank">(18)</span></td>
+						<td>-1.20<span class="rank">(51)</span></td>
+						<td>0.09<span class="rank">(25)</span></td>
+						<td>-0.11<span class="rank">(34)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="39" data-teetogreenrank="33" data-driverrank="41" data-approachrank="47" data-aroundrank="4" data-putterrank="43">
+						<td class="bg-white">39</td>
+						<td class="bg-lightblue">임진영</td>
+						<td>-0.83<span class="rank">(39)</span></td>
+						<td>0.13<span class="rank">(33)</span></td>
+						<td>-0.22<span class="rank">(41)</span></td>
+						<td>-0.93<span class="rank">(47)</span></td>
+						<td>1.29<span class="rank">(4)</span></td>
+						<td>-0.97<span class="rank">(43)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="40" data-teetogreenrank="31" data-driverrank="5" data-approachrank="50" data-aroundrank="16" data-putterrank="49">
+						<td class="bg-white">40</td>
+						<td class="bg-lightblue">최가빈</td>
+						<td>-0.85<span class="rank">(40)</span></td>
+						<td>0.41<span class="rank">(31)</span></td>
+						<td>1.02<span class="rank">(5)</span></td>
+						<td>-1.14<span class="rank">(50)</span></td>
+						<td>0.53<span class="rank">(16)</span></td>
+						<td>-1.26<span class="rank">(49)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="41" data-teetogreenrank="40" data-driverrank="50" data-approachrank="20" data-aroundrank="51" data-putterrank="38">
+						<td class="bg-white">41</td>
+						<td class="bg-lightblue">조아연</td>
+						<td>-0.94<span class="rank">(41)</span></td>
+						<td>-0.38<span class="rank">(40)</span></td>
+						<td>-0.54<span class="rank">(50)</span></td>
+						<td>0.79<span class="rank">(20)</span></td>
+						<td>-0.63<span class="rank">(51)</span></td>
+						<td>-0.56<span class="rank">(38)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="42" data-teetogreenrank="51" data-driverrank="55" data-approachrank="57" data-aroundrank="10" data-putterrank="15">
+						<td class="bg-white">42</td>
+						<td class="bg-lightblue">황유나</td>
+						<td>-0.97<span class="rank">(42)</span></td>
+						<td>-2.24<span class="rank">(51)</span></td>
+						<td>-1.00<span class="rank">(55)</span></td>
+						<td>-2.15<span class="rank">(57)</span></td>
+						<td>0.92<span class="rank">(10)</span></td>
+						<td>1.27<span class="rank">(15)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="43" data-teetogreenrank="48" data-driverrank="62" data-approachrank="53" data-aroundrank="2" data-putterrank="29">
+						<td class="bg-white">43</td>
+						<td class="bg-lightblue">송가은</td>
+						<td>-1.00<span class="rank">(43)</span></td>
+						<td>-1.65<span class="rank">(48)</span></td>
+						<td>-1.68<span class="rank">(62)</span></td>
+						<td>-1.43<span class="rank">(53)</span></td>
+						<td>1.46<span class="rank">(2)</span></td>
+						<td>0.64<span class="rank">(29)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="44" data-teetogreenrank="37" data-driverrank="48" data-approachrank="49" data-aroundrank="3" data-putterrank="44">
+						<td class="bg-white">44</td>
+						<td class="bg-lightblue">박보겸</td>
+						<td>-1.16<span class="rank">(44)</span></td>
+						<td>-0.17<span class="rank">(37)</span></td>
+						<td>-0.51<span class="rank">(48)</span></td>
+						<td>-1.03<span class="rank">(49)</span></td>
+						<td>1.37<span class="rank">(3)</span></td>
+						<td>-0.99<span class="rank">(44)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="45" data-teetogreenrank="22" data-driverrank="20" data-approachrank="24" data-aroundrank="28" data-putterrank="57">
+						<td class="bg-white">45</td>
+						<td class="bg-lightblue">황유민</td>
+						<td>-1.20<span class="rank">(45)</span></td>
+						<td>1.02<span class="rank">(22)</span></td>
+						<td>0.47<span class="rank">(20)</span></td>
+						<td>0.49<span class="rank">(24)</span></td>
+						<td>0.05<span class="rank">(28)</span></td>
+						<td>-2.21<span class="rank">(57)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="46" data-teetogreenrank="44" data-driverrank="60" data-approachrank="41" data-aroundrank="5" data-putterrank="37">
+						<td class="bg-white">46</td>
+						<td class="bg-lightblue">노승희</td>
+						<td>-1.23<span class="rank">(46)</span></td>
+						<td>-0.74<span class="rank">(44)</span></td>
+						<td>-1.36<span class="rank">(60)</span></td>
+						<td>-0.65<span class="rank">(41)</span></td>
+						<td>1.27<span class="rank">(5)</span></td>
+						<td>-0.49<span class="rank">(37)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="47" data-teetogreenrank="54" data-driverrank="51" data-approachrank="44" data-aroundrank="59" data-putterrank="28">
+						<td class="bg-white">47</td>
+						<td class="bg-lightblue">박소혜</td>
+						<td>-1.75<span class="rank">(47)</span></td>
+						<td>-2.40<span class="rank">(54)</span></td>
+						<td>-0.61<span class="rank">(51)</span></td>
+						<td>-0.75<span class="rank">(44)</span></td>
+						<td>-1.05<span class="rank">(59)</span></td>
+						<td>0.66<span class="rank">(28)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="48" data-teetogreenrank="45" data-driverrank="59" data-approachrank="30" data-aroundrank="22" data-putterrank="46">
+						<td class="bg-white">48</td>
+						<td class="bg-lightblue">최민경</td>
+						<td>-1.92<span class="rank">(48)</span></td>
+						<td>-0.90<span class="rank">(45)</span></td>
+						<td>-1.31<span class="rank">(59)</span></td>
+						<td>0.20<span class="rank">(30)</span></td>
+						<td>0.21<span class="rank">(22)</span></td>
+						<td>-1.02<span class="rank">(46)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="49" data-teetogreenrank="59" data-driverrank="49" data-approachrank="60" data-aroundrank="24" data-putterrank="20">
+						<td class="bg-white">49</td>
+						<td class="bg-lightblue">이채은2</td>
+						<td>-1.96<span class="rank">(49)</span></td>
+						<td>-3.09<span class="rank">(59)</span></td>
+						<td>-0.53<span class="rank">(49)</span></td>
+						<td>-2.67<span class="rank">(60)</span></td>
+						<td>0.11<span class="rank">(24)</span></td>
+						<td>1.13<span class="rank">(20)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="50" data-teetogreenrank="21" data-driverrank="8" data-approachrank="33" data-aroundrank="33" data-putterrank="59">
+						<td class="bg-white">50</td>
+						<td class="bg-lightblue">짜라위 분짠(I)</td>
+						<td>-2.00<span class="rank">(50)</span></td>
+						<td>1.04<span class="rank">(21)</span></td>
+						<td>0.90<span class="rank">(8)</span></td>
+						<td>0.15<span class="rank">(33)</span></td>
+						<td>-0.02<span class="rank">(33)</span></td>
+						<td>-3.04<span class="rank">(59)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="51" data-teetogreenrank="39" data-driverrank="29" data-approachrank="40" data-aroundrank="38" data-putterrank="55">
+						<td class="bg-white">51</td>
+						<td class="bg-lightblue">정소이</td>
+						<td>-2.14<span class="rank">(51)</span></td>
+						<td>-0.26<span class="rank">(39)</span></td>
+						<td>0.21<span class="rank">(29)</span></td>
+						<td>-0.38<span class="rank">(40)</span></td>
+						<td>-0.09<span class="rank">(38)</span></td>
+						<td>-1.88<span class="rank">(55)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="52" data-teetogreenrank="50" data-driverrank="44" data-approachrank="58" data-aroundrank="11" data-putterrank="40">
+						<td class="bg-white">52</td>
+						<td class="bg-lightblue">이주미</td>
+						<td>-2.76<span class="rank">(52)</span></td>
+						<td>-1.92<span class="rank">(50)</span></td>
+						<td>-0.27<span class="rank">(44)</span></td>
+						<td>-2.48<span class="rank">(58)</span></td>
+						<td>0.84<span class="rank">(11)</span></td>
+						<td>-0.84<span class="rank">(40)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="53" data-teetogreenrank="26" data-driverrank="18" data-approachrank="31" data-aroundrank="23" data-putterrank="62">
+						<td class="bg-white">53</td>
+						<td class="bg-lightblue">고지우</td>
+						<td>-2.92<span class="rank">(53)</span></td>
+						<td>0.86<span class="rank">(26)</span></td>
+						<td>0.49<span class="rank">(18)</span></td>
+						<td>0.18<span class="rank">(31)</span></td>
+						<td>0.19<span class="rank">(23)</span></td>
+						<td>-3.78<span class="rank">(62)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="54" data-teetogreenrank="53" data-driverrank="63" data-approachrank="52" data-aroundrank="6" data-putterrank="39">
+						<td class="bg-white">54</td>
+						<td class="bg-lightblue">박결</td>
+						<td>-2.98<span class="rank">(54)</span></td>
+						<td>-2.30<span class="rank">(53)</span></td>
+						<td>-2.08<span class="rank">(63)</span></td>
+						<td>-1.38<span class="rank">(52)</span></td>
+						<td>1.16<span class="rank">(6)</span></td>
+						<td>-0.67<span class="rank">(39)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="55" data-teetogreenrank="49" data-driverrank="21" data-approachrank="59" data-aroundrank="19" data-putterrank="50">
+						<td class="bg-white">55</td>
+						<td class="bg-lightblue">이가영</td>
+						<td>-3.08<span class="rank">(55)</span></td>
+						<td>-1.81<span class="rank">(49)</span></td>
+						<td>0.44<span class="rank">(21)</span></td>
+						<td>-2.63<span class="rank">(59)</span></td>
+						<td>0.38<span class="rank">(19)</span></td>
+						<td>-1.27<span class="rank">(50)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="56" data-teetogreenrank="52" data-driverrank="38" data-approachrank="37" data-aroundrank="62" data-putterrank="40">
+						<td class="bg-white">56</td>
+						<td class="bg-lightblue">이예원</td>
+						<td>-3.09<span class="rank">(56)</span></td>
+						<td>-2.25<span class="rank">(52)</span></td>
+						<td>-0.10<span class="rank">(38)</span></td>
+						<td>-0.10<span class="rank">(37)</span></td>
+						<td>-2.05<span class="rank">(62)</span></td>
+						<td>-0.84<span class="rank">(40)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="57" data-teetogreenrank="61" data-driverrank="37" data-approachrank="62" data-aroundrank="25" data-putterrank="27">
+						<td class="bg-white">57</td>
+						<td class="bg-lightblue">안지현</td>
+						<td>-3.41<span class="rank">(57)</span></td>
+						<td>-4.14<span class="rank">(61)</span></td>
+						<td>-0.04<span class="rank">(37)</span></td>
+						<td>-4.20<span class="rank">(62)</span></td>
+						<td>0.09<span class="rank">(25)</span></td>
+						<td>0.73<span class="rank">(27)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="58" data-teetogreenrank="57" data-driverrank="54" data-approachrank="45" data-aroundrank="57" data-putterrank="46">
+						<td class="bg-white">58</td>
+						<td class="bg-lightblue">청 야니</td>
+						<td>-3.79<span class="rank">(58)</span></td>
+						<td>-2.77<span class="rank">(57)</span></td>
+						<td>-0.99<span class="rank">(54)</span></td>
+						<td>-0.79<span class="rank">(45)</span></td>
+						<td>-1.00<span class="rank">(57)</span></td>
+						<td>-1.02<span class="rank">(46)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="59" data-teetogreenrank="62" data-driverrank="46" data-approachrank="61" data-aroundrank="44" data-putterrank="29">
+						<td class="bg-white">59</td>
+						<td class="bg-lightblue">유지나</td>
+						<td>-4.18<span class="rank">(59)</span></td>
+						<td>-4.82<span class="rank">(62)</span></td>
+						<td>-0.45<span class="rank">(46)</span></td>
+						<td>-4.13<span class="rank">(61)</span></td>
+						<td>-0.24<span class="rank">(44)</span></td>
+						<td>0.64<span class="rank">(29)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="60" data-teetogreenrank="58" data-driverrank="53" data-approachrank="56" data-aroundrank="41" data-putterrank="53">
+						<td class="bg-white">60</td>
+						<td class="bg-lightblue">홍진영2</td>
+						<td>-4.41<span class="rank">(60)</span></td>
+						<td>-2.87<span class="rank">(58)</span></td>
+						<td>-0.74<span class="rank">(53)</span></td>
+						<td>-1.98<span class="rank">(56)</span></td>
+						<td>-0.16<span class="rank">(41)</span></td>
+						<td>-1.54<span class="rank">(53)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="61" data-teetogreenrank="35" data-driverrank="39" data-approachrank="33" data-aroundrank="28" data-putterrank="63">
+						<td class="bg-white">61</td>
+						<td class="bg-lightblue">이세영</td>
+						<td>-4.94<span class="rank">(61)</span></td>
+						<td>0.03<span class="rank">(35)</span></td>
+						<td>-0.17<span class="rank">(39)</span></td>
+						<td>0.15<span class="rank">(33)</span></td>
+						<td>0.05<span class="rank">(28)</span></td>
+						<td>-4.97<span class="rank">(63)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="62" data-teetogreenrank="63" data-driverrank="30" data-approachrank="63" data-aroundrank="63" data-putterrank="8">
+						<td class="bg-white">62</td>
+						<td class="bg-lightblue">강가율</td>
+						<td>-5.56<span class="rank">(62)</span></td>
+						<td>-7.44<span class="rank">(63)</span></td>
+						<td>0.15<span class="rank">(30)</span></td>
+						<td>-5.13<span class="rank">(63)</span></td>
+						<td>-2.46<span class="rank">(63)</span></td>
+						<td>1.88<span class="rank">(8)</span></td>
+						<td>1</td>
+					</tr>
+				
+					<tr data-sgrank="63" data-teetogreenrank="60" data-driverrank="57" data-approachrank="42" data-aroundrank="60" data-putterrank="60">
+						<td class="bg-white">63</td>
+						<td class="bg-lightblue">김아현</td>
+						<td>-6.94<span class="rank">(63)</span></td>
+						<td>-3.47<span class="rank">(60)</span></td>
+						<td>-1.21<span class="rank">(57)</span></td>
+						<td>-0.68<span class="rank">(42)</span></td>
+						<td>-1.57<span class="rank">(60)</span></td>
+						<td>-3.47<span class="rank">(60)</span></td>
+						<td>1</td>
+					</tr>
+				
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+	</div>
+</section>
+
+
+
+
+
+
+<script type="text/javascript" src="./4RSG_files/jquery.cookie.min.js.다운로드"></script>
+<script>
+	var today = new Date();
+	var date = new Date();
+	
+	$(document).ready(function() {
+		
+		$("#calendar").click(function() {
+			buildCalendar();
+		})
+		
+		$("#cal_prev").click(function() {
+			today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+			buildCalendar();
+		});
+		
+		$("#cal_next").click(function() {
+			today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+			buildCalendar();
+		});
+		
+		$(document).on("click",".photoDetail",function(){
+			var swiperHtml = "";
+			
+			$(".topPhoto").each(function() {
+				swiperHtml += "<div class='swiper-slide'>";
+				swiperHtml += "<img src='https://cdn.klpga.co.kr/DATA/"+$(this).attr("data-file")+"'>";
+				swiperHtml += "</div>";
+			});
+			
+			$(".photoDiv").find(" > div:visible").each(function() {
+				swiperHtml += "<div class='swiper-slide'>";
+				swiperHtml += "<img src='https://cdn.klpga.co.kr/DATA/"+$(this).attr("data-file")+"'>";
+				swiperHtml += "</div>";
+			});
+			
+			$("#photoModal .swiper-wrapper").html(swiperHtml);
+			
+			var idx = 0;
+			if($(this).closest(".photoIndex").index() < 0) {
+				idx = $(this).closest(".topPhoto").index();
+			} else {
+				idx = $(this).closest(".photoIndex").index() + $(".topPhoto").length;
+			}
+			photoSwiper.slideTo(idx, 100, false);
+			
+		});
+		
+		$(document).on("click",".modelDetail",function(){
+			var swiperHtml = "";
+			
+			$(".modelDiv").find(" > div:visible").each(function() {
+				swiperHtml += "<div class='swiper-slide'>";
+				swiperHtml += "<img src='https://cdn.klpga.co.kr/DATA/"+$(this).attr("data-file")+"'>";
+				swiperHtml += "</div>";
+			});
+			
+			$("#modelModal .swiper-wrapper").html(swiperHtml);
+			modelSwiper.slideTo($(".modelIndex:visible").index($(this).closest(".modelIndex:visible")), 100, false);
+			
+		});
+		
+		$(document).on("click",".videoDetail",function(){
+			
+			var swiperHtml = "";
+			var category = "";
+			if(document.getElementById('searchCategory') != null){
+				category = $("#searchCategory").find(".active").attr("data-category");
+			}
+			
+			$(".topVideo").each(function() {
+				swiperHtml += '<div class="media-sidebar-entry" data-title="'+$(this).attr("data-title")+'" data-regdate="'+$(this).attr("data-regDate")+'" data-videocode="'+$(this).attr("data-videocode")+'" data-videocode2="'+$(this).attr("data-videocode2")+'" " data-videocode3="'+$(this).attr("data-videocode3")+'" data-thumbnail="'+$(this).attr("data-thumbnail")+'"';
+				swiperHtml += ' data-category="'+$(this).attr("data-category")+'" data-gamename="'+$(this).attr("data-gamename")+'" data-gameengname="'+$(this).attr("data-gameengname")+'" data-playername="'+$(this).attr("data-playerName")+'" data-playerEngName="'+$(this).attr("data-playerEngName")+'" data-round="'+$(this).attr("data-round")+'" data-hole="'+$(this).attr("data-hole")+'" data-shot="'+$(this).attr("data-shot")+'" >';
+				swiperHtml += ' <a class="entry-thumbnail" href="#">';
+				swiperHtml += '  <div class="bgThumbnail bg-img" data-thumbnail="'+$(this).attr("data-thumbnail")+'">';
+				swiperHtml += '   <img src="/resources/web/images/blank-video.png">';
+				swiperHtml += '  </div>';
+				swiperHtml += ' </a>';
+				swiperHtml += ' <div class="entry-meta">';
+				swiperHtml += '  <h3 class="entry-title">';
+				if(category == '6'){
+					var shotGameName = ("kr"!="en"?cutString($(this).attr("data-gamename"),13):cutString($(this).attr("data-gameengname"),18));
+					var shotPlayerName = ("kr"!="en"?cutString($(this).attr("data-playername"),6):cutString($(this).attr("data-playerengname"),6));
+					swiperHtml += '   <a href="#">'+ shotGameName +'<br>'+ shotPlayerName +' '+$(this).attr("data-round")+'R '+$(this).attr("data-hole")+'H '+$(this).attr("data-shot")+'Shot</a>';
+				}else{
+					swiperHtml += '   <a href="#">'+$(this).attr("data-title")+'</a>';
+				}
+				swiperHtml += '  </h3>';
+				swiperHtml += '  <p class="entry-date">'+$(this).attr("data-regdate")+'</p>';
+				swiperHtml += ' </div>';
+				swiperHtml += '</div>';
+			});
+			
+			
+			$(".videoDiv").find(" > div.videoIndex:visible").each(function() {
+				swiperHtml += '<div class="media-sidebar-entry" data-title="'+$(this).attr("data-title")+'" data-regdate="'+$(this).attr("data-regDate")+'" data-videocode="'+$(this).attr("data-videocode")+'" data-videocode2="'+$(this).attr("data-videocode2")+'" " data-videocode3="'+$(this).attr("data-videocode3")+'" data-thumbnail="'+$(this).attr("data-thumbnail")+'"';
+				swiperHtml += ' data-category="'+$(this).attr("data-category")+'" data-gamename="'+$(this).attr("data-gamename")+'" data-gameengname="'+$(this).attr("data-gameengname")+'" data-playername="'+$(this).attr("data-playername")+'" data-playerengname="'+$(this).attr("data-playerEngName")+'" data-round="'+$(this).attr("data-round")+'" data-hole="'+$(this).attr("data-hole")+'" data-shot="'+$(this).attr("data-shot")+'" >';
+				swiperHtml += ' <a class="entry-thumbnail" href="#">';
+				swiperHtml += '  <div class="bgThumbnail bg-img" data-thumbnail="'+$(this).attr("data-thumbnail")+'">';
+				swiperHtml += '   <img src="/resources/web/images/blank-video.png">';
+				swiperHtml += '  </div>';
+				swiperHtml += ' </a>';
+				swiperHtml += ' <div class="entry-meta">';
+				swiperHtml += '  <h3 class="entry-title">';
+				if(category == '6'){
+					var shotGameName = ("kr"!="en"?cutString($(this).attr("data-gamename"),13):cutString($(this).attr("data-gameengname"),18));
+					var shotPlayerName = ("kr"!="en"?cutString($(this).attr("data-playername"),6):cutString($(this).attr("data-playerengname"),6));
+					swiperHtml += '   <a href="#">'+ shotGameName +'<br>'+ shotPlayerName +' '+$(this).attr("data-round")+'R '+$(this).attr("data-hole")+'H '+$(this).attr("data-shot")+'Shot</a>';
+				}else{
+					swiperHtml += '   <a href="#">'+$(this).attr("data-title")+'</a>';
+				}
+				swiperHtml += '  </h3>';
+				swiperHtml += '  <p class="entry-date">'+$(this).attr("data-regdate")+'</p>';
+				swiperHtml += ' </div>';
+				swiperHtml += '</div>';
+			});
+			
+			$("#videoModal .media-sidebar-list").html(swiperHtml);
+			
+			$("#videoModal .bgThumbnail").each(function() {
+				if(category == "6"){
+					$(this).css("background-image","url(\"https://cdn.klpga.co.kr/movieData/movie"+$(this).attr("data-thumbnail")+"\")");
+				}else{
+					$(this).css("background-image","url(\"https://cdn.klpga.co.kr/DATA/"+$(this).attr("data-thumbnail")+"\")");
+				}
+			});
+			
+			var idx = 0;
+			if($(this).closest(".videoIndex").index() < 0) {
+				idx = $(this).closest(".topVideo").index();
+			} else {
+				idx = $(this).closest(".videoIndex").index() + $(".topVideo").length;
+			}
+			
+			showVideo(idx);
+			
+		});
+		
+		$(document).on("click","#videoSide > div",function(){
+			showVideo($(this).index());
+		});
+		
+		$("#myFavoritSearch").keydown(function(e) {
+			if (e.keyCode == 13) {
+				$("#myFavoritSearchNum").click();
+			}
+		});
+		
+		$("#myFavoritSearchNum").click(function() {
+			getSearchFavoritList();
+		});
+		
+		$("#videoModal").on('hidden.bs.modal',function(e){
+			$("#videoIframe").empty();
+		});
+	})
+	
+	function modifyMyFavorit(playerCode) {
+		$.ajax({
+			  url : "/common/actionFavoritPlayer"
+			, type : "POST"
+			, data : {
+				favoritPlayerCode : playerCode
+			}
+			, datatype : "json"
+			, async : true
+			, success : function(res, status, xhr) {
+				$("#addModal .btn-close").click();
+				location.reload();
+			}
+			, error : function(request, status, error) {
+				//alert(error);
+			}
+		}).fail(function(errObj) {
+			try {
+				console.error(errObj);
+			} catch (e) {
+			}
+		}); //ajax
+	}
+	
+	function getSearchFavoritList() {
+		var searchText = $("#myFavoritSearch").val();
+		$.ajax({
+			  url : "/ajax/myPage/getSearchPlayerList"
+			, type : "POST"
+			, data : {
+				searchText : searchText
+			}
+			, datatype : "json"
+			, async : true
+			, success : function(res, status, xhr) {
+				var list = res.searchList;
+				
+				$("#myFavoritSearchNum").val(list.length);
+				
+				var listHtml = "";
+				
+				for (var i = 0; i < list.length; i++) {
+					var v = list[i];
+					listHtml += '<div class="row">';
+					listHtml += ' <div class="col-3">';
+					listHtml += '  <div class="playerImg avatar avatar-lg bg-img-top" data-playerimg="'+v.playerImg+'" >';
+					listHtml += '   <a href=""><img src="/resources/web/images/blank-square.png"></a>';
+					listHtml += '  </div>';
+					listHtml += ' </div>';
+					listHtml += ' <div class="col-3">';
+					listHtml += '  <h4 class="mt-3">'+("kr"!="en"?v.playerName:v.playerEngName)+'</h4>';
+					listHtml += '  <p class="pb-0">';
+					
+					if("kr" != "en"){
+						if(v.level == "FU") listHtml += '정회원';
+						else if(v.level == "FT") listHtml += '정회원/티칭회원';
+						else if(v.level == "AS") listHtml += '준회원';
+						else if(v.level == "AT") listHtml += '준회원/티칭회원';
+						else if(v.level == "TP") listHtml += '티칭회원';
+						else if(v.level == "ITM") listHtml += 'I-Tour';
+					} else {
+						if(v.level == "FU") listHtml += 'Class A';
+						else if(v.level == "FT") listHtml += 'Class A/Teaching';
+						else if(v.level == "AS") listHtml += 'Class B';
+						else if(v.level == "AT") listHtml += 'Class B/Teaching';
+						else if(v.level == "TP") listHtml += 'Teaching Member';
+						else if(v.level == "ITM") listHtml += 'I-Tour';
+					}
+					
+					listHtml += '  </p>';
+					listHtml += ' </div>';
+					listHtml += ' <div class="col-2">';
+					listHtml += '  <span class="nationImg tb-flag tb-flag-lg" data-nation="'+v.nation+'"></span>';
+					listHtml += ' </div>';
+					listHtml += ' <div class="col-4 text-end">';
+					listHtml += '  <button type="button" class="btn btn-primary px-3 rounded-20" onclick="modifyMyFavorit('+v.playerCode+')">';
+					if(v.favoritedYn == "Y") {
+						listHtml += "kr"!="en"?'삭제하기':'Remove';
+					} else {
+						listHtml += "kr"!="en"?'추가하기':'Add';
+					}
+					listHtml += '  </button>';
+					listHtml += ' </div>';
+					listHtml += '</div>';
+				}
+				
+				$("#myFavoritSearchList").html(listHtml);
+			
+				$(".playerImg").each(function() {
+					$(this).css("background-image","url(\"https://cdn.klpga.co.kr/PHOTOIMG/SM/"+$(this).attr("data-playerimg")+"?ver=2026-09-17T08:28:35.027\")");
+				});
+				
+				$(".nationImg").each(function() {
+					$(this).css("background-image","url(\"/resources/web/images/country/"+$(this).attr("data-nation")+".png\")");
+				});
+				
+			}
+			, error : function(request, status, error) {
+				//alert(error);
+			}
+		}).fail(function(errObj) {
+			try {
+				console.error(errObj);
+			} catch (e) {
+			}
+		}); //ajax
+	}
+	
+	function showVideo(idx) {
+		var vObj = $("#videoSide > div").eq(idx);
+		var videoHtml = "";
+		
+		var category = vObj.attr("data-category");
+		var videocode = vObj.attr("data-videocode");
+		var videocode2 = vObj.attr("data-videocode2");
+		var videocode3 = vObj.attr("data-videocode3");
+		
+		var autoFlag = $("#flexSwitchCheckChecked").is(":checked");
+		var iframe = "";
+		
+		if(category == "6"){
+			iframe = "<video class='video' WIDTH='417' HEIGHT='235' controls autoplay muted>";
+			iframe += "<source type='video/mp4' src='https://cdn.klpga.co.kr/movieData/movie"+videocode+"' id='videoSource'>";
+			iframe += "</video>";
+		}else{
+			if(videocode != "null" && videocode != "" ) {
+				iframe = "<iframe  src='https://www.youtube.com/embed/"+videocode+"?autoplay=1&mute=1";
+				iframe += "' frameborder='no' scrolling='no' marginwidth='0' marginheight='0'";
+				iframe += " WIDTH='417' HEIGHT='235' allowfullscreen></iframe>";
+			} else if(videocode2 != "null" && videocode2 != "" ) {
+				iframe = "<iframe src='https://tv.naver.com/embed/"+videocode2+"?autoPlay=true";
+				iframe += "' frameborder='no' scrolling='no' marginwidth='0' marginheight='0'";
+				iframe += " WIDTH='417' HEIGHT='235' allowfullscreen></iframe>";
+			} else if(videocode3 != "null" && videocode3 != ""){
+				iframe = "<iframe src='https://static.cloud.sbs.co.kr/sbs-player/golf/index.html?target=golf&media="+videocode3
+				iframe += "' frameborder='no' scrolling='no' marginwidth='0' marginheight='0'";
+				iframe += " WIDTH='417' HEIGHT='235' allowfullscreen></iframe>";
+				
+			}
+		}
+		
+		videoHtml += '<div class="media-video-thumb">';
+		videoHtml +=   iframe;
+		videoHtml += '</div>';
+		videoHtml += '<div class="media-video-caption">';
+		videoHtml += ' <h4>';
+		if(category == '6'){
+			var shotGameName = ("kr"!="en"?vObj.attr("data-gamename"):vObj.attr("data-gameengname"));
+			var shotPlayerName = ("kr"!="en"?vObj.attr("data-playername"):vObj.attr("data-playerengname"));
+			videoHtml += ' <a href="#">'+shotGameName+'<br>'+shotPlayerName+' '+vObj.attr("data-round")+'R '+vObj.attr("data-hole")+'H '+vObj.attr("data-shot")+'Shot</a>';
+		}else{
+			videoHtml += ' <a href="#">'+vObj.attr("data-title")+'</a>';
+		}
+		videoHtml += ' </h4>';
+		videoHtml += ' <p class="media-news-date">'+vObj.attr("data-regdate")+'</p>';
+		videoHtml += '</div>';
+		
+		$("#videoIframe").html(videoHtml);
+	}
+	
+	function buildCalendar() {
+		// 현재 서버날짜
+		var nowYearMonth = 202609;
+		var nowDay = 20;
+		
+		var doMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+		var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+		var yearMonth = today.getFullYear()+""+autoLeftPad((today.getMonth() + 1), 2);
+		$("#cal_date").html(today.getFullYear()+"."+autoLeftPad((today.getMonth() + 1), 2));
+		$("#cal_body").html("");
+		
+		
+		var tdIdx = 1;
+		var daysLength = (Math.ceil((doMonth.getDay() + lastDate.getDate()) / 7) * 7) - doMonth.getDay();
+		
+		var result = "";
+		for (var day = 1 - doMonth.getDay(); daysLength >= day; day++) {
+			
+			if(tdIdx == 1) {
+				result += "<tr>";
+			} else {
+				if(tdIdx % 7 == 1) {
+					result += "</tr><tr>";
+				}	
+			}
+			
+			if(Math.sign(day) == 1 && lastDate.getDate() >= day) {
+				if(yearMonth == nowYearMonth && day == nowDay) {
+					result += '<td class="widget-datepicker-highlight" data-date="'+yearMonth+""+autoLeftPad(day, 2)+'"><span class="date cal-mark">'+day+'</span><ul class="date-list"></ul></td>'; 
+				}else {
+					result += '<td class="widget-datepicker-highlight" data-date="'+yearMonth+""+autoLeftPad(day, 2)+'"><span class="date cal-basic">'+day+'</span><ul class="date-list"></ul></td>';
+				}
+			} else {
+				var exceptDay = new Date(doMonth.getFullYear(), doMonth.getMonth(), day);
+				result += '<td class="widget-datepicker-disabled" data-date="'+exceptDay.getFullYear()+""+autoLeftPad(exceptDay.getMonth()+1,2)+""+autoLeftPad(exceptDay.getDate(), 2)+'"><span class="date">'+exceptDay.getDate()+'</span><ul class="date-list"></ul></td>';
+			}
+			
+			if(daysLength == day) {
+				result += "</tr>";
+			}
+			
+			tdIdx += 1;
+		}
+		
+		$("#cal_body").html(result);
+		
+		getScedules(yearMonth);
+	}
+	
+	function getScedules(date) {
+		$.ajax({
+			  url : "/ajax/main/getMainCalenderGameList"
+			, type : "POST"
+			, data : {
+				date : date+"01"
+			}
+			, datatype : "json"
+			, async : true
+			, success : function(res, status, xhr) {
+				var list = res.list;
+				
+				for(var i=0;i<list.length;i++) {
+					$("#cal_body td").each(function(index, item) {
+						if($(this).attr("data-date") == list[i].startDate) {
+							for(var j=0;j<list[i].totalRound;j++) {
+								$("#cal_body td").eq(index+j).find(".date-list").append(printSchedule(list[i], j+1));
+							}
+							
+						}
+					});
+				}
+			}
+			, error : function(request, status, error) {
+				//alert(error);
+			}
+		}).fail(function(errObj) {
+			try {
+				console.error(errObj);
+			} catch (e) {
+			}
+		}); //ajax
+		
+	}
+	
+	function printSchedule(gameInfo, round) {
+		var str;
+		var tourInfoUrl = "/web/tourInfo/tourInfo?gameCode="+gameInfo.gameCode;
+		
+		if(gameInfo.tourType == "RE") {
+			str = '<li class="list-klpga"><a href="'+tourInfoUrl+'"><span>●</span>정규';
+		} else if(gameInfo.tourType == "DR") {
+			str = '<li class="list-dream"><a href="'+tourInfoUrl+'"><span>●</span>드림';
+		} else if(gameInfo.tourType == "JT") {
+			str = '<li class="list-jump"><a href="'+tourInfoUrl+'"><span>●</span>점프';
+		} else if(gameInfo.tourType == "SN") {
+			str = '<li class="list-champions"><a href="'+tourInfoUrl+'"><span>●</span>챔피언스';
+		} else if(gameInfo.tourType == "SE") {
+			if(gameInfo.tourType2 == "SRE"){
+				str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>정규 시드전';
+			} else if(gameInfo.tourType2 == "SDR"){
+				str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>드림 시드전';
+			} else if(gameInfo.tourType2 == "SJT"){
+				str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>점프 시드전';
+			} else if(gameInfo.tourType2 == "SSN"){
+				str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>챔피언스 시드전';
+			} else {
+				str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>시드전';
+			}
+		} else if(gameInfo.tourType == "PO") {
+			str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>정회원 선발전';
+		} else if(gameInfo.tourType == "TE") {
+			str = '<li class="list-seed"><a href="'+tourInfoUrl+'"><span>●</span>준회원 선발전';
+		} else if(gameInfo.tourType == "EV") {
+			str = '<li class="list-event"><a href="'+tourInfoUrl+'"><span>●</span>이벤트';
+		}
+		
+		if(gameInfo.tourType == "PO" || gameInfo.tourType == "SE") {
+			if(gameInfo.gameLevel1 == "PE") {
+				str += "(예선)";
+			} else if (gameInfo.gameLevel1 == "DG") {
+				if(gameInfo.totalRound == round) {
+					str += "(본선 FR)";
+				} else {
+					str += "(본선 "+round+"R)";
+				}
+			} else {
+				str += "";
+			}
+		} else {
+			if(gameInfo.totalRound == round) {
+				str += "(FR)";
+			} else {
+				str += "("+round+"R)";
+			}
+		}
+		
+		str += "</a>";
+		str += '<div class="list-tooltip" style="z-index:99">';
+		
+		str += "<h5>";
+		
+		if("kr"!="en"){
+			str += gameInfo.periodText;
+		} else {
+			str += (gameInfo.periodText).replace(/일/g,"Sun").replace(/월/g,"Mon").replace(/화/g,"Tue").replace(/수/g,"Wed").replace(/목/g,"Thu").replace(/금/g,"Fri").replace(/토/g,"Sat");
+		}
+		str += "</h5>";
+		str += "<p>"+("kr"!="en"?gameInfo.gameTitle:gameInfo.gameEngTitle)+"<br>"+("kr"!="en"?gameInfo.courseText:gameInfo.courseEngText);
+		if(gameInfo.winName != "") {
+			str += " / W : "+("kr"!="en"?gameInfo.winName:gameInfo.winEngName);
+		}
+		str += "</p>";
+		str += "</div>";
+		str += "</li>";
+		
+		return str;
+		
+		
+	}
+	
+	function autoLeftPad(num, digit) {
+		if (String(num).length < digit) {
+			num = new Array(digit - String(num).length + 1).join("0") + num;
+		}
+		return num;
+	}
+	
+	
+
+</script>
+
+<!------------------------------------------- // Modal section ---------------------------------------------->
+<!-- 로그인 모달 -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3">
+                            <h1 class="font-sfpro">Log In</h1>
+                        </div>
+                        <div class="col-5">
+                            <div class="input-group pt-2">
+                                <div class="form-check me-3">
+                                    <input name="memberType" class="form-check-input" type="radio" value="klpga" checked="">
+                                    <label class="form-check-label fs-4">KLPGA 회원</label>
+                                </div>
+                                <div class="form-check">
+                                    <input name="memberType" class="form-check-input" type="radio" value="general">
+                                    <label class="form-check-label fs-4">일반 회원</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <span class="ms-4"><img src="./4RSG_files/logo-white.svg"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="mb-3">
+                                <label class="form-label fs-5">아이디</label>
+                                <input class="form-control form-control-lg" id="loginID">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fs-5">비밀번호</label>
+                                <div class="input-group border rounded">
+                                    <input class="form-control form-control-lg border-0" id="loginPW">
+                                    <span class="badge pt-3"><img src="./4RSG_files/icon-pw-badge.svg"></span>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input form-check-input-md rounded-0 me-2" type="checkbox" checked="" value="" id="loginSaveID">
+                                <label class="form-check-label form-check-label-md text-lightgray fs-5">아이디 저장</label>
+                            </div>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-4">
+                            <button class="btn btn-xl w-100 btn-darkblue rounded-20 font-sfpro" onclick="loginAction()">Log In</button>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-xl w-100 btn-outline-darkblue rounded-20">회원가입</button>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" class="keycolor ps-1">아이디 / 비밀번호 찾기</a>
+                        </div>
+                        <div class="col-4">
+                            <details class="dropdown ps-4">
+                                <summary>Korean</summary>
+                                <ul>
+                                    <li><a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002">Korean</a></li>
+                                    <li><a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002">English</a></li>
+                                </ul>
+                            </details>
+                            <!-- select 방식 언어선택 -->
+                            <!-- select class="form-select dropdown ps-4">
+                                <option selected>Korean</option>
+                                <option>English</option>
+                            </select -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 캘린더 모달 -->
+<div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-calendar">
+		<div class="modal-content">
+
+			<div class="widget-datepicker-header">
+				<div class="container">
+					<div class="row">
+						<div class="col-4">
+							<span class="logo"><img src="./4RSG_files/KLPGA-lg.svg"></span>
+							<span class="title">TOUR CALENDAR</span>
+						</div>
+						<div class="col-4">
+							<div class="widget-datepicker-navi">
+								<button id="cal_prev" class="btn widget-datepicker-prev" type="button" aria-label="이전 달">
+									<img src="./4RSG_files/icon-datepicker-prev.svg">
+								</button>
+								<div id="cal_date" class="widget-datepicker-label widget-datepicker-color-blue">2022.08</div>
+								<button id="cal_next" class="btn widget-datepicker-next" type="button" aria-label="다음 달">
+									<img src="./4RSG_files/icon-datepicker-next.svg">
+								</button>
+							</div>
+						</div>
+						<div class="col-4">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<img src="./4RSG_files/menu-calendar-close.svg">
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end .widget-datepicker-hd -->
+			<div class="widget-datepicker-body">
+				<div class="widget-datepicker-thead">
+					<div class="container">
+						<table cellspacing="0">
+							<thead>
+								<tr>
+									
+										
+											<th>일</th>
+											<th>월</th>
+											<th>화</th>
+											<th>수</th>
+											<th>목</th>
+											<th>금</th>
+											<th>토</th>
+										
+										
+									
+									
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="widget-datepicker-tbody">
+					<div class="container">
+						<table cellspacing="0">
+							<tbody id="cal_body">
+								
+							</tbody>
+						</table>
+					</div>
+					<!-- end .container -->
+				</div>
+				<!-- widget-datepicker-tbody -->
+			</div>
+			<!-- widget-datepicker-bd -->
+			<div class="widget-datepicker-footer">
+				<div class="container">
+					<div class="datepicker-caption-icon">
+						<span class="float-start me-2"><img src="./4RSG_files/icon-datepicker-caption.svg"></span>
+						<span>투어별색상 보기</span>
+					</div>
+					<dl class="datepicker-caption">
+						<dd class="list-klpga"><span>●</span>정규투어</dd>
+						<dd class="list-dream"><span>●</span>드림투어</dd>
+						<dd class="list-jump"><span>●</span>점프투어</dd>
+						<dd class="list-champions"><span>●</span>챔피언스투어</dd>
+					</dl>
+					<dl class="datepicker-caption">
+						<dd class="list-seed"><span>●</span>시드전, 선발전</dd>
+						<dd class="list-event"><span>●</span>이벤트</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="videoModal" aria-hidden="true" aria-labelledby="videoModalLabel" tabindex="-1" style="background: linear-gradient(to bottom, #0a1436, #5471bc);">
+	<div class="modal-dialog modal-xl modal-dialog-media">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">동영상</h2>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row match-height">
+					<div class="col-12 col-sm-8 col-lg-8">
+						<div id="videoIframe" class="card media-news-wrapper">
+							<!-- <div class="media-video-thumb">
+								<iframe src="https://tv.naver.com/embed/29821963?autoPlay=true"
+									frameborder="no" scrolling="no" marginwidth="0"
+									marginheight="0" width="100%" height="auto" allowfullscreen=""></iframe>
+							</div>
+							<div class="media-video-caption">
+								<h4>
+									<a href="#">‘다음 목표는 더 넓은 곳!’ 박민지 우승 인터뷰 [SK쉴더스 · SK텔레콤 FR]</a>
+								</h4>
+								<p class="media-news-date">2022-11-08</p>
+								<p class="fw-bold fs-3">SK쉴더스-SK텔레콤 챔피언십 2022 2R H/L</p>
+							</div> -->
+						</div>
+					</div>
+					<div class="col-12 col-sm-4 col-lg-4">
+						<div class="media-sidebar">
+							<div class="media-sidebar-title">
+								<h3 class="fw-bold">최신 동영상</h3>
+							</div>
+							<div id="videoSide" class="media-sidebar-list scroll-wrapper">
+								<div class="media-sidebar-entry">
+									<a class="entry-thumbnail" href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002#">
+										<div class="bg-img" style="background-image: url('/resources/web/upload-temp/tourfeed-sample-06.jpg')">
+											<img src="./4RSG_files/blank-video.png">
+										</div>
+									</a>
+									<div class="entry-meta">
+										<h3 class="entry-title">
+											<a href="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002#">SK쉴더스-SK텔레콤 챔피언십 2022 2R H/L</a>
+										</h3>
+										<p class="entry-date">2022.11.13</p>
+									</div>
+								</div>
+							</div>
+							<!-- end .media-sidebar-list -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end .modal-body -->
+			<div class="modal-footer"></div>
+		</div>
+		<!-- end .modal-content -->
+	</div>
+</div>
+
+<div class="modal fade" id="photoModal" aria-hidden="true" aria-labelledby="photoModalLabel" tabindex="-1">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
+		<!-- 모달 사이즈 modal-sm modal-lg modal-xl-->
+		<div class="modal-content">
+			<div class="modal-body p-0">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<div class="swiper mediaSwiper swiper-container-initialized swiper-container-horizontal" style="overflow: hidden;">
+					<div class="swiper-wrapper" style="transition-duration: 0ms;">
+						<div class="swiper-slide">
+							<img src="https://cdn.golfmagazinekorea.com/news/photo/202212/8243_13887_5056.jpg">
+						</div>
+					</div>
+					<div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></div>
+					<div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="false"></div>
+				<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	var photoSwiper = new Swiper(".mediaSwiper", {
+	navigation: {
+		nextEl: ".swiper-button-next",
+		prevEl: ".swiper-button-prev",
+	},
+	observer: true,
+	observeParents: true,
+	});
+</script>
+
+<div class="modal fade" id="modelModal" aria-hidden="true" aria-labelledby="modelModalLabel" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-body p-0">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<div class="swiper modelSwiper swiper-container-initialized swiper-container-horizontal" style="overflow: hidden;">
+					<div class="swiper-wrapper" style="transition-duration: 0ms;">
+						<div class="swiper-slide">
+							<img src="./4RSG_files/14th_model_2_3.jpg">
+						</div>
+						<div class="swiper-slide">
+							<img src="./4RSG_files/9362.png">
+						</div>
+						<div class="swiper-slide">
+							<img src="./4RSG_files/14th_model_2.jpg">
+						</div>
+					</div>
+					<div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></div>
+					<div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="false"></div>
+				<span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Initialize Swiper -->
+<script>
+	var modelSwiper = new Swiper(".modelSwiper", {
+	navigation: {
+		nextEl: ".swiper-button-next",
+		prevEl: ".swiper-button-prev",
+	},
+	observer: true,
+	observeParents: true,
+	});
+</script>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-add boxshadow">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="text-neongreen">
+					<span class="me-3"><img src="./4RSG_files/btn-favorite.svg"></span>좋아하는 선수 추가
+				</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+
+				<!-- 선수검색 -->
+				<h4 class="fw-bold ps-2">선수 검색</h4>
+				<div class="section-search">
+					<div class="input-group w-100 border border-blue rounded-2">
+						<input id="myFavoritSearch" type="search" class="form-control-lg bg-0" placeholder="선수 검색">
+						<button id="btnMyFavoritSearch" type="button" class="btn bg-0">
+							<img src="./4RSG_files/btn-pagesearch.svg">
+						</button>
+					</div>
+				</div>
+
+				<!-- 검색결과 -->
+				<div class="add-search-result">
+					<div class="row">
+						<div class="col-2">
+							<h4 class="fw-bold">검색결과</h4>
+						</div>
+						<div class="col-10">
+							<div class="d-flex align-items-center my-3">
+								<h4 class="fw-bold me-2">총</h4>
+								<input type="text" id="myFavoritSearchNum" class="form-control-lg border border-blue text-center" value="">
+								<h4 class="fw-bold ms-2">명</h4>
+							</div>
+						</div>
+					</div>
+					<div id="myFavoritSearchList">
+						
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer"></div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!----------------------------------------- // copyright section -------------------------------------------->
+
+<script type="text/javascript">
+
+function tmpChangeLang(){
+	
+	changeBasicInfo("en", "RE");
+}
+
+
+</script>
+
+<section class="section-area section-copyright">
+	<div class="container row" style="--bs-gutter-x: 0rem;">
+		<div class="col-12">
+	        <div class="footer-logo">
+	            <img src="./4RSG_files/footer-logo.svg">
+	        </div>
+	    </div>
+	    <div class="col-12">
+	    	<div class="footer-sns" style="margin-bottom: 0rem;">
+	            <ul>
+	                <li><span class="fs-3" onclick="tmpChangeLang()">팔로우</span></li>
+	                <li><a href="https://www.instagram.com/klpgatour" target="_blank"><img src="./4RSG_files/footersns-in.svg"></a></li>
+	                <li><a href="https://www.youtube.com/klpgatour" target="_blank"><img src="./4RSG_files/footersns-yt.svg"></a></li>
+	                <li><a href="https://www.facebook.com/korealpga" target="_blank"><img src="./4RSG_files/footersns-fb.svg"></a></li>
+	                <li><a href="https://tv.naver.com/klpgatv" target="_blank"><img src="./4RSG_files/footersns-ntv.svg"></a></li>
+	                <li><a href="https://blog.naver.com/klpgapr" target="_blank"><img src="./4RSG_files/footersns-bl.svg"></a></li>
+	                <!-- <li><a href="https://post.naver.com/klpgapr" target="_blank"><img src="/resources/web/images/footersns-npost.svg"></a></li> -->
+	                <li><a href="http://pf.kakao.com/_cuXCT" target="_blank"><img src="./4RSG_files/footersns-ch.svg"></a></li>
+	            </ul>
+	        </div>
+	        <div style="margin-bottom: 2rem;">
+	        	<img class="pc-only" src="./4RSG_files/iso-logo.png" style="width: 320px;">
+		    	<img class="mc-only" src="./4RSG_files/iso-logo.png" style="width: 250px;">
+	        </div>
+	        
+	        
+	       	
+	        	<div class="footer-copyright">
+		            <p>©2023 KLPGA. All Rights Reserved.  / <a href="https://klpga.co.kr/common/private?version=v1.1" target="_blank" style="font-weight: bold; font-size: 1rem;">개인정보처리방침</a>  / <a href="https://klpga.co.kr/common/connectInfo?version=v1.0" target="_blank" style="font-weight: bold; font-size: 1rem;">연계정보처리방침</a>  /  <a href="https://klpga.co.kr/common/footerTerms">이용약관</a></p>
+		            <p>
+		                사업자 : 사단법인 한국여자프로골프협회 사업자번호 : 211-82-08253<br>
+		                사업자 : 한국여자프로골프투어 주식회사 사업자번호 : 120-87-21445<br>
+		                사업장 : 서울 강동구 천호대로 1221 (우)05349 / 대표전화 : 02-587-2929 / FAX : 02-539-6003
+		            </p>
+		        </div>	
+	       	
+	       	
+	        
+	     </div>
+    </div> <!-- end .container -->
+</section> <!-- end .section-copyright -->
+
+
+
+
+<iframe id="itemscout-extension-gtag" src="./4RSG_files/saved_resource.html" scrolling="no" style="
+      width: 1px;
+      height: 1px;
+      border: none;
+      margin: 0;
+      position: absolute;
+      top:0;
+      left:0;
+    "></iframe><div id="its-image-search-container"></div><div id="its-image-crop-container"></div><div class="ap-ext ap-ext-taobao_search_by_image"><div translate="no" class="ap-base ap-base--ltr ap-theme--dark"><!----><div><div class="ap-toolbar ap-toolbar--left ap-toolbar--expand"><!----><div class="ap-toolbar__inner"><!----></div></div></div><!----><div><!----><div class="ap-sbi"><!----><div class="ap-sbi-aside"><!----><div class="ap-sbi-aside-btn-minimize" style="display: none;"><img src="https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026090002" class="ap-sbi-img-thumb"><i class="ap-sbi-aside-btn-minimize__icon ap-icon-chevron-right"></i></div><!----></div><!----><div class="ap-sbi-btn-search-wrapper" style="cursor: pointer; display: none;"><div class="ap-sbi-btn-search"><i class="ap-sbi-btn-search__icon ap-icon-search"></i><span class="ap-sbi-btn-search__txt">AiPrice</span></div><div class="ap-sbi-options"><div class="ap-sbi-options__label"><i class="ap-sbi-options__icon ap-icon-chevron-down"></i></div><!----></div></div></div><div><!----></div></div><div></div><div></div><div></div><!----><!----><!----><div></div><div></div></div></div><div class="glasp-extension-toaster glasp-extension-toaster--youtube-summary" data-glasp-print="hide" dir="ltr" style="display: block; width: 320px; margin: unset; padding: unset; border: unset; border-radius: unset; outline: unset; background-color: unset; box-shadow: unset; position: fixed; top: 40px; right: 24px; z-index: 9999;"><template shadowrootmode="open"><div class="glasp-extension" style="font-family: inherit;"></div></template></div></body><div class="glasp-extension" data-glasp-print="hide" dir="ltr" id="glasp-web-summary-button" style="display: block; width: unset; margin: unset; padding: unset; border: unset; border-radius: unset; outline: unset; background-color: unset; box-shadow: unset; position: fixed; bottom: 16px; right: 16px; z-index: 9999;"><div class="glasp-extension" style="font-family: inherit;"></div></div></html>
