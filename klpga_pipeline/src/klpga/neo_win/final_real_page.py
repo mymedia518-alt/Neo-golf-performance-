@@ -216,6 +216,18 @@ def is_final_real_page(html: str) -> bool:
 # leaderboard shell/hero/stage-nav to match that tournament's own
 # already-established visual convention exactly; this function only
 # supplies the three FINAL-specific sections below it.
+#
+# OPERATOR PRINCIPLE (2026-09-20, applies going forward to every
+# tournament's PUBLIC FINAL page): "검증은 깊게, 화면은 쉽게" -- deep
+# internal validation, an easy public screen. This function's output
+# (Brier/Log Loss/Rank MAE/Reciprocal Rank, the proxy-disclosure
+# footnote, precision/recall language) is INTERNAL VALIDATION-REPORT
+# content -- fine for an internal report page or an analyst-facing
+# view, but it must NEVER be embedded in a tournament's live PUBLIC
+# FINAL/HOME page again. Use render_final_public_summary below for
+# that instead. This function is kept, unmodified, purely so a future
+# internal-only validation report page has a ready-made renderer; it
+# has no live public caller as of this date.
 # ----------------------------------------------------------------
 
 
@@ -304,5 +316,78 @@ def render_final_validation_sections(
         + footnote_html +
         f"<h3>상승 (NEO 예상보다 선전)</h3><ul>{rise_html}</ul>"
         f"<h3>하락 (NEO 예상보다 부진)</h3><ul>{fall_html}</ul>"
+        "</section>"
+    )
+
+
+# ----------------------------------------------------------------
+# GENERIC extension (2026-09-20, operator principle "검증은 깊게, 화면은
+# 쉽게" -- deep internal validation, an easy public screen): the ONLY
+# FINAL-forecast-vs-result renderer meant for a tournament's live
+# PUBLIC FINAL/HOME page. A golf fan reads it with no explanation
+# needed -- no Brier/Log Loss/Rank MAE/Reciprocal Rank, no
+# "proxy"/"native metric"/"frozen forecast"/"schema bridge"/
+# "validator"/"calibration"/"Monte Carlo", no Precision/Recall
+# terminology, no methodology footnote. All of that stays exactly
+# where it already lives -- FinalValidationResult, build_final_report's
+# JSON, and this module's own render_final_validation_sections above --
+# untouched and complete; this function only decides what a public
+# visitor sees, never what gets computed or recorded internally.
+#
+# Deliberately excludes Top20 and biggest-movers: this FINAL had an
+# official 8-way tie at rank 20 (27 players inside "Top20" by the
+# official display), and any plain-language phrasing of that specific
+# case is either misleading ("Top20 90% 적중") or as convoluted as the
+# internal validation report itself -- exactly the case the operator's
+# own instruction names as one where the public page should just drop
+# the metric rather than force a simplification. The full tie-aware
+# Top20 metric remains in the internal report (final_report.py /
+# build_final_report) unchanged. Biggest-movers (rank_delta-based) is
+# an internal-diagnostic-only concept -- see render_final_validation_
+# sections above -- with no plain-language public equivalent.
+# ----------------------------------------------------------------
+
+
+def render_final_hero_forecast_line(
+    *, winner_win_probability_pct: float, winner_is_top_pick: bool,
+) -> str:
+    """A single plain-language sentence meant to sit in the page HERO
+    itself (same `<p class="meta">` pattern as the winner/date/venue
+    lines already there) -- not a separate section below a long
+    leaderboard. The operator's own check: on mobile, the first screen
+    alone must make "김민선7 -> NEO 우승확률 1위 45.54% -> 실제 우승"
+    obvious with no scrolling; that only holds if this line lives in
+    the hero, next to the winner's name.
+
+    `winner_is_top_pick` is a plain, non-proxy fact: was this player's
+    own win_pct the single highest in the frozen PRE-FINAL forecast?
+    (Computed by the caller from raw win_pct values -- no
+    neo_final_rank/tie-breaking machinery involved.)"""
+    rank_phrase = " · 1위" if winner_is_top_pick else ""
+    return (
+        f'<p class="meta">NEO 4R 전 우승확률 <strong>{winner_win_probability_pct:.2f}%{rank_phrase}</strong> '
+        "→ 실제 결과 <strong>우승</strong></p>"
+    )
+
+
+def render_final_public_summary(
+    *,
+    top5_predicted: int,
+    top5_hit: int,
+    top10_predicted: int,
+    top10_hit: int,
+) -> str:
+    """Top5/Top10 hit counts are real counts, not back-derived from a
+    rounded percentage. The winner-probability-vs-actual-result line
+    lives in the page hero instead (render_final_hero_forecast_line
+    above) so it is visible on the very first mobile screen, without
+    scrolling past the full leaderboard to reach this panel."""
+    return (
+        '<section class="panel" id="final-summary">'
+        "<h2>NEO 예측과 실제 결과</h2>"
+        "<ul>"
+        f"<li>Top5 예측 {top5_predicted}명 중 {top5_hit}명 실제 Top5</li>"
+        f"<li>Top10 예측 {top10_predicted}명 중 {top10_hit}명 실제 Top10</li>"
+        "</ul>"
         "</section>"
     )
