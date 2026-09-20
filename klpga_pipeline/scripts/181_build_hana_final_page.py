@@ -12,12 +12,20 @@ PUBLIC_ROUND_PAGE_001 ("raw cumulative totals belong on FINAL"), the
 FINAL page shows BOTH the to-par 합계 (via format_to_par) and the raw
 stroke-total 합계, exactly like R3 already does.
 
-Below the leaderboard, three GENERIC sections (forecast-vs-result /
-NEO validation / biggest movers) are rendered via the newly added
-klpga.neo_win.final_real_page.render_final_validation_sections --
-reused unchanged, not forked, from the already-existing FINAL-page
-design system (same render_player_identity, same CSS classes/table
-markup KB's own FINAL build already established).
+Below the leaderboard, a single plain-language public summary is
+rendered via klpga.neo_win.final_real_page.render_final_public_summary
+(2026-09-20 operator principle: "검증은 깊게, 화면은 쉽게" -- deep
+internal validation, an easy public screen). No Brier/Log Loss/Rank
+MAE/Reciprocal Rank, no proxy/methodology language, no Precision/
+Recall terms, no Top20 (this FINAL has an official 8-way tie at rank
+20 that makes any simple public phrasing either misleading or as
+convoluted as the internal report -- dropped from the public page per
+the operator's own instruction), no biggest-movers (an internal,
+rank_delta-based diagnostic with no honest plain-language public
+form). ALL of that validation detail remains fully computed and
+recorded, unchanged, in final_validator.run_final_validation /
+final_report.build_final_report -- this script only decides what the
+public page displays, never deletes or waters down what gets computed.
 
 Sourced from:
   - 2026090002_FINAL_TRUTH.json (scripts/178, write-once official
@@ -54,7 +62,7 @@ from klpga.parsers.leaderboard_parser import parse_round_leaderboard_html  # noq
 from klpga.tournament_context import load_tournament_context  # noqa: E402
 from klpga.neo_win import final_validator  # noqa: E402
 from klpga.neo_win.final_truth import load_final_truth  # noqa: E402
-from klpga.neo_win.final_real_page import render_final_validation_sections  # noqa: E402
+from klpga.neo_win.final_real_page import render_final_hero_forecast_line, render_final_public_summary  # noqa: E402
 
 FINAL_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090002" / "final" / "index.html"
 assert_not_root_home(FINAL_PAGE, repo_root=REPO_ROOT)
@@ -156,7 +164,7 @@ def _topk_stats(forecast_by_id: dict, truth_by_id: dict) -> dict:
         precision = len(hits) / len(predicted_ids) if predicted_ids else 0.0
         recall = len(hits) / len(actual_ids) if actual_ids else 0.0
         stats[k] = {
-            "precision": precision, "recall": recall,
+            "precision": precision, "recall": recall, "hit_count": len(hits),
             "predicted_population": len(predicted_ids), "actual_population": len(actual_ids),
         }
     return stats
@@ -241,48 +249,33 @@ def main() -> None:
     runner_up = next(r for r in truth["records"] if r.get("final_rank") == 2)
     winner_to_par = winner_truth["final_score"]  # already a to-par display string, e.g. "-12"
 
-    # ---------------- Validation sections (generic, reused) ----------------
-    result = final_validator.run_final_validation(context)
-    positive, negative = final_validator.biggest_surprises(result, n=5)
+    # ---------------- Internal validation (unchanged, fully computed) --------
+    # final_validator.run_final_validation still runs in full -- every
+    # metric (Brier/log loss/rank MAE/reciprocal rank/tie-aware Top20/
+    # surprises) remains available via final_report.build_final_report
+    # for the internal evidence artifact. Only the PUBLIC page's own
+    # content (below) was simplified per the 2026-09-20 operator
+    # principle -- nothing was removed from what gets computed.
+    final_validator.run_final_validation(context)  # build-time gate: raises FinalValidationBlocked on bad data
     topk_stats = _topk_stats(forecast_by_id, truth_by_id)
 
-    ordered_by_prob = sorted(forecast_by_id.items(), key=_probability_rank_key)
-    top_candidates = []
-    for rank, (pid, fr) in enumerate(ordered_by_prob[:5], start=1):
-        tr = truth_by_id[pid]
-        top_candidates.append({
-            "player_name": fr["player_name"],
-            "sponsor": sponsor_by_id.get(pid),
-            "neo_win_probability_pct": fr["win_pct"],
-            "neo_predicted_rank": rank,
-            "actual_final_rank": tr["final_rank"],
-        })
-
-    def _surprise_dict(s):
-        return {
-            "player_name": s.player_name,
-            "sponsor": sponsor_by_id.get(s.player_id),
-            "predicted_rank": s.predicted_rank,
-            "final_rank": s.final_rank,
-        }
-
-    validation_html = render_final_validation_sections(
-        scope_label=SCOPE_LABEL,
-        top_candidates=top_candidates,
-        topk_stats=topk_stats,
-        metrics={
-            "brier_norm": result.brier_norm,
-            "log_loss": result.log_loss,
-            "rank_mae": result.rank_mae,
-            "reciprocal_rank": result.reciprocal_rank,
-        },
-        positive_surprises=[_surprise_dict(s) for s in positive],
-        negative_surprises=[_surprise_dict(s) for s in negative],
-        rank_mae_is_proxy=result.neo_final_rank_is_derived_proxy,
+    # ---------------- Public summary (plain language, no jargon) -------------
+    winner_win_pct = forecast_by_id[winner_truth["player_id"]]["win_pct"]
+    winner_is_top_pick = winner_win_pct == max(r["win_pct"] for r in forecast_by_id.values())
+    top5, top10 = topk_stats[5], topk_stats[10]
+    hero_forecast_line = render_final_hero_forecast_line(
+        winner_win_probability_pct=winner_win_pct,
+        winner_is_top_pick=winner_is_top_pick,
+    )
+    public_summary_html = render_final_public_summary(
+        top5_predicted=top5["predicted_population"],
+        top5_hit=top5["hit_count"],
+        top10_predicted=top10["predicted_population"],
+        top10_hit=top10["hit_count"],
     )
 
     winner_identity = _player_cell(winner_truth["player_id"], winner_truth["player_name"], country_by_id, sponsor_by_id)
-    del runner_up  # kept for potential future use; not rendered separately (already appears in the leaderboard + top_candidates)
+    del runner_up  # kept for potential future use; not rendered separately (already appears in the leaderboard)
 
     html = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO GOLF DATA · {TOURNAMENT_NAME} FINAL</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../../assets/neo.css"><meta name="neo-stage-publication-ready" content="true"></head><body><header class="neo-global-header" data-neo-global-navigation><div class="neo-global-header__inner"><a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span><span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span><span class="neo-brand-legend__item">EVIDENCE</span><span class="neo-brand-legend__item">ORACLE</span></span></a><nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a><a href="/tournaments/2026/2026090002/final/" class="is-active" aria-current="page">대회</a><a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a><a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header><main><style>@media(max-width:760px){{.hana-tourinfo-sep{{display:none}}.hana-tourinfo-holes{{display:block}}}}
@@ -291,7 +284,7 @@ def main() -> None:
 .leaderboard-table.leaderboard-table--flat-scroll thead th:nth-child(n+3):nth-child(-n+8),
 .leaderboard-table.leaderboard-table--flat-scroll tbody td:nth-child(n+3):nth-child(-n+8){{padding-left:6px;padding-right:6px;text-align:center}}
 }}
-</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">FINAL</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">FINAL</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">우승 {winner_identity} {winner_to_par} ({winner_truth['rounds_completed']}라운드 합계 {raw_by_id[winner_truth['player_id']].total_strokes}타)</p><p class="meta">{TOURNAMENT_VENUE_META}</p></div></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/">R2</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r3/">R3</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/final/" aria-current="page">FINAL</a></li></ol></nav><section class="panel leaderboard-panel" id="final-leaderboard"><div class="leaderboard-head"><h2>FINAL 결과 <small>{len(truth['records'])}명</small></h2><p class="note">{SCOPE_LABEL}</p></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>1R</th><th>2R</th><th>3R</th><th>4R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th></tr></thead><tbody>{''.join(rows_html)}</tbody></table></div></section>{validation_html}</main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/final/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
+</style><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>{TOURNAMENT_NAME}</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">FINAL</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">FINAL</p><h1>{TOURNAMENT_NAME}</h1><p class="meta">{TOURNAMENT_DATE_META}</p><p class="meta">우승 {winner_identity} {winner_to_par} ({winner_truth['rounds_completed']}라운드 합계 {raw_by_id[winner_truth['player_id']].total_strokes}타)</p>{hero_forecast_line}<p class="meta">{TOURNAMENT_VENUE_META}</p></div></section><nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list"><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/pre/">사전 분석 PRE</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r1/">R1</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r2/">R2</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/r3/">R3</a></li><li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/2026090002/final/" aria-current="page">FINAL</a></li></ol></nav><section class="panel leaderboard-panel" id="final-leaderboard"><div class="leaderboard-head"><h2>FINAL 결과 <small>{len(truth['records'])}명</small></h2><p class="note">{SCOPE_LABEL}</p></div><div class="table-wrap table-wrap--flat-scroll"><table class="data leaderboard-table leaderboard-table--flat-scroll"><thead><tr><th>순위</th><th>선수</th><th>합계</th><th>1R</th><th>2R</th><th>3R</th><th>4R</th><th>합계</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승</th></tr></thead><tbody>{''.join(rows_html)}</tbody></table></div></section>{public_summary_html}</main><nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> <a href="/tournaments/2026/2026090002/final/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer></body></html>"""
 
     assert_not_root_home(FINAL_PAGE, repo_root=REPO_ROOT)
     FINAL_PAGE.parent.mkdir(parents=True, exist_ok=True)
