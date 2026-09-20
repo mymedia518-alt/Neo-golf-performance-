@@ -393,6 +393,83 @@ def test_biggest_surprises_ordering(tmp_path, monkeypatch):
 
 
 # ---------------------------------------------------------------
+# RED TEAM FOLLOW-UP (2026-09-20): neo_final_rank proxy disclosure.
+# scripts/180_build_hana_post_r3_forecast_compat.py derives
+# neo_final_rank as a post-hoc probability-rank proxy for Hana
+# (2026090002), rather than reusing KB's own native per-simulation
+# rank. rank_mae/predicted_rank/rank_delta/quadrant classification all
+# depend on neo_final_rank, so the validator and report must clearly
+# disclose when it is a derived proxy rather than a native forecast
+# output, and never present it on the same evidentiary footing as
+# probability-native metrics (Brier/log loss/reciprocal rank/top-k
+# hit) computed directly from the frozen forecast.
+# ---------------------------------------------------------------
+
+
+def test_neo_final_rank_is_not_flagged_as_proxy_when_native(tmp_path, monkeypatch):
+    """The existing fixture snapshot's records carry no
+    neo_final_rank_source -- exactly KB's real schema -- so the
+    validator must never claim a derived proxy where none exists."""
+    context = _build_and_freeze(tmp_path, monkeypatch)
+    _write_truth(tmp_path, context)
+    result = final_validator.run_final_validation(context)
+    assert result.neo_final_rank_is_derived_proxy is False
+    assert "proxy" not in result.rank_proxy_note.lower() or "not a post-hoc proxy" in result.rank_proxy_note
+
+
+def test_neo_final_rank_is_flagged_as_proxy_when_bridge_marked(tmp_path, monkeypatch):
+    """A snapshot whose records carry neo_final_rank_source (exactly
+    what scripts/180's bridge sets for Hana) must be honestly flagged
+    as a derived proxy, with a note explaining which downstream
+    metrics depend on it."""
+    snapshot = _snapshot()
+    for r in snapshot["records"]:
+        r["neo_final_rank_source"] = "derived_probability_rank_v1"
+    context = _build_and_freeze(tmp_path, monkeypatch, snapshot_payload=snapshot)
+    _write_truth(tmp_path, context)
+    result = final_validator.run_final_validation(context)
+    assert result.neo_final_rank_is_derived_proxy is True
+    assert "post-hoc derived probability-rank proxy" in result.rank_proxy_note
+    assert "rank_mae" in result.rank_proxy_note
+    assert "brier_norm" in result.rank_proxy_note
+
+
+def test_report_forecast_performance_separates_native_from_proxy_metrics(tmp_path, monkeypatch):
+    """Red Team fix: forecast_performance must never lump rank_mae in
+    with the probability-native metrics as if they were on the same
+    evidentiary footing."""
+    context = _build_and_freeze(tmp_path, monkeypatch)
+    _write_truth(tmp_path, context)
+    report = final_report.build_final_report(context)
+    perf = report["forecast_performance"]
+    native = perf["frozen_forecast_native_metrics"]
+    proxy = perf["post_hoc_rank_proxy_diagnostics"]
+    assert "rank_mae" not in native
+    assert native["winner_hit"] is True
+    assert native["brier_norm"] == pytest.approx(final_validator.run_final_validation(context).brier_norm)
+    assert proxy["rank_mae"] == pytest.approx(final_validator.run_final_validation(context).rank_mae)
+    assert proxy["neo_final_rank_is_derived_proxy"] is False
+    assert report["neo_pre_final_forecast"]["rank_basis_note"]
+    assert report["surprises_rank_basis_note"]
+
+
+def test_real_hana_2026090002_bridge_forecast_is_marked_as_derived_rank_proxy():
+    """Confirms in code (not just by inspection) that the real Hana
+    schema-compatibility bridge artifact
+    (2026090002_POST_R3_FINAL_FORECAST.json, built by
+    scripts/180_build_hana_post_r3_forecast_compat.py) marks every
+    record's neo_final_rank as a derived proxy -- so any tournament
+    consuming this exact file always gets the honest disclosure,
+    never silently treated as a native forecast output."""
+    from klpga.tournament_context import load_tournament_context
+    real_context = load_tournament_context("2026090002")
+    snapshot = final_pre_freeze.load_pre_final_snapshot(real_context)
+    assert snapshot["records"], "expected the real Hana bridge forecast to have records"
+    for r in snapshot["records"]:
+        assert r.get("neo_final_rank_source") == "derived_probability_rank_v1"
+
+
+# ---------------------------------------------------------------
 # Phase 11 item 5-6: probability range + monotonic invariant
 # ---------------------------------------------------------------
 
@@ -496,7 +573,7 @@ def test_report_partial_when_deep_dive_unavailable(tmp_path, monkeypatch):
     report = final_report.build_final_report(context)
     assert report["status"] == "PARTIAL"
     assert report["course_connection"]["status"] == "BLOCKED"
-    assert report["forecast_performance"]["winner_hit"] is True
+    assert report["forecast_performance"]["frozen_forecast_native_metrics"]["winner_hit"] is True
 
 
 def test_report_complete_when_deep_dive_available(tmp_path, monkeypatch):

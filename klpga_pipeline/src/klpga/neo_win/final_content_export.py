@@ -24,6 +24,8 @@ def _homepage_deep_dive_source(report: dict) -> dict:
 
 def _naver_blog_source(report: dict) -> dict:
     perf = report["forecast_performance"]
+    native = perf["frozen_forecast_native_metrics"]
+    proxy = perf["post_hoc_rank_proxy_diagnostics"]
     return {
         "status": report["status"],
         "event_summary": report["event_summary"],
@@ -32,36 +34,38 @@ def _naver_blog_source(report: dict) -> dict:
         "biggest_surprises": {
             "positive": report["biggest_positive_surprises"],
             "negative": report["biggest_negative_surprises"],
+            "rank_basis_note": report["surprises_rank_basis_note"],
         },
         "course_data": report["course_connection"],
         "neo_validation": {
-            "winner_hit": perf["winner_hit"],
-            "top5_hit": perf["top5_hit"],
-            "top10_hit": perf["top10_hit"],
-            "rank_mae": perf["rank_mae"],
+            "winner_hit": native["winner_hit"],
+            "top5_hit": native["top5_hit"],
+            "top10_hit": native["top10_hit"],
+            "rank_mae": proxy["rank_mae"],
+            "rank_mae_note": proxy["rank_proxy_note"],
         },
     }
 
 
 def _threads_source(report: dict) -> dict:
-    perf = report["forecast_performance"]
+    native = report["forecast_performance"]["frozen_forecast_native_metrics"]
     return {
         "status": report["status"],
         "winner": report["event_summary"]["winner_name"],
-        "neo_called_winner": perf["winner_hit"],
+        "neo_called_winner": native["winner_hit"],
         "top_surprise_positive": (report["biggest_positive_surprises"] or [None])[0],
         "top_surprise_negative": (report["biggest_negative_surprises"] or [None])[0],
     }
 
 
 def _card_news_source(report: dict) -> dict:
-    perf = report["forecast_performance"]
+    native = report["forecast_performance"]["frozen_forecast_native_metrics"]
     return {
         "status": report["status"],
         "cards": [
             {"card": "winner", "value": report["event_summary"]["winner_name"], "message": None},
-            {"card": "neo_winner_hit", "value": perf["winner_hit"], "message": None},
-            {"card": "neo_top5_hit", "value": perf["top5_hit"], "message": None},
+            {"card": "neo_winner_hit", "value": native["winner_hit"], "message": None},
+            {"card": "neo_top5_hit", "value": native["top5_hit"], "message": None},
             {"card": "biggest_positive_surprise", "value": (report["biggest_positive_surprises"] or [None])[0], "message": None},
             {"card": "biggest_negative_surprise", "value": (report["biggest_negative_surprises"] or [None])[0], "message": None},
         ],

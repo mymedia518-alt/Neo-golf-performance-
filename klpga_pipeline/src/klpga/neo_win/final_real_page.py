@@ -219,6 +219,14 @@ def is_final_real_page(html: str) -> bool:
 # ----------------------------------------------------------------
 
 
+RANK_PROXY_FOOTNOTE = (
+    "예상 순위(neo_final_rank)는 PRE-FINAL 예측 당시 존재하지 않았던 사후 생성 "
+    "확률-순위 proxy(win_pct/top10_pct/top5_pct/top20_pct 기준 정렬)이며, Brier·"
+    "Log Loss·Reciprocal Rank·Top5/10/20처럼 원본 forecast 확률에서 직접 계산되는 "
+    "지표와 다른 층위의 참고용 진단 지표다."
+)
+
+
 def render_final_validation_sections(
     *,
     scope_label: str,
@@ -227,11 +235,23 @@ def render_final_validation_sections(
     metrics: dict,  # {"brier_norm":.., "log_loss":.., "rank_mae":.., "reciprocal_rank":..}
     positive_surprises: list,  # [{player_name, sponsor, predicted_rank, final_rank}]
     negative_surprises: list,
+    rank_mae_is_proxy: bool = False,
 ) -> str:
+    """Renders three FINAL-page sections. `rank_mae_is_proxy` (from
+    FinalValidationResult.neo_final_rank_is_derived_proxy) controls
+    whether the rank-based figures below (Rank MAE, every "예상 N위"
+    label, the biggest-movers section) carry the proxy disclosure
+    footnote -- true for a tournament whose neo_final_rank was
+    assembled by a schema-compatibility bridge (e.g. Hana 2026090002),
+    false for a tournament where it is the forecast's own native
+    per-simulation output (e.g. KB 2026090003), so the footnote is
+    never attached to a rank that IS a real production output."""
+    rank_mark = "*" if rank_mae_is_proxy else ""
+
     forecast_rows = "".join(
         "<tr>"
         f"<th scope='row' data-label='선수'>{render_player_identity(c['player_name'], c.get('sponsor'), quote=chr(39))}</th>"
-        f"<td data-label='PRE-FINAL NEO 우승확률'>{c['neo_win_probability_pct']:.2f}% (예상 {c['neo_predicted_rank']}위)</td>"
+        f"<td data-label='PRE-FINAL NEO 우승확률'>{c['neo_win_probability_pct']:.2f}% (예상 {c['neo_predicted_rank']}위{rank_mark})</td>"
         f"<td data-label='FINAL 결과'>{c['actual_final_rank']}위</td>"
         "</tr>"
         for c in top_candidates
@@ -253,11 +273,13 @@ def render_final_validation_sections(
     def _mover_item(m: dict, arrow: str) -> str:
         return (
             f"<li>{render_player_identity(m['player_name'], m.get('sponsor'), quote=chr(39))} "
-            f"<span class='win'>{arrow} NEO 예상 {m['predicted_rank']}위 → FINAL {m['final_rank']}위</span></li>"
+            f"<span class='win'>{arrow} NEO 예상 {m['predicted_rank']}위{rank_mark} → FINAL {m['final_rank']}위</span></li>"
         )
 
     rise_html = "".join(_mover_item(m, "▲") for m in positive_surprises)
     fall_html = "".join(_mover_item(m, "▼") for m in negative_surprises)
+
+    footnote_html = f'<p class="note diagnostic-footnote">{rank_mark} {RANK_PROXY_FOOTNOTE}</p>' if rank_mae_is_proxy else ""
 
     return (
         '<section class="product-section" id="forecast-vs-result">'
@@ -265,17 +287,21 @@ def render_final_validation_sections(
         '<div class="table-wrap"><table class="data"><thead><tr>'
         "<th>선수</th><th>PRE-FINAL NEO 우승확률</th><th>FINAL 결과</th>"
         "</tr></thead><tbody>" + forecast_rows + "</tbody></table></div>"
+        + footnote_html +
         "</section>"
         '<section class="product-section" id="neo-validation">'
         f'<h2>NEO 검증</h2><p class="note">{scope_label} · Brier(norm) {metrics["brier_norm"]:.4f} · '
-        f'Log Loss {metrics["log_loss"]:.4f} · Rank MAE {metrics["rank_mae"]:.2f} · '
+        f'Log Loss {metrics["log_loss"]:.4f} · '
         f'Reciprocal Rank {metrics["reciprocal_rank"]:.3f}</p>'
+        f'<p class="note diagnostic">Rank MAE {metrics["rank_mae"]:.2f}{rank_mark}</p>'
+        + footnote_html +
         '<div class="table-wrap"><table class="data"><thead><tr>'
         "<th>구간</th><th>정밀도</th><th>재현율</th>"
         "</tr></thead><tbody>" + validation_rows + "</tbody></table></div>"
         "</section>"
         '<section class="product-section" id="biggest-movers">'
         "<h2>주요 순위 변동</h2>"
+        + footnote_html +
         f"<h3>상승 (NEO 예상보다 선전)</h3><ul>{rise_html}</ul>"
         f"<h3>하락 (NEO 예상보다 부진)</h3><ul>{fall_html}</ul>"
         "</section>"

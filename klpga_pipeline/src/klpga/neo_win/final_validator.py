@@ -80,6 +80,8 @@ class FinalValidationResult:
     calibration_note: str
     surprises: list  # list of PlayerSurprise
     surprise_classification_rule: dict
+    neo_final_rank_is_derived_proxy: bool
+    rank_proxy_note: str
 
 
 def _require(context: TournamentContext):
@@ -127,6 +129,36 @@ def run_final_validation(context: TournamentContext) -> FinalValidationResult:
         raise FinalValidationBlocked("forecast and FINAL truth share zero player_ids -- cannot join")
 
     raw_win_probabilities = {pid: float(forecast_records[pid]["win_pct"]) / 100.0 for pid in forecast_records}
+
+    # neo_final_rank is either the forecast's own native per-simulation
+    # output (KB's PRE-FINAL forecast) or, for a tournament whose
+    # PRE-FINAL snapshot was assembled by a schema-compatibility bridge
+    # over a probability-only forecast (see e.g.
+    # scripts/180_build_hana_post_r3_forecast_compat.py), a post-hoc
+    # derived probability-rank proxy that did not exist at forecast
+    # time. The bridge marks every record it derives with
+    # neo_final_rank_source; a native forecast never sets this field.
+    # rank_mae and the surprise/quadrant classification below both key
+    # off neo_final_rank, so whichever case applies here determines
+    # whether those diagnostics are on the same evidentiary footing as
+    # the probability-native metrics (Brier/log loss/reciprocal rank/
+    # top-k hit) or a separate, weaker-footing diagnostic layer.
+    is_derived_rank_proxy = any(
+        bool(forecast_records[pid].get("neo_final_rank_source")) for pid in forecast_records
+    )
+    rank_proxy_note = (
+        "neo_final_rank for this tournament is a post-hoc derived probability-rank proxy "
+        "(sorted by win_pct/top10_pct/top5_pct/top20_pct, tie-broken by player_id) -- it did "
+        "not exist in the original PRE-FINAL forecast. rank_mae, predicted_rank, rank_delta, "
+        "and the surprise/quadrant classification all depend on it and are diagnostics on a "
+        "different evidentiary footing than winner_hit/brier_norm/log_loss/top5_hit/top10_hit/"
+        "top20_hit/reciprocal_rank, which are computed directly from the frozen forecast's own "
+        "win/topN probabilities."
+        if is_derived_rank_proxy else
+        "neo_final_rank for this tournament is the forecast's own native per-simulation output, "
+        "not a post-hoc proxy."
+    )
+
     winner_id = str(truth["winner_player_id"])
     if winner_id not in raw_win_probabilities:
         raise FinalValidationBlocked(
@@ -198,6 +230,8 @@ def run_final_validation(context: TournamentContext) -> FinalValidationResult:
         ),
         surprises=surprises,
         surprise_classification_rule=dict(SURPRISE_CLASSIFICATION_RULE),
+        neo_final_rank_is_derived_proxy=is_derived_rank_proxy,
+        rank_proxy_note=rank_proxy_note,
     )
 
 

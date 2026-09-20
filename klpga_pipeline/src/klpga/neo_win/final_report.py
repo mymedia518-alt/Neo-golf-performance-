@@ -85,23 +85,42 @@ def build_final_report(context: TournamentContext) -> dict:
                 [_surprise_to_dict(s) for s in result.surprises],
                 key=lambda d: d["predicted_rank"],
             )[:5],
+            "rank_basis_note": result.rank_proxy_note,
         },
+        # Two evidence tiers, never displayed as one undifferentiated
+        # list of "production forecast metrics" (Red Team finding,
+        # 2026-09-20): group A is computed directly from the frozen
+        # PRE-FINAL forecast's own win/topN probabilities; group B
+        # depends on neo_final_rank, which for some tournaments (see
+        # result.neo_final_rank_is_derived_proxy) is a post-hoc proxy
+        # that never existed at forecast time.
         "forecast_performance": {
-            "winner_hit": result.winner_hit,
-            "winner_predicted_probability_pct": result.winner_predicted_probability_pct,
-            "brier_norm": result.brier_norm,
-            "log_loss": result.log_loss,
-            "rank_mae": result.rank_mae,
-            "top5_hit": result.top5_hit,
-            "top10_hit": result.top10_hit,
-            "top20_hit": result.top20_hit,
-            "reciprocal_rank": result.reciprocal_rank,
-            "field_size": result.field_size,
-            "calibration": result.calibration,
-            "calibration_note": result.calibration_note,
+            "frozen_forecast_native_metrics": {
+                "winner_hit": result.winner_hit,
+                "winner_predicted_probability_pct": result.winner_predicted_probability_pct,
+                "brier_norm": result.brier_norm,
+                "log_loss": result.log_loss,
+                "top5_hit": result.top5_hit,
+                "top10_hit": result.top10_hit,
+                "top20_hit": result.top20_hit,
+                "reciprocal_rank": result.reciprocal_rank,
+                "field_size": result.field_size,
+                "calibration": result.calibration,
+                "calibration_note": result.calibration_note,
+                "group_note": (
+                    "computed directly from the frozen PRE-FINAL forecast's own win/topN "
+                    "probabilities -- no rank proxy involved"
+                ),
+            },
+            "post_hoc_rank_proxy_diagnostics": {
+                "rank_mae": result.rank_mae,
+                "neo_final_rank_is_derived_proxy": result.neo_final_rank_is_derived_proxy,
+                "rank_proxy_note": result.rank_proxy_note,
+            },
         },
         "biggest_positive_surprises": [_surprise_to_dict(s) for s in positive],
         "biggest_negative_surprises": [_surprise_to_dict(s) for s in negative],
+        "surprises_rank_basis_note": result.rank_proxy_note,
         "course_connection": {
             "status": deep_dive.status,
             "reason": deep_dive.reason,

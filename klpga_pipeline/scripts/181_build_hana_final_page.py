@@ -278,6 +278,7 @@ def main() -> None:
         },
         positive_surprises=[_surprise_dict(s) for s in positive],
         negative_surprises=[_surprise_dict(s) for s in negative],
+        rank_mae_is_proxy=result.neo_final_rank_is_derived_proxy,
     )
 
     winner_identity = _player_cell(winner_truth["player_id"], winner_truth["player_name"], country_by_id, sponsor_by_id)
