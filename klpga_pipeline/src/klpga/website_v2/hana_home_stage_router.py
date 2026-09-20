@@ -48,6 +48,7 @@ if str(_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(_ROOT / "src"))
 
 from klpga.neo_win.post_r2_forecast import STAGE_CREATED as _R2_STAGE_CREATED, post_r2_forecast_status  # noqa: E402
+from klpga.neo_win.final_truth import final_truth_exists  # noqa: E402
 from klpga.tournament_context import load_tournament_context  # noqa: E402
 
 GAME_CODE = "2026090002"
@@ -55,6 +56,7 @@ CONTENT = _ROOT / "content" / "website_v2"
 R1_ANALYSIS_PATH = CONTENT / "HANA_2026090002_R1_ANALYSIS_V1.json"
 R3_FREEZE_PATH = CONTENT / "2026090002_R3_FROZEN_EVIDENCE.json"
 R4_FINAL_PREVIEW_PATH = CONTENT / "2026090002_POST_R4_FINAL_PREVIEW.json"
+FINAL_PAGE_PATH = _ROOT.parent / "docs" / "tournaments" / "2026" / GAME_CODE / "final" / "index.html"
 
 
 class HanaHomeStageRouterError(RuntimeError):
@@ -64,6 +66,14 @@ class HanaHomeStageRouterError(RuntimeError):
 
 def hana_current_stage() -> str:
     context = load_tournament_context(GAME_CODE)
+    # FINAL (2026-09-20): real evidence is the write-once FinalTruth
+    # artifact (klpga.neo_win.final_truth, built from the official 4R
+    # leaderboard capture -- scripts/178) AND the FINAL page itself
+    # having actually been published (scripts/181) -- mirrors the same
+    # "evidence THEN page" ordering already used for r2/r3 below, one
+    # more `if`, exactly as this module's own docstring anticipated.
+    if final_truth_exists(context) and FINAL_PAGE_PATH.is_file():
+        return "final"
     if R3_FREEZE_PATH.is_file() and R4_FINAL_PREVIEW_PATH.is_file():
         return "r3"
     if post_r2_forecast_status(context) == _R2_STAGE_CREATED:

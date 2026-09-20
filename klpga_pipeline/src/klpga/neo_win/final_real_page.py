@@ -199,3 +199,84 @@ def render_final_real_page(
 
 def is_final_real_page(html: str) -> bool:
     return STAGE_READY_META in html and 'id="final-leaderboard"' in html
+
+
+# ----------------------------------------------------------------
+# GENERIC extension (Hana 2026090002 FINAL build, 2026-09-20): the
+# forecast-vs-result / validation / movers sections, usable by ANY
+# tournament that has a COMPLETE official FINAL truth (final_truth.py)
+# rather than only a partial/screenshot-evidence tier -- unlike
+# render_final_real_page above (built for KB's specific partial-field
+# scenario), this takes already-computed, generic inputs (plain dicts,
+# no ExtendedFinalComparison/evidence-file coupling) so a caller with a
+# full 64-player (or any N-player) FinalTruth + FinalValidationResult
+# can reuse the SAME design system (render_player_identity, the same
+# CSS classes/table markup) without forking a new one-off page. The
+# caller (e.g. scripts/181_build_hana_final_page.py) owns its own
+# leaderboard shell/hero/stage-nav to match that tournament's own
+# already-established visual convention exactly; this function only
+# supplies the three FINAL-specific sections below it.
+# ----------------------------------------------------------------
+
+
+def render_final_validation_sections(
+    *,
+    scope_label: str,
+    top_candidates: list,  # [{player_name, sponsor, neo_win_probability_pct, neo_predicted_rank, actual_final_rank}]
+    topk_stats: dict,  # {5: {"precision":.., "recall":.., "predicted_population":.., "actual_population":..}, 10:.., 20:..}
+    metrics: dict,  # {"brier_norm":.., "log_loss":.., "rank_mae":.., "reciprocal_rank":..}
+    positive_surprises: list,  # [{player_name, sponsor, predicted_rank, final_rank}]
+    negative_surprises: list,
+) -> str:
+    forecast_rows = "".join(
+        "<tr>"
+        f"<th scope='row' data-label='선수'>{render_player_identity(c['player_name'], c.get('sponsor'), quote=chr(39))}</th>"
+        f"<td data-label='PRE-FINAL NEO 우승확률'>{c['neo_win_probability_pct']:.2f}% (예상 {c['neo_predicted_rank']}위)</td>"
+        f"<td data-label='FINAL 결과'>{c['actual_final_rank']}위</td>"
+        "</tr>"
+        for c in top_candidates
+    )
+
+    def _topk_row(k: int) -> str:
+        t = topk_stats[k]
+        pop_note = f" ({t['actual_population']}명)" if t.get("actual_population") != k else ""
+        return (
+            "<tr>"
+            f"<td data-label='구간'>Top{k}{pop_note}</td>"
+            f"<td data-label='정밀도'>{t['precision'] * 100:.0f}%</td>"
+            f"<td data-label='재현율'>{t['recall'] * 100:.0f}%</td>"
+            "</tr>"
+        )
+
+    validation_rows = "".join(_topk_row(k) for k in (5, 10, 20))
+
+    def _mover_item(m: dict, arrow: str) -> str:
+        return (
+            f"<li>{render_player_identity(m['player_name'], m.get('sponsor'), quote=chr(39))} "
+            f"<span class='win'>{arrow} NEO 예상 {m['predicted_rank']}위 → FINAL {m['final_rank']}위</span></li>"
+        )
+
+    rise_html = "".join(_mover_item(m, "▲") for m in positive_surprises)
+    fall_html = "".join(_mover_item(m, "▼") for m in negative_surprises)
+
+    return (
+        '<section class="product-section" id="forecast-vs-result">'
+        f'<h2>NEO PRE-FINAL 예측 vs FINAL 결과</h2><p class="note">{scope_label}</p>'
+        '<div class="table-wrap"><table class="data"><thead><tr>'
+        "<th>선수</th><th>PRE-FINAL NEO 우승확률</th><th>FINAL 결과</th>"
+        "</tr></thead><tbody>" + forecast_rows + "</tbody></table></div>"
+        "</section>"
+        '<section class="product-section" id="neo-validation">'
+        f'<h2>NEO 검증</h2><p class="note">{scope_label} · Brier(norm) {metrics["brier_norm"]:.4f} · '
+        f'Log Loss {metrics["log_loss"]:.4f} · Rank MAE {metrics["rank_mae"]:.2f} · '
+        f'Reciprocal Rank {metrics["reciprocal_rank"]:.3f}</p>'
+        '<div class="table-wrap"><table class="data"><thead><tr>'
+        "<th>구간</th><th>정밀도</th><th>재현율</th>"
+        "</tr></thead><tbody>" + validation_rows + "</tbody></table></div>"
+        "</section>"
+        '<section class="product-section" id="biggest-movers">'
+        "<h2>주요 순위 변동</h2>"
+        f"<h3>상승 (NEO 예상보다 선전)</h3><ul>{rise_html}</ul>"
+        f"<h3>하락 (NEO 예상보다 부진)</h3><ul>{fall_html}</ul>"
+        "</section>"
+    )

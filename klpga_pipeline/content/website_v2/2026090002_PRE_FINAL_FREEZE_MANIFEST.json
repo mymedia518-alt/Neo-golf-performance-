@@ -1,0 +1,24 @@
+{
+  "schema_version": "neo_pre_final_freeze_manifest_v1",
+  "status": "FROZEN",
+  "game_code": "2026090002",
+  "tournament_name": "하나금융그룹 챔피언십",
+  "forecast_source_round": "R3",
+  "snapshot_type": "PRE_FINAL_R3",
+  "snapshot_artifact": "2026090002_POST_R3_FINAL_FORECAST.json",
+  "created_at": "hana_post_r3_final_forecast_compat_bridge_v1",
+  "verified_at": "2026-09-20T10:09:21Z",
+  "model_version": "hana_post_r3_final_forecast_compat_bridge_v1",
+  "code_commit": "bridge_from_frozen_pre_final_preview_artifact",
+  "seed": 20260918,
+  "input_fingerprint": "e44bce2444e77e2e8cfb72d3309ff3f6ffe39f6f05a0b9eebb4cc654e1dff56e",
+  "snapshot_sha256": "0dce89de0d37c5b7abae0ef674694807694fc1c4bc4fa56c9bd0371f9cac7798",
+  "player_count": 64,
+  "future_data_excluded": true,
+  "future_leakage_check": "PASS",
+  "surprise_classification_rule": {
+    "neo_high_if": "neo_final_rank <= 10",
+    "actual_high_if": "final_rank <= 10",
+    "rationale": "matches the existing top10_pct / top_k_hit(10) threshold already used as this project's secondary headline metric -- not invented for this classification"
+  }
+}

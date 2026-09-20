@@ -122,35 +122,46 @@ def test_home_body_mirrors_the_real_published_hana_pre_page_exactly():
 
 
 KB_ONLY_HOME_SECTION_IDS = (
-    "r3-forecast-visual", "final-leaderboard", "forecast-vs-result",
-    "neo-validation", "biggest-movers", "why-the-winner-won",
+    "r3-forecast-visual", "why-the-winner-won",
 )
+
+# HANA FINAL BUILD UPDATE (2026-09-20): "final-leaderboard" /
+# "forecast-vs-result" / "neo-validation" / "biggest-movers" are NO
+# LONGER KB-exclusive -- Hana's own real FINAL page (scripts/181,
+# reusing klpga.neo_win.final_real_page.render_final_validation_sections,
+# the SAME shared generic section-id vocabulary KB's own FINAL build
+# established) now legitimately carries these same section ids once
+# HOME mirrors Hana's real current stage (hana_home_stage_router.
+# hana_current_stage() == "final"). What remains genuinely KB-only,
+# and must never leak onto HOME, is checked below instead: KB's own
+# R3-forecast-visual figure, KB's own "why-the-winner-won" write-up,
+# and any KB-specific text/sponsor/name.
 
 
 def test_home_has_no_leftover_kb_only_sections_or_explanations():
-    """HANA PRE FULL REPLACEMENT (2026-09-16): every KB-only product
-    section previously mirrored onto HOME from KB's own FINAL page (the
-    R3-forecast-visual figure, the full FINAL leaderboard, forecast-vs-
-    result, NEO validation, biggest-movers, and the winner-analysis
-    write-up) must be completely absent from HOME now -- Hana's own PRE
-    page has none of that data (it hasn't happened yet), and nothing
-    KB-specific may linger as stale/unnecessary content on the new
-    HOME body."""
+    """HANA PRE FULL REPLACEMENT (2026-09-16), updated for the FINAL
+    build (2026-09-20): the section-id vocabulary check above is now
+    narrowed to what is genuinely still KB-exclusive (see the module
+    comment above KB_ONLY_HOME_SECTION_IDS) -- Hana's own real FINAL
+    page legitimately reuses the shared final-leaderboard/forecast-vs-
+    result/neo-validation/biggest-movers ids once HOME mirrors it.
+    Nothing KB-specific (its own winner write-up, its own r3-forecast
+    figure, its own sponsor names) may still linger on HOME."""
     home_html = DOCS_INDEX.read_text(encoding="utf-8")
     for section_id in KB_ONLY_HOME_SECTION_IDS:
         assert f'<section class="product-section" id="{section_id}">' not in home_html, (
-            f"KB-only section {section_id!r} must not remain on HOME after the Hana PRE swap"
+            f"KB-only section {section_id!r} must not remain on HOME"
         )
     assert "우승 포인트" not in home_html
     assert "골든라이프" not in home_html
 
 
 def test_home_omits_biggest_movers_but_kb_final_page_still_has_it_structured_and_bullet_free():
-    """HANA PRE FULL REPLACEMENT (2026-09-16): HOME no longer carries a
-    biggest-movers section at all (Hana's PRE stage has no results to
-    move between -- covered by test_home_has_no_leftover_kb_only_
-    sections_or_explanations too; re-asserted here for this specific
-    section as this test's own direct precondition).
+    """HANA PRE FULL REPLACEMENT (2026-09-16), updated for the FINAL
+    build (2026-09-20): HOME MAY now carry its own biggest-movers
+    section -- it is Hana's own, once HOME mirrors Hana's real current
+    stage (see the KB_ONLY_HOME_SECTION_IDS comment above) -- so that
+    blanket absence check is dropped here.
 
     What this test still protects, unchanged from before the Hana
     swap: KB's own dedicated FINAL page file was never touched by that
@@ -164,9 +175,6 @@ def test_home_omits_biggest_movers_but_kb_final_page_still_has_it_structured_and
     historical fact is what is being preserved here, not re-asserted as
     if it were new)."""
     import re
-
-    home_html = DOCS_INDEX.read_text(encoding="utf-8")
-    assert '<section class="product-section" id="biggest-movers">' not in home_html
 
     final_html = FINAL_PAGE.read_text(encoding="utf-8")
     start = final_html.find('<section class="product-section" id="biggest-movers">')
