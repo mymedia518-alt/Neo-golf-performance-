@@ -11,18 +11,14 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--game",required=True)
     ap.add_argument("--player-code",required=True)
-    ap.add_argument("--player-name",required=True)
     ap.add_argument("--cache",type=Path,default=Path("cache/cmpro"))
     a=ap.parse_args()
     client=PoliteHttpClient(a.cache)
     players=parse_cmpro_players(fetch_cmpro_leaderboard_html(client,a.game))
     official_name=players.get(a.player_code)
     if official_name is None:
-        print(f"PLAYER_NOT_FOUND game={a.game} code={a.player_code} name={a.player_name}",flush=True)
+        print(f"PLAYER_NOT_FOUND game={a.game} code={a.player_code}",flush=True)
         raise SystemExit(3)
-    if a.player_name not in official_name and official_name not in a.player_name:
-        print(f"PLAYER_IDENTITY_MISMATCH game={a.game} code={a.player_code} expected={a.player_name} official={official_name}",flush=True)
-        raise SystemExit(4)
     scope=parse_cmpro_played_holes(fetch_player_score_html(client,a.game,a.player_code))
     if not scope:
         print(f"NO_PLAYED_HOLES game={a.game} code={a.player_code} official={official_name}",flush=True)
