@@ -23,7 +23,15 @@ try {
         throw "live single-hole gate failed"
     }
 
-    Write-Host "[GATE COMPLETE] require SUMMARY PASS before full collection."
+    Write-Host "[GATE COMPLETE] single-hole live PASS."
+
+    $ProbeOut = "data/cmpro_" + $GameCode + "_" + $Player + "_playerScore.html"
+    py scripts/probe_cmpro_player_score.py --game $GameCode --player $Player --out $ProbeOut
+    if ($LASTEXITCODE -ne 0) {
+        throw "playerScore probe failed"
+    }
+
+    Write-Host "[PLAYER SCORE PROBE COMPLETE] inspect structure before full collection."
 }
 finally {
     Pop-Location
