@@ -54,6 +54,14 @@ def parse_cmpro_players(html: str) -> dict[str, str]:
     return players
 
 
+def fetch_player_score_html(client: PoliteHttpClient, game_code: str, player_code: str, *, use_cache: bool = True) -> str:
+    return client.get_text(
+        PLAYER_SCORE_ENDPOINT,
+        params={"gameCode": game_code, "playerCode": player_code, "lang": "kr"},
+        use_cache=use_cache,
+    )
+
+
 def fetch_player_info_html(
     client: PoliteHttpClient, game_code: str, player_code: str, round_number: int, hole: int,
     *, use_cache: bool = True,
