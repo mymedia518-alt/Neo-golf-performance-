@@ -8,3 +8,9 @@ def test_collect_hole_is_idempotent_and_resume_skips_pass(tmp_path,monkeypatch):
  assert collect_hole(object(),c,"G","P","선수",4,18)==("PASS",2)
  assert collect_hole(object(),c,"G","P","선수",4,18)==("SKIP_PASS",0)
  assert c.execute("select count(*) from shot_event").fetchone()[0]==2
+
+
+def test_player_score_scope_excludes_unplayed_rounds():
+ import scripts.collect_cmpro_shots as m
+ html='<div _round="1"><span _hole="1">4</span><span _hole="18">5</span></div><div _round="2"><span _hole="1">4</span></div>'
+ assert m.parse_cmpro_played_holes(html)=={1:[1,18],2:[1]}
