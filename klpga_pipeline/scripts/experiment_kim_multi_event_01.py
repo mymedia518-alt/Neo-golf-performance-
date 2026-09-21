@@ -72,9 +72,8 @@ def main():
       ("2026040004",a.root/"data/player_cmpro/cmpro_2026040004_player_10097.sqlite",a.root/"data/raw_cache/score_record_sample_2026040004.html"),
       ("2026060003",a.root/"data/player_cmpro/cmpro_2026060003_player_10097.sqlite",a.root/"data/raw_cache/score_record_sample_2026060003.html"),
       ("2026080002",a.root/"data/player_cmpro/cmpro_2026080002_player_10097.sqlite",a.root/"data/raw_cache/score_record_sample_2026080002.html"),
-      ("2026090003",a.root/"data/player_cmpro/cmpro_2026090003_player_10097.sqlite",a.root/"data/raw_cache/score_record_sample_2026090003.html"),
-      ("2026090002",a.root/"data/cmpro_2026090002_full.sqlite",a.root/"data/official/score_record_2026090002.html")]
-    result={"experiment":"kim_multi_event_error_chain_decision_map_01","methodology":{"observed_only":True,"expected_strokes":False,"strokes_gained":False,"causality_claimed":False},"events":{}}
+      ("2026090003",a.root/"data/player_cmpro/cmpro_2026090003_player_10097.sqlite",a.root/"data/raw_cache/score_record_sample_2026090003.html")]
+    result={"experiment":"kim_multi_event_error_chain_decision_map_01","methodology":{"observed_only":True,"expected_strokes":False,"strokes_gained":False,"causality_claimed":False},"baseline_note":"2026090002 Hana is intentionally excluded from this local run because its validated full DB lives in a separate worktree; compare against the already validated Hana metrics separately.","events":{}}
     all_states=[]; total_holes=0
     for game,db,score in games:
         if not db.is_file(): raise SystemExit(f"BLOCKED: missing DB {db}")
