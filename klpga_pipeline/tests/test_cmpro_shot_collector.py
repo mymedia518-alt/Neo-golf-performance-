@@ -1,4 +1,4 @@
-from klpga.collectors.cmpro_shots import parse_cmpro_players, parse_cmpro_shots, validate_cmpro_hole
+from klpga.collectors.cmpro_shots import parse_cmpro_players, parse_cmpro_shots, validate_cmpro_hole, parse_cmpro_played_holes
 
 SAMPLE = """
 <div _playerCode="10097" _playerName="김민선7"></div>
@@ -24,3 +24,11 @@ def test_cmpro_player_code_and_name():
 def test_cmpro_sequence_gap_fails():
     html = SAMPLE.replace("SHOT 2", "SHOT 7")
     assert validate_cmpro_hole(parse_cmpro_shots(html)) == "FAIL_SHOT_SEQUENCE"
+
+
+def test_parse_played_holes_uses_round_and_hole_attributes():
+    html = """
+    <div _round="1"><span _hole="1">4</span><span _hole="18">5</span></div>
+    <div _round="2"><span _hole="1">4</span><span _hole="18">4</span></div>
+    """
+    assert parse_cmpro_played_holes(html) == {1: [1, 18], 2: [1, 18]}
