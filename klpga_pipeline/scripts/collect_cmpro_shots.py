@@ -44,5 +44,9 @@ def main():
     for hole in holes:
      qa,n=collect_hole(client,conn,a.game,code,name,rnd,hole,a.force);counts[qa]=counts.get(qa,0)+1;print(f"{code} R{rnd} H{hole:02d} {qa} shots={n}",flush=True)
   export_csv(conn,a.out.with_suffix(".csv"));print("SUMMARY",counts,flush=True)
+  bad={k:v for k,v in counts.items() if k not in ("PASS","SKIP_PASS")}
+  if bad:
+   print("QA_FAIL",bad,flush=True)
+   raise SystemExit(2)
  finally:conn.close()
 if __name__=="__main__":main()
