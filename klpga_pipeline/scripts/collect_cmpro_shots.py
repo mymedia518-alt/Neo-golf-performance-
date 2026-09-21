@@ -1,8 +1,10 @@
 """Collect cmpro shot-level data into an isolated SQLite warehouse."""
 from __future__ import annotations
-import argparse,csv,hashlib,sqlite3
+import argparse,csv,hashlib,sqlite3,sys
 from datetime import datetime,timezone
 from pathlib import Path
+SRC_ROOT=Path(__file__).resolve().parents[1]/"src"
+if str(SRC_ROOT) not in sys.path: sys.path.insert(0,str(SRC_ROOT))
 from klpga.collectors.cmpro_shots import fetch_cmpro_leaderboard_html,fetch_player_info_html,parse_cmpro_players,parse_cmpro_shots,validate_cmpro_hole
 from klpga.http_client import PoliteHttpClient
 SCHEMA="""CREATE TABLE IF NOT EXISTS shot_event(game_code TEXT NOT NULL,player_code TEXT NOT NULL,player_name TEXT,round_number INTEGER NOT NULL,hole INTEGER NOT NULL,shot_no INTEGER NOT NULL,start_distance_yd REAL,start_lie TEXT,shot_distance_yd REAL NOT NULL,end_distance_yd REAL NOT NULL,end_lie TEXT NOT NULL,source_hash TEXT NOT NULL,collected_at TEXT NOT NULL,qa_status TEXT NOT NULL,PRIMARY KEY(game_code,player_code,round_number,hole,shot_no));
