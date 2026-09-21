@@ -39,6 +39,7 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from klpga.collectors.cmpro_shots import PLAYER_SCORE_ENDPOINT, parse_cmpro_played_holes
+from klpga.collectors.score_record import parse_score_record_hole_by_hole
 
 NAMED_NO_PLAYED_HOLES = {
     "9702": "김리안",
@@ -75,8 +76,14 @@ def main() -> None:
     ap.add_argument("--cache-dir", type=Path, default=None)
     ap.add_argument("--search-root", type=Path, default=Path(__file__).resolve().parents[2])
     ap.add_argument("--official-score-source", type=Path, default=None,
-                     help="Optional: a JSON/CSV file with official per-hole scores, if you have one. "
+                     help="Optional: a real, already-saved klpga.co.kr scoreRecord HTML page "
+                          "(GET /web/tourRecord/scoreRecord?gameCode=<game>) for this exact game. "
+                          "Never fetched by this script -- point it at a file you already have. "
                           "Without it, [SCORE CROSS CHECK] reports structure-only.")
+    ap.add_argument("--official-score-rounds", default="round-one,round-two,round-three,round-four",
+                     help="Comma-separated round-tab ids to read from --official-score-source, "
+                          "e.g. round-one,round-two. Only rounds actually present in the page are used; "
+                          "others are reported as BLOCKED, never guessed.")
     a = ap.parse_args()
 
     pipeline_root = Path(__file__).resolve().parents[1]
@@ -320,18 +327,93 @@ def main() -> None:
 
     # ---------------------------------------------------------------
     print("\n[SCORE CROSS CHECK]")
-    if a.official_score_source and a.official_score_source.is_file():
-        print("official_score_source =", a.official_score_source, "(present -- extend this script's logic to parse it; not auto-implemented since its schema is unknown)")
-    else:
+    if not (a.official_score_source and a.official_score_source.is_file()):
         print("official_score_source = NOT PROVIDED")
-        print("This branch (feat/cmpro-shot-data-v0) is rooted at an early scaffold commit and does not")
-        print("contain any of the later official per-round/per-hole score artifacts for 2026090002 (those")
-        print("live only on neo-website-v2 and its descendants). No official per-hole stroke source is")
-        print("reachable from here, so a real matched/+1/+2/negative/PENALTY_REVIEW breakdown cannot be")
-        print("computed by this script as-is.")
-        print("cmpro's own per-hole shot_count is available above ([PLAYER COVERAGE] / [SHOT SANITY]) and")
-        print("can be diffed against an official per-hole score file once you point --official-score-source")
-        print("at one (or tell me its exact path/schema and I will extend this script).")
+        print("No official-scoreRecord capture for game_code", game, "is reachable from this repo -- that")
+        print("page (klpga.co.kr /web/tourRecord/scoreRecord) has never been fetched for this specific")
+        print("tournament, and this script never fetches it itself (no network calls). Point")
+        print("--official-score-source at a real, already-saved scoreRecord HTML page for", game, "(and")
+        print("--official-score-rounds at the round-tab ids it actually contains, e.g. round-one,round-two)")
+        print("to get a real matched/+1/+2/negative/UNMATCHED breakdown. cmpro's own per-hole shot_count")
+        print("remains available above ([PLAYER COVERAGE] / [SHOT SANITY]) either way.")
+    else:
+        official_html = a.official_score_source.read_text(encoding="utf-8")
+        round_tab_ids = [r.strip() for r in (a.official_score_rounds or "").split(",") if r.strip()]
+        if not round_tab_ids:
+            print("official_score_source =", a.official_score_source, "-- BLOCKED: --official-score-rounds not given")
+            print("(e.g. --official-score-rounds round-one,round-two,round-three,round-four)")
+        else:
+            print("official_score_source =", a.official_score_source)
+            print("official_score_rounds requested =", round_tab_ids)
+
+            _ROUND_TAB_TO_NUMBER = {"round-one": 1, "round-two": 2, "round-three": 3, "round-four": 4}
+            official_by_round: dict[int, dict[str, dict]] = {}
+            for tab_id in round_tab_ids:
+                rnd = _ROUND_TAB_TO_NUMBER.get(tab_id)
+                if rnd is None:
+                    print(f"  SKIP {tab_id!r}: not one of round-one/round-two/round-three/round-four")
+                    continue
+                try:
+                    rows = parse_score_record_hole_by_hole(official_html, round_tab_id=tab_id)
+                except ValueError as exc:
+                    print(f"  {tab_id} -> BLOCKED: {exc}")
+                    continue
+                official_by_round[rnd] = {r["player_name"]: r for r in rows}
+                print(f"  {tab_id} (round {rnd}) -> {len(rows)} official player rows parsed")
+
+            if official_by_round:
+                # cmpro side: player_code -> player_name, from hole_audit itself (real, as collected)
+                cmpro_name_by_code = {}
+                for row in q("SELECT DISTINCT player_code, player_name FROM hole_audit WHERE game_code=?", (game,)):
+                    cmpro_name_by_code[row["player_code"]] = row["player_name"]
+
+                buckets = defaultdict(list)  # classification -> [(player_code,name,round,hole,cmpro,official,diff)]
+                eight_plus_review = []
+                for row in q("SELECT player_code,round_number,hole,shot_count,qa_status FROM hole_audit WHERE game_code=?", (game,)):
+                    rnd, hole, code = row["round_number"], row["hole"], row["player_code"]
+                    cmpro_shots = row["shot_count"]
+                    name = cmpro_name_by_code.get(code, "")
+                    official_row = official_by_round.get(rnd, {}).get(name)
+                    if official_row is None:
+                        buckets["UNMATCHED"].append((code, name, rnd, hole, cmpro_shots, None, None))
+                    else:
+                        official_score = official_row["holes"].get(hole)
+                        if official_score is None:
+                            buckets["UNMATCHED"].append((code, name, rnd, hole, cmpro_shots, None, None))
+                        else:
+                            diff = official_score - cmpro_shots
+                            if diff == 0:
+                                buckets["MATCH"].append((code, name, rnd, hole, cmpro_shots, official_score, diff))
+                            elif diff == 1:
+                                buckets["OFFICIAL_PLUS_1"].append((code, name, rnd, hole, cmpro_shots, official_score, diff))
+                            elif diff >= 2:
+                                buckets["OFFICIAL_PLUS_2_OR_MORE"].append((code, name, rnd, hole, cmpro_shots, official_score, diff))
+                            else:
+                                buckets["CMPRO_GREATER_THAN_OFFICIAL"].append((code, name, rnd, hole, cmpro_shots, official_score, diff))
+                    if cmpro_shots >= 8:
+                        eight_plus_review.append((code, name, rnd, hole, cmpro_shots,
+                                                   official_row["holes"].get(hole) if official_row else None))
+
+                for label in ("MATCH", "OFFICIAL_PLUS_1", "OFFICIAL_PLUS_2_OR_MORE", "CMPRO_GREATER_THAN_OFFICIAL", "UNMATCHED"):
+                    rows = buckets[label]
+                    print(f"{label} = {len(rows)}")
+                    if label != "MATCH":
+                        for r in rows[:30]:
+                            print("   ", r)
+
+                print("\n[8+ SHOT REVIEW]")
+                print("player_code,player_name,round,hole,cmpro_shots,official_score,difference")
+                for code, name, rnd, hole, cshots, official in sorted(eight_plus_review, key=lambda x: -x[4]):
+                    diff = (official - cshots) if official is not None else None
+                    print(f"{code},{name},{rnd},{hole},{cshots},{'' if official is None else official},{'' if diff is None else diff}")
+
+                penalty_review = buckets["OFFICIAL_PLUS_2_OR_MORE"] + buckets["CMPRO_GREATER_THAN_OFFICIAL"]
+                print("\n[PENALTY PATTERN]")
+                print("PENALTY_REVIEW candidates (difference >= +2, or cmpro > official -- NOT asserted as errors) =", len(penalty_review))
+                for r in penalty_review[:30]:
+                    print("   ", r)
+            else:
+                print("No official rounds were successfully parsed -- see BLOCKED lines above; no cross-check computed.")
 
     conn.close()
 

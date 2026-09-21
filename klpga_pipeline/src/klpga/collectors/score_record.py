@@ -120,3 +120,117 @@ def parse_score_record_html(html: str) -> list[dict]:
             raise ValueError(f"conflicting scoreRecord rows for player_name={row['player_name']!r}")
         by_name[row["player_name"]] = row
     return list(by_name.values())
+
+
+# ---------------------------------------------------------------------
+# Hole-by-hole extraction (NEO CMPRO FULL COLLECTION score cross-check,
+# 2026-09-21). CONFIRMED real structure: a captured scoreRecord page's
+# per-round tab-pane (id="round-one"/"round-two"/etc., same id scheme
+# already used by GROUP_PAGE_ENDPOINT's own round tab-panes) contains
+# ONE table whose <thead> repeats hole numbers 1-9 then "OUT" then
+# 10-18 then "IN", and whose <tbody><tr> rows carry, in the SAME
+# column order, one <td> per hole holding the player's real stroke
+# count as its own text (the td's CSS class -- "par"/"birdies"/
+# "bogeys"/etc. -- is only a to-par color hint, never itself the
+# value). Directly inspected from a real captured page (game_code
+# 2026120001, round-one) -- see
+# tests/fixtures/score_record_2026120001_round_one_trimmed_real_excerpt.html,
+# a byte-faithful trimmed slice of that real capture (kept: <thead> +
+# the first 6 real <tbody> rows). NOT confirmed for game 2026090002
+# specifically -- this game code was never captured -- so this
+# function is generic: round_tab_id/game code are never hardcoded, and
+# it raises rather than guesses if a round's tab-pane/table is absent
+# or its cell layout differs from what was confirmed here.
+# ---------------------------------------------------------------------
+
+def _clean_cell_text(text: str) -> str:
+    """Collapses whitespace AND the real captured page's own literal
+    two-character "\\n" escape sequences (confirmed present as actual
+    text content inside td.rank on the real fixture -- not real
+    newline characters, which get_text(strip=True) already handles;
+    an artifact of the page's own markup, not a parsing bug here)."""
+    return " ".join(text.replace("\\n", " ").split())
+
+
+def _hole_cell_int_or_none(text: str) -> "int | None":
+    text = _clean_cell_text(text)
+    if not text:
+        return None
+    try:
+        return int(text)
+    except ValueError:
+        return None
+
+
+def parse_score_record_hole_by_hole(html: str, *, round_tab_id: str) -> list[dict]:
+    """Parse one round's own tab-pane (round_tab_id="round-one" for R1,
+    "round-two" for R2, etc. -- caller-supplied, never hardcoded here)
+    from a real captured scoreRecord page, extracting each player's
+    real per-hole stroke count. Raises ValueError -- never returns a
+    fabricated/empty result -- if that round's tab-pane, its table, or
+    a row's expected 9-cell front/back-nine cell counts are missing:
+    this function refuses to guess which cells are holes rather than
+    silently mis-mapping scores to the wrong hole.
+
+    Returns a list of {"player_name": str, "rank_display": str,
+    "official_status": str | None ("WD"/"DQ"/"DNS"/"CUT" or None),
+    "holes": {1: int | None, ..., 18: int | None}} -- one entry per
+    real player row (a divider/non-player row, e.g. a cut-boundary
+    row, has no td.rank/td.name/td.out/td.in and is skipped). A hole
+    value of None means the real cell's own text was blank (e.g. a
+    round not yet completed for that player) -- never coerced to 0 or
+    any other guessed number."""
+    soup = BeautifulSoup(html, "html.parser")
+    container = soup.select_one(f"#{round_tab_id}")
+    if container is None:
+        raise ValueError(
+            f"scoreRecord round tab-pane #{round_tab_id} not found in this page -- "
+            "that round was not captured/published in it."
+        )
+    table = container.find("table")
+    if table is None:
+        raise ValueError(f"scoreRecord table missing inside #{round_tab_id}")
+    tbody = table.find("tbody")
+    if tbody is None:
+        raise ValueError(f"scoreRecord tbody missing inside #{round_tab_id}")
+
+    rows: list[dict] = []
+    for tr in tbody.find_all("tr", recursive=False):
+        tds = tr.find_all("td", recursive=False)
+        if not tds:
+            continue
+        rank_cell = tr.select_one("td.rank")
+        name_cell = tr.select_one("td.name")
+        out_cell = tr.select_one("td.out")
+        in_cell = tr.select_one("td.in")
+        if not (rank_cell and name_cell and out_cell and in_cell):
+            continue  # a divider/non-player row -- never guessed as a player
+
+        rank_display = _clean_cell_text(rank_cell.get_text(" ", strip=True))
+        player_name = _clean_cell_text(name_cell.get_text(" ", strip=True))
+
+        out_idx = tds.index(out_cell)
+        in_idx = tds.index(in_cell)
+        front_nine_cells = tds[out_idx - 9:out_idx]
+        back_nine_cells = tds[in_idx - 9:in_idx]
+        if len(front_nine_cells) != 9 or len(back_nine_cells) != 9:
+            raise ValueError(
+                f"expected 9 hole cells before OUT and 9 before IN for player {player_name!r}, "
+                f"found {len(front_nine_cells)} and {len(back_nine_cells)} -- this page's real "
+                "cell layout differs from what was confirmed; refusing to guess which cells are holes."
+            )
+
+        holes: dict[int, "int | None"] = {}
+        for h, cell in enumerate(front_nine_cells, start=1):
+            holes[h] = _hole_cell_int_or_none(cell.get_text(strip=True))
+        for h, cell in enumerate(back_nine_cells, start=10):
+            holes[h] = _hole_cell_int_or_none(cell.get_text(strip=True))
+
+        status = rank_display.upper() if rank_display.upper() in {"WD", "DQ", "DNS", "CUT"} else None
+        rows.append({
+            "player_name": player_name,
+            "rank_display": rank_display,
+            "official_status": status,
+            "holes": holes,
+        })
+    return rows
