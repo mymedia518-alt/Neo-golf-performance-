@@ -50,7 +50,7 @@ def hole_records(rows):
             "strokes": strokes,
             "to_par": strokes - par,
             "tee_end_lie": first.end_lie if first.shot_no == 1 else "",
-            "green_entry_remaining_yd": entry.end_distance_yd if entry else None,
+            "green_entry_remaining_yd": entry.end_distance_yd if entry else None,\n            "green_entry_shot_no": entry.shot_no if entry else None,
         })
     return rec
 
@@ -75,19 +75,10 @@ def miss_cost(recs):
 
 def damage_control(recs):
     xs = [x for x in recs if x["par"] in (4, 5) and x["tee_end_lie"] == ROUGH]
-    n = len(xs)
-
-    def cnt(fn):
-        return sum(1 for x in xs if fn(x["to_par"]))
-
-    par_or_better = cnt(lambda z: z <= 0)
-    bogey = cnt(lambda z: z == 1)
-    double_plus = cnt(lambda z: z >= 2)
     return {
-        "n": n,
-        "par_or_better": {"count": par_or_better, "rate": par_or_better / n if n else None},
-        "bogey": {"count": bogey, "rate": bogey / n if n else None},
-        "double_or_worse": {"count": double_plus, "rate": double_plus / n if n else None},
+        "combined": _damage_bucket(xs),
+        "par4": _damage_bucket([x for x in xs if x["par"] == 4]),
+        "par5": _damage_bucket([x for x in xs if x["par"] == 5]),
     }
 
 
@@ -123,11 +114,24 @@ def opportunity(recs):
     return out
 
 
+def opportunity_by_par_and_entry(recs):
+    out = {}
+    for par in (3, 4, 5):
+        par_rows = [x for x in recs if x["par"] == par]
+        par_out = {}
+        for entry_no in sorted({x["green_entry_shot_no"] for x in par_rows if x["green_entry_shot_no"] is not None}):
+            rows = [x for x in par_rows if x["green_entry_shot_no"] == entry_no]
+            par_out[f"entry_shot_{entry_no}"] = opportunity(rows)
+        out[f"par{par}"] = par_out
+    return out
+
+
 def metrics(recs):
     return {
         "miss_cost": miss_cost(recs),
         "damage_control": damage_control(recs),
         "opportunity_conversion": opportunity(recs),
+        "opportunity_controlled": opportunity_by_par_and_entry(recs),
     }
 
 
@@ -191,6 +195,7 @@ def main():
             "miss_cost_definition": "Par4/5 rough tee-end avg hole-to-par minus fairway tee-end avg hole-to-par",
             "damage_control_definition": "Par4/5 holes whose tee shot ended rough; final hole outcome distribution",
             "opportunity_definition": "birdie-or-better rate by first-green-entry remaining-distance bucket",
+            "controlled_checks": "damage split by Par4/Par5; opportunity split by par and green-entry shot number",
             "causality_claimed": False,
         },
         "qa": {
