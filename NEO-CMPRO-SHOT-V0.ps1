@@ -1,16 +1,1 @@
-param(
-  [string]$GameCode = "2026090002",
-  [string]$Branch = "feat/cmpro-shot-data-v0"
-)
-$ErrorActionPreference = "Stop"
-Write-Host "[NEO CMPRO] game=$GameCode branch=$Branch"
-git fetch origin
-git checkout $Branch
-if ($LASTEXITCODE -ne 0) { throw "git checkout failed" }
-Push-Location klpga_pipeline
-try {
-  py -m pytest tests/test_cmpro_shot_collector.py -q
-  if ($LASTEXITCODE -ne 0) { throw "cmpro unit test failed" }
-  Write-Host "[PASS] cmpro parser unit tests"
-  Write-Host "[NEXT] Full live collector runner will be enabled only after the parser tests pass locally."
-} finally { Pop-Location }
+param([string]$GameCode="2026090002",[string]$Player="10097",[int]$Round=4,[int]$Hole=18)\n$ErrorActionPreference="Stop"\ngit fetch origin\ngit checkout feat/cmpro-shot-data-v0\nPush-Location klpga_pipeline\ntry {\n  py -m pytest tests/test_cmpro_shot_collector.py tests/test_cmpro_shot_runner.py -q\n  if($LASTEXITCODE -ne 0){throw "cmpro tests failed"}\n  $Out = "data/cmpro_" + $GameCode + "_gate.sqlite"\n  py scripts/collect_cmpro_shots.py --game $GameCode --player $Player --round $Round --hole $Hole --out $Out\n  if($LASTEXITCODE -ne 0){throw "live single-hole gate failed"}\n  Write-Host "[GATE COMPLETE] require SUMMARY PASS before full collection."\n} finally {Pop-Location}\n
