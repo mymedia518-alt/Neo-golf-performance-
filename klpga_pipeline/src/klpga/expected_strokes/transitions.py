@@ -91,6 +91,7 @@ class TransitionRow:
     end_distance_yd: float
     end_lie: str
     holed: bool
+    zero_distance_ambiguous: bool
     official_hole_score: Optional[int]
 
 
@@ -119,11 +120,22 @@ def build_transition_dataset(
     for gc, pc, pn, rnd, hole, shot_no, sdist, slie, edist, elie in cur:
         par = (par_by_round_hole or {}).get((rnd, hole))
         official = (official_score_by_player_round_hole or {}).get((pn, rnd, hole))
-        holed = (elie == "홀인") or (edist == 0.0)
+        # STRICT: holed is determined ONLY from the real end_lie=="홀인"
+        # evidence, never from end_distance_yd==0.0 alone -- a real,
+        # DB-confirmed finding (17 rows on the real 2026090002 data)
+        # showed end_distance_yd==0.0 with a end_lie that is NOT "홀인",
+        # meaning distance-zero alone is not reliable holed evidence.
+        # (klpga.collectors.cmpro_shots.CmproShot.hole_out DOES use the
+        # OR-with-distance fallback -- that is a QA-gate heuristic for
+        # validate_cmpro_hole's own "last shot looks holed out" check,
+        # a different, looser purpose than this dataset's state model.)
+        holed = (elie == "홀인")
+        zero_distance_ambiguous = (edist == 0.0) and (elie != "홀인")
         rows.append(TransitionRow(
             game_code=gc, player_code=pc, player_name=pn, round_number=rnd, hole=hole,
             shot_no=shot_no, par=par, start_distance_yd=sdist, start_lie=slie,
-            end_distance_yd=edist, end_lie=elie, holed=holed, official_hole_score=official,
+            end_distance_yd=edist, end_lie=elie, holed=holed,
+            zero_distance_ambiguous=zero_distance_ambiguous, official_hole_score=official,
         ))
     return rows
 
