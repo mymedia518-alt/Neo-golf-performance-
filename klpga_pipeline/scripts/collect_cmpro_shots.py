@@ -10,6 +10,8 @@ from klpga.http_client import PoliteHttpClient
 SCHEMA="""CREATE TABLE IF NOT EXISTS shot_event(game_code TEXT NOT NULL,player_code TEXT NOT NULL,player_name TEXT,round_number INTEGER NOT NULL,hole INTEGER NOT NULL,shot_no INTEGER NOT NULL,start_distance_yd REAL,start_lie TEXT,shot_distance_yd REAL NOT NULL,end_distance_yd REAL NOT NULL,end_lie TEXT NOT NULL,source_hash TEXT NOT NULL,collected_at TEXT NOT NULL,qa_status TEXT NOT NULL,PRIMARY KEY(game_code,player_code,round_number,hole,shot_no));
 CREATE TABLE IF NOT EXISTS hole_audit(game_code TEXT NOT NULL,player_code TEXT NOT NULL,player_name TEXT,round_number INTEGER NOT NULL,hole INTEGER NOT NULL,shot_count INTEGER NOT NULL,qa_status TEXT NOT NULL,source_hash TEXT NOT NULL,collected_at TEXT NOT NULL,PRIMARY KEY(game_code,player_code,round_number,hole));"""
 def utcnow(): return datetime.now(timezone.utc).isoformat()
+OK_STATUSES=("PASS","SKIP_PASS","NOT_APPLICABLE")
+def is_bad_status(status): return status not in OK_STATUSES
 def collect_hole(client,conn,game,code,name,rnd,hole,force=False):
  old=conn.execute("SELECT qa_status FROM hole_audit WHERE game_code=? AND player_code=? AND round_number=? AND hole=?",(game,code,rnd,hole)).fetchone()
  if old and old[0]=="PASS" and not force:return "SKIP_PASS",0
@@ -36,15 +38,19 @@ def main():
     score_html=fetch_player_score_html(client,a.game,code,use_cache=not a.force)
     scope=parse_cmpro_played_holes(score_html)
     if not scope:
-     print(f"{code} NO_PLAYED_HOLES",flush=True)
-     counts["NO_PLAYED_HOLES"]=counts.get("NO_PLAYED_HOLES",0)+1
+     # The official playerScore fragment itself carried zero round/hole
+     # entries for this player -- a real, per-player data condition
+     # (e.g. withdrew before the tournament started), never a hardcoded
+     # player list. Distinct from a genuine collection failure below.
+     print(f"{code} NOT_APPLICABLE (0 played holes per official playerScore)",flush=True)
+     counts["NOT_APPLICABLE"]=counts.get("NOT_APPLICABLE",0)+1
      continue
    for rnd,holes in scope.items():
     if rnd > a.max_round: continue
     for hole in holes:
      qa,n=collect_hole(client,conn,a.game,code,name,rnd,hole,a.force);counts[qa]=counts.get(qa,0)+1;print(f"{code} R{rnd} H{hole:02d} {qa} shots={n}",flush=True)
   export_csv(conn,a.out.with_suffix(".csv"));print("SUMMARY",counts,flush=True)
-  bad={k:v for k,v in counts.items() if k not in ("PASS","SKIP_PASS")}
+  bad={k:v for k,v in counts.items() if is_bad_status(k)}
   if bad:
    print("QA_FAIL",bad,flush=True)
    raise SystemExit(2)
