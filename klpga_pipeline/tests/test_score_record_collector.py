@@ -14,6 +14,7 @@ import pytest
 from klpga import config
 from klpga.collectors.score_record import (
     fetch_score_record_html,
+    parse_score_record_final_ranking,
     parse_score_record_hole_by_hole,
     parse_score_record_hole_par,
     parse_score_record_html,
@@ -163,3 +164,66 @@ def test_parse_score_record_hole_par_real_fixture_matches_confirmed_out_in():
 def test_parse_score_record_hole_par_missing_round_tab_raises():
     with pytest.raises(ValueError):
         parse_score_record_hole_par(_hole_by_hole_fixture_html(), round_tab_id="round-four")
+
+
+# ---------------------------------------------------------------------
+# Official final-ranking extraction (EXPERIMENT 01A) -- tested against
+# the same real trimmed excerpt fixture, whose 6 real rows each carry
+# exactly 2 td.total cells (directly confirmed: to-par then raw-stroke
+# cumulative total) plus real td.1R/td.2R/td.3R per-round raw cells.
+# ---------------------------------------------------------------------
+
+def test_parse_score_record_final_ranking_real_fixture_all_rows():
+    rows = parse_score_record_final_ranking(_hole_by_hole_fixture_html(), round_tab_id="round-one")
+    assert len(rows) == 6
+    yang = rows[0]
+    assert yang["player_name"] == "양효진"
+    assert yang["rank_display"] == "T1"
+    assert yang["official_status"] is None
+    assert yang["total_to_par"] == -4
+    assert yang["total_raw_strokes"] == 68
+    assert yang["round_raw_strokes"] == {"1R": "68(1)", "2R": "", "3R": ""}
+    han = rows[3]
+    assert han["player_name"] == "오수민 0809(A)"
+    assert han["rank_display"] == "T4"
+    assert han["total_to_par"] == -3
+    assert han["total_raw_strokes"] == 69
+
+
+def test_parse_score_record_final_ranking_missing_round_tab_raises():
+    with pytest.raises(ValueError):
+        parse_score_record_final_ranking(_hole_by_hole_fixture_html(), round_tab_id="round-four")
+
+
+def test_parse_score_record_final_ranking_skips_rows_missing_rank_or_name():
+    rows = parse_score_record_final_ranking(
+        '<div id="round-one"><table><tbody><tr><td colspan="31">divider</td></tr></tbody></table></div>',
+        round_tab_id="round-one",
+    )
+    assert rows == []
+
+
+def test_parse_score_record_final_ranking_rejects_wrong_total_cell_count():
+    # Only 1 td.total present (never confirmed as meaning either total)
+    # -- refuses to guess which one it is.
+    html = (
+        '<div id="round-one"><table><tbody><tr>'
+        '<td class="rank">T1</td><td class="name">테스트</td>'
+        '<td class="total">-4</td>'
+        '</tr></tbody></table></div>'
+    )
+    with pytest.raises(ValueError):
+        parse_score_record_final_ranking(html, round_tab_id="round-one")
+
+
+def test_parse_score_record_final_ranking_detects_wd_status():
+    html = (
+        '<div id="round-one"><table><tbody><tr>'
+        '<td class="rank">WD</td><td class="name">테스트</td>'
+        '<td class="total">E</td><td class="total">72</td>'
+        '</tr></tbody></table></div>'
+    )
+    rows = parse_score_record_final_ranking(html, round_tab_id="round-one")
+    assert rows[0]["official_status"] == "WD"
+    assert rows[0]["total_to_par"] == 0
+    assert rows[0]["total_raw_strokes"] == 72

@@ -302,3 +302,107 @@ def parse_score_record_hole_par(html: str, *, round_tab_id: str) -> dict[int, in
             raise ValueError(f"par cell for hole {h} inside #{round_tab_id} is not a real integer")
         par[h] = val
     return par
+
+
+# ---------------------------------------------------------------------
+# Official final-ranking extraction (EXPERIMENT 01A, 2026-09-21).
+# CONFIRMED real structure: inspected DIRECTLY against the real trimmed
+# fixture (game_code 2026120001, round-one tab, all 6 real player
+# rows) -- every row carries EXACTLY TWO td.total cells: the first
+# (immediately after td.name) holds the cumulative score-to-par through
+# that round ("-4"), the second (at the row's end, after the per-round
+# raw-stroke cells) holds the cumulative RAW stroke total ("68"). A
+# td.today cell (also right after td.name) holds that specific round's
+# own score-to-par. Per-round raw-stroke cells carry a class matching
+# r"^\d+R$" (confirmed real: td.1R/td.2R/td.3R in the fixture) -- this
+# function reads that class pattern generically rather than assuming a
+# fixed round count, since 2026090002 is a 4-round event and this
+# structure has NOT been directly confirmed for a 4-round tab. If the
+# real cell counts/positions differ from what's confirmed here on an
+# actual capture, this function raises rather than guessing.
+# ---------------------------------------------------------------------
+
+_ROUND_RAW_CLASS_RE = re.compile(r"^\d+R$")
+
+
+def _to_par_int_or_none(text: str) -> "int | None":
+    text = _clean_cell_text(text)
+    if not text:
+        return None
+    if text == "E":
+        return 0
+    if re.fullmatch(r"[+-]?\d+", text):
+        return int(text)
+    return None
+
+
+def parse_score_record_final_ranking(html: str, *, round_tab_id: str) -> list[dict]:
+    """Parse one round's own tab-pane's real per-row rank/name/status
+    plus its two real td.total cells (to-par and raw-stroke cumulative
+    totals) and any per-round raw-stroke cells (td class matching
+    r"^\\d+R$"). Never assumes which round is "final" -- caller supplies
+    round_tab_id (e.g. "round-four" for a 4-round event's last round).
+    Raises ValueError -- never guesses -- if the tab-pane/table/tbody is
+    missing, or if a real row's td.total count differs from the
+    confirmed real count of 2 (something about this page's structure
+    would then differ from what was directly verified against the real
+    2026120001 fixture, and this function refuses to guess which total
+    is which).
+
+    Returns a list of {"player_name": str, "rank_display": str,
+    "official_status": str | None, "total_to_par": int | None,
+    "total_raw_strokes": int | None, "round_raw_strokes": {"1R": str, ...}}
+    -- one entry per real player row. A divider/non-player row (no
+    td.rank/td.name) is skipped, matching parse_score_record_hole_by_hole."""
+    soup = BeautifulSoup(html, "html.parser")
+    container = soup.select_one(f"#{round_tab_id}")
+    if container is None:
+        raise ValueError(
+            f"scoreRecord round tab-pane #{round_tab_id} not found in this page -- "
+            "that round was not captured/published in it."
+        )
+    table = container.find("table")
+    if table is None:
+        raise ValueError(f"scoreRecord table missing inside #{round_tab_id}")
+    tbody = table.find("tbody")
+    if tbody is None:
+        raise ValueError(f"scoreRecord tbody missing inside #{round_tab_id}")
+
+    rows: list[dict] = []
+    for tr in tbody.find_all("tr", recursive=False):
+        rank_cell = tr.select_one("td.rank")
+        name_cell = tr.select_one("td.name")
+        if not (rank_cell and name_cell):
+            continue  # a divider/non-player row -- never guessed as a player
+
+        rank_display = _clean_cell_text(rank_cell.get_text(" ", strip=True))
+        player_name = _clean_cell_text(name_cell.get_text(" ", strip=True))
+        status = rank_display.upper() if rank_display.upper() in {"WD", "DQ", "DNS", "CUT"} else None
+
+        total_cells = tr.select("td.total")
+        if len(total_cells) != 2:
+            raise ValueError(
+                f"expected exactly 2 td.total cells for player {player_name!r} inside "
+                f"#{round_tab_id}, found {len(total_cells)} -- this page's real total-cell "
+                "layout differs from what was confirmed against the real 2026120001 fixture; "
+                "refusing to guess which total is to-par vs raw-stroke."
+            )
+        total_to_par = _to_par_int_or_none(total_cells[0].get_text(strip=True))
+        total_raw_strokes = _hole_cell_int_or_none(total_cells[1].get_text(strip=True))
+
+        round_raw_strokes: dict[str, str] = {}
+        for td in tr.find_all("td", recursive=False):
+            classes = td.get("class") or []
+            for c in classes:
+                if _ROUND_RAW_CLASS_RE.match(c):
+                    round_raw_strokes[c] = _clean_cell_text(td.get_text(strip=True))
+
+        rows.append({
+            "player_name": player_name,
+            "rank_display": rank_display,
+            "official_status": status,
+            "total_to_par": total_to_par,
+            "total_raw_strokes": total_raw_strokes,
+            "round_raw_strokes": round_raw_strokes,
+        })
+    return rows
