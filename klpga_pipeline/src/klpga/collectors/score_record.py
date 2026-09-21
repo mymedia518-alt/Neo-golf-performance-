@@ -234,3 +234,71 @@ def parse_score_record_hole_by_hole(html: str, *, round_tab_id: str) -> list[dic
             "holes": holes,
         })
     return rows
+
+
+# ---------------------------------------------------------------------
+# Per-hole PAR extraction (NEO Expected Strokes Phase 1, 2026-09-21).
+# CONFIRMED real structure: the same table's <thead> has a SECOND <tr>
+# (after the header-label row) whose own first cell is th.today
+# reading the round label (e.g. "1R") and whose remaining cells are
+# laid out in the IDENTICAL 9-cells/OUT/9-cells/IN column pattern as
+# every real player row -- but holding that hole's PAR instead of a
+# stroke count (confirmed against the real captured page: front-nine
+# par cells 4,4,3,4,5,4,4,3,5 sum to the real th.out text "36",
+# matching the course's own overall par=72 when combined with an
+# identical real back-nine). Reuses the exact same cell-position logic
+# as parse_score_record_hole_by_hole -- see that function's docstring
+# for the shared confirmed-vs-guessed provenance notes.
+# ---------------------------------------------------------------------
+
+def parse_score_record_hole_par(html: str, *, round_tab_id: str) -> dict[int, int]:
+    """Returns {1: par, ..., 18: par} for one round's tab-pane. Raises
+    ValueError -- never guesses -- if the tab-pane/table/thead's second
+    row is missing, or its cell layout doesn't match what was
+    confirmed (9 cells before OUT, 9 before IN)."""
+    soup = BeautifulSoup(html, "html.parser")
+    container = soup.select_one(f"#{round_tab_id}")
+    if container is None:
+        raise ValueError(
+            f"scoreRecord round tab-pane #{round_tab_id} not found in this page -- "
+            "that round was not captured/published in it."
+        )
+    table = container.find("table")
+    if table is None:
+        raise ValueError(f"scoreRecord table missing inside #{round_tab_id}")
+    thead = table.find("thead")
+    if thead is None:
+        raise ValueError(f"scoreRecord thead missing inside #{round_tab_id}")
+    thead_rows = thead.find_all("tr", recursive=False)
+    if len(thead_rows) < 2:
+        raise ValueError(
+            f"expected a second thead row (the per-hole par row) inside #{round_tab_id}, "
+            f"found {len(thead_rows)} thead row(s) -- cannot extract par without it."
+        )
+    par_row = thead_rows[1]
+    cells = par_row.find_all(["th", "td"], recursive=False)
+    out_cell = par_row.select_one(".out")
+    in_cell = par_row.select_one(".in")
+    if out_cell is None or in_cell is None:
+        raise ValueError(f"par row inside #{round_tab_id} is missing its OUT/IN cells -- refusing to guess layout")
+    out_idx = cells.index(out_cell)
+    in_idx = cells.index(in_cell)
+    front_nine_cells = cells[out_idx - 9:out_idx]
+    back_nine_cells = cells[in_idx - 9:in_idx]
+    if len(front_nine_cells) != 9 or len(back_nine_cells) != 9:
+        raise ValueError(
+            f"expected 9 par cells before OUT and 9 before IN inside #{round_tab_id}, found "
+            f"{len(front_nine_cells)} and {len(back_nine_cells)} -- refusing to guess which cells are holes."
+        )
+    par: dict[int, int] = {}
+    for h, cell in enumerate(front_nine_cells, start=1):
+        val = _hole_cell_int_or_none(cell.get_text(strip=True))
+        if val is None:
+            raise ValueError(f"par cell for hole {h} inside #{round_tab_id} is not a real integer")
+        par[h] = val
+    for h, cell in enumerate(back_nine_cells, start=10):
+        val = _hole_cell_int_or_none(cell.get_text(strip=True))
+        if val is None:
+            raise ValueError(f"par cell for hole {h} inside #{round_tab_id} is not a real integer")
+        par[h] = val
+    return par
