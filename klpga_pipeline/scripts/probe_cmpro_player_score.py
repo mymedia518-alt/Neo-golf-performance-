@@ -5,7 +5,7 @@ from pathlib import Path
 SRC_ROOT=Path(__file__).resolve().parents[1]/"src"
 if str(SRC_ROOT) not in sys.path: sys.path.insert(0,str(SRC_ROOT))
 from bs4 import BeautifulSoup
-from klpga.collectors.cmpro_shots import fetch_player_score_html
+from klpga.collectors.cmpro_shots import fetch_player_score_html,parse_cmpro_played_holes
 from klpga.http_client import PoliteHttpClient
 
 def main():
@@ -25,7 +25,7 @@ def main():
     print("attrs=",attrs)
     text=" ".join(soup.stripped_strings)
     print("text_preview=",text[:1000])
-    print("saved=",a.out)
+    print("played_holes=",parse_cmpro_played_holes(html))\n    print("saved=",a.out)
 
 if __name__=="__main__":
     main()
