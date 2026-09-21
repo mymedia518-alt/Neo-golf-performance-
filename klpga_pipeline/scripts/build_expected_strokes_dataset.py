@@ -123,13 +123,23 @@ def main() -> None:
     with out_path.open("w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
         w.writerow(["game_code", "player_code", "player_name", "round", "hole", "shot_no", "par",
-                    "start_distance_yd", "start_lie", "end_distance_yd", "end_lie", "holed", "official_hole_score"])
+                    "start_distance_yd", "start_lie", "end_distance_yd", "end_lie", "holed",
+                    "zero_distance_ambiguous", "official_hole_score"])
         for r in rows:
             w.writerow([r.game_code, r.player_code, r.player_name, r.round_number, r.hole, r.shot_no,
                         "" if r.par is None else r.par, "" if r.start_distance_yd is None else r.start_distance_yd,
-                        r.start_lie, r.end_distance_yd, r.end_lie, r.holed,
+                        r.start_lie, r.end_distance_yd, r.end_lie, r.holed, r.zero_distance_ambiguous,
                         "" if r.official_hole_score is None else r.official_hole_score])
     print("transition_dataset_csv =", out_path)
+
+    print("\n[ZERO-DISTANCE / NON-HOLED CASES]")
+    ambiguous = [r for r in rows if r.zero_distance_ambiguous]
+    print("zero_distance_but_not_holed_lie_count =", len(ambiguous))
+    print("player_code,player_name,round,hole,shot_no,end_lie")
+    for r in ambiguous:
+        print(f"{r.player_code},{r.player_name},{r.round_number},{r.hole},{r.shot_no},{r.end_lie}")
+    print("NOT reinterpreted as HOLED -- holed is strict end_lie==\"홀인\" only, per operator instruction.")
+    print("These rows keep holed=False in the CSV above; review manually before any modeling use.")
 
     print("\n[LIE TAXONOMY]")
     gaps = taxonomy_gaps(conn, a.game)

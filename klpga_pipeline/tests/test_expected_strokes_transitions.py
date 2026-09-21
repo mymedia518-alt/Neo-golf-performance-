@@ -51,6 +51,32 @@ def test_build_transition_dataset_real_shape_and_ordering():
     assert rows[0].holed is False
 
 
+def test_build_transition_dataset_strict_holed_never_from_distance_alone():
+    """Real finding on 2026090002 (17 real shot_event rows): end_distance_yd
+    can be 0.0 while end_lie is NOT "홀인". CmproShot.hole_out (the QA-gate
+    heuristic) treats distance==0 as holed regardless of lie -- this
+    dataset's own `holed` field must NOT: state modeling requires holed
+    to come only from the real lie evidence. Such rows are still flagged,
+    separately, via zero_distance_ambiguous -- never silently dropped."""
+    conn = _make_conn()
+    _insert(conn, "G", "P1", "선수1", 1, 1, 1, None, "티", 0.0, "그린")  # zero distance, NOT holed
+    conn.commit()
+    rows = build_transition_dataset(conn, "G")
+    assert rows[0].end_distance_yd == 0.0
+    assert rows[0].end_lie == "그린"
+    assert rows[0].holed is False  # strict: lie evidence, not distance
+    assert rows[0].zero_distance_ambiguous is True
+
+
+def test_build_transition_dataset_zero_distance_ambiguous_false_when_really_holed():
+    conn = _make_conn()
+    _insert(conn, "G", "P1", "선수1", 1, 1, 1, None, "티", 0.0, "홀인")
+    conn.commit()
+    rows = build_transition_dataset(conn, "G")
+    assert rows[0].holed is True
+    assert rows[0].zero_distance_ambiguous is False
+
+
 def test_build_transition_dataset_applies_supplied_par_and_official_score():
     conn = _make_conn()
     _insert(conn, "G", "P1", "선수1", 1, 1, 1, None, "티", 0.0, "홀인")
