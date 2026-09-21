@@ -14,7 +14,7 @@ def collect_hole(client,conn,game,code,name,rnd,hole,force=False):
  html=fetch_player_info_html(client,game,code,rnd,hole,use_cache=not force); digest=hashlib.sha256(html.encode()).hexdigest()
  shots=parse_cmpro_shots(html);qa=validate_cmpro_hole(shots);ts=utcnow()
  conn.execute("DELETE FROM shot_event WHERE game_code=? AND player_code=? AND round_number=? AND hole=?",(game,code,rnd,hole))
- for s in shots: conn.execute("INSERT INTO shot_event VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(game,code,name,rnd,hole,s.shot_no,s.start_distance_yd,s.start_lie,s.shot_distance_yd,s.end_distance_yd,s.end_lie,digest,ts,qa))
+ for s in shots: conn.execute("INSERT INTO shot_event VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",(game,code,name,rnd,hole,s.shot_no,s.start_distance_yd,s.start_lie,s.shot_distance_yd,s.end_distance_yd,s.end_lie,digest,ts,qa))
  conn.execute("""INSERT INTO hole_audit VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(game_code,player_code,round_number,hole) DO UPDATE SET player_name=excluded.player_name,shot_count=excluded.shot_count,qa_status=excluded.qa_status,source_hash=excluded.source_hash,collected_at=excluded.collected_at""",(game,code,name,rnd,hole,len(shots),qa,digest,ts));conn.commit();return qa,len(shots)
 def export_csv(conn,path):
  cur=conn.execute("SELECT * FROM shot_event ORDER BY player_code,round_number,hole,shot_no")
