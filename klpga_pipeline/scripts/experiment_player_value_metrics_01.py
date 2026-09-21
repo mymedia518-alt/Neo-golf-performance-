@@ -74,6 +74,23 @@ def miss_cost(recs):
     return {"fairway": fw, "rough": rg, "rough_minus_fairway_to_par": delta}
 
 
+def _damage_bucket(xs):
+    n = len(xs)
+
+    def cnt(fn):
+        return sum(1 for x in xs if fn(x["to_par"]))
+
+    par_or_better = cnt(lambda z: z <= 0)
+    bogey = cnt(lambda z: z == 1)
+    double_plus = cnt(lambda z: z >= 2)
+    return {
+        "n": n,
+        "par_or_better": {"count": par_or_better, "rate": par_or_better / n if n else None},
+        "bogey": {"count": bogey, "rate": bogey / n if n else None},
+        "double_or_worse": {"count": double_plus, "rate": double_plus / n if n else None},
+    }
+
+
 def damage_control(recs):
     xs = [x for x in recs if x["par"] in (4, 5) and x["tee_end_lie"] == ROUGH]
     return {
