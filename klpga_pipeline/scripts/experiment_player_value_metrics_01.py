@@ -18,7 +18,7 @@ SRC_ROOT = Path(__file__).resolve().parents[1] / "src"
 if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
-from klpga.expected_strokes.transitions import build_transition_dataset
+from klpga.expected_strokes.transitions import build_transition_dataset\nfrom klpga.collectors.score_record import parse_score_record_hole_par
 
 FAIRWAY="페어웨이"; ROUGH="러프"; GREEN="그린"; HOLED="홀인"
 
@@ -103,7 +103,7 @@ def main():
     ap.add_argument("--sqlite",type=Path,required=True)
     ap.add_argument("--game",default="2026090002")
     ap.add_argument("--player",default="김민선7")
-    ap.add_argument("--output",type=Path,default=None)
+    ap.add_argument("--output",type=Path,default=None)\n    ap.add_argument("--official-score-source",type=Path,required=True)\n    ap.add_argument("--round-tabs",default="round-one,round-two,round-three,round-four")
     a=ap.parse_args()
     if not a.sqlite.is_file(): raise SystemExit("BLOCKED: sqlite not found")
     con=sqlite3.connect(f"file:{a.sqlite.resolve()}?mode=ro",uri=True)
@@ -123,7 +123,7 @@ def main():
             "opportunity_definition":"birdie-or-better rate by first-green-entry remaining-distance bucket",
             "causality_claimed":False
         },
-        "qa":{"transition_rows":len(rows),"valid_terminal_holes":len(recs),"player_valid_holes":len(player)},
+        "qa":{"transition_rows":len(rows),"verified_par_round_holes":len(par_by_round_hole),"valid_terminal_holes":len(recs),"player_valid_holes":len(player)},
         "field":metrics(recs),
         "player_metrics":metrics(player),
     }
