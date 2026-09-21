@@ -50,7 +50,8 @@ def hole_records(rows):
             "strokes": strokes,
             "to_par": strokes - par,
             "tee_end_lie": first.end_lie if first.shot_no == 1 else "",
-            "green_entry_remaining_yd": entry.end_distance_yd if entry else None,\n            "green_entry_shot_no": entry.shot_no if entry else None,
+            "green_entry_remaining_yd": entry.end_distance_yd if entry else None,
+            "green_entry_shot_no": entry.shot_no if entry else None,
         })
     return rec
 
