@@ -15,6 +15,7 @@ from klpga import config
 from klpga.collectors.score_record import (
     fetch_score_record_html,
     parse_score_record_hole_by_hole,
+    parse_score_record_hole_par,
     parse_score_record_html,
 )
 
@@ -143,3 +144,22 @@ def test_parse_score_record_hole_by_hole_rejects_wrong_hole_cell_count():
     )
     with pytest.raises(ValueError):
         parse_score_record_hole_by_hole(html, round_tab_id="round-one")
+
+
+# ---------------------------------------------------------------------
+# Per-hole PAR extraction (NEO Expected Strokes Phase 1) -- tested
+# against the same real trimmed excerpt fixture.
+# ---------------------------------------------------------------------
+
+def test_parse_score_record_hole_par_real_fixture_matches_confirmed_out_in():
+    par = parse_score_record_hole_par(_hole_by_hole_fixture_html(), round_tab_id="round-one")
+    assert [par[h] for h in range(1, 10)] == [4, 4, 3, 4, 5, 4, 4, 3, 5]
+    assert [par[h] for h in range(10, 19)] == [4, 5, 3, 4, 4, 5, 4, 3, 4]
+    assert sum(par[h] for h in range(1, 10)) == 36  # real OUT par cell
+    assert sum(par[h] for h in range(10, 19)) == 36  # real IN par cell
+    assert sum(par.values()) == 72  # matches this course's real overall par
+
+
+def test_parse_score_record_hole_par_missing_round_tab_raises():
+    with pytest.raises(ValueError):
+        parse_score_record_hole_par(_hole_by_hole_fixture_html(), round_tab_id="round-four")
