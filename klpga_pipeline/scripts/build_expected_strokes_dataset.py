@@ -37,6 +37,12 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from klpga.collectors.score_record import parse_score_record_hole_by_hole, parse_score_record_hole_par
+from klpga.expected_strokes.investigations import (
+    blank_lie_investigation,
+    bunker_investigation,
+    model_eligibility_summary,
+    zero_distance_ambiguous_detail,
+)
 from klpga.expected_strokes.transitions import (
     LIE_TAXONOMY,
     build_transition_dataset,
@@ -169,6 +175,55 @@ def main() -> None:
     for lie, stats in lie_distribution(rows).items():
         print("  ", repr(lie), "->", stats)
     print("by_par:", par_distribution(rows))
+
+    print("\n[BLANK-LIE INVESTIGATION]")
+    print("(no single meaning inferred -- structured evidence only, per operator instruction)")
+    blank = blank_lie_investigation(rows)
+    print("start_blank_count =", blank["start_blank_count"], "/ end_blank_count =", blank["end_blank_count"])
+    print("start_blank_by_shot_no =", blank["start_blank_by_shot_no"])
+    print("end_blank_by_shot_no =", blank["end_blank_by_shot_no"])
+    print("start_blank_by_par =", blank["start_blank_by_par"])
+    print("end_blank_by_par =", blank["end_blank_by_par"])
+    print("start_blank_by_previous_lie =", blank["start_blank_by_previous_lie"])
+    print("end_blank_by_previous_lie =", blank["end_blank_by_previous_lie"])
+    print("start_blank_by_next_lie =", blank["start_blank_by_next_lie"])
+    print("end_blank_by_next_lie =", blank["end_blank_by_next_lie"])
+    print("start_blank_distance_buckets =", blank["start_blank_distance_buckets"])
+    print("end_blank_distance_buckets =", blank["end_blank_distance_buckets"])
+    print("start_blank_top30_longest:")
+    for ex in blank["start_blank_top30_longest"]:
+        print("   ", ex)
+    print("end_blank_top30_longest:")
+    for ex in blank["end_blank_top30_longest"]:
+        print("   ", ex)
+
+    print("\n[BUNKER INVESTIGATION]")
+    print("(hypothesis only, not a conclusion: start_lie for shot n is copied from shot n-1's")
+    print("own end_lie by the collector -- klpga.collectors.cmpro_shots -- so a '벙커' START")
+    print("reflects real state propagation from the previous shot's recorded end state, not")
+    print("necessarily a parsing artifact. This does NOT by itself explain unexpectedly long")
+    print("bunker-start distances; review the structured evidence below before concluding.)")
+    bunker = bunker_investigation(rows)
+    print("start_bunker_shots =", bunker["start_bunker_shots"])
+    print("distance_stats =", bunker["distance_stats"])
+    print("by_distance_bucket =", bunker["by_distance_bucket"])
+    print("by_par =", bunker["by_par"])
+    print("by_shot_no =", bunker["by_shot_no"])
+    print("end_lie_distribution =", bunker["end_lie_distribution"])
+    print("examples (sorted by start_distance_yd desc):")
+    for ex in bunker["examples"]:
+        print("   ", ex)
+
+    print("\n[ZERO-DISTANCE AMBIGUOUS -- FULL DETAIL]")
+    print("(the 17 real end_distance_yd==0.0 AND end_lie!='홀인' cases -- full context)")
+    for d in zero_distance_ambiguous_detail(rows):
+        print("   ", d)
+
+    print("\n[MODEL-ELIGIBILITY SUMMARY]")
+    print("(non-overlapping A-F classification -- no double counting; 2+ flags -> F with combination recorded)")
+    elig = model_eligibility_summary(rows)
+    for key, value in elig.items():
+        print(f"{key} =", value)
 
     conn.close()
 
