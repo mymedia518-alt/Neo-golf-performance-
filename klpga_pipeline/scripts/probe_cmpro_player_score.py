@@ -25,7 +25,8 @@ def main():
     print("attrs=",attrs)
     text=" ".join(soup.stripped_strings)
     print("text_preview=",text[:1000])
-    print("played_holes=",parse_cmpro_played_holes(html))\n    print("saved=",a.out)
+    print("played_holes=",parse_cmpro_played_holes(html))
+    print("saved=",a.out)
 
 if __name__=="__main__":
     main()
