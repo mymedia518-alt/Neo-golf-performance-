@@ -16,7 +16,7 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Optional
 
-from klpga.expected_strokes.transitions import TransitionRow, distance_stats
+from klpga.expected_strokes.transitions import SPARSE_LIES, TransitionRow, distance_stats
 
 DISTANCE_BUCKETS = [
     ("0-5", 0.0, 5.0),
@@ -209,45 +209,77 @@ def zero_distance_ambiguous_detail(rows: list[TransitionRow]) -> list[dict]:
 
 
 # ---------------------------------------------------------------
-# MODEL-ELIGIBILITY classification -- no double counting.
+# MODEL TRAINING ELIGIBILITY classification -- no double counting.
+#
+# 2026-09-21 red-team decision: named states instead of the earlier
+# A-F letters, matching the taxonomy decided in this review round.
+# Raw data (all 24,667 rows) is never dropped or altered by this
+# classification -- it is a label computed alongside the rows, kept
+# fully separate from TransitionRow/CSV output. A row's flags:
+#   FIRST_SHOT_DISTANCE_MISSING: shot_no==1 (no yardage source exists
+#       yet -- see klpga.expected_strokes.course_yardage)
+#   UNKNOWN_LIE: start_lie=="" or end_lie=="" (LIE_TAXONOMY["UNKNOWN"])
+#   ZERO_DISTANCE_UNKNOWN: row.zero_distance_ambiguous
+#   SAND_SPARSE: start_lie or end_lie in SPARSE_LIES (currently {"벙커"})
+# Zero flags -> ELIGIBLE. Exactly one flag -> that state. 2+ flags ->
+# MULTIPLE_FLAGS, with the exact combination recorded rather than
+# lost. IMPORTANT: ELIGIBLE ("A_fully_usable_transition" in the prior
+# naming) is a QA/data-readiness classification only -- it is NOT an
+# approved training sample set. No Expected Strokes model has been
+# fit, no SG has been computed, and no player ranking has been
+# produced from this or any other classification in this module.
 # ---------------------------------------------------------------
 
+_ELIGIBILITY_STATES = (
+    "FIRST_SHOT_DISTANCE_MISSING",
+    "UNKNOWN_LIE",
+    "ZERO_DISTANCE_UNKNOWN",
+    "SAND_SPARSE",
+)
+
+
+def classify_model_eligibility(row: TransitionRow) -> tuple[str, list[str]]:
+    """Returns (state, flags) for a single row. state is one of
+    ELIGIBLE / one of _ELIGIBILITY_STATES / MULTIPLE_FLAGS. flags is
+    the full list of every applicable state (len 0, 1, or 2+) --
+    preserved even when state=="MULTIPLE_FLAGS" collapses them."""
+    flags = []
+    if row.shot_no == 1:
+        flags.append("FIRST_SHOT_DISTANCE_MISSING")
+    if (row.start_lie or "") == "" or (row.end_lie or "") == "":
+        flags.append("UNKNOWN_LIE")
+    if row.zero_distance_ambiguous:
+        flags.append("ZERO_DISTANCE_UNKNOWN")
+    if (row.start_lie in SPARSE_LIES) or (row.end_lie in SPARSE_LIES):
+        flags.append("SAND_SPARSE")
+    if not flags:
+        return "ELIGIBLE", flags
+    if len(flags) == 1:
+        return flags[0], flags
+    return "MULTIPLE_FLAGS", flags
+
+
 def model_eligibility_summary(rows: list[TransitionRow]) -> dict:
-    """Each row gets flags in {B,C,D,E} as applicable:
-      B: first-shot start-distance unresolved (shot_no==1)
-      C: blank-lie unresolved (start_lie=="" or end_lie=="")
-      D: zero-distance ambiguous (row.zero_distance_ambiguous)
-      E: bunker semantic review (start_lie=="벙커" or end_lie=="벙커")
-    A row with zero flags -> A (fully usable). Exactly one flag -> that
-    letter. 2+ flags -> F (overlap), with the exact combination
-    recorded rather than lost. Sums to TOTAL_SHOTS exactly once each."""
-    counts = {"A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0}
+    counts = {"ELIGIBLE": 0, **{s: 0 for s in _ELIGIBILITY_STATES}, "MULTIPLE_FLAGS": 0}
     overlap_combinations: dict[str, int] = defaultdict(int)
     for r in rows:
-        flags = []
-        if r.shot_no == 1:
-            flags.append("B")
-        if (r.start_lie or "") == "" or (r.end_lie or "") == "":
-            flags.append("C")
-        if r.zero_distance_ambiguous:
-            flags.append("D")
-        if r.start_lie == "벙커" or r.end_lie == "벙커":
-            flags.append("E")
-        if not flags:
-            counts["A"] += 1
-        elif len(flags) == 1:
-            counts[flags[0]] += 1
-        else:
-            counts["F"] += 1
+        state, flags = classify_model_eligibility(r)
+        counts[state] += 1
+        if state == "MULTIPLE_FLAGS":
             overlap_combinations["+".join(flags)] += 1
     return {
         "total_shots": len(rows),
-        "A_fully_usable_transition": counts["A"],
-        "B_first_shot_start_distance_unresolved": counts["B"],
-        "C_blank_lie_unresolved": counts["C"],
-        "D_zero_distance_ambiguous": counts["D"],
-        "E_bunker_semantic_review": counts["E"],
-        "F_overlap": counts["F"],
-        "F_overlap_combinations": dict(sorted(overlap_combinations.items())),
+        "ELIGIBLE": counts["ELIGIBLE"],
+        "FIRST_SHOT_DISTANCE_MISSING": counts["FIRST_SHOT_DISTANCE_MISSING"],
+        "UNKNOWN_LIE": counts["UNKNOWN_LIE"],
+        "ZERO_DISTANCE_UNKNOWN": counts["ZERO_DISTANCE_UNKNOWN"],
+        "SAND_SPARSE": counts["SAND_SPARSE"],
+        "MULTIPLE_FLAGS": counts["MULTIPLE_FLAGS"],
+        "MULTIPLE_FLAGS_combinations": dict(sorted(overlap_combinations.items())),
         "sum_check": sum(counts.values()),
+        "note": (
+            "ELIGIBLE is a QA/data-readiness classification, NOT an approved "
+            "training sample set. No model has been fit; no SG computed; no "
+            "player ranking produced."
+        ),
     }

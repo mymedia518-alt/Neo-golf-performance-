@@ -43,6 +43,17 @@ from typing import Optional
 # ---------------------------------------------------------------
 RAW_LIE_VALUES_FROM_PARSER = ("티", "페어웨이", "러프", "그린", "벙커", "홀인", "")
 
+# 2026-09-21 red-team decision: "" is NOT a golf lie and must not be
+# treated as one. Earlier this mapped "" -> RECOVERY_OTHER, implying a
+# real (if unclassified) physical state. Real evidence against that:
+# 641 real blank-start rows on 2026090002 span distance 0.0-567.4yd,
+# include repeated-unchanged-distance chains, and every one of the 17
+# real zero_distance_ambiguous rows belongs to a blank-state chain --
+# a single "recovery lie" cannot explain that range. "" now maps to
+# UNKNOWN: the parser's own unrecognized-text catch-all (see the block
+# comment above) with no claim about what physical state it represents.
+# The raw "" value itself is never discarded -- see lie_distribution()
+# and TransitionRow.start_lie/end_lie, which always carry the raw text.
 LIE_TAXONOMY = {
     "티": "TEE",
     "페어웨이": "FAIRWAY",
@@ -50,8 +61,18 @@ LIE_TAXONOMY = {
     "벙커": "SAND",
     "그린": "GREEN",
     "홀인": "HOLED",
-    "": "RECOVERY_OTHER",  # the parser's own unrecognized-text catch-all -- see above
+    "": "UNKNOWN",
 }
+
+# 2026-09-21 red-team decision: real bunker-start evidence (74 rows on
+# 2026090002: par_4=46/par_5=28, shot_no 2=66/3=7/4=1) shows a distance
+# range inconsistent with a simple greenside-sand assumption. SAND is
+# kept as a real, distinct taxonomy bucket (not merged into UNKNOWN or
+# discarded) but flagged sparse: too few observations, and too broad a
+# distance range, to fit an independent SAND expected-strokes curve
+# yet. Used by investigations.model_eligibility_summary's SAND_SPARSE
+# flag -- never asserted as an error in the underlying data.
+SPARSE_LIES = frozenset({"벙커"})
 
 
 def taxonomy_gaps(conn: sqlite3.Connection, game_code: str) -> dict:

@@ -10,6 +10,7 @@ from klpga.expected_strokes.investigations import (
     _bucket_label,
     blank_lie_investigation,
     bunker_investigation,
+    classify_model_eligibility,
     model_eligibility_summary,
     zero_distance_ambiguous_detail,
 )
@@ -172,44 +173,55 @@ def test_zero_distance_ambiguous_detail_empty_when_none_flagged():
 
 
 # ---------------------------------------------------------------
-# model_eligibility_summary
+# classify_model_eligibility / model_eligibility_summary
 # ---------------------------------------------------------------
 
-def test_model_eligibility_summary_fully_usable_row_is_a():
+def test_classify_model_eligibility_no_flags_is_eligible():
+    row = _row(hole=1, shot_no=2, start_lie="페어웨이", start_distance_yd=150.0, end_lie="그린", end_distance_yd=10.0)
+    state, flags = classify_model_eligibility(row)
+    assert state == "ELIGIBLE"
+    assert flags == []
+
+
+def test_model_eligibility_summary_eligible_row():
     rows = [_row(hole=1, shot_no=2, start_lie="페어웨이", start_distance_yd=150.0, end_lie="그린", end_distance_yd=10.0)]
     result = model_eligibility_summary(rows)
     assert result["total_shots"] == 1
-    assert result["A_fully_usable_transition"] == 1
+    assert result["ELIGIBLE"] == 1
     assert result["sum_check"] == 1
+    assert "not an approved training sample" in result["note"].lower() or "not an approved" in result["note"]
 
 
 def test_model_eligibility_summary_single_flag_categories():
     rows = [
-        _row(hole=1, shot_no=1, start_lie="티", start_distance_yd=None, end_lie="페어웨이", end_distance_yd=150.0),  # B only
-        _row(hole=2, shot_no=2, start_lie="", start_distance_yd=30.0, end_lie="그린", end_distance_yd=5.0),  # C only (start blank)
-        _row(hole=3, shot_no=2, start_lie="그린", start_distance_yd=5.0, end_lie="그린", end_distance_yd=0.0, zero_distance_ambiguous=True),  # D only
-        _row(hole=4, shot_no=2, start_lie="벙커", start_distance_yd=100.0, end_lie="그린", end_distance_yd=10.0),  # E only
+        _row(hole=1, shot_no=1, start_lie="티", start_distance_yd=None, end_lie="페어웨이", end_distance_yd=150.0),  # FIRST_SHOT only
+        _row(hole=2, shot_no=2, start_lie="", start_distance_yd=30.0, end_lie="그린", end_distance_yd=5.0),  # UNKNOWN_LIE only (start blank)
+        _row(hole=3, shot_no=2, start_lie="그린", start_distance_yd=5.0, end_lie="그린", end_distance_yd=0.0, zero_distance_ambiguous=True),  # ZERO_DISTANCE_UNKNOWN only
+        _row(hole=4, shot_no=2, start_lie="벙커", start_distance_yd=100.0, end_lie="그린", end_distance_yd=10.0),  # SAND_SPARSE only
     ]
     result = model_eligibility_summary(rows)
-    assert result["B_first_shot_start_distance_unresolved"] == 1
-    assert result["C_blank_lie_unresolved"] == 1
-    assert result["D_zero_distance_ambiguous"] == 1
-    assert result["E_bunker_semantic_review"] == 1
-    assert result["F_overlap"] == 0
+    assert result["FIRST_SHOT_DISTANCE_MISSING"] == 1
+    assert result["UNKNOWN_LIE"] == 1
+    assert result["ZERO_DISTANCE_UNKNOWN"] == 1
+    assert result["SAND_SPARSE"] == 1
+    assert result["MULTIPLE_FLAGS"] == 0
     assert result["sum_check"] == 4
 
 
-def test_model_eligibility_summary_overlap_goes_to_f_with_combination_recorded():
+def test_model_eligibility_summary_overlap_goes_to_multiple_flags_with_combination_recorded():
     rows = [
-        # shot_no==1 AND blank end_lie -> B+C overlap
+        # shot_no==1 AND blank end_lie -> FIRST_SHOT_DISTANCE_MISSING+UNKNOWN_LIE overlap
         _row(hole=1, shot_no=1, start_lie="티", start_distance_yd=None, end_lie="", end_distance_yd=100.0),
-        # start_lie blank AND bunker end_lie -> C+E overlap
+        # start_lie blank AND bunker end_lie -> UNKNOWN_LIE+SAND_SPARSE overlap
         _row(hole=2, shot_no=2, start_lie="", start_distance_yd=50.0, end_lie="벙커", end_distance_yd=80.0),
     ]
     result = model_eligibility_summary(rows)
-    assert result["F_overlap"] == 2
-    assert result["A_fully_usable_transition"] == 0
-    assert result["F_overlap_combinations"] == {"B+C": 1, "C+E": 1}
+    assert result["MULTIPLE_FLAGS"] == 2
+    assert result["ELIGIBLE"] == 0
+    assert result["MULTIPLE_FLAGS_combinations"] == {
+        "FIRST_SHOT_DISTANCE_MISSING+UNKNOWN_LIE": 1,
+        "UNKNOWN_LIE+SAND_SPARSE": 1,
+    }
     assert result["sum_check"] == 2
 
 
@@ -222,9 +234,9 @@ def test_model_eligibility_summary_no_double_counting_sum_equals_total():
     ]
     result = model_eligibility_summary(rows)
     component_sum = (
-        result["A_fully_usable_transition"] + result["B_first_shot_start_distance_unresolved"]
-        + result["C_blank_lie_unresolved"] + result["D_zero_distance_ambiguous"]
-        + result["E_bunker_semantic_review"] + result["F_overlap"]
+        result["ELIGIBLE"] + result["FIRST_SHOT_DISTANCE_MISSING"]
+        + result["UNKNOWN_LIE"] + result["ZERO_DISTANCE_UNKNOWN"]
+        + result["SAND_SPARSE"] + result["MULTIPLE_FLAGS"]
     )
     assert component_sum == result["total_shots"] == len(rows)
     assert result["sum_check"] == result["total_shots"]

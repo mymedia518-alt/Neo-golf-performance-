@@ -8,12 +8,15 @@ read-only (`file:<path>?mode=ro`) and never writes to it, never
 re-collects, never makes a network call.
 
 Task D (first-shot start state) is intentionally NOT estimated here --
-see [FIRST-SHOT START STATE] in this script's own printed output: no
-official course/hole yardage source exists anywhere in this repo for
-any tournament (confirmed by klpga.neo_win.final_course_deep_dive's own
-BLOCKED contract), so every first shot's start_distance_yd/start_lie
-stays exactly what the DB already has (None/"티") -- never back-derived
-from shot_distance+remaining_distance, per explicit instruction.
+see [FIRST-SHOT START STATE] in this script's own printed output.
+2026-09-21 decision: TEE+PAR+HOLE_ID is NOT used as a substitute state
+either. klpga.expected_strokes.course_yardage defines the real
+ingestion contract a future official yardage source must satisfy; none
+has been ingested yet (see that module's own docstring for the full,
+branch-scoped search and an evidentiary correction to an earlier
+cross-branch citation). Every first shot's start_distance_yd/start_lie
+stays exactly what the DB already has (None/"티") unless course_yardage
+is populated -- never back-derived from shot_distance+remaining_distance.
 
 Usage (from klpga_pipeline/):
     py scripts/build_expected_strokes_dataset.py --game 2026090002
@@ -37,6 +40,7 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from klpga.collectors.score_record import parse_score_record_hole_by_hole, parse_score_record_hole_par
+from klpga.expected_strokes.course_yardage import load_course_yardage
 from klpga.expected_strokes.investigations import (
     blank_lie_investigation,
     bunker_investigation,
@@ -145,6 +149,7 @@ def main() -> None:
     for r in ambiguous:
         print(f"{r.player_code},{r.player_name},{r.round_number},{r.hole},{r.shot_no},{r.end_lie}")
     print("NOT reinterpreted as HOLED -- holed is strict end_lie==\"홀인\" only, per operator instruction.")
+    print("2026-09-21 decision: blank-lie + 0.0-distance state is UNKNOWN/INVALID, not HOLED.")
     print("These rows keep holed=False in the CSV above; review manually before any modeling use.")
 
     print("\n[LIE TAXONOMY]")
@@ -165,10 +170,20 @@ def main() -> None:
     print("first_shot_rows =", len(first_shots))
     print("first_shot_start_distance_all_none =", all(r.start_distance_yd is None for r in first_shots))
     print("first_shot_start_lie_all_tee =", all(r.start_lie == "티" for r in first_shots))
-    print("No official course/hole yardage source exists anywhere in this repo (confirmed by")
-    print("klpga.neo_win.final_course_deep_dive's own BLOCKED contract, checked for every game_code).")
-    print("start_distance_yd for shot_no==1 is left exactly as the DB has it (None) -- never")
-    print("back-derived from shot_distance_yd+end_distance_yd.")
+    print("2026-09-21 decision: TEE+PAR+HOLE_ID is NOT used as the Expected Strokes state.")
+    print("Instead: klpga.expected_strokes.course_yardage defines the real ingestion contract")
+    print("(game_code, round, hole, par, yardage, source, source_hash) a future official yardage")
+    print("source must populate. No such source has been ingested yet -- checking this game's DB:")
+    yardage = load_course_yardage(conn, a.game)
+    if yardage:
+        print("course_yardage rows found =", len(yardage), "-- see [FILE LOCATIONS] sqlite path")
+    else:
+        print("course_yardage: BLOCKED -- no rows found for this game_code (table missing or empty).")
+        print("No official KLPGA per-hole yardage endpoint has been identified/observed in this")
+        print("collection's real HTTP traffic; see course_yardage.py's own module docstring for")
+        print("everywhere in this branch's reachable tree that was checked and came back empty.")
+    print("start_distance_yd for shot_no==1 stays exactly what the DB has (None unless")
+    print("course_yardage is populated) -- never back-derived from shot_distance_yd+end_distance_yd.")
 
     print("\n[DISTRIBUTION]")
     print("by_lie (raw lie value -> shots/min/p25/median/p75/max of start_distance_yd):")
@@ -219,8 +234,8 @@ def main() -> None:
     for d in zero_distance_ambiguous_detail(rows):
         print("   ", d)
 
-    print("\n[MODEL-ELIGIBILITY SUMMARY]")
-    print("(non-overlapping A-F classification -- no double counting; 2+ flags -> F with combination recorded)")
+    print("\n[MODEL TRAINING ELIGIBILITY SUMMARY]")
+    print("(non-overlapping named-state classification -- no double counting; 2+ flags -> MULTIPLE_FLAGS with combination recorded)")
     elig = model_eligibility_summary(rows)
     for key, value in elig.items():
         print(f"{key} =", value)
