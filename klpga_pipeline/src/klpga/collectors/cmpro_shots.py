@@ -62,6 +62,47 @@ def fetch_player_score_html(client: PoliteHttpClient, game_code: str, player_cod
     )
 
 
+
+def parse_cmpro_played_holes(html: str) -> dict[int, list[int]]:
+    """Return only round/hole pairs explicitly present in the official playerScore fragment."""
+    soup = BeautifulSoup(html, "html.parser")
+    played: dict[int, set[int]] = {}
+    for node in soup.find_all(attrs={"_round": True}):
+        try:
+            rnd = int(str(node.get("_round")).strip())
+        except (TypeError, ValueError):
+            continue
+        holes: set[int] = set()
+        if node.has_attr("_hole"):
+            try:
+                hole = int(str(node.get("_hole")).strip())
+                if 1 <= hole <= 18:
+                    holes.add(hole)
+            except (TypeError, ValueError):
+                pass
+        for child in node.find_all(attrs={"_hole": True}):
+            try:
+                hole = int(str(child.get("_hole")).strip())
+            except (TypeError, ValueError):
+                continue
+            if 1 <= hole <= 18:
+                holes.add(hole)
+        if holes:
+            played.setdefault(rnd, set()).update(holes)
+
+    # Some fragments put _round and _hole on the same repeated score cells rather than a parent.
+    for node in soup.find_all(attrs={"_round": True, "_hole": True}):
+        try:
+            rnd = int(str(node.get("_round")).strip())
+            hole = int(str(node.get("_hole")).strip())
+        except (TypeError, ValueError):
+            continue
+        if 1 <= hole <= 18:
+            played.setdefault(rnd, set()).add(hole)
+
+    return {rnd: sorted(holes) for rnd, holes in sorted(played.items())}
+
+
 def fetch_player_info_html(
     client: PoliteHttpClient, game_code: str, player_code: str, round_number: int, hole: int,
     *, use_cache: bool = True,
