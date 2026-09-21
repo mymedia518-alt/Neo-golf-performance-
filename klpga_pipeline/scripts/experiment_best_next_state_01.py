@@ -62,7 +62,7 @@ def main():
             for s in hs:
                 b=band(s.start_distance_yd)
                 if s.shot_no<2 or s.start_lie not in LIES or b is None: continue
-                states.append({"game":game,"round":rnd,"hole":hole,"par":s.par,"shot_no":s.shot_no,"lie":s.start_lie,"band":b,"green":s.end_lie==GREEN,"end_green_distance":s.end_distance_yd if s.end_lie==GREEN else None,"par_or_better":final_to_par<=0,"bogey_or_worse":final_to_par>=1})
+                states.append({"game":game,"round":rnd,"hole":hole,"par":s.par,"shot_no":s.shot_no,"lie":s.start_lie,"band":b,"green":s.end_lie==GREEN,"end_green_distance":s.end_distance_yd if s.end_lie==GREEN else None,"birdie_or_better":final_to_par<=-1,"par_or_better":final_to_par<=0,"bogey_or_worse":final_to_par>=1})
 
     grouped=defaultdict(list)
     for x in states: grouped[(x["par"],x["shot_no"],x["lie"],x["band"])].append(x)
@@ -72,15 +72,16 @@ def main():
         rem=[x["end_green_distance"] for x in xs if x["end_green_distance"] is not None]
         events=len({x["game"] for x in xs})
         status="READY" if n>=a.min_n and events>=2 else "HOLD"
-        cells.append({"par":par,"shot_no":shot,"lie":lie,"distance_band":b,"n":n,"events":events,"green_reach_rate":gr/n,"avg_remaining_on_green_yd":sum(rem)/len(rem) if rem else None,"par_or_better_rate":pb/n,"bogey_or_worse_rate":1-pb/n,"conservative_par_or_better":wilson_lower(pb,n),"status":status})
+        bird=sum(x["birdie_or_better"] for x in xs)
+        cells.append({"par":par,"shot_no":shot,"lie":lie,"distance_band":b,"n":n,"events":events,"green_reach_rate":gr/n,"avg_remaining_on_green_yd":sum(rem)/len(rem) if rem else None,"birdie_or_better_rate":bird/n,"par_or_better_rate":pb/n,"bogey_or_worse_rate":1-pb/n,"conservative_birdie_or_better":wilson_lower(bird,n),"conservative_par_or_better":wilson_lower(pb,n),"status":status})
     ready=[x for x in cells if x["status"]=="READY"]
     contexts=defaultdict(list)
     for x in ready: contexts[(x["par"],x["shot_no"])].append(x)
     rankings={}
     for k,xs in contexts.items():
-        # Descriptive priority: conservative score protection first; green reach is tie-breaker.
-        xs=sorted(xs,key=lambda x:(x["conservative_par_or_better"],x["green_reach_rate"],x["n"]),reverse=True)
-        rankings[f"Par{k[0]}|shot{k[1]}"]=[dict(rank=i+1,**x) for i,x in enumerate(xs)]
-    result={"engine":"best_next_state_v1","player":"김민선7","methodology":{"observed_only":True,"expected_strokes":False,"strokes_gained":False,"target_recommendation":False,"club_recommendation":False,"causality_claimed":False,"comparison_control":"same par + same shot_no","ready_gate":f"n>={a.min_n} and events>=2","ranking":"Wilson lower bound of observed par-or-better; green reach tie-breaker"},"qa":{"games":games,"state_rows":len(states),"cells":len(cells),"ready_cells":len(ready),"hold_cells":len(cells)-len(ready)},"rankings":rankings,"all_cells":sorted(cells,key=lambda x:(x["par"],x["shot_no"],x["lie"],x["distance_band"]))}
+        attack=sorted(xs,key=lambda x:(x["conservative_birdie_or_better"],x["green_reach_rate"],x["n"]),reverse=True)
+        protect=sorted(xs,key=lambda x:(x["conservative_par_or_better"],-x["bogey_or_worse_rate"],x["n"]),reverse=True)
+        rankings[f"Par{k[0]}|shot{k[1]}"]={"ATTACK":[dict(rank=i+1,**x) for i,x in enumerate(attack)],"PROTECT":[dict(rank=i+1,**x) for i,x in enumerate(protect)]}
+    result={"engine":"best_next_state_v2_attack_protect","player":"김민선7","methodology":{"observed_only":True,"expected_strokes":False,"strokes_gained":False,"target_recommendation":False,"club_recommendation":False,"causality_claimed":False,"comparison_control":"same par + same shot_no","ready_gate":f"n>={a.min_n} and events>=2","ranking":"ATTACK = Wilson lower bound of observed birdie-or-better; PROTECT = Wilson lower bound of observed par-or-better. Descriptive only."},"qa":{"games":games,"state_rows":len(states),"cells":len(cells),"ready_cells":len(ready),"hold_cells":len(cells)-len(ready)},"rankings":rankings,"all_cells":sorted(cells,key=lambda x:(x["par"],x["shot_no"],x["lie"],x["distance_band"]))}
     txt=json.dumps(result,ensure_ascii=False,indent=2); print(txt); a.output.parent.mkdir(parents=True,exist_ok=True); a.output.write_text(txt,encoding="utf-8")
 if __name__=="__main__": main()
