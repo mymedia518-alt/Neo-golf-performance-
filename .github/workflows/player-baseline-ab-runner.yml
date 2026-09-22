@@ -27,12 +27,12 @@ jobs:
         run: pip install -r requirements.txt
       - name: Collect official KLPGA player baseline
         working-directory: klpga_pipeline
-        run: python scripts/183_collect_player_baseline_ab.py --season 2026 --players 10097,9784
+        run: |\n          python scripts/183_collect_player_baseline_ab.py --season 2026 --players 10097,9784\n          python scripts/184_build_blue_heron_8h_ab_decision.py
       - name: Commit evidence to experiment branch
         run: |
           git config user.name "neo-data-bot"
           git config user.email "neo-data-bot@users.noreply.github.com"
-          git add klpga_pipeline/data/player_baseline/ab_10097_9784_2026.json
+          git add klpga_pipeline/data/player_baseline/ab_10097_9784_2026.json klpga_pipeline/data/player_baseline/blue_heron_8h_ab_decision_v1.json klpga_pipeline/reports/BLUE_HERON_8H_AB_DECISION_V1.md
           if git diff --cached --quiet; then
             echo "No artifact change"
           else
