@@ -1,0 +1,99 @@
+{
+  "title": "NEO A/B PLAYER TEST #01 — Blue Heron 8H",
+  "season": 2026,
+  "event": {
+    "game_code": "2026100005",
+    "name": "제26회 하이트진로 챔피언십",
+    "course": "Blue Heron",
+    "hole": 8,
+    "par": 4,
+    "yardage": 377
+  },
+  "scope": "distance-state evidence only",
+  "players": {
+    "10097": {
+      "name": "김민선7",
+      "candidates": [
+        {
+          "tee_nominal_yd": 230,
+          "remaining_nominal_yd": 147,
+          "tee_fairway_pct": 66.09,
+          "tee_sample_n": 174,
+          "approach_birdie_plus_pct": 10.34,
+          "approach_sample_n": 174,
+          "fairway_gir_pct": 75.81,
+          "fairway_gir_sample_n": 124
+        },
+        {
+          "tee_nominal_yd": 250,
+          "remaining_nominal_yd": 127,
+          "tee_fairway_pct": 71.62,
+          "tee_sample_n": 296,
+          "approach_birdie_plus_pct": 18.5,
+          "approach_sample_n": 254,
+          "fairway_gir_pct": 83.87,
+          "fairway_gir_sample_n": 186
+        },
+        {
+          "tee_nominal_yd": 270,
+          "remaining_nominal_yd": 107,
+          "tee_fairway_pct": 72.18,
+          "tee_sample_n": 133,
+          "approach_birdie_plus_pct": 22.16,
+          "approach_sample_n": 194,
+          "fairway_gir_pct": 86.01,
+          "fairway_gir_sample_n": 143
+        }
+      ]
+    },
+    "9784": {
+      "name": "이예원",
+      "candidates": [
+        {
+          "tee_nominal_yd": 230,
+          "remaining_nominal_yd": 147,
+          "tee_fairway_pct": 76.34,
+          "tee_sample_n": 224,
+          "approach_birdie_plus_pct": 9.0,
+          "approach_sample_n": 200,
+          "fairway_gir_pct": 68.79,
+          "fairway_gir_sample_n": 141
+        },
+        {
+          "tee_nominal_yd": 250,
+          "remaining_nominal_yd": 127,
+          "tee_fairway_pct": 73.8,
+          "tee_sample_n": 229,
+          "approach_birdie_plus_pct": 15.31,
+          "approach_sample_n": 209,
+          "fairway_gir_pct": 79.27,
+          "fairway_gir_sample_n": 164
+        },
+        {
+          "tee_nominal_yd": 270,
+          "remaining_nominal_yd": 107,
+          "tee_fairway_pct": 72.84,
+          "tee_sample_n": 81,
+          "approach_birdie_plus_pct": 17.73,
+          "approach_sample_n": 141,
+          "fairway_gir_pct": 81.08,
+          "fairway_gir_sample_n": 111
+        }
+      ]
+    }
+  },
+  "gate": {
+    "distance_decision_layer": "PASS",
+    "spatial_target": "HOLD"
+  },
+  "limitations": [
+    "티샷 거리에서 홀 전장 차감값은 명목상 남은 거리이며 공간 좌표가 아니다.",
+    "실제 벙커·러프·좌우 분산·핀 위치·날씨·클럽 선택은 아직 결합하지 않았다.",
+    "따라서 특정 지점을 BEST TARGET으로 확정하지 않는다."
+  ],
+  "observations": [
+    "김민선7: 230→270yd에서 FW 66.09%→72.18%, Birdie+ 10.34%→22.16%.",
+    "이예원: 230→270yd에서 FW 76.34%→72.84%, Birdie+ 9.00%→17.73%.",
+    "같은 홀에서도 두 선수의 거리-정확도-어프로치 곡선이 동일하지 않다."
+  ]
+}
