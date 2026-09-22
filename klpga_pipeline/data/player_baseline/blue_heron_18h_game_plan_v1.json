@@ -1,0 +1,822 @@
+{
+  "event": {
+    "game_code": "2026100005",
+    "course": "Blue Heron",
+    "holes": [
+      {
+        "hole": 1,
+        "par": 4,
+        "yardage": 402,
+        "spatial_2026": false
+      },
+      {
+        "hole": 2,
+        "par": 3,
+        "yardage": 188,
+        "spatial_2026": false
+      },
+      {
+        "hole": 3,
+        "par": 4,
+        "yardage": 426,
+        "spatial_2026": false
+      },
+      {
+        "hole": 4,
+        "par": 5,
+        "yardage": 542,
+        "spatial_2026": false
+      },
+      {
+        "hole": 5,
+        "par": 3,
+        "yardage": 170,
+        "spatial_2026": false
+      },
+      {
+        "hole": 6,
+        "par": 4,
+        "yardage": 410,
+        "spatial_2026": false
+      },
+      {
+        "hole": 7,
+        "par": 5,
+        "yardage": 516,
+        "spatial_2026": false
+      },
+      {
+        "hole": 8,
+        "par": 4,
+        "yardage": 377,
+        "spatial_2026": false
+      },
+      {
+        "hole": 9,
+        "par": 4,
+        "yardage": 404,
+        "spatial_2026": false
+      },
+      {
+        "hole": 10,
+        "par": 5,
+        "yardage": 570,
+        "spatial_2026": false
+      },
+      {
+        "hole": 11,
+        "par": 3,
+        "yardage": 174,
+        "spatial_2026": false
+      },
+      {
+        "hole": 12,
+        "par": 4,
+        "yardage": 410,
+        "spatial_2026": false
+      },
+      {
+        "hole": 13,
+        "par": 4,
+        "yardage": 376,
+        "spatial_2026": false
+      },
+      {
+        "hole": 14,
+        "par": 4,
+        "yardage": 379,
+        "spatial_2026": false
+      },
+      {
+        "hole": 15,
+        "par": 4,
+        "yardage": 423,
+        "spatial_2026": false
+      },
+      {
+        "hole": 16,
+        "par": 3,
+        "yardage": 180,
+        "spatial_2026": false
+      },
+      {
+        "hole": 17,
+        "par": 4,
+        "yardage": 390,
+        "spatial_2026": false
+      },
+      {
+        "hole": 18,
+        "par": 5,
+        "yardage": 528,
+        "spatial_2026": false
+      }
+    ]
+  },
+  "players": {
+    "10097": {
+      "name": "김민선7",
+      "holes": [
+        {
+          "hole": 1,
+          "par": 4,
+          "yardage": 402,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 250,
+              "remaining_yd": 152,
+              "remaining_band": "140-160",
+              "fw_pct": 71.62,
+              "fw_n": 296,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 132,
+              "remaining_band": "120-140",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 18.5,
+              "birdie_n": 254,
+              "fw_gir_pct": 83.87,
+              "gir_n": 186
+            }
+          ]
+        },
+        {
+          "hole": 2,
+          "par": 3,
+          "yardage": 188,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 3,
+          "par": 4,
+          "yardage": 426,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 156,
+              "remaining_band": "140-160",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            }
+          ]
+        },
+        {
+          "hole": 4,
+          "par": 5,
+          "yardage": 542,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 5,
+          "par": 3,
+          "yardage": 170,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 6,
+          "par": 4,
+          "yardage": 410,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 140,
+              "remaining_band": "140-160",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            }
+          ]
+        },
+        {
+          "hole": 7,
+          "par": 5,
+          "yardage": 516,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 8,
+          "par": 4,
+          "yardage": 377,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 230,
+              "remaining_yd": 147,
+              "remaining_band": "140-160",
+              "fw_pct": 66.09,
+              "fw_n": 174,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            },
+            {
+              "tee_yd": 250,
+              "remaining_yd": 127,
+              "remaining_band": "120-140",
+              "fw_pct": 71.62,
+              "fw_n": 296,
+              "birdie_plus_pct": 18.5,
+              "birdie_n": 254,
+              "fw_gir_pct": 83.87,
+              "gir_n": 186
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 107,
+              "remaining_band": "100-120",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 22.16,
+              "birdie_n": 194,
+              "fw_gir_pct": 86.01,
+              "gir_n": 143
+            }
+          ]
+        },
+        {
+          "hole": 9,
+          "par": 4,
+          "yardage": 404,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 250,
+              "remaining_yd": 154,
+              "remaining_band": "140-160",
+              "fw_pct": 71.62,
+              "fw_n": 296,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 134,
+              "remaining_band": "120-140",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 18.5,
+              "birdie_n": 254,
+              "fw_gir_pct": 83.87,
+              "gir_n": 186
+            }
+          ]
+        },
+        {
+          "hole": 10,
+          "par": 5,
+          "yardage": 570,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 11,
+          "par": 3,
+          "yardage": 174,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 12,
+          "par": 4,
+          "yardage": 410,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 140,
+              "remaining_band": "140-160",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            }
+          ]
+        },
+        {
+          "hole": 13,
+          "par": 4,
+          "yardage": 376,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 230,
+              "remaining_yd": 146,
+              "remaining_band": "140-160",
+              "fw_pct": 66.09,
+              "fw_n": 174,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            },
+            {
+              "tee_yd": 250,
+              "remaining_yd": 126,
+              "remaining_band": "120-140",
+              "fw_pct": 71.62,
+              "fw_n": 296,
+              "birdie_plus_pct": 18.5,
+              "birdie_n": 254,
+              "fw_gir_pct": 83.87,
+              "gir_n": 186
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 106,
+              "remaining_band": "100-120",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 22.16,
+              "birdie_n": 194,
+              "fw_gir_pct": 86.01,
+              "gir_n": 143
+            }
+          ]
+        },
+        {
+          "hole": 14,
+          "par": 4,
+          "yardage": 379,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 230,
+              "remaining_yd": 149,
+              "remaining_band": "140-160",
+              "fw_pct": 66.09,
+              "fw_n": 174,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            },
+            {
+              "tee_yd": 250,
+              "remaining_yd": 129,
+              "remaining_band": "120-140",
+              "fw_pct": 71.62,
+              "fw_n": 296,
+              "birdie_plus_pct": 18.5,
+              "birdie_n": 254,
+              "fw_gir_pct": 83.87,
+              "gir_n": 186
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 109,
+              "remaining_band": "100-120",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 22.16,
+              "birdie_n": 194,
+              "fw_gir_pct": 86.01,
+              "gir_n": 143
+            }
+          ]
+        },
+        {
+          "hole": 15,
+          "par": 4,
+          "yardage": 423,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 153,
+              "remaining_band": "140-160",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            }
+          ]
+        },
+        {
+          "hole": 16,
+          "par": 3,
+          "yardage": 180,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 17,
+          "par": 4,
+          "yardage": 390,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 250,
+              "remaining_yd": 140,
+              "remaining_band": "140-160",
+              "fw_pct": 71.62,
+              "fw_n": 296,
+              "birdie_plus_pct": 10.34,
+              "birdie_n": 174,
+              "fw_gir_pct": 75.81,
+              "gir_n": 124
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 120,
+              "remaining_band": "120-140",
+              "fw_pct": 72.18,
+              "fw_n": 133,
+              "birdie_plus_pct": 18.5,
+              "birdie_n": 254,
+              "fw_gir_pct": 83.87,
+              "gir_n": 186
+            }
+          ]
+        },
+        {
+          "hole": 18,
+          "par": 5,
+          "yardage": 528,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        }
+      ]
+    },
+    "9784": {
+      "name": "이예원",
+      "holes": [
+        {
+          "hole": 1,
+          "par": 4,
+          "yardage": 402,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 250,
+              "remaining_yd": 152,
+              "remaining_band": "140-160",
+              "fw_pct": 73.8,
+              "fw_n": 229,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 132,
+              "remaining_band": "120-140",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 15.31,
+              "birdie_n": 209,
+              "fw_gir_pct": 79.27,
+              "gir_n": 164
+            }
+          ]
+        },
+        {
+          "hole": 2,
+          "par": 3,
+          "yardage": 188,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 3,
+          "par": 4,
+          "yardage": 426,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 156,
+              "remaining_band": "140-160",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            }
+          ]
+        },
+        {
+          "hole": 4,
+          "par": 5,
+          "yardage": 542,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 5,
+          "par": 3,
+          "yardage": 170,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 6,
+          "par": 4,
+          "yardage": 410,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 140,
+              "remaining_band": "140-160",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            }
+          ]
+        },
+        {
+          "hole": 7,
+          "par": 5,
+          "yardage": 516,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 8,
+          "par": 4,
+          "yardage": 377,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 230,
+              "remaining_yd": 147,
+              "remaining_band": "140-160",
+              "fw_pct": 76.34,
+              "fw_n": 224,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            },
+            {
+              "tee_yd": 250,
+              "remaining_yd": 127,
+              "remaining_band": "120-140",
+              "fw_pct": 73.8,
+              "fw_n": 229,
+              "birdie_plus_pct": 15.31,
+              "birdie_n": 209,
+              "fw_gir_pct": 79.27,
+              "gir_n": 164
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 107,
+              "remaining_band": "100-120",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 17.73,
+              "birdie_n": 141,
+              "fw_gir_pct": 81.08,
+              "gir_n": 111
+            }
+          ]
+        },
+        {
+          "hole": 9,
+          "par": 4,
+          "yardage": 404,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 250,
+              "remaining_yd": 154,
+              "remaining_band": "140-160",
+              "fw_pct": 73.8,
+              "fw_n": 229,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 134,
+              "remaining_band": "120-140",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 15.31,
+              "birdie_n": 209,
+              "fw_gir_pct": 79.27,
+              "gir_n": 164
+            }
+          ]
+        },
+        {
+          "hole": 10,
+          "par": 5,
+          "yardage": 570,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 11,
+          "par": 3,
+          "yardage": 174,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 12,
+          "par": 4,
+          "yardage": 410,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 140,
+              "remaining_band": "140-160",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            }
+          ]
+        },
+        {
+          "hole": 13,
+          "par": 4,
+          "yardage": 376,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 230,
+              "remaining_yd": 146,
+              "remaining_band": "140-160",
+              "fw_pct": 76.34,
+              "fw_n": 224,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            },
+            {
+              "tee_yd": 250,
+              "remaining_yd": 126,
+              "remaining_band": "120-140",
+              "fw_pct": 73.8,
+              "fw_n": 229,
+              "birdie_plus_pct": 15.31,
+              "birdie_n": 209,
+              "fw_gir_pct": 79.27,
+              "gir_n": 164
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 106,
+              "remaining_band": "100-120",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 17.73,
+              "birdie_n": 141,
+              "fw_gir_pct": 81.08,
+              "gir_n": 111
+            }
+          ]
+        },
+        {
+          "hole": 14,
+          "par": 4,
+          "yardage": 379,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 230,
+              "remaining_yd": 149,
+              "remaining_band": "140-160",
+              "fw_pct": 76.34,
+              "fw_n": 224,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            },
+            {
+              "tee_yd": 250,
+              "remaining_yd": 129,
+              "remaining_band": "120-140",
+              "fw_pct": 73.8,
+              "fw_n": 229,
+              "birdie_plus_pct": 15.31,
+              "birdie_n": 209,
+              "fw_gir_pct": 79.27,
+              "gir_n": 164
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 109,
+              "remaining_band": "100-120",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 17.73,
+              "birdie_n": 141,
+              "fw_gir_pct": 81.08,
+              "gir_n": 111
+            }
+          ]
+        },
+        {
+          "hole": 15,
+          "par": 4,
+          "yardage": 423,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 270,
+              "remaining_yd": 153,
+              "remaining_band": "140-160",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            }
+          ]
+        },
+        {
+          "hole": 16,
+          "par": 3,
+          "yardage": 180,
+          "status": "NEXT",
+          "note": "Par3 전용 시즌 지표 결합 대상"
+        },
+        {
+          "hole": 17,
+          "par": 4,
+          "yardage": 390,
+          "status": "PASS",
+          "candidates": [
+            {
+              "tee_yd": 250,
+              "remaining_yd": 140,
+              "remaining_band": "140-160",
+              "fw_pct": 73.8,
+              "fw_n": 229,
+              "birdie_plus_pct": 9.0,
+              "birdie_n": 200,
+              "fw_gir_pct": 68.79,
+              "gir_n": 141
+            },
+            {
+              "tee_yd": 270,
+              "remaining_yd": 120,
+              "remaining_band": "120-140",
+              "fw_pct": 72.84,
+              "fw_n": 81,
+              "birdie_plus_pct": 15.31,
+              "birdie_n": 209,
+              "fw_gir_pct": 79.27,
+              "gir_n": 164
+            }
+          ]
+        },
+        {
+          "hole": 18,
+          "par": 5,
+          "yardage": 528,
+          "status": "NEXT",
+          "note": "Par5 2nd-shot 전용 시즌 지표 결합 대상"
+        }
+      ]
+    }
+  },
+  "gate": {
+    "distance_state": "PASS",
+    "spatial": "HOLD"
+  }
+}
