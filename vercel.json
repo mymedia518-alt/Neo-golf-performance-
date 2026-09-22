@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/player/:code", "destination": "/player.html" },
+    { "source": "/player/:code/hole/:holeId", "destination": "/player.html" }
+  ]
+}

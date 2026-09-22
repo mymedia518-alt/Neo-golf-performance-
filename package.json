@@ -1,0 +1,21 @@
+{
+  "name": "neo-golf-data",
+  "version": "0.1.0",
+  "description": "NEO Golf Data — Player Intelligence prototype",
+  "scripts": {
+    "start": "python3 serve.py 4173",
+    "capture": "node scripts/capture.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mymedia518-alt/Neo-golf-performance-.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mymedia518-alt/Neo-golf-performance-/issues"
+  },
+  "homepage": "https://github.com/mymedia518-alt/Neo-golf-performance-#readme",
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  },
+  "private": true
+}

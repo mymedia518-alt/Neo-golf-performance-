@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tournament — NEO Golf Data</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2335D07F'/%3E%3Ctext x='16' y='22' font-size='18' font-family='sans-serif' font-weight='800' text-anchor='middle' fill='%230A0E15'%3EN%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/css/neo.css">
+</head>
+<body>
+<header data-neo-header></header>
+<main class="wrap page">
+  <div class="page-head">
+    <div><h1 class="page-title" data-tour-name></h1>
+    <p class="section-sub" data-tour-sub></p></div>
+    <span class="chip chip--accent" data-weather></span>
+  </div>
+  <div class="grid-2">
+    <section class="card card--pad">
+      <h2 class="section-title">Leaderboard</h2>
+      <p class="section-sub">선수 이름 클릭 → Player Intelligence</p>
+      <div style="margin-top:12px" data-leaderboard></div>
+    </section>
+    <section class="card card--pad">
+      <h2 class="section-title">Course Fit Board</h2>
+      <p class="section-sub">이번 코스와 선수 스타일의 적합도</p>
+      <div style="margin-top:12px" data-fitboard></div>
+    </section>
+  </div>
+</main>
+<script src="/assets/js/data.js"></script>
+<script src="/assets/js/neo.js"></script>
+<script>
+  NEOUI.header("tournament");
+  document.querySelector("[data-tour-name]").textContent = NEO.tournament.name;
+  document.querySelector("[data-tour-sub]").textContent = NEO.tournament.course + " · " + NEO.tournament.round;
+  document.querySelector("[data-weather]").textContent = NEO.tournament.weather;
+  NEOUI.leaderboardTable(document.querySelector("[data-leaderboard]"));
+  document.querySelector("[data-fitboard]").innerHTML =
+    '<table class="neo-table"><thead><tr><th>선수</th><th>스타일</th><th class="ta-r">Course Fit</th></tr></thead><tbody>' +
+    NEO.players.slice().sort(function(a,b){return b.fit.score-a.fit.score;}).map(function (p) {
+      return "<tr><td>" + NEOUI.playerLink(p) + '</td><td style="color:var(--neo-ink-3)">' + p.tagline +
+        '</td><td class="ta-r num" style="color:var(--neo-accent);font-weight:800;font-size:16px">' + p.fit.score + "</td></tr>";
+    }).join("") + "</tbody></table>";
+</script>
+</body>
+</html>
