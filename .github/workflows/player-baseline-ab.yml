@@ -7,7 +7,7 @@ on:
     paths:
       - "klpga_pipeline/scripts/183_collect_player_baseline_ab.py"
       - ".github/workflows/player-baseline-ab.yml"
-  workflow_dispatch:
+  pull_request:\n    branches:\n      - neo-website-v2\n  workflow_dispatch:
 
 permissions:
   contents: write
