@@ -1,0 +1,41 @@
+name: NEO Player Baseline AB Runner
+
+on:
+  push:
+    branches:
+      - neo-website-v2
+    paths:
+      - ".github/workflows/player-baseline-ab-runner.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: experiment/player-baseline-ab-20260922
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        working-directory: klpga_pipeline
+        run: pip install -r requirements.txt
+      - name: Collect official KLPGA player baseline
+        working-directory: klpga_pipeline
+        run: python scripts/183_collect_player_baseline_ab.py --season 2026 --players 10097,9784
+      - name: Commit evidence to experiment branch
+        run: |
+          git config user.name "neo-data-bot"
+          git config user.email "neo-data-bot@users.noreply.github.com"
+          git add klpga_pipeline/data/player_baseline/ab_10097_9784_2026.json
+          if git diff --cached --quiet; then
+            echo "No artifact change"
+          else
+            git commit -m "data: capture Kim Minsun7 vs Lee Yewon 2026 KLPGA baseline"
+            git push origin HEAD:experiment/player-baseline-ab-20260922
+          fi
