@@ -25,9 +25,11 @@ jobs:
       - name: Install dependencies
         working-directory: klpga_pipeline
         run: pip install -r requirements.txt
-      - name: Collect official KLPGA player baseline
+      - name: Collect official KLPGA player baseline and build decision card
         working-directory: klpga_pipeline
-        run: |\n          python scripts/183_collect_player_baseline_ab.py --season 2026 --players 10097,9784\n          python scripts/184_build_blue_heron_8h_ab_decision.py
+        run: |
+          python scripts/183_collect_player_baseline_ab.py --season 2026 --players 10097,9784
+          python scripts/184_build_blue_heron_8h_ab_decision.py
       - name: Commit evidence to experiment branch
         run: |
           git config user.name "neo-data-bot"
@@ -36,6 +38,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No artifact change"
           else
-            git commit -m "data: capture Kim Minsun7 vs Lee Yewon 2026 KLPGA baseline"
+            git commit -m "data: build Blue Heron 8H player A/B decision evidence"
             git push origin HEAD:experiment/player-baseline-ab-20260922
           fi
