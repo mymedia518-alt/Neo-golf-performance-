@@ -1,0 +1,2329 @@
+{
+  "season": "2026",
+  "players": [
+    "10097",
+    "9784"
+  ],
+  "source_endpoint": "https://klpga.co.kr/load/record/loadLocationRecord",
+  "families": [
+    "Approach01",
+    "Approach03",
+    "Approach05",
+    "Approach07",
+    "Approach08",
+    "Tee05",
+    "Tee06"
+  ],
+  "requests": [
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020101",
+      "label": "어프로치",
+      "source_metric_key": "Approach::Approach01::020101",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "2",
+          "values": {
+            "record": "76.58",
+            "record1": "726",
+            "record2": "948",
+            "record3": "68",
+            "record4": "-0.2121"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "29",
+          "values": {
+            "record": "70.93",
+            "record1": "593",
+            "record2": "836",
+            "record3": "60",
+            "record4": "-0.2327"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010301",
+      "label": "Par4 티샷 비율",
+      "source_metric_key": "Tee::Tee05::010301",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "19",
+          "values": {
+            "record": "248.56",
+            "record1": "166,286.41",
+            "record2": "669",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "41",
+          "values": {
+            "record": "244.12",
+            "record1": "144,761.25",
+            "record2": "593",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010309",
+      "label": "Par4 페어웨이 안착률",
+      "source_metric_key": "Tee::Tee06::010309",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "4",
+          "values": {
+            "record": "75.08",
+            "record1": "446",
+            "record2": "594",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "24",
+          "values": {
+            "record": "69.05",
+            "record1": "464",
+            "record2": "672",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020301",
+      "label": "그린 적중률(페어웨이)",
+      "source_metric_key": "Approach::Approach03::020301",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "7",
+          "values": {
+            "record": "83.10",
+            "record1": "536",
+            "record2": "645",
+            "record3": "68",
+            "record4": "-0.2146"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "52",
+          "values": {
+            "record": "77.48",
+            "record1": "468",
+            "record2": "604",
+            "record3": "60",
+            "record4": "-0.2308"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020501",
+      "label": "그린 적중률(러프)",
+      "source_metric_key": "Approach::Approach05::020501",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 265,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "16",
+          "values": {
+            "record": "62.40",
+            "record1": "161",
+            "record2": "258",
+            "record3": "68",
+            "record4": "-0.1677"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "89",
+          "values": {
+            "record": "51.71",
+            "record1": "106",
+            "record2": "205",
+            "record3": "60",
+            "record4": "-0.217"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020701",
+      "label": "버디 이하 확률",
+      "source_metric_key": "Approach::Approach07::020701",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "22",
+          "values": {
+            "record": "20.78",
+            "record1": "134",
+            "record2": "645",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "30",
+          "values": {
+            "record": "19.87",
+            "record1": "120",
+            "record2": "604",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020801",
+      "label": "어프로치 후 남은 거리",
+      "source_metric_key": "Approach::Approach08::020801",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "2",
+          "values": {
+            "record": "10.51",
+            "record1": "9,962.46",
+            "record2": "948",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "10",
+          "values": {
+            "record": "11.58",
+            "record1": "9,677.02",
+            "record2": "836",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010302",
+      "label": "280야드 이상(RTP)",
+      "source_metric_key": "Tee::Tee05::010302",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "30",
+          "values": {
+            "record": "4.48",
+            "record1": "30",
+            "record2": "669",
+            "record3": "68",
+            "record4": "-0.1333"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "48",
+          "values": {
+            "record": "3.54",
+            "record1": "21",
+            "record2": "593",
+            "record3": "60",
+            "record4": "-0.1905"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010303",
+      "label": "260~280야드 미만(RTP)",
+      "source_metric_key": "Tee::Tee05::010303",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "17",
+          "values": {
+            "record": "19.88",
+            "record1": "133",
+            "record2": "669",
+            "record3": "68",
+            "record4": "-0.0451"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "44",
+          "values": {
+            "record": "13.66",
+            "record1": "81",
+            "record2": "593",
+            "record3": "60",
+            "record4": "-0.1358"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010304",
+      "label": "240~260야드 미만(RTP)",
+      "source_metric_key": "Tee::Tee05::010304",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "9",
+          "values": {
+            "record": "44.25",
+            "record1": "296",
+            "record2": "669",
+            "record3": "68",
+            "record4": "-0.0608"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "45",
+          "values": {
+            "record": "38.62",
+            "record1": "229",
+            "record2": "593",
+            "record3": "60",
+            "record4": "-0.0742"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010305",
+      "label": "220~240야드 미만(RTP)",
+      "source_metric_key": "Tee::Tee05::010305",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "64",
+          "values": {
+            "record": "37.77",
+            "record1": "224",
+            "record2": "593",
+            "record3": "60",
+            "record4": "-0.0089"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "99",
+          "values": {
+            "record": "26.01",
+            "record1": "174",
+            "record2": "669",
+            "record3": "68",
+            "record4": "0.0747"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010306",
+      "label": "200~220야드 미만(RTP)",
+      "source_metric_key": "Tee::Tee05::010306",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "83",
+          "values": {
+            "record": "6.24",
+            "record1": "37",
+            "record2": "593",
+            "record3": "60",
+            "record4": "0.1622"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "92",
+          "values": {
+            "record": "5.08",
+            "record1": "34",
+            "record2": "669",
+            "record3": "68",
+            "record4": "-0.0882"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010307",
+      "label": "200야드 미만(RTP)",
+      "source_metric_key": "Tee::Tee05::010307",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "109",
+          "values": {
+            "record": "0.30",
+            "record1": "2",
+            "record2": "669",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "113",
+          "values": {
+            "record": "0.17",
+            "record1": "1",
+            "record2": "593",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee05",
+      "menu3": "010308",
+      "label": "전장 대비 비율",
+      "source_metric_key": "Tee::Tee05::010308",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "18",
+          "values": {
+            "record": "64.26",
+            "record1": "166,286.41",
+            "record2": "258,752",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "44",
+          "values": {
+            "record": "62.92",
+            "record1": "144,761.25",
+            "record2": "230,076",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010310",
+      "label": "280야드 이상",
+      "source_metric_key": "Tee::Tee06::010310",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 178,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "15",
+          "values": {
+            "record": "85.71",
+            "record1": "18",
+            "record2": "21",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "73",
+          "values": {
+            "record": "63.33",
+            "record1": "19",
+            "record2": "30",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010311",
+      "label": "260~280야드 미만",
+      "source_metric_key": "Tee::Tee06::010311",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 229,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "13",
+          "values": {
+            "record": "72.84",
+            "record1": "59",
+            "record2": "81",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "15",
+          "values": {
+            "record": "72.18",
+            "record1": "96",
+            "record2": "133",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010312",
+      "label": "240~260야드 미만",
+      "source_metric_key": "Tee::Tee06::010312",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 262,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "9",
+          "values": {
+            "record": "73.80",
+            "record1": "169",
+            "record2": "229",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "18",
+          "values": {
+            "record": "71.62",
+            "record1": "212",
+            "record2": "296",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010313",
+      "label": "220~240야드 미만",
+      "source_metric_key": "Tee::Tee06::010313",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 265,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "6",
+          "values": {
+            "record": "76.34",
+            "record1": "171",
+            "record2": "224",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "47",
+          "values": {
+            "record": "66.09",
+            "record1": "115",
+            "record2": "174",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010314",
+      "label": "200~220야드 미만",
+      "source_metric_key": "Tee::Tee06::010314",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 245,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "5",
+          "values": {
+            "record": "75.68",
+            "record1": "28",
+            "record2": "37",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "48",
+          "values": {
+            "record": "58.82",
+            "record1": "20",
+            "record2": "34",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Tee",
+      "menu2": "Tee06",
+      "menu3": "010315",
+      "label": "200야드 미만",
+      "source_metric_key": "Tee::Tee06::010315",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 168,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "1",
+          "values": {
+            "record": "100",
+            "record1": "2",
+            "record2": "2",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "1",
+          "values": {
+            "record": "100",
+            "record1": "1",
+            "record2": "1",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020103",
+      "label": "180~200야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020103",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 224,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "4",
+          "values": {
+            "record": "60",
+            "record1": "9",
+            "record2": "15",
+            "record3": "68",
+            "record4": "0.1111"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "11",
+          "values": {
+            "record": "52.63",
+            "record1": "10",
+            "record2": "19",
+            "record3": "60",
+            "record4": "-0.1"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020104",
+      "label": "160~180야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020104",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 262,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "21",
+          "values": {
+            "record": "57.32",
+            "record1": "47",
+            "record2": "82",
+            "record3": "60",
+            "record4": "-0.1702"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "42",
+          "values": {
+            "record": "54.32",
+            "record1": "44",
+            "record2": "81",
+            "record3": "68",
+            "record4": "-0.0682"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020105",
+      "label": "140~160야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020105",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "12",
+          "values": {
+            "record": "68.39",
+            "record1": "119",
+            "record2": "174",
+            "record3": "68",
+            "record4": "-0.1176"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "76",
+          "values": {
+            "record": "61",
+            "record1": "122",
+            "record2": "200",
+            "record3": "60",
+            "record4": "-0.1148"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020106",
+      "label": "120~140야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020106",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "3",
+          "values": {
+            "record": "79.53",
+            "record1": "202",
+            "record2": "254",
+            "record3": "68",
+            "record4": "-0.1634"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "39",
+          "values": {
+            "record": "73.68",
+            "record1": "154",
+            "record2": "209",
+            "record3": "60",
+            "record4": "-0.1818"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020107",
+      "label": "100~120야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020107",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 265,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "12",
+          "values": {
+            "record": "82.90",
+            "record1": "160",
+            "record2": "193",
+            "record3": "68",
+            "record4": "-0.2188"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "61",
+          "values": {
+            "record": "77.31",
+            "record1": "109",
+            "record2": "141",
+            "record3": "60",
+            "record4": "-0.211"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020108",
+      "label": "80~100야드 미만 (RTP)",
+      "source_metric_key": "Approach::Approach01::020108",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 252,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "31",
+          "values": {
+            "record": "85.84",
+            "record1": "97",
+            "record2": "113",
+            "record3": "68",
+            "record4": "-0.2474"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "72",
+          "values": {
+            "record": "81",
+            "record1": "81",
+            "record2": "100",
+            "record3": "60",
+            "record4": "-0.3333"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020109",
+      "label": "60~80야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020109",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 228,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "29",
+          "values": {
+            "record": "89.19",
+            "record1": "33",
+            "record2": "37",
+            "record3": "68",
+            "record4": "-0.4242"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "37",
+          "values": {
+            "record": "87.18",
+            "record1": "34",
+            "record2": "39",
+            "record3": "60",
+            "record4": "-0.4412"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020110",
+      "label": "60야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020110",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 202,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "49",
+          "values": {
+            "record": "89.66",
+            "record1": "52",
+            "record2": "58",
+            "record3": "68",
+            "record4": "-0.4808"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "63",
+          "values": {
+            "record": "88.24",
+            "record1": "30",
+            "record2": "34",
+            "record3": "60",
+            "record4": "-0.6"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020111",
+      "label": "100야드 이상(RTP)",
+      "source_metric_key": "Approach::Approach01::020111",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "2",
+          "values": {
+            "record": "74.14",
+            "record1": "536",
+            "record2": "723",
+            "record3": "68",
+            "record4": "-0.1586"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "36",
+          "values": {
+            "record": "67.53",
+            "record1": "443",
+            "record2": "656",
+            "record3": "60",
+            "record4": "-0.167"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach01",
+      "menu3": "020112",
+      "label": "100야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach01::020112",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 259,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "23",
+          "values": {
+            "record": "87.50",
+            "record1": "182",
+            "record2": "208",
+            "record3": "68",
+            "record4": "-0.3462"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "62",
+          "values": {
+            "record": "83.82",
+            "record1": "145",
+            "record2": "173",
+            "record3": "60",
+            "record4": "-0.4138"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020303",
+      "label": "180~200야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020303",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 198,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "6",
+          "values": {
+            "record": "80",
+            "record1": "8",
+            "record2": "10",
+            "record3": "60",
+            "record4": "-0.125"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "9",
+          "values": {
+            "record": "75",
+            "record1": "6",
+            "record2": "8",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020304",
+      "label": "160~180야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020304",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 252,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "26",
+          "values": {
+            "record": "66.67",
+            "record1": "36",
+            "record2": "54",
+            "record3": "60",
+            "record4": "-0.1389"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "26",
+          "values": {
+            "record": "66.67",
+            "record1": "32",
+            "record2": "48",
+            "record3": "68",
+            "record4": "-0.0938"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020305",
+      "label": "140~160야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020305",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 263,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "23",
+          "values": {
+            "record": "75.81",
+            "record1": "94",
+            "record2": "124",
+            "record3": "68",
+            "record4": "-0.1383"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "76",
+          "values": {
+            "record": "68.79",
+            "record1": "97",
+            "record2": "141",
+            "record3": "60",
+            "record4": "-0.134"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020306",
+      "label": "120~140야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020306",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "10",
+          "values": {
+            "record": "83.87",
+            "record1": "156",
+            "record2": "186",
+            "record3": "68",
+            "record4": "-0.1987"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "45",
+          "values": {
+            "record": "79.27",
+            "record1": "130",
+            "record2": "164",
+            "record3": "60",
+            "record4": "-0.2"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020307",
+      "label": "100~120야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020307",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 261,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "26",
+          "values": {
+            "record": "86.01",
+            "record1": "123",
+            "record2": "143",
+            "record3": "68",
+            "record4": "-0.1951"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "81",
+          "values": {
+            "record": "81.08",
+            "record1": "90",
+            "record2": "111",
+            "record3": "60",
+            "record4": "-0.2333"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020308",
+      "label": "80~100야 미만 (RTP)",
+      "source_metric_key": "Approach::Approach03::020308",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 243,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "5",
+          "values": {
+            "record": "93.90",
+            "record1": "77",
+            "record2": "82",
+            "record3": "68",
+            "record4": "-0.2468"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "88",
+          "values": {
+            "record": "84.62",
+            "record1": "66",
+            "record2": "78",
+            "record3": "60",
+            "record4": "-0.3333"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020309",
+      "label": "60~80야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020309",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 219,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "44",
+          "values": {
+            "record": "90.32",
+            "record1": "28",
+            "record2": "31",
+            "record3": "68",
+            "record4": "-0.4643"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "67",
+          "values": {
+            "record": "87.88",
+            "record1": "29",
+            "record2": "33",
+            "record3": "60",
+            "record4": "-0.4828"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020310",
+      "label": "60야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020310",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 167,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "46",
+          "values": {
+            "record": "95",
+            "record1": "19",
+            "record2": "20",
+            "record3": "68",
+            "record4": "-0.6316"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "53",
+          "values": {
+            "record": "91.67",
+            "record1": "11",
+            "record2": "12",
+            "record3": "60",
+            "record4": "-0.5455"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020311",
+      "label": "100야드 이상(RTP)",
+      "source_metric_key": "Approach::Approach03::020311",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "8",
+          "values": {
+            "record": "80.47",
+            "record1": "412",
+            "record2": "512",
+            "record3": "68",
+            "record4": "-0.1723"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "46",
+          "values": {
+            "record": "75.26",
+            "record1": "362",
+            "record2": "481",
+            "record3": "60",
+            "record4": "-0.1823"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach03",
+      "menu3": "020312",
+      "label": "100야드 미만(RTP)",
+      "source_metric_key": "Approach::Approach03::020312",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 250,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "6",
+          "values": {
+            "record": "93.23",
+            "record1": "124",
+            "record2": "133",
+            "record3": "68",
+            "record4": "-0.3548"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "80",
+          "values": {
+            "record": "86.18",
+            "record1": "106",
+            "record2": "123",
+            "record3": "60",
+            "record4": "-0.3962"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020503",
+      "label": "180~200야드 미만",
+      "source_metric_key": "Approach::Approach05::020503",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 206,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "14",
+          "values": {
+            "record": "42.86",
+            "record1": "3",
+            "record2": "7",
+            "record3": "68",
+            "record4": "0.3333"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "74",
+          "values": {
+            "record": "22.22",
+            "record1": "2",
+            "record2": "9",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020504",
+      "label": "160~180야드 미만",
+      "source_metric_key": "Approach::Approach05::020504",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 243,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "43",
+          "values": {
+            "record": "42.31",
+            "record1": "11",
+            "record2": "26",
+            "record3": "60",
+            "record4": "-0.2727"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "64",
+          "values": {
+            "record": "36.67",
+            "record1": "11",
+            "record2": "30",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020505",
+      "label": "140~160야드 미만",
+      "source_metric_key": "Approach::Approach05::020505",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 252,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "58",
+          "values": {
+            "record": "48.98",
+            "record1": "24",
+            "record2": "49",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "102",
+          "values": {
+            "record": "40",
+            "record1": "22",
+            "record2": "55",
+            "record3": "60",
+            "record4": "-0.0455"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020506",
+      "label": "120~140야드 미만",
+      "source_metric_key": "Approach::Approach05::020506",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 256,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "16",
+          "values": {
+            "record": "67.19",
+            "record1": "43",
+            "record2": "64",
+            "record3": "68",
+            "record4": "-0.0465"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "85",
+          "values": {
+            "record": "52.38",
+            "record1": "22",
+            "record2": "42",
+            "record3": "60",
+            "record4": "-0.0909"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020507",
+      "label": "100~120야드 미만",
+      "source_metric_key": "Approach::Approach05::020507",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 251,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "35",
+          "values": {
+            "record": "70.45",
+            "record1": "31",
+            "record2": "44",
+            "record3": "68",
+            "record4": "-0.2581"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "82",
+          "values": {
+            "record": "60.71",
+            "record1": "17",
+            "record2": "28",
+            "record3": "60",
+            "record4": "-0.1176"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020508",
+      "label": "80~100야 미만",
+      "source_metric_key": "Approach::Approach05::020508",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 217,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "74",
+          "values": {
+            "record": "66.67",
+            "record1": "18",
+            "record2": "27",
+            "record3": "68",
+            "record4": "-0.2778"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "86",
+          "values": {
+            "record": "65",
+            "record1": "13",
+            "record2": "20",
+            "record3": "60",
+            "record4": "-0.3846"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020509",
+      "label": "60~80야드 미만",
+      "source_metric_key": "Approach::Approach05::020509",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 177,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "40",
+          "values": {
+            "record": "83.33",
+            "record1": "5",
+            "record2": "6",
+            "record3": "60",
+            "record4": "-0.2"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "40",
+          "values": {
+            "record": "83.33",
+            "record1": "5",
+            "record2": "6",
+            "record3": "68",
+            "record4": "-0.2"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020510",
+      "label": "60야드 미만",
+      "source_metric_key": "Approach::Approach05::020510",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 169,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "31",
+          "values": {
+            "record": "93.33",
+            "record1": "14",
+            "record2": "15",
+            "record3": "60",
+            "record4": "-0.6429"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "46",
+          "values": {
+            "record": "89.29",
+            "record1": "25",
+            "record2": "28",
+            "record3": "68",
+            "record4": "-0.44"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020511",
+      "label": "100야드 이상",
+      "source_metric_key": "Approach::Approach05::020511",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 265,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "16",
+          "values": {
+            "record": "57.36",
+            "record1": "113",
+            "record2": "197",
+            "record3": "68",
+            "record4": "-0.0885"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "100",
+          "values": {
+            "record": "45.12",
+            "record1": "74",
+            "record2": "164",
+            "record3": "60",
+            "record4": "-0.1081"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach05",
+      "menu3": "020512",
+      "label": "100야드 미만",
+      "source_metric_key": "Approach::Approach05::020512",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 234,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "42",
+          "values": {
+            "record": "78.69",
+            "record1": "48",
+            "record2": "61",
+            "record3": "68",
+            "record4": "-0.3542"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "47",
+          "values": {
+            "record": "78.05",
+            "record1": "32",
+            "record2": "41",
+            "record3": "60",
+            "record4": "-0.4688"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020702",
+      "label": "러프(상황별)",
+      "source_metric_key": "Approach::Approach07::020702",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 265,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "10",
+          "values": {
+            "record": "14.73",
+            "record1": "38",
+            "record2": "258",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "15",
+          "values": {
+            "record": "14.15",
+            "record1": "29",
+            "record2": "205",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020703",
+      "label": "페어웨이 벙커(상황별)",
+      "source_metric_key": "Approach::Approach07::020703",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 225,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "6",
+          "values": {
+            "record": "22.22",
+            "record1": "4",
+            "record2": "18",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "0",
+          "values": {
+            "record": "0",
+            "record1": "0",
+            "record2": "13",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020715",
+      "label": "그린 적중 시(상황별)",
+      "source_metric_key": "Approach::Approach07::020715",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "14",
+          "values": {
+            "record": "25.46",
+            "record1": "151",
+            "record2": "593",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "20",
+          "values": {
+            "record": "24.79",
+            "record1": "180",
+            "record2": "726",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020705",
+      "label": "180~200야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020705",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 225,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "24",
+          "values": {
+            "record": "6.67",
+            "record1": "1",
+            "record2": "15",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "40",
+          "values": {
+            "record": "5.26",
+            "record1": "1",
+            "record2": "19",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020706",
+      "label": "160~180야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020706",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 262,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "4",
+          "values": {
+            "record": "13.41",
+            "record1": "11",
+            "record2": "82",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "82",
+          "values": {
+            "record": "6.17",
+            "record1": "5",
+            "record2": "81",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020707",
+      "label": "140~160야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020707",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "56",
+          "values": {
+            "record": "10.34",
+            "record1": "18",
+            "record2": "174",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "76",
+          "values": {
+            "record": "9",
+            "record1": "18",
+            "record2": "200",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020708",
+      "label": "120~140야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020708",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "13",
+          "values": {
+            "record": "18.50",
+            "record1": "47",
+            "record2": "254",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "51",
+          "values": {
+            "record": "15.31",
+            "record1": "32",
+            "record2": "209",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020709",
+      "label": "100~120야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020709",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 265,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "21",
+          "values": {
+            "record": "22.16",
+            "record1": "43",
+            "record2": "194",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "77",
+          "values": {
+            "record": "17.73",
+            "record1": "25",
+            "record2": "141",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020710",
+      "label": "80~100야드 미만",
+      "source_metric_key": "Approach::Approach07::020710",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 252,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "16",
+          "values": {
+            "record": "29",
+            "record1": "29",
+            "record2": "100",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "81",
+          "values": {
+            "record": "21.24",
+            "record1": "24",
+            "record2": "113",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020711",
+      "label": "60~80야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020711",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 228,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "1",
+          "values": {
+            "record": "46.15",
+            "record1": "18",
+            "record2": "39",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "13",
+          "values": {
+            "record": "37.84",
+            "record1": "14",
+            "record2": "37",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020712",
+      "label": "60야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020712",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 217,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "1",
+          "values": {
+            "record": "55",
+            "record1": "22",
+            "record2": "40",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "27",
+          "values": {
+            "record": "44.29",
+            "record1": "31",
+            "record2": "70",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020713",
+      "label": "100야드 이상(거리별)",
+      "source_metric_key": "Approach::Approach07::020713",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "8",
+          "values": {
+            "record": "15.80",
+            "record1": "115",
+            "record2": "728",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "43",
+          "values": {
+            "record": "13.24",
+            "record1": "87",
+            "record2": "657",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach07",
+      "menu3": "020714",
+      "label": "100야드 미만(거리별)",
+      "source_metric_key": "Approach::Approach07::020714",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 260,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "3",
+          "values": {
+            "record": "38.55",
+            "record1": "69",
+            "record2": "179",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "32",
+          "values": {
+            "record": "31.36",
+            "record1": "69",
+            "record2": "220",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020802",
+      "label": "버디 이하",
+      "source_metric_key": "Approach::Approach08::020802",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 259,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "12",
+          "values": {
+            "record": "3.39",
+            "record1": "624.50",
+            "record2": "184",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "22",
+          "values": {
+            "record": "3.62",
+            "record1": "564.01",
+            "record2": "156",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020803",
+      "label": "파",
+      "source_metric_key": "Approach::Approach08::020803",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "4",
+          "values": {
+            "record": "9.13",
+            "record1": "5,978.02",
+            "record2": "655",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "97",
+          "values": {
+            "record": "11.41",
+            "record1": "6,855.60",
+            "record2": "601",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "menu1": "Approach",
+      "menu2": "Approach08",
+      "menu3": "020804",
+      "label": "보기 이하",
+      "source_metric_key": "Approach::Approach08::020804",
+      "parse_status": "DISCOVERED_NOT_VALIDATED",
+      "row_count": 266,
+      "selected": [
+        {
+          "player_code": "9784",
+          "player_name": "이예원",
+          "rank": "9",
+          "values": {
+            "record": "28.57",
+            "record1": "2,257.42",
+            "record2": "79",
+            "record3": "60",
+            "record4": "0.0"
+          }
+        },
+        {
+          "player_code": "10097",
+          "player_name": "김민선7",
+          "rank": "18",
+          "values": {
+            "record": "30.83",
+            "record1": "3,359.94",
+            "record2": "109",
+            "record3": "68",
+            "record4": "0.0"
+          }
+        }
+      ]
+    }
+  ]
+}
