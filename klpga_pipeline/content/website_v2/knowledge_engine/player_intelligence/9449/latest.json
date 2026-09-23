@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:39.762403+00:00",
+    "generated_at": "2026-09-23T13:09:44.962570+00:00",
     "input_signature": "f87d33ad3786e2d9a6cf65c1389b83e4f0e9ff0204ede5bb1d3e1791ca32bae9",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 54
   },
   "neo_verdict": {
-    "summary": "이지현3은(는) 회복력 특화형(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 19% 수준의 기록을 유지하고 있습니다. 2023시즌 SG Total +1.16에서 2026시즌 +1.87로 상승 추세입니다."
+    "summary": "이지현3은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 19% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Around-the-Green 상위 19%, 리커버리율 상위 7% 수준입니다.",
     "key": "recovery_specialist",
     "label_en": "Recovery Specialist",
-    "label_ko": "회복력 특화형"
+    "label_ko": "위기 관리형 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -202,7 +202,7 @@
           "value": 93.33333333333333
         }
       ],
-      "text": "리커버리율 필드 상위 7%에 해당하는 엘리트 수준입니다."
+      "text": "리커버리율이(가) 필드 상위 7%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

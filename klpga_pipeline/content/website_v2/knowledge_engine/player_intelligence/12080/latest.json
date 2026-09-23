@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:41.601234+00:00",
+    "generated_at": "2026-09-23T13:08:49.562751+00:00",
     "input_signature": "e7bfc9b14884b415b8cda11d31b92e0280e6e2ea5cc49f26b707fdf6c8fc9903",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 2
   },
   "neo_verdict": {
-    "summary": "양아연 1012(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.01로 악화되었습니다. 2025시즌 SG Total -1.29에서 2026시즌 -1.09로 상승 추세입니다."
+    "summary": "양아연 1012(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.01로 악화되었습니다."
   },
   "player_dna": {
     "axes": []

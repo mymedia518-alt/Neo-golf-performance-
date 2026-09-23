@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:33.222827+00:00",
+    "generated_at": "2026-09-23T13:09:35.897936+00:00",
     "input_signature": "2ec77618ab93cf81981f82e8ba6a0321ac4fc71e409ef576a7028177bfbf15ca",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 39
   },
   "neo_verdict": {
-    "summary": "이정민은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 12% 수준의 기록을 유지하고 있습니다. 2023시즌 SG Total +0.81에서 2026시즌 +0.12로 하락 추세입니다."
+    "summary": "이정민은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 12% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

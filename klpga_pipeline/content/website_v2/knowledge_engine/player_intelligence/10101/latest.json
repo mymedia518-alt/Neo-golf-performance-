@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:44.716295+00:00",
+    "generated_at": "2026-09-23T13:09:51.750213+00:00",
     "input_signature": "27b5d851698c929045aad2688194045e6c7ea4afea915a3afeef5d49509cbe3c",
     "tournament_game_code": null
   },
@@ -65,7 +65,7 @@
     "sample_count": 12
   },
   "neo_verdict": {
-    "summary": "임지유은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 5% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total -0.18에서 2026시즌 -1.85로 하락 추세입니다."
+    "summary": "임지유은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 5% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -141,7 +141,7 @@
           "value": 3.3057851239669422
         }
       ],
-      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 3%)로 구조적 약점입니다."
     },
     {
       "citations": [
@@ -173,7 +173,7 @@
           "value": 91.32231404958678
         }
       ],
-      "text": "SG Around-the-Green 필드 상위 9%에 해당하는 엘리트 수준입니다."
+      "text": "SG Around-the-Green이(가) 필드 상위 9%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

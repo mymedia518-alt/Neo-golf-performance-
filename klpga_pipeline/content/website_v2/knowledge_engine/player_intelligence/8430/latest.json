@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:15.034101+00:00",
+    "generated_at": "2026-09-23T13:10:25.540983+00:00",
     "input_signature": "4ed9c0438bc43610aa74c6a5bcf5364456cd59dc78424fe72d0eaf47547dddea",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "조은채은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.04로 반전에 성공했습니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(21퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total +0.19에서 2026시즌 -0.41로 하락 추세입니다."
+    "summary": "조은채은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.04로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -146,7 +146,7 @@
           "value": 21.487603305785125
         }
       ],
-      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(21퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 21%)로 구조적 약점입니다."
     },
     {
       "citations": [

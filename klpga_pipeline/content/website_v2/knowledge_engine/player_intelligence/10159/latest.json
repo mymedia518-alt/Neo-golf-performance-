@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:12.240885+00:00",
+    "generated_at": "2026-09-23T13:06:25.163654+00:00",
     "input_signature": "3c8f9e2fde8445008462d74749b1277605520fb0e586ae4084b30ea399ac943b",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 35
   },
   "neo_verdict": {
-    "summary": "강채연은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 17% 수준의 기록을 유지하고 있습니다. 최근 4시즌 연속 SG Approach이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +0.48에서 2026시즌 +0.47로 하락 추세입니다."
+    "summary": "강채연은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 17% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -155,7 +155,7 @@
           "value": 36.77685950413223
         }
       ],
-      "text": "최근 4시즌 연속 SG Approach이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다."
+      "text": "최근 4시즌 연속 SG Approach이(가) 필드 평균 이하(하위 37%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

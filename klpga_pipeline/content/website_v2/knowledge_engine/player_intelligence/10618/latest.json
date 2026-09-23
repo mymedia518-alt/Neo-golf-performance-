@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:32.918238+00:00",
+    "generated_at": "2026-09-23T13:07:44.048176+00:00",
     "input_signature": "49d9f742e13a7b3df9586d3a645ae3b6bc1ecb5c044dfcc64d2041387e29f501",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 40
   },
   "neo_verdict": {
-    "summary": "박도영은(는) 회복력 특화형(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 12% 수준의 기록을 유지하고 있습니다. 최근 4시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(35퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +1.22에서 2026시즌 -0.18로 하락 추세입니다."
+    "summary": "박도영은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 12% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Around-the-Green 상위 12%, 리커버리율 상위 21% 수준입니다.",
     "key": "recovery_specialist",
     "label_en": "Recovery Specialist",
-    "label_ko": "회복력 특화형"
+    "label_ko": "위기 관리형 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -182,7 +182,7 @@
           "value": 35.12396694214876
         }
       ],
-      "text": "최근 4시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(35퍼센타일)로 구조적 약점입니다."
+      "text": "최근 4시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 35%)로 구조적 약점입니다."
     },
     {
       "citations": [

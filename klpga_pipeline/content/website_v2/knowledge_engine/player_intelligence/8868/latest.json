@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:34.054284+00:00",
+    "generated_at": "2026-09-23T13:08:48.174760+00:00",
     "input_signature": "f844119243c1c6e88f8aff5a4d00bc1d00f9522dd48b8335b3bfa23b63a54d4e",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 6
   },
   "neo_verdict": {
-    "summary": "안소현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -0.45에서 2025시즌 -4.23로 하락 추세입니다."
+    "summary": "안소현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 3%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -128,7 +128,7 @@
           "value": 2.8925619834710745
         }
       ],
-      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 3%)로 구조적 약점입니다."
     },
     {
       "citations": [

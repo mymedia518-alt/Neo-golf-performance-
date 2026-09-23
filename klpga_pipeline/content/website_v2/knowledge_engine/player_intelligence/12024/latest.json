@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:25.907615+00:00",
+    "generated_at": "2026-09-23T13:06:40.534022+00:00",
     "input_signature": "1e38e27049bb06e50102a8666ea2c4889723daa8bdb3e6dc4857cc2e8eda5309",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 4
   },
   "neo_verdict": {
-    "summary": "김규빈 0910(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.11로 반전에 성공했습니다. 2025시즌 SG Total +0.44에서 2026시즌 +0.30로 하락 추세입니다."
+    "summary": "김규빈 0910(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.11로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

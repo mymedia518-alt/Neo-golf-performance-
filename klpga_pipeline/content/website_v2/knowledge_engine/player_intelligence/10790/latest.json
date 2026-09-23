@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:05.014065+00:00",
+    "generated_at": "2026-09-23T13:07:14.700472+00:00",
     "input_signature": "d052ce546dbcba5f7eb0a22b21414f62f0db12eefc59b00648b86630f48e36b9",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 11
   },
   "neo_verdict": {
-    "summary": "김하은2은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+1.06)이 장기 평균(+0.35) 대비 뚜렷한 상승세를 보이고 있습니다. 최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(47퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -1.86에서 2026시즌 +0.57로 상승 추세입니다."
+    "summary": "김하은2은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+1.06)이 장기 평균(+0.35) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,7 +120,7 @@
           "value": 46.69421487603306
         }
       ],
-      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(47퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(평균 수준)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

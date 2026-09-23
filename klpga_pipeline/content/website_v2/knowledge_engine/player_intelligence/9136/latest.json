@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:23.780618+00:00",
+    "generated_at": "2026-09-23T13:10:25.161372+00:00",
     "input_signature": "15567e18c059df0232835deb6f400c0c004b2753eb2862ebae8d3f9d78517d74",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 61
   },
   "neo_verdict": {
-    "summary": "조혜림은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.08로 반전에 성공했습니다. 2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.10로 악화되었습니다. 2023시즌 SG Total +0.83에서 2026시즌 +0.40로 하락 추세입니다."
+    "summary": "조혜림은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.08로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [

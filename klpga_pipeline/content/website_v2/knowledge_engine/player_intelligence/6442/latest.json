@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:37.319156+00:00",
+    "generated_at": "2026-09-23T13:10:37.192012+00:00",
     "input_signature": "002ef672d103ed03a414565b52eb053e053f3648a5bf80d02960bd34f66c5309",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 9
   },
   "neo_verdict": {
-    "summary": "최혜용은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Approach이(가) 2024시즌 -0.29로 악화되었습니다. 2023시즌 SG Total +0.83에서 2024시즌 +0.03로 하락 추세입니다."
+    "summary": "최혜용은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Approach이(가) 2024시즌 -0.29로 악화되었습니다."
   },
   "player_dna": {
     "axes": []

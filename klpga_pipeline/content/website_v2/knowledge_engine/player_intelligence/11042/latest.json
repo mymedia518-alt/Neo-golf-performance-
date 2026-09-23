@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:17:03.348919+00:00",
+    "generated_at": "2026-09-23T13:11:08.150541+00:00",
     "input_signature": "b86d33ab18986cb8400e2d2b297fd9edaa7e39b9f7ac1c386ac55c72bab2fc48",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 46
   },
   "neo_verdict": {
-    "summary": "홍현지은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee에서 상위 14% 수준의 기록을 유지하고 있습니다. 2024시즌 SG Total +1.10에서 2026시즌 +1.06로 하락 추세입니다."
+    "summary": "홍현지은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee에서 상위 14% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

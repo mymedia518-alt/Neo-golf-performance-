@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:10.640788+00:00",
+    "generated_at": "2026-09-23T13:06:23.709399+00:00",
     "input_signature": "cc9b7753c2f6c31d244b30beb6b8c8b2a7d5d227121e2603167bcf1063c5e898",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 34
   },
   "neo_verdict": {
-    "summary": "강가율은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.39로 반전에 성공했습니다. 최근 3시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(26퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total -0.56에서 2026시즌 -1.22로 하락 추세입니다."
+    "summary": "강가율은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.39로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -158,7 +158,7 @@
           "value": 26.446280991735538
         }
       ],
-      "text": "최근 3시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(26퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(하위 26%)로 구조적 약점입니다."
     },
     {
       "citations": [

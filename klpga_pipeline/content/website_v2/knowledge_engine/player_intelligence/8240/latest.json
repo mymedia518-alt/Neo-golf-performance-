@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:17:04.386610+00:00",
+    "generated_at": "2026-09-23T13:11:09.365823+00:00",
     "input_signature": "811b2d74833dace867a112132e936d56b70c7550cbeca2149c506652b38dc992",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 46
   },
   "neo_verdict": {
-    "summary": "황정미은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.10로 반전에 성공했습니다. 2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.47로 악화되었습니다. 2023시즌 SG Total +1.17에서 2026시즌 -0.19로 하락 추세입니다."
+    "summary": "황정미은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.10로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [

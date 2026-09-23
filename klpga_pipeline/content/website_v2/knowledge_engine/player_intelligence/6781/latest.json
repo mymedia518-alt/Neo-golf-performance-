@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:46.554294+00:00",
+    "generated_at": "2026-09-23T13:07:56.365504+00:00",
     "input_signature": "89674b246b21055dc0c7cac052e31ed726364f5b6ec54ee4e6530bfa0eb085f6",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 58
   },
   "neo_verdict": {
-    "summary": "박주영은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 11% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.07로 악화되었습니다. 2023시즌 SG Total +1.33에서 2026시즌 +1.13로 하락 추세입니다."
+    "summary": "박주영은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 11% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

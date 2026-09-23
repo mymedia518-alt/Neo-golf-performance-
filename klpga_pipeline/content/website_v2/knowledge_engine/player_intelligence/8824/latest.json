@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:31.180757+00:00",
+    "generated_at": "2026-09-23T13:08:39.863406+00:00",
     "input_signature": "0ea3ac02b185cb3181f102f181aa8e29b7ba391d3c92cc6ce87d2141dd58f644",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 2
   },
   "neo_verdict": {
-    "summary": "안나린은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Off-the-Tee이(가) 2025시즌 +0.24로 반전에 성공했습니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2025시즌 -0.14로 악화되었습니다. 2023시즌 SG Total -0.27에서 2025시즌 +1.45로 상승 추세입니다."
+    "summary": "안나린은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Off-the-Tee이(가) 2025시즌 +0.24로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

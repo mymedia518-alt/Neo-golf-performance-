@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:32.964426+00:00",
+    "generated_at": "2026-09-23T13:07:46.291044+00:00",
     "input_signature": "8fc593e84910ee780a0aa3627333e0c260967b5f54c5ab0605dd5e6369ab445e",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 61
   },
   "neo_verdict": {
-    "summary": "박민지은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 7% 수준의 기록을 유지하고 있습니다. 전체 기량은 최상위권이지만 SG Putting은(는) 필드 평균 수준(47퍼센타일)에 머물러 있습니다. 2023시즌 SG Total +2.18에서 2026시즌 +1.90로 하락 추세입니다."
+    "summary": "박민지은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 7% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Approach 상위 7%, SG Off-the-Tee 상위 12% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -181,7 +181,7 @@
           "value": 47.107438016528924
         }
       ],
-      "text": "전체 기량은 최상위권이지만 SG Putting은(는) 필드 평균 수준(47퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 SG Putting은(는) 평균 수준에 머물러 있습니다."
     },
     {
       "citations": [
@@ -191,7 +191,7 @@
           "value": 54.0
         }
       ],
-      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(54퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 평균 수준에 머물러 있습니다."
     }
   ],
   "why_wins": [
@@ -213,7 +213,7 @@
           "value": 91.73553719008264
         }
       ],
-      "text": "SG Total 필드 상위 8%에 해당하는 엘리트 수준입니다."
+      "text": "SG Total이(가) 필드 상위 8%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:17:03.314574+00:00",
+    "generated_at": "2026-09-23T13:11:09.269919+00:00",
     "input_signature": "1424ff95bfb4cf920af2ec56d2ebd4738405b98f10eda0158f5778ab279de8ed",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 28
   },
   "neo_verdict": {
-    "summary": "황민정은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 20% 수준의 기록을 유지하고 있습니다. 2024시즌 SG Total +0.23에서 2026시즌 +0.56로 상승 추세입니다."
+    "summary": "황민정은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 20% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:39.574764+00:00",
+    "generated_at": "2026-09-23T13:08:49.587254+00:00",
     "input_signature": "5e8e3319f01acd3fc05547f018d913cb75bbcc98a15b536b626058e864111ddb",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "양아연은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(1퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +0.01에서 2025시즌 -1.34로 하락 추세입니다."
+    "summary": "양아연은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(하위 1%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -133,7 +133,7 @@
           "value": 0.8264462809917356
         }
       ],
-      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(1퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(하위 1%)로 구조적 약점입니다."
     },
     {
       "citations": [

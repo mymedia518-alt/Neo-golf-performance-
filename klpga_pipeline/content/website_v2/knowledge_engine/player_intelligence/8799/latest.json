@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:49.267586+00:00",
+    "generated_at": "2026-09-23T13:08:55.293176+00:00",
     "input_signature": "d6b644edad8317fd741f1e68aa3bf28840595e3b338aa44b6d8ca2815c86a059",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 15
   },
   "neo_verdict": {
-    "summary": "오경은은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.65)이 장기 평균(+0.15) 대비 뚜렷한 상승세를 보이고 있습니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.10에서 2026시즌 +0.65로 상승 추세입니다."
+    "summary": "오경은은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.65)이 장기 평균(+0.15) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -126,7 +126,7 @@
           "value": 23.140495867768596
         }
       ],
-      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(하위 23%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

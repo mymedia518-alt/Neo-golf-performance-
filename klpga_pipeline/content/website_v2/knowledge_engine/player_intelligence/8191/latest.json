@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:56.164024+00:00",
+    "generated_at": "2026-09-23T13:10:03.222871+00:00",
     "input_signature": "015a920b01512d49fc548d0fecd770351d18f6dd90c1a7cdf140083a1b3d47e9",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "전인지은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Approach이(가) 2025시즌 +1.25로 반전에 성공했습니다. 2023시즌 SG Total -0.25에서 2025시즌 +2.02로 상승 추세입니다."
+    "summary": "전인지은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Approach이(가) 2025시즌 +1.25로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

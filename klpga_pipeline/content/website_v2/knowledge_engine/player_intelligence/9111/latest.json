@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:41.221615+00:00",
+    "generated_at": "2026-09-23T13:07:46.806703+00:00",
     "input_signature": "c053aab5aa9f30e1326cb7329bdf990650585a90b2c832bbf90210b60735ddbb",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 16
   },
   "neo_verdict": {
-    "summary": "박서현은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.09로 반전에 성공했습니다. 최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -0.15에서 2026시즌 +0.05로 상승 추세입니다."
+    "summary": "박서현은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.09로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -126,7 +126,7 @@
           "value": 36.77685950413223
         }
       ],
-      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 37%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

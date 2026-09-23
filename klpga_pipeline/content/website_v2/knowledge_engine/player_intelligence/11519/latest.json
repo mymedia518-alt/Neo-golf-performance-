@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:11.288389+00:00",
+    "generated_at": "2026-09-23T13:07:25.802085+00:00",
     "input_signature": "ec1804b507a5a6b8cb45b04ee6b256984809375b21a22d7e22be537f41f619f8",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "깐야낫 싸이팁은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 0%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "깐야낫 싸이팁은(는) 균형형(Balanced) 유형입니다. SG Putting이(가) 필드 상위 0%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -114,7 +114,7 @@
           "value": 99.58677685950413
         }
       ],
-      "text": "SG Putting 필드 상위 0%에 해당하는 엘리트 수준입니다."
+      "text": "SG Putting이(가) 필드 상위 0%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

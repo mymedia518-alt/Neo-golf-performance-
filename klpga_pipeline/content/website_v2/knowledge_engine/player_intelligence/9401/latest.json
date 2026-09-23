@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:27.532378+00:00",
+    "generated_at": "2026-09-23T13:07:36.343511+00:00",
     "input_signature": "b242f91331a02aa1febea2849c84378db0b7c365fb8471c65e1b9dece7de6471",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 60
   },
   "neo_verdict": {
-    "summary": "마다솜은(는) 버디 헌터(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 8% 수준의 기록을 유지하고 있습니다. 2023시즌 SG Total +1.68에서 2026시즌 +1.25로 하락 추세입니다."
+    "summary": "마다솜은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 8% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Putting 상위 8%, 버디율 상위 17% 수준입니다.",
     "key": "birdie_hunter",
     "label_en": "Birdie Hunter",
-    "label_ko": "버디 헌터"
+    "label_ko": "공격적인 버디 메이커"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {

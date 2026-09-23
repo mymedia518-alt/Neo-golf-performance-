@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:34.953050+00:00",
+    "generated_at": "2026-09-23T13:09:36.863904+00:00",
     "input_signature": "6341c81caaa32e123d3d6d1c365aa78749cd7934accd58bc280e9d033f64c654",
     "tournament_game_code": null
   },
@@ -65,7 +65,7 @@
     "sample_count": 55
   },
   "neo_verdict": {
-    "summary": "이제영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 7% 수준의 기록을 유지하고 있습니다. 2024시즌 강점이던 SG Off-the-Tee이(가) 2025시즌 -0.19로 악화되었습니다. 2023시즌 SG Total +0.94에서 2025시즌 -0.01로 하락 추세입니다."
+    "summary": "이제영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 7% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

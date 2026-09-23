@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:15.442359+00:00",
+    "generated_at": "2026-09-23T13:07:25.333079+00:00",
     "input_signature": "3da0f52503e93d50f6597e4805fc9afd2486dda78ee943595d2968827b4e124b",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "꼰까몰 수깜리(I)은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green 필드 상위 6%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "꼰까몰 수깜리(I)은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green이(가) 필드 상위 6%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -114,7 +114,7 @@
           "value": 93.80165289256199
         }
       ],
-      "text": "SG Around-the-Green 필드 상위 6%에 해당하는 엘리트 수준입니다."
+      "text": "SG Around-the-Green이(가) 필드 상위 6%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

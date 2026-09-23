@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:19.814185+00:00",
+    "generated_at": "2026-09-23T13:06:29.223755+00:00",
     "input_signature": "4c1e76e809459639b0d09a0fbad9bdc0e96b87d8a2ff8f86b6bfe21b4a77800d",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 20
   },
   "neo_verdict": {
-    "summary": "구래현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(36퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.15에서 2026시즌 -0.49로 하락 추세입니다."
+    "summary": "구래현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 36%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -136,7 +136,7 @@
           "value": 35.53719008264463
         }
       ],
-      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(36퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 36%)로 구조적 약점입니다."
     },
     {
       "citations": [

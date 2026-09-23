@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:03.777972+00:00",
+    "generated_at": "2026-09-23T13:09:10.024829+00:00",
     "input_signature": "4189abd01c6ca34810aa294d1152bea3ca776fd176b2c9d328b6265515b643b3",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 2
   },
   "neo_verdict": {
-    "summary": "윤규리 1009(A)은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Approach이(가) 2026시즌 +0.96로 반전에 성공했습니다. 2024시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.04로 악화되었습니다. 2024시즌 SG Total +0.93에서 2026시즌 +1.64로 상승 추세입니다."
+    "summary": "윤규리 1009(A)은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Approach이(가) 2026시즌 +0.96로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

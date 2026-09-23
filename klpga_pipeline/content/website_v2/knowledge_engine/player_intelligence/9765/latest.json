@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:04.011330+00:00",
+    "generated_at": "2026-09-23T13:10:07.706560+00:00",
     "input_signature": "c1ac55b371f07a9bf8df0e7161f7047ea4bdd1817736bf89b90cf2c36b3754ab",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 53
   },
   "neo_verdict": {
-    "summary": "정소이은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 14% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.03로 악화되었습니다. 2023시즌 SG Total +0.96에서 2026시즌 +0.84로 하락 추세입니다."
+    "summary": "정소이은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 14% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

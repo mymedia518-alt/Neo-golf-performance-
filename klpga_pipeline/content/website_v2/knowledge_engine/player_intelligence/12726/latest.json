@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:45.431722+00:00",
+    "generated_at": "2026-09-23T13:10:48.485089+00:00",
     "input_signature": "fcf85597da79215d0f733c7ec9e7755981b50882d019abe954551cf19911b8a5",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "판나라이 미솜웃은(는) 균형형(Balanced) 유형입니다. SG Approach 필드 상위 0%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "판나라이 미솜웃은(는) 균형형(Balanced) 유형입니다. SG Approach이(가) 필드 상위 0%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -99,7 +99,7 @@
           "value": 99.58677685950413
         }
       ],
-      "text": "SG Approach 필드 상위 0%에 해당하는 엘리트 수준입니다."
+      "text": "SG Approach이(가) 필드 상위 0%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

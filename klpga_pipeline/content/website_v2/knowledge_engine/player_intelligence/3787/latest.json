@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:37.227696+00:00",
+    "generated_at": "2026-09-23T13:10:42.619671+00:00",
     "input_signature": "ccb3fb89e7c0dc31d0e97a038a0797450ac824dc5044caadc5ea5b0b109e1dfd",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 1
   },
   "neo_verdict": {
-    "summary": "최혜정은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 10%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "최혜정은(는) 균형형(Balanced) 유형입니다. SG Putting이(가) 필드 상위 10%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -99,7 +99,7 @@
           "value": 90.49586776859505
         }
       ],
-      "text": "SG Putting 필드 상위 10%에 해당하는 엘리트 수준입니다."
+      "text": "SG Putting이(가) 필드 상위 10%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

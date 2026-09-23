@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:17:00.806549+00:00",
+    "generated_at": "2026-09-23T13:11:02.087122+00:00",
     "input_signature": "98bfa5ce9563857b4c984eac21d9b786686370e2f5bfd576e2f096c55f9813d8",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 60
   },
   "neo_verdict": {
-    "summary": "홍정민은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 17% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.01로 악화되었습니다. 2023시즌 SG Total +1.50에서 2026시즌 +1.14로 하락 추세입니다."
+    "summary": "홍정민은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 17% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

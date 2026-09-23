@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:17.617532+00:00",
+    "generated_at": "2026-09-23T13:06:23.336148+00:00",
     "input_signature": "7eb51c283b0d2442e8e94a9f2eb594fa0c539b059488ec80597fd9f03ff83319",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 30
   },
   "neo_verdict": {
-    "summary": "강지선은(는) 회복력 특화형(Recovery Specialist) 유형입니다. 최근 3시즌 연속 SG Around-the-Green에서 상위 9% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total +0.19에서 2026시즌 -0.01로 하락 추세입니다."
+    "summary": "강지선은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 3시즌 연속 SG Around-the-Green에서 상위 9% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -115,7 +115,7 @@
     "evidence_text": "SG Around-the-Green 상위 9%, 리커버리율 상위 9% 수준입니다.",
     "key": "recovery_specialist",
     "label_en": "Recovery Specialist",
-    "label_ko": "회복력 특화형"
+    "label_ko": "위기 관리형 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -175,7 +175,7 @@
           "value": 41.735537190082646
         }
       ],
-      "text": "최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(평균 수준)로 구조적 약점입니다."
     }
   ],
   "why_wins": [
@@ -207,7 +207,7 @@
           "value": 91.33333333333333
         }
       ],
-      "text": "리커버리율 필드 상위 9%에 해당하는 엘리트 수준입니다."
+      "text": "리커버리율이(가) 필드 상위 9%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:53.987547+00:00",
+    "generated_at": "2026-09-23T13:08:05.147941+00:00",
     "input_signature": "4ee620acc00c88bd621d4d7c18c7c752113895785336e626f7233850f76fa55d",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 58
   },
   "neo_verdict": {
-    "summary": "박혜준은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 3% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.10로 악화되었습니다. 2023시즌 SG Total +0.43에서 2026시즌 +2.00로 상승 추세입니다."
+    "summary": "박혜준은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 3% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Approach 상위 3%, SG Off-the-Tee 상위 5% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -191,7 +191,7 @@
           "value": 40.666666666666664
         }
       ],
-      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(41퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 평균 수준에 머물러 있습니다."
     }
   ],
   "why_wins": [
@@ -213,7 +213,7 @@
           "value": 95.33333333333333
         }
       ],
-      "text": "그린 적중률 필드 상위 5%에 해당하는 엘리트 수준입니다."
+      "text": "그린 적중률이(가) 필드 상위 5%에 해당하는 엘리트 수준입니다."
     },
     {
       "citations": [
@@ -223,7 +223,7 @@
           "value": 95.04132231404958
         }
       ],
-      "text": "SG Off-the-Tee 필드 상위 5%에 해당하는 엘리트 수준입니다."
+      "text": "SG Off-the-Tee이(가) 필드 상위 5%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

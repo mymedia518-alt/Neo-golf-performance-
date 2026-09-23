@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:46.009082+00:00",
+    "generated_at": "2026-09-23T13:09:50.640170+00:00",
     "input_signature": "73ffb36ffb2b80ed9d4c1a06abe9c000d7b970ff20c8aae60a82aa2b00eec0f6",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 12
   },
   "neo_verdict": {
-    "summary": "인주연은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2025시즌 -0.10로 악화되었습니다. 2023시즌 SG Total +0.76에서 2025시즌 +0.74로 하락 추세입니다."
+    "summary": "인주연은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2025시즌 -0.10로 악화되었습니다."
   },
   "player_dna": {
     "axes": []

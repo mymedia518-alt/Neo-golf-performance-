@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:29.548725+00:00",
+    "generated_at": "2026-09-23T13:09:37.184281+00:00",
     "input_signature": "64953b3c45d62de6b178d3bfc8220994c531dc4ee8552e253e5a24f557f704aa",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 13
   },
   "neo_verdict": {
-    "summary": "이수진3은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.07로 악화되었습니다. 2023시즌 SG Total +1.36에서 2024시즌 +0.89로 하락 추세입니다."
+    "summary": "이수진3은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.07로 악화되었습니다."
   },
   "player_dna": {
     "axes": []

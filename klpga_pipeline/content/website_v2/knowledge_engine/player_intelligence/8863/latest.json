@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:09.741549+00:00",
+    "generated_at": "2026-09-23T13:09:18.356868+00:00",
     "input_signature": "f4a386281457597bb5b22cd3337bbb1bd57edd63113df2440c812a05f9fdaf61",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 17
   },
   "neo_verdict": {
-    "summary": "윤혜림은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 10% 수준의 기록을 유지하고 있습니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(34퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.08에서 2026시즌 +0.05로 상승 추세입니다."
+    "summary": "윤혜림은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 10% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -131,7 +131,7 @@
           "value": 34.29752066115702
         }
       ],
-      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(34퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 34%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

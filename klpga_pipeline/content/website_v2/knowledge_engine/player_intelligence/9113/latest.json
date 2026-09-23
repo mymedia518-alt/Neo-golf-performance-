@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:27.369912+00:00",
+    "generated_at": "2026-09-23T13:07:26.584172+00:00",
     "input_signature": "1665e7965dc5e325b7b9fe187578c0246b3e0199fe117a90c944408756ec6e77",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 85
   },
   "neo_verdict": {
-    "summary": "노승희은(는) 안정적인 파세이버(Stable Par-Saver) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 12% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.04로 악화되었습니다. 2023시즌 SG Total +1.34에서 2026시즌 +1.45로 상승 추세입니다."
+    "summary": "노승희은(는) 안정적인 파 세이버(Stable Par-Saver) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 12% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -122,7 +122,7 @@
     "evidence_text": "파세이브율 상위 10% 수준으로 변동성이 낮습니다.",
     "key": "stable_par_saver",
     "label_en": "Stable Par-Saver",
-    "label_ko": "안정적인 파세이버"
+    "label_ko": "안정적인 파 세이버"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -198,7 +198,7 @@
           "value": 90.0
         }
       ],
-      "text": "파세이브율 필드 상위 10%에 해당하는 엘리트 수준입니다."
+      "text": "파세이브율이(가) 필드 상위 10%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

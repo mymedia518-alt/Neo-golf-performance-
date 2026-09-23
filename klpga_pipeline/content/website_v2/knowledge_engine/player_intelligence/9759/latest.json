@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:40.076698+00:00",
+    "generated_at": "2026-09-23T13:09:50.682606+00:00",
     "input_signature": "038547cfba192cbf9a2130b03fba51874f8d69e8b6795578e5b6e0d0aec1c325",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 31
   },
   "neo_verdict": {
-    "summary": "이율린은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 21% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(15퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total +0.11에서 2026시즌 +0.52로 상승 추세입니다."
+    "summary": "이율린은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 21% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -149,7 +149,7 @@
           "value": 14.87603305785124
         }
       ],
-      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(15퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 15%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

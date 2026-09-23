@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:26.826212+00:00",
+    "generated_at": "2026-09-23T13:09:36.817649+00:00",
     "input_signature": "a531a044a751be4140e520ee27136d0199da54753957c4a2606919bfc23187bc",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 13
   },
   "neo_verdict": {
-    "summary": "이슬기2은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.97로 반전에 성공했습니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(12퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -0.08에서 2026시즌 +0.56로 상승 추세입니다."
+    "summary": "이슬기2은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.97로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -158,7 +158,7 @@
           "value": 11.570247933884298
         }
       ],
-      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(12퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 12%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

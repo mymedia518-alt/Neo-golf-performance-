@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:46.240447+00:00",
+    "generated_at": "2026-09-23T13:06:57.578903+00:00",
     "input_signature": "29029692e454b2bc3e6d4bf806e0ec04280229588e21211fdb2fa96e8b0d1b7b",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 74
   },
   "neo_verdict": {
-    "summary": "김수지은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.21로 악화되었습니다. 2023시즌 SG Total +2.27에서 2026시즌 +1.42로 하락 추세입니다."
+    "summary": "김수지은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Approach 상위 5%, SG Off-the-Tee 상위 11% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -219,7 +219,7 @@
           "value": 97.33333333333333
         }
       ],
-      "text": "그린 적중률 필드 상위 3%에 해당하는 엘리트 수준입니다."
+      "text": "그린 적중률이(가) 필드 상위 3%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

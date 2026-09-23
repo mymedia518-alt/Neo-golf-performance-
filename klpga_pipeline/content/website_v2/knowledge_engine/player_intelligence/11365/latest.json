@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:33.794340+00:00",
+    "generated_at": "2026-09-23T13:07:44.095501+00:00",
     "input_signature": "4718ae86a1c00e3559758a70f472a5bc18104adc1b22496a15352cf067a5b608",
     "tournament_game_code": null
   },
@@ -65,7 +65,7 @@
     "sample_count": 5
   },
   "neo_verdict": {
-    "summary": "박서진 0804(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.30로 반전에 성공했습니다. 2024시즌 SG Total +1.07에서 2026시즌 +0.76로 하락 추세입니다."
+    "summary": "박서진 0804(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.30로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

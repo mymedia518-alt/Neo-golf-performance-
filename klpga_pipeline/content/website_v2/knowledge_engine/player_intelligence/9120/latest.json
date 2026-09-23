@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:08.641465+00:00",
+    "generated_at": "2026-09-23T13:09:12.754768+00:00",
     "input_signature": "23ebe88864d77d2c166a1f6dfb6cd31904b9beeebfda60e759e5ecb87df9a01f",
     "tournament_game_code": null
   },
@@ -77,7 +77,7 @@
     "sample_count": 27
   },
   "neo_verdict": {
-    "summary": "유효주은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.08로 반전에 성공했습니다. 2023시즌 SG Total +0.00에서 2026시즌 +0.57로 상승 추세입니다."
+    "summary": "유효주은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.08로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [

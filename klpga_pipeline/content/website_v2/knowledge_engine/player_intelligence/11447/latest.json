@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:51.045409+00:00",
+    "generated_at": "2026-09-23T13:10:55.942534+00:00",
     "input_signature": "9012eee24a8d614931cd840e89ed884a02613fd1402c4d0e2db4db7626045daf",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 26
   },
   "neo_verdict": {
-    "summary": "한아름은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.84)이 장기 평균(+0.29) 대비 뚜렷한 상승세를 보이고 있습니다. 2024시즌 SG Total -2.51에서 2026시즌 +0.59로 상승 추세입니다."
+    "summary": "한아름은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.84)이 장기 평균(+0.29) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
