@@ -1,6 +1,23 @@
-"""PLAYER INTELLIGENCE REPORT V3 -- 김민선7 (playerCode=10097) ONLY.
+"""PLAYER INTELLIGENCE REPORT V3 (한국어) -- 김민선7 (playerCode=10097) ONLY.
 
 The Gold Standard reference implementation for NEO Player Intelligence.
+Localization, not translation: every narrative field this script
+generates (fact/evidence/analysis/conclusion/coaching-brief/monitoring-
+protocol text) is written in natural Korean, in the voice of a Korean
+national-team performance analyst -- never a literal English
+translation, and never a heading that mixes a bare English UI label
+with Korean. Only the standard golf terms in
+player_intelligence_10097_terms.py (the single shared terminology
+dictionary this script and its renderer both import from) stay in
+English: SG, GIR, APP, PUTT, ARG, OTT, Birdie, Bogey, Driver, Iron,
+Wedge, Fairway, Green. The four SG components are always written
+SG-prefixed ("SG APP", never a bare "APP") for both the stat and the
+underlying shot category, since a bare abbreviation reads ambiguously
+in Korean prose. Quoted citations from the frozen Knowledge Engine's
+own Korean output (which spells these out, e.g. "SG Approach 상위 3%")
+are reused verbatim, never rewritten to match this report's own
+abbreviated house style.
+
 Written the way a KLPGA tour coach or performance analyst would brief a
 player, not the way a stats website would -- organized entirely by real
 golf QUESTIONS, never by raw statistics, SG components, or a flat list
@@ -65,6 +82,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.knowledge_engine import knowledge_engine as ke  # noqa: E402
 from klpga.tournament_context import CONTENT_DIR  # noqa: E402
+from klpga.website_v2 import player_intelligence_10097_terms as terms  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location("master_analysis_under_report", ROOT / "scripts" / "build_10097_master_player_analysis.py")
 master = importlib.util.module_from_spec(_spec)
@@ -80,6 +98,8 @@ _CONFIDENCE_RANK = {"UNKNOWN": 0, "LOW": 1, "MEDIUM": 2, "HIGH": 3}
 # answered question: is this a characteristic the coaching staff can
 # plan around for the season, a signal specific to the current season
 # only, or an already-completed event that isn't a trend claim at all.
+# (Internal identifiers -- the Korean display label lives in the
+# renderer, player_intelligence_10097_report.py.)
 LONG_TERM = "LONG_TERM_CHARACTERISTIC"
 RECENT_TREND = "RECENT_TREND"
 CONFIRMED_EVENT = "CONFIRMED_HISTORICAL_EVENT"
@@ -161,11 +181,17 @@ def _season_line(season_profiles: list, attr: str) -> str:
 # names a "most likely explanation," and says exactly that, with the real
 # coefficients shown, rather than inventing a causal story the data does
 # not support.
+#
+# All generated text below is Korean (this report's audience is KLPGA
+# players and Korean coaches). The standard golf terms and every Korean
+# UI/unit/status label come from ONE shared dictionary,
+# player_intelligence_10097_terms.py (imported here as `terms`), so the
+# wording is identical everywhere it appears -- never redefined locally.
 # ---------------------------------------------------------------------------
 
 _LARGE_SAMPLE_MIN = 30
 _MEANINGFUL_CORRELATION = 0.3
-_COMPONENT_LABELS = {"approach": "SG Approach", "putting": "SG Putting", "off_the_tee": "SG Off-the-Tee", "around_green": "SG Around-the-Green"}
+_COMPONENT_LABELS = terms.SG_COMPONENT
 
 
 def _pearson(xs: list, ys: list) -> float:
@@ -189,14 +215,15 @@ def _explanatory_metric_from_correlation(rows: list, component_key: str, unit: s
         correlations[other] = _pearson([p[0] for p in paired], [p[1] for p in paired])
     best_key, best_r = max(correlations.items(), key=lambda kv: abs(kv[1]))
     disclosed = "; ".join(f"{_COMPONENT_LABELS[k]} r={v:+.2f}" for k, v in correlations.items())
+    unit_kr = terms.UNIT[unit]
     if abs(best_r) >= _MEANINGFUL_CORRELATION:
-        return f"{_COMPONENT_LABELS[best_key]} (r={best_r:+.2f} across the same {n_used} real {unit}s -- the only one of her three other components that clears this report's {_MEANINGFUL_CORRELATION} meaningfulness threshold)."
+        return f"{_COMPONENT_LABELS[best_key]} (동일한 실측 {unit_kr} {n_used}회 기준 r={best_r:+.2f} -- 이 리포트의 유의미성 기준({_MEANINGFUL_CORRELATION})을 통과한 유일한 지표입니다.)"
     return (
-        f"None. Real correlation with her other three components across the same {n_used} {unit}s: {disclosed} -- "
-        f"all below the {_MEANINGFUL_CORRELATION} threshold this report treats as meaningful, so no component is named "
-        "as an explanation. Check instead whether the change is isolated to this one component or shared across "
-        "the other three in the same event: isolated points to that specific skill, shared points to a general "
-        "week (fatigue, travel, conditions) rather than one part of her game."
+        f"없음. 동일한 실측 {unit_kr} {n_used}회를 기준으로 나머지 세 지표와의 상관관계는 {disclosed}이며, "
+        f"모두 이 리포트가 유의미하다고 보는 기준({_MEANINGFUL_CORRELATION})에 미치지 못해 특정 지표를 원인으로 "
+        "지목하지 않습니다. 대신 같은 경기에서 다른 세 지표도 함께 저하되는지 확인하십시오: 이 지표에서만 "
+        "저하가 나타난다면 해당 샷 기술 자체의 문제이고, 다른 지표에서도 동시에 나타난다면 컨디션 저하, "
+        "이동, 피로 등 그 주의 전반적인 컨디션 문제일 가능성이 큽니다."
     )
 
 
@@ -205,10 +232,11 @@ def _explanatory_metric_insufficient_sample(n: int, unit: str, fallback_metric: 
     from 4 points is not real evidence of anything -- reported as
     genuinely unknown, with a fallback to the grain that does have enough
     real data, never a guess dressed up as an answer."""
+    unit_kr = terms.UNIT[unit]
     return (
-        f"Unknown -- only {n} real {unit}s on record, too few to compute a reliable companion-metric correlation "
-        f"(this report will not treat a correlation from n={n} as real evidence). Cross-check {fallback_metric} "
-        "instead."
+        f"알 수 없음 -- 실측 {unit_kr}이(가) {n}회뿐이라 신뢰할 수 있는 연관 지표 상관관계를 계산하기에는 "
+        f"표본이 부족합니다(이 리포트는 n={n}의 상관관계를 실제 근거로 다루지 않습니다). 대신 {fallback_metric}를 "
+        "확인하십시오."
     )
 
 
@@ -216,23 +244,24 @@ def _status_from_band(ordered_values: list, lower: float, upper: float) -> tuple
     latest = round(ordered_values[-1], 2)
     prev = round(ordered_values[-2], 2) if len(ordered_values) >= 2 else None
     if latest < lower and prev is not None and prev < lower:
-        return latest, "WARNING", f"Her last two real readings ({prev:+.2f}, then {latest:+.2f}) are both below the normal range -- the warning threshold is met."
+        return latest, "WARNING", f"최근 두 차례 실측값({prev:+.2f} → {latest:+.2f})이 모두 정상 범위 아래로 나타나 경고 기준에 해당합니다."
     if latest < lower:
-        detail = f"the one before it ({prev:+.2f}) was not" if prev is not None else "there is no prior reading yet to compare"
-        return latest, "WATCH", f"Her most recent real reading ({latest:+.2f}) is below the normal range, but {detail} -- one dip, not yet two consecutive; her next reading will resolve it."
-    return latest, "NORMAL", f"Her most recent real reading ({latest:+.2f}) is within the normal range."
+        detail = f"바로 이전 값({prev:+.2f})은 정상 범위 안이었습니다" if prev is not None else "비교할 이전 실측값이 아직 없습니다"
+        return latest, "WATCH", f"가장 최근 실측값({latest:+.2f})은 정상 범위 아래이지만, {detail} -- 아직 2회 연속은 아니므로 다음 실측값에서 확정됩니다."
+    return latest, "NORMAL", f"가장 최근 실측값({latest:+.2f})은 정상 범위 안에 있습니다."
 
 
 def _status_from_floor(ordered_values: list, floor: float) -> tuple:
     latest = round(ordered_values[-1], 2)
     if latest <= floor:
-        return latest, "AT_FLOOR", f"Her most recent real reading ({latest:+.2f}) is already her lowest on record at this grain -- her next reading will show whether this holds or was an isolated low point."
-    return latest, "NORMAL", f"Her most recent real reading ({latest:+.2f}) is above her historical floor ({floor:+.2f})."
+        return latest, "AT_FLOOR", f"가장 최근 실측값({latest:+.2f})은 이미 이 기준에서 역대 최저치입니다 -- 다음 실측값에서 이 흐름이 이어지는지, 일시적인 저점이었는지 확인할 수 있습니다."
+    return latest, "NORMAL", f"가장 최근 실측값({latest:+.2f})은 역대 최저치({floor:+.2f})보다 높습니다."
 
 
 def _band_protocol(ordered_values: list, *, metric: str, source: str, unit: str, explanatory_metric: str) -> dict:
     n = len(ordered_values)
     mean = statistics.fmean(ordered_values)
+    unit_kr = terms.UNIT[unit]
     if n >= _LARGE_SAMPLE_MIN:
         sd = statistics.stdev(ordered_values)
         lower, upper = mean - sd, mean + sd
@@ -241,9 +270,9 @@ def _band_protocol(ordered_values: list, *, metric: str, source: str, unit: str,
             "metric": metric,
             "source": source,
             "sample_size": n,
-            "normal_range": f"{lower:+.2f} to {upper:+.2f} SG (mean {mean:+.2f} ± 1 SD across her {n} real {unit}s on record)",
-            "warning_threshold": f"Below {lower:+.2f} SG in two consecutive {unit}s",
-            "next_review": f"After her next {unit} is recorded",
+            "normal_range": f"{lower:+.2f} ~ {upper:+.2f} SG (실측 {unit_kr} {n}회 기준 평균 {mean:+.2f}, 표준편차 ±1)",
+            "warning_threshold": f"{unit_kr} 기록이 {lower:+.2f} SG 미만으로 2회 연속 나타나는 경우",
+            "next_review": f"다음 {unit_kr} 기록이 나오는 시점",
             "explanatory_metric": explanatory_metric,
             "current_reading": current_reading,
             "current_status": current_status,
@@ -255,9 +284,9 @@ def _band_protocol(ordered_values: list, *, metric: str, source: str, unit: str,
         "metric": metric,
         "source": source,
         "sample_size": n,
-        "normal_range": f"{floor:+.2f} to {max(ordered_values):+.2f} SG (full range of her {n} real {unit}s on record; too few observations for a mean/SD band)",
-        "warning_threshold": f"Below {floor:+.2f} SG -- a new all-time low across her {n} real {unit}s on record",
-        "next_review": f"At her next {unit}'s official figure",
+        "normal_range": f"{floor:+.2f} ~ {max(ordered_values):+.2f} SG (실측 {unit_kr} {n}회의 전체 범위 -- 표본이 적어 평균/표준편차 방식은 적용하지 않음)",
+        "warning_threshold": f"{unit_kr} 기록이 {floor:+.2f} SG 미만으로 떨어져 실측 {n}회 중 역대 최저치를 경신하는 경우",
+        "next_review": f"다음 {unit_kr}의 공식 기록이 나오는 시점",
         "explanatory_metric": explanatory_metric,
         "current_reading": current_reading,
         "current_status": current_status,
@@ -270,7 +299,7 @@ def _tournament_component_protocol(ds: dict, component_key: str, component_label
     values = [r[component_key] for r in rows if r.get(component_key) is not None]
     return _band_protocol(
         values,
-        metric=f"SG {component_label} per tournament",
+        metric=f"대회별 {component_label}",
         source="historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='{}')".format(component_key),
         unit="tournament",
         explanatory_metric=_explanatory_metric_from_correlation(rows, component_key, "tournament"),
@@ -290,10 +319,10 @@ def _round_total_protocol(ds: dict) -> dict:
         correlations[key] = _pearson([p[0] for p in paired], [p[1] for p in paired])
     best_key, best_r = max(correlations.items(), key=lambda kv: abs(kv[1]))
     disclosed = "; ".join(f"{_COMPONENT_LABELS[k]} r={v:+.2f}" for k, v in correlations.items())
-    explanatory = f"{_COMPONENT_LABELS[best_key]} (r={best_r:+.2f} across the same {len(rows)} real rounds -- her strongest real per-round component, {disclosed})."
+    explanatory = f"{_COMPONENT_LABELS[best_key]} (동일한 실측 라운드 {len(rows)}회 기준 r={best_r:+.2f} -- 네 지표 중 라운드 단위로 가장 강하게 연동되는 지표입니다. {disclosed})"
     return _band_protocol(
         values,
-        metric="SG Total per round",
+        metric="라운드별 SG Total",
         source="historical_sg_warehouse_corrected.json (scope=single_round, field='total')",
         unit="round",
         explanatory_metric=explanatory,
@@ -304,7 +333,7 @@ def _season_component_protocol(season_profiles: list, attr: str, component_label
     values = [getattr(p, attr) for p in season_profiles]
     return _band_protocol(
         values,
-        metric=f"SG {component_label} per season",
+        metric=f"시즌별 {component_label}",
         source="knowledge_engine.compute_season_profiles()",
         unit="season",
         explanatory_metric=_explanatory_metric_insufficient_sample(len(season_profiles), "season", fallback_description),
@@ -315,19 +344,19 @@ def _course_appearance_protocol(group: dict) -> dict:
     values = [h["sg_total"] for h in group["history"] if h.get("sg_total") is not None]
     return _band_protocol(
         values,
-        metric=f"SG Total per appearance at {group['series_name_sample']}",
+        metric=f"{group['series_name_sample']} 출전 기록별 SG Total",
         source="historical_sg_warehouse_corrected.json (matched via knowledge_engine.find_course_history())",
         unit="appearance",
-        explanatory_metric=_explanatory_metric_insufficient_sample(len(values), "appearance", "the SG Total per-round protocol below (287 real rounds)"),
+        explanatory_metric=_explanatory_metric_insufficient_sample(len(values), "appearance", "아래의 라운드별 SG Total 프로토콜(실측 287라운드)"),
     )
 
 
 def _action_from_protocol(protocol: dict) -> str:
     return (
-        f"Monitor {protocol['metric']} ({protocol['source']}). Normal range: {protocol['normal_range']}. "
-        f"Warning threshold, escalate to a technical/practice review: {protocol['warning_threshold']}. "
-        f"Next review: {protocol['next_review']}. Current status as of her most recent real reading: "
-        f"{protocol['current_status']} -- {protocol['current_detail']}"
+        f"{protocol['metric']}을(를) 모니터링합니다({protocol['source']}). 정상 범위: {protocol['normal_range']}. "
+        f"저하 기준(기술/훈련 점검 필요): {protocol['warning_threshold']}. "
+        f"다음 점검: {protocol['next_review']}. 가장 최근 실측값 기준 현재 상태: "
+        f"{terms.STATUS_LABEL[protocol['current_status']]} -- {protocol['current_detail']}"
     )
 
 
@@ -337,6 +366,7 @@ def _action_from_protocol(protocol: dict) -> str:
 # combines them, it never derives a new number. Every question that
 # survives to the report answers a "so what": it says what should change
 # in how she prepares, trains, or is coached, not just what a number is.
+# All narrative text is Korean; standard golf terms stay in English.
 # ---------------------------------------------------------------------------
 
 
@@ -348,61 +378,57 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     app_trend = _season_line(season_profiles, "avg_app")
 
     fact = (
-        f"Four real wins on record ({win_names}) share the same underlying mechanism: an approach game "
-        "that has produced positive scoring value in every one of her four seasons on tour, not only in "
-        "winning weeks."
+        f"공식 기록상 확인된 우승은 총 {win_fact['sample_size']}회입니다({win_names}). 이 우승들에는 공통된 "
+        "메커니즘이 있습니다 -- 네 시즌 내내 플러스 스코어링 가치를 만들어낸 SG APP 게임으로, 우승한 주에만 "
+        "국한되지 않습니다."
     )
     evidence = [
-        f"Season-by-season SG Approach across her full {len(season_profiles)}-season, {sum(p.n_tournaments for p in season_profiles)}-tournament record: {app_trend} -- four consecutive seasons of positive, rising value from the same category.",
-        f"{reasons[1]['statement']} -- a current-season signal (field of {reasons[1]['sample_size']} rated players), not yet confirmed across multiple seasons the way the approach trend is.",
-        f"{reasons[2]['statement']} -- also a current-season signal (field of {reasons[2]['sample_size']} rated players).",
+        f"{len(season_profiles)}개 시즌, {sum(p.n_tournaments for p in season_profiles)}개 대회 전체 기록의 시즌별 SG APP: {app_trend} -- 4개 시즌 연속으로 같은 항목에서 플러스이자 상승하는 수치를 보였습니다.",
+        f"{reasons[1]['statement']} -- 이번 시즌 한정 지표입니다(평가 대상 {reasons[1]['sample_size']}명 기준). SG APP 추세처럼 여러 시즌에 걸쳐 확인된 것은 아직 아닙니다.",
+        f"{reasons[2]['statement']} -- 역시 이번 시즌 한정 지표입니다(평가 대상 {reasons[2]['sample_size']}명 기준).",
     ]
     analysis = (
-        "The wins themselves are one-off events, but the mechanism behind them is not. Every season on record "
-        "shows the same shape: her approach play is the component that never goes negative, even in seasons "
-        "when the rest of her game was still developing. That is what turns a promising round into a winning "
-        "one -- she reliably gives herself birdie looks other players in the field do not get, and this "
-        "season's elite green-in-regulation and par-save rates show that advantage currently converting into "
-        "fewer bogeys as well as more birdies."
+        "우승 자체는 일회성 사건이지만, 그 뒤에 있는 메커니즘은 그렇지 않습니다. 공식 기록에 남아있는 모든 "
+        "시즌에서 같은 패턴이 나타납니다 -- 경기력의 다른 부분이 아직 무르익지 않았던 시즌에도 SG APP만큼은 "
+        "마이너스로 떨어진 적이 없습니다. 이 부분이 좋은 라운드를 우승으로 바꾸는 핵심입니다 -- 다른 선수들보다 "
+        "꾸준히 더 많은 Birdie 기회를 만들어내며, 이번 시즌의 뛰어난 GIR과 파세이브율은 그 우위가 Bogey를 "
+        "줄이는 동시에 Birdie를 늘리는 방향으로 이어지고 있음을 보여줍니다."
     )
     conclusion = (
-        f"{PLAYER_NAME} wins because her approach game supplies a scoring edge that has held up in every "
-        "season she has played, not because of a single hot week -- this season's elite GIR and par-save "
-        "rates are compounding on top of that structural strength, not replacing it."
+        f"{PLAYER_NAME} 선수가 우승하는 이유는 SG APP 게임이 만들어내는 스코어링 우위가 뛰어온 모든 시즌에서 "
+        "유지되어 왔기 때문입니다 -- 한 번의 좋은 주간이 아니라는 뜻입니다. 이번 시즌의 뛰어난 GIR과 "
+        "파세이브율은 이 구조적 강점 위에 더해지는 것이지, 이를 대체하는 것이 아닙니다."
     )
     why_it_matters = (
-        "If the coaching team understands why she wins, they can protect that mechanism deliberately in "
-        "game-planning and practice design, instead of treating each win as a good week to celebrate and "
-        "move past without asking what produced it."
+        "코칭스태프가 우승의 이유를 정확히 이해하면, 이 메커니즘을 의도적으로 보호하며 경기 전략과 훈련 계획을 "
+        "세울 수 있습니다. 그저 좋은 한 주로 넘기고 무엇이 그 결과를 만들었는지 묻지 않는 것과는 다릅니다."
     )
     player_takeaway = (
-        "Trust the approach game under pressure -- it is the part of her game that has not let her down in "
-        "four seasons, and it is the shot to default to rather than forcing a riskier line to compensate for "
-        "a slow start."
+        "압박감 속에서도 SG APP 게임을 믿으십시오 -- 지난 네 시즌 동안 한 번도 무너지지 않은 부분이며, "
+        "출발이 좋지 않을 때 무리한 라인을 선택하기보다 기본적으로 의지해야 할 샷입니다."
     )
-    protocol = _tournament_component_protocol(ds, "approach", "Approach")
+    protocol = _tournament_component_protocol(ds, "approach", terms.SG_COMPONENT["approach"])
     coach_focus = (
-        f"GIR and par-save rate are current-season-snapshot data only -- KLPGA does not publish a per-round "
-        f"or per-tournament series for either, so neither can be monitored on an operational cadence yet. "
-        f"SG Approach per tournament can: it has a real {protocol['sample_size']}-tournament history, and it "
-        "is the metric this protocol tracks."
+        f"GIR과 파세이브율은 이번 시즌 한 시점의 스냅샷 데이터일 뿐입니다 -- KLPGA는 두 지표 모두 라운드별이나 "
+        f"대회별 연속 기록을 공개하지 않으므로, 아직은 운영 가능한 주기로 모니터링할 수 없습니다. 반면 대회별 "
+        f"SG APP는 가능합니다 -- 실측 {protocol['sample_size']}개 대회의 기록이 있으며, 이 프로토콜이 "
+        "추적하는 지표입니다."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "The core driver -- SG Approach -- has been positive and rising in all four seasons on record, so "
-        "another season is far more likely to reinforce this conclusion than overturn it. The GIR and "
-        "par-save citations, however, come from this season's leaderboard only: if either regresses next "
-        "year, the explanation for her wins still holds through approach play, but those two specific "
-        "supporting numbers should not yet be treated as guaranteed year-over-year characteristics."
+        "핵심 동력인 SG APP는 공식 기록상 네 시즌 모두 플러스였고 상승세였습니다. 따라서 한 시즌이 "
+        "더해진다 해도 이 결론을 뒤집기보다 강화할 가능성이 훨씬 큽니다. 다만 GIR과 파세이브율 인용치는 이번 "
+        "시즌 순위표에서만 나온 수치입니다 -- 내년에 둘 중 하나가 하락하더라도 우승의 원인은 여전히 SG APP로 "
+        "설명되지만, 이 두 보조 수치만큼은 아직 해마다 보장되는 특성으로 간주해서는 안 됩니다."
     )
-    why_this_matters = "This is the shot to build the week's game plan around, not just admire after a win."
+    why_this_matters = "이번 주 경기 전략을 세울 때 중심에 두어야 할 샷이지, 우승 후에야 되돌아보며 감탄할 대상이 아닙니다."
     action = _action_from_protocol(protocol)
 
     sample_sizes = [win_fact["sample_size"], sum(p.n_tournaments for p in season_profiles)] + [r["sample_size"] for r in reasons]
     sources = set(win_fact["official_records_used"]) | {s for r in reasons for s in r["official_records_used"]}
     return {
         "id": "q_why_wins",
-        "question": f"Why does {PLAYER_NAME} win?",
+        "question": f"{PLAYER_NAME} 선수는 왜 우승하는가?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -427,58 +453,58 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     this_season, last_season = season_profiles[-1], season_profiles[-2]
 
     fact = (
-        "Putting has never been the part of Kim Minsun7's game that wins tournaments for her -- in all four "
-        "seasons on record it has been her smallest source of scoring value, and this season that gap widened "
-        "rather than closed."
+        "SG PUTT은 지난 네 시즌 동안 김민선7 선수에게 우승을 만들어준 영역이 아니었습니다 -- 공식 기록상 네 "
+        "시즌 모두 스코어링 기여도가 가장 작은 항목이었고, 이번 시즌에는 그 격차가 줄어들기는커녕 더 "
+        "벌어졌습니다."
     )
     evidence = [
-        f"Season-by-season SG Putting: {putt_trend} -- smaller than her other three components in every season, and {this_season.season}'s figure is her lowest of the four.",
-        f"{reasons[0]['statement']} -- field-average, not poor, but the shortfall stands out against her own 93rd-97th percentile approach and off-the-tee level, not against the field (field of {reasons[0]['sample_size']} rated players).",
-        f"{reasons[1]['statement']} -- the same field-average read from a second, independent stat (field of {reasons[1]['sample_size']} rated players).",
+        f"시즌별 SG PUTT: {putt_trend} -- 매 시즌 다른 세 항목보다 작았고, {this_season.season}시즌 수치가 네 시즌 중 가장 낮습니다.",
+        f"{reasons[0]['statement']} -- 필드 평균 수준으로 나쁘지는 않지만, 93~97 백분위에 이르는 본인의 SG APP·SG OTT 수준과 비교하면 상대적으로 부족합니다. 필드와 비교한 것이 아니라 본인 안에서 비교한 결과입니다(평가 대상 {reasons[0]['sample_size']}명 기준).",
+        f"{reasons[1]['statement']} -- 독립된 두 번째 지표에서도 동일하게 필드 평균 수준으로 나타납니다(평가 대상 {reasons[1]['sample_size']}명 기준).",
     ]
     analysis = (
-        "Her ball-striking creates more scoring opportunities than almost anyone else in the field -- she "
-        "simply isn't converting them into birdies at the rate that ball-striking would predict. That gap has "
-        "existed every season she has played, which means it is not a slump to fix in a single week; it "
-        "behaves more like a structural ceiling on how many of her approach shots turn into red numbers. This "
-        f"season's dip ({this_season.avg_putt:+.2f}, down from {last_season.avg_putt:+.2f} last year) is the one "
-        "part of the picture that is new, and is worth watching rather than assuming it self-corrects."
+        "SG APP를 비롯한 볼 스트라이킹은 필드의 거의 누구보다 많은 스코어링 기회를 만들어내지만, 그 기회를 "
+        "볼 스트라이킹 수준에 걸맞은 비율로 Birdie로 연결하지 못하고 있습니다. 이 격차는 선수 생활 내내 "
+        "존재해 왔으므로 한 주에 고칠 수 있는 슬럼프가 아니라, SG APP 샷이 실제 스코어로 이어지는 비율에 "
+        f"대한 구조적인 한계에 가깝습니다. 이번 시즌의 하락({this_season.avg_putt:+.2f}, 지난해 "
+        f"{last_season.avg_putt:+.2f}에서 하락)은 새롭게 나타난 부분이므로, 저절로 회복될 것이라 가정하기보다 "
+        "계속 지켜볼 필요가 있습니다."
     )
     conclusion = (
-        "Her approach game consistently creates scoring opportunities, but her putting has converted fewer of "
-        "those opportunities into birdies than her ball-striking level would predict -- true in every season "
-        "on record, and more so this year than in any of the previous three."
+        "SG APP 게임은 꾸준히 스코어링 기회를 만들어내지만, SG PUTT은 그 기회를 볼 스트라이킹 수준이 "
+        "예상하게 하는 만큼 Birdie로 전환하지 못하고 있습니다 -- 공식 기록상 모든 시즌에서 사실이며, 지난 "
+        "3개 시즌보다 올해 그 격차가 더 큽니다."
     )
     why_it_matters = (
-        "A loss caused by short-game conversion calls for a different response than a loss caused by "
-        "ball-striking breaking down -- misdiagnosing which one it is wastes practice time on the wrong fix."
+        "쇼트게임 전환 문제로 인한 우승 실패는 볼 스트라이킹 붕괴로 인한 실패와는 전혀 다른 대응이 필요합니다. "
+        "원인을 잘못 짚으면 훈련 시간을 엉뚱한 곳에 쓰게 됩니다."
     )
     player_takeaway = (
-        "The strokes that cost the most are not missed greens -- they are the reasonable birdie putts that go "
-        "unconverted. Treat scoring conversion, not shot-making, as the growth area this season."
+        "가장 큰 손실은 그린을 놓치는 것이 아니라, 충분히 넣을 수 있는 Birdie 퍼트를 놓치는 것입니다. 이번 "
+        "시즌에는 샷 메이킹이 아니라 스코어 전환력을 성장 과제로 삼아야 합니다."
     )
-    protocol = _tournament_component_protocol(ds, "putting", "Putting")
+    protocol = _tournament_component_protocol(ds, "putting", terms.SG_COMPONENT["putting"])
     coach_focus = (
-        f"SG Putting is recorded per tournament (not just per season), giving a real "
-        f"{protocol['sample_size']}-tournament history to set an operational range from -- use that "
-        "per-tournament figure as it is published, not the season aggregate, to catch a slide early."
+        f"SG PUTT은 시즌 단위가 아니라 대회별로 기록되므로, 실측 {protocol['sample_size']}개 대회를 기준으로 "
+        "운영 가능한 범위를 설정할 수 있습니다 -- 하락 조짐을 조기에 포착하려면 시즌 합산치가 아니라 대회별로 "
+        "발표되는 수치를 그대로 활용하십시오."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "Putting has been her smallest-value component in all four seasons on record, so 'putting is not her "
-        "primary strength' would very likely still be true after another season -- a fifth season is far more "
-        "likely to confirm this pattern than erase it. The size of this year's specific dip is thinner, "
-        "newer evidence: a rebound next season would not overturn the broader four-season pattern, so that "
-        "one number carries less weight than the structural read it sits inside."
+        "SG PUTT은 공식 기록상 네 시즌 모두 스코어링 기여도가 가장 작은 항목이었습니다. 따라서 'SG PUTT이 "
+        "주력 강점이 아니다'라는 판단은 한 시즌이 더해져도 유지될 가능성이 매우 높습니다 -- 다섯 번째 시즌은 "
+        "이 패턴을 깨기보다 다시 확인해 줄 가능성이 큽니다. 반면 올해 하락폭의 크기는 더 얇고 새로운 "
+        "근거입니다 -- 다음 시즌에 반등하더라도 4개 시즌에 걸친 큰 흐름 자체를 뒤집지는 않으므로, 이 수치 "
+        "하나는 그 구조적 판단보다는 낮은 비중으로 다뤄야 합니다."
     )
-    why_this_matters = "The next stroke gained has to come from scoring conversion, not a swing change."
+    why_this_matters = "다음 스트로크 게인은 스윙을 바꿔서가 아니라 스코어 전환력에서 나와야 합니다."
     action = _action_from_protocol(protocol)
 
     sample_sizes = [r["sample_size"] for r in reasons]
     sources = {s for r in reasons for s in r["official_records_used"]}
     return {
         "id": "q_why_loses",
-        "question": f"Why does {PLAYER_NAME} lose?",
+        "question": f"{PLAYER_NAME} 선수는 왜 우승을 놓치는가?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -505,49 +531,48 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
     app_trend = _season_line(season_profiles, "avg_app")
 
     fact = (
-        "Across four seasons, approach has remained Kim Minsun7's most consistent scoring advantage. Even in "
-        "seasons when the rest of her game was still developing, approach never stopped producing positive "
-        "value."
+        "네 시즌에 걸쳐 SG APP는 김민선7 선수의 가장 꾸준한 스코어링 강점으로 남아 있습니다. 경기력의 다른 "
+        "부분이 아직 무르익지 않았던 시즌에도 SG APP만큼은 플러스 가치를 만들어내는 것을 멈춘 적이 없습니다."
     )
     evidence = [
-        f"Current-season field percentile: {app_axis['percentile']:.1f}th of {audit['sample_size']} rated players -- one of the most reliable approach players in the field right now.",
-        f"Season-by-season average SG Approach across her full {audit['season_count']}-season, {audit['tournament_count']}-tournament record: {app_trend} -- her highest or second-highest component every single season.",
-        f"Frozen Knowledge Engine classification: \"{pi['player_type']['label_ko']}\" ({pi['player_type']['label_en']}) -- \"{insight['insight']}\"",
+        f"이번 시즌 필드 백분위: 평가 대상 {audit['sample_size']}명 중 {app_axis['percentile']:.1f}번째 -- 현재 필드에서 가장 신뢰할 수 있는 SG APP 선수 중 한 명입니다.",
+        f"{audit['season_count']}개 시즌, {audit['tournament_count']}개 대회 전체 기록의 시즌별 SG APP 평균: {app_trend} -- 매 시즌 본인의 1순위 또는 2순위 항목이었습니다.",
+        f"고정된 Knowledge Engine 분류: \"{pi['player_type']['label_ko']}\" ({pi['player_type']['label_en']}) -- \"{insight['insight']}\"",
     ]
     analysis = (
-        "A single elite season could be a swing change paying off right now, or a hot run of ball-striking "
-        "that regresses next year. Four consecutive seasons of the same component staying at or near the top "
-        "of her profile is a different kind of signal -- it means approach is not something she is currently "
-        "doing well, it is something she reliably does well, independent of what else in her game is in form."
+        "단 한 시즌의 특출난 성적은 지금 효과를 보고 있는 스윙 변화이거나, 내년에는 꺾일 볼 스트라이킹의 반짝 "
+        "호조일 수 있습니다. 그러나 같은 항목이 네 시즌 연속으로 최상위권을 유지하는 것은 다른 신호입니다 -- "
+        "SG APP는 '요즘 잘하고 있는' 부분이 아니라, 경기력의 다른 부분이 어떻든 관계없이 '꾸준히 잘하는' "
+        "부분이라는 뜻입니다."
     )
     conclusion = (
-        "Approach is Kim Minsun7's most durable strength -- not because it is her best number this week, but "
-        "because it has not had a down season in four years."
+        "SG APP는 김민선7 선수의 가장 지속력 있는 강점입니다 -- 이번 주 수치가 가장 좋아서가 아니라, 지난 "
+        "4년간 부진한 시즌이 단 한 번도 없었기 때문입니다."
     )
     why_it_matters = (
-        "Knowing which strength is durable, rather than a hot streak, tells the coaching team what NOT to "
-        "touch when another part of her game needs adjustment."
+        "어떤 강점이 반짝 호조가 아니라 지속력 있는 강점인지 알면, 경기력의 다른 부분을 조정할 때 절대 손대서는 "
+        "안 될 부분이 무엇인지 코칭스태프에게 알려줍니다."
     )
-    protocol = _tournament_component_protocol(ds, "approach", "Approach")
-    player_takeaway = "This is the shot never to sacrifice for the sake of another part of the game -- any technical work should protect approach mechanics first."
+    protocol = _tournament_component_protocol(ds, "approach", terms.SG_COMPONENT["approach"])
+    player_takeaway = "경기력의 다른 부분을 위해 절대 희생해서는 안 될 샷입니다 -- 어떤 기술적 조정을 하더라도 SG APP 메커니즘을 가장 먼저 보호해야 합니다."
     coach_focus = (
-        f"Same operational protocol as the win-driver metric above (SG Approach per tournament, "
-        f"{protocol['sample_size']} real tournaments on record) -- this question and 'why does she win' "
-        "are protected by tracking the same number, since it is the same underlying strength."
+        f"위 우승 원인 지표와 동일한 운영 프로토콜을 사용합니다(대회별 SG APP, 실측 "
+        f"{protocol['sample_size']}개 대회 기준) -- 이 질문과 '왜 우승하는가'는 결국 같은 근본 강점을 추적하는 "
+        "동일한 지표로 보호됩니다."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "Four consecutive positive seasons is about as strong a durability signal as a single player's record "
-        "can produce; another season is far more likely to extend the streak than break it. This read should "
-        "only be revisited if a season ever shows a genuine regression, which has not happened yet."
+        "4개 시즌 연속 플러스 기록은 한 선수의 기록이 보여줄 수 있는 가장 강한 수준의 지속성 신호입니다 -- 한 "
+        "시즌이 더해지면 이 흐름이 끊길 가능성보다 이어질 가능성이 훨씬 큽니다. 이 판단은 실제로 어느 시즌에서든 "
+        "뚜렷한 하락이 나타날 때만 다시 검토하면 되며, 지금까지는 그런 사례가 없습니다."
     )
-    why_this_matters = "It is the shot the rest of her game plan should be built around, every tournament, not just this one."
+    why_this_matters = "이번 한 대회뿐 아니라 매 대회 경기 전략의 중심에 두어야 할 샷입니다."
     action = _action_from_protocol(protocol)
 
     sources = set(audit["official_records_used"])
     return {
         "id": "q_approach_biggest_weapon",
-        "question": f"Why is Approach {PLAYER_NAME}'s biggest weapon?",
+        "question": f"{PLAYER_NAME} 선수에게 SG APP가 최고의 무기인 이유는?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -570,57 +595,54 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
     reason = _conclusion(master_doc, "play_style.why_loses[0]")
     pi = ds["player_intelligence_doc"]
     axes = {a["key"]: a["percentile"] for a in pi["player_dna"]["axes"]}
-    order = [("sg_ott", "Off-the-Tee"), ("sg_app", "Approach"), ("sg_arg", "Around-the-Green"), ("sg_putt", "Putting")]
-    axis_line = ", ".join(f"{label} {axes[k]:.1f}th" for k, label in order)
+    order = [("sg_ott", "SG OTT"), ("sg_app", "SG APP"), ("sg_arg", "SG ARG"), ("sg_putt", "SG PUTT")]
+    axis_line = ", ".join(f"{label} {axes[k]:.1f}번째 백분위" for k, label in order)
     putt_trend = _season_line(season_profiles, "avg_putt")
 
     fact = (
-        "Putting is the one component of Kim Minsun7's game that has never kept pace with the rest -- this "
-        "season it ranks lowest of her own four shot-making categories, and that gap is not new."
+        "SG PUTT은 김민선7 선수의 경기 중 다른 항목들만큼 성장 속도를 따라가지 못한 유일한 부분입니다 -- 이번 "
+        "시즌에도 본인의 네 가지 샷 항목 중 가장 낮은 순위이며, 이는 새로운 현상이 아닙니다."
     )
     evidence = [
-        f"Her own component spread this season: {axis_line} -- all field percentiles, same {reason['sample_size']}-player official SG field.",
-        f"Season-by-season SG Putting: {putt_trend} -- the smallest of her four components in every season on record, not only this one.",
+        f"이번 시즌 본인의 항목별 분포: {axis_line} -- 모두 동일한 {reason['sample_size']}명 규모의 공식 SG 필드 기준 백분위입니다.",
+        f"시즌별 SG PUTT: {putt_trend} -- 공식 기록상 매 시즌 본인의 네 항목 중 가장 작았으며, 올해만의 현상이 아닙니다.",
     ]
     analysis = (
-        "Ranking her own four components against each other, rather than against the field, changes the "
-        "conclusion in a way that matters for planning practice time: Off-the-Tee, Approach and "
-        "Around-the-Green all sit in a range that would be considered elite on tour; Putting alone does not. "
-        "That is a different statement from 'her putting is bad' -- it is a statement about where the next "
-        "hour of practice time buys the most improvement relative to what she already has."
+        "필드가 아니라 본인의 네 항목을 서로 비교해 보면, 훈련 시간 배분을 생각할 때 의미 있는 결론이 "
+        "달라집니다: SG OTT, SG APP, SG ARG은 모두 투어에서 최상위권으로 볼 수 있는 범위에 "
+        "있지만, SG PUTT만은 그렇지 않습니다. 이는 'SG PUTT이 나쁘다'는 말과는 다릅니다 -- 지금 가진 것에 비해 "
+        "다음 한 시간의 훈련이 가장 큰 개선을 가져올 곳이 어디인지를 말해주는 지표입니다."
     )
     conclusion = (
-        "Putting is not a weakness in absolute terms -- it is the one category that has not grown at the same "
-        "rate as the rest of her game, in every season on record, which makes it the highest-leverage area for "
-        "continued development."
+        "SG PUTT은 절대적인 의미에서 약점이 아닙니다 -- 공식 기록상 매 시즌 경기력의 다른 부분만큼 성장하지 "
+        "못한 유일한 항목이며, 그래서 앞으로의 성장에서 가장 효율이 높은 영역이 됩니다."
     )
     why_it_matters = (
-        "Practice time is finite. Knowing that putting is the one component that hasn't kept pace in every "
-        "season on record is what justifies weighting practice hours toward it, instead of further polishing "
-        "a skill that is already elite."
+        "훈련 시간은 한정되어 있습니다. SG PUTT이 공식 기록상 매 시즌 경기력의 다른 부분을 따라가지 못한 유일한 "
+        "항목이라는 사실은, 이미 최상위권인 기술을 더 다듬기보다 SG PUTT에 훈련 시간을 더 배분해야 하는 근거가 "
+        "됩니다."
     )
-    protocol = _season_component_protocol(season_profiles, "avg_putt", "Putting", "the SG Putting per-tournament protocol above (73 real tournaments)")
-    player_takeaway = "Don't read 'weakest area' as 'poor putter' -- it means every other part of the game has been pulled up to an elite level, and putting is the one with room left to close the gap."
+    protocol = _season_component_protocol(season_profiles, "avg_putt", terms.SG_COMPONENT["putting"], f"위 대회별 {terms.SG_COMPONENT['putting']} 프로토콜(실측 73대회 기준)")
+    player_takeaway = "'가장 약한 부분'을 'SG PUTT이 서툴다'는 뜻으로 읽지 마십시오 -- 나머지 모든 부분이 최상위권까지 끌어올려졌고, SG PUTT만이 그 격차를 좁힐 여지가 남아 있다는 뜻입니다."
     coach_focus = (
-        f"This is the season-level view of the same metric the 'why does she lose' protocol tracks per "
-        f"tournament: SG Putting, here reviewed at the {protocol['sample_size']}-season grain to judge whether "
-        "practice-time reallocation is closing the internal gap year over year, not week to week."
+        f"'왜 우승을 놓치는가' 프로토콜이 대회 단위로 추적하는 것과 같은 지표(SG PUTT)를 여기서는 "
+        f"{protocol['sample_size']}개 시즌 단위로 살펴봅니다 -- 훈련 시간 재배분이 주 단위가 아니라 연 단위로 "
+        "내부 격차를 좁히고 있는지 확인하기 위해서입니다."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "This ranking -- Putting last among her own four components -- has held in all four seasons on "
-        "record. Another season would have to show a genuinely different pattern, Putting closing the "
-        "internal gap on the other three, to change this conclusion, and that has not happened in her history "
-        "to date."
+        "본인의 네 항목 중 SG PUTT이 가장 낮다는 이 순위는 공식 기록상 네 시즌 내내 유지되어 왔습니다. 이 "
+        "결론이 바뀌려면 SG PUTT이 나머지 세 항목과의 내부 격차를 실제로 좁히는, 지금까지와는 전혀 다른 패턴이 "
+        "나타나야 하는데, 지금까지의 기록에서는 그런 사례가 없습니다."
     )
-    why_this_matters = "This is where the next hour of practice time pays off the most."
+    why_this_matters = "다음 한 시간의 훈련이 가장 큰 효과를 가져올 곳입니다."
     action = _action_from_protocol(protocol)
 
     sample_sizes = [reason["sample_size"]]
     sources = set(reason["official_records_used"]) | {"knowledge_engine.compute_season_profiles() (player_dna.axes)"}
     return {
         "id": "q_putting_weakest",
-        "question": f"Why has Putting become {PLAYER_NAME}'s weakest area?",
+        "question": f"{PLAYER_NAME} 선수에게 SG PUTT이 가장 약한 부분이 된 이유는?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -641,56 +663,55 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
 
 def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
     audit = _conclusion(master_doc, "season_evolution.frozen_knowledge_engine_evolution.narrative")
-    total_trend = ", ".join(f"{p.season} ({p.n_tournaments} events) {p.avg_total:+.2f}" for p in season_profiles)
+    total_trend = ", ".join(f"{p.season} ({p.n_tournaments}개 대회) {p.avg_total:+.2f}" for p in season_profiles)
     ott_trend = _season_line(season_profiles, "avg_ott")
     app_trend = _season_line(season_profiles, "avg_app")
     putt_trend = _season_line(season_profiles, "avg_putt")
 
     fact = (
-        "Kim Minsun7's rise from a developing player to a tour winner did not happen in one season -- her "
-        "overall scoring value has increased in every one of her four seasons on record, and the shape of "
-        "that rise tracks her ball-striking, not a hot putting run."
+        "김민선7 선수가 성장기 선수에서 우승 선수로 발전한 과정은 한 시즌 만에 이루어지지 않았습니다 -- 전체 "
+        "스코어링 가치는 공식 기록상 네 시즌 모두 상승했으며, 그 상승의 모양은 반짝 SG PUTT 호조가 아니라 볼 "
+        "스트라이킹을 따라가고 있습니다."
     )
     evidence = [
-        f"Season-by-season SG Total: {total_trend} -- rising every season, backed by 16 to 23 tournaments each year.",
-        f"The same rise shows up in Off-the-Tee ({ott_trend}) and Approach ({app_trend}), while Putting has not climbed at the same rate ({putt_trend}) -- confirming the improvement is a ball-striking story, not a short-game one.",
+        f"시즌별 SG Total: {total_trend} -- 매 시즌 상승했고, 해마다 16~23개 대회의 표본이 뒷받침합니다.",
+        f"같은 상승세가 SG OTT({ott_trend})와 SG APP({app_trend})에서도 나타나는 반면, SG PUTT은 같은 속도로 오르지 않았습니다({putt_trend}) -- 이번 향상이 쇼트게임이 아니라 볼 스트라이킹에서 비롯되었다는 근거입니다.",
     ]
     analysis = (
-        "A four-season, monotonic rise across two ball-striking components, running in parallel with a real "
-        "tournament count behind each season's average, is not a form spike -- it is what a genuine "
-        "improvement in swing quality and distance control looks like over time. It also tells the coaching "
-        "team what not to credit: putting has not risen anywhere near the same rate, so a story built around "
-        "'the short game has caught up' would not be supported by her own record."
+        "두 개의 볼 스트라이킹 항목이 네 시즌 연속으로 함께 상승하고, 그 뒤에 시즌마다 실제 대회 표본이 "
+        "뒷받침한다는 것은 반짝 상승이 아닙니다 -- 시간이 지나며 스윙 퀄리티와 거리 컨트롤이 실제로 좋아지고 "
+        "있는 선수의 전형적인 모습입니다. 동시에 무엇을 이번 향상의 원인으로 보면 안 되는지도 알려줍니다 -- "
+        "SG PUTT은 비슷한 속도로 오르지 않았으므로, '쇼트게임이 따라잡았다'는 설명은 본인의 기록으로 "
+        "뒷받침되지 않습니다."
     )
     conclusion = (
-        "Her 2026 performance is the continuation of a real, multi-season improvement in ball-striking, not a "
-        "one-off good year -- and the technical program behind that improvement is the one thing this record "
-        "says should not be changed."
+        "2026시즌 경기력은 한 해의 반짝 호조가 아니라 여러 시즌에 걸친 실제 볼 스트라이킹 향상의 연장선입니다 "
+        "-- 이 기록이 말해주는 것은, 이 향상을 이끈 기술 훈련 프로그램만큼은 바꾸어서는 안 된다는 점입니다."
     )
-    why_it_matters = "Confirming the improvement is structural, not lucky, is what keeps a coaching staff from second-guessing a program that is actually working after one difficult week."
-    player_takeaway = "The improvement is real and it's hers to keep building on -- it did not come from one lucky adjustment, so the current emphasis on ball-striking is the right one to continue, not to second-guess after a single bad week."
+    why_it_matters = "이번 향상이 운이 아니라 구조적인 변화라는 점을 확인해 두면, 한 주 부진했다고 해서 실제로 효과를 보고 있는 프로그램을 코칭스태프가 다시 의심하는 일을 막을 수 있습니다."
+    player_takeaway = "이 향상은 실제이며, 앞으로도 계속 쌓아 나갈 수 있는 것입니다 -- 한 번의 운 좋은 조정에서 나온 것이 아니므로, 한 번의 나쁜 주 이후에도 볼 스트라이킹 중심의 현재 훈련 방향을 의심하기보다 계속 이어가는 것이 맞습니다."
     protocol = _season_component_protocol(
-        season_profiles, "avg_total", "Total",
-        "her SG Total per-tournament figures (historical_sg_warehouse_corrected.json, scope=tournament_cumulative, field='total', 73 real tournaments)",
+        season_profiles, "avg_total", terms.SG_TOTAL,
+        f"본인의 대회별 {terms.SG_TOTAL} 실측치(historical_sg_warehouse_corrected.json, scope=tournament_cumulative, field='total', 실측 73대회 기준)",
     )
     coach_focus = (
-        f"Review SG Total at the season level ({protocol['sample_size']} real seasons on record) -- this is a "
-        "developmental-program signal, reviewed once per season, not a week-to-week tactical one."
+        f"SG Total을 시즌 단위(실측 {protocol['sample_size']}개 시즌 기준)로 점검하십시오 -- 이는 한 주 "
+        "단위의 전술적 신호가 아니라 시즌 단위로 확인해야 할 육성 프로그램 신호입니다."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "This is already a four-season pattern, so it is about as durable a read as this record can produce. "
-        "A fifth season that continued the trend would reinforce it further; even a flat fifth season would "
-        "not erase four years of real, recorded improvement -- it would only change what comes next, not what "
-        "already happened."
+        "이미 4개 시즌에 걸친 흐름이므로, 이 기록이 보여줄 수 있는 가장 지속성 있는 판단에 가깝습니다. 다섯 "
+        "번째 시즌에도 이 흐름이 이어진다면 근거는 더 강해지고, 설령 다섯 번째 시즌이 정체되더라도 지난 4년간의 "
+        "실제 향상 자체가 사라지는 것은 아닙니다 -- 앞으로의 방향에만 영향을 줄 뿐, 이미 일어난 일을 바꾸지는 "
+        "않습니다."
     )
-    why_this_matters = "Keep doing what has been working -- this is not the record of a player who needs a change."
+    why_this_matters = "지금까지 효과가 있었던 방식을 계속 유지하십시오 -- 변화가 필요한 선수의 기록이 아닙니다."
     action = _action_from_protocol(protocol)
 
     sources = set(audit["official_records_used"])
     return {
         "id": "q_2026_improvement",
-        "question": f"Why did {PLAYER_NAME}'s performance improve through 2026?",
+        "question": f"{PLAYER_NAME} 선수의 경기력은 왜 2026시즌까지 꾸준히 향상되었는가?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -713,47 +734,47 @@ def _q_strong_course(master_doc: dict) -> dict:
     group = max(master_doc["course_analysis"]["course_series"], key=lambda g: g["appearances"])
     n = group["appearances"]
     history_line = "; ".join(
-        f"{h['season']} {h['sg_total']:+.2f}" if h.get("sg_total") is not None else f"{h['season']} n/a" for h in group["history"]
+        f"{h['season']} {h['sg_total']:+.2f}" if h.get("sg_total") is not None else f"{h['season']} 기록 없음" for h in group["history"]
     )
 
     fact = (
-        "When Kim Minsun7 returns to a course she has already played, her record says she should be trusted "
-        f"to perform, not managed cautiously. Her strongest repeated result is at {group['series_name_sample']}, "
-        f"where {n} real appearances have produced a positive scoring average and her most recent visit was a win."
+        f"김민선7 선수가 이미 출전한 적 있는 코스로 돌아갈 때, 공식 기록은 조심스럽게 관리하기보다 믿고 맡겨야 "
+        f"한다는 것을 보여줍니다. 가장 강한 반복 성적은 {group['series_name_sample']}에서 나왔으며, 실측 {n}회 "
+        "출전에서 플러스 스코어링 평균을 만들어냈고 가장 최근 출전은 우승이었습니다."
     )
     evidence = [
-        f"Appearance-by-appearance SG Total by season: {history_line} -- {n} real visits, every one of them positive, the best coming on her most recent trip.",
-        f"Average SG Total across all {n} appearances: {group['avg_sg_total']:+.2f}, well above her all-time career baseline.",
+        f"시즌별 출전 기록의 SG Total: {history_line} -- 실측 {n}회 출전 모두 플러스였고, 그중 가장 좋은 성적이 가장 최근 출전에서 나왔습니다.",
+        f"{n}회 출전 전체 평균 SG Total: {group['avg_sg_total']:+.2f}로, 통산 평균을 크게 웃돕니다.",
     ]
     analysis = (
-        "One good week at a course could be the luck of the pairing or the conditions. Four real visits, "
-        "spread across four different seasons, all landing positive -- with the best of the four on her most "
-        "recent trip -- looks like accumulated course knowledge rather than a coincidence. That is a "
-        "different kind of insight than a single-week form check: it says this course rewards something she "
-        "already does well, and repetition has sharpened it rather than the effect fading."
+        "코스에서의 한 번의 좋은 주간은 조 편성이나 그날의 컨디션 덕분일 수 있습니다. 그러나 서로 다른 네 "
+        "시즌에 걸친 실측 네 차례 출전이 모두 플러스였고, 그중 가장 좋은 성적이 가장 최근 출전에서 나왔다는 "
+        "것은 우연이라기보다 쌓여온 코스 이해도에 가깝습니다. 이는 한 주의 컨디션 점검과는 다른 종류의 "
+        "통찰입니다 -- 이 코스가 본인이 이미 잘하는 부분을 보상해 주며, 반복될수록 그 효과가 흐려지기보다 "
+        "오히려 더 날카로워졌다는 뜻입니다."
     )
     conclusion = (
-        f"This is a course where the game plan should lean on what already works rather than experimenting -- "
-        f"{n} appearances and a rising trend point to real course familiarity, not a single lucky week."
+        f"이 코스에서는 새로운 시도를 하기보다 이미 검증된 방식에 의지하는 경기 전략이 맞습니다 -- {n}회의 "
+        "출전과 상승하는 흐름은 단순한 한 번의 행운이 아니라 실제 코스 친숙도를 가리킵니다."
     )
-    why_it_matters = "Knowing a strong result is course-specific and evidence-backed, not a guess, tells the team when to trust her instincts on-site and when to hold back on last-minute changes."
-    player_takeaway = "Walk into this course with confidence built on a real track record, not just optimism -- the data backs the feeling that this is 'her' course."
+    why_it_matters = "좋은 성적이 추측이 아니라 특정 코스에서 근거를 가진 결과라는 것을 알면, 코칭스태프가 현장에서 선수의 감각을 믿어야 할 때와 막판 변화를 자제해야 할 때를 판단하는 데 도움이 됩니다."
+    player_takeaway = "이 코스에서는 막연한 낙관이 아니라 실제 성적으로 뒷받침된 자신감을 가지고 임하십시오 -- '나에게 잘 맞는 코스'라는 느낌이 데이터로도 확인됩니다."
     protocol = _course_appearance_protocol(group)
-    coach_focus = f"Use {group['series_name_sample']} as a template for what a good week looks like for her, and be cautious about introducing swing or strategy changes the week before she plays it again."
+    coach_focus = f"{group['series_name_sample']}을(를) 좋은 한 주가 어떤 모습인지 보여주는 기준으로 삼고, 다음 출전을 앞둔 주에는 스윙이나 전략을 바꾸는 것을 특히 조심하십시오."
     durability = LONG_TERM
     durability_reasoning = (
-        f"The {n} appearances already happened and cannot be changed by anything in the future -- that record "
-        "stands regardless of what happens next time. But because it is only four data points, a single "
-        "below-par visit next time would meaningfully soften the average without overturning the pattern; "
-        "treat this as a strong lean, not a guarantee."
+        f"이미 실측된 {n}회의 출전은 앞으로 무슨 일이 있어도 바뀌지 않는 기록입니다 -- 다음 출전에서 무슨 일이 "
+        "벌어지든 그대로 유지됩니다. 다만 표본이 네 개뿐이므로, 다음 출전에서 평균 이하의 성적이 나오면 전체 "
+        "평균은 눈에 띄게 낮아질 수 있습니다(패턴 자체가 뒤집히는 것은 아니지만). 확정된 결론이 아니라 강한 "
+        "경향으로 다루십시오."
     )
-    why_this_matters = "It is the clearest place in her record where preparation should trust the player rather than over-coach her."
+    why_this_matters = "선수를 지나치게 코치하기보다 믿고 맡겨야 한다는 것이 기록에서 가장 분명하게 드러나는 지점입니다."
     action = _action_from_protocol(protocol)
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
     return {
         "id": "q_strong_course",
-        "question": f"Why is {PLAYER_NAME} strong at {group['series_name_sample']}?",
+        "question": f"{PLAYER_NAME} 선수는 왜 {group['series_name_sample']}에서 강한가?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -800,50 +821,47 @@ def _q_most_recent_win(master_doc: dict, ds: dict) -> dict:
     delta_mean, delta_n = _round_to_round_delta_check(ds)
 
     fact = (
-        "Her most recent title was not decided by a fast start she had to protect -- her SG Total dipped "
-        "slightly in round 2 before her strongest round of the tournament in round 3, right when the "
-        "tournament was being decided."
+        "가장 최근 우승은 지켜내야 할 빠른 출발에서 나온 것이 아니었습니다 -- 2라운드에 SG Total이 소폭 하락한 "
+        "뒤, 대회가 갈리는 시점인 3라운드에서 대회 중 가장 좋은 라운드가 나왔습니다."
     )
     evidence = [
-        f"Round-by-round SG Total: {sg_line} -- her best round of the three came last, not first.",
-        f"Official result: {win['tournament']} ({win['final_score']}, rank #{win['final_rank']}) -- {win['official_source']}.",
+        f"라운드별 SG Total: {sg_line} -- 세 라운드 중 가장 좋은 라운드가 마지막에 나왔습니다.",
+        f"공식 결과: {win['tournament']} ({win['final_score']}, 최종 {win['final_rank']}위) -- {win['official_source']}.",
     ]
     analysis = (
-        "A win built on a fading lead and a defensive final round tells a coach one thing about a player's "
-        "tournament management; a win where the strongest round comes last tells a different one. This result "
-        "is the second kind -- a real, confirmed fact about this specific tournament. It does not, on its own, "
-        f"establish a repeatable trait: her full round-to-round history ({delta_n} real consecutive-round pairs "
-        f"on record) has a mean change of {delta_mean:+.2f} SG, essentially flat with wide swings in both "
-        "directions -- so this win should inform how this specific result is used in preparation, not be "
-        "generalized into 'she always builds into tournaments.'"
+        "리드를 지키다 소극적인 마지막 라운드로 마무리하는 우승과, 가장 좋은 라운드가 마지막에 나오는 우승은 "
+        "선수의 대회 운영 방식에 대해 서로 다른 이야기를 들려줍니다. 이번 결과는 후자에 해당하며, 이 대회 "
+        "하나에 대해 실제로 확인된 사실입니다. 다만 이 결과 하나만으로 반복되는 특성이라고 단정할 수는 "
+        f"없습니다 -- 라운드 간 흐름 전체를 살펴보면(실측 연속 라운드 쌍 {delta_n}개 기준) 평균 변화가 "
+        f"{delta_mean:+.2f} SG로 사실상 큰 흐름이 없고 등락 폭도 양방향으로 넓게 나타납니다. 따라서 이번 우승은 "
+        "이 대회를 준비할 때 참고할 사실이지, '항상 대회 후반에 강해진다'는 일반적인 특성으로 확대 해석해서는 "
+        "안 됩니다."
     )
     conclusion = (
-        "Her most recent win was earned by peaking in the final round after a round 2 that was not her best -- "
-        "a real, confirmed fact about this one result, not yet an established pattern across her wins generally."
+        "가장 최근 우승은 최상은 아니었던 2라운드를 거친 뒤 마지막 라운드에서 정점을 찍으며 만들어졌습니다 -- "
+        "이 한 번의 결과에 대해 실제로 확인된 사실이며, 아직 우승 전반에 걸쳐 확립된 패턴은 아닙니다."
     )
-    why_it_matters = "Being precise about what is confirmed in this one result, versus what would need more evidence to generalize, keeps preparation grounded in what actually happened rather than a story built on a single data point."
-    player_takeaway = "This result is real evidence that an ordinary round 2 did not cost her the tournament -- but her broader record does not yet show this is something to expect every time, so treat it as one data point in her favor, not a guarantee."
+    why_it_matters = "이번 결과에서 무엇이 확인되었고 무엇을 일반화하려면 더 많은 근거가 필요한지를 정확히 구분해 두면, 준비 과정을 실제 있었던 일에 근거하게 만들 수 있습니다. 하나의 사례로 만든 이야기에 의존하지 않게 됩니다."
+    player_takeaway = "이번 결과는 평범한 2라운드가 우승을 가로막지 않았다는 실제 증거입니다 -- 다만 더 넓은 기록에서는 이것이 매번 기대할 수 있는 일이라고까지는 아직 보여주지 않으므로, 유리한 사례 하나로 다루되 보장으로 받아들이지는 마십시오."
     protocol = _round_total_protocol(ds)
     coach_focus = (
-        f"Use the round-level SG Total protocol below during any live tournament -- a real, in-progress "
-        f"signal from {protocol['sample_size']} real rounds on record -- rather than a mental-pattern "
-        "assumption drawn from this single win."
+        f"실전 대회 중에는 이 한 번의 우승에서 나온 심리적 패턴을 가정하기보다, 아래의 라운드별 SG Total "
+        f"프로토콜을 실시간 신호로 활용하십시오 -- 실측 {protocol['sample_size']}개 라운드를 기준으로 합니다."
     )
     durability = CONFIRMED_EVENT
     durability_reasoning = (
-        "This already happened and is fixed by the official result -- no future data can change what "
-        f"occurred in this event. A check of her full round-to-round SG history ({delta_n} real transitions on "
-        f"record, mean change {delta_mean:+.2f} SG) shows no consistent rising pattern across her career, so "
-        "this result is reported as a confirmed fact about one tournament, not generalized into a repeatable "
-        "trait the data does not support."
+        "이 일은 이미 일어났고 공식 결과로 확정되어 있으므로, 앞으로 어떤 데이터가 나오더라도 바뀌지 않습니다. "
+        f"다만 라운드 간 흐름 전체를 확인한 결과(실측 전환 {delta_n}건, 평균 변화 {delta_mean:+.2f} SG) 선수 "
+        "생활 전체에서 일관되게 상승하는 패턴은 나타나지 않았습니다. 따라서 이 결과는 이 대회 하나에 대한 "
+        "확정된 사실로만 보고하며, 근거가 없는 반복적 특성으로 확대하지 않습니다."
     )
-    why_this_matters = "It gives the coaching team one confirmed, real example -- used precisely, not stretched into a general rule."
+    why_this_matters = "출발이 더딜 때 코칭스태프가 활용할 수 있는, 실제로 확인된 최근 사례 하나를 제공합니다."
     action = _action_from_protocol(protocol)
 
     sources = {win["official_source"].split(" (")[0]}
     return {
         "id": "q_most_recent_win",
-        "question": f"How did {PLAYER_NAME} win her most recent title, the {win['tournament']}?",
+        "question": f"{PLAYER_NAME} 선수는 최근 우승, {win['tournament']}을(를) 어떻게 만들어냈는가?",
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
@@ -872,8 +890,12 @@ def _q_repeat_course_pattern_candidate(master_doc: dict) -> dict:
     fact_audit = _fact(master_doc, "fact_repeat_course_wins")["audit"]
     return {
         "id": "q_repeat_course_pattern",
-        "question": f"Does {PLAYER_NAME} tend to win at courses she has played before?",
-        "reason_excluded": fact_audit["note"],
+        "question": f"{PLAYER_NAME} 선수는 과거에 출전했던 코스에서 우승하는 경향이 있는가?",
+        "reason_excluded": (
+            f"공식 기록상 이전에 출전한 코스에서의 우승은 {fact_audit['sample_size']}건뿐입니다. '경향'이나 "
+            "'패턴'이라고 표현하려면 최소 2건 이상의 독립된 사례가 필요하므로, 이 리포트는 이를 반복되는 특성으로 "
+            "보지 않고 답변에서 제외했습니다."
+        ),
         "sample_size": fact_audit["sample_size"],
         "confidence": fact_audit["confidence"],
     }
@@ -902,7 +924,12 @@ def build() -> dict:
     excluded = []
     for c in candidates:
         if c["confidence"] == "UNKNOWN":
-            excluded.append({"id": c["id"], "question": c["question"], "reason_excluded": "confidence resolved to UNKNOWN; never kept as an unsupported conclusion.", "sample_size": c["sample_size"]})
+            excluded.append({
+                "id": c["id"],
+                "question": c["question"],
+                "reason_excluded": "신뢰도가 UNKNOWN으로 판정되어, 근거가 충분하지 않은 결론은 리포트에 포함하지 않습니다.",
+                "sample_size": c["sample_size"],
+            })
             continue
         questions.append(c)
 
@@ -912,6 +939,7 @@ def build() -> dict:
 
     pre_tournament_checklist = [
         {
+            "id": q["id"],
             "metric": q["monitoring_protocol"]["metric"],
             "current_reading": q["monitoring_protocol"]["current_reading"],
             "current_status": q["monitoring_protocol"]["current_status"],
@@ -925,41 +953,42 @@ def build() -> dict:
         "player_id": PLAYER_ID,
         "player_name": PLAYER_NAME,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "scope_note": "This document covers ONLY playerCode=10097. No other player's data was generated or modified. Gold Standard reference implementation.",
+        "scope_note": (
+            "이 문서는 playerCode=10097(김민선7) 선수만을 다룹니다. 다른 선수의 데이터는 생성되거나 수정되지 "
+            "않았습니다. NEO Player Intelligence의 최상위 기준(Gold Standard) 참고 구현입니다."
+        ),
         "evidence_score_method": (
-            "evidence_score = round(100 * min(1, distinct_official_sources / 3) * sample_size / (sample_size + 5)). "
-            "A deterministic, disclosed scoring of already-computed sample_size + source diversity -- not a new "
-            "statistical claim about the player."
+            "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 "
+            "계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 "
+            "새로운 통계적 주장이 아닙니다."
         ),
         "durability_method": (
-            "Every question asks: would adding one more season likely overturn this conclusion? "
-            f"'{LONG_TERM}' = built on a pattern present in most or all seasons on record, unlikely to reverse. "
-            f"'{RECENT_TREND}' = based on this season only; a future season could change it. "
-            f"'{CONFIRMED_EVENT}' = an already-completed result, not a trend claim -- it cannot be overturned by future data, "
-            "but is also not generalized into a repeatable pattern beyond itself."
+            "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? "
+            f"'{LONG_TERM}'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 "
+            f"의미합니다. '{RECENT_TREND}'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 "
+            f"의미합니다. '{CONFIRMED_EVENT}'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 "
+            "반복되는 패턴으로 일반화하지도 않습니다."
         ),
         "monitoring_protocol_method": (
-            f"Player Intelligence V3: every section is a performance-monitoring protocol, not a described statistic. "
-            f"(1) Metric -- a real, officially-sourced field with a repeated measured history (never a single-snapshot "
-            f"stat). (2) Normal / (3) Deterioration -- with >= {_LARGE_SAMPLE_MIN} real observations: normal range = "
-            "mean +/- 1 SD; deterioration = two consecutive readings below the lower bound (so one bad "
-            "tournament/round never triggers a false alarm). With fewer (season- or course-level aggregates, where "
-            "more data does not yet exist): a mean/SD band is not statistically meaningful, so deterioration is "
-            "defined as her own real historical floor -- a new all-time low. (4) Next check -- the next real event "
-            "at that metric's own grain (next tournament / next round / next season / next appearance). "
-            "(5) Explanatory metric -- never a golf-domain guess: the real Pearson correlation between the "
-            "monitored metric and her other three real SG components, named only if it clears a disclosed 0.3 "
-            "meaningfulness threshold; reported as 'None' with the real coefficients shown when it does not "
-            "(true for every tournament/round-level component pair checked here), or as 'Unknown, too few "
-            "observations' when the sample is too thin (n=4) to compute a real correlation at all. Current status -- "
-            "not a prediction: her most recent already-recorded real reading, compared against (2)/(3) using the "
-            "same rule that would apply to any future reading. This is what makes the report usable before every "
-            "tournament -- checked against the real record as it stands today."
+            "Player Intelligence V3: 모든 섹션은 단순히 서술된 통계가 아니라 성과 모니터링 프로토콜입니다. "
+            "(1) 모니터링 지표 -- 반복 측정된 이력이 있는 실제 공식 지표(단발성 스냅샷 통계는 사용하지 않음). "
+            f"(2) 정상 기준 / (3) 저하 기준 -- 실측값이 {_LARGE_SAMPLE_MIN}회 이상이면 정상 범위는 평균 ± "
+            "표준편차 1, 저하 기준은 하한선 미만이 2회 연속 나타나는 경우입니다(한 번의 나쁜 대회·라운드로 "
+            "잘못된 경고가 뜨지 않도록 합니다). 표본이 이보다 적은 시즌·코스 단위 집계에서는 평균/표준편차 "
+            "방식이 통계적으로 의미가 없으므로, 저하 기준은 실측 역대 최저치 경신으로 정의합니다. (4) 다음 점검 "
+            "-- 해당 지표와 같은 단위의 다음 실제 이벤트(다음 대회/다음 라운드/다음 시즌/다음 출전). (5) 변화를 "
+            "가장 잘 설명하는 지표 -- 골프 상식에 기댄 추측이 아니라, 모니터링 지표와 본인의 다른 세 SG 항목 "
+            f"간 실제 피어슨 상관관계를 계산해, 공개된 {_MEANINGFUL_CORRELATION} 기준을 통과할 때만 지목합니다. "
+            "통과하지 못하면(이 리포트에서 확인된 모든 대회·라운드 단위 항목 쌍이 해당) 실제 계수와 함께 "
+            "'없음'으로 보고하고, 표본이 너무 적어(n=4) 상관관계를 계산할 수 없는 경우에는 '알 수 없음'으로 "
+            "보고합니다. 현재 상태 -- 예측이 아니라, 가장 최근에 이미 기록된 실측값을 (2)/(3)의 동일한 기준으로 "
+            "비교한 결과입니다. 이는 이 리포트를 매 대회 전에 실제로 활용할 수 있게 만드는 부분입니다 -- 앞으로 "
+            "벌어질 일에 대한 예측이 아니라, 지금까지 쌓인 실제 기록을 기준으로 점검하는 것입니다."
         ),
         "pre_tournament_checklist": pre_tournament_checklist,
         "questions": questions,
         "questions_considered_but_unsupported": excluded,
-        "source_document": "MASTER_ANALYSIS.json (audited via scripts/build_10097_master_player_analysis.py)",
+        "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
     }
 
 
