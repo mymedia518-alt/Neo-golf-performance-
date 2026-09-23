@@ -253,3 +253,45 @@ def test_sprint1_public_api_is_frozen():
         "find_course_history",
     ):
         assert hasattr(ke, name), f"knowledge_engine.{name} is missing -- Sprint 1 API must stay frozen"
+
+
+# ---------------------------------------------------------------------------
+# regenerate_for_tournament: no active-tournament dependency (Sprint 4.1)
+# ---------------------------------------------------------------------------
+
+
+def test_module_never_imports_load_tournament_context():
+    """The active-tournament-aware resolver must never even be
+    imported into this generator -- regenerate_for_tournament() takes
+    game_code explicitly and resolves it from the fixed schedule +
+    registry only, never from config/active_tournament.json."""
+    assert "load_tournament_context" not in dir(pig)
+
+
+def test_regenerate_for_tournament_real_hana_championship():
+    batch = pig.regenerate_for_tournament("2026090002", max_workers=4)
+    assert len(batch.written) + len(batch.skipped) > 100
+    assert len(batch.errors) == 0
+
+
+def test_regenerate_for_tournament_deterministic_regardless_of_active_tournament(monkeypatch, tmp_path):
+    """Same game_code, twice, with config/active_tournament.json
+    pointing at a different tournament the second time -- the written
+    latest.json content (generated_at aside) must not depend on that."""
+    from klpga import tournament_context as tc
+
+    pig.regenerate_for_tournament("2026090002", max_workers=4)
+    doc1 = json.loads((pig.OUTPUT_ROOT / "10097" / "latest.json").read_text(encoding="utf-8"))
+
+    fake_active = tmp_path / "active_tournament.json"
+    fake_active.write_text('{"game_code": "2026080001", "tournament_name": "다른 대회"}', encoding="utf-8")
+    monkeypatch.setattr(tc, "ACTIVE_TOURNAMENT_PATH", fake_active)
+
+    pig.regenerate_for_tournament("2026090002", max_workers=4, force=True)
+    doc2 = json.loads((pig.OUTPUT_ROOT / "10097" / "latest.json").read_text(encoding="utf-8"))
+
+    doc1["_meta"].pop("generated_at", None)
+    doc2["_meta"].pop("generated_at", None)
+    doc1["_meta"].pop("input_signature", None)
+    doc2["_meta"].pop("input_signature", None)
+    assert doc1 == doc2
