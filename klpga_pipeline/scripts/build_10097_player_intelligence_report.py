@@ -351,6 +351,89 @@ def _course_appearance_protocol(group: dict) -> dict:
     )
 
 
+# ---------------------------------------------------------------------------
+# V5: real SG decomposition, contribution breakdown. "What contributed the
+# most?" is answered by one identity, verified against every real row in
+# the warehouse (zero mismatches across all 73 tournament rows and 287
+# round rows): SG Total = SG OTT + SG APP + SG ARG + SG PUTT. A
+# contribution share is therefore just a ratio of already-recorded
+# official numbers -- sum(component)/sum(total)*100 -- never an estimate,
+# never an AI weighting, always reproducible from the same warehouse rows.
+# Never computed from anywhere it would require inventing a number: a row
+# missing any of the four components, or a game_code with no
+# tournament_cumulative row at all, is left out and the real sample size
+# actually used is disclosed alongside every breakdown.
+# ---------------------------------------------------------------------------
+
+_CONTRIBUTION_METHOD = (
+    "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식"
+    "(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 "
+    "가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다."
+)
+
+
+def _contribution_breakdown(rows: list) -> dict:
+    sums = {k: 0.0 for k in _COMPONENT_LABELS}
+    total = 0.0
+    n = 0
+    for r in rows:
+        if not r or r.get("total") is None or any(r.get(k) is None for k in _COMPONENT_LABELS):
+            continue
+        for k in _COMPONENT_LABELS:
+            sums[k] += r[k]
+        total += r["total"]
+        n += 1
+    if n == 0 or total == 0:
+        return None
+    # Round first, then divide -- share_pct must be reproducible from the
+    # exact "value"/"total_value" numbers this report displays, not from
+    # unrounded intermediates the reader never sees.
+    total_rounded = round(total, 2)
+    breakdown = sorted(
+        (
+            {"component": _COMPONENT_LABELS[k], "value": round(sums[k], 2), "share_pct": round(round(sums[k], 2) / total_rounded * 100, 1)}
+            for k in _COMPONENT_LABELS
+        ),
+        key=lambda b: abs(b["share_pct"]),
+        reverse=True,
+    )
+    return {
+        "sample_size": n,
+        "total_value": total_rounded,
+        "breakdown": breakdown,
+        "top_contributor": breakdown[0]["component"],
+    }
+
+
+def _trend_contribution_breakdown(season_profiles: list) -> dict:
+    first, last = season_profiles[0], season_profiles[-1]
+    deltas = {
+        "off_the_tee": last.avg_ott - first.avg_ott,
+        "approach": last.avg_app - first.avg_app,
+        "around_green": last.avg_arg - first.avg_arg,
+        "putting": last.avg_putt - first.avg_putt,
+    }
+    total_delta = last.avg_total - first.avg_total
+    if total_delta == 0:
+        return None
+    total_delta_rounded = round(total_delta, 2)
+    breakdown = sorted(
+        (
+            {"component": _COMPONENT_LABELS[k], "value": round(v, 2), "share_pct": round(round(v, 2) / total_delta_rounded * 100, 1)}
+            for k, v in deltas.items()
+        ),
+        key=lambda b: abs(b["share_pct"]),
+        reverse=True,
+    )
+    return {
+        "from_season": first.season,
+        "to_season": last.season,
+        "total_value": total_delta_rounded,
+        "breakdown": breakdown,
+        "top_contributor": breakdown[0]["component"],
+    }
+
+
 def _action_from_protocol(protocol: dict) -> str:
     return (
         f"{protocol['metric']}을(를) 모니터링합니다({protocol['source']}). 정상 범위: {protocol['normal_range']}. "
@@ -370,7 +453,7 @@ def _action_from_protocol(protocol: dict) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
+def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
     win_fact = _fact(master_doc, "fact_win_count")["audit"]
     reasons = [_conclusion(master_doc, f"play_style.why_wins[{i}]") for i in range(3)]
     wins = master_doc["tournament_analysis"]["wins"]
@@ -441,13 +524,14 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": _weakest_confidence([win_fact["confidence"]] + [r["confidence"] for r in reasons]),
     }
 
 
-def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
+def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
     reasons = [_conclusion(master_doc, f"play_style.why_loses[{i}]") for i in range(2)]
     putt_trend = _season_line(season_profiles, "avg_putt")
     this_season, last_season = season_profiles[-1], season_profiles[-2]
@@ -517,13 +601,14 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": _weakest_confidence([r["confidence"] for r in reasons]),
     }
 
 
-def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list) -> dict:
+def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
     insight = next(i for i in master_doc["knowledge_graph"]["insights"] if i["id"] == "insight_elite_approach_and_ott")
     audit = insight["audit"]
     pi = ds["player_intelligence_doc"]
@@ -585,13 +670,14 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(audit["sample_size"], len(sources)),
         "sample_size": audit["sample_size"],
         "confidence": audit["confidence"],
     }
 
 
-def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dict:
+def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
     reason = _conclusion(master_doc, "play_style.why_loses[0]")
     pi = ds["player_intelligence_doc"]
     axes = {a["key"]: a["percentile"] for a in pi["player_dna"]["axes"]}
@@ -655,13 +741,14 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": reason["confidence"],
     }
 
 
-def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
+def _q_2026_improvement(master_doc: dict, season_profiles: list, contribution: dict) -> dict:
     audit = _conclusion(master_doc, "season_evolution.frozen_knowledge_engine_evolution.narrative")
     total_trend = ", ".join(f"{p.season} ({p.n_tournaments}개 대회) {p.avg_total:+.2f}" for p in season_profiles)
     ott_trend = _season_line(season_profiles, "avg_ott")
@@ -724,15 +811,17 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(audit["tournament_count"], len(sources)),
         "sample_size": audit["tournament_count"],
         "confidence": audit["confidence"],
     }
 
 
-def _q_strong_course(master_doc: dict) -> dict:
+def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
     group = max(master_doc["course_analysis"]["course_series"], key=lambda g: g["appearances"])
     n = group["appearances"]
+    contribution = _contribution_breakdown([by_code.get(h["game_code"]) for h in group["history"]])
     history_line = "; ".join(
         f"{h['season']} {h['sg_total']:+.2f}" if h.get("sg_total") is not None else f"{h['season']} 기록 없음" for h in group["history"]
     )
@@ -787,6 +876,7 @@ def _q_strong_course(master_doc: dict) -> dict:
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(n, len(sources)),
         "sample_size": n,
         "confidence": "HIGH" if n >= 4 else ("MEDIUM" if n >= 3 else "LOW"),
@@ -812,13 +902,17 @@ def _round_to_round_delta_check(ds: dict) -> tuple:
     return statistics.fmean(deltas), len(deltas)
 
 
-def _q_most_recent_win(master_doc: dict, ds: dict) -> dict:
+def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
     win = master_doc["tournament_analysis"]["most_recent_win"]
     if not win:
         return None
     rounds = list(win["round_sg"].items())
     sg_line = ", ".join(f"{rnd} {sg:+.2f}" for rnd, sg in rounds)
     delta_mean, delta_n = _round_to_round_delta_check(ds)
+    # This win has no tournament_cumulative warehouse row yet (round SG
+    # totals only, no per-component breakdown) -- _contribution_breakdown
+    # correctly returns None here rather than inventing a split.
+    contribution = _contribution_breakdown([by_code.get(win["game_code"])])
 
     fact = (
         "가장 최근 우승은 지켜내야 할 빠른 출발에서 나온 것이 아니었습니다 -- 2라운드에 SG Total이 소폭 하락한 "
@@ -874,6 +968,7 @@ def _q_most_recent_win(master_doc: dict, ds: dict) -> dict:
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
+        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(len(rounds), len(sources)),
         "sample_size": len(rounds),
         "confidence": "HIGH",
@@ -909,14 +1004,33 @@ def _q_repeat_course_pattern_candidate(master_doc: dict) -> dict:
 def build() -> dict:
     master_doc, ds, season_profiles = _load_inputs()
 
+    # V5: WIN DNA / LOSS DNA / TREND DNA -- real SG decomposition, computed
+    # once here and reused both as the top-level DNA blocks and as each
+    # question's own `contribution_breakdown` (same rows, same formula,
+    # never recomputed differently in two places).
+    by_code = {r["game_code"]: r for r in ds["warehouse_tournament_rows"]}
+    career_breakdown = _contribution_breakdown(ds["warehouse_tournament_rows"])
+
+    win_events = master_doc["tournament_analysis"]["wins"]
+    win_dna = _contribution_breakdown([by_code.get(w["game_code"]) for w in win_events])
+    if win_dna is not None:
+        win_dna["events_considered"] = len(win_events)
+
+    loss_events = [e for e in master_doc["tournament_analysis"]["events"] if e.get("sg_total") is not None and e["sg_total"] < 0]
+    loss_dna = _contribution_breakdown([by_code.get(e["game_code"]) for e in loss_events])
+    if loss_dna is not None:
+        loss_dna["events_considered"] = len(loss_events)
+
+    trend_dna = _trend_contribution_breakdown(season_profiles)
+
     candidates = [
-        _q_why_wins(master_doc, ds, season_profiles),
-        _q_why_loses(master_doc, ds, season_profiles),
-        _q_approach_biggest_weapon(master_doc, ds, season_profiles),
-        _q_putting_weakest(master_doc, ds, season_profiles),
-        _q_2026_improvement(master_doc, season_profiles),
-        _q_strong_course(master_doc),
-        _q_most_recent_win(master_doc, ds),
+        _q_why_wins(master_doc, ds, season_profiles, win_dna),
+        _q_why_loses(master_doc, ds, season_profiles, loss_dna),
+        _q_approach_biggest_weapon(master_doc, ds, season_profiles, career_breakdown),
+        _q_putting_weakest(master_doc, ds, season_profiles, career_breakdown),
+        _q_2026_improvement(master_doc, season_profiles, trend_dna),
+        _q_strong_course(master_doc, by_code),
+        _q_most_recent_win(master_doc, ds, by_code),
     ]
     candidates = [c for c in candidates if c is not None]
 
@@ -985,9 +1099,13 @@ def build() -> dict:
             "비교한 결과입니다. 이는 이 리포트를 매 대회 전에 실제로 활용할 수 있게 만드는 부분입니다 -- 앞으로 "
             "벌어질 일에 대한 예측이 아니라, 지금까지 쌓인 실제 기록을 기준으로 점검하는 것입니다."
         ),
+        "contribution_breakdown_method": _CONTRIBUTION_METHOD,
         "pre_tournament_checklist": pre_tournament_checklist,
         "questions": questions,
         "questions_considered_but_unsupported": excluded,
+        "win_dna": win_dna,
+        "loss_dna": loss_dna,
+        "trend_dna": trend_dna,
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
     }
 

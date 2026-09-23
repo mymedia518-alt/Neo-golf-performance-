@@ -76,6 +76,22 @@ def _protocol_html(protocol: dict) -> str:
     return f'<dl class="piq-protocol">{items}</dl>{current}'
 
 
+def _contribution_html(cb: Optional[dict]) -> str:
+    """V5: real SG decomposition. cb is None only when the event this
+    question is about has no official per-component data on record (e.g.
+    the most recent win, which has no tournament_cumulative warehouse row
+    yet) -- reported as unavailable, never a fabricated split."""
+    if not cb:
+        return f'<p class="pi-empty">{terms.CONTRIBUTION_LABEL}: {terms.CONTRIBUTION_UNAVAILABLE}</p>'
+    chips = "".join(f'<span class="label-chip">{escape(row["component"])} {row["share_pct"]:+.1f}%</span>' for row in cb["breakdown"])
+    return (
+        '<div class="piq-audit">'
+        f'<span class="label-chip label-chip--positive">{terms.TOP_CONTRIBUTOR_LABEL}: {escape(cb["top_contributor"])}</span>'
+        f"{chips}"
+        "</div>"
+    )
+
+
 def _question_card(q: dict) -> str:
     """Gold Standard UI (F1 race-engineer briefing): Conclusion -> Why? ->
     Evidence (collapsed) -> Monitoring, in that order. The conclusion
@@ -127,6 +143,8 @@ def _question_card(q: dict) -> str:
         f'<p><strong>{terms.SECTION_LABEL["durability"]}.</strong> {escape(q["durability_reasoning"])}</p>'
         "</div>"
         f"{audit}"
+        f'<p class="piq-step-label piq-label-standalone">{terms.CONTRIBUTION_LABEL}</p>'
+        f'{_contribution_html(q["contribution_breakdown"])}'
         f'<p class="piq-action"><span class="piq-label">{terms.SECTION_LABEL["action"]}</span>{escape(q["action"])}</p>'
         f'<p class="piq-step-label piq-label-standalone">{terms.SECTION_LABEL["monitoring_protocol"]}</p>'
         f"{_protocol_html(protocol)}"
@@ -164,6 +182,37 @@ def _excluded_html(excluded: list) -> str:
         '<div class="pi-section__body"><p class="pi-empty">'
         f"{terms.EXCLUDED_DESCRIPTION}"
         f'</p><ul class="piq-excluded-list">{items}</ul></div>'
+        "</details>"
+    )
+
+
+def _dna_row_html(label: str, dna: Optional[dict]) -> str:
+    if not dna:
+        return f'<li><strong>{escape(label)}</strong> — {terms.CONTRIBUTION_UNAVAILABLE}</li>'
+    chips = "".join(f'<span class="label-chip">{escape(row["component"])} {row["share_pct"]:+.1f}%</span>' for row in dna["breakdown"])
+    if "sample_size" in dna:
+        scope_chip = f'<span class="label-chip">{terms.CHIP_LABEL["sample_size"]} {dna["sample_size"]}/{dna["events_considered"]}</span>'
+    else:
+        scope_chip = f'<span class="label-chip">{dna["from_season"]} → {dna["to_season"]}</span>'
+    return (
+        f'<li><strong>{escape(label)}</strong>'
+        f'<div class="piq-audit">'
+        f'<span class="label-chip label-chip--positive">{terms.TOP_CONTRIBUTOR_LABEL}: {escape(dna["top_contributor"])}</span>'
+        f"{scope_chip}{chips}"
+        "</div></li>"
+    )
+
+
+def _dna_html(doc: dict) -> str:
+    rows = (
+        _dna_row_html(terms.WIN_DNA, doc.get("win_dna"))
+        + _dna_row_html(terms.LOSS_DNA, doc.get("loss_dna"))
+        + _dna_row_html(terms.TREND_DNA, doc.get("trend_dna"))
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-dna">'
+        f'<summary class="section-heading"><h2>{terms.WIN_DNA} · {terms.LOSS_DNA} · {terms.TREND_DNA}</h2></summary>'
+        f'<div class="pi-section__body"><ul class="piq-checklist">{rows}</ul></div>'
         "</details>"
     )
 
@@ -209,4 +258,5 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
 
     cards = "".join(_question_card(q) for q in doc["questions"])
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
-    return prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + cards + _excluded_html(doc.get("questions_considered_but_unsupported", []))
+    dna = _dna_html(doc)
+    return prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + cards + _excluded_html(doc.get("questions_considered_but_unsupported", []))

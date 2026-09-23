@@ -252,6 +252,100 @@ def test_report_script_never_defines_its_own_statistics_function():
 
 
 # ---------------------------------------------------------------------------
+# Player Intelligence V5: real SG decomposition, contribution breakdown.
+# "What contributed the most?" is answered by one verified identity --
+# SG Total = SG OTT + SG APP + SG ARG + SG PUTT -- never an estimate,
+# never an AI weighting. Every share_pct must be reproducible as
+# value / total_value * 100 from the same rows the breakdown discloses.
+# ---------------------------------------------------------------------------
+
+
+def test_sg_total_equals_the_sum_of_its_four_real_components_in_every_warehouse_row():
+    """The identity the whole V5 mission rests on: if this doesn't hold,
+    no contribution share computed from it would be real."""
+    _, ds, _ = report_script._load_inputs()
+    for r in ds["warehouse_tournament_rows"]:
+        s = r["off_the_tee"] + r["approach"] + r["around_green"] + r["putting"]
+        assert abs(s - r["total"]) < 0.02, f"{r['game_code']}: components do not sum to total ({s} != {r['total']})"
+    for r in ds["warehouse_round_rows"]:
+        s = r["off_the_tee"] + r["approach"] + r["around_green"] + r["putting"]
+        assert abs(s - r["total"]) < 0.02, f"{r['game_code']} round {r['round']}: components do not sum to total"
+
+
+def _assert_reproducible_breakdown(dna: dict):
+    assert dna["breakdown"], "breakdown must not be empty"
+    total = dna["total_value"]
+    recomputed_sum = 0.0
+    for row in dna["breakdown"]:
+        assert row["component"] in terms.SG_COMPONENT.values()
+        expected_share = round(row["value"] / total * 100, 1) if total else 0.0
+        assert abs(row["share_pct"] - expected_share) < 0.15, f"{row['component']}: share_pct {row['share_pct']} is not value/total*100 ({expected_share})"
+        recomputed_sum += row["share_pct"]
+    assert abs(recomputed_sum - 100.0) < 0.5, f"shares do not sum to 100%: {recomputed_sum}"
+    assert dna["top_contributor"] == max(dna["breakdown"], key=lambda b: abs(b["share_pct"]))["component"]
+
+
+def test_win_dna_loss_dna_trend_dna_are_reproducible_from_official_values():
+    doc = report_script.build()
+    for key in ("win_dna", "loss_dna", "trend_dna"):
+        dna = doc[key]
+        assert dna is not None, f"{key} must be computable from real official data"
+        _assert_reproducible_breakdown(dna)
+
+
+def test_win_dna_only_counts_wins_with_real_component_level_data_and_discloses_the_rest():
+    """One of the four confirmed wins (the most recent one) has no
+    tournament_cumulative warehouse row yet -- win_dna must use only the
+    wins it actually has component data for, and say so, not pretend the
+    excluded win contributed zero."""
+    doc = report_script.build()
+    win_dna = doc["win_dna"]
+    assert win_dna["events_considered"] == 4
+    assert win_dna["sample_size"] < win_dna["events_considered"]
+    assert win_dna["sample_size"] >= 1
+
+
+def test_loss_dna_is_defined_from_real_negative_sg_total_events_not_an_opinion():
+    """LOSS DNA's population is a deterministic, reproducible official
+    criterion (sg_total < 0 on record), not a subjective judgment call
+    about which tournaments counted as a "loss"."""
+    doc = report_script.build()
+    loss_dna = doc["loss_dna"]
+    assert loss_dna["total_value"] < 0
+    assert loss_dna["events_considered"] > loss_dna["sample_size"] > 0
+
+
+def test_trend_dna_decomposes_the_real_first_to_last_season_delta():
+    doc = report_script.build()
+    _, _, season_profiles = report_script._load_inputs()
+    trend_dna = doc["trend_dna"]
+    assert trend_dna["from_season"] == season_profiles[0].season
+    assert trend_dna["to_season"] == season_profiles[-1].season
+    expected_total = round(season_profiles[-1].avg_total - season_profiles[0].avg_total, 2)
+    assert abs(trend_dna["total_value"] - expected_total) < 0.01
+
+
+def test_every_question_either_has_a_reproducible_contribution_breakdown_or_none_never_invents_one():
+    """Rule: never estimate, never invent. A question whose event has no
+    official component-level data (q_most_recent_win) must carry
+    contribution_breakdown=None, never a fabricated split."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        cb = q["contribution_breakdown"]
+        if cb is None:
+            assert q["id"] == "q_most_recent_win", f"{q['id']}: contribution_breakdown missing without a real data-availability reason"
+            continue
+        _assert_reproducible_breakdown(cb)
+
+
+def test_contribution_breakdown_method_is_disclosed_and_matches_the_real_formula():
+    doc = report_script.build()
+    method = doc["contribution_breakdown_method"]
+    assert "Σ" in method or "share_pct" in method
+    assert "SG Total" in method and "SG OTT" in method and "SG APP" in method
+
+
+# ---------------------------------------------------------------------------
 # Localization: single terminology dictionary, no stray English
 # ---------------------------------------------------------------------------
 
@@ -605,6 +699,84 @@ def test_render_shows_excluded_questions_transparently():
     html = render_question_report_html(doc)
     assert terms.EXCLUDED_TITLE in html
     assert "출전했던 코스" in html
+
+
+# ---------------------------------------------------------------------------
+# V5 rendering: WIN DNA / LOSS DNA / TREND DNA, per-question contribution
+# breakdown. "Do not add more text. Do not redesign the UI." -- these
+# render inside the report's existing collapsed-by-default structures
+# (the DNA block as its own collapsed section like checklist/excluded, the
+# per-question breakdown inside the existing '분석 근거' toggle), as
+# compact chips reusing the existing .label-chip/.piq-audit classes --
+# zero new visible-by-default text, zero new visual system.
+# ---------------------------------------------------------------------------
+
+
+def test_render_shows_win_loss_trend_dna_with_their_top_contributor():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert terms.WIN_DNA in html
+    assert terms.LOSS_DNA in html
+    assert terms.TREND_DNA in html
+    assert terms.TOP_CONTRIBUTOR_LABEL in html
+    for dna_key in ("win_dna", "loss_dna", "trend_dna"):
+        dna = doc[dna_key]
+        assert dna["top_contributor"] in html
+        for row in dna["breakdown"]:
+            assert f'{row["share_pct"]:+.1f}%' in html
+
+
+def test_render_shows_every_questions_contribution_breakdown_inside_the_collapsed_evidence_toggle():
+    """Rule 4 from the prior UI-refactor mission still holds: nothing new
+    here should become visible before '분석 근거' is expanded."""
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    for q, card in zip(doc["questions"], _card_slices(html, doc)):
+        toggle_open = card.index('<details class="piq-evidence-toggle">')
+        toggle_close = card.index("</details>", toggle_open) + len("</details>")
+        outside_toggle = card[:toggle_open] + card[toggle_close:]
+        assert terms.CONTRIBUTION_LABEL not in outside_toggle, f"{q['id']}: contribution breakdown leaked outside 분석 근거"
+        cb = q["contribution_breakdown"]
+        if cb:
+            assert cb["top_contributor"] in card[toggle_open:toggle_close]
+        else:
+            assert terms.CONTRIBUTION_UNAVAILABLE in card[toggle_open:toggle_close]
+
+
+def test_render_never_invents_a_split_for_the_most_recent_win():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    q = next(q for q in doc["questions"] if q["id"] == "q_most_recent_win")
+    assert q["contribution_breakdown"] is None
+    card = next(c for q2, c in zip(doc["questions"], _card_slices(html, doc)) if q2["id"] == "q_most_recent_win")
+    assert terms.CONTRIBUTION_UNAVAILABLE in card
+
+
+def test_render_dna_section_is_collapsed_by_default_like_the_rest_of_the_page():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert '<details class="evidence-detail pi-section" id="piq-dna">' in html
+
+
+def test_v5_adds_no_new_css_classes_beyond_the_existing_chip_and_details_patterns():
+    """Rule: do not redesign the UI. The DNA/contribution rendering must
+    reuse .label-chip/.piq-audit/.pi-section/.pi-empty -- no new class
+    introduced for this mission."""
+    renderer_path = ROOT / "src" / "klpga" / "website_v2" / "player_intelligence_10097_report.py"
+    source = renderer_path.read_text(encoding="utf-8")
+    for cls in ("piq-contribution", "piq-win-dna", "piq-loss-dna", "piq-trend-dna", "piq-dna-"):
+        assert cls not in source, f"introduced a new CSS class ({cls}) instead of reusing the existing chip/section patterns"
+    # "id=\"piq-dna\"" is an anchor id, the same convention as the existing
+    # id="piq-checklist"/id="piq-excluded" sections -- not a new class.
+    assert 'class="piq-dna' not in source
 
 
 # ---------------------------------------------------------------------------
