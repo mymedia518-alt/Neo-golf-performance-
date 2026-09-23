@@ -7,8 +7,12 @@ golf QUESTIONS, never by raw statistics, SG components, or a flat list
 of records. Every answer is FACT -> EVIDENCE -> ANALYSIS -> CONCLUSION,
 followed by what the conclusion is actually FOR: why it matters, what
 the player should learn from it, what the coach should watch, whether
-it is a durable characteristic or a recent trend, and a one-sentence
-"why this matters" close. A conclusion that would not change how she
+it is a durable characteristic or a recent trend, a one-sentence "why
+this matters" close, and -- last, always -- a concrete ACTION: an
+imperative instruction for what to do differently in practice or the
+next tournament, not a restatement of the conclusion. NEO exists to
+improve performance, not only to explain it, so no section is allowed
+to stop at an explanation. A conclusion that would not change how she
 prepares, trains, or is coached does not earn a section here.
 
 Never touches the frozen Knowledge Engine (knowledge_engine.py /
@@ -167,6 +171,11 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "supporting numbers should not yet be treated as guaranteed year-over-year characteristics."
     )
     why_this_matters = "This is the shot to build the week's game plan around, not just admire after a win."
+    action = (
+        "Build the tournament-week game plan around approach play first, and check GIR and par-save rate "
+        "after every round, not only at season's end -- a dip there is the earliest signal this edge is "
+        "softening."
+    )
 
     sample_sizes = [win_fact["sample_size"], sum(p.n_tournaments for p in season_profiles)] + [r["sample_size"] for r in reasons]
     sources = set(win_fact["official_records_used"]) | {s for r in reasons for s in r["official_records_used"]}
@@ -183,6 +192,7 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": _weakest_confidence([win_fact["confidence"]] + [r["confidence"] for r in reasons]),
@@ -239,6 +249,11 @@ def _q_why_loses(master_doc: dict, season_profiles: list) -> dict:
         "one number carries less weight than the structural read it sits inside."
     )
     why_this_matters = "The next stroke gained has to come from scoring conversion, not a swing change."
+    action = (
+        f"Shift a real share of next week's practice time from ball-striking to putting and short-game "
+        f"conversion drills, and track her rolling SG Putting against {last_season.avg_putt:+.2f} (last "
+        "season) rather than waiting for the season total to confirm the slide."
+    )
 
     sample_sizes = [r["sample_size"] for r in reasons]
     sources = {s for r in reasons for s in r["official_records_used"]}
@@ -255,6 +270,7 @@ def _q_why_loses(master_doc: dict, season_profiles: list) -> dict:
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": _weakest_confidence([r["confidence"] for r in reasons]),
@@ -305,6 +321,11 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
         "only be revisited if a season ever shows a genuine regression, which has not happened yet."
     )
     why_this_matters = "It is the shot the rest of her game plan should be built around, every tournament, not just this one."
+    action = (
+        "Rule approach mechanics out of scope for any swing or equipment change under consideration -- "
+        "isolate technical work to other components so this four-season strength is never put at risk as a "
+        "side effect."
+    )
 
     sources = set(audit["official_records_used"])
     return {
@@ -320,6 +341,7 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(audit["sample_size"], len(sources)),
         "sample_size": audit["sample_size"],
         "confidence": audit["confidence"],
@@ -369,6 +391,11 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
         "to date."
     )
     why_this_matters = "This is where the next hour of practice time pays off the most."
+    action = (
+        "Rebalance the weekly practice schedule to give putting a larger share of the hours than it "
+        "currently gets, and measure progress by birdie-conversion rate on approach-created looks, not by "
+        "field-relative putting rank."
+    )
 
     sample_sizes = [reason["sample_size"]]
     sources = set(reason["official_records_used"]) | {"knowledge_engine.compute_season_profiles() (player_dna.axes)"}
@@ -385,6 +412,7 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": reason["confidence"],
@@ -430,6 +458,10 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
         "already happened."
     )
     why_this_matters = "Keep doing what has been working -- this is not the record of a player who needs a change."
+    action = (
+        "Leave the current off-the-tee and approach technical program unchanged through any single bad "
+        "week; require four-season evidence, not a one-week result, before any change to it is approved."
+    )
 
     sources = set(audit["official_records_used"])
     return {
@@ -445,6 +477,7 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(audit["tournament_count"], len(sources)),
         "sample_size": audit["tournament_count"],
         "confidence": audit["confidence"],
@@ -489,6 +522,11 @@ def _q_strong_course(master_doc: dict) -> dict:
         "treat this as a strong lean, not a guarantee."
     )
     why_this_matters = "It is the clearest place in her record where preparation should trust the player rather than over-coach her."
+    action = (
+        f"When the schedule returns to {group['series_name_sample']}, run her established pre-tournament "
+        "routine unchanged and hold off on any swing or strategy experiments that week -- treat it as a "
+        "week to execute, not to test something new."
+    )
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
     return {
@@ -504,6 +542,7 @@ def _q_strong_course(master_doc: dict) -> dict:
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(n, len(sources)),
         "sample_size": n,
         "confidence": "HIGH" if n >= 4 else ("MEDIUM" if n >= 3 else "LOW"),
@@ -543,6 +582,11 @@ def _q_most_recent_win(master_doc: dict) -> dict:
         "item below); this section describes this one win accurately, without generalizing beyond it."
     )
     why_this_matters = "It gives the coaching team a real, recent example to point to when managing her mindset after a slow start."
+    action = (
+        f"Build her pre-round messaging around the {win['tournament']} result specifically: after any "
+        "ordinary round one, reinforce that she builds into tournaments rather than pushing her to force a "
+        "recovery she does not need."
+    )
 
     sources = {win["official_source"].split(" (")[0]}
     return {
@@ -558,6 +602,7 @@ def _q_most_recent_win(master_doc: dict) -> dict:
         "durability": durability,
         "durability_reasoning": durability_reasoning,
         "why_this_matters": why_this_matters,
+        "action": action,
         "evidence_score": _evidence_score(len(rounds), len(sources)),
         "sample_size": len(rounds),
         "confidence": "HIGH",

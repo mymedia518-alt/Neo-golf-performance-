@@ -390,6 +390,8 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-audit{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
 .piq-why-this-matters{margin:1rem 0 0;padding:.85rem 1rem;background:var(--ink);color:var(--paper);font-weight:700;line-height:1.5}
 .piq-why-this-matters .piq-label{background:var(--paper);color:var(--ink)}
+.piq-action{margin:.6rem 0 0;padding:.85rem 1rem;background:var(--green);color:#fff;font-weight:700;line-height:1.5;border:2px solid var(--ink)}
+.piq-action .piq-label{background:#fff;color:var(--green)}
 .piq-excluded-list{margin:.75rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.9rem;line-height:1.6}
 .piq-excluded-list li{margin-bottom:.5rem}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}

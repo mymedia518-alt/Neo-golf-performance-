@@ -1,11 +1,12 @@
 {
   "durability_method": "Every question asks: would adding one more season likely overturn this conclusion? 'LONG_TERM_CHARACTERISTIC' = built on a pattern present in most or all seasons on record, unlikely to reverse. 'RECENT_TREND' = based on this season only; a future season could change it. 'CONFIRMED_HISTORICAL_EVENT' = an already-completed result, not a trend claim -- it cannot be overturned by future data, but is also not generalized into a repeatable pattern beyond itself.",
   "evidence_score_method": "evidence_score = round(100 * min(1, distinct_official_sources / 3) * sample_size / (sample_size + 5)). A deterministic, disclosed scoring of already-computed sample_size + source diversity -- not a new statistical claim about the player.",
-  "generated_at": "2026-09-23T17:10:26.889835+00:00",
+  "generated_at": "2026-09-23T17:38:01.309406+00:00",
   "player_id": "10097",
   "player_name": "김민선7",
   "questions": [
     {
+      "action": "Build the tournament-week game plan around approach play first, and check GIR and par-save rate after every round, not only at season's end -- a dip there is the earliest signal this edge is softening.",
       "analysis": "The wins themselves are one-off events, but the mechanism behind them is not. Every season on record shows the same shape: her approach play is the component that never goes negative, even in seasons when the rest of her game was still developing. That is what turns a promising round into a winning one -- she reliably gives herself birdie looks other players in the field do not get, and this season's elite green-in-regulation and par-save rates show that advantage currently converting into fewer bogeys as well as more birdies.",
       "coach_focus": "Track GIR and par-save rate week to week as an early-warning signal. Because those two are current-season numbers only, a dip there would show up before it shows up in the more stable approach trend -- and they are the one part of this answer not yet proven across multiple years.",
       "conclusion": "김민선7 wins because her approach game supplies a scoring edge that has held up in every season she has played, not because of a single hot week -- this season's elite GIR and par-save rates are compounding on top of that structural strength, not replacing it.",
@@ -27,6 +28,7 @@
       "why_this_matters": "This is the shot to build the week's game plan around, not just admire after a win."
     },
     {
+      "action": "Shift a real share of next week's practice time from ball-striking to putting and short-game conversion drills, and track her rolling SG Putting against +0.33 (last season) rather than waiting for the season total to confirm the slide.",
       "analysis": "Her ball-striking creates more scoring opportunities than almost anyone else in the field -- she simply isn't converting them into birdies at the rate that ball-striking would predict. That gap has existed every season she has played, which means it is not a slump to fix in a single week; it behaves more like a structural ceiling on how many of her approach shots turn into red numbers. This season's dip (+0.04, down from +0.33 last year) is the one part of the picture that is new, and is worth watching rather than assuming it self-corrects.",
       "coach_focus": "Compare this season's putting numbers against last year's on a rolling basis, not only at season's end -- 2026 is already her lowest of four seasons, and catching a continued slide early is more useful than confirming it in the final standings.",
       "conclusion": "Her approach game consistently creates scoring opportunities, but her putting has converted fewer of those opportunities into birdies than her ball-striking level would predict -- true in every season on record, and more so this year than in any of the previous three.",
@@ -48,6 +50,7 @@
       "why_this_matters": "The next stroke gained has to come from scoring conversion, not a swing change."
     },
     {
+      "action": "Rule approach mechanics out of scope for any swing or equipment change under consideration -- isolate technical work to other components so this four-season strength is never put at risk as a side effect.",
       "analysis": "A single elite season could be a swing change paying off right now, or a hot run of ball-striking that regresses next year. Four consecutive seasons of the same component staying at or near the top of her profile is a different kind of signal -- it means approach is not something she is currently doing well, it is something she reliably does well, independent of what else in her game is in form.",
       "coach_focus": "Treat a dip below her own four-season floor (roughly the +0.35 SG level from her 2023 season) as a signal worth investigating immediately -- it would be the first time in her recorded history that this component has gone quiet.",
       "conclusion": "Approach is Kim Minsun7's most durable strength -- not because it is her best number this week, but because it has not had a down season in four years.",
@@ -69,6 +72,7 @@
       "why_this_matters": "It is the shot the rest of her game plan should be built around, every tournament, not just this one."
     },
     {
+      "action": "Rebalance the weekly practice schedule to give putting a larger share of the hours than it currently gets, and measure progress by birdie-conversion rate on approach-created looks, not by field-relative putting rank.",
       "analysis": "Ranking her own four components against each other, rather than against the field, changes the conclusion in a way that matters for planning practice time: Off-the-Tee, Approach and Around-the-Green all sit in a range that would be considered elite on tour; Putting alone does not. That is a different statement from 'her putting is bad' -- it is a statement about where the next hour of practice time buys the most improvement relative to what she already has.",
       "coach_focus": "Prioritize putting practice time relative to her other three categories, not in isolation -- the goal is closing a 20-to-40-percentile-point internal gap, not chasing a field ranking that is already average.",
       "conclusion": "Putting is not a weakness in absolute terms -- it is the one category that has not grown at the same rate as the rest of her game, in every season on record, which makes it the highest-leverage area for continued development.",
@@ -89,6 +93,7 @@
       "why_this_matters": "This is where the next hour of practice time pays off the most."
     },
     {
+      "action": "Leave the current off-the-tee and approach technical program unchanged through any single bad week; require four-season evidence, not a one-week result, before any change to it is approved.",
       "analysis": "A four-season, monotonic rise across two ball-striking components, running in parallel with a real tournament count behind each season's average, is not a form spike -- it is what a genuine improvement in swing quality and distance control looks like over time. It also tells the coaching team what not to credit: putting has not risen anywhere near the same rate, so a story built around 'the short game has caught up' would not be supported by her own record.",
       "coach_focus": "Protect the current technical program around off-the-tee and approach; if any coaching change is being considered, benchmark it against four seasons of steady improvement before assuming something needs fixing.",
       "conclusion": "Her 2026 performance is the continuation of a real, multi-season improvement in ball-striking, not a one-off good year -- and the technical program behind that improvement is the one thing this record says should not be changed.",
@@ -109,6 +114,7 @@
       "why_this_matters": "Keep doing what has been working -- this is not the record of a player who needs a change."
     },
     {
+      "action": "When the schedule returns to 2024 셀트리온 퀸즈 마스터즈, run her established pre-tournament routine unchanged and hold off on any swing or strategy experiments that week -- treat it as a week to execute, not to test something new.",
       "analysis": "One good week at a course could be the luck of the pairing or the conditions. Four real visits, spread across four different seasons, all landing positive -- with the best of the four on her most recent trip -- looks like accumulated course knowledge rather than a coincidence. That is a different kind of insight than a single-week form check: it says this course rewards something she already does well, and repetition has sharpened it rather than the effect fading.",
       "coach_focus": "Use 2024 셀트리온 퀸즈 마스터즈 as a template for what a good week looks like for her, and be cautious about introducing swing or strategy changes the week before she plays it again.",
       "conclusion": "This is a course where the game plan should lean on what already works rather than experimenting -- 4 appearances and a rising trend point to real course familiarity, not a single lucky week.",
@@ -129,6 +135,7 @@
       "why_this_matters": "It is the clearest place in her record where preparation should trust the player rather than over-coach her."
     },
     {
+      "action": "Build her pre-round messaging around the 하나금융그룹 챔피언십 result specifically: after any ordinary round one, reinforce that she builds into tournaments rather than pushing her to force a recovery she does not need.",
       "analysis": "A win built on a fading lead and a defensive final round tells a coach one thing about a player's tournament mentality; a win built on an SG total that kept climbing through the weekend tells a different one. This result is the second kind -- her play got better as the pressure increased, which is a repeatable mental pattern worth reinforcing, not just a good outcome to note.",
       "coach_focus": "Watch how she talks about herself after an average round one -- the data says panic is not warranted, and reinforcing that pattern matches how she has actually won.",
       "conclusion": "Her most recent win was earned by getting stronger under pressure, not by holding on -- a pattern worth building her pre-tournament mental preparation around.",

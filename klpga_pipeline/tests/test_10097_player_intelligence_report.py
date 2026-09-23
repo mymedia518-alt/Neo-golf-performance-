@@ -19,7 +19,7 @@ _spec.loader.exec_module(report_script)
 
 REQUIRED_QUESTION_KEYS = {
     "id", "question", "fact", "evidence", "analysis", "conclusion",
-    "why_it_matters", "player_takeaway", "coach_focus", "durability", "durability_reasoning", "why_this_matters",
+    "why_it_matters", "player_takeaway", "coach_focus", "durability", "durability_reasoning", "why_this_matters", "action",
     "evidence_score", "sample_size", "confidence",
 }
 
@@ -60,6 +60,21 @@ def test_every_question_answers_the_coaching_brief():
         assert q["why_this_matters"].rstrip().endswith(".")
 
 
+def test_every_question_ends_with_a_concrete_action_not_just_an_explanation():
+    """Mission: NEO exists to improve performance, not only explain it --
+    never stop at an explanation. Every section must end with a concrete,
+    actionable takeaway, distinct from the more general why_this_matters
+    close and from a restatement of the conclusion."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        action = q["action"].strip()
+        assert action
+        assert len(action.split()) >= 12, f"{q['id']}.action reads like a one-liner, not a real instruction: {action!r}"
+        # not just a repeat of the conclusion or why_this_matters
+        assert action != q["conclusion"]
+        assert action != q["why_this_matters"]
+
+
 def test_every_question_classifies_durability_and_shows_its_reasoning():
     """Mission: is this a long-term characteristic or only a recent
     trend, and could it disappear if another season is added?"""
@@ -75,7 +90,7 @@ def test_narrative_fields_explain_meaning_not_just_describe_numbers():
     prose explaining significance, not a bare number or percentile
     label standing alone."""
     doc = report_script.build()
-    narrative_fields = ["fact", "analysis", "conclusion", "why_it_matters", "player_takeaway", "coach_focus", "why_this_matters"]
+    narrative_fields = ["fact", "analysis", "conclusion", "why_it_matters", "player_takeaway", "coach_focus", "why_this_matters", "action"]
     for q in doc["questions"]:
         for field in narrative_fields:
             text = q[field]
@@ -166,7 +181,25 @@ def test_render_shows_every_coaching_brief_field_and_durability_chip():
         assert escape_or_raw(q["player_takeaway"], html)
         assert escape_or_raw(q["coach_focus"], html)
         assert escape_or_raw(q["why_this_matters"], html)
+        assert escape_or_raw(q["action"], html)
     assert "Long-term characteristic" in html or "Confirmed event" in html
+
+
+def test_render_puts_action_as_the_true_last_element_of_every_section():
+    """Mission: every section must END with an actionable takeaway --
+    never stop at an explanation. ACTION must render after every other
+    labeled block within its own question card, not just appear somewhere
+    on the page."""
+    from html import escape
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert "ACTION" in html
+    for q in doc["questions"]:
+        why_this_matters_text = q["why_this_matters"] if q["why_this_matters"] in html else escape(q["why_this_matters"])
+        action_text = q["action"] if q["action"] in html else escape(q["action"])
+        assert html.index(action_text) > html.index(why_this_matters_text), f"{q['id']}: action does not come after why_this_matters"
 
 
 def escape_or_raw(text: str, html: str) -> bool:
