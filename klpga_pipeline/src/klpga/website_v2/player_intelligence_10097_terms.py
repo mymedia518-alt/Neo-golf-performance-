@@ -85,6 +85,18 @@ CURRENT_STATUS_LABEL = "현재 상태"
 CURRENT_READING_LABEL = "최근 실측값"
 NEXT_REVIEW_LABEL = "다음 점검"
 
+# V5: real SG decomposition, contribution breakdown. "DNA" is already an
+# established term in this exact codebase (player_intelligence's own
+# player_dna/axes fields), so these three fixed compound labels stay in
+# English like the loanwords above -- never a bare "WIN"/"LOSS"/"TREND"
+# on its own, only inside these three exact compounds.
+WIN_DNA = "WIN DNA"
+LOSS_DNA = "LOSS DNA"
+TREND_DNA = "TREND DNA"
+CONTRIBUTION_LABEL = "기여도 분해"
+TOP_CONTRIBUTOR_LABEL = "가장 크게 기여한 요소"
+CONTRIBUTION_UNAVAILABLE = "공식 SG 세부 데이터 없음"
+
 # UI 리팩터(Gold Standard): 결론 우선 구조에서 쓰는 라벨.
 # "분석 근거"는 fact/evidence/analysis/why_it_matters/선수·코치 체크포인트/
 # 지속성/근거 감사 칩/실행 지침(원본 데이터 출처 포함)/모니터링 프로토콜 5개
