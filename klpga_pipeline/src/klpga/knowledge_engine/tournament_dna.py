@@ -21,6 +21,7 @@ Player Intelligence document.
 
 from __future__ import annotations
 
+import json
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -161,8 +162,6 @@ def load_tournament_identity(context: TournamentContext) -> TournamentIdentity:
 
     readiness_path = context.artifact_path("operational_readiness")
     if readiness_path.exists():
-        import json
-
         doc = json.loads(readiness_path.read_text(encoding="utf-8"))
         t = doc.get("tournament", {})
         par = t.get("par")
@@ -173,8 +172,6 @@ def load_tournament_identity(context: TournamentContext) -> TournamentIdentity:
 
     course_path = CONTENT_DIR / "beta001.json"
     if par is None and course_path.exists():
-        import json
-
         doc = json.loads(course_path.read_text(encoding="utf-8"))
         if doc.get("tournament", {}).get("tournament_id") == context.game_code:
             course = doc.get("course", {})
@@ -219,11 +216,7 @@ def load_tournament_identity(context: TournamentContext) -> TournamentIdentity:
 
 
 def _retained_tournament_rows(warehouse_doc: dict) -> list:
-    return [
-        r
-        for r in warehouse_doc.get("records", [])
-        if r.get("scope") == "tournament_cumulative" and r.get("identity_state") == "RETAINED"
-    ]
+    return [r for r in warehouse_doc.get("records", []) if ke.is_retained_tournament_row(r)]
 
 
 def matching_game_codes(tournament_name: str, warehouse_doc: dict) -> tuple:
@@ -394,8 +387,6 @@ def discover_hole_rows(context: TournamentContext) -> list:
     """Real per-hole scorecard rows for this game_code, or []. Never
     fabricates a hole statistic when none exists -- Sections 6/7 report
     honestly empty rather than guessing."""
-    import json
-
     path = context.artifact_path("hole_by_hole")
     if path.exists():
         doc = json.loads(path.read_text(encoding="utf-8"))
@@ -476,7 +467,15 @@ def compute_opportunity_holes(hole_stats: tuple, max_holes: int = MAX_OPPORTUNIT
 # Section 9: Watch List
 # ---------------------------------------------------------------------------
 
-_COMPONENT_LABELS = {"avg_ott": "드라이빙", "avg_app": "아이언", "avg_arg": "리커버리", "avg_putt": "퍼팅"}
+# QA Sprint (dedup): derived from COURSE_DNA_AXES + knowledge_engine's
+# own SEASON_COMPONENT_SOURCE_KEYS instead of a second, hand-written
+# {avg_ott: "드라이빙", ...} literal -- COURSE_DNA_AXES already carries
+# these exact Korean labels for the same four SG components. Only the
+# four watch-listed components (never avg_total): keeping the exact
+# same set this constant always had.
+_WATCH_LIST_COMPONENTS = ("avg_ott", "avg_app", "avg_arg", "avg_putt")
+_AXIS_LABEL_BY_SRC_FIELD = {src_field: label for _key, src_field, _doc_field, label in COURSE_DNA_AXES}
+_COMPONENT_LABELS = {comp: _AXIS_LABEL_BY_SRC_FIELD[ke.SEASON_COMPONENT_SOURCE_KEYS[comp]] for comp in _WATCH_LIST_COMPONENTS}
 
 
 def compute_watch_list(player_ids, max_entries: int = MAX_WATCH_LIST, *, warehouse_doc: Optional[dict] = None) -> tuple:

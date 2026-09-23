@@ -265,14 +265,18 @@ def compute_field_percentiles(player_id: str, sg_doc: dict, profile_doc: dict) -
     return result
 
 
+def is_retained_tournament_row(row: dict) -> bool:
+    """The one rule for what counts as usable warehouse evidence: a
+    real, tournament-cumulative row whose identity was retained (not
+    UNRESOLVED_IDENTITY). Public so other Knowledge-Engine-reuse code
+    (e.g. tournament_dna.py's field/course-level aggregation, which
+    needs every player's rows rather than one player's) applies the
+    exact same rule instead of a second, driftable copy of it."""
+    return row.get("scope") == "tournament_cumulative" and row.get("identity_state") == "RETAINED"
+
+
 def _player_tournament_rows(player_id: str, warehouse_doc: dict) -> list:
-    return [
-        r
-        for r in warehouse_doc.get("records", [])
-        if r.get("player_id") == player_id
-        and r.get("scope") == "tournament_cumulative"
-        and r.get("identity_state") == "RETAINED"
-    ]
+    return [r for r in warehouse_doc.get("records", []) if r.get("player_id") == player_id and is_retained_tournament_row(r)]
 
 
 def _sorted_player_rows(player_id: str, warehouse_doc: dict) -> list:
