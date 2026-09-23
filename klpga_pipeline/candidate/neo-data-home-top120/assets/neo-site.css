@@ -384,7 +384,12 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-evidence-list{list-style:none;margin:0 0 .9rem;padding:0;display:flex;flex-direction:column;gap:.4rem}
 .piq-evidence-list li{padding-left:1rem;border-left:2px solid var(--line);color:var(--muted);font-size:.9rem;line-height:1.55}
 .piq-conclusion{padding:.85rem 1rem;background:var(--green-2);border-left:3px solid var(--green)}
+.piq-brief{display:grid;gap:.5rem;margin:0 0 .9rem;padding:.85rem 1rem;background:var(--panel);border-left:3px solid var(--line)}
+.piq-brief p{margin:0;font-size:.88rem;line-height:1.55}
+.piq-brief strong{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:.15rem}
 .piq-audit{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.piq-why-this-matters{margin:1rem 0 0;padding:.85rem 1rem;background:var(--ink);color:var(--paper);font-weight:700;line-height:1.5}
+.piq-why-this-matters .piq-label{background:var(--paper);color:var(--ink)}
 .piq-excluded-list{margin:.75rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.9rem;line-height:1.6}
 .piq-excluded-list li{margin-bottom:.5rem}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}

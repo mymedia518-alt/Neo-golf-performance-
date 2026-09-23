@@ -17,7 +17,13 @@ _spec = importlib.util.spec_from_file_location("report_script_under_test", ROOT 
 report_script = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(report_script)
 
-REQUIRED_QUESTION_KEYS = {"id", "question", "fact", "evidence", "analysis", "conclusion", "evidence_score", "sample_size", "confidence"}
+REQUIRED_QUESTION_KEYS = {
+    "id", "question", "fact", "evidence", "analysis", "conclusion",
+    "why_it_matters", "player_takeaway", "coach_focus", "durability", "durability_reasoning", "why_this_matters",
+    "evidence_score", "sample_size", "confidence",
+}
+
+VALID_DURABILITY = {report_script.LONG_TERM, report_script.RECENT_TREND, report_script.CONFIRMED_EVENT}
 
 
 def test_build_returns_only_player_10097():
@@ -37,6 +43,44 @@ def test_every_question_has_the_required_fact_evidence_analysis_conclusion_struc
         assert q["analysis"]
         assert q["conclusion"]
         assert q["question"].strip().endswith("?")
+
+
+def test_every_question_answers_the_coaching_brief():
+    """Mission: every insight must add why it matters, what the player
+    should learn, what the coach should watch, and a one-sentence WHY
+    THIS MATTERS close -- never just a described number."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        assert q["why_it_matters"].strip()
+        assert q["player_takeaway"].strip()
+        assert q["coach_focus"].strip()
+        assert q["why_this_matters"].strip()
+        # "one sentence": a single terminal sentence-ending punctuation mark
+        assert q["why_this_matters"].count(". ") == 0
+        assert q["why_this_matters"].rstrip().endswith(".")
+
+
+def test_every_question_classifies_durability_and_shows_its_reasoning():
+    """Mission: is this a long-term characteristic or only a recent
+    trend, and could it disappear if another season is added?"""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        assert q["durability"] in VALID_DURABILITY
+        assert len(q["durability_reasoning"].split()) >= 15  # a real explanation, not a one-word label
+
+
+def test_narrative_fields_explain_meaning_not_just_describe_numbers():
+    """Mission: 'never describe numbers, explain what they mean.' FACT,
+    ANALYSIS, CONCLUSION and the coaching-brief fields must read as
+    prose explaining significance, not a bare number or percentile
+    label standing alone."""
+    doc = report_script.build()
+    narrative_fields = ["fact", "analysis", "conclusion", "why_it_matters", "player_takeaway", "coach_focus", "why_this_matters"]
+    for q in doc["questions"]:
+        for field in narrative_fields:
+            text = q[field]
+            assert len(text.split()) >= 8, f"{q['id']}.{field} reads like a label, not an explanation: {text!r}"
+            assert not text.strip().lower().startswith(("sg ", "percentile", "rank #"))
 
 
 def test_every_answered_question_has_evidence_score_sample_size_and_a_real_confidence():
@@ -101,11 +145,34 @@ def test_render_question_report_html_contains_fact_evidence_analysis_conclusion_
     assert "EVIDENCE" in html
     assert "ANALYSIS" in html
     assert "CONCLUSION" in html
+    assert "WHY IT MATTERS" in html
+    assert "WHY THIS MATTERS" in html
+    assert "Player takeaway" in html
+    assert "Coach focus" in html
     assert "Evidence Score" in html
     assert "Sample Size" in html
     assert "Confidence" in html
     for q in doc["questions"]:
         assert q["question"] in html or q["question"].replace("'", "&#x27;") in html
+
+
+def test_render_shows_every_coaching_brief_field_and_durability_chip():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    for q in doc["questions"]:
+        assert escape_or_raw(q["why_it_matters"], html)
+        assert escape_or_raw(q["player_takeaway"], html)
+        assert escape_or_raw(q["coach_focus"], html)
+        assert escape_or_raw(q["why_this_matters"], html)
+    assert "Long-term characteristic" in html or "Confirmed event" in html
+
+
+def escape_or_raw(text: str, html: str) -> bool:
+    from html import escape
+
+    return text in html or escape(text) in html
 
 
 def test_render_never_organizes_by_raw_sg_table():
