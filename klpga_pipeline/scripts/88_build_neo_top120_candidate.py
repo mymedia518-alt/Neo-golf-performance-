@@ -326,7 +326,7 @@ def render_clean(
         # actually verified for this player -- absent entirely (no
         # placeholder markup at all) otherwise, never a guessed value.
         sponsor = (sponsor_by_id or {}).get(str(row["player_id"]))
-        identity_cell = render_player_identity(row["player_name"], sponsor)
+        identity_cell = render_player_identity(row["player_name"], sponsor, href=f'/player/{row["player_id"]}/')
         # OWNER VISUAL REVIEW FAIL, item 4 (HOME VISUAL HIERARCHY):
         # 선수(Player) leads, then K-Ranking, then the two primary
         # recent-form metrics in priority order (10R before 5R, per the

@@ -161,7 +161,7 @@ def _player_dna_html(doc: dict) -> str:
         return _section("player-dna", "선수 DNA (DNA Radar)", '<p class="pi-empty">이 선수의 SG 세부 지표 데이터가 없습니다.</p>')
 
     n = len(axes)
-    cx, cy, r = 110, 110, 85
+    cx, cy, r = 165, 120, 70
     import math
 
     def point(i, frac):
@@ -173,12 +173,20 @@ def _player_dna_html(doc: dict) -> str:
         for frac in (0.33, 0.66, 1.0)
     )
     fill_points = " ".join(f"{x:.1f},{y:.1f}" for x, y in (point(i, a["percentile"] / 100.0) for i, a in enumerate(axes)))
+
+    def _anchor_for(x):
+        if x > cx + 5:
+            return "start"
+        if x < cx - 5:
+            return "end"
+        return "middle"
+
     labels = "".join(
-        f'<text class="pi-radar-label" x="{point(i, 1.18)[0]:.1f}" y="{point(i, 1.18)[1]:.1f}" text-anchor="middle">{escape(a["label"])}</text>'
+        (lambda lx, ly: f'<text class="pi-radar-label" x="{lx:.1f}" y="{ly:.1f}" text-anchor="{_anchor_for(lx)}">{escape(a["label"])}</text>')(*point(i, 1.22))
         for i, a in enumerate(axes)
     )
     svg = (
-        f'<svg class="pi-radar" viewBox="0 0 220 220" role="img" aria-label="선수 DNA 레이더 차트">'
+        f'<svg class="pi-radar" viewBox="0 0 340 240" role="img" aria-label="선수 DNA 레이더 차트">'
         f"{grid_rings}"
         f'<polygon class="pi-radar-fill" points="{fill_points}" />'
         f"{labels}"
@@ -278,7 +286,12 @@ def _evolution_html(doc: dict) -> str:
 
 def _neo_verdict_html(doc: dict) -> str:
     verdict = doc.get("neo_verdict", {}).get("summary", "")
-    return f'<section class="pi-verdict" id="neo-verdict"><h2>NEO VERDICT</h2><p>{escape(verdict)}</p></section>'
+    return (
+        '<details class="pi-verdict" id="neo-verdict" open>'
+        '<summary><h2>NEO VERDICT</h2></summary>'
+        f"<p>{escape(verdict)}</p>"
+        "</details>"
+    )
 
 
 def _prev_next_html(prev_link: Optional[dict], next_link: Optional[dict]) -> str:

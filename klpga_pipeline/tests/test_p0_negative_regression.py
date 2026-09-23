@@ -49,7 +49,21 @@ def built():
     spec = importlib.util.spec_from_file_location("top120_builder_negreg", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.build()
+    result = module.build()
+
+    # Sprint 3: script 88's player-identity cells now link to
+    # /player/<id>/, built separately by scripts/187 -- run it too so
+    # this module's own route-completeness checks see the real routes
+    # script 88's own output now references, regardless of which other
+    # test module happens to have populated them first in this shared
+    # session candidate root.
+    pi_pages_path = ROOT / "scripts" / "187_build_player_intelligence_pages.py"
+    pi_pages_spec = importlib.util.spec_from_file_location("pi_pages_builder_negreg", pi_pages_path)
+    pi_pages_module = importlib.util.module_from_spec(pi_pages_spec)
+    pi_pages_spec.loader.exec_module(pi_pages_module)
+    pi_pages_module.build()
+
+    return result
 
 
 @pytest.fixture(scope="module")

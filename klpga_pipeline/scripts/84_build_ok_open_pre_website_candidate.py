@@ -191,7 +191,7 @@ def _r1_row_html(r: dict, sponsor_by_id: dict, prob_cells) -> str:
         status_cell = html.escape(_STATUS_LABELS.get(status, status or "진행중"))
     return (
         f"<tr><td>{rank_cell}</td>"
-        f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')))}</th>"
+        f"<th scope='row'>{_player_identity_cell(r.get('player_name'), sponsor_by_id.get(str(r.get('player_id') or '')), r.get('player_id'))}</th>"
         f"<td>{total_cell}</td>"
         f"<td>{html.escape(str(r.get('holes_completed') or ''))}</td>"
         f"<td>{today_cell}</td>"
@@ -211,7 +211,7 @@ def _fmt_delta_pct(current, pre_fraction) -> str:
     return f"{current - pre_fraction * 100:+.1f}%p"
 
 
-def _player_identity_cell(name, sponsor) -> str:
+def _player_identity_cell(name, sponsor, player_id=None) -> str:
     """The ONE shared player-identity cell markup -- name (existing
     emphasis/weight) plus a sponsor slot directly underneath, ALWAYS
     present structurally even when empty (never omitted, never a
@@ -230,6 +230,7 @@ def _player_identity_cell(name, sponsor) -> str:
     from its own CSS block below in favor of the shared ones."""
     return render_player_identity(
         name if name is not None else "—", sponsor, quote="'",
+        href=f"/player/{player_id}/" if player_id else None,
     )
 
 
@@ -239,7 +240,7 @@ def _mover_line(entry: dict, *, kind: str, sponsor_by_id: dict) -> str:
     # identity cell (name slot + sponsor slot, always both present) --
     # never a bare name span.
     name_raw = entry.get("player_name") or "—"
-    identity = _player_identity_cell(name_raw, sponsor_by_id.get(str(entry.get("player_id") or "")))
+    identity = _player_identity_cell(name_raw, sponsor_by_id.get(str(entry.get("player_id") or "")), entry.get("player_id"))
     if kind == "pct":
         return f"<li>{identity}<span class='delta'>{entry.get('delta', 0):+.1f}%p</span></li>"
     if kind == "cut_band":
@@ -331,6 +332,7 @@ def _r2_live_leaderboard_section(nav: str, sponsor_by_id: dict) -> str | None:
                     or ""
                 )
             ),
+            r.get("player_id"),
         )
 
         rows.append(
@@ -901,7 +903,8 @@ def build(game_code: str | None = None) -> Path:
     rows = []
     for r in records:
         name = r.get("current_official_player_name")
-        sponsor = sponsor_by_id.get(str(r.get("player_id")))
+        player_id = r.get("player_id")
+        sponsor = sponsor_by_id.get(str(player_id))
         enum = r.get("neo_performance_band")
         band = BANDS.get(enum, "데이터 부족")
         accessible = {"VERY_HIGH":"최상위", "HIGH":"상위", "TYPICAL":"중위", "LOW":"하위", "VERY_LOW":"최하위", "INSUFFICIENT_EVIDENCE":"데이터 부족"}.get(enum, "데이터 부족")
@@ -912,7 +915,7 @@ def build(game_code: str | None = None) -> Path:
         # with a real computed value today. See _PROBABILITY_COLUMNS.
         prob_cells = "".join(f"<td class='win' data-label='{esc_label}'>{pct(r.get(key))}</td>" for key, esc_label in _PROBABILITY_COLUMNS) if MODEL_VALIDATED_FOR_PUBLICATION else ""
         rows.append(
-            f"<tr><th scope='row'>{_player_identity_cell(name, sponsor)}</th>"
+            f"<tr><th scope='row'>{_player_identity_cell(name, sponsor, player_id)}</th>"
             f"<td data-label='KLPGA K-RANKING'>{value(r.get('official_klpga_rank'))}</td>"
             f"<td data-label='NEO 경기력'><span class='band' role='img' aria-label='NEO 경기력 {html.escape(accessible)}'>{html.escape(band)}</span></td>"
             f"<td data-label='최근 5R SG'>{value(r.get('sg_total_rank'))}</td>{prob_cells}</tr>"
