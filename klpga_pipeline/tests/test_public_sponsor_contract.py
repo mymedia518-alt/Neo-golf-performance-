@@ -45,6 +45,18 @@ def test_render_player_identity_never_guesses_placeholder_text():
         assert forbidden not in html.split("player-sponsor")[1]
 
 
+def test_render_player_identity_href_none_is_byte_identical_to_prior_output():
+    assert render_player_identity("홍길동", "삼성", href=None) == render_player_identity("홍길동", "삼성")
+
+
+def test_render_player_identity_href_wraps_both_slots_in_one_link():
+    html = render_player_identity("홍길동", "삼성", href="/player/10001/")
+    assert html == (
+        '<a class="player-identity-link" href="/player/10001/">'
+        '<span class="player-name">홍길동</span><span class="player-sponsor">삼성</span></a>'
+    )
+
+
 def test_verified_sponsor_gates_on_identity_validation_pass():
     assert verified_sponsor({"identity_validation": "PASS", "current_official_sponsor": "삼성"}) == "삼성"
     assert verified_sponsor({"identity_validation": "PENDING", "current_official_sponsor": "삼성"}) is None
