@@ -373,4 +373,18 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .pi-kv-table{min-width:0;width:100%}
 .pi-kv-table td{text-align:right;font-weight:700}
 @media(max-width:760px){.pi-radar-legend{grid-template-columns:1fr}.pi-kpi-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Player Intelligence Report (question-organized, playerCode=10097 only,
+   player_intelligence_10097_report.py). New, additive classes scoped
+   with a piq- prefix -- never redefines any selector above, so every
+   other page keeps rendering exactly as it did before this block. */
+.piq-step{margin:0 0 .9rem;line-height:1.6}
+.piq-label,.piq-step-label{display:inline-block;margin-right:.5rem;padding:.15rem .5rem;background:var(--ink);color:var(--paper);font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle}
+.piq-label-standalone{margin:0 0 .4rem}
+.piq-evidence-list{list-style:none;margin:0 0 .9rem;padding:0;display:flex;flex-direction:column;gap:.4rem}
+.piq-evidence-list li{padding-left:1rem;border-left:2px solid var(--line);color:var(--muted);font-size:.9rem;line-height:1.55}
+.piq-conclusion{padding:.85rem 1rem;background:var(--green-2);border-left:3px solid var(--green)}
+.piq-audit{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.piq-excluded-list{margin:.75rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.9rem;line-height:1.6}
+.piq-excluded-list li{margin-bottom:.5rem}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}

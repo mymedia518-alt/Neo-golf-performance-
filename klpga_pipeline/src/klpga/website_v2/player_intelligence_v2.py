@@ -305,7 +305,7 @@ def _neo_verdict_html(doc: dict) -> str:
     )
 
 
-def _prev_next_html(prev_link: Optional[dict], next_link: Optional[dict]) -> str:
+def prev_next_html(prev_link: Optional[dict], next_link: Optional[dict]) -> str:
     if not prev_link and not next_link:
         return ""
     prev_html = f'<a href="{escape(prev_link["href"])}">← {escape(prev_link["name"])}</a>' if prev_link else "<span></span>"
@@ -338,7 +338,7 @@ def render_player_intelligence_v2_html(doc: dict, *, prev_link: Optional[dict] =
         _reason_list_html("why-loses", "주의할 점", doc.get("why_loses", []), tone="negative"),
         _neo_verdict_html(doc),
     ]
-    return _prev_next_html(prev_link, next_link) + "".join(sections)
+    return prev_next_html(prev_link, next_link) + "".join(sections)
 
 
 def render_generating_placeholder_html(player_id: str, player_name: Optional[str] = None) -> str:
@@ -365,7 +365,21 @@ def build_or_placeholder(
 ) -> str:
     """The single integration entry point every page-builder calls:
     real document -> real page; missing document -> visible placeholder
-    plus a queued generation request. Never returns an empty string."""
+    plus a queued generation request. Never returns an empty string.
+
+    playerCode=10097 ONLY renders through the question-organized Gold
+    Standard report (see player_intelligence_10097_report.py) instead of
+    the ordinary 13-section stat layout below -- every other player_id
+    takes the exact same path this function has always taken. If the
+    10097 report file has not been built yet, falls through to the
+    ordinary path unchanged (never a missing page)."""
+    if str(player_id) == "10097":
+        from klpga.website_v2.player_intelligence_10097_report import load_report_cached, render_question_report_html
+
+        report_doc = load_report_cached()
+        if report_doc is not None:
+            return render_question_report_html(report_doc, prev_link=prev_link, next_link=next_link)
+
     doc = load_document_cached(player_id)
     if doc is None:
         enqueue_generation(player_id, player_name=player_name)

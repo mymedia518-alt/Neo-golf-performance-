@@ -34,7 +34,7 @@
         "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
       ],
       "round_count": null,
-      "sample_size": 242,
+      "sample_size": 153,
       "season_count": 1,
       "statement": "그린 적중률이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다.",
       "tournament_count": null
@@ -47,7 +47,7 @@
         "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
       ],
       "round_count": null,
-      "sample_size": 242,
+      "sample_size": 153,
       "season_count": 1,
       "statement": "파세이브율이(가) 필드 상위 3%에 해당하는 엘리트 수준입니다.",
       "tournament_count": null
@@ -60,7 +60,7 @@
         "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
       ],
       "round_count": null,
-      "sample_size": 153,
+      "sample_size": 242,
       "season_count": 1,
       "statement": "전체 기량은 최상위권이지만 SG Putting은(는) 평균 수준에 머물러 있습니다.",
       "tournament_count": null
@@ -774,7 +774,7 @@
     ],
     "overall_pct": 80.0
   },
-  "generated_at": "2026-09-23T16:02:21.821047+00:00",
+  "generated_at": "2026-09-23T16:34:07.030069+00:00",
   "hole_analysis": {
     "reason": "The only real per-hole scorecard dataset in this repository is for game_code 2026080001 (제15회 KG 레이디스 오픈, kg_2026080001_official.json, 6318 real rows). This player did not play that edition (her real KG Ladies Open appearances on record are the 2024 and 2025 editions, game_codes 2024080016 and 2025080003, which have no hole-level scorecard data). No hole-by-hole data exists anywhere else in the repository for any player. Reported as UNKNOWN rather than estimated from round-level totals.",
     "status": "UNKNOWN"

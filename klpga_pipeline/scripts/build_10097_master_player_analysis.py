@@ -604,6 +604,19 @@ def build_knowledge_graph(
 # ---------------------------------------------------------------------------
 
 
+# OFFICIAL_SG_NORMALIZED.json's own field keys (sg_total/sg_ott/sg_app/sg_arg/sg_putt)
+# vs OFFICIAL_PROFILE_NORMALIZED.json's (average_score/average_putts/birdie_rate/
+# gir_rate/par_save_rate/par_break_rate/recovery_rate) -- the two leaderboards have
+# different player counts (242 vs 153), so a percentile citation's real sample size
+# depends on which of the two documents actually carries that field, not which
+# combined "A / B" source label the citation happens to display.
+_SG_DOC_FIELD_PATHS = {"sg_total", "sg_ott", "sg_app", "sg_arg", "sg_putt"}
+
+
+def _field_percentile_sample_size(field_path: str, sg_field_n: int, profile_field_n: int) -> int:
+    return sg_field_n if field_path in _SG_DOC_FIELD_PATHS else profile_field_n
+
+
 def build_conclusion_audit(ds: dict, warehouse: dict, sections: dict) -> list:
     season_profiles = ke.compute_season_profiles(PLAYER_ID, warehouse)
     season_count = len(season_profiles)
@@ -629,8 +642,10 @@ def build_conclusion_audit(ds: dict, warehouse: dict, sections: dict) -> list:
     )
 
     for idx, reason in enumerate(ds["player_intelligence_doc"]["why_wins"]):
-        source = reason["citations"][0]["source"]
+        citation = reason["citations"][0]
+        source = citation["source"]
         is_structural = "warehouse" in source
+        sample_size = tournament_count if is_structural else _field_percentile_sample_size(citation["field_path"], sg_field_n, profile_field_n)
         audits.append(
             {
                 "conclusion": f"play_style.why_wins[{idx}]",
@@ -639,13 +654,15 @@ def build_conclusion_audit(ds: dict, warehouse: dict, sections: dict) -> list:
                 "season_count": season_count if is_structural else 1,
                 "tournament_count": tournament_count if is_structural else None,
                 "round_count": round_count if is_structural else None,
-                "sample_size": tournament_count if is_structural else sg_field_n,
+                "sample_size": sample_size,
                 "claim_type": "TREND" if is_structural else "POINT_FACT",
                 "confidence": "HIGH",
             }
         )
 
     for idx, reason in enumerate(ds["player_intelligence_doc"]["why_loses"]):
+        citation = reason["citations"][0]
+        sample_size = _field_percentile_sample_size(citation["field_path"], sg_field_n, profile_field_n)
         audits.append(
             {
                 "conclusion": f"play_style.why_loses[{idx}]",
@@ -654,7 +671,7 @@ def build_conclusion_audit(ds: dict, warehouse: dict, sections: dict) -> list:
                 "season_count": 1,
                 "tournament_count": None,
                 "round_count": None,
-                "sample_size": profile_field_n,
+                "sample_size": sample_size,
                 "claim_type": "POINT_FACT",
                 "confidence": "HIGH",
             }
