@@ -37,6 +37,20 @@ _DURABILITY_LABEL = {
     "CONFIRMED_HISTORICAL_EVENT": "Confirmed event — already happened",
 }
 
+_STATUS_CHIP_CLASS = {
+    "NORMAL": "label-chip--positive",
+    "WATCH": "label-chip",
+    "WARNING": "label-chip--negative",
+    "AT_FLOOR": "label-chip",
+}
+
+_STATUS_LABEL = {
+    "NORMAL": "Normal",
+    "WATCH": "Watch",
+    "WARNING": "Warning",
+    "AT_FLOOR": "At historical floor",
+}
+
 
 def load_report_cached() -> Optional[dict]:
     if not REPORT_PATH.exists():
@@ -46,14 +60,24 @@ def load_report_cached() -> Optional[dict]:
 
 def _protocol_html(protocol: dict) -> str:
     rows = [
-        ("Metric", protocol["metric"]),
+        ("1. Metric monitored", protocol["metric"]),
         ("Source", protocol["source"]),
-        ("Normal range", protocol["normal_range"]),
-        ("Warning threshold", protocol["warning_threshold"]),
-        ("Next review", protocol["next_review"]),
+        ("2. Indicates normal", protocol["normal_range"]),
+        ("3. Indicates deterioration", protocol["warning_threshold"]),
+        ("4. Checked next", protocol["next_review"]),
+        ("5. Most likely explains a change", protocol["explanatory_metric"]),
     ]
     items = "".join(f"<dt>{escape(label)}</dt><dd>{escape(value)}</dd>" for label, value in rows)
-    return f'<dl class="piq-protocol">{items}</dl>'
+    status_chip_class = _STATUS_CHIP_CLASS.get(protocol["current_status"], "label-chip")
+    status_label = _STATUS_LABEL.get(protocol["current_status"], protocol["current_status"])
+    current = (
+        '<div class="piq-current-status">'
+        f'<span class="label-chip {status_chip_class}">Current status: {escape(status_label)}</span>'
+        f'<span class="label-chip">Most recent real reading: {protocol["current_reading"]:+.2f} SG</span>'
+        f"</div>"
+        f'<p class="piq-current-detail">{escape(protocol["current_detail"])}</p>'
+    )
+    return f'<dl class="piq-protocol">{items}</dl>{current}'
 
 
 def _question_card(q: dict) -> str:
@@ -116,14 +140,50 @@ def _hero_html(doc: dict) -> str:
         '<header class="pi-hero hero-data">'
         '<p class="section-label">PLAYER INTELLIGENCE — GOLD STANDARD REPORT</p>'
         f'<h1>{escape(doc["player_name"])}</h1>'
-        f'<p class="pi-hero__meta">{len(doc["questions"])} questions answered, each traced FACT → EVIDENCE → ANALYSIS → CONCLUSION.</p>'
+        f'<p class="pi-hero__meta">{len(doc["questions"])} questions answered, each traced FACT → EVIDENCE → ANALYSIS → CONCLUSION, '
+        "and each backed by a monitoring protocol checked against her most recent real reading.</p>"
         "</header>"
     )
+
+
+def _checklist_html(checklist: list) -> str:
+    if not checklist:
+        return ""
+    rows = "".join(
+        (
+            f'<li><span class="label-chip {_STATUS_CHIP_CLASS.get(item["current_status"], "label-chip")}">'
+            f'{escape(_STATUS_LABEL.get(item["current_status"], item["current_status"]))}</span> '
+            f'<strong>{escape(item["metric"])}</strong> ({item["current_reading"]:+.2f} SG) — '
+            f'<a href="#{escape(_anchor_for(item["linked_question"]))}">{escape(item["linked_question"])}</a></li>'
+        )
+        for item in checklist
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-checklist" open>'
+        '<summary class="section-heading"><h2>Pre-Tournament Monitoring Checklist</h2></summary>'
+        '<div class="pi-section__body"><p class="pi-empty">'
+        "Every monitored metric's status as of her most recent recorded event -- not a forecast, a real reading "
+        "checked against its own normal range. Check this before every tournament."
+        f'</p><ul class="piq-checklist">{rows}</ul></div>'
+        "</details>"
+    )
+
+
+def _anchor_for(question: str) -> str:
+    import re
+
+    return "q-" + re.sub(r"[^a-z0-9]+", "-", question.lower()).strip("-")
+
+
+def _question_card_with_anchor(q: dict) -> str:
+    card = _question_card(q)
+    return card.replace('<details class="evidence-detail pi-section" open>', f'<details class="evidence-detail pi-section" id="{escape(_anchor_for(q["question"]))}" open>', 1)
 
 
 def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, next_link: Optional[dict] = None) -> str:
     """Pure function: report JSON in, page body HTML out."""
     from klpga.website_v2.player_intelligence_v2 import prev_next_html
 
-    cards = "".join(_question_card(q) for q in doc["questions"])
-    return prev_next_html(prev_link, next_link) + _hero_html(doc) + cards + _excluded_html(doc.get("questions_considered_but_unsupported", []))
+    cards = "".join(_question_card_with_anchor(q) for q in doc["questions"])
+    checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
+    return prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + cards + _excluded_html(doc.get("questions_considered_but_unsupported", []))

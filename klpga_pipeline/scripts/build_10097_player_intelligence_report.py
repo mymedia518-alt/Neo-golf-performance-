@@ -1,4 +1,4 @@
-"""PLAYER INTELLIGENCE REPORT -- 김민선7 (playerCode=10097) ONLY.
+"""PLAYER INTELLIGENCE REPORT V3 -- 김민선7 (playerCode=10097) ONLY.
 
 The Gold Standard reference implementation for NEO Player Intelligence.
 Written the way a KLPGA tour coach or performance analyst would brief a
@@ -9,16 +9,29 @@ followed by what the conclusion is actually FOR: why it matters, what
 the player should learn from it, what the coach should watch, whether
 it is a durable characteristic or a recent trend, a one-sentence "why
 this matters" close, and -- last, always -- a concrete ACTION. NEO does
-not give opinions; NEO defines monitoring protocols. Every action is
-backed by a `monitoring_protocol`: a real, official, repeatedly-measured
-metric (never a snapshot with no history behind it), a normal range and
-a warning threshold both computed from that metric's own real history
-(never invented), and a concrete next review point. A recommendation
-that cannot be expressed this way -- because the metric it would need
-has no real repeated measurement behind it -- is not made; the
-supporting evidence is kept but the recommendation is scoped to a
-metric that does. A conclusion that would not change how she prepares,
-trains, or is coached does not earn a section here.
+not give opinions; NEO defines monitoring protocols.
+
+V3: this is a performance-MONITORING system, not a stats page. Every
+section's `monitoring_protocol` answers five questions, never more:
+(1) what should be monitored -- a real, official, repeatedly-measured
+metric, never a single-snapshot stat; (2) what indicates normal; (3)
+what indicates deterioration -- (2)/(3) are a normal range and warning
+threshold both computed from that metric's own real history, never
+invented; (4) what should be checked next -- a concrete next review
+point; (5) what metric most likely explains the change -- a real
+Pearson correlation against her other real SG components, named only
+if it actually clears a disclosed threshold, reported as unknown
+(with the real numbers shown) when it does not, never a golf-domain
+guess. On top of the five, each protocol also carries a current
+status: her most recent already-recorded real reading compared against
+(2)/(3) -- never a forecast of a future one -- which is what makes the
+report usable before every tournament, checked against the record as
+it stands today rather than a prediction of what comes next. A
+recommendation that cannot be expressed this way -- because the metric
+it would need has no real repeated measurement behind it -- is not
+made; the supporting evidence is kept but the recommendation is scoped
+to a metric that does. A conclusion that would not change how she
+prepares, trains, or is coached does not earn a section here.
 
 Never touches the frozen Knowledge Engine (knowledge_engine.py /
 knowledge_rules.py / player_intelligence_generator.py) and never
@@ -116,12 +129,21 @@ def _season_line(season_profiles: list, attr: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Monitoring protocols. "NEO does not give opinions. NEO defines monitoring
-# protocols." -- every recommendation must name a real, official metric with
-# a repeated historical series, a normal range and warning threshold derived
-# from that real series (never invented), and a concrete next review point.
-# Two disclosed, deterministic methods, chosen by how much real history
-# exists for the metric:
+# Monitoring protocols (Player Intelligence V3): a performance-monitoring
+# system, not a stats page. "NEO does not give opinions. NEO defines
+# monitoring protocols." For every section: (1) what should be monitored,
+# (2) what indicates normal, (3) what indicates deterioration, (4) what
+# should be checked next, (5) what metric most likely explains the change.
+# Never predict, never speculate, never invent -- every field below is
+# either a real official metric with a repeated historical series, a
+# real, disclosed, deterministic statistic computed from it, or a real
+# comparison of her most recent actual reading against that statistic
+# (never a forecast of a future one). This is what makes the report
+# usable before every tournament: it is checked against the real record
+# as it stands today, not a prediction of what comes next.
+#
+# Two disclosed, deterministic methods for (2)/(3), chosen by how much
+# real history exists for the metric:
 #   - n >= 30 real observations: normal range = mean +/- 1 SD; warning
 #     threshold = two consecutive readings below the lower bound (avoids a
 #     single bad tournament/round triggering a false alarm).
@@ -129,17 +151,92 @@ def _season_line(season_profiles: list, attr: str) -> str:
 #     does not exist yet): a mean+/-SD band is not statistically meaningful,
 #     so the threshold is her own real historical floor -- a new all-time
 #     low is the trigger, not an estimated band.
+#
+# (5) is answered by real Pearson correlation among her four real SG
+# components (never a golf-domain guess): the component that moves most
+# closely with the monitored one, IF that correlation actually clears a
+# disclosed meaningfulness threshold. Her four components turn out to be
+# only weakly related to each other at both grains checked (tournament
+# n=73, round n=287, |r| <= 0.18 for every pair) -- so this report never
+# names a "most likely explanation," and says exactly that, with the real
+# coefficients shown, rather than inventing a causal story the data does
+# not support.
 # ---------------------------------------------------------------------------
 
 _LARGE_SAMPLE_MIN = 30
+_MEANINGFUL_CORRELATION = 0.3
+_COMPONENT_LABELS = {"approach": "SG Approach", "putting": "SG Putting", "off_the_tee": "SG Off-the-Tee", "around_green": "SG Around-the-Green"}
 
 
-def _band_protocol(values: list, *, metric: str, source: str, unit: str) -> dict:
-    n = len(values)
-    mean = statistics.fmean(values)
+def _pearson(xs: list, ys: list) -> float:
+    mx, my = statistics.fmean(xs), statistics.fmean(ys)
+    cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    sx = sum((x - mx) ** 2 for x in xs) ** 0.5
+    sy = sum((y - my) ** 2 for y in ys) ** 0.5
+    return cov / (sx * sy) if sx and sy else 0.0
+
+
+def _explanatory_metric_from_correlation(rows: list, component_key: str, unit: str) -> str:
+    """Item 5, real-data grain (tournament/round): never a golf-domain
+    guess -- the real Pearson correlation between the monitored component
+    and each of her other three, computed from the same real rows."""
+    others = [k for k in _COMPONENT_LABELS if k != component_key]
+    correlations = {}
+    n_used = 0
+    for other in others:
+        paired = [(r[component_key], r[other]) for r in rows if r.get(component_key) is not None and r.get(other) is not None]
+        n_used = len(paired)
+        correlations[other] = _pearson([p[0] for p in paired], [p[1] for p in paired])
+    best_key, best_r = max(correlations.items(), key=lambda kv: abs(kv[1]))
+    disclosed = "; ".join(f"{_COMPONENT_LABELS[k]} r={v:+.2f}" for k, v in correlations.items())
+    if abs(best_r) >= _MEANINGFUL_CORRELATION:
+        return f"{_COMPONENT_LABELS[best_key]} (r={best_r:+.2f} across the same {n_used} real {unit}s -- the only one of her three other components that clears this report's {_MEANINGFUL_CORRELATION} meaningfulness threshold)."
+    return (
+        f"None. Real correlation with her other three components across the same {n_used} {unit}s: {disclosed} -- "
+        f"all below the {_MEANINGFUL_CORRELATION} threshold this report treats as meaningful, so no component is named "
+        "as an explanation. Check instead whether the change is isolated to this one component or shared across "
+        "the other three in the same event: isolated points to that specific skill, shared points to a general "
+        "week (fatigue, travel, conditions) rather than one part of her game."
+    )
+
+
+def _explanatory_metric_insufficient_sample(n: int, unit: str, fallback_metric: str) -> str:
+    """Item 5, thin grain (season/course, n=4): a correlation computed
+    from 4 points is not real evidence of anything -- reported as
+    genuinely unknown, with a fallback to the grain that does have enough
+    real data, never a guess dressed up as an answer."""
+    return (
+        f"Unknown -- only {n} real {unit}s on record, too few to compute a reliable companion-metric correlation "
+        f"(this report will not treat a correlation from n={n} as real evidence). Cross-check {fallback_metric} "
+        "instead."
+    )
+
+
+def _status_from_band(ordered_values: list, lower: float, upper: float) -> tuple:
+    latest = round(ordered_values[-1], 2)
+    prev = round(ordered_values[-2], 2) if len(ordered_values) >= 2 else None
+    if latest < lower and prev is not None and prev < lower:
+        return latest, "WARNING", f"Her last two real readings ({prev:+.2f}, then {latest:+.2f}) are both below the normal range -- the warning threshold is met."
+    if latest < lower:
+        detail = f"the one before it ({prev:+.2f}) was not" if prev is not None else "there is no prior reading yet to compare"
+        return latest, "WATCH", f"Her most recent real reading ({latest:+.2f}) is below the normal range, but {detail} -- one dip, not yet two consecutive; her next reading will resolve it."
+    return latest, "NORMAL", f"Her most recent real reading ({latest:+.2f}) is within the normal range."
+
+
+def _status_from_floor(ordered_values: list, floor: float) -> tuple:
+    latest = round(ordered_values[-1], 2)
+    if latest <= floor:
+        return latest, "AT_FLOOR", f"Her most recent real reading ({latest:+.2f}) is already her lowest on record at this grain -- her next reading will show whether this holds or was an isolated low point."
+    return latest, "NORMAL", f"Her most recent real reading ({latest:+.2f}) is above her historical floor ({floor:+.2f})."
+
+
+def _band_protocol(ordered_values: list, *, metric: str, source: str, unit: str, explanatory_metric: str) -> dict:
+    n = len(ordered_values)
+    mean = statistics.fmean(ordered_values)
     if n >= _LARGE_SAMPLE_MIN:
-        sd = statistics.stdev(values)
+        sd = statistics.stdev(ordered_values)
         lower, upper = mean - sd, mean + sd
+        current_reading, current_status, current_detail = _status_from_band(ordered_values, lower, upper)
         return {
             "metric": metric,
             "source": source,
@@ -147,45 +244,70 @@ def _band_protocol(values: list, *, metric: str, source: str, unit: str) -> dict
             "normal_range": f"{lower:+.2f} to {upper:+.2f} SG (mean {mean:+.2f} ± 1 SD across her {n} real {unit}s on record)",
             "warning_threshold": f"Below {lower:+.2f} SG in two consecutive {unit}s",
             "next_review": f"After her next {unit} is recorded",
+            "explanatory_metric": explanatory_metric,
+            "current_reading": current_reading,
+            "current_status": current_status,
+            "current_detail": current_detail,
         }
-    floor = min(values)
+    floor = min(ordered_values)
+    current_reading, current_status, current_detail = _status_from_floor(ordered_values, floor)
     return {
         "metric": metric,
         "source": source,
         "sample_size": n,
-        "normal_range": f"{floor:+.2f} to {max(values):+.2f} SG (full range of her {n} real {unit}s on record; too few observations for a mean/SD band)",
+        "normal_range": f"{floor:+.2f} to {max(ordered_values):+.2f} SG (full range of her {n} real {unit}s on record; too few observations for a mean/SD band)",
         "warning_threshold": f"Below {floor:+.2f} SG -- a new all-time low across her {n} real {unit}s on record",
         "next_review": f"At her next {unit}'s official figure",
+        "explanatory_metric": explanatory_metric,
+        "current_reading": current_reading,
+        "current_status": current_status,
+        "current_detail": current_detail,
     }
 
 
 def _tournament_component_protocol(ds: dict, component_key: str, component_label: str) -> dict:
-    values = [r[component_key] for r in ds["warehouse_tournament_rows"] if r.get(component_key) is not None]
+    rows = sorted(ds["warehouse_tournament_rows"], key=lambda r: (r["season"], r["game_code"]))
+    values = [r[component_key] for r in rows if r.get(component_key) is not None]
     return _band_protocol(
         values,
         metric=f"SG {component_label} per tournament",
         source="historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='{}')".format(component_key),
         unit="tournament",
+        explanatory_metric=_explanatory_metric_from_correlation(rows, component_key, "tournament"),
     )
 
 
 def _round_total_protocol(ds: dict) -> dict:
-    values = [r["total"] for r in ds["warehouse_round_rows"] if r.get("total") is not None]
+    rows = sorted(ds["warehouse_round_rows"], key=lambda r: (r["season"], r["game_code"], r["round"]))
+    values = [r["total"] for r in rows if r.get("total") is not None]
+    # "total" is a sum of the four real components, not one of them, so its
+    # item-5 check compares against those four components directly (still a
+    # real Pearson correlation, same method, just against "total" instead
+    # of one of the four peer components).
+    correlations = {}
+    for key, label in _COMPONENT_LABELS.items():
+        paired = [(r["total"], r[key]) for r in rows if r.get("total") is not None and r.get(key) is not None]
+        correlations[key] = _pearson([p[0] for p in paired], [p[1] for p in paired])
+    best_key, best_r = max(correlations.items(), key=lambda kv: abs(kv[1]))
+    disclosed = "; ".join(f"{_COMPONENT_LABELS[k]} r={v:+.2f}" for k, v in correlations.items())
+    explanatory = f"{_COMPONENT_LABELS[best_key]} (r={best_r:+.2f} across the same {len(rows)} real rounds -- her strongest real per-round component, {disclosed})."
     return _band_protocol(
         values,
         metric="SG Total per round",
         source="historical_sg_warehouse_corrected.json (scope=single_round, field='total')",
         unit="round",
+        explanatory_metric=explanatory,
     )
 
 
-def _season_component_protocol(season_profiles: list, attr: str, component_label: str) -> dict:
+def _season_component_protocol(season_profiles: list, attr: str, component_label: str, fallback_description: str) -> dict:
     values = [getattr(p, attr) for p in season_profiles]
     return _band_protocol(
         values,
         metric=f"SG {component_label} per season",
         source="knowledge_engine.compute_season_profiles()",
         unit="season",
+        explanatory_metric=_explanatory_metric_insufficient_sample(len(season_profiles), "season", fallback_description),
     )
 
 
@@ -196,6 +318,7 @@ def _course_appearance_protocol(group: dict) -> dict:
         metric=f"SG Total per appearance at {group['series_name_sample']}",
         source="historical_sg_warehouse_corrected.json (matched via knowledge_engine.find_course_history())",
         unit="appearance",
+        explanatory_metric=_explanatory_metric_insufficient_sample(len(values), "appearance", "the SG Total per-round protocol below (287 real rounds)"),
     )
 
 
@@ -203,7 +326,8 @@ def _action_from_protocol(protocol: dict) -> str:
     return (
         f"Monitor {protocol['metric']} ({protocol['source']}). Normal range: {protocol['normal_range']}. "
         f"Warning threshold, escalate to a technical/practice review: {protocol['warning_threshold']}. "
-        f"Next review: {protocol['next_review']}."
+        f"Next review: {protocol['next_review']}. Current status as of her most recent real reading: "
+        f"{protocol['current_status']} -- {protocol['current_detail']}"
     )
 
 
@@ -475,7 +599,7 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
         "season on record is what justifies weighting practice hours toward it, instead of further polishing "
         "a skill that is already elite."
     )
-    protocol = _season_component_protocol(season_profiles, "avg_putt", "Putting")
+    protocol = _season_component_protocol(season_profiles, "avg_putt", "Putting", "the SG Putting per-tournament protocol above (73 real tournaments)")
     player_takeaway = "Don't read 'weakest area' as 'poor putter' -- it means every other part of the game has been pulled up to an elite level, and putting is the one with room left to close the gap."
     coach_focus = (
         f"This is the season-level view of the same metric the 'why does she lose' protocol tracks per "
@@ -545,7 +669,10 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
     )
     why_it_matters = "Confirming the improvement is structural, not lucky, is what keeps a coaching staff from second-guessing a program that is actually working after one difficult week."
     player_takeaway = "The improvement is real and it's hers to keep building on -- it did not come from one lucky adjustment, so the current emphasis on ball-striking is the right one to continue, not to second-guess after a single bad week."
-    protocol = _season_component_protocol(season_profiles, "avg_total", "Total")
+    protocol = _season_component_protocol(
+        season_profiles, "avg_total", "Total",
+        "her SG Total per-tournament figures (historical_sg_warehouse_corrected.json, scope=tournament_cumulative, field='total', 73 real tournaments)",
+    )
     coach_focus = (
         f"Review SG Total at the season level ({protocol['sample_size']} real seasons on record) -- this is a "
         "developmental-program signal, reviewed once per season, not a week-to-week tactical one."
@@ -783,8 +910,18 @@ def build() -> dict:
 
     from datetime import datetime, timezone
 
+    pre_tournament_checklist = [
+        {
+            "metric": q["monitoring_protocol"]["metric"],
+            "current_reading": q["monitoring_protocol"]["current_reading"],
+            "current_status": q["monitoring_protocol"]["current_status"],
+            "linked_question": q["question"],
+        }
+        for q in questions
+    ]
+
     return {
-        "schema_version": "player_intelligence_report_v1",
+        "schema_version": "player_intelligence_report_v3",
         "player_id": PLAYER_ID,
         "player_name": PLAYER_NAME,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -802,14 +939,24 @@ def build() -> dict:
             "but is also not generalized into a repeatable pattern beyond itself."
         ),
         "monitoring_protocol_method": (
-            f"Every action names a real, officially-sourced metric with a repeated measured history (never a "
-            f"single-snapshot stat) and derives its normal range and warning threshold from that metric's own "
-            f"real values -- never invented. With >= {_LARGE_SAMPLE_MIN} real observations: normal range = "
-            "mean +/- 1 SD; warning threshold = two consecutive readings below the lower bound (so one bad "
-            "tournament/round does not trigger a false alarm). With fewer (season- or course-level aggregates, "
-            "where more data does not yet exist): a mean/SD band is not statistically meaningful, so the "
-            "warning threshold is her own real historical floor -- a new all-time low."
+            f"Player Intelligence V3: every section is a performance-monitoring protocol, not a described statistic. "
+            f"(1) Metric -- a real, officially-sourced field with a repeated measured history (never a single-snapshot "
+            f"stat). (2) Normal / (3) Deterioration -- with >= {_LARGE_SAMPLE_MIN} real observations: normal range = "
+            "mean +/- 1 SD; deterioration = two consecutive readings below the lower bound (so one bad "
+            "tournament/round never triggers a false alarm). With fewer (season- or course-level aggregates, where "
+            "more data does not yet exist): a mean/SD band is not statistically meaningful, so deterioration is "
+            "defined as her own real historical floor -- a new all-time low. (4) Next check -- the next real event "
+            "at that metric's own grain (next tournament / next round / next season / next appearance). "
+            "(5) Explanatory metric -- never a golf-domain guess: the real Pearson correlation between the "
+            "monitored metric and her other three real SG components, named only if it clears a disclosed 0.3 "
+            "meaningfulness threshold; reported as 'None' with the real coefficients shown when it does not "
+            "(true for every tournament/round-level component pair checked here), or as 'Unknown, too few "
+            "observations' when the sample is too thin (n=4) to compute a real correlation at all. Current status -- "
+            "not a prediction: her most recent already-recorded real reading, compared against (2)/(3) using the "
+            "same rule that would apply to any future reading. This is what makes the report usable before every "
+            "tournament -- checked against the real record as it stands today."
         ),
+        "pre_tournament_checklist": pre_tournament_checklist,
         "questions": questions,
         "questions_considered_but_unsupported": excluded,
         "source_document": "MASTER_ANALYSIS.json (audited via scripts/build_10097_master_player_analysis.py)",

@@ -1,13 +1,57 @@
 {
   "durability_method": "Every question asks: would adding one more season likely overturn this conclusion? 'LONG_TERM_CHARACTERISTIC' = built on a pattern present in most or all seasons on record, unlikely to reverse. 'RECENT_TREND' = based on this season only; a future season could change it. 'CONFIRMED_HISTORICAL_EVENT' = an already-completed result, not a trend claim -- it cannot be overturned by future data, but is also not generalized into a repeatable pattern beyond itself.",
   "evidence_score_method": "evidence_score = round(100 * min(1, distinct_official_sources / 3) * sample_size / (sample_size + 5)). A deterministic, disclosed scoring of already-computed sample_size + source diversity -- not a new statistical claim about the player.",
-  "generated_at": "2026-09-23T18:07:03.249348+00:00",
-  "monitoring_protocol_method": "Every action names a real, officially-sourced metric with a repeated measured history (never a single-snapshot stat) and derives its normal range and warning threshold from that metric's own real values -- never invented. With >= 30 real observations: normal range = mean +/- 1 SD; warning threshold = two consecutive readings below the lower bound (so one bad tournament/round does not trigger a false alarm). With fewer (season- or course-level aggregates, where more data does not yet exist): a mean/SD band is not statistically meaningful, so the warning threshold is her own real historical floor -- a new all-time low.",
+  "generated_at": "2026-09-23T18:26:27.721649+00:00",
+  "monitoring_protocol_method": "Player Intelligence V3: every section is a performance-monitoring protocol, not a described statistic. (1) Metric -- a real, officially-sourced field with a repeated measured history (never a single-snapshot stat). (2) Normal / (3) Deterioration -- with >= 30 real observations: normal range = mean +/- 1 SD; deterioration = two consecutive readings below the lower bound (so one bad tournament/round never triggers a false alarm). With fewer (season- or course-level aggregates, where more data does not yet exist): a mean/SD band is not statistically meaningful, so deterioration is defined as her own real historical floor -- a new all-time low. (4) Next check -- the next real event at that metric's own grain (next tournament / next round / next season / next appearance). (5) Explanatory metric -- never a golf-domain guess: the real Pearson correlation between the monitored metric and her other three real SG components, named only if it clears a disclosed 0.3 meaningfulness threshold; reported as 'None' with the real coefficients shown when it does not (true for every tournament/round-level component pair checked here), or as 'Unknown, too few observations' when the sample is too thin (n=4) to compute a real correlation at all. Current status -- not a prediction: her most recent already-recorded real reading, compared against (2)/(3) using the same rule that would apply to any future reading. This is what makes the report usable before every tournament -- checked against the real record as it stands today.",
   "player_id": "10097",
   "player_name": "김민선7",
+  "pre_tournament_checklist": [
+    {
+      "current_reading": 1.33,
+      "current_status": "NORMAL",
+      "linked_question": "Why does 김민선7 win?",
+      "metric": "SG Approach per tournament"
+    },
+    {
+      "current_reading": -1.68,
+      "current_status": "WATCH",
+      "linked_question": "Why does 김민선7 lose?",
+      "metric": "SG Putting per tournament"
+    },
+    {
+      "current_reading": 1.33,
+      "current_status": "NORMAL",
+      "linked_question": "Why is Approach 김민선7's biggest weapon?",
+      "metric": "SG Approach per tournament"
+    },
+    {
+      "current_reading": 0.04,
+      "current_status": "AT_FLOOR",
+      "linked_question": "Why has Putting become 김민선7's weakest area?",
+      "metric": "SG Putting per season"
+    },
+    {
+      "current_reading": 2.09,
+      "current_status": "NORMAL",
+      "linked_question": "Why did 김민선7's performance improve through 2026?",
+      "metric": "SG Total per season"
+    },
+    {
+      "current_reading": 4.69,
+      "current_status": "NORMAL",
+      "linked_question": "Why is 김민선7 strong at 2024 셀트리온 퀸즈 마스터즈?",
+      "metric": "SG Total per appearance at 2024 셀트리온 퀸즈 마스터즈"
+    },
+    {
+      "current_reading": -0.7,
+      "current_status": "NORMAL",
+      "linked_question": "How did 김민선7 win her most recent title, the 하나금융그룹 챔피언십?",
+      "metric": "SG Total per round"
+    }
+  ],
   "questions": [
     {
-      "action": "Monitor SG Approach per tournament (historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). Normal range: -0.13 to +1.80 SG (mean +0.83 ± 1 SD across her 73 real tournaments on record). Warning threshold, escalate to a technical/practice review: Below -0.13 SG in two consecutive tournaments. Next review: After her next tournament is recorded.",
+      "action": "Monitor SG Approach per tournament (historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). Normal range: -0.13 to +1.80 SG (mean +0.83 ± 1 SD across her 73 real tournaments on record). Warning threshold, escalate to a technical/practice review: Below -0.13 SG in two consecutive tournaments. Next review: After her next tournament is recorded. Current status as of her most recent real reading: NORMAL -- Her most recent real reading (+1.33) is within the normal range.",
       "analysis": "The wins themselves are one-off events, but the mechanism behind them is not. Every season on record shows the same shape: her approach play is the component that never goes negative, even in seasons when the rest of her game was still developing. That is what turns a promising round into a winning one -- she reliably gives herself birdie looks other players in the field do not get, and this season's elite green-in-regulation and par-save rates show that advantage currently converting into fewer bogeys as well as more birdies.",
       "coach_focus": "GIR and par-save rate are current-season-snapshot data only -- KLPGA does not publish a per-round or per-tournament series for either, so neither can be monitored on an operational cadence yet. SG Approach per tournament can: it has a real 73-tournament history, and it is the metric this protocol tracks.",
       "conclusion": "김민선7 wins because her approach game supplies a scoring edge that has held up in every season she has played, not because of a single hot week -- this season's elite GIR and par-save rates are compounding on top of that structural strength, not replacing it.",
@@ -23,6 +67,10 @@
       "fact": "Four real wins on record (덕신EPC 챔피언십 (2025), 넥센 · 세인트나인 Masters 2026 (2026), 2026 셀트리온 퀸즈 마스터즈 (2026), 하나금융그룹 챔피언십 (2026)) share the same underlying mechanism: an approach game that has produced positive scoring value in every one of her four seasons on tour, not only in winning weeks.",
       "id": "q_why_wins",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (+1.33) is within the normal range.",
+        "current_reading": 1.33,
+        "current_status": "NORMAL",
+        "explanatory_metric": "None. Real correlation with her other three components across the same 73 tournaments: SG Putting r=-0.15; SG Off-the-Tee r=+0.18; SG Around-the-Green r=+0.07 -- all below the 0.3 threshold this report treats as meaningful, so no component is named as an explanation. Check instead whether the change is isolated to this one component or shared across the other three in the same event: isolated points to that specific skill, shared points to a general week (fatigue, travel, conditions) rather than one part of her game.",
         "metric": "SG Approach per tournament",
         "next_review": "After her next tournament is recorded",
         "normal_range": "-0.13 to +1.80 SG (mean +0.83 ± 1 SD across her 73 real tournaments on record)",
@@ -37,7 +85,7 @@
       "why_this_matters": "This is the shot to build the week's game plan around, not just admire after a win."
     },
     {
-      "action": "Monitor SG Putting per tournament (historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='putting')). Normal range: -0.66 to +1.00 SG (mean +0.17 ± 1 SD across her 73 real tournaments on record). Warning threshold, escalate to a technical/practice review: Below -0.66 SG in two consecutive tournaments. Next review: After her next tournament is recorded.",
+      "action": "Monitor SG Putting per tournament (historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='putting')). Normal range: -0.66 to +1.00 SG (mean +0.17 ± 1 SD across her 73 real tournaments on record). Warning threshold, escalate to a technical/practice review: Below -0.66 SG in two consecutive tournaments. Next review: After her next tournament is recorded. Current status as of her most recent real reading: WATCH -- Her most recent real reading (-1.68) is below the normal range, but the one before it (-0.33) was not -- one dip, not yet two consecutive; her next reading will resolve it.",
       "analysis": "Her ball-striking creates more scoring opportunities than almost anyone else in the field -- she simply isn't converting them into birdies at the rate that ball-striking would predict. That gap has existed every season she has played, which means it is not a slump to fix in a single week; it behaves more like a structural ceiling on how many of her approach shots turn into red numbers. This season's dip (+0.04, down from +0.33 last year) is the one part of the picture that is new, and is worth watching rather than assuming it self-corrects.",
       "coach_focus": "SG Putting is recorded per tournament (not just per season), giving a real 73-tournament history to set an operational range from -- use that per-tournament figure as it is published, not the season aggregate, to catch a slide early.",
       "conclusion": "Her approach game consistently creates scoring opportunities, but her putting has converted fewer of those opportunities into birdies than her ball-striking level would predict -- true in every season on record, and more so this year than in any of the previous three.",
@@ -53,6 +101,10 @@
       "fact": "Putting has never been the part of Kim Minsun7's game that wins tournaments for her -- in all four seasons on record it has been her smallest source of scoring value, and this season that gap widened rather than closed.",
       "id": "q_why_loses",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (-1.68) is below the normal range, but the one before it (-0.33) was not -- one dip, not yet two consecutive; her next reading will resolve it.",
+        "current_reading": -1.68,
+        "current_status": "WATCH",
+        "explanatory_metric": "None. Real correlation with her other three components across the same 73 tournaments: SG Approach r=-0.15; SG Off-the-Tee r=-0.08; SG Around-the-Green r=+0.04 -- all below the 0.3 threshold this report treats as meaningful, so no component is named as an explanation. Check instead whether the change is isolated to this one component or shared across the other three in the same event: isolated points to that specific skill, shared points to a general week (fatigue, travel, conditions) rather than one part of her game.",
         "metric": "SG Putting per tournament",
         "next_review": "After her next tournament is recorded",
         "normal_range": "-0.66 to +1.00 SG (mean +0.17 ± 1 SD across her 73 real tournaments on record)",
@@ -67,7 +119,7 @@
       "why_this_matters": "The next stroke gained has to come from scoring conversion, not a swing change."
     },
     {
-      "action": "Monitor SG Approach per tournament (historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). Normal range: -0.13 to +1.80 SG (mean +0.83 ± 1 SD across her 73 real tournaments on record). Warning threshold, escalate to a technical/practice review: Below -0.13 SG in two consecutive tournaments. Next review: After her next tournament is recorded.",
+      "action": "Monitor SG Approach per tournament (historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). Normal range: -0.13 to +1.80 SG (mean +0.83 ± 1 SD across her 73 real tournaments on record). Warning threshold, escalate to a technical/practice review: Below -0.13 SG in two consecutive tournaments. Next review: After her next tournament is recorded. Current status as of her most recent real reading: NORMAL -- Her most recent real reading (+1.33) is within the normal range.",
       "analysis": "A single elite season could be a swing change paying off right now, or a hot run of ball-striking that regresses next year. Four consecutive seasons of the same component staying at or near the top of her profile is a different kind of signal -- it means approach is not something she is currently doing well, it is something she reliably does well, independent of what else in her game is in form.",
       "coach_focus": "Same operational protocol as the win-driver metric above (SG Approach per tournament, 73 real tournaments on record) -- this question and 'why does she win' are protected by tracking the same number, since it is the same underlying strength.",
       "conclusion": "Approach is Kim Minsun7's most durable strength -- not because it is her best number this week, but because it has not had a down season in four years.",
@@ -83,6 +135,10 @@
       "fact": "Across four seasons, approach has remained Kim Minsun7's most consistent scoring advantage. Even in seasons when the rest of her game was still developing, approach never stopped producing positive value.",
       "id": "q_approach_biggest_weapon",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (+1.33) is within the normal range.",
+        "current_reading": 1.33,
+        "current_status": "NORMAL",
+        "explanatory_metric": "None. Real correlation with her other three components across the same 73 tournaments: SG Putting r=-0.15; SG Off-the-Tee r=+0.18; SG Around-the-Green r=+0.07 -- all below the 0.3 threshold this report treats as meaningful, so no component is named as an explanation. Check instead whether the change is isolated to this one component or shared across the other three in the same event: isolated points to that specific skill, shared points to a general week (fatigue, travel, conditions) rather than one part of her game.",
         "metric": "SG Approach per tournament",
         "next_review": "After her next tournament is recorded",
         "normal_range": "-0.13 to +1.80 SG (mean +0.83 ± 1 SD across her 73 real tournaments on record)",
@@ -97,7 +153,7 @@
       "why_this_matters": "It is the shot the rest of her game plan should be built around, every tournament, not just this one."
     },
     {
-      "action": "Monitor SG Putting per season (knowledge_engine.compute_season_profiles()). Normal range: +0.04 to +0.33 SG (full range of her 4 real seasons on record; too few observations for a mean/SD band). Warning threshold, escalate to a technical/practice review: Below +0.04 SG -- a new all-time low across her 4 real seasons on record. Next review: At her next season's official figure.",
+      "action": "Monitor SG Putting per season (knowledge_engine.compute_season_profiles()). Normal range: +0.04 to +0.33 SG (full range of her 4 real seasons on record; too few observations for a mean/SD band). Warning threshold, escalate to a technical/practice review: Below +0.04 SG -- a new all-time low across her 4 real seasons on record. Next review: At her next season's official figure. Current status as of her most recent real reading: AT_FLOOR -- Her most recent real reading (+0.04) is already her lowest on record at this grain -- her next reading will show whether this holds or was an isolated low point.",
       "analysis": "Ranking her own four components against each other, rather than against the field, changes the conclusion in a way that matters for planning practice time: Off-the-Tee, Approach and Around-the-Green all sit in a range that would be considered elite on tour; Putting alone does not. That is a different statement from 'her putting is bad' -- it is a statement about where the next hour of practice time buys the most improvement relative to what she already has.",
       "coach_focus": "This is the season-level view of the same metric the 'why does she lose' protocol tracks per tournament: SG Putting, here reviewed at the 4-season grain to judge whether practice-time reallocation is closing the internal gap year over year, not week to week.",
       "conclusion": "Putting is not a weakness in absolute terms -- it is the one category that has not grown at the same rate as the rest of her game, in every season on record, which makes it the highest-leverage area for continued development.",
@@ -112,6 +168,10 @@
       "fact": "Putting is the one component of Kim Minsun7's game that has never kept pace with the rest -- this season it ranks lowest of her own four shot-making categories, and that gap is not new.",
       "id": "q_putting_weakest",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (+0.04) is already her lowest on record at this grain -- her next reading will show whether this holds or was an isolated low point.",
+        "current_reading": 0.04,
+        "current_status": "AT_FLOOR",
+        "explanatory_metric": "Unknown -- only 4 real seasons on record, too few to compute a reliable companion-metric correlation (this report will not treat a correlation from n=4 as real evidence). Cross-check the SG Putting per-tournament protocol above (73 real tournaments) instead.",
         "metric": "SG Putting per season",
         "next_review": "At her next season's official figure",
         "normal_range": "+0.04 to +0.33 SG (full range of her 4 real seasons on record; too few observations for a mean/SD band)",
@@ -126,7 +186,7 @@
       "why_this_matters": "This is where the next hour of practice time pays off the most."
     },
     {
-      "action": "Monitor SG Total per season (knowledge_engine.compute_season_profiles()). Normal range: +0.79 to +2.09 SG (full range of her 4 real seasons on record; too few observations for a mean/SD band). Warning threshold, escalate to a technical/practice review: Below +0.79 SG -- a new all-time low across her 4 real seasons on record. Next review: At her next season's official figure.",
+      "action": "Monitor SG Total per season (knowledge_engine.compute_season_profiles()). Normal range: +0.79 to +2.09 SG (full range of her 4 real seasons on record; too few observations for a mean/SD band). Warning threshold, escalate to a technical/practice review: Below +0.79 SG -- a new all-time low across her 4 real seasons on record. Next review: At her next season's official figure. Current status as of her most recent real reading: NORMAL -- Her most recent real reading (+2.09) is above her historical floor (+0.79).",
       "analysis": "A four-season, monotonic rise across two ball-striking components, running in parallel with a real tournament count behind each season's average, is not a form spike -- it is what a genuine improvement in swing quality and distance control looks like over time. It also tells the coaching team what not to credit: putting has not risen anywhere near the same rate, so a story built around 'the short game has caught up' would not be supported by her own record.",
       "coach_focus": "Review SG Total at the season level (4 real seasons on record) -- this is a developmental-program signal, reviewed once per season, not a week-to-week tactical one.",
       "conclusion": "Her 2026 performance is the continuation of a real, multi-season improvement in ball-striking, not a one-off good year -- and the technical program behind that improvement is the one thing this record says should not be changed.",
@@ -141,6 +201,10 @@
       "fact": "Kim Minsun7's rise from a developing player to a tour winner did not happen in one season -- her overall scoring value has increased in every one of her four seasons on record, and the shape of that rise tracks her ball-striking, not a hot putting run.",
       "id": "q_2026_improvement",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (+2.09) is above her historical floor (+0.79).",
+        "current_reading": 2.09,
+        "current_status": "NORMAL",
+        "explanatory_metric": "Unknown -- only 4 real seasons on record, too few to compute a reliable companion-metric correlation (this report will not treat a correlation from n=4 as real evidence). Cross-check her SG Total per-tournament figures (historical_sg_warehouse_corrected.json, scope=tournament_cumulative, field='total', 73 real tournaments) instead.",
         "metric": "SG Total per season",
         "next_review": "At her next season's official figure",
         "normal_range": "+0.79 to +2.09 SG (full range of her 4 real seasons on record; too few observations for a mean/SD band)",
@@ -155,7 +219,7 @@
       "why_this_matters": "Keep doing what has been working -- this is not the record of a player who needs a change."
     },
     {
-      "action": "Monitor SG Total per appearance at 2024 셀트리온 퀸즈 마스터즈 (historical_sg_warehouse_corrected.json (matched via knowledge_engine.find_course_history())). Normal range: +0.21 to +4.69 SG (full range of her 4 real appearances on record; too few observations for a mean/SD band). Warning threshold, escalate to a technical/practice review: Below +0.21 SG -- a new all-time low across her 4 real appearances on record. Next review: At her next appearance's official figure.",
+      "action": "Monitor SG Total per appearance at 2024 셀트리온 퀸즈 마스터즈 (historical_sg_warehouse_corrected.json (matched via knowledge_engine.find_course_history())). Normal range: +0.21 to +4.69 SG (full range of her 4 real appearances on record; too few observations for a mean/SD band). Warning threshold, escalate to a technical/practice review: Below +0.21 SG -- a new all-time low across her 4 real appearances on record. Next review: At her next appearance's official figure. Current status as of her most recent real reading: NORMAL -- Her most recent real reading (+4.69) is above her historical floor (+0.21).",
       "analysis": "One good week at a course could be the luck of the pairing or the conditions. Four real visits, spread across four different seasons, all landing positive -- with the best of the four on her most recent trip -- looks like accumulated course knowledge rather than a coincidence. That is a different kind of insight than a single-week form check: it says this course rewards something she already does well, and repetition has sharpened it rather than the effect fading.",
       "coach_focus": "Use 2024 셀트리온 퀸즈 마스터즈 as a template for what a good week looks like for her, and be cautious about introducing swing or strategy changes the week before she plays it again.",
       "conclusion": "This is a course where the game plan should lean on what already works rather than experimenting -- 4 appearances and a rising trend point to real course familiarity, not a single lucky week.",
@@ -170,6 +234,10 @@
       "fact": "When Kim Minsun7 returns to a course she has already played, her record says she should be trusted to perform, not managed cautiously. Her strongest repeated result is at 2024 셀트리온 퀸즈 마스터즈, where 4 real appearances have produced a positive scoring average and her most recent visit was a win.",
       "id": "q_strong_course",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (+4.69) is above her historical floor (+0.21).",
+        "current_reading": 4.69,
+        "current_status": "NORMAL",
+        "explanatory_metric": "Unknown -- only 4 real appearances on record, too few to compute a reliable companion-metric correlation (this report will not treat a correlation from n=4 as real evidence). Cross-check the SG Total per-round protocol below (287 real rounds) instead.",
         "metric": "SG Total per appearance at 2024 셀트리온 퀸즈 마스터즈",
         "next_review": "At her next appearance's official figure",
         "normal_range": "+0.21 to +4.69 SG (full range of her 4 real appearances on record; too few observations for a mean/SD band)",
@@ -184,7 +252,7 @@
       "why_this_matters": "It is the clearest place in her record where preparation should trust the player rather than over-coach her."
     },
     {
-      "action": "Monitor SG Total per round (historical_sg_warehouse_corrected.json (scope=single_round, field='total')). Normal range: -1.45 to +3.91 SG (mean +1.23 ± 1 SD across her 287 real rounds on record). Warning threshold, escalate to a technical/practice review: Below -1.45 SG in two consecutive rounds. Next review: After her next round is recorded.",
+      "action": "Monitor SG Total per round (historical_sg_warehouse_corrected.json (scope=single_round, field='total')). Normal range: -1.45 to +3.91 SG (mean +1.23 ± 1 SD across her 287 real rounds on record). Warning threshold, escalate to a technical/practice review: Below -1.45 SG in two consecutive rounds. Next review: After her next round is recorded. Current status as of her most recent real reading: NORMAL -- Her most recent real reading (-0.70) is within the normal range.",
       "analysis": "A win built on a fading lead and a defensive final round tells a coach one thing about a player's tournament management; a win where the strongest round comes last tells a different one. This result is the second kind -- a real, confirmed fact about this specific tournament. It does not, on its own, establish a repeatable trait: her full round-to-round history (198 real consecutive-round pairs on record) has a mean change of -0.22 SG, essentially flat with wide swings in both directions -- so this win should inform how this specific result is used in preparation, not be generalized into 'she always builds into tournaments.'",
       "coach_focus": "Use the round-level SG Total protocol below during any live tournament -- a real, in-progress signal from 287 real rounds on record -- rather than a mental-pattern assumption drawn from this single win.",
       "conclusion": "Her most recent win was earned by peaking in the final round after a round 2 that was not her best -- a real, confirmed fact about this one result, not yet an established pattern across her wins generally.",
@@ -199,6 +267,10 @@
       "fact": "Her most recent title was not decided by a fast start she had to protect -- her SG Total dipped slightly in round 2 before her strongest round of the tournament in round 3, right when the tournament was being decided.",
       "id": "q_most_recent_win",
       "monitoring_protocol": {
+        "current_detail": "Her most recent real reading (-0.70) is within the normal range.",
+        "current_reading": -0.7,
+        "current_status": "NORMAL",
+        "explanatory_metric": "SG Approach (r=+0.67 across the same 287 real rounds -- her strongest real per-round component, SG Approach r=+0.67; SG Putting r=+0.56; SG Off-the-Tee r=+0.36; SG Around-the-Green r=+0.30).",
         "metric": "SG Total per round",
         "next_review": "After her next round is recorded",
         "normal_range": "-1.45 to +3.91 SG (mean +1.23 ± 1 SD across her 287 real rounds on record)",
@@ -222,7 +294,7 @@
       "sample_size": 1
     }
   ],
-  "schema_version": "player_intelligence_report_v1",
+  "schema_version": "player_intelligence_report_v3",
   "scope_note": "This document covers ONLY playerCode=10097. No other player's data was generated or modified. Gold Standard reference implementation.",
   "source_document": "MASTER_ANALYSIS.json (audited via scripts/build_10097_master_player_analysis.py)"
 }
