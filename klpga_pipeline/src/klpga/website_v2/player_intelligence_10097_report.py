@@ -31,6 +31,12 @@ _CONFIDENCE_CHIP_CLASS = {
     "UNKNOWN": "label-chip--negative",
 }
 
+_DURABILITY_LABEL = {
+    "LONG_TERM_CHARACTERISTIC": "Long-term characteristic",
+    "RECENT_TREND": "Recent trend — could change with another season",
+    "CONFIRMED_HISTORICAL_EVENT": "Confirmed event — already happened",
+}
+
 
 def load_report_cached() -> Optional[dict]:
     if not REPORT_PATH.exists():
@@ -41,11 +47,13 @@ def load_report_cached() -> Optional[dict]:
 def _question_card(q: dict) -> str:
     evidence_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"])
     chip_class = _CONFIDENCE_CHIP_CLASS.get(q["confidence"], "label-chip")
+    durability_label = _DURABILITY_LABEL.get(q["durability"], q["durability"])
     audit = (
         '<div class="piq-audit">'
         f'<span class="label-chip">Evidence Score {q["evidence_score"]}/100</span>'
         f'<span class="label-chip">Sample Size {q["sample_size"]}</span>'
         f'<span class="label-chip {chip_class}">Confidence: {escape(q["confidence"])}</span>'
+        f'<span class="label-chip">{escape(durability_label)}</span>'
         "</div>"
     )
     body = (
@@ -54,7 +62,14 @@ def _question_card(q: dict) -> str:
         f'<ul class="piq-evidence-list">{evidence_items}</ul>'
         f'<p class="piq-step"><span class="piq-label">ANALYSIS</span>{escape(q["analysis"])}</p>'
         f'<p class="piq-step piq-conclusion"><span class="piq-label">CONCLUSION</span>{escape(q["conclusion"])}</p>'
+        f'<p class="piq-step"><span class="piq-label">WHY IT MATTERS</span>{escape(q["why_it_matters"])}</p>'
+        f'<div class="piq-brief">'
+        f'<p><strong>Player takeaway.</strong> {escape(q["player_takeaway"])}</p>'
+        f'<p><strong>Coach focus.</strong> {escape(q["coach_focus"])}</p>'
+        f'<p><strong>Durability.</strong> {escape(q["durability_reasoning"])}</p>'
+        "</div>"
         f"{audit}"
+        f'<p class="piq-why-this-matters"><span class="piq-label">WHY THIS MATTERS</span>{escape(q["why_this_matters"])}</p>'
     )
     return (
         f'<details class="evidence-detail pi-section" open>'
