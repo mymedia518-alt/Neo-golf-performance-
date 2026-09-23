@@ -70,6 +70,7 @@ def _question_card(q: dict) -> str:
         "</div>"
         f"{audit}"
         f'<p class="piq-why-this-matters"><span class="piq-label">WHY THIS MATTERS</span>{escape(q["why_this_matters"])}</p>'
+        f'<p class="piq-action"><span class="piq-label">ACTION</span>{escape(q["action"])}</p>'
     )
     return (
         f'<details class="evidence-detail pi-section" open>'
