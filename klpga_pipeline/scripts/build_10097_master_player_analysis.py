@@ -34,6 +34,13 @@ PLAYER_ID = "10097"
 PLAYER_NAME = "김민선7"
 OUTPUT_PATH = CONTENT_DIR / "knowledge_engine" / "player_intelligence" / PLAYER_ID / "MASTER_ANALYSIS.json"
 
+# A claim framed as a recurring PATTERN or TREND (not a single point-in-time
+# fact) needs at least this many independent instances to be a statistically
+# supportable generalization. A POINT_FACT ("she won X", "she is ranked #5")
+# is fully supported by a single official record and is never subject to
+# this threshold -- only claims that describe a tendency are.
+MIN_INSTANCES_FOR_PATTERN_CLAIM = 2
+
 
 def _load(name: str) -> dict:
     return json.loads((CONTENT_DIR / name).read_text(encoding="utf-8"))
@@ -378,16 +385,40 @@ def build_pattern_and_trend_analysis(ds: dict, course_analysis: dict) -> dict:
                     }
                 )
 
-    return {
-        "wins_on_repeat_courses": win_attempt_numbers,
-        "pattern_observation": (
-            f"{len(win_attempt_numbers)} of this player's wins on record occurred at a course series she had "
+    n = len(win_attempt_numbers)
+    if n >= MIN_INSTANCES_FOR_PATTERN_CLAIM:
+        pattern_status = "CONFIRMED"
+        pattern_confidence = "HIGH" if n >= 5 else "MEDIUM"
+        pattern_downgrade_reason = None
+        pattern_observation = (
+            f"{n} of this player's wins on record occurred at a course series she had "
             "played before (not a first-time course), per knowledge_engine.find_course_history()'s real "
             "match. Attempt numbers listed above; this is a description of what the data on record shows, "
             "not a prediction about future events."
-            if win_attempt_numbers
-            else "No win occurred at a course series with 2+ prior real appearances on record."
-        ),
+        )
+    else:
+        pattern_status = "UNKNOWN"
+        pattern_confidence = "UNKNOWN"
+        pattern_downgrade_reason = (
+            f"n={n} confirmed instance(s) on record; a PATTERN/tendency claim requires at least "
+            f"{MIN_INSTANCES_FOR_PATTERN_CLAIM} independent instances to be a statistically supportable "
+            "generalization. A single instance is a point-in-time fact about one win, not evidence of a "
+            "recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never "
+            "kept as a pattern claim."
+        )
+        pattern_observation = (
+            "UNKNOWN -- insufficient sample to support a pattern claim. "
+            + pattern_downgrade_reason
+            + (" See wins_on_repeat_courses below for the raw match on record." if win_attempt_numbers else " No win occurred at a course series with 2+ prior real appearances on record either.")
+        )
+
+    return {
+        "wins_on_repeat_courses": win_attempt_numbers,
+        "pattern_observation_status": pattern_status,
+        "pattern_observation": pattern_observation,
+        "pattern_observation_confidence": pattern_confidence,
+        "pattern_observation_downgrade_reason": pattern_downgrade_reason,
+        "pattern_observation_sample_size": n,
         "season_trend": ds["player_intelligence_doc"]["evolution"]["narrative"],  # reused verbatim, Sprint 1
         "recent_form_trend": {
             k: v for k, v in (ds["empirical_incremental_windows"] or {}).items() if isinstance(v, dict)
@@ -416,32 +447,94 @@ def build_course_fit(ds: dict) -> dict:
 # ---------------------------------------------------------------------------
 
 
-def build_knowledge_graph(ds: dict, tournament_analysis: dict, course_analysis: dict, pattern_analysis: dict) -> dict:
+def build_knowledge_graph(
+    ds: dict,
+    warehouse: dict,
+    tournament_analysis: dict,
+    round_analysis: dict,
+    course_analysis: dict,
+    pattern_analysis: dict,
+) -> dict:
+    season_profiles = ke.compute_season_profiles(PLAYER_ID, warehouse)
+    season_count = len(season_profiles)
+    tournament_count = sum(p.n_tournaments for p in season_profiles)
+    round_count = round_analysis["total_single_round_rows_on_record"]
+
     facts = [
         {
             "id": "fact_win_count",
             "statement": f"{PLAYER_NAME} has {tournament_analysis['win_count_on_record']} real tournament wins on record.",
             "evidence": ["empirical_sg_corrected_v2/player_event_series.json", "2026090002_FINAL_TRUTH.json"],
+            "audit": {
+                "official_records_used": ["empirical_sg_corrected_v2/player_event_series.json", "2026090002_FINAL_TRUTH.json"],
+                "season_count": len({w["season"] for w in tournament_analysis["wins"]}),
+                "tournament_count": tournament_analysis["win_count_on_record"],
+                "round_count": None,
+                "sample_size": tournament_analysis["win_count_on_record"],
+                "claim_type": "POINT_FACT",
+                "confidence": "HIGH",
+                "note": "Each win is an independent point-in-time official result; POINT_FACT claims do not require n>1 per instance to be supported.",
+            },
         },
         {
             "id": "fact_current_sg_rank",
             "statement": f"{PLAYER_NAME} is officially ranked #{ds['sg_row']['official_rank']} in SG Total on the current KLPGA official SG leaderboard.",
             "evidence": ["OFFICIAL_SG_NORMALIZED.json"],
+            "audit": {
+                "official_records_used": ["OFFICIAL_SG_NORMALIZED.json"],
+                "season_count": 1,
+                "tournament_count": None,
+                "round_count": None,
+                "sample_size": 1,
+                "claim_type": "POINT_FACT",
+                "confidence": "HIGH",
+                "note": "Current-season official leaderboard snapshot; a single official record fully supports a point-in-time ranking claim.",
+            },
         },
         {
             "id": "fact_current_money_rank",
             "statement": f"{PLAYER_NAME} is officially ranked #{ds['profile_row']['official_rank']} in season money.",
             "evidence": ["OFFICIAL_PROFILE_NORMALIZED.json"],
+            "audit": {
+                "official_records_used": ["OFFICIAL_PROFILE_NORMALIZED.json"],
+                "season_count": 1,
+                "tournament_count": None,
+                "round_count": None,
+                "sample_size": 1,
+                "claim_type": "POINT_FACT",
+                "confidence": "HIGH",
+                "note": "Current-season official leaderboard snapshot; a single official record fully supports a point-in-time ranking claim.",
+            },
         },
         {
             "id": "fact_player_type",
             "statement": ds["player_intelligence_doc"]["player_type"]["evidence_text"],
             "evidence": [c["source"] for c in ds["player_intelligence_doc"]["player_type"]["citations"]],
+            "audit": {
+                "official_records_used": [c["source"] for c in ds["player_intelligence_doc"]["player_type"]["citations"]],
+                "season_count": 1,
+                "tournament_count": None,
+                "round_count": None,
+                "sample_size": 242,
+                "claim_type": "POINT_FACT",
+                "confidence": "HIGH",
+                "note": "Current-season field-relative percentile (sg_app, sg_ott) against the full 242-player official SG leaderboard; a percentile ranking is a point-in-time fact, not a multi-instance pattern.",
+            },
         },
         {
             "id": "fact_repeat_course_wins",
             "statement": pattern_analysis["pattern_observation"],
             "evidence": ["knowledge_engine.find_course_history()", "historical_sg_warehouse_corrected.json", "2026090002_FINAL_TRUTH.json"],
+            "audit": {
+                "official_records_used": ["knowledge_engine.find_course_history()", "historical_sg_warehouse_corrected.json", "2026090002_FINAL_TRUTH.json"],
+                "season_count": season_count,
+                "tournament_count": tournament_count,
+                "round_count": round_count,
+                "sample_size": pattern_analysis["pattern_observation_sample_size"],
+                "claim_type": "PATTERN",
+                "confidence": pattern_analysis["pattern_observation_confidence"],
+                "note": pattern_analysis["pattern_observation_downgrade_reason"],
+            },
         },
     ]
 
@@ -454,28 +547,136 @@ def build_knowledge_graph(ds: dict, tournament_analysis: dict, course_analysis: 
     insight_win_pattern = {
         "id": "insight_repeat_course_win_pattern",
         "insight": pattern_analysis["pattern_observation"],
+        "status": pattern_analysis["pattern_observation_status"],
         "fact": "fact_repeat_course_wins",
         "citations": [
             {"source": "empirical_sg_corrected_v2/player_event_series.json", "detail": "94 real event rows, real rank field"},
             {"source": "historical_sg_warehouse_corrected.json", "detail": "raw per-tournament SG rows, scope=tournament_cumulative, identity_state=RETAINED"},
             {"source": "2026090002_FINAL_TRUTH.json", "detail": "official winner_player_id=10097, synthetic_test_only=False"},
         ],
+        "audit": {
+            "official_records_used": ["empirical_sg_corrected_v2/player_event_series.json", "historical_sg_warehouse_corrected.json", "2026090002_FINAL_TRUTH.json"],
+            "season_count": season_count,
+            "tournament_count": tournament_count,
+            "round_count": round_count,
+            "sample_size": pattern_analysis["pattern_observation_sample_size"],
+            "claim_type": "PATTERN",
+            "confidence": pattern_analysis["pattern_observation_confidence"],
+            "downgrade_reason": pattern_analysis["pattern_observation_downgrade_reason"],
+        },
     }
     insight_ball_striking = {
         "id": "insight_elite_approach_and_ott",
         "insight": ds["player_intelligence_doc"]["player_type"]["evidence_text"],
+        "status": "CONFIRMED",
         "fact": "fact_player_type",
         "citations": [
             {"source": "OFFICIAL_SG_NORMALIZED.json", "detail": "field percentile basis"},
             {"source": "historical_sg_warehouse_corrected.json", "detail": "4-season structural strength basis"},
             {"source": f"knowledge_engine/player_intelligence/{PLAYER_ID}/latest.json", "detail": "frozen Sprint 1 classification output"},
         ],
+        "audit": {
+            "official_records_used": ["OFFICIAL_SG_NORMALIZED.json", "historical_sg_warehouse_corrected.json", f"knowledge_engine/player_intelligence/{PLAYER_ID}/latest.json"],
+            "season_count": season_count,
+            "tournament_count": tournament_count,
+            "round_count": round_count,
+            "sample_size": 242,
+            "claim_type": "POINT_FACT",
+            "confidence": "HIGH",
+            "downgrade_reason": None,
+            "note": "Current-season official percentile (sample_size=242 field), corroborated (not required for support) by a 4-season/73-tournament structural trend in the same metric.",
+        },
     }
     insights = [insight_win_pattern, insight_ball_striking]
     for i in insights:
         assert len(i["citations"]) >= 3, "STEP 4 requires >= 3 official records linked per insight"
 
     return {"facts": facts, "relations": relations, "insights": insights}
+
+
+# ---------------------------------------------------------------------------
+# AUDIT: every remaining conclusion-bearing statement not already carrying
+# its own inline "audit" block (knowledge_graph facts/insights do). Reused
+# Sprint 1 why_wins/why_loses reasons, the season_evolution trend narrative,
+# and every course-series average claim -- same 6 fields each: official
+# records used, season count, tournament count, round count, sample size,
+# confidence.
+# ---------------------------------------------------------------------------
+
+
+def build_conclusion_audit(ds: dict, warehouse: dict, sections: dict) -> list:
+    season_profiles = ke.compute_season_profiles(PLAYER_ID, warehouse)
+    season_count = len(season_profiles)
+    tournament_count = sum(p.n_tournaments for p in season_profiles)
+    round_count = sections["round_analysis"]["total_single_round_rows_on_record"]
+    sg_field_n = len(_load("OFFICIAL_SG_NORMALIZED.json")["records"])
+    profile_field_n = len(_load("OFFICIAL_PROFILE_NORMALIZED.json")["records"])
+
+    audits = []
+
+    audits.append(
+        {
+            "conclusion": "season_evolution.frozen_knowledge_engine_evolution.narrative",
+            "statement": sections["season_evolution"]["frozen_knowledge_engine_evolution"]["narrative"],
+            "official_records_used": ["historical_sg_warehouse_corrected.json"],
+            "season_count": season_count,
+            "tournament_count": tournament_count,
+            "round_count": round_count,
+            "sample_size": tournament_count,
+            "claim_type": "TREND",
+            "confidence": "HIGH" if season_count >= MIN_INSTANCES_FOR_PATTERN_CLAIM else "UNKNOWN",
+        }
+    )
+
+    for idx, reason in enumerate(ds["player_intelligence_doc"]["why_wins"]):
+        source = reason["citations"][0]["source"]
+        is_structural = "warehouse" in source
+        audits.append(
+            {
+                "conclusion": f"play_style.why_wins[{idx}]",
+                "statement": reason["text"],
+                "official_records_used": [c["source"] for c in reason["citations"]],
+                "season_count": season_count if is_structural else 1,
+                "tournament_count": tournament_count if is_structural else None,
+                "round_count": round_count if is_structural else None,
+                "sample_size": tournament_count if is_structural else sg_field_n,
+                "claim_type": "TREND" if is_structural else "POINT_FACT",
+                "confidence": "HIGH",
+            }
+        )
+
+    for idx, reason in enumerate(ds["player_intelligence_doc"]["why_loses"]):
+        audits.append(
+            {
+                "conclusion": f"play_style.why_loses[{idx}]",
+                "statement": reason["text"],
+                "official_records_used": [c["source"] for c in reason["citations"]],
+                "season_count": 1,
+                "tournament_count": None,
+                "round_count": None,
+                "sample_size": profile_field_n,
+                "claim_type": "POINT_FACT",
+                "confidence": "HIGH",
+            }
+        )
+
+    for group in sections["course_analysis"]["course_series"]:
+        n = group["appearances"]
+        audits.append(
+            {
+                "conclusion": f"course_analysis.course_series[{group['series_name_sample']!r}].avg_sg_total",
+                "statement": f"Average SG Total across {n} real recorded appearances at this course series is {group['avg_sg_total']}.",
+                "official_records_used": ["historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"],
+                "season_count": None,
+                "tournament_count": n,
+                "round_count": None,
+                "sample_size": n,
+                "claim_type": "TREND",
+                "confidence": "HIGH" if n >= 5 else ("MEDIUM" if n >= 3 else "LOW"),
+            }
+        )
+
+    return audits
 
 
 # ---------------------------------------------------------------------------
@@ -536,9 +737,10 @@ def build() -> dict:
         "pattern_trend_analysis": pattern_trend_analysis,
         "course_fit": course_fit,
     }
-    knowledge_graph = build_knowledge_graph(ds, tournament_analysis, course_analysis, pattern_trend_analysis)
+    knowledge_graph = build_knowledge_graph(ds, warehouse, tournament_analysis, round_analysis, course_analysis, pattern_trend_analysis)
     sections["knowledge_graph"] = knowledge_graph
     coverage = build_coverage(sections)
+    conclusion_audit = build_conclusion_audit(ds, warehouse, sections)
 
     from datetime import datetime, timezone
 
@@ -549,6 +751,7 @@ def build() -> dict:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "scope_note": "This document covers ONLY playerCode=10097. No other player's data was generated or modified.",
         **sections,
+        "conclusion_audit": conclusion_audit,
         "coverage": coverage,
     }
 

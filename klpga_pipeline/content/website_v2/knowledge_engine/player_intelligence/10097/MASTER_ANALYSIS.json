@@ -1,4 +1,322 @@
 {
+  "conclusion_audit": [
+    {
+      "claim_type": "TREND",
+      "conclusion": "season_evolution.frozen_knowledge_engine_evolution.narrative",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json"
+      ],
+      "round_count": 287,
+      "sample_size": 73,
+      "season_count": 4,
+      "statement": "2023시즌 SG Total +0.79에서 2026시즌 +2.09로 상승 추세입니다.",
+      "tournament_count": 73
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "play_style.why_wins[0]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json"
+      ],
+      "round_count": 287,
+      "sample_size": 73,
+      "season_count": 4,
+      "statement": "최근 4시즌 연속 SG Approach에서 상위 3% 수준의 기록을 유지하고 있습니다.",
+      "tournament_count": 73
+    },
+    {
+      "claim_type": "POINT_FACT",
+      "conclusion": "play_style.why_wins[1]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
+      ],
+      "round_count": null,
+      "sample_size": 242,
+      "season_count": 1,
+      "statement": "그린 적중률이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다.",
+      "tournament_count": null
+    },
+    {
+      "claim_type": "POINT_FACT",
+      "conclusion": "play_style.why_wins[2]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
+      ],
+      "round_count": null,
+      "sample_size": 242,
+      "season_count": 1,
+      "statement": "파세이브율이(가) 필드 상위 3%에 해당하는 엘리트 수준입니다.",
+      "tournament_count": null
+    },
+    {
+      "claim_type": "POINT_FACT",
+      "conclusion": "play_style.why_loses[0]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
+      ],
+      "round_count": null,
+      "sample_size": 153,
+      "season_count": 1,
+      "statement": "전체 기량은 최상위권이지만 SG Putting은(는) 평균 수준에 머물러 있습니다.",
+      "tournament_count": null
+    },
+    {
+      "claim_type": "POINT_FACT",
+      "conclusion": "play_style.why_loses[1]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json"
+      ],
+      "round_count": null,
+      "sample_size": 153,
+      "season_count": 1,
+      "statement": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 평균 수준에 머물러 있습니다.",
+      "tournament_count": null
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['2024 셀트리온 퀸즈 마스터즈'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 4,
+      "season_count": null,
+      "statement": "Average SG Total across 4 real recorded appearances at this course series is 1.8425.",
+      "tournament_count": 4
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['KB금융 스타챔피언십'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 0.7033333333333335.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['Sh수협은행 MBN 여자오픈'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 1.8333333333333333.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['두산건설 We’ve 챔피언십'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 2.22.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['제11회 E1 채리티 오픈'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 2.7099999999999995.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['하나금융그룹 챔피언십'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 1.2333333333333332.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['하이원리조트 여자오픈 2023'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 1.1033333333333333.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['BC카드 · 한경 레이디스컵 2023'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 0.6849999999999999.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['OK저축은행 읏맨 오픈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 0.92.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['SK쉴더스 · SK텔레콤 챔피언십 2023'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 0.85.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['넥센 · 세인트나인 마스터즈 2023'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 1.7.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['대보 하우스디 오픈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 1.56.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['더헤븐 마스터즈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 3.215.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['맥콜 · 모나 용평 오픈 with SBS Golf'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 2.065.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['메디힐 · 한국일보 챔피언십'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 2.38.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['제10회 교촌 1991 레이디스 오픈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is -0.9299999999999999.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['크리스에프앤씨 제46회 KLPGA 챔피언십'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 2.27.",
+      "tournament_count": 2
+    }
+  ],
   "course_analysis": {
     "course_series": [
       {
@@ -456,7 +774,7 @@
     ],
     "overall_pct": 80.0
   },
-  "generated_at": "2026-09-23T15:38:40.708903+00:00",
+  "generated_at": "2026-09-23T16:02:21.821047+00:00",
   "hole_analysis": {
     "reason": "The only real per-hole scorecard dataset in this repository is for game_code 2026080001 (제15회 KG 레이디스 오픈, kg_2026080001_official.json, 6318 real rows). This player did not play that edition (her real KG Ladies Open appearances on record are the 2024 and 2025 editions, game_codes 2024080016 and 2025080003, which have no hole-level scorecard data). No hole-by-hole data exists anywhere else in the repository for any player. Reported as UNKNOWN rather than estimated from round-level totals.",
     "status": "UNKNOWN"
@@ -464,6 +782,19 @@
   "knowledge_graph": {
     "facts": [
       {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Each win is an independent point-in-time official result; POINT_FACT claims do not require n>1 per instance to be supported.",
+          "official_records_used": [
+            "empirical_sg_corrected_v2/player_event_series.json",
+            "2026090002_FINAL_TRUTH.json"
+          ],
+          "round_count": null,
+          "sample_size": 4,
+          "season_count": 2,
+          "tournament_count": 4
+        },
         "evidence": [
           "empirical_sg_corrected_v2/player_event_series.json",
           "2026090002_FINAL_TRUTH.json"
@@ -472,6 +803,18 @@
         "statement": "김민선7 has 4 real tournament wins on record."
       },
       {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Current-season official leaderboard snapshot; a single official record fully supports a point-in-time ranking claim.",
+          "official_records_used": [
+            "OFFICIAL_SG_NORMALIZED.json"
+          ],
+          "round_count": null,
+          "sample_size": 1,
+          "season_count": 1,
+          "tournament_count": null
+        },
         "evidence": [
           "OFFICIAL_SG_NORMALIZED.json"
         ],
@@ -479,6 +822,18 @@
         "statement": "김민선7 is officially ranked #5 in SG Total on the current KLPGA official SG leaderboard."
       },
       {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Current-season official leaderboard snapshot; a single official record fully supports a point-in-time ranking claim.",
+          "official_records_used": [
+            "OFFICIAL_PROFILE_NORMALIZED.json"
+          ],
+          "round_count": null,
+          "sample_size": 1,
+          "season_count": 1,
+          "tournament_count": null
+        },
         "evidence": [
           "OFFICIAL_PROFILE_NORMALIZED.json"
         ],
@@ -486,6 +841,19 @@
         "statement": "김민선7 is officially ranked #4 in season money."
       },
       {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Current-season field-relative percentile (sg_app, sg_ott) against the full 242-player official SG leaderboard; a percentile ranking is a point-in-time fact, not a multi-instance pattern.",
+          "official_records_used": [
+            "OFFICIAL_SG_NORMALIZED.json",
+            "OFFICIAL_SG_NORMALIZED.json"
+          ],
+          "round_count": null,
+          "sample_size": 242,
+          "season_count": 1,
+          "tournament_count": null
+        },
         "evidence": [
           "OFFICIAL_SG_NORMALIZED.json",
           "OFFICIAL_SG_NORMALIZED.json"
@@ -494,17 +862,45 @@
         "statement": "SG Approach 상위 3%, SG Off-the-Tee 상위 6% 수준입니다."
       },
       {
+        "audit": {
+          "claim_type": "PATTERN",
+          "confidence": "UNKNOWN",
+          "note": "n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim.",
+          "official_records_used": [
+            "knowledge_engine.find_course_history()",
+            "historical_sg_warehouse_corrected.json",
+            "2026090002_FINAL_TRUTH.json"
+          ],
+          "round_count": 287,
+          "sample_size": 1,
+          "season_count": 4,
+          "tournament_count": 73
+        },
         "evidence": [
           "knowledge_engine.find_course_history()",
           "historical_sg_warehouse_corrected.json",
           "2026090002_FINAL_TRUTH.json"
         ],
         "id": "fact_repeat_course_wins",
-        "statement": "1 of this player's wins on record occurred at a course series she had played before (not a first-time course), per knowledge_engine.find_course_history()'s real match. Attempt numbers listed above; this is a description of what the data on record shows, not a prediction about future events."
+        "statement": "UNKNOWN -- insufficient sample to support a pattern claim. n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim. See wins_on_repeat_courses below for the raw match on record."
       }
     ],
     "insights": [
       {
+        "audit": {
+          "claim_type": "PATTERN",
+          "confidence": "UNKNOWN",
+          "downgrade_reason": "n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim.",
+          "official_records_used": [
+            "empirical_sg_corrected_v2/player_event_series.json",
+            "historical_sg_warehouse_corrected.json",
+            "2026090002_FINAL_TRUTH.json"
+          ],
+          "round_count": 287,
+          "sample_size": 1,
+          "season_count": 4,
+          "tournament_count": 73
+        },
         "citations": [
           {
             "detail": "94 real event rows, real rank field",
@@ -521,9 +917,25 @@
         ],
         "fact": "fact_repeat_course_wins",
         "id": "insight_repeat_course_win_pattern",
-        "insight": "1 of this player's wins on record occurred at a course series she had played before (not a first-time course), per knowledge_engine.find_course_history()'s real match. Attempt numbers listed above; this is a description of what the data on record shows, not a prediction about future events."
+        "insight": "UNKNOWN -- insufficient sample to support a pattern claim. n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim. See wins_on_repeat_courses below for the raw match on record.",
+        "status": "UNKNOWN"
       },
       {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "downgrade_reason": null,
+          "note": "Current-season official percentile (sample_size=242 field), corroborated (not required for support) by a 4-season/73-tournament structural trend in the same metric.",
+          "official_records_used": [
+            "OFFICIAL_SG_NORMALIZED.json",
+            "historical_sg_warehouse_corrected.json",
+            "knowledge_engine/player_intelligence/10097/latest.json"
+          ],
+          "round_count": 287,
+          "sample_size": 242,
+          "season_count": 4,
+          "tournament_count": 73
+        },
         "citations": [
           {
             "detail": "field percentile basis",
@@ -540,7 +952,8 @@
         ],
         "fact": "fact_player_type",
         "id": "insight_elite_approach_and_ott",
-        "insight": "SG Approach 상위 3%, SG Off-the-Tee 상위 6% 수준입니다."
+        "insight": "SG Approach 상위 3%, SG Off-the-Tee 상위 6% 수준입니다.",
+        "status": "CONFIRMED"
       }
     ],
     "relations": [
@@ -562,7 +975,11 @@
     ]
   },
   "pattern_trend_analysis": {
-    "pattern_observation": "1 of this player's wins on record occurred at a course series she had played before (not a first-time course), per knowledge_engine.find_course_history()'s real match. Attempt numbers listed above; this is a description of what the data on record shows, not a prediction about future events.",
+    "pattern_observation": "UNKNOWN -- insufficient sample to support a pattern claim. n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim. See wins_on_repeat_courses below for the raw match on record.",
+    "pattern_observation_confidence": "UNKNOWN",
+    "pattern_observation_downgrade_reason": "n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim.",
+    "pattern_observation_sample_size": 1,
+    "pattern_observation_status": "UNKNOWN",
     "recent_form_trend": {
       "current": {
         "components": {
