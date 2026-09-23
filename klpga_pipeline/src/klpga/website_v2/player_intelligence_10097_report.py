@@ -77,6 +77,32 @@ def _protocol_html(protocol: dict) -> str:
 
 
 def _question_card(q: dict) -> str:
+    """Gold Standard UI (F1 race-engineer briefing): Conclusion -> Why? ->
+    Evidence (collapsed) -> Monitoring, in that order. The conclusion
+    renders large and always visible; a one-line "why" follows it, still
+    visible. Everything else -- fact, evidence, the full analysis,
+    player/coach checkpoints, durability reasoning, the audit chips, the
+    action text and the full monitoring protocol (this is where the real
+    data-source file/field/function citations live) is collapsed inside a
+    single '분석 근거' <details>, closed by default. A compact monitoring
+    readout (status/reading/next check -- no file or field names) renders
+    last, always visible, at medium visual weight.
+
+    No wording is changed here and no field is dropped: every value
+    from the frozen report JSON still renders somewhere on the page,
+    exactly as generated. Only visibility and order change.
+    """
+    protocol = q["monitoring_protocol"]
+    status_chip_class = _STATUS_CHIP_CLASS.get(protocol["current_status"], "label-chip")
+    status_label = terms.STATUS_LABEL.get(protocol["current_status"], protocol["current_status"])
+    monitoring_summary = (
+        '<div class="piq-current-status piq-monitoring-summary">'
+        f'<span class="label-chip {status_chip_class}">{terms.CURRENT_STATUS_LABEL}: {escape(status_label)}</span>'
+        f'<span class="label-chip">{terms.CURRENT_READING_LABEL}: {protocol["current_reading"]:+.2f} SG</span>'
+        f'<span class="label-chip">{terms.NEXT_REVIEW_LABEL}: {escape(protocol["next_review"])}</span>'
+        "</div>"
+    )
+
     evidence_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"])
     chip_class = _CONFIDENCE_CHIP_CLASS.get(q["confidence"], "label-chip")
     confidence_label = terms.CONFIDENCE_LABEL.get(q["confidence"], q["confidence"])
@@ -89,12 +115,11 @@ def _question_card(q: dict) -> str:
         f'<span class="label-chip">{escape(durability_label)}</span>'
         "</div>"
     )
-    body = (
+    evidence_body = (
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["fact"]}</span>{escape(q["fact"])}</p>'
         f'<p class="piq-step-label piq-label-standalone">{terms.SECTION_LABEL["evidence"]}</p>'
         f'<ul class="piq-evidence-list">{evidence_items}</ul>'
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["analysis"]}</span>{escape(q["analysis"])}</p>'
-        f'<p class="piq-step piq-conclusion"><span class="piq-label">{terms.SECTION_LABEL["conclusion"]}</span>{escape(q["conclusion"])}</p>'
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["why_it_matters"]}</span>{escape(q["why_it_matters"])}</p>'
         f'<div class="piq-brief">'
         f'<p><strong>{terms.SECTION_LABEL["player_takeaway"]}.</strong> {escape(q["player_takeaway"])}</p>'
@@ -102,10 +127,22 @@ def _question_card(q: dict) -> str:
         f'<p><strong>{terms.SECTION_LABEL["durability"]}.</strong> {escape(q["durability_reasoning"])}</p>'
         "</div>"
         f"{audit}"
-        f'<p class="piq-why-this-matters"><span class="piq-label">{terms.SECTION_LABEL["why_this_matters"]}</span>{escape(q["why_this_matters"])}</p>'
         f'<p class="piq-action"><span class="piq-label">{terms.SECTION_LABEL["action"]}</span>{escape(q["action"])}</p>'
         f'<p class="piq-step-label piq-label-standalone">{terms.SECTION_LABEL["monitoring_protocol"]}</p>'
-        f'{_protocol_html(q["monitoring_protocol"])}'
+        f"{_protocol_html(protocol)}"
+    )
+    evidence_toggle = (
+        '<details class="piq-evidence-toggle">'
+        f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>"
+        f'<div class="piq-evidence-toggle__body">{evidence_body}</div>'
+        "</details>"
+    )
+
+    body = (
+        f'<p class="piq-hero-conclusion">{escape(q["conclusion"])}</p>'
+        f'<p class="piq-why-brief"><span class="piq-label">{terms.SECTION_LABEL["why_this_matters"]}</span>{escape(q["why_this_matters"])}</p>'
+        f"{evidence_toggle}"
+        f"{monitoring_summary}"
     )
     return (
         f'<details class="evidence-detail pi-section" id="{escape(q["id"])}" open>'
