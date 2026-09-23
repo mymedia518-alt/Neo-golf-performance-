@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:11.604699+00:00",
+    "generated_at": "2026-09-23T13:07:19.153353+00:00",
     "input_signature": "5232e05646471b3371692e62c224f4b70e92ea880d444b44640eecd718e7d125",
     "tournament_game_code": null
   },
@@ -35,7 +35,7 @@
     "sample_count": 1
   },
   "neo_verdict": {
-    "summary": "깐 반나부디(I)은(는) 안정적인 파세이버(Stable Par-Saver) 유형입니다. 파세이브율 필드 상위 8%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "깐 반나부디(I)은(는) 안정적인 파 세이버(Stable Par-Saver) 유형입니다. 파세이브율이(가) 필드 상위 8%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -72,7 +72,7 @@
     "evidence_text": "파세이브율 상위 8% 수준으로 변동성이 낮습니다.",
     "key": "stable_par_saver",
     "label_en": "Stable Par-Saver",
-    "label_ko": "안정적인 파세이버"
+    "label_ko": "안정적인 파 세이버"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -107,7 +107,7 @@
           "value": 92.0
         }
       ],
-      "text": "파세이브율 필드 상위 8%에 해당하는 엘리트 수준입니다."
+      "text": "파세이브율이(가) 필드 상위 8%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

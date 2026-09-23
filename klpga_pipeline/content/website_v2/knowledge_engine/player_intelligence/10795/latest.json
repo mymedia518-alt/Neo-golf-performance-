@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:22.391888+00:00",
+    "generated_at": "2026-09-23T13:10:24.554249+00:00",
     "input_signature": "70b3b3f69ff0a95aa3f670c6a98eb9d25d6a898a8a69e8c96be66f0e190ea2ed",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "조이안은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 1% 수준의 기록을 유지하고 있습니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.89에서 2026시즌 -0.32로 상승 추세입니다."
+    "summary": "조이안은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 1% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -124,7 +124,7 @@
           "value": 22.727272727272727
         }
       ],
-      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 23%)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

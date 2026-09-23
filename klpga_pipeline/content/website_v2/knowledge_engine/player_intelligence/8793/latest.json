@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:59.306916+00:00",
+    "generated_at": "2026-09-23T13:10:02.421399+00:00",
     "input_signature": "3a1d22de24364ce9fc563c50e1b92a0db72972c6b540a7edb8ff313ca3fa40e2",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 7
   },
   "neo_verdict": {
-    "summary": "전효민은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 4% 수준의 기록을 유지하고 있습니다. 최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(9퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.70에서 2026시즌 -0.38로 상승 추세입니다."
+    "summary": "전효민은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 4% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -157,7 +157,7 @@
           "value": 8.677685950413224
         }
       ],
-      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(9퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 9%)로 구조적 약점입니다."
     },
     {
       "citations": [

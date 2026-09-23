@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:29.162502+00:00",
+    "generated_at": "2026-09-23T13:10:33.216496+00:00",
     "input_signature": "f91404ec34713545bed35a91fbe02b9e1d2cbcbbbc20c0f02a1145de4326d326",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 73
   },
   "neo_verdict": {
-    "summary": "최가빈은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.14로 악화되었습니다. 2023시즌 SG Total +0.24에서 2026시즌 +0.84로 상승 추세입니다."
+    "summary": "최가빈은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.14로 악화되었습니다."
   },
   "player_dna": {
     "axes": [

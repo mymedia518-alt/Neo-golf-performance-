@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:53.718546+00:00",
+    "generated_at": "2026-09-23T13:09:59.998163+00:00",
     "input_signature": "a0ceaf2e1c0c64977f6035d0fe4a00db311c792ed04bb543a1038fbc3be01739",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 13
   },
   "neo_verdict": {
-    "summary": "전승희은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 21% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.32로 악화되었습니다. 2025시즌 SG Total -0.24에서 2026시즌 +0.78로 상승 추세입니다."
+    "summary": "전승희은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 21% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

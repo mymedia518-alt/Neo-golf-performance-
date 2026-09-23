@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:37.062681+00:00",
+    "generated_at": "2026-09-23T13:06:51.053117+00:00",
     "input_signature": "a032ff518b66b11c03f8dee947969a23f18cc1abaad80e8b8560c76968371bc1",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "김서아 1201(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.42로 반전에 성공했습니다. 2025시즌 SG Total +0.38에서 2026시즌 +2.22로 상승 추세입니다."
+    "summary": "김서아 1201(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.42로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

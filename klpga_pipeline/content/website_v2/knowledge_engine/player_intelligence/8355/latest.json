@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:52.517391+00:00",
+    "generated_at": "2026-09-23T13:10:01.139622+00:00",
     "input_signature": "9d638ba07313a11723e48b380182ac29f34be4d8d4849c814371a53bfc0ae84f",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 45
   },
   "neo_verdict": {
-    "summary": "장수연은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.09로 악화되었습니다. 2023시즌 SG Total -0.05에서 2026시즌 -0.19로 하락 추세입니다."
+    "summary": "장수연은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.09로 악화되었습니다."
   },
   "player_dna": {
     "axes": [

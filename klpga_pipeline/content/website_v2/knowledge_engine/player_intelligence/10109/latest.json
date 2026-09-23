@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:18.927779+00:00",
+    "generated_at": "2026-09-23T13:06:33.204914+00:00",
     "input_signature": "9dc1c2d57dcbebcdf5c6b33ca641eb7ffd5cb1633a2498a027eec932300a771f",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 54
   },
   "neo_verdict": {
-    "summary": "고지원은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 13% 수준의 기록을 유지하고 있습니다. 2023시즌 SG Total +0.30에서 2026시즌 +1.95로 상승 추세입니다."
+    "summary": "고지원은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 13% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Approach 상위 17%, SG Off-the-Tee 상위 13% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {

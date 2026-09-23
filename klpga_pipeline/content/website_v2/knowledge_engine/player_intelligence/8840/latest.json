@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:00.496855+00:00",
+    "generated_at": "2026-09-23T13:10:10.646776+00:00",
     "input_signature": "7cf55cf703afcb02d15330e8fa4009282ae4a1401e4195f230401cd2fc3518be",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 15
   },
   "neo_verdict": {
-    "summary": "정수빈은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 5% 수준의 기록을 유지하고 있습니다. 2024시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.19로 악화되었습니다. 2024시즌 SG Total +0.10에서 2026시즌 +0.52로 상승 추세입니다."
+    "summary": "정수빈은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 5% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

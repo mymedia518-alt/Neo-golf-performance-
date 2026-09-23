@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:09.812081+00:00",
+    "generated_at": "2026-09-23T13:09:18.868573+00:00",
     "input_signature": "65813093f95a411bfa4e59898c02495e1718835238e21d3e367cd3ac44178a04",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 16
   },
   "neo_verdict": {
-    "summary": "윤화영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(29퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total -0.48에서 2026시즌 -0.24로 상승 추세입니다."
+    "summary": "윤화영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 29%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -153,7 +153,7 @@
           "value": 28.512396694214875
         }
       ],
-      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(29퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 29%)로 구조적 약점입니다."
     }
   ],
   "why_wins": []

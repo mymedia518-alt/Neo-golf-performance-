@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:06.084963+00:00",
+    "generated_at": "2026-09-23T13:10:09.624271+00:00",
     "input_signature": "ba04be9883f84530ba2707878eca3acef47e80bbf90ea647a986c81f88f0eb49",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 24
   },
   "neo_verdict": {
-    "summary": "정슬기은(는) 버디 헌터(Birdie Hunter) 유형입니다. 최근 5개 대회 SG Total(+0.85)이 장기 평균(+0.38) 대비 뚜렷한 상승세를 보이고 있습니다. 전체 기량은 최상위권이지만 SG Approach은(는) 필드 평균 수준(57퍼센타일)에 머물러 있습니다. 2023시즌 SG Total +0.43에서 2026시즌 +2.98로 상승 추세입니다."
+    "summary": "정슬기은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 5개 대회 SG Total(+0.85)이 장기 평균(+0.38) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Putting 상위 4%, 버디율 상위 8% 수준입니다.",
     "key": "birdie_hunter",
     "label_en": "Birdie Hunter",
-    "label_ko": "버디 헌터"
+    "label_ko": "공격적인 버디 메이커"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -181,7 +181,7 @@
           "value": 57.02479338842975
         }
       ],
-      "text": "전체 기량은 최상위권이지만 SG Approach은(는) 필드 평균 수준(57퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 SG Approach은(는) 평균 수준에 머물러 있습니다."
     }
   ],
   "why_wins": [

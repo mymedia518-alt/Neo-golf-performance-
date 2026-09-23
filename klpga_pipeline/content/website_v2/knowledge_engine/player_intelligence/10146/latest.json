@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:02.446210+00:00",
+    "generated_at": "2026-09-23T13:09:11.345161+00:00",
     "input_signature": "1b0c502cdd2d8b91685ae4795db54cd37cd45bbc3dee88dafe1c69ab14676240",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 63
   },
   "neo_verdict": {
-    "summary": "유현조은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 2% 수준의 기록을 유지하고 있습니다. 전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(46퍼센타일)에 머물러 있습니다. 2024시즌 SG Total +1.55에서 2026시즌 +2.43로 상승 추세입니다."
+    "summary": "유현조은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 2% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -115,7 +115,7 @@
     "evidence_text": "SG Approach 상위 2%, SG Off-the-Tee 상위 17% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -169,7 +169,7 @@
           "value": 46.0
         }
       ],
-      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(46퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 평균 수준에 머물러 있습니다."
     }
   ],
   "why_wins": [
@@ -191,7 +191,7 @@
           "value": 98.0
         }
       ],
-      "text": "파세이브율 필드 상위 2%에 해당하는 엘리트 수준입니다."
+      "text": "파세이브율이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
     },
     {
       "citations": [
@@ -201,7 +201,7 @@
           "value": 97.93388429752066
         }
       ],
-      "text": "SG Total 필드 상위 2%에 해당하는 엘리트 수준입니다."
+      "text": "SG Total이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

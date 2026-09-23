@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:10.684756+00:00",
+    "generated_at": "2026-09-23T13:06:24.719689+00:00",
     "input_signature": "fa0c92edd4d84bbcb873a01fb4f7801bdded940eedf93b3fc639d1fdba7f6efc",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 1
   },
   "neo_verdict": {
-    "summary": "강수은은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. SG Around-the-Green 필드 상위 2%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "강수은은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. SG Around-the-Green이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -69,7 +69,7 @@
     "evidence_text": "SG Approach 상위 16%, SG Off-the-Tee 상위 12% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -125,7 +125,7 @@
           "value": 97.93388429752066
         }
       ],
-      "text": "SG Around-the-Green 필드 상위 2%에 해당하는 엘리트 수준입니다."
+      "text": "SG Around-the-Green이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

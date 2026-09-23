@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:22.766529+00:00",
+    "generated_at": "2026-09-23T13:06:34.026998+00:00",
     "input_signature": "fe1053218e8deaac2948ebeda7414e1665c0feb550f321156ea9f6db3f4ecad8",
     "tournament_game_code": null
   },
@@ -35,7 +35,7 @@
     "sample_count": 12
   },
   "neo_verdict": {
-    "summary": "김가희2은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee 필드 상위 8%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "김가희2은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee이(가) 필드 상위 8%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -116,7 +116,7 @@
           "value": 91.73553719008264
         }
       ],
-      "text": "SG Off-the-Tee 필드 상위 8%에 해당하는 엘리트 수준입니다."
+      "text": "SG Off-the-Tee이(가) 필드 상위 8%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

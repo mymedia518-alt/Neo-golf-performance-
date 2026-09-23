@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:23.843558+00:00",
+    "generated_at": "2026-09-23T13:08:33.079702+00:00",
     "input_signature": "62485b8fcaa1f67af195a038810aa62f8e07dbb59e1843a6a56a7415a13619d8",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "신지애은(는) 회복력 특화형(Recovery Specialist) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 0% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Putting이(가) 필드 평균 이하(30퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total +1.02에서 2026시즌 +2.34로 상승 추세입니다."
+    "summary": "신지애은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 0% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -115,7 +115,7 @@
     "evidence_text": "SG Around-the-Green 상위 2%, 리커버리율 상위 2% 수준입니다.",
     "key": "recovery_specialist",
     "label_en": "Recovery Specialist",
-    "label_ko": "회복력 특화형"
+    "label_ko": "위기 관리형 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -170,7 +170,7 @@
           "value": 29.75206611570248
         }
       ],
-      "text": "최근 3시즌 연속 SG Putting이(가) 필드 평균 이하(30퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Putting이(가) 필드 평균 이하(하위 30%)로 구조적 약점입니다."
     },
     {
       "citations": [
@@ -180,7 +180,7 @@
           "value": 58.0
         }
       ],
-      "text": "전체 기량은 최상위권이지만 그린 적중률은(는) 필드 평균 수준(58퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 그린 적중률은(는) 평균 수준에 머물러 있습니다."
     },
     {
       "citations": [
@@ -190,7 +190,7 @@
           "value": 47.333333333333336
         }
       ],
-      "text": "전체 기량은 최상위권이지만 파세이브율은(는) 필드 평균 수준(47퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 파세이브율은(는) 평균 수준에 머물러 있습니다."
     }
   ],
   "why_wins": [
@@ -222,7 +222,7 @@
           "value": 98.7603305785124
         }
       ],
-      "text": "SG Total 필드 상위 1%에 해당하는 엘리트 수준입니다."
+      "text": "SG Total이(가) 필드 상위 1%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

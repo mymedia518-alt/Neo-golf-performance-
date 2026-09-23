@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:48.844021+00:00",
+    "generated_at": "2026-09-23T13:10:54.100163+00:00",
     "input_signature": "f737d658d4d29003deb66fec448cd328141cf005b97bf67cfcd1f78697f4101e",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "하다인은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee 필드 상위 9%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "하다인은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee이(가) 필드 상위 9%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -104,7 +104,7 @@
           "value": 90.9090909090909
         }
       ],
-      "text": "SG Off-the-Tee 필드 상위 9%에 해당하는 엘리트 수준입니다."
+      "text": "SG Off-the-Tee이(가) 필드 상위 9%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

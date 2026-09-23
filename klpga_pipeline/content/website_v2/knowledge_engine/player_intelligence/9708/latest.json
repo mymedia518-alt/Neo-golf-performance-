@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:29.690102+00:00",
+    "generated_at": "2026-09-23T13:09:36.009976+00:00",
     "input_signature": "49a1ccd6c53abe96872e16b9035b3f01932cc10c159fb22cea97f0d6209161bd",
     "tournament_game_code": null
   },
@@ -61,7 +61,7 @@
     "sample_count": 29
   },
   "neo_verdict": {
-    "summary": "이재윤은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 20% 수준의 기록을 유지하고 있습니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(25퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total +0.89에서 2026시즌 +0.64로 하락 추세입니다."
+    "summary": "이재윤은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 20% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -132,7 +132,7 @@
           "value": 24.793388429752067
         }
       ],
-      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(25퍼센타일)로 구조적 약점입니다."
+      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(하위 25%)로 구조적 약점입니다."
     },
     {
       "citations": [

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:58.851752+00:00",
+    "generated_at": "2026-09-23T13:10:03.149324+00:00",
     "input_signature": "b1348883825dee93a8358cbf562b73052cb6602d9b77131e6b1e839782c444ac",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "정민서은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "정민서은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
   },
   "player_dna": {
     "axes": [
@@ -69,7 +69,7 @@
     "evidence_text": "SG Approach 상위 20%, SG Off-the-Tee 상위 16% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {

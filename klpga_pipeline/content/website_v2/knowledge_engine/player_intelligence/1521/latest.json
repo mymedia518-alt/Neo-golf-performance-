@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:22.430795+00:00",
+    "generated_at": "2026-09-23T13:10:31.292470+00:00",
     "input_signature": "b2336fe95a906a88ef84e7413bd2929382a9bd5494d6c7d8fe5193833cb06e26",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 69
   },
   "neo_verdict": {
-    "summary": "지한솔은(는) 회복력 특화형(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 13% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.01로 악화되었습니다. 2023시즌 SG Total +1.06에서 2026시즌 +1.15로 상승 추세입니다."
+    "summary": "지한솔은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 13% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,7 +127,7 @@
     "evidence_text": "SG Around-the-Green 상위 13%, 리커버리율 상위 24% 수준입니다.",
     "key": "recovery_specialist",
     "label_en": "Recovery Specialist",
-    "label_ko": "회복력 특화형"
+    "label_ko": "위기 관리형 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {

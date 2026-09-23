@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:16:45.498320+00:00",
+    "generated_at": "2026-09-23T13:10:50.049027+00:00",
     "input_signature": "b338495fb149d19da921f4df5a97f495ce2c7664c4b32167fe1d401a5e25b070",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "파킨 카윈파콘은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green 필드 상위 5%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "파킨 카윈파콘은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green이(가) 필드 상위 5%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -99,7 +99,7 @@
           "value": 94.62809917355372
         }
       ],
-      "text": "SG Around-the-Green 필드 상위 5%에 해당하는 엘리트 수준입니다."
+      "text": "SG Around-the-Green이(가) 필드 상위 5%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

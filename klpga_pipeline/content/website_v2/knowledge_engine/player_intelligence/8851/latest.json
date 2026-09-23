@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:20.044452+00:00",
+    "generated_at": "2026-09-23T13:09:25.661213+00:00",
     "input_signature": "6d99f250e196fd85969f22fb575a80d5582b1220a16b0317c66c6d16317145ef",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 11
   },
   "neo_verdict": {
-    "summary": "이선영2은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.19로 악화되었습니다. 2023시즌 SG Total +0.40에서 2024시즌 -0.41로 하락 추세입니다."
+    "summary": "이선영2은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.19로 악화되었습니다."
   },
   "player_dna": {
     "axes": []

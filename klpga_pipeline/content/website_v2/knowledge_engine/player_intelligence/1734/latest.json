@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:03.092699+00:00",
+    "generated_at": "2026-09-23T13:06:13.612287+00:00",
     "input_signature": "f8d67576e116fa48a25d8ab8d4f035a06854e7861adc082fb6f5194b69121826",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 2
   },
   "neo_verdict": {
-    "summary": "이민지은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +1.07로 반전에 성공했습니다. 2024시즌 강점이던 SG Putting이(가) 2025시즌 -0.57로 악화되었습니다. 2024시즌 SG Total +3.47에서 2025시즌 +4.42로 상승 추세입니다."
+    "summary": "이민지은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +1.07로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:22.077886+00:00",
+    "generated_at": "2026-09-23T13:06:38.850452+00:00",
     "input_signature": "f317ac1dfbd7c6ecfbc3d0bd0d21f12a4c6cbeb2c1cc299a89f3614aaff5ebbd",
     "tournament_game_code": null
   },
@@ -65,7 +65,7 @@
     "sample_count": 21
   },
   "neo_verdict": {
-    "summary": "권서연은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +0.14로 반전에 성공했습니다. 2024시즌 강점이던 SG Off-the-Tee이(가) 2025시즌 -1.02로 악화되었습니다. 2023시즌 SG Total +0.73에서 2025시즌 -0.59로 하락 추세입니다."
+    "summary": "권서연은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +0.14로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

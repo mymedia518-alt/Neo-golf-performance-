@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:49.982006+00:00",
+    "generated_at": "2026-09-23T13:08:56.053630+00:00",
     "input_signature": "e09c420a905eacd11b8d2ddad31405b4b28a15f04ca3da22c6c5d22bfafce774",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "오수빈(I)은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green 필드 상위 7%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "오수빈(I)은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green이(가) 필드 상위 7%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -114,7 +114,7 @@
           "value": 93.38842975206612
         }
       ],
-      "text": "SG Around-the-Green 필드 상위 7%에 해당하는 엘리트 수준입니다."
+      "text": "SG Around-the-Green이(가) 필드 상위 7%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

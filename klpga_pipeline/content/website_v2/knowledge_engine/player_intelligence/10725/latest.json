@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:12:36.612933+00:00",
+    "generated_at": "2026-09-23T13:06:43.714115+00:00",
     "input_signature": "d9b1cdad28b3082f5508d8cace7da58effe5771866dd82b9b068971cb64aa373",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 29
   },
   "neo_verdict": {
-    "summary": "김민솔은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee에서 상위 2% 수준의 기록을 유지하고 있습니다. 전체 기량은 최상위권이지만 리커버리율은(는) 필드 평균 수준(56퍼센타일)에 머물러 있습니다. 2024시즌 SG Total +0.50에서 2026시즌 +2.24로 상승 추세입니다."
+    "summary": "김민솔은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee에서 상위 2% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -115,7 +115,7 @@
     "evidence_text": "SG Approach 상위 11%, SG Off-the-Tee 상위 2% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -169,7 +169,7 @@
           "value": 56.0
         }
       ],
-      "text": "전체 기량은 최상위권이지만 리커버리율은(는) 필드 평균 수준(56퍼센타일)에 머물러 있습니다."
+      "text": "전체 기량은 최상위권이지만 리커버리율은(는) 평균 수준에 머물러 있습니다."
     }
   ],
   "why_wins": [
@@ -201,7 +201,7 @@
           "value": 98.66666666666667
         }
       ],
-      "text": "버디율 필드 상위 1%에 해당하는 엘리트 수준입니다."
+      "text": "버디율이(가) 필드 상위 1%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

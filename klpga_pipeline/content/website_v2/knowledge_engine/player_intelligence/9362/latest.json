@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:49.013242+00:00",
+    "generated_at": "2026-09-23T13:08:00.712800+00:00",
     "input_signature": "d5e9d7ba63fcccfb034910645f841205ae663561f741934751431302594363d3",
     "tournament_game_code": null
   },
@@ -65,7 +65,7 @@
     "sample_count": 58
   },
   "neo_verdict": {
-    "summary": "박지영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 2% 수준의 기록을 유지하고 있습니다. 2023시즌 SG Total +2.55에서 2025시즌 +1.74로 하락 추세입니다."
+    "summary": "박지영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 2% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [

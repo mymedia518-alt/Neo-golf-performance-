@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:14.780190+00:00",
+    "generated_at": "2026-09-23T13:07:25.970438+00:00",
     "input_signature": "cfd36ed29ab30b518ad3f3cf4dd91a38c060f31dbc97bb39ccfe47d12b2e57a3",
     "tournament_game_code": null
   },
@@ -35,7 +35,7 @@
     "sample_count": 1
   },
   "neo_verdict": {
-    "summary": "나타크리타 웡타위랍은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 리커버리율 필드 상위 4%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "나타크리타 웡타위랍은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 리커버리율이(가) 필드 상위 4%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -77,7 +77,7 @@
     "evidence_text": "SG Approach 상위 4%, SG Off-the-Tee 상위 14% 수준입니다.",
     "key": "precision_ball_striker",
     "label_en": "Precision Ball-Striker",
-    "label_ko": "정교한 볼스트라이커"
+    "label_ko": "정교한 아이언 플레이어"
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
@@ -132,7 +132,7 @@
           "value": 96.0
         }
       ],
-      "text": "리커버리율 필드 상위 4%에 해당하는 엘리트 수준입니다."
+      "text": "리커버리율이(가) 필드 상위 4%에 해당하는 엘리트 수준입니다."
     },
     {
       "citations": [
@@ -142,7 +142,7 @@
           "value": 95.86776859504133
         }
       ],
-      "text": "SG Total 필드 상위 4%에 해당하는 엘리트 수준입니다."
+      "text": "SG Total이(가) 필드 상위 4%에 해당하는 엘리트 수준입니다."
     },
     {
       "citations": [
@@ -152,7 +152,7 @@
           "value": 95.86776859504133
         }
       ],
-      "text": "SG Approach 필드 상위 4%에 해당하는 엘리트 수준입니다."
+      "text": "SG Approach이(가) 필드 상위 4%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

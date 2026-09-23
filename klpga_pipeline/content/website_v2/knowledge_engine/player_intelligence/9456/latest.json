@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:09.718733+00:00",
+    "generated_at": "2026-09-23T13:09:21.301879+00:00",
     "input_signature": "235168410fdf24c0c2d34b9cac9fbc5e782913add8bbba6b23e3ec4076a93939",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "윤지혜은(는) 균형형(Balanced) 유형입니다. SG Approach 필드 상위 1%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "윤지혜은(는) 균형형(Balanced) 유형입니다. SG Approach이(가) 필드 상위 1%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -99,7 +99,7 @@
           "value": 99.17355371900827
         }
       ],
-      "text": "SG Approach 필드 상위 1%에 해당하는 엘리트 수준입니다."
+      "text": "SG Approach이(가) 필드 상위 1%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

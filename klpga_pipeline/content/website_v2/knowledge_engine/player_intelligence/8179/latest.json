@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:41.570100+00:00",
+    "generated_at": "2026-09-23T13:07:52.257069+00:00",
     "input_signature": "4387f474ed0f9bbd8b26361b78df4d3264b9817d839e2cf9486c6ef06c1869dc",
     "tournament_game_code": null
   },
@@ -65,7 +65,7 @@
     "sample_count": 6
   },
   "neo_verdict": {
-    "summary": "박성현은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.58로 반전에 성공했습니다. 최근 3시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +1.33에서 2026시즌 +1.02로 하락 추세입니다."
+    "summary": "박성현은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.58로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -130,7 +130,7 @@
           "value": 42.14876033057851
         }
       ],
-      "text": "최근 3시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(평균 수준)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:13:27.346952+00:00",
+    "generated_at": "2026-09-23T13:07:36.177581+00:00",
     "input_signature": "63a61e0c3cdf3fc14073c5da3208911b823ec3e0658b4832604875666a22e39a",
     "tournament_game_code": null
   },
@@ -73,7 +73,7 @@
     "sample_count": 24
   },
   "neo_verdict": {
-    "summary": "마서영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 12% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -1.67에서 2026시즌 +0.96로 상승 추세입니다."
+    "summary": "마서영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 12% 수준의 기록을 유지하고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -148,7 +148,7 @@
           "value": 42.14876033057851
         }
       ],
-      "text": "최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다."
+      "text": "최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(평균 수준)로 구조적 약점입니다."
     }
   ],
   "why_wins": [

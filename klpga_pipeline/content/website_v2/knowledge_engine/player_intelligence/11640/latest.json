@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:14:09.986251+00:00",
+    "generated_at": "2026-09-23T13:08:17.151477+00:00",
     "input_signature": "a02a1282ee4dbf068feea357dc566135c1aa5b5411cceceb6f4d99e820738fa5",
     "tournament_game_code": null
   },
@@ -27,7 +27,7 @@
     "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "성아진은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 2%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "성아진은(는) 균형형(Balanced) 유형입니다. SG Putting이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
   },
   "player_dna": {
     "axes": [
@@ -109,7 +109,7 @@
           "value": 97.52066115702479
         }
       ],
-      "text": "SG Putting 필드 상위 2%에 해당하는 엘리트 수준입니다."
+      "text": "SG Putting이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:45.851495+00:00",
+    "generated_at": "2026-09-23T13:09:48.223366+00:00",
     "input_signature": "302a15a07b96afd4002bbd1f92f1cfffc2499db075b4f8b09fd783a356934ef7",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 3
   },
   "neo_verdict": {
-    "summary": "이효송은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Putting이(가) 2025시즌 +1.13로 반전에 성공했습니다. 2024시즌 SG Total -1.03에서 2025시즌 -0.65로 상승 추세입니다."
+    "summary": "이효송은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Putting이(가) 2025시즌 +1.13로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:09.839358+00:00",
+    "generated_at": "2026-09-23T13:09:18.931926+00:00",
     "input_signature": "98430578d6e9910671f9b61a06f0fbaf65330d87f4faf9c3a312cc7fc6350751",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 80
   },
   "neo_verdict": {
-    "summary": "이가영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.41로 반전에 성공했습니다. 2023시즌 SG Total +1.58에서 2026시즌 +1.18로 하락 추세입니다."
+    "summary": "이가영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.41로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:17:04.297507+00:00",
+    "generated_at": "2026-09-23T13:11:09.319204+00:00",
     "input_signature": "fe9dbc48c6b12be34e5d8b01924ffd4aec10f0f30b76759b33ab82c392dedd68",
     "tournament_game_code": null
   },
@@ -53,7 +53,7 @@
     "sample_count": 15
   },
   "neo_verdict": {
-    "summary": "황예나은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.76)이 장기 평균(+0.32) 대비 뚜렷한 상승세를 보이고 있습니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.06로 악화되었습니다. 2023시즌 SG Total +0.03에서 2024시즌 +1.11로 상승 추세입니다."
+    "summary": "황예나은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.76)이 장기 평균(+0.32) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": []

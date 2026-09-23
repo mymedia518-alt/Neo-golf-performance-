@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T12:15:23.683634+00:00",
+    "generated_at": "2026-09-23T13:09:29.860803+00:00",
     "input_signature": "17a3e453b5035470d91f53165252f48e53ecfe5150fb22a47c4bbe1258b4f47a",
     "tournament_game_code": null
   },
@@ -85,7 +85,7 @@
     "sample_count": 57
   },
   "neo_verdict": {
-    "summary": "이세희은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.06로 반전에 성공했습니다. 2023시즌 SG Total +0.57에서 2026시즌 +0.83로 상승 추세입니다."
+    "summary": "이세희은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.06로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
