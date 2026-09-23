@@ -112,6 +112,20 @@ def _pctl(evidence, key: str) -> Optional[float]:
     return evidence.field_percentiles.get(key)
 
 
+def pctl_phrase(pctl: float) -> str:
+    """Percentile as plain Korean an ordinary golfer reads in one glance
+    -- never the word "퍼센타일" or a raw percentile number. Uses the
+    same AVERAGE_BAND already defined above, so "평균 수준" means
+    exactly what AVERAGE_BAND already means everywhere else in this
+    file, not a second, newly-invented threshold."""
+    lo, hi = AVERAGE_BAND
+    if lo <= pctl <= hi:
+        return "평균 수준"
+    if pctl > hi:
+        return f"상위 {100 - pctl:.0f}%"
+    return f"하위 {pctl:.0f}%"
+
+
 def _season_component_avgs(evidence):
     """season -> {component: avg} for the seasons on record, chronological."""
     out = []
@@ -166,28 +180,28 @@ def _rule_balanced_unclassified(evidence) -> bool:
 PLAYER_TYPE_RULES = (
     PlayerTypeRule(
         key="precision_ball_striker",
-        label_ko="정교한 볼스트라이커",
+        label_ko="정교한 아이언 플레이어",
         label_en="Precision Ball-Striker",
         test=_rule_precision_ball_striker,
         priority=100,
     ),
     PlayerTypeRule(
         key="recovery_specialist",
-        label_ko="회복력 특화형",
+        label_ko="위기 관리형 플레이어",
         label_en="Recovery Specialist",
         test=_rule_recovery_specialist,
         priority=100,
     ),
     PlayerTypeRule(
         key="birdie_hunter",
-        label_ko="버디 헌터",
+        label_ko="공격적인 버디 메이커",
         label_en="Birdie Hunter",
         test=_rule_birdie_hunter,
         priority=100,
     ),
     PlayerTypeRule(
         key="stable_par_saver",
-        label_ko="안정적인 파세이버",
+        label_ko="안정적인 파 세이버",
         label_en="Stable Par-Saver",
         test=_rule_stable_par_saver,
         priority=100,
@@ -239,7 +253,7 @@ def _win_structural_strength(evidence):
     comp, pctl = best
     label = SG_COMPONENT_LABELS[comp]
     n = len(evidence.season_profiles)
-    text = f"최근 {n}시즌 연속 {label}에서 상위 {100 - pctl:.0f}% 수준의 기록을 유지하고 있습니다."
+    text = f"최근 {n}시즌 연속 {label}에서 {pctl_phrase(pctl)} 수준의 기록을 유지하고 있습니다."
     citation = Citation(source="historical_sg_warehouse_corrected.json", field_path=f"seasons[].{comp}", value=pctl)
     field_key_by_component = {"avg_ott": "sg_ott", "avg_app": "sg_app", "avg_arg": "sg_arg", "avg_putt": "sg_putt"}
     return [RuleResult(key=f"metric_{field_key_by_component[comp]}", text=text, citations=(citation,), priority=100)]
@@ -286,7 +300,7 @@ def _win_elite_field_metric(evidence):
         pctl = _pctl(evidence, key)
         if pctl is None or pctl < ELITE_PERCENTILE:
             continue
-        text = f"{label} 필드 상위 {100 - pctl:.0f}%에 해당하는 엘리트 수준입니다."
+        text = f"{label}이(가) 필드 {pctl_phrase(pctl)}에 해당하는 엘리트 수준입니다."
         citation = Citation(source="OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json", field_path=key, value=pctl)
         priority = 30 + (pctl - ELITE_PERCENTILE) / 10
         results.append(RuleResult(key=f"metric_{key}", text=text, citations=(citation,), priority=priority))
@@ -348,7 +362,7 @@ def _lose_structural_weakness(evidence):
     comp, pctl = worst
     label = SG_COMPONENT_LABELS[comp]
     n = len(seasons)
-    text = f"최근 {n}시즌 연속 {label}이(가) 필드 평균 이하({pctl:.0f}퍼센타일)로 구조적 약점입니다."
+    text = f"최근 {n}시즌 연속 {label}이(가) 필드 평균 이하({pctl_phrase(pctl)})로 구조적 약점입니다."
     citation = Citation(source="historical_sg_warehouse_corrected.json", field_path=f"seasons[].{comp}", value=pctl)
     return [RuleResult(key=f"metric_{field_key_by_component[comp]}", text=text, citations=(citation,), priority=100)]
 
@@ -381,7 +395,7 @@ def _lose_conversion_gap(evidence):
         return []
     gap = gir - score
     if gap >= CONVERSION_GAP_PERCENTILE_POINTS:
-        text = f"그린 적중률은 상위권({gir:.0f}퍼센타일)이지만 스코어 환산 효율({score:.0f}퍼센타일)이 이를 따라가지 못하고 있습니다."
+        text = f"그린 적중률은 {pctl_phrase(gir)}이지만 스코어 환산 효율은 {pctl_phrase(score)}에 그쳐 이를 따라가지 못하고 있습니다."
         citation = Citation(source="OFFICIAL_PROFILE_NORMALIZED.json", field_path="gir_rate/average_score", value=gap)
         return [RuleResult(key="conversion_gap", text=text, citations=(citation,), priority=70)]
     return []
@@ -415,7 +429,7 @@ def _lose_average_band_metric(evidence):
             continue
         lo, hi = AVERAGE_BAND
         if lo <= pctl <= hi:
-            text = f"전체 기량은 최상위권이지만 {label}은(는) 필드 평균 수준({pctl:.0f}퍼센타일)에 머물러 있습니다."
+            text = f"전체 기량은 최상위권이지만 {label}은(는) {pctl_phrase(pctl)}에 머물러 있습니다."
             citation = Citation(source="OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json", field_path=key, value=pctl)
             results.append(RuleResult(key=f"metric_{key}", text=text, citations=(citation,), priority=30))
     return results

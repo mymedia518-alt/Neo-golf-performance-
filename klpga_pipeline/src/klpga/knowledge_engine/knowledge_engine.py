@@ -468,13 +468,13 @@ def _player_type_citations(key: str, evidence: Evidence) -> tuple:
 def _player_type_evidence_text(key: str, evidence: Evidence) -> str:
     p = evidence.field_percentiles
     if key == "precision_ball_striker":
-        return f"SG Approach 상위 {100 - p['sg_app']:.0f}%, SG Off-the-Tee 상위 {100 - p['sg_ott']:.0f}% 수준입니다."
+        return f"SG Approach {rules.pctl_phrase(p['sg_app'])}, SG Off-the-Tee {rules.pctl_phrase(p['sg_ott'])} 수준입니다."
     if key == "recovery_specialist":
-        return f"SG Around-the-Green 상위 {100 - p['sg_arg']:.0f}%, 리커버리율 상위 {100 - p['recovery_rate']:.0f}% 수준입니다."
+        return f"SG Around-the-Green {rules.pctl_phrase(p['sg_arg'])}, 리커버리율 {rules.pctl_phrase(p['recovery_rate'])} 수준입니다."
     if key == "birdie_hunter":
-        return f"SG Putting 상위 {100 - p['sg_putt']:.0f}%, 버디율 상위 {100 - p['birdie_rate']:.0f}% 수준입니다."
+        return f"SG Putting {rules.pctl_phrase(p['sg_putt'])}, 버디율 {rules.pctl_phrase(p['birdie_rate'])} 수준입니다."
     if key == "stable_par_saver":
-        return f"파세이브율 상위 {100 - p['par_save_rate']:.0f}% 수준으로 변동성이 낮습니다."
+        return f"파세이브율 {rules.pctl_phrase(p['par_save_rate'])} 수준으로 변동성이 낮습니다."
     return "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다."
 
 

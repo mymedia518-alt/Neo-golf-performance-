@@ -128,13 +128,19 @@ def build_weaknesses(evidence: ke.Evidence, max_weaknesses: int = MAX_WEAKNESSES
 
 
 def build_neo_verdict(player_name: str, player_type: ke.PlayerTypeResult, why_wins: tuple, why_loses: tuple, evolution: ke.EvolutionResult) -> dict:
-    parts = [f"{player_name}은(는) {player_type.label_ko}({player_type.label_en}) 유형입니다."]
+    """Exactly 2 sentences: FACT (who this player is) + INTERPRETATION
+    (the single most relevant already-generated observation). Never a
+    prediction -- every candidate sentence here is a present-tense
+    description of already-computed evidence, the same sentences
+    why_wins/why_loses/evolution already produce, never new wording."""
+    fact = f"{player_name}은(는) {player_type.label_ko}({player_type.label_en}) 유형입니다."
     if why_wins:
-        parts.append(why_wins[0].text)
-    if why_loses:
-        parts.append(why_loses[0].text)
-    parts.append(evolution.narrative)
-    return {"summary": " ".join(parts)}
+        interpretation = why_wins[0].text
+    elif why_loses:
+        interpretation = why_loses[0].text
+    else:
+        interpretation = evolution.narrative
+    return {"summary": f"{fact} {interpretation}"}
 
 
 def _citation_dict(citation: ke.rules.Citation) -> dict:
