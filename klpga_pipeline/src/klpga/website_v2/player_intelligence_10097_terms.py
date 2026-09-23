@@ -83,6 +83,14 @@ PROTOCOL_ROW_LABEL = {
 }
 CURRENT_STATUS_LABEL = "현재 상태"
 CURRENT_READING_LABEL = "최근 실측값"
+NEXT_REVIEW_LABEL = "다음 점검"
+
+# UI 리팩터(Gold Standard): 결론 우선 구조에서 쓰는 라벨.
+# "분석 근거"는 fact/evidence/analysis/why_it_matters/선수·코치 체크포인트/
+# 지속성/근거 감사 칩/실행 지침(원본 데이터 출처 포함)/모니터링 프로토콜 5개
+# 항목 전체를 묶는 하나의 접이식 섹션 제목입니다 -- 이 라벨을 펼치기 전에는
+# 원본 파일명, 필드명, 함수 호출 같은 구현 세부사항이 화면에 보이지 않습니다.
+EVIDENCE_TOGGLE_LABEL = "분석 근거"
 
 # 페이지 상단 / 섹션 제목
 HERO_TITLE = "선수 퍼포먼스 리포트 — 최고 수준 분석"

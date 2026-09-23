@@ -403,4 +403,20 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-checklist li{padding:.5rem .75rem;border:1px solid var(--line);font-size:.88rem;line-height:1.6}
 .piq-checklist a{color:var(--green);font-weight:700}
 @media(max-width:760px){.piq-protocol{grid-template-columns:1fr}.piq-protocol dt{padding-top:.5rem}}
+
+/* Player Intelligence UI refactor (Gold Standard, playerCode=10097 only):
+   conclusion-first hierarchy. Still additive piq- classes, still the
+   same tokens (--ink/--green/--green-2/--panel/--surface/--line/--muted)
+   and the same <details>/<summary> disclosure pattern already used
+   throughout this file -- only visual weight and default visibility
+   change. .piq-conclusion/.piq-why-this-matters/.piq-action above are
+   unused by the 10097 renderer now but stay defined; nothing else
+   references removing them. */
+.piq-hero-conclusion{margin:0 0 .6rem;padding:1.1rem 1.25rem;background:var(--green);color:var(--surface);font-weight:800;font-size:clamp(1.05rem,2.3vw,1.3rem);line-height:1.45;border:2px solid var(--ink)}
+.piq-why-brief{margin:0 0 .9rem;padding-left:.8rem;border-left:3px solid var(--gold);font-size:1rem;font-weight:650;line-height:1.55;color:var(--ink)}
+.piq-monitoring-summary{margin-top:.9rem;border-top:1px solid var(--line)}
+.piq-evidence-toggle{margin-top:.9rem}
+.piq-evidence-toggle>summary{display:inline-flex;align-items:center;min-height:36px;padding:.3rem .65rem;color:var(--muted);font-size:.8rem;font-weight:750;letter-spacing:.02em;cursor:pointer;border:1px solid var(--line);background:var(--panel)}
+.piq-evidence-toggle[open]>summary{color:var(--green);border-color:var(--green)}
+.piq-evidence-toggle__body{margin-top:.85rem}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}

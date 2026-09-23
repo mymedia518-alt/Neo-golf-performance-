@@ -8,6 +8,7 @@ from __future__ import annotations
 import importlib.util
 import re
 import sys
+from html import escape
 from pathlib import Path
 
 import pytest
@@ -471,6 +472,130 @@ def test_most_recent_win_never_generalizes_beyond_the_one_confirmed_event():
         # 안에서 명시적으로 부정되어야 합니다 (근거 없는 반복적 특성으로 주장하지 않음).
         if "대회 후반에 강해진다" in text or "항상" in text:
             assert any(neg in text for neg in ("안 됩니다", "않습니다", "일반화하지")), f"{q['id']}.{field} asserts an unsupported generalization: {text!r}"
+
+
+# ---------------------------------------------------------------------------
+# UI REFACTOR MISSION (Gold Standard): Conclusion -> Why? -> Evidence
+# (collapsed) -> Monitoring. No analysis/conclusion/data changes -- only
+# order, visibility, and how much is shown before any click.
+# ---------------------------------------------------------------------------
+
+
+def _card_slices(html: str, doc: dict) -> list:
+    starts = [html.index(f'id="{escape(q["id"])}"') for q in doc["questions"]]
+    starts.append(len(html))
+    return [html[starts[i] : starts[i + 1]] for i in range(len(doc["questions"]))]
+
+
+def test_ui_refactor_leads_with_a_large_conclusion_before_why_and_collapsed_evidence():
+    """SECTION ORDER: Conclusion -> Why? -> Evidence (collapsed) ->
+    Monitoring. Scoped per-card, like the action-ordering test above,
+    since two questions can share protocol text."""
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    for q, card in zip(doc["questions"], _card_slices(html, doc)):
+        conclusion_idx = card.index("piq-hero-conclusion")
+        why_idx = card.index("piq-why-brief")
+        evidence_idx = card.index("piq-evidence-toggle")
+        fact_idx = card.index(f'piq-label">{terms.SECTION_LABEL["fact"]}</span>')
+        monitoring_idx = card.index("piq-monitoring-summary")
+        assert conclusion_idx < why_idx < evidence_idx < fact_idx < monitoring_idx, (
+            f"{q['id']}: section order is not Conclusion -> Why -> Evidence(collapsed) -> Monitoring"
+        )
+
+
+def test_ui_refactor_evidence_stays_collapsed_by_default():
+    """Rule 3: evidence must stay hidden inside expandable sections. The
+    per-question <details> itself is still `open` (so the conclusion is
+    visible without a click), but the nested '분석 근거' <details> must
+    NOT carry `open` -- it is closed until the reader chooses to expand it."""
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert html.count('<details class="piq-evidence-toggle">') == len(doc["questions"])
+    assert "piq-evidence-toggle\" open" not in html
+    assert html.count(f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>") == len(doc["questions"])
+
+
+def test_ui_refactor_hides_raw_file_and_field_citations_unless_evidence_expanded():
+    """Rule 4: never show raw JSON/file/field names or implementation
+    details unless '분석 근거' is expanded. Every protocol['source'] in
+    this report is a real file name, field reference, or function call
+    (asserted elsewhere) -- so it, and the action text that embeds it,
+    must only ever appear inside the collapsed toggle body."""
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    for q, card in zip(doc["questions"], _card_slices(html, doc)):
+        toggle_open = card.index('<details class="piq-evidence-toggle">')
+        toggle_close = card.index("</details>", toggle_open) + len("</details>")
+        outside_toggle = card[:toggle_open] + card[toggle_close:]
+        assert ".json" not in outside_toggle, f"{q['id']}: raw file citation leaked outside 분석 근거"
+        assert "knowledge_engine." not in outside_toggle, f"{q['id']}: raw function citation leaked outside 분석 근거"
+        assert q["monitoring_protocol"]["source"] not in outside_toggle, f"{q['id']}: data source citation leaked outside 분석 근거"
+
+
+def test_ui_refactor_monitoring_summary_is_visible_and_technical_detail_free():
+    """Visual priority: Medium: Monitoring, Hidden: Technical details.
+    The always-visible monitoring readout shows status/reading/next
+    check but never the file-backed source citation or the raw stats
+    prose that the full protocol table carries."""
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    for q, card in zip(doc["questions"], _card_slices(html, doc)):
+        protocol = q["monitoring_protocol"]
+        summary_start = card.index("piq-monitoring-summary")
+        summary = card[summary_start:]
+        assert terms.CURRENT_STATUS_LABEL in summary
+        assert terms.NEXT_REVIEW_LABEL in summary
+        assert protocol["source"] not in summary
+
+
+def test_ui_refactor_default_visible_text_is_reduced_by_at_least_half():
+    """Rule 5: reduce visible text by at least 50%. Compares what renders
+    without a click (conclusion + the one-line why) against everything
+    that used to always be visible before this refactor (fact, evidence,
+    the full analysis, why_it_matters, the three brief paragraphs, action,
+    and the protocol's own prose) -- now behind '분석 근거'."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        visible = q["conclusion"] + q["why_this_matters"]
+        collapsed = (
+            q["fact"]
+            + "".join(q["evidence"])
+            + q["analysis"]
+            + q["why_it_matters"]
+            + q["player_takeaway"]
+            + q["coach_focus"]
+            + q["durability_reasoning"]
+            + q["action"]
+            + protocol["metric"]
+            + protocol["normal_range"]
+            + protocol["warning_threshold"]
+            + protocol["explanatory_metric"]
+        )
+        assert len(visible) <= 0.5 * len(collapsed), f"{q['id']}: default-visible text is not reduced by at least 50%"
+
+
+def test_ui_refactor_does_not_touch_colors_or_typography_tokens():
+    """Rule: do not redesign the website, change colors, or change
+    typography. The new piq-* rules must reuse the page's existing color
+    variables and font stack, never introduce a new hex color or
+    font-family."""
+    css_text = (ROOT / "src" / "klpga" / "website_v2" / "static" / "neo-site.css").read_text(encoding="utf-8")
+    start = css_text.index("/* Player Intelligence UI refactor")
+    end_marker = ".piq-evidence-toggle__body{margin-top:.85rem}"
+    end = css_text.index(end_marker, start) + len(end_marker)
+    block = css_text[start:end]
+    assert "font-family" not in block
+    assert not re.search(r"#[0-9a-fA-F]{3,6}\b", block), "new UI-refactor CSS introduces a raw hex color instead of reusing --tokens"
 
 
 def test_render_shows_excluded_questions_transparently():
