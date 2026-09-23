@@ -18,38 +18,25 @@ from html import escape
 from pathlib import Path
 from typing import Optional
 
+from klpga.knowledge_engine import knowledge_rules as rules
 from klpga.tournament_context import CONTENT_DIR
 
 KNOWLEDGE_ENGINE_PI_DIR = CONTENT_DIR / "knowledge_engine" / "player_intelligence"
 GENERATION_QUEUE_PATH = CONTENT_DIR / "knowledge_engine" / "generation_queue.json"
 
-SG_COMPONENT_LABELS = {
-    "avg_ott": "SG Off-the-Tee",
-    "avg_app": "SG Approach",
-    "avg_arg": "SG Around-the-Green",
-    "avg_putt": "SG Putting",
-    "avg_total": "SG Total",
-}
-
-RATE_STAT_LABELS = {
-    "average_score": "평균 타수",
-    "average_putts": "평균 퍼트 수",
-    "birdie_rate": "버디율",
-    "gir_rate": "그린 적중률",
-    "par_save_rate": "파세이브율",
-    "par_break_rate": "파브레이크율",
-    "recovery_rate": "리커버리율",
-}
+# QA Sprint (dedup): SG-component and rate-stat labels, and the
+# percentile-phrase rule (상위 N% / 평균 수준 / 하위 N%), used to live
+# here as a second, drifting copy of knowledge_rules.py's own
+# SG_COMPONENT_LABELS / FIELD_METRIC_LABELS / pctl_phrase(). The UI
+# layer never renders raw numbers or invents labels, so it reads them
+# straight from the one place that defines them.
+SG_COMPONENT_LABELS = rules.SG_COMPONENT_LABELS
+RATE_STAT_LABELS = rules.FIELD_METRIC_LABELS
 
 # Percent-shaped rate stats (2 decimals + %); the other two rate stats
 # (average_score, average_putts) are counts, formatted with their own
 # unit in _rate_stat_value() below -- never mixed with a % sign.
 _PERCENT_RATE_STAT_KEYS = {"birdie_rate", "gir_rate", "par_save_rate", "par_break_rate", "recovery_rate"}
-
-# Mirrors knowledge_rules.AVERAGE_BAND (40-60) -- an ordinary golfer
-# reads "평균 수준" / "상위 N%" / "하위 N%", never a raw percentile
-# number or the word "퍼센타일".
-_AVERAGE_BAND = (40.0, 60.0)
 
 _DOC_CACHE: dict = {}
 
@@ -115,14 +102,7 @@ def _sg(value) -> str:
 
 
 def _pctl(value) -> str:
-    if value is None:
-        return "—"
-    lo, hi = _AVERAGE_BAND
-    if lo <= value <= hi:
-        return "평균 수준"
-    if value > hi:
-        return f"상위 {100 - value:.0f}%"
-    return f"하위 {value:.0f}%"
+    return "—" if value is None else rules.pctl_phrase(value)
 
 
 def _rate_stat_value(key: str, value) -> str:
