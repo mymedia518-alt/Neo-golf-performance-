@@ -1,0 +1,208 @@
+{
+  "best_fits": [
+    {
+      "axis": "putting",
+      "axis_label": "퍼팅",
+      "percentile": 97.10743801652893,
+      "player_id": "8764",
+      "player_name": "김소이",
+      "why": "이 코스는 퍼팅 능력이 중요한 코스이며, 김소이은(는) 이 항목에서 상위 3% 수준입니다."
+    },
+    {
+      "axis": "putting",
+      "axis_label": "퍼팅",
+      "percentile": 95.04132231404958,
+      "player_id": "8434",
+      "player_name": "김지영2",
+      "why": "이 코스는 퍼팅 능력이 중요한 코스이며, 김지영2은(는) 이 항목에서 상위 5% 수준입니다."
+    },
+    {
+      "axis": "putting",
+      "axis_label": "퍼팅",
+      "percentile": 93.80165289256199,
+      "player_id": "9728",
+      "player_name": "허윤서",
+      "why": "이 코스는 퍼팅 능력이 중요한 코스이며, 허윤서은(는) 이 항목에서 상위 6% 수준입니다."
+    },
+    {
+      "axis": "putting",
+      "axis_label": "퍼팅",
+      "percentile": 92.97520661157024,
+      "player_id": "9082",
+      "player_name": "전예성",
+      "why": "이 코스는 퍼팅 능력이 중요한 코스이며, 전예성은(는) 이 항목에서 상위 7% 수준입니다."
+    },
+    {
+      "axis": "putting",
+      "axis_label": "퍼팅",
+      "percentile": 92.14876033057851,
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "why": "이 코스는 퍼팅 능력이 중요한 코스이며, 손예빈은(는) 이 항목에서 상위 8% 수준입니다."
+    }
+  ],
+  "course_dna": {
+    "axes": [
+      {
+        "avg_sg": 0.1823592750533049,
+        "key": "driving",
+        "label": "드라이빙",
+        "percentile": 53.608247422680414
+      },
+      {
+        "avg_sg": 0.36389232409381667,
+        "key": "iron",
+        "label": "아이언",
+        "percentile": 38.144329896907216
+      },
+      {
+        "avg_sg": 0.07772814498933904,
+        "key": "recovery",
+        "label": "리커버리",
+        "percentile": 50.51546391752577
+      },
+      {
+        "avg_sg": 0.3272675906183369,
+        "key": "putting",
+        "label": "퍼팅",
+        "percentile": 71.1340206185567
+      },
+      {
+        "avg_sg": 0.9509680170575692,
+        "key": "scoring",
+        "label": "스코어링",
+        "percentile": 48.45360824742268
+      }
+    ],
+    "matched_game_codes": [
+      "2024090007",
+      "2025090002"
+    ],
+    "sample_events": 2
+  },
+  "danger_holes": [],
+  "field_composition": [
+    {
+      "count": 84,
+      "key": "balanced",
+      "label": "균형형"
+    },
+    {
+      "count": 17,
+      "key": "precision_ball_striker",
+      "label": "정교한 아이언 플레이어"
+    },
+    {
+      "count": 11,
+      "key": "recovery_specialist",
+      "label": "위기 관리형 플레이어"
+    },
+    {
+      "count": 5,
+      "key": "birdie_hunter",
+      "label": "공격적인 버디 메이커"
+    },
+    {
+      "count": 3,
+      "key": "stable_par_saver",
+      "label": "안정적인 파 세이버"
+    }
+  ],
+  "field_unclassified": 0,
+  "generated_at": "2026-09-23T13:44:13.973549+00:00",
+  "identity": {
+    "cut_after_round": 2,
+    "field_size": 120,
+    "game_code": "2026120001",
+    "holes": 54,
+    "par": 72,
+    "purse": 1000000000,
+    "sources": [
+      "OK_OPEN_2026_OPERATIONAL_READINESS.json",
+      "active_tournament.json",
+      "2026120001_ENTRY_SNAPSHOT.json"
+    ],
+    "tournament_name": "OK저축은행 읏맨 오픈",
+    "venue": "포천아도니스"
+  },
+  "opportunity_holes": [],
+  "story": [
+    "이 코스는 퍼팅 능력을 특히 요구하는 코스로, 필드 내 상위 29%에 해당합니다.",
+    "역대 우승자들은 스코어링 SG +3.50 이상을 기록했습니다(2명 기준).",
+    "이번 대회 참가 선수 중 84명이 균형형 유형입니다.",
+    "이 코스 시리즈는 최근 2회 대회의 실제 기록을 근거로 분석되었습니다.",
+    "이번 대회 참가 선수는 총 120명입니다."
+  ],
+  "verdict": {
+    "summary": "OK저축은행 읏맨 오픈(포천아도니스)은(는) 실제 과거 기록 2회를 근거로 분석된 코스입니다. 이 코스는 퍼팅 능력이 뛰어난 선수에게 유리한 것으로 나타납니다."
+  },
+  "watch_list": [
+    {
+      "component_label": "아이언",
+      "delta": -2.135,
+      "direction": "하락",
+      "player_id": "8972",
+      "player_name": "조정민"
+    },
+    {
+      "component_label": "아이언",
+      "delta": 2.0180000000000002,
+      "direction": "개선",
+      "player_id": "10790",
+      "player_name": "김하은2"
+    },
+    {
+      "component_label": "퍼팅",
+      "delta": 2.005,
+      "direction": "개선",
+      "player_id": "9752",
+      "player_name": "김나현2"
+    },
+    {
+      "component_label": "퍼팅",
+      "delta": 1.6711111111111108,
+      "direction": "개선",
+      "player_id": "10481",
+      "player_name": "이서윤4"
+    },
+    {
+      "component_label": "퍼팅",
+      "delta": -1.575,
+      "direction": "하락",
+      "player_id": "9807",
+      "player_name": "김서윤2"
+    }
+  ],
+  "winning_profile": [
+    {
+      "key": "driving",
+      "label": "드라이빙",
+      "sample_size": 2,
+      "threshold_sg": -0.47
+    },
+    {
+      "key": "iron",
+      "label": "아이언",
+      "sample_size": 2,
+      "threshold_sg": 2.0
+    },
+    {
+      "key": "recovery",
+      "label": "리커버리",
+      "sample_size": 2,
+      "threshold_sg": 0.48
+    },
+    {
+      "key": "putting",
+      "label": "퍼팅",
+      "sample_size": 2,
+      "threshold_sg": 0.97
+    },
+    {
+      "key": "scoring",
+      "label": "스코어링",
+      "sample_size": 2,
+      "threshold_sg": 3.5
+    }
+  ]
+}
