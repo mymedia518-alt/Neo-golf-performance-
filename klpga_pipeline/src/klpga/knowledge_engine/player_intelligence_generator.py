@@ -21,9 +21,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from klpga.tournament_context import CONTENT_DIR, TournamentContext, load_tournament_context
+from klpga.tournament_context import CONTENT_DIR, TournamentContext
+from klpga.tournament_context import _load_context_from_schedule_and_registry as _resolve_context_deterministic
 
 from . import knowledge_engine as ke
+
+# Deliberately NOT klpga.tournament_context.load_tournament_context(): it
+# special-cases whichever game_code matches config/active_tournament.json
+# and, for that one game_code, resolves from that mutable file instead of
+# the fixed OFFICIAL_KLPGA_SCHEDULE.json + TOURNAMENT_SITE_REGISTRY.json.
+# A generator takes game_code explicitly and touches no "current
+# tournament" global -- the same game_code must always resolve the same
+# context and produce the same output, whether or not that tournament
+# happens to be the operationally active one today.
 
 SCHEMA_VERSION = "player_intelligence_generator_v2"
 OUTPUT_ROOT = ke.PLAYER_INTELLIGENCE_DIR
@@ -399,7 +409,7 @@ def generate_many(
 
 
 def regenerate_for_tournament(game_code: str, *, force: bool = False, max_workers: int = 8) -> BatchResult:
-    context = load_tournament_context(game_code)
+    context = _resolve_context_deterministic(game_code)
     player_ids = players_for_tournament(context)
     tournament_context = {"game_code": context.game_code, "tournament_name": context.tournament_name}
     return generate_many(player_ids, tournament_context=tournament_context, force=force, max_workers=max_workers)
