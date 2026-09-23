@@ -162,6 +162,7 @@ def render_player_identity(
     name_class: str = "player-name",
     sponsor_class: str = "player-sponsor",
     quote: str = '"',
+    href: str | None = None,
 ) -> str:
     """The one shared player-name + sponsor markup. Both slots are
     ALWAYS emitted -- the sponsor slot is empty (no text content) when
@@ -173,11 +174,20 @@ def render_player_identity(
     convention the calling page's OWN surrounding markup already uses
     (double for HOME/RANKING, single for OK Open's stage tables) --
     purely cosmetic (CSS/JS never see the quote character), kept
-    consistent per caller so existing byte-level fixtures don't churn."""
+    consistent per caller so existing byte-level fixtures don't churn.
+
+    `href`: optional link target (the player's own Player Intelligence
+    page). Omitted (None, the default) reproduces the exact prior
+    output byte-for-byte -- every existing caller is unaffected until
+    it opts in. When given, both slots render inside one <a> so the
+    whole name+sponsor block is the click target."""
     q = quote
     name_html = f"<span class={q}{name_class}{q}>{escape(str(name) if name is not None else '—')}</span>"
     sponsor_text = escape(str(sponsor)) if sponsor else ""
-    return name_html + f"<span class={q}{sponsor_class}{q}>{sponsor_text}</span>"
+    sponsor_html = f"<span class={q}{sponsor_class}{q}>{sponsor_text}</span>"
+    if href is None:
+        return name_html + sponsor_html
+    return f"<a class={q}player-identity-link{q} href={q}{escape(href)}{q}>{name_html}{sponsor_html}</a>"
 
 
 # PUBLIC UI correction (GLOBAL SPONSOR RULE): tags whose bare text
