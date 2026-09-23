@@ -1,0 +1,150 @@
+{
+  "best_fits": [],
+  "course_dna": {
+    "axes": [
+      {
+        "avg_sg": 0.2054838709677419,
+        "key": "driving",
+        "label": "드라이빙",
+        "percentile": 63.91752577319588
+      },
+      {
+        "avg_sg": 0.27225806451612894,
+        "key": "iron",
+        "label": "아이언",
+        "percentile": 13.402061855670103
+      },
+      {
+        "avg_sg": 0.06435483870967744,
+        "key": "recovery",
+        "label": "리커버리",
+        "percentile": 36.08247422680412
+      },
+      {
+        "avg_sg": 0.24629032258064512,
+        "key": "putting",
+        "label": "퍼팅",
+        "percentile": 34.02061855670103
+      },
+      {
+        "avg_sg": 0.7891935483870969,
+        "key": "scoring",
+        "label": "스코어링",
+        "percentile": 24.742268041237114
+      }
+    ],
+    "matched_game_codes": [
+      "2026080001"
+    ],
+    "sample_events": 1
+  },
+  "danger_holes": [
+    {
+      "birdie_rate": 10.256410256410257,
+      "bogey_rate": 18.803418803418804,
+      "difficulty_stars": 5,
+      "hole": 15,
+      "par": 4,
+      "sample": 351
+    },
+    {
+      "birdie_rate": 11.965811965811966,
+      "bogey_rate": 17.37891737891738,
+      "difficulty_stars": 5,
+      "hole": 11,
+      "par": 4,
+      "sample": 351
+    },
+    {
+      "birdie_rate": 10.256410256410257,
+      "bogey_rate": 15.954415954415955,
+      "difficulty_stars": 4,
+      "hole": 9,
+      "par": 5,
+      "sample": 351
+    }
+  ],
+  "field_composition": [],
+  "field_unclassified": 0,
+  "generated_at": "2026-09-23T13:44:14.549190+00:00",
+  "identity": {
+    "cut_after_round": null,
+    "field_size": null,
+    "game_code": "2026080001",
+    "holes": null,
+    "par": 72,
+    "purse": null,
+    "sources": [
+      "beta001.json"
+    ],
+    "tournament_name": "제15회 KG 레이디스 오픈",
+    "venue": "써닝포인트"
+  },
+  "opportunity_holes": [
+    {
+      "birdie_rate": 32.763532763532766,
+      "bogey_rate": 7.6923076923076925,
+      "difficulty_stars": 2,
+      "hole": 14,
+      "par": 5,
+      "sample": 351
+    },
+    {
+      "birdie_rate": 23.646723646723647,
+      "bogey_rate": 6.552706552706553,
+      "difficulty_stars": 1,
+      "hole": 3,
+      "par": 5,
+      "sample": 351
+    },
+    {
+      "birdie_rate": 19.373219373219374,
+      "bogey_rate": 4.843304843304844,
+      "difficulty_stars": 1,
+      "hole": 2,
+      "par": 3,
+      "sample": 351
+    }
+  ],
+  "story": [
+    "이 코스는 드라이빙 능력을 특히 요구하는 코스로, 필드 내 상위 36%에 해당합니다.",
+    "역대 우승자들은 스코어링 SG +3.71 이상을 기록했습니다(1명 기준).",
+    "이 코스 시리즈는 최근 1회 대회의 실제 기록을 근거로 분석되었습니다."
+  ],
+  "verdict": {
+    "summary": "제15회 KG 레이디스 오픈(써닝포인트)은(는) 실제 과거 기록 1회를 근거로 분석된 코스입니다. 이 코스는 드라이빙 능력이 뛰어난 선수에게 유리한 것으로 나타납니다."
+  },
+  "watch_list": [],
+  "winning_profile": [
+    {
+      "key": "driving",
+      "label": "드라이빙",
+      "sample_size": 1,
+      "threshold_sg": 0.86
+    },
+    {
+      "key": "iron",
+      "label": "아이언",
+      "sample_size": 1,
+      "threshold_sg": 1.11
+    },
+    {
+      "key": "recovery",
+      "label": "리커버리",
+      "sample_size": 1,
+      "threshold_sg": 0.27
+    },
+    {
+      "key": "putting",
+      "label": "퍼팅",
+      "sample_size": 1,
+      "threshold_sg": 1.47
+    },
+    {
+      "key": "scoring",
+      "label": "스코어링",
+      "sample_size": 1,
+      "threshold_sg": 3.71
+    }
+  ]
+}
