@@ -1,0 +1,193 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:33.357331+00:00",
+    "input_signature": "2631e33721c568cdcc329ca63deaa3b7962d2762ab85a9d3e4ad8c7749a04a08",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.438450704225352,
+    "rate_stats": {
+      "average_putts": 30.1639,
+      "average_score": 71.8361,
+      "birdie_rate": 17.6685,
+      "gir_rate": 71.5847,
+      "par_break_rate": 17.7596,
+      "par_save_rate": 84.8816,
+      "recovery_rate": 57.0513
+    },
+    "recent_10_sg": 0.8140000000000001,
+    "recent_5_sg": 0.772,
+    "volatility": 1.110380115095727
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.8057894736842106
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.230526315789474
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.5573684210526317
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.0607142857142857
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.81에서 2026시즌 +1.06로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.8057894736842106,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.230526315789474,
+        "delta_from_prev": -0.5752631578947367,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 1.5573684210526317,
+        "delta_from_prev": 0.3268421052631578,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.0607142857142857,
+        "delta_from_prev": -0.496654135338346,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10002",
+    "player_name": "김민별",
+    "sample_count": 71
+  },
+  "neo_verdict": {
+    "summary": "김민별은(는) 버디 헌터(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 23% 수준의 기록을 유지하고 있습니다. 2023시즌 SG Total +1.81에서 2026시즌 +1.06로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 77.27272727272727
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 53.30578512396694
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 33.05785123966942
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 82.64462809917356
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_putt",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 82.64462809917356
+      },
+      {
+        "field_path": "birdie_rate",
+        "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+        "value": 80.66666666666667
+      }
+    ],
+    "evidence_text": "SG Putting 상위 17%, 버디율 상위 19% 수준입니다.",
+    "key": "birdie_hunter",
+    "label_en": "Birdie Hunter",
+    "label_ko": "버디 헌터"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.06428571428571428,
+    "avg_arg": 0.03142857142857143,
+    "avg_ott": 0.39214285714285707,
+    "avg_putt": 0.572142857142857,
+    "avg_total": 1.0607142857142857,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 82.64462809917356
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 80.66666666666667
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 80.66666666666667
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 77.27272727272727
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 77.27272727272727
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Off-the-Tee에서 상위 23% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.03142857142857143
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.03로 반전에 성공했습니다."
+    }
+  ]
+}

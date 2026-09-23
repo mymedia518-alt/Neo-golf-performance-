@@ -1,0 +1,135 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:53.571584+00:00",
+    "input_signature": "9b16921b0a0e58c923a5c71cdf0bda769c5d0f69b06914b45ef4170b3742b9a7",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.04692307692307699,
+    "rate_stats": {},
+    "recent_10_sg": 0.28300000000000003,
+    "recent_5_sg": 0.082,
+    "volatility": 1.277662318455076
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.03166666666666674
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.23
+      }
+    ],
+    "narrative": "2025시즌 SG Total -0.03에서 2026시즌 -0.23로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.03166666666666674,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -0.23,
+        "delta_from_prev": -0.19833333333333328,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9156",
+    "player_name": "한빛나",
+    "sample_count": 13
+  },
+  "neo_verdict": {
+    "summary": "한빛나은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(31퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.03에서 2026시즌 -0.23로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 68.59504132231405
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 31.40495867768595
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 15.289256198347108
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 67.76859504132231
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.71,
+    "avg_arg": -0.29,
+    "avg_ott": 0.11,
+    "avg_putt": 0.65,
+    "avg_total": -0.23,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 15.289256198347108
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 31.40495867768595
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(31퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.29
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.29로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

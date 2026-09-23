@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:56.164024+00:00",
+    "input_signature": "015a920b01512d49fc548d0fecd770351d18f6dd90c1a7cdf140083a1b3d47e9",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.2633333333333334,
+    "rate_stats": {},
+    "recent_10_sg": 1.2633333333333334,
+    "recent_5_sg": 1.2633333333333334,
+    "volatility": 1.0878827551206467
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.25
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.02
+      }
+    ],
+    "narrative": "2023시즌 SG Total -0.25에서 2025시즌 +2.02로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.25,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 2.02,
+        "delta_from_prev": 2.27,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "8191",
+    "player_name": "전인지",
+    "sample_count": 3
+  },
+  "neo_verdict": {
+    "summary": "전인지은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Approach이(가) 2025시즌 +1.25로 반전에 성공했습니다. 2023시즌 SG Total -0.25에서 2025시즌 +2.02로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 1.255,
+    "avg_arg": 0.74,
+    "avg_ott": 0.04000000000000001,
+    "avg_putt": -0.009999999999999995,
+    "avg_total": 2.02,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.255
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Approach이(가) 2025시즌 +1.25로 반전에 성공했습니다."
+    }
+  ]
+}

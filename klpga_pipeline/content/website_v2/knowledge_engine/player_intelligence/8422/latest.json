@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:29.548725+00:00",
+    "input_signature": "64953b3c45d62de6b178d3bfc8220994c531dc4ee8552e253e5a24f557f704aa",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.9976923076923078,
+    "rate_stats": {},
+    "recent_10_sg": 0.8889999999999999,
+    "recent_5_sg": 0.666,
+    "volatility": 1.3127334078174442
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.36
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.8889999999999999
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.36에서 2024시즌 +0.89로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.36,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.8889999999999999,
+        "delta_from_prev": -0.4710000000000002,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "8422",
+    "player_name": "이수진3",
+    "sample_count": 13
+  },
+  "neo_verdict": {
+    "summary": "이수진3은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.07로 악화되었습니다. 2023시즌 SG Total +1.36에서 2024시즌 +0.89로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.12200000000000003,
+    "avg_arg": -0.069,
+    "avg_ott": 0.027000000000000003,
+    "avg_putt": 0.808,
+    "avg_total": 0.8889999999999999,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2024].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.069
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Around-the-Green이(가) 2024시즌 -0.07로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

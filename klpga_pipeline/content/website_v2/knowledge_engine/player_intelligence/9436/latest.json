@@ -1,0 +1,153 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:19.814185+00:00",
+    "input_signature": "4c1e76e809459639b0d09a0fbad9bdc0e96b87d8a2ff8f86b6bfe21b4a77800d",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.305,
+    "rate_stats": {
+      "average_putts": 30.75,
+      "average_score": 73.5569,
+      "birdie_rate": 14.2094,
+      "gir_rate": 65.9188,
+      "par_break_rate": 14.2094,
+      "par_save_rate": 78.6325,
+      "recovery_rate": 53.605
+    },
+    "recent_10_sg": -0.5149999999999999,
+    "recent_5_sg": -0.818,
+    "volatility": 1.074190392807532
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.15
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.49444444444444435
+      }
+    ],
+    "narrative": "2025시즌 SG Total -0.15에서 2026시즌 -0.49로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.15,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -0.49444444444444435,
+        "delta_from_prev": -0.34444444444444433,
+        "season": 2026,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9436",
+    "player_name": "구래현",
+    "sample_count": 20
+  },
+  "neo_verdict": {
+    "summary": "구래현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(36퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.15에서 2026시즌 -0.49로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 47.93388429752066
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 35.53719008264463
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 51.65289256198347
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 35.12396694214876
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.7111111111111111,
+    "avg_arg": 0.12000000000000001,
+    "avg_ott": -0.011111111111111108,
+    "avg_putt": 0.10777777777777779,
+    "avg_total": -0.49444444444444435,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 13.333333333333334
+    },
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 18.666666666666668
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 24.666666666666668
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 35.53719008264463
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(36퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.011111111111111108
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.01로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

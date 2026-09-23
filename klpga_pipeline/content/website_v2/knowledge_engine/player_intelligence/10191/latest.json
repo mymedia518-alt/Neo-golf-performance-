@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:14.976697+00:00",
+    "input_signature": "26f82b97e5e3d18c6453bc8772cc8c47c058199aa97481b815af438c99c8848d",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -1.63,
+    "rate_stats": {},
+    "recent_10_sg": -1.63,
+    "recent_5_sg": -1.63,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2023,
+    "player_id": "10191",
+    "player_name": "조예진",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "조예진은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.68,
+    "avg_arg": -0.35,
+    "avg_ott": -0.18,
+    "avg_putt": -1.78,
+    "avg_total": -1.63,
+    "season": 2023
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

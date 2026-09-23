@@ -1,0 +1,169 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:53.718546+00:00",
+    "input_signature": "a0ceaf2e1c0c64977f6035d0fe4a00db311c792ed04bb543a1038fbc3be01739",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.31,
+    "rate_stats": {
+      "average_putts": 30.2188,
+      "average_score": 72.8452,
+      "birdie_rate": 15.625,
+      "gir_rate": 66.6667,
+      "par_break_rate": 15.625,
+      "par_save_rate": 82.6389,
+      "recovery_rate": 59.8958
+    },
+    "recent_10_sg": 0.24300000000000002,
+    "recent_5_sg": 1.06,
+    "volatility": 1.6694852500097148
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.2416666666666666
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.7828571428571429
+      }
+    ],
+    "narrative": "2025시즌 SG Total -0.24에서 2026시즌 +0.78로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.2416666666666666,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.7828571428571429,
+        "delta_from_prev": 1.0245238095238096,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11374",
+    "player_name": "전승희",
+    "sample_count": 13
+  },
+  "neo_verdict": {
+    "summary": "전승희은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Putting에서 상위 21% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.32로 악화되었습니다. 2025시즌 SG Total -0.24에서 2026시즌 +0.78로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 57.02479338842975
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 77.68595041322314
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 26.446280991735538
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 78.51239669421487
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.7385714285714285,
+    "avg_arg": -0.32142857142857145,
+    "avg_ott": 0.1471428571428571,
+    "avg_putt": 0.21714285714285714,
+    "avg_total": 0.7828571428571429,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 78.51239669421487
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 77.68595041322314
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.32142857142857145
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.32로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 78.51239669421487
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Putting에서 상위 21% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.06
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+1.06)이 장기 평균(+0.31) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.1471428571428571
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.15로 반전에 성공했습니다."
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:27.568424+00:00",
+    "input_signature": "7d4bfdfc4598b867c48123ce434104e2015a91315337d5dd8a980259221a7ef7",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.022857142857142836,
+    "rate_stats": {},
+    "recent_10_sg": 0.022857142857142836,
+    "recent_5_sg": -0.10200000000000001,
+    "volatility": 0.35751980107857706
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "10160",
+    "player_name": "이수연2",
+    "sample_count": 7
+  },
+  "neo_verdict": {
+    "summary": "이수연2은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 33.47107438016529
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 16.52892561983471
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 9.090909090909092
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 66.52892561983471
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.20571428571428577,
+    "avg_arg": -0.17285714285714288,
+    "avg_ott": 0.71,
+    "avg_putt": -0.7157142857142856,
+    "avg_total": 0.022857142857142836,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 9.090909090909092
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 16.52892561983471
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 21.074380165289256
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

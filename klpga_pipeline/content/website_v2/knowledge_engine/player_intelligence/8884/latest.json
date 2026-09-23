@@ -1,0 +1,160 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:09.812081+00:00",
+    "input_signature": "65813093f95a411bfa4e59898c02495e1718835238e21d3e367cd3ac44178a04",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.04875000000000001,
+    "rate_stats": {
+      "average_putts": 30.9412,
+      "average_score": 73.7441,
+      "birdie_rate": 12.2004,
+      "gir_rate": 66.2309,
+      "par_break_rate": 12.2004,
+      "par_save_rate": 80.9368,
+      "recovery_rate": 57.4194
+    },
+    "recent_10_sg": -0.28400000000000003,
+    "recent_5_sg": -0.5960000000000001,
+    "volatility": 1.1268114305419519
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.48
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.5185714285714286
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.23500000000000001
+      }
+    ],
+    "narrative": "2024시즌 SG Total -0.48에서 2026시즌 -0.24로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.48,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.5185714285714286,
+        "delta_from_prev": 0.9985714285714286,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": -0.23500000000000001,
+        "delta_from_prev": -0.7535714285714286,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8884",
+    "player_name": "윤화영",
+    "sample_count": 16
+  },
+  "neo_verdict": {
+    "summary": "윤화영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(29퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total -0.48에서 2026시즌 -0.24로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 28.512396694214875
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 53.30578512396694
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 33.05785123966942
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 28.09917355371901
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.043333333333333314,
+    "avg_arg": -0.35333333333333333,
+    "avg_ott": -0.47000000000000003,
+    "avg_putt": 0.5416666666666667,
+    "avg_total": -0.23500000000000001,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 10.666666666666666
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 10.666666666666666
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 20.0
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 20.666666666666668
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 28.512396694214875
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(29퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": []
+}

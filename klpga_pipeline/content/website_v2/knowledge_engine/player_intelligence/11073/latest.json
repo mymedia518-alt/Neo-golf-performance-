@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:31.640765+00:00",
+    "input_signature": "279f49f1ebccd9eb355bce075fb83dadd33513318e7547d969b59221a8659692",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.837857142857143,
+    "rate_stats": {
+      "average_putts": 30.0317,
+      "average_score": 72.1111,
+      "birdie_rate": 15.873,
+      "gir_rate": 68.8713,
+      "par_break_rate": 16.0494,
+      "par_save_rate": 84.4797,
+      "recovery_rate": 60.6232
+    },
+    "recent_10_sg": 0.7929999999999999,
+    "recent_5_sg": 0.03399999999999994,
+    "volatility": 1.16462912551593
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11073",
+    "player_name": "최정원",
+    "sample_count": 14
+  },
+  "neo_verdict": {
+    "summary": "최정원은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 9%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 84.29752066115702
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 34.710743801652896
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 62.8099173553719
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 91.32231404958678
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.6057142857142856,
+    "avg_arg": 0.07785714285714286,
+    "avg_ott": 0.4557142857142857,
+    "avg_putt": 0.9100000000000001,
+    "avg_total": 0.837857142857143,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 91.32231404958678
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 84.29752066115702
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 91.32231404958678
+        }
+      ],
+      "text": "SG Putting 필드 상위 9%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

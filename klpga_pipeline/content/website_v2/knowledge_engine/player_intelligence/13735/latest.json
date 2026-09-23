@@ -1,0 +1,180 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:49.431444+00:00",
+    "input_signature": "091708b8120b4f33971b27c4bddd7fa9fbef19990dc300541667dd8aebd032ad",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.71,
+    "rate_stats": {
+      "average_putts": 30.25,
+      "average_score": 70.0,
+      "birdie_rate": 20.8333,
+      "gir_rate": 81.9444,
+      "par_break_rate": 20.8333,
+      "par_save_rate": 90.2778,
+      "recovery_rate": 53.8462
+    },
+    "recent_10_sg": 1.71,
+    "recent_5_sg": 1.71,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "13735",
+    "player_name": "오스턴 킴",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "오스턴 킴은(는) 안정적인 파세이버(Stable Par-Saver) 유형입니다. 그린 적중률 필드 상위 1%에 해당하는 엘리트 수준입니다. 전체 기량은 최상위권이지만 SG Putting은(는) 필드 평균 수준(54퍼센타일)에 머물러 있습니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 98.7603305785124
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 73.14049586776859
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 69.42148760330579
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 53.71900826446281
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "par_save_rate",
+        "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+        "value": 98.66666666666667
+      }
+    ],
+    "evidence_text": "파세이브율 상위 1% 수준으로 변동성이 낮습니다.",
+    "key": "stable_par_saver",
+    "label_en": "Stable Par-Saver",
+    "label_ko": "안정적인 파세이버"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.36,
+    "avg_arg": 0.1,
+    "avg_ott": 1.27,
+    "avg_putt": -0.01,
+    "avg_total": 1.71,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 99.33333333333333
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 98.7603305785124
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 98.66666666666667
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 98.66666666666667
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 96.66666666666667
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 20.0
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 53.71900826446281
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 SG Putting은(는) 필드 평균 수준(54퍼센타일)에 머물러 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "average_putts",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 57.333333333333336
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(57퍼센타일)에 머물러 있습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "gir_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 99.33333333333333
+        }
+      ],
+      "text": "그린 적중률 필드 상위 1%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_ott",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 98.7603305785124
+        }
+      ],
+      "text": "SG Off-the-Tee 필드 상위 1%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "par_save_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 98.66666666666667
+        }
+      ],
+      "text": "파세이브율 필드 상위 1%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

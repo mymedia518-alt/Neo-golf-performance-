@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:49.267586+00:00",
+    "input_signature": "d6b644edad8317fd741f1e68aa3bf28840595e3b338aa44b6d8ca2815c86a059",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.15200000000000002,
+    "rate_stats": {
+      "average_putts": 30.3636,
+      "average_score": 72.7569,
+      "birdie_rate": 14.4781,
+      "gir_rate": 67.0034,
+      "par_break_rate": 14.4781,
+      "par_save_rate": 82.9966,
+      "recovery_rate": 59.1837
+    },
+    "recent_10_sg": -0.03300000000000001,
+    "recent_5_sg": 0.65,
+    "volatility": 0.9954702406400706
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.09699999999999998
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.65
+      }
+    ],
+    "narrative": "2025시즌 SG Total -0.10에서 2026시즌 +0.65로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.09699999999999998,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.65,
+        "delta_from_prev": 0.747,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8799",
+    "player_name": "오경은",
+    "sample_count": 15
+  },
+  "neo_verdict": {
+    "summary": "오경은은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.65)이 장기 평균(+0.15) 대비 뚜렷한 상승세를 보이고 있습니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.10에서 2026시즌 +0.65로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 47.93388429752066
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 71.48760330578513
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 23.140495867768596
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 61.15702479338843
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.606,
+    "avg_arg": -0.25,
+    "avg_ott": -0.26999999999999996,
+    "avg_putt": 0.568,
+    "avg_total": 0.65,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 23.140495867768596
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 23.140495867768596
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.65
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+0.65)이 장기 평균(+0.15) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.568
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.57로 반전에 성공했습니다."
+    }
+  ]
+}

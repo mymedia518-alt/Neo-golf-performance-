@@ -1,0 +1,121 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:22.077886+00:00",
+    "input_signature": "f317ac1dfbd7c6ecfbc3d0bd0d21f12a4c6cbeb2c1cc299a89f3614aaff5ebbd",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.42857142857142866,
+    "rate_stats": {},
+    "recent_10_sg": -0.015000000000000013,
+    "recent_5_sg": -0.556,
+    "volatility": 1.2975149324766941
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.7333333333333334
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.16
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.5885714285714286
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.73에서 2025시즌 -0.59로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.7333333333333334,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 2.16,
+        "delta_from_prev": 1.4266666666666667,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": -0.5885714285714286,
+        "delta_from_prev": -2.7485714285714287,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "9106",
+    "player_name": "권서연",
+    "sample_count": 21
+  },
+  "neo_verdict": {
+    "summary": "권서연은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +0.14로 반전에 성공했습니다. 2024시즌 강점이던 SG Off-the-Tee이(가) 2025시즌 -1.02로 악화되었습니다. 2023시즌 SG Total +0.73에서 2025시즌 -0.59로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.09285714285714287,
+    "avg_arg": 0.14285714285714285,
+    "avg_ott": -1.0185714285714285,
+    "avg_putt": 0.1942857142857143,
+    "avg_total": -0.5885714285714286,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -1.0185714285714285
+        }
+      ],
+      "text": "2024시즌 강점이던 SG Off-the-Tee이(가) 2025시즌 -1.02로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.14285714285714285
+        }
+      ],
+      "text": "2024시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +0.14로 반전에 성공했습니다."
+    }
+  ]
+}

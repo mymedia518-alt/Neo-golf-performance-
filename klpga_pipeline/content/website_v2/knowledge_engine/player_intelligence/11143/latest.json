@@ -1,0 +1,184 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:48.497452+00:00",
+    "input_signature": "27ffa31a1b77e3ff871c739344a0d9d83cd0eafbde289534ffc921d1048e8852",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.2248571428571429,
+    "rate_stats": {
+      "average_putts": 29.7183,
+      "average_score": 71.4085,
+      "birdie_rate": 19.4053,
+      "gir_rate": 71.205,
+      "par_break_rate": 19.5618,
+      "par_save_rate": 85.446,
+      "recovery_rate": 62.7717
+    },
+    "recent_10_sg": 0.8969999999999999,
+    "recent_5_sg": 0.602,
+    "volatility": 1.0694489235115439
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.9211111111111112
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.546470588235294
+      }
+    ],
+    "narrative": "2025시즌 SG Total +0.92에서 2026시즌 +1.55로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.9211111111111112,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.546470588235294,
+        "delta_from_prev": 0.6253594771241828,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11143",
+    "player_name": "김시현",
+    "sample_count": 35
+  },
+  "neo_verdict": {
+    "summary": "김시현은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 2시즌 연속 SG Off-the-Tee에서 상위 15% 수준의 기록을 유지하고 있습니다. 2025시즌 SG Total +0.92에서 2026시즌 +1.55로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 85.12396694214875
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 80.16528925619835
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 67.35537190082644
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 63.22314049586777
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 80.16528925619835
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 85.12396694214875
+      }
+    ],
+    "evidence_text": "SG Approach 상위 20%, SG Off-the-Tee 상위 15% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.5488235294117647,
+    "avg_arg": 0.07058823529411763,
+    "avg_ott": 0.5094117647058825,
+    "avg_putt": 0.4182352941176471,
+    "avg_total": 1.546470588235294,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 91.33333333333333
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 89.33333333333333
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 86.77685950413223
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 85.12396694214875
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 84.66666666666667
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 85.12396694214875
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Off-the-Tee에서 상위 15% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.07058823529411763
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.07로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "par_break_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 91.33333333333333
+        }
+      ],
+      "text": "파브레이크율 필드 상위 9%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

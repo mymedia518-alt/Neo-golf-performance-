@@ -1,0 +1,179 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:44.716295+00:00",
+    "input_signature": "27b5d851698c929045aad2688194045e6c7ea4afea915a3afeef5d49509cbe3c",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.1608333333333333,
+    "rate_stats": {},
+    "recent_10_sg": -0.265,
+    "recent_5_sg": 0.02999999999999998,
+    "volatility": 0.8783535734543351
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.18444444444444447
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.79
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -1.85
+      }
+    ],
+    "narrative": "2024시즌 SG Total -0.18에서 2026시즌 -1.85로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.18444444444444447,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.79,
+        "delta_from_prev": 0.9744444444444444,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": -1.85,
+        "delta_from_prev": -2.64,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10101",
+    "player_name": "임지유",
+    "sample_count": 12
+  },
+  "neo_verdict": {
+    "summary": "임지유은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 5% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total -0.18에서 2026시즌 -1.85로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 3.3057851239669422
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 28.512396694214875
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 91.32231404958678
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 95.04132231404958
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.99,
+    "avg_arg": 0.76,
+    "avg_ott": -2.7,
+    "avg_putt": 1.08,
+    "avg_total": -1.85,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 95.04132231404958
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 91.32231404958678
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 3.3057851239669422
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 3.3057851239669422
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.99
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.99로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 95.04132231404958
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Putting에서 상위 5% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_arg",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 91.32231404958678
+        }
+      ],
+      "text": "SG Around-the-Green 필드 상위 9%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

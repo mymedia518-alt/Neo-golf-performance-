@@ -1,0 +1,149 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:31.456323+00:00",
+    "input_signature": "2090e50b4cc7f579ed371437d16c9703222ed43da9cc44e35bde1e42a19b2707",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.95,
+    "rate_stats": {
+      "average_putts": 33.0,
+      "average_score": 73.8889,
+      "birdie_rate": 9.8765,
+      "gir_rate": 72.8395,
+      "par_break_rate": 9.8765,
+      "par_save_rate": 82.0988,
+      "recovery_rate": 61.3636
+    },
+    "recent_10_sg": -0.95,
+    "recent_5_sg": -0.95,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10567",
+    "player_name": "박다은",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "박다은은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee 필드 상위 3%에 해당하는 엘리트 수준입니다. 그린 적중률은 상위권(80퍼센타일)이지만 스코어 환산 효율(16퍼센타일)이 이를 따라가지 못하고 있습니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 96.69421487603306
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 55.78512396694215
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 42.14876033057851
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 9.50413223140496
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 2.01,
+    "avg_arg": 0.3,
+    "avg_ott": 0.85,
+    "avg_putt": -4.11,
+    "avg_total": -0.95,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 96.69421487603306
+    },
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 80.0
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 0.6666666666666666
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 1.3333333333333333
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 1.3333333333333333
+    },
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 9.50413223140496
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 16.0
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "gir_rate/average_score",
+          "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 64.0
+        }
+      ],
+      "text": "그린 적중률은 상위권(80퍼센타일)이지만 스코어 환산 효율(16퍼센타일)이 이를 따라가지 못하고 있습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_ott",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 96.69421487603306
+        }
+      ],
+      "text": "SG Off-the-Tee 필드 상위 3%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

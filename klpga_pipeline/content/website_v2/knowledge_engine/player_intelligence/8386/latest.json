@@ -1,0 +1,90 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:09.024133+00:00",
+    "input_signature": "2d031032cb43f3ed5f5560aab3e0392dac6046621a6452f1daabf16419a1fac5",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.31099999999999994,
+    "rate_stats": {
+      "average_putts": 30.4727,
+      "average_score": 73.2182,
+      "birdie_rate": 16.4646,
+      "gir_rate": 68.4848,
+      "par_break_rate": 16.5657,
+      "par_save_rate": 81.3131,
+      "recovery_rate": 54.8077
+    },
+    "recent_10_sg": 0.31099999999999994,
+    "recent_5_sg": -0.052000000000000005,
+    "volatility": 1.1852295136386033
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8386",
+    "player_name": "성은정",
+    "sample_count": 10
+  },
+  "neo_verdict": {
+    "summary": "성은정은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 36.77685950413223
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 51.65289256198347
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 58.264462809917354
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 52.892561983471076
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.034999999999999996,
+    "avg_arg": 0.10400000000000001,
+    "avg_ott": -0.223,
+    "avg_putt": 0.394,
+    "avg_total": 0.31099999999999994,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

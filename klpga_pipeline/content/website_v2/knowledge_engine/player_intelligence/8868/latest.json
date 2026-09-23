@@ -1,0 +1,145 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:34.054284+00:00",
+    "input_signature": "f844119243c1c6e88f8aff5a4d00bc1d00f9522dd48b8335b3bfa23b63a54d4e",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -1.0833333333333335,
+    "rate_stats": {},
+    "recent_10_sg": -1.0833333333333333,
+    "recent_5_sg": -1.5720000000000003,
+    "volatility": 1.8004320469141721
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.454
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -4.23
+      }
+    ],
+    "narrative": "2023시즌 SG Total -0.45에서 2025시즌 -4.23로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.454,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -4.23,
+        "delta_from_prev": -3.7760000000000002,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "8868",
+    "player_name": "안소현",
+    "sample_count": 6
+  },
+  "neo_verdict": {
+    "summary": "안소현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -0.45에서 2025시즌 -4.23로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 7.851239669421488
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 2.8925619834710745
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 58.264462809917354
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 36.77685950413223
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.17,
+    "avg_arg": -0.92,
+    "avg_ott": -0.61,
+    "avg_putt": -1.52,
+    "avg_total": -4.23,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 2.8925619834710745
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 4.545454545454546
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 7.851239669421488
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 2.8925619834710745
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(3퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -1.52
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Putting이(가) 2025시즌 -1.52로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

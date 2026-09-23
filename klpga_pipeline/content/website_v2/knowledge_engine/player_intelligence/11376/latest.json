@@ -1,0 +1,110 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:24.141127+00:00",
+    "input_signature": "b38d115a894db733ea86368019a46fa8367cb0bc1c144a0df30fb59c9084fc76",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.17375000000000002,
+    "rate_stats": {},
+    "recent_10_sg": -0.17375000000000002,
+    "recent_5_sg": -0.10199999999999995,
+    "volatility": 1.4875645994376177
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "11376",
+    "player_name": "조혜지2",
+    "sample_count": 8
+  },
+  "neo_verdict": {
+    "summary": "조혜지2은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 0%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 13.636363636363637
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 41.32231404958678
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 7.851239669421488
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 100.0
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.32875,
+    "avg_arg": -0.32000000000000006,
+    "avg_ott": 0.12,
+    "avg_putt": -0.305,
+    "avg_total": -0.17375000000000002,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 100.0
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 7.851239669421488
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 13.636363636363637
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 100.0
+        }
+      ],
+      "text": "SG Putting 필드 상위 0%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

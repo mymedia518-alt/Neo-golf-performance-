@@ -1,0 +1,207 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:02.446210+00:00",
+    "input_signature": "1b0c502cdd2d8b91685ae4795db54cd37cd45bbc3dee88dafe1c69ab14676240",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 2.1492063492063487,
+    "rate_stats": {
+      "average_putts": 30.4107,
+      "average_score": 70.57,
+      "birdie_rate": 19.4444,
+      "gir_rate": 77.4802,
+      "par_break_rate": 19.4444,
+      "par_save_rate": 89.4841,
+      "recovery_rate": 69.6035
+    },
+    "recent_10_sg": 2.7739999999999996,
+    "recent_5_sg": 2.5580000000000003,
+    "volatility": 0.6981575753366857
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.5519999999999998
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.607916666666666
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.4292857142857147
+      }
+    ],
+    "narrative": "2024시즌 SG Total +1.55에서 2026시즌 +2.43로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.5519999999999998,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 2.607916666666666,
+        "delta_from_prev": 1.0559166666666664,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 2.4292857142857147,
+        "delta_from_prev": -0.1786309523809515,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10146",
+    "player_name": "유현조",
+    "sample_count": 63
+  },
+  "neo_verdict": {
+    "summary": "유현조은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Approach에서 상위 2% 수준의 기록을 유지하고 있습니다. 전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(46퍼센타일)에 머물러 있습니다. 2024시즌 SG Total +1.55에서 2026시즌 +2.43로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 83.47107438016529
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 97.93388429752066
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 73.14049586776859
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 85.12396694214875
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 97.93388429752066
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 83.47107438016529
+      }
+    ],
+    "evidence_text": "SG Approach 상위 2%, SG Off-the-Tee 상위 17% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 1.1542857142857144,
+    "avg_arg": 0.1907142857142857,
+    "avg_ott": 0.4435714285714285,
+    "avg_putt": 0.6414285714285713,
+    "avg_total": 2.4292857142857147,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 98.0
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 97.93388429752066
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 97.93388429752066
+    },
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 96.0
+    },
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 95.33333333333333
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "average_putts",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 46.0
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 필드 평균 수준(46퍼센타일)에 머물러 있습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 97.93388429752066
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Approach에서 상위 2% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "par_save_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 98.0
+        }
+      ],
+      "text": "파세이브율 필드 상위 2%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_total",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 97.93388429752066
+        }
+      ],
+      "text": "SG Total 필드 상위 2%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

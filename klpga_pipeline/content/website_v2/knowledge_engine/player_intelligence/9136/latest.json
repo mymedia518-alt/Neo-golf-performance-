@@ -1,0 +1,162 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:23.780618+00:00",
+    "input_signature": "15567e18c059df0232835deb6f400c0c004b2753eb2862ebae8d3f9d78517d74",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.5863934426229509,
+    "rate_stats": {
+      "average_putts": 30.7719,
+      "average_score": 72.7368,
+      "birdie_rate": 14.7173,
+      "gir_rate": 69.3957,
+      "par_break_rate": 14.8148,
+      "par_save_rate": 82.4561,
+      "recovery_rate": 60.5096
+    },
+    "recent_10_sg": 0.39699999999999996,
+    "recent_5_sg": 0.18400000000000005,
+    "volatility": 1.2929040954378634
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.8282352941176471
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.3982352941176469
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.6441176470588235
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.397
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.83에서 2026시즌 +0.40로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.8282352941176471,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.3982352941176469,
+        "delta_from_prev": -0.43000000000000016,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.6441176470588235,
+        "delta_from_prev": 0.24588235294117655,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.397,
+        "delta_from_prev": -0.24711764705882344,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9136",
+    "player_name": "조혜림",
+    "sample_count": 61
+  },
+  "neo_verdict": {
+    "summary": "조혜림은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.08로 반전에 성공했습니다. 2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.10로 악화되었습니다. 2023시즌 SG Total +0.83에서 2026시즌 +0.40로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 69.42148760330579
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 44.21487603305785
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 54.13223140495868
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 34.710743801652896
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.09600000000000003,
+    "avg_arg": 0.082,
+    "avg_ott": 0.31799999999999995,
+    "avg_putt": 0.09299999999999999,
+    "avg_total": 0.397,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.09600000000000003
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.10로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.082
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.08로 반전에 성공했습니다."
+    }
+  ]
+}

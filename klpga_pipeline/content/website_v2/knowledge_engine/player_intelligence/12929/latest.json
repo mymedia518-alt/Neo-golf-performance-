@@ -1,0 +1,115 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:04.915842+00:00",
+    "input_signature": "7ecf8abd40f988f3d1a4b360438ff64db45354d19455d911b79e595bd1011a86",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": null,
+    "rate_stats": {},
+    "recent_10_sg": null,
+    "recent_5_sg": null,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": null,
+    "player_id": "12929",
+    "player_name": "낫타리카 센사이",
+    "sample_count": 0
+  },
+  "neo_verdict": {
+    "summary": "낫타리카 센사이은(는) 균형형(Balanced) 유형입니다. SG Around-the-Green 필드 상위 4%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 74.79338842975207
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 21.074380165289256
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 96.28099173553719
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 8.264462809917354
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": null,
+    "avg_arg": null,
+    "avg_ott": null,
+    "avg_putt": null,
+    "avg_total": null,
+    "season": null
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 96.28099173553719
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 8.264462809917354
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 20.24793388429752
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 21.074380165289256
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_arg",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 96.28099173553719
+        }
+      ],
+      "text": "SG Around-the-Green 필드 상위 4%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

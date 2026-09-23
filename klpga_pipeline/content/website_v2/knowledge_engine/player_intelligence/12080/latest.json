@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:41.601234+00:00",
+    "input_signature": "e7bfc9b14884b415b8cda11d31b92e0280e6e2ea5cc49f26b707fdf6c8fc9903",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -1.19,
+    "rate_stats": {},
+    "recent_10_sg": -1.19,
+    "recent_5_sg": -1.19,
+    "volatility": 0.09999999999999998
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -1.29
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -1.09
+      }
+    ],
+    "narrative": "2025시즌 SG Total -1.29에서 2026시즌 -1.09로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -1.29,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -1.09,
+        "delta_from_prev": 0.19999999999999996,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "12080",
+    "player_name": "양아연 1012(A)",
+    "sample_count": 2
+  },
+  "neo_verdict": {
+    "summary": "양아연 1012(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.01로 악화되었습니다. 2025시즌 SG Total -1.29에서 2026시즌 -1.09로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.06,
+    "avg_arg": -0.01,
+    "avg_ott": -0.01,
+    "avg_putt": -0.01,
+    "avg_total": -1.09,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.01
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.01로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

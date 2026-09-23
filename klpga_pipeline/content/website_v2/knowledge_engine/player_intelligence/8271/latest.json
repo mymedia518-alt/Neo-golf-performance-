@@ -1,0 +1,149 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:07.259264+00:00",
+    "input_signature": "5d4db9d772084418a6bdde3f015a41d0dfbbc86bf5a63d2231c02f1f3a7e08a7",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.13882352941176468,
+    "rate_stats": {
+      "average_putts": 31.0208,
+      "average_score": 73.5208,
+      "birdie_rate": 14.9306,
+      "gir_rate": 68.1713,
+      "par_break_rate": 14.9306,
+      "par_save_rate": 79.6296,
+      "recovery_rate": 55.2727
+    },
+    "recent_10_sg": 0.07800000000000004,
+    "recent_5_sg": -0.28200000000000003,
+    "volatility": 1.288679944749665
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.20099999999999998
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.049999999999999996
+      }
+    ],
+    "narrative": "2025시즌 SG Total +0.20에서 2026시즌 +0.05로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.20099999999999998,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.049999999999999996,
+        "delta_from_prev": -0.151,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8271",
+    "player_name": "김효문",
+    "sample_count": 17
+  },
+  "neo_verdict": {
+    "summary": "김효문은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.23로 반전에 성공했습니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(38퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total +0.20에서 2026시즌 +0.05로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 54.13223140495868
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 40.082644628099175
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 38.429752066115704
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 38.01652892561984
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.3742857142857143,
+    "avg_arg": -0.21142857142857144,
+    "avg_ott": 0.23285714285714287,
+    "avg_putt": 0.40285714285714286,
+    "avg_total": 0.049999999999999996,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 17.333333333333332
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 19.333333333333332
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 38.429752066115704
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(38퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.23285714285714287
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.23로 반전에 성공했습니다."
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:15.034101+00:00",
+    "input_signature": "4ed9c0438bc43610aa74c6a5bcf5364456cd59dc78424fe72d0eaf47547dddea",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.20666666666666667,
+    "rate_stats": {
+      "average_putts": 31.7778,
+      "average_score": 75.7333,
+      "birdie_rate": 11.358,
+      "gir_rate": 61.9753,
+      "par_break_rate": 11.358,
+      "par_save_rate": 72.4691,
+      "recovery_rate": 50.0
+    },
+    "recent_10_sg": -0.20666666666666667,
+    "recent_5_sg": -0.20666666666666667,
+    "volatility": 0.40334710720282707
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.19
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.405
+      }
+    ],
+    "narrative": "2025시즌 SG Total +0.19에서 2026시즌 -0.41로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.19,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -0.405,
+        "delta_from_prev": -0.595,
+        "season": 2026,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8430",
+    "player_name": "조은채",
+    "sample_count": 3
+  },
+  "neo_verdict": {
+    "summary": "조은채은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.04로 반전에 성공했습니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(21퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total +0.19에서 2026시즌 -0.41로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 39.256198347107436
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 21.487603305785125
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 25.619834710743802
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 12.809917355371901
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.795,
+    "avg_arg": 0.47500000000000003,
+    "avg_ott": 0.04000000000000001,
+    "avg_putt": -0.12000000000000002,
+    "avg_total": -0.405,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 2.6666666666666665
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 2.6666666666666665
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 3.3333333333333335
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 6.666666666666667
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 6.666666666666667
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 21.487603305785125
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(21퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.12000000000000002
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.12로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.04000000000000001
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.04로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.47500000000000003
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.48로 반전에 성공했습니다."
+    }
+  ]
+}

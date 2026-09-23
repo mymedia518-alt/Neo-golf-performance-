@@ -1,0 +1,156 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:06.362739+00:00",
+    "input_signature": "67fcec9b40cc269f74de7355a7839f4910de5bd15fa89bf6f8ca8629cc1bf763",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.6164285714285714,
+    "rate_stats": {
+      "average_putts": 31.2162,
+      "average_score": 73.0819,
+      "birdie_rate": 12.9129,
+      "gir_rate": 69.6697,
+      "par_break_rate": 13.0631,
+      "par_save_rate": 82.2823,
+      "recovery_rate": 62.8713
+    },
+    "recent_10_sg": 0.687,
+    "recent_5_sg": 0.506,
+    "volatility": 1.0650732369184759
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.0844444444444443
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.3392857142857143
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.4847058823529411
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.2871428571428572
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.08에서 2026시즌 +0.29로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.0844444444444443,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.3392857142857143,
+        "delta_from_prev": -0.74515873015873,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.4847058823529411,
+        "delta_from_prev": 0.1454201680672268,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.2871428571428572,
+        "delta_from_prev": -0.1975630252100839,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8854",
+    "player_name": "서연정",
+    "sample_count": 56
+  },
+  "neo_verdict": {
+    "summary": "서연정은(는) 균형형(Balanced) 유형입니다. 2023시즌 SG Total +1.08에서 2026시즌 +0.29로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 40.082644628099175
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 74.79338842975207
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 64.0495867768595
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 25.206611570247933
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.5714285714285714,
+    "avg_arg": 0.1657142857142857,
+    "avg_ott": -0.08,
+    "avg_putt": -0.37142857142857144,
+    "avg_total": 0.2871428571428572,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 11.333333333333334
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 19.333333333333332
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 20.0
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

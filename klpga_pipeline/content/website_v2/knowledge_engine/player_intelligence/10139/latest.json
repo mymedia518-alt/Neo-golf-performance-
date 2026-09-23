@@ -1,0 +1,170 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:41.042550+00:00",
+    "input_signature": "0eba2574a2cf0112be1d8e017b7a58cfc6ef88981dba4097901beece36b19537",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.1455555555555556,
+    "rate_stats": {
+      "average_putts": 30.54,
+      "average_score": 72.8195,
+      "birdie_rate": 15.1111,
+      "gir_rate": 68.1111,
+      "par_break_rate": 15.1111,
+      "par_save_rate": 81.7778,
+      "recovery_rate": 57.4913
+    },
+    "recent_10_sg": 0.14555555555555547,
+    "recent_5_sg": 1.1199999999999999,
+    "volatility": 1.8493909574722829
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -4.11
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.13
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.7557142857142857
+      }
+    ],
+    "narrative": "2023시즌 SG Total -4.11에서 2026시즌 +0.76로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -4.11,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.13,
+        "delta_from_prev": 4.24,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.7557142857142857,
+        "delta_from_prev": 0.6257142857142857,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10139",
+    "player_name": "양효리",
+    "sample_count": 9
+  },
+  "neo_verdict": {
+    "summary": "양효리은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+1.12)이 장기 평균(+0.15) 대비 뚜렷한 상승세를 보이고 있습니다. 최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(54퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -4.11에서 2026시즌 +0.76로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 52.06611570247934
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 53.71900826446281
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 40.082644628099175
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 41.32231404958678
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.008571428571428579,
+    "avg_arg": 0.09857142857142857,
+    "avg_ott": 0.07571428571428572,
+    "avg_putt": 0.5885714285714286,
+    "avg_total": 0.7557142857142857,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 53.71900826446281
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(54퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.1199999999999999
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+1.12)이 장기 평균(+0.15) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.07571428571428572
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.08로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.09857142857142857
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.10로 반전에 성공했습니다."
+    }
+  ]
+}

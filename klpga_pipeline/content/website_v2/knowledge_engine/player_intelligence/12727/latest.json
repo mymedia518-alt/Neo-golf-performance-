@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:13.962574+00:00",
+    "input_signature": "9caff3a121d371636b055b5a149e395fd35a85212f7563609a55e3b4375318db",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": null,
+    "rate_stats": {},
+    "recent_10_sg": null,
+    "recent_5_sg": null,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": null,
+    "player_id": "12727",
+    "player_name": "12727",
+    "sample_count": 0
+  },
+  "neo_verdict": {
+    "summary": "12727은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": null,
+    "avg_arg": null,
+    "avg_ott": null,
+    "avg_putt": null,
+    "avg_total": null,
+    "season": null
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

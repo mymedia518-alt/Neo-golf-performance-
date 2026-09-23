@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:11.948206+00:00",
+    "input_signature": "f345dd4d2294f3bb6c8d305135af7a46c778809989ea600fa2a3d7f3603ab739",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": null,
+    "rate_stats": {},
+    "recent_10_sg": null,
+    "recent_5_sg": null,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": null,
+    "player_id": "13210",
+    "player_name": "꼰까녹 숭판카오",
+    "sample_count": 0
+  },
+  "neo_verdict": {
+    "summary": "꼰까녹 숭판카오은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 2.8925619834710745
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 9.090909090909092
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 38.429752066115704
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 48.760330578512395
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": null,
+    "avg_arg": null,
+    "avg_ott": null,
+    "avg_putt": null,
+    "avg_total": null,
+    "season": null
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 2.8925619834710745
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 5.785123966942149
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 9.090909090909092
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

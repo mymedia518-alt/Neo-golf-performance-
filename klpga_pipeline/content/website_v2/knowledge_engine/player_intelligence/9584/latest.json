@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:11.242598+00:00",
+    "input_signature": "a671337e79d432b6739ac17e0ba2997a68983b4f56915017a3c1a5b14d2ea269",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.2,
+    "rate_stats": {},
+    "recent_10_sg": 0.2,
+    "recent_5_sg": 0.2,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "9584",
+    "player_name": "정지유",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "정지유은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.36,
+    "avg_arg": -0.22,
+    "avg_ott": -0.78,
+    "avg_putt": 0.85,
+    "avg_total": 0.2,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}
