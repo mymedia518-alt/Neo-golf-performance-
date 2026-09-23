@@ -25,7 +25,7 @@ def test_build_writes_a_page_per_player_and_syncs_assets():
     assert sample_path.exists()
     html = sample_path.read_text(encoding="utf-8")
     assert "<!doctype html>" in html
-    assert "정교한 볼스트라이커" in html or "player-type" in html
+    assert "정교한 아이언 플레이어" in html or "player-type" in html
     assert (pi_pages.OUTPUT / "assets" / "neo-site.css").exists()
 
 

@@ -202,4 +202,4 @@ def test_integration_real_player_10097(monkeypatch):
 
     html = piv2.build_or_placeholder("10097", player_name="김민선7")
     assert "Generating Player Intelligence" not in html
-    assert "정교한 볼스트라이커" in html
+    assert "정교한 아이언 플레이어" in html

@@ -327,6 +327,7 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    non-hero sections are native <details>/<summary> -- costs zero JS,
    matches the tournament-card convention already established above. */
 .pi-hero__type{margin:.4rem 0}
+.pi-hero__type-en{display:block;margin-top:.15rem;font-size:.7em;font-weight:600;opacity:.75}
 .pi-hero__meta{color:var(--muted);font-size:.85rem}
 .pi-section{margin:0 0 1rem;border:1px solid var(--line);background:var(--surface)}
 .pi-section .section-heading{padding:1rem 1.25rem;margin:0}
@@ -364,5 +365,12 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    back, restored here with higher specificity rather than editing the
    shared rule (which HOME/RANKING's mobile layout still depends on). */
 .pi-section .table-scroll{overflow-x:auto}
+/* Simple 2-column label/value stat tables (Current Form, Shot Profile)
+   never need the generic .data-table's min-width:42rem (that width
+   exists for wide multi-column leaderboard tables elsewhere on the
+   site) -- forcing it here just pushes the value column off-screen on
+   mobile, the opposite of "numbers first, no horizontal scrolling". */
+.pi-kv-table{min-width:0;width:100%}
+.pi-kv-table td{text-align:right;font-weight:700}
 @media(max-width:760px){.pi-radar-legend{grid-template-columns:1fr}.pi-kpi-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}

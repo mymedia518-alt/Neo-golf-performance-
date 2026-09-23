@@ -41,6 +41,16 @@ RATE_STAT_LABELS = {
     "recovery_rate": "리커버리율",
 }
 
+# Percent-shaped rate stats (2 decimals + %); the other two rate stats
+# (average_score, average_putts) are counts, formatted with their own
+# unit in _rate_stat_value() below -- never mixed with a % sign.
+_PERCENT_RATE_STAT_KEYS = {"birdie_rate", "gir_rate", "par_save_rate", "par_break_rate", "recovery_rate"}
+
+# Mirrors knowledge_rules.AVERAGE_BAND (40-60) -- an ordinary golfer
+# reads "평균 수준" / "상위 N%" / "하위 N%", never a raw percentile
+# number or the word "퍼센타일".
+_AVERAGE_BAND = (40.0, 60.0)
+
 _DOC_CACHE: dict = {}
 
 
@@ -105,7 +115,26 @@ def _sg(value) -> str:
 
 
 def _pctl(value) -> str:
-    return "—" if value is None else f"{value:.0f}퍼센타일"
+    if value is None:
+        return "—"
+    lo, hi = _AVERAGE_BAND
+    if lo <= value <= hi:
+        return "평균 수준"
+    if value > hi:
+        return f"상위 {100 - value:.0f}%"
+    return f"하위 {value:.0f}%"
+
+
+def _rate_stat_value(key: str, value) -> str:
+    if value is None:
+        return "—"
+    if key in _PERCENT_RATE_STAT_KEYS:
+        return f"{value:.2f}%"
+    if key == "average_score":
+        return f"{value:.2f}타"
+    if key == "average_putts":
+        return f"{value:.2f}개"
+    return f"{value:.2f}"
 
 
 def _citations_detail(citations: list) -> str:
@@ -115,7 +144,7 @@ def _citations_detail(citations: list) -> str:
         f"<dt>{escape(str(c.get('field_path', '')))}</dt><dd><code>{escape(str(c.get('source', '')))} = {escape(str(c.get('value', '')))}</code></dd>"
         for c in citations
     )
-    return f'<details class="evidence-detail"><summary>근거 보기</summary><dl>{rows}</dl></details>'
+    return f'<details class="evidence-detail"><summary>ⓘ 근거</summary><dl>{rows}</dl></details>'
 
 
 def _section(section_id: str, heading: str, body_html: str, *, open_by_default: bool = True) -> str:
@@ -143,7 +172,8 @@ def _hero_html(doc: dict) -> str:
         '<header class="pi-hero hero-data">'
         f'<p class="section-label">PLAYER INTELLIGENCE</p>'
         f"<h1>{escape(str(name))}</h1>"
-        f'<p class="pi-hero__type"><span class="label-chip">{escape(pt.get("label_ko", ""))} · {escape(pt.get("label_en", ""))}</span></p>'
+        f'<p class="pi-hero__type"><span class="label-chip">{escape(pt.get("label_ko", ""))}'
+        f'<span class="pi-hero__type-en">{escape(pt.get("label_en", ""))}</span></span></p>'
         f'<p class="pi-hero__meta">{escape(season_text)} · 표본 {hero.get("sample_count", 0)}건</p>'
         "</header>"
     )
@@ -152,13 +182,13 @@ def _hero_html(doc: dict) -> str:
 def _player_type_html(doc: dict) -> str:
     pt = doc.get("player_type", {})
     body = f"<p>{escape(pt.get('evidence_text', ''))}</p>" + _citations_detail(pt.get("citations", []))
-    return _section("player-type", "선수 유형 (Player Type)", body)
+    return _section("player-type", "선수 유형", body)
 
 
 def _player_dna_html(doc: dict) -> str:
     axes = doc.get("player_dna", {}).get("axes", [])
     if not axes:
-        return _section("player-dna", "선수 DNA (DNA Radar)", '<p class="pi-empty">이 선수의 SG 세부 지표 데이터가 없습니다.</p>')
+        return _section("player-dna", "선수 DNA", '<p class="pi-empty">이 선수의 SG 세부 지표 데이터가 없습니다.</p>')
 
     n = len(axes)
     cx, cy, r = 165, 120, 70
@@ -193,7 +223,7 @@ def _player_dna_html(doc: dict) -> str:
         f"</svg>"
     )
     table = "".join(f"<li>{escape(a['label'])}: {_pctl(a['percentile'])}</li>" for a in axes)
-    return _section("player-dna", "선수 DNA (DNA Radar)", f'{svg}<ul class="pi-radar-legend">{table}</ul>')
+    return _section("player-dna", "선수 DNA", f'{svg}<ul class="pi-radar-legend">{table}</ul>')
 
 
 def _key_kpis_html(doc: dict) -> str:
@@ -206,39 +236,40 @@ def _key_kpis_html(doc: dict) -> str:
         (f"{shot.get('season', '')}시즌 SG Total", _sg(shot.get("avg_total"))),
     ]
     cells = "".join(f'<div class="kpi-block"><span class="kpi-label">{escape(label)}</span><strong class="kpi-value">{escape(value)}</strong></div>' for label, value in kpis)
-    return _section("key-kpis", "핵심 지표 (Key KPIs)", f'<div class="pi-kpi-grid">{cells}</div>')
+    return _section("key-kpis", "핵심 지표", f'<div class="pi-kpi-grid">{cells}</div>')
 
 
 def _current_form_html(doc: dict) -> str:
     form = doc.get("current_form", {})
     rate_stats = form.get("rate_stats", {})
     rows = "".join(
-        f"<tr><th scope='row'>{escape(RATE_STAT_LABELS.get(k, k))}</th><td>{v}</td></tr>" for k, v in rate_stats.items()
+        f"<tr><th scope='row'>{escape(RATE_STAT_LABELS.get(k, k))}</th><td>{_rate_stat_value(k, v)}</td></tr>"
+        for k, v in rate_stats.items()
     )
     volatility = form.get("volatility")
     body = (
         f'<p>변동성(최근 10R SG 표준편차): {"—" if volatility is None else f"{volatility:.2f}"}</p>'
-        f'<div class="table-scroll"><table class="data-table"><tbody>{rows}</tbody></table></div>'
+        f'<table class="data-table pi-kv-table"><tbody>{rows}</tbody></table>'
         if rate_stats
         else '<p class="pi-empty">현재 시즌 기록 데이터가 없습니다.</p>'
     )
-    return _section("current-form", "최근 폼 (Current Form)", body)
+    return _section("current-form", "최근 경기력", body)
 
 
 def _shot_profile_html(doc: dict) -> str:
     shot = doc.get("shot_profile", {})
     components = ("avg_ott", "avg_app", "avg_arg", "avg_putt")
     if all(shot.get(c) is None for c in components):
-        return _section("shot-profile", "샷 프로파일 (Shot Profile)", '<p class="pi-empty">시즌 SG 세부 기록이 없습니다.</p>')
+        return _section("shot-profile", "샷 특성", '<p class="pi-empty">시즌 SG 세부 기록이 없습니다.</p>')
     rows = "".join(f"<tr><th scope='row'>{escape(SG_COMPONENT_LABELS[c])}</th><td>{_sg(shot.get(c))}</td></tr>" for c in components)
-    body = f'<div class="table-scroll"><table class="data-table"><tbody>{rows}</tbody></table></div>'
-    return _section("shot-profile", "샷 프로파일 (Shot Profile)", body)
+    body = f'<table class="data-table pi-kv-table"><tbody>{rows}</tbody></table>'
+    return _section("shot-profile", "샷 특성", body)
 
 
 def _course_fit_html(doc: dict) -> str:
     history = doc.get("course_fit", {}).get("history", [])
     if not history:
-        return _section("course-fit", "코스 적합도 (Course Fit)", '<p class="pi-empty">이 대회 시리즈 과거 출전 기록이 없습니다.</p>')
+        return _section("course-fit", "코스 적합도", '<p class="pi-empty">이 대회 시리즈 과거 출전 기록이 없습니다.</p>')
 
     def _history_row(h):
         sg_text = _sg(h.get("sg_total"))
@@ -246,7 +277,7 @@ def _course_fit_html(doc: dict) -> str:
 
     rows = "".join(_history_row(h) for h in history)
     body = f'<div class="table-scroll"><table class="data-table"><thead><tr><th>시즌</th><th>대회</th><th>SG Total</th></tr></thead><tbody>{rows}</tbody></table></div>'
-    return _section("course-fit", "코스 적합도 (Course Fit)", body)
+    return _section("course-fit", "코스 적합도", body)
 
 
 def _metric_list_html(section_id: str, heading: str, items: list) -> str:
@@ -281,14 +312,14 @@ def _evolution_html(doc: dict) -> str:
             for s in steps
         )
         body = f"<p>{escape(narrative)}</p><ul class='pi-evolution-list'>{items}</ul>" + _citations_detail(evolution.get("citations", []))
-    return _section("evolution", "선수 진화 (Player Evolution)", body)
+    return _section("evolution", "최근 변화", body)
 
 
 def _neo_verdict_html(doc: dict) -> str:
     verdict = doc.get("neo_verdict", {}).get("summary", "")
     return (
         '<details class="pi-verdict" id="neo-verdict" open>'
-        '<summary><h2>NEO VERDICT</h2></summary>'
+        '<summary><h2>NEO 한줄평</h2></summary>'
         f"<p>{escape(verdict)}</p>"
         "</details>"
     )
@@ -320,11 +351,11 @@ def render_player_intelligence_v2_html(doc: dict, *, prev_link: Optional[dict] =
         _current_form_html(doc),
         _shot_profile_html(doc),
         _course_fit_html(doc),
-        _metric_list_html("strengths", "강점 (Strengths)", doc.get("strengths", [])),
-        _metric_list_html("risks", "리스크 (Risks)", doc.get("weaknesses", [])),
+        _metric_list_html("strengths", "강점", doc.get("strengths", [])),
+        _metric_list_html("risks", "주의할 점", doc.get("weaknesses", [])),
         _evolution_html(doc),
-        _reason_list_html("why-wins", "승리 요인 (Why She Wins)", doc.get("why_wins", []), tone="positive"),
-        _reason_list_html("why-loses", "패인 (Why She Loses)", doc.get("why_loses", []), tone="negative"),
+        _reason_list_html("why-wins", "우승 요인", doc.get("why_wins", []), tone="positive"),
+        _reason_list_html("why-loses", "주의할 점", doc.get("why_loses", []), tone="negative"),
         _neo_verdict_html(doc),
     ]
     return _prev_next_html(prev_link, next_link) + "".join(sections)
