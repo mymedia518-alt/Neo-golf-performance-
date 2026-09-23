@@ -23,7 +23,16 @@ REQUIRED_QUESTION_KEYS = {
     "monitoring_protocol", "evidence_score", "sample_size", "confidence",
 }
 
-REQUIRED_PROTOCOL_KEYS = {"metric", "source", "sample_size", "normal_range", "warning_threshold", "next_review"}
+REQUIRED_PROTOCOL_KEYS = {
+    "metric", "source", "sample_size", "normal_range", "warning_threshold", "next_review",
+    "explanatory_metric", "current_reading", "current_status", "current_detail",
+}
+
+VALID_CURRENT_STATUS = {"NORMAL", "WATCH", "WARNING", "AT_FLOOR"}
+
+# "Never predict. Never speculate." -- these would signal a forecast of a
+# future value rather than a status check of an already-recorded one.
+_PREDICTIVE_WORDS = ("predict", "forecast", "likely to score", "expected to", "should improve", "projected")
 
 VALID_DURABILITY = {report_script.LONG_TERM, report_script.RECENT_TREND, report_script.CONFIRMED_EVENT}
 
@@ -103,6 +112,55 @@ def test_every_action_is_backed_by_a_measurable_monitoring_protocol():
         # the metric must come from a real, officially-sourced, repeated
         # measurement -- never a single current-season snapshot stat
         assert "historical_sg_warehouse_corrected.json" in protocol["source"] or "compute_season_profiles" in protocol["source"]
+
+
+def test_every_protocol_answers_what_metric_most_likely_explains_a_change():
+    """V3, item 5: never a golf-domain guess. Either a real correlation
+    that clears the disclosed threshold (named, with the coefficient
+    shown), or an honest 'None'/'Unknown' with the real numbers behind
+    that answer -- never silence, never invention."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        explanatory = protocol["explanatory_metric"]
+        assert explanatory.strip()
+        assert explanatory.startswith(("None.", "Unknown", "SG "))
+        if explanatory.startswith("None.") or explanatory.startswith("Unknown"):
+            # the "no real explanation found" answer must still show its work
+            assert "r=" in explanatory or "n=" in explanatory or "real" in explanatory
+
+
+def test_every_protocol_has_a_current_status_checked_against_a_real_reading_not_a_forecast():
+    """V3: 'the report should be usable before every tournament' -- each
+    protocol's current_status must be a real, already-recorded reading
+    compared against its own normal range/floor, never a predicted one."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        assert protocol["current_status"] in VALID_CURRENT_STATUS
+        assert isinstance(protocol["current_reading"], (int, float))
+        assert protocol["current_detail"].strip()
+        assert "most recent real reading" in protocol["current_detail"].lower() or "lowest on record" in protocol["current_detail"].lower()
+
+
+def test_report_never_predicts_or_speculates():
+    doc = report_script.build()
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        combined = " ".join([q["action"], protocol["explanatory_metric"], protocol["current_detail"]]).lower()
+        for word in _PREDICTIVE_WORDS:
+            assert word not in combined, f"{q['id']} reads as a prediction ({word!r})"
+
+
+def test_pre_tournament_checklist_covers_every_answered_question():
+    doc = report_script.build()
+    checklist = doc["pre_tournament_checklist"]
+    assert len(checklist) == len(doc["questions"])
+    linked_questions = {item["linked_question"] for item in checklist}
+    assert linked_questions == {q["question"] for q in doc["questions"]}
+    for item in checklist:
+        assert item["current_status"] in VALID_CURRENT_STATUS
+        assert item["metric"].strip()
 
 
 def test_action_and_protocol_never_read_as_an_opinion():
@@ -259,6 +317,36 @@ def test_render_shows_the_monitoring_protocol_fields():
         assert escape_or_raw(protocol["normal_range"], html)
         assert escape_or_raw(protocol["warning_threshold"], html)
         assert escape_or_raw(protocol["next_review"], html)
+
+
+def test_render_shows_explanatory_metric_and_current_status():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert "Most likely explains a change" in html
+    assert "Current status" in html
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        assert escape_or_raw(protocol["explanatory_metric"], html)
+        assert escape_or_raw(protocol["current_detail"], html)
+
+
+def test_render_shows_pre_tournament_checklist_linking_to_each_section():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert "Pre-Tournament Monitoring Checklist" in html
+    for item in doc["pre_tournament_checklist"]:
+        assert escape_or_raw(item["metric"], html)
+    # every checklist entry links to a real anchor that exists on the page
+    import re
+
+    hrefs = re.findall(r'href="#([^"]+)"', html)
+    ids = set(re.findall(r'<details[^>]*\bid="([^"]+)"', html))
+    for href in hrefs:
+        assert href in ids, f"checklist link #{href} has no matching section id"
 
 
 def test_render_puts_action_as_the_true_last_element_of_every_section():
