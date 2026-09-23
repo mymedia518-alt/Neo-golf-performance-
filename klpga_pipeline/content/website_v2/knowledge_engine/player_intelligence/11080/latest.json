@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:21.268546+00:00",
+    "input_signature": "498fceb42bff40f74cc2fad16773fb7effbffd3f9ec9a66e531cc52e606493eb",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 2.0,
+    "rate_stats": {},
+    "recent_10_sg": 2.0,
+    "recent_5_sg": 2.0,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11080",
+    "player_name": "길예람",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "길예람은(는) 균형형(Balanced) 유형입니다. SG Approach 필드 상위 7%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 41.735537190082646
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 92.56198347107438
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 21.90082644628099
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 74.3801652892562
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 1.49,
+    "avg_arg": -0.48,
+    "avg_ott": -0.04,
+    "avg_putt": 1.03,
+    "avg_total": 2.0,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 92.56198347107438
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 21.90082644628099
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_app",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 92.56198347107438
+        }
+      ],
+      "text": "SG Approach 필드 상위 7%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

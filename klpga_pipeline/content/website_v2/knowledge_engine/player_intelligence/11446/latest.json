@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:06.724432+00:00",
+    "input_signature": "e886937375ee9ce62c5cc35863478be21769416f81c48e73aa1c40dd753dea2a",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.7466666666666666,
+    "rate_stats": {
+      "average_putts": 31.6552,
+      "average_score": 74.4483,
+      "birdie_rate": 13.7931,
+      "gir_rate": 68.3908,
+      "par_break_rate": 13.9847,
+      "par_save_rate": 77.0115,
+      "recovery_rate": 43.6364
+    },
+    "recent_10_sg": -0.7466666666666666,
+    "recent_5_sg": -1.042,
+    "volatility": 1.3922004964164545
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11446",
+    "player_name": "강민진",
+    "sample_count": 6
+  },
+  "neo_verdict": {
+    "summary": "강민진은(는) 균형형(Balanced) 유형입니다. 그린 적중률은 상위권(41퍼센타일)이지만 스코어 환산 효율(9퍼센타일)이 이를 따라가지 못하고 있습니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 80.99173553719008
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 23.553719008264462
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 7.43801652892562
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 64.87603305785125
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.9583333333333334,
+    "avg_arg": -0.8216666666666668,
+    "avg_ott": 0.45166666666666666,
+    "avg_putt": 0.5816666666666667,
+    "avg_total": -0.7466666666666666,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 80.99173553719008
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 1.3333333333333333
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 5.333333333333333
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 6.666666666666667
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 7.43801652892562
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 8.666666666666666
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "gir_rate/average_score",
+          "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 32.0
+        }
+      ],
+      "text": "그린 적중률은 상위권(41퍼센타일)이지만 스코어 환산 효율(9퍼센타일)이 이를 따라가지 못하고 있습니다."
+    }
+  ],
+  "why_wins": []
+}

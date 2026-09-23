@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:36.978603+00:00",
+    "input_signature": "2850160b666e6ceca62b04dbea8d3c7f03e704264514e0c672b081cfa640d1c0",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": null,
+    "rate_stats": {},
+    "recent_10_sg": null,
+    "recent_5_sg": null,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": null,
+    "player_id": "11985",
+    "player_name": "최이수",
+    "sample_count": 0
+  },
+  "neo_verdict": {
+    "summary": "최이수은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee 필드 상위 7%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 92.97520661157024
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 54.95867768595041
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 45.86776859504132
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 3.71900826446281
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": null,
+    "avg_arg": null,
+    "avg_ott": null,
+    "avg_putt": null,
+    "avg_total": null,
+    "season": null
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 92.97520661157024
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 3.71900826446281
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_ott",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 92.97520661157024
+        }
+      ],
+      "text": "SG Off-the-Tee 필드 상위 7%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

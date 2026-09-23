@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:12.708436+00:00",
+    "input_signature": "9460806fb8299619e5c1f521f3c2eae97ae8876249cb0d3ba9e04e88ecb0dbbe",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.32,
+    "rate_stats": {},
+    "recent_10_sg": -0.32,
+    "recent_5_sg": -0.32,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "12053",
+    "player_name": "성해인 0909(A)",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "성해인 0909(A)은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.39,
+    "avg_arg": -0.32,
+    "avg_ott": -0.02,
+    "avg_putt": -0.37,
+    "avg_total": -0.32,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

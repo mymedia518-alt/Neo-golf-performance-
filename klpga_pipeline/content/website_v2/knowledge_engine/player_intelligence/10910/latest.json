@@ -1,0 +1,94 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:21.871056+00:00",
+    "input_signature": "7c890381c433ba40ba83dea7fb1f3d112e1ff1ba82ca76eb139eefc022871d0c",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -1.78,
+    "rate_stats": {},
+    "recent_10_sg": -1.78,
+    "recent_5_sg": -1.78,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "10910",
+    "player_name": "주세연",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "주세연은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 6.198347107438017
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 35.950413223140494
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 65.2892561983471
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 85.53719008264463
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.93,
+    "avg_arg": -0.62,
+    "avg_ott": -0.13,
+    "avg_putt": 0.9,
+    "avg_total": -1.78,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 85.53719008264463
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 6.198347107438017
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

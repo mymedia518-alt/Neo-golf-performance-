@@ -1,0 +1,142 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:49.052879+00:00",
+    "input_signature": "835068b76042dc3626c22c7a4c0e24a131d54c858fd9d2bea873da1976bd99f0",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.8649999999999999,
+    "rate_stats": {},
+    "recent_10_sg": 0.529,
+    "recent_5_sg": 0.43200000000000005,
+    "volatility": 1.2070248547565208
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.8199999999999998
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.3133333333333333
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.48
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.7999999999999998
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.82에서 2026시즌 +1.80로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.8199999999999998,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.3133333333333333,
+        "delta_from_prev": -1.5066666666666666,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": -0.48,
+        "delta_from_prev": -0.7933333333333332,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 1.7999999999999998,
+        "delta_from_prev": 2.28,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11944",
+    "player_name": "오수민 0809(A)",
+    "sample_count": 12
+  },
+  "neo_verdict": {
+    "summary": "오수민 0809(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.84로 반전에 성공했습니다. 2023시즌 SG Total +1.82에서 2026시즌 +1.80로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.6499999999999999,
+    "avg_arg": 0.11,
+    "avg_ott": 0.84,
+    "avg_putt": 0.19,
+    "avg_total": 1.7999999999999998,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.84
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.84로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.6499999999999999
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.65로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.11
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.11로 반전에 성공했습니다."
+    }
+  ]
+}

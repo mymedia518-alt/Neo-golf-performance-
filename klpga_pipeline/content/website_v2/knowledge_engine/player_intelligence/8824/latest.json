@@ -1,0 +1,129 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:31.180757+00:00",
+    "input_signature": "0ea3ac02b185cb3181f102f181aa8e29b7ba391d3c92cc6ce87d2141dd58f644",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.59,
+    "rate_stats": {},
+    "recent_10_sg": 0.59,
+    "recent_5_sg": 0.59,
+    "volatility": 0.86
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.27
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.45
+      }
+    ],
+    "narrative": "2023시즌 SG Total -0.27에서 2025시즌 +1.45로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.27,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 1.45,
+        "delta_from_prev": 1.72,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "8824",
+    "player_name": "안나린",
+    "sample_count": 2
+  },
+  "neo_verdict": {
+    "summary": "안나린은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Off-the-Tee이(가) 2025시즌 +0.24로 반전에 성공했습니다. 2023시즌 강점이던 SG Around-the-Green이(가) 2025시즌 -0.14로 악화되었습니다. 2023시즌 SG Total -0.27에서 2025시즌 +1.45로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.23,
+    "avg_arg": -0.14,
+    "avg_ott": 0.24,
+    "avg_putt": 1.14,
+    "avg_total": 1.45,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.14
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Around-the-Green이(가) 2025시즌 -0.14로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.24
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Off-the-Tee이(가) 2025시즌 +0.24로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.23
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Approach이(가) 2025시즌 +0.23로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.14
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Putting이(가) 2025시즌 +1.14로 반전에 성공했습니다."
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:50.353901+00:00",
+    "input_signature": "f8e0a8f4e2e98c23ef96784d9d700e7d7b637a17fec5cd5366c9dd0a0596163b",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.65,
+    "rate_stats": {},
+    "recent_10_sg": 1.65,
+    "recent_5_sg": 1.65,
+    "volatility": 0.5159941860137572
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.805
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.86
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.13
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.80에서 2026시즌 +2.13로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.805,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.86,
+        "delta_from_prev": -0.945,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 2.13,
+        "delta_from_prev": 1.27,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8320",
+    "player_name": "김아림",
+    "sample_count": 4
+  },
+  "neo_verdict": {
+    "summary": "김아림은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee에서 상위 0% 수준의 기록을 유지하고 있습니다. 전체 기량은 최상위권이지만 SG Around-the-Green은(는) 필드 평균 수준(42퍼센타일)에 머물러 있습니다. 2023시즌 SG Total +1.80에서 2026시즌 +2.13로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 99.58677685950413
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 94.21487603305785
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 42.14876033057851
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 36.77685950413223
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 94.21487603305785
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 99.58677685950413
+      }
+    ],
+    "evidence_text": "SG Approach 상위 6%, SG Off-the-Tee 상위 0% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.98,
+    "avg_arg": 0.02,
+    "avg_ott": 1.08,
+    "avg_putt": 0.06,
+    "avg_total": 2.13,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 99.58677685950413
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 97.10743801652893
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 94.21487603305785
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_arg",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 42.14876033057851
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 SG Around-the-Green은(는) 필드 평균 수준(42퍼센타일)에 머물러 있습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 99.58677685950413
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Off-the-Tee에서 상위 0% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.98
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.98로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.02
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.02로 반전에 성공했습니다."
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:02.906297+00:00",
+    "input_signature": "4bf8694c9477796952939ab9b1febdabb5c0b5b26abc44f0d265ea76fef8693f",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.8761538461538461,
+    "rate_stats": {
+      "average_putts": 30.3396,
+      "average_score": 71.9434,
+      "birdie_rate": 16.0377,
+      "gir_rate": 70.9644,
+      "par_break_rate": 16.3522,
+      "par_save_rate": 84.9057,
+      "recovery_rate": 63.1769
+    },
+    "recent_10_sg": 0.8590000000000002,
+    "recent_5_sg": 0.5939999999999999,
+    "volatility": 1.363352118859981
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "1485",
+    "player_name": "빳차라쭈타 콩끄라판(I)",
+    "sample_count": 13
+  },
+  "neo_verdict": {
+    "summary": "빳차라쭈타 콩끄라판(I)은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee 필드 상위 5%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 95.45454545454545
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 49.17355371900826
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 77.27272727272727
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 45.45454545454545
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.22384615384615383,
+    "avg_arg": 0.19307692307692312,
+    "avg_ott": 0.7407692307692307,
+    "avg_putt": 0.16538461538461538,
+    "avg_total": 0.8761538461538461,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 95.45454545454545
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 77.27272727272727
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 76.03305785123968
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_ott",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 95.45454545454545
+        }
+      ],
+      "text": "SG Off-the-Tee 필드 상위 5%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

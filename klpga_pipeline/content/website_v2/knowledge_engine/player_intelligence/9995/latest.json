@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:10.835869+00:00",
+    "input_signature": "57ff2046ec68a12a360882a44457ed4840ffb91ae4f850e4689c06a020326d6a",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.66,
+    "rate_stats": {},
+    "recent_10_sg": 0.66,
+    "recent_5_sg": 0.66,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9995",
+    "player_name": "이가경",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "이가경은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 56.19834710743802
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 88.4297520661157
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 24.793388429752067
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 75.6198347107438
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.68,
+    "avg_arg": -0.32,
+    "avg_ott": 0.0,
+    "avg_putt": 0.31,
+    "avg_total": 0.66,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 88.4297520661157
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 76.85950413223141
+    },
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 75.6198347107438
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 24.793388429752067
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

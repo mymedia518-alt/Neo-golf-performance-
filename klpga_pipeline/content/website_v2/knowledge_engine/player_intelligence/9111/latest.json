@@ -1,0 +1,144 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:41.221615+00:00",
+    "input_signature": "c053aab5aa9f30e1326cb7329bdf990650585a90b2c832bbf90210b60735ddbb",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.023749999999999966,
+    "rate_stats": {
+      "average_putts": 30.125,
+      "average_score": 72.8741,
+      "birdie_rate": 14.0873,
+      "gir_rate": 64.7817,
+      "par_break_rate": 14.0873,
+      "par_save_rate": 83.2341,
+      "recovery_rate": 63.662
+    },
+    "recent_10_sg": 0.050999999999999976,
+    "recent_5_sg": -0.446,
+    "volatility": 1.2918935714678668
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.14833333333333334
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.051000000000000045
+      }
+    ],
+    "narrative": "2023시즌 SG Total -0.15에서 2026시즌 +0.05로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.14833333333333334,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.051000000000000045,
+        "delta_from_prev": 0.1993333333333334,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9111",
+    "player_name": "박서현",
+    "sample_count": 16
+  },
+  "neo_verdict": {
+    "summary": "박서현은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.09로 반전에 성공했습니다. 최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -0.15에서 2026시즌 +0.05로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 36.77685950413223
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 45.86776859504132
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 54.13223140495868
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 57.02479338842975
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.013999999999999985,
+    "avg_arg": 0.094,
+    "avg_ott": -0.23800000000000004,
+    "avg_putt": 0.183,
+    "avg_total": 0.051000000000000045,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 18.666666666666668
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 36.77685950413223
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.094
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.09로 반전에 성공했습니다."
+    }
+  ]
+}

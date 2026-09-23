@@ -1,0 +1,225 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:46.240447+00:00",
+    "input_signature": "29029692e454b2bc3e6d4bf806e0ec04280229588e21211fdb2fa96e8b0d1b7b",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 2.0371621621621627,
+    "rate_stats": {
+      "average_putts": 31.1406,
+      "average_score": 71.3281,
+      "birdie_rate": 16.9271,
+      "gir_rate": 77.6042,
+      "par_break_rate": 17.0139,
+      "par_save_rate": 87.5,
+      "recovery_rate": 58.9147
+    },
+    "recent_10_sg": 1.689,
+    "recent_5_sg": 1.8080000000000003,
+    "volatility": 1.5151267273729945
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.272105263157895
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.464
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.900555555555555
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.4170588235294117
+      }
+    ],
+    "narrative": "2023시즌 SG Total +2.27에서 2026시즌 +1.42로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 2.272105263157895,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 2.464,
+        "delta_from_prev": 0.19189473684210512,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.900555555555555,
+        "delta_from_prev": -0.5634444444444449,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.4170588235294117,
+        "delta_from_prev": -0.4834967320261434,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "8300",
+    "player_name": "김수지",
+    "sample_count": 74
+  },
+  "neo_verdict": {
+    "summary": "김수지은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.21로 악화되었습니다. 2023시즌 SG Total +2.27에서 2026시즌 +1.42로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 89.25619834710744
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 94.62809917355372
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 52.47933884297521
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 32.64462809917355
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 94.62809917355372
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 89.25619834710744
+      }
+    ],
+    "evidence_text": "SG Approach 상위 5%, SG Off-the-Tee 상위 11% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.9858823529411765,
+    "avg_arg": 0.015882352941176472,
+    "avg_ott": 0.6235294117647059,
+    "avg_putt": -0.20823529411764705,
+    "avg_total": 1.4170588235294117,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 97.33333333333333
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 94.62809917355372
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 89.25619834710744
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 89.25619834710744
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 86.66666666666667
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 12.666666666666666
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.20823529411764705
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.21로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 94.62809917355372
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.015882352941176472
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.02로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "gir_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 97.33333333333333
+        }
+      ],
+      "text": "그린 적중률 필드 상위 3%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

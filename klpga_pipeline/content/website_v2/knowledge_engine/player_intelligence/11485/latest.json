@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:26.382982+00:00",
+    "input_signature": "79b6925aba980814006e310ba42946f9079c0aab49ce7547123f65a7552cbb8c",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.28,
+    "rate_stats": {
+      "average_putts": 29.3333,
+      "average_score": 72.8333,
+      "birdie_rate": 17.5926,
+      "gir_rate": 66.6667,
+      "par_break_rate": 17.5926,
+      "par_save_rate": 83.3333,
+      "recovery_rate": 52.7778
+    },
+    "recent_10_sg": -0.28,
+    "recent_5_sg": -0.28,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11485",
+    "player_name": "신지우",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "신지우은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 79.33884297520662
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 39.256198347107436
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 30.99173553719008
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 61.15702479338843
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.46,
+    "avg_arg": 0.04,
+    "avg_ott": 0.41,
+    "avg_putt": 0.73,
+    "avg_total": -0.28,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 92.0
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 80.0
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 79.33884297520662
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 79.33333333333333
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 16.666666666666668
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

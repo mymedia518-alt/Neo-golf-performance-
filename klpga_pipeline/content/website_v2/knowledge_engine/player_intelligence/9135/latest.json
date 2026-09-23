@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:23.462308+00:00",
+    "input_signature": "0fc59bb89bd00c11145c0c365218bf60f4b77684daaa7f24ca6ae1601848dbe7",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.9351282051282047,
+    "rate_stats": {
+      "average_putts": 30.5231,
+      "average_score": 71.4,
+      "birdie_rate": 18.3761,
+      "gir_rate": 74.7863,
+      "par_break_rate": 18.3761,
+      "par_save_rate": 86.4103,
+      "recovery_rate": 62.0339
+    },
+    "recent_10_sg": 1.6469999999999998,
+    "recent_5_sg": 1.3699999999999999,
+    "volatility": 1.1258956434767833
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.3577777777777778
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.7847058823529411
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.5315384615384613
+      }
+    ],
+    "narrative": "2024시즌 SG Total +0.36에서 2026시즌 +1.53로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.3577777777777778,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.7847058823529411,
+        "delta_from_prev": 0.42692810457516334,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.5315384615384613,
+        "delta_from_prev": 0.7468325791855202,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9135",
+    "player_name": "신다인",
+    "sample_count": 39
+  },
+  "neo_verdict": {
+    "summary": "신다인은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee에서 상위 2% 수준의 기록을 유지하고 있습니다. 2024시즌 SG Total +0.36에서 2026시즌 +1.53로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 97.93388429752066
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 77.68595041322314
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 48.34710743801653
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 40.49586776859504
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 77.68595041322314
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 97.93388429752066
+      }
+    ],
+    "evidence_text": "SG Approach 상위 22%, SG Off-the-Tee 상위 2% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.6261538461538462,
+    "avg_arg": -0.06999999999999999,
+    "avg_ott": 0.9915384615384615,
+    "avg_putt": -0.016153846153846168,
+    "avg_total": 1.5315384615384613,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 97.93388429752066
+    },
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 92.0
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 87.1900826446281
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 85.33333333333333
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 84.0
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 97.93388429752066
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Off-the-Tee에서 상위 2% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "gir_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 92.0
+        }
+      ],
+      "text": "그린 적중률 필드 상위 8%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

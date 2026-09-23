@@ -1,0 +1,210 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:29.684964+00:00",
+    "input_signature": "d8a8a74218c9aed745d2575c247116b25da5decb17aae27ce78c808d8d984087",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.8007017543859649,
+    "rate_stats": {
+      "average_putts": 29.9762,
+      "average_score": 72.9768,
+      "birdie_rate": 12.3016,
+      "gir_rate": 63.8889,
+      "par_break_rate": 12.3016,
+      "par_save_rate": 84.2593,
+      "recovery_rate": 69.5971
+    },
+    "recent_10_sg": 0.441,
+    "recent_5_sg": 0.426,
+    "volatility": 0.7633013821551746
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.4593749999999999
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.7066666666666667
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.4275
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.38999999999999996
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.46에서 2026시즌 +0.39로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.4593749999999999,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.7066666666666667,
+        "delta_from_prev": -0.7527083333333332,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.4275,
+        "delta_from_prev": -0.2791666666666667,
+        "season": 2025,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.38999999999999996,
+        "delta_from_prev": -0.03750000000000003,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9183",
+    "player_name": "박결",
+    "sample_count": 57
+  },
+  "neo_verdict": {
+    "summary": "박결은(는) 회복력 특화형(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 7% 수준의 기록을 유지하고 있습니다. 최근 4시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(29퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +1.46에서 2026시즌 +0.39로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 28.925619834710744
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 37.603305785123965
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 92.97520661157024
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 68.59504132231405
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_arg",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 92.97520661157024
+      },
+      {
+        "field_path": "recovery_rate",
+        "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+        "value": 94.66666666666667
+      }
+    ],
+    "evidence_text": "SG Around-the-Green 상위 7%, 리커버리율 상위 5% 수준입니다.",
+    "key": "recovery_specialist",
+    "label_en": "Recovery Specialist",
+    "label_ko": "회복력 특화형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.5700000000000001,
+    "avg_arg": 0.6142857142857142,
+    "avg_ott": -0.4128571428571428,
+    "avg_putt": 0.7542857142857143,
+    "avg_total": 0.38999999999999996,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 94.66666666666667
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 92.97520661157024
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 12.666666666666666
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 12.666666666666666
+    },
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 14.666666666666666
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 28.925619834710744
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(29퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 92.97520661157024
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Around-the-Green에서 상위 7% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recovery_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 94.66666666666667
+        }
+      ],
+      "text": "리커버리율 필드 상위 5%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

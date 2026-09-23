@@ -1,0 +1,179 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:03.057029+00:00",
+    "input_signature": "d0e9cfe8308aef246fd4fce4736c118e17fe63dfd773944ae3608bea4be17d55",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.9331578947368421,
+    "rate_stats": {
+      "average_putts": 31.0213,
+      "average_score": 71.4897,
+      "birdie_rate": 17.2577,
+      "gir_rate": 76.5957,
+      "par_break_rate": 17.3759,
+      "par_save_rate": 86.2884,
+      "recovery_rate": 61.6162
+    },
+    "recent_10_sg": 1.4540000000000002,
+    "recent_5_sg": 2.2340000000000004,
+    "volatility": 1.1961872763075188
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.3544444444444445
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.4540000000000002
+      }
+    ],
+    "narrative": "2025시즌 SG Total +0.35에서 2026시즌 +1.45로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.3544444444444445,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 1.4540000000000002,
+        "delta_from_prev": 1.0995555555555556,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11770",
+    "player_name": "짜라위 분짠(I)",
+    "sample_count": 19
+  },
+  "neo_verdict": {
+    "summary": "짜라위 분짠(I)은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach에서 상위 16% 수준의 기록을 유지하고 있습니다. 2025시즌 SG Total +0.35에서 2026시즌 +1.45로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 70.24793388429752
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 83.88429752066116
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 77.27272727272727
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 52.892561983471076
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.7350000000000001,
+    "avg_arg": 0.264,
+    "avg_ott": 0.11000000000000001,
+    "avg_putt": 0.345,
+    "avg_total": 1.4540000000000002,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 94.66666666666667
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 84.7107438016529
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 83.88429752066116
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 78.0
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 77.27272727272727
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 16.666666666666668
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 83.88429752066116
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach에서 상위 16% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 2.2340000000000004
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+2.23)이 장기 평균(+0.93) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.11000000000000001
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.11로 반전에 성공했습니다."
+    }
+  ]
+}

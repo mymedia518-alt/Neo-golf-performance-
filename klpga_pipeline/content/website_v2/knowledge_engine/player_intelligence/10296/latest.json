@@ -1,0 +1,239 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:27.615320+00:00",
+    "input_signature": "f6674ffeac0de8e084cffa305516c5b0043510332581b788378296aa8d894bfb",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.388679245283019,
+    "rate_stats": {
+      "average_putts": 30.5397,
+      "average_score": 70.8894,
+      "birdie_rate": 21.2522,
+      "gir_rate": 77.6014,
+      "par_break_rate": 21.3404,
+      "par_save_rate": 86.4198,
+      "recovery_rate": 61.0236
+    },
+    "recent_10_sg": 2.067,
+    "recent_5_sg": 2.1879999999999997,
+    "volatility": 0.9662923988110431
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.6955555555555555
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.5681818181818181
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.2616666666666665
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.8253333333333333
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.70에서 2026시즌 +1.83로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.6955555555555555,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.5681818181818181,
+        "delta_from_prev": 0.8726262626262626,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.2616666666666665,
+        "delta_from_prev": -0.30651515151515163,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 1.8253333333333333,
+        "delta_from_prev": 0.5636666666666668,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10296",
+    "player_name": "문정민",
+    "sample_count": 53
+  },
+  "neo_verdict": {
+    "summary": "문정민은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 4% 수준의 기록을 유지하고 있습니다. 전체 기량은 최상위권이지만 SG Around-the-Green은(는) 필드 평균 수준(60퍼센타일)에 머물러 있습니다. 2023시즌 SG Total +0.70에서 2026시즌 +1.83로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 95.86776859504133
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 87.60330578512396
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 59.917355371900825
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 46.69421487603306
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 87.60330578512396
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 95.86776859504133
+      }
+    ],
+    "evidence_text": "SG Approach 상위 12%, SG Off-the-Tee 상위 4% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.7233333333333332,
+    "avg_arg": 0.05666666666666666,
+    "avg_ott": 0.8733333333333334,
+    "avg_putt": 0.17333333333333337,
+    "avg_total": 1.8253333333333333,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 98.0
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 97.33333333333333
+    },
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 96.66666666666667
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 95.86776859504133
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 90.9090909090909
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_arg",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 59.917355371900825
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 SG Around-the-Green은(는) 필드 평균 수준(60퍼센타일)에 머물러 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 46.69421487603306
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 SG Putting은(는) 필드 평균 수준(47퍼센타일)에 머물러 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recovery_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 54.0
+        }
+      ],
+      "text": "전체 기량은 최상위권이지만 리커버리율은(는) 필드 평균 수준(54퍼센타일)에 머물러 있습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 95.86776859504133
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Off-the-Tee에서 상위 4% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 2.1879999999999997
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+2.19)이 장기 평균(+1.39) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "birdie_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 98.0
+        }
+      ],
+      "text": "버디율 필드 상위 2%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

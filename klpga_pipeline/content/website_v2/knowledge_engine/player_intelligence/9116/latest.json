@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:04.175305+00:00",
+    "input_signature": "cf4b4221aeeae3ba98af1f163f2559301e09f7ae131be7010262a4944bdec263",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.4358333333333333,
+    "rate_stats": {},
+    "recent_10_sg": 0.34400000000000003,
+    "recent_5_sg": 0.07799999999999993,
+    "volatility": 1.3585227270826203
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2023,
+    "player_id": "9116",
+    "player_name": "정시우",
+    "sample_count": 12
+  },
+  "neo_verdict": {
+    "summary": "정시우은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.09166666666666666,
+    "avg_arg": 0.4925,
+    "avg_ott": -0.6616666666666666,
+    "avg_putt": 0.6933333333333334,
+    "avg_total": 0.4358333333333333,
+    "season": 2023
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:16.939225+00:00",
+    "input_signature": "df7fb5ecd86df0850094c5b6e0365f72fb6375f98098b4b437a1477e0dd9d0ef",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.8083333333333332,
+    "rate_stats": {},
+    "recent_10_sg": -0.8083333333333332,
+    "recent_5_sg": -1.15,
+    "volatility": 2.763544925554053
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2023,
+    "player_id": "8181",
+    "player_name": "나희원",
+    "sample_count": 6
+  },
+  "neo_verdict": {
+    "summary": "나희원은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.8383333333333333,
+    "avg_arg": -0.12,
+    "avg_ott": -0.6733333333333333,
+    "avg_putt": 0.8216666666666667,
+    "avg_total": -0.8083333333333332,
+    "season": 2023
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

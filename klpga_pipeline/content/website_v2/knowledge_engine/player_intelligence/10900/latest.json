@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:18.167842+00:00",
+    "input_signature": "4e1e94c8b44e9e7edc0c4294e32ac21353f178121475233a53ef01281cc71c59",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -1.85,
+    "rate_stats": {
+      "average_putts": 28.25,
+      "average_score": 74.5,
+      "birdie_rate": 16.6667,
+      "gir_rate": 50.0,
+      "par_break_rate": 16.6667,
+      "par_save_rate": 73.6111,
+      "recovery_rate": 52.7778
+    },
+    "recent_10_sg": -1.85,
+    "recent_5_sg": -1.85,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10900",
+    "player_name": "네밋뜨라 쭌타나껫",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "네밋뜨라 쭌타나껫은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 27.68595041322314
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 19.421487603305785
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 25.206611570247933
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 76.85950413223141
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.39,
+    "avg_arg": -0.31,
+    "avg_ott": -0.48,
+    "avg_putt": 0.32,
+    "avg_total": -1.85,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 99.33333333333333
+    },
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 76.85950413223141
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 2.0
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 3.3333333333333335
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 7.333333333333333
+    },
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 16.666666666666668
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 19.421487603305785
+    }
+  ],
+  "why_loses": [],
+  "why_wins": []
+}

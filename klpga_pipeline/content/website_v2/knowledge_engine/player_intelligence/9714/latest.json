@@ -1,0 +1,139 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:59.387004+00:00",
+    "input_signature": "b42e6b5990425891f6cb93d32e37bbd9eecd2803f4922ff2da4c40e85090b29e",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.6280434782608694,
+    "rate_stats": {
+      "average_putts": 30.2576,
+      "average_score": 72.9394,
+      "birdie_rate": 14.3098,
+      "gir_rate": 66.5825,
+      "par_break_rate": 14.4781,
+      "par_save_rate": 82.6599,
+      "recovery_rate": 63.4761
+    },
+    "recent_10_sg": 0.43599999999999994,
+    "recent_5_sg": 0.15,
+    "volatility": 0.8221581356405834
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.6466666666666666
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.0285
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.03999999999999994
+      }
+    ],
+    "narrative": "2024시즌 SG Total +0.65에서 2026시즌 +0.04로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.6466666666666666,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.0285,
+        "delta_from_prev": 0.38183333333333336,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.03999999999999994,
+        "delta_from_prev": -0.9885,
+        "season": 2026,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9714",
+    "player_name": "유지나",
+    "sample_count": 46
+  },
+  "neo_verdict": {
+    "summary": "유지나은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.27로 악화되었습니다. 2024시즌 SG Total +0.65에서 2026시즌 +0.04로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 47.93388429752066
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 68.18181818181819
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 54.54545454545455
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 25.619834710743802
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.11000000000000001,
+    "avg_arg": 0.11357142857142856,
+    "avg_ott": 0.08642857142857141,
+    "avg_putt": -0.2692857142857143,
+    "avg_total": 0.03999999999999994,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.2692857142857143
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.27로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

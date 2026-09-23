@@ -1,0 +1,98 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:37.319156+00:00",
+    "input_signature": "002ef672d103ed03a414565b52eb053e053f3648a5bf80d02960bd34f66c5309",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.29555555555555557,
+    "rate_stats": {},
+    "recent_10_sg": 0.29555555555555557,
+    "recent_5_sg": 0.16999999999999998,
+    "volatility": 1.1787008961009302
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.8266666666666667
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.02999999999999999
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.83에서 2024시즌 +0.03로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.8266666666666667,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.02999999999999999,
+        "delta_from_prev": -0.7966666666666666,
+        "season": 2024,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "6442",
+    "player_name": "최혜용",
+    "sample_count": 9
+  },
+  "neo_verdict": {
+    "summary": "최혜용은(는) 균형형(Balanced) 유형입니다. 2023시즌 강점이던 SG Approach이(가) 2024시즌 -0.29로 악화되었습니다. 2023시즌 SG Total +0.83에서 2024시즌 +0.03로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.2883333333333333,
+    "avg_arg": 0.29,
+    "avg_ott": 0.31,
+    "avg_putt": -0.2816666666666667,
+    "avg_total": 0.02999999999999999,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2024].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.2883333333333333
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Approach이(가) 2024시즌 -0.29로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

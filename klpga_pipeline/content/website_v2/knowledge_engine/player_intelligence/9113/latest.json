@@ -1,0 +1,204 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:27.369912+00:00",
+    "input_signature": "1665e7965dc5e325b7b9fe187578c0246b3e0199fe117a90c944408756ec6e77",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.7203529411764704,
+    "rate_stats": {
+      "average_putts": 30.1077,
+      "average_score": 71.3382,
+      "birdie_rate": 16.8376,
+      "gir_rate": 72.8205,
+      "par_break_rate": 16.8376,
+      "par_save_rate": 87.7778,
+      "recovery_rate": 66.6667
+    },
+    "recent_10_sg": 1.876,
+    "recent_5_sg": 1.386,
+    "volatility": 0.8093725965215279
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.3378947368421052
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.9972000000000003
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.8907692307692305
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.448
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.34에서 2026시즌 +1.45로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.3378947368421052,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 1.9972000000000003,
+        "delta_from_prev": 0.6593052631578951,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.8907692307692305,
+        "delta_from_prev": -0.10643076923076977,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.448,
+        "delta_from_prev": -0.4427692307692306,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9113",
+    "player_name": "노승희",
+    "sample_count": 85
+  },
+  "neo_verdict": {
+    "summary": "노승희은(는) 안정적인 파세이버(Stable Par-Saver) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 12% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.04로 악화되었습니다. 2023시즌 SG Total +1.34에서 2026시즌 +1.45로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 56.19834710743802
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 88.4297520661157
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 65.2892561983471
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 76.85950413223141
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "par_save_rate",
+        "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+        "value": 90.0
+      }
+    ],
+    "evidence_text": "파세이브율 상위 10% 수준으로 변동성이 낮습니다.",
+    "key": "stable_par_saver",
+    "label_en": "Stable Par-Saver",
+    "label_ko": "안정적인 파세이버"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.8586666666666666,
+    "avg_arg": 0.12399999999999999,
+    "avg_ott": -0.04133333333333333,
+    "avg_putt": 0.5073333333333332,
+    "avg_total": 1.448,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 90.0
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 88.4297520661157
+    },
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 88.0
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 85.9504132231405
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 82.66666666666667
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.04133333333333333
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.04로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 88.4297520661157
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Approach에서 상위 12% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "par_save_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 90.0
+        }
+      ],
+      "text": "파세이브율 필드 상위 10%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:19.950530+00:00",
+    "input_signature": "da16582a09b4bcd4c10cd344df27d7c7d04a40ea6b9b34fcb2be3173485f7398",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.058888888888888866,
+    "rate_stats": {
+      "average_putts": 31.5741,
+      "average_score": 73.5556,
+      "birdie_rate": 14.9177,
+      "gir_rate": 70.679,
+      "par_break_rate": 15.0206,
+      "par_save_rate": 79.1152,
+      "recovery_rate": 49.1228
+    },
+    "recent_10_sg": -0.058888888888888866,
+    "recent_5_sg": -0.2879999999999999,
+    "volatility": 1.3295149027157274
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11040",
+    "player_name": "이세영",
+    "sample_count": 9
+  },
+  "neo_verdict": {
+    "summary": "이세영은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee 필드 상위 9%에 해당하는 엘리트 수준입니다. 그린 적중률은 상위권(56퍼센타일)이지만 스코어 환산 효율(25퍼센타일)이 이를 따라가지 못하고 있습니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 90.9090909090909
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 61.15702479338843
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 27.272727272727273
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 13.223140495867769
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.5322222222222222,
+    "avg_arg": -0.1411111111111111,
+    "avg_ott": 0.7022222222222223,
+    "avg_putt": -1.1544444444444446,
+    "avg_total": -0.058888888888888866,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 90.9090909090909
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 5.333333333333333
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 6.0
+    },
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 13.223140495867769
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 15.333333333333334
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "gir_rate/average_score",
+          "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 30.666666666666668
+        }
+      ],
+      "text": "그린 적중률은 상위권(56퍼센타일)이지만 스코어 환산 효율(25퍼센타일)이 이를 따라가지 못하고 있습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_ott",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 90.9090909090909
+        }
+      ],
+      "text": "SG Off-the-Tee 필드 상위 9%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

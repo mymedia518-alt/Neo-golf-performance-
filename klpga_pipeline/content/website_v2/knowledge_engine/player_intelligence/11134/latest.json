@@ -1,0 +1,184 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:08.201693+00:00",
+    "input_signature": "c386e9fdb984b4bb14561cc50e24e742463a0c4c0a7bfa1e17c49fa72e62ef47",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.7259459459459459,
+    "rate_stats": {
+      "average_putts": 29.3231,
+      "average_score": 70.1992,
+      "birdie_rate": 21.0256,
+      "gir_rate": 74.1026,
+      "par_break_rate": 21.453,
+      "par_save_rate": 89.2308,
+      "recovery_rate": 65.0165
+    },
+    "recent_10_sg": 2.9389999999999996,
+    "recent_5_sg": 2.5279999999999996,
+    "volatility": 1.1270354918989907
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.024
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.551764705882353
+      }
+    ],
+    "narrative": "2025시즌 SG Total +1.02에서 2026시즌 +2.55로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.024,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 2.551764705882353,
+        "delta_from_prev": 1.527764705882353,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11134",
+    "player_name": "서교림",
+    "sample_count": 37
+  },
+  "neo_verdict": {
+    "summary": "서교림은(는) 정교한 볼스트라이커(Precision Ball-Striker) 유형입니다. 최근 2시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다. 2025시즌 SG Total +1.02에서 2026시즌 +2.55로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 93.38842975206612
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 95.45454545454545
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 75.6198347107438
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 84.7107438016529
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_app",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 95.45454545454545
+      },
+      {
+        "field_path": "sg_ott",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 93.38842975206612
+      }
+    ],
+    "evidence_text": "SG Approach 상위 5%, SG Off-the-Tee 상위 7% 수준입니다.",
+    "key": "precision_ball_striker",
+    "label_en": "Precision Ball-Striker",
+    "label_ko": "정교한 볼스트라이커"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 1.0817647058823527,
+    "avg_arg": 0.19941176470588237,
+    "avg_ott": 0.721764705882353,
+    "avg_putt": 0.5494117647058824,
+    "avg_total": 2.551764705882353,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 99.17355371900827
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 98.0
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 98.0
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 97.33333333333333
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 96.0
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 95.45454545454545
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.5494117647058824
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.55로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_total",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 99.17355371900827
+        }
+      ],
+      "text": "SG Total 필드 상위 1%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

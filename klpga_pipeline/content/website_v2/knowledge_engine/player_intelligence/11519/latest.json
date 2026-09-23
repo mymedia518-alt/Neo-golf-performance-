@@ -1,0 +1,120 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:11.288389+00:00",
+    "input_signature": "ec1804b507a5a6b8cb45b04ee6b256984809375b21a22d7e22be537f41f619f8",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": null,
+    "rate_stats": {},
+    "recent_10_sg": null,
+    "recent_5_sg": null,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": null,
+    "player_id": "11519",
+    "player_name": "깐야낫 싸이팁",
+    "sample_count": 0
+  },
+  "neo_verdict": {
+    "summary": "깐야낫 싸이팁은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 0%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 76.03305785123968
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 0.8264462809917356
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 14.049586776859504
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 99.58677685950413
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": null,
+    "avg_arg": null,
+    "avg_ott": null,
+    "avg_putt": null,
+    "avg_total": null,
+    "season": null
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 99.58677685950413
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 76.03305785123968
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 0.8264462809917356
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 14.049586776859504
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 16.115702479338843
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 99.58677685950413
+        }
+      ],
+      "text": "SG Putting 필드 상위 0%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

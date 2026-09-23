@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:27.311507+00:00",
+    "input_signature": "0a29250ff5ed22ede5c7b09ab70a936c990475bac268fb07f0c364e835a7b04d",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.22999999999999998,
+    "rate_stats": {},
+    "recent_10_sg": -0.22999999999999998,
+    "recent_5_sg": -0.22999999999999998,
+    "volatility": 0.6893958707931653
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2023,
+    "player_id": "7926",
+    "player_name": "최가람",
+    "sample_count": 3
+  },
+  "neo_verdict": {
+    "summary": "최가람은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.18999999999999997,
+    "avg_arg": 0.27999999999999997,
+    "avg_ott": -0.8300000000000001,
+    "avg_putt": 0.13,
+    "avg_total": -0.22999999999999998,
+    "season": 2023
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

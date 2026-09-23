@@ -1,0 +1,152 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:22.391888+00:00",
+    "input_signature": "70b3b3f69ff0a95aa3f670c6a98eb9d25d6a898a8a69e8c96be66f0e190ea2ed",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.6966666666666667,
+    "rate_stats": {},
+    "recent_10_sg": -0.6966666666666667,
+    "recent_5_sg": -0.6966666666666667,
+    "volatility": 1.3612820754306907
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.885
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.32
+      }
+    ],
+    "narrative": "2025시즌 SG Total -0.89에서 2026시즌 -0.32로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -0.885,
+        "delta_from_prev": null,
+        "season": 2025,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -0.32,
+        "delta_from_prev": 0.565,
+        "season": 2026,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10795",
+    "player_name": "조이안",
+    "sample_count": 3
+  },
+  "neo_verdict": {
+    "summary": "조이안은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green에서 상위 1% 수준의 기록을 유지하고 있습니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다. 2025시즌 SG Total -0.89에서 2026시즌 -0.32로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 52.892561983471076
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 22.727272727272727
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 99.17355371900827
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 66.52892561983471
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.32,
+    "avg_arg": 1.19,
+    "avg_ott": -0.22,
+    "avg_putt": 0.03,
+    "avg_total": -0.32,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 99.17355371900827
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 22.727272727272727
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 22.727272727272727
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(23퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 99.17355371900827
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Around-the-Green에서 상위 1% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.03
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.03로 반전에 성공했습니다."
+    }
+  ]
+}

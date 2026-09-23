@@ -1,0 +1,163 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:08.641465+00:00",
+    "input_signature": "23ebe88864d77d2c166a1f6dfb6cd31904b9beeebfda60e759e5ecb87df9a01f",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.36407407407407405,
+    "rate_stats": {},
+    "recent_10_sg": -0.592,
+    "recent_5_sg": -0.34400000000000003,
+    "volatility": 0.9902908663619997
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.0
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.26750000000000007
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.89875
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.57
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.00에서 2026시즌 +0.57로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.0,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": -0.26750000000000007,
+        "delta_from_prev": -0.26750000000000007,
+        "season": 2024,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": -0.89875,
+        "delta_from_prev": -0.63125,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.57,
+        "delta_from_prev": 1.46875,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9120",
+    "player_name": "유효주",
+    "sample_count": 27
+  },
+  "neo_verdict": {
+    "summary": "유효주은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.08로 반전에 성공했습니다. 2023시즌 SG Total +0.00에서 2026시즌 +0.57로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 60.743801652892564
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 70.24793388429752
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 65.2892561983471
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 62.396694214876035
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.3,
+    "avg_arg": 0.08,
+    "avg_ott": 0.08,
+    "avg_putt": 0.1,
+    "avg_total": 0.57,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.08
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.08로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.3
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.30로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.08
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.08로 반전에 성공했습니다."
+    }
+  ]
+}

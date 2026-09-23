@@ -1,0 +1,139 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:43.798603+00:00",
+    "input_signature": "638c210d4206a2492ea87796f3385e635480e0e16a1cb20c07efe175985f9543",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.880612244897959,
+    "rate_stats": {
+      "average_putts": 30.8039,
+      "average_score": 72.3533,
+      "birdie_rate": 15.5773,
+      "gir_rate": 72.1133,
+      "par_break_rate": 16.0131,
+      "par_save_rate": 84.3137,
+      "recovery_rate": 58.2031
+    },
+    "recent_10_sg": 0.618,
+    "recent_5_sg": 0.8019999999999999,
+    "volatility": 1.3979470662367728
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.8099999999999999
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.9441176470588236
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.9172727272727272
+      }
+    ],
+    "narrative": "2024시즌 SG Total +0.81에서 2026시즌 +0.92로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.8099999999999999,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.9441176470588236,
+        "delta_from_prev": 0.13411764705882367,
+        "season": 2025,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.9172727272727272,
+        "delta_from_prev": -0.026844919786096377,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10138",
+    "player_name": "임진영",
+    "sample_count": 49
+  },
+  "neo_verdict": {
+    "summary": "임진영은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.01로 악화되었습니다. 2024시즌 SG Total +0.81에서 2026시즌 +0.92로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 66.94214876033058
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 71.90082644628099
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 40.082644628099175
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 55.37190082644628
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.5018181818181818,
+    "avg_arg": -0.010909090909090901,
+    "avg_ott": 0.16636363636363638,
+    "avg_putt": 0.2609090909090909,
+    "avg_total": 0.9172727272727272,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.010909090909090901
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.01로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

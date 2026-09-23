@@ -1,0 +1,190 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:07.490397+00:00",
+    "input_signature": "afd1bac56057e5f1ea543958f9b7a617323408b08af99c98203706da87088b84",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.29000000000000004,
+    "rate_stats": {
+      "average_putts": 30.75,
+      "average_score": 73.5,
+      "birdie_rate": 11.1111,
+      "gir_rate": 63.8889,
+      "par_break_rate": 11.1111,
+      "par_save_rate": 80.5556,
+      "recovery_rate": 61.5385
+    },
+    "recent_10_sg": -0.29000000000000004,
+    "recent_5_sg": -0.29000000000000004,
+    "volatility": 1.75
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.46
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -2.04
+      }
+    ],
+    "narrative": "2024시즌 SG Total +1.46에서 2026시즌 -2.04로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.46,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": -2.04,
+        "delta_from_prev": -3.5,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11388",
+    "player_name": "김하람2",
+    "sample_count": 2
+  },
+  "neo_verdict": {
+    "summary": "김하람2은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Off-the-Tee에서 상위 6% 수준의 기록을 유지하고 있습니다. 최근 2시즌 연속 SG Putting이(가) 필드 평균 이하(32퍼센타일)로 구조적 약점입니다. 2024시즌 SG Total +1.46에서 2026시즌 -2.04로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 94.21487603305785
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 14.462809917355372
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 10.743801652892563
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 31.818181818181817
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.79,
+    "avg_arg": -0.68,
+    "avg_ott": 0.72,
+    "avg_putt": -0.29,
+    "avg_total": -2.04,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 94.21487603305785
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 5.333333333333333
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 5.333333333333333
+    },
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 10.743801652892563
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 14.462809917355372
+    },
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 14.666666666666666
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 31.818181818181817
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Putting이(가) 필드 평균 이하(32퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -1.79
+        }
+      ],
+      "text": "2024시즌 강점이던 SG Approach이(가) 2026시즌 -1.79로 악화되었습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.68
+        }
+      ],
+      "text": "2024시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.68로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 94.21487603305785
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Off-the-Tee에서 상위 6% 수준의 기록을 유지하고 있습니다."
+    }
+  ]
+}

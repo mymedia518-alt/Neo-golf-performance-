@@ -1,0 +1,140 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:17:00.965055+00:00",
+    "input_signature": "f6ed5a06bfa021c8506c99719c7a385435466c36bd401628845ec5379883d3a0",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.6388405797101449,
+    "rate_stats": {
+      "average_putts": 30.7931,
+      "average_score": 72.2928,
+      "birdie_rate": 14.5594,
+      "gir_rate": 72.2222,
+      "par_break_rate": 14.6552,
+      "par_save_rate": 84.7701,
+      "recovery_rate": 61.0345
+    },
+    "recent_10_sg": 0.54,
+    "recent_5_sg": 0.7620000000000001,
+    "volatility": 1.0766429305949117
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.9961111111111111
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.5419047619047619
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.4342105263157895
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.5927272727272727
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.00에서 2026시즌 +0.59로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.9961111111111111,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.5419047619047619,
+        "delta_from_prev": -0.45420634920634917,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.4342105263157895,
+        "delta_from_prev": -0.1076942355889724,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.5927272727272727,
+        "delta_from_prev": 0.15851674641148317,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "9705",
+    "player_name": "홍지원",
+    "sample_count": 69
+  },
+  "neo_verdict": {
+    "summary": "홍지원은(는) 균형형(Balanced) 유형입니다. 2023시즌 SG Total +1.00에서 2026시즌 +0.59로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 41.735537190082646
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 70.24793388429752
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 54.13223140495868
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 55.37190082644628
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.2727272727272727,
+    "avg_arg": 0.1063636363636364,
+    "avg_ott": -0.12090909090909091,
+    "avg_putt": 0.3345454545454546,
+    "avg_total": 0.5927272727272727,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:08.699437+00:00",
+    "input_signature": "028d8cc7d1636d069d9ad347acf4c663627eb4a6bfec45f02ec7bf63ad2b9448",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.8281818181818181,
+    "rate_stats": {},
+    "recent_10_sg": 0.9630000000000001,
+    "recent_5_sg": 0.3160000000000001,
+    "volatility": 1.2378533838867996
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "9761",
+    "player_name": "윤민아",
+    "sample_count": 11
+  },
+  "neo_verdict": {
+    "summary": "윤민아은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.12363636363636367,
+    "avg_arg": 0.049999999999999996,
+    "avg_ott": 0.05090909090909091,
+    "avg_putt": 0.6018181818181817,
+    "avg_total": 0.8281818181818181,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

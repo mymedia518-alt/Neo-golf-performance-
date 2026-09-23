@@ -1,0 +1,119 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:51.147562+00:00",
+    "input_signature": "8d895f9ec1c012ccb2c4e7b2dfb62633397a1fa85271a45fd30bee84241b98ca",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.4875000000000001,
+    "rate_stats": {},
+    "recent_10_sg": 0.7410000000000001,
+    "recent_5_sg": 0.5999999999999999,
+    "volatility": 1.1122630084651741
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.3340000000000001
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.7433333333333333
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.33에서 2024시즌 +0.74로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.3340000000000001,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.7433333333333333,
+        "delta_from_prev": 0.4093333333333332,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2024,
+    "player_id": "8289",
+    "player_name": "박채윤",
+    "sample_count": 16
+  },
+  "neo_verdict": {
+    "summary": "박채윤은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Approach이(가) 2024시즌 +1.37로 반전에 성공했습니다. 2023시즌 강점이던 SG Off-the-Tee이(가) 2024시즌 -0.47로 악화되었습니다. 2023시즌 SG Total +0.33에서 2024시즌 +0.74로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 1.3716666666666668,
+    "avg_arg": 0.16,
+    "avg_ott": -0.465,
+    "avg_putt": -0.3233333333333333,
+    "avg_total": 0.7433333333333333,
+    "season": 2024
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2024].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.465
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Off-the-Tee이(가) 2024시즌 -0.47로 악화되었습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2024].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.3233333333333333
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Putting이(가) 2024시즌 -0.32로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2024].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.3716666666666668
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Approach이(가) 2024시즌 +1.37로 반전에 성공했습니다."
+    }
+  ]
+}

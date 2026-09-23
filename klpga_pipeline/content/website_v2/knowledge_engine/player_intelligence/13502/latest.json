@@ -1,0 +1,90 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:50.774355+00:00",
+    "input_signature": "fdd19f131d1977cff75c23303929158738559598b4b85793df8cecd0bc4cf9fc",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.5522222222222223,
+    "rate_stats": {
+      "average_putts": 30.2353,
+      "average_score": 72.8235,
+      "birdie_rate": 14.1612,
+      "gir_rate": 66.4488,
+      "par_break_rate": 14.1612,
+      "par_save_rate": 83.2244,
+      "recovery_rate": 60.0649
+    },
+    "recent_10_sg": 0.5522222222222223,
+    "recent_5_sg": 0.29400000000000004,
+    "volatility": 1.3378488353221523
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "13502",
+    "player_name": "왕 즈쉬엔",
+    "sample_count": 9
+  },
+  "neo_verdict": {
+    "summary": "왕 즈쉬엔은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 35.12396694214876
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 71.48760330578513
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 28.09917355371901
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 42.14876033057851
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.7788888888888889,
+    "avg_arg": -0.28444444444444444,
+    "avg_ott": -0.14777777777777776,
+    "avg_putt": 0.20444444444444446,
+    "avg_total": 0.5522222222222223,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

@@ -1,0 +1,183 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:12.240885+00:00",
+    "input_signature": "3c8f9e2fde8445008462d74749b1277605520fb0e586ae4084b30ea399ac943b",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.41685714285714287,
+    "rate_stats": {
+      "average_putts": 29.8462,
+      "average_score": 71.9231,
+      "birdie_rate": 16.2393,
+      "gir_rate": 69.6581,
+      "par_break_rate": 16.6667,
+      "par_save_rate": 85.4701,
+      "recovery_rate": 63.3803
+    },
+    "recent_10_sg": -0.457,
+    "recent_5_sg": 0.15600000000000006,
+    "volatility": 1.6000940597352395
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.47888888888888886
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.88375
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.11999999999999997
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.47000000000000003
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.48에서 2026시즌 +0.47로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.47888888888888886,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.88375,
+        "delta_from_prev": 0.40486111111111117,
+        "season": 2024,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 0.11999999999999997,
+        "delta_from_prev": -0.76375,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.47000000000000003,
+        "delta_from_prev": 0.3500000000000001,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10159",
+    "player_name": "강채연",
+    "sample_count": 35
+  },
+  "neo_verdict": {
+    "summary": "강채연은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 17% 수준의 기록을 유지하고 있습니다. 최근 4시즌 연속 SG Approach이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +0.48에서 2026시즌 +0.47로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 64.87603305785125
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 36.77685950413223
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 69.42148760330579
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 83.05785123966942
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.8166666666666668,
+    "avg_arg": 0.13333333333333333,
+    "avg_ott": -0.09000000000000001,
+    "avg_putt": 1.2466666666666666,
+    "avg_total": 0.47000000000000003,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 83.05785123966942
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 79.33333333333333
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 36.77685950413223
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Approach이(가) 필드 평균 이하(37퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 83.05785123966942
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Putting에서 상위 17% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.13333333333333333
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.13로 반전에 성공했습니다."
+    }
+  ]
+}

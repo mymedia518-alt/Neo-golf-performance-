@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:41.727177+00:00",
+    "input_signature": "4dd8caab92faf56e3f4d08674d9b7d4d7ff87056417b69f1a10612b596f99600",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.6928571428571428,
+    "rate_stats": {},
+    "recent_10_sg": -0.692857142857143,
+    "recent_5_sg": -0.03599999999999999,
+    "volatility": 1.3989865136255326
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -2.57
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.37999999999999995
+      }
+    ],
+    "narrative": "2023시즌 SG Total -2.57에서 2025시즌 -0.38로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -2.57,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": -0.37999999999999995,
+        "delta_from_prev": 2.19,
+        "season": 2025,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "9938",
+    "player_name": "이주현",
+    "sample_count": 7
+  },
+  "neo_verdict": {
+    "summary": "이주현은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +0.30로 반전에 성공했습니다. 2023시즌 SG Total -2.57에서 2025시즌 -0.38로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.445,
+    "avg_arg": 0.30333333333333334,
+    "avg_ott": -0.365,
+    "avg_putt": 0.12333333333333334,
+    "avg_total": -0.37999999999999995,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.30333333333333334
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Around-the-Green이(가) 2025시즌 +0.30로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.12333333333333334
+        }
+      ],
+      "text": "2023시즌 약점이던 SG Putting이(가) 2025시즌 +0.12로 반전에 성공했습니다."
+    }
+  ]
+}

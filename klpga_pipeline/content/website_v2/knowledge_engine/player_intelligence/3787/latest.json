@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:37.227696+00:00",
+    "input_signature": "ccb3fb89e7c0dc31d0e97a038a0797450ac824dc5044caadc5ea5b0b109e1dfd",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -1.35,
+    "rate_stats": {},
+    "recent_10_sg": -1.35,
+    "recent_5_sg": -1.35,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "3787",
+    "player_name": "최혜정",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "최혜정은(는) 균형형(Balanced) 유형입니다. SG Putting 필드 상위 10%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 9.090909090909092
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 25.206611570247933
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 70.66115702479338
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 90.49586776859505
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -2.13,
+    "avg_arg": 0.46,
+    "avg_ott": 0.88,
+    "avg_putt": -0.56,
+    "avg_total": -1.35,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 90.49586776859505
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 9.090909090909092
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 90.49586776859505
+        }
+      ],
+      "text": "SG Putting 필드 상위 10%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

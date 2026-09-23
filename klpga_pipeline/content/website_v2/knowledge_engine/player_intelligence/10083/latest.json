@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:27.346952+00:00",
+    "input_signature": "63a61e0c3cdf3fc14073c5da3208911b823ec3e0658b4832604875666a22e39a",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.2020833333333334,
+    "rate_stats": {
+      "average_putts": 30.0597,
+      "average_score": 71.9701,
+      "birdie_rate": 15.9204,
+      "gir_rate": 69.7347,
+      "par_break_rate": 16.0033,
+      "par_save_rate": 85.738,
+      "recovery_rate": 66.0274
+    },
+    "recent_10_sg": 0.782,
+    "recent_5_sg": 0.514,
+    "volatility": 1.105990958371722
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -1.6749999999999998
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.64625
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.9550000000000001
+      }
+    ],
+    "narrative": "2023시즌 SG Total -1.67에서 2026시즌 +0.96로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -1.6749999999999998,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -0.64625,
+        "delta_from_prev": 1.0287499999999998,
+        "season": 2025,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": 0.9550000000000001,
+        "delta_from_prev": 1.60125,
+        "season": 2026,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10083",
+    "player_name": "마서영",
+    "sample_count": 24
+  },
+  "neo_verdict": {
+    "summary": "마서영은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 12% 수준의 기록을 유지하고 있습니다. 최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total -1.67에서 2026시즌 +0.96로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 80.16528925619835
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 42.14876033057851
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 57.02479338842975
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 88.4297520661157
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.1207142857142857,
+    "avg_arg": -0.03142857142857144,
+    "avg_ott": 0.46214285714285713,
+    "avg_putt": 0.6478571428571429,
+    "avg_total": 0.9550000000000001,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 88.4297520661157
+    },
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 86.0
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 80.16528925619835
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 42.14876033057851
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(42퍼센타일)로 구조적 약점입니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 88.4297520661157
+        }
+      ],
+      "text": "최근 3시즌 연속 SG Putting에서 상위 12% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.514
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+0.51)이 장기 평균(+0.20) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.46214285714285713
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.46로 반전에 성공했습니다."
+    }
+  ]
+}

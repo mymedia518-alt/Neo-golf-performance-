@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:12:03.315349+00:00",
+    "input_signature": "f3143c40fee0f5e34febd25c6f996e66999285202328e23e96cac65ddf015e2d",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.28,
+    "rate_stats": {},
+    "recent_10_sg": 1.28,
+    "recent_5_sg": 1.28,
+    "volatility": 1.55
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.83
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -0.27
+      }
+    ],
+    "narrative": "2024시즌 SG Total +2.83에서 2025시즌 -0.27로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 2.83,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": -0.27,
+        "delta_from_prev": -3.1,
+        "season": 2025,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "1599",
+    "player_name": "리디아 고",
+    "sample_count": 2
+  },
+  "neo_verdict": {
+    "summary": "리디아 고은(는) 균형형(Balanced) 유형입니다. 2024시즌 강점이던 SG Approach이(가) 2025시즌 -0.02로 악화되었습니다. 2024시즌 SG Total +2.83에서 2025시즌 -0.27로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.02,
+    "avg_arg": 0.55,
+    "avg_ott": 0.27,
+    "avg_putt": -1.07,
+    "avg_total": -0.27,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.02
+        }
+      ],
+      "text": "2024시즌 강점이던 SG Approach이(가) 2025시즌 -0.02로 악화되었습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -1.07
+        }
+      ],
+      "text": "2024시즌 강점이던 SG Putting이(가) 2025시즌 -1.07로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}

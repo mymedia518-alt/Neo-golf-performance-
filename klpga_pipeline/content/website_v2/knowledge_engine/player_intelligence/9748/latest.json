@@ -1,0 +1,99 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:24.147470+00:00",
+    "input_signature": "4e1c4d8ed14e77dbecc2f37e60cf698708ec24dce60beaabdca6b0cd03738fef",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.49391304347826087,
+    "rate_stats": {},
+    "recent_10_sg": 0.409,
+    "recent_5_sg": -0.04199999999999995,
+    "volatility": 1.2627782861611139
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -3.95
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.8142857142857144
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.4887499999999999
+      }
+    ],
+    "narrative": "2023시즌 SG Total -3.95에서 2025시즌 +0.49로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": -3.95,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.8142857142857144,
+        "delta_from_prev": 4.764285714285714,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 0.4887499999999999,
+        "delta_from_prev": -0.3255357142857145,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "9748",
+    "player_name": "신유진",
+    "sample_count": 23
+  },
+  "neo_verdict": {
+    "summary": "신유진은(는) 균형형(Balanced) 유형입니다. 2023시즌 SG Total -3.95에서 2025시즌 +0.49로 상승 추세입니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.50125,
+    "avg_arg": -0.12875,
+    "avg_ott": 0.5337500000000001,
+    "avg_putt": -0.42124999999999996,
+    "avg_total": 0.4887499999999999,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

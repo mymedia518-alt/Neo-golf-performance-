@@ -1,0 +1,137 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:15:43.334311+00:00",
+    "input_signature": "2e68ff6648590da58ad357968e0db6c8bf6b934c3aaf4d8431be52aa90cfc9c6",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.74,
+    "rate_stats": {
+      "average_putts": 28.25,
+      "average_score": 71.25,
+      "birdie_rate": 20.8333,
+      "gir_rate": 66.6667,
+      "par_break_rate": 20.8333,
+      "par_save_rate": 86.1111,
+      "recovery_rate": 62.5
+    },
+    "recent_10_sg": 0.74,
+    "recent_5_sg": 0.74,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "10773",
+    "player_name": "이혜원2",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "이혜원2은(는) 균형형(Balanced) 유형입니다. 버디율 필드 상위 3%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 64.87603305785125
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 85.12396694214875
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 28.925619834710744
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 69.83471074380165
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.61,
+    "avg_arg": -0.22,
+    "avg_ott": 0.12,
+    "avg_putt": 0.23,
+    "avg_total": 0.74,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 99.33333333333333
+    },
+    {
+      "label": "버디율",
+      "metric": "birdie_rate",
+      "percentile": 96.66666666666667
+    },
+    {
+      "label": "파브레이크율",
+      "metric": "par_break_rate",
+      "percentile": 96.66666666666667
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 86.0
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 85.12396694214875
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "birdie_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 96.66666666666667
+        }
+      ],
+      "text": "버디율 필드 상위 3%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "par_break_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 96.66666666666667
+        }
+      ],
+      "text": "파브레이크율 필드 상위 3%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

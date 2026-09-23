@@ -1,0 +1,183 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:13:46.554294+00:00",
+    "input_signature": "89674b246b21055dc0c7cac052e31ed726364f5b6ec54ee4e6530bfa0eb085f6",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 1.6117241379310345,
+    "rate_stats": {
+      "average_putts": 30.1579,
+      "average_score": 71.6316,
+      "birdie_rate": 15.2047,
+      "gir_rate": 71.345,
+      "par_break_rate": 15.7895,
+      "par_save_rate": 86.8421,
+      "recovery_rate": 62.2449
+    },
+    "recent_10_sg": 1.5550000000000002,
+    "recent_5_sg": 1.128,
+    "volatility": 1.3835841138145524
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.3318750000000001
+      },
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.3869999999999998
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 2.2817647058823525
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 1.128
+      }
+    ],
+    "narrative": "2023시즌 SG Total +1.33에서 2026시즌 +1.13로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.3318750000000001,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.3869999999999998,
+        "delta_from_prev": 0.055124999999999647,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
+      },
+      {
+        "avg_total": 2.2817647058823525,
+        "delta_from_prev": 0.8947647058823527,
+        "season": 2025,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 1.128,
+        "delta_from_prev": -1.1537647058823526,
+        "season": 2026,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "6781",
+    "player_name": "박주영",
+    "sample_count": 58
+  },
+  "neo_verdict": {
+    "summary": "박주영은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 11% 수준의 기록을 유지하고 있습니다. 2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.07로 악화되었습니다. 2023시즌 SG Total +1.33에서 2026시즌 +1.13로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 74.79338842975207
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 89.25619834710744
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 45.86776859504132
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 65.2892561983471
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.678,
+    "avg_arg": -0.068,
+    "avg_ott": 0.278,
+    "avg_putt": 0.244,
+    "avg_total": 1.128,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 89.25619834710744
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 86.36363636363636
+    },
+    {
+      "label": "파세이브율",
+      "metric": "par_save_rate",
+      "percentile": 78.0
+    },
+    {
+      "label": "평균 타수",
+      "metric": "average_score",
+      "percentile": 75.33333333333333
+    }
+  ],
+  "weaknesses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.068
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.07로 악화되었습니다."
+    }
+  ],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 89.25619834710744
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Approach에서 상위 11% 수준의 기록을 유지하고 있습니다."
+    }
+  ]
+}

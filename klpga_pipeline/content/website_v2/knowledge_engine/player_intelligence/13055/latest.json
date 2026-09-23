@@ -1,0 +1,61 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:18.364264+00:00",
+    "input_signature": "2f18ee0417b7b1c1d26a7d99e4ee61006262aefdc763391abaa40c2979c28754",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.7999999999999999,
+    "rate_stats": {},
+    "recent_10_sg": 0.7999999999999999,
+    "recent_5_sg": 0.7999999999999999,
+    "volatility": 0.7790507043832255
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "13055",
+    "player_name": "지 유아이",
+    "sample_count": 5
+  },
+  "neo_verdict": {
+    "summary": "지 유아이은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": []
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": 0.42000000000000004,
+    "avg_arg": -0.5519999999999999,
+    "avg_ott": 0.352,
+    "avg_putt": 0.584,
+    "avg_total": 0.7999999999999999,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [],
+  "why_loses": [],
+  "why_wins": []
+}

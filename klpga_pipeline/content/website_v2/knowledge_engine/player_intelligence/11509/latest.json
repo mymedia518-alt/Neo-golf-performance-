@@ -1,0 +1,169 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:16:23.356843+00:00",
+    "input_signature": "84c2fe85ee4fea6433bed24ca92095115316f20f9b697d9866de3f1e840a1dfe",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": 0.56,
+    "rate_stats": {
+      "average_putts": 28.5,
+      "average_score": 71.75,
+      "birdie_rate": 15.2778,
+      "gir_rate": 61.1111,
+      "par_break_rate": 15.2778,
+      "par_save_rate": 86.1111,
+      "recovery_rate": 67.8571
+    },
+    "recent_10_sg": 0.56,
+    "recent_5_sg": 0.56,
+    "volatility": null
+  },
+  "evolution": {
+    "citations": [],
+    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
+    "status": "INSUFFICIENT_SAMPLE",
+    "steps": []
+  },
+  "hero": {
+    "current_season": 2026,
+    "player_id": "11509",
+    "player_name": "차깐심 캄본",
+    "sample_count": 1
+  },
+  "neo_verdict": {
+    "summary": "차깐심 캄본은(는) 회복력 특화형(Recovery Specialist) 유형입니다. SG Around-the-Green 필드 상위 0%에 해당하는 엘리트 수준입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 77.27272727272727
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 14.87603305785124
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 99.58677685950413
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 96.69421487603306
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [
+      {
+        "field_path": "sg_arg",
+        "source": "OFFICIAL_SG_NORMALIZED.json",
+        "value": 99.58677685950413
+      },
+      {
+        "field_path": "recovery_rate",
+        "source": "OFFICIAL_PROFILE_NORMALIZED.json",
+        "value": 92.66666666666667
+      }
+    ],
+    "evidence_text": "SG Around-the-Green 상위 0%, 리커버리율 상위 7% 수준입니다.",
+    "key": "recovery_specialist",
+    "label_en": "Recovery Specialist",
+    "label_ko": "회복력 특화형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -1.77,
+    "avg_arg": 0.92,
+    "avg_ott": 0.3,
+    "avg_putt": 1.1,
+    "avg_total": 0.56,
+    "season": 2026
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 99.58677685950413
+    },
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 96.69421487603306
+    },
+    {
+      "label": "평균 퍼트 수",
+      "metric": "average_putts",
+      "percentile": 96.66666666666667
+    },
+    {
+      "label": "리커버리율",
+      "metric": "recovery_rate",
+      "percentile": 92.66666666666667
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 77.27272727272727
+    }
+  ],
+  "weaknesses": [
+    {
+      "label": "그린 적중률",
+      "metric": "gir_rate",
+      "percentile": 7.333333333333333
+    },
+    {
+      "label": "SG Approach",
+      "metric": "sg_app",
+      "percentile": 14.87603305785124
+    }
+  ],
+  "why_loses": [],
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "sg_arg",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 99.58677685950413
+        }
+      ],
+      "text": "SG Around-the-Green 필드 상위 0%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_putt",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 96.69421487603306
+        }
+      ],
+      "text": "SG Putting 필드 상위 3%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recovery_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 92.66666666666667
+        }
+      ],
+      "text": "리커버리율 필드 상위 7%에 해당하는 엘리트 수준입니다."
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "_meta": {
+    "generated_at": "2026-09-23T12:14:39.574764+00:00",
+    "input_signature": "5e8e3319f01acd3fc05547f018d913cb75bbcc98a15b536b626058e864111ddb",
+    "tournament_game_code": null
+  },
+  "course_fit": {
+    "history": []
+  },
+  "current_form": {
+    "long_term_sg": -0.44333333333333336,
+    "rate_stats": {},
+    "recent_10_sg": -0.44333333333333336,
+    "recent_5_sg": -0.44333333333333336,
+    "volatility": 0.798762932428779
+  },
+  "evolution": {
+    "citations": [
+      {
+        "field_path": "seasons[2023].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": 0.0050000000000000044
+      },
+      {
+        "field_path": "seasons[2025].avg_total",
+        "source": "historical_sg_warehouse_corrected.json",
+        "value": -1.34
+      }
+    ],
+    "narrative": "2023시즌 SG Total +0.01에서 2025시즌 -1.34로 하락 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 0.0050000000000000044,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "avg_putt",
+        "weakest_component": "avg_app"
+      },
+      {
+        "avg_total": -1.34,
+        "delta_from_prev": -1.3450000000000002,
+        "season": 2025,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      }
+    ]
+  },
+  "hero": {
+    "current_season": 2025,
+    "player_id": "9722",
+    "player_name": "양아연",
+    "sample_count": 3
+  },
+  "neo_verdict": {
+    "summary": "양아연은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(1퍼센타일)로 구조적 약점입니다. 2023시즌 SG Total +0.01에서 2025시즌 -1.34로 하락 추세입니다."
+  },
+  "player_dna": {
+    "axes": [
+      {
+        "key": "sg_ott",
+        "label": "SG Off-the-Tee",
+        "percentile": 5.371900826446281
+      },
+      {
+        "key": "sg_app",
+        "label": "SG Approach",
+        "percentile": 44.21487603305785
+      },
+      {
+        "key": "sg_arg",
+        "label": "SG Around-the-Green",
+        "percentile": 0.8264462809917356
+      },
+      {
+        "key": "sg_putt",
+        "label": "SG Putting",
+        "percentile": 15.289256198347108
+      }
+    ]
+  },
+  "player_type": {
+    "citations": [],
+    "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+    "key": "balanced",
+    "label_en": "Balanced",
+    "label_ko": "균형형"
+  },
+  "schema_version": "player_intelligence_generator_v2",
+  "shot_profile": {
+    "avg_app": -0.48,
+    "avg_arg": -0.16,
+    "avg_ott": 0.16,
+    "avg_putt": -0.86,
+    "avg_total": -1.34,
+    "season": 2025
+  },
+  "sources": [
+    "historical_sg_warehouse_corrected.json",
+    "OFFICIAL_SG_NORMALIZED.json",
+    "OFFICIAL_PROFILE_NORMALIZED.json",
+    "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
+  ],
+  "strengths": [],
+  "weaknesses": [
+    {
+      "label": "SG Around-the-Green",
+      "metric": "sg_arg",
+      "percentile": 0.8264462809917356
+    },
+    {
+      "label": "SG Total",
+      "metric": "sg_total",
+      "percentile": 4.958677685950414
+    },
+    {
+      "label": "SG Off-the-Tee",
+      "metric": "sg_ott",
+      "percentile": 5.371900826446281
+    },
+    {
+      "label": "SG Putting",
+      "metric": "sg_putt",
+      "percentile": 15.289256198347108
+    }
+  ],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.8264462809917356
+        }
+      ],
+      "text": "최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(1퍼센타일)로 구조적 약점입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2025].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.86
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Putting이(가) 2025시즌 -0.86로 악화되었습니다."
+    }
+  ],
+  "why_wins": []
+}
