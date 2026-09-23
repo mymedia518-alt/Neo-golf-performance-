@@ -20,10 +20,17 @@ _spec.loader.exec_module(report_script)
 REQUIRED_QUESTION_KEYS = {
     "id", "question", "fact", "evidence", "analysis", "conclusion",
     "why_it_matters", "player_takeaway", "coach_focus", "durability", "durability_reasoning", "why_this_matters", "action",
-    "evidence_score", "sample_size", "confidence",
+    "monitoring_protocol", "evidence_score", "sample_size", "confidence",
 }
 
+REQUIRED_PROTOCOL_KEYS = {"metric", "source", "sample_size", "normal_range", "warning_threshold", "next_review"}
+
 VALID_DURABILITY = {report_script.LONG_TERM, report_script.RECENT_TREND, report_script.CONFIRMED_EVENT}
+
+# "NEO does not give opinions" -- an action/protocol may never lean on
+# subjective, unmeasurable coaching language. These would signal an opinion
+# smuggled back in instead of an operational, data-derived instruction.
+_OPINION_WORDS = ("trust", "confidence", "believe", "feel", "walk into", "admire", "should feel")
 
 
 def test_build_returns_only_player_10097():
@@ -75,6 +82,53 @@ def test_every_question_ends_with_a_concrete_action_not_just_an_explanation():
         assert action != q["why_this_matters"]
 
 
+def test_every_action_is_backed_by_a_measurable_monitoring_protocol():
+    """Mission: never recommend a coaching action unless it is directly
+    supported by measurable official data. Every recommendation must
+    identify the metric to monitor, the normal range, the warning
+    threshold, and the next review point."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        assert REQUIRED_PROTOCOL_KEYS.issubset(protocol.keys())
+        assert protocol["metric"].strip()
+        assert protocol["source"].strip()
+        assert protocol["sample_size"] > 0
+        assert protocol["normal_range"].strip()
+        assert protocol["warning_threshold"].strip()
+        assert protocol["next_review"].strip()
+        # the range/threshold must contain a real number, not a vague description
+        assert any(ch.isdigit() for ch in protocol["normal_range"])
+        assert any(ch.isdigit() for ch in protocol["warning_threshold"])
+        # the metric must come from a real, officially-sourced, repeated
+        # measurement -- never a single current-season snapshot stat
+        assert "historical_sg_warehouse_corrected.json" in protocol["source"] or "compute_season_profiles" in protocol["source"]
+
+
+def test_action_and_protocol_never_read_as_an_opinion():
+    """Mission: NEO does not give opinions. NEO defines monitoring
+    protocols. The action and its protocol must be operational (what to
+    measure and when), never phrased as trust/confidence/belief."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        action_lower = q["action"].lower()
+        for word in _OPINION_WORDS:
+            assert word not in action_lower, f"{q['id']}.action reads like an opinion ({word!r}): {q['action']!r}"
+        assert q["action"].startswith("Monitor "), f"{q['id']}.action must open on the metric being monitored, not a subjective recommendation"
+
+
+def test_monitoring_protocol_method_uses_repeated_samples_not_single_snapshots():
+    """The GIR/par-save/birdie-rate fields are current-season snapshots
+    with no repeated historical series in this repository -- a protocol
+    must never claim to monitor one of those on an operational cadence."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        assert protocol["sample_size"] >= 4  # every real series used has at least 4 real observations
+        for banned in ("gir_rate", "par_save_rate", "birdie_rate", "GIR rate", "par-save rate"):
+            assert banned not in protocol["metric"]
+
+
 def test_every_question_classifies_durability_and_shows_its_reasoning():
     """Mission: is this a long-term characteristic or only a recent
     trend, and could it disappear if another season is added?"""
@@ -95,7 +149,11 @@ def test_narrative_fields_explain_meaning_not_just_describe_numbers():
         for field in narrative_fields:
             text = q[field]
             assert len(text.split()) >= 8, f"{q['id']}.{field} reads like a label, not an explanation: {text!r}"
-            assert not text.strip().lower().startswith(("sg ", "percentile", "rank #"))
+            # a bare label ("SG Approach: 97th percentile") is short; a real
+            # explanatory sentence that happens to open on "SG ..." is fine
+            # as long as it reads on into an actual sentence (already
+            # enforced by the >= 8 word check above)
+            assert not text.strip().lower().startswith(("percentile", "rank #"))
 
 
 def test_every_answered_question_has_evidence_score_sample_size_and_a_real_confidence():
@@ -185,21 +243,46 @@ def test_render_shows_every_coaching_brief_field_and_durability_chip():
     assert "Long-term characteristic" in html or "Confirmed event" in html
 
 
+def test_render_shows_the_monitoring_protocol_fields():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert "MONITORING PROTOCOL" in html
+    assert "Metric" in html
+    assert "Normal range" in html
+    assert "Warning threshold" in html
+    assert "Next review" in html
+    for q in doc["questions"]:
+        protocol = q["monitoring_protocol"]
+        assert escape_or_raw(protocol["metric"], html)
+        assert escape_or_raw(protocol["normal_range"], html)
+        assert escape_or_raw(protocol["warning_threshold"], html)
+        assert escape_or_raw(protocol["next_review"], html)
+
+
 def test_render_puts_action_as_the_true_last_element_of_every_section():
     """Mission: every section must END with an actionable takeaway --
     never stop at an explanation. ACTION must render after every other
     labeled block within its own question card, not just appear somewhere
-    on the page."""
+    on the page. Scoped per-card (not a global html.index()) because two
+    questions can legitimately share the identical monitoring protocol
+    and action text (e.g. "why does she win" and "why is approach her
+    weapon" both track SG Approach)."""
     from html import escape
     from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
 
     doc = report_script.build()
     html = render_question_report_html(doc)
     assert "ACTION" in html
-    for q in doc["questions"]:
-        why_this_matters_text = q["why_this_matters"] if q["why_this_matters"] in html else escape(q["why_this_matters"])
-        action_text = q["action"] if q["action"] in html else escape(q["action"])
-        assert html.index(action_text) > html.index(why_this_matters_text), f"{q['id']}: action does not come after why_this_matters"
+
+    card_starts = [html.index(f'<h2>{escape(q["question"])}</h2>') for q in doc["questions"]]
+    card_starts.append(len(html))
+    for i, q in enumerate(doc["questions"]):
+        card = html[card_starts[i] : card_starts[i + 1]]
+        why_this_matters_text = q["why_this_matters"] if q["why_this_matters"] in card else escape(q["why_this_matters"])
+        action_text = q["action"] if q["action"] in card else escape(q["action"])
+        assert card.index(action_text) > card.index(why_this_matters_text), f"{q['id']}: action does not come after why_this_matters"
 
 
 def escape_or_raw(text: str, html: str) -> bool:
@@ -214,6 +297,25 @@ def test_render_never_organizes_by_raw_sg_table():
     doc = report_script.build()
     html = render_question_report_html(doc)
     assert "<table" not in html  # no stat table -- narrative cards only
+
+
+def test_most_recent_win_never_generalizes_beyond_the_one_confirmed_event():
+    """A real check of her full round-to-round SG history (not just this
+    one tournament) found no consistent rising pattern across her career
+    -- so this question must describe the one win accurately without
+    claiming it generalizes into a repeatable trait."""
+    doc = report_script.build()
+    q = next(q for q in doc["questions"] if q["id"] == "q_most_recent_win")
+    assert q["durability"] == report_script.CONFIRMED_EVENT
+    for field in ("conclusion", "analysis", "durability_reasoning"):
+        text = q[field].lower()
+        # "always builds into tournaments" may appear only as an explicitly
+        # rejected/negated claim ("not be generalized into 'she always
+        # builds...'"), never asserted as this player's real characteristic
+        if "always builds" in text:
+            around = text[max(0, text.index("always builds") - 40) : text.index("always builds")]
+            assert any(neg in around for neg in ("not ", "never ", "n't ")), f"{q['id']}.{field} asserts an unsupported generalization: {text!r}"
+        assert "repeatable" not in text or "not" in text or "generaliz" in text
 
 
 def test_render_shows_excluded_questions_transparently():

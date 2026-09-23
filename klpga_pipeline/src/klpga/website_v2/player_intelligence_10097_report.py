@@ -44,6 +44,18 @@ def load_report_cached() -> Optional[dict]:
     return json.loads(REPORT_PATH.read_text(encoding="utf-8"))
 
 
+def _protocol_html(protocol: dict) -> str:
+    rows = [
+        ("Metric", protocol["metric"]),
+        ("Source", protocol["source"]),
+        ("Normal range", protocol["normal_range"]),
+        ("Warning threshold", protocol["warning_threshold"]),
+        ("Next review", protocol["next_review"]),
+    ]
+    items = "".join(f"<dt>{escape(label)}</dt><dd>{escape(value)}</dd>" for label, value in rows)
+    return f'<dl class="piq-protocol">{items}</dl>'
+
+
 def _question_card(q: dict) -> str:
     evidence_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"])
     chip_class = _CONFIDENCE_CHIP_CLASS.get(q["confidence"], "label-chip")
@@ -71,6 +83,8 @@ def _question_card(q: dict) -> str:
         f"{audit}"
         f'<p class="piq-why-this-matters"><span class="piq-label">WHY THIS MATTERS</span>{escape(q["why_this_matters"])}</p>'
         f'<p class="piq-action"><span class="piq-label">ACTION</span>{escape(q["action"])}</p>'
+        f'<p class="piq-step-label piq-label-standalone">MONITORING PROTOCOL</p>'
+        f'{_protocol_html(q["monitoring_protocol"])}'
     )
     return (
         f'<details class="evidence-detail pi-section" open>'
