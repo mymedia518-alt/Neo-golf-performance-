@@ -14,9 +14,19 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from klpga.tournament_context import CONTENT_DIR, load_tournament_context
+from klpga.tournament_context import CONTENT_DIR
+from klpga.tournament_context import _load_context_from_schedule_and_registry as _resolve_context_deterministic
 
 from . import tournament_dna as tdna
+
+# Deliberately NOT klpga.tournament_context.load_tournament_context(): it
+# special-cases whichever game_code matches config/active_tournament.json
+# and, for that one game_code, resolves from that mutable file instead of
+# the fixed OFFICIAL_KLPGA_SCHEDULE.json + TOURNAMENT_SITE_REGISTRY.json.
+# Every Tournament DNA engine takes game_code explicitly and touches no
+# "current tournament" global -- the same game_code must always resolve
+# the same context and produce the same TournamentDNA.json, whether or
+# not that tournament happens to be the operationally active one today.
 
 OUTPUT_ROOT = CONTENT_DIR / "knowledge_engine" / "tournament_dna"
 OUTPUT_FILENAME = "TournamentDNA.json"
@@ -72,7 +82,7 @@ def output_path(game_code: str) -> Path:
 
 def generate_one(game_code: str, *, force: bool = False) -> GenerationResult:
     try:
-        context = load_tournament_context(game_code)
+        context = _resolve_context_deterministic(game_code)
         path = output_path(context.game_code)
 
         result = tdna.generate_tournament_dna(context)

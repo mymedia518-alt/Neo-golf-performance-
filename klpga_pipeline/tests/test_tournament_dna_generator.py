@@ -73,3 +73,32 @@ def test_generated_document_has_no_validation_problems():
     result = tdg.generate_one("2026120001")
     doc = json.loads(result.path.read_text(encoding="utf-8"))
     assert tdg.validate_tournament_dna_document(doc) == []
+
+
+def test_generate_one_never_uses_load_tournament_context():
+    """The active-tournament-aware resolver must never even be
+    imported into this module -- generate_one() takes game_code
+    explicitly and resolves it from the fixed schedule + registry only,
+    never from config/active_tournament.json."""
+    assert "load_tournament_context" not in dir(tdg)
+
+
+def test_generate_one_deterministic_regardless_of_active_tournament(monkeypatch, tmp_path):
+    """Same game_code, twice, with config/active_tournament.json
+    pointing at a completely different tournament the second time --
+    generate_one() must still write byte-identical content."""
+    from klpga import tournament_context as tc
+
+    r1 = tdg.generate_one("2026120001", force=True)
+    doc1 = json.loads(r1.path.read_text(encoding="utf-8"))
+
+    fake_active = tmp_path / "active_tournament.json"
+    fake_active.write_text('{"game_code": "2026080001", "tournament_name": "다른 대회"}', encoding="utf-8")
+    monkeypatch.setattr(tc, "ACTIVE_TOURNAMENT_PATH", fake_active)
+
+    r2 = tdg.generate_one("2026120001", force=True)
+    doc2 = json.loads(r2.path.read_text(encoding="utf-8"))
+
+    doc1.pop("generated_at")
+    doc2.pop("generated_at")
+    assert doc1 == doc2

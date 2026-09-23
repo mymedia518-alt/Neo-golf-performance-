@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from klpga.knowledge_engine import tournament_dna as tdna
-from klpga.tournament_context import load_tournament_context
+from klpga.tournament_context import _load_context_from_schedule_and_registry as load_tournament_context
 
 
 def _row(game_code, tournament, player_id, rank, total, ott, app, arg, putt, season=2024):
@@ -261,3 +261,68 @@ def test_to_json_dict_round_trips_real_data():
     assert doc["identity"]["game_code"] == "2026120001"
     for section in ("course_dna", "winning_profile", "field_composition", "best_fits", "danger_holes", "opportunity_holes", "story", "watch_list", "verdict"):
         assert section in doc
+
+
+# ---------------------------------------------------------------------------
+# No hidden globals / determinism: the same game_code must always
+# produce the same TournamentDNA, regardless of which tournament (if
+# any) config/active_tournament.json currently names.
+# ---------------------------------------------------------------------------
+
+
+def test_load_tournament_identity_never_reads_cut_after_round():
+    """cut_after_round only ever exists in the mutable, currently-
+    active-only config/active_tournament.json -- there is no other real
+    deterministic per-game_code source for it, so it must always be
+    None, never populated by reading that file."""
+    context = load_tournament_context("2026120001")
+    identity = tdna.load_tournament_identity(context)
+    assert identity.cut_after_round is None
+    assert not any("active_tournament" in s for s in identity.sources)
+
+
+def test_generate_tournament_dna_deterministic_regardless_of_active_tournament(monkeypatch, tmp_path):
+    """Same game_code, twice, with config/active_tournament.json
+    pointing at a DIFFERENT tournament the second time -- must still
+    produce byte-identical TournamentDNA content (generated_at aside)."""
+    from klpga import tournament_context as tc
+
+    context = load_tournament_context("2026120001")
+    doc1 = tdna.to_json_dict(tdna.generate_tournament_dna(context))
+
+    fake_active = tmp_path / "active_tournament.json"
+    fake_active.write_text('{"game_code": "2026080001", "tournament_name": "다른 대회"}', encoding="utf-8")
+    monkeypatch.setattr(tc, "ACTIVE_TOURNAMENT_PATH", fake_active)
+
+    context2 = load_tournament_context("2026120001")
+    doc2 = tdna.to_json_dict(tdna.generate_tournament_dna(context2))
+
+    doc1.pop("generated_at")
+    doc2.pop("generated_at")
+    assert doc1 == doc2
+
+
+def test_generate_tournament_dna_deterministic_even_when_this_game_code_is_active(monkeypatch, tmp_path):
+    """The reverse case: config/active_tournament.json DOES name this
+    exact game_code -- output must still match the never-active-aware
+    resolution, since the engine must never depend on that file at all."""
+    from klpga import tournament_context as tc
+
+    context_never_active = load_tournament_context("2026120001")
+    doc_never_active = tdna.to_json_dict(tdna.generate_tournament_dna(context_never_active))
+
+    fake_active = tmp_path / "active_tournament.json"
+    fake_active.write_text(
+        '{"game_code": "2026120001", "tournament_name": "OK저축은행 읏맨 오픈", '
+        '"season": 2026, "start_date": "2026-09-04", "end_date": "2026-09-06", '
+        '"final_round_number": 3, "current_round_number": 3, "cut_after_round": 2}',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(tc, "ACTIVE_TOURNAMENT_PATH", fake_active)
+
+    context_while_active = load_tournament_context("2026120001")
+    doc_while_active = tdna.to_json_dict(tdna.generate_tournament_dna(context_while_active))
+
+    doc_never_active.pop("generated_at")
+    doc_while_active.pop("generated_at")
+    assert doc_never_active == doc_while_active

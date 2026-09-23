@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from klpga.tournament_context import ACTIVE_TOURNAMENT_PATH, CONTENT_DIR, TournamentContext
+from klpga.tournament_context import CONTENT_DIR, TournamentContext
 
 from . import knowledge_engine as ke
 from . import knowledge_rules as rules
@@ -182,13 +182,17 @@ def load_tournament_identity(context: TournamentContext) -> TournamentIdentity:
             venue = venue or course.get("name")
             sources.append(course_path.name)
 
-    if ACTIVE_TOURNAMENT_PATH.exists():
-        import json
-
-        active = json.loads(ACTIVE_TOURNAMENT_PATH.read_text(encoding="utf-8"))
-        if str(active.get("game_code")) == context.game_code and active.get("cut_after_round") is not None:
-            cut_after_round = active["cut_after_round"]
-            sources.append("active_tournament.json")
+    # cut_after_round is intentionally never populated: the only real
+    # value for it anywhere in this pipeline lives in the mutable,
+    # currently-active-tournament-only config/active_tournament.json --
+    # reading it would make this engine's output depend on which
+    # tournament happens to be active when generate_tournament_dna()
+    # runs, not on the game_code passed in, breaking determinism (the
+    # same game_code must always produce the same TournamentDNA.json).
+    # Every engine here takes game_code explicitly and touches no
+    # global "current tournament" state -- an unavailable field is
+    # omitted (None), never guessed and never read from a source that
+    # could silently change this tournament's own identity over time.
 
     try:
         field_size = len(players_for_tournament(context))
