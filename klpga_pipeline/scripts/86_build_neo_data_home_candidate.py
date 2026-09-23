@@ -158,7 +158,9 @@ def render_home(rows: list[dict], summary: dict) -> str:
                       f'title="최근 5개 {feature["recent_5_sg"]:+.3f} · 최근 10개 {feature["recent_10_sg"]:+.3f} · '
                       f'장기 {feature["long_term_sg"]:+.3f} · 표본 {feature["sample_count"]}개">'
                       f'{feature["recent_5_sg"]:+.2f} <small>({feature["sample_count"]}개)</small></span>')
-        identity_cell = render_player_identity(row["player_name"], sponsor_by_name.get(row["player_name"]))
+        identity_cell = render_player_identity(
+            row["player_name"], sponsor_by_name.get(row["player_name"]), href=f'/player/{row["player_id"]}/'
+        )
         body.append(
             f'<tr data-player-row data-player-name="{escape(row["player_name"].casefold())}" '
             f'data-k-rank="{row["k_rank"] if row["k_rank"] is not None else ""}">'

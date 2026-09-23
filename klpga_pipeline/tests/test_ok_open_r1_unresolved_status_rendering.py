@@ -183,9 +183,13 @@ def test_incomplete_row_exact_markup_all_unresolved_cells_truly_empty():
     html = builder._r1_row_html(row, {}, lambda r: "")
     # Red Team FAIL A: the sponsor slot is now always structurally
     # present (empty here -- no sponsor evidence passed in).
+    # Sprint 3 (player intelligence integration): the identity cell now
+    # links to the player's own /player/<id>/ page -- real player_id,
+    # real target, same rule as every other identity cell site-wide.
     assert html == (
         "<tr><td></td>"
-        "<th scope='row'><span class='player-name'>박결</span><span class='player-sponsor'></span></th>"
+        "<th scope='row'><a class='player-identity-link' href='/player/9183/'>"
+        "<span class='player-name'>박결</span><span class='player-sponsor'></span></a></th>"
         "<td></td><td>10</td><td></td><td></td><td></td></tr>"
     )
 
@@ -197,6 +201,7 @@ def test_wd_row_exact_markup_status_cell_shows_wd_everything_else_empty():
     html = builder._r1_row_html(row, {}, lambda r: "")
     assert html == (
         "<tr><td></td>"
-        "<th scope='row'><span class='player-name'>선수W</span><span class='player-sponsor'></span></th>"
+        "<th scope='row'><a class='player-identity-link' href='/player/1/'>"
+        "<span class='player-name'>선수W</span><span class='player-sponsor'></span></a></th>"
         "<td></td><td>7</td><td></td><td></td><td>WD</td></tr>"
     )

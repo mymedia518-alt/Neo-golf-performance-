@@ -11,20 +11,37 @@ Never touches docs/ (the locked-down production tree) directly.
 """
 from __future__ import annotations
 
+import datetime
 import json
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
+from klpga.website_v2.global_navigation import inject_build_provenance, inject_global_navigation  # noqa: E402
 from klpga.website_v2.player_intelligence_v2 import build_or_placeholder  # noqa: E402
 from klpga.tournament_context import candidate_dir  # noqa: E402
 
 OUTPUT = candidate_dir("neo-data-home-top120")
 POPULATION_FILE = ROOT / "content" / "website_v2" / "HOME_REGULAR_TOUR_PLAYER_MASTER.json"
+
+
+def _source_git_sha() -> str:
+    # Honestly the PARENT commit at build time, not "this build's own
+    # commit" -- see global_navigation.py's provenance contract comment
+    # for why a build can never know the SHA of the commit that ships it.
+    try:
+        return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True).strip()
+    except (subprocess.CalledProcessError, OSError):
+        return "unknown"
+
+
+def _new_build_id() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _load_population() -> list:
@@ -56,6 +73,8 @@ def _sync_shared_assets() -> None:
 
 def build() -> dict:
     population = _load_population()
+    source_sha = _source_git_sha()
+    build_id = _new_build_id()
 
     generated = 0
     placeholder = 0
@@ -76,7 +95,8 @@ def build() -> dict:
             generated += 1
 
         page_html = _page_shell(player_id, player_name, body_html)
-        page_html = inject_global_navigation(page_html)
+        page_html = inject_global_navigation(page_html, active_section="ranking")
+        page_html = inject_build_provenance(page_html, source_sha, build_id)
 
         out_dir = OUTPUT / "player" / player_id
         out_dir.mkdir(parents=True, exist_ok=True)

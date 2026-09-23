@@ -102,7 +102,7 @@ def build_r1_page() -> str:
     for op in official_players:
         pid = op["playerCode"]
         pred = prediction_by_id.get(pid)
-        identity = render_player_identity(op["name"], sponsor_by_id.get(pid), quote="'")
+        identity = render_player_identity(op["name"], sponsor_by_id.get(pid), quote="'", href=f"/player/{pid}/")
         rows_html.append(
             "<tr>"
             f"<td data-label='순위'>{rank_display(op['rank'])}</td>"
@@ -122,7 +122,7 @@ def build_r1_page() -> str:
         pre_win = pre_win_by_id.get(p["player_id"])
         op = official_by_id.get(p["player_id"])
         if pre_win is not None and op is not None:
-            movers.append((p["player_name"], sponsor_by_id.get(p["player_id"], ""), pre_win, p["win"]))
+            movers.append((p["player_name"], sponsor_by_id.get(p["player_id"], ""), pre_win, p["win"], p["player_id"]))
     movers.sort(key=lambda m: (m[3] - m[2]), reverse=True)
     top_movers = movers[:3]
     # Reuses the site's own existing .mover-list/.delta pattern (see
@@ -131,9 +131,9 @@ def build_r1_page() -> str:
     # bullets, border-bottom separator) instead of a second, newly
     # invented layout, exactly what the alignment-bug fix calls for.
     movers_html = "".join(
-        f"<li>{render_player_identity(name, sponsor, quote=chr(39))}"
+        f"<li>{render_player_identity(name, sponsor, quote=chr(39), href=f'/player/{mover_id}/')}"
         f"<span class='delta'>PRE {pre_w*100:.1f}% → R1 {r1_w*100:.1f}%</span></li>"
-        for name, sponsor, pre_w, r1_w in top_movers
+        for name, sponsor, pre_w, r1_w, mover_id in top_movers
     )
 
     excluded_count = len(freeze["excluded_players"])

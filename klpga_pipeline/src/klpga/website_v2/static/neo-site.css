@@ -348,10 +348,21 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .label-chip--negative{background:#f3e5e2;color:var(--red)}
 .pi-evolution-list{list-style:none;margin:.5rem 0 0;padding:0}
 .pi-verdict{margin-top:1.5rem;padding:1.4rem;border:2px solid var(--ink);background:var(--ink);color:var(--paper)}
-.pi-verdict h2{margin:0 0 .5rem;color:#fff}
-.pi-verdict p{margin:0;color:var(--paper)}
+.pi-verdict summary{color:#fff;cursor:pointer}
+.pi-verdict h2{margin:0 0 .5rem;color:#fff;display:inline}
+.pi-verdict p{margin:.75rem 0 0;color:var(--paper)}
 .pi-generating{text-align:center;padding:3rem 1.4rem}
 .player-prev-next{display:flex;justify-content:space-between;gap:1rem;margin-bottom:1rem;font-weight:750}
 .player-prev-next a{text-decoration:none;color:var(--green)}
+/* The mobile @media(max-width:760px){.table-scroll{overflow-x:visible}}
+   rule above (line ~105) was scoped to .home-table's own card-layout
+   mobile technique, which compensates with its own .home-table{min-
+   width:0} reset right after it -- but the selector itself is bare
+   .table-scroll, so it silently strips scroll-containment from every
+   OTHER page's .table-scroll too. .pi-section's own .data-table (plain
+   min-width:42rem, no mobile card layout) needs the real overflow-x:auto
+   back, restored here with higher specificity rather than editing the
+   shared rule (which HOME/RANKING's mobile layout still depends on). */
+.pi-section .table-scroll{overflow-x:auto}
 @media(max-width:760px){.pi-radar-legend{grid-template-columns:1fr}.pi-kpi-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}
