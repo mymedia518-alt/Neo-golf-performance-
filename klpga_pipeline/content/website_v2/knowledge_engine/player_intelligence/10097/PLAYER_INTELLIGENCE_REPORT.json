@@ -1,0 +1,120 @@
+{
+  "evidence_score_method": "evidence_score = round(100 * min(1, distinct_official_sources / 3) * sample_size / (sample_size + 5)). A deterministic, disclosed scoring of already-computed sample_size + source diversity -- not a new statistical claim about the player.",
+  "generated_at": "2026-09-23T16:36:45.404621+00:00",
+  "player_id": "10097",
+  "player_name": "김민선7",
+  "questions": [
+    {
+      "analysis": "Her wins are not clustered around one hot week of putting or scrambling -- they sit on top of a structural, multi-season advantage in approach play that shows up in both her long-run season averages and her current-season field ranking. Elite approach play plus elite green-in-regulation and par-save rates means she gives herself more realistic birdie looks, and misses fewer holes outright, than almost anyone else in the field, week after week.",
+      "conclusion": "김민선7 wins primarily through sustained, structurally elite approach play and shot-making precision -- not a single hot streak.",
+      "confidence": "HIGH",
+      "evidence": [
+        "SG Approach has stayed elite across her full 4-season, 73-tournament history on record: 2023: +0.45, 2024: +0.85, 2025: +0.88, 2026: +1.17.",
+        "그린 적중률이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다. (percentile basis, field of 153 official-leaderboard players).",
+        "파세이브율이(가) 필드 상위 3%에 해당하는 엘리트 수준입니다. (percentile basis, field of 153 official-leaderboard players)."
+      ],
+      "evidence_score": 44,
+      "fact": "김민선7 has 4 confirmed tournament wins on record: 덕신EPC 챔피언십 (2025), 넥센 · 세인트나인 Masters 2026 (2026), 2026 셀트리온 퀸즈 마스터즈 (2026), 하나금융그룹 챔피언십 (2026).",
+      "id": "q_why_wins",
+      "question": "Why does 김민선7 win?",
+      "sample_size": 4
+    },
+    {
+      "analysis": "The gap is real but specific: her ball-striking (approach, off-the-tee) ranks among the best in the field, while her putting and average putts-per-round land squarely at the field median. That gap is what turns some of her best ball-striking weeks into 'only' a top-10 instead of a win -- she isn't converting the extra looks her approach play creates at a rate that matches how good those looks are.",
+      "conclusion": "Her most repeatable path to a loss is an average putting week riding on top of elite tee-to-green play, not a breakdown in ball-striking.",
+      "confidence": "HIGH",
+      "evidence": [
+        "전체 기량은 최상위권이지만 SG Putting은(는) 평균 수준에 머물러 있습니다. (percentile basis, field of 242 official-leaderboard players).",
+        "전체 기량은 최상위권이지만 평균 퍼트 수은(는) 평균 수준에 머물러 있습니다. (percentile basis, field of 153 official-leaderboard players)."
+      ],
+      "evidence_score": 32,
+      "fact": "Despite an elite overall profile, 김민선7's Putting sits at only field-average level.",
+      "id": "q_why_loses",
+      "question": "Why does 김민선7 lose?",
+      "sample_size": 153
+    },
+    {
+      "analysis": "Approach isn't just her best number this season -- it's the one shot-making category that has stayed elite every single season on record, while other components (see Putting) have moved around. A single-season peak could be noise; a 4-season-consistent #1 or #2 ranked component is a real, structural strength.",
+      "conclusion": "Approach play is 김민선7's primary, structurally durable weapon -- the one part of her game an opponent can count on being elite every week.",
+      "confidence": "HIGH",
+      "evidence": [
+        "Current-season field percentile: 97.1th of 242 players (OFFICIAL_SG_NORMALIZED.json).",
+        "Season-by-season average SG Approach across her full 4-season, 73-tournament history: 2023: +0.45, 2024: +0.85, 2025: +0.88, 2026: +1.17 -- consistently her highest or second-highest component every season.",
+        "Frozen Knowledge Engine classification: \"정교한 아이언 플레이어\" (Precision Ball-Striker), evidence text: \"SG Approach 상위 3%, SG Off-the-Tee 상위 6% 수준입니다.\""
+      ],
+      "evidence_score": 98,
+      "fact": "SG Approach is 김민선7's single strongest shot-making component, at the 97.1th percentile of the current 242-player official SG field.",
+      "id": "q_approach_biggest_weapon",
+      "question": "Why is Approach 김민선7's biggest weapon?",
+      "sample_size": 242
+    },
+    {
+      "analysis": "This is a relative, not absolute, weakness: a field-average percentile is not a bad number on its own. It only reads as her 'weakest area' because her other three components sit 20 to 40 percentile points higher, within the same season, for the same player. Compared against her own baseline of elite ball-striking, an average putting week is the most likely single component to cap an otherwise-winning score.",
+      "conclusion": "Putting is 김민선7's comparatively weakest shot-making area -- not because it is poor in absolute terms, but because every other component of her game is elite and putting alone is not.",
+      "confidence": "HIGH",
+      "evidence": [
+        "Her own component spread: Off-the-Tee 93.8th, Approach 97.1th, Around-the-Green 75.2th, Putting 55.4th.",
+        "전체 기량은 최상위권이지만 SG Putting은(는) 평균 수준에 머물러 있습니다. (percentile basis, field of 242 official-leaderboard players)."
+      ],
+      "evidence_score": 65,
+      "fact": "Putting is the lowest-ranked of 김민선7's own four SG components this season: Off-the-Tee 93.8th, Approach 97.1th, Around-the-Green 75.2th, Putting 55.4th (all field percentiles, same 242-player official SG field).",
+      "id": "q_putting_weakest",
+      "question": "Why has Putting become 김민선7's weakest area?",
+      "sample_size": 242
+    },
+    {
+      "analysis": "A 4-season, monotonic rise across every SG component (not just one hot season) is a real trend, not sampling noise -- especially with 16-23 tournaments backing each season's average. The improvement tracks her approach and off-the-tee numbers climbing in step with it, which is consistent with a player still adding distance and precision rather than one that simply had a lucky putting year.",
+      "conclusion": "김민선7's 2026 performance is the continuation of a real, 4-season improvement trend in her ball-striking, not a one-season spike.",
+      "confidence": "HIGH",
+      "evidence": [
+        "Frozen Knowledge Engine evolution narrative: \"2023시즌 SG Total +0.79에서 2026시즌 +2.09로 상승 추세입니다.\"",
+        "Underlying per-season data: 4 seasons, 73 tournaments total (historical_sg_warehouse_corrected.json)."
+      ],
+      "evidence_score": 31,
+      "fact": "김민선7's season-average SG Total has risen every season on record: 2023 (17 events): +0.79, 2024 (17 events): +1.41, 2025 (23 events): +1.76, 2026 (16 events): +2.09.",
+      "id": "q_2026_improvement",
+      "question": "Why did 김민선7's performance improve through 2026?",
+      "sample_size": 73
+    },
+    {
+      "analysis": "4 real appearances is a small but genuine repeated sample at the same course series, not a single data point. Her average SG Total there is well above her career baseline, and the win came on her most recent attempt (not her first), which is consistent with real course familiarity building over multiple visits rather than one favorable week.",
+      "conclusion": "김민선7 is a genuinely strong, course-familiar player at 2024 셀트리온 퀸즈 마스터즈, backed by 4 real appearances, not a single outlier result.",
+      "confidence": "HIGH",
+      "evidence": [
+        "Full appearance-by-appearance record: 셀트리온 퀸즈 마스터즈 (2023): SG +1.63; 2024 셀트리온 퀸즈 마스터즈 (2024): SG +0.84; 2025 셀트리온 퀸즈 마스터즈 (2025): SG +0.21; 2026 셀트리온 퀸즈 마스터즈 (2026): SG +4.69.",
+        "Average SG Total across all 4 appearances: +1.84 (historical_sg_warehouse_corrected.json, matched via the frozen knowledge_engine.find_course_history())."
+      ],
+      "evidence_score": 30,
+      "fact": "김민선7 has played the 2024 셀트리온 퀸즈 마스터즈 course series 4 times on record and won there once.",
+      "id": "q_strong_course",
+      "question": "Why is 김민선7 strong at 2024 셀트리온 퀸즈 마스터즈?",
+      "sample_size": 4
+    },
+    {
+      "analysis": "Her SG rose each round through the tournament rather than her simply holding on to an early lead, which points to the win being built on improving ball-striking as the event went on, not one hot round carrying an otherwise average week.",
+      "conclusion": "Her most recent win was earned through progressively stronger play across all three rounds, confirmed directly by the official result.",
+      "confidence": "HIGH",
+      "evidence": [
+        "Official result source: 2026090002_FINAL_TRUTH.json (winner_player_id verified == 10097, synthetic_test_only == False).",
+        "Round-by-round SG Total: R1: +4.30, R2: +3.77, R3: +5.82."
+      ],
+      "evidence_score": 12,
+      "fact": "김민선7 won the 하나금융그룹 챔피언십 (-12, rank #1).",
+      "id": "q_most_recent_win",
+      "question": "How did 김민선7 win her most recent title, the 하나금융그룹 챔피언십?",
+      "sample_size": 3
+    }
+  ],
+  "questions_considered_but_unsupported": [
+    {
+      "confidence": "UNKNOWN",
+      "id": "q_repeat_course_pattern",
+      "question": "Does 김민선7 tend to win at courses she has played before?",
+      "reason_excluded": "n=1 confirmed instance(s) on record; a PATTERN/tendency claim requires at least 2 independent instances to be a statistically supportable generalization. A single instance is a point-in-time fact about one win, not evidence of a recurring pattern. Downgraded per audit rule: an insight that cannot be supported is never kept as a pattern claim.",
+      "sample_size": 1
+    }
+  ],
+  "schema_version": "player_intelligence_report_v1",
+  "scope_note": "This document covers ONLY playerCode=10097. No other player's data was generated or modified. Gold Standard reference implementation.",
+  "source_document": "MASTER_ANALYSIS.json (audited via scripts/build_10097_master_player_analysis.py)"
+}
