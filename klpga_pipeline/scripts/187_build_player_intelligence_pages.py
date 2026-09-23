@@ -71,6 +71,31 @@ def _sync_shared_assets() -> None:
     )
 
 
+def _build_one_page(row: dict, prev_row: dict | None, next_row: dict | None, *, source_sha: str, build_id: str) -> dict:
+    """Build and write exactly one player's candidate page. Shared by
+    build() (every player) and build_one() (a single player_id) so
+    there is exactly one place that assembles a page -- never two
+    copies of the same per-player logic that could drift apart."""
+    player_id = str(row["player_id"])
+    player_name = row.get("player_name") or player_id
+
+    prev_link = {"href": f"/player/{prev_row['player_id']}/", "name": prev_row.get("player_name") or prev_row["player_id"]} if prev_row else None
+    next_link = {"href": f"/player/{next_row['player_id']}/", "name": next_row.get("player_name") or next_row["player_id"]} if next_row else None
+
+    body_html = build_or_placeholder(player_id, player_name=player_name, prev_link=prev_link, next_link=next_link)
+    is_placeholder = 'class="pi-generating"' in body_html
+
+    page_html = _page_shell(player_id, player_name, body_html)
+    page_html = inject_global_navigation(page_html, active_section="ranking")
+    page_html = inject_build_provenance(page_html, source_sha, build_id)
+
+    out_dir = OUTPUT / "player" / player_id
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "index.html").write_text(page_html, encoding="utf-8")
+
+    return {"player_id": player_id, "placeholder": is_placeholder}
+
+
 def build() -> dict:
     population = _load_population()
     source_sha = _source_git_sha()
@@ -80,33 +105,50 @@ def build() -> dict:
     placeholder = 0
 
     for i, row in enumerate(population):
-        player_id = str(row["player_id"])
-        player_name = row.get("player_name") or player_id
-
         prev_row = population[i - 1] if i > 0 else None
         next_row = population[i + 1] if i + 1 < len(population) else None
-        prev_link = {"href": f"/player/{prev_row['player_id']}/", "name": prev_row.get("player_name") or prev_row["player_id"]} if prev_row else None
-        next_link = {"href": f"/player/{next_row['player_id']}/", "name": next_row.get("player_name") or next_row["player_id"]} if next_row else None
-
-        body_html = build_or_placeholder(player_id, player_name=player_name, prev_link=prev_link, next_link=next_link)
-        if 'class="pi-generating"' in body_html:
+        result = _build_one_page(row, prev_row, next_row, source_sha=source_sha, build_id=build_id)
+        if result["placeholder"]:
             placeholder += 1
         else:
             generated += 1
-
-        page_html = _page_shell(player_id, player_name, body_html)
-        page_html = inject_global_navigation(page_html, active_section="ranking")
-        page_html = inject_build_provenance(page_html, source_sha, build_id)
-
-        out_dir = OUTPUT / "player" / player_id
-        out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / "index.html").write_text(page_html, encoding="utf-8")
 
     _sync_shared_assets()
 
     return {"total": len(population), "generated": generated, "placeholder": placeholder}
 
 
+def build_one(player_id: str) -> dict:
+    """Build/rebuild exactly ONE player's candidate page, using the
+    real population for correct prev/next neighbours -- writes ONLY
+    that one player's index.html. Every other player's already-built
+    page on disk is untouched (no write, no mtime change)."""
+    player_id = str(player_id)
+    population = _load_population()
+    ids = [str(r["player_id"]) for r in population]
+    if player_id not in ids:
+        raise ValueError(f"player_id {player_id!r} is not in the real population ({POPULATION_FILE.name})")
+
+    i = ids.index(player_id)
+    row = population[i]
+    prev_row = population[i - 1] if i > 0 else None
+    next_row = population[i + 1] if i + 1 < len(population) else None
+
+    result = _build_one_page(row, prev_row, next_row, source_sha=_source_git_sha(), build_id=_new_build_id())
+    _sync_shared_assets()
+    return result
+
+
 if __name__ == "__main__":
-    result = build()
-    print(f"total={result['total']} generated={result['generated']} placeholder={result['placeholder']}")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Build Player Intelligence candidate pages.")
+    parser.add_argument("--player-id", help="Build only this one player's page (never touches any other player's page).")
+    args = parser.parse_args()
+
+    if args.player_id:
+        result = build_one(args.player_id)
+        print(f"player_id={result['player_id']} placeholder={result['placeholder']}")
+    else:
+        result = build()
+        print(f"total={result['total']} generated={result['generated']} placeholder={result['placeholder']}")
