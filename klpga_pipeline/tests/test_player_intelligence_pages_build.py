@@ -54,3 +54,50 @@ def test_build_never_writes_outside_candidate_root(tmp_path, monkeypatch):
     result = pi_pages.build()
     assert str(pi_pages.OUTPUT).startswith(str(CANDIDATE_ROOT))
     assert result["total"] > 0
+
+
+# ---------------------------------------------------------------------------
+# build_one(): a single player_id, never touching any other player's page
+# ---------------------------------------------------------------------------
+
+
+def test_build_one_writes_real_content_for_10097():
+    pi_pages.build()  # establish a full baseline once
+    result = pi_pages.build_one("10097")
+    assert result == {"player_id": "10097", "placeholder": False}
+    html = (pi_pages.OUTPUT / "player" / "10097" / "index.html").read_text(encoding="utf-8")
+    assert "<!doctype html>" in html
+    assert "pi-generating" not in html
+    assert "정교한 아이언 플레이어" in html
+
+
+def test_build_one_never_touches_any_other_players_page():
+    pi_pages.build()
+    other_ids = ["10002", "10098", "9784"]
+    other_paths = [pi_pages.OUTPUT / "player" / pid / "index.html" for pid in other_ids]
+    before = [p.read_bytes() for p in other_paths]
+
+    pi_pages.build_one("10097")
+
+    after = [p.read_bytes() for p in other_paths]
+    assert before == after
+
+
+def test_build_one_raises_for_unknown_player_id():
+    pi_pages.build()
+    with pytest.raises(ValueError):
+        pi_pages.build_one("NO_SUCH_PLAYER_ID_XYZ")
+
+
+def test_build_one_prev_next_links_reference_real_neighbours():
+    pi_pages.build()
+    population = pi_pages._load_population()
+    ids = [str(r["player_id"]) for r in population]
+    idx = ids.index("10097")
+
+    pi_pages.build_one("10097")
+    html = (pi_pages.OUTPUT / "player" / "10097" / "index.html").read_text(encoding="utf-8")
+    if idx > 0:
+        assert f'/player/{ids[idx - 1]}/' in html
+    if idx + 1 < len(ids):
+        assert f'/player/{ids[idx + 1]}/' in html
