@@ -109,9 +109,9 @@
     }
   ],
   "field_unclassified": 0,
-  "generated_at": "2026-09-23T13:44:13.973549+00:00",
+  "generated_at": "2026-09-23T13:57:14.170549+00:00",
   "identity": {
-    "cut_after_round": 2,
+    "cut_after_round": null,
     "field_size": 120,
     "game_code": "2026120001",
     "holes": 54,
@@ -119,7 +119,6 @@
     "purse": 1000000000,
     "sources": [
       "OK_OPEN_2026_OPERATIONAL_READINESS.json",
-      "active_tournament.json",
       "2026120001_ENTRY_SNAPSHOT.json"
     ],
     "tournament_name": "OK저축은행 읏맨 오픈",
