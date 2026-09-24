@@ -198,10 +198,17 @@ def _player_cell(pid: str, name: str, country_by_id: dict[str, str], sponsor_by_
     sponsor = sponsor_by_id.get(pid)
     sponsor_text = _esc(sponsor) if sponsor else ""
     sponsor_cell = f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
-    return (
-        f"{flag_cell}<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(name)}</span>"
-        f"{sponsor_cell}"
-    )
+    name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(name)}</span>"
+    # PLAYER INTELLIGENCE V7 GOLD STANDARD (feature/player-intelligence-v1):
+    # playerCode=10097 (김민선7) has a real published Player Intelligence
+    # page -- link her name to it. The <span class='player-name'> tag is
+    # wrapped from the OUTSIDE, never edited internally, so every existing
+    # `class='player-name'[^>]*>([^<]*)<` plain-text extraction elsewhere
+    # in this codebase keeps matching byte-for-byte. No other player is
+    # touched (their name_cell is returned unwrapped, exactly as before).
+    if pid == "10097":
+        name_cell = f'<a href="/player/10097/">{name_cell}</a>'
+    return f"{flag_cell}{name_cell}{sponsor_cell}"
 
 
 def _prob_cell(rec: dict, key: str, label: str) -> str:

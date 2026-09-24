@@ -117,8 +117,15 @@ def test_kb_pre_r1_r2_r3_final_and_fr_are_the_only_released_tournament_routes():
     entrants lacking a genuine KGA official basis show 데이터 부족 in
     every probability cell instead. Root HOME mirrors this page's body
     byte-for-byte (kb_home_stage_router's explicit product-policy
-    repoint, 2026-09-16). Still exactly these seven routes, nothing
-    else."""
+    repoint, 2026-09-16).
+
+    PLAYER INTELLIGENCE V7 GOLD STANDARD (feature/player-intelligence-v1)
+    added an eighth: playerCode=10097 (김민선7)'s real Player Intelligence
+    page, gated by scripts/188_build_player_intelligence_production_page.py's
+    own hard stop (refuses to write a placeholder report to production).
+    This is not a tournament route -- it's the first player-profile route
+    -- but it belongs in this same explicit allow-list for the same reason
+    every other entry here does: reviewable, one gate per line."""
     assert lockdown.RELEASED_HTML_PATHS == {
         "tournaments/2026/2026090003/pre/index.html",
         "tournaments/2026/2026090003/r1/index.html",
@@ -127,6 +134,7 @@ def test_kb_pre_r1_r2_r3_final_and_fr_are_the_only_released_tournament_routes():
         "tournaments/2026/2026090003/final/index.html",
         "tournaments/2026/2026090003/fr/index.html",
         "tournaments/2026/2026090002/pre/index.html",
+        "player/10097/index.html",
     }
     pre_content = (DOCS / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     assert pre_content != lockdown.PLACEHOLDER_HTML

@@ -113,6 +113,15 @@ RELEASED_HTML_PATHS = {
     # 16), so releasing this path is what makes HOME's own content
     # legitimate too.
     "tournaments/2026/2026090002/pre/index.html",
+    # PLAYER INTELLIGENCE V7 GOLD STANDARD (feature/player-intelligence-v1):
+    # playerCode=10097 (김민선7)'s real Player Intelligence report --
+    # scripts/188_build_player_intelligence_production_page.py hard-stops
+    # before writing this file unless klpga.website_v2.player_intelligence_v2
+    # returns a real report (never a placeholder) for this player. Every
+    # conclusion is FACT -> EVIDENCE -> ANALYSIS -> CONCLUSION, sourced only
+    # from real official KLPGA data already in this repository. No other
+    # player's page is released by this entry.
+    "player/10097/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the
@@ -177,7 +186,7 @@ def verify_lockdown() -> list[str]:
     problems = []
 
     top_level = {p.name for p in DOCS.iterdir()}
-    unexpected_top_level = top_level - PRESERVED_TOP_LEVEL - {"archive", "deep-dive", "neo-lab", "ranking", "tournaments", "about", "data"}
+    unexpected_top_level = top_level - PRESERVED_TOP_LEVEL - {"archive", "deep-dive", "neo-lab", "ranking", "tournaments", "about", "data", "player"}
     if unexpected_top_level:
         problems.append(f"unexpected new top-level entries under docs/: {sorted(unexpected_top_level)}")
 
