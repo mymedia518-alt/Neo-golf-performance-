@@ -460,6 +460,153 @@ def _dna_html(doc: dict) -> str:
     )
 
 
+def _career_reconstruction_html(cr: Optional[dict]) -> str:
+    """V18 #1: from the earliest real season on record through the most
+    recent event -- always visible (open), since this is now the page's
+    own opening context, read before anything else."""
+    if not cr:
+        return ""
+    body = (
+        '<div class="piq-brief">'
+        f'<p><strong>{terms.CAREER_RECONSTRUCTION_DESCRIPTION_LABEL}</strong> {escape(cr["data_floor_note"])}</p>'
+        "</div>"
+        '<div class="piq-audit">'
+        f'<span class="label-chip">{cr["earliest_season_on_record"]}~{cr["latest_season_on_record"]}시즌</span>'
+        f'<span class="label-chip">출전 {cr["total_events_on_record"]}회</span>'
+        f'<span class="label-chip label-chip--positive">우승 {cr["total_wins_on_record"]}회</span>'
+        f'<span class="label-chip">상위10위 {cr["total_top10_on_record"]}회</span>'
+        f'<span class="label-chip">{cr["season_count_on_record"]}개 시즌</span>'
+        "</div>"
+        f'<p class="piq-current-detail">{escape(cr["summary"])}</p>'
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-career-reconstruction" open>'
+        f'<summary class="section-heading"><h2>{terms.CAREER_RECONSTRUCTION_TITLE}</h2></summary>'
+        f'<div class="pi-section__body">{body}</div>'
+        "</details>"
+    )
+
+
+def _season_table_html(rows: Optional[list]) -> str:
+    """V18 #2: season-by-season, real event/win/top10 counts alongside
+    real SG averages -- two different real sample sizes shown side by
+    side on purpose (events_on_record vs sg_sample_size), never merged
+    into one invented number."""
+    if not rows:
+        return ""
+    cols = ["season", "events_on_record", "wins", "top10", "sg_sample_size", "avg_total", "avg_ott", "avg_app", "avg_arg", "avg_putt"]
+    labels = terms.SEASON_TABLE_COLUMN_LABEL
+    header = "".join(f"<th>{escape(labels[c])}</th>" for c in cols)
+    body_rows = []
+    for r in rows:
+        cells = []
+        for c in cols:
+            v = r[c]
+            cells.append(f"<td>{v:+.2f}</td>" if isinstance(v, float) else f"<td>{v}</td>")
+        body_rows.append(f"<tr>{''.join(cells)}</tr>")
+    table = (
+        '<div class="table-scroll"><table class="data-table">'
+        f"<thead><tr>{header}</tr></thead><tbody>{''.join(body_rows)}</tbody></table></div>"
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-season-table" open>'
+        f'<summary class="section-heading"><h2>{terms.SEASON_TABLE_TITLE}</h2></summary>'
+        f'<div class="pi-section__body">{table}</div>'
+        "</details>"
+    )
+
+
+def _growth_timeline_html(gt: Optional[dict]) -> str:
+    """V18 #3: the real, already-frozen season-over-season evolution --
+    reused verbatim, rendered as its own standalone timeline (distinct
+    from q_2026_improvement, which cites the same numbers only as
+    supporting evidence for a different, single question)."""
+    if not gt:
+        return ""
+    items = []
+    for s in gt["steps"]:
+        delta_chip = f'<span class="label-chip label-chip--positive">전년비 {s["delta_from_prev"]:+.2f}</span>' if s["delta_from_prev"] is not None else '<span class="label-chip">첫 실측 시즌</span>'
+        items.append(
+            "<li class='piq-roadmap-item'>"
+            f'<p class="piq-step"><span class="piq-label">{s["season"]}시즌</span>SG Total {s["avg_total"]:+.2f}</p>'
+            f'<div class="piq-audit">{delta_chip}'
+            f'<span class="label-chip">최강 {escape(s["strongest_component"])}</span>'
+            f'<span class="label-chip">최약 {escape(s["weakest_component"])}</span></div>'
+            "</li>"
+        )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-growth-timeline" open>'
+        f'<summary class="section-heading"><h2>{terms.GROWTH_TIMELINE_TITLE}</h2></summary>'
+        f'<div class="pi-section__body"><p class="pi-empty">{escape(gt["narrative"])}</p>'
+        f"<ul class='piq-roadmap-list'>{''.join(items)}</ul></div>"
+        "</details>"
+    )
+
+
+def _turning_points_html(points: Optional[list]) -> str:
+    """V18 #4: real, non-invented inflection points -- never padded to a
+    fixed count, each honestly states what deeper cause is not
+    determinable from this repository's data."""
+    if not points:
+        return ""
+    items = []
+    for tp in points:
+        items.append(
+            "<li class='piq-roadmap-item'>"
+            f'<p class="piq-step"><span class="piq-label">{tp["season"]}시즌 · {escape(tp["label"])}</span>{escape(tp["finding"])}</p>'
+            f'<p class="piq-current-detail">{terms.TURNING_POINT_UNKNOWN_CAUSE_LABEL}: {escape(tp["unknown_cause"])}</p>'
+            "</li>"
+        )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-turning-points" open>'
+        f'<summary class="section-heading"><h2>{terms.TURNING_POINTS_TITLE}</h2></summary>'
+        f"<div class='pi-section__body'><ul class='piq-roadmap-list'>{''.join(items)}</ul></div>"
+        "</details>"
+    )
+
+
+def _coach_report_html(report: Optional[dict]) -> str:
+    """V18 #7: a career-level, forward-looking development priority --
+    distinct from Coach Console's per-question weekly checklist."""
+    if not report:
+        return ""
+    body = (
+        '<div class="piq-brief">'
+        f'<p><strong>{terms.COACH_REPORT_TRAJECTORY_LABEL}</strong> {escape(report["trajectory_verdict"])}</p>'
+        f'<p><strong>{terms.COACH_REPORT_PRIORITY_LABEL}</strong> {escape(report["development_priority"])}</p>'
+        "</div>"
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-coach-report" open>'
+        f'<summary class="section-heading"><h2>{terms.COACH_REPORT_TITLE}</h2></summary>'
+        f'<div class="pi-section__body">{body}</div>'
+        "</details>"
+    )
+
+
+def _player_identity_html(identity: Optional[dict]) -> str:
+    """V18 #8: what never changes about how she plays across every real
+    season measured, plus whether that identity-level strength matches
+    her independently-computed win-specific strength -- a cross-check
+    question no other section asks."""
+    if not identity:
+        return ""
+    body = (
+        '<div class="piq-brief">'
+        f'<p><strong>{terms.PLAYER_IDENTITY_CONSTANT_LABEL}</strong> {escape(identity["constant_strength_finding"])}</p>'
+    )
+    alignment = identity.get("identity_win_alignment")
+    if alignment:
+        body += f'<p><strong>{terms.PLAYER_IDENTITY_ALIGNMENT_LABEL}</strong> {escape(alignment["finding"])}</p>'
+    body += "</div>"
+    return (
+        '<details class="evidence-detail pi-section" id="piq-player-identity" open>'
+        f'<summary class="section-heading"><h2>{terms.PLAYER_IDENTITY_TITLE}</h2></summary>'
+        f'<div class="pi-section__body">{body}</div>'
+        "</details>"
+    )
+
+
 def _hero_html(doc: dict) -> str:
     return (
         '<header class="pi-hero hero-data">'
@@ -577,18 +724,29 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     from klpga.website_v2.player_intelligence_v2 import prev_next_html
 
     cards = "".join(_question_card(q) for q in doc["questions"])
+    # V18 career-level block, mission priority order 1-4: Career
+    # Reconstruction -> Season Table -> Growth Timeline -> Turning Points.
+    career_reconstruction = _career_reconstruction_html(doc.get("career_reconstruction"))
+    season_table = _season_table_html(doc.get("season_by_season_table"))
+    growth_timeline = _growth_timeline_html(doc.get("growth_timeline"))
+    turning_points = _turning_points_html(doc.get("turning_points"))
     performance_funnel = _performance_funnel_html(doc.get("performance_funnel"))
     leak_map = _leak_map_html(doc.get("leak_map"))
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
-    dna = _dna_html(doc)
+    dna = _dna_html(doc)  # priority order 5-6: Win DNA / Loss DNA (already existing)
     coach_console = _coach_console_html(doc.get("coach_console"))
+    # V18 priority order 7-8: Coach Report -> Player Identity.
+    coach_report = _coach_report_html(doc.get("coach_report"))
+    player_identity = _player_identity_html(doc.get("player_identity"))
     playbook = _player_playbook_html(doc.get("player_playbook"))
     excluded = _excluded_html(doc.get("questions_considered_but_unsupported", []))
     unsupported_modules = _unsupported_modules_html(doc.get("unsupported_analysis_modules_v12"))
     data_roadmap = _data_roadmap_html(doc.get("data_roadmap"))
     repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
     return (
-        prev_next_html(prev_link, next_link) + _hero_html(doc) + performance_funnel + leak_map + checklist + dna
-        + coach_console + playbook + cards
+        prev_next_html(prev_link, next_link) + _hero_html(doc)
+        + career_reconstruction + season_table + growth_timeline + turning_points
+        + performance_funnel + leak_map + checklist + dna
+        + coach_console + coach_report + player_identity + playbook + cards
         + excluded + unsupported_modules + data_roadmap + repository_intelligence
     )

@@ -435,6 +435,246 @@ def _trend_contribution_breakdown(season_profiles: list) -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# V18: CAREER RECONSTRUCTION, SEASON TABLE, GROWTH TIMELINE, TURNING POINTS,
+# COACH REPORT, PLAYER IDENTITY. All eight reuse data this report or
+# scripts/build_10097_master_player_analysis.py already loaded and
+# verified real (season_profiles, season_evolution steps, tournament_analysis
+# events/wins, win_dna/trend_dna) -- no new data collection, no invented
+# numbers. Each answers a question no existing question card or module
+# already answers; where two would overlap, the later one only cross-
+# references the earlier one's real finding instead of restating it.
+# ---------------------------------------------------------------------------
+
+_SEASON_COMPONENT_LABEL = {"avg_ott": "SG OTT", "avg_app": "SG APP", "avg_arg": "SG ARG", "avg_putt": "SG PUTT", "avg_total": "SG Total"}
+
+
+def _career_reconstruction(master_doc: dict, season_profiles: list, win_events: list) -> Optional[dict]:
+    """Q: from the earliest season this repository has real SG data for,
+    through the most recent event, what does her whole recorded career
+    look like as one real, honestly-bounded span? Never claims this is
+    her actual KLPGA debut -- 2023 is this warehouse's own data floor
+    (confirmed identical across every player in the file), not a
+    player-specific debut date this repository has no field for."""
+    if not season_profiles:
+        return None
+    events = master_doc["tournament_analysis"]["events"]
+    earliest, latest = season_profiles[0], season_profiles[-1]
+    top10_events = sum(1 for e in events if e.get("rank") is not None and e["rank"] <= 10)
+    return {
+        "earliest_season_on_record": earliest.season,
+        "latest_season_on_record": latest.season,
+        "data_floor_note": (
+            f"이 저장소의 실측 SG 데이터는 {earliest.season}시즌부터 시작됩니다 -- 이는 전체 웨어하우스가 "
+            f"모든 선수에 대해 공통으로 가진 데이터 수집 시작점이며, {PLAYER_NAME} 선수의 실제 KLPGA 데뷔 "
+            "시즌이라는 근거는 아닙니다. 이 시점 이전 실측 기록은 이 저장소에 없습니다."
+        ),
+        "total_events_on_record": len(events),
+        "total_wins_on_record": len(win_events),
+        "total_top10_on_record": top10_events,
+        "season_count_on_record": len(season_profiles),
+        "summary": (
+            f"{earliest.season}시즌부터 {latest.season}시즌까지, 실측 {len(events)}개 대회 기록 -- "
+            f"우승 {len(win_events)}회, 상위10위 {top10_events}회, {len(season_profiles)}개 시즌."
+        ),
+    }
+
+
+def _season_by_season_table(master_doc: dict, season_profiles: list, win_events: list) -> list:
+    """Q: season by season, what actually happened -- real event/win/top10
+    counts alongside the real SG averages, never combined into a single
+    score. Two different real sample sizes appear side by side on
+    purpose (events_on_record vs sg_sample_size) rather than forced into
+    one number: not every recorded event has a retained SG breakdown."""
+    events = master_doc["tournament_analysis"]["events"]
+    events_by_season: dict = {}
+    for e in events:
+        events_by_season.setdefault(e["season"], []).append(e)
+    wins_by_season: dict = {}
+    for w in win_events:
+        wins_by_season.setdefault(w["season"], 0)
+        wins_by_season[w["season"]] += 1
+
+    rows = []
+    for p in season_profiles:
+        season_events = events_by_season.get(p.season, [])
+        top10 = sum(1 for e in season_events if e.get("rank") is not None and e["rank"] <= 10)
+        rows.append({
+            "season": p.season,
+            "events_on_record": len(season_events),
+            "wins": wins_by_season.get(p.season, 0),
+            "top10": top10,
+            "sg_sample_size": p.n_tournaments,
+            "avg_total": p.avg_total,
+            "avg_ott": p.avg_ott,
+            "avg_app": p.avg_app,
+            "avg_arg": p.avg_arg,
+            "avg_putt": p.avg_putt,
+        })
+    return rows
+
+
+def _growth_timeline(master_doc: dict) -> Optional[dict]:
+    """Q: what is the real, already-frozen season-over-season trajectory --
+    reused verbatim from knowledge_engine.compute_season_profiles()'s own
+    evolution step, never recomputed. This is the ONLY place delta_from_prev
+    and strongest/weakest-per-season render as their own visible module;
+    _q_2026_improvement cites the same numbers inline as supporting
+    evidence for a different question (why did performance improve), not
+    as a standalone timeline."""
+    evolution = master_doc.get("season_evolution", {}).get("frozen_knowledge_engine_evolution")
+    if not evolution or evolution.get("status") != "OK":
+        return None
+    steps = []
+    for s in evolution["steps"]:
+        steps.append({
+            "season": s["season"],
+            "avg_total": s["avg_total"],
+            "delta_from_prev": s["delta_from_prev"],
+            "strongest_component": _SEASON_COMPONENT_LABEL.get(s["strongest_component"], s["strongest_component"]),
+            "weakest_component": _SEASON_COMPONENT_LABEL.get(s["weakest_component"], s["weakest_component"]),
+        })
+    return {"steps": steps, "narrative": evolution["narrative"]}
+
+
+def _turning_points(master_doc: dict) -> list:
+    """Q: across her whole recorded career (not one tournament, not one
+    round), when did something real actually change? Two independent,
+    real, non-invented detections over the same frozen evolution steps
+    q_growth_timeline already exposes -- never padded to a fixed count.
+    Each turning point states plainly what deeper cause is NOT
+    determinable from this repository's data, per house style."""
+    evolution = master_doc.get("season_evolution", {}).get("frozen_knowledge_engine_evolution")
+    if not evolution or evolution.get("status") != "OK":
+        return []
+    steps = evolution["steps"]
+    points = []
+
+    dated_deltas = [s for s in steps if s.get("delta_from_prev") is not None]
+    if dated_deltas:
+        biggest = max(dated_deltas, key=lambda s: s["delta_from_prev"])
+        points.append({
+            "id": "tp_biggest_jump",
+            "season": biggest["season"],
+            "label": "가장 큰 단일 시즌 도약",
+            "finding": f"{biggest['season']}시즌 SG Total이 전년 대비 {biggest['delta_from_prev']:+.2f} 상승 -- 실측된 4개 시즌 전환 중 가장 큰 폭입니다.",
+            "unknown_cause": "이 상승을 만든 구체적 계기(훈련 방법 변경, 장비 교체, 스윙 수정 등)는 이 저장소에 훈련·코칭 이력 기록이 없어 확인할 수 없습니다 -- 데이터 로드맵의 훈련·코칭 이력 기록 항목이 이를 다룹니다.",
+        })
+
+    for prev_s, cur_s in zip(steps, steps[1:]):
+        if prev_s.get("weakest_component") and cur_s.get("weakest_component") and prev_s["weakest_component"] != cur_s["weakest_component"]:
+            prev_label = _SEASON_COMPONENT_LABEL.get(prev_s["weakest_component"], prev_s["weakest_component"])
+            cur_label = _SEASON_COMPONENT_LABEL.get(cur_s["weakest_component"], cur_s["weakest_component"])
+            points.append({
+                "id": "tp_weakness_shift",
+                "season": cur_s["season"],
+                "label": "약점 전환",
+                "finding": f"{cur_s['season']}시즌부터 시즌 내 최약체 항목이 {prev_label}에서 {cur_label}로 바뀌었습니다 -- {prev_label}는 더 이상 최약체가 아닙니다.",
+                "unknown_cause": f"{prev_label}가 개선되어 최약체 자리를 벗어난 것인지, {cur_label}가 상대적으로 뒤처진 것인지는 이 표만으로는 구분할 수 없습니다 -- 시즌별 실측값 자체(성장 타임라인)를 함께 확인해야 합니다.",
+            })
+            break  # first real shift only -- never lists every later re-shift as if each were equally significant
+
+    return points
+
+
+def _coach_report(season_profiles: list, turning_points: list) -> Optional[dict]:
+    """Q: right now, where should coaching development effort actually go
+    -- a career-level, forward-looking priority, distinct from Coach
+    Console's per-question weekly checklist (KEEP/CHANGE/MONITOR/AVOID/
+    DO_NOT_TOUCH) and distinct from Player Identity's descriptive "what
+    never changes" question below. Built only from turning points and
+    season_profiles already computed above -- states its own priority
+    once, does not repeat their sentences."""
+    if not season_profiles or len(season_profiles) < 2:
+        return None
+    # A classification verdict, never a restatement of the raw numbers
+    # Growth Timeline already shows: count real consecutive positive
+    # season-over-season deltas ending at the most recent season, so a
+    # coach reads "sustained trend" vs "one good season" -- a genuinely
+    # different question from "what were the numbers."
+    deltas = []
+    for prev, cur in zip(season_profiles, season_profiles[1:]):
+        if prev.avg_total is None or cur.avg_total is None:
+            continue
+        deltas.append(cur.avg_total - prev.avg_total)
+    consecutive_positive = 0
+    for d in reversed(deltas):
+        if d > 0:
+            consecutive_positive += 1
+        else:
+            break
+    if not deltas:
+        trajectory = "실측 시즌 전환 데이터가 부족해 궤적을 판정할 수 없습니다."
+    elif consecutive_positive == len(deltas):
+        trajectory = f"실측된 시즌 전환 {len(deltas)}건 전부 플러스 -- 단발성 향상이 아니라 지속된 궤적입니다."
+    elif consecutive_positive >= 2:
+        trajectory = f"최근 {consecutive_positive}개 시즌 전환 연속 플러스 -- 지속되는 중인 궤적입니다."
+    else:
+        trajectory = f"가장 최근 시즌 전환은 {deltas[-1]:+.2f}이며, 연속된 상승 궤적으로 아직 판정할 근거가 부족합니다."
+    weakness_tp = next((tp for tp in turning_points if tp["id"] == "tp_weakness_shift"), None)
+    if weakness_tp:
+        priority = f"다음 시즌 개발 우선순위: {weakness_tp['finding']} 현재 시즌 내 최약체 항목을 코칭 개발의 1순위로 둡니다."
+        priority_source = "tp_weakness_shift"
+    else:
+        priority = "약점 전환 턴닝포인트가 없어 별도의 개발 우선순위를 지목하지 않습니다 -- 최약체 항목이 시즌 내내 바뀌지 않았습니다."
+        priority_source = None
+    return {
+        "trajectory_verdict": trajectory,
+        "development_priority": priority,
+        "development_priority_source": priority_source,
+    }
+
+
+def _player_identity(season_evolution_steps: list, win_dna: Optional[dict]) -> Optional[dict]:
+    """Q: what never changes about how she plays, regardless of which
+    season or which specific event is examined -- a cross-season
+    consistency check, never a single-snapshot claim (that's what
+    q_approach_biggest_weapon and win_dna already are). Also checks
+    whether her identity-level strength and her win-specific strength
+    are the SAME real finding from two independent computations -- a
+    genuinely new question (do the lenses agree), never previously
+    asked or answered anywhere else in this report."""
+    if not season_evolution_steps:
+        return None
+    # season_evolution_steps here is growth_timeline["steps"], which already
+    # stores strongest_component as the human-readable "SG APP"-style label
+    # (converted once in _growth_timeline) -- never re-map through
+    # _SEASON_COMPONENT_LABEL a second time, since that dict's keys are the
+    # raw "avg_app"-style names, not the labels themselves.
+    strongest_values = [s["strongest_component"] for s in season_evolution_steps if s.get("strongest_component")]
+    if not strongest_values:
+        return None
+    constant_strength_label = strongest_values[0] if len(set(strongest_values)) == 1 else None
+
+    alignment = None
+    if constant_strength_label and win_dna and win_dna.get("top_contributor"):
+        matches = constant_strength_label == win_dna["top_contributor"]
+        alignment = {
+            "identity_strength": constant_strength_label,
+            "win_strength": win_dna["top_contributor"],
+            "matches": matches,
+            "finding": (
+                f"실측 {len(season_evolution_steps)}개 시즌 전부에서 최강 요소인 {constant_strength_label}가, "
+                f"독립적으로 계산된 우승 기여도 1위 요소와 정확히 일치합니다 -- 그녀를 정의하는 강점과 "
+                "우승을 만드는 강점이 같은 것입니다." if matches else
+                f"실측 {len(season_evolution_steps)}개 시즌 전부에서 최강 요소는 {constant_strength_label}이지만, "
+                f"우승 기여도 1위 요소는 {win_dna['top_contributor']}로 서로 다릅니다 -- 그녀를 정의하는 강점과 "
+                "우승을 만드는 강점이 반드시 같지는 않습니다."
+            ),
+        }
+
+    return {
+        "constant_strength": constant_strength_label,
+        "constant_strength_seasons": len(season_evolution_steps) if constant_strength_label else 0,
+        "constant_strength_finding": (
+            f"실측 {len(season_evolution_steps)}개 시즌 전부에서 {constant_strength_label}가 최강 요소였습니다 -- "
+            "시즌이 바뀌어도 변하지 않는 특성입니다." if constant_strength_label else
+            "시즌 전부에서 동일하게 유지된 최강 요소는 없습니다 -- 최강 요소 자체가 시즌마다 바뀝니다."
+        ),
+        "identity_win_alignment": alignment,
+    }
+
+
 def _action_from_protocol(protocol: dict, decision: str) -> str:
     """NEO does not give opinions. NEO defines monitoring protocols: this
     text always opens on the metric being monitored, never a subjective
@@ -1859,6 +2099,17 @@ def build() -> dict:
         top = trend_dna["breakdown"][0]
         trend_dna["story"] = f"최근 향상을 가장 크게 이끈 요소는 {top['component']}입니다({top['share_pct']:+.0f}%)."
 
+    # V18: CAREER RECONSTRUCTION -> SEASON TABLE -> GROWTH TIMELINE ->
+    # TURNING POINTS -> (WIN/LOSS DNA above) -> COACH REPORT -> PLAYER
+    # IDENTITY. Computed here, before the question candidates, since
+    # coach_report and player_identity both reuse turning_points/win_dna.
+    career_reconstruction = _career_reconstruction(master_doc, season_profiles, win_events)
+    season_by_season_table = _season_by_season_table(master_doc, season_profiles, win_events)
+    growth_timeline = _growth_timeline(master_doc)
+    turning_points = _turning_points(master_doc)
+    coach_report = _coach_report(season_profiles, turning_points)
+    player_identity = _player_identity(growth_timeline["steps"] if growth_timeline else [], win_dna)
+
     win_blueprint_q = _q_win_blueprint(ds, win_events, by_code)
     candidates = [
         _q_why_wins(master_doc, ds, season_profiles),
@@ -1953,9 +2204,15 @@ def build() -> dict:
         "pre_tournament_checklist": pre_tournament_checklist,
         "questions": questions,
         "questions_considered_but_unsupported": excluded,
+        "career_reconstruction": career_reconstruction,
+        "season_by_season_table": season_by_season_table,
+        "growth_timeline": growth_timeline,
+        "turning_points": turning_points,
         "win_dna": win_dna,
         "loss_dna": loss_dna,
         "trend_dna": trend_dna,
+        "coach_report": coach_report,
+        "player_identity": player_identity,
         "player_playbook": player_playbook,
         "coach_console": coach_console,
         "performance_funnel": performance_funnel,
