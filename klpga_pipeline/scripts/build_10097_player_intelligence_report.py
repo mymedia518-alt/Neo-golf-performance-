@@ -236,8 +236,8 @@ def _explanatory_metric_insufficient_sample(n: int, unit: str, fallback_metric: 
     unit_kr = terms.UNIT[unit]
     return (
         f"알 수 없음 -- 실측 {unit_kr}이(가) {n}회뿐이라 신뢰할 수 있는 연관 지표 상관관계를 계산하기에는 "
-        f"표본이 부족합니다(이 리포트는 n={n}의 상관관계를 실제 근거로 다루지 않습니다). 대신 {fallback_metric}를 "
-        "확인하십시오."
+        f"표본이 부족합니다(이 리포트는 n={n}의 상관관계를 실제 근거로 다루지 않습니다). 앞으로 같은 단위의 "
+        f"실측 기록이 더 쌓이면 계산할 수 있게 됩니다. 대신 지금은 {fallback_metric}를 확인하십시오."
     )
 
 
@@ -812,7 +812,13 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
     )
     root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 {n}회 반복 출전 자체입니다. 이 코스의 어떤 구체적 특징(홀 구성, 페어웨이 폭, 그린 스피드 등)이 이 강점을 만드는지는 홀 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = f"조건: 이 코스 재출전 시 기존 전략 유지. 실측 {n}회 출전 전부에서 플러스로 재현되었습니다."
-    decision_context = f"실측된 과거 결정: {n}회 출전 내내 전략을 크게 바꾸지 않는 선택이 반복되었고, 그 결정이 매 출전 플러스 스코어링으로 이어졌습니다 -- 이 성과는 우연한 결과가 아니라 반복된 결정의 산물입니다."
+    decision_context = (
+        f"결정 자체는 UNKNOWN입니다 -- 이 코스에서 실제로 어떤 전략을 선택했는지는 홀·샷 단위 기록이 없어 "
+        "관찰되거나 강하게 추론될 수 없습니다. 알 수 없는 이유: 이 저장소에는 클럽·라인 선택 등 전략 자체를 "
+        "기록한 데이터가 없고 라운드 합계 SG만 보유하고 있습니다(공개된 Decision Quality 미지원 모듈과 같은 "
+        "이유). 향후 샷별 클럽·라인 선택 기록이 수집되면 알 수 있게 됩니다. 지금 확인되는 것은 결과뿐입니다: "
+        f"실측 {n}회 출전 전부 SG Total 플러스."
+    )
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
     return {
@@ -891,13 +897,19 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
     durability_reasoning = f"이미 확정된 결과이므로 바뀌지 않습니다. 다만 라운드 간 흐름 전체(실측 전환 {delta_n}건, 평균 {delta_mean:+.2f} SG)는 일관된 상승 패턴을 보이지 않으므로, 이 대회 하나의 사실로만 취급합니다."
     why_this_matters = "출발이 더딜 때 참고할 수 있는 실제 최근 사례입니다."
     action = _action_from_protocol(protocol, "이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.")
-    mechanism = "메커니즘: 2라운드 부진 이후 전략을 바꾸지 않고 3라운드에 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다."
+    mechanism = "메커니즘: 2라운드 부진 이후 3라운드에 SG Total이 대회 중 최고치로 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다."
     root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 3라운드 SG Total 상승입니다. 그 라운드 안에서 어떤 구체적 샷이 이를 만들었는지는 홀 단위 기록이 없어 확인할 수 없습니다."
-    reproducibility = "조건: 알 수 없음 -- 실측 1회 사건이라 재현 조건을 일반화할 근거가 없습니다."
+    reproducibility = (
+        "조건: 알 수 없음 -- 실측 1회 사건이라 재현 조건을 일반화할 근거가 없습니다. 알 수 없는 이유: 같은 패턴"
+        "(2라운드 부진 이후 3라운드 반등)의 우승이 현재 1회뿐이라 조건과 결과를 구분할 표본이 없습니다. 향후 "
+        "같은 패턴의 우승이 추가로 기록되면(실측 3회 이상) 재현 조건을 실제로 계산할 수 있게 됩니다."
+    )
     decision_context = (
-        "실측된 과거 결정: 2라운드 부진 직후 전략을 바꾸지 않는 선택을 했고, 바로 다음 3라운드에서 대회 중 최고 "
-        "스코어링 가치를 기록했습니다 -- 다만 실측 1회 사건이므로 이 결정이 항상 같은 결과로 이어진다고 일반화하지 "
-        "않습니다."
+        "결정 자체는 UNKNOWN입니다 -- 2라운드 부진 직후 실제로 어떤 전략적 선택을 했는지는 라운드 내 기록이 없어 "
+        "관찰되거나 강하게 추론될 수 없습니다. 알 수 없는 이유: 이 저장소에는 클럽·라인 선택 등 전략 자체를 "
+        "기록한 데이터가 없고 라운드 합계 SG만 보유하고 있습니다(공개된 Decision Quality 미지원 모듈과 같은 "
+        "이유). 향후 샷별 클럽·라인 선택 기록이 수집되면 알 수 있게 됩니다. 지금 확인되는 것은 결과뿐입니다: "
+        "3라운드 SG Total이 대회 중 최고치로 반등했다는 사실입니다."
     )
 
     sources = {win["official_source"].split(" (")[0]}
@@ -1624,7 +1636,14 @@ def _leak_map(ds: dict, questions: list, funnel: Optional[dict]) -> Optional[dic
         leaks.append({
             "where": protocol["metric"],
             "why": "부진 대회에서 가장 먼저 마이너스로 전환되는 항목입니다 -- 대회 초반의 조기 경고 신호입니다.",
-            "performance_loss": "알 수 없음 -- 이 항목은 발생 시점(라운드)을 측정할 뿐, 발생 시 손실 폭은 q_risk_map이 별도로 측정합니다.",
+            "performance_loss": (
+                "알 수 없음 -- 이 항목은 붕괴가 시작되는 라운드·항목만 식별하며, 그 라운드 한 건의 구체적 "
+                "손실 폭은 계산하지 않습니다(q_risk_map은 마이너스 발생 시 전체 평균 손실만 계산하며, 붕괴 "
+                "시작 라운드 한 건에 한정한 값이 아닙니다). 알 수 없는 이유: 붕괴 시작 라운드와 그 라운드의 "
+                "SG 손실을 직접 연결한 계산이 이 리포트에 없기 때문입니다. historical_sg_warehouse_corrected.json의 "
+                "라운드별 기록을 붕괴 시작 시점과 직접 연결하면 계산할 수 있게 되지만, 리크 맵은 새 수치를 "
+                "만들지 않는다는 원칙에 따라 여기서 직접 계산하지 않습니다."
+            ),
             "coach_decision": _decision_text(collapse_q),
             "priority": 2,
             "question_id": "q_collapse_blueprint",
@@ -1635,7 +1654,12 @@ def _leak_map(ds: dict, questions: list, funnel: Optional[dict]) -> Optional[dic
         leaks.append({
             "where": "Top10 → 우승 전환",
             "why": f"실측 Top10 {win['top10_events']}회 중 우승은 {win['win_events']}회뿐입니다 -- 경쟁 기회는 충분히 만들어지지만 우승으로 전환되는 비율은 낮습니다.",
-            "performance_loss": "알 수 없음 -- 최종 라운드 홀별 순서 데이터가 없어 어느 지점에서 전환이 실패하는지 스트로크 단위로는 계산할 수 없습니다.",
+            "performance_loss": (
+                "알 수 없음 -- 최종 라운드 홀별 순서 데이터가 없어 어느 지점에서 전환이 실패하는지 스트로크 "
+                "단위로는 계산할 수 없습니다. 알 수 없는 이유: 이 저장소에는 홀 단위 최종 라운드 기록이 없고 "
+                "라운드 합계만 보유하고 있습니다. 향후 홀별 스코어카드 데이터가 수집되면 계산할 수 있게 "
+                "됩니다 -- 지금은 추정하지 않고 UNKNOWN으로 남깁니다."
+            ),
             "coach_decision": "다음 Top10 경쟁 상황에서는 q_pressure_index가 지목한 항목(SG APP)을 최우선 관리한다.",
             "priority": 3,
             "question_id": "q_pressure_index",
