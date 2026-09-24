@@ -98,11 +98,22 @@ TOP_CONTRIBUTOR_LABEL = "가장 크게 기여한 요소"
 CONTRIBUTION_UNAVAILABLE = "공식 SG 세부 데이터 없음"
 
 # UI 리팩터(Gold Standard): 결론 우선 구조에서 쓰는 라벨.
-# "분석 근거"는 fact/evidence/analysis/why_it_matters/선수·코치 체크포인트/
-# 지속성/근거 감사 칩/실행 지침(원본 데이터 출처 포함)/모니터링 프로토콜 5개
-# 항목 전체를 묶는 하나의 접이식 섹션 제목입니다 -- 이 라벨을 펼치기 전에는
-# 원본 파일명, 필드명, 함수 호출 같은 구현 세부사항이 화면에 보이지 않습니다.
+# "분석 근거"는 이제 감사 자료 묶음이 아니라 Tour Performance Department식
+# 5단계 구조(퍼포먼스 분석 -> 핵심 발견 -> 코치의 해석 -> 선수 실행 지침 ->
+# 데이터 근거) 전체를 여는 하나의 접이식 섹션 제목입니다. 펼치는 즉시 1~4번은
+# 바로 보이고, 원본 파일명/필드명/함수 호출 같은 구현 세부사항은 그 안의
+# "데이터 근거" 하위 접이식 섹션을 한 번 더 펼쳐야만 보입니다.
 EVIDENCE_TOGGLE_LABEL = "분석 근거"
+
+# V10: 분석 근거 내부 5단계 구조 라벨. 순서를 바꾸지 않습니다 -- 퍼포먼스
+# 분석 -> 핵심 발견 -> 코치의 해석 -> 선수 실행 지침 -> 데이터 근거.
+PERFORMANCE_ANALYSIS_TITLE = "퍼포먼스 분석"
+KEY_FINDINGS_TITLE = "핵심 발견"
+COACH_INTERPRETATION_TITLE = "코치의 해석"
+PLAYER_ACTION_TITLE = "선수 실행 지침"
+DATA_EVIDENCE_TOGGLE_LABEL = "데이터 근거 (원본 출처)"
+DECISION_LABEL = "결정"
+FULL_PROTOCOL_LABEL = "실행 지침 전체 (모니터링 프로토콜 포함)"
 
 # 페이지 상단 / 섹션 제목
 HERO_TITLE = "선수 퍼포먼스 리포트 — 최고 수준 분석"
