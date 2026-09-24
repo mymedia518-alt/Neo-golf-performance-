@@ -453,7 +453,7 @@ def _action_from_protocol(protocol: dict) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
+def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     win_fact = _fact(master_doc, "fact_win_count")["audit"]
     reasons = [_conclusion(master_doc, f"play_style.why_wins[{i}]") for i in range(3)]
     wins = master_doc["tournament_analysis"]["wins"]
@@ -524,14 +524,13 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list, contribution:
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
-        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": _weakest_confidence([win_fact["confidence"]] + [r["confidence"] for r in reasons]),
     }
 
 
-def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
+def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     reasons = [_conclusion(master_doc, f"play_style.why_loses[{i}]") for i in range(2)]
     putt_trend = _season_line(season_profiles, "avg_putt")
     this_season, last_season = season_profiles[-1], season_profiles[-2]
@@ -601,7 +600,6 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list, contribution
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
-        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": _weakest_confidence([r["confidence"] for r in reasons]),
@@ -677,7 +675,7 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
     }
 
 
-def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list, contribution: dict) -> dict:
+def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     reason = _conclusion(master_doc, "play_style.why_loses[0]")
     pi = ds["player_intelligence_doc"]
     axes = {a["key"]: a["percentile"] for a in pi["player_dna"]["axes"]}
@@ -741,14 +739,13 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list, contri
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
-        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(min(sample_sizes), len(sources)),
         "sample_size": min(sample_sizes),
         "confidence": reason["confidence"],
     }
 
 
-def _q_2026_improvement(master_doc: dict, season_profiles: list, contribution: dict) -> dict:
+def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
     audit = _conclusion(master_doc, "season_evolution.frozen_knowledge_engine_evolution.narrative")
     total_trend = ", ".join(f"{p.season} ({p.n_tournaments}개 대회) {p.avg_total:+.2f}" for p in season_profiles)
     ott_trend = _season_line(season_profiles, "avg_ott")
@@ -811,7 +808,6 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list, contribution: d
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
-        "contribution_breakdown": contribution,
         "evidence_score": _evidence_score(audit["tournament_count"], len(sources)),
         "sample_size": audit["tournament_count"],
         "confidence": audit["confidence"],
@@ -1004,10 +1000,14 @@ def _q_repeat_course_pattern_candidate(master_doc: dict) -> dict:
 def build() -> dict:
     master_doc, ds, season_profiles = _load_inputs()
 
-    # V5: WIN DNA / LOSS DNA / TREND DNA -- real SG decomposition, computed
-    # once here and reused both as the top-level DNA blocks and as each
-    # question's own `contribution_breakdown` (same rows, same formula,
-    # never recomputed differently in two places).
+    # V5/V6: WIN DNA / LOSS DNA / TREND DNA -- real SG decomposition,
+    # computed once here. V6: never duplicated -- each of these three now
+    # lives ONLY at the top level (win_dna/loss_dna/trend_dna below), not
+    # also repeated as a question's own contribution_breakdown, since that
+    # would be the same insight shown twice in the same report.
+    # career_breakdown is a distinct insight (her whole career, not just
+    # the wins/losses/trend subsets) and has exactly one home:
+    # q_approach_biggest_weapon.
     by_code = {r["game_code"]: r for r in ds["warehouse_tournament_rows"]}
     career_breakdown = _contribution_breakdown(ds["warehouse_tournament_rows"])
 
@@ -1015,20 +1015,27 @@ def build() -> dict:
     win_dna = _contribution_breakdown([by_code.get(w["game_code"]) for w in win_events])
     if win_dna is not None:
         win_dna["events_considered"] = len(win_events)
+        top = win_dna["breakdown"][0]
+        win_dna["story"] = f"우승에 가장 크게 기여한 요소는 {top['component']}입니다({top['share_pct']:+.0f}%)."
 
     loss_events = [e for e in master_doc["tournament_analysis"]["events"] if e.get("sg_total") is not None and e["sg_total"] < 0]
     loss_dna = _contribution_breakdown([by_code.get(e["game_code"]) for e in loss_events])
     if loss_dna is not None:
         loss_dna["events_considered"] = len(loss_events)
+        top = loss_dna["breakdown"][0]
+        loss_dna["story"] = f"우승을 놓친 경기에서 가장 크게 흔들린 요소는 {top['component']}입니다({top['share_pct']:+.0f}%)."
 
     trend_dna = _trend_contribution_breakdown(season_profiles)
+    if trend_dna is not None:
+        top = trend_dna["breakdown"][0]
+        trend_dna["story"] = f"최근 향상을 가장 크게 이끈 요소는 {top['component']}입니다({top['share_pct']:+.0f}%)."
 
     candidates = [
-        _q_why_wins(master_doc, ds, season_profiles, win_dna),
-        _q_why_loses(master_doc, ds, season_profiles, loss_dna),
+        _q_why_wins(master_doc, ds, season_profiles),
+        _q_why_loses(master_doc, ds, season_profiles),
         _q_approach_biggest_weapon(master_doc, ds, season_profiles, career_breakdown),
-        _q_putting_weakest(master_doc, ds, season_profiles, career_breakdown),
-        _q_2026_improvement(master_doc, season_profiles, trend_dna),
+        _q_putting_weakest(master_doc, ds, season_profiles),
+        _q_2026_improvement(master_doc, season_profiles),
         _q_strong_course(master_doc, by_code),
         _q_most_recent_win(master_doc, ds, by_code),
     ]
