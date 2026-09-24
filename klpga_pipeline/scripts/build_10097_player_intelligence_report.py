@@ -434,12 +434,20 @@ def _trend_contribution_breakdown(season_profiles: list) -> dict:
     }
 
 
-def _action_from_protocol(protocol: dict) -> str:
+def _action_from_protocol(protocol: dict, decision: str) -> str:
+    """NEO does not give opinions. NEO defines monitoring protocols: this
+    text always opens on the metric being monitored, never a subjective
+    recommendation. V9 adds exactly one thing -- the concrete coach
+    decision this section earns (a single imperative sentence, supplied
+    by the caller, never invented here) -- as the closing line, after the
+    protocol. The protocol computation itself is untouched; this only
+    changes what text wraps around it."""
     return (
         f"{protocol['metric']}을(를) 모니터링합니다({protocol['source']}). 정상 범위: {protocol['normal_range']}. "
         f"저하 기준(기술/훈련 점검 필요): {protocol['warning_threshold']}. "
         f"다음 점검: {protocol['next_review']}. 가장 최근 실측값 기준 현재 상태: "
-        f"{terms.STATUS_LABEL[protocol['current_status']]} -- {protocol['current_detail']}"
+        f"{terms.STATUS_LABEL[protocol['current_status']]} -- {protocol['current_detail']} "
+        f"결정: {decision}"
     )
 
 
@@ -461,51 +469,37 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     app_trend = _season_line(season_profiles, "avg_app")
 
     fact = (
-        f"공식 기록상 확인된 우승은 총 {win_fact['sample_size']}회입니다({win_names}). 이 우승들에는 공통된 "
-        "메커니즘이 있습니다 -- 네 시즌 내내 플러스 스코어링 가치를 만들어낸 SG APP 게임으로, 우승한 주에만 "
-        "국한되지 않습니다."
+        f"공식 우승 {win_fact['sample_size']}회({win_names}) 전부 SG APP가 플러스였던 대회에서 나왔습니다. "
+        f"4개 시즌 시즌 평균 SG APP: {app_trend} -- 마이너스로 내려간 시즌이 한 번도 없습니다."
     )
     evidence = [
-        f"{len(season_profiles)}개 시즌, {sum(p.n_tournaments for p in season_profiles)}개 대회 전체 기록의 시즌별 SG APP: {app_trend} -- 4개 시즌 연속으로 같은 항목에서 플러스이자 상승하는 수치를 보였습니다.",
-        f"{reasons[1]['statement']} -- 이번 시즌 한정 지표입니다(평가 대상 {reasons[1]['sample_size']}명 기준). SG APP 추세처럼 여러 시즌에 걸쳐 확인된 것은 아직 아닙니다.",
-        f"{reasons[2]['statement']} -- 역시 이번 시즌 한정 지표입니다(평가 대상 {reasons[2]['sample_size']}명 기준).",
+        f"시즌별 SG APP({len(season_profiles)}개 시즌, {sum(p.n_tournaments for p in season_profiles)}개 대회): {app_trend}.",
+        f"{reasons[1]['statement']} (평가 대상 {reasons[1]['sample_size']}명, 이번 시즌 1개 시즌치 근거).",
+        f"{reasons[2]['statement']} (평가 대상 {reasons[2]['sample_size']}명, 이번 시즌 1개 시즌치 근거).",
     ]
     analysis = (
-        "우승 자체는 일회성 사건이지만, 그 뒤에 있는 메커니즘은 그렇지 않습니다. 공식 기록에 남아있는 모든 "
-        "시즌에서 같은 패턴이 나타납니다 -- 경기력의 다른 부분이 아직 무르익지 않았던 시즌에도 SG APP만큼은 "
-        "마이너스로 떨어진 적이 없습니다. 이 부분이 좋은 라운드를 우승으로 바꾸는 핵심입니다 -- 다른 선수들보다 "
-        "꾸준히 더 많은 Birdie 기회를 만들어내며, 이번 시즌의 뛰어난 GIR과 파세이브율은 그 우위가 Bogey를 "
-        "줄이는 동시에 Birdie를 늘리는 방향으로 이어지고 있음을 보여줍니다."
+        "SG APP는 경기력의 다른 부분이 약했던 시즌에도 마이너스로 내려간 적이 없는 유일한 항목입니다 -- 좋은 "
+        "라운드를 우승으로 바꾸는 실제 동력입니다. 이번 시즌 GIR·파세이브율 상승은 이 위에 더해진 결과이지, "
+        "새로 생긴 동력이 아닙니다."
     )
     conclusion = (
-        f"{PLAYER_NAME} 선수가 우승하는 이유는 SG APP 게임이 만들어내는 스코어링 우위가 뛰어온 모든 시즌에서 "
-        "유지되어 왔기 때문입니다 -- 한 번의 좋은 주간이 아니라는 뜻입니다. 이번 시즌의 뛰어난 GIR과 "
-        "파세이브율은 이 구조적 강점 위에 더해지는 것이지, 이를 대체하는 것이 아닙니다."
+        f"{PLAYER_NAME} 선수의 우승 동력은 SG APP입니다. 경기 전략의 기본값으로 고정하고, 압박 상황에서도 "
+        "SG APP 라인·클럽 선택을 바꾸지 않는 것이 결정 사항입니다."
     )
-    why_it_matters = (
-        "코칭스태프가 우승의 이유를 정확히 이해하면, 이 메커니즘을 의도적으로 보호하며 경기 전략과 훈련 계획을 "
-        "세울 수 있습니다. 그저 좋은 한 주로 넘기고 무엇이 그 결과를 만들었는지 묻지 않는 것과는 다릅니다."
-    )
-    player_takeaway = (
-        "압박감 속에서도 SG APP 게임을 믿으십시오 -- 지난 네 시즌 동안 한 번도 무너지지 않은 부분이며, "
-        "출발이 좋지 않을 때 무리한 라인을 선택하기보다 기본적으로 의지해야 할 샷입니다."
-    )
+    why_it_matters = "우승 동력을 정확히 특정해 두면, 다른 부분을 조정할 때 이 영역만큼은 건드리지 않는다는 기준이 생깁니다."
+    player_takeaway = "출발이 나쁠 때도 SG APP 샷 루틴을 그대로 유지하십시오 -- 4개 시즌간 무너진 적 없는 유일한 영역입니다."
     protocol = _tournament_component_protocol(ds, "approach", terms.SG_COMPONENT["approach"])
     coach_focus = (
-        f"GIR과 파세이브율은 이번 시즌 한 시점의 스냅샷 데이터일 뿐입니다 -- KLPGA는 두 지표 모두 라운드별이나 "
-        f"대회별 연속 기록을 공개하지 않으므로, 아직은 운영 가능한 주기로 모니터링할 수 없습니다. 반면 대회별 "
-        f"SG APP는 가능합니다 -- 실측 {protocol['sample_size']}개 대회의 기록이 있으며, 이 프로토콜이 "
-        "추적하는 지표입니다."
+        f"GIR·파세이브율은 이번 시즌 스냅샷이라 연속 모니터링이 불가능합니다. 대회별 SG APP(실측 "
+        f"{protocol['sample_size']}개 대회)만 연속 추적하십시오."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "핵심 동력인 SG APP는 공식 기록상 네 시즌 모두 플러스였고 상승세였습니다. 따라서 한 시즌이 "
-        "더해진다 해도 이 결론을 뒤집기보다 강화할 가능성이 훨씬 큽니다. 다만 GIR과 파세이브율 인용치는 이번 "
-        "시즌 순위표에서만 나온 수치입니다 -- 내년에 둘 중 하나가 하락하더라도 우승의 원인은 여전히 SG APP로 "
-        "설명되지만, 이 두 보조 수치만큼은 아직 해마다 보장되는 특성으로 간주해서는 안 됩니다."
+        "SG APP는 4개 시즌 전부 플러스·상승세입니다. 다음 시즌이 더해져도 뒤집힐 가능성은 낮습니다. GIR· "
+        "파세이브율은 이번 시즌 수치일 뿐이므로 같은 신뢰도로 다루지 마십시오."
     )
-    why_this_matters = "이번 주 경기 전략을 세울 때 중심에 두어야 할 샷이지, 우승 후에야 되돌아보며 감탄할 대상이 아닙니다."
-    action = _action_from_protocol(protocol)
+    why_this_matters = "이번 주뿐 아니라 매 대회 경기 전략의 기준선입니다."
+    action = _action_from_protocol(protocol, "SG APP 샷 운영 방식을 그대로 유지한다. 이 영역은 조정 대상에서 제외한다.")
 
     sample_sizes = [win_fact["sample_size"], sum(p.n_tournaments for p in season_profiles)] + [r["sample_size"] for r in reasons]
     sources = set(win_fact["official_records_used"]) | {s for r in reasons for s in r["official_records_used"]}
@@ -536,52 +530,37 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     this_season, last_season = season_profiles[-1], season_profiles[-2]
 
     fact = (
-        "SG PUTT은 지난 네 시즌 동안 김민선7 선수에게 우승을 만들어준 영역이 아니었습니다 -- 공식 기록상 네 "
-        "시즌 모두 스코어링 기여도가 가장 작은 항목이었고, 이번 시즌에는 그 격차가 줄어들기는커녕 더 "
-        "벌어졌습니다."
+        f"SG PUTT은 4개 시즌 내내 본인의 네 항목 중 스코어링 기여도가 가장 작았고, {this_season.season}시즌 "
+        f"하락폭({this_season.avg_putt:+.2f}, 전년 {last_season.avg_putt:+.2f})이 가장 큽니다."
     )
     evidence = [
-        f"시즌별 SG PUTT: {putt_trend} -- 매 시즌 다른 세 항목보다 작았고, {this_season.season}시즌 수치가 네 시즌 중 가장 낮습니다.",
-        f"{reasons[0]['statement']} -- 필드 평균 수준으로 나쁘지는 않지만, 93~97 백분위에 이르는 본인의 SG APP·SG OTT 수준과 비교하면 상대적으로 부족합니다. 필드와 비교한 것이 아니라 본인 안에서 비교한 결과입니다(평가 대상 {reasons[0]['sample_size']}명 기준).",
-        f"{reasons[1]['statement']} -- 독립된 두 번째 지표에서도 동일하게 필드 평균 수준으로 나타납니다(평가 대상 {reasons[1]['sample_size']}명 기준).",
+        f"시즌별 SG PUTT: {putt_trend}.",
+        f"{reasons[0]['statement']} -- 필드 평균 수준이지만, 93~97 백분위인 본인의 SG APP·SG OTT와 비교하면 낮습니다(평가 대상 {reasons[0]['sample_size']}명).",
+        f"{reasons[1]['statement']} (평가 대상 {reasons[1]['sample_size']}명, 독립 지표로 재확인).",
     ]
     analysis = (
-        "SG APP를 비롯한 볼 스트라이킹은 필드의 거의 누구보다 많은 스코어링 기회를 만들어내지만, 그 기회를 "
-        "볼 스트라이킹 수준에 걸맞은 비율로 Birdie로 연결하지 못하고 있습니다. 이 격차는 선수 생활 내내 "
-        "존재해 왔으므로 한 주에 고칠 수 있는 슬럼프가 아니라, SG APP 샷이 실제 스코어로 이어지는 비율에 "
-        f"대한 구조적인 한계에 가깝습니다. 이번 시즌의 하락({this_season.avg_putt:+.2f}, 지난해 "
-        f"{last_season.avg_putt:+.2f}에서 하락)은 새롭게 나타난 부분이므로, 저절로 회복될 것이라 가정하기보다 "
-        "계속 지켜볼 필요가 있습니다."
+        "SG APP가 만들어내는 Birdie 기회를 SG PUTT이 볼 스트라이킹 수준만큼 전환하지 못합니다. 선수 생활 "
+        "내내 있었던 격차이므로 한 주의 슬럼프가 아니라 전환 비율의 구조적 한계이며, 올해 하락폭은 새 정보라서 "
+        "회복을 가정하지 말고 계속 지켜봐야 합니다."
     )
     conclusion = (
-        "SG APP 게임은 꾸준히 스코어링 기회를 만들어내지만, SG PUTT은 그 기회를 볼 스트라이킹 수준이 "
-        "예상하게 하는 만큼 Birdie로 전환하지 못하고 있습니다 -- 공식 기록상 모든 시즌에서 사실이며, 지난 "
-        "3개 시즌보다 올해 그 격차가 더 큽니다."
+        "SG PUTT이 Birdie 전환의 병목입니다. 다음 훈련 사이클의 우선순위를 퍼팅 전환 훈련으로 재배분하고, "
+        "볼 스트라이킹 훈련 비중은 늘리지 않는 것이 결정 사항입니다."
     )
-    why_it_matters = (
-        "쇼트게임 전환 문제로 인한 우승 실패는 볼 스트라이킹 붕괴로 인한 실패와는 전혀 다른 대응이 필요합니다. "
-        "원인을 잘못 짚으면 훈련 시간을 엉뚱한 곳에 쓰게 됩니다."
-    )
-    player_takeaway = (
-        "가장 큰 손실은 그린을 놓치는 것이 아니라, 충분히 넣을 수 있는 Birdie 퍼트를 놓치는 것입니다. 이번 "
-        "시즌에는 샷 메이킹이 아니라 스코어 전환력을 성장 과제로 삼아야 합니다."
-    )
+    why_it_matters = "전환 문제와 볼 스트라이킹 붕괴는 처방이 다릅니다. 원인을 잘못 짚으면 훈련 시간이 엉뚱한 곳에 쓰입니다."
+    player_takeaway = "가장 큰 손실은 그린을 놓치는 것이 아니라 넣을 수 있는 Birdie 퍼트를 놓치는 것입니다."
     protocol = _tournament_component_protocol(ds, "putting", terms.SG_COMPONENT["putting"])
     coach_focus = (
-        f"SG PUTT은 시즌 단위가 아니라 대회별로 기록되므로, 실측 {protocol['sample_size']}개 대회를 기준으로 "
-        "운영 가능한 범위를 설정할 수 있습니다 -- 하락 조짐을 조기에 포착하려면 시즌 합산치가 아니라 대회별로 "
-        "발표되는 수치를 그대로 활용하십시오."
+        f"SG PUTT은 대회별로 발표되므로(실측 {protocol['sample_size']}개 대회), 시즌 합산치가 아니라 "
+        "대회별 수치로 하락 조짐을 조기에 포착하십시오."
     )
     durability = LONG_TERM
     durability_reasoning = (
-        "SG PUTT은 공식 기록상 네 시즌 모두 스코어링 기여도가 가장 작은 항목이었습니다. 따라서 'SG PUTT이 "
-        "주력 강점이 아니다'라는 판단은 한 시즌이 더해져도 유지될 가능성이 매우 높습니다 -- 다섯 번째 시즌은 "
-        "이 패턴을 깨기보다 다시 확인해 줄 가능성이 큽니다. 반면 올해 하락폭의 크기는 더 얇고 새로운 "
-        "근거입니다 -- 다음 시즌에 반등하더라도 4개 시즌에 걸친 큰 흐름 자체를 뒤집지는 않으므로, 이 수치 "
-        "하나는 그 구조적 판단보다는 낮은 비중으로 다뤄야 합니다."
+        "4개 시즌 전부 최하위 항목이므로 이 순위는 다음 시즌에도 유지될 가능성이 큽니다. 올해 하락폭 자체는 "
+        "1개 시즌 근거이므로 구조적 판단보다 낮은 비중으로 다루십시오."
     )
-    why_this_matters = "다음 스트로크 게인은 스윙을 바꿔서가 아니라 스코어 전환력에서 나와야 합니다."
-    action = _action_from_protocol(protocol)
+    why_this_matters = "다음 스트로크 게인은 스윙이 아니라 전환력에서 나와야 합니다."
+    action = _action_from_protocol(protocol, "다음 훈련 사이클에서 퍼팅 전환 훈련 비중을 늘린다. 볼 스트라이킹 훈련은 현행 유지한다.")
 
     sample_sizes = [r["sample_size"] for r in reasons]
     sources = {s for r in reasons for s in r["official_records_used"]}
@@ -614,43 +593,30 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
     app_trend = _season_line(season_profiles, "avg_app")
 
     fact = (
-        "네 시즌에 걸쳐 SG APP는 김민선7 선수의 가장 꾸준한 스코어링 강점으로 남아 있습니다. 경기력의 다른 "
-        "부분이 아직 무르익지 않았던 시즌에도 SG APP만큼은 플러스 가치를 만들어내는 것을 멈춘 적이 없습니다."
+        f"필드 {audit['sample_size']}명 중 SG APP {app_axis['percentile']:.1f}번째 백분위, 4개 시즌 연속 "
+        f"플러스: {app_trend}."
     )
     evidence = [
-        f"이번 시즌 필드 백분위: 평가 대상 {audit['sample_size']}명 중 {app_axis['percentile']:.1f}번째 -- 현재 필드에서 가장 신뢰할 수 있는 SG APP 선수 중 한 명입니다.",
-        f"{audit['season_count']}개 시즌, {audit['tournament_count']}개 대회 전체 기록의 시즌별 SG APP 평균: {app_trend} -- 매 시즌 본인의 1순위 또는 2순위 항목이었습니다.",
-        f"고정된 Knowledge Engine 분류: \"{pi['player_type']['label_ko']}\" ({pi['player_type']['label_en']}) -- \"{insight['insight']}\"",
+        f"이번 시즌 필드 백분위: {audit['sample_size']}명 중 {app_axis['percentile']:.1f}번째.",
+        f"{audit['season_count']}개 시즌, {audit['tournament_count']}개 대회 SG APP 평균: {app_trend} -- 매 시즌 1·2순위 항목.",
+        f"Knowledge Engine 분류: \"{pi['player_type']['label_ko']}\" ({pi['player_type']['label_en']}) -- \"{insight['insight']}\"",
     ]
     analysis = (
-        "단 한 시즌의 특출난 성적은 지금 효과를 보고 있는 스윙 변화이거나, 내년에는 꺾일 볼 스트라이킹의 반짝 "
-        "호조일 수 있습니다. 그러나 같은 항목이 네 시즌 연속으로 최상위권을 유지하는 것은 다른 신호입니다 -- "
-        "SG APP는 '요즘 잘하고 있는' 부분이 아니라, 경기력의 다른 부분이 어떻든 관계없이 '꾸준히 잘하는' "
-        "부분이라는 뜻입니다."
+        "한 시즌의 특출난 성적은 반짝 호조일 수 있지만, 같은 항목이 4개 시즌 연속 최상위권이면 다른 신호입니다 "
+        "-- 경기력의 다른 부분과 무관하게 꾸준히 잘하는 부분이라는 뜻입니다."
     )
-    conclusion = (
-        "SG APP는 김민선7 선수의 가장 지속력 있는 강점입니다 -- 이번 주 수치가 가장 좋아서가 아니라, 지난 "
-        "4년간 부진한 시즌이 단 한 번도 없었기 때문입니다."
-    )
-    why_it_matters = (
-        "어떤 강점이 반짝 호조가 아니라 지속력 있는 강점인지 알면, 경기력의 다른 부분을 조정할 때 절대 손대서는 "
-        "안 될 부분이 무엇인지 코칭스태프에게 알려줍니다."
-    )
+    conclusion = "SG APP는 가장 지속력 있는 강점입니다. 기술적 조정이 필요할 때 이 메커니즘은 손대지 않는 것이 결정 사항입니다."
+    why_it_matters = "반짝 호조와 지속력 있는 강점을 구분해 두면, 경기력을 조정할 때 절대 건드리면 안 될 부분이 명확해집니다."
     protocol = _tournament_component_protocol(ds, "approach", terms.SG_COMPONENT["approach"])
-    player_takeaway = "경기력의 다른 부분을 위해 절대 희생해서는 안 될 샷입니다 -- 어떤 기술적 조정을 하더라도 SG APP 메커니즘을 가장 먼저 보호해야 합니다."
+    player_takeaway = "어떤 기술적 조정을 하더라도 SG APP 메커니즘부터 보호하십시오."
     coach_focus = (
-        f"위 우승 원인 지표와 동일한 운영 프로토콜을 사용합니다(대회별 SG APP, 실측 "
-        f"{protocol['sample_size']}개 대회 기준) -- 이 질문과 '왜 우승하는가'는 결국 같은 근본 강점을 추적하는 "
-        "동일한 지표로 보호됩니다."
+        f"'왜 우승하는가'와 동일한 프로토콜입니다(대회별 SG APP, 실측 {protocol['sample_size']}개 대회) -- "
+        "같은 근본 강점을 같은 지표로 추적합니다."
     )
     durability = LONG_TERM
-    durability_reasoning = (
-        "4개 시즌 연속 플러스 기록은 한 선수의 기록이 보여줄 수 있는 가장 강한 수준의 지속성 신호입니다 -- 한 "
-        "시즌이 더해지면 이 흐름이 끊길 가능성보다 이어질 가능성이 훨씬 큽니다. 이 판단은 실제로 어느 시즌에서든 "
-        "뚜렷한 하락이 나타날 때만 다시 검토하면 되며, 지금까지는 그런 사례가 없습니다."
-    )
-    why_this_matters = "이번 한 대회뿐 아니라 매 대회 경기 전략의 중심에 두어야 할 샷입니다."
-    action = _action_from_protocol(protocol)
+    durability_reasoning = "4개 시즌 연속 플러스는 가장 강한 지속성 신호입니다. 뚜렷한 하락이 나타나기 전까지는 재검토 대상이 아닙니다."
+    why_this_matters = "이번 대회뿐 아니라 매 대회 경기 전략의 중심입니다."
+    action = _action_from_protocol(protocol, "SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.")
 
     sources = set(audit["official_records_used"])
     return {
@@ -683,44 +649,28 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
     axis_line = ", ".join(f"{label} {axes[k]:.1f}번째 백분위" for k, label in order)
     putt_trend = _season_line(season_profiles, "avg_putt")
 
-    fact = (
-        "SG PUTT은 김민선7 선수의 경기 중 다른 항목들만큼 성장 속도를 따라가지 못한 유일한 부분입니다 -- 이번 "
-        "시즌에도 본인의 네 가지 샷 항목 중 가장 낮은 순위이며, 이는 새로운 현상이 아닙니다."
-    )
+    fact = f"본인 네 항목 내부 순위: {axis_line}. SG PUTT이 4개 시즌 내내 최하위입니다."
     evidence = [
-        f"이번 시즌 본인의 항목별 분포: {axis_line} -- 모두 동일한 {reason['sample_size']}명 규모의 공식 SG 필드 기준 백분위입니다.",
-        f"시즌별 SG PUTT: {putt_trend} -- 공식 기록상 매 시즌 본인의 네 항목 중 가장 작았으며, 올해만의 현상이 아닙니다.",
+        f"이번 시즌 항목별 필드 백분위: {axis_line} (평가 대상 {reason['sample_size']}명).",
+        f"시즌별 SG PUTT: {putt_trend} -- 매 시즌 본인 네 항목 중 최하위.",
     ]
     analysis = (
-        "필드가 아니라 본인의 네 항목을 서로 비교해 보면, 훈련 시간 배분을 생각할 때 의미 있는 결론이 "
-        "달라집니다: SG OTT, SG APP, SG ARG은 모두 투어에서 최상위권으로 볼 수 있는 범위에 "
-        "있지만, SG PUTT만은 그렇지 않습니다. 이는 'SG PUTT이 나쁘다'는 말과는 다릅니다 -- 지금 가진 것에 비해 "
-        "다음 한 시간의 훈련이 가장 큰 개선을 가져올 곳이 어디인지를 말해주는 지표입니다."
+        "필드가 아니라 본인 네 항목끼리 비교하면 SG OTT·SG APP·SG ARG은 투어 최상위권이지만 SG PUTT만 그렇지 "
+        "않습니다. 'SG PUTT이 나쁘다'가 아니라 '다음 훈련 시간을 투입했을 때 개선 폭이 가장 큰 영역'이라는 "
+        "뜻입니다."
     )
-    conclusion = (
-        "SG PUTT은 절대적인 의미에서 약점이 아닙니다 -- 공식 기록상 매 시즌 경기력의 다른 부분만큼 성장하지 "
-        "못한 유일한 항목이며, 그래서 앞으로의 성장에서 가장 효율이 높은 영역이 됩니다."
-    )
-    why_it_matters = (
-        "훈련 시간은 한정되어 있습니다. SG PUTT이 공식 기록상 매 시즌 경기력의 다른 부분을 따라가지 못한 유일한 "
-        "항목이라는 사실은, 이미 최상위권인 기술을 더 다듬기보다 SG PUTT에 훈련 시간을 더 배분해야 하는 근거가 "
-        "됩니다."
-    )
+    conclusion = "SG PUTT이 훈련 대비 개선 효율이 가장 높은 영역입니다. 다음 훈련 사이클의 우선순위를 퍼팅으로 전환하는 것이 결정 사항입니다."
+    why_it_matters = "훈련 시간은 한정되어 있습니다. 이미 최상위권인 기술을 더 다듬기보다 SG PUTT에 시간을 더 배분해야 개선 폭이 커집니다."
     protocol = _season_component_protocol(season_profiles, "avg_putt", terms.SG_COMPONENT["putting"], f"위 대회별 {terms.SG_COMPONENT['putting']} 프로토콜(실측 73대회 기준)")
-    player_takeaway = "'가장 약한 부분'을 'SG PUTT이 서툴다'는 뜻으로 읽지 마십시오 -- 나머지 모든 부분이 최상위권까지 끌어올려졌고, SG PUTT만이 그 격차를 좁힐 여지가 남아 있다는 뜻입니다."
+    player_takeaway = "'가장 약한 부분'은 'SG PUTT이 서툴다'가 아니라 나머지가 최상위권까지 올라왔다는 뜻입니다."
     coach_focus = (
-        f"'왜 우승을 놓치는가' 프로토콜이 대회 단위로 추적하는 것과 같은 지표(SG PUTT)를 여기서는 "
-        f"{protocol['sample_size']}개 시즌 단위로 살펴봅니다 -- 훈련 시간 재배분이 주 단위가 아니라 연 단위로 "
-        "내부 격차를 좁히고 있는지 확인하기 위해서입니다."
+        f"'왜 우승을 놓치는가'가 대회 단위로 추적하는 SG PUTT을 여기서는 {protocol['sample_size']}개 시즌 "
+        "단위로 봅니다 -- 훈련 재배분이 연 단위로 내부 격차를 좁히는지 확인하는 용도입니다."
     )
     durability = LONG_TERM
-    durability_reasoning = (
-        "본인의 네 항목 중 SG PUTT이 가장 낮다는 이 순위는 공식 기록상 네 시즌 내내 유지되어 왔습니다. 이 "
-        "결론이 바뀌려면 SG PUTT이 나머지 세 항목과의 내부 격차를 실제로 좁히는, 지금까지와는 전혀 다른 패턴이 "
-        "나타나야 하는데, 지금까지의 기록에서는 그런 사례가 없습니다."
-    )
+    durability_reasoning = "이 내부 순위는 4개 시즌 내내 유지됐습니다. 나머지 세 항목과의 격차가 실제로 좁혀지는 전혀 다른 패턴이 나오기 전까지는 유효합니다."
     why_this_matters = "다음 한 시간의 훈련이 가장 큰 효과를 가져올 곳입니다."
-    action = _action_from_protocol(protocol)
+    action = _action_from_protocol(protocol, "다음 훈련 사이클의 우선순위를 퍼팅으로 전환한다.")
 
     sample_sizes = [reason["sample_size"]]
     sources = set(reason["official_records_used"]) | {"knowledge_engine.compute_season_profiles() (player_dna.axes)"}
@@ -752,45 +702,28 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
     app_trend = _season_line(season_profiles, "avg_app")
     putt_trend = _season_line(season_profiles, "avg_putt")
 
-    fact = (
-        "김민선7 선수가 성장기 선수에서 우승 선수로 발전한 과정은 한 시즌 만에 이루어지지 않았습니다 -- 전체 "
-        "스코어링 가치는 공식 기록상 네 시즌 모두 상승했으며, 그 상승의 모양은 반짝 SG PUTT 호조가 아니라 볼 "
-        "스트라이킹을 따라가고 있습니다."
-    )
+    fact = f"SG Total은 4개 시즌 전부 상승했습니다: {total_trend}. 상승 모양은 SG OTT·SG APP가 이끌고, SG PUTT은 같은 속도로 오르지 않았습니다."
     evidence = [
-        f"시즌별 SG Total: {total_trend} -- 매 시즌 상승했고, 해마다 16~23개 대회의 표본이 뒷받침합니다.",
-        f"같은 상승세가 SG OTT({ott_trend})와 SG APP({app_trend})에서도 나타나는 반면, SG PUTT은 같은 속도로 오르지 않았습니다({putt_trend}) -- 이번 향상이 쇼트게임이 아니라 볼 스트라이킹에서 비롯되었다는 근거입니다.",
+        f"시즌별 SG Total: {total_trend} (시즌당 16~23개 대회).",
+        f"SG OTT({ott_trend})·SG APP({app_trend})는 같은 속도로 상승, SG PUTT({putt_trend})은 뒤처집니다 -- 향상이 볼 스트라이킹발(發)이라는 근거입니다.",
     ]
     analysis = (
-        "두 개의 볼 스트라이킹 항목이 네 시즌 연속으로 함께 상승하고, 그 뒤에 시즌마다 실제 대회 표본이 "
-        "뒷받침한다는 것은 반짝 상승이 아닙니다 -- 시간이 지나며 스윙 퀄리티와 거리 컨트롤이 실제로 좋아지고 "
-        "있는 선수의 전형적인 모습입니다. 동시에 무엇을 이번 향상의 원인으로 보면 안 되는지도 알려줍니다 -- "
-        "SG PUTT은 비슷한 속도로 오르지 않았으므로, '쇼트게임이 따라잡았다'는 설명은 본인의 기록으로 "
+        "두 볼 스트라이킹 항목이 4개 시즌 연속 함께 상승하고 매 시즌 실제 대회 표본이 뒷받침한다는 것은 반짝 "
+        "상승이 아닙니다. SG PUTT은 같은 속도로 오르지 않았으므로 '쇼트게임이 따라잡았다'는 설명은 기록으로 "
         "뒷받침되지 않습니다."
     )
-    conclusion = (
-        "2026시즌 경기력은 한 해의 반짝 호조가 아니라 여러 시즌에 걸친 실제 볼 스트라이킹 향상의 연장선입니다 "
-        "-- 이 기록이 말해주는 것은, 이 향상을 이끈 기술 훈련 프로그램만큼은 바꾸어서는 안 된다는 점입니다."
-    )
-    why_it_matters = "이번 향상이 운이 아니라 구조적인 변화라는 점을 확인해 두면, 한 주 부진했다고 해서 실제로 효과를 보고 있는 프로그램을 코칭스태프가 다시 의심하는 일을 막을 수 있습니다."
-    player_takeaway = "이 향상은 실제이며, 앞으로도 계속 쌓아 나갈 수 있는 것입니다 -- 한 번의 운 좋은 조정에서 나온 것이 아니므로, 한 번의 나쁜 주 이후에도 볼 스트라이킹 중심의 현재 훈련 방향을 의심하기보다 계속 이어가는 것이 맞습니다."
+    conclusion = "이번 향상은 여러 시즌에 걸친 볼 스트라이킹 향상의 연장선입니다. 이 향상을 이끈 기술 훈련 프로그램은 변경하지 않는 것이 결정 사항입니다."
+    why_it_matters = "구조적 변화임을 확인해 두면, 한 주 부진했다고 효과를 보고 있는 프로그램을 의심하는 일을 막을 수 있습니다."
+    player_takeaway = "이 향상은 실제입니다. 나쁜 한 주 이후에도 볼 스트라이킹 중심 훈련 방향을 의심하지 말고 이어가십시오."
     protocol = _season_component_protocol(
         season_profiles, "avg_total", terms.SG_TOTAL,
         f"본인의 대회별 {terms.SG_TOTAL} 실측치(historical_sg_warehouse_corrected.json, scope=tournament_cumulative, field='total', 실측 73대회 기준)",
     )
-    coach_focus = (
-        f"SG Total을 시즌 단위(실측 {protocol['sample_size']}개 시즌 기준)로 점검하십시오 -- 이는 한 주 "
-        "단위의 전술적 신호가 아니라 시즌 단위로 확인해야 할 육성 프로그램 신호입니다."
-    )
+    coach_focus = f"SG Total을 시즌 단위(실측 {protocol['sample_size']}개 시즌)로 점검하십시오 -- 주 단위 전술 신호가 아니라 육성 프로그램 신호입니다."
     durability = LONG_TERM
-    durability_reasoning = (
-        "이미 4개 시즌에 걸친 흐름이므로, 이 기록이 보여줄 수 있는 가장 지속성 있는 판단에 가깝습니다. 다섯 "
-        "번째 시즌에도 이 흐름이 이어진다면 근거는 더 강해지고, 설령 다섯 번째 시즌이 정체되더라도 지난 4년간의 "
-        "실제 향상 자체가 사라지는 것은 아닙니다 -- 앞으로의 방향에만 영향을 줄 뿐, 이미 일어난 일을 바꾸지는 "
-        "않습니다."
-    )
-    why_this_matters = "지금까지 효과가 있었던 방식을 계속 유지하십시오 -- 변화가 필요한 선수의 기록이 아닙니다."
-    action = _action_from_protocol(protocol)
+    durability_reasoning = "4개 시즌에 걸친 흐름입니다. 다섯 번째 시즌이 정체되어도 지난 4년의 실제 향상 자체는 사라지지 않습니다."
+    why_this_matters = "지금까지 효과가 있었던 방식을 계속 유지하십시오."
+    action = _action_from_protocol(protocol, "볼 스트라이킹 중심 훈련 프로그램을 변경하지 않는다.")
 
     sources = set(audit["official_records_used"])
     return {
@@ -822,39 +755,24 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
         f"{h['season']} {h['sg_total']:+.2f}" if h.get("sg_total") is not None else f"{h['season']} 기록 없음" for h in group["history"]
     )
 
-    fact = (
-        f"김민선7 선수가 이미 출전한 적 있는 코스로 돌아갈 때, 공식 기록은 조심스럽게 관리하기보다 믿고 맡겨야 "
-        f"한다는 것을 보여줍니다. 가장 강한 반복 성적은 {group['series_name_sample']}에서 나왔으며, 실측 {n}회 "
-        "출전에서 플러스 스코어링 평균을 만들어냈고 가장 최근 출전은 우승이었습니다."
-    )
+    fact = f"{group['series_name_sample']} 실측 {n}회 출전 전부 SG Total 플러스, 가장 최근 출전이 우승입니다."
     evidence = [
-        f"시즌별 출전 기록의 SG Total: {history_line} -- 실측 {n}회 출전 모두 플러스였고, 그중 가장 좋은 성적이 가장 최근 출전에서 나왔습니다.",
-        f"{n}회 출전 전체 평균 SG Total: {group['avg_sg_total']:+.2f}로, 통산 평균을 크게 웃돕니다.",
+        f"출전별 SG Total: {history_line} -- {n}회 모두 플러스, 최고 성적이 최근 출전.",
+        f"{n}회 평균 SG Total {group['avg_sg_total']:+.2f} -- 통산 평균을 크게 웃돕니다.",
     ]
     analysis = (
-        "코스에서의 한 번의 좋은 주간은 조 편성이나 그날의 컨디션 덕분일 수 있습니다. 그러나 서로 다른 네 "
-        "시즌에 걸친 실측 네 차례 출전이 모두 플러스였고, 그중 가장 좋은 성적이 가장 최근 출전에서 나왔다는 "
-        "것은 우연이라기보다 쌓여온 코스 이해도에 가깝습니다. 이는 한 주의 컨디션 점검과는 다른 종류의 "
-        "통찰입니다 -- 이 코스가 본인이 이미 잘하는 부분을 보상해 주며, 반복될수록 그 효과가 흐려지기보다 "
-        "오히려 더 날카로워졌다는 뜻입니다."
+        "서로 다른 네 시즌의 실측 네 차례 출전이 모두 플러스이고 최고 성적이 최근 출전에서 나온 것은 우연이 "
+        "아니라 쌓여온 코스 이해도입니다 -- 반복될수록 효과가 흐려지지 않고 더 날카로워졌습니다."
     )
-    conclusion = (
-        f"이 코스에서는 새로운 시도를 하기보다 이미 검증된 방식에 의지하는 경기 전략이 맞습니다 -- {n}회의 "
-        "출전과 상승하는 흐름은 단순한 한 번의 행운이 아니라 실제 코스 친숙도를 가리킵니다."
-    )
-    why_it_matters = "좋은 성적이 추측이 아니라 특정 코스에서 근거를 가진 결과라는 것을 알면, 코칭스태프가 현장에서 선수의 감각을 믿어야 할 때와 막판 변화를 자제해야 할 때를 판단하는 데 도움이 됩니다."
-    player_takeaway = "이 코스에서는 막연한 낙관이 아니라 실제 성적으로 뒷받침된 자신감을 가지고 임하십시오 -- '나에게 잘 맞는 코스'라는 느낌이 데이터로도 확인됩니다."
+    conclusion = f"이 코스에서는 검증된 방식을 그대로 씁니다. 새 시도를 넣지 않고 전략을 바꾸지 않는 것이 결정 사항입니다."
+    why_it_matters = "성적이 특정 코스에서 근거를 가진 결과임을 알면, 현장에서 선수의 감각을 믿을 때와 막판 변화를 자제할 때를 판단할 수 있습니다."
+    player_takeaway = "이 코스에서는 실제 성적으로 뒷받침된 자신감으로 임하십시오."
     protocol = _course_appearance_protocol(group)
-    coach_focus = f"{group['series_name_sample']}을(를) 좋은 한 주가 어떤 모습인지 보여주는 기준으로 삼고, 다음 출전을 앞둔 주에는 스윙이나 전략을 바꾸는 것을 특히 조심하십시오."
+    coach_focus = f"{group['series_name_sample']}을(를) 기준으로 삼고, 다음 출전을 앞둔 주에는 스윙·전략 변경을 특히 자제하십시오."
     durability = LONG_TERM
-    durability_reasoning = (
-        f"이미 실측된 {n}회의 출전은 앞으로 무슨 일이 있어도 바뀌지 않는 기록입니다 -- 다음 출전에서 무슨 일이 "
-        "벌어지든 그대로 유지됩니다. 다만 표본이 네 개뿐이므로, 다음 출전에서 평균 이하의 성적이 나오면 전체 "
-        "평균은 눈에 띄게 낮아질 수 있습니다(패턴 자체가 뒤집히는 것은 아니지만). 확정된 결론이 아니라 강한 "
-        "경향으로 다루십시오."
-    )
-    why_this_matters = "선수를 지나치게 코치하기보다 믿고 맡겨야 한다는 것이 기록에서 가장 분명하게 드러나는 지점입니다."
-    action = _action_from_protocol(protocol)
+    durability_reasoning = f"실측 {n}회는 앞으로도 바뀌지 않는 기록입니다. 표본이 4개뿐이라 다음 출전이 평균 이하면 전체 평균은 낮아질 수 있으나 패턴 자체가 뒤집히지는 않습니다."
+    why_this_matters = "지나치게 코치하기보다 믿고 맡겨야 한다는 점이 가장 분명하게 드러나는 지점입니다."
+    action = _action_from_protocol(protocol, f"{group['series_name_sample']} 출전 주에는 스윙·전략 변경을 하지 않는다.")
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
     return {
@@ -910,43 +828,25 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
     # correctly returns None here rather than inventing a split.
     contribution = _contribution_breakdown([by_code.get(win["game_code"])])
 
-    fact = (
-        "가장 최근 우승은 지켜내야 할 빠른 출발에서 나온 것이 아니었습니다 -- 2라운드에 SG Total이 소폭 하락한 "
-        "뒤, 대회가 갈리는 시점인 3라운드에서 대회 중 가장 좋은 라운드가 나왔습니다."
-    )
+    fact = "가장 최근 우승은 2라운드 하락 이후 마지막 라운드에서 대회 중 최고 스코어링 가치를 기록하며 만들어졌습니다."
     evidence = [
-        f"라운드별 SG Total: {sg_line} -- 세 라운드 중 가장 좋은 라운드가 마지막에 나왔습니다.",
+        f"라운드별 SG Total: {sg_line}.",
         f"공식 결과: {win['tournament']} ({win['final_score']}, 최종 {win['final_rank']}위) -- {win['official_source']}.",
     ]
     analysis = (
-        "리드를 지키다 소극적인 마지막 라운드로 마무리하는 우승과, 가장 좋은 라운드가 마지막에 나오는 우승은 "
-        "선수의 대회 운영 방식에 대해 서로 다른 이야기를 들려줍니다. 이번 결과는 후자에 해당하며, 이 대회 "
-        "하나에 대해 실제로 확인된 사실입니다. 다만 이 결과 하나만으로 반복되는 특성이라고 단정할 수는 "
-        f"없습니다 -- 라운드 간 흐름 전체를 살펴보면(실측 연속 라운드 쌍 {delta_n}개 기준) 평균 변화가 "
-        f"{delta_mean:+.2f} SG로 사실상 큰 흐름이 없고 등락 폭도 양방향으로 넓게 나타납니다. 따라서 이번 우승은 "
-        "이 대회를 준비할 때 참고할 사실이지, '항상 대회 후반에 강해진다'는 일반적인 특성으로 확대 해석해서는 "
-        "안 됩니다."
+        f"이 대회 하나에 대해서는 확인된 사실이지만, 라운드 간 흐름 전체(실측 연속 라운드 쌍 {delta_n}개)의 "
+        f"평균 변화는 {delta_mean:+.2f} SG로 뚜렷한 방향이 없습니다. '대회 후반에 강해진다'는 일반 특성으로 "
+        "확대 해석해서는 안 됩니다."
     )
-    conclusion = (
-        "가장 최근 우승은 최상은 아니었던 2라운드를 거친 뒤 마지막 라운드에서 정점을 찍으며 만들어졌습니다 -- "
-        "이 한 번의 결과에 대해 실제로 확인된 사실이며, 아직 우승 전반에 걸쳐 확립된 패턴은 아닙니다."
-    )
-    why_it_matters = "이번 결과에서 무엇이 확인되었고 무엇을 일반화하려면 더 많은 근거가 필요한지를 정확히 구분해 두면, 준비 과정을 실제 있었던 일에 근거하게 만들 수 있습니다. 하나의 사례로 만든 이야기에 의존하지 않게 됩니다."
-    player_takeaway = "이번 결과는 평범한 2라운드가 우승을 가로막지 않았다는 실제 증거입니다 -- 다만 더 넓은 기록에서는 이것이 매번 기대할 수 있는 일이라고까지는 아직 보여주지 않으므로, 유리한 사례 하나로 다루되 보장으로 받아들이지는 마십시오."
+    conclusion = "이 결과는 대회 하나에 대한 확정된 사실입니다. 이 패턴을 일반화한 전략 변경은 하지 않는 것이 결정 사항입니다."
+    why_it_matters = "확인된 것과 일반화에 더 많은 근거가 필요한 것을 구분해야, 준비 과정이 실제 기록에 근거합니다."
+    player_takeaway = "평범한 2라운드가 우승을 막지 않았다는 사례입니다 -- 매번 기대할 근거는 아직 아닙니다."
     protocol = _round_total_protocol(ds)
-    coach_focus = (
-        f"실전 대회 중에는 이 한 번의 우승에서 나온 심리적 패턴을 가정하기보다, 아래의 라운드별 SG Total "
-        f"프로토콜을 실시간 신호로 활용하십시오 -- 실측 {protocol['sample_size']}개 라운드를 기준으로 합니다."
-    )
+    coach_focus = f"이 대회의 심리적 패턴을 가정하지 말고, 라운드별 SG Total 프로토콜(실측 {protocol['sample_size']}개 라운드)을 실시간 신호로 쓰십시오."
     durability = CONFIRMED_EVENT
-    durability_reasoning = (
-        "이 일은 이미 일어났고 공식 결과로 확정되어 있으므로, 앞으로 어떤 데이터가 나오더라도 바뀌지 않습니다. "
-        f"다만 라운드 간 흐름 전체를 확인한 결과(실측 전환 {delta_n}건, 평균 변화 {delta_mean:+.2f} SG) 선수 "
-        "생활 전체에서 일관되게 상승하는 패턴은 나타나지 않았습니다. 따라서 이 결과는 이 대회 하나에 대한 "
-        "확정된 사실로만 보고하며, 근거가 없는 반복적 특성으로 확대하지 않습니다."
-    )
-    why_this_matters = "출발이 더딜 때 코칭스태프가 활용할 수 있는, 실제로 확인된 최근 사례 하나를 제공합니다."
-    action = _action_from_protocol(protocol)
+    durability_reasoning = f"이미 확정된 결과이므로 바뀌지 않습니다. 다만 라운드 간 흐름 전체(실측 전환 {delta_n}건, 평균 {delta_mean:+.2f} SG)는 일관된 상승 패턴을 보이지 않으므로, 이 대회 하나의 사실로만 취급합니다."
+    why_this_matters = "출발이 더딜 때 참고할 수 있는 실제 최근 사례입니다."
+    action = _action_from_protocol(protocol, "이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.")
 
     sources = {win["official_source"].split(" (")[0]}
     return {

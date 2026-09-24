@@ -922,13 +922,29 @@ def test_v7_master_analysis_gains_only_the_new_disclosure_field():
     assert "repository_intelligence_v7" in doc
 
 
-def test_v7_report_gains_only_the_new_disclosure_field():
+def test_v9_narrative_rewrite_never_changes_the_underlying_data_or_schema():
+    """V9 (Player Intelligence V9 mission): rewrite narrative quality only
+    -- never the engine, never the underlying numbers. This supersedes the
+    old V7 "byte-identical" freeze test (which predates V9 and would fail
+    on any prose change by design): now the DATA-DERIVED fields computed
+    by the untouched engine/audit (evidence_score, sample_size,
+    confidence, durability, the full monitoring_protocol dict, and every
+    contribution_breakdown) must stay byte-identical across a narrative
+    rewrite, while the PROSE fields are explicitly allowed to differ."""
     prev = json.loads((ROOT / "content" / "website_v2" / "knowledge_engine" / "player_intelligence" / "10097" / "PLAYER_INTELLIGENCE_REPORT.json").read_text(encoding="utf-8"))
     doc = report_script.build()
-    for key in prev:
-        if key in ("generated_at", "repository_intelligence_v7"):
-            continue
-        assert doc[key] == prev[key], f"V7 cross-check changed an existing report field: {key}"
+    assert [q["id"] for q in doc["questions"]] == [q["id"] for q in prev["questions"]]
+    data_fields = ["evidence_score", "sample_size", "confidence", "durability", "monitoring_protocol", "contribution_breakdown"]
+    prev_by_id = {q["id"]: q for q in prev["questions"]}
+    for q in doc["questions"]:
+        p = prev_by_id[q["id"]]
+        for field in data_fields:
+            if field not in q and field not in p:
+                continue
+            assert q.get(field) == p.get(field), f"{q['id']}.{field} changed under a narrative-only rewrite"
+    assert doc["win_dna"]["breakdown"] == prev["win_dna"]["breakdown"]
+    assert doc["loss_dna"]["breakdown"] == prev["loss_dna"]["breakdown"]
+    assert doc["trend_dna"]["breakdown"] == prev["trend_dna"]["breakdown"]
     assert "repository_intelligence_v7" in doc
 
 
