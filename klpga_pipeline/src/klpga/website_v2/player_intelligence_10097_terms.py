@@ -154,6 +154,12 @@ PLAYBOOK_CATEGORY_LABEL_V13 = {
     "TRUST": "신뢰",
 }
 
+# V15: the three-layer intelligence model. NEO does not analyze golf
+# swings -- it separately measures how technique becomes scoring, and how
+# scoring becomes winning. Never mixed.
+LAYER_MODEL_TITLE = "3레이어 인텔리전스 모델"
+LAYER_LABEL = {"TECHNIQUE": "기술", "SCORING": "스코어링", "COMPETITION": "경쟁"}
+
 UNSUPPORTED_MODULES_TITLE = "실측 데이터 없이는 답할 수 없는 분석"
 UNSUPPORTED_MODULES_DESCRIPTION = (
     "이 리포트가 다루는 실측 데이터의 최소 단위는 라운드·대회입니다. 아래 분석은 홀 단위, 거리 구간, 핀 위치, "

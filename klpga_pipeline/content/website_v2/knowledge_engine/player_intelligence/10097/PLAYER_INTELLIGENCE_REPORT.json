@@ -36,7 +36,62 @@
   "contribution_breakdown_method": "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다.",
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-24T11:09:02.219219+00:00",
+  "generated_at": "2026-09-24T11:31:46.638069+00:00",
+  "layer_model": {
+    "competitive_efficiency": {
+      "formula": "실측 Top10 마감 대회 수 ÷ 실측 전체 대회 수 × 100",
+      "interpretation": "실측 대회 중 24.7%에서 Top10 안에 들었습니다 -- q_pressure_index/q_win_simulator가 이 레이어를 상세히 다룹니다.",
+      "label": "압박 속 경쟁 효율",
+      "value": 24.7
+    },
+    "layer1_technical": {
+      "average": 80.4,
+      "label": "기술 성과",
+      "note": "필드 대비 항목별 실측 SG 백분위입니다. 스코어, 순위, 우승 여부는 이 레이어의 근거로 사용하지 않습니다.",
+      "percentiles": {
+        "SG APP": 97.1,
+        "SG ARG": 75.2,
+        "SG OTT": 93.8,
+        "SG PUTT": 55.4
+      },
+      "question": "이 선수의 실측 샷 실행 수준은 어느 정도인가?"
+    },
+    "layer2_scoring": {
+      "average": 96.0,
+      "label": "스코어링 성과",
+      "note": "필드 대비 실측 GIR율·파세이브율·버디율 백분위입니다. 대회 순위·우승 여부는 이 레이어의 근거로 사용하지 않습니다.",
+      "percentiles": {
+        "GIR율": 98.0,
+        "버디율": 92.7,
+        "파세이브율": 97.3
+      },
+      "question": "이 선수는 실측 실행 수준을 스코어로 얼마나 효율적으로 전환하는가?"
+    },
+    "layer3_competitive": {
+      "label": "경쟁 성과",
+      "money_percentile": 98.0,
+      "note": "공식 상금 순위(전체 153명 중 4위) 백분위와 실측 Top10 마감률입니다.",
+      "question": "이 선수는 실측 스코어링을 우승으로 얼마나 효율적으로 전환하는가?",
+      "top10_rate": 24.7
+    },
+    "scoring_efficiency": {
+      "formula": "경쟁 레이어(상금 순위) 백분위 ÷ 스코어링 레이어 평균 백분위 × 100",
+      "interpretation": "스코어링 레이어 평균(96.0)보다 경쟁 레이어(상금 순위 98.0)가 높습니다 -- 스코어링 수준 이상으로 경쟁 성과를 만들어내고 있습니다.",
+      "label": "스코어→우승 효율",
+      "value": 102.1
+    },
+    "skill_efficiency": {
+      "formula": "스코어링 레이어 평균 백분위 ÷ 기술 레이어 평균 백분위 × 100",
+      "interpretation": "기술 레이어 평균(80.4)보다 스코어링 레이어 평균(96.0)이 높습니다 -- 기술 백분위가 예측하는 것보다 더 많은 스코어링 가치를 만들어내고 있습니다.",
+      "label": "기술→스코어 효율",
+      "value": 119.4
+    },
+    "weakest_layer_signal": {
+      "component": "SG PUTT",
+      "note": "세 레이어 중 가장 낮은 실측 백분위는 기술 레이어의 SG PUTT(55.4)입니다 -- 스코어링·경쟁 레이어가 아니라 이 항목이 기술적 개선 대상입니다.",
+      "percentile": 55.4
+    }
+  },
   "loss_dna": {
     "breakdown": [
       {
@@ -248,6 +303,7 @@
       "evidence_score": 44,
       "fact": "공식 우승 4회(덕신EPC 챔피언십 (2025), 넥센 · 세인트나인 Masters 2026 (2026), 2026 셀트리온 퀸즈 마스터즈 (2026), 하나금융그룹 챔피언십 (2026)) 전부 SG APP가 플러스였던 대회에서 나왔습니다. 4개 시즌 시즌 평균 SG APP: 2023 +0.45, 2024 +0.85, 2025 +0.88, 2026 +1.17 -- 마이너스로 내려간 시즌이 한 번도 없습니다.",
       "id": "q_why_wins",
+      "layer": "COMPETITION",
       "mechanism": "메커니즘: 우승 대회에서 SG APP가 플러스로 전환되는 시점부터 스코어링 우위가 시작되고, 이 우위가 라운드 전체에 누적되어 최종 스코어 차이로 이어집니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다.",
@@ -285,6 +341,7 @@
       "evidence_score": 32,
       "fact": "SG PUTT은 4개 시즌 내내 본인의 네 항목 중 스코어링 기여도가 가장 작았고, 2026시즌 하락폭(+0.04, 전년 +0.33)이 가장 큽니다.",
       "id": "q_why_loses",
+      "layer": "SCORING",
       "mechanism": "메커니즘: SG APP가 만든 Birdie 기회가 SG PUTT 전환 단계에서 소실됩니다 -- 기회 생성과 기회 전환은 분리된 두 단계이며, 병목은 후자에 있습니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(-1.68)은 정상 범위 아래이지만, 바로 이전 값(-0.33)은 정상 범위 안이었습니다 -- 아직 2회 연속은 아니므로 다음 실측값에서 확정됩니다.",
@@ -349,6 +406,7 @@
       "evidence_score": 98,
       "fact": "필드 242명 중 SG APP 97.1번째 백분위, 4개 시즌 연속 플러스: 2023 +0.45, 2024 +0.85, 2025 +0.88, 2026 +1.17.",
       "id": "q_approach_biggest_weapon",
+      "layer": "TECHNIQUE",
       "mechanism": "메커니즘: 다른 세 항목의 시즌별 등락과 무관하게 SG APP만 4개 시즌 내내 플러스를 유지했습니다 -- 경기력의 다른 부분에 의존하지 않는 독립적 강점입니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다.",
@@ -385,6 +443,7 @@
       "evidence_score": 65,
       "fact": "본인 네 항목 내부 순위: SG OTT 93.8번째 백분위, SG APP 97.1번째 백분위, SG ARG 75.2번째 백분위, SG PUTT 55.4번째 백분위. SG PUTT이 4개 시즌 내내 최하위입니다.",
       "id": "q_putting_weakest",
+      "layer": "TECHNIQUE",
       "mechanism": "메커니즘: 나머지 세 항목이 필드 상위권까지 올라온 반면 SG PUTT만 필드 평균에 머물러, 같은 훈련 시간을 투입했을 때 개선 여력이 가장 큰 항목으로 남았습니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(+0.04)은 이미 이 기준에서 역대 최저치입니다 -- 다음 실측값에서 이 흐름이 이어지는지, 일시적인 저점이었는지 확인할 수 있습니다.",
@@ -421,6 +480,7 @@
       "evidence_score": 31,
       "fact": "SG Total은 4개 시즌 전부 상승했습니다: 2023 (17개 대회) +0.79, 2024 (17개 대회) +1.41, 2025 (23개 대회) +1.76, 2026 (16개 대회) +2.09. 상승 모양은 SG OTT·SG APP가 이끌고, SG PUTT은 같은 속도로 오르지 않았습니다.",
       "id": "q_2026_improvement",
+      "layer": "TECHNIQUE",
       "mechanism": "메커니즘: SG OTT·SG APP가 동시에 상승하며 SG Total을 끌어올렸고, SG PUTT은 같은 속도로 오르지 않아 이번 향상의 원천이 볼 스트라이킹임을 가리킵니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(+2.09)은 역대 최저치(+0.79)보다 높습니다.",
@@ -484,6 +544,7 @@
       "evidence_score": 30,
       "fact": "2024 셀트리온 퀸즈 마스터즈 실측 4회 출전 전부 SG Total 플러스, 가장 최근 출전이 우승입니다.",
       "id": "q_strong_course",
+      "layer": "COMPETITION",
       "mechanism": "메커니즘: 이 코스에서는 SG APP가 스코어링 우위를 가장 크게 만듭니다(+59%, 실측 4회 출전 기준) -- '이 코스가 잘 맞는다'가 아니라 'SG APP를 살릴 수 있는 코스 조건이 반복된다'는 뜻입니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(+4.69)은 역대 최저치(+0.21)보다 높습니다.",
@@ -521,6 +582,7 @@
       "evidence_score": 12,
       "fact": "가장 최근 우승은 2라운드 하락 이후 마지막 라운드에서 대회 중 최고 스코어링 가치를 기록하며 만들어졌습니다.",
       "id": "q_most_recent_win",
+      "layer": "COMPETITION",
       "mechanism": "메커니즘: 2라운드 부진 이후 전략을 바꾸지 않고 3라운드에 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 실측값(-0.70)은 정상 범위 안에 있습니다.",
@@ -565,6 +627,7 @@
         "putting": 0.43
       },
       "id": "q_win_blueprint",
+      "layer": "COMPETITION",
       "mechanism": "우승 메커니즘의 하한선입니다 -- 추정이 아니라 실측 3회 우승 기록의 항목별 최솟값을 그대로 계산한 값입니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 우승의 실측값은 기준선을 모두 충족했습니다.",
@@ -602,6 +665,7 @@
       "evidence_score": 19,
       "fact": "실측 부진 대회 7회 중, SG ARG가 가장 먼저 마이너스로 전환되는 항목입니다(평균 1.3라운드부터).",
       "id": "q_collapse_blueprint",
+      "layer": "SCORING",
       "mechanism": "실측 부진 대회 7회의 라운드별 SG 항목을 대회 시작부터 순서대로 추적해, 각 항목이 처음 마이너스로 전환되는 라운드를 찾아 평균낸 결과입니다.",
       "monitoring_protocol": {
         "current_detail": "실측값 기준, 부진 대회의 71%가 1라운드 SG ARG 마이너스로 시작되었습니다.",
@@ -639,6 +703,7 @@
       "evidence_score": 31,
       "fact": "실측 상위10위 마감 18회와 그 외 55회를 비교하면, SG APP 격차가 가장 큽니다(상위10위 +1.53 대 그 외 +0.61).",
       "id": "q_pressure_index",
+      "layer": "COMPETITION",
       "mechanism": "실측 상위10위 마감 18회와 그 외 55회의 항목별 평균을 직접 비교해 격차가 가장 큰 항목을 찾은 결과입니다.",
       "monitoring_protocol": {
         "current_detail": "가장 최근 상위10위 마감 실측값은 평균 수준(+1.53 SG)입니다.",
@@ -676,6 +741,7 @@
       "evidence_score": 31,
       "fact": "가장 최근 대회(제13회 제주삼다수 마스터스, 2026)는 우승 기준선 5개 항목 중 2개를 충족했습니다(우승 준비도 40%).",
       "id": "q_win_simulator",
+      "layer": "COMPETITION",
       "mechanism": "메커니즘: 우승 기준선(q_win_blueprint) 대비 가장 최근 대회의 실측치를 항목별로 직접 대조합니다 -- 새로운 통계가 아니라 같은 잣대를 다른 대회에 적용한 결과입니다.",
       "monitoring_protocol": {
         "current_detail": "실측값 기준 우승 준비도 40%(2/5개 항목 충족) -- SG Total 기준선 대비 -3.28 SG.",
@@ -713,6 +779,7 @@
       "evidence_score": 33,
       "fact": "실측 라운드 287회 중, 마이너스일 때 손실 폭이 가장 큰 항목은 SG PUTT입니다(평균 -1.32 SG).",
       "id": "q_risk_map",
+      "layer": "SCORING",
       "mechanism": "메커니즘: 실측 라운드 287회를 항목별로 마이너스 구간만 추출해 평균을 계산한 결과입니다 -- 홀·거리·상황이 아니라 실측 라운드 단위 손실 폭을 직접 비교했습니다.",
       "monitoring_protocol": {
         "current_detail": "실측값 기준, SG PUTT는 마이너스일 때 평균 -1.32 SG 손실이며 전체 라운드의 48%에서 발생했습니다.",

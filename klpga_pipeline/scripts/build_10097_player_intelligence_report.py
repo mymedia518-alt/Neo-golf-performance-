@@ -1488,6 +1488,161 @@ _UNSUPPORTED_ANALYSIS_MODULES_V12 = [
 
 
 # ---------------------------------------------------------------------------
+# V15: THE THREE-LAYER INTELLIGENCE MODEL.
+#
+# NEO does not analyze golf swings. NEO analyzes how technical skill
+# becomes scoring, and how scoring becomes winning. These are three
+# independent, real, separately-measured layers -- never mixed:
+#
+#   LAYER 1 TECHNICAL   "How good is her shot execution?"
+#                        Real SG-per-category field percentiles
+#                        (sg_ott/sg_app/sg_arg/sg_putt). Never cites
+#                        score, rank, or win/loss -- these numbers exist
+#                        independent of her tournament results.
+#   LAYER 2 SCORING     "How efficiently does she turn that execution
+#                        into a low score?" Real season box-score rate
+#                        percentiles (GIR rate, par-save rate, birdie
+#                        rate) -- on-course scoring outcomes, still not
+#                        tournament results.
+#   LAYER 3 COMPETITIVE "How efficiently does that scoring turn into
+#                        winning?" Her real official money-rank
+#                        percentile (money is the one official, already-
+#                        computed field that is purely a function of
+#                        tournament placement, i.e. competitive result).
+#
+# Three efficiency ratios, each comparing two already-real percentiles
+# (never a new statistical method, never a prediction):
+#   SKILL EFFICIENCY      = Layer 2 / Layer 1  (technique -> score)
+#   SCORING EFFICIENCY    = Layer 3 / Layer 2  (score -> winning)
+#   COMPETITIVE EFFICIENCY = her real Top10 rate (already computed by
+#                             q_pressure_index's own real split)
+# ---------------------------------------------------------------------------
+
+
+def _percentile_rank(records: list, field: str, her_value: float) -> float:
+    values = [r[field] for r in records if r.get(field) is not None]
+    if not values:
+        return None
+    return round(sum(1 for v in values if v <= her_value) / len(values) * 100, 1)
+
+
+def _layer_model(ds: dict, questions: list) -> Optional[dict]:
+    pi = ds["player_intelligence_doc"]
+    profile_row = ds["profile_row"]
+    if not profile_row:
+        return None
+    profile_doc = master._load("OFFICIAL_PROFILE_NORMALIZED.json")
+    field_n = len(profile_doc["records"])
+
+    axes = {a["key"]: a["percentile"] for a in pi["player_dna"]["axes"]}
+    technical = {
+        "SG OTT": round(axes["sg_ott"], 1),
+        "SG APP": round(axes["sg_app"], 1),
+        "SG ARG": round(axes["sg_arg"], 1),
+        "SG PUTT": round(axes["sg_putt"], 1),
+    }
+    technical_avg = round(statistics.fmean(technical.values()), 1)
+
+    gir_pct = _percentile_rank(profile_doc["records"], "gir_rate", profile_row["gir_rate"])
+    par_save_pct = _percentile_rank(profile_doc["records"], "par_save_rate", profile_row["par_save_rate"])
+    birdie_pct = _percentile_rank(profile_doc["records"], "birdie_rate", profile_row["birdie_rate"])
+    scoring = {"GIR율": gir_pct, "파세이브율": par_save_pct, "버디율": birdie_pct}
+    scoring_avg = round(statistics.fmean(v for v in scoring.values() if v is not None), 1)
+
+    money_pct = round((field_n - profile_row["official_rank"] + 1) / field_n * 100, 1)
+
+    top10_q = next((q for q in questions if q["id"] == "q_pressure_index"), None)
+    top10_rate = None
+    if top10_q:
+        rows = [r for r in ds["warehouse_tournament_rows"] if r.get("rank") is not None]
+        top10_rate = round(sum(1 for r in rows if r["rank"] <= 10) / len(rows) * 100, 1) if rows else None
+
+    skill_efficiency = round(scoring_avg / technical_avg * 100, 1) if technical_avg else None
+    scoring_efficiency = round(money_pct / scoring_avg * 100, 1) if scoring_avg else None
+
+    weakest_technical = min(technical, key=lambda k: technical[k])
+
+    return {
+        "layer1_technical": {
+            "label": "기술 성과",
+            "question": "이 선수의 실측 샷 실행 수준은 어느 정도인가?",
+            "percentiles": technical,
+            "average": technical_avg,
+            "note": "필드 대비 항목별 실측 SG 백분위입니다. 스코어, 순위, 우승 여부는 이 레이어의 근거로 사용하지 않습니다.",
+        },
+        "layer2_scoring": {
+            "label": "스코어링 성과",
+            "question": "이 선수는 실측 실행 수준을 스코어로 얼마나 효율적으로 전환하는가?",
+            "percentiles": scoring,
+            "average": scoring_avg,
+            "note": "필드 대비 실측 GIR율·파세이브율·버디율 백분위입니다. 대회 순위·우승 여부는 이 레이어의 근거로 사용하지 않습니다.",
+        },
+        "layer3_competitive": {
+            "label": "경쟁 성과",
+            "question": "이 선수는 실측 스코어링을 우승으로 얼마나 효율적으로 전환하는가?",
+            "money_percentile": money_pct,
+            "top10_rate": top10_rate,
+            "note": f"공식 상금 순위(전체 {field_n}명 중 {profile_row['official_rank']}위) 백분위와 실측 Top10 마감률입니다.",
+        },
+        "skill_efficiency": {
+            "label": "기술→스코어 효율",
+            "value": skill_efficiency,
+            "formula": "스코어링 레이어 평균 백분위 ÷ 기술 레이어 평균 백분위 × 100",
+            "interpretation": (
+                f"기술 레이어 평균({technical_avg})보다 스코어링 레이어 평균({scoring_avg})이 "
+                + ("높습니다 -- 기술 백분위가 예측하는 것보다 더 많은 스코어링 가치를 만들어내고 있습니다." if skill_efficiency and skill_efficiency > 100
+                   else "낮습니다 -- 기술 수준만큼 스코어로 전환되지 못하고 있습니다.")
+            ),
+        },
+        "scoring_efficiency": {
+            "label": "스코어→우승 효율",
+            "value": scoring_efficiency,
+            "formula": "경쟁 레이어(상금 순위) 백분위 ÷ 스코어링 레이어 평균 백분위 × 100",
+            "interpretation": (
+                f"스코어링 레이어 평균({scoring_avg})보다 경쟁 레이어(상금 순위 {money_pct})가 "
+                + ("높습니다 -- 스코어링 수준 이상으로 경쟁 성과를 만들어내고 있습니다." if scoring_efficiency and scoring_efficiency > 100
+                   else "낮습니다 -- 스코어링 수준만큼 경쟁 결과로 전환되지 못하고 있습니다.")
+            ),
+        },
+        "competitive_efficiency": {
+            "label": "압박 속 경쟁 효율",
+            "value": top10_rate,
+            "formula": "실측 Top10 마감 대회 수 ÷ 실측 전체 대회 수 × 100",
+            "interpretation": f"실측 대회 중 {top10_rate}%에서 Top10 안에 들었습니다 -- q_pressure_index/q_win_simulator가 이 레이어를 상세히 다룹니다.",
+        },
+        "weakest_layer_signal": {
+            "component": weakest_technical,
+            "percentile": technical[weakest_technical],
+            "note": f"세 레이어 중 가장 낮은 실측 백분위는 기술 레이어의 {weakest_technical}({technical[weakest_technical]})입니다 -- 스코어링·경쟁 레이어가 아니라 이 항목이 기술적 개선 대상입니다.",
+        },
+    }
+
+
+# Layer classification -- which of the three independent layers each
+# question's conclusion actually belongs to. This is a real audit of
+# already-written conclusions, not new content: a question stays
+# TECHNIQUE only if its evidence never cites rank/win/money; SCORING if
+# its evidence is season scoring-rate/SG-total box-score data; COMPETITION
+# if its evidence is tournament placement, wins, or pressure-situation
+# splits. Used to enforce "recommendations must target the correct
+# layer" -- never render a technique fix for a competition-layer finding.
+_QUESTION_LAYER = {
+    "q_why_wins": "COMPETITION",
+    "q_why_loses": "SCORING",
+    "q_approach_biggest_weapon": "TECHNIQUE",
+    "q_putting_weakest": "TECHNIQUE",
+    "q_2026_improvement": "TECHNIQUE",
+    "q_strong_course": "COMPETITION",
+    "q_most_recent_win": "COMPETITION",
+    "q_win_blueprint": "COMPETITION",
+    "q_collapse_blueprint": "SCORING",
+    "q_pressure_index": "COMPETITION",
+    "q_win_simulator": "COMPETITION",
+    "q_risk_map": "SCORING",
+}
+
+
+# ---------------------------------------------------------------------------
 # Assembly
 # ---------------------------------------------------------------------------
 
@@ -1594,6 +1749,10 @@ def build() -> dict:
 
     excluded.append(_q_repeat_course_pattern_candidate(master_doc))
 
+    for q in questions:
+        q["layer"] = _QUESTION_LAYER.get(q["id"])
+
+    layer_model = _layer_model(ds, questions)
     player_playbook = _player_playbook(questions)
     coach_console = _coach_console(questions)
 
@@ -1656,6 +1815,7 @@ def build() -> dict:
         "trend_dna": trend_dna,
         "player_playbook": player_playbook,
         "coach_console": coach_console,
+        "layer_model": layer_model,
         "unsupported_analysis_modules_v12": _UNSUPPORTED_ANALYSIS_MODULES_V12,
         "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
