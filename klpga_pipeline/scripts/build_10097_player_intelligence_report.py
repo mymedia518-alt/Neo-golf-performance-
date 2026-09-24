@@ -1508,6 +1508,101 @@ _UNSUPPORTED_ANALYSIS_MODULES_V12 = [
 
 
 # ---------------------------------------------------------------------------
+# V17: DATA ACQUISITION ROADMAP. UNKNOWN is not a dead end -- it is a
+# roadmap. Every distinct root cause behind this report's UNKNOWN markers
+# and unsupported modules is grouped here into one real task: what is
+# missing, how it could actually be collected, and exactly which
+# currently-UNKNOWN items in THIS report it would resolve. "unlocks" is a
+# real, computed list/count of this file's own content -- never an
+# invented number or a fabricated ROI score.
+# ---------------------------------------------------------------------------
+
+def _data_roadmap() -> list:
+    return [
+        {
+            "id": "hole_shot_level_play",
+            "missing_data": "홀 단위·샷 단위 실측 경기 기록 (홀별 스코어, 홀 순서, 어프로치 실측 거리, 미스 패턴)",
+            "why_missing": "Repository Intelligence V1/V2에서 이미 확인: 이 저장소의 공식 데이터 웨어하우스에는 대회·라운드 단위 SG 합산만 존재하며, 홀 단위 기록은 0건입니다.",
+            "collection_method": "KLPGA 공식 홀별 스코어카드·라이브 스코어링 피드를 대회마다 수집해, 지금의 라운드 단위 웨어하우스 아래에 홀 단위 하위 기록으로 추가합니다.",
+            "unlocks": [
+                "모멘텀 분석", "리커버리 인덱스", "홀 인텔리전스", "로스트 스트로크 타임라인",
+                "리크 맵의 Top10 → 우승 전환 손실 폭", "SG APP·SG PUTT·최근 우승·순위권 격차·위험도 항목의 근본 원인 심화",
+            ],
+        },
+        {
+            "id": "shot_tracker_distance_pin",
+            "missing_data": "거리 구간별·핀 위치별 샷 트래킹 데이터",
+            "why_missing": "cmpro 샷 트래커 QA 보고서는 이 저장소에서 실제로 발견되었으나, 그 원본 데이터인 SQLite 파일 자체는 커밋되어 있지 않습니다 -- 데이터가 존재하지 않는 것이 아니라 확보되지 않은 상태입니다.",
+            "collection_method": "이미 존재가 확인된 그 cmpro SQLite 원본 파일을 이 저장소에 커밋합니다 -- 새 수집이 아니라 이미 있는 파일을 연결하는 작업입니다.",
+            "unlocks": ["거리 구간별 인텔리전스", "샷 체인", "익스펙티드 버디/스코어", "어택/디펜스 프로파일"],
+        },
+        {
+            "id": "course_feature_database",
+            "missing_data": "코스 자체의 물리적 특징 데이터베이스 (홀 구성, 페어웨이 폭, 그린 스피드 등)",
+            "why_missing": "이 저장소는 선수의 실측 SG 기록만 보유하며, 코스 자체를 설명하는 별도의 참조 데이터베이스는 보유하고 있지 않습니다.",
+            "collection_method": "코스별 홀 구성·페어웨이 폭·그린 스피드 등을 정리한 코스 데이터베이스를 별도로 구축하거나 확보합니다.",
+            "unlocks": ["강한 코스 항목의 근본 원인 심화 (반복 출전 자체를 넘어, 코스의 어떤 구체적 특징이 강점을 만드는지)"],
+        },
+        {
+            "id": "coaching_training_log",
+            "missing_data": "훈련·코칭 이력 기록 (스윙 변경, 장비 교체, 훈련 방법 변경, 연습라운드 컨디션 등)",
+            "why_missing": "이 저장소는 실측 스코어링 결과만 보유하며, 그 결과를 만든 훈련·코칭 과정 자체는 기록되어 있지 않습니다.",
+            "collection_method": "코치와 협의해 스윙·장비·훈련 방법의 변경 시점과 연습라운드 컨디션을 시즌별로 기록하는 로그를 도입합니다.",
+            "unlocks": ["2026시즌 향상 항목의 근본 원인 심화", "부진 대회 붕괴 항목의 1라운드 이전 원인 심화"],
+        },
+        {
+            "id": "decision_strategy_log",
+            "missing_data": "클럽 선택·공략 라인 등 판단(전략) 자체를 기록한 데이터",
+            "why_missing": "SG 수치는 샷의 결과만 측정할 뿐, 그 결과를 만든 판단 과정 자체는 기록하지 않습니다.",
+            "collection_method": "라운드별로 클럽 선택과 공략 라인을 코치·캐디가 실시간 기록하는 로그 시스템을 도입합니다.",
+            "unlocks": ["디시전 퀄리티", "강한 코스 항목의 결정 관찰 가능성", "최근 우승 항목의 결정 관찰 가능성"],
+        },
+        {
+            "id": "field_wide_comparison",
+            "missing_data": "동일한 방식으로 수집된 KLPGA 전체 선수의 SG-결과 비교 데이터",
+            "why_missing": "이 저장소는 본인의 실측 기록만 보유하며, 같은 SG 조합이 다른 선수에게도 우승으로 이어지는지 비교할 필드 전체 데이터는 보유하고 있지 않습니다.",
+            "collection_method": "동일한 SG 산출 방식으로 KLPGA 전체 선수의 대회별 기록을 수집해 비교 모델을 구축합니다.",
+            "unlocks": ["우승 최소 조건 항목의 근본 원인 심화 (왜 이 조합이 우승으로 이어지는지의 인과 관계)"],
+        },
+        {
+            "id": "event_level_opportunity_counts",
+            "missing_data": "대회별 이벤트 단위 기회 기록 (대회별 GIR 수, 버디 퍼트 시도 수)",
+            "why_missing": "이 저장소가 가진 것은 시즌 단위 GIR·파세이브율·버디율 스냅샷뿐이며, 대회 단위로 쪼갠 이벤트 기록은 없습니다.",
+            "collection_method": "시즌 스냅샷이 아니라 대회별 GIR·버디 시도 수를 이벤트 단위로 집계해 웨어하우스에 추가합니다.",
+            "unlocks": ["스코어링 오퍼튜니티 분석"],
+        },
+        {
+            "id": "more_samples_over_time",
+            "missing_data": "이미 수집 중인 유형의 실측 표본 추가 (대회·라운드·우승 기록 자체의 누적)",
+            "why_missing": "표본 크기가 신뢰할 수 있는 상관관계·재현 조건을 계산하기에 아직 부족합니다 -- 데이터 유형이 없는 것이 아니라 반복 관측 횟수가 부족한 상태입니다.",
+            "collection_method": "새로운 수집 조치가 필요하지 않습니다 -- 앞으로 대회·시즌이 진행되며 같은 유형의 실측 기록이 자동으로 누적되면 해결됩니다.",
+            "unlocks": ["최근 우승 항목의 재현 조건", "표본 부족으로 상관관계를 보고하지 못한 모니터링 프로토콜 항목들"],
+        },
+        {
+            "id": "collapse_onset_loss_join",
+            "missing_data": "없음 -- 이 항목은 새 데이터가 아니라 기존 데이터의 미실행 분석입니다.",
+            "why_missing": "붕괴 시작 라운드·항목과 그 라운드의 SG 손실 폭을 직접 연결하는 계산이 아직 이 리포트에 없을 뿐, 필요한 원자료(라운드별 SG 실측 기록)는 이미 보유하고 있습니다.",
+            "collection_method": "신규 데이터 수집이 아니라, 붕괴 시작 라운드를 그 라운드의 실측 SG 손실과 직접 연결하는 분석 스크립트를 작성합니다.",
+            "unlocks": ["리크 맵의 붕괴 시작 항목 손실 폭"],
+        },
+    ]
+
+
+def _finalize_data_roadmap(items: list) -> list:
+    """Answers "how valuable / how much would it improve Player
+    Intelligence" honestly -- a real count of each item's own already-
+    written `unlocks` list, never an invented score. The item with the
+    largest real unlock count is marked the highest-value task; this is
+    a computed ranking over this file's own content, not an opinion."""
+    ranked = sorted(items, key=lambda it: len(it["unlocks"]), reverse=True)
+    for rank, item in enumerate(ranked, start=1):
+        n = len(item["unlocks"])
+        item["value"] = f"이 항목이 해결되면 현재 UNKNOWN·미지원 상태인 항목 {n}개가 실제 계산으로 전환됩니다."
+        item["priority_rank"] = rank
+    return sorted(items, key=lambda it: it["priority_rank"])
+
+
+# ---------------------------------------------------------------------------
 # V15: THE THREE-LAYER INTELLIGENCE MODEL.
 #
 # V16: golf is not Technique -> Winning. Golf is Technique -> Opportunity
@@ -1866,6 +1961,7 @@ def build() -> dict:
         "performance_funnel": performance_funnel,
         "leak_map": leak_map,
         "unsupported_analysis_modules_v12": _UNSUPPORTED_ANALYSIS_MODULES_V12,
+        "data_roadmap": _finalize_data_roadmap(_data_roadmap()),
         "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
     }

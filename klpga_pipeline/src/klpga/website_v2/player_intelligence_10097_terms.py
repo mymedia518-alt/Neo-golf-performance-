@@ -170,6 +170,25 @@ UNSUPPORTED_MODULES_DESCRIPTION = (
     "추측 대신 정직한 제외를 선택했습니다."
 )
 
+# V17: UNKNOWN is a roadmap, not a dead end. Every distinct root cause
+# behind this report's UNKNOWN markers and unsupported modules is one
+# concrete future data-acquisition task here -- what is missing, how it
+# could be collected, and how many currently-UNKNOWN items it would
+# resolve (a real, computed count -- never an invented score).
+DATA_ROADMAP_TITLE = "데이터 로드맵 (NEO 인텔리전스 엔진의 다음 확장 과제)"
+DATA_ROADMAP_DESCRIPTION = (
+    "UNKNOWN은 분석의 끝이 아니라 다음에 무엇을 수집해야 하는지를 알려주는 로드맵입니다. 아래는 이 리포트의 "
+    "모든 UNKNOWN·미지원 분석이 실제로 어떤 데이터 부재에서 비롯되는지를 근본 원인별로 묶고, 확보 방법과 "
+    "해결 시 전환되는 항목 수를 명시한 것입니다."
+)
+DATA_ROADMAP_FIELD_LABEL = {
+    "missing_data": "무엇이 없는가",
+    "why_missing": "왜 없는가",
+    "collection_method": "어떻게 확보할 수 있는가",
+    "value": "얼마나 가치 있는가",
+    "unlocks": "해결 시 전환되는 항목",
+}
+
 # NEO 운영 원칙: NEO는 샷을 평가하지 않습니다. NEO는 그 샷을 만든 결정을
 # 평가합니다. 모든 스코어는 일련의 결정이 낳은 결과입니다. 이 리포트는
 # 어떤 결정이 성과를 만들었는지, 어떤 결정이 성과를 무너뜨렸는지, 다음
