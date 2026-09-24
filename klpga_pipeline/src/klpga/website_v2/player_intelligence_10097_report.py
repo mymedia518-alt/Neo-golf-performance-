@@ -183,6 +183,31 @@ def _question_card(q: dict) -> str:
     )
 
 
+_REPOSITORY_INTELLIGENCE_TITLE = "저장소 교차 검증 (V7)"
+
+
+def _repository_intelligence_html(ri: Optional[dict]) -> str:
+    """V7: discloses the separate Repository Intelligence V1 mission's
+    cross-check -- what was found, and, honestly, that none of it met
+    this report's evidence bar to change any conclusion above."""
+    if not ri:
+        return ""
+    items = "".join(
+        f'<li><strong>{escape(f["label"])}</strong> ({escape(f["branch"])}, <code>{escape(f["file"])}</code>) — '
+        f'{"플레이어 고유 수치 있음" if f["player_specific_number_found"] else "플레이어 고유 수치 없음"}</li>'
+        for f in ri["findings"]
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-repository-intelligence">'
+        f'<summary class="section-heading"><h2>{_REPOSITORY_INTELLIGENCE_TITLE}</h2></summary>'
+        '<div class="pi-section__body">'
+        f'<p class="pi-empty">{escape(ri["search_scope"])}</p>'
+        f'<ul class="piq-excluded-list">{items}</ul>'
+        f'<p class="piq-current-detail">{escape(ri["summary"])}</p>'
+        "</div></details>"
+    )
+
+
 def _excluded_html(excluded: list) -> str:
     if not excluded:
         return ""
@@ -293,4 +318,6 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     cards = "".join(_question_card(q) for q in doc["questions"])
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
     dna = _dna_html(doc)
-    return prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + cards + _excluded_html(doc.get("questions_considered_but_unsupported", []))
+    excluded = _excluded_html(doc.get("questions_considered_but_unsupported", []))
+    repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
+    return prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + cards + excluded + repository_intelligence

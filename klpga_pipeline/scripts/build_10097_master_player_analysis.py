@@ -725,6 +725,110 @@ def build_coverage(sections: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# V7: Repository Intelligence cross-check. Unlike every other section in
+# this file, this one is NOT computed from a live-loadable file in
+# content/website_v2/ -- it is a disclosed record of the separate
+# Repository Intelligence V1 mission's exhaustive search (49 branches, 545
+# commits, all history), hand-transcribed from that mission's own verified
+# findings the same way build_9431_master_player_analysis.py's
+# major_championship_analysis is hand-assembled from cross-checked real
+# sources rather than mechanically computed. Every citation below is real
+# and was read verbatim from the named branch/file during that search.
+#
+# Per that mission's own instruction ("never invent... only strengthen
+# conclusions supported by new evidence"): NONE of what follows changes
+# any existing conclusion above. Two of the four findings contain no
+# player-10097-specific number at all (aggregate/field-wide or
+# infrastructure-only); the third (Blue Heron) is real and player-specific
+# but is a pre-event preparation reference, not an outcome, for a course
+# with zero real appearances in this player's own course_analysis above --
+# so it cannot strengthen (or contradict) any course-strength conclusion,
+# which remains exactly what course_analysis/pattern_trend_analysis
+# already say. This section exists to disclose that check happened and
+# came back "no change," not to manufacture one.
+# ---------------------------------------------------------------------------
+
+
+def build_repository_intelligence_v7() -> dict:
+    return {
+        "source_mission": "Repository Intelligence V1 (separate mission, same session)",
+        "search_scope": "49 remote branches + 2 local, 545 commits reachable from any branch, git log --all pickaxe + grep search for '10097'/'김민선7' plus live full-text search of the current checkout",
+        "findings": [
+            {
+                "id": "cmpro_shot_tracker_qa",
+                "branch": "experiment/player-value-metrics-01",
+                "file": "klpga_pipeline/reports/cmpro_2026090002_final_qa.md",
+                "real_citation": (
+                    "Documents a QA-PASSED, 6,012-hole, officially-reconciled shot-level collection "
+                    "for game_code 2026090002 (하나금융그룹 챔피언십, this player's most recent win) "
+                    "covering all 108 entrants -- '100% match, 0 discrepancies' against an "
+                    "independently-sourced official scorecard."
+                ),
+                "player_specific_number_found": False,
+                "reason_no_conclusion_changed": (
+                    "The QA report is a field-wide (108-player) aggregate document -- it contains no "
+                    "player_id=10097 row, shot, or hole individually. The underlying SQLite database it "
+                    "describes was never committed to this repository (0 .sqlite files exist in any of "
+                    "545 commits across all branches) and is not reproducible from official data "
+                    "currently in scope. hole_analysis above stays UNKNOWN, exactly as computed -- this "
+                    "disclosure documents WHY it stays UNKNOWN with more precision (data was collected "
+                    "and verified to exist, just not retrievable here), not a change to the value."
+                ),
+            },
+            {
+                "id": "blue_heron_hole_by_hole_prep",
+                "branch": "experiment/player-baseline-ab-20260922",
+                "file": "klpga_pipeline/reports/BLUE_HERON_18H_GAME_PLAN_V1.md",
+                "real_citation": (
+                    "A real, 18-hole, pre-event yardage-decision reference table for 제26회 "
+                    "하이트진로 챔피언십, built from this player's own real season fairway-hit and "
+                    "birdie-conversion rates at named yardage bands (e.g. hole 1, par 4, 402yd: "
+                    "'250→152yd FW 71.6% B+ 10.3% / 270→132yd FW 72.2% B+ 18.5%'), directly alongside "
+                    "the same table for 이예원."
+                ),
+                "player_specific_number_found": True,
+                "reason_no_conclusion_changed": (
+                    "This is real and names this player specifically, but it is a PRE-EVENT decision "
+                    "aid, not a result -- it carries no SG value, no official rank, no sample size, and "
+                    "'하이트진로 챔피언십' has zero real appearances in this player's own course_analysis "
+                    "above (not present in course_series, not present in "
+                    "low_confidence_or_ambiguous_names_excluded either -- she has at most one real prior "
+                    "appearance there, insufficient for any course-strength claim by this report's own "
+                    "MIN_INSTANCES_FOR_PATTERN_CLAIM=2 threshold). It cannot strengthen course_analysis's "
+                    "q_strong_course equivalent (which is, and remains, about 2024 셀트리온 퀸즈 마스터즈) "
+                    "without inventing a claim this data doesn't support."
+                ),
+            },
+            {
+                "id": "expected_strokes_framework",
+                "branch": "experiment/player-value-metrics-01",
+                "file": "klpga_pipeline/src/klpga/expected_strokes/{course_yardage,transitions,investigations}.py",
+                "real_citation": "A tested course-yardage-aware, shot-state-transition modeling framework, built to consume cmpro shot data.",
+                "player_specific_number_found": False,
+                "reason_no_conclusion_changed": "Framework only -- grepped directly for '10097' across every file in this module and its data contract doc; zero matches. No player-specific output exists anywhere in this repository to incorporate.",
+            },
+            {
+                "id": "neo_win_forecasting_system",
+                "branch": "multiple (main and research/* branches)",
+                "file": "klpga_pipeline/src/klpga/neo_win/*.py (~100 modules: monte_carlo_summary.py, final_course_deep_dive.py, backtest_eval.py, accuracy_evaluation.py, redteam.py, ...)",
+                "real_citation": "A separate, independently-gated tournament win-probability forecasting, backtesting, and validation system in which this player appears as one of ~100-150 players per multi-player artifact it produces.",
+                "player_specific_number_found": False,
+                "reason_no_conclusion_changed": "Spot-checked player_card.py/player_status.py/identity_resolution.py directly for a hardcoded 10097 reference -- none found (these are generic per-player renderers, not player-specific data). No SG-decomposition-comparable, player-attributed number was extracted from this system.",
+            },
+        ],
+        "conclusions_strengthened": [],
+        "conclusions_changed": [],
+        "summary": (
+            "Exhaustive cross-check against 49 branches and 545 commits found real, verifiable evidence "
+            "outside this repository's live data feeds, but none of it meets this report's own evidence "
+            "bar (a real official number, attributable to this player, with a disclosed sample size) to "
+            "strengthen or change any conclusion above. Every existing conclusion in this document stands "
+            "exactly as computed before this cross-check."
+        ),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Assembly
 # ---------------------------------------------------------------------------
 
@@ -758,6 +862,7 @@ def build() -> dict:
     sections["knowledge_graph"] = knowledge_graph
     coverage = build_coverage(sections)
     conclusion_audit = build_conclusion_audit(ds, warehouse, sections)
+    repository_intelligence_v7 = build_repository_intelligence_v7()
 
     from datetime import datetime, timezone
 
@@ -770,6 +875,7 @@ def build() -> dict:
         **sections,
         "conclusion_audit": conclusion_audit,
         "coverage": coverage,
+        "repository_intelligence_v7": repository_intelligence_v7,
     }
 
 

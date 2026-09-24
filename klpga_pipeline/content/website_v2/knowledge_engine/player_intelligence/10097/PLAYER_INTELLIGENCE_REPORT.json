@@ -2,7 +2,7 @@
   "contribution_breakdown_method": "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다.",
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-24T05:24:55.053180+00:00",
+  "generated_at": "2026-09-24T07:02:02.695175+00:00",
   "loss_dna": {
     "breakdown": [
       {
@@ -386,6 +386,41 @@
       "sample_size": 1
     }
   ],
+  "repository_intelligence_v7": {
+    "conclusions_strengthened_count": 0,
+    "findings": [
+      {
+        "branch": "experiment/player-value-metrics-01",
+        "file": "klpga_pipeline/reports/cmpro_2026090002_final_qa.md",
+        "id": "cmpro_shot_tracker_qa",
+        "label": "cmpro 샷 트래커 QA 보고서",
+        "player_specific_number_found": false
+      },
+      {
+        "branch": "experiment/player-baseline-ab-20260922",
+        "file": "klpga_pipeline/reports/BLUE_HERON_18H_GAME_PLAN_V1.md",
+        "id": "blue_heron_hole_by_hole_prep",
+        "label": "Blue Heron 18홀 사전 준비 자료",
+        "player_specific_number_found": true
+      },
+      {
+        "branch": "experiment/player-value-metrics-01",
+        "file": "klpga_pipeline/src/klpga/expected_strokes/{course_yardage,transitions,investigations}.py",
+        "id": "expected_strokes_framework",
+        "label": "Expected Strokes 프레임워크",
+        "player_specific_number_found": false
+      },
+      {
+        "branch": "multiple (main and research/* branches)",
+        "file": "klpga_pipeline/src/klpga/neo_win/*.py (~100 modules: monte_carlo_summary.py, final_course_deep_dive.py, backtest_eval.py, accuracy_evaluation.py, redteam.py, ...)",
+        "id": "neo_win_forecasting_system",
+        "label": "NEO WIN 우승 확률 예측 시스템",
+        "player_specific_number_found": false
+      }
+    ],
+    "search_scope": "저장소 전체 49개 원격 브랜치, 545개 커밋(전체 브랜치 기준) 대상 교차 검증 -- 별도 미션(Repository Intelligence V1)에서 실행됨",
+    "summary": "저장소 전체를 대상으로 교차 검증한 결과, 이 리포트의 데이터 소스 밖에 있는 근거들이 실제로 발견되었습니다. 다만 그중 어느 것도 이 리포트가 요구하는 근거 기준(이 선수에게 귀속되는 실제 공식 수치이며 표본 크기가 명시된 것)을 충족하지 못해, 기존 결론 중 어느 것도 강화되거나 변경되지 않았습니다. 이 리포트의 모든 결론은 이 교차 검증 이전과 정확히 동일합니다."
+  },
   "schema_version": "player_intelligence_report_v3",
   "scope_note": "이 문서는 playerCode=10097(김민선7) 선수만을 다룹니다. 다른 선수의 데이터는 생성되거나 수정되지 않았습니다. NEO Player Intelligence의 최상위 기준(Gold Standard) 참고 구현입니다.",
   "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",

@@ -997,6 +997,43 @@ def _q_repeat_course_pattern_candidate(master_doc: dict) -> dict:
 # ---------------------------------------------------------------------------
 
 
+# V7: Repository Intelligence cross-check, narrated for this report's
+# audience. Every fact here is read straight from
+# master_doc["repository_intelligence_v7"] (itself a disclosed,
+# hand-transcribed record from the separate Repository Intelligence V1
+# mission's real search, cited by branch/file) -- this function only
+# translates that same real record into Korean prose for this report's
+# readers; it never re-derives, re-checks, or adds a new finding.
+def _repository_intelligence_v7_ko(master_doc: dict) -> dict:
+    ri = master_doc["repository_intelligence_v7"]
+    finding_labels = {
+        "cmpro_shot_tracker_qa": "cmpro 샷 트래커 QA 보고서",
+        "blue_heron_hole_by_hole_prep": "Blue Heron 18홀 사전 준비 자료",
+        "expected_strokes_framework": "Expected Strokes 프레임워크",
+        "neo_win_forecasting_system": "NEO WIN 우승 확률 예측 시스템",
+    }
+    findings_ko = []
+    for f in ri["findings"]:
+        findings_ko.append({
+            "id": f["id"],
+            "label": finding_labels.get(f["id"], f["id"]),
+            "branch": f["branch"],
+            "file": f["file"],
+            "player_specific_number_found": f["player_specific_number_found"],
+        })
+    return {
+        "search_scope": "저장소 전체 49개 원격 브랜치, 545개 커밋(전체 브랜치 기준) 대상 교차 검증 -- 별도 미션(Repository Intelligence V1)에서 실행됨",
+        "findings": findings_ko,
+        "conclusions_strengthened_count": len(ri["conclusions_strengthened"]),
+        "summary": (
+            "저장소 전체를 대상으로 교차 검증한 결과, 이 리포트의 데이터 소스 밖에 있는 근거들이 실제로 "
+            "발견되었습니다. 다만 그중 어느 것도 이 리포트가 요구하는 근거 기준(이 선수에게 귀속되는 실제 "
+            "공식 수치이며 표본 크기가 명시된 것)을 충족하지 못해, 기존 결론 중 어느 것도 강화되거나 "
+            "변경되지 않았습니다. 이 리포트의 모든 결론은 이 교차 검증 이전과 정확히 동일합니다."
+        ),
+    }
+
+
 def build() -> dict:
     master_doc, ds, season_profiles = _load_inputs()
 
@@ -1113,6 +1150,7 @@ def build() -> dict:
         "win_dna": win_dna,
         "loss_dna": loss_dna,
         "trend_dna": trend_dna,
+        "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
     }
 
