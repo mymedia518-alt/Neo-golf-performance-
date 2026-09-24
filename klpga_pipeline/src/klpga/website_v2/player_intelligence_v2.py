@@ -367,19 +367,22 @@ def build_or_placeholder(
     real document -> real page; missing document -> visible placeholder
     plus a queued generation request. Never returns an empty string.
 
-    playerCode=10097 and playerCode=9431 ONLY render through the
-    question-organized Gold Standard report (see
-    player_intelligence_10097_report.py / player_intelligence_9431_report.py)
-    instead of the ordinary 13-section stat layout below -- every other
-    player_id takes the exact same path this function has always taken.
-    If the report file for either has not been built yet, falls through
-    to the ordinary path unchanged (never a missing page)."""
-    if str(player_id) == "10097":
-        from klpga.website_v2.player_intelligence_10097_report import load_report_cached, render_question_report_html
+    playerCode=9431 renders through the question-organized Gold Standard
+    report (see player_intelligence_9431_report.py); every other
+    player_id takes the ordinary 13-section stat layout below.
 
-        report_doc = load_report_cached()
-        if report_doc is not None:
-            return render_question_report_html(report_doc, prev_link=prev_link, next_link=next_link)
+    playerCode=10097 is a further special case: Player Intelligence is
+    no longer the goal for this player (PLAYER HISTORY GOLD STANDARD V1
+    mission) -- it renders through player_history_10097_report.py's
+    dense, verified-data-only career archive instead. If neither report
+    file has been built yet, falls through to the ordinary path
+    unchanged (never a missing page)."""
+    if str(player_id) == "10097":
+        from klpga.website_v2.player_history_10097_report import load_report_cached, render_player_history_html
+
+        history_doc = load_report_cached()
+        if history_doc is not None:
+            return render_player_history_html(history_doc, prev_link=prev_link, next_link=next_link)
     elif str(player_id) == "9431":
         from klpga.website_v2.player_intelligence_9431_report import load_report_cached, render_question_report_html
 

@@ -194,6 +194,11 @@ def test_build_or_placeholder_missing_queues_and_placeholders():
 
 
 def test_integration_real_player_10097(monkeypatch):
+    """playerCode=10097 routes to the real PLAYER_HISTORY.json/player_history_10097_report.py
+    (Player Intelligence is no longer the goal for this player) -- see
+    test_10097_player_intelligence_report.py::test_build_or_placeholder_renders_player_history_for_10097_only
+    for the routing test itself. This integration test only checks that
+    the real report file on disk (not a placeholder) is used end to end."""
     from klpga.tournament_context import CONTENT_DIR
 
     real_dir = CONTENT_DIR / "knowledge_engine" / "player_intelligence"
@@ -202,4 +207,4 @@ def test_integration_real_player_10097(monkeypatch):
 
     html = piv2.build_or_placeholder("10097", player_name="김민선7")
     assert "Generating Player Intelligence" not in html
-    assert "정교한 아이언 플레이어" in html
+    assert "커리어 개요" in html

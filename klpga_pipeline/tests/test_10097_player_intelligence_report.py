@@ -921,12 +921,19 @@ def test_v5_adds_no_new_css_classes_beyond_the_existing_chip_and_details_pattern
 # ---------------------------------------------------------------------------
 
 
-def test_build_or_placeholder_renders_question_report_for_10097_only():
+def test_build_or_placeholder_renders_player_history_for_10097_only():
+    """Player Intelligence is no longer the goal for playerCode=10097
+    (PLAYER HISTORY GOLD STANDARD V1 mission) -- build_or_placeholder now
+    routes this player_id to player_history_10097_report.py instead of
+    this module's own question-organized report. The old report/renderer
+    code in this file is untouched and still covered by every other test
+    in this suite; only the production routing target changed."""
+    from klpga.website_v2 import player_history_10097_terms as history_terms
     from klpga.website_v2 import player_intelligence_v2 as piv2
 
     html_10097 = piv2.build_or_placeholder("10097", player_name="김민선7")
-    assert terms.HERO_TITLE in html_10097
-    assert terms.SECTION_LABEL["fact"] in html_10097 and terms.SECTION_LABEL["conclusion"] in html_10097
+    assert history_terms.HERO_TITLE in html_10097
+    assert history_terms.PAGE1_TITLE in html_10097 and history_terms.PAGE8_TITLE in html_10097
 
 
 def test_build_or_placeholder_leaves_every_other_player_on_the_ordinary_stat_layout():

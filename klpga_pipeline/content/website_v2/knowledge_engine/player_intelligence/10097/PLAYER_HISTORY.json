@@ -1,0 +1,3623 @@
+{
+  "career_dna": {
+    "career_foundation": "SG APP",
+    "career_foundation_share_pct": 54.7,
+    "fastest_growing_component": "SG Total",
+    "most_consistent_component": "SG ARG",
+    "most_volatile_component": "SG Total",
+    "winning_foundation": "SG APP",
+    "winning_foundation_share_pct": 41.5
+  },
+  "career_evolution": {
+    "avg_app": {
+      "current_direction": "UP",
+      "deltas": [
+        {
+          "delta": 0.4,
+          "from_season": 2023,
+          "growth_pct": 89.5,
+          "to_season": 2024
+        },
+        {
+          "delta": 0.03,
+          "from_season": 2024,
+          "growth_pct": 3.5,
+          "to_season": 2025
+        },
+        {
+          "delta": 0.29,
+          "from_season": 2025,
+          "growth_pct": 33.0,
+          "to_season": 2026
+        }
+      ],
+      "label": "SG APP",
+      "peak_season": {
+        "season": 2026,
+        "value": 1.1662500000000002
+      },
+      "series": [
+        {
+          "season": 2023,
+          "value": 0.44705882352941173
+        },
+        {
+          "season": 2024,
+          "value": 0.8488235294117648
+        },
+        {
+          "season": 2025,
+          "value": 0.8778260869565215
+        },
+        {
+          "season": 2026,
+          "value": 1.1662500000000002
+        }
+      ],
+      "worst_season": {
+        "season": 2023,
+        "value": 0.44705882352941173
+      }
+    },
+    "avg_arg": {
+      "current_direction": "UP",
+      "deltas": [
+        {
+          "delta": 0.1,
+          "from_season": 2023,
+          "growth_pct": 103.7,
+          "to_season": 2024
+        },
+        {
+          "delta": 0.02,
+          "from_season": 2024,
+          "growth_pct": 485.7,
+          "to_season": 2025
+        },
+        {
+          "delta": 0.16,
+          "from_season": 2025,
+          "growth_pct": 800.0,
+          "to_season": 2026
+        }
+      ],
+      "label": "SG ARG",
+      "peak_season": {
+        "season": 2026,
+        "value": 0.1825
+      },
+      "series": [
+        {
+          "season": 2023,
+          "value": -0.09647058823529414
+        },
+        {
+          "season": 2024,
+          "value": 0.004117647058823537
+        },
+        {
+          "season": 2025,
+          "value": 0.020000000000000018
+        },
+        {
+          "season": 2026,
+          "value": 0.1825
+        }
+      ],
+      "worst_season": {
+        "season": 2023,
+        "value": -0.09647058823529414
+      }
+    },
+    "avg_ott": {
+      "current_direction": "UP",
+      "deltas": [
+        {
+          "delta": 0.04,
+          "from_season": 2023,
+          "growth_pct": 11.5,
+          "to_season": 2024
+        },
+        {
+          "delta": 0.14,
+          "from_season": 2024,
+          "growth_pct": 36.1,
+          "to_season": 2025
+        },
+        {
+          "delta": 0.18,
+          "from_season": 2025,
+          "growth_pct": 33.9,
+          "to_season": 2026
+        }
+      ],
+      "label": "SG OTT",
+      "peak_season": {
+        "season": 2026,
+        "value": 0.7075
+      },
+      "series": [
+        {
+          "season": 2023,
+          "value": 0.34764705882352936
+        },
+        {
+          "season": 2024,
+          "value": 0.38823529411764707
+        },
+        {
+          "season": 2025,
+          "value": 0.531304347826087
+        },
+        {
+          "season": 2026,
+          "value": 0.7075
+        }
+      ],
+      "worst_season": {
+        "season": 2023,
+        "value": 0.34764705882352936
+      }
+    },
+    "avg_putt": {
+      "current_direction": "DOWN",
+      "deltas": [
+        {
+          "delta": 0.07,
+          "from_season": 2023,
+          "growth_pct": 79.3,
+          "to_season": 2024
+        },
+        {
+          "delta": 0.17,
+          "from_season": 2024,
+          "growth_pct": 104.7,
+          "to_season": 2025
+        },
+        {
+          "delta": -0.29,
+          "from_season": 2025,
+          "growth_pct": -87.9,
+          "to_season": 2026
+        }
+      ],
+      "label": "SG PUTT",
+      "peak_season": {
+        "season": 2025,
+        "value": 0.3299999999999999
+      },
+      "series": [
+        {
+          "season": 2023,
+          "value": 0.0882352941176471
+        },
+        {
+          "season": 2024,
+          "value": 0.1623529411764706
+        },
+        {
+          "season": 2025,
+          "value": 0.3299999999999999
+        },
+        {
+          "season": 2026,
+          "value": 0.04062500000000001
+        }
+      ],
+      "worst_season": {
+        "season": 2026,
+        "value": 0.04062500000000001
+      }
+    },
+    "avg_total": {
+      "current_direction": "UP",
+      "deltas": [
+        {
+          "delta": 0.62,
+          "from_season": 2023,
+          "growth_pct": 78.8,
+          "to_season": 2024
+        },
+        {
+          "delta": 0.35,
+          "from_season": 2024,
+          "growth_pct": 24.9,
+          "to_season": 2025
+        },
+        {
+          "delta": 0.33,
+          "from_season": 2025,
+          "growth_pct": 18.8,
+          "to_season": 2026
+        }
+      ],
+      "label": "SG Total",
+      "peak_season": {
+        "season": 2026,
+        "value": 2.094375
+      },
+      "series": [
+        {
+          "season": 2023,
+          "value": 0.7870588235294118
+        },
+        {
+          "season": 2024,
+          "value": 1.4064705882352944
+        },
+        {
+          "season": 2025,
+          "value": 1.7595652173913037
+        },
+        {
+          "season": 2026,
+          "value": 2.094375
+        }
+      ],
+      "worst_season": {
+        "season": 2023,
+        "value": 0.7870588235294118
+      }
+    }
+  },
+  "career_overview": {
+    "data_floor_note": "이 저장소의 실측 SG 데이터는 2023시즌부터 시작됩니다 -- 전체 웨어하우스가 모든 선수에 대해 공통으로 가진 데이터 수집 시작점이며, 김민선7 선수의 실제 KLPGA 데뷔 시즌이라는 근거는 아닙니다.",
+    "earliest_season_on_record": 2023,
+    "latest_tournament": {
+      "game_code": "2026090002",
+      "rank": 1,
+      "season": 2026,
+      "sg_total": 4.63,
+      "tournament": "하나금융그룹 챔피언십"
+    },
+    "season_count": 4,
+    "season_rows": [
+      {
+        "events": 25,
+        "season": 2023,
+        "sg_app": 0.44705882352941173,
+        "sg_arg": -0.09647058823529414,
+        "sg_ott": 0.34764705882352936,
+        "sg_putt": 0.0882352941176471,
+        "sg_sample_size": 17,
+        "sg_total": 0.7870588235294118,
+        "top10": 3,
+        "wins": 0
+      },
+      {
+        "events": 26,
+        "season": 2024,
+        "sg_app": 0.8488235294117648,
+        "sg_arg": 0.004117647058823537,
+        "sg_ott": 0.38823529411764707,
+        "sg_putt": 0.1623529411764706,
+        "sg_sample_size": 17,
+        "sg_total": 1.4064705882352944,
+        "top10": 4,
+        "wins": 0
+      },
+      {
+        "events": 27,
+        "season": 2025,
+        "sg_app": 0.8778260869565215,
+        "sg_arg": 0.020000000000000018,
+        "sg_ott": 0.531304347826087,
+        "sg_putt": 0.3299999999999999,
+        "sg_sample_size": 23,
+        "sg_total": 1.7595652173913037,
+        "top10": 6,
+        "wins": 1
+      },
+      {
+        "events": 17,
+        "season": 2026,
+        "sg_app": 1.1662500000000002,
+        "sg_arg": 0.1825,
+        "sg_ott": 0.7075,
+        "sg_putt": 0.04062500000000001,
+        "sg_sample_size": 16,
+        "sg_total": 2.094375,
+        "top10": 7,
+        "wins": 3
+      }
+    ],
+    "total_events": 95,
+    "total_top10": 20,
+    "total_wins": 4
+  },
+  "current_snapshot": {
+    "as_of_note": "KLPGA 공식 2026시즌 스냅샷 1건 -- 과거 시즌으로 확장하지 않습니다.",
+    "average_putts": 30.45,
+    "average_score": 70.6833,
+    "birdie_rate": 19.537,
+    "gir_rate": 77.8704,
+    "money": 641254047,
+    "official_rank": 4,
+    "official_sg_app": 1.13,
+    "official_sg_arg": 0.15,
+    "official_sg_ott": 0.71,
+    "official_sg_putt": 0.0,
+    "official_sg_rank": 5,
+    "official_sg_rounds": 60,
+    "official_sg_total": 1.98,
+    "par_break_rate": 19.537,
+    "par_save_rate": 89.3519,
+    "recovery_rate": 65.6904
+  },
+  "generated_at": "2026-09-24T22:59:46.876383+00:00",
+  "hole_history": {
+    "capture_note": "이 대회 1개(2026120001)에서만 실측 -- 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
+    "course": "포천아도니스",
+    "game_code": "2026120001",
+    "rounds": [
+      {
+        "holes": [
+          {
+            "hole": 1,
+            "par": 4,
+            "relative_to_par": 1,
+            "strokes": 5
+          },
+          {
+            "hole": 2,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 3,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 4,
+            "par": 4,
+            "relative_to_par": 1,
+            "strokes": 5
+          },
+          {
+            "hole": 5,
+            "par": 5,
+            "relative_to_par": 0,
+            "strokes": 5
+          },
+          {
+            "hole": 6,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 7,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 8,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 9,
+            "par": 5,
+            "relative_to_par": 2,
+            "strokes": 7
+          },
+          {
+            "hole": 10,
+            "par": 4,
+            "relative_to_par": 1,
+            "strokes": 5
+          },
+          {
+            "hole": 11,
+            "par": 5,
+            "relative_to_par": 0,
+            "strokes": 5
+          },
+          {
+            "hole": 12,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 13,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 14,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 15,
+            "par": 5,
+            "relative_to_par": 0,
+            "strokes": 5
+          },
+          {
+            "hole": 16,
+            "par": 4,
+            "relative_to_par": 1,
+            "strokes": 5
+          },
+          {
+            "hole": 17,
+            "par": 3,
+            "relative_to_par": -1,
+            "strokes": 2
+          },
+          {
+            "hole": 18,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          }
+        ],
+        "holes_recorded": 18,
+        "round": 1
+      },
+      {
+        "holes": [
+          {
+            "hole": 1,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 2,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 3,
+            "par": 3,
+            "relative_to_par": -1,
+            "strokes": 2
+          },
+          {
+            "hole": 4,
+            "par": 4,
+            "relative_to_par": -1,
+            "strokes": 3
+          },
+          {
+            "hole": 5,
+            "par": 5,
+            "relative_to_par": 0,
+            "strokes": 5
+          },
+          {
+            "hole": 6,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 7,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 8,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 9,
+            "par": 5,
+            "relative_to_par": -1,
+            "strokes": 4
+          },
+          {
+            "hole": 10,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 11,
+            "par": 5,
+            "relative_to_par": 0,
+            "strokes": 5
+          },
+          {
+            "hole": 12,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 13,
+            "par": 4,
+            "relative_to_par": -1,
+            "strokes": 3
+          },
+          {
+            "hole": 14,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 15,
+            "par": 5,
+            "relative_to_par": 1,
+            "strokes": 6
+          },
+          {
+            "hole": 16,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 17,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 18,
+            "par": 4,
+            "relative_to_par": 1,
+            "strokes": 5
+          }
+        ],
+        "holes_recorded": 18,
+        "round": 2
+      },
+      {
+        "holes": [
+          {
+            "hole": 1,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 2,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 3,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 4,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 5,
+            "par": 5,
+            "relative_to_par": 0,
+            "strokes": 5
+          },
+          {
+            "hole": 6,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 10,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 11,
+            "par": 5,
+            "relative_to_par": -1,
+            "strokes": 4
+          },
+          {
+            "hole": 12,
+            "par": 3,
+            "relative_to_par": -1,
+            "strokes": 2
+          },
+          {
+            "hole": 13,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 14,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 15,
+            "par": 5,
+            "relative_to_par": -1,
+            "strokes": 4
+          },
+          {
+            "hole": 16,
+            "par": 4,
+            "relative_to_par": 0,
+            "strokes": 4
+          },
+          {
+            "hole": 17,
+            "par": 3,
+            "relative_to_par": 0,
+            "strokes": 3
+          },
+          {
+            "hole": 18,
+            "par": 4,
+            "relative_to_par": -1,
+            "strokes": 3
+          }
+        ],
+        "holes_recorded": 15,
+        "round": 3
+      }
+    ],
+    "total_hole_records": 51,
+    "tournament": "OK저축은행 읏맨 오픈"
+  },
+  "not_available": [
+    "드라이빙 디스턴스 (Driving Distance) -- 이 저장소 어디에도 실측 기록 없음",
+    "드라이빙 정확도 (Driving Accuracy) -- 이 저장소 어디에도 실측 기록 없음",
+    "과거 시즌별 상금 (2026시즌 스냅샷 1건만 실측)",
+    "과거 시즌별 평균 스코어 (2026시즌 스냅샷 1건만 실측)",
+    "과거 시즌별 GIR·퍼트·버디율 (2026시즌 스냅샷 1건만 실측)",
+    "보기율 (Bogey %) -- 이 저장소 어디에도 실측 기록 없음",
+    "전반·후반 9홀 분할 스코어 -- 이 저장소 어디에도 실측 기록 없음",
+    "대회별 코스명 -- 극히 일부 대회만 실측, 전체 커버리지 없음",
+    "라운드 중 순위 변동 (일자별 순위 이동) -- 실측 기록 없음",
+    "시즌별 컷 통과율 -- NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json에 made_cut 필드가 있으나 2023시즌 표본(7건)이 다른 모든 실측 소스가 확인하는 2023시즌 25개 대회와 맞지 않아 신뢰할 수 없음 -- 사용하지 않음"
+  ],
+  "player_evolution": {
+    "biggest_decline": null,
+    "biggest_improvement": {
+      "delta": 0.62,
+      "from_season": 2023,
+      "growth_pct": 78.8,
+      "to_season": 2024
+    },
+    "closest_to_plateau": {
+      "delta": 0.33,
+      "from_season": 2025,
+      "growth_pct": 18.8,
+      "to_season": 2026
+    },
+    "first_improvement": {
+      "delta": 0.62,
+      "from_season": 2023,
+      "growth_pct": 78.8,
+      "to_season": 2024
+    },
+    "no_decline_observed": true,
+    "trend_reversal": null
+  },
+  "player_id": "10097",
+  "player_name": "김민선7",
+  "player_story": [
+    {
+      "detail": "SG Total +0.79 (17개 대회 표본)",
+      "label": "실측 데이터 시작",
+      "season": 2023
+    },
+    {
+      "detail": "2023→2024 +0.62",
+      "label": "최대 SG Total 시즌 도약",
+      "season": 2024
+    },
+    {
+      "detail": "+1.76 (커리어 평균 +1.51)",
+      "label": "커리어 평균 SG Total 최초 상회",
+      "season": 2025
+    },
+    {
+      "detail": "1승 (이 시즌 실측)",
+      "label": "첫 우승",
+      "season": 2025
+    },
+    {
+      "detail": "+2.09, 우승 3회, 상위10위 7회",
+      "label": "커리어 최고 SG Total 시즌",
+      "season": 2026
+    }
+  ],
+  "round_history": {
+    "best_round": {
+      "game_code": "2026040001",
+      "round": 2,
+      "season": 2026,
+      "sg_total": 10.37,
+      "tournament": "iM금융오픈 2026"
+    },
+    "largest_collapse": {
+      "delta": -10.73,
+      "from_round": 1,
+      "game_code": "2024100008",
+      "season": 2024,
+      "to_round": 2,
+      "tournament": "제24회 하이트진로 챔피언십"
+    },
+    "largest_recovery": {
+      "delta": 10.87,
+      "from_round": 1,
+      "game_code": "2026040001",
+      "season": 2026,
+      "to_round": 2,
+      "tournament": "iM금융오픈 2026"
+    },
+    "most_improved_round": {
+      "delta": 10.87,
+      "from_round": 1,
+      "game_code": "2026040001",
+      "season": 2026,
+      "to_round": 2,
+      "tournament": "iM금융오픈 2026"
+    },
+    "most_stable_tournament": {
+      "game_code": "2023090004",
+      "rounds": 4,
+      "stddev": 0.21937410968480303,
+      "tournament": "하나금융그룹 챔피언십"
+    },
+    "total_rounds": 290,
+    "worst_round": {
+      "game_code": "2024080015",
+      "round": 3,
+      "season": 2024,
+      "sg_total": -6.24,
+      "tournament": "한화 클래식 2024"
+    }
+  },
+  "schema_version": "player_history_v1",
+  "scope_note": "이 문서는 playerCode=10097(김민선7) 선수만을 다룹니다. Player Intelligence를 대체하는 PLAYER HISTORY GOLD STANDARD V1 -- 실측 기록만 사용하며 추측을 포함하지 않습니다.",
+  "season_replay": [
+    {
+      "event_count": 25,
+      "peak": {
+        "sg_total": 3.43,
+        "tournament": "두산건설 We’ve 챔피언십"
+      },
+      "quartiles": [
+        {
+          "avg_sg_total": -0.05,
+          "events": 6,
+          "quarter": 1
+        },
+        {
+          "avg_sg_total": 0.33,
+          "events": 6,
+          "quarter": 2
+        },
+        {
+          "avg_sg_total": 0.33,
+          "events": 7,
+          "quarter": 3
+        },
+        {
+          "avg_sg_total": 0.67,
+          "events": 6,
+          "quarter": 4
+        }
+      ],
+      "recovery_next_event": {
+        "delta_vs_slump": 4.47,
+        "sg_total": 1.4,
+        "tournament": "하이원리조트 여자오픈 2023"
+      },
+      "season": 2023,
+      "slump": {
+        "sg_total": -3.07,
+        "tournament": "제10회 제주삼다수 마스터스"
+      },
+      "top10_rate_pct": 12.0,
+      "volatility_stddev": 1.72
+    },
+    {
+      "event_count": 26,
+      "peak": {
+        "sg_total": 4.23,
+        "tournament": "Sh수협은행 MBN 여자오픈"
+      },
+      "quartiles": [
+        {
+          "avg_sg_total": 0.92,
+          "events": 6,
+          "quarter": 1
+        },
+        {
+          "avg_sg_total": -0.08,
+          "events": 7,
+          "quarter": 2
+        },
+        {
+          "avg_sg_total": 1.09,
+          "events": 7,
+          "quarter": 3
+        },
+        {
+          "avg_sg_total": -0.03,
+          "events": 6,
+          "quarter": 4
+        }
+      ],
+      "recovery_next_event": {
+        "delta_vs_slump": 3.88,
+        "sg_total": 1.21,
+        "tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024"
+      },
+      "season": 2024,
+      "slump": {
+        "sg_total": -2.67,
+        "tournament": "S-OIL 챔피언십 2024"
+      },
+      "top10_rate_pct": 15.4,
+      "volatility_stddev": 1.72
+    },
+    {
+      "event_count": 27,
+      "peak": {
+        "sg_total": 4.39,
+        "tournament": "덕신EPC 챔피언십"
+      },
+      "quartiles": [
+        {
+          "avg_sg_total": 1.92,
+          "events": 7,
+          "quarter": 1
+        },
+        {
+          "avg_sg_total": 1.32,
+          "events": 7,
+          "quarter": 2
+        },
+        {
+          "avg_sg_total": 1.52,
+          "events": 6,
+          "quarter": 3
+        },
+        {
+          "avg_sg_total": 0.92,
+          "events": 7,
+          "quarter": 4
+        }
+      ],
+      "recovery_next_event": {
+        "delta_vs_slump": 2.66,
+        "sg_total": 1.65,
+        "tournament": "2025 오로라월드 레이디스 챔피언십"
+      },
+      "season": 2025,
+      "slump": {
+        "sg_total": -1.01,
+        "tournament": "더헤븐 마스터즈"
+      },
+      "top10_rate_pct": 22.2,
+      "volatility_stddev": 1.47
+    },
+    {
+      "event_count": 17,
+      "peak": {
+        "sg_total": 4.71,
+        "tournament": "넥센 · 세인트나인 Masters 2026"
+      },
+      "quartiles": [
+        {
+          "avg_sg_total": 2.65,
+          "events": 4,
+          "quarter": 1
+        },
+        {
+          "avg_sg_total": 2.08,
+          "events": 4,
+          "quarter": 2
+        },
+        {
+          "avg_sg_total": 2.07,
+          "events": 5,
+          "quarter": 3
+        },
+        {
+          "avg_sg_total": 2.22,
+          "events": 4,
+          "quarter": 4
+        }
+      ],
+      "recovery_next_event": {
+        "delta_vs_slump": 1.39,
+        "sg_total": 1.7,
+        "tournament": "2026 NH투자증권 레이디스 챔피언십"
+      },
+      "season": 2026,
+      "slump": {
+        "sg_total": 0.31,
+        "tournament": "제1회 DB 위민스 챔피언십"
+      },
+      "top10_rate_pct": 41.2,
+      "volatility_stddev": 1.34
+    }
+  ],
+  "source_document": "MASTER_ANALYSIS.json + historical_sg_warehouse_corrected.json + OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)",
+  "tournament_history": [
+    {
+      "game_code": "2023040001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 65,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -2.86
+        },
+        {
+          "round": 2,
+          "sg_total": 1.32
+        }
+      ],
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": -0.77,
+      "tournament": "롯데렌터카 여자오픈"
+    },
+    {
+      "game_code": "2023040002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 98,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -4.54
+        },
+        {
+          "round": 2,
+          "sg_total": 0.26
+        }
+      ],
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": -2.14,
+      "tournament": "메디힐 · 한국일보 챔피언십"
+    },
+    {
+      "game_code": "2023040003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 48,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.04
+        },
+        {
+          "round": 2,
+          "sg_total": -2.91
+        }
+      ],
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": 0.57,
+      "tournament": "넥센 · 세인트나인 마스터즈 2023"
+    },
+    {
+      "game_code": "2023050001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 100,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -2.88
+        },
+        {
+          "round": 2,
+          "sg_total": -1.03
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 0.4,
+        "arg": -0.89,
+        "ott": -0.37,
+        "putt": -1.1
+      },
+      "sg_total": -1.96,
+      "tournament": "제9회 교촌 1991 레이디스 오픈"
+    },
+    {
+      "game_code": "2023050002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 28,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.02
+        },
+        {
+          "round": 2,
+          "sg_total": 1.12
+        },
+        {
+          "round": 3,
+          "sg_total": 0.45
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 0.33,
+        "arg": -0.23,
+        "ott": 0.03,
+        "putt": 1.07
+      },
+      "sg_total": 1.2,
+      "tournament": "2023 NH투자증권 레이디스 챔피언십"
+    },
+    {
+      "game_code": "2023050004",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 9,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 6.21
+        },
+        {
+          "round": 2,
+          "sg_total": 2.89
+        },
+        {
+          "round": 3,
+          "sg_total": -0.71
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 1.23,
+        "arg": 0.32,
+        "ott": 0.87,
+        "putt": 0.37
+      },
+      "sg_total": 2.8,
+      "tournament": "제11회 E1 채리티 오픈"
+    },
+    {
+      "game_code": "2023060001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 91,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -5.95
+        },
+        {
+          "round": 2,
+          "sg_total": 3.6
+        }
+      ],
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": -1.18,
+      "tournament": "롯데 오픈"
+    },
+    {
+      "game_code": "2023060002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 28,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.32
+        },
+        {
+          "round": 2,
+          "sg_total": 4.05
+        },
+        {
+          "round": 3,
+          "sg_total": 2.17
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": -0.11,
+        "arg": -0.4,
+        "ott": 0.92,
+        "putt": 1.22
+      },
+      "sg_total": 1.63,
+      "tournament": "셀트리온 퀸즈 마스터즈"
+    },
+    {
+      "game_code": "2023060004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 89,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.68
+        },
+        {
+          "round": 2,
+          "sg_total": 2.31
+        },
+        {
+          "round": 3,
+          "sg_total": -5.7
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": -0.73,
+        "arg": -0.1,
+        "ott": 0.29,
+        "putt": -0.82
+      },
+      "sg_total": -1.36,
+      "tournament": "BC카드 · 한경 레이디스컵 2023"
+    },
+    {
+      "game_code": "2023060005",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 54,
+      "round_scores": null,
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": 0.29,
+      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+    },
+    {
+      "game_code": "2023070001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 38,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.61
+        },
+        {
+          "round": 2,
+          "sg_total": 2.13
+        },
+        {
+          "round": 3,
+          "sg_total": -0.46
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 0.55,
+        "arg": -0.24,
+        "ott": 0.52,
+        "putt": -0.08
+      },
+      "sg_total": 0.76,
+      "tournament": "대유위니아 · MBN 여자오픈"
+    },
+    {
+      "game_code": "2023070002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 15,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.45
+        },
+        {
+          "round": 2,
+          "sg_total": 6.76
+        },
+        {
+          "round": 3,
+          "sg_total": 0.19
+        },
+        {
+          "round": 4,
+          "sg_total": -1.12
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 0.61,
+        "arg": 0.12,
+        "ott": 0.7,
+        "putt": 0.39
+      },
+      "sg_total": 1.82,
+      "tournament": "에버콜라겐 · 더시에나 퀸즈크라운 2023"
+    },
+    {
+      "game_code": "2023070003",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 3,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.21
+        },
+        {
+          "round": 2,
+          "sg_total": 3.4
+        },
+        {
+          "round": 3,
+          "sg_total": 2.69
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 1.6,
+        "arg": 0.25,
+        "ott": 0.34,
+        "putt": 1.25
+      },
+      "sg_total": 3.43,
+      "tournament": "두산건설 We’ve 챔피언십"
+    },
+    {
+      "game_code": "2023080001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 116,
+      "round_scores": null,
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": -3.07,
+      "tournament": "제10회 제주삼다수 마스터스"
+    },
+    {
+      "game_code": "2023080003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 21,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.02
+        },
+        {
+          "round": 2,
+          "sg_total": 2.31
+        },
+        {
+          "round": 3,
+          "sg_total": -2.0
+        },
+        {
+          "round": 4,
+          "sg_total": 2.28
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 1.08,
+        "arg": 0.14,
+        "ott": 0.18,
+        "putt": -0.01
+      },
+      "sg_total": 1.4,
+      "tournament": "하이원리조트 여자오픈 2023"
+    },
+    {
+      "game_code": "2023080004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 79,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.71
+        },
+        {
+          "round": 2,
+          "sg_total": -0.39
+        },
+        {
+          "round": 3,
+          "sg_total": -2.01
+        },
+        {
+          "round": 4,
+          "sg_total": -3.43
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": -1.08,
+        "arg": -0.25,
+        "ott": -0.14,
+        "putt": 0.44
+      },
+      "sg_total": -1.03,
+      "tournament": "한화 클래식 2023"
+    },
+    {
+      "game_code": "2023090002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 68,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.65
+        },
+        {
+          "round": 2,
+          "sg_total": 1.73
+        },
+        {
+          "round": 3,
+          "sg_total": 1.07
+        },
+        {
+          "round": 4,
+          "sg_total": -5.08
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": -0.64,
+        "arg": -0.48,
+        "ott": 0.55,
+        "putt": -0.41
+      },
+      "sg_total": -0.98,
+      "tournament": "KB금융 스타챔피언십"
+    },
+    {
+      "game_code": "2023090003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 11,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.14
+        },
+        {
+          "round": 2,
+          "sg_total": 1.94
+        },
+        {
+          "round": 3,
+          "sg_total": 1.51
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 1.02,
+        "arg": -0.33,
+        "ott": 0.57,
+        "putt": 1.28
+      },
+      "sg_total": 2.53,
+      "tournament": "OK금융그룹 읏맨 오픈"
+    },
+    {
+      "game_code": "2023090004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 42,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.06
+        },
+        {
+          "round": 2,
+          "sg_total": 0.35
+        },
+        {
+          "round": 3,
+          "sg_total": -0.12
+        },
+        {
+          "round": 4,
+          "sg_total": -0.23
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": -0.15,
+        "arg": -0.55,
+        "ott": 0.02,
+        "putt": 0.69
+      },
+      "sg_total": 0.01,
+      "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2023090005",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.37
+        },
+        {
+          "round": 2,
+          "sg_total": 2.65
+        },
+        {
+          "round": 3,
+          "sg_total": 0.66
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 1.07,
+        "arg": 0.43,
+        "ott": 1.01,
+        "putt": -0.62
+      },
+      "sg_total": 1.89,
+      "tournament": "대보 하우스디 오픈"
+    },
+    {
+      "game_code": "2023100001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 40,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.5
+        },
+        {
+          "round": 2,
+          "sg_total": 5.56
+        },
+        {
+          "round": 3,
+          "sg_total": -2.32
+        },
+        {
+          "round": 4,
+          "sg_total": -3.16
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 0.06,
+        "arg": 0.47,
+        "ott": 0.18,
+        "putt": -0.31
+      },
+      "sg_total": 0.39,
+      "tournament": "제23회 하이트진로 챔피언십"
+    },
+    {
+      "game_code": "2023100003",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 6,
+      "round_scores": null,
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": 2.89,
+      "tournament": "상상인 · 한국경제TV 오픈 2023"
+    },
+    {
+      "game_code": "2023100004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 81,
+      "round_scores": null,
+      "season": 2023,
+      "sg_components": null,
+      "sg_total": -2.03,
+      "tournament": "SK네트웍스 · 서울경제 레이디스 클래식"
+    },
+    {
+      "game_code": "2023110001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 36,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.08
+        },
+        {
+          "round": 2,
+          "sg_total": -1.18
+        },
+        {
+          "round": 3,
+          "sg_total": 0.18
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 0.83,
+        "arg": 0.26,
+        "ott": -0.02,
+        "putt": -0.71
+      },
+      "sg_total": 0.36,
+      "tournament": "S-OIL 챔피언십 2023"
+    },
+    {
+      "game_code": "2023110002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 32,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.17
+        },
+        {
+          "round": 2,
+          "sg_total": 1.75
+        },
+        {
+          "round": 3,
+          "sg_total": -0.46
+        }
+      ],
+      "season": 2023,
+      "sg_components": {
+        "app": 1.53,
+        "arg": -0.16,
+        "ott": 0.26,
+        "putt": -1.15
+      },
+      "sg_total": 0.49,
+      "tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023"
+    },
+    {
+      "game_code": "2024040017",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 5,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.18
+        },
+        {
+          "round": 2,
+          "sg_total": 2.93
+        },
+        {
+          "round": 3,
+          "sg_total": 2.35
+        },
+        {
+          "round": 4,
+          "sg_total": 2.73
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.32,
+        "arg": -0.26,
+        "ott": 0.79,
+        "putt": 0.94
+      },
+      "sg_total": 2.8,
+      "tournament": "두산건설 We’ve 챔피언십"
+    },
+    {
+      "game_code": "2024040018",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 64,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -3.44
+        },
+        {
+          "round": 2,
+          "sg_total": 2.3
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -0.57,
+      "tournament": "메디힐 · 한국일보 챔피언십"
+    },
+    {
+      "game_code": "2024040019",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 45,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.34
+        },
+        {
+          "round": 2,
+          "sg_total": -0.07
+        },
+        {
+          "round": 3,
+          "sg_total": -0.15
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.49,
+        "arg": 0.05,
+        "ott": -0.09,
+        "putt": -0.75
+      },
+      "sg_total": 0.71,
+      "tournament": "넥센 · 세인트나인 마스터즈 2024"
+    },
+    {
+      "game_code": "2024040020",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.16
+        },
+        {
+          "round": 2,
+          "sg_total": 3.29
+        },
+        {
+          "round": 3,
+          "sg_total": 0.58
+        },
+        {
+          "round": 4,
+          "sg_total": 0.96
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.83,
+        "arg": 0.26,
+        "ott": 0.26,
+        "putt": -0.35
+      },
+      "sg_total": 2.0,
+      "tournament": "크리스에프앤씨 제46회 KLPGA 챔피언십"
+    },
+    {
+      "game_code": "2024050014",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 53,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.55
+        },
+        {
+          "round": 2,
+          "sg_total": 2.4
+        },
+        {
+          "round": 3,
+          "sg_total": -3.64
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 0.17,
+        "arg": -0.37,
+        "ott": -0.46,
+        "putt": 0.77
+      },
+      "sg_total": 0.1,
+      "tournament": "제10회 교촌 1991 레이디스 오픈"
+    },
+    {
+      "game_code": "2024050015",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 45,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.67
+        },
+        {
+          "round": 2,
+          "sg_total": 0.27
+        },
+        {
+          "round": 3,
+          "sg_total": -0.43
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 0.4,
+        "arg": 0.76,
+        "ott": 0.26,
+        "putt": -0.92
+      },
+      "sg_total": 0.5,
+      "tournament": "2024 NH투자증권 레이디스 챔피언십"
+    },
+    {
+      "game_code": "2024050017",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 116,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.94
+        },
+        {
+          "round": 2,
+          "sg_total": -3.39
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -2.17,
+      "tournament": "제12회 E1 채리티 오픈"
+    },
+    {
+      "game_code": "2024050018",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 3,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.06
+        },
+        {
+          "round": 2,
+          "sg_total": 3.78
+        },
+        {
+          "round": 3,
+          "sg_total": 4.85
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 2.83,
+        "arg": 0.12,
+        "ott": 0.4,
+        "putt": 0.88
+      },
+      "sg_total": 4.23,
+      "tournament": "Sh수협은행 MBN 여자오픈"
+    },
+    {
+      "game_code": "2024060013",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 35,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.42
+        },
+        {
+          "round": 2,
+          "sg_total": 2.45
+        },
+        {
+          "round": 3,
+          "sg_total": 0.47
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 0.13,
+        "arg": 0.38,
+        "ott": 0.93,
+        "putt": -0.6
+      },
+      "sg_total": 0.84,
+      "tournament": "2024 셀트리온 퀸즈 마스터즈"
+    },
+    {
+      "game_code": "2024060014",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 73,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.44
+        },
+        {
+          "round": 2,
+          "sg_total": -2.18
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -0.87,
+      "tournament": "DB그룹 제38회 한국여자오픈골프선수권대회"
+    },
+    {
+      "game_code": "2024060015",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 78,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.83
+        },
+        {
+          "round": 2,
+          "sg_total": -3.53
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -0.85,
+      "tournament": "BC카드 · 한경 레이디스컵 2024"
+    },
+    {
+      "game_code": "2024070016",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 43,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.29
+        },
+        {
+          "round": 2,
+          "sg_total": 2.48
+        },
+        {
+          "round": 3,
+          "sg_total": 2.52
+        },
+        {
+          "round": 4,
+          "sg_total": -2.35
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 0.35,
+        "arg": -0.66,
+        "ott": 0.74,
+        "putt": -0.1
+      },
+      "sg_total": 0.34,
+      "tournament": "롯데 오픈"
+    },
+    {
+      "game_code": "2024070017",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 97,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -2.07
+        },
+        {
+          "round": 2,
+          "sg_total": -2.11
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -2.09,
+      "tournament": "하이원리조트 여자오픈 2024"
+    },
+    {
+      "game_code": "2024080014",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 37,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -2.0
+        },
+        {
+          "round": 2,
+          "sg_total": 4.4
+        },
+        {
+          "round": 3,
+          "sg_total": 2.37
+        },
+        {
+          "round": 4,
+          "sg_total": -3.19
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 0.14,
+        "arg": -0.29,
+        "ott": -0.09,
+        "putt": 0.64
+      },
+      "sg_total": 0.4,
+      "tournament": "제11회 제주삼다수 마스터스"
+    },
+    {
+      "game_code": "2024080015",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 41,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.7
+        },
+        {
+          "round": 2,
+          "sg_total": 1.89
+        },
+        {
+          "round": 3,
+          "sg_total": -6.24
+        },
+        {
+          "round": 4,
+          "sg_total": 2.91
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": -0.63,
+        "arg": 0.22,
+        "ott": 0.3,
+        "putt": 0.68
+      },
+      "sg_total": 0.57,
+      "tournament": "한화 클래식 2024"
+    },
+    {
+      "game_code": "2024080016",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 33,
+      "round_scores": null,
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": 1.09,
+      "tournament": "제13회 KG 레이디스 오픈"
+    },
+    {
+      "game_code": "2024080018",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 4,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.29
+        },
+        {
+          "round": 2,
+          "sg_total": 2.67
+        },
+        {
+          "round": 3,
+          "sg_total": 4.63
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.29,
+        "arg": -0.41,
+        "ott": 0.85,
+        "putt": 1.46
+      },
+      "sg_total": 3.2,
+      "tournament": "더헤븐 마스터즈"
+    },
+    {
+      "game_code": "2024090006",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 21,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.29
+        },
+        {
+          "round": 2,
+          "sg_total": 0.9
+        },
+        {
+          "round": 3,
+          "sg_total": 0.8
+        },
+        {
+          "round": 4,
+          "sg_total": 2.47
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.63,
+        "arg": 0.12,
+        "ott": 0.81,
+        "putt": -1.2
+      },
+      "sg_total": 1.37,
+      "tournament": "KB금융 스타챔피언십"
+    },
+    {
+      "game_code": "2024090007",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 6,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.96
+        },
+        {
+          "round": 2,
+          "sg_total": 2.27
+        },
+        {
+          "round": 3,
+          "sg_total": 4.13
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 0.44,
+        "arg": 0.56,
+        "ott": 0.96,
+        "putt": 0.83
+      },
+      "sg_total": 2.79,
+      "tournament": "OK저축은행 읏맨 오픈"
+    },
+    {
+      "game_code": "2024090008",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 84,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -4.58
+        },
+        {
+          "round": 2,
+          "sg_total": 1.05
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -1.76,
+      "tournament": "대보 하우스디 오픈"
+    },
+    {
+      "game_code": "2024090009",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 18,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.51
+        },
+        {
+          "round": 2,
+          "sg_total": -0.26
+        },
+        {
+          "round": 3,
+          "sg_total": 1.5
+        },
+        {
+          "round": 4,
+          "sg_total": 1.38
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.17,
+        "arg": 0.46,
+        "ott": -0.38,
+        "putt": 0.54
+      },
+      "sg_total": 1.78,
+      "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2024100008",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 26,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 6.17
+        },
+        {
+          "round": 2,
+          "sg_total": -4.56
+        },
+        {
+          "round": 3,
+          "sg_total": 0.52
+        },
+        {
+          "round": 4,
+          "sg_total": 3.14
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 2.03,
+        "arg": -0.54,
+        "ott": 0.03,
+        "putt": -0.21
+      },
+      "sg_total": 1.32,
+      "tournament": "제24회 하이트진로 챔피언십"
+    },
+    {
+      "game_code": "2024100010",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 72,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.07
+        },
+        {
+          "round": 2,
+          "sg_total": -6.2
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -1.56,
+      "tournament": "상상인 · 한경 와우넷 오픈 2024"
+    },
+    {
+      "game_code": "2024100011",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 51,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.68
+        },
+        {
+          "round": 2,
+          "sg_total": 3.1
+        },
+        {
+          "round": 3,
+          "sg_total": -1.06
+        },
+        {
+          "round": 4,
+          "sg_total": -1.37
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": -1.18,
+        "arg": -0.15,
+        "ott": 0.66,
+        "putt": 0.41
+      },
+      "sg_total": -0.25,
+      "tournament": "덕신EPC · 서울경제 레이디스 클래식"
+    },
+    {
+      "game_code": "2024100012",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 79,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -5.68
+        },
+        {
+          "round": 2,
+          "sg_total": 0.35
+        }
+      ],
+      "season": 2024,
+      "sg_components": null,
+      "sg_total": -2.67,
+      "tournament": "S-OIL 챔피언십 2024"
+    },
+    {
+      "game_code": "2024110007",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.56
+        },
+        {
+          "round": 2,
+          "sg_total": -0.68
+        },
+        {
+          "round": 3,
+          "sg_total": 2.74
+        }
+      ],
+      "season": 2024,
+      "sg_components": {
+        "app": 1.02,
+        "arg": -0.18,
+        "ott": 0.63,
+        "putt": -0.26
+      },
+      "sg_total": 1.21,
+      "tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024"
+    },
+    {
+      "game_code": "2025040001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 46,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.26
+        },
+        {
+          "round": 2,
+          "sg_total": -0.04
+        },
+        {
+          "round": 3,
+          "sg_total": 1.68
+        },
+        {
+          "round": 4,
+          "sg_total": 0.34
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": -0.09,
+        "arg": -0.18,
+        "ott": 0.62,
+        "putt": 0.08
+      },
+      "sg_total": 0.43,
+      "tournament": "두산건설 We’ve 챔피언십"
+    },
+    {
+      "game_code": "2025040002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 45,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.69
+        },
+        {
+          "round": 2,
+          "sg_total": 1.92
+        }
+      ],
+      "season": 2025,
+      "sg_components": null,
+      "sg_total": 0.11,
+      "tournament": "iM금융오픈 2025"
+    },
+    {
+      "game_code": "2025040003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 6.19
+        },
+        {
+          "round": 2,
+          "sg_total": -0.48
+        },
+        {
+          "round": 3,
+          "sg_total": 2.36
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 2.15,
+        "arg": -0.33,
+        "ott": 0.46,
+        "putt": 0.4
+      },
+      "sg_total": 2.69,
+      "tournament": "넥센 · 세인트나인 마스터즈 2025"
+    },
+    {
+      "game_code": "2025040004",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 9,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.23
+        },
+        {
+          "round": 2,
+          "sg_total": 5.11
+        },
+        {
+          "round": 3,
+          "sg_total": 1.47
+        },
+        {
+          "round": 4,
+          "sg_total": 3.82
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.87,
+        "arg": 0.45,
+        "ott": 0.42,
+        "putt": 0.8
+      },
+      "sg_total": 2.54,
+      "tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십"
+    },
+    {
+      "game_code": "2025040005",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.49
+        },
+        {
+          "round": 2,
+          "sg_total": 7.47
+        },
+        {
+          "round": 3,
+          "sg_total": 4.01
+        },
+        {
+          "round": 4,
+          "sg_total": 2.59
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.1,
+        "arg": 0.67,
+        "ott": 0.54,
+        "putt": 2.08
+      },
+      "sg_total": 4.39,
+      "tournament": "덕신EPC 챔피언십"
+    },
+    {
+      "game_code": "2025050001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 64,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.16
+        },
+        {
+          "round": 2,
+          "sg_total": -1.02
+        }
+      ],
+      "season": 2025,
+      "sg_components": null,
+      "sg_total": -0.43,
+      "tournament": "2025 NH투자증권 레이디스 챔피언십"
+    },
+    {
+      "game_code": "2025050003",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 3,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 7.61
+        },
+        {
+          "round": 2,
+          "sg_total": -0.79
+        },
+        {
+          "round": 3,
+          "sg_total": 4.27
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.75,
+        "arg": 0.19,
+        "ott": -0.2,
+        "putt": 1.96
+      },
+      "sg_total": 3.7,
+      "tournament": "제13회 E1 채리티 오픈"
+    },
+    {
+      "game_code": "2025050004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 44,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.48
+        },
+        {
+          "round": 2,
+          "sg_total": -2.3
+        },
+        {
+          "round": 3,
+          "sg_total": 1.35
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": -0.02,
+        "arg": -0.37,
+        "ott": 1.27,
+        "putt": -0.37
+      },
+      "sg_total": 0.51,
+      "tournament": "Sh수협은행 MBN 여자오픈"
+    },
+    {
+      "game_code": "2025060001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 48,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.5
+        },
+        {
+          "round": 2,
+          "sg_total": 3.64
+        },
+        {
+          "round": 3,
+          "sg_total": -2.51
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.43,
+        "arg": -0.38,
+        "ott": -0.57,
+        "putt": -0.27
+      },
+      "sg_total": 0.21,
+      "tournament": "2025 셀트리온 퀸즈 마스터즈"
+    },
+    {
+      "game_code": "2025060003",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 7,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.13
+        },
+        {
+          "round": 2,
+          "sg_total": 3.99
+        },
+        {
+          "round": 3,
+          "sg_total": 1.48
+        },
+        {
+          "round": 4,
+          "sg_total": 4.34
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.29,
+        "arg": -0.12,
+        "ott": 0.72,
+        "putt": 1.84
+      },
+      "sg_total": 2.73,
+      "tournament": "BC카드 · 한경 레이디스컵 2025"
+    },
+    {
+      "game_code": "2025060004",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 6,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.67
+        },
+        {
+          "round": 2,
+          "sg_total": 5.97
+        },
+        {
+          "round": 3,
+          "sg_total": 1.13
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.55,
+        "arg": 0.06,
+        "ott": 1.31,
+        "putt": 1.33
+      },
+      "sg_total": 3.25,
+      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+    },
+    {
+      "game_code": "2025070001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 12,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.44
+        },
+        {
+          "round": 2,
+          "sg_total": 4.01
+        },
+        {
+          "round": 3,
+          "sg_total": -1.62
+        },
+        {
+          "round": 4,
+          "sg_total": 4.6
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.23,
+        "arg": -0.41,
+        "ott": 1.2,
+        "putt": 0.34
+      },
+      "sg_total": 2.36,
+      "tournament": "제15회 롯데 오픈"
+    },
+    {
+      "game_code": "2025070002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 23,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.11
+        },
+        {
+          "round": 2,
+          "sg_total": 2.99
+        },
+        {
+          "round": 3,
+          "sg_total": 1.55
+        },
+        {
+          "round": 4,
+          "sg_total": -1.94
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.96,
+        "arg": -0.46,
+        "ott": 0.76,
+        "putt": -1.08
+      },
+      "sg_total": 1.18,
+      "tournament": "하이원리조트 여자오픈 2025"
+    },
+    {
+      "game_code": "2025070003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 80,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.69
+        },
+        {
+          "round": 2,
+          "sg_total": -1.32
+        }
+      ],
+      "season": 2025,
+      "sg_components": null,
+      "sg_total": -1.01,
+      "tournament": "더헤븐 마스터즈"
+    },
+    {
+      "game_code": "2025070004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 20,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.45
+        },
+        {
+          "round": 2,
+          "sg_total": -1.1
+        },
+        {
+          "round": 3,
+          "sg_total": 5.74
+        },
+        {
+          "round": 4,
+          "sg_total": 2.42
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.04,
+        "arg": 0.6,
+        "ott": 0.34,
+        "putt": 0.67
+      },
+      "sg_total": 1.65,
+      "tournament": "2025 오로라월드 레이디스 챔피언십"
+    },
+    {
+      "game_code": "2025070005",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 11,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.46
+        },
+        {
+          "round": 2,
+          "sg_total": -0.25
+        },
+        {
+          "round": 3,
+          "sg_total": 3.8
+        },
+        {
+          "round": 4,
+          "sg_total": 2.39
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.94,
+        "arg": -0.07,
+        "ott": 0.72,
+        "putt": -0.24
+      },
+      "sg_total": 2.35,
+      "tournament": "제12회 제주삼다수 마스터스"
+    },
+    {
+      "game_code": "2025080001",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 3,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 5.31
+        },
+        {
+          "round": 2,
+          "sg_total": -0.39
+        },
+        {
+          "round": 3,
+          "sg_total": 3.49
+        },
+        {
+          "round": 4,
+          "sg_total": 4.5
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 2.07,
+        "arg": 0.46,
+        "ott": 0.38,
+        "putt": 0.32
+      },
+      "sg_total": 3.23,
+      "tournament": "메디힐 · 한국일보 챔피언십"
+    },
+    {
+      "game_code": "2025080003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 33,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 5.21
+        },
+        {
+          "round": 2,
+          "sg_total": -1.51
+        },
+        {
+          "round": 3,
+          "sg_total": -0.38
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.46,
+        "arg": -1.26,
+        "ott": 1.11,
+        "putt": -0.2
+      },
+      "sg_total": 1.11,
+      "tournament": "제14회 KG 레이디스 오픈"
+    },
+    {
+      "game_code": "2025090001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 22,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.41
+        },
+        {
+          "round": 2,
+          "sg_total": 3.29
+        },
+        {
+          "round": 3,
+          "sg_total": 5.88
+        },
+        {
+          "round": 4,
+          "sg_total": -0.9
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.33,
+        "arg": -0.13,
+        "ott": 0.63,
+        "putt": -0.11
+      },
+      "sg_total": 1.72,
+      "tournament": "KB금융 스타챔피언십"
+    },
+    {
+      "game_code": "2025090002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 79,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -2.51
+        },
+        {
+          "round": 2,
+          "sg_total": 3.81
+        },
+        {
+          "round": 3,
+          "sg_total": -4.15
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": -1.56,
+        "arg": 0.05,
+        "ott": -0.66,
+        "putt": 1.22
+      },
+      "sg_total": -0.95,
+      "tournament": "OK저축은행 읏맨 오픈"
+    },
+    {
+      "game_code": "2025090003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.48
+        },
+        {
+          "round": 2,
+          "sg_total": 1.42
+        },
+        {
+          "round": 3,
+          "sg_total": 2.77
+        },
+        {
+          "round": 4,
+          "sg_total": 0.98
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.29,
+        "arg": 0.11,
+        "ott": 0.72,
+        "putt": 0.79
+      },
+      "sg_total": 1.91,
+      "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2025090004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.61
+        },
+        {
+          "round": 2,
+          "sg_total": 3.77
+        },
+        {
+          "round": 3,
+          "sg_total": 2.31
+        },
+        {
+          "round": 4,
+          "sg_total": 0.94
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.03,
+        "arg": 0.29,
+        "ott": -0.02,
+        "putt": 0.61
+      },
+      "sg_total": 1.9,
+      "tournament": "제25회 하이트진로 챔피언십"
+    },
+    {
+      "game_code": "2025100002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 14,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.34
+        },
+        {
+          "round": 2,
+          "sg_total": 3.43
+        },
+        {
+          "round": 3,
+          "sg_total": 1.61
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": -0.17,
+        "arg": 0.5,
+        "ott": 0.72,
+        "putt": 0.19
+      },
+      "sg_total": 1.23,
+      "tournament": "대보 하우스디 챔피언십"
+    },
+    {
+      "game_code": "2025100003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 46,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.95
+        },
+        {
+          "round": 2,
+          "sg_total": 2.99
+        },
+        {
+          "round": 3,
+          "sg_total": -3.02
+        },
+        {
+          "round": 4,
+          "sg_total": 2.01
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.02,
+        "arg": 0.66,
+        "ott": 0.73,
+        "putt": -1.41
+      },
+      "sg_total": 0.01,
+      "tournament": "상상인 · 한경 와우넷 오픈 2025"
+    },
+    {
+      "game_code": "2025100004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 48,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.65
+        },
+        {
+          "round": 2,
+          "sg_total": -1.08
+        },
+        {
+          "round": 3,
+          "sg_total": 0.16
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 0.88,
+        "arg": -0.33,
+        "ott": 0.25,
+        "putt": -0.89
+      },
+      "sg_total": -0.09,
+      "tournament": "광남일보 · 해피니스 오픈"
+    },
+    {
+      "game_code": "2025100005",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 58,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.47
+        },
+        {
+          "round": 2,
+          "sg_total": -2.29
+        }
+      ],
+      "season": 2025,
+      "sg_components": null,
+      "sg_total": -0.91,
+      "tournament": "S-OIL 챔피언십 2025"
+    },
+    {
+      "game_code": "2025100012",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 12,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.36
+        },
+        {
+          "round": 2,
+          "sg_total": 5.63
+        },
+        {
+          "round": 3,
+          "sg_total": 1.25
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.64,
+        "arg": 0.46,
+        "ott": 0.77,
+        "putt": -0.47
+      },
+      "sg_total": 2.41,
+      "tournament": "K-FOOD 놀부·화미 마스터즈"
+    },
+    {
+      "game_code": "2026040001",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 9,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.5
+        },
+        {
+          "round": 2,
+          "sg_total": 10.37
+        },
+        {
+          "round": 3,
+          "sg_total": 0.29
+        },
+        {
+          "round": 4,
+          "sg_total": -1.14
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.38,
+        "arg": -0.26,
+        "ott": 0.68,
+        "putt": 1.46
+      },
+      "sg_total": 2.26,
+      "tournament": "iM금융오픈 2026"
+    },
+    {
+      "game_code": "2026040002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 18,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.27
+        },
+        {
+          "round": 2,
+          "sg_total": 3.07
+        },
+        {
+          "round": 3,
+          "sg_total": -1.08
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.02,
+        "arg": 0.47,
+        "ott": 0.57,
+        "putt": 0.02
+      },
+      "sg_total": 2.08,
+      "tournament": "제2회 덕신EPC 챔피언십"
+    },
+    {
+      "game_code": "2026040003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 18,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.37
+        },
+        {
+          "round": 2,
+          "sg_total": 2.04
+        },
+        {
+          "round": 3,
+          "sg_total": 3.49
+        },
+        {
+          "round": 4,
+          "sg_total": 2.06
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.93,
+        "arg": -0.19,
+        "ott": 0.36,
+        "putt": 0.46
+      },
+      "sg_total": 1.55,
+      "tournament": "더 시에나 오픈 2026"
+    },
+    {
+      "game_code": "2026040004",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 6.42
+        },
+        {
+          "round": 2,
+          "sg_total": 5.67
+        },
+        {
+          "round": 3,
+          "sg_total": 2.04
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.7,
+        "arg": 0.68,
+        "ott": 1.47,
+        "putt": 0.86
+      },
+      "sg_total": 4.71,
+      "tournament": "넥센 · 세인트나인 Masters 2026"
+    },
+    {
+      "game_code": "2026040005",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 46,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -2.54
+        },
+        {
+          "round": 2,
+          "sg_total": 2.08
+        },
+        {
+          "round": 3,
+          "sg_total": -0.4
+        },
+        {
+          "round": 4,
+          "sg_total": 2.08
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": -0.9,
+        "arg": 0.43,
+        "ott": 0.22,
+        "putt": 0.56
+      },
+      "sg_total": 0.31,
+      "tournament": "제1회 DB 위민스 챔피언십"
+    },
+    {
+      "game_code": "2026050001",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 22,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.71
+        },
+        {
+          "round": 2,
+          "sg_total": 1.17
+        },
+        {
+          "round": 3,
+          "sg_total": -0.8
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.19,
+        "arg": 0.27,
+        "ott": 0.67,
+        "putt": -0.43
+      },
+      "sg_total": 1.7,
+      "tournament": "2026 NH투자증권 레이디스 챔피언십"
+    },
+    {
+      "game_code": "2026050003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 28,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.25
+        },
+        {
+          "round": 2,
+          "sg_total": 1.84
+        },
+        {
+          "round": 3,
+          "sg_total": 1.82
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.77,
+        "arg": -0.2,
+        "ott": 0.37,
+        "putt": -0.3
+      },
+      "sg_total": 1.63,
+      "tournament": "제14회 E1 채리티 오픈"
+    },
+    {
+      "game_code": "2026060001",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.61
+        },
+        {
+          "round": 2,
+          "sg_total": 5.26
+        },
+        {
+          "round": 3,
+          "sg_total": 4.21
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 2.92,
+        "arg": 0.13,
+        "ott": 1.21,
+        "putt": 0.43
+      },
+      "sg_total": 4.69,
+      "tournament": "2026 셀트리온 퀸즈 마스터즈"
+    },
+    {
+      "game_code": "2026060002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 44,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -1.76
+        },
+        {
+          "round": 2,
+          "sg_total": 3.64
+        },
+        {
+          "round": 3,
+          "sg_total": 0.77
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": -0.04,
+        "arg": -0.17,
+        "ott": 0.92,
+        "putt": 0.18
+      },
+      "sg_total": 0.88,
+      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+    },
+    {
+      "game_code": "2026060003",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 3,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.11
+        },
+        {
+          "round": 2,
+          "sg_total": 5.44
+        },
+        {
+          "round": 3,
+          "sg_total": 2.85
+        },
+        {
+          "round": 4,
+          "sg_total": 2.48
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.57,
+        "arg": 0.42,
+        "ott": 0.76,
+        "putt": 0.23
+      },
+      "sg_total": 2.97,
+      "tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회"
+    },
+    {
+      "game_code": "2026060004",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 8,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.6
+        },
+        {
+          "round": 2,
+          "sg_total": 1.65
+        },
+        {
+          "round": 3,
+          "sg_total": 4.43
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 2.96,
+        "arg": 0.4,
+        "ott": 0.74,
+        "putt": -0.88
+      },
+      "sg_total": 3.23,
+      "tournament": "인카금융 더헤븐 마스터즈"
+    },
+    {
+      "game_code": "2026070002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 33,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 2.07
+        },
+        {
+          "round": 2,
+          "sg_total": -1.26
+        },
+        {
+          "round": 3,
+          "sg_total": 1.33
+        },
+        {
+          "round": 4,
+          "sg_total": 0.8
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.03,
+        "arg": -0.23,
+        "ott": 0.95,
+        "putt": -0.02
+      },
+      "sg_total": 0.73,
+      "tournament": "하이원리조트 여자오픈 2026"
+    },
+    {
+      "game_code": "2026070003",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 7,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 1.38
+        },
+        {
+          "round": 2,
+          "sg_total": 3.84
+        },
+        {
+          "round": 3,
+          "sg_total": -0.59
+        },
+        {
+          "round": 4,
+          "sg_total": 5.49
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 2.63,
+        "arg": 0.12,
+        "ott": 0.47,
+        "putt": -0.68
+      },
+      "sg_total": 2.53,
+      "tournament": "제16회 롯데 오픈"
+    },
+    {
+      "game_code": "2026080002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 23,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.67
+        },
+        {
+          "round": 2,
+          "sg_total": -0.45
+        },
+        {
+          "round": 3,
+          "sg_total": 2.1
+        },
+        {
+          "round": 4,
+          "sg_total": 5.41
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.6,
+        "arg": 0.42,
+        "ott": -0.19,
+        "putt": 0.77
+      },
+      "sg_total": 1.6,
+      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+    },
+    {
+      "game_code": "2026080003",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 19,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 3.01
+        },
+        {
+          "round": 2,
+          "sg_total": 1.48
+        },
+        {
+          "round": 3,
+          "sg_total": 1.14
+        },
+        {
+          "round": 4,
+          "sg_total": 0.5
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.57,
+        "arg": 0.55,
+        "ott": 0.74,
+        "putt": -0.33
+      },
+      "sg_total": 1.53,
+      "tournament": "메디힐 · 한국일보 챔피언십"
+    },
+    {
+      "game_code": "2026080004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 33,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 0.7
+        },
+        {
+          "round": 2,
+          "sg_total": 3.31
+        },
+        {
+          "round": 3,
+          "sg_total": 1.12
+        },
+        {
+          "round": 4,
+          "sg_total": -0.7
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.33,
+        "arg": 0.08,
+        "ott": 1.38,
+        "putt": -1.68
+      },
+      "sg_total": 1.11,
+      "tournament": "제13회 제주삼다수 마스터스"
+    },
+    {
+      "game_code": "2026090002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 4.3
+        },
+        {
+          "round": 2,
+          "sg_total": 3.77
+        },
+        {
+          "round": 3,
+          "sg_total": 5.82
+        }
+      ],
+      "season": 2026,
+      "sg_components": null,
+      "sg_total": 4.63,
+      "tournament": "하나금융그룹 챔피언십"
+    }
+  ]
+}
