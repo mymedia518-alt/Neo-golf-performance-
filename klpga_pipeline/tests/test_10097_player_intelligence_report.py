@@ -6,6 +6,7 @@ ONLY."""
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
 import sys
 from html import escape
@@ -21,6 +22,10 @@ from klpga.website_v2 import player_intelligence_10097_terms as terms  # noqa: E
 _spec = importlib.util.spec_from_file_location("report_script_under_test", ROOT / "scripts" / "build_10097_player_intelligence_report.py")
 report_script = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(report_script)
+
+_master_spec = importlib.util.spec_from_file_location("master_script_under_test", ROOT / "scripts" / "build_10097_master_player_analysis.py")
+master_script = importlib.util.module_from_spec(_master_spec)
+_master_spec.loader.exec_module(master_script)
 
 REQUIRED_QUESTION_KEYS = {
     "id", "question", "fact", "evidence", "analysis", "conclusion",
@@ -894,3 +899,114 @@ def test_build_or_placeholder_leaves_every_other_player_on_the_ordinary_stat_lay
     assert terms.HERO_TITLE not in html_other
     assert terms.CHECKLIST_TITLE not in html_other
     assert "PLAYER INTELLIGENCE</p>" in html_other or "선수 유형" in html_other
+
+
+# ---------------------------------------------------------------------------
+# Repository Intelligence V7: a separate mission's exhaustive 49-branch,
+# 545-commit search found real evidence outside this report's live data
+# feeds, but none of it met the evidence bar to change a conclusion.
+# This section locks in that the disclosure is honest, additive-only, and
+# never invents a player-specific number the search didn't actually find.
+# ---------------------------------------------------------------------------
+
+
+def test_v7_master_analysis_gains_only_the_new_disclosure_field():
+    """The 545-commit, 49-branch cross-check must not alter a single
+    existing conclusion -- every prior section stays byte-identical."""
+    prev = json.loads((ROOT / "content" / "website_v2" / "knowledge_engine" / "player_intelligence" / "10097" / "MASTER_ANALYSIS.json").read_text(encoding="utf-8"))
+    doc = master_script.build()
+    for key in prev:
+        if key in ("generated_at", "repository_intelligence_v7"):
+            continue
+        assert doc[key] == prev[key], f"V7 cross-check changed an existing MASTER_ANALYSIS field: {key}"
+    assert "repository_intelligence_v7" in doc
+
+
+def test_v7_report_gains_only_the_new_disclosure_field():
+    prev = json.loads((ROOT / "content" / "website_v2" / "knowledge_engine" / "player_intelligence" / "10097" / "PLAYER_INTELLIGENCE_REPORT.json").read_text(encoding="utf-8"))
+    doc = report_script.build()
+    for key in prev:
+        if key in ("generated_at", "repository_intelligence_v7"):
+            continue
+        assert doc[key] == prev[key], f"V7 cross-check changed an existing report field: {key}"
+    assert "repository_intelligence_v7" in doc
+
+
+def test_v7_never_claims_a_conclusion_was_strengthened_without_real_support():
+    """Rule: only strengthen conclusions supported by new evidence. The
+    honest outcome of this search is zero -- the disclosure must say so,
+    not manufacture a change."""
+    doc = master_script.build()
+    ri = doc["repository_intelligence_v7"]
+    assert ri["conclusions_strengthened"] == []
+    assert ri["conclusions_changed"] == []
+    for finding in ri["findings"]:
+        assert "reason_no_conclusion_changed" in finding and finding["reason_no_conclusion_changed"].strip()
+
+
+def test_v7_blue_heron_finding_never_claims_a_course_strength_result():
+    """The one finding with a real player-specific number (Blue Heron) is
+    a pre-event yardage-decision reference, not an SG outcome -- it must
+    never be described as strengthening q_strong_course, and that course
+    must not appear in her real course_analysis (confirmed: it doesn't)."""
+    doc = master_script.build()
+    ri = doc["repository_intelligence_v7"]
+    blue_heron = next(f for f in ri["findings"] if f["id"] == "blue_heron_hole_by_hole_prep")
+    assert blue_heron["player_specific_number_found"] is True
+    course_names = {g["series_name_sample"] for g in doc["course_analysis"]["course_series"]}
+    excluded_names = set(doc["course_analysis"]["low_confidence_or_ambiguous_names_excluded"])
+    assert "하이트진로" not in " ".join(course_names) or all("하이트진로" not in n for n in course_names)
+    assert not any("하이트진로" in n for n in excluded_names)
+    # q_strong_course (via the report script) must still be about her real,
+    # confirmed strongest repeat course, not the Blue Heron venue.
+    report_doc = report_script.build()
+    q_strong = next(q for q in report_doc["questions"] if q["id"] == "q_strong_course")
+    assert "하이트진로" not in q_strong["question"]
+    assert "셀트리온" in q_strong["question"]
+
+
+def test_v7_cmpro_and_neo_win_findings_carry_no_invented_player_number():
+    """The two field-wide/infrastructure-only findings must be disclosed
+    as containing zero player-specific numbers -- never dressed up as
+    evidence about her specifically."""
+    doc = master_script.build()
+    ri = doc["repository_intelligence_v7"]
+    for finding_id in ("cmpro_shot_tracker_qa", "expected_strokes_framework", "neo_win_forecasting_system"):
+        finding = next(f for f in ri["findings"] if f["id"] == finding_id)
+        assert finding["player_specific_number_found"] is False
+
+
+def test_v7_hole_analysis_still_unknown_not_silently_resolved():
+    """The cmpro QA report describes data that exists off-repo -- it must
+    not be used to flip hole_analysis to a resolved status without the
+    actual rows to back it."""
+    doc = master_script.build()
+    assert doc["hole_analysis"]["status"] == "UNKNOWN"
+
+
+def test_v7_render_shows_the_repository_intelligence_disclosure():
+    from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
+
+    doc = report_script.build()
+    html = render_question_report_html(doc)
+    assert "piq-repository-intelligence" in html
+    for finding in doc["repository_intelligence_v7"]["findings"]:
+        assert finding["label"] in html
+
+
+def test_v7_9431_report_is_completely_unaffected():
+    """Do not modify any other player. 9431's renderer imports 10097's
+    generic primitives but never repository_intelligence_html -- her
+    report must show no trace of this section."""
+    import importlib.util as _ilu
+
+    spec = _ilu.spec_from_file_location("report_9431_for_v7_check", ROOT / "scripts" / "build_9431_player_intelligence_report.py")
+    mod = _ilu.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    doc_9431 = mod.build()
+    assert "repository_intelligence_v7" not in doc_9431
+
+    from klpga.website_v2.player_intelligence_9431_report import render_question_report_html as render_9431
+
+    html_9431 = render_9431(doc_9431)
+    assert "piq-repository-intelligence" not in html_9431

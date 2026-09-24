@@ -774,7 +774,7 @@
     ],
     "overall_pct": 80.0
   },
-  "generated_at": "2026-09-23T16:34:07.030069+00:00",
+  "generated_at": "2026-09-24T07:02:01.072607+00:00",
   "hole_analysis": {
     "reason": "The only real per-hole scorecard dataset in this repository is for game_code 2026080001 (제15회 KG 레이디스 오픈, kg_2026080001_official.json, 6318 real rows). This player did not play that edition (her real KG Ladies Open appearances on record are the 2024 and 2025 editions, game_codes 2024080016 and 2025080003, which have no hole-level scorecard data). No hole-by-hole data exists anywhere else in the repository for any player. Reported as UNKNOWN rather than estimated from round-level totals.",
     "status": "UNKNOWN"
@@ -1618,6 +1618,47 @@
     "sponsor": "대방건설"
   },
   "player_name": "김민선7",
+  "repository_intelligence_v7": {
+    "conclusions_changed": [],
+    "conclusions_strengthened": [],
+    "findings": [
+      {
+        "branch": "experiment/player-value-metrics-01",
+        "file": "klpga_pipeline/reports/cmpro_2026090002_final_qa.md",
+        "id": "cmpro_shot_tracker_qa",
+        "player_specific_number_found": false,
+        "real_citation": "Documents a QA-PASSED, 6,012-hole, officially-reconciled shot-level collection for game_code 2026090002 (하나금융그룹 챔피언십, this player's most recent win) covering all 108 entrants -- '100% match, 0 discrepancies' against an independently-sourced official scorecard.",
+        "reason_no_conclusion_changed": "The QA report is a field-wide (108-player) aggregate document -- it contains no player_id=10097 row, shot, or hole individually. The underlying SQLite database it describes was never committed to this repository (0 .sqlite files exist in any of 545 commits across all branches) and is not reproducible from official data currently in scope. hole_analysis above stays UNKNOWN, exactly as computed -- this disclosure documents WHY it stays UNKNOWN with more precision (data was collected and verified to exist, just not retrievable here), not a change to the value."
+      },
+      {
+        "branch": "experiment/player-baseline-ab-20260922",
+        "file": "klpga_pipeline/reports/BLUE_HERON_18H_GAME_PLAN_V1.md",
+        "id": "blue_heron_hole_by_hole_prep",
+        "player_specific_number_found": true,
+        "real_citation": "A real, 18-hole, pre-event yardage-decision reference table for 제26회 하이트진로 챔피언십, built from this player's own real season fairway-hit and birdie-conversion rates at named yardage bands (e.g. hole 1, par 4, 402yd: '250→152yd FW 71.6% B+ 10.3% / 270→132yd FW 72.2% B+ 18.5%'), directly alongside the same table for 이예원.",
+        "reason_no_conclusion_changed": "This is real and names this player specifically, but it is a PRE-EVENT decision aid, not a result -- it carries no SG value, no official rank, no sample size, and '하이트진로 챔피언십' has zero real appearances in this player's own course_analysis above (not present in course_series, not present in low_confidence_or_ambiguous_names_excluded either -- she has at most one real prior appearance there, insufficient for any course-strength claim by this report's own MIN_INSTANCES_FOR_PATTERN_CLAIM=2 threshold). It cannot strengthen course_analysis's q_strong_course equivalent (which is, and remains, about 2024 셀트리온 퀸즈 마스터즈) without inventing a claim this data doesn't support."
+      },
+      {
+        "branch": "experiment/player-value-metrics-01",
+        "file": "klpga_pipeline/src/klpga/expected_strokes/{course_yardage,transitions,investigations}.py",
+        "id": "expected_strokes_framework",
+        "player_specific_number_found": false,
+        "real_citation": "A tested course-yardage-aware, shot-state-transition modeling framework, built to consume cmpro shot data.",
+        "reason_no_conclusion_changed": "Framework only -- grepped directly for '10097' across every file in this module and its data contract doc; zero matches. No player-specific output exists anywhere in this repository to incorporate."
+      },
+      {
+        "branch": "multiple (main and research/* branches)",
+        "file": "klpga_pipeline/src/klpga/neo_win/*.py (~100 modules: monte_carlo_summary.py, final_course_deep_dive.py, backtest_eval.py, accuracy_evaluation.py, redteam.py, ...)",
+        "id": "neo_win_forecasting_system",
+        "player_specific_number_found": false,
+        "real_citation": "A separate, independently-gated tournament win-probability forecasting, backtesting, and validation system in which this player appears as one of ~100-150 players per multi-player artifact it produces.",
+        "reason_no_conclusion_changed": "Spot-checked player_card.py/player_status.py/identity_resolution.py directly for a hardcoded 10097 reference -- none found (these are generic per-player renderers, not player-specific data). No SG-decomposition-comparable, player-attributed number was extracted from this system."
+      }
+    ],
+    "search_scope": "49 remote branches + 2 local, 545 commits reachable from any branch, git log --all pickaxe + grep search for '10097'/'김민선7' plus live full-text search of the current checkout",
+    "source_mission": "Repository Intelligence V1 (separate mission, same session)",
+    "summary": "Exhaustive cross-check against 49 branches and 545 commits found real, verifiable evidence outside this repository's live data feeds, but none of it meets this report's own evidence bar (a real official number, attributable to this player, with a disclosed sample size) to strengthen or change any conclusion above. Every existing conclusion in this document stands exactly as computed before this cross-check."
+  },
   "round_analysis": {
     "average_sg_total_by_round_number": {
       "round_1": {
