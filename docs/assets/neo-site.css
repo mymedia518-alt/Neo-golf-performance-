@@ -318,4 +318,105 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .t-tournament-card[data-tournament-card="current"] .t-tournament-card__name{font-size:1.05rem}
 .t-tournament-card[data-tournament-card="last"],.t-tournament-card[data-tournament-card="next"]{flex:0.8 1 0;opacity:.8}
 .t-tournament-card[data-tournament-card="last"] .t-tournament-card__name,.t-tournament-card[data-tournament-card="next"] .t-tournament-card__name{font-size:.8rem}
+
+/* PLAYER INTELLIGENCE (Sprint 3): integration only, no new visual
+   system -- every rule below reuses the page's own tokens
+   (--ink/--muted/--green/--green-2/--surface/--panel/--line/--gold/--red)
+   and existing structural classes (.hero-data, .evidence-detail,
+   .section-heading, .data-table, .table-scroll, .label-chip). The 12
+   non-hero sections are native <details>/<summary> -- costs zero JS,
+   matches the tournament-card convention already established above. */
+.pi-hero__type{margin:.4rem 0}
+.pi-hero__type-en{display:block;margin-top:.15rem;font-size:.7em;font-weight:600;opacity:.75}
+.pi-hero__meta{color:var(--muted);font-size:.85rem}
+.pi-section{margin:0 0 1rem;border:1px solid var(--line);background:var(--surface)}
+.pi-section .section-heading{padding:1rem 1.25rem;margin:0}
+.pi-section__body{padding:0 1.25rem 1.25rem}
+.pi-empty{color:var(--muted)}
+.pi-radar{display:block;width:100%;max-width:22rem;height:auto;margin:0 auto}
+.pi-radar-grid{fill:none;stroke:var(--line);stroke-width:1}
+.pi-radar-fill{fill:var(--green-2);stroke:var(--green);stroke-width:2}
+.pi-radar-label{font-family:var(--font);font-size:11px;font-weight:700;fill:var(--muted)}
+.pi-radar-legend{list-style:none;margin:.75rem 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:.35rem;font-size:.85rem}
+.pi-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.75rem}
+.kpi-block{display:grid;gap:.25rem;padding:1rem;background:var(--panel)}
+.kpi-label{color:var(--muted);font-size:.78rem}
+.kpi-value{font:800 1.5rem var(--num);color:var(--green)}
+.pi-metric-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.4rem}
+.pi-reason-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem}
+.pi-reason{display:flex;flex-direction:column;gap:.3rem}
+.label-chip--positive{background:var(--green-2);color:var(--green)}
+.label-chip--negative{background:#f3e5e2;color:var(--red)}
+.pi-evolution-list{list-style:none;margin:.5rem 0 0;padding:0}
+.pi-verdict{margin-top:1.5rem;padding:1.4rem;border:2px solid var(--ink);background:var(--ink);color:var(--paper)}
+.pi-verdict summary{color:#fff;cursor:pointer}
+.pi-verdict h2{margin:0 0 .5rem;color:#fff;display:inline}
+.pi-verdict p{margin:.75rem 0 0;color:var(--paper)}
+.pi-generating{text-align:center;padding:3rem 1.4rem}
+.player-prev-next{display:flex;justify-content:space-between;gap:1rem;margin-bottom:1rem;font-weight:750}
+.player-prev-next a{text-decoration:none;color:var(--green)}
+/* The mobile @media(max-width:760px){.table-scroll{overflow-x:visible}}
+   rule above (line ~105) was scoped to .home-table's own card-layout
+   mobile technique, which compensates with its own .home-table{min-
+   width:0} reset right after it -- but the selector itself is bare
+   .table-scroll, so it silently strips scroll-containment from every
+   OTHER page's .table-scroll too. .pi-section's own .data-table (plain
+   min-width:42rem, no mobile card layout) needs the real overflow-x:auto
+   back, restored here with higher specificity rather than editing the
+   shared rule (which HOME/RANKING's mobile layout still depends on). */
+.pi-section .table-scroll{overflow-x:auto}
+/* Simple 2-column label/value stat tables (Current Form, Shot Profile)
+   never need the generic .data-table's min-width:42rem (that width
+   exists for wide multi-column leaderboard tables elsewhere on the
+   site) -- forcing it here just pushes the value column off-screen on
+   mobile, the opposite of "numbers first, no horizontal scrolling". */
+.pi-kv-table{min-width:0;width:100%}
+.pi-kv-table td{text-align:right;font-weight:700}
+@media(max-width:760px){.pi-radar-legend{grid-template-columns:1fr}.pi-kpi-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Player Intelligence Report (question-organized, playerCode=10097 only,
+   player_intelligence_10097_report.py). New, additive classes scoped
+   with a piq- prefix -- never redefines any selector above, so every
+   other page keeps rendering exactly as it did before this block. */
+.piq-step{margin:0 0 .9rem;line-height:1.6}
+.piq-label,.piq-step-label{display:inline-block;margin-right:.5rem;padding:.15rem .5rem;background:var(--ink);color:var(--paper);font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;vertical-align:middle}
+.piq-label-standalone{margin:0 0 .4rem}
+.piq-evidence-list{list-style:none;margin:0 0 .9rem;padding:0;display:flex;flex-direction:column;gap:.4rem}
+.piq-evidence-list li{padding-left:1rem;border-left:2px solid var(--line);color:var(--muted);font-size:.9rem;line-height:1.55}
+.piq-conclusion{padding:.85rem 1rem;background:var(--green-2);border-left:3px solid var(--green)}
+.piq-brief{display:grid;gap:.5rem;margin:0 0 .9rem;padding:.85rem 1rem;background:var(--panel);border-left:3px solid var(--line)}
+.piq-brief p{margin:0;font-size:.88rem;line-height:1.55}
+.piq-brief strong{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:.15rem}
+.piq-audit{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.piq-why-this-matters{margin:1rem 0 0;padding:.85rem 1rem;background:var(--ink);color:var(--paper);font-weight:700;line-height:1.5}
+.piq-why-this-matters .piq-label{background:var(--paper);color:var(--ink)}
+.piq-action{margin:.6rem 0 0;padding:.85rem 1rem;background:var(--green);color:#fff;font-weight:700;line-height:1.5;border:2px solid var(--ink)}
+.piq-action .piq-label{background:#fff;color:var(--green)}
+.piq-excluded-list{margin:.75rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.9rem;line-height:1.6}
+.piq-excluded-list li{margin-bottom:.5rem}
+.piq-protocol{margin:.5rem 0 0;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--line);border-bottom:0;display:grid;grid-template-columns:12rem 1fr;gap:.35rem .8rem;font-size:.85rem}
+.piq-protocol dt{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.03em;padding-top:.1rem}
+.piq-protocol dd{margin:0;line-height:1.5}
+.piq-current-status{display:flex;flex-wrap:wrap;gap:.4rem;padding:.85rem 1rem;background:var(--panel);border:1px solid var(--line);border-top:0}
+.piq-current-detail{margin:.5rem 0 0;padding:0 1rem .85rem;background:var(--panel);border:1px solid var(--line);border-top:0;font-size:.85rem;color:var(--muted);line-height:1.5}
+.piq-checklist{list-style:none;margin:.75rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.piq-checklist li{padding:.5rem .75rem;border:1px solid var(--line);font-size:.88rem;line-height:1.6}
+.piq-checklist a{color:var(--green);font-weight:700}
+@media(max-width:760px){.piq-protocol{grid-template-columns:1fr}.piq-protocol dt{padding-top:.5rem}}
+
+/* Player Intelligence UI refactor (Gold Standard, playerCode=10097 only):
+   conclusion-first hierarchy. Still additive piq- classes, still the
+   same tokens (--ink/--green/--green-2/--panel/--surface/--line/--muted)
+   and the same <details>/<summary> disclosure pattern already used
+   throughout this file -- only visual weight and default visibility
+   change. .piq-conclusion/.piq-why-this-matters/.piq-action above are
+   unused by the 10097 renderer now but stay defined; nothing else
+   references removing them. */
+.piq-hero-conclusion{margin:0 0 .6rem;padding:1.1rem 1.25rem;background:var(--green);color:var(--surface);font-weight:800;font-size:clamp(1.05rem,2.3vw,1.3rem);line-height:1.45;border:2px solid var(--ink)}
+.piq-why-brief{margin:0 0 .9rem;padding-left:.8rem;border-left:3px solid var(--gold);font-size:1rem;font-weight:650;line-height:1.55;color:var(--ink)}
+.piq-monitoring-summary{margin-top:.9rem;border-top:1px solid var(--line)}
+.piq-evidence-toggle{margin-top:.9rem}
+.piq-evidence-toggle>summary{display:inline-flex;align-items:center;min-height:36px;padding:.3rem .65rem;color:var(--muted);font-size:.8rem;font-weight:750;letter-spacing:.02em;cursor:pointer;border:1px solid var(--line);background:var(--panel)}
+.piq-evidence-toggle[open]>summary{color:var(--green);border-color:var(--green)}
+.piq-evidence-toggle__body{margin-top:.85rem}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}
