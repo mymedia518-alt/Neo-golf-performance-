@@ -637,11 +637,20 @@ def escape_or_raw(text: str, html: str) -> bool:
 
 
 def test_render_never_organizes_by_raw_sg_table():
+    """The per-question narrative cards stay table-free -- diagnosis and
+    decision, never a raw stat dump. V18's Season-by-season Table
+    (mission: "season-by-season tables and visual summaries") is an
+    explicitly requested, separate module outside every question card --
+    the one deliberate exception, carved out by id rather than weakening
+    the check for the rest of the page."""
     from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
 
     doc = report_script.build()
     html = render_question_report_html(doc)
-    assert "<table" not in html  # no stat table -- narrative cards only
+    season_table_start = html.index('id="piq-season-table"')
+    season_table_end = html.index("</details>", season_table_start) + len("</details>")
+    outside_season_table = html[:season_table_start] + html[season_table_end:]
+    assert "<table" not in outside_season_table
 
 
 def test_most_recent_win_never_generalizes_beyond_the_one_confirmed_event():

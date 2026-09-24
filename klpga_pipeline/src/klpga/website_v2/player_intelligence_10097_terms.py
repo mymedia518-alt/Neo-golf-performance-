@@ -97,6 +97,36 @@ CONTRIBUTION_LABEL = "기여도 분해"
 TOP_CONTRIBUTOR_LABEL = "가장 크게 기여한 요소"
 CONTRIBUTION_UNAVAILABLE = "공식 SG 세부 데이터 없음"
 
+# V18: career-level modules. Priority order fixed by mission: Career
+# Reconstruction -> Season Table -> Growth Timeline -> Turning Points ->
+# (Win/Loss DNA, already existing, unchanged) -> Coach Report -> Player
+# Identity. Each title states its own distinct question so a reader
+# never has to guess why it differs from a neighboring section.
+CAREER_RECONSTRUCTION_TITLE = "커리어 재구성"
+CAREER_RECONSTRUCTION_DESCRIPTION_LABEL = "실측 데이터 시작점"
+SEASON_TABLE_TITLE = "시즌별 기록"
+GROWTH_TIMELINE_TITLE = "성장 타임라인"
+TURNING_POINTS_TITLE = "커리어 턴닝포인트"
+TURNING_POINT_UNKNOWN_CAUSE_LABEL = "확인할 수 없는 부분"
+COACH_REPORT_TITLE = "코치 리포트 (개발 방향)"
+COACH_REPORT_TRAJECTORY_LABEL = "궤적 판정"
+COACH_REPORT_PRIORITY_LABEL = "개발 우선순위"
+PLAYER_IDENTITY_TITLE = "선수 정체성"
+PLAYER_IDENTITY_CONSTANT_LABEL = "시즌이 바뀌어도 변하지 않는 것"
+PLAYER_IDENTITY_ALIGNMENT_LABEL = "정체성과 우승의 일치 여부"
+SEASON_TABLE_COLUMN_LABEL = {
+    "season": "시즌",
+    "events_on_record": "출전 대회",
+    "wins": "우승",
+    "top10": "상위10위",
+    "sg_sample_size": "SG 표본",
+    "avg_total": "SG Total",
+    "avg_ott": "SG OTT",
+    "avg_app": "SG APP",
+    "avg_arg": "SG ARG",
+    "avg_putt": "SG PUTT",
+}
+
 # UI 리팩터(Gold Standard): 결론 우선 구조에서 쓰는 라벨.
 # "분석 근거"는 이제 감사 자료 묶음이 아니라 Tour Performance Department식
 # 5단계 구조(퍼포먼스 분석 -> 핵심 발견 -> 코치의 해석 -> 선수 실행 지침 ->

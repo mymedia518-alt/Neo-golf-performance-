@@ -1,4 +1,14 @@
 {
+  "career_reconstruction": {
+    "data_floor_note": "이 저장소의 실측 SG 데이터는 2023시즌부터 시작됩니다 -- 이는 전체 웨어하우스가 모든 선수에 대해 공통으로 가진 데이터 수집 시작점이며, 김민선7 선수의 실제 KLPGA 데뷔 시즌이라는 근거는 아닙니다. 이 시점 이전 실측 기록은 이 저장소에 없습니다.",
+    "earliest_season_on_record": 2023,
+    "latest_season_on_record": 2026,
+    "season_count_on_record": 4,
+    "summary": "2023시즌부터 2026시즌까지, 실측 94개 대회 기록 -- 우승 4회, 상위10위 19회, 4개 시즌.",
+    "total_events_on_record": 94,
+    "total_top10_on_record": 19,
+    "total_wins_on_record": 4
+  },
   "coach_console": {
     "entries": [
       {
@@ -32,6 +42,11 @@
         "question_id": "q_approach_biggest_weapon"
       }
     ]
+  },
+  "coach_report": {
+    "development_priority": "다음 시즌 개발 우선순위: 2026시즌부터 시즌 내 최약체 항목이 SG ARG에서 SG PUTT로 바뀌었습니다 -- SG ARG는 더 이상 최약체가 아닙니다. 현재 시즌 내 최약체 항목을 코칭 개발의 1순위로 둡니다.",
+    "development_priority_source": "tp_weakness_shift",
+    "trajectory_verdict": "실측된 시즌 전환 3건 전부 플러스 -- 단발성 향상이 아니라 지속된 궤적입니다."
   },
   "contribution_breakdown_method": "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다.",
   "data_roadmap": [
@@ -149,7 +164,40 @@
   ],
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-24T15:23:55.501977+00:00",
+  "generated_at": "2026-09-24T16:46:27.004787+00:00",
+  "growth_timeline": {
+    "narrative": "2023시즌 SG Total +0.79에서 2026시즌 +2.09로 상승 추세입니다.",
+    "steps": [
+      {
+        "avg_total": 0.7870588235294118,
+        "delta_from_prev": null,
+        "season": 2023,
+        "strongest_component": "SG APP",
+        "weakest_component": "SG ARG"
+      },
+      {
+        "avg_total": 1.4064705882352944,
+        "delta_from_prev": 0.6194117647058826,
+        "season": 2024,
+        "strongest_component": "SG APP",
+        "weakest_component": "SG ARG"
+      },
+      {
+        "avg_total": 1.7595652173913037,
+        "delta_from_prev": 0.3530946291560093,
+        "season": 2025,
+        "strongest_component": "SG APP",
+        "weakest_component": "SG ARG"
+      },
+      {
+        "avg_total": 2.094375,
+        "delta_from_prev": 0.3348097826086962,
+        "season": 2026,
+        "strongest_component": "SG APP",
+        "weakest_component": "SG PUTT"
+      }
+    ]
+  },
   "leak_map": {
     "leaks": [
       {
@@ -266,6 +314,17 @@
     }
   },
   "player_id": "10097",
+  "player_identity": {
+    "constant_strength": "SG APP",
+    "constant_strength_finding": "실측 4개 시즌 전부에서 SG APP가 최강 요소였습니다 -- 시즌이 바뀌어도 변하지 않는 특성입니다.",
+    "constant_strength_seasons": 4,
+    "identity_win_alignment": {
+      "finding": "실측 4개 시즌 전부에서 최강 요소인 SG APP가, 독립적으로 계산된 우승 기여도 1위 요소와 정확히 일치합니다 -- 그녀를 정의하는 강점과 우승을 만드는 강점이 같은 것입니다.",
+      "identity_strength": "SG APP",
+      "matches": true,
+      "win_strength": "SG APP"
+    }
+  },
   "player_name": "김민선7",
   "player_playbook": {
     "entries": [
@@ -993,6 +1052,56 @@
   },
   "schema_version": "player_intelligence_report_v3",
   "scope_note": "이 문서는 playerCode=10097(김민선7) 선수만을 다룹니다. 다른 선수의 데이터는 생성되거나 수정되지 않았습니다. NEO Player Intelligence의 최상위 기준(Gold Standard) 참고 구현입니다.",
+  "season_by_season_table": [
+    {
+      "avg_app": 0.44705882352941173,
+      "avg_arg": -0.09647058823529414,
+      "avg_ott": 0.34764705882352936,
+      "avg_putt": 0.0882352941176471,
+      "avg_total": 0.7870588235294118,
+      "events_on_record": 25,
+      "season": 2023,
+      "sg_sample_size": 17,
+      "top10": 3,
+      "wins": 0
+    },
+    {
+      "avg_app": 0.8488235294117648,
+      "avg_arg": 0.004117647058823537,
+      "avg_ott": 0.38823529411764707,
+      "avg_putt": 0.1623529411764706,
+      "avg_total": 1.4064705882352944,
+      "events_on_record": 26,
+      "season": 2024,
+      "sg_sample_size": 17,
+      "top10": 4,
+      "wins": 0
+    },
+    {
+      "avg_app": 0.8778260869565215,
+      "avg_arg": 0.020000000000000018,
+      "avg_ott": 0.531304347826087,
+      "avg_putt": 0.3299999999999999,
+      "avg_total": 1.7595652173913037,
+      "events_on_record": 27,
+      "season": 2025,
+      "sg_sample_size": 23,
+      "top10": 6,
+      "wins": 1
+    },
+    {
+      "avg_app": 1.1662500000000002,
+      "avg_arg": 0.1825,
+      "avg_ott": 0.7075,
+      "avg_putt": 0.04062500000000001,
+      "avg_total": 2.094375,
+      "events_on_record": 16,
+      "season": 2026,
+      "sg_sample_size": 16,
+      "top10": 6,
+      "wins": 3
+    }
+  ],
   "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
   "trend_dna": {
     "breakdown": [
@@ -1023,6 +1132,22 @@
     "top_contributor": "SG APP",
     "total_value": 1.31
   },
+  "turning_points": [
+    {
+      "finding": "2024시즌 SG Total이 전년 대비 +0.62 상승 -- 실측된 4개 시즌 전환 중 가장 큰 폭입니다.",
+      "id": "tp_biggest_jump",
+      "label": "가장 큰 단일 시즌 도약",
+      "season": 2024,
+      "unknown_cause": "이 상승을 만든 구체적 계기(훈련 방법 변경, 장비 교체, 스윙 수정 등)는 이 저장소에 훈련·코칭 이력 기록이 없어 확인할 수 없습니다 -- 데이터 로드맵의 훈련·코칭 이력 기록 항목이 이를 다룹니다."
+    },
+    {
+      "finding": "2026시즌부터 시즌 내 최약체 항목이 SG ARG에서 SG PUTT로 바뀌었습니다 -- SG ARG는 더 이상 최약체가 아닙니다.",
+      "id": "tp_weakness_shift",
+      "label": "약점 전환",
+      "season": 2026,
+      "unknown_cause": "SG ARG가 개선되어 최약체 자리를 벗어난 것인지, SG PUTT가 상대적으로 뒤처진 것인지는 이 표만으로는 구분할 수 없습니다 -- 시즌별 실측값 자체(성장 타임라인)를 함께 확인해야 합니다."
+    }
+  ],
   "unsupported_analysis_modules_v12": [
     {
       "module": "모멘텀 분석 (Birdie/Bogey/Eagle 직후 다음 홀 반응)",
