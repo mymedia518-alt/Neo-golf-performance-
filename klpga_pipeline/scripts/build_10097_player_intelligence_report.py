@@ -1490,32 +1490,26 @@ _UNSUPPORTED_ANALYSIS_MODULES_V12 = [
 # ---------------------------------------------------------------------------
 # V15: THE THREE-LAYER INTELLIGENCE MODEL.
 #
-# NEO does not analyze golf swings. NEO analyzes how technical skill
-# becomes scoring, and how scoring becomes winning. These are three
-# independent, real, separately-measured layers -- never mixed:
+# V16: golf is not Technique -> Winning. Golf is Technique -> Opportunity
+# -> Conversion -> Competition -> Winning. Every stage below is an
+# independently real, directly-explainable golf number -- never a
+# percentile averaged with another percentile, never one percentile
+# divided by another, never a synthetic "efficiency %". If a number
+# cannot be explained to a tour player in one sentence, it is not here.
 #
-#   LAYER 1 TECHNICAL   "How good is her shot execution?"
-#                        Real SG-per-category field percentiles
-#                        (sg_ott/sg_app/sg_arg/sg_putt). Never cites
-#                        score, rank, or win/loss -- these numbers exist
-#                        independent of her tournament results.
-#   LAYER 2 SCORING     "How efficiently does she turn that execution
-#                        into a low score?" Real season box-score rate
-#                        percentiles (GIR rate, par-save rate, birdie
-#                        rate) -- on-course scoring outcomes, still not
-#                        tournament results.
-#   LAYER 3 COMPETITIVE "How efficiently does that scoring turn into
-#                        winning?" Her real official money-rank
-#                        percentile (money is the one official, already-
-#                        computed field that is purely a function of
-#                        tournament placement, i.e. competitive result).
-#
-# Three efficiency ratios, each comparing two already-real percentiles
-# (never a new statistical method, never a prediction):
-#   SKILL EFFICIENCY      = Layer 2 / Layer 1  (technique -> score)
-#   SCORING EFFICIENCY    = Layer 3 / Layer 2  (score -> winning)
-#   COMPETITIVE EFFICIENCY = her real Top10 rate (already computed by
-#                             q_pressure_index's own real split)
+#   TECHNIQUE     real SG-per-category field percentiles (execution
+#                 quality, independent of score/rank/win).
+#   OPPORTUNITY   real GIR rate (% of holes she gives herself a birdie
+#                 look) -- how many scoring chances her technique
+#                 actually creates. Not score yet.
+#   CONVERSION    real birdie rate, par-save rate, recovery rate (how
+#                 many of those real chances actually become birdies /
+#                 saved pars / recovered holes).
+#   COMPETITION   real Top10 finishes, as a literal count out of real
+#                 tournaments played.
+#   WINNING       real wins, as a literal count out of real Top10
+#                 finishes -- a raw event-count ratio (3 wins out of 18
+#                 Top10s), never a percentile-derived index.
 # ---------------------------------------------------------------------------
 
 
@@ -1526,119 +1520,140 @@ def _percentile_rank(records: list, field: str, her_value: float) -> float:
     return round(sum(1 for v in values if v <= her_value) / len(values) * 100, 1)
 
 
-def _layer_model(ds: dict, questions: list) -> Optional[dict]:
+def _performance_funnel(ds: dict, questions: list) -> Optional[dict]:
     pi = ds["player_intelligence_doc"]
     profile_row = ds["profile_row"]
     if not profile_row:
         return None
     profile_doc = master._load("OFFICIAL_PROFILE_NORMALIZED.json")
-    field_n = len(profile_doc["records"])
 
     axes = {a["key"]: a["percentile"] for a in pi["player_dna"]["axes"]}
-    technical = {
+    technique = {
         "SG OTT": round(axes["sg_ott"], 1),
         "SG APP": round(axes["sg_app"], 1),
         "SG ARG": round(axes["sg_arg"], 1),
         "SG PUTT": round(axes["sg_putt"], 1),
     }
-    technical_avg = round(statistics.fmean(technical.values()), 1)
+    weakest_technique = min(technique, key=lambda k: technique[k])
 
     gir_pct = _percentile_rank(profile_doc["records"], "gir_rate", profile_row["gir_rate"])
-    par_save_pct = _percentile_rank(profile_doc["records"], "par_save_rate", profile_row["par_save_rate"])
     birdie_pct = _percentile_rank(profile_doc["records"], "birdie_rate", profile_row["birdie_rate"])
-    scoring = {"GIR율": gir_pct, "파세이브율": par_save_pct, "버디율": birdie_pct}
-    scoring_avg = round(statistics.fmean(v for v in scoring.values() if v is not None), 1)
+    par_save_pct = _percentile_rank(profile_doc["records"], "par_save_rate", profile_row["par_save_rate"])
+    recovery_pct = _percentile_rank(profile_doc["records"], "recovery_rate", profile_row["recovery_rate"])
 
-    money_pct = round((field_n - profile_row["official_rank"] + 1) / field_n * 100, 1)
-
-    top10_q = next((q for q in questions if q["id"] == "q_pressure_index"), None)
-    top10_rate = None
-    if top10_q:
-        rows = [r for r in ds["warehouse_tournament_rows"] if r.get("rank") is not None]
-        top10_rate = round(sum(1 for r in rows if r["rank"] <= 10) / len(rows) * 100, 1) if rows else None
-
-    skill_efficiency = round(scoring_avg / technical_avg * 100, 1) if technical_avg else None
-    scoring_efficiency = round(money_pct / scoring_avg * 100, 1) if scoring_avg else None
-
-    weakest_technical = min(technical, key=lambda k: technical[k])
+    rows = [r for r in ds["warehouse_tournament_rows"] if r.get("rank") is not None]
+    total_events = len(rows)
+    top10_events = sum(1 for r in rows if r["rank"] <= 10)
+    win_events_n = sum(1 for r in rows if r["rank"] == 1)
 
     return {
-        "layer1_technical": {
-            "label": "기술 성과",
-            "question": "이 선수의 실측 샷 실행 수준은 어느 정도인가?",
-            "percentiles": technical,
-            "average": technical_avg,
-            "note": "필드 대비 항목별 실측 SG 백분위입니다. 스코어, 순위, 우승 여부는 이 레이어의 근거로 사용하지 않습니다.",
+        "technique": {
+            "label": "기술",
+            "question": "실측 샷 실행 수준은 어느 정도인가?",
+            "percentiles": technique,
+            "weakest": {"component": weakest_technique, "percentile": technique[weakest_technique]},
+            "note": "필드 대비 항목별 실측 SG 백분위입니다. 스코어·순위·우승 여부는 이 단계의 근거로 사용하지 않습니다.",
         },
-        "layer2_scoring": {
-            "label": "스코어링 성과",
-            "question": "이 선수는 실측 실행 수준을 스코어로 얼마나 효율적으로 전환하는가?",
-            "percentiles": scoring,
-            "average": scoring_avg,
-            "note": "필드 대비 실측 GIR율·파세이브율·버디율 백분위입니다. 대회 순위·우승 여부는 이 레이어의 근거로 사용하지 않습니다.",
+        "opportunity": {
+            "label": "기회 창출",
+            "question": "그 실행이 실제로 몇 번의 스코어링 기회를 만드는가?",
+            "gir_rate": {"raw": profile_row["gir_rate"], "percentile": gir_pct},
+            "note": "실측 그린 적중률(GIR율)입니다 -- 버디를 노릴 수 있는 위치에 볼을 올린 비율이며, 아직 스코어 자체는 아닙니다.",
         },
-        "layer3_competitive": {
-            "label": "경쟁 성과",
-            "question": "이 선수는 실측 스코어링을 우승으로 얼마나 효율적으로 전환하는가?",
-            "money_percentile": money_pct,
-            "top10_rate": top10_rate,
-            "note": f"공식 상금 순위(전체 {field_n}명 중 {profile_row['official_rank']}위) 백분위와 실측 Top10 마감률입니다.",
+        "conversion": {
+            "label": "기회 전환",
+            "question": "그 기회를 실제로 몇 번 스코어로 바꾸는가?",
+            "birdie_rate": {"raw": profile_row["birdie_rate"], "percentile": birdie_pct},
+            "par_save_rate": {"raw": profile_row["par_save_rate"], "percentile": par_save_pct},
+            "recovery_rate": {"raw": profile_row["recovery_rate"], "percentile": recovery_pct},
+            "note": "실측 버디율·파세이브율·리커버리율입니다 -- 만든 기회를 실제로 스코어로 바꾼 비율입니다.",
         },
-        "skill_efficiency": {
-            "label": "기술→스코어 효율",
-            "value": skill_efficiency,
-            "formula": "스코어링 레이어 평균 백분위 ÷ 기술 레이어 평균 백분위 × 100",
-            "interpretation": (
-                f"기술 레이어 평균({technical_avg})보다 스코어링 레이어 평균({scoring_avg})이 "
-                + ("높습니다 -- 기술 백분위가 예측하는 것보다 더 많은 스코어링 가치를 만들어내고 있습니다." if skill_efficiency and skill_efficiency > 100
-                   else "낮습니다 -- 기술 수준만큼 스코어로 전환되지 못하고 있습니다.")
-            ),
+        "competition": {
+            "label": "경쟁 기회",
+            "question": "실측 스코어링이 몇 번이나 우승 경쟁으로 이어지는가?",
+            "top10_events": top10_events,
+            "total_events": total_events,
+            "note": f"실측 대회 {total_events}회 중 Top10 마감 {top10_events}회 -- 실제 대회 수의 직접 비율이며, 백분위 연산이 아닙니다.",
         },
-        "scoring_efficiency": {
-            "label": "스코어→우승 효율",
-            "value": scoring_efficiency,
-            "formula": "경쟁 레이어(상금 순위) 백분위 ÷ 스코어링 레이어 평균 백분위 × 100",
-            "interpretation": (
-                f"스코어링 레이어 평균({scoring_avg})보다 경쟁 레이어(상금 순위 {money_pct})가 "
-                + ("높습니다 -- 스코어링 수준 이상으로 경쟁 성과를 만들어내고 있습니다." if scoring_efficiency and scoring_efficiency > 100
-                   else "낮습니다 -- 스코어링 수준만큼 경쟁 결과로 전환되지 못하고 있습니다.")
-            ),
-        },
-        "competitive_efficiency": {
-            "label": "압박 속 경쟁 효율",
-            "value": top10_rate,
-            "formula": "실측 Top10 마감 대회 수 ÷ 실측 전체 대회 수 × 100",
-            "interpretation": f"실측 대회 중 {top10_rate}%에서 Top10 안에 들었습니다 -- q_pressure_index/q_win_simulator가 이 레이어를 상세히 다룹니다.",
-        },
-        "weakest_layer_signal": {
-            "component": weakest_technical,
-            "percentile": technical[weakest_technical],
-            "note": f"세 레이어 중 가장 낮은 실측 백분위는 기술 레이어의 {weakest_technical}({technical[weakest_technical]})입니다 -- 스코어링·경쟁 레이어가 아니라 이 항목이 기술적 개선 대상입니다.",
+        "winning": {
+            "label": "우승",
+            "question": "그 경쟁 기회가 몇 번이나 실제 우승으로 이어지는가?",
+            "win_events": win_events_n,
+            "top10_events": top10_events,
+            "note": f"실측 Top10 {top10_events}회 중 우승 {win_events_n}회 -- 실제 대회 수의 직접 비율이며, 백분위 연산이 아닙니다.",
         },
     }
 
 
-# Layer classification -- which of the three independent layers each
-# question's conclusion actually belongs to. This is a real audit of
-# already-written conclusions, not new content: a question stays
-# TECHNIQUE only if its evidence never cites rank/win/money; SCORING if
-# its evidence is season scoring-rate/SG-total box-score data; COMPETITION
-# if its evidence is tournament placement, wins, or pressure-situation
-# splits. Used to enforce "recommendations must target the correct
-# layer" -- never render a technique fix for a competition-layer finding.
+def _leak_map(ds: dict, questions: list, funnel: Optional[dict]) -> Optional[dict]:
+    """LEAK MAP (V16): at most 3 leaks, each pulled from an already-real,
+    already-verified finding elsewhere in this report -- never a new
+    number invented for this section. "Performance Loss" is shown only
+    when a real historical figure already supports it (risk_map's real
+    average-loss-when-negative value); otherwise it is reported as
+    UNKNOWN, never estimated."""
+    if not funnel:
+        return None
+    by_id = {q["id"] for q in questions}
+    by_question = {q["id"]: q for q in questions}
+    leaks = []
+
+    risk_q = by_question.get("q_risk_map")
+    if risk_q:
+        protocol = risk_q["monitoring_protocol"]
+        leaks.append({
+            "where": protocol["metric"],
+            "why": "실측 라운드 중 마이너스로 전환될 때 손실 폭이 가장 큰 항목입니다 -- 발생 시 스코어링에 가장 크게 영향을 미칩니다.",
+            "performance_loss": f"{protocol['current_reading']:+.2f} SG (마이너스 발생 시 평균)",
+            "coach_decision": _decision_text(risk_q),
+            "priority": 1,
+            "question_id": "q_risk_map",
+        })
+
+    collapse_q = by_question.get("q_collapse_blueprint")
+    if collapse_q:
+        protocol = collapse_q["monitoring_protocol"]
+        leaks.append({
+            "where": protocol["metric"],
+            "why": "부진 대회에서 가장 먼저 마이너스로 전환되는 항목입니다 -- 대회 초반의 조기 경고 신호입니다.",
+            "performance_loss": "알 수 없음 -- 이 항목은 발생 시점(라운드)을 측정할 뿐, 발생 시 손실 폭은 q_risk_map이 별도로 측정합니다.",
+            "coach_decision": _decision_text(collapse_q),
+            "priority": 2,
+            "question_id": "q_collapse_blueprint",
+        })
+
+    win = funnel["winning"]
+    if win["top10_events"] and win["top10_events"] > win["win_events"]:
+        leaks.append({
+            "where": "Top10 → 우승 전환",
+            "why": f"실측 Top10 {win['top10_events']}회 중 우승은 {win['win_events']}회뿐입니다 -- 경쟁 기회는 충분히 만들어지지만 우승으로 전환되는 비율은 낮습니다.",
+            "performance_loss": "알 수 없음 -- 최종 라운드 홀별 순서 데이터가 없어 어느 지점에서 전환이 실패하는지 스트로크 단위로는 계산할 수 없습니다.",
+            "coach_decision": "다음 Top10 경쟁 상황에서는 q_pressure_index가 지목한 항목(SG APP)을 최우선 관리한다.",
+            "priority": 3,
+            "question_id": "q_pressure_index",
+        })
+
+    return {"leaks": leaks[:3]} if leaks else None
+
+
+# Funnel-stage classification -- which of the five independent funnel
+# stages each question's conclusion actually belongs to. Real audit of
+# already-written conclusions, not new content: used to enforce
+# "recommendations must target the correct stage" -- never render a
+# technique fix for a competition-stage finding.
 _QUESTION_LAYER = {
     "q_why_wins": "COMPETITION",
-    "q_why_loses": "SCORING",
+    "q_why_loses": "CONVERSION",
     "q_approach_biggest_weapon": "TECHNIQUE",
     "q_putting_weakest": "TECHNIQUE",
     "q_2026_improvement": "TECHNIQUE",
     "q_strong_course": "COMPETITION",
     "q_most_recent_win": "COMPETITION",
     "q_win_blueprint": "COMPETITION",
-    "q_collapse_blueprint": "SCORING",
+    "q_collapse_blueprint": "CONVERSION",
     "q_pressure_index": "COMPETITION",
     "q_win_simulator": "COMPETITION",
-    "q_risk_map": "SCORING",
+    "q_risk_map": "CONVERSION",
 }
 
 
@@ -1752,7 +1767,8 @@ def build() -> dict:
     for q in questions:
         q["layer"] = _QUESTION_LAYER.get(q["id"])
 
-    layer_model = _layer_model(ds, questions)
+    performance_funnel = _performance_funnel(ds, questions)
+    leak_map = _leak_map(ds, questions, performance_funnel)
     player_playbook = _player_playbook(questions)
     coach_console = _coach_console(questions)
 
@@ -1815,7 +1831,8 @@ def build() -> dict:
         "trend_dna": trend_dna,
         "player_playbook": player_playbook,
         "coach_console": coach_console,
-        "layer_model": layer_model,
+        "performance_funnel": performance_funnel,
+        "leak_map": leak_map,
         "unsupported_analysis_modules_v12": _UNSUPPORTED_ANALYSIS_MODULES_V12,
         "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",

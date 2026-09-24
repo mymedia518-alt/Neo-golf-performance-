@@ -432,46 +432,78 @@ def _hero_html(doc: dict) -> str:
     )
 
 
-def _layer_model_html(model: Optional[dict]) -> str:
-    """V15: THE THREE-LAYER INTELLIGENCE MODEL -- the new foundation.
-    Technical Performance, Scoring Performance, and Competitive
-    Performance are shown as three independent percentile groups (each
-    with its own real evidence, never borrowing another layer's), then
-    the three efficiency ratios that connect them. Always visible (open)
-    since this is now how every other section should be read."""
-    if not model:
+def _performance_funnel_html(funnel: Optional[dict]) -> str:
+    """V16: THE PERFORMANCE FUNNEL -- Technique -> Opportunity ->
+    Conversion -> Competition -> Winning. Every stage is an independent,
+    directly-explainable real number (SG percentile, a real season rate,
+    or a literal event count) -- never a percentile averaged or divided
+    against another percentile, never a synthetic efficiency %. Always
+    visible (open), since this is now how every other section should be
+    read."""
+    if not funnel:
         return ""
-    l1, l2, l3 = model["layer1_technical"], model["layer2_scoring"], model["layer3_competitive"]
+    t, o, c, comp, w = funnel["technique"], funnel["opportunity"], funnel["conversion"], funnel["competition"], funnel["winning"]
 
     def _pct_chips(percentiles: dict) -> str:
         return "".join(f'<span class="label-chip">{escape(k)} {v}</span>' for k, v in percentiles.items() if v is not None)
 
-    layers_html = (
+    stages_html = (
         '<div class="piq-brief">'
-        f'<p><strong>레이어 1 · {escape(l1["label"])} ({l1["average"]})</strong> {escape(l1["question"])}</p>'
-        f'<div class="piq-audit">{_pct_chips(l1["percentiles"])}</div>'
-        f'<p class="piq-current-detail">{escape(l1["note"])}</p>'
-        f'<p><strong>레이어 2 · {escape(l2["label"])} ({l2["average"]})</strong> {escape(l2["question"])}</p>'
-        f'<div class="piq-audit">{_pct_chips(l2["percentiles"])}</div>'
-        f'<p class="piq-current-detail">{escape(l2["note"])}</p>'
-        f'<p><strong>레이어 3 · {escape(l3["label"])}</strong> {escape(l3["question"])}</p>'
-        f'<div class="piq-audit"><span class="label-chip">상금 순위 백분위 {l3["money_percentile"]}</span>'
-        f'<span class="label-chip">Top10 마감률 {l3["top10_rate"]}%</span></div>'
-        f'<p class="piq-current-detail">{escape(l3["note"])}</p>'
+        f'<p><strong>1 · {escape(t["label"])}</strong> {escape(t["question"])}</p>'
+        f'<div class="piq-audit">{_pct_chips(t["percentiles"])}</div>'
+        f'<p class="piq-current-detail">{escape(t["note"])}</p>'
+        f'<p><strong>2 · {escape(o["label"])}</strong> {escape(o["question"])}</p>'
+        f'<div class="piq-audit"><span class="label-chip">GIR율 {o["gir_rate"]["raw"]:.1f}% (백분위 {o["gir_rate"]["percentile"]})</span></div>'
+        f'<p class="piq-current-detail">{escape(o["note"])}</p>'
+        f'<p><strong>3 · {escape(c["label"])}</strong> {escape(c["question"])}</p>'
+        '<div class="piq-audit">'
+        f'<span class="label-chip">버디율 {c["birdie_rate"]["raw"]:.1f}% (백분위 {c["birdie_rate"]["percentile"]})</span>'
+        f'<span class="label-chip">파세이브율 {c["par_save_rate"]["raw"]:.1f}% (백분위 {c["par_save_rate"]["percentile"]})</span>'
+        f'<span class="label-chip">리커버리율 {c["recovery_rate"]["raw"]:.1f}% (백분위 {c["recovery_rate"]["percentile"]})</span>'
+        "</div>"
+        f'<p class="piq-current-detail">{escape(c["note"])}</p>'
+        f'<p><strong>4 · {escape(comp["label"])}</strong> {escape(comp["question"])}</p>'
+        f'<div class="piq-audit"><span class="label-chip">Top10 {comp["top10_events"]}회 / 전체 {comp["total_events"]}회</span></div>'
+        f'<p class="piq-current-detail">{escape(comp["note"])}</p>'
+        f'<p><strong>5 · {escape(w["label"])}</strong> {escape(w["question"])}</p>'
+        f'<div class="piq-audit"><span class="label-chip">우승 {w["win_events"]}회 / Top10 {w["top10_events"]}회</span></div>'
+        f'<p class="piq-current-detail">{escape(w["note"])}</p>'
         "</div>"
     )
-    eff = model["skill_efficiency"], model["scoring_efficiency"], model["competitive_efficiency"]
-    efficiency_html = "".join(
-        f'<p class="piq-step"><span class="piq-label">{escape(e["label"])} {e["value"]}</span>{escape(e["interpretation"])}</p>'
-        for e in eff
-    )
-    weakest = model["weakest_layer_signal"]
-    signal_html = f'<p class="piq-why-brief">{escape(weakest["note"])}</p>'
+    weakest = t["weakest"]
+    signal_html = f'<p class="piq-why-brief">기술 단계에서 가장 낮은 실측 백분위는 {escape(weakest["component"])}({weakest["percentile"]})입니다 -- 리크 맵에서 이 항목의 실측 영향을 확인하십시오.</p>'
 
     return (
-        '<details class="evidence-detail pi-section" id="piq-layer-model" open>'
-        f'<summary class="section-heading"><h2>{terms.LAYER_MODEL_TITLE}</h2></summary>'
-        f'<div class="pi-section__body">{layers_html}{efficiency_html}{signal_html}</div>'
+        '<details class="evidence-detail pi-section" id="piq-performance-funnel" open>'
+        f'<summary class="section-heading"><h2>{terms.PERFORMANCE_FUNNEL_TITLE}</h2></summary>'
+        f'<div class="pi-section__body">{stages_html}{signal_html}</div>'
+        "</details>"
+    )
+
+
+def _leak_map_html(leak_map: Optional[dict]) -> str:
+    """V16: LEAK MAP -- at most 3 leaks, each with Where/Why/Performance
+    Loss (a real number, or 알 수 없음 when no verified historical figure
+    supports one -- never estimated)/Coach Decision. Always visible."""
+    if not leak_map or not leak_map.get("leaks"):
+        return ""
+    items = "".join(
+        (
+            '<li>'
+            f'<span class="label-chip label-chip--positive">우선순위 {leak["priority"]}</span> '
+            f'<strong>{escape(leak["where"])}</strong>'
+            f'<p class="piq-current-detail">{terms.LEAK_FIELD_LABEL["why"]}: {escape(leak["why"])}</p>'
+            f'<p class="piq-current-detail">{terms.LEAK_FIELD_LABEL["performance_loss"]}: {escape(leak["performance_loss"])}</p>'
+            f'<p class="piq-current-detail">{terms.LEAK_FIELD_LABEL["coach_decision"]}: {escape(leak["coach_decision"])}</p>'
+            f' <a href="#{escape(leak["question_id"])}">근거 질문 보기</a>'
+            "</li>"
+        )
+        for leak in leak_map["leaks"]
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-leak-map" open>'
+        f'<summary class="section-heading"><h2>{terms.LEAK_MAP_TITLE}</h2></summary>'
+        f'<div class="pi-section__body"><ul class="piq-checklist">{items}</ul></div>'
         "</details>"
     )
 
@@ -503,7 +535,8 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     from klpga.website_v2.player_intelligence_v2 import prev_next_html
 
     cards = "".join(_question_card(q) for q in doc["questions"])
-    layer_model = _layer_model_html(doc.get("layer_model"))
+    performance_funnel = _performance_funnel_html(doc.get("performance_funnel"))
+    leak_map = _leak_map_html(doc.get("leak_map"))
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
     dna = _dna_html(doc)
     coach_console = _coach_console_html(doc.get("coach_console"))
@@ -512,7 +545,7 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     unsupported_modules = _unsupported_modules_html(doc.get("unsupported_analysis_modules_v12"))
     repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
     return (
-        prev_next_html(prev_link, next_link) + _hero_html(doc) + layer_model + checklist + dna
+        prev_next_html(prev_link, next_link) + _hero_html(doc) + performance_funnel + leak_map + checklist + dna
         + coach_console + playbook + cards
         + excluded + unsupported_modules + repository_intelligence
     )
