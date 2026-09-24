@@ -131,6 +131,29 @@ PLAYBOOK_CATEGORY_LABEL = {
     "TRUST": "신뢰",
     "NEVER_CHANGE": "변경 금지",
 }
+# V13 (Performance Lab): ROOT CAUSE is its own visible step, between
+# MECHANISM and COACH INTERPRETATION -- never invented deeper than the
+# real data allows; when the true root (swing mechanics, decision
+# process) sits below this repository's real data floor, the field says
+# so explicitly rather than guessing past it.
+ROOT_CAUSE_LABEL = "근본 원인"
+PERFORMANCE_LAB_LABEL = "퍼포먼스 랩"
+COACH_CONSOLE_TITLE = "코치 콘솔"
+COACH_CONSOLE_CATEGORY_LABEL = {
+    "KEEP": "유지",
+    "CHANGE": "변경",
+    "MONITOR": "모니터링",
+    "AVOID": "지양",
+    "DO_NOT_TOUCH": "손대지 않음",
+}
+PLAYBOOK_CATEGORY_LABEL_V13 = {
+    "ATTACK": "공략",
+    "DEFEND": "방어",
+    "ACCEPT": "수용",
+    "AVOID": "지양",
+    "TRUST": "신뢰",
+}
+
 UNSUPPORTED_MODULES_TITLE = "실측 데이터 없이는 답할 수 없는 분석"
 UNSUPPORTED_MODULES_DESCRIPTION = (
     "이 리포트가 다루는 실측 데이터의 최소 단위는 라운드·대회입니다. 아래 분석은 홀 단위, 거리 구간, 핀 위치, "

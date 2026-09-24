@@ -1,8 +1,42 @@
 {
+  "coach_console": {
+    "entries": [
+      {
+        "category": "KEEP",
+        "decision": "볼 스트라이킹 중심 훈련 프로그램을 변경하지 않는다.",
+        "question": "김민선7 선수의 경기력은 왜 2026시즌까지 꾸준히 향상되었는가?",
+        "question_id": "q_2026_improvement"
+      },
+      {
+        "category": "CHANGE",
+        "decision": "다음 훈련 사이클의 우선순위를 퍼팅으로 전환한다.",
+        "question": "김민선7 선수에게 SG PUTT이 가장 약한 부분이 된 이유는?",
+        "question_id": "q_putting_weakest"
+      },
+      {
+        "category": "MONITOR",
+        "decision": "순위권 경쟁 중인 최종 라운드에는 이 항목의 실시간 수치를 최우선 확인 지표로 삼는다.",
+        "question": "김민선7 선수는 순위권 경쟁에서 어떤 항목으로 갈리는가?",
+        "question_id": "q_pressure_index"
+      },
+      {
+        "category": "AVOID",
+        "decision": "이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.",
+        "question": "김민선7 선수는 최근 우승, 하나금융그룹 챔피언십을(를) 어떻게 만들어냈는가?",
+        "question_id": "q_most_recent_win"
+      },
+      {
+        "category": "DO_NOT_TOUCH",
+        "decision": "SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.",
+        "question": "김민선7 선수에게 SG APP가 최고의 무기인 이유는?",
+        "question_id": "q_approach_biggest_weapon"
+      }
+    ]
+  },
   "contribution_breakdown_method": "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다.",
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-24T10:37:22.713657+00:00",
+  "generated_at": "2026-09-24T11:09:02.219219+00:00",
   "loss_dna": {
     "breakdown": [
       {
@@ -44,19 +78,19 @@
         "question_id": "q_why_wins"
       },
       {
-        "category": "NEVER_CHANGE",
+        "category": "TRUST",
         "decision": "SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.",
         "question": "김민선7 선수에게 SG APP가 최고의 무기인 이유는?",
         "question_id": "q_approach_biggest_weapon"
       },
       {
-        "category": "MONITOR",
+        "category": "ACCEPT",
         "decision": "다음 훈련 사이클에서 퍼팅 전환 훈련 비중을 늘린다. 볼 스트라이킹 훈련은 현행 유지한다.",
         "question": "김민선7 선수는 왜 우승을 놓치는가?",
         "question_id": "q_why_loses"
       },
       {
-        "category": "MONITOR",
+        "category": "ACCEPT",
         "decision": "다음 훈련 사이클의 우선순위를 퍼팅으로 전환한다.",
         "question": "김민선7 선수에게 SG PUTT이 가장 약한 부분이 된 이유는?",
         "question_id": "q_putting_weakest"
@@ -80,22 +114,34 @@
         "question_id": "q_most_recent_win"
       },
       {
-        "category": "MONITOR",
+        "category": "DEFEND",
         "decision": "라운드 종료마다 네 항목을 기준선과 비교하고, 기준선 아래로 내려간 항목이 있으면 다음 라운드 전략 점검 대상으로 표시한다.",
         "question": "김민선7 선수의 우승에는 어떤 최소 조건이 있는가?",
         "question_id": "q_win_blueprint"
       },
       {
-        "category": "MONITOR",
+        "category": "DEFEND",
         "decision": "1라운드에 이 항목이 마이너스면 2라운드 전 해당 파트 훈련을 우선 점검한다.",
         "question": "김민선7 선수의 부진 대회는 어디서부터 무너지기 시작하는가?",
         "question_id": "q_collapse_blueprint"
       },
       {
-        "category": "MONITOR",
+        "category": "ATTACK",
         "decision": "순위권 경쟁 중인 최종 라운드에는 이 항목의 실시간 수치를 최우선 확인 지표로 삼는다.",
         "question": "김민선7 선수는 순위권 경쟁에서 어떤 항목으로 갈리는가?",
         "question_id": "q_pressure_index"
+      },
+      {
+        "category": "DEFEND",
+        "decision": "SG Total, SG PUTT, SG ARG 항목을 다음 대회 전 우선 점검한다.",
+        "question": "김민선7 선수는 지금 우승 기준선에 얼마나 가까운가?",
+        "question_id": "q_win_simulator"
+      },
+      {
+        "category": "DEFEND",
+        "decision": "이 항목이 마이너스로 나오는 즉시 다음 라운드 리스크 관리 모드로 전환한다.",
+        "question": "김민선7 선수에게 가장 위험도가 높은 항목은 무엇인가?",
+        "question_id": "q_risk_map"
       }
     ]
   },
@@ -169,6 +215,20 @@
       "id": "q_pressure_index",
       "linked_question": "김민선7 선수는 순위권 경쟁에서 어떤 항목으로 갈리는가?",
       "metric": "대회별 SG APP"
+    },
+    {
+      "current_reading": -3.2799999999999994,
+      "current_status": "WATCH",
+      "id": "q_win_simulator",
+      "linked_question": "김민선7 선수는 지금 우승 기준선에 얼마나 가까운가?",
+      "metric": "대회별 SG Total 및 4항목"
+    },
+    {
+      "current_reading": -1.3178260869565217,
+      "current_status": "WATCH",
+      "id": "q_risk_map",
+      "linked_question": "김민선7 선수에게 가장 위험도가 높은 항목은 무엇인가?",
+      "metric": "라운드별 SG PUTT"
     }
   ],
   "questions": [
@@ -204,6 +264,7 @@
       "player_takeaway": "출발이 나쁠 때도 SG APP 샷 루틴을 그대로 유지하십시오 -- 4개 시즌간 무너진 적 없는 유일한 영역입니다.",
       "question": "김민선7 선수는 왜 우승하는가?",
       "reproducibility": "조건: 대회별 SG APP 플러스 유지. 실측 4개 시즌 전부에서 재현되었습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG APP 시즌 평균이 4개 시즌 모두 플러스였다는 사실입니다. 그 아래 단계(어프로치 거리대별 정확도, 미스 패턴)는 이 저장소에 홀·샷 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 4,
       "why_it_matters": "우승 동력을 정확히 특정해 두면, 다른 부분을 조정할 때 이 영역만큼은 건드리지 않는다는 기준이 생깁니다.",
       "why_this_matters": "이번 주뿐 아니라 매 대회 경기 전략의 기준선입니다."
@@ -240,6 +301,7 @@
       "player_takeaway": "가장 큰 손실은 그린을 놓치는 것이 아니라 넣을 수 있는 Birdie 퍼트를 놓치는 것입니다.",
       "question": "김민선7 선수는 왜 우승을 놓치는가?",
       "reproducibility": "조건: SG APP는 플러스인데 SG PUTT이 필드 평균 이하인 대회. 실측 4개 시즌 전부에서 반복되었습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG PUTT의 필드 대비 상대적 순위(평균 수준)입니다. 그 아래 단계(퍼팅 거리대별 성공률, 그립·스트로크 메커니즘)는 홀·샷 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 153,
       "why_it_matters": "전환 문제와 볼 스트라이킹 붕괴는 처방이 다릅니다. 원인을 잘못 짚으면 훈련 시간이 엉뚱한 곳에 쓰입니다.",
       "why_this_matters": "다음 스트로크 게인은 스윙이 아니라 전환력에서 나와야 합니다."
@@ -303,6 +365,7 @@
       "player_takeaway": "어떤 기술적 조정을 하더라도 SG APP 메커니즘부터 보호하십시오.",
       "question": "김민선7 선수에게 SG APP가 최고의 무기인 이유는?",
       "reproducibility": "조건: 없음 -- 조건부 강점이 아니라 4개 시즌 전 구간에서 일관되게 나타난 상수적 강점입니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 4개 시즌 연속 플러스라는 반복성 자체입니다. 어떤 구체적 스윙 요소가 이를 만드는지는 샷 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 242,
       "why_it_matters": "반짝 호조와 지속력 있는 강점을 구분해 두면, 경기력을 조정할 때 절대 건드리면 안 될 부분이 명확해집니다.",
       "why_this_matters": "이번 대회뿐 아니라 매 대회 경기 전략의 중심입니다."
@@ -338,6 +401,7 @@
       "player_takeaway": "'가장 약한 부분'은 'SG PUTT이 서툴다'가 아니라 나머지가 최상위권까지 올라왔다는 뜻입니다.",
       "question": "김민선7 선수에게 SG PUTT이 가장 약한 부분이 된 이유는?",
       "reproducibility": "조건: 다음 훈련 사이클에 퍼팅 비중을 늘렸을 때 시즌별 SG PUTT 평균 상승 여부로 검증 가능합니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 본인 내 항목 간 상대적 순위입니다. 그 아래 단계(그립, 스트로크 템포, 그린 리딩)는 샷 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 242,
       "why_it_matters": "훈련 시간은 한정되어 있습니다. 이미 최상위권인 기술을 더 다듬기보다 SG PUTT에 시간을 더 배분해야 개선 폭이 커집니다.",
       "why_this_matters": "다음 한 시간의 훈련이 가장 큰 효과를 가져올 곳입니다."
@@ -373,6 +437,7 @@
       "player_takeaway": "이 향상은 실제입니다. 나쁜 한 주 이후에도 볼 스트라이킹 중심 훈련 방향을 의심하지 말고 이어가십시오.",
       "question": "김민선7 선수의 경기력은 왜 2026시즌까지 꾸준히 향상되었는가?",
       "reproducibility": "조건: 현재 훈련 프로그램 유지. 실측 4개 시즌 연속 재현되었습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG OTT·SG APP의 동반 상승입니다. 그 아래 단계(스윙 변경, 장비 교체, 훈련 방법 변경 등 구체적 계기)는 이 저장소에 기록되어 있지 않아 확인할 수 없습니다.",
       "sample_size": 73,
       "why_it_matters": "구조적 변화임을 확인해 두면, 한 주 부진했다고 효과를 보고 있는 프로그램을 의심하는 일을 막을 수 있습니다.",
       "why_this_matters": "지금까지 효과가 있었던 방식을 계속 유지하십시오."
@@ -435,6 +500,7 @@
       "player_takeaway": "이 코스에서는 실제 성적으로 뒷받침된 자신감으로 임하십시오.",
       "question": "김민선7 선수는 왜 2024 셀트리온 퀸즈 마스터즈에서 강한가?",
       "reproducibility": "조건: 이 코스 재출전 시 기존 전략 유지. 실측 4회 출전 전부에서 플러스로 재현되었습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 4회 반복 출전 자체입니다. 이 코스의 어떤 구체적 특징(홀 구성, 페어웨이 폭, 그린 스피드 등)이 이 강점을 만드는지는 홀 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 4,
       "why_it_matters": "성적이 특정 코스에서 근거를 가진 결과임을 알면, 현장에서 선수의 감각을 믿을 때와 막판 변화를 자제할 때를 판단할 수 있습니다.",
       "why_this_matters": "지나치게 코치하기보다 믿고 맡겨야 한다는 점이 가장 분명하게 드러나는 지점입니다."
@@ -471,6 +537,7 @@
       "player_takeaway": "평범한 2라운드가 우승을 막지 않았다는 사례입니다 -- 매번 기대할 근거는 아직 아닙니다.",
       "question": "김민선7 선수는 최근 우승, 하나금융그룹 챔피언십을(를) 어떻게 만들어냈는가?",
       "reproducibility": "조건: 알 수 없음 -- 실측 1회 사건이라 재현 조건을 일반화할 근거가 없습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 3라운드 SG Total 상승입니다. 그 라운드 안에서 어떤 구체적 샷이 이를 만들었는지는 홀 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 3,
       "why_it_matters": "확인된 것과 일반화에 더 많은 근거가 필요한 것을 구분해야, 준비 과정이 실제 기록에 근거합니다.",
       "why_this_matters": "출발이 더딜 때 참고할 수 있는 실제 최근 사례입니다."
@@ -490,6 +557,13 @@
       ],
       "evidence_score": 12,
       "fact": "실측 우승 3회 전체에서 SG Total +4.39 이상, SG APP +1.10, SG PUTT +0.43, SG OTT +0.54, SG ARG +0.13 이상을 모두 기록했습니다.",
+      "floor_total": 4.39,
+      "floors": {
+        "approach": 1.1,
+        "around_green": 0.13,
+        "off_the_tee": 0.54,
+        "putting": 0.43
+      },
       "id": "q_win_blueprint",
       "mechanism": "우승 메커니즘의 하한선입니다 -- 추정이 아니라 실측 3회 우승 기록의 항목별 최솟값을 그대로 계산한 값입니다.",
       "monitoring_protocol": {
@@ -507,6 +581,7 @@
       "player_takeaway": "네 항목 모두 이 기준선 위에 있을 때 우승 페이스입니다. 한 항목이라도 이 아래로 내려가면 경계 신호입니다.",
       "question": "김민선7 선수의 우승에는 어떤 최소 조건이 있는가?",
       "reproducibility": "조건: 대회별 SG Total +4.39 이상 + 네 항목 모두 각자의 기준선 이상. 실측 3회 우승 전부가 이 조건을 만족했습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 실측 우승 3회 모두에서 네 항목이 동시에 기준선을 넘었다는 사실입니다. 왜 이 조합이 우승으로 이어지는지의 더 깊은 인과 관계는 대회 단위 데이터로는 확인할 수 없습니다.",
       "sample_size": 3,
       "why_it_matters": "대회 중 실시간으로 '지금 우승권 페이스인가'를 판단할 수 있는 유일한 기준선입니다.",
       "why_this_matters": "이 기준선 아래로 내려가면 전략을 바꿔야 한다는 신호입니다."
@@ -543,6 +618,7 @@
       "player_takeaway": "1라운드에 SG ARG가 흔들리면 나머지 항목이 아직 괜찮더라도 경계 신호로 받아들이십시오.",
       "question": "김민선7 선수의 부진 대회는 어디서부터 무너지기 시작하는가?",
       "reproducibility": "조건: 대회 SG Total이 마이너스로 마감되는 모든 경우. 실측 7회 중 71%에서 1라운드부터 SG ARG가 마이너스였습니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 1라운드 SG ARG 마이너스입니다. 그 이전 단계(연습라운드 컨디션, 코스 세팅 적응 등)는 이 저장소에 기록되어 있지 않아 확인할 수 없습니다.",
       "sample_size": 7,
       "why_it_matters": "대회 후반에 반응하면 이미 늦습니다. 가장 먼저 무너지는 항목을 알면 대회 초반에 개입할 수 있습니다.",
       "why_this_matters": "대회 초반에 확인해야 할 첫 번째 경고 신호입니다."
@@ -579,9 +655,84 @@
       "player_takeaway": "순위권에 근접했을 때는 SG APP가 그날의 등수를 가릅니다.",
       "question": "김민선7 선수는 순위권 경쟁에서 어떤 항목으로 갈리는가?",
       "reproducibility": "조건: 대회 마감 순위 상위10위 여부. 실측 73개 대회 전체에서 재현 가능한 비교입니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG APP 격차입니다. 순위권에서 구체적으로 어떤 샷 상황이 이 격차를 만드는지는 홀 단위 기록이 없어 확인할 수 없습니다.",
       "sample_size": 73,
       "why_it_matters": "순위권 근처에서 어떤 항목이 실제로 등수를 가르는지 알면, 마지막 라운드 전략의 우선순위가 명확해집니다.",
       "why_this_matters": "순위권 경쟁 중 가장 먼저 확인해야 할 항목입니다."
+    },
+    {
+      "action": "대회별 SG Total 및 4항목을 모니터링합니다(우승 기준선과 직접 대조, historical_sg_warehouse_corrected.json (scope=tournament_cumulative), 가장 최근 대회 기준). 정상 범위: 5개 항목 전부 충족. 경고 기준: 1개 이상 미충족. 다음 점검: 다음 대회 공식 기록이 나오는 시점. 결정: SG Total, SG PUTT, SG ARG 항목을 다음 대회 전 우선 점검한다.",
+      "analysis": "우승 기준선은 실측 우승 전부가 넘긴 바닥값입니다. 이번 대회가 이 기준선에 미달한 항목이 있다면, 그 항목이 이번 결과와 우승 사이의 실제 격차입니다 -- 추측이 아니라 같은 기준으로 직접 비교한 결과입니다.",
+      "coach_focus": "대회 종료 직후 이 5개 항목을 우승 기준선과 대조하는 절차를 다음 대회에도 동일하게 반복하십시오.",
+      "conclusion": "우승 준비도 40% -- SG Total, SG PUTT, SG ARG이(가) 기준선 미달입니다. 다음 대회 전 이 항목을 우선 점검하는 것이 결정 사항입니다.",
+      "confidence": "HIGH",
+      "contribution_breakdown": null,
+      "durability": "RECENT_TREND",
+      "durability_reasoning": "가장 최근 대회 1건에 대한 스냅샷 비교입니다. 다음 대회마다 다시 계산되어야 하며, 이번 결과 하나로 장기 패턴을 주장하지 않습니다.",
+      "evidence": [
+        "항목별 목표 대비 실측: SG Total 목표 +4.39 실측 +1.11 FAILED; SG APP 목표 +1.10 실측 +1.33 PASSED; SG PUTT 목표 +0.43 실측 -1.68 FAILED; SG OTT 목표 +0.54 실측 +1.38 PASSED; SG ARG 목표 +0.13 실측 +0.08 FAILED.",
+        "미충족 항목: SG Total, SG PUTT, SG ARG."
+      ],
+      "evidence_score": 31,
+      "fact": "가장 최근 대회(제13회 제주삼다수 마스터스, 2026)는 우승 기준선 5개 항목 중 2개를 충족했습니다(우승 준비도 40%).",
+      "id": "q_win_simulator",
+      "mechanism": "메커니즘: 우승 기준선(q_win_blueprint) 대비 가장 최근 대회의 실측치를 항목별로 직접 대조합니다 -- 새로운 통계가 아니라 같은 잣대를 다른 대회에 적용한 결과입니다.",
+      "monitoring_protocol": {
+        "current_detail": "실측값 기준 우승 준비도 40%(2/5개 항목 충족) -- SG Total 기준선 대비 -3.28 SG.",
+        "current_reading": -3.2799999999999994,
+        "current_status": "WATCH",
+        "explanatory_metric": "없음. 이번 비교는 상관관계가 아니라 실측 대회 73회 기준 기준선과의 직접 대조입니다(충족 2/5개 항목).",
+        "metric": "대회별 SG Total 및 4항목",
+        "next_review": "다음 대회 공식 기록이 나오는 시점",
+        "normal_range": "5개 항목 전부 우승 기준선 충족",
+        "sample_size": 73,
+        "source": "historical_sg_warehouse_corrected.json (scope=tournament_cumulative)",
+        "warning_threshold": "1개 이상 항목이 우승 기준선 미달"
+      },
+      "player_takeaway": "이번 대회는 우승 기준선 5개 중 2개를 충족했습니다. SG Total, SG PUTT, SG ARG에 집중하십시오.",
+      "question": "김민선7 선수는 지금 우승 기준선에 얼마나 가까운가?",
+      "reproducibility": "조건: 매 대회 종료 후 동일한 5개 항목을 우승 기준선과 대조. 대회마다 재현 가능합니다.",
+      "root_cause": "근본 원인: 미충족 항목이 있다면 그 항목의 실측치가 기준선에 못 미친 것 자체가 원인입니다. 왜 그 항목이 낮았는지의 더 깊은 원인은 해당 항목의 q_why_loses/q_putting_weakest 등 개별 질문을 참조해야 하며, 이 모듈은 격차의 존재 여부만 확인합니다.",
+      "sample_size": 73,
+      "why_it_matters": "우승과의 거리를 감이 아니라 항목별 실측 격차로 확인할 수 있습니다.",
+      "why_this_matters": "다음 대회 준비의 우선순위를 정하는 가장 직접적인 기준입니다."
+    },
+    {
+      "action": "라운드별 SG PUTT을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=single_round), 실측 라운드 287회 기준). 경고 기준: 마이너스 전환. 다음 점검: 매 라운드 종료 시점. 결정: 이 항목이 마이너스로 나오는 즉시 다음 라운드 리스크 관리 모드로 전환한다.",
+      "analysis": "가장 먼저 무너지는 항목(부진 대회 조기 경고, 별도 질문 참조)과 가장 크게 무너지는 항목은 다를 수 있습니다. SG PUTT는 마이너스가 나올 때 그 폭이 가장 커서, 한 번의 나쁜 라운드가 전체 스코어에 미치는 타격이 가장 큰 항목입니다.",
+      "coach_focus": "라운드 중 SG PUTT가 마이너스로 전환되면 즉시 리스크 관리 모드로 전환하십시오 -- 다른 항목의 마이너스보다 평균 손실 폭이 큽니다.",
+      "conclusion": "가장 위험도가 높은 항목은 SG PUTT입니다 -- 발생 빈도가 아니라 발생했을 때의 손실 폭 기준입니다. 이 항목이 마이너스로 나온 라운드는 즉시 리스크 관리 대상으로 표시하는 것이 결정 사항입니다.",
+      "confidence": "HIGH",
+      "contribution_breakdown": null,
+      "durability": "LONG_TERM_CHARACTERISTIC",
+      "durability_reasoning": "실측 라운드 287회라는 큰 표본에서 계산된 순위입니다. 표본이 늘어나도 순위가 바뀌려면 다른 항목의 손실 폭이 이보다 더 커지는 새로운 누적 기록이 필요합니다.",
+      "evidence": [
+        "항목별 마이너스일 때 평균 손실 폭 및 빈도: SG APP 평균 -1.24 SG (33% 라운드에서 마이너스), SG PUTT 평균 -1.32 SG (48% 라운드에서 마이너스), SG OTT 평균 -0.86 SG (18% 라운드에서 마이너스), SG ARG 평균 -0.66 SG (48% 라운드에서 마이너스).",
+        "실측 라운드 287회 전체 기준으로 계산되었습니다."
+      ],
+      "evidence_score": 33,
+      "fact": "실측 라운드 287회 중, 마이너스일 때 손실 폭이 가장 큰 항목은 SG PUTT입니다(평균 -1.32 SG).",
+      "id": "q_risk_map",
+      "mechanism": "메커니즘: 실측 라운드 287회를 항목별로 마이너스 구간만 추출해 평균을 계산한 결과입니다 -- 홀·거리·상황이 아니라 실측 라운드 단위 손실 폭을 직접 비교했습니다.",
+      "monitoring_protocol": {
+        "current_detail": "실측값 기준, SG PUTT는 마이너스일 때 평균 -1.32 SG 손실이며 전체 라운드의 48%에서 발생했습니다.",
+        "current_reading": -1.3178260869565217,
+        "current_status": "WATCH",
+        "explanatory_metric": "SG PUTT (항목별 마이너스 시 평균 손실 폭 직접 계산, 실측 라운드 287회 기준: SG APP 평균 -1.24 SG (33% 라운드에서 마이너스), SG PUTT 평균 -1.32 SG (48% 라운드에서 마이너스), SG OTT 평균 -0.86 SG (18% 라운드에서 마이너스), SG ARG 평균 -0.66 SG (48% 라운드에서 마이너스)).",
+        "metric": "라운드별 SG PUTT",
+        "next_review": "매 라운드 종료 시점",
+        "normal_range": "플러스 또는 0",
+        "sample_size": 287,
+        "source": "historical_sg_warehouse_corrected.json (scope=single_round)",
+        "warning_threshold": "0 미만으로 전환"
+      },
+      "player_takeaway": "SG PUTT가 흔들리는 라운드는 다른 항목보다 손실이 커질 수 있다는 것을 염두에 두십시오.",
+      "question": "김민선7 선수에게 가장 위험도가 높은 항목은 무엇인가?",
+      "reproducibility": "조건: 없음 -- SG PUTT가 마이너스로 나오는 모든 라운드에서 재현되는 구조적 패턴입니다.",
+      "root_cause": "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG PUTT가 마이너스일 때의 평균 손실 폭 자체입니다. 어떤 홀·거리·상황에서 이 손실이 발생하는지는 홀 단위 기록이 없어 확인할 수 없습니다.",
+      "sample_size": 287,
+      "why_it_matters": "빈도가 아니라 손실 폭 기준으로 위험을 관리하면, 자주 일어나지만 작은 손실보다 드물지만 큰 손실을 우선 방지할 수 있습니다.",
+      "why_this_matters": "한 번의 나쁜 라운드가 가장 크게 다칠 수 있는 지점입니다."
     }
   ],
   "questions_considered_but_unsupported": [
@@ -684,6 +835,22 @@
     {
       "module": "디시전 퀄리티 (좋은 판단·나쁜 결과 vs 나쁜 판단·좋은 결과 구분)",
       "reason": "클럽 선택·공략 라인 등 판단 자체를 기록한 실측 데이터가 존재하지 않습니다 -- SG 수치는 결과를 측정할 뿐 판단 과정을 기록하지 않습니다."
+    },
+    {
+      "module": "샷 체인 (Tee → Fairway/Rough → Approach Distance → Pin Proximity → Birdie Chance → Birdie Conversion)",
+      "reason": "티샷 낙하 위치, 러프 여부, 어프로치 실측 거리, 핀까지의 실측 거리 등 샷 단위 실측 기록이 존재하지 않습니다. 이 저장소가 재구성할 수 있는 가장 상세한 실측 체인은 SG OTT → SG APP → SG ARG → SG PUTT이며, 이는 WIN DNA/LOSS DNA/TREND DNA 및 q_why_wins·q_why_loses에 이미 반영되어 있습니다."
+    },
+    {
+      "module": "로스트 스트로크 타임라인 (전반/후반, Birdie·Bogey 직후, 마지막 6홀)",
+      "reason": "홀별 스코어와 홀 순서 실측 기록이 존재하지 않아 스트로크 손실이 라운드 내 '언제' 발생했는지 재구성할 수 없습니다. 재구성 가능한 가장 세밀한 단위는 라운드(R1~R4)이며, q_collapse_blueprint·q_risk_map이 라운드 단위로 이미 답합니다."
+    },
+    {
+      "module": "익스펙티드 버디/스코어 (홀·거리 기준 기대값 대비 실제)",
+      "reason": "홀별·거리 구간별 기대 스코어 모델을 세울 실측 기준 데이터(예: 필드 평균 거리대별 기대 스코어표)가 이 저장소에 없습니다. 실측 가능한 유일한 '기대치'는 본인의 실측 커리어 평균이며, q_win_blueprint·q_win_simulator가 이를 이미 실제 결과와 대조합니다."
+    },
+    {
+      "module": "스코어링 오퍼튜니티 분석 (대회별 Birdie 찬스 생성·전환·실패)",
+      "reason": "대회별 GIR 수, 버디 퍼트 시도 수 등 이벤트 단위 실측 기록이 존재하지 않습니다. 이 저장소가 가진 것은 시즌 단위 GIR·파세이브율·버디율 스냅샷뿐이며, 이는 q_why_wins·q_why_loses에 이미 인용되어 있습니다."
     }
   ],
   "win_dna": {

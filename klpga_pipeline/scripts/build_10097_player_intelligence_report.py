@@ -502,6 +502,7 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     why_this_matters = "이번 주뿐 아니라 매 대회 경기 전략의 기준선입니다."
     action = _action_from_protocol(protocol, "SG APP 샷 운영 방식을 그대로 유지한다. 이 영역은 조정 대상에서 제외한다.")
     mechanism = "메커니즘: 우승 대회에서 SG APP가 플러스로 전환되는 시점부터 스코어링 우위가 시작되고, 이 우위가 라운드 전체에 누적되어 최종 스코어 차이로 이어집니다."
+    root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG APP 시즌 평균이 4개 시즌 모두 플러스였다는 사실입니다. 그 아래 단계(어프로치 거리대별 정확도, 미스 패턴)는 이 저장소에 홀·샷 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = "조건: 대회별 SG APP 플러스 유지. 실측 4개 시즌 전부에서 재현되었습니다."
 
     sample_sizes = [win_fact["sample_size"], sum(p.n_tournaments for p in season_profiles)] + [r["sample_size"] for r in reasons]
@@ -514,6 +515,7 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -567,6 +569,7 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     why_this_matters = "다음 스트로크 게인은 스윙이 아니라 전환력에서 나와야 합니다."
     action = _action_from_protocol(protocol, "다음 훈련 사이클에서 퍼팅 전환 훈련 비중을 늘린다. 볼 스트라이킹 훈련은 현행 유지한다.")
     mechanism = "메커니즘: SG APP가 만든 Birdie 기회가 SG PUTT 전환 단계에서 소실됩니다 -- 기회 생성과 기회 전환은 분리된 두 단계이며, 병목은 후자에 있습니다."
+    root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG PUTT의 필드 대비 상대적 순위(평균 수준)입니다. 그 아래 단계(퍼팅 거리대별 성공률, 그립·스트로크 메커니즘)는 홀·샷 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = "조건: SG APP는 플러스인데 SG PUTT이 필드 평균 이하인 대회. 실측 4개 시즌 전부에서 반복되었습니다."
 
     sample_sizes = [r["sample_size"] for r in reasons]
@@ -579,6 +582,7 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -627,6 +631,7 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
     why_this_matters = "이번 대회뿐 아니라 매 대회 경기 전략의 중심입니다."
     action = _action_from_protocol(protocol, "SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.")
     mechanism = "메커니즘: 다른 세 항목의 시즌별 등락과 무관하게 SG APP만 4개 시즌 내내 플러스를 유지했습니다 -- 경기력의 다른 부분에 의존하지 않는 독립적 강점입니다."
+    root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 4개 시즌 연속 플러스라는 반복성 자체입니다. 어떤 구체적 스윙 요소가 이를 만드는지는 샷 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = "조건: 없음 -- 조건부 강점이 아니라 4개 시즌 전 구간에서 일관되게 나타난 상수적 강점입니다."
 
     sources = set(audit["official_records_used"])
@@ -638,6 +643,7 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -685,6 +691,7 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
     why_this_matters = "다음 한 시간의 훈련이 가장 큰 효과를 가져올 곳입니다."
     action = _action_from_protocol(protocol, "다음 훈련 사이클의 우선순위를 퍼팅으로 전환한다.")
     mechanism = "메커니즘: 나머지 세 항목이 필드 상위권까지 올라온 반면 SG PUTT만 필드 평균에 머물러, 같은 훈련 시간을 투입했을 때 개선 여력이 가장 큰 항목으로 남았습니다."
+    root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 본인 내 항목 간 상대적 순위입니다. 그 아래 단계(그립, 스트로크 템포, 그린 리딩)는 샷 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = "조건: 다음 훈련 사이클에 퍼팅 비중을 늘렸을 때 시즌별 SG PUTT 평균 상승 여부로 검증 가능합니다."
 
     sample_sizes = [reason["sample_size"]]
@@ -697,6 +704,7 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -742,6 +750,7 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
     why_this_matters = "지금까지 효과가 있었던 방식을 계속 유지하십시오."
     action = _action_from_protocol(protocol, "볼 스트라이킹 중심 훈련 프로그램을 변경하지 않는다.")
     mechanism = "메커니즘: SG OTT·SG APP가 동시에 상승하며 SG Total을 끌어올렸고, SG PUTT은 같은 속도로 오르지 않아 이번 향상의 원천이 볼 스트라이킹임을 가리킵니다."
+    root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 SG OTT·SG APP의 동반 상승입니다. 그 아래 단계(스윙 변경, 장비 교체, 훈련 방법 변경 등 구체적 계기)는 이 저장소에 기록되어 있지 않아 확인할 수 없습니다."
     reproducibility = "조건: 현재 훈련 프로그램 유지. 실측 4개 시즌 연속 재현되었습니다."
 
     sources = set(audit["official_records_used"])
@@ -753,6 +762,7 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -800,6 +810,7 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
         f"아니라 '{contribution['top_contributor']}를 살릴 수 있는 코스 조건이 반복된다'는 뜻입니다."
         if contribution else "메커니즘: 실측 4회 출전 전부 플러스라는 결과만 확인되며, 항목별 분해 근거는 없습니다."
     )
+    root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 {n}회 반복 출전 자체입니다. 이 코스의 어떤 구체적 특징(홀 구성, 페어웨이 폭, 그린 스피드 등)이 이 강점을 만드는지는 홀 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = f"조건: 이 코스 재출전 시 기존 전략 유지. 실측 {n}회 출전 전부에서 플러스로 재현되었습니다."
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
@@ -811,6 +822,7 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -878,6 +890,7 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
     why_this_matters = "출발이 더딜 때 참고할 수 있는 실제 최근 사례입니다."
     action = _action_from_protocol(protocol, "이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.")
     mechanism = "메커니즘: 2라운드 부진 이후 전략을 바꾸지 않고 3라운드에 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다."
+    root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 3라운드 SG Total 상승입니다. 그 라운드 안에서 어떤 구체적 샷이 이를 만들었는지는 홀 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = "조건: 알 수 없음 -- 실측 1회 사건이라 재현 조건을 일반화할 근거가 없습니다."
 
     sources = {win["official_source"].split(" (")[0]}
@@ -889,6 +902,7 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -962,6 +976,7 @@ def _q_win_blueprint(ds: dict, win_events: list, by_code: dict) -> dict:
     )
     conclusion = "우승 최소 기준선은 SG Total과 네 항목 전부에서 확인됩니다. 대회 중 이 기준선 아래로 내려가는 항목이 있으면 우승권 이탈 신호로 취급하는 것이 결정 사항입니다."
     mechanism = f"우승 메커니즘의 하한선입니다 -- 추정이 아니라 실측 {len(win_rows)}회 우승 기록의 항목별 최솟값을 그대로 계산한 값입니다."
+    root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 실측 우승 {len(win_rows)}회 모두에서 네 항목이 동시에 기준선을 넘었다는 사실입니다. 왜 이 조합이 우승으로 이어지는지의 더 깊은 인과 관계는 대회 단위 데이터로는 확인할 수 없습니다."
     why_it_matters = "대회 중 실시간으로 '지금 우승권 페이스인가'를 판단할 수 있는 유일한 기준선입니다."
     player_takeaway = f"네 항목 모두 이 기준선 위에 있을 때 우승 페이스입니다. 한 항목이라도 이 아래로 내려가면 경계 신호입니다."
     coach_focus = f"대회 중 매 라운드 종료 시 네 항목을 이 기준선과 비교하십시오 -- 라운드별 SG 항목은 대회 도중에도 실시간 확인 가능합니다."
@@ -974,11 +989,16 @@ def _q_win_blueprint(ds: dict, win_events: list, by_code: dict) -> dict:
     return {
         "id": "q_win_blueprint",
         "question": f"{PLAYER_NAME} 선수의 우승에는 어떤 최소 조건이 있는가?",
+        # Internal, not rendered directly: the raw floor values, reused
+        # as-is by q_win_simulator so the two can never drift apart.
+        "floor_total": floor_total,
+        "floors": floors,
         "fact": fact,
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -1049,6 +1069,7 @@ def _q_collapse_blueprint(ds: dict) -> dict:
     )
     conclusion = f"부진 대회의 첫 경고 신호는 {_COMPONENT_LABELS[earliest_key]}입니다. 1라운드 {_COMPONENT_LABELS[earliest_key]}가 마이너스면 그 즉시 해당 항목을 점검하는 것이 결정 사항입니다."
     mechanism = f"실측 부진 대회 {len(worst)}회의 라운드별 SG 항목을 대회 시작부터 순서대로 추적해, 각 항목이 처음 마이너스로 전환되는 라운드를 찾아 평균낸 결과입니다."
+    root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 1라운드 {_COMPONENT_LABELS[earliest_key]} 마이너스입니다. 그 이전 단계(연습라운드 컨디션, 코스 세팅 적응 등)는 이 저장소에 기록되어 있지 않아 확인할 수 없습니다."
     why_it_matters = "대회 후반에 반응하면 이미 늦습니다. 가장 먼저 무너지는 항목을 알면 대회 초반에 개입할 수 있습니다."
     player_takeaway = f"1라운드에 {_COMPONENT_LABELS[earliest_key]}가 흔들리면 나머지 항목이 아직 괜찮더라도 경계 신호로 받아들이십시오."
     coach_focus = f"1라운드 종료 직후 {_COMPONENT_LABELS[earliest_key]} 수치부터 확인하십시오 -- 부진 대회의 {r1_negative_rate.get(earliest_key, 0)*100:.0f}%가 여기서부터 시작됩니다."
@@ -1066,6 +1087,7 @@ def _q_collapse_blueprint(ds: dict) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -1124,6 +1146,7 @@ def _q_pressure_index(ds: dict) -> dict:
     )
     conclusion = f"우승권 진입 여부를 가장 크게 가르는 항목은 {_COMPONENT_LABELS[widest_key]}입니다. 대회 중 순위권에 근접했을 때 이 항목을 최우선으로 관리하는 것이 결정 사항입니다."
     mechanism = f"실측 상위10위 마감 {len(top10)}회와 그 외 {len(rest)}회의 항목별 평균을 직접 비교해 격차가 가장 큰 항목을 찾은 결과입니다."
+    root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 {_COMPONENT_LABELS[widest_key]} 격차입니다. 순위권에서 구체적으로 어떤 샷 상황이 이 격차를 만드는지는 홀 단위 기록이 없어 확인할 수 없습니다."
     why_it_matters = "순위권 근처에서 어떤 항목이 실제로 등수를 가르는지 알면, 마지막 라운드 전략의 우선순위가 명확해집니다."
     player_takeaway = f"순위권에 근접했을 때는 {_COMPONENT_LABELS[widest_key]}가 그날의 등수를 가릅니다."
     coach_focus = f"순위권 경쟁 중인 라운드에서는 {_COMPONENT_LABELS[widest_key]} 실시간 수치를 최우선으로 확인하십시오."
@@ -1141,6 +1164,7 @@ def _q_pressure_index(ds: dict) -> dict:
         "analysis": analysis,
         "conclusion": conclusion,
         "mechanism": mechanism,
+        "root_cause": root_cause,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -1168,25 +1192,34 @@ def _q_pressure_index(ds: dict) -> dict:
     }
 
 
+def _decision_text(q: dict) -> str:
+    marker = "결정: "
+    idx = q["action"].rfind(marker)
+    return q["action"][idx + len(marker):].strip() if idx != -1 else q["conclusion"]
+
+
 def _player_playbook(questions: list) -> Optional[dict]:
-    """PLAYER PLAYBOOK: a synthesis, not a new claim -- every line below
-    is the exact `_decision_only`-style closing sentence already computed
-    by one of the questions above, grouped by category. Adding a new
-    question strengthens this automatically; nothing here is written by
-    hand per player."""
+    """PLAYER PLAYBOOK (V13 taxonomy: Attack/Defend/Accept/Avoid/Trust) --
+    a synthesis, not a new claim. Every line below is the exact decision
+    sentence already computed by one of the questions above, regrouped
+    under the player-facing five categories. Adding a new question
+    strengthens this automatically; nothing here is written by hand per
+    player."""
     if not questions:
         return None
     category_by_id = {
         "q_why_wins": "TRUST",
-        "q_approach_biggest_weapon": "NEVER_CHANGE",
-        "q_why_loses": "MONITOR",
-        "q_putting_weakest": "MONITOR",
+        "q_approach_biggest_weapon": "TRUST",
+        "q_why_loses": "ACCEPT",
+        "q_putting_weakest": "ACCEPT",
         "q_2026_improvement": "TRUST",
         "q_strong_course": "ATTACK",
         "q_most_recent_win": "AVOID",
-        "q_win_blueprint": "MONITOR",
-        "q_collapse_blueprint": "MONITOR",
-        "q_pressure_index": "MONITOR",
+        "q_win_blueprint": "DEFEND",
+        "q_collapse_blueprint": "DEFEND",
+        "q_pressure_index": "ATTACK",
+        "q_win_simulator": "DEFEND",
+        "q_risk_map": "DEFEND",
     }
     by_question = {q["id"]: q for q in questions}
     entries = []
@@ -1194,13 +1227,220 @@ def _player_playbook(questions: list) -> Optional[dict]:
         q = by_question.get(qid)
         if not q:
             continue
-        marker = "결정: "
-        idx = q["action"].rfind(marker)
-        decision = q["action"][idx + len(marker):].strip() if idx != -1 else q["conclusion"]
-        entries.append({"category": category, "decision": decision, "question_id": qid, "question": q["question"]})
+        entries.append({"category": category, "decision": _decision_text(q), "question_id": qid, "question": q["question"]})
     if not entries:
         return None
     return {"entries": entries}
+
+
+def _coach_console(questions: list) -> Optional[dict]:
+    """COACH CONSOLE (V13): exactly five lines, one per category --
+    KEEP / CHANGE / MONITOR / AVOID / DO NOT TOUCH -- never more. Each
+    line is the single highest-priority real decision for that category,
+    picked deterministically from the already-computed questions above
+    (never a new claim); a category with no supporting question yet is
+    simply omitted, never filled with an invented line."""
+    if not questions:
+        return None
+    by_question = {q["id"]: q for q in questions}
+    slot_source = {
+        "KEEP": "q_2026_improvement",
+        "CHANGE": "q_putting_weakest",
+        "MONITOR": "q_pressure_index",
+        "AVOID": "q_most_recent_win",
+        "DO_NOT_TOUCH": "q_approach_biggest_weapon",
+    }
+    entries = []
+    for category, qid in slot_source.items():
+        q = by_question.get(qid)
+        if not q:
+            continue
+        entries.append({"category": category, "decision": _decision_text(q), "question_id": qid, "question": q["question"]})
+    if not entries:
+        return None
+    return {"entries": entries}
+
+
+# ---------------------------------------------------------------------------
+# V13 (Performance Lab): three more real, calculated modules. Same rule as
+# V12 -- every number is real arithmetic (min/mean/direct comparison) over
+# rows already in historical_sg_warehouse_corrected.json, never a new
+# statistical method, never a shot-level estimate.
+# ---------------------------------------------------------------------------
+
+
+def _q_win_simulator(ds: dict, win_blueprint: Optional[dict]) -> Optional[dict]:
+    """WIN SIMULATOR: her most recent real tournament's four components,
+    checked one by one against the real Win Blueprint floor (q_win_
+    blueprint's own min() values, never recomputed here -- reused as-is
+    so the two can never drift apart). The "win readiness" score is just a
+    count: how many of the five real requirements (SG Total + four
+    components) her most recent tournament actually cleared."""
+    if not win_blueprint:
+        return None
+    rows = sorted(ds["warehouse_tournament_rows"], key=lambda r: (r["season"], r["game_code"]))
+    if not rows:
+        return None
+    latest = rows[-1]
+
+    floors = {"total": win_blueprint["floor_total"], **win_blueprint["floors"]}
+    labels = {"total": "SG Total", **{k: _COMPONENT_LABELS[k] for k in _COMPONENT_LABELS}}
+    checks = []
+    for key in ["total", *_COMPONENT_LABELS]:
+        target = floors[key]
+        actual = latest[key]
+        passed = actual is not None and actual >= target
+        checks.append({"requirement": labels[key], "target": target, "actual": actual, "status": "PASSED" if passed else "FAILED"})
+    passed_n = sum(1 for c in checks if c["status"] == "PASSED")
+    readiness = round(passed_n / len(checks) * 100)
+    check_line = "; ".join(f"{c['requirement']} 목표 {c['target']:+.2f} 실측 {c['actual']:+.2f} {c['status']}" for c in checks)
+    failed = [c for c in checks if c["status"] == "FAILED"]
+
+    fact = f"가장 최근 대회({latest['tournament']}, {latest['season']})는 우승 기준선 5개 항목 중 {passed_n}개를 충족했습니다(우승 준비도 {readiness}%)."
+    evidence = [
+        f"항목별 목표 대비 실측: {check_line}.",
+        f"미충족 항목: {', '.join(c['requirement'] for c in failed) if failed else '없음 -- 5개 항목 전부 충족'}.",
+    ]
+    analysis = (
+        "우승 기준선은 실측 우승 전부가 넘긴 바닥값입니다. 이번 대회가 이 기준선에 미달한 항목이 있다면, "
+        "그 항목이 이번 결과와 우승 사이의 실제 격차입니다 -- 추측이 아니라 같은 기준으로 직접 비교한 결과입니다."
+    )
+    conclusion = (
+        f"우승 준비도 {readiness}% -- " + (
+            "5개 항목을 전부 충족해 우승 기준선 안에 있습니다. 현재 접근을 그대로 유지하는 것이 결정 사항입니다."
+            if not failed else
+            f"{', '.join(c['requirement'] for c in failed)}이(가) 기준선 미달입니다. 다음 대회 전 이 항목을 우선 점검하는 것이 결정 사항입니다."
+        )
+    )
+    mechanism = "메커니즘: 우승 기준선(q_win_blueprint) 대비 가장 최근 대회의 실측치를 항목별로 직접 대조합니다 -- 새로운 통계가 아니라 같은 잣대를 다른 대회에 적용한 결과입니다."
+    root_cause = "근본 원인: 미충족 항목이 있다면 그 항목의 실측치가 기준선에 못 미친 것 자체가 원인입니다. 왜 그 항목이 낮았는지의 더 깊은 원인은 해당 항목의 q_why_loses/q_putting_weakest 등 개별 질문을 참조해야 하며, 이 모듈은 격차의 존재 여부만 확인합니다."
+    why_it_matters = "우승과의 거리를 감이 아니라 항목별 실측 격차로 확인할 수 있습니다."
+    player_takeaway = f"이번 대회는 우승 기준선 5개 중 {passed_n}개를 충족했습니다." + (" 그대로 준비하십시오." if not failed else f" {', '.join(c['requirement'] for c in failed)}에 집중하십시오.")
+    coach_focus = "대회 종료 직후 이 5개 항목을 우승 기준선과 대조하는 절차를 다음 대회에도 동일하게 반복하십시오."
+    durability = RECENT_TREND
+    durability_reasoning = "가장 최근 대회 1건에 대한 스냅샷 비교입니다. 다음 대회마다 다시 계산되어야 하며, 이번 결과 하나로 장기 패턴을 주장하지 않습니다."
+    reproducibility = "조건: 매 대회 종료 후 동일한 5개 항목을 우승 기준선과 대조. 대회마다 재현 가능합니다."
+    why_this_matters = "다음 대회 준비의 우선순위를 정하는 가장 직접적인 기준입니다."
+    action = f"대회별 SG Total 및 4항목을 모니터링합니다(우승 기준선과 직접 대조, historical_sg_warehouse_corrected.json (scope=tournament_cumulative), 가장 최근 대회 기준). 정상 범위: 5개 항목 전부 충족. 경고 기준: 1개 이상 미충족. 다음 점검: 다음 대회 공식 기록이 나오는 시점. 결정: " + ("현재 접근을 유지한다." if not failed else f"{', '.join(c['requirement'] for c in failed)} 항목을 다음 대회 전 우선 점검한다.")
+
+    return {
+        "id": "q_win_simulator",
+        "question": f"{PLAYER_NAME} 선수는 지금 우승 기준선에 얼마나 가까운가?",
+        "fact": fact,
+        "evidence": evidence,
+        "analysis": analysis,
+        "conclusion": conclusion,
+        "mechanism": mechanism,
+        "root_cause": root_cause,
+        "why_it_matters": why_it_matters,
+        "player_takeaway": player_takeaway,
+        "coach_focus": coach_focus,
+        "durability": durability,
+        "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
+        "why_this_matters": why_this_matters,
+        "action": action,
+        "monitoring_protocol": {
+            "metric": "대회별 SG Total 및 4항목",
+            "source": "historical_sg_warehouse_corrected.json (scope=tournament_cumulative)",
+            "sample_size": len(rows),
+            "normal_range": "5개 항목 전부 우승 기준선 충족",
+            "warning_threshold": "1개 이상 항목이 우승 기준선 미달",
+            "next_review": "다음 대회 공식 기록이 나오는 시점",
+            "explanatory_metric": f"없음. 이번 비교는 상관관계가 아니라 실측 대회 {len(rows)}회 기준 기준선과의 직접 대조입니다(충족 {passed_n}/{len(checks)}개 항목).",
+            "current_reading": latest["total"] - floors["total"],
+            "current_status": "NORMAL" if not failed else "WATCH",
+            "current_detail": f"실측값 기준 우승 준비도 {readiness}%({passed_n}/{len(checks)}개 항목 충족) -- SG Total 기준선 대비 {latest['total'] - floors['total']:+.2f} SG.",
+        },
+        "contribution_breakdown": None,
+        "evidence_score": _evidence_score(len(rows), 1),
+        "sample_size": len(rows),
+        "confidence": "HIGH",
+    }
+
+
+def _q_risk_map(ds: dict) -> Optional[dict]:
+    """RISK MAP: real severity ranking, distinct from Collapse Blueprint.
+    Collapse Blueprint finds which component turns negative FIRST
+    (onset). Risk Map finds which component is WORST on average WHEN it
+    is negative (magnitude) -- a different real question: not "what
+    warns first" but "what hurts most when it happens." Both computed
+    directly from the same real round rows, never a hole/distance model."""
+    by_game_rounds = defaultdict(dict)
+    for r in ds["warehouse_round_rows"]:
+        by_game_rounds[r["game_code"]][r["round"]] = r
+    all_rounds = ds["warehouse_round_rows"]
+    if len(all_rounds) < 30:
+        return None
+
+    severity = {}
+    frequency = {}
+    for k in _COMPONENT_LABELS:
+        negatives = [r[k] for r in all_rounds if r.get(k) is not None and r[k] < 0]
+        if negatives:
+            severity[k] = statistics.fmean(negatives)
+            frequency[k] = len(negatives) / len(all_rounds)
+    if not severity:
+        return None
+    riskiest_key = min(severity, key=lambda k: severity[k])
+    severity_line = ", ".join(f"{_COMPONENT_LABELS[k]} 평균 {severity[k]:+.2f} SG ({frequency[k]*100:.0f}% 라운드에서 마이너스)" for k in _COMPONENT_LABELS if k in severity)
+
+    fact = f"실측 라운드 {len(all_rounds)}회 중, 마이너스일 때 손실 폭이 가장 큰 항목은 {_COMPONENT_LABELS[riskiest_key]}입니다(평균 {severity[riskiest_key]:+.2f} SG)."
+    evidence = [
+        f"항목별 마이너스일 때 평균 손실 폭 및 빈도: {severity_line}.",
+        f"실측 라운드 {len(all_rounds)}회 전체 기준으로 계산되었습니다.",
+    ]
+    analysis = (
+        f"가장 먼저 무너지는 항목(부진 대회 조기 경고, 별도 질문 참조)과 가장 "
+        f"크게 무너지는 항목은 다를 수 있습니다. {_COMPONENT_LABELS[riskiest_key]}는 마이너스가 나올 때 그 폭이 "
+        "가장 커서, 한 번의 나쁜 라운드가 전체 스코어에 미치는 타격이 가장 큰 항목입니다."
+    )
+    conclusion = f"가장 위험도가 높은 항목은 {_COMPONENT_LABELS[riskiest_key]}입니다 -- 발생 빈도가 아니라 발생했을 때의 손실 폭 기준입니다. 이 항목이 마이너스로 나온 라운드는 즉시 리스크 관리 대상으로 표시하는 것이 결정 사항입니다."
+    mechanism = f"메커니즘: 실측 라운드 {len(all_rounds)}회를 항목별로 마이너스 구간만 추출해 평균을 계산한 결과입니다 -- 홀·거리·상황이 아니라 실측 라운드 단위 손실 폭을 직접 비교했습니다."
+    root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 {_COMPONENT_LABELS[riskiest_key]}가 마이너스일 때의 평균 손실 폭 자체입니다. 어떤 홀·거리·상황에서 이 손실이 발생하는지는 홀 단위 기록이 없어 확인할 수 없습니다."
+    why_it_matters = "빈도가 아니라 손실 폭 기준으로 위험을 관리하면, 자주 일어나지만 작은 손실보다 드물지만 큰 손실을 우선 방지할 수 있습니다."
+    player_takeaway = f"{_COMPONENT_LABELS[riskiest_key]}가 흔들리는 라운드는 다른 항목보다 손실이 커질 수 있다는 것을 염두에 두십시오."
+    coach_focus = f"라운드 중 {_COMPONENT_LABELS[riskiest_key]}가 마이너스로 전환되면 즉시 리스크 관리 모드로 전환하십시오 -- 다른 항목의 마이너스보다 평균 손실 폭이 큽니다."
+    durability = LONG_TERM
+    durability_reasoning = f"실측 라운드 {len(all_rounds)}회라는 큰 표본에서 계산된 순위입니다. 표본이 늘어나도 순위가 바뀌려면 다른 항목의 손실 폭이 이보다 더 커지는 새로운 누적 기록이 필요합니다."
+    reproducibility = f"조건: 없음 -- {_COMPONENT_LABELS[riskiest_key]}가 마이너스로 나오는 모든 라운드에서 재현되는 구조적 패턴입니다."
+    why_this_matters = "한 번의 나쁜 라운드가 가장 크게 다칠 수 있는 지점입니다."
+    action = f"라운드별 {_COMPONENT_LABELS[riskiest_key]}을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=single_round), 실측 라운드 {len(all_rounds)}회 기준). 경고 기준: 마이너스 전환. 다음 점검: 매 라운드 종료 시점. 결정: 이 항목이 마이너스로 나오는 즉시 다음 라운드 리스크 관리 모드로 전환한다."
+
+    return {
+        "id": "q_risk_map",
+        "question": f"{PLAYER_NAME} 선수에게 가장 위험도가 높은 항목은 무엇인가?",
+        "fact": fact,
+        "evidence": evidence,
+        "analysis": analysis,
+        "conclusion": conclusion,
+        "mechanism": mechanism,
+        "root_cause": root_cause,
+        "why_it_matters": why_it_matters,
+        "player_takeaway": player_takeaway,
+        "coach_focus": coach_focus,
+        "durability": durability,
+        "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
+        "why_this_matters": why_this_matters,
+        "action": action,
+        "monitoring_protocol": {
+            "metric": f"라운드별 {_COMPONENT_LABELS[riskiest_key]}",
+            "source": "historical_sg_warehouse_corrected.json (scope=single_round)",
+            "sample_size": len(all_rounds),
+            "normal_range": "플러스 또는 0",
+            "warning_threshold": "0 미만으로 전환",
+            "next_review": "매 라운드 종료 시점",
+            "explanatory_metric": f"{_COMPONENT_LABELS[riskiest_key]} (항목별 마이너스 시 평균 손실 폭 직접 계산, 실측 라운드 {len(all_rounds)}회 기준: {severity_line}).",
+            "current_reading": severity[riskiest_key],
+            "current_status": "WATCH",
+            "current_detail": f"실측값 기준, {_COMPONENT_LABELS[riskiest_key]}는 마이너스일 때 평균 {severity[riskiest_key]:+.2f} SG 손실이며 전체 라운드의 {frequency[riskiest_key]*100:.0f}%에서 발생했습니다.",
+        },
+        "contribution_breakdown": None,
+        "evidence_score": _evidence_score(len(all_rounds), 1),
+        "sample_size": len(all_rounds),
+        "confidence": "HIGH",
+    }
 
 
 _UNSUPPORTED_ANALYSIS_MODULES_V12 = [
@@ -1227,6 +1467,22 @@ _UNSUPPORTED_ANALYSIS_MODULES_V12 = [
     {
         "module": "디시전 퀄리티 (좋은 판단·나쁜 결과 vs 나쁜 판단·좋은 결과 구분)",
         "reason": "클럽 선택·공략 라인 등 판단 자체를 기록한 실측 데이터가 존재하지 않습니다 -- SG 수치는 결과를 측정할 뿐 판단 과정을 기록하지 않습니다.",
+    },
+    {
+        "module": "샷 체인 (Tee → Fairway/Rough → Approach Distance → Pin Proximity → Birdie Chance → Birdie Conversion)",
+        "reason": "티샷 낙하 위치, 러프 여부, 어프로치 실측 거리, 핀까지의 실측 거리 등 샷 단위 실측 기록이 존재하지 않습니다. 이 저장소가 재구성할 수 있는 가장 상세한 실측 체인은 SG OTT → SG APP → SG ARG → SG PUTT이며, 이는 WIN DNA/LOSS DNA/TREND DNA 및 q_why_wins·q_why_loses에 이미 반영되어 있습니다.",
+    },
+    {
+        "module": "로스트 스트로크 타임라인 (전반/후반, Birdie·Bogey 직후, 마지막 6홀)",
+        "reason": "홀별 스코어와 홀 순서 실측 기록이 존재하지 않아 스트로크 손실이 라운드 내 '언제' 발생했는지 재구성할 수 없습니다. 재구성 가능한 가장 세밀한 단위는 라운드(R1~R4)이며, q_collapse_blueprint·q_risk_map이 라운드 단위로 이미 답합니다.",
+    },
+    {
+        "module": "익스펙티드 버디/스코어 (홀·거리 기준 기대값 대비 실제)",
+        "reason": "홀별·거리 구간별 기대 스코어 모델을 세울 실측 기준 데이터(예: 필드 평균 거리대별 기대 스코어표)가 이 저장소에 없습니다. 실측 가능한 유일한 '기대치'는 본인의 실측 커리어 평균이며, q_win_blueprint·q_win_simulator가 이를 이미 실제 결과와 대조합니다.",
+    },
+    {
+        "module": "스코어링 오퍼튜니티 분석 (대회별 Birdie 찬스 생성·전환·실패)",
+        "reason": "대회별 GIR 수, 버디 퍼트 시도 수 등 이벤트 단위 실측 기록이 존재하지 않습니다. 이 저장소가 가진 것은 시즌 단위 GIR·파세이브율·버디율 스냅샷뿐이며, 이는 q_why_wins·q_why_loses에 이미 인용되어 있습니다.",
     },
 ]
 
@@ -1306,6 +1562,7 @@ def build() -> dict:
         top = trend_dna["breakdown"][0]
         trend_dna["story"] = f"최근 향상을 가장 크게 이끈 요소는 {top['component']}입니다({top['share_pct']:+.0f}%)."
 
+    win_blueprint_q = _q_win_blueprint(ds, win_events, by_code)
     candidates = [
         _q_why_wins(master_doc, ds, season_profiles),
         _q_why_loses(master_doc, ds, season_profiles),
@@ -1314,9 +1571,11 @@ def build() -> dict:
         _q_2026_improvement(master_doc, season_profiles),
         _q_strong_course(master_doc, by_code),
         _q_most_recent_win(master_doc, ds, by_code),
-        _q_win_blueprint(ds, win_events, by_code),
+        win_blueprint_q,
         _q_collapse_blueprint(ds),
         _q_pressure_index(ds),
+        _q_win_simulator(ds, win_blueprint_q),
+        _q_risk_map(ds),
     ]
     candidates = [c for c in candidates if c is not None]
 
@@ -1336,6 +1595,7 @@ def build() -> dict:
     excluded.append(_q_repeat_course_pattern_candidate(master_doc))
 
     player_playbook = _player_playbook(questions)
+    coach_console = _coach_console(questions)
 
     from datetime import datetime, timezone
 
@@ -1395,6 +1655,7 @@ def build() -> dict:
         "loss_dna": loss_dna,
         "trend_dna": trend_dna,
         "player_playbook": player_playbook,
+        "coach_console": coach_console,
         "unsupported_analysis_modules_v12": _UNSUPPORTED_ANALYSIS_MODULES_V12,
         "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",

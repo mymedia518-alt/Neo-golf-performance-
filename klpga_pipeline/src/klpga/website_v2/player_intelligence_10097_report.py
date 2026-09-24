@@ -156,28 +156,39 @@ def _question_card(q: dict) -> str:
         f'<span class="label-chip">{terms.CURRENT_READING_LABEL}: {protocol["current_reading"]:+.2f} SG</span>'
         "</div>"
     )
-    mechanism_html = (
-        f'<p class="piq-step"><span class="piq-label">{terms.MECHANISM_LABEL}</span>{escape(q["mechanism"])}</p>'
-        if q.get("mechanism") else ""
-    )
+    # (1) PERFORMANCE ANALYSIS -- what happened, numbers first, plus the
+    # at-most-3 key findings (still "what happened", just itemized).
+    key_findings_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"][:3])
     performance_analysis = (
         f'<p class="piq-step-label piq-label-standalone">{terms.PERFORMANCE_ANALYSIS_TITLE}</p>'
         f"{_contribution_html(q['contribution_breakdown']) if 'contribution_breakdown' in q else ''}"
         f"{current_numbers}"
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["fact"]}</span>{escape(q["fact"])}</p>'
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["analysis"]}</span>{escape(q["analysis"])}</p>'
-        f"{mechanism_html}"
+        f'<p class="piq-step-label piq-label-standalone">{terms.KEY_FINDINGS_TITLE}</p>'
+        f'<ul class="piq-evidence-list">{key_findings_items}</ul>'
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["why_it_matters"]}</span>{escape(q["why_it_matters"])}</p>'
     )
 
-    # (2) KEY FINDINGS -- at most 3 bullets.
-    key_findings_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"][:3])
-    key_findings = (
-        f'<p class="piq-step-label piq-label-standalone">{terms.KEY_FINDINGS_TITLE}</p>'
-        f'<ul class="piq-evidence-list">{key_findings_items}</ul>'
+    # (2) MECHANISM -- why/how, its own visible step (V13: Performance Lab
+    # order is Performance Analysis -> Mechanism -> Root Cause -> Coach
+    # Interpretation -> Player Action -> Evidence, never reversed).
+    mechanism_step = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.MECHANISM_LABEL}</p>'
+        f'<p class="piq-step">{escape(q["mechanism"])}</p>'
+        if q.get("mechanism") else ""
     )
 
-    # (3) COACH INTERPRETATION -- what a coach tells the player, short.
+    # (3) ROOT CAUSE -- continues past "what changed" to the first real,
+    # measurable cause this repository's data can support; never invented
+    # past that point (the field itself says so when it stops).
+    root_cause_step = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.ROOT_CAUSE_LABEL}</p>'
+        f'<p class="piq-step">{escape(q["root_cause"])}</p>'
+        if q.get("root_cause") else ""
+    )
+
+    # (4) COACH INTERPRETATION -- what a coach tells the player, short.
     coach_interpretation = (
         f'<p class="piq-step-label piq-label-standalone">{terms.COACH_INTERPRETATION_TITLE}</p>'
         '<div class="piq-brief">'
@@ -186,7 +197,7 @@ def _question_card(q: dict) -> str:
         "</div>"
     )
 
-    # (4) PLAYER ACTION -- one decision, not advice, with the real
+    # (5) PLAYER ACTION -- one decision, not advice, with the real
     # condition (reproducibility) it depends on shown right next to it.
     reproducibility_html = (
         f'<p class="piq-current-detail">{terms.REPRODUCIBILITY_LABEL}: {escape(q["reproducibility"])}</p>'
@@ -198,7 +209,7 @@ def _question_card(q: dict) -> str:
         f"{reproducibility_html}"
     )
 
-    # (5) DATA EVIDENCE -- every technical citation, nested and closed by
+    # (6) EVIDENCE -- every technical citation, nested and closed by
     # default: durability reasoning, the audit chips, the raw
     # contribution numbers, the full action/protocol text (real file and
     # field citations live here), and the 5-item monitoring protocol.
@@ -228,7 +239,8 @@ def _question_card(q: dict) -> str:
         "</details>"
     )
 
-    evidence_body = performance_analysis + key_findings + coach_interpretation + player_action + data_evidence_toggle
+    performance_lab_kicker = f'<p class="section-label">{terms.PERFORMANCE_LAB_LABEL}</p>'
+    evidence_body = performance_lab_kicker + performance_analysis + mechanism_step + root_cause_step + coach_interpretation + player_action + data_evidence_toggle
     evidence_toggle = (
         '<details class="piq-evidence-toggle">'
         f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>"
@@ -292,21 +304,41 @@ def _excluded_html(excluded: list) -> str:
 
 
 def _player_playbook_html(playbook: Optional[dict]) -> str:
-    """V12: PLAYER PLAYBOOK -- a synthesis, not a new claim. Every line is
-    the same decision already shown inside its own question card above;
-    this only groups them by category (공략/지양/모니터링/신뢰/변경 금지)
-    so a coach can scan the whole game plan in one place. Always visible
+    """V13: PLAYER PLAYBOOK (공략/방어/수용/지양/신뢰) -- a synthesis, not
+    a new claim. Every line is the same decision already shown inside its
+    own question card above; this only groups them by category so a
+    player can scan the whole game plan in one place. Always visible
     (open), since it is the report's single highest-density summary."""
     if not playbook or not playbook.get("entries"):
         return ""
     items = "".join(
-        f'<li><span class="label-chip label-chip--positive">{escape(terms.PLAYBOOK_CATEGORY_LABEL.get(e["category"], e["category"]))}</span> '
+        f'<li><span class="label-chip label-chip--positive">{escape(terms.PLAYBOOK_CATEGORY_LABEL_V13.get(e["category"], e["category"]))}</span> '
         f'{escape(e["decision"])} — <a href="#{escape(e["question_id"])}">{escape(e["question"])}</a></li>'
         for e in playbook["entries"]
     )
     return (
         '<details class="evidence-detail pi-section" id="piq-playbook" open>'
         f'<summary class="section-heading"><h2>{terms.PLAYER_PLAYBOOK_TITLE}</h2></summary>'
+        f'<div class="pi-section__body"><ul class="piq-checklist">{items}</ul></div>'
+        "</details>"
+    )
+
+
+def _coach_console_html(console: Optional[dict]) -> str:
+    """V13: COACH CONSOLE -- exactly five lines (KEEP/CHANGE/MONITOR/
+    AVOID/DO NOT TOUCH), one per category, never more. Same reuse
+    discipline as the Player Playbook: every line is a decision already
+    computed by its own question card, only regrouped."""
+    if not console or not console.get("entries"):
+        return ""
+    items = "".join(
+        f'<li><span class="label-chip">{escape(terms.COACH_CONSOLE_CATEGORY_LABEL.get(e["category"], e["category"]))}</span> '
+        f'{escape(e["decision"])} — <a href="#{escape(e["question_id"])}">{escape(e["question"])}</a></li>'
+        for e in console["entries"]
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-coach-console" open>'
+        f'<summary class="section-heading"><h2>{terms.COACH_CONSOLE_TITLE}</h2></summary>'
         f'<div class="pi-section__body"><ul class="piq-checklist">{items}</ul></div>'
         "</details>"
     )
@@ -424,11 +456,12 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     cards = "".join(_question_card(q) for q in doc["questions"])
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
     dna = _dna_html(doc)
+    coach_console = _coach_console_html(doc.get("coach_console"))
     playbook = _player_playbook_html(doc.get("player_playbook"))
     excluded = _excluded_html(doc.get("questions_considered_but_unsupported", []))
     unsupported_modules = _unsupported_modules_html(doc.get("unsupported_analysis_modules_v12"))
     repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
     return (
-        prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + playbook + cards
+        prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + coach_console + playbook + cards
         + excluded + unsupported_modules + repository_intelligence
     )

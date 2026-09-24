@@ -246,7 +246,7 @@ def test_questions_are_organized_by_real_golf_questions_in_natural_korean():
         # minimum condition", Collapse Blueprint asks "where does it start
         # failing", Pressure Index asks "what separates") -- still real
         # Korean interrogatives, just not all "why"/"how".
-        assert any(marker in question for marker in ("왜", "어떻게", "이유", "어떤", "어디", "무엇"))
+        assert any(marker in question for marker in ("왜", "어떻게", "이유", "어떤", "어디", "무엇", "얼마나"))
 
 
 def test_evidence_score_formula_is_deterministic_and_disclosed():
@@ -356,7 +356,14 @@ def test_every_question_either_has_a_reproducible_contribution_breakdown_or_none
     # group comparison. None of the three has a single-event contribution
     # to decompose, so contribution_breakdown=None is the honest value,
     # same real-data-availability reason as q_most_recent_win.
-    no_single_event_breakdown = {"q_most_recent_win", "q_win_blueprint", "q_collapse_blueprint", "q_pressure_index"}
+    # V13: win_simulator compares one event against a real floor (not a
+    # split of that event's own components); risk_map ranks components by
+    # real average loss magnitude across all rounds -- neither is a
+    # single-event SG decomposition either.
+    no_single_event_breakdown = {
+        "q_most_recent_win", "q_win_blueprint", "q_collapse_blueprint", "q_pressure_index",
+        "q_win_simulator", "q_risk_map",
+    }
     for q in doc["questions"]:
         if q["id"] in deduped_into_dna:
             assert "contribution_breakdown" not in q, f"{q['id']}: still carries a contribution_breakdown that duplicates WIN/LOSS/TREND DNA"
