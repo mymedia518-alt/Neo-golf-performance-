@@ -115,6 +115,29 @@ DATA_EVIDENCE_TOGGLE_LABEL = "데이터 근거 (원본 출처)"
 DECISION_LABEL = "결정"
 FULL_PROTOCOL_LABEL = "실행 지침 전체 (모니터링 프로토콜 포함)"
 
+# V12: MECHANISM -> IMPACT -> REPRODUCIBILITY -> COACH DECISION. "mechanism"
+# renders inside PERFORMANCE ANALYSIS (why/how, not just what); "why_it_matters"
+# already carries IMPACT; "reproducibility" renders next to the PLAYER ACTION
+# decision (the condition under which that decision holds); COACH DECISION is
+# the existing PLAYER_ACTION_TITLE box. Present only when a question actually
+# has a mechanism field -- never rendered as an empty/invented placeholder.
+MECHANISM_LABEL = "메커니즘"
+REPRODUCIBILITY_LABEL = "재현 조건"
+PLAYER_PLAYBOOK_TITLE = "플레이어 플레이북"
+PLAYBOOK_CATEGORY_LABEL = {
+    "ATTACK": "공략",
+    "AVOID": "지양",
+    "MONITOR": "모니터링",
+    "TRUST": "신뢰",
+    "NEVER_CHANGE": "변경 금지",
+}
+UNSUPPORTED_MODULES_TITLE = "실측 데이터 없이는 답할 수 없는 분석"
+UNSUPPORTED_MODULES_DESCRIPTION = (
+    "이 리포트가 다루는 실측 데이터의 최소 단위는 라운드·대회입니다. 아래 분석은 홀 단위, 거리 구간, 핀 위치, "
+    "샷 시퀀스, 판단 과정 등 더 세밀한 실측 기록이 있어야 답할 수 있으며, 이 저장소에는 그 기록이 없습니다. "
+    "추측 대신 정직한 제외를 선택했습니다."
+)
+
 # 페이지 상단 / 섹션 제목
 HERO_TITLE = "선수 퍼포먼스 리포트 — 최고 수준 분석"
 CHECKLIST_TITLE = "대회 전 모니터링 체크리스트"

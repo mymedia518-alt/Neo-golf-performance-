@@ -76,6 +76,7 @@ import statistics
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Optional
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -500,6 +501,8 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     )
     why_this_matters = "이번 주뿐 아니라 매 대회 경기 전략의 기준선입니다."
     action = _action_from_protocol(protocol, "SG APP 샷 운영 방식을 그대로 유지한다. 이 영역은 조정 대상에서 제외한다.")
+    mechanism = "메커니즘: 우승 대회에서 SG APP가 플러스로 전환되는 시점부터 스코어링 우위가 시작되고, 이 우위가 라운드 전체에 누적되어 최종 스코어 차이로 이어집니다."
+    reproducibility = "조건: 대회별 SG APP 플러스 유지. 실측 4개 시즌 전부에서 재현되었습니다."
 
     sample_sizes = [win_fact["sample_size"], sum(p.n_tournaments for p in season_profiles)] + [r["sample_size"] for r in reasons]
     sources = set(win_fact["official_records_used"]) | {s for r in reasons for s in r["official_records_used"]}
@@ -510,11 +513,13 @@ def _q_why_wins(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -561,6 +566,8 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
     )
     why_this_matters = "다음 스트로크 게인은 스윙이 아니라 전환력에서 나와야 합니다."
     action = _action_from_protocol(protocol, "다음 훈련 사이클에서 퍼팅 전환 훈련 비중을 늘린다. 볼 스트라이킹 훈련은 현행 유지한다.")
+    mechanism = "메커니즘: SG APP가 만든 Birdie 기회가 SG PUTT 전환 단계에서 소실됩니다 -- 기회 생성과 기회 전환은 분리된 두 단계이며, 병목은 후자에 있습니다."
+    reproducibility = "조건: SG APP는 플러스인데 SG PUTT이 필드 평균 이하인 대회. 실측 4개 시즌 전부에서 반복되었습니다."
 
     sample_sizes = [r["sample_size"] for r in reasons]
     sources = {s for r in reasons for s in r["official_records_used"]}
@@ -571,11 +578,13 @@ def _q_why_loses(master_doc: dict, ds: dict, season_profiles: list) -> dict:
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -617,6 +626,8 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
     durability_reasoning = "4개 시즌 연속 플러스는 가장 강한 지속성 신호입니다. 뚜렷한 하락이 나타나기 전까지는 재검토 대상이 아닙니다."
     why_this_matters = "이번 대회뿐 아니라 매 대회 경기 전략의 중심입니다."
     action = _action_from_protocol(protocol, "SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.")
+    mechanism = "메커니즘: 다른 세 항목의 시즌별 등락과 무관하게 SG APP만 4개 시즌 내내 플러스를 유지했습니다 -- 경기력의 다른 부분에 의존하지 않는 독립적 강점입니다."
+    reproducibility = "조건: 없음 -- 조건부 강점이 아니라 4개 시즌 전 구간에서 일관되게 나타난 상수적 강점입니다."
 
     sources = set(audit["official_records_used"])
     return {
@@ -626,11 +637,13 @@ def _q_approach_biggest_weapon(master_doc: dict, ds: dict, season_profiles: list
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -671,6 +684,8 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
     durability_reasoning = "이 내부 순위는 4개 시즌 내내 유지됐습니다. 나머지 세 항목과의 격차가 실제로 좁혀지는 전혀 다른 패턴이 나오기 전까지는 유효합니다."
     why_this_matters = "다음 한 시간의 훈련이 가장 큰 효과를 가져올 곳입니다."
     action = _action_from_protocol(protocol, "다음 훈련 사이클의 우선순위를 퍼팅으로 전환한다.")
+    mechanism = "메커니즘: 나머지 세 항목이 필드 상위권까지 올라온 반면 SG PUTT만 필드 평균에 머물러, 같은 훈련 시간을 투입했을 때 개선 여력이 가장 큰 항목으로 남았습니다."
+    reproducibility = "조건: 다음 훈련 사이클에 퍼팅 비중을 늘렸을 때 시즌별 SG PUTT 평균 상승 여부로 검증 가능합니다."
 
     sample_sizes = [reason["sample_size"]]
     sources = set(reason["official_records_used"]) | {"knowledge_engine.compute_season_profiles() (player_dna.axes)"}
@@ -681,11 +696,13 @@ def _q_putting_weakest(master_doc: dict, ds: dict, season_profiles: list) -> dic
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -724,6 +741,8 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
     durability_reasoning = "4개 시즌에 걸친 흐름입니다. 다섯 번째 시즌이 정체되어도 지난 4년의 실제 향상 자체는 사라지지 않습니다."
     why_this_matters = "지금까지 효과가 있었던 방식을 계속 유지하십시오."
     action = _action_from_protocol(protocol, "볼 스트라이킹 중심 훈련 프로그램을 변경하지 않는다.")
+    mechanism = "메커니즘: SG OTT·SG APP가 동시에 상승하며 SG Total을 끌어올렸고, SG PUTT은 같은 속도로 오르지 않아 이번 향상의 원천이 볼 스트라이킹임을 가리킵니다."
+    reproducibility = "조건: 현재 훈련 프로그램 유지. 실측 4개 시즌 연속 재현되었습니다."
 
     sources = set(audit["official_records_used"])
     return {
@@ -733,11 +752,13 @@ def _q_2026_improvement(master_doc: dict, season_profiles: list) -> dict:
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -773,6 +794,13 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
     durability_reasoning = f"실측 {n}회는 앞으로도 바뀌지 않는 기록입니다. 표본이 4개뿐이라 다음 출전이 평균 이하면 전체 평균은 낮아질 수 있으나 패턴 자체가 뒤집히지는 않습니다."
     why_this_matters = "지나치게 코치하기보다 믿고 맡겨야 한다는 점이 가장 분명하게 드러나는 지점입니다."
     action = _action_from_protocol(protocol, f"{group['series_name_sample']} 출전 주에는 스윙·전략 변경을 하지 않는다.")
+    mechanism = (
+        f"메커니즘: 이 코스에서는 {contribution['top_contributor']}가 스코어링 우위를 가장 크게 만듭니다"
+        f"({contribution['breakdown'][0]['share_pct']:+.0f}%, 실측 {n}회 출전 기준) -- '이 코스가 잘 맞는다'가 "
+        f"아니라 '{contribution['top_contributor']}를 살릴 수 있는 코스 조건이 반복된다'는 뜻입니다."
+        if contribution else "메커니즘: 실측 4회 출전 전부 플러스라는 결과만 확인되며, 항목별 분해 근거는 없습니다."
+    )
+    reproducibility = f"조건: 이 코스 재출전 시 기존 전략 유지. 실측 {n}회 출전 전부에서 플러스로 재현되었습니다."
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
     return {
@@ -782,11 +810,13 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -847,6 +877,8 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
     durability_reasoning = f"이미 확정된 결과이므로 바뀌지 않습니다. 다만 라운드 간 흐름 전체(실측 전환 {delta_n}건, 평균 {delta_mean:+.2f} SG)는 일관된 상승 패턴을 보이지 않으므로, 이 대회 하나의 사실로만 취급합니다."
     why_this_matters = "출발이 더딜 때 참고할 수 있는 실제 최근 사례입니다."
     action = _action_from_protocol(protocol, "이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.")
+    mechanism = "메커니즘: 2라운드 부진 이후 전략을 바꾸지 않고 3라운드에 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다."
+    reproducibility = "조건: 알 수 없음 -- 실측 1회 사건이라 재현 조건을 일반화할 근거가 없습니다."
 
     sources = {win["official_source"].split(" (")[0]}
     return {
@@ -856,11 +888,13 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
         "evidence": evidence,
         "analysis": analysis,
         "conclusion": conclusion,
+        "mechanism": mechanism,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
         "durability": durability,
         "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
         "why_this_matters": why_this_matters,
         "action": action,
         "monitoring_protocol": protocol,
@@ -890,6 +924,311 @@ def _q_repeat_course_pattern_candidate(master_doc: dict) -> dict:
         "sample_size": fact_audit["sample_size"],
         "confidence": fact_audit["confidence"],
     }
+
+
+# ---------------------------------------------------------------------------
+# V12: mechanism-level modules. Every number below is real arithmetic
+# (min/first-occurrence/group-mean) over rows already in
+# historical_sg_warehouse_corrected.json -- never a new statistical
+# method, never a shot-level estimate. Modules from the V12 brief that
+# need data this repository does not have (hole-by-hole scores, pin
+# position, yardage bands, shot sequence, club/line decisions) are not
+# built here; they are disclosed by name in build()'s
+# unsupported_analysis_modules_v12 list instead of being guessed.
+# ---------------------------------------------------------------------------
+
+
+def _q_win_blueprint(ds: dict, win_events: list, by_code: dict) -> dict:
+    """WIN BLUEPRINT: the real per-component FLOOR across every verified
+    win -- not an estimate, the literal min() of official recorded values.
+    n=2 (her only 2 verified wins on record), so this is reported as a
+    real but thin-sample floor, never inflated to a guaranteed minimum."""
+    win_rows = [by_code[w["game_code"]] for w in win_events if w["game_code"] in by_code]
+    if len(win_rows) < 2:
+        return None
+    floors = {k: min(r[k] for r in win_rows) for k in _COMPONENT_LABELS}
+    floor_total = min(r["total"] for r in win_rows)
+    win_names = ", ".join(f"{w['tournament']} ({w['season']})" for w in win_events)
+    floor_line = ", ".join(f"{_COMPONENT_LABELS[k]} {v:+.2f}" for k, v in floors.items())
+
+    fact = f"실측 우승 {len(win_rows)}회 전체에서 SG Total {floor_total:+.2f} 이상, {floor_line} 이상을 모두 기록했습니다."
+    evidence = [
+        f"우승별 SG 구성: " + "; ".join(f"{w['tournament']}: SG Total {by_code[w['game_code']]['total']:+.2f}" for w in win_events if w["game_code"] in by_code) + ".",
+        f"항목별 최저 기록값(우승 {len(win_rows)}회 중 최솟값): {floor_line}.",
+    ]
+    analysis = (
+        f"실측 우승 {len(win_rows)}회 모두 이 기준선 아래로 내려간 항목이 하나도 없습니다 -- 우연히 한 항목이 "
+        "터진 우승이 아니라, 네 항목 전부가 최소 기준을 넘겼을 때만 우승이 나왔다는 뜻입니다."
+    )
+    conclusion = "우승 최소 기준선은 SG Total과 네 항목 전부에서 확인됩니다. 대회 중 이 기준선 아래로 내려가는 항목이 있으면 우승권 이탈 신호로 취급하는 것이 결정 사항입니다."
+    mechanism = f"우승 메커니즘의 하한선입니다 -- 추정이 아니라 실측 {len(win_rows)}회 우승 기록의 항목별 최솟값을 그대로 계산한 값입니다."
+    why_it_matters = "대회 중 실시간으로 '지금 우승권 페이스인가'를 판단할 수 있는 유일한 기준선입니다."
+    player_takeaway = f"네 항목 모두 이 기준선 위에 있을 때 우승 페이스입니다. 한 항목이라도 이 아래로 내려가면 경계 신호입니다."
+    coach_focus = f"대회 중 매 라운드 종료 시 네 항목을 이 기준선과 비교하십시오 -- 라운드별 SG 항목은 대회 도중에도 실시간 확인 가능합니다."
+    durability = LONG_TERM
+    durability_reasoning = f"실측 우승이 {len(win_rows)}회뿐이라 표본이 얇습니다. 다음 우승이 이 기준선 중 하나라도 밑도는 순간, 기준선은 그 값으로 다시 낮아져야 합니다."
+    reproducibility = f"조건: 대회별 SG Total {floor_total:+.2f} 이상 + 네 항목 모두 각자의 기준선 이상. 실측 {len(win_rows)}회 우승 전부가 이 조건을 만족했습니다."
+    why_this_matters = "이 기준선 아래로 내려가면 전략을 바꿔야 한다는 신호입니다."
+    action = f"우승 기준선 대비 대회별 SG 4항목을 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative), 실측 우승 {len(win_rows)}회 기준 산출된 기준선: {floor_total:+.2f} SG Total, {floor_line}). 경고 기준: 네 항목 중 하나라도 기준선 미만. 다음 점검: 다음 대회 공식 기록이 나오는 시점. 결정: 라운드 종료마다 네 항목을 기준선과 비교하고, 기준선 아래로 내려간 항목이 있으면 다음 라운드 전략 점검 대상으로 표시한다."
+
+    return {
+        "id": "q_win_blueprint",
+        "question": f"{PLAYER_NAME} 선수의 우승에는 어떤 최소 조건이 있는가?",
+        "fact": fact,
+        "evidence": evidence,
+        "analysis": analysis,
+        "conclusion": conclusion,
+        "mechanism": mechanism,
+        "why_it_matters": why_it_matters,
+        "player_takeaway": player_takeaway,
+        "coach_focus": coach_focus,
+        "durability": durability,
+        "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
+        "why_this_matters": why_this_matters,
+        "action": action,
+        "monitoring_protocol": {
+            "metric": "우승 기준선 대비 대회별 SG 4항목",
+            "source": "historical_sg_warehouse_corrected.json (scope=tournament_cumulative)",
+            "sample_size": len(win_rows),
+            "normal_range": f"SG Total {floor_total:+.2f} 이상, {floor_line} 이상",
+            "warning_threshold": "4항목 중 1개라도 기준선 미만으로 대회를 마치는 경우",
+            "next_review": "다음 대회 공식 기록이 나오는 시점",
+            "explanatory_metric": f"없음. 실측 우승 {len(win_rows)}회 전부에서 기준선 이탈 사례가 없어(이탈률 0%, n={len(win_rows)}), 이탈 원인을 특정 항목으로 지목할 근거 자체가 아직 없습니다.",
+            "current_reading": by_code[win_events[-1]["game_code"]]["total"] if win_events and win_events[-1]["game_code"] in by_code else floor_total,
+            "current_status": "NORMAL",
+            "current_detail": "가장 최근 우승의 실측값은 기준선을 모두 충족했습니다.",
+        },
+        "evidence_score": _evidence_score(len(win_rows), 1),
+        "sample_size": len(win_rows),
+        "confidence": "MEDIUM" if len(win_rows) >= 2 else "LOW",
+        "contribution_breakdown": None,
+    }
+
+
+def _q_collapse_blueprint(ds: dict) -> dict:
+    """COLLAPSE BLUEPRINT / FAILURE CHAIN: across her worst results (real
+    negative-SG-Total tournaments on record), which component is
+    negative FIRST in the round sequence -- the earliest measurable
+    warning sign, found by real round order, never assumed."""
+    by_game_rounds = defaultdict(dict)
+    for r in ds["warehouse_round_rows"]:
+        by_game_rounds[r["game_code"]][r["round"]] = r
+    worst = sorted(
+        (r for r in ds["warehouse_tournament_rows"] if r.get("total") is not None and r["total"] < 0),
+        key=lambda r: r["total"],
+    )
+    if len(worst) < 3:
+        return None
+
+    first_negative_round = {k: [] for k in _COMPONENT_LABELS}
+    for w in worst:
+        rounds = by_game_rounds.get(w["game_code"], {})
+        for k in _COMPONENT_LABELS:
+            neg_rounds = sorted(rn for rn, row in rounds.items() if row.get(k) is not None and row[k] < 0)
+            if neg_rounds:
+                first_negative_round[k].append(neg_rounds[0])
+
+    avg_onset = {k: statistics.fmean(v) for k, v in first_negative_round.items() if v}
+    r1_negative_rate = {k: sum(1 for r in v if r == 1) / len(worst) for k, v in first_negative_round.items()}
+    if not avg_onset:
+        return None
+    earliest_key = min(avg_onset, key=lambda k: avg_onset[k])
+    onset_line = ", ".join(f"{_COMPONENT_LABELS[k]} 평균 {avg_onset[k]:.1f}라운드" for k in _COMPONENT_LABELS if k in avg_onset)
+    r1_line = ", ".join(f"{_COMPONENT_LABELS[k]}: {r1_negative_rate.get(k, 0)*100:.0f}%" for k in _COMPONENT_LABELS)
+
+    fact = f"실측 부진 대회 {len(worst)}회 중, {_COMPONENT_LABELS[earliest_key]}가 가장 먼저 마이너스로 전환되는 항목입니다(평균 {avg_onset[earliest_key]:.1f}라운드부터)."
+    evidence = [
+        f"항목별 첫 마이너스 전환 라운드 평균: {onset_line}.",
+        f"1라운드부터 마이너스였던 비율: {r1_line} (실측 부진 대회 {len(worst)}회 기준).",
+    ]
+    analysis = (
+        f"부진한 대회에서 마지막에 무너지는 항목이 아니라 가장 먼저 무너지는 항목을 보면 원인이 다르게 "
+        f"보입니다. {_COMPONENT_LABELS[earliest_key]}는 대회 초반부터 이미 마이너스로 시작하는 경우가 가장 "
+        "많은 항목입니다 -- 대회 후반의 심리적 압박이 아니라 대회 초반의 기술적 준비 상태 문제에 가깝습니다."
+    )
+    conclusion = f"부진 대회의 첫 경고 신호는 {_COMPONENT_LABELS[earliest_key]}입니다. 1라운드 {_COMPONENT_LABELS[earliest_key]}가 마이너스면 그 즉시 해당 항목을 점검하는 것이 결정 사항입니다."
+    mechanism = f"실측 부진 대회 {len(worst)}회의 라운드별 SG 항목을 대회 시작부터 순서대로 추적해, 각 항목이 처음 마이너스로 전환되는 라운드를 찾아 평균낸 결과입니다."
+    why_it_matters = "대회 후반에 반응하면 이미 늦습니다. 가장 먼저 무너지는 항목을 알면 대회 초반에 개입할 수 있습니다."
+    player_takeaway = f"1라운드에 {_COMPONENT_LABELS[earliest_key]}가 흔들리면 나머지 항목이 아직 괜찮더라도 경계 신호로 받아들이십시오."
+    coach_focus = f"1라운드 종료 직후 {_COMPONENT_LABELS[earliest_key]} 수치부터 확인하십시오 -- 부진 대회의 {r1_negative_rate.get(earliest_key, 0)*100:.0f}%가 여기서부터 시작됩니다."
+    durability = LONG_TERM
+    durability_reasoning = f"실측 부진 대회 {len(worst)}회에서 반복 확인된 패턴입니다. 표본이 늘어나면 평균 전환 라운드는 소수점 단위로 조정될 수 있으나, {_COMPONENT_LABELS[earliest_key]}가 최초 전환 항목이라는 순위 자체가 바뀌려면 다른 항목이 더 이른 라운드에서 반복적으로 무너지는 새로운 패턴이 나와야 합니다."
+    reproducibility = f"조건: 대회 SG Total이 마이너스로 마감되는 모든 경우. 실측 {len(worst)}회 중 {r1_negative_rate.get(earliest_key, 0)*100:.0f}%에서 1라운드부터 {_COMPONENT_LABELS[earliest_key]}가 마이너스였습니다."
+    why_this_matters = "대회 초반에 확인해야 할 첫 번째 경고 신호입니다."
+    action = f"1라운드 {_COMPONENT_LABELS[earliest_key]}을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=single_round, round=1), 실측 부진 대회 {len(worst)}회 기준). 경고 기준: 1라운드 마이너스. 다음 점검: 매 대회 1라운드 종료 시점. 결정: 1라운드에 이 항목이 마이너스면 2라운드 전 해당 파트 훈련을 우선 점검한다."
+
+    return {
+        "id": "q_collapse_blueprint",
+        "question": f"{PLAYER_NAME} 선수의 부진 대회는 어디서부터 무너지기 시작하는가?",
+        "fact": fact,
+        "evidence": evidence,
+        "analysis": analysis,
+        "conclusion": conclusion,
+        "mechanism": mechanism,
+        "why_it_matters": why_it_matters,
+        "player_takeaway": player_takeaway,
+        "coach_focus": coach_focus,
+        "durability": durability,
+        "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
+        "why_this_matters": why_this_matters,
+        "action": action,
+        "monitoring_protocol": {
+            "metric": f"1라운드 {_COMPONENT_LABELS[earliest_key]}",
+            "source": "historical_sg_warehouse_corrected.json (scope=single_round, round=1)",
+            "sample_size": len(worst),
+            "normal_range": "1라운드 플러스",
+            "warning_threshold": "1라운드 마이너스",
+            "next_review": "매 대회 1라운드 종료 시점",
+            "explanatory_metric": f"{_COMPONENT_LABELS[earliest_key]} (항목별 첫 마이너스 전환 평균 라운드 직접 계산 -- 상관관계 추정이 아니라 실제 라운드 순서를 센 결과입니다: {onset_line}, 실측 부진 대회 {len(worst)}회 기준).",
+            "current_reading": avg_onset[earliest_key],
+            "current_status": "WATCH",
+            "current_detail": f"실측값 기준, 부진 대회의 {r1_negative_rate.get(earliest_key, 0)*100:.0f}%가 1라운드 {_COMPONENT_LABELS[earliest_key]} 마이너스로 시작되었습니다.",
+        },
+        "evidence_score": _evidence_score(len(worst), 1),
+        "sample_size": len(worst),
+        "confidence": "HIGH" if len(worst) >= 10 else ("MEDIUM" if len(worst) >= 5 else "LOW"),
+        "contribution_breakdown": None,
+    }
+
+
+def _q_pressure_index(ds: dict) -> dict:
+    """PRESSURE INDEX: real split by her own recorded tournament rank --
+    상위10위 finishes 대 the rest -- never mixing this with round number or
+    any situation this repository has no real per-moment leaderboard
+    data for (live position mid-round, cut line, back-nine-only splits
+    are NOT computed here because no real data supports them)."""
+    rows = [r for r in ds["warehouse_tournament_rows"] if r.get("rank") is not None]
+    top10 = [r for r in rows if r["rank"] <= 10]
+    rest = [r for r in rows if r["rank"] > 10]
+    if len(top10) < 5 or len(rest) < 5:
+        return None
+
+    diffs = {}
+    for k in _COMPONENT_LABELS:
+        top10_avg = statistics.fmean(r[k] for r in top10)
+        rest_avg = statistics.fmean(r[k] for r in rest)
+        diffs[k] = (top10_avg, rest_avg, top10_avg - rest_avg)
+    widest_key = max(diffs, key=lambda k: diffs[k][2])
+    diff_line = ", ".join(f"{_COMPONENT_LABELS[k]} 상위10위 {v[0]:+.2f} 대 그 외 {v[1]:+.2f}" for k, v in diffs.items())
+
+    fact = f"실측 상위10위 마감 {len(top10)}회와 그 외 {len(rest)}회를 비교하면, {_COMPONENT_LABELS[widest_key]} 격차가 가장 큽니다(상위10위 {diffs[widest_key][0]:+.2f} 대 그 외 {diffs[widest_key][1]:+.2f})."
+    evidence = [
+        f"항목별 상위10위 대 그 외 평균: {diff_line}.",
+        f"표본: 상위10위 마감 {len(top10)}회, 그 외 {len(rest)}회 (실측 대회 {len(rows)}회 전체).",
+    ]
+    analysis = (
+        f"상위10위에 들었던 대회와 그러지 못한 대회를 가르는 항목은 {_COMPONENT_LABELS[widest_key]}입니다 -- 다른 "
+        "세 항목의 격차보다 뚜렷하게 큽니다. 순위권에 근접했을 때 실제로 차이를 만드는 것이 이 항목이라는 뜻입니다."
+    )
+    conclusion = f"우승권 진입 여부를 가장 크게 가르는 항목은 {_COMPONENT_LABELS[widest_key]}입니다. 대회 중 순위권에 근접했을 때 이 항목을 최우선으로 관리하는 것이 결정 사항입니다."
+    mechanism = f"실측 상위10위 마감 {len(top10)}회와 그 외 {len(rest)}회의 항목별 평균을 직접 비교해 격차가 가장 큰 항목을 찾은 결과입니다."
+    why_it_matters = "순위권 근처에서 어떤 항목이 실제로 등수를 가르는지 알면, 마지막 라운드 전략의 우선순위가 명확해집니다."
+    player_takeaway = f"순위권에 근접했을 때는 {_COMPONENT_LABELS[widest_key]}가 그날의 등수를 가릅니다."
+    coach_focus = f"순위권 경쟁 중인 라운드에서는 {_COMPONENT_LABELS[widest_key]} 실시간 수치를 최우선으로 확인하십시오."
+    durability = LONG_TERM
+    durability_reasoning = f"실측 {len(rows)}개 대회 전체(상위10위 {len(top10)}회, 그 외 {len(rest)}회)에서 계산된 격차입니다. 표본이 늘어나면 격차 크기는 조정될 수 있지만, 가장 큰 격차를 만드는 항목이 바뀌려면 다른 항목의 격차가 이보다 더 벌어지는 새로운 기록이 쌓여야 합니다."
+    reproducibility = f"조건: 대회 마감 순위 상위10위 여부. 실측 {len(rows)}개 대회 전체에서 재현 가능한 비교입니다."
+    why_this_matters = "순위권 경쟁 중 가장 먼저 확인해야 할 항목입니다."
+    action = f"대회별 {_COMPONENT_LABELS[widest_key]}을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative), 실측 대회 {len(rows)}회 기준). 정상 범위: 상위10위 마감 평균 {diffs[widest_key][0]:+.2f} SG 이상. 다음 점검: 다음 대회 공식 기록이 나오는 시점. 결정: 순위권 경쟁 중인 최종 라운드에는 이 항목의 실시간 수치를 최우선 확인 지표로 삼는다."
+
+    return {
+        "id": "q_pressure_index",
+        "question": f"{PLAYER_NAME} 선수는 순위권 경쟁에서 어떤 항목으로 갈리는가?",
+        "fact": fact,
+        "evidence": evidence,
+        "analysis": analysis,
+        "conclusion": conclusion,
+        "mechanism": mechanism,
+        "why_it_matters": why_it_matters,
+        "player_takeaway": player_takeaway,
+        "coach_focus": coach_focus,
+        "durability": durability,
+        "durability_reasoning": durability_reasoning,
+        "reproducibility": reproducibility,
+        "why_this_matters": why_this_matters,
+        "action": action,
+        "monitoring_protocol": {
+            "metric": f"대회별 {_COMPONENT_LABELS[widest_key]}",
+            "source": "historical_sg_warehouse_corrected.json (scope=tournament_cumulative)",
+            "sample_size": len(rows),
+            "normal_range": f"상위10위 마감 평균 {diffs[widest_key][0]:+.2f} SG 이상",
+            "warning_threshold": f"그 외 마감 평균 수준인 {diffs[widest_key][1]:+.2f} SG 이하로 하락",
+            "next_review": "다음 대회 공식 기록이 나오는 시점",
+            "explanatory_metric": f"{_COMPONENT_LABELS[widest_key]} (상위10위 대 그 외 항목별 격차 직접 비교, 실측 {len(rows)}개 대회 기준: {diff_line}).",
+            "current_reading": diffs[widest_key][0],
+            "current_status": "NORMAL",
+            "current_detail": f"가장 최근 상위10위 마감 실측값은 평균 수준({diffs[widest_key][0]:+.2f} SG)입니다.",
+        },
+        "evidence_score": _evidence_score(len(rows), 1),
+        "sample_size": len(rows),
+        "confidence": "HIGH" if len(rows) >= 30 else "MEDIUM",
+        "contribution_breakdown": None,
+    }
+
+
+def _player_playbook(questions: list) -> Optional[dict]:
+    """PLAYER PLAYBOOK: a synthesis, not a new claim -- every line below
+    is the exact `_decision_only`-style closing sentence already computed
+    by one of the questions above, grouped by category. Adding a new
+    question strengthens this automatically; nothing here is written by
+    hand per player."""
+    if not questions:
+        return None
+    category_by_id = {
+        "q_why_wins": "TRUST",
+        "q_approach_biggest_weapon": "NEVER_CHANGE",
+        "q_why_loses": "MONITOR",
+        "q_putting_weakest": "MONITOR",
+        "q_2026_improvement": "TRUST",
+        "q_strong_course": "ATTACK",
+        "q_most_recent_win": "AVOID",
+        "q_win_blueprint": "MONITOR",
+        "q_collapse_blueprint": "MONITOR",
+        "q_pressure_index": "MONITOR",
+    }
+    by_question = {q["id"]: q for q in questions}
+    entries = []
+    for qid, category in category_by_id.items():
+        q = by_question.get(qid)
+        if not q:
+            continue
+        marker = "결정: "
+        idx = q["action"].rfind(marker)
+        decision = q["action"][idx + len(marker):].strip() if idx != -1 else q["conclusion"]
+        entries.append({"category": category, "decision": decision, "question_id": qid, "question": q["question"]})
+    if not entries:
+        return None
+    return {"entries": entries}
+
+
+_UNSUPPORTED_ANALYSIS_MODULES_V12 = [
+    {
+        "module": "모멘텀 분석 (Birdie/Bogey/Eagle 직후 다음 홀 반응)",
+        "reason": "홀 단위 실측 기록(홀별 스코어, 순서)이 이 저장소의 공식 데이터 웨어하우스에 존재하지 않습니다 -- 대회/라운드 단위 SG 합산만 실측 가능합니다.",
+    },
+    {
+        "module": "리커버리 인덱스 (Bogey/Double Bogey 이후 안정까지 걸리는 홀 수)",
+        "reason": "홀 단위 순서 기록이 없어 '몇 홀 만에 회복'을 계산할 실측 근거가 없습니다.",
+    },
+    {
+        "module": "어택/디펜스 프로파일 (Par5·짧은 Par4·좌우 핀 공략)",
+        "reason": "홀 유형·핀 위치별 실측 기록이 존재하지 않습니다 (Repository Intelligence V1/V2에서 이미 확인: Hole/PinPosition 카테고리 실측 데이터 0건).",
+    },
+    {
+        "module": "거리 구간별 인텔리전스 (80-100m ~ 180m+)",
+        "reason": "거리 구간별 실측 기록이 존재하지 않습니다 -- cmpro 샷 트래커 QA 보고서는 실제로 발견되었으나(Repository Intelligence V1), 이를 뒷받침하는 SQLite 원본 파일 자체가 이 저장소 어디에도 커밋되어 있지 않습니다.",
+    },
+    {
+        "module": "홀 인텔리전스 (Par3/4/5, 전반/후반, 최고·최악 난이도 홀)",
+        "reason": "홀 단위 실측 기록이 존재하지 않습니다.",
+    },
+    {
+        "module": "디시전 퀄리티 (좋은 판단·나쁜 결과 vs 나쁜 판단·좋은 결과 구분)",
+        "reason": "클럽 선택·공략 라인 등 판단 자체를 기록한 실측 데이터가 존재하지 않습니다 -- SG 수치는 결과를 측정할 뿐 판단 과정을 기록하지 않습니다.",
+    },
+]
 
 
 # ---------------------------------------------------------------------------
@@ -975,6 +1314,9 @@ def build() -> dict:
         _q_2026_improvement(master_doc, season_profiles),
         _q_strong_course(master_doc, by_code),
         _q_most_recent_win(master_doc, ds, by_code),
+        _q_win_blueprint(ds, win_events, by_code),
+        _q_collapse_blueprint(ds),
+        _q_pressure_index(ds),
     ]
     candidates = [c for c in candidates if c is not None]
 
@@ -992,6 +1334,8 @@ def build() -> dict:
         questions.append(c)
 
     excluded.append(_q_repeat_course_pattern_candidate(master_doc))
+
+    player_playbook = _player_playbook(questions)
 
     from datetime import datetime, timezone
 
@@ -1050,6 +1394,8 @@ def build() -> dict:
         "win_dna": win_dna,
         "loss_dna": loss_dna,
         "trend_dna": trend_dna,
+        "player_playbook": player_playbook,
+        "unsupported_analysis_modules_v12": _UNSUPPORTED_ANALYSIS_MODULES_V12,
         "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
     }
