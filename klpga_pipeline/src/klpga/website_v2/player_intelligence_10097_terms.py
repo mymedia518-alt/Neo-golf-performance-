@@ -154,11 +154,14 @@ PLAYBOOK_CATEGORY_LABEL_V13 = {
     "TRUST": "신뢰",
 }
 
-# V15: the three-layer intelligence model. NEO does not analyze golf
-# swings -- it separately measures how technique becomes scoring, and how
-# scoring becomes winning. Never mixed.
-LAYER_MODEL_TITLE = "3레이어 인텔리전스 모델"
-LAYER_LABEL = {"TECHNIQUE": "기술", "SCORING": "스코어링", "COMPETITION": "경쟁"}
+# V16: the performance funnel. Golf is not Technique -> Winning; it is
+# Technique -> Opportunity -> Conversion -> Competition -> Winning. No
+# stage is ever collapsed into a synthetic "efficiency %" -- every number
+# stays independently real and directly explainable.
+PERFORMANCE_FUNNEL_TITLE = "퍼포먼스 퍼널"
+LEAK_MAP_TITLE = "리크 맵 (핵심 손실 지점 3가지)"
+LAYER_LABEL = {"TECHNIQUE": "기술", "OPPORTUNITY": "기회 창출", "CONVERSION": "기회 전환", "COMPETITION": "경쟁"}
+LEAK_FIELD_LABEL = {"where": "위치", "why": "이유", "performance_loss": "성과 손실", "coach_decision": "코치 결정"}
 
 UNSUPPORTED_MODULES_TITLE = "실측 데이터 없이는 답할 수 없는 분석"
 UNSUPPORTED_MODULES_DESCRIPTION = (
