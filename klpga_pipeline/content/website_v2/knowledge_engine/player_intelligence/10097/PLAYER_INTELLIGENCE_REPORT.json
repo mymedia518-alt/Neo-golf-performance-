@@ -36,7 +36,7 @@
   "contribution_breakdown_method": "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다.",
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-24T11:48:45.423201+00:00",
+  "generated_at": "2026-09-24T13:51:13.171545+00:00",
   "leak_map": {
     "leaks": [
       {
@@ -565,6 +565,7 @@
         "top_contributor": "SG APP",
         "total_value": 7.37
       },
+      "decision_context": "실측된 과거 결정: 4회 출전 내내 전략을 크게 바꾸지 않는 선택이 반복되었고, 그 결정이 매 출전 플러스 스코어링으로 이어졌습니다 -- 이 성과는 우연한 결과가 아니라 반복된 결정의 산물입니다.",
       "durability": "LONG_TERM_CHARACTERISTIC",
       "durability_reasoning": "실측 4회는 앞으로도 바뀌지 않는 기록입니다. 표본이 4개뿐이라 다음 출전이 평균 이하면 전체 평균은 낮아질 수 있으나 패턴 자체가 뒤집히지는 않습니다.",
       "evidence": [
@@ -603,6 +604,7 @@
       "conclusion": "이 결과는 대회 하나에 대한 확정된 사실입니다. 이 패턴을 일반화한 전략 변경은 하지 않는 것이 결정 사항입니다.",
       "confidence": "HIGH",
       "contribution_breakdown": null,
+      "decision_context": "실측된 과거 결정: 2라운드 부진 직후 전략을 바꾸지 않는 선택을 했고, 바로 다음 3라운드에서 대회 중 최고 스코어링 가치를 기록했습니다 -- 다만 실측 1회 사건이므로 이 결정이 항상 같은 결과로 이어진다고 일반화하지 않습니다.",
       "durability": "CONFIRMED_HISTORICAL_EVENT",
       "durability_reasoning": "이미 확정된 결과이므로 바뀌지 않습니다. 다만 라운드 간 흐름 전체(실측 전환 198건, 평균 -0.22 SG)는 일관된 상승 패턴을 보이지 않으므로, 이 대회 하나의 사실로만 취급합니다.",
       "evidence": [

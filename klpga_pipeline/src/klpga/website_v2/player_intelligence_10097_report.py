@@ -188,6 +188,16 @@ def _question_card(q: dict) -> str:
         if q.get("root_cause") else ""
     )
 
+    # (3b) DECISION CONTEXT -- NEO evaluates decisions, not just results.
+    # Only present on questions where a real, already-verified decision-to-
+    # outcome link exists in the data (never invented for questions where
+    # no decision-level record exists).
+    decision_context_step = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.DECISION_CONTEXT_LABEL}</p>'
+        f'<p class="piq-step">{escape(q["decision_context"])}</p>'
+        if q.get("decision_context") else ""
+    )
+
     # (4) COACH INTERPRETATION -- what a coach tells the player, short.
     coach_interpretation = (
         f'<p class="piq-step-label piq-label-standalone">{terms.COACH_INTERPRETATION_TITLE}</p>'
@@ -240,7 +250,7 @@ def _question_card(q: dict) -> str:
     )
 
     performance_lab_kicker = f'<p class="section-label">{terms.PERFORMANCE_LAB_LABEL}</p>'
-    evidence_body = performance_lab_kicker + performance_analysis + mechanism_step + root_cause_step + coach_interpretation + player_action + data_evidence_toggle
+    evidence_body = performance_lab_kicker + performance_analysis + mechanism_step + root_cause_step + decision_context_step + coach_interpretation + player_action + data_evidence_toggle
     evidence_toggle = (
         '<details class="piq-evidence-toggle">'
         f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>"
@@ -428,6 +438,7 @@ def _hero_html(doc: dict) -> str:
         f'{terms.SECTION_LABEL["fact"]} → {terms.SECTION_LABEL["evidence"]} → {terms.SECTION_LABEL["analysis"]} → '
         f'{terms.SECTION_LABEL["conclusion"]} 순서로 정리되어 있고, 모두 최근 실측값을 기준으로 점검하는 '
         f'{terms.SECTION_LABEL["monitoring_protocol"]}을 함께 제공합니다.</p>'
+        f'<p class="piq-why-brief"><span class="piq-label">{terms.NEO_PRINCIPLE_TITLE}</span>{escape(terms.NEO_PRINCIPLE_TEXT)}</p>'
         "</header>"
     )
 

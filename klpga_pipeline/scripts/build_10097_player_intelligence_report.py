@@ -812,6 +812,7 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
     )
     root_cause = f"근본 원인: 실측으로 확인 가능한 가장 이른 원인은 {n}회 반복 출전 자체입니다. 이 코스의 어떤 구체적 특징(홀 구성, 페어웨이 폭, 그린 스피드 등)이 이 강점을 만드는지는 홀 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = f"조건: 이 코스 재출전 시 기존 전략 유지. 실측 {n}회 출전 전부에서 플러스로 재현되었습니다."
+    decision_context = f"실측된 과거 결정: {n}회 출전 내내 전략을 크게 바꾸지 않는 선택이 반복되었고, 그 결정이 매 출전 플러스 스코어링으로 이어졌습니다 -- 이 성과는 우연한 결과가 아니라 반복된 결정의 산물입니다."
 
     sources = {"historical_sg_warehouse_corrected.json", "knowledge_engine.find_course_history()"}
     return {
@@ -823,6 +824,7 @@ def _q_strong_course(master_doc: dict, by_code: dict) -> dict:
         "conclusion": conclusion,
         "mechanism": mechanism,
         "root_cause": root_cause,
+        "decision_context": decision_context,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
@@ -892,6 +894,11 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
     mechanism = "메커니즘: 2라운드 부진 이후 전략을 바꾸지 않고 3라운드에 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다."
     root_cause = "근본 원인: 실측으로 확인 가능한 가장 이른 원인은 3라운드 SG Total 상승입니다. 그 라운드 안에서 어떤 구체적 샷이 이를 만들었는지는 홀 단위 기록이 없어 확인할 수 없습니다."
     reproducibility = "조건: 알 수 없음 -- 실측 1회 사건이라 재현 조건을 일반화할 근거가 없습니다."
+    decision_context = (
+        "실측된 과거 결정: 2라운드 부진 직후 전략을 바꾸지 않는 선택을 했고, 바로 다음 3라운드에서 대회 중 최고 "
+        "스코어링 가치를 기록했습니다 -- 다만 실측 1회 사건이므로 이 결정이 항상 같은 결과로 이어진다고 일반화하지 "
+        "않습니다."
+    )
 
     sources = {win["official_source"].split(" (")[0]}
     return {
@@ -903,6 +910,7 @@ def _q_most_recent_win(master_doc: dict, ds: dict, by_code: dict) -> dict:
         "conclusion": conclusion,
         "mechanism": mechanism,
         "root_cause": root_cause,
+        "decision_context": decision_context,
         "why_it_matters": why_it_matters,
         "player_takeaway": player_takeaway,
         "coach_focus": coach_focus,
