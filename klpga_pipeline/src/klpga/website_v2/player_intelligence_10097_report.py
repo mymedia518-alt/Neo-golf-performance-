@@ -248,7 +248,12 @@ def _question_card(q: dict) -> str:
         "</details>"
     )
 
+    layer_chip = (
+        f'<div class="piq-audit"><span class="label-chip label-chip--positive">{escape(terms.LAYER_LABEL.get(q["layer"], q["layer"]))} 레이어</span></div>'
+        if q.get("layer") else ""
+    )
     body = (
+        f"{layer_chip}"
         f'<p class="piq-hero-conclusion">{escape(q["conclusion"])}</p>'
         f'<p class="piq-why-brief"><span class="piq-label">{terms.SECTION_LABEL["why_this_matters"]}</span>{escape(q["why_this_matters"])}</p>'
         f"{evidence_toggle}"
@@ -427,6 +432,50 @@ def _hero_html(doc: dict) -> str:
     )
 
 
+def _layer_model_html(model: Optional[dict]) -> str:
+    """V15: THE THREE-LAYER INTELLIGENCE MODEL -- the new foundation.
+    Technical Performance, Scoring Performance, and Competitive
+    Performance are shown as three independent percentile groups (each
+    with its own real evidence, never borrowing another layer's), then
+    the three efficiency ratios that connect them. Always visible (open)
+    since this is now how every other section should be read."""
+    if not model:
+        return ""
+    l1, l2, l3 = model["layer1_technical"], model["layer2_scoring"], model["layer3_competitive"]
+
+    def _pct_chips(percentiles: dict) -> str:
+        return "".join(f'<span class="label-chip">{escape(k)} {v}</span>' for k, v in percentiles.items() if v is not None)
+
+    layers_html = (
+        '<div class="piq-brief">'
+        f'<p><strong>레이어 1 · {escape(l1["label"])} ({l1["average"]})</strong> {escape(l1["question"])}</p>'
+        f'<div class="piq-audit">{_pct_chips(l1["percentiles"])}</div>'
+        f'<p class="piq-current-detail">{escape(l1["note"])}</p>'
+        f'<p><strong>레이어 2 · {escape(l2["label"])} ({l2["average"]})</strong> {escape(l2["question"])}</p>'
+        f'<div class="piq-audit">{_pct_chips(l2["percentiles"])}</div>'
+        f'<p class="piq-current-detail">{escape(l2["note"])}</p>'
+        f'<p><strong>레이어 3 · {escape(l3["label"])}</strong> {escape(l3["question"])}</p>'
+        f'<div class="piq-audit"><span class="label-chip">상금 순위 백분위 {l3["money_percentile"]}</span>'
+        f'<span class="label-chip">Top10 마감률 {l3["top10_rate"]}%</span></div>'
+        f'<p class="piq-current-detail">{escape(l3["note"])}</p>'
+        "</div>"
+    )
+    eff = model["skill_efficiency"], model["scoring_efficiency"], model["competitive_efficiency"]
+    efficiency_html = "".join(
+        f'<p class="piq-step"><span class="piq-label">{escape(e["label"])} {e["value"]}</span>{escape(e["interpretation"])}</p>'
+        for e in eff
+    )
+    weakest = model["weakest_layer_signal"]
+    signal_html = f'<p class="piq-why-brief">{escape(weakest["note"])}</p>'
+
+    return (
+        '<details class="evidence-detail pi-section" id="piq-layer-model" open>'
+        f'<summary class="section-heading"><h2>{terms.LAYER_MODEL_TITLE}</h2></summary>'
+        f'<div class="pi-section__body">{layers_html}{efficiency_html}{signal_html}</div>'
+        "</details>"
+    )
+
+
 def _checklist_html(checklist: list) -> str:
     if not checklist:
         return ""
@@ -454,6 +503,7 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     from klpga.website_v2.player_intelligence_v2 import prev_next_html
 
     cards = "".join(_question_card(q) for q in doc["questions"])
+    layer_model = _layer_model_html(doc.get("layer_model"))
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
     dna = _dna_html(doc)
     coach_console = _coach_console_html(doc.get("coach_console"))
@@ -462,6 +512,7 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     unsupported_modules = _unsupported_modules_html(doc.get("unsupported_analysis_modules_v12"))
     repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
     return (
-        prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + coach_console + playbook + cards
+        prev_next_html(prev_link, next_link) + _hero_html(doc) + layer_model + checklist + dna
+        + coach_console + playbook + cards
         + excluded + unsupported_modules + repository_intelligence
     )
