@@ -377,6 +377,37 @@ def _unsupported_modules_html(modules: Optional[list]) -> str:
     )
 
 
+def _data_roadmap_html(items: Optional[list]) -> str:
+    """V17: UNKNOWN is a roadmap. Each real, distinct root cause behind
+    this report's UNKNOWN markers becomes one concrete future data task
+    here -- what is missing, why, how it could be collected, and how many
+    currently-UNKNOWN items it would resolve (a real count already
+    computed by the builder, never invented in this renderer)."""
+    if not items:
+        return ""
+    labels = terms.DATA_ROADMAP_FIELD_LABEL
+    rows = []
+    for item in items:
+        unlocks_items = "".join(f"<li>{escape(u)}</li>" for u in item["unlocks"])
+        rows.append(
+            "<li class='piq-roadmap-item'>"
+            f'<p class="piq-step"><span class="piq-label">{labels["missing_data"]}</span>{escape(item["missing_data"])}</p>'
+            f'<p class="piq-step"><span class="piq-label">{labels["why_missing"]}</span>{escape(item["why_missing"])}</p>'
+            f'<p class="piq-step"><span class="piq-label">{labels["collection_method"]}</span>{escape(item["collection_method"])}</p>'
+            f'<p class="piq-step"><span class="piq-label">{labels["value"]}</span>{escape(item["value"])}</p>'
+            f'<p class="piq-step-label piq-label-standalone">{labels["unlocks"]}</p>'
+            f"<ul class='piq-evidence-list'>{unlocks_items}</ul>"
+            "</li>"
+        )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-data-roadmap">'
+        f'<summary class="section-heading"><h2>{terms.DATA_ROADMAP_TITLE}</h2></summary>'
+        f'<div class="pi-section__body"><p class="pi-empty">{terms.DATA_ROADMAP_DESCRIPTION}</p>'
+        f"<ul class='piq-roadmap-list'>{''.join(rows)}</ul></div>"
+        "</details>"
+    )
+
+
 def _dna_story_html(label: str, dna: Optional[dict]) -> str:
     """V6: story first. One short, deterministic sentence (already
     written by the script from the real top_contributor/share_pct, never
@@ -554,9 +585,10 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     playbook = _player_playbook_html(doc.get("player_playbook"))
     excluded = _excluded_html(doc.get("questions_considered_but_unsupported", []))
     unsupported_modules = _unsupported_modules_html(doc.get("unsupported_analysis_modules_v12"))
+    data_roadmap = _data_roadmap_html(doc.get("data_roadmap"))
     repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
     return (
         prev_next_html(prev_link, next_link) + _hero_html(doc) + performance_funnel + leak_map + checklist + dna
         + coach_console + playbook + cards
-        + excluded + unsupported_modules + repository_intelligence
+        + excluded + unsupported_modules + data_roadmap + repository_intelligence
     )
