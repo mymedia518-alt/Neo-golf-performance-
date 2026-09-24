@@ -2,7 +2,7 @@
   "contribution_breakdown_method": "share_pct = Σ(실측 component) / Σ(실측 total) × 100 -- SG Total = SG OTT + SG APP + SG ARG + SG PUTT 항등식(historical_sg_warehouse_corrected.json 전체 행 기준 오차 0으로 검증됨)에 대한 실측값 비율입니다. 추정치나 가중치가 아니며, 공식 SG 세부 데이터가 없는 경기는 계산에서 제외되고 실제 사용된 표본 크기가 함께 표시됩니다.",
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-23T19:58:49.142451+00:00",
+  "generated_at": "2026-09-24T05:24:55.053180+00:00",
   "loss_dna": {
     "breakdown": [
       {
@@ -28,6 +28,7 @@
     ],
     "events_considered": 23,
     "sample_size": 7,
+    "story": "우승을 놓친 경기에서 가장 크게 흔들린 요소는 SG APP입니다(+59%).",
     "top_contributor": "SG APP",
     "total_value": -6.62
   },
@@ -92,34 +93,6 @@
       "coach_focus": "GIR과 파세이브율은 이번 시즌 한 시점의 스냅샷 데이터일 뿐입니다 -- KLPGA는 두 지표 모두 라운드별이나 대회별 연속 기록을 공개하지 않으므로, 아직은 운영 가능한 주기로 모니터링할 수 없습니다. 반면 대회별 SG APP는 가능합니다 -- 실측 73개 대회의 기록이 있으며, 이 프로토콜이 추적하는 지표입니다.",
       "conclusion": "김민선7 선수가 우승하는 이유는 SG APP 게임이 만들어내는 스코어링 우위가 뛰어온 모든 시즌에서 유지되어 왔기 때문입니다 -- 한 번의 좋은 주간이 아니라는 뜻입니다. 이번 시즌의 뛰어난 GIR과 파세이브율은 이 구조적 강점 위에 더해지는 것이지, 이를 대체하는 것이 아닙니다.",
       "confidence": "HIGH",
-      "contribution_breakdown": {
-        "breakdown": [
-          {
-            "component": "SG APP",
-            "share_pct": 41.5,
-            "value": 5.72
-          },
-          {
-            "component": "SG PUTT",
-            "share_pct": 24.4,
-            "value": 3.37
-          },
-          {
-            "component": "SG OTT",
-            "share_pct": 23.4,
-            "value": 3.22
-          },
-          {
-            "component": "SG ARG",
-            "share_pct": 10.7,
-            "value": 1.48
-          }
-        ],
-        "events_considered": 4,
-        "sample_size": 3,
-        "top_contributor": "SG APP",
-        "total_value": 13.79
-      },
       "durability": "LONG_TERM_CHARACTERISTIC",
       "durability_reasoning": "핵심 동력인 SG APP는 공식 기록상 네 시즌 모두 플러스였고 상승세였습니다. 따라서 한 시즌이 더해진다 해도 이 결론을 뒤집기보다 강화할 가능성이 훨씬 큽니다. 다만 GIR과 파세이브율 인용치는 이번 시즌 순위표에서만 나온 수치입니다 -- 내년에 둘 중 하나가 하락하더라도 우승의 원인은 여전히 SG APP로 설명되지만, 이 두 보조 수치만큼은 아직 해마다 보장되는 특성으로 간주해서는 안 됩니다.",
       "evidence": [
@@ -154,34 +127,6 @@
       "coach_focus": "SG PUTT은 시즌 단위가 아니라 대회별로 기록되므로, 실측 73개 대회를 기준으로 운영 가능한 범위를 설정할 수 있습니다 -- 하락 조짐을 조기에 포착하려면 시즌 합산치가 아니라 대회별로 발표되는 수치를 그대로 활용하십시오.",
       "conclusion": "SG APP 게임은 꾸준히 스코어링 기회를 만들어내지만, SG PUTT은 그 기회를 볼 스트라이킹 수준이 예상하게 하는 만큼 Birdie로 전환하지 못하고 있습니다 -- 공식 기록상 모든 시즌에서 사실이며, 지난 3개 시즌보다 올해 그 격차가 더 큽니다.",
       "confidence": "HIGH",
-      "contribution_breakdown": {
-        "breakdown": [
-          {
-            "component": "SG APP",
-            "share_pct": 59.1,
-            "value": -3.91
-          },
-          {
-            "component": "SG ARG",
-            "share_pct": 32.5,
-            "value": -2.15
-          },
-          {
-            "component": "SG PUTT",
-            "share_pct": 17.4,
-            "value": -1.15
-          },
-          {
-            "component": "SG OTT",
-            "share_pct": -8.8,
-            "value": 0.58
-          }
-        ],
-        "events_considered": 23,
-        "sample_size": 7,
-        "top_contributor": "SG APP",
-        "total_value": -6.62
-      },
       "durability": "LONG_TERM_CHARACTERISTIC",
       "durability_reasoning": "SG PUTT은 공식 기록상 네 시즌 모두 스코어링 기여도가 가장 작은 항목이었습니다. 따라서 'SG PUTT이 주력 강점이 아니다'라는 판단은 한 시즌이 더해져도 유지될 가능성이 매우 높습니다 -- 다섯 번째 시즌은 이 패턴을 깨기보다 다시 확인해 줄 가능성이 큽니다. 반면 올해 하락폭의 크기는 더 얇고 새로운 근거입니다 -- 다음 시즌에 반등하더라도 4개 시즌에 걸친 큰 흐름 자체를 뒤집지는 않으므로, 이 수치 하나는 그 구조적 판단보다는 낮은 비중으로 다뤄야 합니다.",
       "evidence": [
@@ -277,33 +222,6 @@
       "coach_focus": "'왜 우승을 놓치는가' 프로토콜이 대회 단위로 추적하는 것과 같은 지표(SG PUTT)를 여기서는 4개 시즌 단위로 살펴봅니다 -- 훈련 시간 재배분이 주 단위가 아니라 연 단위로 내부 격차를 좁히고 있는지 확인하기 위해서입니다.",
       "conclusion": "SG PUTT은 절대적인 의미에서 약점이 아닙니다 -- 공식 기록상 매 시즌 경기력의 다른 부분만큼 성장하지 못한 유일한 항목이며, 그래서 앞으로의 성장에서 가장 효율이 높은 영역이 됩니다.",
       "confidence": "HIGH",
-      "contribution_breakdown": {
-        "breakdown": [
-          {
-            "component": "SG APP",
-            "share_pct": 54.7,
-            "value": 60.88
-          },
-          {
-            "component": "SG OTT",
-            "share_pct": 32.4,
-            "value": 36.05
-          },
-          {
-            "component": "SG PUTT",
-            "share_pct": 11.2,
-            "value": 12.5
-          },
-          {
-            "component": "SG ARG",
-            "share_pct": 1.6,
-            "value": 1.81
-          }
-        ],
-        "sample_size": 73,
-        "top_contributor": "SG APP",
-        "total_value": 111.27
-      },
       "durability": "LONG_TERM_CHARACTERISTIC",
       "durability_reasoning": "본인의 네 항목 중 SG PUTT이 가장 낮다는 이 순위는 공식 기록상 네 시즌 내내 유지되어 왔습니다. 이 결론이 바뀌려면 SG PUTT이 나머지 세 항목과의 내부 격차를 실제로 좁히는, 지금까지와는 전혀 다른 패턴이 나타나야 하는데, 지금까지의 기록에서는 그런 사례가 없습니다.",
       "evidence": [
@@ -337,34 +255,6 @@
       "coach_focus": "SG Total을 시즌 단위(실측 4개 시즌 기준)로 점검하십시오 -- 이는 한 주 단위의 전술적 신호가 아니라 시즌 단위로 확인해야 할 육성 프로그램 신호입니다.",
       "conclusion": "2026시즌 경기력은 한 해의 반짝 호조가 아니라 여러 시즌에 걸친 실제 볼 스트라이킹 향상의 연장선입니다 -- 이 기록이 말해주는 것은, 이 향상을 이끈 기술 훈련 프로그램만큼은 바꾸어서는 안 된다는 점입니다.",
       "confidence": "HIGH",
-      "contribution_breakdown": {
-        "breakdown": [
-          {
-            "component": "SG APP",
-            "share_pct": 55.0,
-            "value": 0.72
-          },
-          {
-            "component": "SG OTT",
-            "share_pct": 27.5,
-            "value": 0.36
-          },
-          {
-            "component": "SG ARG",
-            "share_pct": 21.4,
-            "value": 0.28
-          },
-          {
-            "component": "SG PUTT",
-            "share_pct": -3.8,
-            "value": -0.05
-          }
-        ],
-        "from_season": 2023,
-        "to_season": 2026,
-        "top_contributor": "SG APP",
-        "total_value": 1.31
-      },
       "durability": "LONG_TERM_CHARACTERISTIC",
       "durability_reasoning": "이미 4개 시즌에 걸친 흐름이므로, 이 기록이 보여줄 수 있는 가장 지속성 있는 판단에 가깝습니다. 다섯 번째 시즌에도 이 흐름이 이어진다면 근거는 더 강해지고, 설령 다섯 번째 시즌이 정체되더라도 지난 4년간의 실제 향상 자체가 사라지는 것은 아닙니다 -- 앞으로의 방향에만 영향을 줄 뿐, 이미 일어난 일을 바꾸지는 않습니다.",
       "evidence": [
@@ -523,6 +413,7 @@
       }
     ],
     "from_season": 2023,
+    "story": "최근 향상을 가장 크게 이끈 요소는 SG APP입니다(+55%).",
     "to_season": 2026,
     "top_contributor": "SG APP",
     "total_value": 1.31
@@ -552,6 +443,7 @@
     ],
     "events_considered": 4,
     "sample_size": 3,
+    "story": "우승에 가장 크게 기여한 요소는 SG APP입니다(+42%).",
     "top_contributor": "SG APP",
     "total_value": 13.79
   }

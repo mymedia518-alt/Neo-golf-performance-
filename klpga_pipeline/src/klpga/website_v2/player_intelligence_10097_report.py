@@ -77,10 +77,13 @@ def _protocol_html(protocol: dict) -> str:
 
 
 def _contribution_html(cb: Optional[dict]) -> str:
-    """V5: real SG decomposition. cb is None only when the event this
+    """V5/V6: real SG decomposition. cb is None only when the event this
     question is about has no official per-component data on record (e.g.
     the most recent win, which has no tournament_cumulative warehouse row
-    yet) -- reported as unavailable, never a fabricated split."""
+    yet) -- reported as unavailable, never a fabricated split. A question
+    whose contribution insight already lives in WIN/LOSS/TREND DNA above
+    (V6: never duplicate a conclusion) carries no "contribution_breakdown"
+    key at all, and _question_card skips this block for it entirely."""
     if not cb:
         return f'<p class="pi-empty">{terms.CONTRIBUTION_LABEL}: {terms.CONTRIBUTION_UNAVAILABLE}</p>'
     chips = "".join(f'<span class="label-chip">{escape(row["component"])} {row["share_pct"]:+.1f}%</span>' for row in cb["breakdown"])
@@ -90,6 +93,17 @@ def _contribution_html(cb: Optional[dict]) -> str:
         f"{chips}"
         "</div>"
     )
+
+
+def _contribution_section_html(q: dict) -> str:
+    """V6: never duplicate a conclusion. When `contribution_breakdown` is
+    absent, this question's contribution insight already has its one home
+    (WIN/LOSS/TREND DNA above) -- render nothing here rather than repeat
+    it. Present-but-None still means "checked, no official data" and
+    stays visible so that gap is disclosed, not silently skipped."""
+    if "contribution_breakdown" not in q:
+        return ""
+    return f'<p class="piq-step-label piq-label-standalone">{terms.CONTRIBUTION_LABEL}</p>{_contribution_html(q["contribution_breakdown"])}'
 
 
 def _question_card(q: dict) -> str:
@@ -143,8 +157,7 @@ def _question_card(q: dict) -> str:
         f'<p><strong>{terms.SECTION_LABEL["durability"]}.</strong> {escape(q["durability_reasoning"])}</p>'
         "</div>"
         f"{audit}"
-        f'<p class="piq-step-label piq-label-standalone">{terms.CONTRIBUTION_LABEL}</p>'
-        f'{_contribution_html(q["contribution_breakdown"])}'
+        f"{_contribution_section_html(q)}"
         f'<p class="piq-action"><span class="piq-label">{terms.SECTION_LABEL["action"]}</span>{escape(q["action"])}</p>'
         f'<p class="piq-step-label piq-label-standalone">{terms.SECTION_LABEL["monitoring_protocol"]}</p>'
         f"{_protocol_html(protocol)}"
@@ -186,33 +199,54 @@ def _excluded_html(excluded: list) -> str:
     )
 
 
-def _dna_row_html(label: str, dna: Optional[dict]) -> str:
+def _dna_story_html(label: str, dna: Optional[dict]) -> str:
+    """V6: story first. One short, deterministic sentence (already
+    written by the script from the real top_contributor/share_pct, never
+    composed here) is all that's visible without expanding anything."""
+    story = dna["story"] if dna else terms.CONTRIBUTION_UNAVAILABLE
+    return f"<li><strong>{escape(label)}</strong> — {escape(story)}</li>"
+
+
+def _dna_numbers_html(label: str, dna: Optional[dict]) -> str:
+    """V6: numbers second -- rendered only inside the '분석 근거' toggle
+    below, never before it."""
     if not dna:
-        return f'<li><strong>{escape(label)}</strong> — {terms.CONTRIBUTION_UNAVAILABLE}</li>'
+        return f'<p class="pi-empty">{escape(label)}: {terms.CONTRIBUTION_UNAVAILABLE}</p>'
     chips = "".join(f'<span class="label-chip">{escape(row["component"])} {row["share_pct"]:+.1f}%</span>' for row in dna["breakdown"])
     if "sample_size" in dna:
         scope_chip = f'<span class="label-chip">{terms.CHIP_LABEL["sample_size"]} {dna["sample_size"]}/{dna["events_considered"]}</span>'
     else:
         scope_chip = f'<span class="label-chip">{dna["from_season"]} → {dna["to_season"]}</span>'
     return (
-        f'<li><strong>{escape(label)}</strong>'
-        f'<div class="piq-audit">'
+        f'<p class="piq-step-label piq-label-standalone">{escape(label)}</p>'
+        '<div class="piq-audit">'
         f'<span class="label-chip label-chip--positive">{terms.TOP_CONTRIBUTOR_LABEL}: {escape(dna["top_contributor"])}</span>'
         f"{scope_chip}{chips}"
-        "</div></li>"
+        "</div>"
     )
 
 
 def _dna_html(doc: dict) -> str:
-    rows = (
-        _dna_row_html(terms.WIN_DNA, doc.get("win_dna"))
-        + _dna_row_html(terms.LOSS_DNA, doc.get("loss_dna"))
-        + _dna_row_html(terms.TREND_DNA, doc.get("trend_dna"))
+    stories = (
+        _dna_story_html(terms.WIN_DNA, doc.get("win_dna"))
+        + _dna_story_html(terms.LOSS_DNA, doc.get("loss_dna"))
+        + _dna_story_html(terms.TREND_DNA, doc.get("trend_dna"))
+    )
+    numbers = (
+        _dna_numbers_html(terms.WIN_DNA, doc.get("win_dna"))
+        + _dna_numbers_html(terms.LOSS_DNA, doc.get("loss_dna"))
+        + _dna_numbers_html(terms.TREND_DNA, doc.get("trend_dna"))
+    )
+    evidence_toggle = (
+        '<details class="piq-evidence-toggle">'
+        f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>"
+        f'<div class="piq-evidence-toggle__body">{numbers}</div>'
+        "</details>"
     )
     return (
-        '<details class="evidence-detail pi-section" id="piq-dna">'
+        '<details class="evidence-detail pi-section" id="piq-dna" open>'
         f'<summary class="section-heading"><h2>{terms.WIN_DNA} · {terms.LOSS_DNA} · {terms.TREND_DNA}</h2></summary>'
-        f'<div class="pi-section__body"><ul class="piq-checklist">{rows}</ul></div>'
+        f'<div class="pi-section__body"><ul class="piq-checklist">{stories}</ul>{evidence_toggle}</div>'
         "</details>"
     )
 

@@ -328,9 +328,18 @@ def test_trend_dna_decomposes_the_real_first_to_last_season_delta():
 def test_every_question_either_has_a_reproducible_contribution_breakdown_or_none_never_invents_one():
     """Rule: never estimate, never invent. A question whose event has no
     official component-level data (q_most_recent_win) must carry
-    contribution_breakdown=None, never a fabricated split."""
+    contribution_breakdown=None, never a fabricated split. V6: never
+    duplicate a conclusion -- a question whose contribution insight
+    already lives in WIN/LOSS/TREND DNA (why_wins/why_loses/
+    2026_improvement) or duplicates another question's own breakdown
+    (putting_weakest duplicates approach_biggest_weapon's career-wide
+    one) carries no contribution_breakdown key at all."""
     doc = report_script.build()
+    deduped_into_dna = {"q_why_wins", "q_why_loses", "q_2026_improvement", "q_putting_weakest"}
     for q in doc["questions"]:
+        if q["id"] in deduped_into_dna:
+            assert "contribution_breakdown" not in q, f"{q['id']}: still carries a contribution_breakdown that duplicates WIN/LOSS/TREND DNA"
+            continue
         cb = q["contribution_breakdown"]
         if cb is None:
             assert q["id"] == "q_most_recent_win", f"{q['id']}: contribution_breakdown missing without a real data-availability reason"
@@ -343,6 +352,61 @@ def test_contribution_breakdown_method_is_disclosed_and_matches_the_real_formula
     method = doc["contribution_breakdown_method"]
     assert "Σ" in method or "share_pct" in method
     assert "SG Total" in method and "SG OTT" in method and "SG APP" in method
+
+
+# ---------------------------------------------------------------------------
+# Player Intelligence V6: stop adding information, start removing it.
+# Every section answers "so what?" in <=3 sentences. DNA is story first,
+# numbers second, understandable in under five seconds. Every insight
+# appears exactly once in the report -- never duplicated.
+# ---------------------------------------------------------------------------
+
+
+def _sentence_count(text: str) -> int:
+    return len(re.findall(r"[.!?]", text))
+
+
+def test_v6_every_question_answers_so_what_in_three_sentences_or_fewer():
+    """The part of each card that's visible without expanding anything
+    (conclusion + the one-line why) is the report's "so what" -- it must
+    read in <=3 sentences, matching the "under 10 seconds" / "under 5
+    seconds" spirit of the missions this one builds on."""
+    doc = report_script.build()
+    for q in doc["questions"]:
+        so_what = q["conclusion"] + " " + q["why_this_matters"]
+        assert _sentence_count(so_what) <= 3, f"{q['id']}: so-what reads as {_sentence_count(so_what)} sentences, not <=3: {so_what!r}"
+
+
+def test_v6_dna_story_is_a_reproducible_one_sentence_restatement_of_top_contributor():
+    """Story first, but never invented: the sentence must be fully
+    determined by the same top_contributor/share_pct fields the numbers
+    view shows, not new wording that isn't backed by them."""
+    doc = report_script.build()
+    for key in ("win_dna", "loss_dna", "trend_dna"):
+        dna = doc[key]
+        story = dna["story"]
+        assert _sentence_count(story) == 1, f"{key}: story is not exactly one sentence: {story!r}"
+        assert dna["top_contributor"] in story
+        top = dna["breakdown"][0]
+        assert f"{top['share_pct']:+.0f}%" in story
+
+
+def test_v6_never_duplicates_an_insight_across_the_report():
+    """Rule: never duplicate a conclusion, every insight appears once.
+    win_dna/loss_dna/trend_dna's exact breakdown must not also appear as
+    a separate question's contribution_breakdown, and no two questions
+    may carry the identical breakdown as each other."""
+    doc = report_script.build()
+    dna_breakdowns = [doc["win_dna"]["breakdown"], doc["loss_dna"]["breakdown"], doc["trend_dna"]["breakdown"]]
+    seen = []
+    for q in doc["questions"]:
+        cb = q.get("contribution_breakdown")
+        if not cb:
+            continue
+        assert cb["breakdown"] not in dna_breakdowns, f"{q['id']}: duplicates a top-level DNA breakdown instead of pointing to it"
+        for other_id, other_breakdown in seen:
+            assert cb["breakdown"] != other_breakdown, f"{q['id']} duplicates {other_id}'s contribution_breakdown -- should appear on only one"
+        seen.append((q["id"], cb["breakdown"]))
 
 
 # ---------------------------------------------------------------------------
@@ -604,14 +668,17 @@ def test_ui_refactor_evidence_stays_collapsed_by_default():
     """Rule 3: evidence must stay hidden inside expandable sections. The
     per-question <details> itself is still `open` (so the conclusion is
     visible without a click), but the nested '분석 근거' <details> must
-    NOT carry `open` -- it is closed until the reader chooses to expand it."""
+    NOT carry `open` -- it is closed until the reader chooses to expand it.
+    V6 adds one more '분석 근거' toggle (for WIN/LOSS/TREND DNA's numbers),
+    also closed by default."""
     from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
 
     doc = report_script.build()
     html = render_question_report_html(doc)
-    assert html.count('<details class="piq-evidence-toggle">') == len(doc["questions"])
+    expected_toggles = len(doc["questions"]) + 1  # +1 for the DNA section's own 분석 근거
+    assert html.count('<details class="piq-evidence-toggle">') == expected_toggles
     assert "piq-evidence-toggle\" open" not in html
-    assert html.count(f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>") == len(doc["questions"])
+    assert html.count(f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>") == expected_toggles
 
 
 def test_ui_refactor_hides_raw_file_and_field_citations_unless_evidence_expanded():
@@ -730,7 +797,9 @@ def test_render_shows_win_loss_trend_dna_with_their_top_contributor():
 
 def test_render_shows_every_questions_contribution_breakdown_inside_the_collapsed_evidence_toggle():
     """Rule 4 from the prior UI-refactor mission still holds: nothing new
-    here should become visible before '분석 근거' is expanded."""
+    here should become visible before '분석 근거' is expanded. V6: a
+    question with no contribution_breakdown key at all (its insight lives
+    in WIN/LOSS/TREND DNA instead) renders no 기여도 분해 block anywhere."""
     from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
 
     doc = report_script.build()
@@ -740,6 +809,9 @@ def test_render_shows_every_questions_contribution_breakdown_inside_the_collapse
         toggle_close = card.index("</details>", toggle_open) + len("</details>")
         outside_toggle = card[:toggle_open] + card[toggle_close:]
         assert terms.CONTRIBUTION_LABEL not in outside_toggle, f"{q['id']}: contribution breakdown leaked outside 분석 근거"
+        if "contribution_breakdown" not in q:
+            assert terms.CONTRIBUTION_LABEL not in card, f"{q['id']}: should render no contribution block (deduped into DNA)"
+            continue
         cb = q["contribution_breakdown"]
         if cb:
             assert cb["top_contributor"] in card[toggle_open:toggle_close]
@@ -758,12 +830,32 @@ def test_render_never_invents_a_split_for_the_most_recent_win():
     assert terms.CONTRIBUTION_UNAVAILABLE in card
 
 
-def test_render_dna_section_is_collapsed_by_default_like_the_rest_of_the_page():
+def test_render_dna_section_is_open_by_default_with_numbers_collapsed():
+    """V6: the player should understand WIN/LOSS/TREND DNA in under five
+    seconds -- the outer DNA section is `open` (like the checklist) so its
+    three one-line stories need no click, but the numbers inside it stay
+    behind their own '분석 근거' toggle, closed by default."""
     from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
 
     doc = report_script.build()
     html = render_question_report_html(doc)
-    assert '<details class="evidence-detail pi-section" id="piq-dna">' in html
+    assert '<details class="evidence-detail pi-section" id="piq-dna" open>' in html
+    dna_start = html.index('id="piq-dna"')
+    dna_toggle_open = html.index('<details class="piq-evidence-toggle">', dna_start)
+    dna_toggle_close = html.index("</details>", dna_toggle_open) + len("</details>")
+    dna_section_end = html.index("</details>", dna_toggle_close) + len("</details>")
+    story_zone = html[dna_start:dna_toggle_open]
+    numbers_zone = html[dna_toggle_open:dna_toggle_close]
+    for dna_key, label in (("win_dna", terms.WIN_DNA), ("loss_dna", terms.LOSS_DNA), ("trend_dna", terms.TREND_DNA)):
+        dna = doc[dna_key]
+        assert dna["story"] in story_zone, f"{dna_key}: story sentence must be visible without expanding anything"
+        assert f'{dna["breakdown"][0]["share_pct"]:+.1f}%' not in story_zone, f"{dna_key}: a detailed percentage leaked into the visible story zone"
+    # The story prose naturally echoes similar wording to the chip label
+    # (both describe "top contributor"), so check for the actual chip
+    # markup, not the label text, to avoid a false positive on prose.
+    assert 'class="label-chip' not in story_zone, "a numbers chip leaked into the visible story zone"
+    assert terms.TOP_CONTRIBUTOR_LABEL in numbers_zone
+    assert dna_section_end > dna_toggle_close
 
 
 def test_v5_adds_no_new_css_classes_beyond_the_existing_chip_and_details_patterns():
