@@ -156,12 +156,17 @@ def _question_card(q: dict) -> str:
         f'<span class="label-chip">{terms.CURRENT_READING_LABEL}: {protocol["current_reading"]:+.2f} SG</span>'
         "</div>"
     )
+    mechanism_html = (
+        f'<p class="piq-step"><span class="piq-label">{terms.MECHANISM_LABEL}</span>{escape(q["mechanism"])}</p>'
+        if q.get("mechanism") else ""
+    )
     performance_analysis = (
         f'<p class="piq-step-label piq-label-standalone">{terms.PERFORMANCE_ANALYSIS_TITLE}</p>'
         f"{_contribution_html(q['contribution_breakdown']) if 'contribution_breakdown' in q else ''}"
         f"{current_numbers}"
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["fact"]}</span>{escape(q["fact"])}</p>'
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["analysis"]}</span>{escape(q["analysis"])}</p>'
+        f"{mechanism_html}"
         f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["why_it_matters"]}</span>{escape(q["why_it_matters"])}</p>'
     )
 
@@ -181,10 +186,16 @@ def _question_card(q: dict) -> str:
         "</div>"
     )
 
-    # (4) PLAYER ACTION -- one decision, not advice.
+    # (4) PLAYER ACTION -- one decision, not advice, with the real
+    # condition (reproducibility) it depends on shown right next to it.
+    reproducibility_html = (
+        f'<p class="piq-current-detail">{terms.REPRODUCIBILITY_LABEL}: {escape(q["reproducibility"])}</p>'
+        if q.get("reproducibility") else ""
+    )
     player_action = (
         f'<p class="piq-step-label piq-label-standalone">{terms.PLAYER_ACTION_TITLE}</p>'
         f'<p class="piq-action"><span class="piq-label">{terms.DECISION_LABEL}</span>{escape(_decision_only(q["action"]))}</p>'
+        f"{reproducibility_html}"
     )
 
     # (5) DATA EVIDENCE -- every technical citation, nested and closed by
@@ -276,6 +287,45 @@ def _excluded_html(excluded: list) -> str:
         '<div class="pi-section__body"><p class="pi-empty">'
         f"{terms.EXCLUDED_DESCRIPTION}"
         f'</p><ul class="piq-excluded-list">{items}</ul></div>'
+        "</details>"
+    )
+
+
+def _player_playbook_html(playbook: Optional[dict]) -> str:
+    """V12: PLAYER PLAYBOOK -- a synthesis, not a new claim. Every line is
+    the same decision already shown inside its own question card above;
+    this only groups them by category (공략/지양/모니터링/신뢰/변경 금지)
+    so a coach can scan the whole game plan in one place. Always visible
+    (open), since it is the report's single highest-density summary."""
+    if not playbook or not playbook.get("entries"):
+        return ""
+    items = "".join(
+        f'<li><span class="label-chip label-chip--positive">{escape(terms.PLAYBOOK_CATEGORY_LABEL.get(e["category"], e["category"]))}</span> '
+        f'{escape(e["decision"])} — <a href="#{escape(e["question_id"])}">{escape(e["question"])}</a></li>'
+        for e in playbook["entries"]
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="piq-playbook" open>'
+        f'<summary class="section-heading"><h2>{terms.PLAYER_PLAYBOOK_TITLE}</h2></summary>'
+        f'<div class="pi-section__body"><ul class="piq-checklist">{items}</ul></div>'
+        "</details>"
+    )
+
+
+def _unsupported_modules_html(modules: Optional[list]) -> str:
+    """V12: honest disclosure of the analysis modules this mission asked
+    for that this repository's real data cannot support (hole-by-hole,
+    distance-band, pin-position, shot-sequence, decision-process data --
+    none of it exists here) -- named and reasoned, never silently
+    skipped, never guessed to fill the gap."""
+    if not modules:
+        return ""
+    items = "".join(f'<li><strong>{escape(m["module"])}</strong> — {escape(m["reason"])}</li>' for m in modules)
+    return (
+        '<details class="evidence-detail pi-section" id="piq-unsupported-modules">'
+        f'<summary class="section-heading"><h2>{terms.UNSUPPORTED_MODULES_TITLE}</h2></summary>'
+        f'<div class="pi-section__body"><p class="pi-empty">{terms.UNSUPPORTED_MODULES_DESCRIPTION}</p>'
+        f'<ul class="piq-excluded-list">{items}</ul></div>'
         "</details>"
     )
 
@@ -374,6 +424,11 @@ def render_question_report_html(doc: dict, *, prev_link: Optional[dict] = None, 
     cards = "".join(_question_card(q) for q in doc["questions"])
     checklist = _checklist_html(doc.get("pre_tournament_checklist", []))
     dna = _dna_html(doc)
+    playbook = _player_playbook_html(doc.get("player_playbook"))
     excluded = _excluded_html(doc.get("questions_considered_but_unsupported", []))
+    unsupported_modules = _unsupported_modules_html(doc.get("unsupported_analysis_modules_v12"))
     repository_intelligence = _repository_intelligence_html(doc.get("repository_intelligence_v7"))
-    return prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + cards + excluded + repository_intelligence
+    return (
+        prev_next_html(prev_link, next_link) + _hero_html(doc) + checklist + dna + playbook + cards
+        + excluded + unsupported_modules + repository_intelligence
+    )
