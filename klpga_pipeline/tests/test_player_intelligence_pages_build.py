@@ -25,7 +25,10 @@ def test_build_writes_a_page_per_player_and_syncs_assets():
     assert sample_path.exists()
     html = sample_path.read_text(encoding="utf-8")
     assert "<!doctype html>" in html
-    assert "정교한 아이언 플레이어" in html or "player-type" in html
+    # playerCode=10097 renders the real PLAYER_HISTORY.json report, not
+    # the ordinary stat layout's player-type classification text --
+    # Player Intelligence is no longer the goal for this player.
+    assert "커리어 개요" in html or "player-type" in html
     assert (pi_pages.OUTPUT / "assets" / "neo-site.css").exists()
 
 
@@ -68,7 +71,9 @@ def test_build_one_writes_real_content_for_10097():
     html = (pi_pages.OUTPUT / "player" / "10097" / "index.html").read_text(encoding="utf-8")
     assert "<!doctype html>" in html
     assert "pi-generating" not in html
-    assert "정교한 아이언 플레이어" in html
+    # Player Intelligence is no longer the goal for playerCode=10097 --
+    # it now renders the real PLAYER_HISTORY.json report.
+    assert "커리어 개요" in html
 
 
 def test_build_one_never_touches_any_other_players_page():
