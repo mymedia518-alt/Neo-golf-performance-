@@ -675,15 +675,23 @@ def test_ui_refactor_evidence_stays_collapsed_by_default():
     visible without a click), but the nested '분석 근거' <details> must
     NOT carry `open` -- it is closed until the reader chooses to expand it.
     V6 adds one more '분석 근거' toggle (for WIN/LOSS/TREND DNA's numbers),
-    also closed by default."""
+    also closed by default. V10: '분석 근거' now opens directly onto the
+    Performance Analysis -> Key Findings -> Coach Interpretation -> Player
+    Action briefing (no second click needed for those), with exactly one
+    further-nested '데이터 근거' toggle per question holding the raw
+    technical citations -- also closed by default, a deliberate second
+    click, never open."""
     from klpga.website_v2.player_intelligence_10097_report import render_question_report_html
 
     doc = report_script.build()
     html = render_question_report_html(doc)
-    expected_toggles = len(doc["questions"]) + 1  # +1 for the DNA section's own 분석 근거
+    outer_toggles = len(doc["questions"]) + 1  # +1 for the DNA section's own 분석 근거
+    inner_toggles = len(doc["questions"])  # one 데이터 근거 per question
+    expected_toggles = outer_toggles + inner_toggles
     assert html.count('<details class="piq-evidence-toggle">') == expected_toggles
     assert "piq-evidence-toggle\" open" not in html
-    assert html.count(f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>") == expected_toggles
+    assert html.count(f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>") == outer_toggles
+    assert html.count(f"<summary>{terms.DATA_EVIDENCE_TOGGLE_LABEL}</summary>") == inner_toggles
 
 
 def test_ui_refactor_hides_raw_file_and_field_citations_unless_evidence_expanded():

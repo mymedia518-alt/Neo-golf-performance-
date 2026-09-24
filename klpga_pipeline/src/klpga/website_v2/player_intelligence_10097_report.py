@@ -106,21 +106,34 @@ def _contribution_section_html(q: dict) -> str:
     return f'<p class="piq-step-label piq-label-standalone">{terms.CONTRIBUTION_LABEL}</p>{_contribution_html(q["contribution_breakdown"])}'
 
 
-def _question_card(q: dict) -> str:
-    """Gold Standard UI (F1 race-engineer briefing): Conclusion -> Why? ->
-    Evidence (collapsed) -> Monitoring, in that order. The conclusion
-    renders large and always visible; a one-line "why" follows it, still
-    visible. Everything else -- fact, evidence, the full analysis,
-    player/coach checkpoints, durability reasoning, the audit chips, the
-    action text and the full monitoring protocol (this is where the real
-    data-source file/field/function citations live) is collapsed inside a
-    single '분석 근거' <details>, closed by default. A compact monitoring
-    readout (status/reading/next check -- no file or field names) renders
-    last, always visible, at medium visual weight.
+def _decision_only(action: str) -> str:
+    """V10: `action` (built by _action_from_protocol) always closes on a
+    literal "결정: <one imperative sentence>" suffix -- this pulls out
+    just that sentence for the visible PLAYER ACTION box. The full text
+    (protocol + decision restated) still renders in full in DATA EVIDENCE
+    below; nothing is dropped, only re-ordered."""
+    marker = "결정: "
+    idx = action.rfind(marker)
+    return action[idx + len(marker):].strip() if idx != -1 else action
 
-    No wording is changed here and no field is dropped: every value
-    from the frozen report JSON still renders somewhere on the page,
-    exactly as generated. Only visibility and order change.
+
+def _question_card(q: dict) -> str:
+    """V10 (Player Intelligence V10): redesigns ONLY what renders inside
+    '분석 근거'. That toggle used to open onto an audit trail (fact,
+    evidence, analysis, ... in citation order) -- it now opens onto a
+    Tour Performance Department briefing, fixed order, never reversed:
+    (1) PERFORMANCE ANALYSIS -- what happened, numbers/chips before prose
+    (2) KEY FINDINGS -- at most 3 bullets
+    (3) COACH INTERPRETATION -- what a coach tells the player
+    (4) PLAYER ACTION -- exactly one decision, large and unmissable
+    (5) DATA EVIDENCE -- every technical citation, sources, sample size,
+        confidence, the full monitoring protocol -- pushed into its own
+        nested, closed-by-default toggle, so it takes a second click.
+
+    The always-visible hero (conclusion + why_this_matters, outside this
+    toggle entirely) and the compact monitoring summary are unchanged.
+    No field from the report JSON is dropped -- every value still
+    renders somewhere; only where and in what order changed.
     """
     protocol = q["monitoring_protocol"]
     status_chip_class = _STATUS_CHIP_CLASS.get(protocol["current_status"], "label-chip")
@@ -133,7 +146,51 @@ def _question_card(q: dict) -> str:
         "</div>"
     )
 
-    evidence_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"])
+    # (1) PERFORMANCE ANALYSIS -- numbers/chart-equivalent chips first
+    # (the real SG contribution breakdown, when this question has one, is
+    # this report's only chart-equivalent visual), then fact -> analysis
+    # -> why it matters, in that order, never reversed.
+    current_numbers = (
+        '<div class="piq-audit">'
+        f'<span class="label-chip {status_chip_class}">{terms.CURRENT_STATUS_LABEL}: {escape(status_label)}</span>'
+        f'<span class="label-chip">{terms.CURRENT_READING_LABEL}: {protocol["current_reading"]:+.2f} SG</span>'
+        "</div>"
+    )
+    performance_analysis = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.PERFORMANCE_ANALYSIS_TITLE}</p>'
+        f"{_contribution_html(q['contribution_breakdown']) if 'contribution_breakdown' in q else ''}"
+        f"{current_numbers}"
+        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["fact"]}</span>{escape(q["fact"])}</p>'
+        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["analysis"]}</span>{escape(q["analysis"])}</p>'
+        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["why_it_matters"]}</span>{escape(q["why_it_matters"])}</p>'
+    )
+
+    # (2) KEY FINDINGS -- at most 3 bullets.
+    key_findings_items = "".join(f"<li>{escape(e)}</li>" for e in q["evidence"][:3])
+    key_findings = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.KEY_FINDINGS_TITLE}</p>'
+        f'<ul class="piq-evidence-list">{key_findings_items}</ul>'
+    )
+
+    # (3) COACH INTERPRETATION -- what a coach tells the player, short.
+    coach_interpretation = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.COACH_INTERPRETATION_TITLE}</p>'
+        '<div class="piq-brief">'
+        f'<p><strong>{terms.SECTION_LABEL["coach_focus"]}.</strong> {escape(q["coach_focus"])}</p>'
+        f'<p><strong>{terms.SECTION_LABEL["player_takeaway"]}.</strong> {escape(q["player_takeaway"])}</p>'
+        "</div>"
+    )
+
+    # (4) PLAYER ACTION -- one decision, not advice.
+    player_action = (
+        f'<p class="piq-step-label piq-label-standalone">{terms.PLAYER_ACTION_TITLE}</p>'
+        f'<p class="piq-action"><span class="piq-label">{terms.DECISION_LABEL}</span>{escape(_decision_only(q["action"]))}</p>'
+    )
+
+    # (5) DATA EVIDENCE -- every technical citation, nested and closed by
+    # default: durability reasoning, the audit chips, the raw
+    # contribution numbers, the full action/protocol text (real file and
+    # field citations live here), and the 5-item monitoring protocol.
     chip_class = _CONFIDENCE_CHIP_CLASS.get(q["confidence"], "label-chip")
     confidence_label = terms.CONFIDENCE_LABEL.get(q["confidence"], q["confidence"])
     durability_label = terms.DURABILITY_LABEL.get(q["durability"], q["durability"])
@@ -145,23 +202,22 @@ def _question_card(q: dict) -> str:
         f'<span class="label-chip">{escape(durability_label)}</span>'
         "</div>"
     )
-    evidence_body = (
-        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["fact"]}</span>{escape(q["fact"])}</p>'
-        f'<p class="piq-step-label piq-label-standalone">{terms.SECTION_LABEL["evidence"]}</p>'
-        f'<ul class="piq-evidence-list">{evidence_items}</ul>'
-        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["analysis"]}</span>{escape(q["analysis"])}</p>'
-        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["why_it_matters"]}</span>{escape(q["why_it_matters"])}</p>'
-        f'<div class="piq-brief">'
-        f'<p><strong>{terms.SECTION_LABEL["player_takeaway"]}.</strong> {escape(q["player_takeaway"])}</p>'
-        f'<p><strong>{terms.SECTION_LABEL["coach_focus"]}.</strong> {escape(q["coach_focus"])}</p>'
-        f'<p><strong>{terms.SECTION_LABEL["durability"]}.</strong> {escape(q["durability_reasoning"])}</p>'
-        "</div>"
+    data_evidence_body = (
+        f'<p class="piq-step"><span class="piq-label">{terms.SECTION_LABEL["durability"]}</span>{escape(q["durability_reasoning"])}</p>'
         f"{audit}"
         f"{_contribution_section_html(q)}"
-        f'<p class="piq-action"><span class="piq-label">{terms.SECTION_LABEL["action"]}</span>{escape(q["action"])}</p>'
+        f'<p class="piq-step"><span class="piq-label">{terms.FULL_PROTOCOL_LABEL}</span>{escape(q["action"])}</p>'
         f'<p class="piq-step-label piq-label-standalone">{terms.SECTION_LABEL["monitoring_protocol"]}</p>'
         f"{_protocol_html(protocol)}"
     )
+    data_evidence_toggle = (
+        '<details class="piq-evidence-toggle">'
+        f"<summary>{terms.DATA_EVIDENCE_TOGGLE_LABEL}</summary>"
+        f'<div class="piq-evidence-toggle__body">{data_evidence_body}</div>'
+        "</details>"
+    )
+
+    evidence_body = performance_analysis + key_findings + coach_interpretation + player_action + data_evidence_toggle
     evidence_toggle = (
         '<details class="piq-evidence-toggle">'
         f"<summary>{terms.EVIDENCE_TOGGLE_LABEL}</summary>"
