@@ -1,0 +1,2313 @@
+{
+  "conclusion_audit": [
+    {
+      "claim_type": "TREND",
+      "conclusion": "season_evolution.frozen_knowledge_engine_evolution.narrative",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json"
+      ],
+      "round_count": 268,
+      "sample_size": 62,
+      "season_count": 4,
+      "statement": "2023시즌 SG Total +0.93에서 2026시즌 +0.83로 하락 추세입니다.",
+      "tournament_count": 62
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "play_style.why_wins[0]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json"
+      ],
+      "round_count": 268,
+      "sample_size": 62,
+      "season_count": 4,
+      "statement": "최근 4시즌 연속 SG Around-the-Green에서 상위 8% 수준의 기록을 유지하고 있습니다.",
+      "tournament_count": 62
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "play_style.why_loses[0]",
+      "confidence": "HIGH",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json"
+      ],
+      "round_count": 268,
+      "sample_size": 62,
+      "season_count": 4,
+      "statement": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.18로 악화되었습니다.",
+      "tournament_count": 62
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['2024 셀트리온 퀸즈 마스터즈'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 4,
+      "season_count": null,
+      "statement": "Average SG Total across 4 real recorded appearances at this course series is 0.795.",
+      "tournament_count": 4
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['Sh수협은행 MBN 여자오픈'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 4,
+      "season_count": null,
+      "statement": "Average SG Total across 4 real recorded appearances at this course series is 0.12249999999999994.",
+      "tournament_count": 4
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['넥센 · 세인트나인 마스터즈 2023'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 0.9966666666666667.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['두산건설 We’ve 챔피언십'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is 0.79.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['하나금융그룹 챔피언십'].avg_sg_total",
+      "confidence": "MEDIUM",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 3,
+      "season_count": null,
+      "statement": "Average SG Total across 3 real recorded appearances at this course series is -0.05666666666666668.",
+      "tournament_count": 3
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['KB금융 스타챔피언십'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is -0.13.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['SK쉴더스 · SK텔레콤 챔피언십 2023'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is -0.6000000000000001.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['대보 하우스디 오픈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 0.835.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['더헤븐 마스터즈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 1.73.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['덕신EPC · 서울경제 레이디스 클래식'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 1.62.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['맥콜 · 모나 용평 오픈 with SBS Golf'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 1.5899999999999999.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['상상인 · 한경 와우넷 오픈 2024'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 2.6.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['제10회 교촌 1991 레이디스 오픈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 3.5749999999999997.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['제11회 E1 채리티 오픈'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is 0.17499999999999993.",
+      "tournament_count": 2
+    },
+    {
+      "claim_type": "TREND",
+      "conclusion": "course_analysis.course_series['하이원리조트 여자오픈 2023'].avg_sg_total",
+      "confidence": "LOW",
+      "official_records_used": [
+        "historical_sg_warehouse_corrected.json",
+        "knowledge_engine.find_course_history()"
+      ],
+      "round_count": null,
+      "sample_size": 2,
+      "season_count": null,
+      "statement": "Average SG Total across 2 real recorded appearances at this course series is -0.255.",
+      "tournament_count": 2
+    }
+  ],
+  "course_analysis": {
+    "course_series": [
+      {
+        "appearances": 4,
+        "avg_sg_total": 0.795,
+        "history": [
+          {
+            "game_code": "2023060002",
+            "season": 2023,
+            "sg_total": 0.77,
+            "tournament": "셀트리온 퀸즈 마스터즈"
+          },
+          {
+            "game_code": "2024060013",
+            "season": 2024,
+            "sg_total": 3.18,
+            "tournament": "2024 셀트리온 퀸즈 마스터즈"
+          },
+          {
+            "game_code": "2025060001",
+            "season": 2025,
+            "sg_total": 0.74,
+            "tournament": "2025 셀트리온 퀸즈 마스터즈"
+          },
+          {
+            "game_code": "2026060001",
+            "season": 2026,
+            "sg_total": -1.51,
+            "tournament": "2026 셀트리온 퀸즈 마스터즈"
+          }
+        ],
+        "series_name_sample": "2024 셀트리온 퀸즈 마스터즈",
+        "won_on_record": false
+      },
+      {
+        "appearances": 4,
+        "avg_sg_total": 0.12249999999999994,
+        "history": [
+          {
+            "game_code": "2023070001",
+            "season": 2023,
+            "sg_total": -2.71,
+            "tournament": "대유위니아 · MBN 여자오픈"
+          },
+          {
+            "game_code": "2024050018",
+            "season": 2024,
+            "sg_total": 2.86,
+            "tournament": "Sh수협은행 MBN 여자오픈"
+          },
+          {
+            "game_code": "2025050004",
+            "season": 2025,
+            "sg_total": 1.15,
+            "tournament": "Sh수협은행 MBN 여자오픈"
+          },
+          {
+            "game_code": "2026050004",
+            "season": 2026,
+            "sg_total": -0.81,
+            "tournament": "Sh수협은행 MBN 여자오픈"
+          }
+        ],
+        "series_name_sample": "Sh수협은행 MBN 여자오픈",
+        "won_on_record": false
+      },
+      {
+        "appearances": 3,
+        "avg_sg_total": 0.9966666666666667,
+        "history": [
+          {
+            "game_code": "2023040003",
+            "season": 2023,
+            "sg_total": 0.9,
+            "tournament": "넥센 · 세인트나인 마스터즈 2023"
+          },
+          {
+            "game_code": "2024040019",
+            "season": 2024,
+            "sg_total": 1.97,
+            "tournament": "넥센 · 세인트나인 마스터즈 2024"
+          },
+          {
+            "game_code": "2025040003",
+            "season": 2025,
+            "sg_total": 0.12,
+            "tournament": "넥센 · 세인트나인 마스터즈 2025"
+          }
+        ],
+        "series_name_sample": "넥센 · 세인트나인 마스터즈 2023",
+        "won_on_record": false
+      },
+      {
+        "appearances": 3,
+        "avg_sg_total": 0.79,
+        "history": [
+          {
+            "game_code": "2023070003",
+            "season": 2023,
+            "sg_total": 1.45,
+            "tournament": "두산건설 We’ve 챔피언십"
+          },
+          {
+            "game_code": "2024040017",
+            "season": 2024,
+            "sg_total": -0.95,
+            "tournament": "두산건설 We’ve 챔피언십"
+          },
+          {
+            "game_code": "2025040001",
+            "season": 2025,
+            "sg_total": 1.87,
+            "tournament": "두산건설 We’ve 챔피언십"
+          }
+        ],
+        "series_name_sample": "두산건설 We’ve 챔피언십",
+        "won_on_record": false
+      },
+      {
+        "appearances": 3,
+        "avg_sg_total": -0.05666666666666668,
+        "history": [
+          {
+            "game_code": "2023090004",
+            "season": 2023,
+            "sg_total": -0.57,
+            "tournament": "하나금융그룹 챔피언십"
+          },
+          {
+            "game_code": "2024090009",
+            "season": 2024,
+            "sg_total": 2.9,
+            "tournament": "하나금융그룹 챔피언십"
+          },
+          {
+            "game_code": "2025090003",
+            "season": 2025,
+            "sg_total": -2.5,
+            "tournament": "하나금융그룹 챔피언십"
+          }
+        ],
+        "series_name_sample": "하나금융그룹 챔피언십",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": -0.13,
+        "history": [
+          {
+            "game_code": "2023090002",
+            "season": 2023,
+            "sg_total": 0.73,
+            "tournament": "KB금융 스타챔피언십"
+          },
+          {
+            "game_code": "2025090001",
+            "season": 2025,
+            "sg_total": -0.99,
+            "tournament": "KB금융 스타챔피언십"
+          }
+        ],
+        "series_name_sample": "KB금융 스타챔피언십",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": -0.6000000000000001,
+        "history": [
+          {
+            "game_code": "2023110002",
+            "season": 2023,
+            "sg_total": 1.27,
+            "tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023"
+          },
+          {
+            "game_code": "2024110007",
+            "season": 2024,
+            "sg_total": -2.47,
+            "tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024"
+          }
+        ],
+        "series_name_sample": "SK쉴더스 · SK텔레콤 챔피언십 2023",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 0.835,
+        "history": [
+          {
+            "game_code": "2023090005",
+            "season": 2023,
+            "sg_total": 1.38,
+            "tournament": "대보 하우스디 오픈"
+          },
+          {
+            "game_code": "2025100002",
+            "season": 2025,
+            "sg_total": 0.29,
+            "tournament": "대보 하우스디 챔피언십"
+          }
+        ],
+        "series_name_sample": "대보 하우스디 오픈",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 1.73,
+        "history": [
+          {
+            "game_code": "2025070003",
+            "season": 2025,
+            "sg_total": 2.05,
+            "tournament": "더헤븐 마스터즈"
+          },
+          {
+            "game_code": "2026060004",
+            "season": 2026,
+            "sg_total": 1.41,
+            "tournament": "인카금융 더헤븐 마스터즈"
+          }
+        ],
+        "series_name_sample": "더헤븐 마스터즈",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 1.62,
+        "history": [
+          {
+            "game_code": "2024100011",
+            "season": 2024,
+            "sg_total": 1.81,
+            "tournament": "덕신EPC · 서울경제 레이디스 클래식"
+          },
+          {
+            "game_code": "2025040005",
+            "season": 2025,
+            "sg_total": 1.43,
+            "tournament": "덕신EPC 챔피언십"
+          }
+        ],
+        "series_name_sample": "덕신EPC · 서울경제 레이디스 클래식",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 1.5899999999999999,
+        "history": [
+          {
+            "game_code": "2025060004",
+            "season": 2025,
+            "sg_total": 0.47,
+            "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+          },
+          {
+            "game_code": "2026060002",
+            "season": 2026,
+            "sg_total": 2.71,
+            "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+          }
+        ],
+        "series_name_sample": "맥콜 · 모나 용평 오픈 with SBS Golf",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 2.6,
+        "history": [
+          {
+            "game_code": "2024100010",
+            "season": 2024,
+            "sg_total": 3.7,
+            "tournament": "상상인 · 한경 와우넷 오픈 2024"
+          },
+          {
+            "game_code": "2025100003",
+            "season": 2025,
+            "sg_total": 1.5,
+            "tournament": "상상인 · 한경 와우넷 오픈 2025"
+          }
+        ],
+        "series_name_sample": "상상인 · 한경 와우넷 오픈 2024",
+        "won_on_record": true
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 3.5749999999999997,
+        "history": [
+          {
+            "game_code": "2023050001",
+            "season": 2023,
+            "sg_total": 5.76,
+            "tournament": "제9회 교촌 1991 레이디스 오픈"
+          },
+          {
+            "game_code": "2024050014",
+            "season": 2024,
+            "sg_total": 1.39,
+            "tournament": "제10회 교촌 1991 레이디스 오픈"
+          }
+        ],
+        "series_name_sample": "제10회 교촌 1991 레이디스 오픈",
+        "won_on_record": true
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": 0.17499999999999993,
+        "history": [
+          {
+            "game_code": "2023050004",
+            "season": 2023,
+            "sg_total": -1.28,
+            "tournament": "제11회 E1 채리티 오픈"
+          },
+          {
+            "game_code": "2025050003",
+            "season": 2025,
+            "sg_total": 1.63,
+            "tournament": "제13회 E1 채리티 오픈"
+          }
+        ],
+        "series_name_sample": "제11회 E1 채리티 오픈",
+        "won_on_record": false
+      },
+      {
+        "appearances": 2,
+        "avg_sg_total": -0.255,
+        "history": [
+          {
+            "game_code": "2025070002",
+            "season": 2025,
+            "sg_total": -0.42,
+            "tournament": "하이원리조트 여자오픈 2025"
+          },
+          {
+            "game_code": "2026070002",
+            "season": 2026,
+            "sg_total": -0.09,
+            "tournament": "하이원리조트 여자오픈 2026"
+          }
+        ],
+        "series_name_sample": "하이원리조트 여자오픈 2023",
+        "won_on_record": false
+      }
+    ],
+    "distinct_course_series_played_3plus_times": 5,
+    "low_confidence_or_ambiguous_names_excluded": [
+      "롯데 오픈",
+      "제15회 롯데 오픈",
+      "제16회 롯데 오픈"
+    ],
+    "method": "knowledge_engine.find_course_history() (frozen Sprint 1 function, unmodified) applied once per distinct tournament name she has played, deduped by matched game_code set",
+    "sources": [
+      "historical_sg_warehouse_corrected.json",
+      "knowledge_engine.find_course_history()"
+    ]
+  },
+  "course_fit": {
+    "frozen_knowledge_engine_course_fit": {
+      "history": []
+    },
+    "note": "Tournament DNA's best_fits/watch_list sections (Sprint 4) reported here as a real, checked result for the two currently-generated tournaments (OK Open, KG Ladies Open) -- not an omission either way. See course_analysis for her full course-repeat history across every course series on record, derived via the same frozen course-matching function Tournament DNA itself uses.",
+    "sources": [
+      "knowledge_engine/player_intelligence/9431/latest.json",
+      "knowledge_engine/tournament_dna/*/TournamentDNA.json"
+    ],
+    "tournament_dna_flags": [
+      {
+        "flagged": false,
+        "section": "best_fits",
+        "tournament": "OK Open (2026120001)"
+      },
+      {
+        "flagged": false,
+        "section": "watch_list",
+        "tournament": "OK Open (2026120001)"
+      },
+      {
+        "flagged": false,
+        "section": "best_fits",
+        "tournament": "KG Ladies Open (2026080001)"
+      },
+      {
+        "flagged": false,
+        "section": "watch_list",
+        "tournament": "KG Ladies Open (2026080001)"
+      }
+    ]
+  },
+  "coverage": {
+    "coverage_pct_by_dimension": {
+      "course_analysis": 100,
+      "hole_analysis": 0,
+      "knowledge_graph": 100,
+      "pattern_trend_analysis": 100,
+      "player_identity": 100,
+      "round_analysis": 100,
+      "season_evolution": 100,
+      "shot_profile": 100,
+      "tournament_analysis": 100,
+      "training_data": 0
+    },
+    "gaps": [
+      "HOLE ANALYSIS: no real per-hole scorecard data exists for any tournament this player has entered. Only fixable if KLPGA publishes hole-by-hole data for one of her real tournaments and this pipeline collects it.",
+      "TRAINING: no training/practice data exists anywhere in this repository for any player. KLPGA does not publish this; not collectible from any source currently in scope."
+    ],
+    "overall_pct": 80.0
+  },
+  "generated_at": "2026-09-24T05:58:47.820415+00:00",
+  "hole_analysis": {
+    "reason": "The only real per-hole scorecard dataset in this repository is for game_code 2026080001 (제15회 KG 레이디스 오픈, kg_2026080001_official.json, 6318 real rows). This player did not play that edition on record. No hole-by-hole data exists anywhere else in the repository for any player. Reported as UNKNOWN rather than estimated from round-level totals.",
+    "status": "UNKNOWN"
+  },
+  "knowledge_graph": {
+    "facts": [
+      {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Each win is an independent point-in-time official result; POINT_FACT claims do not require n>1 per instance to be supported.",
+          "official_records_used": [
+            "empirical_sg_corrected_v2/player_event_series.json"
+          ],
+          "round_count": null,
+          "sample_size": 2,
+          "season_count": 2,
+          "tournament_count": 2
+        },
+        "evidence": [
+          "empirical_sg_corrected_v2/player_event_series.json"
+        ],
+        "id": "fact_win_count",
+        "statement": "박보겸 has 2 real tournament wins on record."
+      },
+      {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Current-season official leaderboard snapshot; a single official record fully supports a point-in-time ranking claim.",
+          "official_records_used": [
+            "OFFICIAL_SG_NORMALIZED.json"
+          ],
+          "round_count": null,
+          "sample_size": 1,
+          "season_count": 1,
+          "tournament_count": null
+        },
+        "evidence": [
+          "OFFICIAL_SG_NORMALIZED.json"
+        ],
+        "id": "fact_current_sg_rank",
+        "statement": "박보겸 is officially ranked #57 in SG Total on the current KLPGA official SG leaderboard."
+      },
+      {
+        "audit": {
+          "claim_type": "POINT_FACT",
+          "confidence": "HIGH",
+          "note": "Current-season official leaderboard snapshot; a single official record fully supports a point-in-time ranking claim.",
+          "official_records_used": [
+            "OFFICIAL_PROFILE_NORMALIZED.json"
+          ],
+          "round_count": null,
+          "sample_size": 1,
+          "season_count": 1,
+          "tournament_count": null
+        },
+        "evidence": [
+          "OFFICIAL_PROFILE_NORMALIZED.json"
+        ],
+        "id": "fact_current_money_rank",
+        "statement": "박보겸 is officially ranked #34 in season money."
+      },
+      {
+        "audit": {
+          "claim_type": "TREND",
+          "confidence": "HIGH",
+          "note": "Balanced-type classification is a structural read across her real multi-season SG component record, not a single-season snapshot.",
+          "official_records_used": [
+            "historical_sg_warehouse_corrected.json"
+          ],
+          "round_count": 268,
+          "sample_size": 62,
+          "season_count": 4,
+          "tournament_count": 62
+        },
+        "evidence": [
+          "historical_sg_warehouse_corrected.json"
+        ],
+        "id": "fact_player_type",
+        "statement": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다."
+      },
+      {
+        "audit": {
+          "claim_type": "PATTERN",
+          "confidence": "MEDIUM",
+          "note": null,
+          "official_records_used": [
+            "knowledge_engine.find_course_history()",
+            "historical_sg_warehouse_corrected.json"
+          ],
+          "round_count": 268,
+          "sample_size": 2,
+          "season_count": 4,
+          "tournament_count": 62
+        },
+        "evidence": [
+          "knowledge_engine.find_course_history()",
+          "historical_sg_warehouse_corrected.json"
+        ],
+        "id": "fact_repeat_course_wins",
+        "statement": "2 of this player's wins on record occurred at a course series with at least 2 real career appearances total, per knowledge_engine.find_course_history()'s real match. In every instance on record, the win came on her first real appearance at that course series, with her return visit(s) on record scoring lower. Attempt numbers listed above; this is a description of what the data on record shows, not a prediction about future events."
+      }
+    ],
+    "insights": [
+      {
+        "audit": {
+          "claim_type": "PATTERN",
+          "confidence": "MEDIUM",
+          "downgrade_reason": null,
+          "official_records_used": [
+            "empirical_sg_corrected_v2/player_event_series.json",
+            "historical_sg_warehouse_corrected.json",
+            "knowledge_engine.find_course_history()"
+          ],
+          "round_count": 268,
+          "sample_size": 2,
+          "season_count": 4,
+          "tournament_count": 62
+        },
+        "citations": [
+          {
+            "detail": "97 real event rows, real rank field",
+            "source": "empirical_sg_corrected_v2/player_event_series.json"
+          },
+          {
+            "detail": "raw per-tournament SG rows, scope=tournament_cumulative, identity_state=RETAINED",
+            "source": "historical_sg_warehouse_corrected.json"
+          },
+          {
+            "detail": "frozen Sprint 1 course-matching function",
+            "source": "knowledge_engine.find_course_history()"
+          }
+        ],
+        "fact": "fact_repeat_course_wins",
+        "id": "insight_repeat_course_win_pattern",
+        "insight": "2 of this player's wins on record occurred at a course series with at least 2 real career appearances total, per knowledge_engine.find_course_history()'s real match. In every instance on record, the win came on her first real appearance at that course series, with her return visit(s) on record scoring lower. Attempt numbers listed above; this is a description of what the data on record shows, not a prediction about future events.",
+        "status": "CONFIRMED"
+      },
+      {
+        "audit": {
+          "claim_type": "TREND",
+          "confidence": "HIGH",
+          "downgrade_reason": null,
+          "note": "4-season/62-tournament structural trend in SG Around-the-Green (real per-tournament rows), corroborated by the current-season official percentile.",
+          "official_records_used": [
+            "OFFICIAL_SG_NORMALIZED.json",
+            "historical_sg_warehouse_corrected.json",
+            "knowledge_engine/player_intelligence/9431/latest.json"
+          ],
+          "round_count": 268,
+          "sample_size": 62,
+          "season_count": 4,
+          "tournament_count": 62
+        },
+        "citations": [
+          {
+            "detail": "field percentile basis",
+            "source": "OFFICIAL_SG_NORMALIZED.json"
+          },
+          {
+            "detail": "4-season structural strength basis",
+            "source": "historical_sg_warehouse_corrected.json"
+          },
+          {
+            "detail": "frozen Sprint 1 classification output",
+            "source": "knowledge_engine/player_intelligence/9431/latest.json"
+          }
+        ],
+        "fact": "fact_player_type",
+        "id": "insight_elite_around_the_green",
+        "insight": "최근 4시즌 연속 SG Around-the-Green에서 상위 8% 수준의 기록을 유지하고 있습니다.",
+        "status": "CONFIRMED"
+      }
+    ],
+    "relations": [
+      {
+        "from": "fact_current_sg_rank",
+        "relation": "supports",
+        "to": "fact_player_type"
+      },
+      {
+        "from": "fact_win_count",
+        "relation": "explains",
+        "to": "fact_repeat_course_wins"
+      },
+      {
+        "from": "fact_repeat_course_wins",
+        "relation": "consistent_with",
+        "to": "fact_player_type"
+      }
+    ]
+  },
+  "pattern_trend_analysis": {
+    "pattern_observation": "2 of this player's wins on record occurred at a course series with at least 2 real career appearances total, per knowledge_engine.find_course_history()'s real match. In every instance on record, the win came on her first real appearance at that course series, with her return visit(s) on record scoring lower. Attempt numbers listed above; this is a description of what the data on record shows, not a prediction about future events.",
+    "pattern_observation_confidence": "MEDIUM",
+    "pattern_observation_downgrade_reason": null,
+    "pattern_observation_sample_size": 2,
+    "pattern_observation_status": "CONFIRMED",
+    "recent_form_trend": {
+      "current": {
+        "components": {
+          "approach": {
+            "iqr": 0.0,
+            "mad": 0.0,
+            "mean": 0.65,
+            "median": 0.65,
+            "sample_count": 1,
+            "stddev": 0.0
+          },
+          "around_green": {
+            "iqr": 0.0,
+            "mad": 0.0,
+            "mean": 0.03,
+            "median": 0.03,
+            "sample_count": 1,
+            "stddev": 0.0
+          },
+          "off_the_tee": {
+            "iqr": 0.0,
+            "mad": 0.0,
+            "mean": 0.93,
+            "median": 0.93,
+            "sample_count": 1,
+            "stddev": 0.0
+          },
+          "putting": {
+            "iqr": 0.0,
+            "mad": 0.0,
+            "mean": 1.35,
+            "median": 1.35,
+            "sample_count": 1,
+            "stddev": 0.0
+          },
+          "tee_to_green": {
+            "iqr": 0.0,
+            "mad": 0.0,
+            "mean": 1.61,
+            "median": 1.61,
+            "sample_count": 1,
+            "stddev": 0.0
+          },
+          "total": {
+            "iqr": 0.0,
+            "mad": 0.0,
+            "mean": 2.96,
+            "median": 2.96,
+            "sample_count": 1,
+            "stddev": 0.0
+          }
+        },
+        "event_count": 1
+      },
+      "multi_season": {
+        "components": {
+          "approach": {
+            "iqr": 1.7400000000000002,
+            "mad": 0.9199999999999999,
+            "mean": -0.2043298969072165,
+            "median": -0.08,
+            "sample_count": 97,
+            "stddev": 1.4392032715016427
+          },
+          "around_green": {
+            "iqr": 0.64,
+            "mad": 0.33,
+            "mean": 0.038556701030927835,
+            "median": 0.07,
+            "sample_count": 97,
+            "stddev": 0.6359163167081578
+          },
+          "off_the_tee": {
+            "iqr": 0.52,
+            "mad": 0.27,
+            "mean": 0.24030927835051547,
+            "median": 0.31,
+            "sample_count": 97,
+            "stddev": 0.5873802246845866
+          },
+          "putting": {
+            "iqr": 1.42,
+            "mad": 0.73,
+            "mean": -0.15030927835051547,
+            "median": 0.01,
+            "sample_count": 97,
+            "stddev": 1.2210595242181475
+          },
+          "tee_to_green": {
+            "iqr": 2.29,
+            "mad": 1.12,
+            "mean": 0.0743298969072165,
+            "median": 0.35,
+            "sample_count": 97,
+            "stddev": 1.8530143838354387
+          },
+          "total": {
+            "iqr": 2.73,
+            "mad": 1.3699999999999999,
+            "mean": -0.07556701030927837,
+            "median": 0.06,
+            "sample_count": 97,
+            "stddev": 2.278888603881362
+          }
+        },
+        "event_count": 97
+      },
+      "recent10": {
+        "components": {
+          "approach": {
+            "iqr": 1.4324999999999999,
+            "mad": 0.84,
+            "mean": 0.46900000000000003,
+            "median": 0.52,
+            "sample_count": 10,
+            "stddev": 1.134836747926522
+          },
+          "around_green": {
+            "iqr": 0.8025,
+            "mad": 0.4,
+            "mean": 0.47,
+            "median": 0.565,
+            "sample_count": 10,
+            "stddev": 0.5987023003500525
+          },
+          "off_the_tee": {
+            "iqr": 0.9450000000000001,
+            "mad": 0.625,
+            "mean": -0.016,
+            "median": 0.105,
+            "sample_count": 10,
+            "stddev": 0.6489684121742753
+          },
+          "putting": {
+            "iqr": 1.5925,
+            "mad": 0.8849999999999999,
+            "mean": -0.209,
+            "median": -0.0049999999999999906,
+            "sample_count": 10,
+            "stddev": 1.199680049939242
+          },
+          "tee_to_green": {
+            "iqr": 1.5825,
+            "mad": 0.30000000000000004,
+            "mean": 0.922,
+            "median": 1.4700000000000002,
+            "sample_count": 10,
+            "stddev": 1.313052423426676
+          },
+          "total": {
+            "iqr": 3.7,
+            "mad": 1.9850000000000003,
+            "mean": 0.713,
+            "median": 0.6599999999999999,
+            "sample_count": 10,
+            "stddev": 1.8991287476103351
+          }
+        },
+        "event_count": 10
+      },
+      "recent3": {
+        "components": {
+          "approach": {
+            "iqr": 1.265,
+            "mad": 0.30999999999999994,
+            "mean": 0.013333333333333308,
+            "median": 0.65,
+            "sample_count": 3,
+            "stddev": 1.3799396122053071
+          },
+          "around_green": {
+            "iqr": 0.705,
+            "mad": 0.6799999999999999,
+            "mean": 0.7266666666666667,
+            "median": 0.71,
+            "sample_count": 3,
+            "stddev": 0.7051477386571791
+          },
+          "off_the_tee": {
+            "iqr": 0.965,
+            "mad": 0.8400000000000001,
+            "mean": 0.006666666666666682,
+            "median": 0.09,
+            "sample_count": 3,
+            "stddev": 0.9676948554856192
+          },
+          "putting": {
+            "iqr": 0.5750000000000001,
+            "mad": 0.08999999999999997,
+            "mean": 0.6133333333333334,
+            "median": 0.29,
+            "sample_count": 3,
+            "stddev": 0.6395571384429489
+          },
+          "tee_to_green": {
+            "iqr": 2.1750000000000003,
+            "mad": 0.8800000000000001,
+            "mean": 0.7466666666666667,
+            "median": 1.61,
+            "sample_count": 3,
+            "stddev": 2.299920288473784
+          },
+          "total": {
+            "iqr": 2.2650000000000006,
+            "mad": 0.2799999999999998,
+            "mean": 1.3566666666666667,
+            "median": 2.68,
+            "sample_count": 3,
+            "stddev": 2.5384312741008634
+          }
+        },
+        "event_count": 3
+      },
+      "recent5": {
+        "components": {
+          "approach": {
+            "iqr": 1.25,
+            "mad": 0.57,
+            "mean": -0.03400000000000001,
+            "median": 0.39,
+            "sample_count": 5,
+            "stddev": 1.0386674154896745
+          },
+          "around_green": {
+            "iqr": 0.73,
+            "mad": 0.52,
+            "mean": 0.658,
+            "median": 0.71,
+            "sample_count": 5,
+            "stddev": 0.5692714642417974
+          },
+          "off_the_tee": {
+            "iqr": 1.44,
+            "mad": 0.74,
+            "mean": 0.032000000000000015,
+            "median": 0.09,
+            "sample_count": 5,
+            "stddev": 0.8535924085885488
+          },
+          "putting": {
+            "iqr": 0.5,
+            "mad": 0.41000000000000003,
+            "mean": 0.036000000000000025,
+            "median": 0.2,
+            "sample_count": 5,
+            "stddev": 1.0107818755794942
+          },
+          "tee_to_green": {
+            "iqr": 1.9400000000000002,
+            "mad": 1.1300000000000001,
+            "mean": 0.654,
+            "median": 1.36,
+            "sample_count": 5,
+            "stddev": 1.737219042032409
+          },
+          "total": {
+            "iqr": 3.21,
+            "mad": 1.48,
+            "mean": 0.6900000000000001,
+            "median": -0.09,
+            "sample_count": 5,
+            "stddev": 2.0197400822878175
+          }
+        },
+        "event_count": 5
+      },
+      "season": {
+        "2023": {
+          "components": {
+            "approach": {
+              "iqr": 2.0275,
+              "mad": 1.02,
+              "mean": 0.019999999999999997,
+              "median": 0.10500000000000001,
+              "sample_count": 26,
+              "stddev": 1.5289525826525818
+            },
+            "around_green": {
+              "iqr": 0.5774999999999999,
+              "mad": 0.27,
+              "mean": -0.0019230769230769147,
+              "median": 0.11,
+              "sample_count": 26,
+              "stddev": 0.6630717561819036
+            },
+            "off_the_tee": {
+              "iqr": 0.37,
+              "mad": 0.195,
+              "mean": 0.31153846153846154,
+              "median": 0.41000000000000003,
+              "sample_count": 26,
+              "stddev": 0.4275015069699035
+            },
+            "putting": {
+              "iqr": 1.3325,
+              "mad": 0.7150000000000001,
+              "mean": -0.37,
+              "median": -0.28500000000000003,
+              "sample_count": 26,
+              "stddev": 1.1328265533611048
+            },
+            "tee_to_green": {
+              "iqr": 2.42,
+              "mad": 1.155,
+              "mean": 0.33,
+              "median": 0.815,
+              "sample_count": 26,
+              "stddev": 1.9292153845540418
+            },
+            "total": {
+              "iqr": 2.4025,
+              "mad": 1.0650000000000002,
+              "mean": -0.03884615384615387,
+              "median": 0.395,
+              "sample_count": 26,
+              "stddev": 2.415632963714607
+            }
+          },
+          "event_count": 26
+        },
+        "2024": {
+          "components": {
+            "approach": {
+              "iqr": 1.7175,
+              "mad": 0.9550000000000001,
+              "mean": -0.5346153846153846,
+              "median": -0.77,
+              "sample_count": 26,
+              "stddev": 1.6028754930292766
+            },
+            "around_green": {
+              "iqr": 0.7675000000000001,
+              "mad": 0.41000000000000003,
+              "mean": -0.17230769230769233,
+              "median": -0.09,
+              "sample_count": 26,
+              "stddev": 0.7190121428310245
+            },
+            "off_the_tee": {
+              "iqr": 0.765,
+              "mad": 0.355,
+              "mean": 0.28923076923076924,
+              "median": 0.41000000000000003,
+              "sample_count": 26,
+              "stddev": 0.7821095732794635
+            },
+            "putting": {
+              "iqr": 2.1799999999999997,
+              "mad": 1.08,
+              "mean": 0.04692307692307693,
+              "median": 0.235,
+              "sample_count": 26,
+              "stddev": 1.3984842343931352
+            },
+            "tee_to_green": {
+              "iqr": 2.525,
+              "mad": 1.345,
+              "mean": -0.41846153846153844,
+              "median": -0.125,
+              "sample_count": 26,
+              "stddev": 2.3480045865503625
+            },
+            "total": {
+              "iqr": 3.6375,
+              "mad": 1.9300000000000002,
+              "mean": -0.37115384615384617,
+              "median": -0.38,
+              "sample_count": 26,
+              "stddev": 2.6419709717149837
+            }
+          },
+          "event_count": 26
+        },
+        "2025": {
+          "components": {
+            "approach": {
+              "iqr": 1.44,
+              "mad": 0.75,
+              "mean": -0.18555555555555553,
+              "median": -0.13,
+              "sample_count": 27,
+              "stddev": 1.0632798796949479
+            },
+            "around_green": {
+              "iqr": 0.53,
+              "mad": 0.29000000000000004,
+              "mean": 0.06296296296296297,
+              "median": 0.03,
+              "sample_count": 27,
+              "stddev": 0.43204179654301267
+            },
+            "off_the_tee": {
+              "iqr": 0.405,
+              "mad": 0.22,
+              "mean": 0.3425925925925926,
+              "median": 0.31,
+              "sample_count": 27,
+              "stddev": 0.3651827002452397
+            },
+            "putting": {
+              "iqr": 1.17,
+              "mad": 0.69,
+              "mean": 0.08592592592592592,
+              "median": 0.47,
+              "sample_count": 27,
+              "stddev": 1.1272883026887652
+            },
+            "tee_to_green": {
+              "iqr": 1.615,
+              "mad": 0.8,
+              "mean": 0.2196296296296296,
+              "median": 0.33,
+              "sample_count": 27,
+              "stddev": 1.0392914801088193
+            },
+            "total": {
+              "iqr": 2.13,
+              "mad": 1.16,
+              "mean": 0.30592592592592593,
+              "median": 0.47,
+              "sample_count": 27,
+              "stddev": 1.4732336470897545
+            }
+          },
+          "event_count": 27
+        },
+        "2026": {
+          "components": {
+            "approach": {
+              "iqr": 1.3775,
+              "mad": 0.8200000000000001,
+              "mean": -0.07944444444444446,
+              "median": 0.33,
+              "sample_count": 18,
+              "stddev": 1.5782174316100772
+            },
+            "around_green": {
+              "iqr": 0.7025,
+              "mad": 0.375,
+              "mean": 0.365,
+              "median": 0.345,
+              "sample_count": 18,
+              "stddev": 0.6379770418144786
+            },
+            "off_the_tee": {
+              "iqr": 0.7675000000000001,
+              "mad": 0.355,
+              "mean": -0.08666666666666667,
+              "median": 0.06,
+              "sample_count": 18,
+              "stddev": 0.6594025816645567
+            },
+            "putting": {
+              "iqr": 1.5625,
+              "mad": 0.92,
+              "mean": -0.4722222222222222,
+              "median": -0.36,
+              "sample_count": 18,
+              "stddev": 1.1752274150666258
+            },
+            "tee_to_green": {
+              "iqr": 2.0,
+              "mad": 0.8700000000000001,
+              "mean": 0.19888888888888892,
+              "median": 0.8599999999999999,
+              "sample_count": 18,
+              "stddev": 1.9068078927540868
+            },
+            "total": {
+              "iqr": 3.5774999999999997,
+              "mad": 1.3199999999999998,
+              "mean": -0.2738888888888889,
+              "median": -0.43500000000000005,
+              "sample_count": 18,
+              "stddev": 2.598671920738358
+            }
+          },
+          "event_count": 18
+        }
+      }
+    },
+    "season_trend": "2023시즌 SG Total +0.93에서 2026시즌 +0.83로 하락 추세입니다.",
+    "sources": [
+      "knowledge_engine.find_course_history()",
+      "knowledge_engine/player_intelligence/9431/latest.json",
+      "empirical_sg_corrected_v2/incremental_windows.json"
+    ],
+    "wins_on_repeat_courses": [
+      {
+        "attempt_number": 1,
+        "game_code": "2024100010",
+        "series_name_sample": "상상인 · 한경 와우넷 오픈 2024",
+        "total_appearances_in_series": 2
+      },
+      {
+        "attempt_number": 1,
+        "game_code": "2023050001",
+        "series_name_sample": "제10회 교촌 1991 레이디스 오픈",
+        "total_appearances_in_series": 2
+      }
+    ]
+  },
+  "play_style": {
+    "current_season_rate_stats": {
+      "average_putts": 30.3621,
+      "average_score": 72.0862,
+      "birdie_rate": 16.4751,
+      "gir_rate": 70.6897,
+      "par_break_rate": 16.8582,
+      "par_save_rate": 84.6743,
+      "recovery_rate": 61.4379
+    },
+    "player_type": {
+      "citations": [],
+      "evidence_text": "특정 강점 조합보다는 여러 지표가 고르게 분포된 균형형 선수입니다.",
+      "key": "balanced",
+      "label_en": "Balanced",
+      "label_ko": "균형형"
+    },
+    "shot_profile": {
+      "avg_app": 0.54,
+      "avg_arg": 0.34384615384615375,
+      "avg_ott": 0.13384615384615386,
+      "avg_putt": -0.18153846153846154,
+      "avg_total": 0.8346153846153845,
+      "season": 2026
+    },
+    "sources": [
+      "knowledge_engine/player_intelligence/9431/latest.json"
+    ],
+    "strengths": [
+      {
+        "label": "SG Around-the-Green",
+        "metric": "sg_arg",
+        "percentile": 91.73553719008264
+      }
+    ],
+    "weaknesses": [],
+    "why_loses": [
+      {
+        "citations": [
+          {
+            "field_path": "seasons[2026].avg_putt",
+            "source": "historical_sg_warehouse_corrected.json",
+            "value": -0.18153846153846154
+          }
+        ],
+        "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.18로 악화되었습니다."
+      }
+    ],
+    "why_wins": [
+      {
+        "citations": [
+          {
+            "field_path": "seasons[].avg_arg",
+            "source": "historical_sg_warehouse_corrected.json",
+            "value": 91.73553719008264
+          }
+        ],
+        "text": "최근 4시즌 연속 SG Around-the-Green에서 상위 8% 수준의 기록을 유지하고 있습니다."
+      }
+    ]
+  },
+  "player_id": "9431",
+  "player_identity": {
+    "current_official_klpga_money_rank": 34,
+    "current_official_klpga_sg_rank": 57,
+    "current_season_money_krw": 227049048,
+    "kb_2026_qualification_reason": "2024 일반대회 우승자",
+    "nationality": "KOR",
+    "player_id": "9431",
+    "player_name_en": "PARK Bokyeom",
+    "player_name_ko": "박보겸",
+    "sources": [
+      "HOME_REGULAR_TOUR_PLAYER_MASTER.json",
+      "OFFICIAL_SG_NORMALIZED.json",
+      "OFFICIAL_PROFILE_NORMALIZED.json",
+      "2026090003_ENTRY_SNAPSHOT.json",
+      "player_identity.cross_tournament_verified_sponsor_cache()"
+    ],
+    "sponsor": "삼천리"
+  },
+  "player_name": "박보겸",
+  "round_analysis": {
+    "average_sg_total_by_round_number": {
+      "round_1": {
+        "avg_sg_total": 0.5480434782608696,
+        "median_sg_total": 0.97,
+        "sample_count": 92
+      },
+      "round_2": {
+        "avg_sg_total": 0.43000000000000005,
+        "median_sg_total": 0.6599999999999999,
+        "sample_count": 88
+      },
+      "round_3": {
+        "avg_sg_total": -0.3147540983606557,
+        "median_sg_total": -0.22,
+        "sample_count": 61
+      },
+      "round_4": {
+        "avg_sg_total": -0.09814814814814815,
+        "median_sg_total": 0.61,
+        "sample_count": 27
+      }
+    },
+    "current_tournament_live_progress": {
+      "game_code": "2026120001",
+      "round1_score": 70,
+      "round2_score": 71,
+      "round3_in_progress": {
+        "current_rank": 4,
+        "holes_completed": 14,
+        "round3_sg_so_far": 1.13,
+        "today_under_par": -2
+      },
+      "source": "OK_OPEN_2026_R3_LIVE_SNAPSHOT.json",
+      "tournament": "OK저축은행 읏맨 오픈 (진행 중)"
+    },
+    "sources": [
+      "historical_sg_warehouse_corrected.json (scope=single_round)",
+      "OK_OPEN_2026_R3_LIVE_SNAPSHOT.json"
+    ],
+    "total_single_round_rows_on_record": 268
+  },
+  "schema_version": "master_player_analysis_v1",
+  "scope_note": "This document covers ONLY playerCode=9431. No other player's data was generated or modified.",
+  "season_evolution": {
+    "career_distribution_sg_total": {
+      "iqr": 2.73,
+      "mad": 1.3699999999999999,
+      "mean": -0.07556701030927837,
+      "median": 0.06,
+      "sample_count": 97,
+      "stddev": 2.278888603881362
+    },
+    "career_span": {
+      "event_count": 97,
+      "season_count": 4,
+      "source": "empirical_sg_corrected_v2/player_history_depth.json"
+    },
+    "frozen_knowledge_engine_evolution": {
+      "citations": [
+        {
+          "field_path": "seasons[2023].avg_total",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.9281249999999999
+        },
+        {
+          "field_path": "seasons[2024].avg_total",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.43
+        },
+        {
+          "field_path": "seasons[2025].avg_total",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.6840909090909091
+        },
+        {
+          "field_path": "seasons[2026].avg_total",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.8346153846153845
+        }
+      ],
+      "narrative": "2023시즌 SG Total +0.93에서 2026시즌 +0.83로 하락 추세입니다.",
+      "status": "OK",
+      "steps": [
+        {
+          "avg_total": 0.9281249999999999,
+          "delta_from_prev": null,
+          "season": 2023,
+          "strongest_component": "avg_ott",
+          "weakest_component": "avg_putt"
+        },
+        {
+          "avg_total": 1.43,
+          "delta_from_prev": 0.5018750000000001,
+          "season": 2024,
+          "strongest_component": "avg_putt",
+          "weakest_component": "avg_arg"
+        },
+        {
+          "avg_total": 0.6840909090909091,
+          "delta_from_prev": -0.7459090909090909,
+          "season": 2025,
+          "strongest_component": "avg_ott",
+          "weakest_component": "avg_app"
+        },
+        {
+          "avg_total": 0.8346153846153845,
+          "delta_from_prev": 0.15052447552447545,
+          "season": 2026,
+          "strongest_component": "avg_app",
+          "weakest_component": "avg_putt"
+        }
+      ]
+    },
+    "note": "empirical_sg_corrected_v2 (generated 2026-08-31T21:52:57Z) and historical_sg_warehouse_corrected.json (the frozen Knowledge Engine's own source) are both cited here; the frozen engine's own output (season_profiles, why_wins/why_loses) is reported unmodified above, exactly as Sprint 1 generated it.",
+    "recent_form_windows": {
+      "current": {
+        "iqr": 0.0,
+        "mad": 0.0,
+        "mean": 2.96,
+        "median": 2.96,
+        "sample_count": 1,
+        "stddev": 0.0
+      },
+      "multi_season": {
+        "iqr": 2.73,
+        "mad": 1.3699999999999999,
+        "mean": -0.07556701030927837,
+        "median": 0.06,
+        "sample_count": 97,
+        "stddev": 2.278888603881362
+      },
+      "recent10": {
+        "iqr": 3.7,
+        "mad": 1.9850000000000003,
+        "mean": 0.713,
+        "median": 0.6599999999999999,
+        "sample_count": 10,
+        "stddev": 1.8991287476103351
+      },
+      "recent3": {
+        "iqr": 2.2650000000000006,
+        "mad": 0.2799999999999998,
+        "mean": 1.3566666666666667,
+        "median": 2.68,
+        "sample_count": 3,
+        "stddev": 2.5384312741008634
+      },
+      "recent5": {
+        "iqr": 3.21,
+        "mad": 1.48,
+        "mean": 0.6900000000000001,
+        "median": -0.09,
+        "sample_count": 5,
+        "stddev": 2.0197400822878175
+      }
+    }
+  },
+  "tournament_analysis": {
+    "events": [
+      {
+        "game_code": "2023040001",
+        "rank": 115,
+        "season": 2023,
+        "sg_total": -6.23,
+        "tournament": "롯데렌터카 여자오픈"
+      },
+      {
+        "game_code": "2023040003",
+        "rank": 42,
+        "season": 2023,
+        "sg_total": 0.9,
+        "tournament": "넥센 · 세인트나인 마스터즈 2023"
+      },
+      {
+        "game_code": "2023040004",
+        "rank": 79,
+        "season": 2023,
+        "sg_total": -0.62,
+        "tournament": "크리스에프앤씨 제45회 KLPGA 챔피언십"
+      },
+      {
+        "game_code": "2023050001",
+        "rank": 1,
+        "season": 2023,
+        "sg_total": 5.76,
+        "tournament": "제9회 교촌 1991 레이디스 오픈"
+      },
+      {
+        "game_code": "2023050002",
+        "rank": 77,
+        "season": 2023,
+        "sg_total": -0.66,
+        "tournament": "2023 NH투자증권 레이디스 챔피언십"
+      },
+      {
+        "game_code": "2023050004",
+        "rank": 107,
+        "season": 2023,
+        "sg_total": -1.28,
+        "tournament": "제11회 E1 채리티 오픈"
+      },
+      {
+        "game_code": "2023060001",
+        "rank": 26,
+        "season": 2023,
+        "sg_total": 1.38,
+        "tournament": "롯데 오픈"
+      },
+      {
+        "game_code": "2023060002",
+        "rank": 43,
+        "season": 2023,
+        "sg_total": 0.77,
+        "tournament": "셀트리온 퀸즈 마스터즈"
+      },
+      {
+        "game_code": "2023060004",
+        "rank": 10,
+        "season": 2023,
+        "sg_total": 2.68,
+        "tournament": "BC카드 · 한경 레이디스컵 2023"
+      },
+      {
+        "game_code": "2023060005",
+        "rank": 11,
+        "season": 2023,
+        "sg_total": 2.54,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+      },
+      {
+        "game_code": "2023070001",
+        "rank": 110,
+        "season": 2023,
+        "sg_total": -2.71,
+        "tournament": "대유위니아 · MBN 여자오픈"
+      },
+      {
+        "game_code": "2023070002",
+        "rank": 109,
+        "season": 2023,
+        "sg_total": -3.25,
+        "tournament": "에버콜라겐 · 더시에나 퀸즈크라운 2023"
+      },
+      {
+        "game_code": "2023070003",
+        "rank": 26,
+        "season": 2023,
+        "sg_total": 1.45,
+        "tournament": "두산건설 We’ve 챔피언십"
+      },
+      {
+        "game_code": "2023080001",
+        "rank": 122,
+        "season": 2023,
+        "sg_total": -4.0,
+        "tournament": "제10회 제주삼다수 마스터스"
+      },
+      {
+        "game_code": "2023080003",
+        "rank": 76,
+        "season": 2023,
+        "sg_total": -0.87,
+        "tournament": "하이원리조트 여자오픈 2023"
+      },
+      {
+        "game_code": "2023080004",
+        "rank": 82,
+        "season": 2023,
+        "sg_total": -1.11,
+        "tournament": "한화 클래식 2023"
+      },
+      {
+        "game_code": "2023090001",
+        "rank": 35,
+        "season": 2023,
+        "sg_total": 0.93,
+        "tournament": "제12회 KG 레이디스 오픈"
+      },
+      {
+        "game_code": "2023090002",
+        "rank": 34,
+        "season": 2023,
+        "sg_total": 0.73,
+        "tournament": "KB금융 스타챔피언십"
+      },
+      {
+        "game_code": "2023090003",
+        "rank": 15,
+        "season": 2023,
+        "sg_total": 2.29,
+        "tournament": "OK금융그룹 읏맨 오픈"
+      },
+      {
+        "game_code": "2023090004",
+        "rank": 56,
+        "season": 2023,
+        "sg_total": -0.57,
+        "tournament": "하나금융그룹 챔피언십"
+      },
+      {
+        "game_code": "2023090005",
+        "rank": 23,
+        "season": 2023,
+        "sg_total": 1.38,
+        "tournament": "대보 하우스디 오픈"
+      },
+      {
+        "game_code": "2023100001",
+        "rank": 58,
+        "season": 2023,
+        "sg_total": -0.68,
+        "tournament": "제23회 하이트진로 챔피언십"
+      },
+      {
+        "game_code": "2023100003",
+        "rank": 43,
+        "season": 2023,
+        "sg_total": 0.06,
+        "tournament": "상상인 · 한국경제TV 오픈 2023"
+      },
+      {
+        "game_code": "2023100004",
+        "rank": 83,
+        "season": 2023,
+        "sg_total": -2.15,
+        "tournament": "SK네트웍스 · 서울경제 레이디스 클래식"
+      },
+      {
+        "game_code": "2023110001",
+        "rank": 28,
+        "season": 2023,
+        "sg_total": 0.98,
+        "tournament": "S-OIL 챔피언십 2023"
+      },
+      {
+        "game_code": "2023110002",
+        "rank": 21,
+        "season": 2023,
+        "sg_total": 1.27,
+        "tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023"
+      },
+      {
+        "game_code": "2024040017",
+        "rank": 76,
+        "season": 2024,
+        "sg_total": -0.95,
+        "tournament": "두산건설 We’ve 챔피언십"
+      },
+      {
+        "game_code": "2024040018",
+        "rank": 59,
+        "season": 2024,
+        "sg_total": -0.42,
+        "tournament": "메디힐 · 한국일보 챔피언십"
+      },
+      {
+        "game_code": "2024040019",
+        "rank": 23,
+        "season": 2024,
+        "sg_total": 1.97,
+        "tournament": "넥센 · 세인트나인 마스터즈 2024"
+      },
+      {
+        "game_code": "2024040020",
+        "rank": 125,
+        "season": 2024,
+        "sg_total": -5.11,
+        "tournament": "크리스에프앤씨 제46회 KLPGA 챔피언십"
+      },
+      {
+        "game_code": "2024050014",
+        "rank": 29,
+        "season": 2024,
+        "sg_total": 1.39,
+        "tournament": "제10회 교촌 1991 레이디스 오픈"
+      },
+      {
+        "game_code": "2024050015",
+        "rank": 68,
+        "season": 2024,
+        "sg_total": -0.34,
+        "tournament": "2024 NH투자증권 레이디스 챔피언십"
+      },
+      {
+        "game_code": "2024050017",
+        "rank": 105,
+        "season": 2024,
+        "sg_total": -1.64,
+        "tournament": "제12회 E1 채리티 오픈"
+      },
+      {
+        "game_code": "2024050018",
+        "rank": 10,
+        "season": 2024,
+        "sg_total": 2.86,
+        "tournament": "Sh수협은행 MBN 여자오픈"
+      },
+      {
+        "game_code": "2024060013",
+        "rank": 7,
+        "season": 2024,
+        "sg_total": 3.18,
+        "tournament": "2024 셀트리온 퀸즈 마스터즈"
+      },
+      {
+        "game_code": "2024060014",
+        "rank": 103,
+        "season": 2024,
+        "sg_total": -2.66,
+        "tournament": "DB그룹 제38회 한국여자오픈골프선수권대회"
+      },
+      {
+        "game_code": "2024060015",
+        "rank": 125,
+        "season": 2024,
+        "sg_total": -4.83,
+        "tournament": "BC카드 · 한경 레이디스컵 2024"
+      },
+      {
+        "game_code": "2024060016",
+        "rank": 103,
+        "season": 2024,
+        "sg_total": -1.55,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+      },
+      {
+        "game_code": "2024070016",
+        "rank": 61,
+        "season": 2024,
+        "sg_total": -0.14,
+        "tournament": "롯데 오픈"
+      },
+      {
+        "game_code": "2024080014",
+        "rank": 43,
+        "season": 2024,
+        "sg_total": 0.33,
+        "tournament": "제11회 제주삼다수 마스터스"
+      },
+      {
+        "game_code": "2024080015",
+        "rank": 81,
+        "season": 2024,
+        "sg_total": -1.47,
+        "tournament": "한화 클래식 2024"
+      },
+      {
+        "game_code": "2024080016",
+        "rank": 3,
+        "season": 2024,
+        "sg_total": 3.68,
+        "tournament": "제13회 KG 레이디스 오픈"
+      },
+      {
+        "game_code": "2024080018",
+        "rank": 121,
+        "season": 2024,
+        "sg_total": -5.58,
+        "tournament": "더헤븐 마스터즈"
+      },
+      {
+        "game_code": "2024090006",
+        "rank": 72,
+        "season": 2024,
+        "sg_total": -1.05,
+        "tournament": "KB금융 스타챔피언십"
+      },
+      {
+        "game_code": "2024090007",
+        "rank": 103,
+        "season": 2024,
+        "sg_total": -2.53,
+        "tournament": "OK저축은행 읏맨 오픈"
+      },
+      {
+        "game_code": "2024090008",
+        "rank": 88,
+        "season": 2024,
+        "sg_total": -2.03,
+        "tournament": "대보 하우스디 오픈"
+      },
+      {
+        "game_code": "2024090009",
+        "rank": 7,
+        "season": 2024,
+        "sg_total": 2.9,
+        "tournament": "하나금융그룹 챔피언십"
+      },
+      {
+        "game_code": "2024100008",
+        "rank": 45,
+        "season": 2024,
+        "sg_total": 0.29,
+        "tournament": "제24회 하이트진로 챔피언십"
+      },
+      {
+        "game_code": "2024100010",
+        "rank": 1,
+        "season": 2024,
+        "sg_total": 3.7,
+        "tournament": "상상인 · 한경 와우넷 오픈 2024"
+      },
+      {
+        "game_code": "2024100011",
+        "rank": 16,
+        "season": 2024,
+        "sg_total": 1.81,
+        "tournament": "덕신EPC · 서울경제 레이디스 클래식"
+      },
+      {
+        "game_code": "2024100012",
+        "rank": 28,
+        "season": 2024,
+        "sg_total": 1.01,
+        "tournament": "S-OIL 챔피언십 2024"
+      },
+      {
+        "game_code": "2024110007",
+        "rank": 55,
+        "season": 2024,
+        "sg_total": -2.47,
+        "tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024"
+      },
+      {
+        "game_code": "2025040001",
+        "rank": 16,
+        "season": 2025,
+        "sg_total": 1.87,
+        "tournament": "두산건설 We’ve 챔피언십"
+      },
+      {
+        "game_code": "2025040002",
+        "rank": 74,
+        "season": 2025,
+        "sg_total": -0.77,
+        "tournament": "iM금융오픈 2025"
+      },
+      {
+        "game_code": "2025040003",
+        "rank": 52,
+        "season": 2025,
+        "sg_total": 0.12,
+        "tournament": "넥센 · 세인트나인 마스터즈 2025"
+      },
+      {
+        "game_code": "2025040004",
+        "rank": 86,
+        "season": 2025,
+        "sg_total": -1.17,
+        "tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십"
+      },
+      {
+        "game_code": "2025040005",
+        "rank": 21,
+        "season": 2025,
+        "sg_total": 1.43,
+        "tournament": "덕신EPC 챔피언십"
+      },
+      {
+        "game_code": "2025050001",
+        "rank": 40,
+        "season": 2025,
+        "sg_total": 0.75,
+        "tournament": "2025 NH투자증권 레이디스 챔피언십"
+      },
+      {
+        "game_code": "2025050003",
+        "rank": 26,
+        "season": 2025,
+        "sg_total": 1.63,
+        "tournament": "제13회 E1 채리티 오픈"
+      },
+      {
+        "game_code": "2025050004",
+        "rank": 27,
+        "season": 2025,
+        "sg_total": 1.15,
+        "tournament": "Sh수협은행 MBN 여자오픈"
+      },
+      {
+        "game_code": "2025060001",
+        "rank": 39,
+        "season": 2025,
+        "sg_total": 0.74,
+        "tournament": "2025 셀트리온 퀸즈 마스터즈"
+      },
+      {
+        "game_code": "2025060002",
+        "rank": 71,
+        "season": 2025,
+        "sg_total": -0.32,
+        "tournament": "DB그룹 제39회 한국여자오픈골프선수권대회"
+      },
+      {
+        "game_code": "2025060003",
+        "rank": 53,
+        "season": 2025,
+        "sg_total": -0.18,
+        "tournament": "BC카드 · 한경 레이디스컵 2025"
+      },
+      {
+        "game_code": "2025060004",
+        "rank": 44,
+        "season": 2025,
+        "sg_total": 0.47,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+      },
+      {
+        "game_code": "2025070001",
+        "rank": 35,
+        "season": 2025,
+        "sg_total": 0.96,
+        "tournament": "제15회 롯데 오픈"
+      },
+      {
+        "game_code": "2025070002",
+        "rank": 57,
+        "season": 2025,
+        "sg_total": -0.42,
+        "tournament": "하이원리조트 여자오픈 2025"
+      },
+      {
+        "game_code": "2025070003",
+        "rank": 17,
+        "season": 2025,
+        "sg_total": 2.05,
+        "tournament": "더헤븐 마스터즈"
+      },
+      {
+        "game_code": "2025070004",
+        "rank": 16,
+        "season": 2025,
+        "sg_total": 1.74,
+        "tournament": "2025 오로라월드 레이디스 챔피언십"
+      },
+      {
+        "game_code": "2025070005",
+        "rank": 117,
+        "season": 2025,
+        "sg_total": -3.41,
+        "tournament": "제12회 제주삼다수 마스터스"
+      },
+      {
+        "game_code": "2025080003",
+        "rank": 95,
+        "season": 2025,
+        "sg_total": -2.11,
+        "tournament": "제14회 KG 레이디스 오픈"
+      },
+      {
+        "game_code": "2025090001",
+        "rank": 75,
+        "season": 2025,
+        "sg_total": -0.99,
+        "tournament": "KB금융 스타챔피언십"
+      },
+      {
+        "game_code": "2025090002",
+        "rank": 44,
+        "season": 2025,
+        "sg_total": 0.33,
+        "tournament": "OK저축은행 읏맨 오픈"
+      },
+      {
+        "game_code": "2025090003",
+        "rank": 89,
+        "season": 2025,
+        "sg_total": -2.5,
+        "tournament": "하나금융그룹 챔피언십"
+      },
+      {
+        "game_code": "2025090004",
+        "rank": 16,
+        "season": 2025,
+        "sg_total": 1.85,
+        "tournament": "제25회 하이트진로 챔피언십"
+      },
+      {
+        "game_code": "2025100002",
+        "rank": 30,
+        "season": 2025,
+        "sg_total": 0.29,
+        "tournament": "대보 하우스디 챔피언십"
+      },
+      {
+        "game_code": "2025100003",
+        "rank": 21,
+        "season": 2025,
+        "sg_total": 1.5,
+        "tournament": "상상인 · 한경 와우넷 오픈 2025"
+      },
+      {
+        "game_code": "2025100004",
+        "rank": 24,
+        "season": 2025,
+        "sg_total": 1.71,
+        "tournament": "광남일보 · 해피니스 오픈"
+      },
+      {
+        "game_code": "2025100005",
+        "rank": 9,
+        "season": 2025,
+        "sg_total": 2.25,
+        "tournament": "S-OIL 챔피언십 2025"
+      },
+      {
+        "game_code": "2025100012",
+        "rank": 60,
+        "season": 2025,
+        "sg_total": -0.71,
+        "tournament": "K-FOOD 놀부·화미 마스터즈"
+      },
+      {
+        "game_code": "2026030001",
+        "rank": 10,
+        "season": 2026,
+        "sg_total": 2.4,
+        "tournament": "리쥬란 챔피언십"
+      },
+      {
+        "game_code": "2026040001",
+        "rank": 69,
+        "season": 2026,
+        "sg_total": -0.85,
+        "tournament": "iM금융오픈 2026"
+      },
+      {
+        "game_code": "2026040002",
+        "rank": 114,
+        "season": 2026,
+        "sg_total": -5.76,
+        "tournament": "제2회 덕신EPC 챔피언십"
+      },
+      {
+        "game_code": "2026040003",
+        "rank": 115,
+        "season": 2026,
+        "sg_total": -5.86,
+        "tournament": "더 시에나 오픈 2026"
+      },
+      {
+        "game_code": "2026040004",
+        "rank": 65,
+        "season": 2026,
+        "sg_total": -0.34,
+        "tournament": "넥센 · 세인트나인 Masters 2026"
+      },
+      {
+        "game_code": "2026050001",
+        "rank": 40,
+        "season": 2026,
+        "sg_total": 0.9,
+        "tournament": "2026 NH투자증권 레이디스 챔피언십"
+      },
+      {
+        "game_code": "2026050003",
+        "rank": 109,
+        "season": 2026,
+        "sg_total": -1.74,
+        "tournament": "제14회 E1 채리티 오픈"
+      },
+      {
+        "game_code": "2026050004",
+        "rank": 72,
+        "season": 2026,
+        "sg_total": -0.81,
+        "tournament": "Sh수협은행 MBN 여자오픈"
+      },
+      {
+        "game_code": "2026060001",
+        "rank": 86,
+        "season": 2026,
+        "sg_total": -1.51,
+        "tournament": "2026 셀트리온 퀸즈 마스터즈"
+      },
+      {
+        "game_code": "2026060002",
+        "rank": 10,
+        "season": 2026,
+        "sg_total": 2.71,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+      },
+      {
+        "game_code": "2026060003",
+        "rank": 9,
+        "season": 2026,
+        "sg_total": 2.36,
+        "tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회"
+      },
+      {
+        "game_code": "2026060004",
+        "rank": 34,
+        "season": 2026,
+        "sg_total": 1.41,
+        "tournament": "인카금융 더헤븐 마스터즈"
+      },
+      {
+        "game_code": "2026070001",
+        "rank": 77,
+        "season": 2026,
+        "sg_total": -1.29,
+        "tournament": "2026 오로라월드 챔피언십"
+      },
+      {
+        "game_code": "2026070002",
+        "rank": 50,
+        "season": 2026,
+        "sg_total": -0.09,
+        "tournament": "하이원리조트 여자오픈 2026"
+      },
+      {
+        "game_code": "2026070003",
+        "rank": 73,
+        "season": 2026,
+        "sg_total": -0.53,
+        "tournament": "제16회 롯데 오픈"
+      },
+      {
+        "game_code": "2026080002",
+        "rank": 5,
+        "season": 2026,
+        "sg_total": 2.68,
+        "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+      },
+      {
+        "game_code": "2026080003",
+        "rank": 86,
+        "season": 2026,
+        "sg_total": -1.57,
+        "tournament": "메디힐 · 한국일보 챔피언십"
+      },
+      {
+        "game_code": "2026080004",
+        "rank": 8,
+        "season": 2026,
+        "sg_total": 2.96,
+        "tournament": "제13회 제주삼다수 마스터스"
+      }
+    ],
+    "most_recent_win": {
+      "game_code": "2024100010",
+      "official_source": "empirical_sg_corrected_v2/player_event_series.json (rank field == 1)",
+      "season": 2024,
+      "sg_total": 3.7,
+      "tournament": "상상인 · 한경 와우넷 오픈 2024"
+    },
+    "sources": [
+      "empirical_sg_corrected_v2/player_event_series.json (real event rows, rank field)"
+    ],
+    "top10_finish_count": 13,
+    "top5_finish_count": 4,
+    "total_events_on_record": 97,
+    "win_count_on_record": 2,
+    "wins": [
+      {
+        "game_code": "2023050001",
+        "season": 2023,
+        "sg_total": 5.76,
+        "tournament": "제9회 교촌 1991 레이디스 오픈"
+      },
+      {
+        "game_code": "2024100010",
+        "season": 2024,
+        "sg_total": 3.7,
+        "tournament": "상상인 · 한경 와우넷 오픈 2024"
+      }
+    ]
+  }
+}
