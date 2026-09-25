@@ -1,0 +1,19 @@
+{
+  "conflicts_detected": 0,
+  "found_in_live": 2,
+  "found_in_reader": 1,
+  "found_in_warehouse": 94,
+  "in_progress_excluded_from_finished_totals": 1,
+  "merged": 4,
+  "missing": 0,
+  "resolved": [
+    "2023090002: SG Warehouse tournament_cumulative rank (SG-based) and Tournament Warehouse R1 score_rank (60) are different ranking systems (SG rank vs. stroke rank), not comparable as the same fact -- no conflict. Real R1 raw strokes (79) merged in.",
+    "2023090003: SG Warehouse tournament_cumulative rank (SG-based) and Tournament Warehouse R1 score_rank (8) are different ranking systems (SG rank vs. stroke rank), not comparable as the same fact -- no conflict. Real R1 raw strokes (67) merged in.",
+    "2026090003 (KB): Reader R3 cumulative_score (218) == R1+R2+R3 (74+71+73) -- agrees.",
+    "2026090003 (KB): Reader FR total_strokes (290) == R1+R2+R3+FR (74+71+73+72) -- agrees. FR (final round) leaderboard used as the canonical final result.",
+    "2026090002 (Hana): mean of real R1-R4 SG Total (4.4975) matches the official 4-round cumulative SG Total (4.5) within tolerance -- confirms the warehouse's 'tournament_cumulative = mean of rounds' convention holds here too. Official cumulative used directly (not re-derived) since it is itself a primary official computation.",
+    "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (1) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts."
+  ],
+  "status": "RECONCILED_OK",
+  "total_tournaments": 97
+}

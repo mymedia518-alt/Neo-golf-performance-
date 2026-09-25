@@ -18,6 +18,18 @@ PAGE8_TITLE = "8. 선수 스토리"
 PAGE_HOLE_TITLE = "홀 기록 (실측 1개 대회)"
 PAGE_SNAPSHOT_TITLE = "현재 시즌 공식 스냅샷"
 PAGE_NOT_AVAILABLE_TITLE = "실측되지 않아 제외한 항목"
+PAGE_RECONCILIATION_TITLE = "데이터 출처 검증 (Reconciliation)"
+PAGE_IN_PROGRESS_TITLE = "진행 중인 대회"
+
+RECONCILIATION_LABELS = {
+    "total_tournaments": "전체 대회",
+    "found_in_warehouse": "SG 웨어하우스에서 발견",
+    "found_in_reader": "Reader(리더보드 수집)에서 발견",
+    "found_in_live": "실시간 스냅샷에서 발견",
+    "merged": "2개 이상 출처 병합",
+    "missing": "누락",
+    "conflicts_detected": "충돌 발견",
+}
 
 SEASON_TABLE_COLUMNS = {
     "season": "시즌", "events": "대회", "wins": "우승", "top10": "상위10위",

@@ -324,20 +324,37 @@ def _delta_key(d: Optional[dict]) -> Optional[tuple]:
 def _player_evolution_html(pe: dict) -> str:
     if not pe:
         return ""
-    first = pe.get("first_improvement")
-    biggest = pe.get("biggest_improvement")
-    # The first positive season-to-season delta and the single largest
-    # one can be the same real transition (they are, here) -- shown
-    # once, not twice, per the "delete one" mission rule.
-    if _delta_key(first) is not None and _delta_key(first) == _delta_key(biggest):
-        improvement_items = [("첫 향상이자 최대 향상", _delta_line(first))]
-    else:
-        improvement_items = [("첫 향상", _delta_line(first)), ("최대 향상", _delta_line(biggest))]
-    items = improvement_items + [
-        ("최대 하락", _delta_line(pe.get("biggest_decline")) if not pe.get("no_decline_observed") else "실측 시즌 전환 중 하락 없음 -- 4개 시즌 전부 상승"),
-        ("추세 반전", _delta_line(pe.get("trend_reversal")) if pe.get("trend_reversal") else "실측 데이터에 추세 반전 없음"),
-        ("정체에 가장 가까운 구간", _delta_line(pe.get("closest_to_plateau"))),
+    # Any two of these five detections can point to the exact same real
+    # season-to-season transition (e.g. the smallest delta can also be
+    # the first positive one) -- every pair is checked, not just one
+    # hardcoded pair, and merged into a single combined-label card, per
+    # the "if the same insight appears twice, delete one" mission rule.
+    fallback_text = {
+        "최대 하락": "실측 시즌 전환 중 하락 없음 -- 4개 시즌 전부 상승",
+        "추세 반전": "실측 데이터에 추세 반전 없음",
+    }
+    slots = [
+        ("첫 향상", pe.get("first_improvement")),
+        ("최대 향상", pe.get("biggest_improvement")),
+        ("최대 하락", pe.get("biggest_decline") if not pe.get("no_decline_observed") else None),
+        ("추세 반전", pe.get("trend_reversal")),
+        ("정체에 가장 가까운 구간", pe.get("closest_to_plateau")),
     ]
+    merged: dict = {}
+    standalone: list = []
+    for label, d in slots:
+        key = _delta_key(d)
+        if key is None:
+            text = fallback_text.get(label)
+            if text:
+                standalone.append((label, text))
+            continue
+        if key in merged:
+            merged[key][0].append(label)
+        else:
+            merged[key] = ([label], d)
+
+    items = [("이자 ".join(labels), _delta_line(d)) for labels, d in merged.values()] + standalone
     rows = "".join(f'<li><strong>{escape(k)}</strong> — {escape(v)}</li>' for k, v in items if v)
     return (
         '<details class="evidence-detail pi-section" id="ph-player-evolution" open>'
@@ -413,6 +430,53 @@ def _hole_history_html(hh: Optional[dict]) -> str:
     )
 
 
+def _reconciliation_html(report: Optional[dict]) -> str:
+    """Transparency section: Player History is never built from one
+    warehouse alone -- this shows exactly how many of her tournaments
+    came from each of the 7 verified source categories, how many were
+    merged across categories, and every real cross-source check that
+    was run before this report was allowed to generate at all."""
+    if not report:
+        return ""
+    count_keys = ["total_tournaments", "found_in_warehouse", "found_in_reader", "found_in_live", "merged", "missing", "conflicts_detected"]
+    chips = "".join(_chip(f'{terms.RECONCILIATION_LABELS[k]} {report[k]}', positive=(k in ("total_tournaments", "found_in_warehouse") or (k in ("missing", "conflicts_detected") and report[k] == 0))) for k in count_keys)
+    status_chip = _chip(f'상태: {report["status"]}', positive=report["status"] == "RECONCILED_OK")
+    resolved_items = "".join(f"<li>{escape(line)}</li>" for line in report.get("resolved", []))
+    resolved_html = f'<ul class="piq-checklist">{resolved_items}</ul>' if resolved_items else ""
+    return (
+        '<details class="evidence-detail pi-section" id="ph-reconciliation">'
+        f'<summary class="section-heading"><h2>{terms.PAGE_RECONCILIATION_TITLE}</h2></summary>'
+        '<div class="pi-section__body">'
+        f'<p class="piq-current-detail">이 문서의 모든 대회 기록은 7개 카테고리 실측 소스를 대조(reconciliation)한 뒤에만 생성됩니다. '
+        '하나의 웨어하우스에만 의존하지 않습니다.</p>'
+        f'<div class="piq-audit">{status_chip}{chips}</div>'
+        f'{resolved_html}'
+        '</div></details>'
+    )
+
+
+def _in_progress_html(t: Optional[dict]) -> str:
+    if not t:
+        return ""
+    rounds = "".join(f'<td>R{r["round"]}</td>' for r in t["rounds_completed"])
+    strokes = "".join(f'<td>{r["strokes"]}</td>' for r in t["rounds_completed"])
+    partial = t.get("partial_round_sg")
+    partial_chip = (
+        _chip(f'R{partial["round"]} 진행 중 SG Total {_fmt(partial["total"])} (완주 라운드 아님, 참고용)')
+        if partial else ""
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="ph-in-progress" open>'
+        f'<summary class="section-heading"><h2>{terms.PAGE_IN_PROGRESS_TITLE}</h2></summary>'
+        '<div class="pi-section__body">'
+        f'<p class="piq-current-detail">{escape(t["tournament"])} ({t["game_code"]}, {t["season"]}) -- {escape(t["note"])}</p>'
+        f'<div class="table-scroll"><table class="data-table"><thead><tr>{rounds}</tr></thead>'
+        f'<tbody><tr>{strokes}</tr></tbody></table></div>'
+        f'<div class="piq-audit">{partial_chip}</div>'
+        '</div></details>'
+    )
+
+
 def _not_available_html(items: list) -> str:
     if not items:
         return ""
@@ -441,7 +505,9 @@ def render_player_history_html(doc: dict, *, prev_link: Optional[dict] = None, n
     return (
         prev_next_html(prev_link, next_link)
         + _hero_html(doc)
+        + _reconciliation_html(doc.get("reconciliation"))
         + _career_overview_html(doc["career_overview"], doc.get("current_snapshot"))
+        + _in_progress_html(doc.get("current_tournament_in_progress"))
         + _career_evolution_html(doc["career_evolution"])
         + _season_replay_html(doc["season_replay"])
         + _tournament_history_html(doc["tournament_history"])
