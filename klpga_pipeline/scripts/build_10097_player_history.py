@@ -8,14 +8,23 @@ a real row in a real warehouse; anything not measured is omitted, never
 invented. This script is scoped to playerCode=10097 only -- it is not a
 reusable framework and is not intended to generalize to other players.
 
-Real data sources used:
-- historical_sg_warehouse_corrected.json: 360 rows for 10097 (73
-  tournament_cumulative + 287 single_round), 2023-2026, 89 tournaments
-  with round-level detail.
-- knowledge_engine.compute_season_profiles(): 4 real season SG averages
-  (2023-2026), each with its own real sample size (n_tournaments).
-- MASTER_ANALYSIS.json tournament_analysis.events/wins: 94 real events,
-  4 real wins, chronological (sorted by season, then game_code).
+Player History must never depend on a single warehouse. Every tournament
+fact used here comes from reconcile_10097_player_history.reconcile(),
+which collects and cross-checks all seven categories of verified real
+sources (SG Warehouse, Tournament Warehouse, Round Warehouse, Reader
+outputs, Live snapshots, normalized datasets, supplemental datasets)
+BEFORE this script runs. If reconciliation cannot fully account for
+every known tournament, it raises ReconciliationError and this script
+never runs -- there is no downstream patch path any more. See that
+module's docstring for the full source inventory and the exact failure
+mode (three of her most recent tournaments living only in their own
+per-tournament files) this replaces.
+
+Other real data sources used, outside the reconciled tournament dataset:
+- knowledge_engine.compute_season_profiles(), fed the reconciled
+  synthetic SG-warehouse document (not the raw on-disk warehouse file
+  directly) -- so season SG averages reflect every reconciled
+  tournament, not just the ones already in the SG Warehouse.
 - OFFICIAL_PROFILE_NORMALIZED.json / OFFICIAL_SG_NORMALIZED.json: ONE
   current-season (2026) snapshot each -- money, average_score, putts,
   birdie/gir/par-save/par-break/recovery rate, official SG rank/total.
@@ -24,17 +33,22 @@ Real data sources used:
 - evidence/current_round_2026120001_r3_20260906/official_sources.zip
   -> scorecards.json: the ONLY hole-by-hole data for 10097 anywhere in
   this repository -- one tournament (2026120001), 51 real hole records
-  across 3 rounds (R1 18/18, R2 18/18, R3 15/18 at capture time).
+  across 3 rounds (R1 18/18, R2 18/18, R3 15/18 at capture time). Note
+  2026120001 is also the reconciled IN-PROGRESS tournament (see
+  current_tournament_in_progress) -- it has never reached a final
+  result in this repository.
 
 Explicitly NOT available anywhere in this repository for this player,
 and therefore never shown: driving distance, driving accuracy,
 historical (pre-2026) money/average score/GIR/putts/birdie rate, bogey
 rate, front-nine/back-nine splits, course names for most tournaments,
-day-to-day ranking movement, and a reliable season-by-season cut rate
-(a made_cut field exists in NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json, but
-its own event count for 2023 -- 7 rows vs. the real 25 real events that
-season confirmed by every other source -- is inconsistent, so it is not
-used as a season-level rollup).
+day-to-day ranking movement, Strokes Gained for the KB금융 골든라이프
+챔피언십 (2026090003, real finish and round scores exist, but no SG was
+ever captured for this tournament), and a reliable season-by-season cut
+rate (a made_cut field exists in NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json,
+but its own event count for 2023 -- 7 rows vs. the real 25 real events
+that season confirmed by every other source -- is inconsistent, so it
+is not used as a season-level rollup).
 """
 from __future__ import annotations
 
@@ -57,9 +71,14 @@ _spec = importlib.util.spec_from_file_location("master_analysis_under_history", 
 master = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(master)
 
+_recon_spec = importlib.util.spec_from_file_location("reconcile_10097_under_history", ROOT / "scripts" / "reconcile_10097_player_history.py")
+recon_module = importlib.util.module_from_spec(_recon_spec)
+_recon_spec.loader.exec_module(recon_module)
+
 PLAYER_ID = master.PLAYER_ID
 PLAYER_NAME = master.PLAYER_NAME
 OUTPUT_PATH = CONTENT_DIR / "knowledge_engine" / "player_intelligence" / PLAYER_ID / "PLAYER_HISTORY.json"
+RECONCILIATION_REPORT_PATH = CONTENT_DIR / "knowledge_engine" / "player_intelligence" / PLAYER_ID / "PLAYER_HISTORY_RECONCILIATION_REPORT.json"
 
 _COMPONENTS = ["avg_total", "avg_ott", "avg_app", "avg_arg", "avg_putt"]
 _COMPONENT_LABEL = {"avg_total": "SG Total", "avg_ott": "SG OTT", "avg_app": "SG APP", "avg_arg": "SG ARG", "avg_putt": "SG PUTT"}
@@ -75,17 +94,17 @@ NOT_AVAILABLE = [
     "전반·후반 9홀 분할 스코어 -- 이 저장소 어디에도 실측 기록 없음",
     "대회별 코스명 -- 극히 일부 대회만 실측, 전체 커버리지 없음",
     "라운드 중 순위 변동 (일자별 순위 이동) -- 실측 기록 없음",
+    "KB금융 골든라이프 챔피언십(2026090003)의 Strokes Gained -- 최종 순위·라운드별 스코어는 실측되었으나 "
+    "이 대회의 SG 데이터는 이 저장소 어디에도 수집되지 않음",
     "시즌별 컷 통과율 -- NEO_HISTORICAL_TRUTH_WAREHOUSE_V1.json에 made_cut 필드가 있으나 "
     "2023시즌 표본(7건)이 다른 모든 실측 소스가 확인하는 2023시즌 25개 대회와 맞지 않아 신뢰할 수 없음 -- 사용하지 않음",
 ]
 
 
 def _load_all():
-    master_doc = json.loads(master.OUTPUT_PATH.read_text(encoding="utf-8"))
-    ds = master.build_master_dataset()
-    warehouse = master._load("historical_sg_warehouse_corrected.json")
-    season_profiles = ke.compute_season_profiles(PLAYER_ID, warehouse)
-    return master_doc, ds, season_profiles
+    recon = recon_module.reconcile()
+    season_profiles = ke.compute_season_profiles(PLAYER_ID, recon["synthetic_sg_warehouse_doc"])
+    return recon, season_profiles
 
 
 def _contribution_breakdown(rows: list) -> Optional[dict]:
@@ -122,49 +141,9 @@ def _contribution_breakdown(rows: list) -> Optional[dict]:
 # PAGE 1 -- CAREER OVERVIEW
 # ---------------------------------------------------------------------------
 
-def _full_events(master_doc: dict) -> list:
-    """tournament_analysis.events is missing her most recent win
-    (game_code 2026090002, Hana Financial Group Championship) -- it was
-    added to tournament_analysis.wins/most_recent_win separately and
-    never backfilled into events. Real per-round SG data for it DOES
-    exist (most_recent_win.round_sg: R1/R2/R3), so it is folded in here
-    rather than silently dropped from Tournament History and the
-    career-level totals. sg_total is the real mean of her 3 real rounds
-    -- the same "cumulative = mean of rounds" convention already used
-    throughout this exact warehouse (confirmed empirically), never an
-    invented number."""
-    events = list(master_doc["tournament_analysis"]["events"])
-    known_codes = {e["game_code"] for e in events}
-    mrw = master_doc["tournament_analysis"].get("most_recent_win")
-    if mrw and mrw["game_code"] not in known_codes:
-        round_sg = mrw["round_sg"]
-        events.append({
-            "game_code": mrw["game_code"],
-            "season": next((w["season"] for w in master_doc["tournament_analysis"]["wins"] if w["game_code"] == mrw["game_code"]), None),
-            "tournament": mrw["tournament"],
-            "rank": mrw["final_rank"],
-            "sg_total": round(sum(round_sg.values()) / len(round_sg), 2),
-        })
-    return events
-
-
-def _most_recent_win_round_rows(master_doc: dict) -> list:
-    """Real per-round SG rows for the one win missing from the standard
-    round-level warehouse (see _full_events) -- R1/R2/R3, no R4 (this
-    was a 54-hole event)."""
-    mrw = master_doc["tournament_analysis"].get("most_recent_win")
-    if not mrw:
-        return []
-    rows = []
-    for label, val in mrw["round_sg"].items():
-        rnd = int(label.replace("R", ""))
-        rows.append({"game_code": mrw["game_code"], "season": next((w["season"] for w in master_doc["tournament_analysis"]["wins"] if w["game_code"] == mrw["game_code"]), None), "round": rnd, "total": val})
-    return rows
-
-
-def _career_overview(master_doc: dict, season_profiles: list) -> dict:
-    events = _full_events(master_doc)
-    wins = master_doc["tournament_analysis"]["wins"]
+def _career_overview(recon: dict, season_profiles: list) -> dict:
+    events = recon["finished_tournaments"]
+    wins = [e for e in events if e.get("rank") == 1]
     events_by_season = defaultdict(list)
     for e in events:
         events_by_season[e["season"]].append(e)
@@ -273,9 +252,8 @@ def _career_evolution(season_profiles: list) -> dict:
 # PAGE 3 -- SEASON REPLAY
 # ---------------------------------------------------------------------------
 
-def _season_replay(master_doc: dict, ds: dict) -> list:
-    events = _full_events(master_doc)
-    by_code = {r["game_code"]: r for r in ds["warehouse_tournament_rows"]}
+def _season_replay(recon: dict) -> list:
+    events = recon["finished_tournaments"]
     by_season = defaultdict(list)
     for e in events:
         by_season[e["season"]].append(e)
@@ -300,9 +278,10 @@ def _season_replay(master_doc: dict, ds: dict) -> list:
                 "events": len(chunk),
                 "avg_sg_total": round(statistics.fmean(vals), 2) if vals else None,
             })
-        sg_totals = [e["sg_total"] for e in se if e.get("sg_total") is not None]
-        peak_event = max(se, key=lambda e: e.get("sg_total", -999)) if sg_totals else None
-        slump_event = min(se, key=lambda e: e.get("sg_total", 999)) if sg_totals else None
+        se_with_sg = [e for e in se if e.get("sg_total") is not None]
+        sg_totals = [e["sg_total"] for e in se_with_sg]
+        peak_event = max(se_with_sg, key=lambda e: e["sg_total"]) if se_with_sg else None
+        slump_event = min(se_with_sg, key=lambda e: e["sg_total"]) if se_with_sg else None
         recovery = None
         if slump_event:
             idx = se.index(slump_event)
@@ -328,34 +307,30 @@ def _season_replay(master_doc: dict, ds: dict) -> list:
 # PAGE 4 -- TOURNAMENT HISTORY
 # ---------------------------------------------------------------------------
 
-def _tournament_history(master_doc: dict, ds: dict) -> list:
-    events = _full_events(master_doc)
-    wins = {w["game_code"] for w in master_doc["tournament_analysis"]["wins"]}
-    by_code = {r["game_code"]: r for r in ds["warehouse_tournament_rows"]}
+def _tournament_history(recon: dict) -> list:
+    events = recon["finished_tournaments"]
     rounds_by_code = defaultdict(list)
-    for r in ds["warehouse_round_rows"]:
-        rounds_by_code[r["game_code"]].append(r)
-    for r in _most_recent_win_round_rows(master_doc):
-        rounds_by_code[r["game_code"]].append(r)
+    for r in recon["round_rows"]:
+        rounds_by_code[r["game_code"]].append({"round": r["round"], "sg_total": r["sg_total"]})
 
     ordered = sorted(events, key=lambda e: (e["season"], e["game_code"]))
     rows = []
     for e in ordered:
-        cum = by_code.get(e["game_code"])
-        round_rows = sorted(rounds_by_code.get(e["game_code"], []), key=lambda r: r["round"])
+        has_sg_components = e.get("sg_ott") is not None
+        round_scores = e.get("round_scores") or sorted(rounds_by_code.get(e["game_code"], []), key=lambda r: r["round"])
         rows.append({
             "game_code": e["game_code"],
             "season": e["season"],
             "tournament": e["tournament"],
             "rank": e.get("rank"),
             "sg_total": e.get("sg_total"),
-            "is_win": e["game_code"] in wins,
+            "is_win": e.get("rank") == 1,
             "is_top10": e.get("rank") is not None and e["rank"] <= 10,
             "sg_components": (
-                {"ott": cum["off_the_tee"], "app": cum["approach"], "arg": cum["around_green"], "putt": cum["putting"]}
-                if cum else None
+                {"ott": e["sg_ott"], "app": e["sg_app"], "arg": e["sg_arg"], "putt": e["sg_putt"]}
+                if has_sg_components else None
             ),
-            "round_scores": [{"round": r["round"], "sg_total": r["total"]} for r in round_rows] or None,
+            "round_scores": round_scores or None,
         })
     return rows
 
@@ -364,12 +339,11 @@ def _tournament_history(master_doc: dict, ds: dict) -> list:
 # PAGE 5 -- ROUND HISTORY
 # ---------------------------------------------------------------------------
 
-def _round_history(master_doc: dict, ds: dict) -> dict:
-    tournament_name = {e["game_code"]: e["tournament"] for e in _full_events(master_doc)}
-    rows = list(ds["warehouse_round_rows"]) + _most_recent_win_round_rows(master_doc)
-    rows = sorted(rows, key=lambda r: (r["season"], r["game_code"], r["round"]))
+def _round_history(recon: dict) -> dict:
+    tournament_name = {gc: t["tournament"] for gc, t in recon["tournaments"].items()}
+    rows = sorted(recon["round_rows"], key=lambda r: (r["season"], r["game_code"], r["round"]))
     enriched = [
-        {"game_code": r["game_code"], "season": r["season"], "round": r["round"], "sg_total": r["total"],
+        {"game_code": r["game_code"], "season": r["season"], "round": r["round"], "sg_total": r["sg_total"],
          "tournament": tournament_name.get(r["game_code"], r["game_code"])}
         for r in rows
     ]
@@ -457,7 +431,14 @@ def _player_evolution(evolution: dict) -> dict:
 # PAGE 7 -- CAREER DNA
 # ---------------------------------------------------------------------------
 
-def _career_dna(evolution: dict, ds: dict, master_doc: dict) -> dict:
+def _to_contribution_row(t: dict) -> dict:
+    """Adapts a reconciled canonical tournament record to the field
+    names _contribution_breakdown expects (matches the tested
+    build_10097_player_intelligence_report.py convention)."""
+    return {"total": t.get("sg_total"), "off_the_tee": t.get("sg_ott"), "approach": t.get("sg_app"), "around_green": t.get("sg_arg"), "putting": t.get("sg_putt")}
+
+
+def _career_dna(evolution: dict, recon: dict) -> dict:
     stddevs = {}
     growth = {}
     for c, data in evolution.items():
@@ -469,11 +450,9 @@ def _career_dna(evolution: dict, ds: dict, master_doc: dict) -> dict:
     most_volatile = max(stddevs, key=stddevs.get) if stddevs else None
     fastest_growing = max(growth, key=growth.get) if growth else None
 
-    by_code = {r["game_code"]: r for r in ds["warehouse_tournament_rows"]}
-    career_breakdown = _contribution_breakdown(ds["warehouse_tournament_rows"])
-
-    win_events = master_doc["tournament_analysis"]["wins"]
-    win_breakdown = _contribution_breakdown([by_code.get(w["game_code"]) for w in win_events])
+    events = recon["finished_tournaments"]
+    career_breakdown = _contribution_breakdown([_to_contribution_row(t) for t in events])
+    win_breakdown = _contribution_breakdown([_to_contribution_row(t) for t in events if t.get("rank") == 1])
 
     return {
         "most_consistent_component": _COMPONENT_LABEL.get(most_consistent) if most_consistent else None,
@@ -567,28 +546,35 @@ def _hole_history() -> Optional[dict]:
 def build() -> dict:
     from datetime import datetime, timezone
 
-    master_doc, ds, season_profiles = _load_all()
+    # Reconciliation runs first and unconditionally. recon_module.reconcile()
+    # raises ReconciliationError -- uncaught, on purpose -- if any known
+    # tournament cannot be fully accounted for. No report is generated
+    # from a failed reconciliation.
+    recon, season_profiles = _load_all()
 
-    career_overview = _career_overview(master_doc, season_profiles)
+    career_overview = _career_overview(recon, season_profiles)
     current_snapshot = _current_snapshot()
     evolution = _career_evolution(season_profiles)
-    season_replay = _season_replay(master_doc, ds)
-    tournament_history = _tournament_history(master_doc, ds)
-    round_history = _round_history(master_doc, ds)
+    season_replay = _season_replay(recon)
+    tournament_history = _tournament_history(recon)
+    round_history = _round_history(recon)
     player_evolution = _player_evolution(evolution)
-    career_dna = _career_dna(evolution, ds, master_doc)
+    career_dna = _career_dna(evolution, recon)
     player_story = _player_story(career_overview, evolution, player_evolution)
     hole_history = _hole_history()
 
     return {
-        "schema_version": "player_history_v1",
+        "schema_version": "player_history_v2",
         "player_id": PLAYER_ID,
         "player_name": PLAYER_NAME,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "scope_note": (
             "이 문서는 playerCode=10097(김민선7) 선수만을 다룹니다. Player Intelligence를 대체하는 "
-            "PLAYER HISTORY GOLD STANDARD V1 -- 실측 기록만 사용하며 추측을 포함하지 않습니다."
+            "PLAYER HISTORY GOLD STANDARD V1 -- 실측 기록만 사용하며 추측을 포함하지 않습니다. 모든 대회 기록은 "
+            "단일 웨어하우스가 아니라 reconciliation(아래 참조)을 통과한 7개 카테고리 실측 소스에서 나옵니다."
         ),
+        "reconciliation": recon["report"],
+        "current_tournament_in_progress": recon["in_progress_tournament"],
         "career_overview": career_overview,
         "current_snapshot": current_snapshot,
         "career_evolution": evolution,
@@ -600,7 +586,10 @@ def build() -> dict:
         "player_story": player_story,
         "hole_history": hole_history,
         "not_available": NOT_AVAILABLE,
-        "source_document": "MASTER_ANALYSIS.json + historical_sg_warehouse_corrected.json + OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)",
+        "source_document": (
+            "reconcile_10097_player_history.py (7-category reconciliation) + "
+            "OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)"
+        ),
     }
 
 
@@ -608,8 +597,14 @@ if __name__ == "__main__":
     result = build()
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+    RECONCILIATION_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    RECONCILIATION_REPORT_PATH.write_text(json.dumps(result["reconciliation"], ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
     print(f"wrote {OUTPUT_PATH}")
+    print(f"wrote {RECONCILIATION_REPORT_PATH}")
+    print(f"reconciliation status: {result['reconciliation']['status']}")
+    print(f"total tournaments (reconciled): {result['reconciliation']['total_tournaments']}")
     print(f"seasons: {len(result['career_overview']['season_rows'])}")
-    print(f"tournaments: {len(result['tournament_history'])}")
+    print(f"finished tournaments: {len(result['tournament_history'])}")
     print(f"rounds: {result['round_history']['total_rounds']}")
+    print(f"current tournament in progress: {result['current_tournament_in_progress']['game_code'] if result['current_tournament_in_progress'] else 'none'}")
     print(f"hole history: {'YES (' + str(result['hole_history']['total_hole_records']) + ' records)' if result['hole_history'] else 'NONE'}")

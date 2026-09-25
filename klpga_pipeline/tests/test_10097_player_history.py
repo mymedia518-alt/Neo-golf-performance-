@@ -12,6 +12,8 @@ import re
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -232,3 +234,73 @@ def test_10097_now_renders_player_history_not_old_player_intelligence():
     html = player_intelligence_v2.build_or_placeholder("10097")
     assert "커리어 개요" in html
     assert "PLAYER HISTORY" in html
+
+
+# ---------------------------------------------------------------------------
+# UNIFIED RECONCILIATION -- Player History must never depend on one warehouse.
+# See test_reconcile_10097_player_history.py for the reconciliation module's
+# own tests; these check the builder/renderer actually use its output.
+# ---------------------------------------------------------------------------
+
+def test_career_overview_includes_all_three_previously_missing_tournaments():
+    """Regression: Hana (2026090002) used to be patched in alone (missing
+    R4, wrong SG mean); KB (2026090003) and the in-progress OK Open
+    (2026120001) were not accounted for anywhere in Player History at
+    all. Reconciliation must surface all three correctly, each in its
+    right place (finished vs. in-progress)."""
+    doc = build_script.build()
+    codes = {t["game_code"] for t in doc["tournament_history"]}
+    assert {"2026090002", "2026090003"} <= codes
+    assert doc["current_tournament_in_progress"]["game_code"] == "2026120001"
+    assert doc["career_overview"]["total_events"] == len(doc["tournament_history"])
+
+
+def test_hana_win_reflects_the_real_four_round_cumulative_sg():
+    doc = build_script.build()
+    hana = next(t for t in doc["tournament_history"] if t["game_code"] == "2026090002")
+    assert hana["is_win"]
+    assert abs(hana["sg_total"] - 4.5) < 0.02
+
+
+def test_kb_tournament_has_no_fabricated_sg():
+    doc = build_script.build()
+    kb = next(t for t in doc["tournament_history"] if t["game_code"] == "2026090003")
+    assert kb["rank"] == 16
+    assert kb["sg_total"] is None
+    assert kb["sg_components"] is None
+    assert kb["round_scores"] is not None
+
+
+def test_reconciliation_report_is_present_and_clean():
+    doc = build_script.build()
+    r = doc["reconciliation"]
+    assert r["status"] == "RECONCILED_OK"
+    assert r["missing"] == 0
+    assert r["conflicts_detected"] == 0
+    assert r["total_tournaments"] == doc["career_overview"]["total_events"] + 1  # + the in-progress tournament
+
+
+def test_render_includes_reconciliation_and_in_progress_sections():
+    doc = build_script.build()
+    html = report.render_player_history_html(doc)
+    assert 'id="ph-reconciliation"' in html
+    assert 'id="ph-in-progress"' in html
+    assert "RECONCILED_OK" in html
+
+
+def test_a_failed_reconciliation_stops_the_report_never_silently_patches():
+    """build() must propagate ReconciliationError, not catch it and fall
+    back to a partial report -- the whole point of this mission."""
+    real_discover = build_script.recon_module._discover_special_game_codes
+
+    def fake_discover():
+        found = real_discover()
+        found.add("8888888888")
+        return found
+
+    build_script.recon_module._discover_special_game_codes = fake_discover
+    try:
+        with pytest.raises(build_script.recon_module.ReconciliationError):
+            build_script.build()
+    finally:
+        build_script.recon_module._discover_special_game_codes = real_discover
