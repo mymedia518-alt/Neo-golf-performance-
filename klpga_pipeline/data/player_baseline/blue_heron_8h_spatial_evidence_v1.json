@@ -1,0 +1,163 @@
+{
+  "hole": 8,
+  "games": {
+    "2025090004": {
+      "rounds": {
+        "1": {
+          "baseHoleInfo": {
+            "bi_hole": 8,
+            "bi_gpy": "1860",
+            "bi_sy": "377",
+            "bi_gpx": "93",
+            "bi_sx": "131",
+            "bi_gy": "233",
+            "bi_code": "2025090004",
+            "bi_round": 1,
+            "bi_trueHole": "8",
+            "bi_gx": "183"
+          },
+          "shot_count": 452,
+          "shot_fields": [
+            "gameCode",
+            "hole",
+            "pp_distance",
+            "pp_distanceLen",
+            "pp_greenx",
+            "pp_greeny",
+            "pp_state",
+            "pp_x",
+            "pp_y",
+            "round",
+            "shot",
+            "underPar"
+          ],
+          "response_sha256": "01029bd57b22f3747540adecb3d9d581558687e07a8fb7645bf90564208a49d2"
+        },
+        "2": {
+          "baseHoleInfo": {
+            "bi_hole": 8,
+            "bi_gpy": "1861",
+            "bi_sy": "377",
+            "bi_gpx": "95",
+            "bi_sx": "132",
+            "bi_gy": "153",
+            "bi_code": "2025090004",
+            "bi_round": 2,
+            "bi_trueHole": "8",
+            "bi_gx": "109"
+          },
+          "shot_count": 443,
+          "shot_fields": [
+            "gameCode",
+            "hole",
+            "pp_distance",
+            "pp_distanceLen",
+            "pp_greenx",
+            "pp_greeny",
+            "pp_state",
+            "pp_x",
+            "pp_y",
+            "round",
+            "shot",
+            "underPar"
+          ],
+          "response_sha256": "f64c9eb44cf2b34c77c1569f30667772f9345deac38e6ce6b80ae3349fed1567"
+        },
+        "3": {
+          "baseHoleInfo": {
+            "bi_hole": 8,
+            "bi_gpy": "1862",
+            "bi_sy": "377",
+            "bi_gpx": "96",
+            "bi_sx": "132",
+            "bi_gy": "239",
+            "bi_code": "2025090004",
+            "bi_round": 3,
+            "bi_trueHole": "8",
+            "bi_gx": "97"
+          },
+          "shot_count": 271,
+          "shot_fields": [
+            "gameCode",
+            "hole",
+            "pp_distance",
+            "pp_distanceLen",
+            "pp_greenx",
+            "pp_greeny",
+            "pp_state",
+            "pp_x",
+            "pp_y",
+            "round",
+            "shot",
+            "underPar"
+          ],
+          "response_sha256": "8f656fdd59c50c8d697272b32d25153a76eaa2a9f0410205e29ad51a11b2b175"
+        },
+        "4": {
+          "baseHoleInfo": {
+            "bi_hole": 8,
+            "bi_gpy": "1854",
+            "bi_sy": "375",
+            "bi_gpx": "93",
+            "bi_sx": "131",
+            "bi_gy": "181",
+            "bi_code": "2025090004",
+            "bi_round": 4,
+            "bi_trueHole": "8",
+            "bi_gx": "189"
+          },
+          "shot_count": 275,
+          "shot_fields": [
+            "gameCode",
+            "hole",
+            "pp_distance",
+            "pp_distanceLen",
+            "pp_greenx",
+            "pp_greeny",
+            "pp_state",
+            "pp_x",
+            "pp_y",
+            "round",
+            "shot",
+            "underPar"
+          ],
+          "response_sha256": "e97121837f6952fb6bf28489b0904eeb3b6f97e6f7a39e1428fe875b331262a4"
+        }
+      }
+    },
+    "2026100005": {
+      "rounds": {
+        "1": {
+          "baseHoleInfo": {},
+          "shot_count": 0,
+          "shot_fields": [],
+          "response_sha256": "f9a159081a81f3be116cd68bde881143702c3c5e36a6268d551079ed4b1b50c4"
+        },
+        "2": {
+          "baseHoleInfo": {},
+          "shot_count": 0,
+          "shot_fields": [],
+          "response_sha256": "f9a159081a81f3be116cd68bde881143702c3c5e36a6268d551079ed4b1b50c4"
+        },
+        "3": {
+          "baseHoleInfo": {},
+          "shot_count": 0,
+          "shot_fields": [],
+          "response_sha256": "f9a159081a81f3be116cd68bde881143702c3c5e36a6268d551079ed4b1b50c4"
+        },
+        "4": {
+          "baseHoleInfo": {},
+          "shot_count": 0,
+          "shot_fields": [],
+          "response_sha256": "f9a159081a81f3be116cd68bde881143702c3c5e36a6268d551079ed4b1b50c4"
+        }
+      }
+    }
+  },
+  "gate": "HOLD",
+  "checks": {
+    "2025_has_coordinates": true,
+    "2026_has_coordinates": false,
+    "same_base_coordinates_all_available_rounds": null
+  }
+}
