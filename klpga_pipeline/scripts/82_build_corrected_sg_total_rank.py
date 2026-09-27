@@ -45,6 +45,13 @@ def main(game_code: str | None = None):
         if r.get("scope")=="tournament_cumulative" and r.get("player_id") and str(r.get("game_code"))!=GAME_CODE and event_dates.get(str(r.get("game_code"))) is not None and event_dates[str(r.get("game_code"))]<_CONTEXT.start_date: by.setdefault(str(r["player_id"]),[]).append(r)
     rec=[]
     for e in entries:
+        # ALGORITHM ORDERING (MISSION V9): sorts by game_code alone,
+        # intentionally without tournament_ordering.py's real-date
+        # override -- this SG-total ranking formula's "latest five"
+        # window is already pinned to a validated, tested output; a
+        # real-date-based reorder could change which five rows are
+        # selected and is out of scope for a chronology-utility
+        # migration ("do not change ranking behavior").
         rs=sorted(by.get(str(e["player_id"]),[]),key=lambda r:(str(r.get("game_code") or "")))
         vals=[r.get("total") for r in rs[-5:] if r.get("total") is not None]
         rec.append({"player_id":str(e["player_id"]),"sg_total_mean":sum(vals)/len(vals) if vals else None,"sample_count":len(vals),"provenance":{"source_artifact":WH.name,"warehouse_sha256":"56da79abe8e97b82623fcb6b6368f3c864b51d1031fe421c2d69d98576653a62","cutoff":CUTOFF,"window":"latest five pre-cutoff tournament_cumulative SG Total observations","scope":"official tournament_cumulative; arithmetic mean of completed single-round SG","calculation_version":"corrected_sg_total_rank_v2"}})

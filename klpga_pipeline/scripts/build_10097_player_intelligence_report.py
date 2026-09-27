@@ -81,8 +81,10 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.data_provenance import build_provenance_map  # noqa: E402
 from klpga.knowledge_engine import knowledge_engine as ke  # noqa: E402
 from klpga.tournament_context import CONTENT_DIR  # noqa: E402
+from klpga.tournament_ordering import sort_tournaments  # noqa: E402
 from klpga.website_v2 import player_intelligence_10097_terms as terms  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location("master_analysis_under_report", ROOT / "scripts" / "build_10097_master_player_analysis.py")
@@ -296,7 +298,7 @@ def _band_protocol(ordered_values: list, *, metric: str, source: str, unit: str,
 
 
 def _tournament_component_protocol(ds: dict, component_key: str, component_label: str) -> dict:
-    rows = sorted(ds["warehouse_tournament_rows"], key=lambda r: (r["season"], r["game_code"]))
+    rows = sort_tournaments(ds["warehouse_tournament_rows"])  # RED TEAM (2026-09-25): real end_date, not game_code proxy
     values = [r[component_key] for r in rows if r.get(component_key) is not None]
     return _band_protocol(
         values,
@@ -308,7 +310,7 @@ def _tournament_component_protocol(ds: dict, component_key: str, component_label
 
 
 def _round_total_protocol(ds: dict) -> dict:
-    rows = sorted(ds["warehouse_round_rows"], key=lambda r: (r["season"], r["game_code"], r["round"]))
+    rows = sort_tournaments(ds["warehouse_round_rows"], tiebreak_key="round")  # RED TEAM (2026-09-25): real end_date, not game_code proxy
     values = [r["total"] for r in rows if r.get("total") is not None]
     # "total" is a sum of the four real components, not one of them, so its
     # item-5 check compares against those four components directly (still a
@@ -1538,7 +1540,7 @@ def _q_win_simulator(ds: dict, win_blueprint: Optional[dict]) -> Optional[dict]:
     components) her most recent tournament actually cleared."""
     if not win_blueprint:
         return None
-    rows = sorted(ds["warehouse_tournament_rows"], key=lambda r: (r["season"], r["game_code"]))
+    rows = sort_tournaments(ds["warehouse_tournament_rows"])  # RED TEAM (2026-09-25): real end_date, not game_code proxy
     if not rows:
         return None
     latest = rows[-1]
@@ -2066,6 +2068,267 @@ def _repository_intelligence_v7_ko(master_doc: dict) -> dict:
     }
 
 
+# ---------------------------------------------------------------------------
+# MISSION V10 (2026-09-25): DATA QUALITY GOVERNANCE -- provenance map.
+#
+# This report is superseded as the LIVE page for 10097 (Player History
+# is now what build_or_placeholder routes to -- see player_intelligence_
+# v2.py), but the JSON artifact and its renderer still exist and are
+# still built, so every value here still needs provenance under this
+# mission's scope ("Player History AND Player Intelligence").
+#
+# Classification rule (consistent with build_10097_player_history.py's
+# own provenance map): a hardcoded id/label/metric-name/category/
+# durability/layer constant is MEASURED -- an asserted, unchanging fact
+# baked into the code, not computed from this run's data. A narrative
+# sentence (fact/evidence/analysis/conclusion/mechanism/...) is DERIVED
+# -- a deterministic text template wrapping already-computed real
+# numbers, never a new invented number. Both rules mirror exactly how
+# player_history classifies its own "*_note"/"sentence" template
+# fields and its own hand-authored coverage_matrix constants.
+#
+# One real IMPUTED finding this audit surfaced: for id=q_win_blueprint
+# specifically, monitoring_protocol.current_reading falls back to the
+# already-derived floor_total when the true "most recent win" row is
+# missing from the warehouse lookup (build() ~L1279) -- a genuine
+# substitution of one number for another when the real one is absent,
+# never disclosed as such in the JSON itself. Because this map is
+# schema-level (one label per JSON path, not per array item), the
+# path's overall label stays DERIVED (correct for the other ~11
+# questions, which use a real measured/formula reading) with this
+# exception named explicitly in the reason text and in
+# docs/NEO_DATA_PROVENANCE_REPORT_10097_V1.md -- a known, documented
+# limitation of schema-level (vs per-instance) provenance.
+# ---------------------------------------------------------------------------
+
+M, D, NC = "MEASURED", "DERIVED", "NOT_COLLECTED"
+
+_LABEL_REASON = "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+_NARRATIVE_REASON = "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+
+
+def _provenance_map() -> dict:
+    entries: dict = {
+        "player_id": (M, "playerCode constant identifying this golfer"),
+        "player_name": (M, "real player name"),
+
+        # --- career_reconstruction ---
+        "career_reconstruction.earliest_season_on_record": (M, "earliest season this shared warehouse has any data for"),
+        "career_reconstruction.latest_season_on_record": (M, "latest season this shared warehouse has any data for"),
+        "career_reconstruction.data_floor_note": (D, _NARRATIVE_REASON),
+        "career_reconstruction.total_events_on_record": (D, "count of real tournament events on record"),
+        "career_reconstruction.total_wins_on_record": (D, "count of real rank==1 finishes on record"),
+        "career_reconstruction.total_top10_on_record": (D, "count of real rank<=10 finishes on record"),
+        "career_reconstruction.season_count_on_record": (D, "count of real seasons on record"),
+        "career_reconstruction.summary": (D, _NARRATIVE_REASON),
+
+        # --- season_by_season_table ---
+        "season_by_season_table[].season": (M, "real season label"),
+        "season_by_season_table[].events_on_record": (D, "count of real events that season"),
+        "season_by_season_table[].wins": (D, "count of real wins that season"),
+        "season_by_season_table[].top10": (D, "count of real top-10s that season"),
+        "season_by_season_table[].sg_sample_size": (D, "count of tournaments behind that season's SG averages"),
+        "season_by_season_table[].avg_total": (D, "mean SG Total across that season's real tournaments, computed by knowledge_engine.compute_season_profiles"),
+        "season_by_season_table[].avg_ott": (D, "mean SG OTT across that season's real tournaments"),
+        "season_by_season_table[].avg_app": (D, "mean SG APP across that season's real tournaments"),
+        "season_by_season_table[].avg_arg": (D, "mean SG ARG across that season's real tournaments"),
+        "season_by_season_table[].avg_putt": (D, "mean SG PUTT across that season's real tournaments"),
+
+        # --- growth_timeline ---
+        "growth_timeline.steps[].season": (M, "real season label"),
+        "growth_timeline.steps[].avg_total": (D, "that season's real SG Total average"),
+        "growth_timeline.steps[].delta_from_prev": (D, "season-to-season change vs the previous real season's average"),
+        "growth_timeline.steps[].strongest_component": (D, "the SG component with this season's highest real average (argmax)"),
+        "growth_timeline.steps[].weakest_component": (D, "the SG component with this season's lowest real average (argmin)"),
+        "growth_timeline.narrative": (D, _NARRATIVE_REASON),
+
+        # --- turning_points ---
+        "turning_points[].id": (M, _LABEL_REASON),
+        "turning_points[].label": (M, _LABEL_REASON),
+        "turning_points[].season": (M, "real season the turning point occurred in"),
+        "turning_points[].finding": (D, "sentence built from a real argmax delta or a real detected component-weakness change"),
+        "turning_points[].unknown_cause": (NC, "explicit disclosure: the deeper cause (coaching/training change) cannot be determined -- no such log exists in this repository yet (see data_roadmap)"),
+
+        # --- win_dna / loss_dna (same shape) ---
+        "win_dna.sample_size": (D, "count of real win events with complete SG components"),
+        "win_dna.total_value": (D, "sum of real SG Total across those wins"),
+        "win_dna.events_considered": (D, "count of real win events considered"),
+        "win_dna.breakdown[].component": (M, _LABEL_REASON),
+        "win_dna.breakdown[].value": (D, "sum of this component's real values across those wins"),
+        "win_dna.breakdown[].share_pct": (D, "value divided by total_value, as a percent"),
+        "win_dna.top_contributor": (D, "the component with the largest real share_pct (argmax)"),
+        "win_dna.story": (D, _NARRATIVE_REASON),
+        "loss_dna.sample_size": (D, "count of real negative-SG events with complete SG components"),
+        "loss_dna.total_value": (D, "sum of real SG Total across those losses"),
+        "loss_dna.events_considered": (D, "count of real negative-SG events considered"),
+        "loss_dna.breakdown[].component": (M, _LABEL_REASON),
+        "loss_dna.breakdown[].value": (D, "sum of this component's real values across those losses"),
+        "loss_dna.breakdown[].share_pct": (D, "value divided by total_value, as a percent"),
+        "loss_dna.top_contributor": (D, "the component with the largest real share_pct (argmax)"),
+        "loss_dna.story": (D, _NARRATIVE_REASON),
+
+        # --- trend_dna ---
+        "trend_dna.from_season": (M, "earliest real season on record"),
+        "trend_dna.to_season": (M, "latest real season on record"),
+        "trend_dna.total_value": (D, "SG Total average delta between those two real seasons"),
+        "trend_dna.breakdown[].component": (M, _LABEL_REASON),
+        "trend_dna.breakdown[].value": (D, "this component's real average delta between the two seasons"),
+        "trend_dna.breakdown[].share_pct": (D, "value divided by total_value, as a percent"),
+        "trend_dna.top_contributor": (D, "the component with the largest real share_pct (argmax)"),
+        "trend_dna.story": (D, _NARRATIVE_REASON),
+
+        # --- coach_report ---
+        "coach_report.trajectory_verdict": (D, "deterministic classification over a real count of consecutive positive/negative season deltas"),
+        "coach_report.development_priority": (D, _NARRATIVE_REASON),
+        "coach_report.development_priority_source": (D, "pointer to which real turning_points entry this priority came from, or null"),
+
+        # --- player_identity ---
+        "player_identity.constant_strength": (D, "the SG component that was her strongest in every real season, or null if it varied"),
+        "player_identity.constant_strength_seasons": (D, "count of real seasons behind that check"),
+        "player_identity.constant_strength_finding": (D, _NARRATIVE_REASON),
+        "player_identity.identity_win_alignment.identity_strength": (D, "pass-through of constant_strength"),
+        "player_identity.identity_win_alignment.win_strength": (D, "pass-through of win_dna.top_contributor"),
+        "player_identity.identity_win_alignment.matches": (D, "boolean: whether identity_strength equals win_strength"),
+        "player_identity.identity_win_alignment.finding": (D, _NARRATIVE_REASON),
+
+        # --- player_playbook / coach_console (same shape) ---
+        "player_playbook.entries[].category": (M, _LABEL_REASON),
+        "player_playbook.entries[].question_id": (M, _LABEL_REASON),
+        "player_playbook.entries[].question": (M, "fixed Korean question text for this question id"),
+        "player_playbook.entries[].decision": (D, "extracted from the source question's own real action/conclusion field"),
+        "coach_console.entries[].category": (M, _LABEL_REASON),
+        "coach_console.entries[].question_id": (M, _LABEL_REASON),
+        "coach_console.entries[].question": (M, "fixed Korean question text for this question id"),
+        "coach_console.entries[].decision": (D, "extracted from the source question's own real action/conclusion field"),
+
+        # --- performance_funnel ---
+        "performance_funnel.technique.label": (M, _LABEL_REASON),
+        "performance_funnel.technique.question": (M, _LABEL_REASON),
+        "performance_funnel.technique.note": (D, _NARRATIVE_REASON),
+        "performance_funnel.technique.percentiles.SG OTT": (D, "her real percentile for this component, computed upstream (frozen Knowledge Engine)"),
+        "performance_funnel.technique.percentiles.SG APP": (D, "her real percentile for this component, computed upstream"),
+        "performance_funnel.technique.percentiles.SG ARG": (D, "her real percentile for this component, computed upstream"),
+        "performance_funnel.technique.percentiles.SG PUTT": (D, "her real percentile for this component, computed upstream"),
+        "performance_funnel.technique.weakest.component": (D, "the component with the lowest real percentile (argmin)"),
+        "performance_funnel.technique.weakest.percentile": (D, "that component's real percentile"),
+        "performance_funnel.opportunity.label": (M, _LABEL_REASON),
+        "performance_funnel.opportunity.question": (M, _LABEL_REASON),
+        "performance_funnel.opportunity.note": (D, _NARRATIVE_REASON),
+        "performance_funnel.opportunity.gir_rate.raw": (M, "real official GIR rate from OFFICIAL_PROFILE_NORMALIZED.json"),
+        "performance_funnel.opportunity.gir_rate.percentile": (D, "her real rank among the full official field with a GIR rate on file"),
+        "performance_funnel.conversion.label": (M, _LABEL_REASON),
+        "performance_funnel.conversion.question": (M, _LABEL_REASON),
+        "performance_funnel.conversion.note": (D, _NARRATIVE_REASON),
+        "performance_funnel.conversion.birdie_rate.raw": (M, "real official birdie rate"),
+        "performance_funnel.conversion.birdie_rate.percentile": (D, "her real rank among the full official field with a birdie rate on file"),
+        "performance_funnel.conversion.par_save_rate.raw": (M, "real official par-save rate"),
+        "performance_funnel.conversion.par_save_rate.percentile": (D, "her real rank among the full official field with a par-save rate on file"),
+        "performance_funnel.conversion.recovery_rate.raw": (M, "real official recovery rate"),
+        "performance_funnel.conversion.recovery_rate.percentile": (D, "her real rank among the full official field with a recovery rate on file"),
+        "performance_funnel.competition.label": (M, _LABEL_REASON),
+        "performance_funnel.competition.question": (M, _LABEL_REASON),
+        "performance_funnel.competition.note": (D, _NARRATIVE_REASON),
+        "performance_funnel.competition.top10_events": (D, "count of real rank<=10 finishes"),
+        "performance_funnel.competition.total_events": (D, "count of real finished tournaments"),
+        "performance_funnel.winning.label": (M, _LABEL_REASON),
+        "performance_funnel.winning.question": (M, _LABEL_REASON),
+        "performance_funnel.winning.note": (D, _NARRATIVE_REASON),
+        "performance_funnel.winning.win_events": (D, "count of real rank==1 finishes"),
+        "performance_funnel.winning.top10_events": (D, "pass-through of competition.top10_events"),
+
+        # --- leak_map ---
+        "leak_map.leaks[].where": (M, _LABEL_REASON),
+        "leak_map.leaks[].why": (D, _NARRATIVE_REASON),
+        "leak_map.leaks[].performance_loss": (D, "either a real formatted delta pulled from the linked question's monitoring_protocol.current_reading, or an explicit disclosed \"알 수 없음\" (unknown) when no real join exists between the two real numbers this would require -- see data_roadmap.collapse_onset_loss_join"),
+        "leak_map.leaks[].coach_decision": (D, "extracted from the linked question's own real action field, or a fixed sentence"),
+        "leak_map.leaks[].priority": (M, _LABEL_REASON),
+        "leak_map.leaks[].question_id": (M, _LABEL_REASON),
+
+        # --- unsupported_analysis_modules_v12 ---
+        "unsupported_analysis_modules_v12[].module": (M, _LABEL_REASON),
+        "unsupported_analysis_modules_v12[].reason": (NC, "explicit disclosure that the hole/shot/pin/distance-level data this module would need does not exist anywhere in this repository's warehouse"),
+
+        # --- data_roadmap ---
+        "data_roadmap[].id": (M, _LABEL_REASON),
+        "data_roadmap[].missing_data": (M, "fixed authored text naming the specific missing data type"),
+        "data_roadmap[].why_missing": (M, "fixed authored text explaining why it is missing"),
+        "data_roadmap[].collection_method": (M, "fixed authored text describing how it could be collected"),
+        "data_roadmap[].unlocks[]": (M, "fixed authored list of report sections this data would unlock"),
+        "data_roadmap[].value": (D, "real count of this item's own unlocks list"),
+        "data_roadmap[].priority_rank": (D, "rank among all roadmap items by that real count (argsort)"),
+
+        # --- repository_intelligence_v7 ---
+        "repository_intelligence_v7.search_scope": (M, "fixed text describing a separate cross-repository search mission's real scope"),
+        "repository_intelligence_v7.summary": (D, _NARRATIVE_REASON),
+        "repository_intelligence_v7.conclusions_strengthened_count": (D, "count of real conclusions that search actually strengthened (0 for this player, per the summary)"),
+        "repository_intelligence_v7.findings[].id": (M, _LABEL_REASON),
+        "repository_intelligence_v7.findings[].label": (M, _LABEL_REASON),
+        "repository_intelligence_v7.findings[].branch": (M, "real, hand-transcribed git branch name from that separate search"),
+        "repository_intelligence_v7.findings[].file": (M, "real, hand-transcribed file location from that separate search"),
+        "repository_intelligence_v7.findings[].player_specific_number_found": (NC, "whether that separate cross-repository search turned up a real number for this specific player -- consistently absent for this player per this file's own summary"),
+
+        # --- pre_tournament_checklist (surviving monitoring_protocol questions) ---
+        "pre_tournament_checklist[].id": (M, _LABEL_REASON),
+        "pre_tournament_checklist[].metric": (M, _LABEL_REASON),
+        "pre_tournament_checklist[].linked_question": (M, _LABEL_REASON),
+        "pre_tournament_checklist[].current_reading": (D, "pass-through of the linked question's own monitoring_protocol.current_reading -- see that field's own entry below for the one known exception"),
+        "pre_tournament_checklist[].current_status": (D, "pass-through of the linked question's own monitoring_protocol.current_status"),
+
+        # --- questions[] (12 question types, shared outer shape) ---
+        "questions[].id": (M, _LABEL_REASON),
+        "questions[].question": (M, "fixed Korean question text, PLAYER_NAME interpolated"),
+        "questions[].layer": (M, _LABEL_REASON),
+        "questions[].durability": (M, _LABEL_REASON),
+        "questions[].fact": (D, _NARRATIVE_REASON),
+        "questions[].evidence[]": (D, _NARRATIVE_REASON),
+        "questions[].analysis": (D, _NARRATIVE_REASON),
+        "questions[].conclusion": (D, _NARRATIVE_REASON),
+        "questions[].mechanism": (D, _NARRATIVE_REASON),
+        "questions[].root_cause": (D, "sentence stating the real finding, several explicitly disclosing that a deeper cause cannot be determined from this repository's data (no hole/shot-level source)"),
+        "questions[].decision_context": (NC, "explicit disclosure that the real strategic decision (club/line selection) is unknown -- no such data exists in this repository"),
+        "questions[].why_it_matters": (D, _NARRATIVE_REASON),
+        "questions[].player_takeaway": (D, _NARRATIVE_REASON),
+        "questions[].coach_focus": (D, _NARRATIVE_REASON),
+        "questions[].why_this_matters": (D, _NARRATIVE_REASON),
+        "questions[].reproducibility": (D, _NARRATIVE_REASON),
+        "questions[].durability_reasoning": (D, _NARRATIVE_REASON),
+        "questions[].action": (D, "template string assembling the real monitoring_protocol fields plus a fixed decision sentence"),
+        "questions[].sample_size": (D, "a real count, or a real min() over real per-question rows depending on question type"),
+        "questions[].confidence": (D, "a real deterministic threshold rule over sample_size for most question types; a fixed constant for a few (most_recent_win/win_simulator/risk_map/collapse_blueprint) -- see docs/NEO_DATA_PROVENANCE_REPORT_10097_V1.md"),
+        "questions[].evidence_score": (D, "disclosed formula: round(100 * min(1, sources/3) * n/(n+5)) over real sample_size/source count"),
+        "questions[].floor_total": (D, "min() of real SG Total across her real win rows"),
+        "questions[].floors.off_the_tee": (D, "min() of real SG OTT across her real win rows"),
+        "questions[].floors.approach": (D, "min() of real SG APP across her real win rows"),
+        "questions[].floors.around_green": (D, "min() of real SG ARG across her real win rows"),
+        "questions[].floors.putting": (D, "min() of real SG PUTT across her real win rows"),
+        "questions[].contribution_breakdown": (D, "whole object null when the underlying rows don't support a valid split -- see the leaf fields below"),
+        "questions[].contribution_breakdown.sample_size": (D, "count of real rows with all 4 SG components + total present"),
+        "questions[].contribution_breakdown.total_value": (D, "sum of real SG Total across those rows"),
+        "questions[].contribution_breakdown.breakdown[].component": (M, _LABEL_REASON),
+        "questions[].contribution_breakdown.breakdown[].value": (D, "sum of this component's real values across those rows"),
+        "questions[].contribution_breakdown.breakdown[].share_pct": (D, "value divided by total_value, as a percent"),
+        "questions[].contribution_breakdown.top_contributor": (D, "the component with the largest real share_pct (argmax)"),
+        "questions[].monitoring_protocol.metric": (M, _LABEL_REASON),
+        "questions[].monitoring_protocol.source": (M, "fixed string naming the real warehouse file this metric is drawn from"),
+        "questions[].monitoring_protocol.sample_size": (D, "count of real rows behind this protocol"),
+        "questions[].monitoring_protocol.normal_range": (D, "real mean +/- 1 stdev (n>=30) or real min()..max() (n<30) over her own real history"),
+        "questions[].monitoring_protocol.warning_threshold": (D, "text encoding the same real band/floor rule as normal_range"),
+        "questions[].monitoring_protocol.next_review": (M, _LABEL_REASON),
+        "questions[].monitoring_protocol.explanatory_metric": (D, "a real Pearson correlation among her 4 SG components when the sample is large enough to trust one (season/course-appearance grain explicitly discloses an insufficient-sample \"알 수 없음\" instead of a false correlation)"),
+        "questions[].monitoring_protocol.current_reading": (D, "her most recent real value for this metric for most question types (or a disclosed real formula, e.g. latest-minus-floor for win_simulator) -- ONE NAMED EXCEPTION: for id=q_win_blueprint, this falls back to the already-derived floor_total when the true most-recent-win row is missing from the warehouse lookup, an undisclosed-in-JSON IMPUTED substitution -- see docs/NEO_DATA_PROVENANCE_REPORT_10097_V1.md"),
+        "questions[].monitoring_protocol.current_status": (D, "a real comparison of current_reading against normal_range/warning_threshold for most question types; a fixed literal \"NORMAL\" for q_win_blueprint specifically (mathematically always true by construction, but not run through the real comparison every other question uses)"),
+        "questions[].monitoring_protocol.current_detail": (D, _NARRATIVE_REASON),
+
+        # --- questions_considered_but_unsupported ---
+        "questions_considered_but_unsupported[].id": (M, _LABEL_REASON),
+        "questions_considered_but_unsupported[].question": (M, "fixed Korean question text"),
+        "questions_considered_but_unsupported[].sample_size": (D, "pass-through of the excluded candidate's own real sample_size"),
+        "questions_considered_but_unsupported[].confidence": (D, "pass-through of the excluded candidate's own real confidence"),
+        "questions_considered_but_unsupported[].reason_excluded": (D, "template text wrapping the real confidence/sample_size check that excluded this candidate"),
+    }
+    return build_provenance_map(entries)
+
+
 def build() -> dict:
     master_doc, ds, season_profiles = _load_inputs()
 
@@ -2220,6 +2483,7 @@ def build() -> dict:
         "unsupported_analysis_modules_v12": _UNSUPPORTED_ANALYSIS_MODULES_V12,
         "data_roadmap": _finalize_data_roadmap(_data_roadmap()),
         "repository_intelligence_v7": _repository_intelligence_v7_ko(master_doc),
+        "provenance": _provenance_map(),
         "source_document": "MASTER_ANALYSIS.json (scripts/build_10097_master_player_analysis.py의 감사 절차를 거친 근거 자료)",
     }
 

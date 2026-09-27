@@ -927,13 +927,19 @@ def test_build_or_placeholder_renders_player_history_for_10097_only():
     routes this player_id to player_history_10097_report.py instead of
     this module's own question-organized report. The old report/renderer
     code in this file is untouched and still covered by every other test
-    in this suite; only the production routing target changed."""
+    in this suite; only the production routing target changed.
+
+    PAGE1_TITLE/PAGE8_TITLE (this test's original constants) no longer
+    exist -- NEO PLAYER BIOGRAPHY V4 (2026-09-25) renumbered every
+    section title constant (see player_history_10097_terms.py). Updated
+    to the current first and last real section titles, which still
+    prove the same thing: the full page rendered, not a placeholder."""
     from klpga.website_v2 import player_history_10097_terms as history_terms
     from klpga.website_v2 import player_intelligence_v2 as piv2
 
     html_10097 = piv2.build_or_placeholder("10097", player_name="김민선7")
     assert history_terms.HERO_TITLE in html_10097
-    assert history_terms.PAGE1_TITLE in html_10097 and history_terms.PAGE8_TITLE in html_10097
+    assert history_terms.PAGE_CURRENT_FORM_TITLE in html_10097 and history_terms.PAGE_RECONCILIATION_TITLE in html_10097
 
 
 def test_build_or_placeholder_leaves_every_other_player_on_the_ordinary_stat_layout():

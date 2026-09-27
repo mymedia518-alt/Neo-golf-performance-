@@ -80,11 +80,23 @@ def test_kb_tournament_has_real_finish_but_no_fabricated_sg():
 
 
 def test_ok_open_is_in_progress_and_excluded_from_finished_tournaments():
+    """RED TEAM (2026-09-25): status used to be hardcoded 'IN_PROGRESS'
+    forever, regardless of the real world -- the official schedule
+    (content/website_v2/OFFICIAL_KLPGA_SCHEDULE.json) says this
+    tournament's scheduled end date is 2026-09-06, which is now in the
+    past, so the honest status is 'AWAITING_FINAL_RESULT' (schedule
+    says it's over, NEO never collected the final result) rather than a
+    false claim that it is still live today. It still must never be
+    counted as a finished tournament -- NEO genuinely has no final
+    rank/SG for it."""
     result = recon_module.reconcile()
     finished_codes = {t["game_code"] for t in result["finished_tournaments"]}
     assert "2026120001" not in finished_codes
-    assert result["in_progress_tournament"]["status"] == "IN_PROGRESS"
-    assert len(result["in_progress_tournament"]["rounds_completed"]) == 2
+    ip = result["in_progress_tournament"]
+    assert ip["status"] in ("IN_PROGRESS", "AWAITING_FINAL_RESULT")
+    assert ip["is_confirmed_live"] is (ip["status"] == "IN_PROGRESS")
+    assert ip["scheduled_end_date"] == "2026-09-06"
+    assert len(ip["rounds_completed"]) == 2
 
 
 def test_cross_category_merges_are_real_not_just_counted():

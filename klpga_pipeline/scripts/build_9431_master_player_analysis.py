@@ -48,6 +48,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from klpga.knowledge_engine import knowledge_engine as ke  # noqa: E402
 from klpga.website_v2.player_identity import cross_tournament_verified_sponsor_cache  # noqa: E402
 from klpga.tournament_context import CONTENT_DIR  # noqa: E402
+from klpga.tournament_ordering import sort_tournaments  # noqa: E402
 
 PLAYER_ID = "9431"
 PLAYER_NAME = "박보겸"
@@ -211,7 +212,7 @@ def build_season_evolution(ds: dict) -> dict:
 
 
 def build_tournament_analysis(ds: dict) -> dict:
-    events = sorted(ds["empirical_event_rows"], key=lambda r: (r["season"], r["game_code"]))
+    events = sort_tournaments(ds["empirical_event_rows"])  # RED TEAM (2026-09-25): real end_date, not game_code proxy
     wins = [r for r in events if r.get("rank") == 1]
     top5 = [r for r in events if isinstance(r.get("rank"), int) and r["rank"] <= 5]
     top10 = [r for r in events if isinstance(r.get("rank"), int) and r["rank"] <= 10]

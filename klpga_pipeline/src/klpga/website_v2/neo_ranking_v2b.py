@@ -81,6 +81,13 @@ def build_population_features_v2b(warehouse: dict, prior: dict, *, minimum_round
     grouped = _latest_records(warehouse)
     result = {}
     for pid, rows in grouped.items():
+        # ALGORITHM ORDERING (MISSION V9): intentionally the raw
+        # (season, game_code) proxy, never tournament_ordering.py's
+        # real-date override -- switching which rows land in the recent
+        # windows here would change this ranking formula's output, and
+        # "do not change ranking behavior" is a hard constraint on this
+        # migration; a ranking-formula change needs its own dedicated,
+        # separately-reviewed migration.
         rows_sorted = sorted(rows, key=lambda r: (int(r.get("season") or 0), str(r.get("game_code") or "")))
         f = _player_features(rows_sorted, prior)
         if f["total_rounds"] >= minimum_rounds:
@@ -159,6 +166,10 @@ def run_backtest_v2b(warehouse: dict, start_dates: dict[str, str], outcomes: dic
         if old is None or int(rounds) >= int(old.get("rounds") or 0):
             events[event][pid] = row
 
+    # ALGORITHM ORDERING (MISSION V9): sorts by each event's own real
+    # start_dates[event] -- a backtest replay order over externally
+    # supplied real dates, not the (season, game_code) proxy
+    # tournament_ordering.py falls back to when no real date exists.
     ordered = sorted(events, key=lambda event: (start_dates[event], event))
     history: dict[str, list[tuple[str, float, float]]] = defaultdict(list)
     observations, event_reports = [], []

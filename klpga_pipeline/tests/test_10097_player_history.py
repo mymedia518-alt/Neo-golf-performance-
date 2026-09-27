@@ -152,10 +152,22 @@ def test_hole_history_scoped_to_exactly_one_real_tournament():
 
 
 def test_not_available_list_is_disclosed_and_non_empty():
+    """Regression note: 드라이빙 디스턴스/정확도 (driving distance/accuracy)
+    used to be listed here as "no record anywhere in this repository."
+    That was false -- real KLPGA official values for playerCode=10097
+    exist at docs/discovery/raw_samples/Tee__Tee0{1-6}__2025.html (a
+    season-2025 capture of the confirmed official locationRecord
+    endpoint), confirmed via the response's own embedded field labels
+    ("평균 티샷 거리(yds)", "안착률(%)") and internally consistent
+    values (Par5 > Par4,5-combined > Par4 average distance, matching
+    real golf physics). See test_technical_stats_2025_recovers_real_driving_and_fairway_data
+    for the recovery itself; this NOT_AVAILABLE list must never claim
+    driving distance/accuracy has zero record in this repository again."""
     doc = build_script.build()
     assert len(doc["not_available"]) >= 5
     joined = " ".join(doc["not_available"])
-    for term in ("드라이빙", "보기율", "전반", "후반", "컷"):
+    assert "드라이빙" not in joined
+    for term in ("보기율", "전반", "후반", "컷"):
         assert term in joined
 
 
@@ -166,13 +178,20 @@ def test_report_never_uses_banned_speculative_language():
         assert word not in html, f"banned speculative phrase found: {word!r}"
 
 
-def test_render_produces_all_eight_pages_plus_hole_history():
+def test_render_produces_all_eleven_biography_sections_plus_hole_history():
+    """NEO PLAYER BIOGRAPHY V4 (2026-09-25): ph-career-overview and
+    ph-player-story no longer exist as standalone sections -- the
+    former's season table now lives inside Career Story's tail
+    (_season_table_html, called from _career_story_html), and the
+    latter's milestones are re-bucketed into Career Story's backwards
+    chapters (_career_story) instead of a separate forward list."""
     doc = build_script.build()
     html = report.render_player_history_html(doc)
     for section_id in [
-        "ph-career-overview", "ph-career-evolution", "ph-season-replay",
+        "ph-current-form", "ph-why-now", "ph-recent-form", "ph-player-identity",
+        "ph-career-story", "ph-career-evolution", "ph-season-replay",
         "ph-tournament-history", "ph-round-history", "ph-player-evolution",
-        "ph-career-dna", "ph-player-story", "ph-hole-history", "ph-not-available",
+        "ph-course-profile", "ph-career-dna", "ph-hole-history", "ph-not-available",
     ]:
         assert f'id="{section_id}"' in html, f"missing section {section_id}"
 
@@ -229,10 +248,13 @@ def test_9431_is_unaffected_by_the_10097_player_history_switch():
 
 
 def test_10097_now_renders_player_history_not_old_player_intelligence():
+    """RED TEAM mission J renamed page 1 to '1. 선수 요약'; NEO PLAYER
+    BIOGRAPHY V4 (2026-09-25) superseded that title -- page 1 is now
+    '현재 폼' (Current Form), the biography's 5-second hero."""
     from klpga.website_v2 import player_intelligence_v2
 
     html = player_intelligence_v2.build_or_placeholder("10097")
-    assert "커리어 개요" in html
+    assert "현재 폼" in html
     assert "PLAYER HISTORY" in html
 
 
@@ -281,11 +303,55 @@ def test_reconciliation_report_is_present_and_clean():
 
 
 def test_render_includes_reconciliation_and_in_progress_sections():
+    """NEO PLAYER BIOGRAPHY V4 (2026-09-25): ph-in-progress only renders
+    when the tournament is confirmed still live -- see
+    test_live_tournament_hides_completely_when_not_confirmed_live in
+    the red_team suite for that behavior; this test only pins down that
+    the reconciliation/database section always renders."""
     doc = build_script.build()
     html = report.render_player_history_html(doc)
     assert 'id="ph-reconciliation"' in html
-    assert 'id="ph-in-progress"' in html
     assert "RECONCILED_OK" in html
+
+
+def test_technical_stats_2025_recovers_real_driving_and_fairway_data():
+    """The completeness audit: driving distance and fairway accuracy
+    ARE measured by KLPGA and DO exist in this repository (a real
+    season-2025 capture at docs/discovery/raw_samples/), just never
+    ingested. Player History must surface them, clearly scoped to
+    season 2025 only, never merged with the 2026 current_snapshot."""
+    doc = build_script.build()
+    ts = doc["technical_stats_2025"]
+    assert ts is not None
+    assert ts["season"] == 2025
+    labels = {m["label"]: m for m in ts["metrics"]}
+    assert "평균 티샷 거리 (Par4,5)" in labels
+    assert labels["평균 티샷 거리 (Par4,5)"]["value"] == "247.50"
+    assert "페어웨이 안착률 (Par4,5)" in labels
+    assert labels["페어웨이 안착률 (Par4,5)"]["value"] == "71.34"
+    # Real golf-physics sanity check, not just presence: Par5 tee shots
+    # average farther than Par4, with the Par4,5-combined figure between.
+    par5 = float(labels["평균 티샷 거리 (Par5)"]["value"])
+    par4 = float(labels["평균 티샷 거리 (Par4)"]["value"])
+    combined = float(labels["평균 티샷 거리 (Par4,5)"]["value"])
+    assert par4 < combined < par5
+
+
+def test_status_semantics_are_never_a_single_pass_from_conflict_count_alone():
+    doc = build_script.build()
+    status = doc["status"]
+    assert status["source_conflicts"] == "PASS"
+    assert status["data_completeness"] == "PARTIAL"
+    assert status["derived_metrics"] == "PASS"
+    assert "still_locally_absent_source_not_independently_verified" in status["data_completeness_detail"]
+
+
+def test_render_includes_technical_stats_2025_section():
+    doc = build_script.build()
+    html = report.render_player_history_html(doc)
+    assert 'id="ph-technical-stats-2025"' in html
+    assert "247.50" in html
+    assert "71.34" in html
 
 
 def test_a_failed_reconciliation_stops_the_report_never_silently_patches():

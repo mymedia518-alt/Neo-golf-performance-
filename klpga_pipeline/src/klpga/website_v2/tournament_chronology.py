@@ -38,6 +38,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 
+from klpga.tournament_ordering import sort_by_official_date
 from klpga.website_v2.official_schedule import ScheduleEntry
 
 
@@ -142,9 +143,14 @@ def resolve_tournament_chronology(
     end_date strings (ISO, so lexical order == chronological order)."""
     as_of_iso = as_of.isoformat()
 
-    ongoing = sorted((e for e in schedule if e.start_date <= as_of_iso <= e.end_date), key=lambda e: e.start_date)
-    completed = sorted((e for e in schedule if e.end_date < as_of_iso), key=lambda e: e.end_date, reverse=True)
-    upcoming = sorted((e for e in schedule if e.start_date > as_of_iso), key=lambda e: e.start_date)
+    # MISSION V9 (2026-09-25): routed through the one shared chronology
+    # utility (klpga.tournament_ordering.sort_by_official_date) instead
+    # of a local sorted()/key= -- every entry here already carries a
+    # real date, so no (season, game_code) proxy is needed, but the
+    # sort itself still goes through the one canonical place.
+    ongoing = sort_by_official_date([e for e in schedule if e.start_date <= as_of_iso <= e.end_date], "start_date")
+    completed = sort_by_official_date([e for e in schedule if e.end_date < as_of_iso], "end_date", reverse=True)
+    upcoming = sort_by_official_date([e for e in schedule if e.start_date > as_of_iso], "start_date")
 
     if ongoing:
         current_entry, next_entry = ongoing[0], (upcoming[0] if upcoming else None)

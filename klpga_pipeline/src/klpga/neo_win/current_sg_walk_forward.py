@@ -205,6 +205,11 @@ class WalkForwardResult:
 
 
 def run_walk_forward(rows: list[SgRow], *, min_training_rows: int = MIN_TRAINING_ROWS) -> WalkForwardResult:
+    # ALGORITHM ORDERING (MISSION V9): sorts by real effective_date, not
+    # the (season, game_code) proxy -- walk-forward leakage safety needs
+    # every row's own true evaluation date, which tournament_ordering.py
+    # was never built to supply (it exists for player-history display
+    # order, not model training/evaluation order).
     rows_sorted = sorted(rows, key=lambda r: (r.effective_date, r.game_code, r.player_id))
     events_in_order: list[str] = []
     seen: set[str] = set()

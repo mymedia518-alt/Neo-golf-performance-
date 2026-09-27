@@ -259,6 +259,10 @@ def compute_point_in_time_features(
     ]
     # Safe to sort by effective_date: is_strictly_before already
     # guarantees every row here has a real, non-None date.
+    # ALGORITHM ORDERING (MISSION V9): a point-in-time backtest feature
+    # window needs each event's own real effective_date directly, never
+    # the (season, game_code) proxy -- there is no missing-date case to
+    # fall back from here.
     prior_events.sort(key=lambda e: e.effective_date, reverse=True)
 
     prior_events_n = len(prior_events)

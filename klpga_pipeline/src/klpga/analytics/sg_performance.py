@@ -78,6 +78,11 @@ def _summary(values: list[float | None]) -> dict:
 
 def sg_window_summary(records: Iterable[dict], player_id: str, *, window: int | str = "season") -> dict:
     rows=[r for r in records if str(r.get("player_id"))==str(player_id) and r.get("scope")=="tournament_cumulative"]
+    # ALGORITHM ORDERING (MISSION V9): sorts by the warehouse row's own
+    # `date` field directly, not tournament_ordering.py -- this SG
+    # window summary (recent-N feature computation) intentionally keeps
+    # its existing date semantics; a formula-output change is out of
+    # scope for a chronology-utility migration.
     rows=sorted(rows,key=lambda r:(r.get("date") or "",r.get("game_code") or ""),reverse=True)
     if isinstance(window,int): rows=rows[:window]
     result={"window":window,"player_id":str(player_id),"components":{c:_summary([r.get(c) for r in rows]) for c in SG_COMPONENTS},"event_count":len(rows)}

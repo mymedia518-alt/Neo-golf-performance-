@@ -45,6 +45,7 @@ import json
 import sys
 import zipfile
 from collections import defaultdict
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -52,6 +53,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.tournament_context import CONTENT_DIR  # noqa: E402
+from klpga import tournament_ordering  # noqa: E402
 
 PLAYER_ID = "10097"
 PLAYER_NAME = "김민선7"
@@ -164,10 +166,27 @@ def _load_tournament_warehouse_round_rows() -> list:
     return out
 
 
+def _load_schedule_end_date(game_code: str) -> Optional[date]:
+    """Real official end date, when known -- via klpga.tournament_ordering's
+    shared loader (RED TEAM, 2026-09-25: the ONE place every module reads
+    content/website_v2/OFFICIAL_KLPGA_SCHEDULE.json, never a second ad hoc
+    JSON parse). This is the one source of real dates in this repository,
+    so it is the only thing ever used to override an in-progress
+    determination or a chronological sort -- never a game_code guess.
+    Confirmed non-proxy-safe: 2026120001 (OK Open) really ended 2026-09-06,
+    2026090003 (KB) really ended 2026-09-13, 2026090002 (Hana) really ended
+    2026-09-20 -- the numeric game_code order (090002 < 090003 < 120001)
+    is the exact reverse of two of those."""
+    iso = tournament_ordering.load_schedule_end_dates().get(game_code)
+    return date.fromisoformat(iso) if iso else None
+
+
 def _load_ok_open_round_rows() -> list:
-    """2026120001 (OK Open) round-level truth -- the tournament is still
-    IN PROGRESS as of the latest capture in this repository (R1, R2
-    complete; R3 partial). Never treated as a finished tournament."""
+    """2026120001 (OK Open) round-level truth -- the LAST KNOWN capture
+    in this repository has R1, R2 complete and R3 partial. Whether the
+    tournament is still actually live is decided separately, against
+    the real official schedule (see _load_schedule_end_date) -- this
+    function only ever returns what was captured, never a live status."""
     doc = _load_json(EVIDENCE_DIR / "official_tournament_warehouse_v1" / "2026120001_RECONCILED_PLAYER_ROUNDS.json")
     if not doc:
         return []
@@ -479,16 +498,43 @@ def reconcile() -> dict:
                 resolved_log.append(f"2026120001 (OK Open) R{n}: Tournament/Round Warehouse strokes ({tw_row.get('strokes')}) == Live Snapshot round{n}_score ({live_score}) -- agrees.")
 
         complete_rounds = [r for r in ok_rounds if r.get("strokes") is not None]
+
+        # RED TEAM (2026-09-25): this block used to hardcode status
+        # "IN_PROGRESS" unconditionally, forever, because the only data
+        # this module has ever ingested for 2026120001 is one R3-partial
+        # capture from 2026-09-06. It never checked whether the real
+        # tournament was still actually happening. The official schedule
+        # (the one real-date source in this repository) says this
+        # tournament's scheduled end date is 2026-09-06 -- if that date
+        # is in the past relative to when this script is actually run,
+        # calling it "live" is simply false, regardless of how old
+        # PLAYER_HISTORY.json on disk is. NEO has no live network access
+        # in this sandbox to fetch the real final result, so the honest
+        # state is "schedule says it's over, but NEO never collected the
+        # final result" -- never silently re-asserted as still live.
+        scheduled_end_date = _load_schedule_end_date(gc)
+        today = datetime.now(timezone.utc).date()
+        is_confirmed_live = scheduled_end_date is None or today <= scheduled_end_date
+        if is_confirmed_live:
+            note = "이 대회는 아직 진행 중입니다 (최신 캡처 기준 R3 진행 중). 커리어 완료 대회 통계에는 포함하지 않습니다."
+        else:
+            note = (
+                f"공식 일정상 이 대회는 {scheduled_end_date.isoformat()}에 종료되었지만, NEO는 그 이후 최종 결과를 "
+                f"재수집하지 못했습니다 (이 세션은 klpga.co.kr에 실시간 접근할 수 없습니다). 아래는 NEO가 마지막으로 "
+                "확보한 정보(R3 진행 중, 2026-09-06 캡처)이며, 최종 순위·SG가 아닙니다."
+            )
         in_progress_tournament = {
             "game_code": gc,
             "season": 2026,
             "tournament": "OK금융그룹 오픈",
-            "status": "IN_PROGRESS",
+            "status": "IN_PROGRESS" if is_confirmed_live else "AWAITING_FINAL_RESULT",
+            "scheduled_end_date": scheduled_end_date.isoformat() if scheduled_end_date else None,
+            "is_confirmed_live": is_confirmed_live,
             "rounds_completed": [{"round": r["round"], "strokes": r["strokes"]} for r in complete_rounds],
             "current_ing_hole": next((r["ing_hole"] for r in ok_rounds if r.get("ing_hole")), None),
             "partial_round_sg": ok_live.get("r3_partial_sg"),
-            "note": "이 대회는 아직 진행 중입니다 (최신 캡처 기준 R3 진행 중) -- 커리어 완료 대회 통계에 포함하지 않습니다.",
-            "sources": ["tournament_warehouse", "live_snapshot"],
+            "note": note,
+            "sources": ["tournament_warehouse", "live_snapshot", "schedule"],
         }
         merged_categories[gc] = {"tournament_warehouse", "live_snapshot"}
 

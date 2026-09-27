@@ -140,6 +140,10 @@ def run_multi_model_walk_forward(
 
 
 def time_stability_report(predictions: list[TournamentPrediction]) -> dict:
+    # ALGORITHM ORDERING (MISSION V9): sorts by each prediction's own
+    # real target_start_date -- a backtest evaluation ordering, not a
+    # player-history display order, so tournament_ordering.py's
+    # (season, game_code) proxy has no role here.
     ordered = sorted(predictions, key=lambda p: p.target_start_date)
     n = len(ordered)
     if n < 3:

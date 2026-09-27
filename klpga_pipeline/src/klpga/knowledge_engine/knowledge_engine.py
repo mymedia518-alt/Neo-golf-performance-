@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Optional
 
 from klpga.tournament_context import CONTENT_DIR
+from klpga.tournament_ordering import sort_tournaments
 
 from . import knowledge_rules as rules
 
@@ -280,8 +281,13 @@ def _player_tournament_rows(player_id: str, warehouse_doc: dict) -> list:
 
 
 def _sorted_player_rows(player_id: str, warehouse_doc: dict) -> list:
+    """RED TEAM (2026-09-25): (season, game_code) used to be an inline
+    proxy sort here -- confirmed wrong (see klpga.tournament_ordering)
+    whenever a real official end_date is on file. Feeds recent_5/
+    recent_10 in build_evidence() below, so this affects EVERY player's
+    Player Intelligence recent-form, not just 10097's."""
     rows = _player_tournament_rows(player_id, warehouse_doc)
-    return sorted(rows, key=lambda r: (r.get("season") or 0, r.get("game_code") or ""))
+    return sort_tournaments(rows)
 
 
 def compute_season_profiles(player_id: str, warehouse_doc: dict, max_seasons: int = MAX_SEASONS_IN_EVOLUTION) -> list:
@@ -360,7 +366,7 @@ def find_course_history(
         }
         for gc, r in by_game.items()
     ]
-    history.sort(key=lambda h: (h.get("season") or 0, h["game_code"]))
+    history = sort_tournaments(history)  # RED TEAM (2026-09-25): see _sorted_player_rows above
     return history
 
 
