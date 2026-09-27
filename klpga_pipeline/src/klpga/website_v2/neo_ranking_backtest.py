@@ -57,6 +57,10 @@ def _z(values: dict[str, float]) -> dict[str, float]:
 
 def run_backtest(warehouse: dict, start_dates: dict[str, str], outcomes: dict[tuple[str,str], dict], config: dict) -> dict:
     events = _latest_records(warehouse, start_dates)
+    # ALGORITHM ORDERING (MISSION V9): sorts by each event's own real
+    # start_dates[event] -- a backtest replay order over externally
+    # supplied real dates, not the (season, game_code) proxy
+    # tournament_ordering.py falls back to when no real date exists.
     ordered = sorted(events, key=lambda event:(start_dates[event], event))
     weights={name:float(spec["weight"]) for name,spec in config["features"].items()}; minimum=int(config["eligibility"]["minimum_sg_events"])
     history: dict[str,list[tuple[str,float]]] = defaultdict(list); observations=[]; event_reports=[]

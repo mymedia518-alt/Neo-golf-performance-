@@ -76,6 +76,13 @@ def _find_one(root: Path, game_code: str, name_prefix: str) -> Optional[Path]:
     script has no importable module surface, only a `main()` CLI)."""
     if not root.exists():
         return None
+    # ALGORITHM ORDERING (MISSION V9): not actually a chronology sort --
+    # game_code here is only part of the glob pattern for ONE
+    # tournament's own snapshot file, never a key comparing multiple
+    # tournaments' order. Sorts the (normally single-match) glob result
+    # alphabetically by path, same as scripts/42_record_tournament_
+    # history.py's identical `_find_one` helper this one intentionally
+    # duplicates.
     matches = sorted(root.glob(f"*/{name_prefix}_{game_code}.json"))
     return matches[0] if matches else None
 

@@ -81,6 +81,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.knowledge_engine import knowledge_engine as ke  # noqa: E402
 from klpga.tournament_context import CONTENT_DIR  # noqa: E402
+from klpga.tournament_ordering import sort_tournaments  # noqa: E402
 from klpga.website_v2 import player_intelligence_9431_terms as terms  # noqa: E402
 
 _spec = importlib.util.spec_from_file_location("master_analysis_9431_under_report", ROOT / "scripts" / "build_9431_master_player_analysis.py")
@@ -240,7 +241,7 @@ def _band_protocol(ordered_values: list, *, metric: str, source: str, unit: str,
 
 
 def _tournament_component_protocol(ds: dict, component_key: str, component_label: str) -> dict:
-    rows = sorted(ds["warehouse_tournament_rows"], key=lambda r: (r["season"], r["game_code"]))
+    rows = sort_tournaments(ds["warehouse_tournament_rows"])  # RED TEAM (2026-09-25): real end_date, not game_code proxy
     values = [r[component_key] for r in rows if r.get(component_key) is not None]
     return _band_protocol(
         values,
@@ -252,7 +253,7 @@ def _tournament_component_protocol(ds: dict, component_key: str, component_label
 
 
 def _round_total_protocol(ds: dict) -> dict:
-    rows = sorted(ds["warehouse_round_rows"], key=lambda r: (r["season"], r["game_code"], r["round"]))
+    rows = sort_tournaments(ds["warehouse_round_rows"], tiebreak_key="round")  # RED TEAM (2026-09-25): real end_date, not game_code proxy
     values = [r["total"] for r in rows if r.get("total") is not None]
     correlations = {}
     for key, label in _COMPONENT_LABELS.items():

@@ -207,4 +207,5 @@ def test_integration_real_player_10097(monkeypatch):
 
     html = piv2.build_or_placeholder("10097", player_name="김민선7")
     assert "Generating Player Intelligence" not in html
-    assert "커리어 개요" in html
+    # NEO PLAYER BIOGRAPHY V4 (2026-09-25) renamed page 1 to '1. 현재 폼'.
+    assert "현재 폼" in html

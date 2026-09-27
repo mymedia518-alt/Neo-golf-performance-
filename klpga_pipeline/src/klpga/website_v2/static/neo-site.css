@@ -365,6 +365,17 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    back, restored here with higher specificity rather than editing the
    shared rule (which HOME/RANKING's mobile layout still depends on). */
 .pi-section .table-scroll{overflow-x:auto}
+/* PLAYER HISTORY V5: #ph-career-rolling-trend's decomposition tables
+   sit as a plain <div> sibling of the .pi-section <details> elements
+   (deliberately -- the mission requires "no new cards"/no new
+   <details> wrapper), so the .pi-section .table-scroll fix above does
+   not reach them and they fall back to the same bare mobile
+   .table-scroll{overflow-x:visible} reset documented above, causing a
+   real 336px page-level horizontal overflow at 390px (caught by
+   screenshot QA). Scoped directly to this block's id instead of
+   reusing .pi-section, which also carries its own border/background/
+   margin that would visually change this block. */
+#ph-career-rolling-trend .table-scroll{overflow-x:auto}
 /* Simple 2-column label/value stat tables (Current Form, Shot Profile)
    never need the generic .data-table's min-width:42rem (that width
    exists for wide multi-column leaderboard tables elsewhere on the
@@ -387,6 +398,10 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-brief{display:grid;gap:.5rem;margin:0 0 .9rem;padding:.85rem 1rem;background:var(--panel);border-left:3px solid var(--line)}
 .piq-brief p{margin:0;font-size:.88rem;line-height:1.55}
 .piq-brief strong{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;display:block;margin-bottom:.15rem}
+.ph-page .piq-brief--positive{border-left-color:var(--green)}
+.ph-page .piq-brief--positive strong{color:var(--green)}
+.ph-page .piq-brief--negative{border-left-color:var(--red)}
+.ph-page .piq-brief--negative strong{color:var(--red)}
 .piq-audit{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
 .piq-why-this-matters{margin:1rem 0 0;padding:.85rem 1rem;background:var(--ink);color:var(--paper);font-weight:700;line-height:1.5}
 .piq-why-this-matters .piq-label{background:var(--paper);color:var(--ink)}
@@ -398,7 +413,101 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-roadmap-item{padding:.85rem 1rem;border:1px solid var(--line);background:var(--panel)}
 .piq-roadmap-item .piq-step:last-of-type{margin-bottom:.4rem}
 .ph-evo-block{padding:.85rem 1rem;border:1px solid var(--line);background:var(--panel);margin-bottom:.9rem}
-.ph-spark{display:block;margin:.4rem 0}
+.ph-spark{display:block;margin:.4rem 0;max-width:100%;height:auto}
+.ph-evo-block svg[role="img"]{max-width:100%;height:auto}
+.piq-sg-missing{color:var(--muted);font-style:italic;text-align:center!important}
+
+/* V6 mission (2026-09-25): Current Form's headline stat -- the one
+   number the whole page leads with (current form vs her own career
+   baseline), styled like a real DataGolf-style hero stat instead of
+   being one chip among several identical-looking chips. */
+.ph-hero-stat-block{margin-bottom:.9rem}
+.ph-hero-stat-label{margin:0 0 .1rem;color:var(--muted);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.ph-hero-stat{margin:0;font-size:clamp(2.4rem,7vw,3.4rem);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink)}
+.ph-hero-stat--positive{color:var(--green)}
+
+/* MISSION "30초 스캔" (2026-09-27), approved wireframe:
+   https://claude.ai/artifact/BZBJhzA36ZvskuKPkDjyv7 -- "읽게 하지 말고
+   보이게 만들어라... 사용자는 읽는 것이 아니라 훑는다." Every rule
+   below replaces a sentence/chip/table with a number, arrow, badge, or
+   dot the eye can scan in seconds -- no new data, only new display of
+   what already renders elsewhere on this page. */
+.ph-scan-stats{display:flex;gap:2rem;align-items:flex-end;flex-wrap:wrap;margin-top:.6rem}
+.ph-scan-stat{display:flex;flex-direction:column;gap:.1rem}
+.ph-scan-stat-num{font-size:1.6rem;font-weight:800;color:var(--ink);line-height:1}
+.ph-scan-stat-lbl{font-size:.72rem;color:var(--muted)}
+.ph-scan-trend{display:flex;align-items:center;gap:.4rem;font-size:.95rem;font-weight:700;color:var(--muted);margin-left:auto}
+.ph-scan-trend--up{color:var(--green)}
+.ph-scan-trend--down{color:var(--red)}
+.ph-scan-trend-arrow{font-size:1.3rem;line-height:1}
+
+.ph-arrow-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:.75rem}
+.ph-arrow-card{text-align:center;padding:1rem .5rem;background:var(--panel)}
+.ph-arrow-card .ph-arrow-big{display:block;font-size:2rem;line-height:1;color:var(--green)}
+.ph-arrow-card--down .ph-arrow-big{color:var(--red)}
+.ph-arrow-card .ph-arrow-lbl{font-size:.8rem;font-weight:800;color:var(--ink);margin-top:.3rem}
+.ph-arrow-card .ph-arrow-num{font-size:.72rem;color:var(--muted);margin-top:.1rem}
+
+.ph-form-strip{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap;padding:.4rem 0}
+.ph-form-dot{width:1.15rem;height:1.15rem;border-radius:50%;background:#c3cec7;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0}
+.ph-form-dot--win{background:var(--gold);color:#fff}
+.ph-form-dot--top10{background:var(--green)}
+.ph-form-strip-axis{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:.25rem}
+
+.ph-identity-badge{display:inline-block;background:var(--green);color:#fff;font-size:1.15rem;font-weight:800;padding:.5rem 1.25rem;border-radius:999px;margin-bottom:.6rem}
+
+.ph-round-pair{display:flex;gap:1.5rem}
+.ph-round-big{flex:1;text-align:center;padding:1.1rem;background:var(--panel)}
+.ph-round-big-lbl{font-size:.78rem;color:var(--muted);margin-bottom:.3rem}
+.ph-round-big-num{font-size:2.2rem;font-weight:800;line-height:1;color:var(--ink)}
+.ph-round-big--positive .ph-round-big-num{color:var(--green)}
+.ph-round-big--negative .ph-round-big-num{color:var(--red)}
+.ph-round-big-cap{font-size:.75rem;color:var(--muted);margin-top:.5rem}
+
+/* RED TEAM (2026-09-25): Career Form Story -- narrative-first stage
+   cards (Early/Mid/Late Season, Peak Form, Current Form). Mirrors
+   .piq-brief's card treatment so the story reads as a highlight reel,
+   not a stats table. */
+.ph-form-story{display:grid;gap:.6rem;margin-bottom:.9rem}
+.ph-form-stage{padding:.85rem 1rem;background:var(--panel);border-left:3px solid var(--green)}
+.ph-form-stage .piq-step-label{margin-bottom:.3rem}
+
+/* NEO PLAYER BIOGRAPHY V4 (2026-09-25): Career Story cards (told
+   backwards -- Current, then Winning Stage/Breakthrough/Development/
+   Adaptation). Same card treatment as .ph-form-stage above, distinct
+   class so the two narrative features never collide in selectors. */
+.ph-bio-story{display:grid;gap:.6rem;margin-bottom:.9rem}
+.ph-bio-stage{padding:.85rem 1rem;background:var(--panel);border-left:3px solid var(--green)}
+.ph-bio-stage .piq-step-label{margin-bottom:.3rem}
+
+/* V5 mission (2026-09-25): a small native <details> nested INSIDE an
+   existing section body (e.g. Course Profile's full table) -- never a
+   new top-level card, just a disclosure toggle for detail a 30-second
+   read does not need up front. */
+.ph-nested-detail{margin-top:.75rem}
+.ph-nested-detail summary{cursor:pointer;font-weight:700;font-size:.85rem;color:var(--green);padding:.3rem 0}
+
+/* Player DNA season selector -- pure CSS radio tabs, zero JS (RED TEAM
+   mission F). Radios are visually hidden; order-based :nth-of-type
+   pairing between .ph-dna-radio and both the matching label and the
+   matching panel means this stays correct regardless of how many
+   seasons a given player has, with no per-season CSS needed. */
+.ph-dna-radio{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.ph-dna-tab-bar{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem}
+.ph-dna-tab-label{display:inline-flex;align-items:center;min-height:40px;padding:.35rem .9rem;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-weight:750;font-size:.85rem;cursor:pointer}
+.ph-dna-panel{display:none}
+.ph-dna-radio:nth-of-type(1):checked ~ .ph-dna-tab-bar .ph-dna-tab-label:nth-of-type(1){background:var(--green);color:#fff;border-color:var(--green)}
+.ph-dna-radio:nth-of-type(2):checked ~ .ph-dna-tab-bar .ph-dna-tab-label:nth-of-type(2){background:var(--green);color:#fff;border-color:var(--green)}
+.ph-dna-radio:nth-of-type(3):checked ~ .ph-dna-tab-bar .ph-dna-tab-label:nth-of-type(3){background:var(--green);color:#fff;border-color:var(--green)}
+.ph-dna-radio:nth-of-type(4):checked ~ .ph-dna-tab-bar .ph-dna-tab-label:nth-of-type(4){background:var(--green);color:#fff;border-color:var(--green)}
+.ph-dna-radio:nth-of-type(5):checked ~ .ph-dna-tab-bar .ph-dna-tab-label:nth-of-type(5){background:var(--green);color:#fff;border-color:var(--green)}
+.ph-dna-radio:nth-of-type(6):checked ~ .ph-dna-tab-bar .ph-dna-tab-label:nth-of-type(6){background:var(--green);color:#fff;border-color:var(--green)}
+.ph-dna-radio:nth-of-type(1):checked ~ .ph-dna-panels .ph-dna-panel:nth-of-type(1){display:block}
+.ph-dna-radio:nth-of-type(2):checked ~ .ph-dna-panels .ph-dna-panel:nth-of-type(2){display:block}
+.ph-dna-radio:nth-of-type(3):checked ~ .ph-dna-panels .ph-dna-panel:nth-of-type(3){display:block}
+.ph-dna-radio:nth-of-type(4):checked ~ .ph-dna-panels .ph-dna-panel:nth-of-type(4){display:block}
+.ph-dna-radio:nth-of-type(5):checked ~ .ph-dna-panels .ph-dna-panel:nth-of-type(5){display:block}
+.ph-dna-radio:nth-of-type(6):checked ~ .ph-dna-panels .ph-dna-panel:nth-of-type(6){display:block}
 .piq-protocol{margin:.5rem 0 0;padding:.85rem 1rem;background:var(--surface);border:1px solid var(--line);border-bottom:0;display:grid;grid-template-columns:12rem 1fr;gap:.35rem .8rem;font-size:.85rem}
 .piq-protocol dt{font-weight:700;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.03em;padding-top:.1rem}
 .piq-protocol dd{margin:0;line-height:1.5}
@@ -425,3 +534,69 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-evidence-toggle[open]>summary{color:var(--green);border-color:var(--green)}
 .piq-evidence-toggle__body{margin-top:.85rem}
 @media(max-width:760px){.t-tournament-cards{flex-direction:column}.t-tournament-card{border-right:0;border-bottom:1px solid var(--line)}.t-tournament-card:last-child{border-bottom:0}.t-tournament-card[data-tournament-card="current"]{border-left:3px solid var(--green)}}
+
+/* MISSION V8 (2026-09-25), playerCode=10097 only: "Freeze the
+   architecture... improve only visual hierarchy, typography, spacing,
+   reading speed." No section, card, chart, or data field changes here
+   -- every rule below is scoped under .ph-page (the wrapper
+   render_player_history_html now emits) so nothing leaks onto
+   player_intelligence_10097_report.py or player_intelligence_9431_
+   report.py, which render the same shared piq- and .pi-section classes
+   for a different player. */
+
+/* The repeated black-pill step label (.piq-step-label.piq-label-
+   standalone) is used 18+ times across this one page -- season
+   captions, chapter names, table captions, chart captions -- every one
+   rendered at the same maximum visual volume. That uniform loudness is
+   exactly what made scrolling feel heavier with every section: nothing
+   was allowed to recede. Restyled as a plain green eyebrow label (the
+   same idiom this site already uses for .section-label/.kicker
+   elsewhere) instead of a solid dark badge -- still fully legible,
+   still always in the same place, just no longer shouting. */
+.ph-page .piq-step-label.piq-label-standalone{
+  display:block;background:none;color:var(--green);padding:0;
+  font-size:.72rem;font-weight:850;letter-spacing:.07em;margin:0 0 .5rem;
+}
+
+/* Un-numbered subordinate sections (시즌 리플레이, 시즌 변화 하이라이트,
+   홀 기록) rendered at the exact same visual weight as the 11 numbered
+   primary sections -- a reader could not tell "here is one of the
+   page's 11 real answers" from "here is a supporting detail block" by
+   looking. Demoted: a lighter panel background instead of white,
+   a visibly smaller heading than the numbered sections use, and a
+   muted (not green) heading color -- still fully open, still fully
+   real data, just no longer competing for the same attention as the
+   page's actual 11 answers. */
+.ph-page .pi-section--sub{background:var(--panel)}
+.ph-page .pi-section--sub .section-heading h2{font-size:1.05rem;color:var(--muted);font-weight:750}
+
+/* Slightly more breathing room between sections than the shared
+   .pi-section default (used by every other Player Intelligence page,
+   left untouched) -- with 18 stacked sections/blocks on this one page,
+   an extra quarter-rem between each makes every scroll register as a
+   clean break instead of one continuous wall. */
+.ph-page .pi-section{margin-bottom:1.4rem}
+
+/* MISSION V11 (2026-09-25): a single early-visibility trust line in
+   the hero -- "how much should I trust this" answered before the
+   reader scrolls past ten sections, without adding a chip to the
+   hero's own tightly-tuned chip row (see MISSION V8). Quiet by
+   design: small, muted, a checkmark rather than a loud badge. */
+.ph-trust-line{margin:.5rem 0 0;color:var(--green);font-size:.82rem;font-weight:750}
+.ph-trust-line::before{content:"✓ ";font-weight:800}
+
+/* MISSION V12 (2026-09-25): a collapsed section on this page (a plain
+   <details> with no `open` attribute) rendered as a bare green heading
+   with nothing visibly below it -- .evidence-detail summary's own
+   `display:flex` (needed for the heading/chip layout) silently
+   suppresses the browser's native ▶ disclosure triangle, and nothing
+   ever replaced it. A first-time reader had no way to tell "this is
+   collapsed, click it" from "this is empty/broken" -- exactly the
+   moment this mission targets: the eye stops, the reader must guess.
+   One small chevron, flipping on [open], fixes every collapsed
+   section (and every nested "more" toggle, which shares the same
+   descendant selector) in one place. Scoped to .ph-page only --
+   .evidence-detail is a shared, site-wide class used by other pages
+   this mission does not touch. */
+.ph-page .evidence-detail summary::after{content:"▸";margin-left:.75rem;color:var(--muted);font-size:.85em;flex-shrink:0}
+.ph-page .evidence-detail[open]>summary::after{content:"▾";color:var(--green)}

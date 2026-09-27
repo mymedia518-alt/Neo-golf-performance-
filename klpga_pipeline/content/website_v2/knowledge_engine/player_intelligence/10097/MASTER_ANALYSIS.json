@@ -774,7 +774,7 @@
     ],
     "overall_pct": 80.0
   },
-  "generated_at": "2026-09-24T07:02:01.072607+00:00",
+  "generated_at": "2026-09-25T13:32:01.876462+00:00",
   "hole_analysis": {
     "reason": "The only real per-hole scorecard dataset in this repository is for game_code 2026080001 (제15회 KG 레이디스 오픈, kg_2026080001_official.json, 6318 real rows). This player did not play that edition (her real KG Ladies Open appearances on record are the 2024 and 2025 editions, game_codes 2024080016 and 2025080003, which have no hole-level scorecard data). No hole-by-hole data exists anywhere else in the repository for any player. Reported as UNKNOWN rather than estimated from round-level totals.",
     "status": "UNKNOWN"

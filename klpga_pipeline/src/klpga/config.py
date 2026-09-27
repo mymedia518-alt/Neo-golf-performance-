@@ -132,6 +132,29 @@ SCORE_RECORD_ENDPOINT = f"{BASE_URL}/web/tourRecord/scoreRecord"
 #   scripts/53_fetch_player_profile_sample.py.
 PLAYER_PROFILE_ENDPOINT = f"{BASE_URL}/web/profile/mainRecord"
 
+# [6b] RED TEAM mission (2026-09-25) proposed a per-tournament technical
+#   record page at:
+#     GET https://klpga.co.kr/web/tourRecord/mainRecord?gameCode=<code>
+#   Searched exhaustively (grep across the whole repo, including
+#   docs/discovery/, content/website_v2/, evidence/) -- NO local trace
+#   of this exact path exists anywhere in this project. It appears to
+#   conflate two DIFFERENT real, already-confirmed endpoints above: the
+#   "tourRecord" path segment belongs to SCORE_RECORD_ENDPOINT (game-
+#   Code-scoped, confirmed real, fetch-only, never carried technical
+#   stats in what has been captured of it so far -- only rank/name/
+#   round scores/WD-DQ-CUT status), while the "mainRecord" leaf belongs
+#   to PLAYER_PROFILE_ENDPOINT (playerCode-scoped, not gameCode-scoped,
+#   and per the user's own earlier report carries only 소속/출생년도/
+#   회원번호/입회년도 -- not driving distance/fairway/GIR/putting).
+#   This project never guesses a URL into existence: TOURNAMENT_RECORD_
+#   ENDPOINT below is defined from the exact string the mission gave,
+#   clearly marked UNCONFIRMED, so a real network session can try it
+#   without any of this project's own code silently assuming it works.
+#   See klpga.collectors.tournament_record and the coverage report in
+#   docs/TOURNAMENT_TECHNICAL_COVERAGE.md for what was and wasn't
+#   possible to check without live access in this sandbox.
+TOURNAMENT_RECORD_ENDPOINT_UNCONFIRMED = f"{BASE_URL}/web/tourRecord/mainRecord"
+
 # The landing page whose DOM carries the data-menu1/data-menu2/
 # data-menu3 attributes that RECORD_TAXONOMY_ENDPOINT's menu1/menu2/
 # menu3 form fields are drawn from — NOT confirmed. No URL is guessed

@@ -80,6 +80,10 @@ def compute_win_feature_candidates(
         e for e in all_events
         if e.event_id != target_event_id and is_strictly_before(e.effective_date, target_effective_date)
     ]
+    # ALGORITHM ORDERING (MISSION V9): sorts by each event's own real
+    # effective_date -- a win-probability feature window over already
+    # date-filtered (is_strictly_before) rows, not a player-history
+    # display order, so tournament_ordering.py's proxy key is unused.
     prior_events.sort(key=lambda e: e.effective_date, reverse=True)
     prior_events_n = len(prior_events)
 

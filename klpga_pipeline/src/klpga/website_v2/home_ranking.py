@@ -62,6 +62,13 @@ def build_features(warehouse: dict) -> dict[str, dict]:
 
     result = {}
     for player_id, rows in grouped.items():
+        # ALGORITHM ORDERING (MISSION V9): intentionally the raw
+        # (season, game_code) proxy, never tournament_ordering.py's
+        # real-date override -- switching which rows land in the
+        # recent_5/recent_10 windows here would change this ranking
+        # formula's output, and "do not change ranking behavior" is a
+        # hard constraint on this migration; a ranking-formula change
+        # needs its own dedicated, separately-reviewed migration.
         rows.sort(key=lambda row: (int(row.get("season") or 0), str(row.get("game_code") or "")))
         totals = [float(row["total"]) for row in rows]
         result[player_id] = {

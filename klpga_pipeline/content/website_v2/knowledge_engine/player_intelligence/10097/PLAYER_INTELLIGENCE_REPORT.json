@@ -164,7 +164,7 @@
   ],
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-24T16:46:27.004787+00:00",
+  "generated_at": "2026-09-25T22:06:04.984863+00:00",
   "growth_timeline": {
     "narrative": "2023시즌 SG Total +0.79에서 2026시즌 +2.09로 상승 추세입니다.",
     "steps": [
@@ -488,6 +488,918 @@
       "metric": "라운드별 SG PUTT"
     }
   ],
+  "provenance": {
+    "career_reconstruction.data_floor_note": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "career_reconstruction.earliest_season_on_record": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "earliest season this shared warehouse has any data for"
+    },
+    "career_reconstruction.latest_season_on_record": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "latest season this shared warehouse has any data for"
+    },
+    "career_reconstruction.season_count_on_record": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real seasons on record"
+    },
+    "career_reconstruction.summary": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "career_reconstruction.total_events_on_record": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real tournament events on record"
+    },
+    "career_reconstruction.total_top10_on_record": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real rank<=10 finishes on record"
+    },
+    "career_reconstruction.total_wins_on_record": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real rank==1 finishes on record"
+    },
+    "coach_console.entries[].category": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "coach_console.entries[].decision": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "extracted from the source question's own real action/conclusion field"
+    },
+    "coach_console.entries[].question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed Korean question text for this question id"
+    },
+    "coach_console.entries[].question_id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "coach_report.development_priority": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "coach_report.development_priority_source": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pointer to which real turning_points entry this priority came from, or null"
+    },
+    "coach_report.trajectory_verdict": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "deterministic classification over a real count of consecutive positive/negative season deltas"
+    },
+    "data_roadmap[].collection_method": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed authored text describing how it could be collected"
+    },
+    "data_roadmap[].id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "data_roadmap[].missing_data": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed authored text naming the specific missing data type"
+    },
+    "data_roadmap[].priority_rank": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "rank among all roadmap items by that real count (argsort)"
+    },
+    "data_roadmap[].unlocks[]": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed authored list of report sections this data would unlock"
+    },
+    "data_roadmap[].value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "real count of this item's own unlocks list"
+    },
+    "data_roadmap[].why_missing": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed authored text explaining why it is missing"
+    },
+    "growth_timeline.narrative": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "growth_timeline.steps[].avg_total": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "that season's real SG Total average"
+    },
+    "growth_timeline.steps[].delta_from_prev": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "season-to-season change vs the previous real season's average"
+    },
+    "growth_timeline.steps[].season": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real season label"
+    },
+    "growth_timeline.steps[].strongest_component": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the SG component with this season's highest real average (argmax)"
+    },
+    "growth_timeline.steps[].weakest_component": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the SG component with this season's lowest real average (argmin)"
+    },
+    "leak_map.leaks[].coach_decision": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "extracted from the linked question's own real action field, or a fixed sentence"
+    },
+    "leak_map.leaks[].performance_loss": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "either a real formatted delta pulled from the linked question's monitoring_protocol.current_reading, or an explicit disclosed \"알 수 없음\" (unknown) when no real join exists between the two real numbers this would require -- see data_roadmap.collapse_onset_loss_join"
+    },
+    "leak_map.leaks[].priority": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "leak_map.leaks[].question_id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "leak_map.leaks[].where": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "leak_map.leaks[].why": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "loss_dna.breakdown[].component": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "loss_dna.breakdown[].share_pct": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "value divided by total_value, as a percent"
+    },
+    "loss_dna.breakdown[].value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sum of this component's real values across those losses"
+    },
+    "loss_dna.events_considered": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real negative-SG events considered"
+    },
+    "loss_dna.sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real negative-SG events with complete SG components"
+    },
+    "loss_dna.story": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "loss_dna.top_contributor": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the component with the largest real share_pct (argmax)"
+    },
+    "loss_dna.total_value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sum of real SG Total across those losses"
+    },
+    "performance_funnel.competition.label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.competition.note": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "performance_funnel.competition.question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.competition.top10_events": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real rank<=10 finishes"
+    },
+    "performance_funnel.competition.total_events": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real finished tournaments"
+    },
+    "performance_funnel.conversion.birdie_rate.percentile": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real rank among the full official field with a birdie rate on file"
+    },
+    "performance_funnel.conversion.birdie_rate.raw": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real official birdie rate"
+    },
+    "performance_funnel.conversion.label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.conversion.note": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "performance_funnel.conversion.par_save_rate.percentile": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real rank among the full official field with a par-save rate on file"
+    },
+    "performance_funnel.conversion.par_save_rate.raw": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real official par-save rate"
+    },
+    "performance_funnel.conversion.question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.conversion.recovery_rate.percentile": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real rank among the full official field with a recovery rate on file"
+    },
+    "performance_funnel.conversion.recovery_rate.raw": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real official recovery rate"
+    },
+    "performance_funnel.opportunity.gir_rate.percentile": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real rank among the full official field with a GIR rate on file"
+    },
+    "performance_funnel.opportunity.gir_rate.raw": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real official GIR rate from OFFICIAL_PROFILE_NORMALIZED.json"
+    },
+    "performance_funnel.opportunity.label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.opportunity.note": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "performance_funnel.opportunity.question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.technique.label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.technique.note": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "performance_funnel.technique.percentiles.SG APP": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real percentile for this component, computed upstream"
+    },
+    "performance_funnel.technique.percentiles.SG ARG": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real percentile for this component, computed upstream"
+    },
+    "performance_funnel.technique.percentiles.SG OTT": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real percentile for this component, computed upstream (frozen Knowledge Engine)"
+    },
+    "performance_funnel.technique.percentiles.SG PUTT": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her real percentile for this component, computed upstream"
+    },
+    "performance_funnel.technique.question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.technique.weakest.component": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the component with the lowest real percentile (argmin)"
+    },
+    "performance_funnel.technique.weakest.percentile": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "that component's real percentile"
+    },
+    "performance_funnel.winning.label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.winning.note": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "performance_funnel.winning.question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "performance_funnel.winning.top10_events": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of competition.top10_events"
+    },
+    "performance_funnel.winning.win_events": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real rank==1 finishes"
+    },
+    "player_id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "playerCode constant identifying this golfer"
+    },
+    "player_identity.constant_strength": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the SG component that was her strongest in every real season, or null if it varied"
+    },
+    "player_identity.constant_strength_finding": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "player_identity.constant_strength_seasons": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real seasons behind that check"
+    },
+    "player_identity.identity_win_alignment.finding": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "player_identity.identity_win_alignment.identity_strength": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of constant_strength"
+    },
+    "player_identity.identity_win_alignment.matches": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "boolean: whether identity_strength equals win_strength"
+    },
+    "player_identity.identity_win_alignment.win_strength": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of win_dna.top_contributor"
+    },
+    "player_name": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real player name"
+    },
+    "player_playbook.entries[].category": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "player_playbook.entries[].decision": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "extracted from the source question's own real action/conclusion field"
+    },
+    "player_playbook.entries[].question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed Korean question text for this question id"
+    },
+    "player_playbook.entries[].question_id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "pre_tournament_checklist[].current_reading": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of the linked question's own monitoring_protocol.current_reading -- see that field's own entry below for the one known exception"
+    },
+    "pre_tournament_checklist[].current_status": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of the linked question's own monitoring_protocol.current_status"
+    },
+    "pre_tournament_checklist[].id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "pre_tournament_checklist[].linked_question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "pre_tournament_checklist[].metric": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].action": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "template string assembling the real monitoring_protocol fields plus a fixed decision sentence"
+    },
+    "questions[].analysis": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].coach_focus": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].conclusion": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].confidence": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a real deterministic threshold rule over sample_size for most question types; a fixed constant for a few (most_recent_win/win_simulator/risk_map/collapse_blueprint) -- see docs/NEO_DATA_PROVENANCE_REPORT_10097_V1.md"
+    },
+    "questions[].contribution_breakdown": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "whole object null when the underlying rows don't support a valid split -- see the leaf fields below"
+    },
+    "questions[].contribution_breakdown.breakdown[].component": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].contribution_breakdown.breakdown[].share_pct": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "value divided by total_value, as a percent"
+    },
+    "questions[].contribution_breakdown.breakdown[].value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sum of this component's real values across those rows"
+    },
+    "questions[].contribution_breakdown.sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real rows with all 4 SG components + total present"
+    },
+    "questions[].contribution_breakdown.top_contributor": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the component with the largest real share_pct (argmax)"
+    },
+    "questions[].contribution_breakdown.total_value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sum of real SG Total across those rows"
+    },
+    "questions[].decision_context": {
+      "depends_on": [],
+      "label": "NOT_COLLECTED",
+      "reason": "explicit disclosure that the real strategic decision (club/line selection) is unknown -- no such data exists in this repository"
+    },
+    "questions[].durability": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].durability_reasoning": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].evidence[]": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].evidence_score": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "disclosed formula: round(100 * min(1, sources/3) * n/(n+5)) over real sample_size/source count"
+    },
+    "questions[].fact": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].floor_total": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "min() of real SG Total across her real win rows"
+    },
+    "questions[].floors.approach": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "min() of real SG APP across her real win rows"
+    },
+    "questions[].floors.around_green": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "min() of real SG ARG across her real win rows"
+    },
+    "questions[].floors.off_the_tee": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "min() of real SG OTT across her real win rows"
+    },
+    "questions[].floors.putting": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "min() of real SG PUTT across her real win rows"
+    },
+    "questions[].id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].layer": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].mechanism": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].monitoring_protocol.current_detail": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].monitoring_protocol.current_reading": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "her most recent real value for this metric for most question types (or a disclosed real formula, e.g. latest-minus-floor for win_simulator) -- ONE NAMED EXCEPTION: for id=q_win_blueprint, this falls back to the already-derived floor_total when the true most-recent-win row is missing from the warehouse lookup, an undisclosed-in-JSON IMPUTED substitution -- see docs/NEO_DATA_PROVENANCE_REPORT_10097_V1.md"
+    },
+    "questions[].monitoring_protocol.current_status": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a real comparison of current_reading against normal_range/warning_threshold for most question types; a fixed literal \"NORMAL\" for q_win_blueprint specifically (mathematically always true by construction, but not run through the real comparison every other question uses)"
+    },
+    "questions[].monitoring_protocol.explanatory_metric": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a real Pearson correlation among her 4 SG components when the sample is large enough to trust one (season/course-appearance grain explicitly discloses an insufficient-sample \"알 수 없음\" instead of a false correlation)"
+    },
+    "questions[].monitoring_protocol.metric": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].monitoring_protocol.next_review": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions[].monitoring_protocol.normal_range": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "real mean +/- 1 stdev (n>=30) or real min()..max() (n<30) over her own real history"
+    },
+    "questions[].monitoring_protocol.sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real rows behind this protocol"
+    },
+    "questions[].monitoring_protocol.source": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed string naming the real warehouse file this metric is drawn from"
+    },
+    "questions[].monitoring_protocol.warning_threshold": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "text encoding the same real band/floor rule as normal_range"
+    },
+    "questions[].player_takeaway": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed Korean question text, PLAYER_NAME interpolated"
+    },
+    "questions[].reproducibility": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].root_cause": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sentence stating the real finding, several explicitly disclosing that a deeper cause cannot be determined from this repository's data (no hole/shot-level source)"
+    },
+    "questions[].sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a real count, or a real min() over real per-question rows depending on question type"
+    },
+    "questions[].why_it_matters": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions[].why_this_matters": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "questions_considered_but_unsupported[].confidence": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of the excluded candidate's own real confidence"
+    },
+    "questions_considered_but_unsupported[].id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "questions_considered_but_unsupported[].question": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed Korean question text"
+    },
+    "questions_considered_but_unsupported[].reason_excluded": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "template text wrapping the real confidence/sample_size check that excluded this candidate"
+    },
+    "questions_considered_but_unsupported[].sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "pass-through of the excluded candidate's own real sample_size"
+    },
+    "repository_intelligence_v7.conclusions_strengthened_count": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real conclusions that search actually strengthened (0 for this player, per the summary)"
+    },
+    "repository_intelligence_v7.findings[].branch": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real, hand-transcribed git branch name from that separate search"
+    },
+    "repository_intelligence_v7.findings[].file": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real, hand-transcribed file location from that separate search"
+    },
+    "repository_intelligence_v7.findings[].id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "repository_intelligence_v7.findings[].label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "repository_intelligence_v7.findings[].player_specific_number_found": {
+      "depends_on": [],
+      "label": "NOT_COLLECTED",
+      "reason": "whether that separate cross-repository search turned up a real number for this specific player -- consistently absent for this player per this file's own summary"
+    },
+    "repository_intelligence_v7.search_scope": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "fixed text describing a separate cross-repository search mission's real scope"
+    },
+    "repository_intelligence_v7.summary": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "season_by_season_table[].avg_app": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "mean SG APP across that season's real tournaments"
+    },
+    "season_by_season_table[].avg_arg": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "mean SG ARG across that season's real tournaments"
+    },
+    "season_by_season_table[].avg_ott": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "mean SG OTT across that season's real tournaments"
+    },
+    "season_by_season_table[].avg_putt": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "mean SG PUTT across that season's real tournaments"
+    },
+    "season_by_season_table[].avg_total": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "mean SG Total across that season's real tournaments, computed by knowledge_engine.compute_season_profiles"
+    },
+    "season_by_season_table[].events_on_record": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real events that season"
+    },
+    "season_by_season_table[].season": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real season label"
+    },
+    "season_by_season_table[].sg_sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of tournaments behind that season's SG averages"
+    },
+    "season_by_season_table[].top10": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real top-10s that season"
+    },
+    "season_by_season_table[].wins": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real wins that season"
+    },
+    "trend_dna.breakdown[].component": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "trend_dna.breakdown[].share_pct": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "value divided by total_value, as a percent"
+    },
+    "trend_dna.breakdown[].value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "this component's real average delta between the two seasons"
+    },
+    "trend_dna.from_season": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "earliest real season on record"
+    },
+    "trend_dna.story": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "trend_dna.to_season": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "latest real season on record"
+    },
+    "trend_dna.top_contributor": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the component with the largest real share_pct (argmax)"
+    },
+    "trend_dna.total_value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "SG Total average delta between those two real seasons"
+    },
+    "turning_points[].finding": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sentence built from a real argmax delta or a real detected component-weakness change"
+    },
+    "turning_points[].id": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "turning_points[].label": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "turning_points[].season": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "real season the turning point occurred in"
+    },
+    "turning_points[].unknown_cause": {
+      "depends_on": [],
+      "label": "NOT_COLLECTED",
+      "reason": "explicit disclosure: the deeper cause (coaching/training change) cannot be determined -- no such log exists in this repository yet (see data_roadmap)"
+    },
+    "unsupported_analysis_modules_v12[].module": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "unsupported_analysis_modules_v12[].reason": {
+      "depends_on": [],
+      "label": "NOT_COLLECTED",
+      "reason": "explicit disclosure that the hole/shot/pin/distance-level data this module would need does not exist anywhere in this repository's warehouse"
+    },
+    "win_dna.breakdown[].component": {
+      "depends_on": [],
+      "label": "MEASURED",
+      "reason": "a fixed label/id/category constant baked into this file's source code -- asserted, not computed from this run's data"
+    },
+    "win_dna.breakdown[].share_pct": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "value divided by total_value, as a percent"
+    },
+    "win_dna.breakdown[].value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sum of this component's real values across those wins"
+    },
+    "win_dna.events_considered": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real win events considered"
+    },
+    "win_dna.sample_size": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "count of real win events with complete SG components"
+    },
+    "win_dna.story": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "a deterministic Korean sentence template wrapping already-computed real numbers -- the template itself never introduces a new number"
+    },
+    "win_dna.top_contributor": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "the component with the largest real share_pct (argmax)"
+    },
+    "win_dna.total_value": {
+      "depends_on": [],
+      "label": "DERIVED",
+      "reason": "sum of real SG Total across those wins"
+    }
+  },
   "questions": [
     {
       "action": "대회별 SG APP을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). 정상 범위: -0.13 ~ +1.80 SG (실측 대회 73회 기준 평균 +0.83, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.13 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다. 결정: SG APP 샷 운영 방식을 그대로 유지한다. 이 영역은 조정 대상에서 제외한다.",
