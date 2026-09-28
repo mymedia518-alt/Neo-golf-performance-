@@ -64,24 +64,38 @@ def test_why_now_has_no_chart_and_no_table_just_sentence_and_arrows():
 
 
 def test_career_evolution_drops_the_season_to_season_delta_table_keeps_the_chart():
-    """The sparkline + peak/worst/direction chips (the real chart +
-    real extremes) must survive; the redundant delta TABLE must not."""
+    """The chart + real extremes must survive; the redundant delta
+    TABLE must not.
+
+    MISSION "PLAYER HISTORY V20" (2026-09-28): the old '최고 시즌 2026
+    (+2.24)' text chip is gone -- that exact fact is now drawn directly
+    on the chart itself (_marked_trend_svg's '최고 +2.24' mark label),
+    so this test now looks for the mark text, not a chip."""
     doc, html = _doc_and_html()
     start = html.index('id="ph-career-evolution"')
     end = html.index("</details>", start)
     section = html[start:end]
     assert "<table" not in section
     assert section.count("<svg") == len([c for c in doc["career_evolution"].values() if c])
-    assert "최고 시즌" in section and "현재 방향" in section
+    assert "최고" in section and "현재 방향" in section
 
 
-def test_season_replay_drops_the_quartile_table_keeps_named_windows():
+def test_season_replay_drops_the_quartile_table_and_the_three_point_windows():
+    """MISSION "PLAYER HISTORY V20 continued" (2026-09-28) replaced the
+    named_windows table (처음 5개/중반 5개/최근 5개) with a 3-point
+    chart. MISSION V30 (2026-09-28) went further: 'a graph that only
+    connects 3 points is wasted... if there are only three values, do
+    not draw a graph.' named_windows is gone entirely, replaced by a
+    real per-tournament chart (every real tournament in the season,
+    never bucketed) and a real SG-component heatmap."""
     doc, html = _doc_and_html()
     start = html.index('id="ph-season-replay"')
     end = html.index("</details>", start)
     section = html[start:end]
     assert "분기" not in section  # the old quartile column header ("1분기" etc)
-    assert "처음 5개" in section  # named_windows survives
+    assert "<table" not in section
+    assert "처음5" not in section and "중반5" not in section and "최근5" not in section
+    assert section.count("<rect") > 0  # real SG-component heatmap survives
     assert "피크:" in section and "슬럼프:" in section  # real chips survive
 
 

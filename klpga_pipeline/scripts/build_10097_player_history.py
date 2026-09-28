@@ -887,9 +887,22 @@ def _to_contribution_row(t: dict) -> dict:
 
 
 def _career_dna(evolution: dict, recon: dict) -> dict:
+    # MISSION V41 (2026-09-28), coach-eye pass: 'avg_total' is the SUM
+    # of the four real components below it, not a skill of its own --
+    # comparing it against its own parts for "most volatile" / "fastest
+    # growing" mechanically favors the aggregate almost every time (a
+    # sum of several moving parts moves more than any single one), so
+    # the page kept surfacing 'SG Total' as both answers, which tells a
+    # coach nothing about which actual skill is driving it. Only the
+    # four real components compete for these two labels; avg_total is
+    # excluded from the candidate pool (most_consistent already never
+    # picked it in practice, kept excluded here too for the same
+    # reason).
     stddevs = {}
     growth = {}
     for c, data in evolution.items():
+        if c == "avg_total":
+            continue
         vals = [pt["value"] for pt in data["series"]]
         if len(vals) >= 2:
             stddevs[c] = statistics.pstdev(vals)

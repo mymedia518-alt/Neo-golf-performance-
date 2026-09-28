@@ -98,7 +98,18 @@ def escape_safe(s: str) -> str:
 
 def test_recent_win_card_is_never_duplicated_as_the_latest_tournament_card():
     """If the most recent completed tournament is also the most recent
-    win, '최근 대회' must not repeat '최근 우승' word for word."""
+    win, '최근 대회' must not repeat '최근 우승' word for word.
+
+    MISSION V30 (2026-09-28) added a native SVG <title> hover tooltip
+    per chart point (real detail on demand, invisible until a viewer
+    hovers) -- it legitimately names the same real tournament again,
+    which is not the visible-paragraph duplication this test guards
+    against, so hover tooltip text is stripped before counting.
+
+    MISSION V40 (2026-09-28) wrapped the tournament name in a real
+    drill-down <a href="#t-..."> link (_tournament_link) -- the link
+    tags are stripped the same way before counting, since they wrap
+    the same visible text rather than repeating it."""
     doc, html = _doc_and_html()
     rows = doc["tournament_history"]
     wins = [r for r in rows if r["is_win"]]
@@ -108,7 +119,8 @@ def test_recent_win_card_is_never_duplicated_as_the_latest_tournament_card():
     latest = sg_rows[-1]
     start = html.index('id="ph-tournament-trend"')
     end = html.index("</details>", start)
-    section = html[start:end]
+    section = re.sub(r"<title>.*?</title>", "", html[start:end])
+    section = re.sub(r"</?a\b[^>]*>", "", section)
     if latest["game_code"] == latest_win["game_code"]:
         assert section.count(f'{escape_safe(latest["tournament"])} ({latest["season"]})') == 1
     else:

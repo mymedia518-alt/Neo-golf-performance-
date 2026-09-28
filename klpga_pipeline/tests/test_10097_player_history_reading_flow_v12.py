@@ -96,37 +96,48 @@ def test_worst_component_chip_in_career_form_story_is_colored_by_real_sign():
 def test_worst_season_chip_in_career_evolution_never_colored_red_when_value_is_positive():
     """The exact scenario this mission's fix targets: a player's weakest
     season can still be a genuinely positive SG Total, and must not be
-    painted red merely because it is labeled '최저 시즌'."""
+    painted red merely because it is labeled '최저 시즌'.
+
+    MISSION "PLAYER HISTORY V20" (2026-09-28) moved this fact from a
+    <span class="label-chip"> to a mark drawn directly on the season
+    evolution chart (_marked_trend_svg) -- the same real-sign rule now
+    applies to that mark's `fill` color instead of a chip class."""
+    import re
     doc, html = _doc_and_html()
     for metric in doc["career_evolution"].values():
         worst_raw = metric["worst_season"]["value"]
-        worst_season = metric["worst_season"]["season"]
         # scope the search to this metric's own block -- several metrics
         # can share the same worst_season year, so a page-wide find()
         # would match the wrong metric's chip
         label_idx = html.index(f'>{report.escape(metric["label"])}</p>')
         block_end = html.index("</div></div>", label_idx)
         block = html[label_idx:block_end]
-        needle = f"최저 시즌 {worst_season} ({report._fmt(worst_raw)})"
-        idx = block.index(needle)
-        tag_start = block.rindex("<span", 0, idx)
-        tag_end = block.index(">", tag_start)
-        chip_tag = block[tag_start:tag_end]
+        m = re.search(r'<text[^>]*fill="(#[0-9a-f]{6})"[^>]*>([^<]*최저[^<]*)</text>', block)
+        assert m, f"no '최저' mark found for {metric['label']}"
+        mark_color = m.group(1)
         if worst_raw < 0:
-            assert "label-chip--negative" in chip_tag
+            assert mark_color == "#9b493f", f"{metric['label']}'s worst season {worst_raw} is negative but mark color is {mark_color}, not red"
         else:
-            assert "label-chip--negative" not in chip_tag, f"{needle} is {worst_raw} (non-negative) but rendered red"
+            assert mark_color != "#9b493f", f"{metric['label']}'s worst season {worst_raw} is non-negative but mark color is red"
 
 
 def test_slump_chip_in_season_replay_is_colored_by_real_sign():
+    """MISSION V40 (2026-09-28): the slump tournament's name is now a
+    real drill-down link (_tournament_link) to its own row in the full
+    tournament table, so the needle allows for an optional wrapping
+    <a href="#t-..."> tag between the label and the (possibly escaped)
+    tournament name."""
+    import re
     doc, html = _doc_and_html()
     for row in doc["season_replay"]:
         slump = row.get("slump")
         if not slump:
             continue
-        needle = f'슬럼프: {slump["tournament"]}'.replace("&", "&amp;")
-        idx = html.find(needle)
-        assert idx != -1
+        escaped_name = report.escape(slump["tournament"])
+        pattern = re.escape("슬럼프: ") + r'(?:<a [^>]*>)?' + re.escape(escaped_name)
+        m = re.search(pattern, html)
+        assert m, f"no slump chip found for {slump['tournament']}"
+        idx = m.start()
         tag_start = html.rindex("<span", 0, idx)
         tag_end = html.index(">", tag_start)
         chip_tag = html[tag_start:tag_end]
