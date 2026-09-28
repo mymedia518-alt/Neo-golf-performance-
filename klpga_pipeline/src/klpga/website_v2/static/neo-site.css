@@ -602,6 +602,28 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .ph-trust-line{margin:.5rem 0 0;color:var(--green);font-size:.82rem;font-weight:750}
 .ph-trust-line::before{content:"✓ ";font-weight:800}
 
+/* MISSION V50 (2026-09-28): the one small trust block left at the
+   bottom of Player History once every technical section moved to the
+   separate Data Quality Report -- four real numbers, no pipeline
+   vocabulary, one link out for anyone who wants the technical detail. */
+.ph-trust-block{background:var(--panel);padding:1.4rem 1.2rem;margin-top:.5rem;text-align:center}
+.ph-trust-block-title{font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--muted);margin:0 0 .8rem}
+.ph-trust-headline{display:flex;align-items:baseline;justify-content:center;gap:.5rem;margin-bottom:1rem}
+.ph-trust-headline-num{font-size:2.2rem;font-weight:800;color:var(--green);line-height:1}
+.ph-trust-headline-lbl{font-size:.85rem;color:var(--muted)}
+.ph-trust-stats{display:flex;justify-content:center;gap:1.8rem;flex-wrap:wrap;margin-bottom:1rem}
+.ph-trust-stat{display:flex;flex-direction:column;align-items:center}
+.ph-trust-stat-num{font-size:1.3rem;font-weight:750;color:var(--ink)}
+.ph-trust-stat-lbl{font-size:.72rem;color:var(--muted);margin-top:.15rem}
+.ph-trust-link{font-size:.82rem;font-weight:700;color:var(--green)}
+
+/* MISSION V50: the Data Quality Report page shell -- same base
+   typography as Player History (.ph-page), a distinct small header so
+   it never reads as a continuation of the product page. */
+.ph-dq-header{padding:1.4rem 0 .6rem}
+.ph-dq-back{margin:.6rem 0 0}
+.ph-dq-back a{font-size:.85rem;font-weight:700;color:var(--green)}
+
 /* MISSION V12 (2026-09-25): a collapsed section on this page (a plain
    <details> with no `open` attribute) rendered as a bare green heading
    with nothing visibly below it -- .evidence-detail summary's own

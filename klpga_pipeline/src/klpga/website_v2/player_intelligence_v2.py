@@ -386,7 +386,10 @@ def build_or_placeholder(
 
         history_doc = load_player_history(player_id)
         if history_doc is not None:
-            return render_player_history_html(history_doc, prev_link=prev_link, next_link=next_link)
+            return render_player_history_html(
+                history_doc, prev_link=prev_link, next_link=next_link,
+                data_quality_url=f"/player/{player_id}/data-quality/",
+            )
     elif str(player_id) == "9431":
         from klpga.website_v2.player_intelligence_9431_report import load_report_cached, render_question_report_html
 
