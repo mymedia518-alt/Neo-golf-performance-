@@ -29,7 +29,7 @@ _spec = importlib.util.spec_from_file_location("build_10097_player_history", ROO
 build_script = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(build_script)
 
-from klpga.website_v2 import player_history_10097_report as report  # noqa: E402
+from klpga.website_v2 import player_history_report as report  # noqa: E402
 
 
 def _doc_and_html():
@@ -143,7 +143,7 @@ def test_worst_skill_is_never_called_a_decline_when_the_real_delta_is_positive()
         if s.get("worst_delta") is not None and s["worst_delta"] >= 0:
             # this stage's own sentence must not say "가장 부진했습니다" (declined)
             pass  # cross-checked below via the narrative function directly
-    from klpga.website_v2.player_history_10097_report import _stage_narrative
+    from klpga.website_v2.player_history_report import _stage_narrative
     for s in story:
         sentence = _stage_narrative(s)
         if s.get("worst_delta") is not None and s["worst_delta"] >= 0:

@@ -1,7 +1,7 @@
 """PLAYER HISTORY GOLD STANDARD V1 -- playerCode=10097 only.
 
 Covers scripts/build_10097_player_history.py (real-data-only builder)
-and src/klpga/website_v2/player_history_10097_report.py (renderer).
+and src/klpga/website_v2/player_history_report.py (renderer).
 Player Intelligence is no longer the goal for this player -- these
 tests check the new history report, not the old question-organized one.
 """
@@ -21,7 +21,7 @@ _spec = importlib.util.spec_from_file_location("build_10097_player_history", ROO
 build_script = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(build_script)
 
-from klpga.website_v2 import player_history_10097_report as report  # noqa: E402
+from klpga.website_v2 import player_history_report as report  # noqa: E402
 
 _SPECULATIVE_WORDS = ("아마", "추정됩니다", "추측", "예상됩니다", "가능성이 높습니다", "확인할 수 없습니다")
 

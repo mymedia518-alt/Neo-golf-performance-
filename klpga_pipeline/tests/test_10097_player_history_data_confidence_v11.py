@@ -26,7 +26,7 @@ _spec = importlib.util.spec_from_file_location("build_10097_player_history", ROO
 build_script = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(build_script)
 
-from klpga.website_v2 import player_history_10097_report as report  # noqa: E402
+from klpga.website_v2 import player_history_report as report  # noqa: E402
 
 _INTERNAL_LABELS = ("MEASURED", "DERIVED", "IMPUTED", "NOT_COLLECTED", "NOT_AVAILABLE")
 

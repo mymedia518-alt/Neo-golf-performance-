@@ -1,8 +1,15 @@
-"""Korean terminology for the NEO PLAYER PROFILE V2 report
-(playerCode=10097 / 김민선7 only). Not a database viewer, not a
-warehouse browser, not a report -- a profile a golfer can read in 30
-seconds and understand "what kind of player is this, right now?" Not
-a reusable framework.
+"""Korean terminology for the NEO PLAYER PROFILE V2 report. Not a
+database viewer, not a warehouse browser, not a report -- a profile a
+golfer can read in 30 seconds and understand "what kind of player is
+this, right now?"
+
+MISSION "PLAYER COMPARISON, ARCHITECTURE FIRST" (2026-09-28): every
+label below is generic UI copy (a section title, a column header, a
+template sentence with real values interpolated in) -- none of it was
+ever a fact about playerCode=10097 specifically, so nothing in this
+file needed to change to serve any other player through the same
+engine (player_history_report.py). Kim Min-seon 7's own facts live only
+in her real PLAYER_HISTORY.json, never here.
 
 MISSION NEO PLAYER PROFILE V2 (2026-09-27) replaced the earlier NEO
 PLAYER BIOGRAPHY V4 11-section numbering with an 8-question flow.

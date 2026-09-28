@@ -1,29 +1,39 @@
-"""PLAYER HISTORY GOLD STANDARD V1 renderer -- playerCode=10097 only.
+"""PLAYER HISTORY GOLD STANDARD V1 renderer -- the generic engine.
 
-Player Intelligence is no longer the goal for this player: this renders
-a dense, table/chart-first career archive from
-scripts/build_10097_player_history.py's real-data-only JSON. History
-first, explanation second, speculation never -- this renderer adds no
-new claims, it only formats what the builder already verified. Not a
-reusable framework; scoped to this one player.
-"""
+Renders a dense, table/chart-first career archive from a real
+PLAYER_HISTORY.json-shaped doc (playerCode=10097's is built by
+scripts/build_10097_player_history.py). History first, explanation
+second, speculation never -- this renderer adds no new claims, it only
+formats what the builder already verified.
+
+MISSION "PLAYER COMPARISON, ARCHITECTURE FIRST" (2026-09-28): "Kim
+Min-seon 7 is no longer the goal. She is the template." Every function
+below already took its data as plain arguments (doc, rows, values) --
+the one real player-10097-specific thing left in this module was its
+own hardcoded loading path, now replaced by player_provider.py's
+generic load_player_history(player_code). render_player_history_html()
+itself is unchanged: pure function, doc in, HTML out, works for any
+player whose doc has this shape. This is a pure reorganization -- the
+rendered output for playerCode=10097 is unchanged (verified byte-for-
+byte against the pre-refactor build)."""
 from __future__ import annotations
 
-import json
 from html import escape
-from pathlib import Path
 from typing import Optional
 
-from klpga.tournament_context import CONTENT_DIR
-from klpga.website_v2 import player_history_10097_terms as terms
-
-REPORT_PATH = CONTENT_DIR / "knowledge_engine" / "player_intelligence" / "10097" / "PLAYER_HISTORY.json"
+from klpga.website_v2 import player_history_terms as terms
+from klpga.website_v2.player_provider import load_player_history
 
 
-def load_report_cached() -> Optional[dict]:
-    if not REPORT_PATH.exists():
-        return None
-    return json.loads(REPORT_PATH.read_text(encoding="utf-8"))
+def load_report_cached(player_code: str = "10097") -> Optional[dict]:
+    """Back-compat shim over player_provider.load_player_history --
+    kept so nothing importing this name has to change, but the default
+    player_code arg exists only for that reason. New call sites should
+    call player_provider.load_player_history(player_code) directly, or
+    go through PlayerProvider(player_code).history() (the same
+    function, for a caller that wants a named object -- e.g. Compare
+    Mode, which holds one provider per player)."""
+    return load_player_history(player_code)
 
 
 def _chip(text: str, positive: bool = False, negative: bool = False) -> str:
@@ -320,7 +330,10 @@ def _radar_svg_overlay(axes_a: list, axes_b: list, label_a: str, label_b: str, s
     )
 
 
-def _trend_svg_by_index(values: list, markers: list, seasons: Optional[list] = None, hover: Optional[list] = None, width: int = 640, height: int = 118) -> str:
+def _trend_svg_by_index(
+    values: list, markers: list, seasons: Optional[list] = None, hover: Optional[list] = None,
+    width: int = 640, height: int = 118, compare: Optional[dict] = None,
+) -> str:
     """Chronological performance trend (x = tournament order, never
     rank -- equal spacing means equal chronological step, not equal
     performance). markers[i] in {'win','top10',None} highlights wins
@@ -338,10 +351,24 @@ def _trend_svg_by_index(values: list, markers: list, seasons: Optional[list] = N
     Finish.' This site renders no client-side script anywhere (see
     every other chart on this page), so real interactivity means the
     browser's OWN native SVG <title> tooltip, not invented JS --
-    `hover[i]` is one already-formatted real detail string per point."""
+    `hover[i]` is one already-formatted real detail string per point.
+
+    MISSION "PLAYER COMPARISON, ARCHITECTURE FIRST" (2026-09-28):
+    'render the SAME visualization with another player using the
+    identical scale, identical time axis, identical colors, identical
+    calculations.' `compare`, when given, is a second real series
+    {"values": [...], "markers": [...], "hover": [...] (optional),
+    "label": "..."} plotted on this exact same primitive -- same y
+    scale (computed across BOTH series, so neither is silently
+    rescaled relative to the other), same win/top10 semantic dot
+    colors, same x step. This is the only trend-chart function in the
+    engine; `compare=None` (the default, every existing single-player
+    call site) is byte-identical to this function before this
+    parameter existed -- verified against the pre-refactor build."""
     if len(values) < 2:
         return ""
-    lo, hi = min(values), max(values)
+    all_values = list(values) + (list(compare["values"]) if compare else [])
+    lo, hi = min(all_values), max(all_values)
     span = (hi - lo) or 1.0
     top_pad, bottom_pad, pad = 16, (18 if seasons else 6), 6
     plot_h = height - top_pad - bottom_pad
@@ -396,9 +423,34 @@ def _trend_svg_by_index(values: list, markers: list, seasons: Optional[list] = N
             f'paint-order="stroke" stroke="#f4f6f4" stroke-width="3">{tag} {values[i]:+.2f}</text>'
         )
 
+    compare_svg = ""
+    if compare:
+        c_values = compare["values"]
+        c_markers = compare.get("markers") or [None] * len(c_values)
+        c_hover = compare.get("hover")
+        c_n = len(c_values)
+        c_step = (width - 2 * pad) / (c_n - 1) if c_n > 1 else 0
+        c_pts = [(pad + i * c_step, top_pad + plot_h - ((v - lo) / span) * plot_h) for i, v in enumerate(c_values)]
+        c_path = " ".join(f"{x:.1f},{y:.1f}" for x, y in c_pts)
+        c_dots = []
+        for i, ((x, y), m) in enumerate(zip(c_pts, c_markers)):
+            c_title = f'<title>{escape(c_hover[i])}</title>' if c_hover else ""
+            if m == "win":
+                c_dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="#c98a1a" stroke="#7a5610" stroke-width="1" fill-opacity="0.85">{c_title}</circle>')
+            elif m == "top10":
+                c_dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="#0f5c46" fill-opacity="0.85">{c_title}</circle>')
+            else:
+                c_dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.6" fill="#9db3a8" fill-opacity="0.85">{c_title}</circle>')
+        # a dashed, distinctly-colored line keeps the second player's
+        # trend visually separable from the primary -- win/top10 dots
+        # stay the SAME semantic colors as the primary series (gold/
+        # green), per "identical colors" for what a color MEANS.
+        compare_svg = f'<polyline points="{c_path}" fill="none" stroke="#5a3d8a" stroke-width="1.5" stroke-dasharray="5 3"/>{"".join(c_dots)}'
+
+    aria = f'{escape(compare.get("label", ""))} 비교' if compare else "대회별 SG Total 추세 (시간순)"
     return (
-        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="대회별 SG Total 추세 (시간순)">'
-        f'{"".join(axis)}<polyline points="{path}" fill="none" stroke="#0f5c46" stroke-width="1.5"/>{"".join(dots)}{"".join(marks)}</svg>'
+        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="{aria}">'
+        f'{"".join(axis)}<polyline points="{path}" fill="none" stroke="#0f5c46" stroke-width="1.5"/>{"".join(dots)}{"".join(marks)}{compare_svg}</svg>'
     )
 
 

@@ -373,14 +373,18 @@ def build_or_placeholder(
 
     playerCode=10097 is a further special case: Player Intelligence is
     no longer the goal for this player (PLAYER HISTORY GOLD STANDARD V1
-    mission) -- it renders through player_history_10097_report.py's
-    dense, verified-data-only career archive instead. If neither report
-    file has been built yet, falls through to the ordinary path
-    unchanged (never a missing page)."""
+    mission) -- it renders through player_history_report.py's dense,
+    verified-data-only career archive instead. That renderer is the
+    generic engine (MISSION "PLAYER COMPARISON, ARCHITECTURE FIRST"):
+    it works for any player_id whose PLAYER_HISTORY.json has been
+    built, not only 10097 -- this branch just documents that 10097 is
+    the only one built so far. If no report has been built yet, falls
+    through to the ordinary path unchanged (never a missing page)."""
     if str(player_id) == "10097":
-        from klpga.website_v2.player_history_10097_report import load_report_cached, render_player_history_html
+        from klpga.website_v2.player_history_report import render_player_history_html
+        from klpga.website_v2.player_provider import load_player_history
 
-        history_doc = load_report_cached()
+        history_doc = load_player_history(player_id)
         if history_doc is not None:
             return render_player_history_html(history_doc, prev_link=prev_link, next_link=next_link)
     elif str(player_id) == "9431":
