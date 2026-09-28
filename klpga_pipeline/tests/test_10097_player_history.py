@@ -184,14 +184,18 @@ def test_render_produces_all_eleven_biography_sections_plus_hole_history():
     former's season table now lives inside Career Story's tail
     (_season_table_html, called from _career_story_html), and the
     latter's milestones are re-bucketed into Career Story's backwards
-    chapters (_career_story) instead of a separate forward list."""
+    chapters (_career_story) instead of a separate forward list.
+
+    MISSION V41 (2026-09-28): ph-player-evolution and ph-career-dna are
+    deleted / folded elsewhere (see test_10097_player_history_explorer_
+    v41.py) -- dropped from this list."""
     doc = build_script.build()
     html = report.render_player_history_html(doc)
     for section_id in [
         "ph-current-form", "ph-why-now", "ph-recent-form", "ph-player-identity",
         "ph-career-story", "ph-career-evolution", "ph-season-replay",
-        "ph-tournament-history", "ph-round-history", "ph-player-evolution",
-        "ph-course-profile", "ph-career-dna", "ph-hole-history", "ph-not-available",
+        "ph-tournament-history", "ph-round-history",
+        "ph-course-profile", "ph-hole-history", "ph-not-available",
     ]:
         assert f'id="{section_id}"' in html, f"missing section {section_id}"
 
@@ -227,16 +231,6 @@ def test_round_history_never_shows_the_same_round_as_two_different_cards():
     cards = re.findall(r"<strong>([^<]+)</strong>\s*([^<]+)", section)
     details = [c[1].strip() for c in cards]
     assert len(details) == len(set(details)), f"duplicate round card content: {details}"
-
-
-def test_player_evolution_never_shows_the_same_delta_as_two_different_cards():
-    doc = build_script.build()
-    html = report.render_player_history_html(doc)
-    start = html.index('id="ph-player-evolution"')
-    end = html.index("</details>", start)
-    section = html[start:end]
-    items = re.findall(r"<li><strong>[^<]+</strong>\s*—\s*([^<]+)</li>", section)
-    assert len(items) == len(set(items)), f"duplicate evolution finding: {items}"
 
 
 def test_9431_is_unaffected_by_the_10097_player_history_switch():

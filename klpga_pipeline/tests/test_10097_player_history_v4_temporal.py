@@ -127,10 +127,13 @@ def test_no_new_top_level_section_was_added():
     assert "<h2>" not in section
 
 
-def test_named_windows_render_inside_season_replay_not_as_new_section():
+def test_season_tournament_chart_renders_inside_season_replay_not_as_new_section():
+    """MISSION V30 (2026-09-28) removed named_windows (a 3-point chart)
+    entirely -- replaced by a real per-tournament chart, still nested
+    inside #ph-season-replay, never its own top-level section."""
     doc, html = _doc_and_html()
     start = html.index('id="ph-season-replay"')
     end = html.index("</details>", start)
     section = html[start:end]
-    assert "처음 5개" in section
-    assert "최근 5개" in section
+    assert "<svg" in section
+    assert '<details class="evidence-detail pi-section" id="ph-season-tournament' not in html

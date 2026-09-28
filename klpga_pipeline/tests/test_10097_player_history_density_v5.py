@@ -62,11 +62,13 @@ def test_career_average_sg_total_is_stated_once_not_twice():
 
 def test_career_dna_no_longer_repeats_player_identity():
     """career_foundation/winning_foundation/most_consistent_component
-    are narrated in #4 Player Identity -- #10's DNA summary must not
-    restate them a second time as a checklist."""
+    are narrated in #4 Player Identity -- the DNA summary (folded into
+    #ph-player-dna-radar's own caption as of MISSION V41, no longer a
+    standalone #ph-career-dna checklist) must not restate them."""
     doc, html = _doc_and_html()
     dna = doc["career_dna"]
-    start = html.index('id="ph-career-dna"')
+    assert 'id="ph-career-dna"' not in html
+    start = html.index('id="ph-player-dna-radar"')
     end = html.index("</details>", start)
     section = html[start:end]
     if dna.get("career_foundation"):

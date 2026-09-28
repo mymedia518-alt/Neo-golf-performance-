@@ -29,6 +29,7 @@ values are shown.
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -59,6 +60,10 @@ def test_section1_hero_has_no_multi_chip_row_only_bare_stats_and_one_trend_arrow
 
 
 def test_section2_arrow_grid_has_exactly_four_cards_no_text_chips():
+    """MISSION V41 (2026-09-28) added an optional '가장 덜 개선' tag
+    inside the weakest card's own label div (the page's answer to
+    'what is the current weakness?') -- the label match allows for it,
+    since it's still exactly one label per card, no new chip/card."""
     doc, html = _doc_and_html()
     start = html.index('id="ph-why-now"')
     end = html.index("</details>", start)
@@ -67,7 +72,7 @@ def test_section2_arrow_grid_has_exactly_four_cards_no_text_chips():
     assert section.count('class="ph-arrow-card') == 4
     for a in doc["why_now"]["arrows"]:
         short = a["component"].removeprefix("SG ")
-        assert f'<div class="ph-arrow-lbl">{short}</div>' in section
+        assert re.search(rf'<div class="ph-arrow-lbl">{re.escape(short)}(<span class="ph-arrow-weakest-tag">[^<]*</span>)?</div>', section)
 
 
 def test_section3_is_one_flat_dot_strip_with_a_countless_legend():

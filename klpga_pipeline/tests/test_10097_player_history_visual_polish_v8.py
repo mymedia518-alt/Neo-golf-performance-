@@ -51,7 +51,7 @@ def test_whole_page_is_wrapped_for_css_scoping():
 
 def test_subordinate_open_sections_carry_the_demotion_class():
     _, html = _doc_and_html()
-    for section_id in ("ph-season-replay", "ph-player-evolution", "ph-hole-history"):
+    for section_id in ("ph-season-replay", "ph-career-evolution", "ph-hole-history"):
         start = html.index(f'id="{section_id}"')
         tag_start = html.rindex("<details", 0, start)
         tag_end = html.index(">", start)

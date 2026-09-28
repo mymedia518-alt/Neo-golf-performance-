@@ -46,6 +46,37 @@ def _chip(text: str, positive: bool = False, negative: bool = False) -> str:
     return f'<span class="{cls}">{escape(str(text))}</span>'
 
 
+def _chip_raw(inner_html: str, positive: bool = False, negative: bool = False) -> str:
+    """MISSION V40 (2026-09-28): same shell as _chip(), for the rare
+    chip that must contain real markup (a drill-down <a> link) instead
+    of plain text. The caller is responsible for escaping every
+    dynamic piece inside `inner_html` itself -- _chip() remains the
+    default for a plain string, since it escapes automatically."""
+    if negative:
+        cls = "label-chip label-chip--negative"
+    elif positive:
+        cls = "label-chip label-chip--positive"
+    else:
+        cls = "label-chip"
+    return f'<span class="{cls}">{inner_html}</span>'
+
+
+def _tournament_link(name: str, game_code: Optional[str]) -> str:
+    """MISSION V40 (2026-09-28): 'Every visualization must also be a
+    navigation object... Career -> Season -> Tournament -> Round ->
+    Hole.' Every place a specific real tournament is named becomes a
+    real <a href="#t-{game_code}"> jump to that tournament's own row in
+    the full tournament table (_tournament_table_html, which anchors
+    every row by its real game_code) -- zero client-side script; a
+    browser natively opens a closed <details> when navigating to an
+    anchor inside it. Falls back to plain escaped text when no real
+    game_code is available for this mention."""
+    safe_name = escape(name)
+    if not game_code:
+        return safe_name
+    return f'<a href="#t-{escape(str(game_code))}">{safe_name}</a>'
+
+
 _NO_DATA = "—"  # em dash -- the one and only "not measured" glyph used in rendered output
 
 
@@ -79,6 +110,114 @@ def _sparkline_svg(values: list, width: int = 200, height: int = 40) -> str:
     return (
         f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="추세선">'
         f'<polyline points="{path}" fill="none" stroke="#0f5c46" stroke-width="2"/>{dots}</svg>'
+    )
+
+
+def _marked_trend_svg(
+    values: list,
+    *,
+    width: int = 640,
+    height: int = 150,
+    marks: Optional[dict] = None,
+    x_labels: Optional[dict] = None,
+    baseline: Optional[float] = None,
+    baseline_label: str = "",
+) -> str:
+    """MISSION "PLAYER HISTORY V20" (2026-09-28): 'Every trend graph
+    should show direction, volatility, turning point, latest value,
+    best value, worst value, season markers.' One chart primitive for
+    every trend on this page -- replaces the bare axis-free sparkline
+    with a real line chart: direction is the line's own color (green
+    if the series ends at or above where it started, red otherwise),
+    `marks` labels any already-computed points worth calling out
+    (best/worst/latest/turning point -- the caller decides which,
+    never invented here), `x_labels` draws real season-boundary ticks
+    along the bottom, `baseline` draws a real reference value (e.g.
+    the career average) as a dashed line. No value plotted here is
+    computed by this function -- it only lays out numbers the caller
+    already has."""
+    if len(values) < 2:
+        return ""
+    marks = marks or {}
+    x_labels = x_labels or {}
+    lo, hi = min(values + ([baseline] if baseline is not None else [])), max(values + ([baseline] if baseline is not None else []))
+    span = (hi - lo) or 1.0
+    top_pad, bottom_pad, side_pad = 22, (20 if x_labels else 8), 8
+    plot_h = height - top_pad - bottom_pad
+    n = len(values)
+    step = (width - 2 * side_pad) / (n - 1)
+
+    def _xy(i, v):
+        x = side_pad + i * step
+        y = top_pad + plot_h - ((v - lo) / span) * plot_h
+        return x, y
+
+    direction_color = "#0f5c46" if values[-1] >= values[0] else "#9b493f"
+    pts = [_xy(i, v) for i, v in enumerate(values)]
+    path = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+
+    parts = []
+    if baseline is not None:
+        by = _xy(0, baseline)[1]
+        parts.append(
+            f'<line x1="{side_pad}" y1="{by:.1f}" x2="{width - side_pad}" y2="{by:.1f}" '
+            'stroke="#8a988f" stroke-width="1" stroke-dasharray="3 3"/>'
+        )
+        if baseline_label:
+            parts.append(f'<text x="{width - side_pad}" y="{by - 4:.1f}" font-size="10" fill="#5d6964" text-anchor="end">{escape(baseline_label)}</text>')
+
+    if x_labels:
+        axis_y = top_pad + plot_h
+        parts.append(f'<line x1="{side_pad}" y1="{axis_y:.1f}" x2="{width - side_pad}" y2="{axis_y:.1f}" stroke="#d5ddd7" stroke-width="1"/>')
+        for i, label in sorted(x_labels.items()):
+            x = _xy(i, values[i])[0]
+            # text-anchor="middle" clips the first/last tick label
+            # against the viewBox edge (e.g. "2023" rendering as
+            # ":023") -- anchor start/end at the two ends, same fix
+            # already used for the mark labels below.
+            tick_anchor = "start" if x < side_pad + 20 else ("end" if x > width - side_pad - 20 else "middle")
+            parts.append(f'<line x1="{x:.1f}" y1="{axis_y:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
+            parts.append(f'<text x="{x:.1f}" y="{axis_y + 15:.1f}" font-size="10" fill="#5d6964" text-anchor="{tick_anchor}">{escape(str(label))}</text>')
+
+    parts.append(f'<polyline points="{path}" fill="none" stroke="{direction_color}" stroke-width="2"/>')
+    for x, y in pts:
+        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2" fill="{direction_color}" fill-opacity="0.55"/>')
+
+    prev_x = None
+    prev_ly = None
+    prev_below = None
+    for i, m in sorted(marks.items()):
+        if i < 0 or i >= n:
+            continue
+        x, y = pts[i]
+        color = m.get("color", direction_color)
+        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" stroke="#fff" stroke-width="1.5"/>')
+        label = m.get("label", "")
+        if label:
+            # two marks close together on the x-axis (e.g. adjacent
+            # slump/recovery windows, or peak/latest a few windows
+            # apart) crowd their labels if both use the default near-
+            # point offset -- once a neighbor is closer than ~45px,
+            # stack this one further out in the SAME direction as the
+            # previous label instead of re-anchoring to its own point
+            # (flipping to the opposite side of a point near the plot
+            # edge just trades one collision, with the axis, for
+            # another).
+            if prev_x is not None and abs(x - prev_x) < 45:
+                below = prev_below
+                ly = prev_ly + 13 if below else prev_ly - 13
+            else:
+                below = y < top_pad + 14
+                ly = y + 15 if below else y - 9
+            anchor = "start" if x < side_pad + 24 else ("end" if x > width - side_pad - 24 else "middle")
+            prev_x, prev_ly, prev_below = x, ly, below
+            parts.append(
+                f'<text x="{x:.1f}" y="{ly:.1f}" font-size="10.5" font-weight="700" fill="{color}" text-anchor="{anchor}">{escape(label)}</text>'
+            )
+
+    return (
+        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="추세 그래프">'
+        f'{"".join(parts)}</svg>'
     )
 
 
@@ -181,35 +320,85 @@ def _radar_svg_overlay(axes_a: list, axes_b: list, label_a: str, label_b: str, s
     )
 
 
-def _trend_svg_by_index(values: list, markers: list, width: int = 640, height: int = 90) -> str:
+def _trend_svg_by_index(values: list, markers: list, seasons: Optional[list] = None, hover: Optional[list] = None, width: int = 640, height: int = 118) -> str:
     """Chronological performance trend (x = tournament order, never
     rank -- equal spacing means equal chronological step, not equal
     performance). markers[i] in {'win','top10',None} highlights wins
-    and top10s distinctly from ordinary finishes."""
+    and top10s distinctly from ordinary finishes.
+
+    MISSION "PLAYER HISTORY V20" (2026-09-28): 'latest value, best
+    value, worst value, season markers' -- her single best and worst
+    real SG Total in this chronological series are labeled directly on
+    the line (already-computed values, just min()/max() over what is
+    already plotted, no new metric), and `seasons` (real per-
+    tournament season already on every row) draws real season-boundary
+    ticks along the bottom, same as the other rebuilt charts.
+
+    MISSION V30 (2026-09-28): 'Hover -> Tournament / Round / SG /
+    Finish.' This site renders no client-side script anywhere (see
+    every other chart on this page), so real interactivity means the
+    browser's OWN native SVG <title> tooltip, not invented JS --
+    `hover[i]` is one already-formatted real detail string per point."""
     if len(values) < 2:
         return ""
     lo, hi = min(values), max(values)
     span = (hi - lo) or 1.0
-    pad = 6
+    top_pad, bottom_pad, pad = 16, (18 if seasons else 6), 6
+    plot_h = height - top_pad - bottom_pad
     n = len(values)
     step = (width - 2 * pad) / (n - 1)
     pts = []
     for i, v in enumerate(values):
         x = pad + i * step
-        y = height - pad - ((v - lo) / span) * (height - 2 * pad)
+        y = top_pad + plot_h - ((v - lo) / span) * plot_h
         pts.append((x, y))
     path = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
     dots = []
-    for (x, y), m in zip(pts, markers):
+    for i, ((x, y), m) in enumerate(zip(pts, markers)):
+        title = f'<title>{escape(hover[i])}</title>' if hover else ""
         if m == "win":
-            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="#c98a1a" stroke="#7a5610" stroke-width="1"/>')
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="4.5" fill="#c98a1a" stroke="#7a5610" stroke-width="1">{title}</circle>')
         elif m == "top10":
-            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="#0f5c46"/>')
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="#0f5c46">{title}</circle>')
         else:
-            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.6" fill="#9db3a8"/>')
+            dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.6" fill="#9db3a8">{title}</circle>')
+
+    axis = []
+    if seasons:
+        axis_y = top_pad + plot_h
+        axis.append(f'<line x1="{pad}" y1="{axis_y:.1f}" x2="{width - pad}" y2="{axis_y:.1f}" stroke="#d5ddd7" stroke-width="1"/>')
+        seen: set = set()
+        for i, s in enumerate(seasons):
+            if s in seen:
+                continue
+            seen.add(s)
+            x = pts[i][0]
+            tick_anchor = "start" if x < pad + 20 else ("end" if x > width - pad - 20 else "middle")
+            axis.append(f'<line x1="{x:.1f}" y1="{axis_y:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
+            axis.append(f'<text x="{x:.1f}" y="{axis_y + 15:.1f}" font-size="10" fill="#5d6964" text-anchor="{tick_anchor}">{escape(str(s))}</text>')
+
+    best_i, worst_i = max(range(n), key=lambda i: values[i]), min(range(n), key=lambda i: values[i])
+    marks = []
+    for i, color, tag in ((best_i, "#0f5c46", "최고"), (worst_i, "#9b493f", "최저")):
+        x, y = pts[i]
+        marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" stroke="#fff" stroke-width="1.5"/>')
+        below = y < top_pad + 12
+        ly = y + 14 if below else y - 8
+        anchor = "start" if x < pad + 20 else ("end" if x > width - pad - 20 else "middle")
+        # MISSION V41 (2026-09-28), coach-eye pass: with up to 96 real
+        # points compressed into one chart, this label can sit close
+        # enough to a *different* real point's own dot (not its own) to
+        # become hard to read against it -- a white halo (paint-order
+        # puts the stroke behind the fill) keeps the label legible
+        # wherever it lands, without moving or hiding any real dot.
+        marks.append(
+            f'<text x="{x:.1f}" y="{ly:.1f}" font-size="10.5" font-weight="700" fill="{color}" text-anchor="{anchor}" '
+            f'paint-order="stroke" stroke="#f4f6f4" stroke-width="3">{tag} {values[i]:+.2f}</text>'
+        )
+
     return (
         f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="대회별 SG Total 추세 (시간순)">'
-        f'<polyline points="{path}" fill="none" stroke="#0f5c46" stroke-width="1.5"/>{"".join(dots)}</svg>'
+        f'{"".join(axis)}<polyline points="{path}" fill="none" stroke="#0f5c46" stroke-width="1.5"/>{"".join(dots)}{"".join(marks)}</svg>'
     )
 
 
@@ -230,7 +419,18 @@ def _season_table_html(co: dict) -> str:
             v = r[c]
             cells.append(f"<td>{_fmt(v) if isinstance(v, float) else v}</td>")
         body_rows.append(f"<tr>{''.join(cells)}</tr>")
-    table = f'<div class="table-scroll"><table class="data-table"><thead><tr>{header}</tr></thead><tbody>{"".join(body_rows)}</tbody></table></div>'
+    table_inner = f'<div class="table-scroll"><table class="data-table"><thead><tr>{header}</tr></thead><tbody>{"".join(body_rows)}</tbody></table></div>'
+    # MISSION "PLAYER HISTORY V20" (2026-09-28): 'No more tables. Tables
+    # should become graphics whenever possible.' Every metric this table
+    # carries (SG Total/OTT/APP/ARG/PUTT, wins, Top5/10/20) is now a
+    # real chart elsewhere on this page (Season Evolution, Momentum) --
+    # the exact numbers stay real and available, just nested behind a
+    # disclosure instead of sitting open as the primary view.
+    table = (
+        '<details class="ph-nested-detail">'
+        '<summary>시즌별 전체 기록 보기</summary>'
+        f'{table_inner}</details>'
+    )
 
     latest = co.get("latest_tournament") or {}
     latest_tournament_name = escape(latest.get("tournament", ""))
@@ -257,19 +457,6 @@ def _season_table_html(co: dict) -> str:
 _EVOLUTION_DISPLAY_ORDER = ["avg_total", "avg_ott", "avg_app", "avg_arg", "avg_putt"]
 
 
-def _delta_phrase_ko(delta: float) -> str:
-    """Golf-meaningful absolute-unit phrasing (RED TEAM mission G) --
-    never a percentage. A percentage change against a near-zero SG
-    baseline (e.g. SG ARG +0.15 -> +3115%) is mathematically possible
-    but analytically misleading, so it is never computed for display
-    here at all -- only the real stroke-unit delta and its direction."""
-    if delta > 0:
-        return f"{delta:.2f}타 개선"
-    if delta < 0:
-        return f"{abs(delta):.2f}타 하락"
-    return "변화 없음"
-
-
 def _career_evolution_html(evolution: dict) -> str:
     """V6 mission (2026-09-25): 'spend the entire mission deleting.' The
     season-to-season delta TABLE (e.g. '2023→2024: 0.16타 개선') said
@@ -278,35 +465,63 @@ def _career_evolution_html(evolution: dict) -> str:
     -- removing it does not make a reader understand her season-by-
     season trend any less, so it is gone. _delta_phrase_ko stays
     defined (still used elsewhere) even though this call site no
-    longer needs it."""
+    longer needs it.
+
+    MISSION "PLAYER HISTORY V20" (2026-09-28): 'Every trend graph
+    should show direction, ... latest value, best value, worst value,
+    season markers.' The peak/worst-season text chips this used to
+    show below a bare sparkline are now drawn directly ON the chart
+    (_marked_trend_svg) -- real season labels double as the x-axis, so
+    nothing about this player's four real seasons is invented, only
+    shown once instead of twice (as a mark on the line AND as a chip
+    beneath it). Peak/worst/latest can land on the same real season
+    (true for her SG Total, whose peak is also her current season) --
+    merged into one label rather than two overlapping dots.
+
+    MISSION V41 (2026-09-28): '15-second rule... no duplication.'
+    Season Replay (#ph-season-replay, just below) already shows the
+    same real season-by-season story per real tournament, richer (a
+    chart plus an SG-component heatmap) than these four per-metric
+    sparklines. Collapsed by default -- still real, still one click
+    away for a reader who wants the per-metric breakdown, but no
+    longer competing with the season replay for the same 15 seconds."""
     blocks = []
     for c in _EVOLUTION_DISPLAY_ORDER:
         data = evolution.get(c)
         if data is None:
             continue
-        values = [pt["value"] for pt in data["series"]]
-        spark = _sparkline_svg(values)
+        series = data["series"]
+        values = [pt["value"] for pt in series]
+        season_index = {pt["season"]: i for i, pt in enumerate(series)}
         peak_season, peak_raw = data["peak_season"]["season"], data["peak_season"]["value"]
         worst_season, worst_raw = data["worst_season"]["season"], data["worst_season"]["value"]
+        latest_idx = len(series) - 1
+        # MISSION V12: a "worst season" that is still a positive real
+        # number is not a warning -- its marker stays neutral, never red.
+        worst_color = "#9b493f" if worst_raw < 0 else "#5d6964"
+        candidates = [
+            (season_index[peak_season], "최고", _fmt(peak_raw), "#0f5c46"),
+            (season_index[worst_season], "최저", _fmt(worst_raw), worst_color),
+            (latest_idx, "현재", _fmt(values[latest_idx]), "#14201c"),
+        ]
+        marks: dict = {}
+        for idx, tag, val_text, color in candidates:
+            if idx in marks:
+                marks[idx]["label"] = f'{marks[idx]["label"].split(" ")[0]}·{tag} {val_text}'
+            else:
+                marks[idx] = {"label": f"{tag} {val_text}", "color": color}
+        x_labels = {i: pt["season"] for i, pt in enumerate(series)}
+        chart = _marked_trend_svg(values, width=560, height=140, marks=marks, x_labels=x_labels)
         direction_label = terms.DIRECTION_LABEL.get(data["current_direction"], data["current_direction"])
         blocks.append(
             '<div class="ph-evo-block">'
             f'<p class="piq-step-label piq-label-standalone">{escape(data["label"])}</p>'
-            f'{spark}'
-            '<div class="piq-audit">'
-            + _chip(f'최고 시즌 {peak_season} ({_fmt(peak_raw)})', positive=True)
-            # MISSION V12: "worst season" only reads as a genuine warning
-            # (red) when her real number that season was actually
-            # negative -- her weakest season can still be a solidly
-            # positive one, and coloring that red would be misleading,
-            # not merely "worst" among her own strong seasons.
-            + _chip(f'최저 시즌 {worst_season} ({_fmt(worst_raw)})', negative=worst_raw < 0)
-            + _chip(f'현재 방향: {direction_label}')
-            + "</div>"
-            + "</div>"
+            f'{chart}'
+            '<div class="piq-audit">' + _chip(f'현재 방향: {direction_label}') + '</div>'
+            "</div>"
         )
     return (
-        '<details class="evidence-detail pi-section pi-section--sub" id="ph-career-evolution" open>'
+        '<details class="evidence-detail pi-section pi-section--sub" id="ph-career-evolution">'
         f'<summary class="section-heading"><h2>{terms.PAGE2_TITLE}</h2></summary>'
         f'<div class="pi-section__body">{"".join(blocks)}</div></details>'
     )
@@ -316,61 +531,118 @@ def _career_evolution_html(evolution: dict) -> str:
 # PAGE 3 -- SEASON REPLAY
 # ---------------------------------------------------------------------------
 
-def _named_windows_html(nw: Optional[dict]) -> str:
-    """First-5 / Middle-5 / Last-5 real chronological windows for one
-    season (V4 mission: Season -> Season Window -> Tournament). Middle
-    is omitted with a disclosed reason when the season is too short to
-    isolate a non-overlapping middle window."""
-    if not nw:
+def _season_tournament_chart_svg(rows: list, width: int = 620) -> str:
+    """MISSION V30 (2026-09-28): 'NO MORE first five/middle five/last
+    five. Instead show Tournament 1, Tournament 2, ... If there are
+    only three values, do not draw a graph.' Real per-tournament SG
+    Total for every real tournament in one real season, chronological
+    -- the same _trend_svg_by_index primitive the full-career timeline
+    uses, scoped to one season, with hover detail on every point."""
+    trend_rows = [r for r in rows if r.get("sg_total") is not None]
+    if len(trend_rows) < 2:
         return ""
-    cells = []
-    for w in (nw["first"], nw["middle"], nw["last"]):
-        if w is None:
-            cells.append("<td>표본 부족</td>")
-            continue
-        avg = _fmt(w["avg_sg_total"]) if w["avg_sg_total"] is not None else _NO_DATA
-        cells.append(f'<td>{w["label"]}: SG {avg} (우승 {w["wins"]}, Top10 {w["top10"]})</td>')
-    note = f'<p class="piq-current-detail">{escape(nw["middle_unavailable_reason"])}</p>' if nw.get("middle_unavailable_reason") else ""
-    return (
-        '<div class="table-scroll"><table class="data-table"><thead><tr>'
-        '<th>처음 5개</th><th>중반 5개</th><th>최근 5개</th></tr></thead>'
-        f'<tbody><tr>{"".join(cells)}</tr></tbody></table></div>{note}'
-    )
+    values = [r["sg_total"] for r in trend_rows]
+    markers = ["win" if r["is_win"] else ("top10" if r["is_top10"] else None) for r in trend_rows]
+    hover = [f'{r["tournament"]} · 최종 {r["rank"]}위 · SG {_fmt(r["sg_total"])}' for r in trend_rows]
+    return _trend_svg_by_index(values, markers, hover=hover, width=width, height=100)
 
 
-def _season_replay_html(replays: list) -> str:
+def _season_skill_heatmap_svg(rows: list, width: int = 620) -> str:
+    """MISSION V30 (2026-09-28): 'Heatmaps replace many tables...
+    immediately visible.' Real per-tournament SG component breakdown
+    (already computed by the SG warehouse reconciliation this whole
+    document is built from) -- one real cell per real tournament per
+    component, color intensity scaled to that component's own real
+    range this season. Never a table, never an average."""
+    labeled = [r for r in rows if r.get("sg_components")]
+    if len(labeled) < 2:
+        return ""
+    comp_keys = [("ott", "OTT"), ("app", "APP"), ("arg", "ARG"), ("putt", "PUTT")]
+    row_h = 20
+    label_w = 40
+    n = len(labeled)
+    cell_w = max((width - label_w) / n, 4)
+    height = row_h * len(comp_keys) + 4
+    parts = []
+    for ri, (key, label) in enumerate(comp_keys):
+        vals = [r["sg_components"].get(key) for r in labeled if r["sg_components"].get(key) is not None]
+        vmax = max((abs(v) for v in vals), default=0) or 1.0
+        y = ri * row_h
+        parts.append(f'<text x="0" y="{y + row_h * 0.65:.1f}" font-size="10" fill="#3d4a43">{label}</text>')
+        for ci, r in enumerate(labeled):
+            v = r["sg_components"].get(key)
+            x = label_w + ci * cell_w
+            if v is None:
+                color = "#e5e9e6"
+                title = f'{r["tournament"]}: {label} 미수집'
+            else:
+                intensity = min(abs(v) / vmax, 1.0)
+                color = f'rgba(15,92,70,{0.15 + 0.75 * intensity:.2f})' if v >= 0 else f'rgba(155,73,63,{0.15 + 0.75 * intensity:.2f})'
+                title = f'{r["tournament"]}: {label} {_fmt(v)}'
+            parts.append(
+                f'<rect x="{x:.1f}" y="{y + 1:.1f}" width="{max(cell_w - 1, 2):.1f}" height="{row_h - 2}" fill="{color}">'
+                f'<title>{escape(title)}</title></rect>'
+            )
+    return f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="시즌 SG 구성 요소 히트맵">{"".join(parts)}</svg>'
+
+
+def _season_replay_html(replays: list, tournament_history: Optional[list] = None) -> str:
     """V6 mission (2026-09-25): the per-season quartile table (four
     columns of event-count + average SG) asked the same question the
     peak/slump chips already answer more precisely (this season's real
     best and worst tournaments), just at coarser resolution -- removing
     it does not make a reader understand a given season any less, so
-    it is gone. named_windows (First 5/Middle 5/Last 5) stays: it is
-    real chronological granularity the chips do not cover."""
+    it is gone.
+
+    MISSION V30 (2026-09-28): the First-5/Middle-5/Last-5 windows that
+    replaced that table (a 3-point line, exactly the 'wasted graph'
+    this mission bans) are gone too -- every real tournament in the
+    season now renders as its own point on a real chronological chart
+    (_season_tournament_chart_svg), plus a real per-tournament SG
+    component heatmap (_season_skill_heatmap_svg). tournament_history
+    is the same real, already-reconciled per-tournament list #7's
+    timeline uses -- filtered by season, nothing recomputed."""
+    tournament_history = tournament_history or []
     blocks = []
     for r in replays:
-        named_windows_html = _named_windows_html(r.get("named_windows"))
+        season_rows = [t for t in tournament_history if t.get("season") == r["season"]]
+        # MISSION V40 (2026-09-28): scoped to this season's own rows,
+        # so a repeated tournament name across two different seasons
+        # never resolves to the wrong game_code.
+        game_code_by_name = {t["tournament"]: t["game_code"] for t in season_rows}
+        season_chart = _season_tournament_chart_svg(season_rows)
+        heatmap = _season_skill_heatmap_svg(season_rows)
         recovery = r.get("recovery_next_event")
         if recovery:
-            recovery_tournament = escape(recovery["tournament"])
+            recovery_tournament = _tournament_link(recovery["tournament"], game_code_by_name.get(recovery["tournament"]))
             recovery_sg = _fmt(recovery["sg_total"])
             recovery_delta = recovery["delta_vs_slump"]
-            recovery_chip = _chip(f'슬럼프 직후: {recovery_tournament} {recovery_sg} ({recovery_delta:+.2f})')
+            recovery_chip = _chip_raw(f'슬럼프 직후: {recovery_tournament} {recovery_sg} ({recovery_delta:+.2f})')
         else:
             recovery_chip = _chip("슬럼프 직후 대회 없음 (시즌 마지막 대회)")
         volatility_chip = _chip(f'변동성(표준편차) {r["volatility_stddev"]}') if r["volatility_stddev"] is not None else ""
         top10_chip = _chip(f'상위10위율 {r["top10_rate_pct"]}%')
         peak = r.get("peak")
-        peak_chip = _chip(f'피크: {escape(peak["tournament"])} {_fmt(peak["sg_total"])}', positive=True) if peak else ""
+        peak_chip = (
+            _chip_raw(f'피크: {_tournament_link(peak["tournament"], game_code_by_name.get(peak["tournament"]))} {_fmt(peak["sg_total"])}', positive=True)
+            if peak else ""
+        )
         slump = r.get("slump")
         # MISSION V12: red only when the slump tournament's real SG
         # Total was actually negative -- her "slump" within a strong
         # season can still be a positive number, which red would
         # misrepresent as a bad round.
-        slump_chip = _chip(f'슬럼프: {escape(slump["tournament"])} {_fmt(slump["sg_total"])}', negative=slump["sg_total"] < 0) if slump else ""
+        slump_chip = (
+            _chip_raw(
+                f'슬럼프: {_tournament_link(slump["tournament"], game_code_by_name.get(slump["tournament"]))} {_fmt(slump["sg_total"])}',
+                negative=slump["sg_total"] < 0,
+            )
+            if slump else ""
+        )
         blocks.append(
             '<div class="ph-evo-block">'
             f'<p class="piq-step-label piq-label-standalone">{r["season"]}시즌 ({r["event_count"]}개 대회)</p>'
-            f'{named_windows_html}'
+            f'{season_chart}{heatmap}'
             '<div class="piq-audit">'
             + volatility_chip + top10_chip + peak_chip + slump_chip + recovery_chip
             + "</div></div>"
@@ -389,15 +661,17 @@ def _stage_narrative(s: dict) -> str:
     real deltas vs career average). Never claims a 'decline' when the
     real delta is still positive -- only the RELATIVE ranking among her
     four components changes wording, the sign of the real number
-    decides the verb."""
-    delta = s.get("delta_vs_career_average")
-    if delta is not None and delta > 0:
-        tone = "커리어 평균을 웃돌던 시기였습니다"
-    elif delta is not None and delta < 0:
-        tone = "커리어 평균에 못 미치던 시기였습니다"
-    else:
-        tone = "실측 SG 데이터가 부족한 시기였습니다"
+    decides the verb.
 
+    MISSION "PLAYER HISTORY V20 continued" (2026-09-28): 'If a graph
+    and a paragraph say the same thing, delete the paragraph.' The
+    opening clause ('커리어 평균을 웃돌던 시기였습니다') only restated
+    whether this stage's real delta was positive or negative -- already
+    visible as this stage's real position on the rolling trend chart
+    above, and already stated more precisely by this card's own
+    '커리어 평균 대비 +X.XX' chip. Only the component breakdown (which
+    skill led, which lagged) survives here -- the one fact neither the
+    chart nor that chip carries."""
     best, best_delta = s.get("best_component"), s.get("best_delta")
     worst, worst_delta = s.get("worst_component"), s.get("worst_delta")
     clauses = []
@@ -407,8 +681,7 @@ def _stage_narrative(s: dict) -> str:
     if worst:
         verb = "가장 부진했습니다" if worst_delta is not None and worst_delta < 0 else "상대적으로 가장 덜 강했습니다"
         clauses.append(f"{worst}는 {verb}")
-    skill_text = ", ".join(clauses) if clauses else "SG 세부 항목을 비교할 실측 데이터가 부족합니다"
-    return f"{tone} — {skill_text}."
+    return ", ".join(clauses) + "." if clauses else "SG 세부 항목을 비교할 실측 데이터가 부족합니다."
 
 
 def _career_form_story_html(stages: Optional[list]) -> str:
@@ -482,26 +755,59 @@ def _career_rolling_trend_html(crt: Optional[dict], story: Optional[list] = None
         )
 
     values = [w["moving_average_sg_total"] for w in crt["series"]]
-    spark = _sparkline_svg(values, width=640, height=90)
     career_avg = crt.get("career_average_sg_total")
+
+    # MISSION "PLAYER HISTORY V20" (2026-09-28): the bare axis-free
+    # sparkline is replaced with a real chart -- peak/slump/recovery
+    # windows (already-computed turning points), the career-average
+    # baseline, and real season boundaries all drawn directly on the
+    # line, using _marked_trend_svg. window_index already IS this
+    # series' own list index (verified against the builder's output),
+    # so no new lookup/computation is added here.
+    season_ticks: dict = {}
+    seen_seasons: set = set()
+    for i, w in enumerate(crt["series"]):
+        if w["start_season"] not in seen_seasons:
+            season_ticks[i] = w["start_season"]
+            seen_seasons.add(w["start_season"])
+    mark_candidates = []
+    if crt.get("peak_window"):
+        pw = crt["peak_window"]
+        mark_candidates.append((pw["window_index"], "전성기", _fmt(pw["moving_average_sg_total"]), "#0f5c46"))
+    if crt.get("slump_window"):
+        sw = crt["slump_window"]
+        mark_candidates.append((sw["window_index"], "슬럼프", _fmt(sw["moving_average_sg_total"]), "#9b493f"))
+    if crt.get("recovery_window"):
+        rw = crt["recovery_window"]
+        mark_candidates.append((rw["window_index"], "회복", _fmt(rw["moving_average_sg_total"]), "#0f5c46"))
+    mark_candidates.append((len(values) - 1, "현재", _fmt(values[-1]), "#14201c"))
+    marks: dict = {}
+    for idx, tag, val_text, color in mark_candidates:
+        if idx in marks:
+            marks[idx]["label"] = f'{marks[idx]["label"].split(" ")[0]}·{tag} {val_text}'
+        else:
+            marks[idx] = {"label": f"{tag} {val_text}", "color": color}
+    spark = _marked_trend_svg(
+        values, width=640, height=150, marks=marks, x_labels=season_ticks,
+        baseline=career_avg, baseline_label="커리어 평균" if career_avg is not None else "",
+    )
 
     def _window_chip(label: str, w: Optional[dict], positive: bool = False) -> str:
         """V6 mission: lead with the delta vs career average, never the
         bare SG Total alone. RED TEAM (2026-09-25): self-percentile
         (rank among her own other windows) is never shown -- an
         implementation detail of how the window was found, not a story
-        fact."""
+        fact. MISSION V20 (2026-09-28): the trailing '(실측 SG X)'
+        parenthetical is dropped -- that exact number is now the mark's
+        own label directly on the chart above, so restating it here
+        would be exactly the repeated text this mission forbids."""
         if not w:
             return ""
         vs_avg = w.get("delta_vs_career_average")
         vs_avg_text = f'커리어 평균 대비 {vs_avg:+.2f}' if vs_avg is not None else f'SG {_fmt(w["moving_average_sg_total"])}'
-        # MISSION V12: red only when this window's real delta vs her own
-        # career average is actually negative -- the same "color the
-        # real sign, never the label" rule as the other worst/slump
-        # chips above.
         is_negative = (vs_avg if vs_avg is not None else w["moving_average_sg_total"]) < 0
         return _chip(
-            f'{label}: {escape(w["start_tournament"])}~{escape(w["end_tournament"])} {vs_avg_text} (실측 SG {_fmt(w["moving_average_sg_total"])})',
+            f'{label}: {escape(w["start_tournament"])}~{escape(w["end_tournament"])} {vs_avg_text}',
             positive=positive, negative=(not positive and is_negative),
         )
 
@@ -509,7 +815,7 @@ def _career_rolling_trend_html(crt: Optional[dict], story: Optional[list] = None
     recovery_chip = (
         _chip(
             f'회복기: 슬럼프기 대비 {recovery["delta_vs_slump"]:+.2f} '
-            f'(커리어 평균 대비 {recovery["delta_vs_career_average"]:+.2f}, 실측 SG {_fmt(recovery["moving_average_sg_total"])})',
+            f'(커리어 평균 대비 {recovery["delta_vs_career_average"]:+.2f})',
             positive=recovery["delta_vs_slump"] > 0,
         )
         if recovery else _chip("슬럼프기 이후 회복기 없음 (커리어 마지막 시기)")
@@ -690,7 +996,7 @@ def _tournament_highlight_cards(rows: list) -> str:
         parts.append(
             '<div class="piq-brief"><p><strong>{label}</strong> {t} ({s}) — 최종 {rk}위, SG Total {sg}<br>'
             '<span class="piq-current-detail">{ct}</span></p></div>'.format(
-                label=escape(label), t=escape(r["tournament"]), s=r["season"],
+                label=escape(label), t=_tournament_link(r["tournament"], r.get("game_code")), s=r["season"],
                 rk=(r["rank"] if r["rank"] is not None else _NO_DATA), sg=_fmt(r.get("sg_total")), ct=escape(comp_text),
             )
         )
@@ -707,9 +1013,11 @@ def _tournament_trend_html(rows: list) -> str:
     if len(trend_rows) >= 2:
         values = [r["sg_total"] for r in trend_rows]
         markers = ["win" if r["is_win"] else ("top10" if r["is_top10"] else None) for r in trend_rows]
+        seasons = [r["season"] for r in trend_rows]
+        hover = [f'{r["tournament"]} ({r["season"]}) · 최종 {r["rank"]}위 · SG {_fmt(r["sg_total"])}' for r in trend_rows]
         trend_svg = (
             '<div class="ph-evo-block">'
-            f'{_trend_svg_by_index(values, markers)}'
+            f'{_trend_svg_by_index(values, markers, seasons, hover)}'
             '<div class="piq-audit">'
             + _chip("🟡 우승", positive=True) + _chip("🟢 상위10위") + _chip("회색 = 그 외")
             + '</div><p class="piq-current-detail">SG 데이터가 없는 대회(예: KB금융 골든라이프 챔피언십)는 이 추세선에서 제외됩니다. 0으로 대체하지 않습니다.</p>'
@@ -732,7 +1040,13 @@ def _tournament_table_html(rows: list) -> str:
     'SG 미수집' cell spanning all 5 SG columns instead of five separate
     '—' cells, per mission I -- never a claim that the value is zero,
     and never five cells that read like the data 'mysteriously
-    disappeared'."""
+    disappeared'.
+
+    MISSION V40 (2026-09-28): every row carries a real id
+    (t-{game_code}) -- the Tournament-layer landing spot every
+    _tournament_link() call elsewhere on the page jumps to. A modern
+    browser opens this <details> natively on that navigation even
+    though it starts collapsed; no script needed."""
     body_rows = []
     for r in rows:
         comp = r.get("sg_components")
@@ -747,7 +1061,7 @@ def _tournament_table_html(rows: list) -> str:
             sg_cells = f'<td>{_fmt(r["sg_total"])}</td>' + f"<td>{_NO_DATA}</td>" * 4
         badge = " 🏆" if r["is_win"] else (" •" if r["is_top10"] else "")
         body_rows.append(
-            f'<tr><td>{r["season"]}</td><td>{escape(r["tournament"])}{badge}</td><td>{r["rank"] if r["rank"] is not None else _NO_DATA}</td>'
+            f'<tr id="t-{escape(str(r["game_code"]))}"><td>{r["season"]}</td><td>{escape(r["tournament"])}{badge}</td><td>{r["rank"] if r["rank"] is not None else _NO_DATA}</td>'
             f'{sg_cells}</tr>'
         )
     header = "".join(f"<th>{escape(v)}</th>" for v in terms.TOURNAMENT_COLUMNS.values())
@@ -764,10 +1078,12 @@ def _tournament_table_html(rows: list) -> str:
 # ---------------------------------------------------------------------------
 
 def _round_card(label: str, r: Optional[dict], positive: bool = False) -> str:
+    """MISSION V40 (2026-09-28): tournament name links to its real row
+    (_tournament_link) when a game_code is present."""
     if not r:
         return ""
     season_suffix = f' ({r["season"]})' if "season" in r else ""
-    detail = f'{escape(r["tournament"])}{season_suffix} '
+    detail = f'{_tournament_link(r["tournament"], r.get("game_code"))}{season_suffix} '
     sign_value = None
     if "round" in r:
         detail += f'R{r["round"]} SG Total {_fmt(r["sg_total"])}'
@@ -830,7 +1146,12 @@ def _round_big_stat(label: str, r: Optional[dict]) -> str:
     """The Round Analysis headline pair -- see _round_history_html.
     Color keys strictly off the real sign of r['sg_total'], never off
     the label, matching the same rule Mission V12 established for
-    every other worst/slump chip on this page."""
+    every other worst/slump chip on this page.
+
+    MISSION V40 (2026-09-28): the tournament name is a real drill-down
+    link to that tournament's own row (_tournament_link) -- Round is
+    one layer below Tournament in the explorer's Career -> Season ->
+    Tournament -> Round -> Hole chain."""
     if not r:
         return ""
     season_suffix = f' ({r["season"]})' if "season" in r else ""
@@ -839,7 +1160,7 @@ def _round_big_stat(label: str, r: Optional[dict]) -> str:
         f'<div class="ph-round-big {sign_class}">'
         f'<div class="ph-round-big-lbl">{escape(label)}</div>'
         f'<div class="ph-round-big-num">{_fmt(r["sg_total"])}</div>'
-        f'<div class="ph-round-big-cap">{escape(r["tournament"])}{season_suffix} · R{r["round"]}</div>'
+        f'<div class="ph-round-big-cap">{_tournament_link(r["tournament"], r.get("game_code"))}{season_suffix} · R{r["round"]}</div>'
         '</div>'
     )
 
@@ -872,64 +1193,6 @@ def _round_history_detail_html(rh: Optional[dict]) -> str:
         '<div class="ph-evo-block" id="ph-round-history-detail">'
         f'<p class="piq-step-label piq-label-standalone">{terms.PAGE_ROUND_HISTORY_DETAIL_TITLE}</p>'
         f'{cards}</div>'
-    )
-
-
-# ---------------------------------------------------------------------------
-# PAGE 6 -- PLAYER EVOLUTION
-# ---------------------------------------------------------------------------
-
-def _delta_line(d: Optional[dict]) -> str:
-    if not d:
-        return ""
-    return f'{d["from_season"]}→{d["to_season"]} SG Total {_delta_phrase_ko(d["delta"])}'
-
-
-def _delta_key(d: Optional[dict]) -> Optional[tuple]:
-    if not d:
-        return None
-    return (d["from_season"], d["to_season"])
-
-
-def _player_evolution_html(pe: dict) -> str:
-    if not pe:
-        return ""
-    # Any two of these five detections can point to the exact same real
-    # season-to-season transition (e.g. the smallest delta can also be
-    # the first positive one) -- every pair is checked, not just one
-    # hardcoded pair, and merged into a single combined-label card, per
-    # the "if the same insight appears twice, delete one" mission rule.
-    fallback_text = {
-        "최대 하락": "실측 시즌 전환 중 하락 없음. 4개 시즌 전부 상승했습니다.",
-        "추세 반전": "실측 데이터에 추세 반전 없음",
-    }
-    slots = [
-        ("첫 향상", pe.get("first_improvement")),
-        ("최대 향상", pe.get("biggest_improvement")),
-        ("최대 하락", pe.get("biggest_decline") if not pe.get("no_decline_observed") else None),
-        ("추세 반전", pe.get("trend_reversal")),
-        ("정체에 가장 가까운 구간", pe.get("closest_to_plateau")),
-    ]
-    merged: dict = {}
-    standalone: list = []
-    for label, d in slots:
-        key = _delta_key(d)
-        if key is None:
-            text = fallback_text.get(label)
-            if text:
-                standalone.append((label, text))
-            continue
-        if key in merged:
-            merged[key][0].append(label)
-        else:
-            merged[key] = ([label], d)
-
-    items = [("이자 ".join(labels), _delta_line(d)) for labels, d in merged.values()] + standalone
-    rows = "".join(f'<li><strong>{escape(k)}</strong> — {escape(v)}</li>' for k, v in items if v)
-    return (
-        '<details class="evidence-detail pi-section pi-section--sub" id="ph-player-evolution" open>'
-        f'<summary class="section-heading"><h2>{terms.PAGE6_TITLE}</h2></summary>'
-        f'<div class="pi-section__body"><ul class="piq-checklist">{rows}</ul></div></details>'
     )
 
 
@@ -971,7 +1234,7 @@ def _dna_growth_velocity_html(growth: Optional[dict]) -> str:
     )
 
 
-def _player_dna_radar_html(seasons_data: list) -> str:
+def _player_dna_radar_html(seasons_data: list, career_dna: Optional[dict] = None) -> str:
     """Single radar chart driven by a pure-CSS season selector (this
     site renders no client-side script anywhere, so the tabs are plain
     radio inputs + `:checked` sibling selectors -- no JS is added).
@@ -979,9 +1242,21 @@ def _player_dna_radar_html(seasons_data: list) -> str:
     population, never a raw SG unit plotted directly, per the
     mission's explicit normalization requirement. An optional
     'A vs B' comparison overlay is offered only when both seasons have
-    every axis available."""
+    every axis available.
+
+    MISSION V41 (2026-09-28): the two real facts that used to be their
+    own standalone section (#ph-career-dna, 'DNA 요약') move here as a
+    one-line caption instead -- they describe this exact chart, so a
+    reader never had a reason to find them anywhere else on the page.
+    No new section for two sentences."""
     if not seasons_data:
         return ""
+    dna_items = [
+        ("가장 빠르게 성장한 요소", (career_dna or {}).get("fastest_growing_component")),
+        ("가장 변동성 큰 요소", (career_dna or {}).get("most_volatile_component")),
+    ]
+    dna_caption = " · ".join(f'{k}: {escape(str(v))}' for k, v in dna_items if v)
+    dna_caption_html = f'<p class="piq-current-detail">{dna_caption}</p>' if dna_caption else ""
     tab_inputs = []
     tab_labels = []
     panels = []
@@ -1002,15 +1277,20 @@ def _player_dna_radar_html(seasons_data: list) -> str:
             f'<p class="piq-current-detail">이번 시즌은 아직 확인되지 않았습니다: {escape(", ".join(unavailable))}</p>' if unavailable else ""
         )
         sample = next((a["population"] for a in sd["axes"] if a.get("population")), None)
+        # MISSION V31 (2026-09-28): 'delete any visualization [or value]
+        # that has no decision value.' The 백분위 column repeated,
+        # digit for digit, what the radar SVG already prints as each
+        # point's own label (_radar_svg: '{axis} {percentile}') --
+        # only the one real number the chart does NOT show (delta vs
+        # her own career mean) survives here.
         delta_rows = "".join(
             f'<tr><td>{escape(terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"]))}</td>'
-            f'<td>{a["percentile"]:.0f}</td>'
             f'<td>{a["delta_vs_career_mean"]:+.1f}</td></tr>'
             for a in sd["axes"] if a.get("delta_vs_career_mean") is not None
         )
         delta_table = (
             '<div class="table-scroll"><table class="data-table"><thead><tr>'
-            '<th>영역</th><th>백분위</th><th>커리어 평균 대비</th></tr></thead>'
+            '<th>영역</th><th>커리어 평균 대비</th></tr></thead>'
             f'<tbody>{delta_rows}</tbody></table></div>'
         ) if delta_rows else ""
         panels.append(
@@ -1041,34 +1321,13 @@ def _player_dna_radar_html(seasons_data: list) -> str:
         f'<summary class="section-heading"><h2>{terms.PAGE_PLAYER_DNA_RADAR_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
         f'<p class="piq-current-detail">{escape(terms.PLAYER_DNA_EXPLANATION)}</p>'
+        f'{dna_caption_html}'
         '<div class="ph-dna-tabs">'
         f'{"".join(tab_inputs)}'
         f'<div class="ph-dna-tab-bar">{"".join(tab_labels)}</div>'
         f'<div class="ph-dna-panels">{"".join(panels)}</div>'
         '</div>'
         '</div></details>'
-    )
-
-
-def _career_dna_html(dna: dict) -> str:
-    """V5 mission: 'delete everything else.' most_consistent_component,
-    career_foundation and winning_foundation are already narrated in
-    #4 선수 정체성 (Player Identity) -- repeating them here as a second
-    checklist was exactly the 'repeated numbers' the mission targets.
-    Only the two facts Identity does NOT already state survive here."""
-    if not dna:
-        return ""
-    items = [
-        ("가장 빠르게 성장한 요소", dna.get("fastest_growing_component")),
-        ("가장 변동성 큰 요소", dna.get("most_volatile_component")),
-    ]
-    rows = "".join(f'<li><strong>{escape(k)}</strong> — {escape(str(v))}</li>' for k, v in items if v)
-    if not rows:
-        return ""
-    return (
-        '<details class="evidence-detail pi-section pi-section--sub" id="ph-career-dna">'
-        f'<summary class="section-heading"><h2>{terms.PAGE7_TITLE}</h2></summary>'
-        f'<div class="pi-section__body"><ul class="piq-checklist">{rows}</ul></div></details>'
     )
 
 
@@ -1178,7 +1437,51 @@ def _official_snapshot_html(snapshot: Optional[dict]) -> str:
 _ARROW = {"UP": "▲", "DOWN": "▼", "FLAT": "—"}
 
 
-def _why_now_html(why_now: Optional[dict], csvc: Optional[dict]) -> str:
+def _skill_chain_html(why_now: Optional[dict], current_snapshot: Optional[dict], current_vs_career: Optional[dict], career_current: Optional[dict]) -> str:
+    """MISSION V31 (2026-09-28): 'Build a Skill Chain. Skill -> Scoring
+    Opportunity -> Scoring -> Result -> Career. Use only verified
+    repository data.' Five real, already-computed facts chained in one
+    row -- never a new calculation, never a claim of causation beyond
+    what the real sequence already shows: which skill led this season
+    (why_now.lead_component), the real scoring chances it produced
+    (current_snapshot.gir_rate), the real stroke outcome
+    (average_score), the real tournament result (wins/top10 this
+    season), and where that leaves her against her own career
+    (delta_vs_career_average). Renders nothing when any required real
+    field is missing -- never a chain with an invented link."""
+    if not (why_now and current_snapshot and current_vs_career and career_current):
+        return ""
+    stages = [
+        ("스킬", f'{why_now["lead_component"].removeprefix("SG ")} {why_now["lead_delta"]:+.2f}'),
+        ("스코어링 기회", f'GIR {current_snapshot["gir_rate"]:.1f}%'),
+        ("스코어링", f'평균 {current_snapshot["average_score"]:.2f}타'),
+        ("결과", f'{career_current["wins"]}승 · Top10 {career_current["top10"]}회'),
+        ("커리어", f'{current_vs_career["delta_vs_career_average"]:+.2f}'),
+    ]
+    cards = []
+    for i, (label, num) in enumerate(stages):
+        if i > 0:
+            cards.append('<span class="ph-chain-arrow">→</span>')
+        cards.append(
+            '<div class="ph-chain-stage">'
+            f'<div class="ph-chain-stage-lbl">{escape(label)}</div>'
+            f'<div class="ph-chain-stage-num">{escape(num)}</div>'
+            '</div>'
+        )
+    sentence = (
+        f'{why_now["lead_component"].removeprefix("SG ")} 상승이 GIR {current_snapshot["gir_rate"]:.1f}%, '
+        f'평균 {current_snapshot["average_score"]:.2f}타, {career_current["season"]}시즌 {career_current["wins"]}승으로 이어졌습니다.'
+    )
+    return (
+        f'<div class="ph-skill-chain">{"".join(cards)}</div>'
+        f'<p class="piq-conclusion">{escape(sentence)}</p>'
+    )
+
+
+def _why_now_html(
+    why_now: Optional[dict], current_snapshot: Optional[dict] = None,
+    current_vs_career: Optional[dict] = None, career_current: Optional[dict] = None,
+) -> str:
     """'Do NOT explain every metric. Answer only: why is she playing
     well now? Lead with change... One sentence only.' The sentence
     leads; arrows follow -- exactly the 'APP ▲ OTT ▲ PUTT ▼' format the
@@ -1187,37 +1490,51 @@ def _why_now_html(why_now: Optional[dict], csvc: Optional[dict]) -> str:
     V6 mission (2026-09-25): 'spend the entire mission deleting... if
     removing this does not make the user understand her less, delete
     it.' V5's dot-plot chart said the same four numbers the arrows
-    already say, just slower to read -- removed. csvc is still passed
-    in (unused) only so this signature does not need to change again
-    if a future mission wants the raw table back; it renders nothing
-    on its own now.
+    already say, just slower to read -- removed.
 
     MISSION "30초 스캔" (2026-09-27), approved wireframe
     (https://claude.ai/artifact/BZBJhzA36ZvskuKPkDjyv7): the text+number
     chips ('APP ▲ +0.57') become a 4-card icon grid -- one big colored
     arrow per component, the real delta demoted to a small number
-    beneath it."""
+    beneath it.
+
+    MISSION V31 (2026-09-28): 'Organize the page by QUESTIONS... Build
+    a Skill Chain.' This section already answers 'which skill changed';
+    the chain below extends the same real answer one real step further
+    -- into the scoring chances, the score, and the result it produced
+    -- so the section fully answers 'why is she playing well now', not
+    only 'which skill'."""
     if not why_now:
         return ""
+    # MISSION V41 (2026-09-28): '현재 약점은 무엇인가?' was answerable
+    # nowhere on the first screen -- every real arrow here was already
+    # rendered, just never ranked. The smallest real delta among these
+    # same four numbers (no new field, no new computation beyond min())
+    # is her weakest current momentum, labeled directly on its own
+    # already-existing card.
+    weakest_component = min(why_now["arrows"], key=lambda a: a["delta"])["component"] if why_now["arrows"] else None
     arrow_cards = "".join(
         '<div class="ph-arrow-card{down}">'
         '<span class="ph-arrow-big">{arrow}</span>'
-        '<div class="ph-arrow-lbl">{label}</div>'
+        '<div class="ph-arrow-lbl">{label}{weakest_tag}</div>'
         '<div class="ph-arrow-num">{delta:+.2f}</div>'
         '</div>'.format(
             down=" ph-arrow-card--down" if a["direction"] == "DOWN" else "",
             arrow=_ARROW.get(a["direction"], ""),
             label=escape(a["component"].removeprefix("SG ")),
+            weakest_tag='<span class="ph-arrow-weakest-tag">가장 덜 개선</span>' if a["component"] == weakest_component else "",
             delta=a["delta"],
         )
         for a in why_now["arrows"]
     )
+    skill_chain_html = _skill_chain_html(why_now, current_snapshot, current_vs_career, career_current)
     return (
         '<details class="evidence-detail pi-section" id="ph-why-now" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_WHY_NOW_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
         f'<p class="piq-conclusion">{escape(why_now["sentence"])}</p>'
         f'<div class="ph-arrow-grid">{arrow_cards}</div>'
+        f'{skill_chain_html}'
         '</div></details>'
     )
 
@@ -1297,6 +1614,55 @@ def _player_identity_html(identity: Optional[dict]) -> str:
 # NEO PLAYER BIOGRAPHY V4 -- SECTION 5: CAREER STORY (told backwards)
 # ---------------------------------------------------------------------------
 
+def _career_milestones_timeline_svg(chapters: list, seasons: list, width: int = 640) -> str:
+    """MISSION "PLAYER HISTORY V20 continued" (2026-09-28): 'career
+    milestones' as a real visual, not a chapter-by-chapter paragraph
+    list. Every real milestone (already computed, build_10097_player_
+    history.py's _player_story) placed on one real chronological
+    career timeline -- when several milestones share a real season
+    (true for this player: three of her five real milestones are
+    2025), they stack straight up from the spine, one level per
+    milestone, instead of overlapping. Milestones only ever stack
+    ABOVE the spine, never below: an earlier version alternated above/
+    below and a below-spine label collided with the season tick labels
+    directly underneath the axis."""
+    milestones = [(c["chapter"], m) for c in chapters for m in c["milestones"]]
+    if not milestones or len(seasons) < 2:
+        return ""
+    by_season: dict = {}
+    for chapter, m in milestones:
+        by_season.setdefault(m["season"], []).append((chapter, m))
+    max_stack = max(len(items) for items in by_season.values())
+    axis_y = 24 + max_stack * 16
+    height = axis_y + 34
+
+    lo, hi = min(seasons), max(seasons)
+    span = (hi - lo) or 1
+    pad = 20
+
+    def _x(season):
+        return pad + (season - lo) / span * (width - 2 * pad)
+
+    parts = [f'<line x1="{pad}" y1="{axis_y:.1f}" x2="{width - pad}" y2="{axis_y:.1f}" stroke="#d5ddd7" stroke-width="2"/>']
+    for s in seasons:
+        x = _x(s)
+        anchor = "start" if x < pad + 16 else ("end" if x > width - pad - 16 else "middle")
+        parts.append(f'<line x1="{x:.1f}" y1="{axis_y - 4:.1f}" x2="{x:.1f}" y2="{axis_y + 4:.1f}" stroke="#8a988f" stroke-width="1"/>')
+        parts.append(f'<text x="{x:.1f}" y="{axis_y + 18:.1f}" font-size="10" fill="#5d6964" text-anchor="{anchor}">{s}</text>')
+
+    for season, items in by_season.items():
+        x = _x(season)
+        anchor = "start" if x < pad + 60 else ("end" if x > width - pad - 60 else "middle")
+        for depth, (chapter, m) in enumerate(items):
+            ly = axis_y - (16 + depth * 16)
+            parts.append(f'<circle cx="{x:.1f}" cy="{axis_y:.1f}" r="4" fill="#0f5c46"/>')
+            parts.append(f'<text x="{x:.1f}" y="{ly:.1f}" font-size="10" font-weight="700" fill="#14201c" text-anchor="{anchor}">{escape(m["label"])}</text>')
+    return (
+        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="커리어 마일스톤 타임라인">'
+        f'{"".join(parts)}</svg>'
+    )
+
+
 def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
     """'Do NOT start with 2023, 2024, 2025. Instead start with Current
     -> Winning Stage -> Breakthrough -> Development -> Adaptation. Only
@@ -1305,7 +1671,16 @@ def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
     history.py) -- this renderer only reorders and relabels them.
     career_overview is the same real dict #1's hero and #11's audit
     section already use -- the season table tail is not a second,
-    independently-built summary."""
+    independently-built summary.
+
+    MISSION "PLAYER HISTORY V20 continued" (2026-09-28): 'Every chart
+    must replace at least 300 words... the page should tell the story
+    of a golfer's career.' A real chronological timeline
+    (_career_milestones_timeline_svg) now leads as the map of when
+    everything happened; the chapter text stays -- backwards, on
+    purpose, per the V4 mission above -- but each milestone line drops
+    its own '{season}시즌 —' prefix, since the timeline already places
+    it in time."""
     if not story:
         return ""
     current = story["current"]
@@ -1316,10 +1691,11 @@ def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
         f'우승 {current["wins"]}회, 상위10위 {current["top10"]}회 ({current["events"]}개 대회 표본).</p>'
         '</div>'
     )
+    timeline_svg = _career_milestones_timeline_svg(story["chapters"], [r["season"] for r in career_overview["season_rows"]])
     chapter_blocks = []
     for c in story["chapters"]:
         milestone_lines = "".join(
-            f'<p class="piq-current-detail">{m["season"]}시즌 — {escape(m["label"])}: {escape(m["detail"])}</p>'
+            f'<p class="piq-current-detail">{escape(m["label"])}: {escape(m["detail"])}</p>'
             for m in c["milestones"]
         )
         chapter_blocks.append(
@@ -1336,6 +1712,7 @@ def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
         '<details class="evidence-detail pi-section" id="ph-career-story" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_CAREER_STORY_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
+        f'{timeline_svg}'
         f'<div class="ph-bio-story">{current_html}{"".join(chapter_blocks)}</div>'
         f'{season_table_html}'
         '</div></details>'
@@ -1378,7 +1755,7 @@ def _course_strength_bars_svg(profiles: list, width: int = 620, row_h: int = 28)
     )
 
 
-def _course_profile_html(profiles: Optional[list]) -> str:
+def _course_profile_html(profiles: Optional[list], tournament_history: Optional[list] = None) -> str:
     """'Strength by course. Weakness by course. Nothing speculative.'
     Real venue/course names are not reliably on file for most
     tournaments (see NOT_AVAILABLE) -- this groups by repeated real
@@ -1389,7 +1766,13 @@ def _course_profile_html(profiles: Optional[list]) -> str:
     delete everything else'): the full numeric table used to be the
     whole section -- now a single bar chart shows the real top-3/
     bottom-3 at a glance, and the complete list moves into a nested,
-    collapsed detail for anyone who wants every row."""
+    collapsed detail for anyone who wants every row.
+
+    MISSION V40 (2026-09-28): best/worst tournament names link to
+    their real row via _tournament_link. tournament_history's own
+    names are unique enough in this player's real data (repeats
+    already carry a distinguishing year, e.g. 'S-OIL 챔피언십 2023' vs
+    '...2024') for one global name lookup here."""
     if not profiles:
         return ""
     top = profiles[:3]
@@ -1397,11 +1780,12 @@ def _course_profile_html(profiles: Optional[list]) -> str:
     highlight = top + bottom
     bars = _course_strength_bars_svg(highlight)
 
+    game_code_by_name = {t["tournament"]: t["game_code"] for t in (tournament_history or [])}
     rows = "".join(
         f'<tr><td>{escape(p["tournament_family"])}</td><td>{p["appearances"]}</td>'
         f'<td>{_fmt(p["avg_sg_total"])}</td>'
-        f'<td>{escape(p["best_tournament"])} ({_fmt(p["best_sg_total"])})</td>'
-        f'<td>{escape(p["worst_tournament"])} ({_fmt(p["worst_sg_total"])})</td></tr>'
+        f'<td>{_tournament_link(p["best_tournament"], game_code_by_name.get(p["best_tournament"]))} ({_fmt(p["best_sg_total"])})</td>'
+        f'<td>{_tournament_link(p["worst_tournament"], game_code_by_name.get(p["worst_tournament"]))} ({_fmt(p["worst_sg_total"])})</td></tr>'
         for p in profiles
     )
     full_table = (
@@ -1428,9 +1812,24 @@ def _course_profile_html(profiles: Optional[list]) -> str:
 # HOLE HISTORY + NOT AVAILABLE
 # ---------------------------------------------------------------------------
 
-def _hole_history_html(hh: Optional[dict]) -> str:
+def _hole_history_html(hh: Optional[dict], tournament_history: Optional[list] = None) -> str:
+    """MISSION V40 (2026-09-28): links back up to its own real row in
+    the full tournament table -- but ONLY when that tournament is
+    actually reconciled into tournament_history yet. The one real hole
+    history this player has belongs to the tournament currently in
+    progress, which has no row there until it finishes; linking to a
+    game_code with no anchor on the page would be a dangling link, so
+    this checks first rather than assuming every hole history has a
+    finished counterpart.
+
+    MISSION V41 (2026-09-28): collapsed by default -- 51 hole-by-hole
+    rows for one tournament is real depth, not first-15-second
+    orientation. It stays exactly one click away, and the V40 anchor
+    link (a real browser auto-opening a closed <details> on fragment
+    navigation, already verified) still lands here and opens it."""
     if not hh:
         return ""
+    known_game_codes = {t["game_code"] for t in (tournament_history or [])}
     round_blocks = []
     for r in hh["rounds"]:
         cells = "".join(f'<td>{h["hole"]}</td>' for h in r["holes"])
@@ -1442,10 +1841,10 @@ def _hole_history_html(hh: Optional[dict]) -> str:
             f'<tbody><tr><th>타수</th>{strokes}</tr><tr><th>파 대비</th>{rel}</tr></tbody></table></div>'
         )
     return (
-        '<details class="evidence-detail pi-section pi-section--sub" id="ph-hole-history" open>'
+        '<details class="evidence-detail pi-section pi-section--sub" id="ph-hole-history">'
         f'<summary class="section-heading"><h2>{terms.PAGE_HOLE_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
-        f'<p class="piq-current-detail">{escape(hh["tournament"])} ({hh["game_code"]}, {escape(hh["course"] or "")}). {escape(hh["capture_note"])}</p>'
+        f'<p class="piq-current-detail">{_tournament_link(hh["tournament"], hh.get("game_code") if hh.get("game_code") in known_game_codes else None)} ({hh["game_code"]}, {escape(hh["course"] or "")}). {escape(hh["capture_note"])}</p>'
         f'{"".join(round_blocks)}</div></details>'
     )
 
@@ -1610,14 +2009,20 @@ def _reconciliation_html(
     )
 
 
-def _in_progress_html(t: Optional[dict]) -> str:
+def _in_progress_html(t: Optional[dict], hole_history: Optional[dict] = None) -> str:
     """NEO PLAYER BIOGRAPHY V4: 'If there is no confirmed LIVE
     tournament, hide the LIVE section completely. Never show an
     already-finished event as LIVE.' is_confirmed_live is set by
     reconcile() against the real official schedule, never assumed --
     when it is False (schedule says the tournament is over but NEO has
     no final result), this section renders nothing at all, rather than
-    the earlier RED TEAM mission's honest-but-still-visible fallback."""
+    the earlier RED TEAM mission's honest-but-still-visible fallback.
+
+    MISSION V40 (2026-09-28): when this real in-progress tournament is
+    also the one real tournament with hole-level data (true for this
+    player as of this build), a real link completes the explorer's
+    Tournament -> Round -> Hole chain down to it -- never a link when
+    the game_codes genuinely differ."""
     if not t or not t.get("is_confirmed_live"):
         return ""
     rounds = "".join(f'<td>R{r["round"]}</td>' for r in t["rounds_completed"])
@@ -1627,6 +2032,10 @@ def _in_progress_html(t: Optional[dict]) -> str:
         _chip(f'R{partial["round"]} 진행 중 SG Total {_fmt(partial["total"])} (완주 라운드 아님, 참고용)')
         if partial else ""
     )
+    hole_link = (
+        f'<p class="piq-current-detail"><a href="#ph-hole-history">홀 기록 보기 →</a></p>'
+        if hole_history and hole_history.get("game_code") == t["game_code"] else ""
+    )
     return (
         f'<details class="evidence-detail pi-section" id="ph-in-progress" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_IN_PROGRESS_TITLE}</h2></summary>'
@@ -1635,6 +2044,7 @@ def _in_progress_html(t: Optional[dict]) -> str:
         f'<div class="table-scroll"><table class="data-table"><thead><tr>{rounds}</tr></thead>'
         f'<tbody><tr>{strokes}</tr></tbody></table></div>'
         f'<div class="piq-audit">{partial_chip}</div>'
+        f'{hole_link}'
         '</div></details>'
     )
 
@@ -1720,9 +2130,10 @@ def render_player_history_html(doc: dict, *, prev_link: Optional[dict] = None, n
       6 라운드 분석 (언제 잘 치는가? -- best/worst pair only; the
         other three already-real round extremes relocate to #8)
       7 커리어 스토리 (커리어는 어떻게 변했는가? -- leads a cluster of
-        unnumbered subordinate blocks: season evolution, season
-        replay, career form story/rolling trend, 2025 technical
-        stats, tournament timeline, DNA radar, DNA summary)
+        unnumbered subordinate blocks: season evolution (collapsed by
+        default since MISSION V41), season replay, career form story/
+        rolling trend, 2025 technical stats, tournament timeline, DNA
+        radar (its DNA summary caption folded in as of MISSION V41))
       8 데이터베이스 / 검증 (Raw Data, collapsed, always last --
         everything technical, including the relocated career
         heartbeat/DNA growth-velocity/round extremes, lives ONLY here)
@@ -1744,23 +2155,21 @@ def render_player_history_html(doc: dict, *, prev_link: Optional[dict] = None, n
         + _hero_html(doc)
         + _current_form_hero_html(doc.get("current_vs_career"), doc.get("current_snapshot"), doc.get("current_form_indicator"))  # 1
         + _official_snapshot_html(doc.get("current_snapshot"))                                 # 1 (subordinate)
-        + _why_now_html(doc.get("why_now"), doc.get("current_skill_vs_career"))                # 2
+        + _why_now_html(doc.get("why_now"), doc.get("current_snapshot"), doc.get("current_vs_career"), doc.get("career_story", {}).get("current"))  # 2
         + _recent_form_html(doc.get("recent_form_5", []), doc.get("recent_form_10", []), doc.get("recent_form_20"))  # 3
-        + _in_progress_html(doc.get("current_tournament_in_progress"))                          # 3 (subordinate, only if confirmed live)
+        + _in_progress_html(doc.get("current_tournament_in_progress"), doc.get("hole_history"))  # 3 (subordinate, only if confirmed live)
         + _player_identity_html(doc.get("player_identity"))                                     # 4
-        + _course_profile_html(doc.get("course_profile"))                                       # 5
+        + _course_profile_html(doc.get("course_profile"), doc.get("tournament_history"))        # 5
         + _round_history_html(doc["round_history"])                                            # 6
-        + _hole_history_html(doc.get("hole_history"))                                          # 6 (subordinate)
+        + _hole_history_html(doc.get("hole_history"), doc.get("tournament_history"))           # 6 (subordinate)
         + _career_story_html(doc.get("career_story"), doc["career_overview"])                  # 7
         + _career_evolution_html(doc["career_evolution"])                                      # 7 (subordinate)
-        + _player_evolution_html(doc["player_evolution"])                                      # 7 (subordinate)
-        + _season_replay_html(doc["season_replay"])                                            # 7 (subordinate)
+        + _season_replay_html(doc["season_replay"], doc["tournament_history"])                 # 7 (subordinate)
         + _career_rolling_trend_html(doc.get("career_rolling_trend"), doc.get("career_form_story"))  # 7 (subordinate)
         + _technical_stats_html(doc.get("technical_stats_2025"))                               # 7 (subordinate)
         + _tournament_trend_html(doc["tournament_history"])                                    # 7 (subordinate)
         + _tournament_table_html(doc["tournament_history"])                                    # 7 (subordinate, collapsed)
-        + _player_dna_radar_html(doc.get("player_dna_radar", []))                               # 7 (subordinate)
-        + _career_dna_html(doc["career_dna"])                                                  # 7 (subordinate)
+        + _player_dna_radar_html(doc.get("player_dna_radar", []), doc.get("career_dna"))        # 7 (subordinate)
         + _reconciliation_html(
             doc.get("reconciliation"), doc.get("status"), doc.get("coverage_matrix"), doc.get("not_available", []),
             extra_raw_data=(

@@ -447,6 +447,14 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .ph-arrow-card--down .ph-arrow-big{color:var(--red)}
 .ph-arrow-card .ph-arrow-lbl{font-size:.8rem;font-weight:800;color:var(--ink);margin-top:.3rem}
 .ph-arrow-card .ph-arrow-num{font-size:.72rem;color:var(--muted);margin-top:.1rem}
+/* MISSION V41 (2026-09-28): the smallest of these same four real
+   deltas, labeled directly on its own card -- the page's one answer
+   to "what is the current weakness?" A coach-eye pass on the first
+   version found the plain gray caption disappeared next to three
+   identical green "improving" cards -- a small gold pill (gold, not
+   red: this component is still real +, never a decline) now gives it
+   enough contrast to survive a 15-second scan. */
+.ph-arrow-weakest-tag{display:inline-block;font-size:.62rem;font-weight:700;color:#7a5610;background:#f3e6c8;border-radius:.7rem;padding:.1rem .45rem;margin-top:.3rem}
 
 .ph-form-strip{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap;padding:.4rem 0}
 .ph-form-dot{width:1.15rem;height:1.15rem;border-radius:50%;background:#c3cec7;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0}
@@ -463,6 +471,15 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .ph-round-big--positive .ph-round-big-num{color:var(--green)}
 .ph-round-big--negative .ph-round-big-num{color:var(--red)}
 .ph-round-big-cap{font-size:.75rem;color:var(--muted);margin-top:.5rem}
+
+/* MISSION V31 (2026-09-28): Skill Chain -- Skill -> Scoring Opportunity
+   -> Scoring -> Result -> Career, five real already-computed facts in
+   one row. */
+.ph-skill-chain{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin-top:.9rem}
+.ph-chain-stage{flex:1;min-width:6.5rem;text-align:center;padding:.7rem .4rem;background:var(--panel)}
+.ph-chain-stage-lbl{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.ph-chain-stage-num{font-size:1rem;font-weight:800;color:var(--ink);margin-top:.15rem}
+.ph-chain-arrow{font-size:1.1rem;color:var(--muted);flex-shrink:0}
 
 /* RED TEAM (2026-09-25): Career Form Story -- narrative-first stage
    cards (Early/Mid/Late Season, Peak Form, Current Form). Mirrors
