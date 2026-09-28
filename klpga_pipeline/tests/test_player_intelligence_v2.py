@@ -194,7 +194,7 @@ def test_build_or_placeholder_missing_queues_and_placeholders():
 
 
 def test_integration_real_player_10097(monkeypatch):
-    """playerCode=10097 routes to the real PLAYER_HISTORY.json/player_history_10097_report.py
+    """playerCode=10097 routes to the real PLAYER_HISTORY.json/player_history_report.py
     (Player Intelligence is no longer the goal for this player) -- see
     test_10097_player_intelligence_report.py::test_build_or_placeholder_renders_player_history_for_10097_only
     for the routing test itself. This integration test only checks that

@@ -10,7 +10,7 @@ insight."
 
 Before touching code this session confirmed the mission's banned
 vocabulary (Mechanism/Root Cause/Performance Lab/Coach Check/Decision
-Layer/etc.) does not exist anywhere in player_history_10097_report.py
+Layer/etc.) does not exist anywhere in player_history_report.py
 -- it belongs to the unrelated player_intelligence_10097_report.py,
 which this player's routing does not use. The real, actionable work
 here was chart quality: replacing bare axis-free sparklines with a
@@ -37,7 +37,7 @@ _spec = importlib.util.spec_from_file_location("build_10097_player_history", ROO
 build_script = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(build_script)
 
-from klpga.website_v2 import player_history_10097_report as report  # noqa: E402
+from klpga.website_v2 import player_history_report as report  # noqa: E402
 
 
 def _doc_and_html():
