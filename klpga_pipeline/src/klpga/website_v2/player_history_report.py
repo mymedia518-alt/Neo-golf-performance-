@@ -2019,6 +2019,41 @@ def _page_confidence_chip_html(page_confidence: Optional[dict]) -> str:
     return f'<p class="ph-trust-line">데이터 신뢰도 {escape(page_confidence["trust_band"])} ({page_confidence["trustworthy_pct"]}%)</p>'
 
 
+def _data_trust_html(page_confidence: Optional[dict], provenance_summary: Optional[dict], data_quality_url: str = "") -> str:
+    """MISSION V50 (2026-09-28): 'Remove Developer Thinking from Player
+    History... keep only one small trust block.' The four real numbers
+    below are not new -- they are page_confidence.trustworthy_pct and
+    the three provenance_summary.rows counts (공식 기록/실측 기반 계산/
+    확인 불가), which used to sit buried inside the much larger #8
+    reconciliation cluster (_data_confidence_html) alongside pipeline
+    vocabulary ('웨어하우스', 'PASS/PARTIAL', coverage matrices, a
+    roadmap, a timeline) this mission explicitly bans from the public
+    page. This function prints ONLY the four numbers plus a link to
+    the separate Data Quality Report where that technical detail now
+    lives -- never the pipeline language itself."""
+    if not page_confidence:
+        return ""
+    rows_by_short = {r["short"]: r for r in (provenance_summary or {}).get("rows", [])}
+    official = rows_by_short.get("공식 기록")
+    measured = rows_by_short.get("실측 기반 계산")
+    unknown = rows_by_short.get("확인 불가")
+    stats = "".join(
+        f'<div class="ph-trust-stat"><span class="ph-trust-stat-num">{row["count"]}</span><span class="ph-trust-stat-lbl">{escape(label)}</span></div>'
+        for label, row in (("공식 기록", official), ("실측 기반 계산", measured), ("확인 불가", unknown))
+        if row
+    )
+    link = f'<a class="ph-trust-link" href="{escape(data_quality_url)}">데이터 품질 보고서 보기 →</a>' if data_quality_url else ""
+    return (
+        '<div class="ph-trust-block" id="ph-data-trust">'
+        '<p class="ph-trust-block-title">DATA TRUST</p>'
+        f'<div class="ph-trust-headline"><span class="ph-trust-headline-num">{page_confidence["trustworthy_pct"]}%</span>'
+        '<span class="ph-trust-headline-lbl">데이터 신뢰도</span></div>'
+        f'<div class="ph-trust-stats">{stats}</div>'
+        f'{link}'
+        '</div>'
+    )
+
+
 def _reconciliation_html(
     report: Optional[dict], status: Optional[dict] = None, coverage_matrix: Optional[dict] = None,
     not_available: Optional[list] = None, data_confidence: str = "", extra_raw_data: str = "",
@@ -2159,39 +2194,58 @@ def _hero_html(doc: dict) -> str:
     )
 
 
-def render_player_history_html(doc: dict, *, prev_link: Optional[dict] = None, next_link: Optional[dict] = None) -> str:
+def render_player_history_html(
+    doc: dict, *, prev_link: Optional[dict] = None, next_link: Optional[dict] = None, data_quality_url: str = "",
+) -> str:
     """Pure function: PLAYER_HISTORY.json in, page body HTML out.
 
-    MISSION NEO PLAYER PROFILE V2 (2026-09-27): "우리는 골퍼가 선수
-    이름을 클릭했을 때 30초 안에 '이 선수가 지금 어떤 선수인가'를
-    이해할 수 있는 페이지를 만든다." Not a feature mission -- every
-    real number, chart, and section below already existed under NEO
-    PLAYER BIOGRAPHY V4; this mission only reordered, consolidated,
-    relocated, and demoted them so the page reads as one Q&A flow
-    instead of a database. No new data, section, chart, metric, JSON
-    field, or SQLite table was added. Strict order, one question per
-    numbered section:
-      1 현재 폼 (현재 얼마나 잘 치는가?, 5-second hero)
-      2 왜 지금인가 (왜 잘 치는가?, one sentence + arrows)
-      3 최근 경기 결과 (최근 어떤 흐름인가?; Live Tournament nests
-        here ONLY when actually confirmed live -- otherwise hidden
-        completely, never shown as if a finished event were still
-        live)
-      4 선수 정체성 (어떤 유형의 선수인가?)
+    MISSION V50 (2026-09-28): "Remove Developer Thinking from Player
+    History... Every section must answer 'what does this tell me about
+    the player,' NOT 'how did NEO build the database.'"
+
+    MISSION V50.1 (2026-09-28), a correction to V50's first pass: "Do
+    NOT optimize for fewer sections. Optimize for zero repetition...
+    Player History is allowed to be long. It is NOT allowed to repeat
+    itself... Never summarize away the evidence that explains career
+    evolution... If a section teaches something unique, keep it."
+    V50's first pass wrongly treated 'developer-facing' and 'just
+    numbers' as the same problem and moved BOTH kinds out. Only the
+    first kind (source-reconciliation status, PASS/PARTIAL/BLOCKED
+    semantics, the coverage matrix, the not-yet-available list, the
+    field-confidence legend, the collection roadmap, the quality
+    timeline -- none of it about the player, all of it about NEO's own
+    pipeline) genuinely belongs on the separate Data Quality Report.
+    The rest -- the official season snapshot, per-metric season-
+    evolution charts, the rolling-trend/momentum chart, the 2025
+    technical stats table, the DNA growth-velocity table, the career
+    heartbeat, and the three other real round extremes -- teaches
+    something no other section states, and is restored here. Nothing
+    was ever deleted in either pass: every function below is the same
+    real, already-tested function that existed before V50.
+
+    Order, one question anchoring each numbered section:
+      1 현재 폼 (지금 얼마나 잘 치는가? -- official season snapshot as
+        its real supporting detail)
+      2 왜 지금인가 (왜 잘 치는가?, one sentence + arrows + skill chain)
+      3 최근 경기 결과 (최근 어떤 흐름인가?; Live Tournament nests here
+        ONLY when actually confirmed live)
+      4 선수 정체성 (어떤 유형의 선수인가? -- the DNA radar chart and
+        its growth-velocity table sit directly beside this as real
+        evidence, instead of being buried in a raw-data cluster)
       5 코스 프로필 (어떤 대회에서 강한가?)
-      6 라운드 분석 (언제 잘 치는가? -- best/worst pair only; the
-        other three already-real round extremes relocate to #8)
-      7 커리어 스토리 (커리어는 어떻게 변했는가? -- leads a cluster of
-        unnumbered subordinate blocks: season evolution (collapsed by
-        default since MISSION V41), season replay, career form story/
-        rolling trend, 2025 technical stats, tournament timeline, DNA
-        radar (its DNA summary caption folded in as of MISSION V41))
-      8 데이터베이스 / 검증 (Raw Data, collapsed, always last --
-        everything technical, including the relocated career
-        heartbeat/DNA growth-velocity/round extremes, lives ONLY here)
+      6 라운드 분석 (언제 잘 치는가? -- best/worst pair, plus the other
+        three real extremes: most stable tournament, most improved
+        round, largest collapse/recovery)
+      7 커리어 스토리 (커리어는 어떻게 변했는가? -- season evolution,
+        season replay, the rolling momentum trend, the career
+        heartbeat, 2025 technical stats, and the tournament timeline/
+        table are ALL real, non-repeating evidence for this question,
+        not a database)
+      8 DATA TRUST (a small, non-technical trust summary -- 신뢰도 %,
+        공식 기록/실측 기반 계산/확인 불가 counts, and a link to the
+        separate Data Quality Report for the pipeline mechanics)
     Every non-numbered block below is subordinate, nested beside the
-    numbered section it elaborates -- never numbered on its own, so
-    the visible page never contradicts this 8-item hierarchy."""
+    numbered section it elaborates."""
     from klpga.website_v2.player_intelligence_v2 import prev_next_html
 
     # MISSION V8 (2026-09-25): "freeze the architecture -- improve only
@@ -2206,33 +2260,25 @@ def render_player_history_html(doc: dict, *, prev_link: Optional[dict] = None, n
         prev_next_html(prev_link, next_link)
         + _hero_html(doc)
         + _current_form_hero_html(doc.get("current_vs_career"), doc.get("current_snapshot"), doc.get("current_form_indicator"))  # 1
-        + _official_snapshot_html(doc.get("current_snapshot"))                                 # 1 (subordinate)
+        + _official_snapshot_html(doc.get("current_snapshot"))                                 # 1 (subordinate, restored by V50.1)
         + _why_now_html(doc.get("why_now"), doc.get("current_snapshot"), doc.get("current_vs_career"), doc.get("career_story", {}).get("current"))  # 2
         + _recent_form_html(doc.get("recent_form_5", []), doc.get("recent_form_10", []), doc.get("recent_form_20"))  # 3
         + _in_progress_html(doc.get("current_tournament_in_progress"), doc.get("hole_history"))  # 3 (subordinate, only if confirmed live)
         + _player_identity_html(doc.get("player_identity"))                                     # 4
+        + _player_dna_radar_html(doc.get("player_dna_radar", []), doc.get("career_dna"))        # 4 (subordinate -- moved beside identity)
+        + _dna_growth_velocity_html(doc.get("player_dna_growth"))                              # 4 (subordinate, restored by V50.1)
         + _course_profile_html(doc.get("course_profile"), doc.get("tournament_history"))        # 5
         + _round_history_html(doc["round_history"])                                            # 6
+        + _round_history_detail_html(doc.get("round_history"))                                 # 6 (subordinate, restored by V50.1)
         + _hole_history_html(doc.get("hole_history"), doc.get("tournament_history"))           # 6 (subordinate)
         + _career_story_html(doc.get("career_story"), doc["career_overview"])                  # 7
-        + _career_evolution_html(doc["career_evolution"])                                      # 7 (subordinate)
+        + _career_evolution_html(doc["career_evolution"])                                      # 7 (subordinate, restored by V50.1)
         + _season_replay_html(doc["season_replay"], doc["tournament_history"])                 # 7 (subordinate)
-        + _career_rolling_trend_html(doc.get("career_rolling_trend"), doc.get("career_form_story"))  # 7 (subordinate)
-        + _technical_stats_html(doc.get("technical_stats_2025"))                               # 7 (subordinate)
+        + _career_rolling_trend_html(doc.get("career_rolling_trend"), doc.get("career_form_story"))  # 7 (subordinate, restored by V50.1)
+        + _career_heartbeat_html(doc.get("career_heartbeat"))                                  # 7 (subordinate, restored by V50.1)
+        + _technical_stats_html(doc.get("technical_stats_2025"))                               # 7 (subordinate, restored by V50.1)
         + _tournament_trend_html(doc["tournament_history"])                                    # 7 (subordinate)
         + _tournament_table_html(doc["tournament_history"])                                    # 7 (subordinate, collapsed)
-        + _player_dna_radar_html(doc.get("player_dna_radar", []), doc.get("career_dna"))        # 7 (subordinate)
-        + _reconciliation_html(
-            doc.get("reconciliation"), doc.get("status"), doc.get("coverage_matrix"), doc.get("not_available", []),
-            extra_raw_data=(
-                _career_heartbeat_html(doc.get("career_heartbeat"))
-                + _dna_growth_velocity_html(doc.get("player_dna_growth"))
-                + _round_history_detail_html(doc.get("round_history"))
-            ),
-            data_confidence=_data_confidence_html(
-                doc.get("page_confidence"), doc.get("field_confidence_legend"),
-                doc.get("provenance_summary"), doc.get("data_confidence_roadmap"), doc.get("data_quality_timeline"),
-            ),
-        )  # 8
+        + _data_trust_html(doc.get("page_confidence"), doc.get("provenance_summary"), data_quality_url)  # 8
     )
     return f'<div class="ph-page">{body}</div>'
