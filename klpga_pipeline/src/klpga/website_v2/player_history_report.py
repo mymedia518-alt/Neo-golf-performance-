@@ -193,37 +193,24 @@ def _marked_trend_svg(
     for x, y in pts:
         parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2" fill="{direction_color}" fill-opacity="0.55"/>')
 
-    prev_x = None
-    prev_ly = None
-    prev_below = None
+    # MISSION V60 (2026-09-28): "remove every numeric label drawn
+    # inside charts... values appear only in tooltips or summary
+    # cards." The always-visible mark labels this used to draw
+    # directly on the line are gone -- every caller of this shared
+    # primitive already has a real chip/card row of its own beneath
+    # the chart carrying the same real values (with more context, e.g.
+    # real tournament names), so nothing is lost. Each mark's real
+    # detail (`title`, falling back to the old `label` text for any
+    # caller that has not been updated) survives as a native hover
+    # tooltip on its own dot.
     for i, m in sorted(marks.items()):
         if i < 0 or i >= n:
             continue
         x, y = pts[i]
         color = m.get("color", direction_color)
-        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" stroke="#fff" stroke-width="1.5"/>')
-        label = m.get("label", "")
-        if label:
-            # two marks close together on the x-axis (e.g. adjacent
-            # slump/recovery windows, or peak/latest a few windows
-            # apart) crowd their labels if both use the default near-
-            # point offset -- once a neighbor is closer than ~45px,
-            # stack this one further out in the SAME direction as the
-            # previous label instead of re-anchoring to its own point
-            # (flipping to the opposite side of a point near the plot
-            # edge just trades one collision, with the axis, for
-            # another).
-            if prev_x is not None and abs(x - prev_x) < 45:
-                below = prev_below
-                ly = prev_ly + 13 if below else prev_ly - 13
-            else:
-                below = y < top_pad + 14
-                ly = y + 15 if below else y - 9
-            anchor = "start" if x < side_pad + 24 else ("end" if x > width - side_pad - 24 else "middle")
-            prev_x, prev_ly, prev_below = x, ly, below
-            parts.append(
-                f'<text x="{x:.1f}" y="{ly:.1f}" font-size="10.5" font-weight="700" fill="{color}" text-anchor="{anchor}">{escape(label)}</text>'
-            )
+        title_text = m.get("title") or m.get("label") or ""
+        title_html = f'<title>{escape(title_text)}</title>' if title_text else ""
+        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" stroke="#fff" stroke-width="1.5">{title_html}</circle>')
 
     return (
         f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="추세 그래프">'
@@ -260,6 +247,14 @@ def _radar_svg(axes: list, size: int = 360) -> str:
         f'<line x1="{cx}" y1="{cy}" x2="{cx + radius * _math.cos(angle(i)):.1f}" y2="{cy + radius * _math.sin(angle(i)):.1f}" stroke="#d8e2dc" stroke-width="1"/>'
         for i in range(n)
     )
+    # MISSION V60 (2026-09-28): "remove every numeric label drawn
+    # inside charts... values appear only in tooltips or summary
+    # cards." Each axis dot now carries its own real percentile as a
+    # <title> tooltip instead of always-visible text; the axis label
+    # itself drops back to just the skill name. The exact number still
+    # has a real, always-visible home in the delta table beneath this
+    # chart (which prints 백분위 again since it is no longer the only
+    # place showing it).
     poly_points = []
     dots = []
     for i, a in enumerate(axes):
@@ -267,7 +262,8 @@ def _radar_svg(axes: list, size: int = 360) -> str:
             continue
         x, y = point(i, a["percentile"])
         poly_points.append(f"{x:.1f},{y:.1f}")
-        dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="#0f5c46"/>')
+        axis_ko = terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"])
+        dots.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3" fill="#0f5c46"><title>{escape(axis_ko)} {a["percentile"]:.0f}</title></circle>')
     polygon = f'<polygon points="{" ".join(poly_points)}" fill="#0f5c4633" stroke="#0f5c46" stroke-width="2"/>' if len(poly_points) >= 3 else ""
     labels = []
     for i, a in enumerate(axes):
@@ -278,11 +274,10 @@ def _radar_svg(axes: list, size: int = 360) -> str:
             anchor = "end"
         elif lx > cx + 5:
             anchor = "start"
-        pct_text = f'{a["percentile"]:.0f}' if a.get("percentile") is not None else "N/A"
         axis_ko = terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"])
-        labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-size="10" fill="#3d4a43">{escape(axis_ko)} {pct_text}</text>')
+        labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-size="10" fill="#3d4a43">{escape(axis_ko)}</text>')
     return (
-        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" role="img" aria-label="플레이어 DNA 레이더">'
+        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" class="ph-spark ph-spark--radar" role="img" aria-label="플레이어 DNA 레이더">'
         f'{rings}{spokes}{polygon}{"".join(dots)}{"".join(labels)}</svg>'
     )
 
@@ -325,7 +320,7 @@ def _radar_svg_overlay(axes_a: list, axes_b: list, label_a: str, label_b: str, s
         axis_ko = terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"])
         labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-size="10" fill="#3d4a43">{escape(axis_ko)}</text>')
     return (
-        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" role="img" aria-label="{escape(label_a)} vs {escape(label_b)} 비교">'
+        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" class="ph-spark ph-spark--radar" role="img" aria-label="{escape(label_a)} vs {escape(label_b)} 비교">'
         f'{rings}{spokes}{poly(axes_a, "#0f5c46")}{poly(axes_b, "#c98a1a")}{"".join(labels)}</svg>'
     )
 
@@ -404,23 +399,22 @@ def _trend_svg_by_index(
             axis.append(f'<line x1="{x:.1f}" y1="{axis_y:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
             axis.append(f'<text x="{x:.1f}" y="{axis_y + 15:.1f}" font-size="10" fill="#5d6964" text-anchor="{tick_anchor}">{escape(str(s))}</text>')
 
+    # MISSION V60 (2026-09-28): "remove every numeric label drawn inside
+    # charts... values appear only in tooltips or summary cards." The
+    # always-visible "최고/최저 ±X.XX" text this used to draw on the
+    # chart is gone -- the real best/worst tournament and value already
+    # have a real summary-card home wherever this chart is called from
+    # (the highlight cards under the tournament timeline, the peak/
+    # slump chips under each season's chart), so nothing is lost, only
+    # de-duplicated. The marker dot stays, now carrying its own real
+    # <title> tooltip.
     best_i, worst_i = max(range(n), key=lambda i: values[i]), min(range(n), key=lambda i: values[i])
     marks = []
     for i, color, tag in ((best_i, "#0f5c46", "최고"), (worst_i, "#9b493f", "최저")):
         x, y = pts[i]
-        marks.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" stroke="#fff" stroke-width="1.5"/>')
-        below = y < top_pad + 12
-        ly = y + 14 if below else y - 8
-        anchor = "start" if x < pad + 20 else ("end" if x > width - pad - 20 else "middle")
-        # MISSION V41 (2026-09-28), coach-eye pass: with up to 96 real
-        # points compressed into one chart, this label can sit close
-        # enough to a *different* real point's own dot (not its own) to
-        # become hard to read against it -- a white halo (paint-order
-        # puts the stroke behind the fill) keeps the label legible
-        # wherever it lands, without moving or hiding any real dot.
         marks.append(
-            f'<text x="{x:.1f}" y="{ly:.1f}" font-size="10.5" font-weight="700" fill="{color}" text-anchor="{anchor}" '
-            f'paint-order="stroke" stroke="#f4f6f4" stroke-width="3">{tag} {values[i]:+.2f}</text>'
+            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}" stroke="#fff" stroke-width="1.5">'
+            f'<title>{tag} {values[i]:+.2f}</title></circle>'
         )
 
     compare_svg = ""
@@ -565,11 +559,23 @@ def _career_evolution_html(evolution: dict) -> str:
         x_labels = {i: pt["season"] for i, pt in enumerate(series)}
         chart = _marked_trend_svg(values, width=560, height=140, marks=marks, x_labels=x_labels)
         direction_label = terms.DIRECTION_LABEL.get(data["current_direction"], data["current_direction"])
+        # MISSION V70 (2026-09-28): "No chart exists without a headline
+        # insight... 5-second understanding." One real sentence, built
+        # only from fields this block already computed (direction,
+        # latest value, peak), placed ABOVE the chart so the reader
+        # never has to read the chart to know what it says. Replaces
+        # the old below-the-chart "현재 방향" chip, which said only the
+        # direction word -- this headline says the same real direction
+        # plus the two numbers that explain it, once.
+        direction_css = {"UP": " piq-brief--positive", "DOWN": " piq-brief--negative"}.get(data["current_direction"], "")
+        headline_html = (
+            f'<div class="piq-brief{direction_css}"><p><strong>{escape(direction_label)}</strong> '
+            f'현재 {_fmt(values[latest_idx])} · 커리어 최고 {_fmt(peak_raw)} ({escape(str(peak_season))}시즌)</p></div>'
+        )
         blocks.append(
             '<div class="ph-evo-block">'
             f'<p class="piq-step-label piq-label-standalone">{escape(data["label"])}</p>'
-            f'{chart}'
-            '<div class="piq-audit">' + _chip(f'현재 방향: {direction_label}') + '</div>'
+            f'{headline_html}{chart}'
             "</div>"
         )
     return (
@@ -599,6 +605,95 @@ def _season_tournament_chart_svg(rows: list, width: int = 620) -> str:
     return _trend_svg_by_index(values, markers, hover=hover, width=width, height=100)
 
 
+def _season_replay_chart_svg(
+    rows: list, peak: Optional[dict], slump: Optional[dict], recovery: Optional[dict], width: int = 1100,
+) -> str:
+    """MISSION V73 (2026-09-28): Season Replay's chart redesigned from
+    scratch. 'Remove the unexplained SG heatmap... expand to nearly
+    full desktop width... every tournament at its real position...
+    tournament names visible on desktop... win/top10/best/worst/
+    recovery distinguishable immediately, without reading text... the
+    chart itself must explain the season.'
+
+    Every real per-tournament row, plus the exact same real peak/
+    slump/recovery facts _season_replay_html already computed for its
+    chips, drawn on one wide chronological line -- no new computation.
+    Win/top10/plain finishes are 3 real dot sizes+colors (same
+    convention as every other trend chart on this page); peak/slump/
+    recovery are a ring or marker drawn AROUND that same dot, so a
+    tournament that is e.g. both a win and the season's peak shows
+    both facts on one point, never two conflicting marks. The peak/
+    slump/recovery numbers this used to say in prose are unchanged --
+    still real, still on the page, just as a <title> tooltip and in
+    the still-present (now collapsed, since the chart now carries the
+    same conclusions) chip row beneath the chart."""
+    trend_rows = [r for r in rows if r.get("sg_total") is not None]
+    if len(trend_rows) < 2:
+        return ""
+    values = [r["sg_total"] for r in trend_rows]
+    lo, hi = min(values), max(values)
+    span = (hi - lo) or 1.0
+    n = len(trend_rows)
+    top_pad, bottom_pad, side_pad = 20, 92, 10
+    height = 260
+    plot_h = height - top_pad - bottom_pad
+    step = (width - 2 * side_pad) / max(n - 1, 1)
+
+    def _xy(i, v):
+        x = side_pad + i * step
+        y = top_pad + plot_h - ((v - lo) / span) * plot_h
+        return x, y
+
+    pts = [_xy(i, r["sg_total"]) for i, r in enumerate(trend_rows)]
+    path = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+    peak_name = peak["tournament"] if peak else None
+    slump_name = slump["tournament"] if slump else None
+    recovery_name = recovery["tournament"] if recovery else None
+
+    parts = [f'<polyline points="{path}" fill="none" stroke="#c3cec6" stroke-width="1.5"/>']
+    labels = []
+    for r, (x, y) in zip(trend_rows, pts):
+        if r["is_win"]:
+            color, radius = "#c98a1a", 6.5
+        elif r["is_top10"]:
+            color, radius = "#0f5c46", 4.5
+        else:
+            color, radius = "#9db3a8", 3
+        title = f'{r["tournament"]} · 최종 {r["rank"]}위 · SG {_fmt(r["sg_total"])}'
+        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius}" fill="{color}"><title>{escape(title)}</title></circle>')
+        if r["tournament"] == peak_name:
+            parts.append(
+                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius + 4}" fill="none" stroke="#0f5c46" stroke-width="2">'
+                f'<title>피크: {escape(title)}</title></circle>'
+            )
+        if r["tournament"] == slump_name:
+            # MISSION V12: the ring is red only when this real SG Total
+            # is actually negative -- a "slump" that is still a
+            # positive number never renders as if it were bad.
+            ring_color = "#9b493f" if r["sg_total"] < 0 else "#5d6964"
+            parts.append(
+                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius + 4}" fill="none" stroke="{ring_color}" stroke-width="2" '
+                f'stroke-dasharray="2 2"><title>슬럼프: {escape(title)}</title></circle>'
+            )
+        if r["tournament"] == recovery_name:
+            ty = y + radius + 10
+            parts.append(
+                f'<path d="M {x - 4:.1f} {ty:.1f} L {x:.1f} {ty - 5:.1f} L {x + 4:.1f} {ty:.1f} Z" fill="#0f5c46">'
+                f'<title>슬럼프 직후 회복: {escape(title)}</title></path>'
+            )
+        short_name = r["tournament"][:7] + ("…" if len(r["tournament"]) > 7 else "")
+        label_y = top_pad + plot_h + 14
+        labels.append(
+            f'<text class="ph-season-label" x="{x:.1f}" y="{label_y:.1f}" font-size="9.5" fill="#5d6964" '
+            f'text-anchor="end" transform="rotate(-45 {x:.1f} {label_y:.1f})">{escape(short_name)}</text>'
+        )
+    parts.extend(labels)
+    return (
+        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" '
+        f'role="img" aria-label="시즌 대회 타임라인">{"".join(parts)}</svg>'
+    )
+
+
 def _season_skill_heatmap_svg(rows: list, width: int = 620) -> str:
     """MISSION V30 (2026-09-28): 'Heatmaps replace many tables...
     immediately visible.' Real per-tournament SG component breakdown
@@ -610,17 +705,24 @@ def _season_skill_heatmap_svg(rows: list, width: int = 620) -> str:
     if len(labeled) < 2:
         return ""
     comp_keys = [("ott", "OTT"), ("app", "APP"), ("arg", "ARG"), ("putt", "PUTT")]
-    row_h = 20
-    label_w = 40
+    # MISSION V70 (2026-09-28): "Heatmaps must become readable from 2
+    # meters away." Taller bands, a higher color-intensity floor (a
+    # near-zero value no longer fades to almost-white), a wider row
+    # label at a bigger bold font, and a higher minimum cell width all
+    # make the real color-by-sign signal legible at a glance -- the
+    # exact values themselves are unchanged, still exact-only in each
+    # cell's own tooltip.
+    row_h = 30
+    label_w = 52
     n = len(labeled)
-    cell_w = max((width - label_w) / n, 4)
+    cell_w = max((width - label_w) / n, 6)
     height = row_h * len(comp_keys) + 4
     parts = []
     for ri, (key, label) in enumerate(comp_keys):
         vals = [r["sg_components"].get(key) for r in labeled if r["sg_components"].get(key) is not None]
         vmax = max((abs(v) for v in vals), default=0) or 1.0
         y = ri * row_h
-        parts.append(f'<text x="0" y="{y + row_h * 0.65:.1f}" font-size="10" fill="#3d4a43">{label}</text>')
+        parts.append(f'<text x="0" y="{y + row_h * 0.65:.1f}" font-size="14" font-weight="700" fill="#3d4a43">{label}</text>')
         for ci, r in enumerate(labeled):
             v = r["sg_components"].get(key)
             x = label_w + ci * cell_w
@@ -629,10 +731,10 @@ def _season_skill_heatmap_svg(rows: list, width: int = 620) -> str:
                 title = f'{r["tournament"]}: {label} 미수집'
             else:
                 intensity = min(abs(v) / vmax, 1.0)
-                color = f'rgba(15,92,70,{0.15 + 0.75 * intensity:.2f})' if v >= 0 else f'rgba(155,73,63,{0.15 + 0.75 * intensity:.2f})'
+                color = f'rgba(15,92,70,{0.3 + 0.6 * intensity:.2f})' if v >= 0 else f'rgba(155,73,63,{0.3 + 0.6 * intensity:.2f})'
                 title = f'{r["tournament"]}: {label} {_fmt(v)}'
             parts.append(
-                f'<rect x="{x:.1f}" y="{y + 1:.1f}" width="{max(cell_w - 1, 2):.1f}" height="{row_h - 2}" fill="{color}">'
+                f'<rect x="{x:.1f}" y="{y + 2:.1f}" width="{max(cell_w - 1.5, 3):.1f}" height="{row_h - 4}" fill="{color}">'
                 f'<title>{escape(title)}</title></rect>'
             )
     return f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="시즌 SG 구성 요소 히트맵">{"".join(parts)}</svg>'
@@ -649,11 +751,19 @@ def _season_replay_html(replays: list, tournament_history: Optional[list] = None
     MISSION V30 (2026-09-28): the First-5/Middle-5/Last-5 windows that
     replaced that table (a 3-point line, exactly the 'wasted graph'
     this mission bans) are gone too -- every real tournament in the
-    season now renders as its own point on a real chronological chart
-    (_season_tournament_chart_svg), plus a real per-tournament SG
-    component heatmap (_season_skill_heatmap_svg). tournament_history
-    is the same real, already-reconciled per-tournament list #7's
-    timeline uses -- filtered by season, nothing recomputed."""
+    season now renders as its own point on a real chronological chart.
+
+    MISSION V73 (2026-09-28): 'Remove the unexplained SG heatmap...
+    the chart itself must explain the season, supporting text should
+    become optional.' _season_skill_heatmap_svg is gone from this
+    section (its real per-tournament SG component numbers are
+    unchanged and still fully on the page, in the full tournament
+    table's OTT/APP/ARG/PUTT columns) -- replaced by
+    _season_replay_chart_svg, which draws win/top10/peak/slump/
+    recovery all on the one chronological line. The chip row that used
+    to be the only place stating peak/slump/recovery is unchanged in
+    content but now nested behind a disclosure, since the chart now
+    carries those same conclusions visually."""
     tournament_history = tournament_history or []
     blocks = []
     for r in replays:
@@ -662,9 +772,10 @@ def _season_replay_html(replays: list, tournament_history: Optional[list] = None
         # so a repeated tournament name across two different seasons
         # never resolves to the wrong game_code.
         game_code_by_name = {t["tournament"]: t["game_code"] for t in season_rows}
-        season_chart = _season_tournament_chart_svg(season_rows)
-        heatmap = _season_skill_heatmap_svg(season_rows)
         recovery = r.get("recovery_next_event")
+        peak = r.get("peak")
+        slump = r.get("slump")
+        season_chart = _season_replay_chart_svg(season_rows, peak, slump, recovery)
         if recovery:
             recovery_tournament = _tournament_link(recovery["tournament"], game_code_by_name.get(recovery["tournament"]))
             recovery_sg = _fmt(recovery["sg_total"])
@@ -674,12 +785,10 @@ def _season_replay_html(replays: list, tournament_history: Optional[list] = None
             recovery_chip = _chip("슬럼프 직후 대회 없음 (시즌 마지막 대회)")
         volatility_chip = _chip(f'변동성(표준편차) {r["volatility_stddev"]}') if r["volatility_stddev"] is not None else ""
         top10_chip = _chip(f'상위10위율 {r["top10_rate_pct"]}%')
-        peak = r.get("peak")
         peak_chip = (
             _chip_raw(f'피크: {_tournament_link(peak["tournament"], game_code_by_name.get(peak["tournament"]))} {_fmt(peak["sg_total"])}', positive=True)
             if peak else ""
         )
-        slump = r.get("slump")
         # MISSION V12: red only when the slump tournament's real SG
         # Total was actually negative -- her "slump" within a strong
         # season can still be a positive number, which red would
@@ -691,13 +800,16 @@ def _season_replay_html(replays: list, tournament_history: Optional[list] = None
             )
             if slump else ""
         )
+        detail_chips = volatility_chip + top10_chip + peak_chip + slump_chip + recovery_chip
+        detail = (
+            f'<details class="ph-nested-detail"><summary>수치로 보기</summary>'
+            f'<div class="piq-audit">{detail_chips}</div></details>'
+        ) if detail_chips else ""
         blocks.append(
             '<div class="ph-evo-block">'
             f'<p class="piq-step-label piq-label-standalone">{r["season"]}시즌 ({r["event_count"]}개 대회)</p>'
-            f'{season_chart}{heatmap}'
-            '<div class="piq-audit">'
-            + volatility_chip + top10_chip + peak_chip + slump_chip + recovery_chip
-            + "</div></div>"
+            f'{season_chart}{detail}'
+            "</div>"
         )
     return (
         '<details class="evidence-detail pi-section pi-section--sub" id="ph-season-replay" open>'
@@ -940,7 +1052,11 @@ def _heartbeat_track_svg(beats: list, value_key: str, center_value: float, width
             color = "#0f5c46"
         else:
             color = "#c3cec7"
-        bars.append(f'<rect x="{x - 1.6:.1f}" y="{y:.1f}" width="3.2" height="{max(bar_h, 1):.1f}" fill="{color}"/>')
+        # MISSION V60 (2026-09-28): this chart already had no on-chart
+        # numeric labels (bar height alone carries the comparison) --
+        # only a real hover detail was missing, added here.
+        title = f'{b["tournament"]} ({b["season"]}) · {"+" if d >= 0 else ""}{d:.2f}'
+        bars.append(f'<rect x="{x - 1.6:.1f}" y="{y:.1f}" width="3.2" height="{max(bar_h, 1):.1f}" fill="{color}"><title>{escape(title)}</title></rect>')
     baseline_line = f'<line x1="{pad}" y1="{baseline:.1f}" x2="{width - pad}" y2="{baseline:.1f}" stroke="#8a988f" stroke-width="1" stroke-dasharray="2 2"/>'
     return f'{baseline_line}{"".join(bars)}'
 
@@ -1329,22 +1445,23 @@ def _player_dna_radar_html(seasons_data: list, career_dna: Optional[dict] = None
             f'<p class="piq-current-detail">이번 시즌은 아직 확인되지 않았습니다: {escape(", ".join(unavailable))}</p>' if unavailable else ""
         )
         sample = next((a["population"] for a in sd["axes"] if a.get("population")), None)
-        # MISSION V31 (2026-09-28): 'delete any visualization [or value]
-        # that has no decision value.' The 백분위 column repeated,
-        # digit for digit, what the radar SVG already prints as each
-        # point's own label (_radar_svg: '{axis} {percentile}') --
-        # only the one real number the chart does NOT show (delta vs
-        # her own career mean) survives here.
-        delta_rows = "".join(
-            f'<tr><td>{escape(terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"]))}</td>'
-            f'<td>{a["delta_vs_career_mean"]:+.1f}</td></tr>'
-            for a in sd["axes"] if a.get("delta_vs_career_mean") is not None
+        # MISSION V31 (2026-09-28) dropped 백분위 here because it
+        # repeated the radar SVG's own on-chart axis label. MISSION V60
+        # (2026-09-28) moved that number off the chart entirely (into a
+        # hover tooltip, per "values appear only in tooltips or summary
+        # cards") and briefly restored it as a table column. MISSION V70
+        # (2026-09-28), "DNA radar must stand alone without supporting
+        # tables... replace paragraphs with visual KPI cards": the same
+        # two real numbers per axis (percentile, delta vs career mean)
+        # survive here as a compact KPI-card grid instead of a table --
+        # no data lost, no table beneath the chart.
+        delta_cards = "".join(
+            f'<div class="kpi-block"><p class="kpi-label">{escape(terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"]))}</p>'
+            f'<p class="kpi-value">{a["percentile"]:.0f}</p>'
+            f'<p class="piq-current-detail">커리어 평균 대비 {a["delta_vs_career_mean"]:+.1f}</p></div>'
+            for a in sd["axes"] if a.get("delta_vs_career_mean") is not None and a.get("percentile") is not None
         )
-        delta_table = (
-            '<div class="table-scroll"><table class="data-table"><thead><tr>'
-            '<th>영역</th><th>커리어 평균 대비</th></tr></thead>'
-            f'<tbody>{delta_rows}</tbody></table></div>'
-        ) if delta_rows else ""
+        delta_table = f'<div class="pi-kpi-grid">{delta_cards}</div>' if delta_cards else ""
         panels.append(
             f'<div class="ph-dna-panel" id="ph-dna-panel-{sd["season"]}">'
             f'<p class="piq-step-label piq-label-standalone">{sd["season"]}시즌 (같은 시즌 KLPGA 선수 {sample}명과 비교)</p>'
@@ -1388,6 +1505,113 @@ def _player_dna_radar_html(seasons_data: list, career_dna: Optional[dict] = None
 # ---------------------------------------------------------------------------
 
 _FORM_INDICATOR_LABEL = {"UP": "상승세", "DOWN": "하락세", "FLAT": "보합세"}
+
+
+def _story_layer_html(doc: dict) -> str:
+    """MISSION V71 (2026-09-28), refined by explicit user correction:
+    'Do NOT override V50.1. Keep every real insight. Do NOT delete
+    evidence. Instead split the page into two layers. Layer 1 = Story
+    ... Layer 2 = Evidence ... Never remove unique player intelligence.
+    Reorder it. Promote the story. Demote the evidence.'
+
+    MISSION V72 (2026-09-28): 'Transform the Story layer from a
+    dashboard into a magazine cover... Every Story card starts with a
+    conclusion, never a question... at most three supporting numbers.'
+    Each headline below is a plain-language conclusion built only from
+    a value/sign some section further down already computed (career-
+    best-season check, lead skill driving the trend, the biggest real
+    season jump, the strongest individual skill, the strongest venue)
+    -- never a new computation. Every card still links to its own full
+    section for the reader who wants the evidence behind it."""
+    cards = []
+
+    cvc = doc.get("current_vs_career")
+    if cvc:
+        story = doc.get("career_story") or {}
+        is_peak_season = any(
+            m["season"] == cvc["current_season"]
+            for c in story.get("chapters", []) if c["chapter"] == "최고 경기력"
+            for m in c["milestones"] if "최고" in m["label"]
+        )
+        indicator = doc.get("current_form_indicator") or {}
+        direction = indicator.get("direction")
+        if is_peak_season:
+            headline = "커리어 최고의 시즌을 보내고 있다."
+        elif direction == "UP":
+            headline = "상승세를 타고 있다."
+        elif direction == "DOWN":
+            headline = "하락세를 보이고 있다."
+        else:
+            headline = "꾸준한 폼을 유지하고 있다."
+        snap = doc.get("current_snapshot")
+        support = [f'SG {_fmt(cvc["current_season_sg_total"])}', f'평균 대비 {cvc["delta_vs_career_average"]:+.2f}']
+        if snap and snap.get("official_sg_rank") is not None:
+            support.append(f'공식 {snap["official_sg_rank"]}위')
+        cards.append((headline, support[:3], "#ph-current-form"))
+
+    why_now = doc.get("why_now")
+    if why_now and why_now.get("lead_component"):
+        lead = why_now["lead_component"].removeprefix("SG ")
+        lead_delta = why_now.get("lead_delta", 0)
+        headline = f'{lead}가 최근 상승세를 이끌고 있다.' if lead_delta >= 0 else f'{lead} 부진이 가장 큰 하락 요인이다.'
+        top_arrows = sorted(why_now.get("arrows", []), key=lambda a: abs(a["delta"]), reverse=True)[:3]
+        support = [f'{a["component"].removeprefix("SG ")} {a["delta"]:+.2f}' for a in top_arrows]
+        cards.append((headline, support, "#ph-why-now"))
+
+    story = doc.get("career_story")
+    if story:
+        breakthrough = next(
+            (m for c in story.get("chapters", []) if c["chapter"] == "경기력 도약" for m in c["milestones"]), None
+        )
+        if breakthrough:
+            cards.append((
+                f'{breakthrough["season"]}시즌, 가장 크게 도약했다.',
+                [breakthrough["detail"]],
+                "#ph-career-story",
+            ))
+
+    radar_seasons = doc.get("player_dna_radar") or []
+    if radar_seasons:
+        latest = radar_seasons[-1]
+        # excludes the aggregate axis ("SCORING"/종합 경기력) so the
+        # answer is a real individual skill, not the tautological sum
+        # of the others -- same exclusion this doc's career_dna
+        # fastest/most-volatile fields already use.
+        best_axis = max(
+            (a for a in latest["axes"] if a.get("percentile") is not None and a["axis"] != "SCORING"),
+            key=lambda a: a["percentile"], default=None,
+        )
+        if best_axis:
+            axis_ko = terms.RADAR_AXIS_LABEL_KO.get(best_axis["axis"], best_axis["axis"])
+            cards.append((
+                f'{axis_ko}가 최고 무기다.',
+                [f'백분위 {best_axis["percentile"]:.0f}', f'{latest["season"]}시즌 기준'],
+                "#ph-player-dna-radar",
+            ))
+
+    profiles = doc.get("course_profile")
+    if profiles:
+        strongest = profiles[0]
+        cards.append((
+            f'{strongest["tournament_family"]}에서 가장 강하다.',
+            [f'평균 SG {_fmt(strongest["avg_sg_total"])}'],
+            "#ph-course-profile",
+        ))
+
+    if not cards:
+        return ""
+
+    card_html = "".join(
+        f'<a class="ph-story-card" href="{href}"><p class="ph-story-headline">{escape(headline)}</p>'
+        f'<p class="ph-story-support">{escape(" · ".join(support))}</p></a>'
+        for headline, support, href in cards
+    )
+    return (
+        '<section class="ph-story-layer" id="ph-story-layer" aria-label="한눈에 보는 김민선7">'
+        f'<div class="ph-story-grid">{card_html}</div>'
+        '</section>'
+        '<p class="ph-layer2-marker">분석 근거</p>'
+    )
 
 
 def _current_form_hero_html(cvc: Optional[dict], current_snapshot: Optional[dict], indicator: Optional[dict]) -> str:
@@ -1580,11 +1804,16 @@ def _why_now_html(
         for a in why_now["arrows"]
     )
     skill_chain_html = _skill_chain_html(why_now, current_snapshot, current_vs_career, career_current)
+    # MISSION V72 (2026-09-28): "Remove duplicated narrative. If the
+    # Story layer already tells the conclusion, the detailed section
+    # below becomes evidence only." The Story layer's own card already
+    # states this same real conclusion (which component is driving the
+    # trend) -- this section keeps only the evidence for it (the arrow
+    # grid, the skill chain), not a second copy of the sentence.
     return (
         '<details class="evidence-detail pi-section" id="ph-why-now" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_WHY_NOW_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
-        f'<p class="piq-conclusion">{escape(why_now["sentence"])}</p>'
         f'<div class="ph-arrow-grid">{arrow_cards}</div>'
         f'{skill_chain_html}'
         '</div></details>'
@@ -1666,53 +1895,169 @@ def _player_identity_html(identity: Optional[dict]) -> str:
 # NEO PLAYER BIOGRAPHY V4 -- SECTION 5: CAREER STORY (told backwards)
 # ---------------------------------------------------------------------------
 
-def _career_milestones_timeline_svg(chapters: list, seasons: list, width: int = 640) -> str:
+# MISSION V77 REDESIGN (2026-09-28), replacing the earlier V77 pass:
+# "Timeline = Navigation... Each milestone should contain ONLY icon /
+# title / year. Nothing else... Avoid emoji. Use vector or CSS shapes
+# only." One fixed (shape, color) per real chapter concept -- never
+# per player -- drawn as real SVG primitives instead of an emoji glyph
+# (a plain colored dot/star/triangle/diamond/ring, matching this
+# page's own existing palette: gray for a neutral fact, gold for a
+# win, green for everything positive -- never a new color system).
+_STORY_CHAPTER_MARKER = {
+    "기준점": ("circle", "#8a988f"),
+    "첫 우승": ("star", "#c98a1a"),
+    "경기력 도약": ("triangle", "#0f5c46"),
+    "최고 경기력": ("diamond", "#0f5c46"),
+    "현재 경기력": ("ring", "#0f5c46"),
+}
+# When a chapter groups more than one real milestone (true only for
+# 최고 경기력, which holds both her first win and her career-best
+# season), this says which of its own real milestone labels the
+# single timeline point should take its year from -- the one that
+# most literally matches the chapter's own name. Every other chapter
+# has exactly one milestone, so no entry is needed for it.
+_STORY_CHAPTER_REPRESENTATIVE_LABEL = {"최고 경기력": "커리어 최고 SG Total 시즌"}
+
+
+def _timeline_marker_svg(shape: str, cx: float, cy: float, color: str, size: float = 6.5) -> str:
+    """One real vector primitive per shape name -- no emoji, no
+    external icon font, per MISSION V77 REDESIGN's 'vector or CSS
+    shapes only.'"""
+    if shape == "star":
+        pts = []
+        for i in range(10):
+            ang = -_math.pi / 2 + i * _math.pi / 5
+            r = size if i % 2 == 0 else size * 0.42
+            pts.append(f"{cx + r * _math.cos(ang):.1f},{cy + r * _math.sin(ang):.1f}")
+        return f'<polygon points="{" ".join(pts)}" fill="{color}"/>'
+    if shape == "triangle":
+        return (
+            f'<polygon points="{cx:.1f},{cy - size:.1f} {cx + size:.1f},{cy + size * 0.8:.1f} '
+            f'{cx - size:.1f},{cy + size * 0.8:.1f}" fill="{color}"/>'
+        )
+    if shape == "diamond":
+        return (
+            f'<polygon points="{cx:.1f},{cy - size:.1f} {cx + size:.1f},{cy:.1f} '
+            f'{cx:.1f},{cy + size:.1f} {cx - size:.1f},{cy:.1f}" fill="{color}"/>'
+        )
+    if shape == "ring":
+        return (
+            f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{size:.1f}" fill="none" stroke="{color}" stroke-width="2"/>'
+            f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{size * 0.38:.1f}" fill="{color}"/>'
+        )
+    return f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{size:.1f}" fill="{color}"/>'
+
+
+def _story_timeline_points(chapters: list, current: Optional[dict]) -> list:
+    """One real (chapter, season) point per chapter concept -- never
+    one per individual milestone-fact. Reused by both the desktop SVG
+    and the mobile vertical list so the two can never drift apart.
+
+    `chapters` arrives in the backwards-narrative order the text cards
+    below use (최고 경기력 -> ... -> 기준점) -- right for prose, wrong
+    for a timeline, where 기준점(2023) mid-list between two 2025
+    points would read as a mistake. Sorted chronologically (oldest
+    first) here instead, matching the desktop SVG's own left-to-right
+    real season axis."""
+    points = []
+    for c in chapters:
+        ms = c["milestones"]
+        wanted = _STORY_CHAPTER_REPRESENTATIVE_LABEL.get(c["chapter"])
+        best = next((m for m in ms if m["label"] == wanted), None) or max(ms, key=lambda m: m["season"])
+        points.append((c["chapter"], best["season"]))
+    if current:
+        points.append(("현재 경기력", current["season"]))
+    return sorted(points, key=lambda p: p[1])
+
+
+def _career_milestones_timeline_svg(chapters: list, seasons: list, current: Optional[dict] = None, width: int = 1180) -> str:
     """MISSION "PLAYER HISTORY V20 continued" (2026-09-28): 'career
     milestones' as a real visual, not a chapter-by-chapter paragraph
-    list. Every real milestone (already computed, build_10097_player_
-    history.py's _player_story) placed on one real chronological
-    career timeline -- when several milestones share a real season
-    (true for this player: three of her five real milestones are
-    2025), they stack straight up from the spine, one level per
-    milestone, instead of overlapping. Milestones only ever stack
-    ABOVE the spine, never below: an earlier version alternated above/
-    below and a below-spine label collided with the season tick labels
-    directly underneath the axis."""
-    milestones = [(c["chapter"], m) for c in chapters for m in c["milestones"]]
-    if not milestones or len(seasons) < 2:
+    list. Every real chapter placed on one real chronological career
+    timeline -- when several chapters share a real season, they stack
+    straight up from the spine, one level per chapter, instead of
+    overlapping. Points only ever stack ABOVE the spine, never below:
+    an earlier version alternated above/below and a below-spine label
+    collided with the season tick labels directly underneath the axis.
+
+    MISSION V77 REDESIGN (2026-09-28): 'Timeline = Navigation... ONLY
+    icon / title / year... Move all explanations below... Timeline =
+    index. Cards = detail.' Every real milestone's own detail sentence
+    and numbers (already shown once, in the stage card this chart sits
+    above) are gone from this chart -- each point is now only its
+    chapter's real vector marker, the chapter's own name as its title,
+    and the real season of its representative milestone. Desktop-only
+    (see .ph-timeline-svg in neo-site.css, ~85% of the content width,
+    hidden under the tablet breakpoint); _career_milestones_timeline_
+    mobile_html renders the identical real points as a vertical list
+    for narrower viewports."""
+    points = _story_timeline_points(chapters, current)
+    if not points or len(seasons) < 2:
         return ""
     by_season: dict = {}
-    for chapter, m in milestones:
-        by_season.setdefault(m["season"], []).append((chapter, m))
+    for chapter, season in points:
+        by_season.setdefault(season, []).append(chapter)
     max_stack = max(len(items) for items in by_season.values())
-    axis_y = 24 + max_stack * 16
-    height = axis_y + 34
+
+    side_pad, top_pad, bottom_pad, row_h = 44, 30, 46, 52
+    axis_y = top_pad + max_stack * row_h
+    height = axis_y + bottom_pad
 
     lo, hi = min(seasons), max(seasons)
     span = (hi - lo) or 1
-    pad = 20
 
     def _x(season):
-        return pad + (season - lo) / span * (width - 2 * pad)
+        return side_pad + (season - lo) / span * (width - 2 * side_pad)
 
-    parts = [f'<line x1="{pad}" y1="{axis_y:.1f}" x2="{width - pad}" y2="{axis_y:.1f}" stroke="#d5ddd7" stroke-width="2"/>']
+    parts = [
+        f'<line x1="{side_pad}" y1="{axis_y:.1f}" x2="{width - side_pad}" y2="{axis_y:.1f}" '
+        'stroke="#c3cec6" stroke-width="3" stroke-linecap="round"/>'
+    ]
     for s in seasons:
         x = _x(s)
-        anchor = "start" if x < pad + 16 else ("end" if x > width - pad - 16 else "middle")
-        parts.append(f'<line x1="{x:.1f}" y1="{axis_y - 4:.1f}" x2="{x:.1f}" y2="{axis_y + 4:.1f}" stroke="#8a988f" stroke-width="1"/>')
-        parts.append(f'<text x="{x:.1f}" y="{axis_y + 18:.1f}" font-size="10" fill="#5d6964" text-anchor="{anchor}">{s}</text>')
+        anchor = "start" if x < side_pad + 24 else ("end" if x > width - side_pad - 24 else "middle")
+        parts.append(f'<line x1="{x:.1f}" y1="{axis_y - 5:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
+        parts.append(f'<text x="{x:.1f}" y="{axis_y + 24:.1f}" font-size="13" fill="#8a988f" text-anchor="{anchor}">{s}</text>')
 
-    for season, items in by_season.items():
+    for season, chapter_list in by_season.items():
         x = _x(season)
-        anchor = "start" if x < pad + 60 else ("end" if x > width - pad - 60 else "middle")
-        for depth, (chapter, m) in enumerate(items):
-            ly = axis_y - (16 + depth * 16)
-            parts.append(f'<circle cx="{x:.1f}" cy="{axis_y:.1f}" r="4" fill="#0f5c46"/>')
-            parts.append(f'<text x="{x:.1f}" y="{ly:.1f}" font-size="10" font-weight="700" fill="#14201c" text-anchor="{anchor}">{escape(m["label"])}</text>')
+        anchor = "start" if x < side_pad + 110 else ("end" if x > width - side_pad - 110 else "middle")
+        for depth, chapter in enumerate(chapter_list):
+            icon_y = axis_y - 22 - depth * row_h
+            title_y = icon_y - 16
+            shape, color = _STORY_CHAPTER_MARKER.get(chapter, ("circle", "#0f5c46"))
+            parts.append(_timeline_marker_svg(shape, x, icon_y, color))
+            parts.append(f'<text x="{x:.1f}" y="{title_y:.1f}" font-size="17" font-weight="500" fill="#14201c" text-anchor="{anchor}">{escape(chapter)}</text>')
     return (
-        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark" role="img" aria-label="커리어 마일스톤 타임라인">'
+        f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" class="ph-spark ph-timeline-svg" '
+        'role="img" aria-label="커리어 마일스톤 타임라인">'
         f'{"".join(parts)}</svg>'
     )
+
+
+def _career_milestones_timeline_mobile_html(chapters: list, current: Optional[dict]) -> str:
+    """MISSION V77 REDESIGN (2026-09-28): 'Mobile: keep the same
+    information. Convert to a vertical timeline. Never shrink fonts
+    below readability.' A zero-client-side-JS static site cannot
+    reflow one SVG from horizontal to vertical, so this is a second,
+    CSS-only rendering of the exact same real (chapter, season) points
+    _career_milestones_timeline_svg draws -- shown only below the
+    tablet breakpoint (see .ph-timeline-mobile in neo-site.css), the
+    SVG shown only above it. Icon shapes are pure CSS (border-radius/
+    clip-path/rotate), never emoji, matching the desktop marker's own
+    shape+color per chapter exactly."""
+    points = _story_timeline_points(chapters, current)
+    if not points:
+        return ""
+    rows = "".join(
+        f'<div class="ph-timeline-mobile-row">'
+        f'<span class="ph-timeline-mobile-icon ph-timeline-mobile-icon--{_STORY_CHAPTER_MARKER.get(chapter, ("circle", ""))[0]}"></span>'
+        f'<span class="ph-timeline-mobile-title">{escape(chapter)}</span>'
+        f'<span class="ph-timeline-mobile-year">{season}</span>'
+        '</div>'
+        for chapter, season in points
+    )
+    return f'<div class="ph-timeline-mobile">{rows}</div>'
 
 
 def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
@@ -1738,12 +2083,13 @@ def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
     current = story["current"]
     current_html = (
         '<div class="ph-bio-stage">'
-        '<p class="piq-step-label piq-label-standalone">지금</p>'
+        '<p class="piq-step-label piq-label-standalone">현재 경기력</p>'
         f'<p class="piq-current-detail">{current["season"]}시즌, SG Total {_fmt(current["sg_total"])}, '
         f'우승 {current["wins"]}회, 상위10위 {current["top10"]}회 ({current["events"]}개 대회 표본).</p>'
         '</div>'
     )
-    timeline_svg = _career_milestones_timeline_svg(story["chapters"], [r["season"] for r in career_overview["season_rows"]])
+    timeline_svg = _career_milestones_timeline_svg(story["chapters"], [r["season"] for r in career_overview["season_rows"]], story["current"])
+    timeline_mobile = _career_milestones_timeline_mobile_html(story["chapters"], story["current"])
     chapter_blocks = []
     for c in story["chapters"]:
         milestone_lines = "".join(
@@ -1764,7 +2110,7 @@ def _career_story_html(story: Optional[dict], career_overview: dict) -> str:
         '<details class="evidence-detail pi-section" id="ph-career-story" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_CAREER_STORY_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
-        f'{timeline_svg}'
+        f'{timeline_svg}{timeline_mobile}'
         f'<div class="ph-bio-story">{current_html}{"".join(chapter_blocks)}</div>'
         f'{season_table_html}'
         '</div></details>'
@@ -1795,10 +2141,15 @@ def _course_strength_bars_svg(profiles: list, width: int = 620, row_h: int = 28)
         bar_x = label_w + (v - lo) / span * plot_w
         x0, x1 = (zero_x, bar_x) if v >= 0 else (bar_x, zero_x)
         color = "#0f5c46" if v >= 0 else "#9a6b3f"
+        # MISSION V60 (2026-09-28): the end-of-bar number is gone --
+        # the bar's own length already shows the comparison; the exact
+        # real value is a hover away (<title>) and, for the full real
+        # set (not just this top/bottom highlight), one click away in
+        # the already-existing full table below this chart.
         rows.append(
             f'<text x="0" y="{y + row_h * 0.65:.1f}" font-size="11" fill="#3d4a43">{escape(p["tournament_family"])}</text>'
-            f'<rect x="{x0:.1f}" y="{y + 4:.1f}" width="{max(x1 - x0, 1):.1f}" height="{row_h - 12:.1f}" fill="{color}"/>'
-            f'<text x="{width - 4}" y="{y + row_h * 0.65:.1f}" font-size="11" fill="#3d4a43" text-anchor="end">{v:+.2f}</text>'
+            f'<rect x="{x0:.1f}" y="{y + 4:.1f}" width="{max(x1 - x0, 1):.1f}" height="{row_h - 12:.1f}" fill="{color}">'
+            f'<title>{escape(p["tournament_family"])} {v:+.2f}</title></rect>'
         )
     zero_line = f'<line x1="{zero_x:.1f}" y1="0" x2="{zero_x:.1f}" y2="{height}" stroke="#8a988f" stroke-width="1" stroke-dasharray="2 2"/>'
     return (
@@ -1831,6 +2182,20 @@ def _course_profile_html(profiles: Optional[list], tournament_history: Optional[
     bottom = [p for p in profiles[-3:] if p not in top]
     highlight = top + bottom
     bars = _course_strength_bars_svg(highlight)
+    # MISSION V70 (2026-09-28): "No chart exists without a headline
+    # insight." profiles is already sorted strongest-to-weakest by real
+    # avg SG Total -- its own first/last rows answer "where is she
+    # strongest/weakest" before the bar chart does, no new data.
+    #
+    # MISSION V72 (2026-09-28): "Remove duplicated narrative." The
+    # Story layer's own card now states the strongest venue as its
+    # headline conclusion -- only the weakest-venue half survives here,
+    # since that fact is not said anywhere above this section.
+    strongest, weakest = profiles[0], profiles[-1]
+    course_headline = (
+        f'<div class="piq-brief piq-brief--negative"><p><strong>{escape(weakest["tournament_family"])}</strong> '
+        f'가장 약한 대회 · 평균 SG {_fmt(weakest["avg_sg_total"])}</p></div>'
+    ) if strongest is not weakest else ""
 
     game_code_by_name = {t["tournament"]: t["game_code"] for t in (tournament_history or [])}
     rows = "".join(
@@ -1852,8 +2217,12 @@ def _course_profile_html(profiles: Optional[list], tournament_history: Optional[
         '<details class="evidence-detail pi-section" id="ph-course-profile" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_COURSE_PROFILE_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
-        '<p class="piq-current-detail">대회별 코스명은 실측 커버리지가 낮아, 같은 이름으로 반복 개최된 대회(2회 이상 '
-        '출전)를 실제 근거로 삼아 강세/약세를 정리합니다.</p>'
+        # MISSION V61 (2026-09-28): "데이터 커버리지" is developer
+        # language -- the real reason (course names aren't well
+        # recorded) reads the same to a golfer without that word.
+        '<p class="piq-current-detail">대회별 코스명은 기록이 많지 않아, 같은 이름으로 반복 개최된 대회'
+        '(2회 이상 출전)를 기준으로 강세·약세를 정리합니다.</p>'
+        f'{course_headline}'
         f'{bars}'
         f'{full_table}'
         '</div></details>'
@@ -2259,6 +2628,7 @@ def render_player_history_html(
     body = (
         prev_next_html(prev_link, next_link)
         + _hero_html(doc)
+        + _story_layer_html(doc)                                                                 # V71 Layer 1: Story
         + _current_form_hero_html(doc.get("current_vs_career"), doc.get("current_snapshot"), doc.get("current_form_indicator"))  # 1
         + _official_snapshot_html(doc.get("current_snapshot"))                                 # 1 (subordinate, restored by V50.1)
         + _why_now_html(doc.get("why_now"), doc.get("current_snapshot"), doc.get("current_vs_career"), doc.get("career_story", {}).get("current"))  # 2

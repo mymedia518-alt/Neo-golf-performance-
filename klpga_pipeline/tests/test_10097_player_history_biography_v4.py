@@ -72,16 +72,32 @@ def test_why_now_leads_with_one_sentence_before_the_arrow_chips():
     (https://claude.ai/artifact/BZBJhzA36ZvskuKPkDjyv7): the arrow
     CHIPS ('APP ▲ OTT ▲ PUTT ▼' text) became a 4-card icon grid
     (.ph-arrow-grid) -- still no table, no chart, sentence still
-    leads."""
-    _, html = _doc_and_html()
+    leads.
+
+    MISSION V72 (2026-09-28): 'Remove duplicated narrative. If the
+    Story layer already tells the conclusion, the detailed section
+    below becomes evidence only.' The Story layer at the top of the
+    page now states this exact same real conclusion (why_now's own
+    "sentence" field) as its own headline -- that specific sentence no
+    longer leads THIS section, since restating it here would be the
+    exact duplication V72 bans. The skill chain's own, different,
+    real closing sentence (which real scoring/score/result numbers
+    this lead skill produced) is not a duplicate of anything above it
+    and stays."""
+    doc, html = _doc_and_html()
     start = html.index('id="ph-why-now"')
     end = html.index("</details>", start)
     section = html[start:end]
     assert "<table" not in section
     assert "<svg" not in section
-    sentence_idx = section.index("piq-conclusion")
-    grid_idx = section.index("ph-arrow-grid")
-    assert sentence_idx < grid_idx
+    assert doc["why_now"]["sentence"] not in section, "MISSION V72: this exact sentence now lives only in the Story layer"
+    assert "ph-arrow-grid" in section
+    # the same real conclusion (lead component) still leads the page,
+    # in the Story layer's own headline card
+    lead = doc["why_now"]["lead_component"].removeprefix("SG ")
+    story_start = html.index('id="ph-story-layer"')
+    story_end = html.index("</section>", story_start)
+    assert lead in html[story_start:story_end]
 
 
 def test_why_now_sentence_names_exactly_one_lead_component():
@@ -157,10 +173,20 @@ def test_career_story_current_chapter_is_the_latest_real_season():
 def test_career_story_chapters_are_backwards_not_chronological():
     """Winning Stage -> Breakthrough -> Development -> Adaptation, each
     naming a REAL, earlier-computed milestone -- never chronological
-    (earliest-to-latest) order."""
+    (earliest-to-latest) order.
+
+    MISSION (2026-09-28): 'The timeline should describe measurable
+    career events, not narrative phases.' Chapter names renamed to
+    name a real, measurable event (최고 경기력/경기력 도약/첫 우승/
+    기준점) instead of a subjective life-stage word -- the backwards
+    ordering itself is unchanged.
+
+    MISSION (2026-09-28) follow-up: the earliest chapter renamed again
+    to 기준점 (Baseline) -- 'the earliest reliable performance
+    reference point... not their debut.'"""
     doc = build_script.build()
     chapters = [c["chapter"] for c in doc["career_story"]["chapters"]]
-    assert chapters == sorted(chapters, key=lambda c: ["우승의 시기", "도약의 순간", "성장기", "적응기"].index(c))
+    assert chapters == sorted(chapters, key=lambda c: ["최고 경기력", "경기력 도약", "첫 우승", "기준점"].index(c))
     # every chapter's milestone is a real one from _player_story, never fabricated
     real_labels = {m["label"] for m in doc["player_story"]}
     for c in doc["career_story"]["chapters"]:
@@ -172,26 +198,33 @@ def test_career_story_chapters_are_backwards_not_chronological():
 def test_career_story_reveals_real_chronological_seasons_only_at_the_end():
     """'Only afterwards reveal seasons... Tell the story backwards.'
     In the rendered HTML, the current-first narrative chapters must
-    appear before the season-by-season table."""
+    appear before the season-by-season table.
+
+    MISSION (2026-09-28): the '지금' (Current) stage label was renamed
+    to '현재 경기력' (Current Performance) -- a measurable-event label
+    instead of a bare narrative word -- per 'avoid subjective words.'"""
     _, html = _doc_and_html()
     start = html.index('id="ph-career-story"')
     end = html.index("</details>", start)
     section = html[start:end]
-    chapters_idx = section.index("지금")
+    chapters_idx = section.index("현재 경기력")
     season_table_idx = section.index("시즌별 기록")
     assert chapters_idx < season_table_idx
 
 
 def test_career_story_never_starts_the_visible_narrative_with_a_bare_season():
-    """The FIRST thing inside the Career Story body must be '지금'
-    (Current), never a literal season year like '2023'."""
+    """The FIRST thing inside the Career Story body must be '현재 경기력'
+    (Current Performance), never a literal season year like '2023'.
+
+    MISSION (2026-09-28): renamed from '지금' -- see the mission note
+    on test_career_story_reveals_real_chronological_seasons_only_at_the_end."""
     _, html = _doc_and_html()
     start = html.index('id="ph-career-story"')
     body_start = html.index('class="pi-section__body"', start)
     first_stage = html.index('class="ph-bio-stage"', body_start)
     first_label = html.index("piq-step-label", first_stage)
     snippet = html[first_label:first_label + 60]
-    assert "지금" in snippet
+    assert "현재 경기력" in snippet
 
 
 # ---------------------------------------------------------------------------

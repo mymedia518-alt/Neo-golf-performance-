@@ -46,9 +46,13 @@ def _doc_and_html():
 
 
 def test_named_windows_is_a_chart_not_a_table():
+    # MISSION V73 (2026-09-28): the chip row is now nested inside its
+    # own <details class="ph-nested-detail"> disclosure per season, so
+    # the naive first "</details>" is that inner disclosure's close,
+    # not this whole section's -- bound by the next sibling instead.
     doc, html = _doc_and_html()
     start = html.index('id="ph-season-replay"')
-    end = html.index("</details>", start)
+    end = html.index('id="ph-career-rolling-trend"', start)
     section = html[start:end]
     assert "<table" not in section
     real_seasons = {r["season"] for r in doc["season_replay"] if r.get("named_windows")}
@@ -105,7 +109,13 @@ def test_career_milestones_never_overlap_a_season_axis_tick():
     """Regression for a real bug this mission's own screenshot pass
     caught: a milestone stacked below the spine collided with the
     season tick label directly under it. Milestones must only stack
-    ABOVE the axis line now."""
+    ABOVE the axis line now.
+
+    MISSION V77 REDESIGN (2026-09-28): the spine's x1 (side_pad) moved
+    from 20 to 44, and the on-chart typography changed (milestone
+    titles: font-size 17, font-weight 500; season ticks: font-size 13,
+    fill #8a988f) -- this regression check now matches the current
+    real markup instead of the pre-redesign one, same intent."""
     doc, html = _doc_and_html()
     story = doc["career_story"]
     seasons = [r["season"] for r in doc["career_overview"]["season_rows"]]
@@ -116,10 +126,10 @@ def test_career_milestones_never_overlap_a_season_axis_tick():
     # <text> y must be strictly less than it (drawn above, in SVG's
     # top-down coordinate space) and every season-tick <text> y must be
     # strictly greater (drawn below).
-    axis_y = float(re.search(r'<line x1="20\.0" y1="([\d.]+)"', svg).group(1))
-    for m in re.finditer(r'<text x="[\d.]+" y="([\d.]+)" font-size="10" font-weight="700"', svg):
+    axis_y = float(re.search(r'<line x1="44\.0" y1="([\d.]+)"', svg).group(1))
+    for m in re.finditer(r'<text x="[\d.]+" y="([\d.]+)" font-size="17" font-weight="500"', svg):
         assert float(m.group(1)) < axis_y
-    for m in re.finditer(r'<text x="[\d.]+" y="([\d.]+)" font-size="10" fill="#5d6964"', svg):
+    for m in re.finditer(r'<text x="[\d.]+" y="([\d.]+)" font-size="13" fill="#8a988f"', svg):
         assert float(m.group(1)) > axis_y
 
 

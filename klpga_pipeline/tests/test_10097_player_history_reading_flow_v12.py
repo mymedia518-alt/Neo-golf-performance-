@@ -101,7 +101,11 @@ def test_worst_season_chip_in_career_evolution_never_colored_red_when_value_is_p
     MISSION "PLAYER HISTORY V20" (2026-09-28) moved this fact from a
     <span class="label-chip"> to a mark drawn directly on the season
     evolution chart (_marked_trend_svg) -- the same real-sign rule now
-    applies to that mark's `fill` color instead of a chip class."""
+    applies to that mark's `fill` color instead of a chip class.
+
+    MISSION V60 (2026-09-28): the mark's real value moved from a
+    visible <text> label into a <title> tooltip on its <circle>; the
+    fill color check now targets the circle instead of the old text."""
     import re
     doc, html = _doc_and_html()
     for metric in doc["career_evolution"].values():
@@ -112,7 +116,7 @@ def test_worst_season_chip_in_career_evolution_never_colored_red_when_value_is_p
         label_idx = html.index(f'>{report.escape(metric["label"])}</p>')
         block_end = html.index("</div></div>", label_idx)
         block = html[label_idx:block_end]
-        m = re.search(r'<text[^>]*fill="(#[0-9a-f]{6})"[^>]*>([^<]*최저[^<]*)</text>', block)
+        m = re.search(r'<circle[^>]*fill="(#[0-9a-f]{6})"[^>]*>\s*<title>([^<]*최저[^<]*)</title>', block)
         assert m, f"no '최저' mark found for {metric['label']}"
         mark_color = m.group(1)
         if worst_raw < 0:
@@ -126,7 +130,13 @@ def test_slump_chip_in_season_replay_is_colored_by_real_sign():
     real drill-down link (_tournament_link) to its own row in the full
     tournament table, so the needle allows for an optional wrapping
     <a href="#t-..."> tag between the label and the (possibly escaped)
-    tournament name."""
+    tournament name.
+
+    MISSION V73 (2026-09-28): the Season Replay chart now also draws a
+    real slump ring whose <title> tooltip starts with the same real
+    "슬럼프: {tournament}..." text, earlier in the page than the chip
+    -- the pattern is anchored to the chip's own <span class="label-
+    chip..."> opening tag so it can never match that tooltip instead."""
     import re
     doc, html = _doc_and_html()
     for row in doc["season_replay"]:
@@ -134,17 +144,17 @@ def test_slump_chip_in_season_replay_is_colored_by_real_sign():
         if not slump:
             continue
         escaped_name = report.escape(slump["tournament"])
-        pattern = re.escape("슬럼프: ") + r'(?:<a [^>]*>)?' + re.escape(escaped_name)
+        pattern = (
+            r'<span class="(label-chip[^"]*)">' + re.escape("슬럼프: ")
+            + r'(?:<a [^>]*>)?' + re.escape(escaped_name)
+        )
         m = re.search(pattern, html)
         assert m, f"no slump chip found for {slump['tournament']}"
-        idx = m.start()
-        tag_start = html.rindex("<span", 0, idx)
-        tag_end = html.index(">", tag_start)
-        chip_tag = html[tag_start:tag_end]
+        chip_class = m.group(1)
         if slump["sg_total"] < 0:
-            assert "label-chip--negative" in chip_tag
+            assert "label-chip--negative" in chip_class
         else:
-            assert "label-chip--negative" not in chip_tag, f"{needle} sg_total={slump['sg_total']} is non-negative but rendered red"
+            assert "label-chip--negative" not in chip_class, f"{slump['tournament']} sg_total={slump['sg_total']} is non-negative but rendered red"
 
 
 def test_round_history_cards_are_colored_by_real_sign_not_by_label():

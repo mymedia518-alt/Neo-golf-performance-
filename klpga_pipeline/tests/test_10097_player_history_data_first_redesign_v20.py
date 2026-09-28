@@ -62,7 +62,13 @@ def test_ai_report_jargon_does_not_exist_on_this_page():
 def test_season_evolution_charts_have_real_marks_and_season_ticks():
     """Every Season Evolution chart must mark its real peak, worst, and
     latest season directly on the line, plus real season-year ticks --
-    _marked_trend_svg, not the old bare _sparkline_svg."""
+    _marked_trend_svg, not the old bare _sparkline_svg.
+
+    MISSION V60 (2026-09-28): "remove every numeric label drawn inside
+    charts... values appear only in tooltips." The peak/worst marks are
+    no longer visible <text> -- they are a <circle> with a <title>
+    tooltip. Season-year ticks are unaffected (V60 targets value
+    labels, not axis ticks) and still render as <text>."""
     doc, html = _doc_and_html()
     for metric in doc["career_evolution"].values():
         label_idx = html.index(f'>{report.escape(metric["label"])}</p>')
@@ -71,8 +77,8 @@ def test_season_evolution_charts_have_real_marks_and_season_ticks():
         assert "<svg" in block
         for season in (pt["season"] for pt in metric["series"]):
             assert f">{season}</text>" in block, f"missing season tick {season} for {metric['label']}"
-        assert re.search(r'>[^<]*최고[^<]*</text>', block), f"no 최고 mark for {metric['label']}"
-        assert re.search(r'>[^<]*최저[^<]*</text>', block), f"no 최저 mark for {metric['label']}"
+        assert re.search(r'<circle[^>]*>\s*<title>[^<]*최고[^<]*</title>', block), f"no 최고 mark for {metric['label']}"
+        assert re.search(r'<circle[^>]*>\s*<title>[^<]*최저[^<]*</title>', block), f"no 최저 mark for {metric['label']}"
 
 
 def test_career_evolution_no_longer_uses_the_bare_sparkline_helper():
@@ -141,14 +147,19 @@ def test_season_table_is_collapsed_behind_a_disclosure():
 
 def test_worst_season_mark_colored_by_real_sign_never_by_label():
     """Mission V12's rule survives the chart rewrite: a 'worst' season
-    that is still a genuinely positive number must never render red."""
+    that is still a genuinely positive number must never render red.
+
+    MISSION V60 (2026-09-28): the mark is now a <circle fill="..."> with
+    a <title> tooltip instead of a visible <text fill="...">; the
+    real-sign color rule applies to the circle's own fill exactly as it
+    did to the old text's fill."""
     doc, html = _doc_and_html()
     for metric in doc["career_evolution"].values():
         worst_raw = metric["worst_season"]["value"]
         label_idx = html.index(f'>{report.escape(metric["label"])}</p>')
         block_end = html.index("</div></div>", label_idx)
         block = html[label_idx:block_end]
-        m = re.search(r'<text[^>]*fill="(#[0-9a-f]{6})"[^>]*>([^<]*최저[^<]*)</text>', block)
+        m = re.search(r'<circle[^>]*fill="(#[0-9a-f]{6})"[^>]*>\s*<title>([^<]*최저[^<]*)</title>', block)
         assert m
         if worst_raw < 0:
             assert m.group(1) == "#9b493f"
