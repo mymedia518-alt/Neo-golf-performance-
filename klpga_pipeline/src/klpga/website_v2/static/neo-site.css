@@ -376,6 +376,38 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    reusing .pi-section, which also carries its own border/background/
    margin that would visually change this block. */
 #ph-career-rolling-trend .table-scroll{overflow-x:auto}
+/* MISSION V60 (2026-09-28): #ph-dna-growth-velocity's table is the same
+   pattern -- a plain <div class="ph-evo-block"> sibling, not a
+   .pi-section, so it also fell through to the bare mobile
+   .table-scroll{overflow-x:visible} reset, causing a real 315px
+   page-level horizontal overflow at 390px (caught by screenshot QA). */
+#ph-dna-growth-velocity .table-scroll{overflow-x:auto}
+/* MISSION V71 (2026-09-28): Layer 1 ("Story") -- five real answer
+   cards at the very top of Player History, each linking down to the
+   full Layer 2 ("Evidence") section beneath it.
+   MISSION V72 (2026-09-28): "Transform the Story layer from a
+   dashboard into a magazine cover... the first screen must look like
+   the cover of a premium golf magazine, not a KPI dashboard." The
+   conclusion headline is now the dominant visual element (bigger,
+   heavier, tighter line-height -- a magazine pull-quote, not a KPI
+   number) with the supporting numbers demoted to a small caption
+   beneath it, reversing the old question-then-number dashboard order. */
+.ph-story-layer{margin:0 0 1.5rem}
+.ph-story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.75rem}
+.ph-story-card{display:block;padding:1.3rem 1.2rem;background:var(--surface);border:1px solid var(--line);
+  border-left:3px solid var(--green);text-decoration:none;color:inherit}
+.ph-story-card:hover{background:var(--panel)}
+.ph-story-headline{margin:0 0 .6rem;font-size:1.2rem;font-weight:800;line-height:1.3;color:var(--ink)}
+.ph-story-support{margin:0;font-size:.78rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.ph-layer2-marker{margin:2rem 0 .75rem;padding-top:1rem;border-top:1px solid var(--line);
+  font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--muted)}
+/* MISSION V73 (2026-09-28): Season Replay chart redesign -- "tournament
+   names ... visible on desktop." At narrow widths the same rotated
+   labels for 15-25 real tournaments would overlap into an unreadable
+   smear, so they hide below the tablet breakpoint; the win/top10/peak/
+   slump/recovery marks and their <title> tooltips (the real per-point
+   detail) stay at every width. */
+@media(max-width:900px){.ph-season-label{display:none}}
 /* Simple 2-column label/value stat tables (Current Form, Shot Profile)
    never need the generic .data-table's min-width:42rem (that width
    exists for wide multi-column leaderboard tables elsewhere on the
@@ -413,9 +445,52 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .piq-roadmap-item{padding:.85rem 1rem;border:1px solid var(--line);background:var(--panel)}
 .piq-roadmap-item .piq-step:last-of-type{margin-bottom:.4rem}
 .ph-evo-block{padding:.85rem 1rem;border:1px solid var(--line);background:var(--panel);margin-bottom:.9rem}
-.ph-spark{display:block;margin:.4rem 0;max-width:100%;height:auto}
+/* MISSION V60 (2026-09-28): "expand every chart to use the full
+   content width." width:100% (not max-width) so every trend/bar/
+   heatmap chart stretches to fill its column on a wide desktop,
+   instead of sitting at a fixed pixel width inside a much wider
+   container -- viewBox + height:auto keeps every chart's real
+   internal proportions correct at any rendered width. */
+.ph-spark{display:block;margin:.4rem 0;width:100%;height:auto}
+/* A radar's own shape only reads correctly near-square -- letting it
+   stretch to the full width of a wide desktop column would distort
+   it into an oval, not "use the space better." Capped, not full-
+   width, by design for this one chart type. */
+.ph-spark--radar{width:auto;max-width:100%}
 .ph-evo-block svg[role="img"]{max-width:100%;height:auto}
 .piq-sg-missing{color:var(--muted);font-style:italic;text-align:center!important}
+/* MISSION V77 REDESIGN (2026-09-28): Career Timeline as an editorial
+   graphic. "Desktop width should use approximately 80~90% of the
+   available width... avoid tiny centered graphics" -- less than every
+   other chart's full 100% (.ph-spark above), so it reads as a
+   deliberately composed graphic rather than a stretched dashboard
+   chart. "Mobile: convert to a vertical timeline" -- the SVG and the
+   vertical list render the exact same real points; only one is ever
+   visible. Placed AFTER .ph-spark on purpose: that rule's own
+   unconditional display:block has equal (0,1,0) specificity, so an
+   earlier .ph-timeline-svg{display:none} would lose the cascade to it
+   at any width regardless of the media query -- source order after
+   .ph-spark is what makes the override actually win. */
+.ph-timeline-svg{width:85%;margin:0 auto;display:block}
+.ph-timeline-mobile{display:none}
+@media(max-width:760px){
+  .ph-timeline-svg{display:none}
+  .ph-timeline-mobile{display:block;margin:.5rem 0 1rem}
+  .ph-timeline-mobile-row{display:grid;grid-template-columns:20px 1fr auto;align-items:center;
+    gap:.75rem;position:relative;padding:.9rem 0}
+  .ph-timeline-mobile-row::before{content:"";position:absolute;left:9px;top:0;bottom:0;width:2px;background:var(--line)}
+  .ph-timeline-mobile-row:first-child::before{top:50%}
+  .ph-timeline-mobile-row:last-child::before{bottom:50%}
+  .ph-timeline-mobile-icon{width:18px;height:18px;z-index:1;justify-self:center;position:relative}
+  .ph-timeline-mobile-title{font-size:16px;font-weight:500;color:var(--ink)}
+  .ph-timeline-mobile-year{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .ph-timeline-mobile-icon--circle{border-radius:50%;background:#8a988f}
+  .ph-timeline-mobile-icon--star{background:#c98a1a;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+  .ph-timeline-mobile-icon--triangle{background:#0f5c46;clip-path:polygon(50% 0%,100% 100%,0% 100%)}
+  .ph-timeline-mobile-icon--diamond{width:14px;height:14px;background:#0f5c46;transform:rotate(45deg);justify-self:center}
+  .ph-timeline-mobile-icon--ring{border:2px solid #0f5c46;border-radius:50%}
+  .ph-timeline-mobile-icon--ring::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#0f5c46}
+}
 
 /* V6 mission (2026-09-25): Current Form's headline stat -- the one
    number the whole page leads with (current form vs her own career
@@ -560,6 +635,16 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    player_intelligence_10097_report.py or player_intelligence_9431_
    report.py, which render the same shared piq- and .pi-section classes
    for a different player. */
+
+/* MISSION V60 (2026-09-28): "design for a 27-inch desktop first...
+   the page should feel like a premium sports analytics dashboard, not
+   a database export." The shared site-wide content column (main,
+   var(--max) = 70rem) is a good width for reading paragraphs, a
+   cramped one for a chart-dense page -- widened here ONLY for Player
+   History's own <main> (main:has(.ph-page), well-supported since
+   2023) so this stays this one page's own decision, never the site-
+   wide default every other page still uses. */
+main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
 
 /* The repeated black-pill step label (.piq-step-label.piq-label-
    standalone) is used 18+ times across this one page -- season

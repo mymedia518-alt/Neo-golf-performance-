@@ -99,18 +99,25 @@ def test_career_dna_fastest_and_most_volatile_are_real_components_when_present()
         assert dna["most_consistent_component"] in real_components
 
 
-def test_tournament_timeline_best_worst_labels_carry_a_legibility_halo():
+def test_tournament_timeline_best_worst_marks_are_tooltip_only_no_halo_needed():
     """A coach-eye screenshot review found the 최고/최저 label text could
     sit close enough to a *different* real point's own dot (not its
-    own) to become hard to read in a dense chart. A white halo behind
-    the label text keeps it legible without moving or hiding any real
-    point."""
+    own) to become hard to read in a dense chart, which is why a white
+    halo used to sit behind the always-visible label text.
+
+    MISSION V60 (2026-09-28): 'remove every numeric label drawn inside
+    charts... values appear only in tooltips.' The best/worst marks no
+    longer draw visible text at all -- they are a plain <circle> with a
+    <title> tooltip -- so the legibility-halo problem this test used to
+    guard against cannot occur anymore, and the halo itself is gone."""
+    import re
     doc, html = _doc_and_html()
     start = html.index('id="ph-tournament-trend"')
     end = html.index("</details>", start)
     section = html[start:end]
-    assert 'stroke="#f4f6f4"' in section
-    assert "최고" in section and "최저" in section
+    assert 'stroke="#f4f6f4"' not in section, "no visible label text remains, so no halo should be drawn either"
+    assert re.search(r'<circle[^>]*>\s*<title>[^<]*최고[^<]*</title>', section)
+    assert re.search(r'<circle[^>]*>\s*<title>[^<]*최저[^<]*</title>', section)
 
 
 def test_weakest_arrow_tag_is_visually_distinct_from_plain_caption_text():

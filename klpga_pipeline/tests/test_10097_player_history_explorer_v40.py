@@ -106,10 +106,15 @@ def test_course_profile_best_and_worst_tournaments_link_to_their_real_row():
 def test_season_replay_peak_slump_recovery_chips_link_to_their_real_season_scoped_row():
     """A season-scoped lookup, never global -- a repeated tournament
     name across two different seasons must never resolve to the wrong
-    game_code."""
+    game_code.
+
+    MISSION V73 (2026-09-28): the chip row is now nested inside its
+    own <details class="ph-nested-detail"> disclosure per season, so
+    the naive first "</details>" is that inner disclosure's close, not
+    this whole section's -- bound by the next sibling section instead."""
     doc, html = _doc_and_html()
     start = html.index('id="ph-season-replay"')
-    end = html.index("</details>", start)
+    end = html.index('id="ph-career-rolling-trend"', start)
     section = html[start:end]
     for sr in doc["season_replay"]:
         season_rows = [t for t in doc["tournament_history"] if t["season"] == sr["season"]]

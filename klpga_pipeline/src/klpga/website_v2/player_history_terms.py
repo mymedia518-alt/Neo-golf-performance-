@@ -56,18 +56,27 @@ visible page never contradicts this 8-item hierarchy."""
 from __future__ import annotations
 
 HERO_TITLE = "PLAYER HISTORY"
-HERO_SUBTITLE = "실측 기록만으로 재구성한 커리어 아카이브"
+# MISSION V61 (2026-09-28): "재구성" (reconstruction) is developer/
+# pipeline language -- the real claim (only measured records, nothing
+# estimated) survives without it.
+HERO_SUBTITLE = "실측 기록으로 쓴 커리어 스토리"
 
-PAGE_CURRENT_FORM_TITLE = "1. 현재 폼"
-PAGE_WHY_NOW_TITLE = "2. 왜 지금인가"
-PAGE_RECENT_RESULTS_TITLE = "3. 최근 경기 결과"
-PAGE_IN_PROGRESS_TITLE = "진행 중인 대회"  # subordinate to #3, only when is_confirmed_live -- otherwise hidden completely
-PAGE_PLAYER_IDENTITY_TITLE = "4. 선수 정체성"
-PAGE_COURSE_PROFILE_TITLE = "5. 코스 프로필"
-PAGE5_TITLE = "6. 라운드 분석"
-PAGE_HOLE_TITLE = "홀 기록 (실측 1개 대회)"  # subordinate to #6
-PAGE_ROUND_HISTORY_DETAIL_TITLE = "라운드 세부 기록"  # relocated to #8 (MISSION V13/NEO PLAYER PROFILE V2, 2026-09-27)
-PAGE_CAREER_STORY_TITLE = "7. 커리어 스토리"
+# MISSION V72 (2026-09-28): "Remove section numbering (1,2,3...). The
+# page should read as a continuous story, not seven independent
+# reports." Numbering stripped from every title Player History itself
+# renders; the Data Quality page's own PAGE_RECONCILIATION_TITLE below
+# is untouched -- that page is a different, sanctioned technical report
+# (per MISSION V50/V61), not part of this page's continuous story.
+PAGE_CURRENT_FORM_TITLE = "현재 폼"
+PAGE_WHY_NOW_TITLE = "왜 지금인가"
+PAGE_RECENT_RESULTS_TITLE = "최근 경기 결과"
+PAGE_IN_PROGRESS_TITLE = "진행 중인 대회"  # subordinate to 최근 경기 결과, only when is_confirmed_live -- otherwise hidden completely
+PAGE_PLAYER_IDENTITY_TITLE = "선수 정체성"
+PAGE_COURSE_PROFILE_TITLE = "코스 프로필"
+PAGE5_TITLE = "라운드 분석"
+PAGE_HOLE_TITLE = "홀 기록 (실측 1개 대회)"  # subordinate to 라운드 분석
+PAGE_ROUND_HISTORY_DETAIL_TITLE = "라운드 세부 기록"  # relocated to Data Quality page's raw-data cluster
+PAGE_CAREER_STORY_TITLE = "커리어 스토리"
 PAGE2_TITLE = "시즌 변화"  # subordinate to #7 (MISSION V13: demoted, no longer its own numbered section)
 PAGE3_TITLE = "시즌 리플레이"  # subordinate to #7 (season_replay)
 PAGE_TECHNICAL_STATS_TITLE = "2025시즌 기술 기록"  # subordinate to #7 (technical_stats_2025)

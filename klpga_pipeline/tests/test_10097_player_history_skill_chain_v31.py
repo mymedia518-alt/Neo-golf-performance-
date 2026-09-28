@@ -86,18 +86,43 @@ def test_skill_chain_renders_nothing_when_a_required_real_field_is_missing():
     assert html2 == ""
 
 
-def test_dna_radar_delta_table_drops_the_percentile_column_already_on_the_chart():
+def test_dna_radar_delta_numbers_survive_as_kpi_cards_not_a_table():
+    """MISSION V31's reasoning for dropping the '백분위' column was that
+    the number was 'already printed, digit for digit, as each axis
+    point's own label on the radar chart directly above it.'
+
+    MISSION V60 (2026-09-28): 'remove every numeric label drawn inside
+    charts... values appear only in tooltips or summary cards.' The
+    radar's axis labels no longer print the percentile number at all
+    (it moved into each axis dot's <title> tooltip), so V31's premise
+    no longer holds and the percentile briefly came back as a table
+    column.
+
+    MISSION V70 (2026-09-28): 'DNA radar must stand alone without
+    supporting tables... replace paragraphs with visual KPI cards.'
+    Both real numbers per axis (percentile, delta vs career mean)
+    still survive -- now as a compact KPI-card grid instead of a
+    table -- so no data is lost, only the table itself is gone."""
     doc, html = _doc_and_html()
     start = html.index('id="ph-player-dna-radar"')
     end = html.index("</details>", start)
     section = html[start:end]
-    assert "<th>백분위</th>" not in section
-    assert "<th>커리어 평균 대비</th>" in section
+    assert "<table" not in section, "MISSION V70: the DNA radar must stand alone without a supporting table"
+    assert "pi-kpi-grid" in section and "kpi-block" in section
+    seasons_data = doc.get("player_dna_radar") or []
+    latest = seasons_data[-1]
+    for a in latest["axes"]:
+        if a.get("percentile") is not None and a.get("delta_vs_career_mean") is not None:
+            assert f'{a["percentile"]:.0f}' in section
+            assert f'{a["delta_vs_career_mean"]:+.1f}' in section
 
 
-def test_dna_radar_chart_still_carries_the_real_percentile_on_its_own_labels():
-    """The percentile number is not lost -- it lives on the radar SVG's
-    own point labels, which is why the table column could be dropped."""
+def test_dna_radar_chart_carries_the_real_percentile_only_in_its_tooltip():
+    """MISSION V60 (2026-09-28): the percentile is no longer a visible
+    axis-point label -- it survives only as each axis dot's <title>
+    tooltip, and the visible axis label (a plain <text>) is the bare
+    skill name with no number in it."""
+    from klpga.website_v2 import player_history_terms as terms
     doc, html = _doc_and_html()
     seasons_data = doc.get("player_dna_radar") or []
     assert seasons_data
@@ -105,7 +130,9 @@ def test_dna_radar_chart_still_carries_the_real_percentile_on_its_own_labels():
     svg = report._radar_svg(latest["axes"])
     for a in latest["axes"]:
         if a.get("percentile") is not None:
-            assert f'{a["percentile"]:.0f}' in svg
+            axis_ko = terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"])
+            assert f'<title>{report.escape(axis_ko)} {a["percentile"]:.0f}</title>' in svg
+            assert f'>{report.escape(axis_ko)}</text>' in svg
 
 
 def test_no_golf_statistic_changed_between_consecutive_builds():

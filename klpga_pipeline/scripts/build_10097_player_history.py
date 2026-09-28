@@ -199,9 +199,17 @@ def _career_overview(recon: dict, season_profiles: list) -> dict:
     return {
         "season_rows": season_rows,
         "earliest_season_on_record": earliest_season,
+        # MISSION V61 (2026-09-28): "Never explain how the data was
+        # collected inside Player History... if a sentence helps
+        # developers but not golfers, delete it." The real fact this
+        # note protects -- do not mistake "earliest season NEO has
+        # measured" for "her actual KLPGA debut season" -- still
+        # matters and stays, worded for a golf reader instead of a
+        # data-pipeline reader (no "저장소"/"웨어하우스"/"수집 시작점").
         "data_floor_note": (
-            f"이 저장소의 실측 SG 데이터는 {earliest_season}시즌부터 시작됩니다. 전체 웨어하우스가 모든 선수에 "
-            f"대해 공통으로 가진 데이터 수집 시작점이며, {PLAYER_NAME} 선수의 실제 KLPGA 데뷔 시즌이라는 근거는 아닙니다."
+            f"NEO가 확보한 {PLAYER_NAME} 선수의 실측 SG 기록은 {earliest_season}시즌부터 시작됩니다. "
+            f"이는 선수 전체에 공통으로 적용되는 실측 시작 시점이며, {PLAYER_NAME} 선수의 실제 KLPGA "
+            "데뷔 시즌은 아닙니다. 이 시점 이전의 실측 기록은 아직 확인되지 않았습니다."
         ),
         "latest_tournament": latest_event,
         "total_events": len(events),
@@ -1358,22 +1366,41 @@ def _player_identity(career_dna: dict) -> Optional[dict]:
 
 # Maps each already-computed _player_story milestone label to a
 # backwards-narrative chapter -- no new milestone, only regrouping.
+#
+# MISSION (2026-09-28): "The timeline should describe measurable
+# career events, not narrative phases. Avoid subjective words such as
+# 성장기, 적응기, 전성기." Chapter names renamed to name a real,
+# measurable event instead of a vague life-stage word -- the
+# milestones nested inside each chapter are unchanged, still the same
+# real facts. Use these five labels consistently for every player this
+# engine renders, not just playerCode=10097.
+#
+# MISSION (2026-09-28) follow-up: the earliest chapter renamed again,
+# from 프로 첫 경기력 to 기준점 (Baseline). "Treat it as the player's
+# first measurable performance baseline, not their debut... the
+# earliest reliable performance reference point used for all later
+# comparisons" -- this is the exact same real fact the data_floor_note
+# disclaimer already states elsewhere on the page (measured data
+# starts here, this is NOT necessarily her actual KLPGA debut); 기준점
+# names it as what it actually is (a reference point every later
+# comparison is measured against), never implying a debut.
 _STORY_BUCKET_BY_LABEL = {
-    "실측 데이터 시작": "적응기",
-    "커리어 평균 SG Total 최초 상회": "성장기",
-    "최대 SG Total 시즌 도약": "도약의 순간",
-    "첫 우승": "우승의 시기",
-    "커리어 최고 SG Total 시즌": "우승의 시기",
+    "실측 데이터 시작": "기준점",
+    "커리어 평균 SG Total 최초 상회": "첫 우승",
+    "최대 SG Total 시즌 도약": "경기력 도약",
+    "첫 우승": "최고 경기력",
+    "커리어 최고 SG Total 시즌": "최고 경기력",
 }
-_STORY_CHAPTER_ORDER = ["우승의 시기", "도약의 순간", "성장기", "적응기"]
+_STORY_CHAPTER_ORDER = ["최고 경기력", "경기력 도약", "첫 우승", "기준점"]
 
 
 def _career_story(career_overview: dict, player_story_milestones: list) -> Optional[dict]:
-    """Section 5: told backwards -- Current first, then 우승의 시기
-    (Winning Stage) -> 도약의 순간 (Breakthrough) -> 성장기
-    (Development) -> 적응기 (Adaptation); real chronological seasons
-    are revealed only at the very end. Every chapter reuses one of
-    _player_story's already-computed milestones verbatim, just
+    """Section 5: told backwards -- Current first, then 최고 경기력
+    (Peak Performance) -> 경기력 도약 (Performance Leap) -> 첫 우승
+    (First Win) -> 기준점 (Baseline, the earliest reliable performance
+    reference point, never treated as her debut); real chronological
+    seasons are revealed only at the very end. Every chapter reuses
+    one of _player_story's already-computed milestones verbatim, just
     re-bucketed and reordered."""
     rows = career_overview["season_rows"]
     if not rows:

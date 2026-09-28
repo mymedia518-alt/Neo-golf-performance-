@@ -1279,7 +1279,7 @@
     "sample_size": 95
   },
   "career_overview": {
-    "data_floor_note": "이 저장소의 실측 SG 데이터는 2023시즌부터 시작됩니다. 전체 웨어하우스가 모든 선수에 대해 공통으로 가진 데이터 수집 시작점이며, 김민선7 선수의 실제 KLPGA 데뷔 시즌이라는 근거는 아닙니다.",
+    "data_floor_note": "NEO가 확보한 김민선7 선수의 실측 SG 기록은 2023시즌부터 시작됩니다. 이는 선수 전체에 공통으로 적용되는 실측 시작 시점이며, 김민선7 선수의 실제 KLPGA 데뷔 시즌은 아닙니다. 이 시점 이전의 실측 기록은 아직 확인되지 않았습니다.",
     "earliest_season_on_record": 2023,
     "latest_tournament": {
       "final_score_to_par": "-12",
@@ -2294,7 +2294,7 @@
   "career_story": {
     "chapters": [
       {
-        "chapter": "우승의 시기",
+        "chapter": "최고 경기력",
         "milestones": [
           {
             "detail": "1승 (이 시즌 실측)",
@@ -2309,7 +2309,7 @@
         ]
       },
       {
-        "chapter": "도약의 순간",
+        "chapter": "경기력 도약",
         "milestones": [
           {
             "detail": "2024→2025 +0.94",
@@ -2319,7 +2319,7 @@
         ]
       },
       {
-        "chapter": "성장기",
+        "chapter": "첫 우승",
         "milestones": [
           {
             "detail": "+1.42 (커리어 평균 +1.11)",
@@ -2329,7 +2329,7 @@
         ]
       },
       {
-        "chapter": "적응기",
+        "chapter": "기준점",
         "milestones": [
           {
             "detail": "SG Total +0.32 (25개 대회 표본)",
@@ -2905,7 +2905,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-28T13:45:15.962563+00:00",
+  "generated_at": "2026-09-28T20:51:17.917125+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",
