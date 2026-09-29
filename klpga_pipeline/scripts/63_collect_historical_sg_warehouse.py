@@ -3,10 +3,26 @@
 Uses the established getGameList, roundLeaderboard, and strokesGained_detail
 surfaces.  Checkpoint state is written after every event; failures are
 recorded and never replaced with synthetic values.
+
+MISSION V94 (2026-09-29): "The repository should have exactly one
+canonical SG collector." This file is that collector. Everything below
+--seasons was already here; --game-code is the one addition, and it is
+purely additive -- collect() and its existing sweep loop are byte-for-
+byte unchanged. What changed is that the per-event fetch+parse body
+(previously inline inside collect()'s loop) is now also callable for a
+single, explicitly-named tournament that never appeared in any
+getGameList season listing at all -- exactly the situation
+2026090003 (KB금융 골든라이프 챔피언십) is in (see MISSION V81's own
+finding, reproduced below in collect_by_game_code()'s docstring).
+scripts/collect_sg_from_leaderboard.py, and every pipeline script built
+on it since (MISSION V81-V93), now wraps this file's
+collect_by_game_code() instead of re-implementing acquisition --
+"everything else wraps script 63," not a second collector living
+beside it.
 """
 from __future__ import annotations
 import argparse, json, time
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 import requests
 import sys
@@ -21,6 +37,45 @@ BASE="https://klpga.co.kr"; SG_PATH="/load/leaderboard/strokesGained_detail"; LB
 def _post(path, data):
     r=requests.post(BASE+path,data=data,headers={"X-Requested-With":"XMLHttpRequest","Referer":BASE},timeout=60); r.raise_for_status(); r.encoding="utf-8"; return r.text
 
+def _collect_one(code: str, season: int, game_title: str, end_date=None) -> dict:
+    """The exact per-event fetch -> parse body collect()'s own sweep
+    loop has always run, unchanged, extracted so a caller who already
+    knows one real (code, season, game_title) -- with no
+    TournamentListing object, because this tournament never appeared
+    in any getGameList season response -- can run it too. Returns the
+    same {"status": "success"|"error", ...} shape collect() has always
+    written into state[code]; never raises, exactly like collect()'s
+    own try/except never let one exception cost it the whole run.
+    Uses the module-level _post() helper directly (plain requests.post,
+    no PoliteHttpClient) -- exactly as collect()'s own per-event loop
+    always has; a PoliteHttpClient is only ever used for the season-
+    list fetch_game_list() call, never for the per-event fetches."""
+    try:
+        lb=[]; latest_round=0; round_ids={}
+        for candidate_round in (4,3,2,1):
+            parsed_lb=parse_leaderboard_html(_post(LB_PATH,{"gameCode":code,"round":str(candidate_round)}))
+            if parsed_lb:
+                round_ids[candidate_round]={str(x.get("player")):str(x.get("player_id")) for x in parsed_lb if x.get("player_id")}
+                if not lb:
+                    lb=parsed_lb; latest_round=candidate_round
+        if not lb: raise ValueError("roundLeaderboard returned no rows for rounds 4..1")
+        ids={name:pid for mapping in round_ids.values() for name,pid in mapping.items()}
+        rows=[]; sg_response_rows=0; parsed_rows=0
+        for rnd in (None,*range(1,latest_round+1)):
+            html=_post(SG_PATH,{"gameCode":code,"round":"" if rnd is None else str(rnd)})
+            from bs4 import BeautifulSoup
+            sg_response_rows += len(BeautifulSoup(html,"html.parser").select("table tbody tr"))
+            parsed=parse_sg_html(html,scope="tournament_cumulative" if rnd is None else "single_round",round_number=rnd)
+            parsed_rows += len(parsed)
+            for row in parsed:
+                lookup = ids if rnd is None else round_ids.get(int(rnd), {})
+                row.update({"player_id":lookup.get(str(row.get("player"))),"identity_state":"RETAINED" if lookup.get(str(row.get("player"))) else "UNRESOLVED_IDENTITY","season":season,"game_code":code,"tournament":game_title,"date":(end_date.isoformat() if end_date else None),"source":f"{BASE}{SG_PATH} POST gameCode={code}, round blank/1..4","retrieved_at":datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"),"validation":validate_sg_record(row)})
+                rows.append(row)
+        reason = None if rows else ("OFFICIAL_SG_NOT_AVAILABLE" if sg_response_rows == 0 else "PARSER/HTML_STRUCTURE_ISSUE" if parsed_rows == 0 else "UNKNOWN")
+        return {"status":"success","season":season,"event":game_title,"rows":len(rows),"records":rows,"no_row_reason":reason,"sg_response_rows":sg_response_rows,"parsed_rows":parsed_rows}
+    except Exception as exc:
+        return {"status":"error","season":season,"event":game_title,"error":f"{type(exc).__name__}: {exc}"}
+
 def collect(seasons: list[int], checkpoint: Path, output: Path) -> dict:
     state=json.loads(checkpoint.read_text(encoding="utf-8")) if checkpoint.exists() else {}
     events=[]
@@ -31,34 +86,34 @@ def collect(seasons: list[int], checkpoint: Path, output: Path) -> dict:
     for listing in sorted({e.game_code:e for e in events}.values(), key=lambda e:(e.end_date or 0,e.game_code or "")):
         code=str(listing.game_code)
         if state.get(code,{}).get("status")=="success" and state.get(code,{}).get("records"): continue
-        try:
-            lb=[]; latest_round=0; round_ids={}
-            for candidate_round in (4,3,2,1):
-                parsed_lb=parse_leaderboard_html(_post(LB_PATH,{"gameCode":code,"round":str(candidate_round)}))
-                if parsed_lb:
-                    round_ids[candidate_round]={str(x.get("player")):str(x.get("player_id")) for x in parsed_lb if x.get("player_id")}
-                    if not lb:
-                        lb=parsed_lb; latest_round=candidate_round
-            # Preserve the latest completed leaderboard as event-level fallback
-            # while retaining each round's independent identity population.
-            if not lb: raise ValueError("roundLeaderboard returned no rows for rounds 4..1")
-            ids={name:pid for mapping in round_ids.values() for name,pid in mapping.items()}
-            rows=[]; sg_response_rows=0; parsed_rows=0
-            for rnd in (None,*range(1,latest_round+1)):
-                html=_post(SG_PATH,{"gameCode":code,"round":"" if rnd is None else str(rnd)})
-                from bs4 import BeautifulSoup
-                sg_response_rows += len(BeautifulSoup(html,"html.parser").select("table tbody tr"))
-                parsed=parse_sg_html(html,scope="tournament_cumulative" if rnd is None else "single_round",round_number=rnd)
-                parsed_rows += len(parsed)
-                for row in parsed:
-                    lookup = ids if rnd is None else round_ids.get(int(rnd), {})
-                    row.update({"player_id":lookup.get(str(row.get("player"))),"identity_state":"RETAINED" if lookup.get(str(row.get("player"))) else "UNRESOLVED_IDENTITY","season":listing.season,"game_code":code,"tournament":listing.game_title,"date":(listing.end_date.isoformat() if listing.end_date else None),"source":f"{BASE}{SG_PATH} POST gameCode={code}, round blank/1..4","retrieved_at":datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z"),"validation":validate_sg_record(row)})
-                    rows.append(row)
-            reason = None if rows else ("OFFICIAL_SG_NOT_AVAILABLE" if sg_response_rows == 0 else "PARSER/HTML_STRUCTURE_ISSUE" if parsed_rows == 0 else "UNKNOWN")
-            state[code]={"status":"success","season":listing.season,"event":listing.game_title,"rows":len(rows),"records":rows,"no_row_reason":reason,"sg_response_rows":sg_response_rows,"parsed_rows":parsed_rows}
-        except Exception as exc:
-            state[code]={"status":"error","season":listing.season,"event":listing.game_title,"error":f"{type(exc).__name__}: {exc}"}
+        state[code]=_collect_one(code, listing.season, listing.game_title, listing.end_date)
         checkpoint.parent.mkdir(parents=True,exist_ok=True); checkpoint.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    return _assemble(state, seasons, checkpoint, output)
+
+def collect_by_game_code(game_code: str, season: int, tournament: str, checkpoint: Path, output: Path, end_date=None) -> dict:
+    """MISSION V94's one addition: collects a single, explicitly-named
+    tournament directly by gameCode -- never touching
+    fetch_game_list()/filter_completed_regular_tour() at all. This is
+    the fix for the exact real gap MISSION V81 first traced and
+    documented: collect()'s sweep loop can only ever attempt a
+    gameCode that fetch_game_list() actually returned for one of its
+    --seasons, and 2026090003 (KB금융 골든라이프 챔피언십) does not
+    appear in that official season listing (scripts/104_evaluate_pre_v2.py's
+    own "kb_excluded" note) -- so collect() was never "filtering KB
+    out"; its sweep never even attempted KB, for any season argument.
+    A tournament named directly here needs no such listing membership.
+    Writes into the SAME checkpoint/output files and the SAME
+    state[code] shape collect() uses, so a later collect() run over
+    the same checkpoint sees this event exactly as if the sweep had
+    found it -- one state file, one collector, two ways to name which
+    event to collect."""
+    state=json.loads(checkpoint.read_text(encoding="utf-8")) if checkpoint.exists() else {}
+    code=str(game_code)
+    state[code]=_collect_one(code, season, tournament, end_date)
+    checkpoint.parent.mkdir(parents=True,exist_ok=True); checkpoint.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    return _assemble(state, [season], checkpoint, output)
+
+def _assemble(state: dict, seasons: list[int], checkpoint: Path, output: Path) -> dict:
     all_rows=[]
     for entry in state.values():
         if entry.get("status")!="success": continue
@@ -68,5 +123,18 @@ def collect(seasons: list[int], checkpoint: Path, output: Path) -> dict:
     output.parent.mkdir(parents=True,exist_ok=True); output.write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"); return out
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--seasons",default="2026,2025"); ap.add_argument("--checkpoint",default=str(ROOT/"content/website_v2/sg_warehouse_checkpoint.json")); ap.add_argument("--output",default=str(ROOT/"content/website_v2/historical_sg_warehouse.json")); a=ap.parse_args(); out=collect([int(x) for x in a.seasons.split(",")],Path(a.checkpoint),Path(a.output)); print(f"events={out['events']} rows={len(out['records'])}")
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--seasons",default="2026,2025")
+    ap.add_argument("--game-code",default=None,help="Collect a single tournament directly by gameCode, bypassing the season sweep entirely -- for a tournament fetch_game_list() does not list (see collect_by_game_code()'s docstring). Requires --season and --tournament.")
+    ap.add_argument("--season",type=int,default=None,help="Only used with --game-code.")
+    ap.add_argument("--tournament",default=None,help="Only used with --game-code.")
+    ap.add_argument("--checkpoint",default=str(ROOT/"content/website_v2/sg_warehouse_checkpoint.json"))
+    ap.add_argument("--output",default=str(ROOT/"content/website_v2/historical_sg_warehouse.json"))
+    a=ap.parse_args()
+    if a.game_code:
+        if not (a.season and a.tournament): ap.error("--game-code requires --season and --tournament")
+        out=collect_by_game_code(a.game_code, a.season, a.tournament, Path(a.checkpoint), Path(a.output))
+    else:
+        out=collect([int(x) for x in a.seasons.split(",")],Path(a.checkpoint),Path(a.output))
+    print(f"events={out['events']} rows={len(out['records'])}")
 if __name__=="__main__": main()

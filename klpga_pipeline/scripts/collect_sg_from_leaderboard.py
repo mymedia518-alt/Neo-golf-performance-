@@ -59,6 +59,7 @@ import argparse
 import json
 import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -249,40 +250,155 @@ def merge_into_warehouse_with_diff(rows: list[dict], warehouse_path: Path = DEFA
     }
 
 
+def fetch_sg_detail_html_instrumented(client: PoliteHttpClient, game_code: str, round_number: Optional[int]) -> tuple[str, float]:
+    """MISSION V91: the exact same request fetch_sg_detail_html() has
+    always made -- reused unchanged, not duplicated -- timed with
+    time.monotonic() so callers can report real per-request latency
+    instead of a guess."""
+    start = time.monotonic()
+    html = fetch_sg_detail_html(client, game_code, round_number)
+    return html, time.monotonic() - start
+
+
+def collect_native_ajax(
+    client: PoliteHttpClient, game_code: str, *, season: int, tournament: str,
+    scope: Optional[str] = None, round_number: Optional[int] = None,
+    id_lookup: Optional[dict] = None, warehouse_path: Path = DEFAULT_WAREHOUSE_PATH,
+) -> dict:
+    """MISSION V91 ("Native AJAX Collector"): collects directly from
+    POST /load/leaderboard/strokesGained_detail using only gameCode and
+    round -- no leaderboard/wrapper page is ever fetched, requested, or
+    accepted as a parameter here; there is structurally nothing for
+    one to do in this function's signature. The wrapper page was never
+    actually a runtime dependency of the *live* path either (see
+    fetch_sg_detail_html(), already POST-only, already gameCode+round
+    only, since MISSION V81) -- what this function adds is the two
+    things that genuinely did not exist before: (1) a clean, dedicated
+    entry point whose signature makes the no-wrapper-page fact
+    structural rather than incidental, and (2) real instrumentation
+    (request count, per-request and total latency, rows parsed).
+
+    Reuses, unchanged: fetch_sg_detail_html() for the request itself,
+    build_warehouse_rows() -> parse_sg_html() for parsing (MISSION
+    V91's own rule: "keep the existing parser, only replace the
+    acquisition layer" -- nothing about parsing changes here), and
+    merge_into_warehouse() for the write. Only the acquisition
+    call-site gains a clock.
+
+    scope=None (the default) collects every scope this collector has
+    always tried -- tournament_cumulative plus rounds 1-4 (MISSION
+    V91 item 3, "support both Tournament Total and Single Round" --
+    both, not a choice between them, unless the caller narrows it).
+    scope="tournament_cumulative" or scope="single_round" (with
+    round_number) narrows to exactly one real request."""
+    if scope is None:
+        requested_scopes = list(_ROUND_SCOPES)
+    elif scope == "tournament_cumulative":
+        requested_scopes = [("tournament_cumulative", None)]
+    elif scope == "single_round":
+        if round_number is None:
+            raise ValueError("scope='single_round' requires round_number")
+        requested_scopes = [("single_round", round_number)]
+    else:
+        raise ValueError(f"unknown scope={scope!r} -- expected None, 'tournament_cumulative', or 'single_round'")
+
+    id_lookup = id_lookup or {}
+    all_rows: list[dict] = []
+    latencies: list[float] = []
+    for req_scope, req_round in requested_scopes:
+        html, latency = fetch_sg_detail_html_instrumented(client, game_code, req_round)
+        latencies.append(latency)
+        try:
+            rows = build_warehouse_rows(
+                html, game_code=game_code, season=season, tournament=tournament,
+                scope=req_scope, round_number=req_round, id_lookup=id_lookup,
+                source_note=(
+                    f"{BASE_URL}{SG_DETAIL_POST_PATH} POST gameCode={game_code}, round={req_round if req_round else 'cumulative'} "
+                    f"(native AJAX acquisition, no wrapper page fetched)"
+                ),
+            )
+        except ValueError:
+            continue  # this scope genuinely has no SG table (e.g. round not played) -- never a fabricated row
+        all_rows.extend(rows)
+
+    merge_result = merge_into_warehouse(all_rows, warehouse_path)
+    return {
+        "status": "collected" if all_rows else "no_rows_parsed", "game_code": game_code, "rows_parsed": len(all_rows),
+        "requests_made": len(requested_scopes), "total_latency_seconds": round(sum(latencies), 4),
+        "avg_latency_seconds": round(sum(latencies) / len(latencies), 4) if latencies else None,
+        "per_request_latency_seconds": [round(x, 4) for x in latencies],
+        "acquisition": "native_ajax",
+        **merge_result,
+    }
+
+
+def collect_native_ajax_from_saved_response(
+    sg_response_html: str, game_code: str, *, season: int, tournament: str,
+    scope: str = "tournament_cumulative", round_number: Optional[int] = None,
+    id_lookup: Optional[dict] = None, warehouse_path: Path = DEFAULT_WAREHOUSE_PATH,
+) -> dict:
+    """MISSION V91's offline counterpart to collect_native_ajax(), for
+    an environment (like this one) with no live network path -- the
+    exact same acquisition contract (gameCode + round only, no wrapper
+    page, no leaderboard_html parameter at all), given an already-saved
+    copy of the real strokesGained_detail response instead of fetching
+    it live. Used to prove Old-vs-Native equivalence offline in
+    MISSION V91's own comparison (see the mission's item 7)."""
+    id_lookup = id_lookup or {}
+    rows = build_warehouse_rows(
+        sg_response_html, game_code=game_code, season=season, tournament=tournament,
+        scope=scope, round_number=round_number, id_lookup=id_lookup,
+        source_note=f"operator-saved copy of {BASE_URL}{SG_DETAIL_POST_PATH} POST gameCode={game_code}, round={round_number or 'cumulative'} (native AJAX acquisition, no wrapper page)",
+    )
+    merge_result = merge_into_warehouse(rows, warehouse_path)
+    return {"status": "collected" if rows else "no_rows_parsed", "game_code": game_code, "rows_parsed": len(rows), "acquisition": "native_ajax", **merge_result}
+
+
+def _load_script_63():
+    """scripts/63_collect_historical_sg_warehouse.py is MISSION V94's
+    designated canonical SG collector -- imported by number-prefixed
+    filename via importlib, since '63_...' is not a legal Python
+    module name to import by name."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("script_63_canonical_collector", Path(__file__).resolve().parent / "63_collect_historical_sg_warehouse.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def collect_live(
     client: PoliteHttpClient, leaderboard_html: Optional[str] = None, *, season: int, tournament: str,
     id_lookup: Optional[dict] = None, warehouse_path: Path = DEFAULT_WAREHOUSE_PATH, game_code: Optional[str] = None,
 ) -> dict:
-    """The full discover-or-accept -> download -> parse -> save cycle
-    for whatever real game_code is given -- tries the
-    tournament-cumulative scope plus rounds 1-4, skipping any round
-    this tournament genuinely has no SG table for (fewer than 4 rounds
-    played, or SG not published for every round). Accepts either Mode
-    A (leaderboard_html, discovers the game_code) or Mode B (game_code,
-    given directly) -- see resolve_game_code()'s own docstring for the
-    real trade-off between the two. Exactly one must be given."""
+    """MISSION V94: wraps scripts/63_collect_historical_sg_warehouse.py's
+    _collect_one() -- the repository's one canonical SG collector --
+    instead of re-implementing the fetch. This function's own
+    discovery contract is unchanged (Mode A via leaderboard_html, Mode
+    B via game_code, resolve_game_code() decides which -- exactly one
+    must be given) and its return shape is unchanged, so every caller
+    built against it since MISSION V81 keeps working with zero changes
+    on their end. What changed underneath: script 63's _collect_one()
+    also fetches roundLeaderboard for rounds 4..1 to resolve a real
+    player_id per round before parsing SG -- richer identity resolution
+    than this function used to do on its own (which relied entirely on
+    an externally-supplied id_lookup, usually empty in practice -- the
+    exact identity-collision gap this session's own testing flagged
+    repeatedly in MISSION V82/V83). merge_into_warehouse() is still
+    this function's own, unchanged merge step."""
     resolved_game_code = resolve_game_code(leaderboard_html, game_code)
     if not resolved_game_code:
         return {"status": "no_sg_link_found", "game_code": None}
-    discovery_note = f"(discovered via {SG_WEB_PAGE_PATH}?gameCode={resolved_game_code})" if leaderboard_html else "(game_code given directly, no leaderboard page discovery)"
-    id_lookup = id_lookup or {}
-    all_rows: list[dict] = []
-    for scope, round_number in _ROUND_SCOPES:
-        html = fetch_sg_detail_html(client, resolved_game_code, round_number)
-        try:
-            rows = build_warehouse_rows(
-                html, game_code=resolved_game_code, season=season, tournament=tournament,
-                scope=scope, round_number=round_number, id_lookup=id_lookup,
-                source_note=(
-                    f"{BASE_URL}{SG_DETAIL_POST_PATH} POST gameCode={resolved_game_code}, "
-                    f"round={round_number if round_number else 'cumulative'} {discovery_note}"
-                ),
-            )
-        except ValueError:
-            continue
-        all_rows.extend(rows)
-    merge_result = merge_into_warehouse(all_rows, warehouse_path)
-    return {"status": "collected", "game_code": resolved_game_code, "rows_parsed": len(all_rows), **merge_result}
+    script_63 = _load_script_63()
+    result = script_63._collect_one(resolved_game_code, season, tournament)
+    if result["status"] != "success":
+        return {"status": "no_rows_parsed", "game_code": resolved_game_code, "rows_parsed": 0, "error": result.get("error")}
+    rows = [dict(r, **script_63.standardize_player_name(r.get("player"), r.get("player_id"))) for r in result.get("records", [])]
+    if id_lookup:  # an explicitly-supplied id_lookup, when given, still gets a chance to resolve any row script 63's own roundLeaderboard lookup left UNRESOLVED_IDENTITY -- never overwrites a real RETAINED id.
+        for row in rows:
+            if row.get("identity_state") == "UNRESOLVED_IDENTITY" and id_lookup.get(str(row.get("player"))):
+                row.update({"player_id": id_lookup[str(row["player"])], "identity_state": "RETAINED"})
+    merge_result = merge_into_warehouse(rows, warehouse_path)
+    return {"status": "collected", "game_code": resolved_game_code, "rows_parsed": len(rows), **merge_result}
 
 
 def collect_from_saved_page(
@@ -316,7 +432,24 @@ def collect_from_saved_page(
     return {"status": "collected", "game_code": resolved_game_code, "rows_parsed": len(rows), **merge_result}
 
 
+def _ensure_utf8_console() -> None:
+    """MISSION V88: Windows' default console codepage (cp1252/cp949,
+    never UTF-8) makes `print()` raise UnicodeEncodeError the moment a
+    real Korean player name reaches stdout -- this collector's output
+    always contains one. Reconfiguring stdout/stderr to UTF-8 is a
+    no-op on Linux/macOS (already UTF-8) and the real fix on Windows;
+    guarded because Python <3.7 lacks TextIOWrapper.reconfigure()."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure:
+            try:
+                reconfigure(encoding="utf-8")
+            except (ValueError, OSError):
+                pass
+
+
 def main() -> None:
+    _ensure_utf8_console()
     ap = argparse.ArgumentParser(description=__doc__)
     discovery = ap.add_mutually_exclusive_group(required=True)
     discovery.add_argument("--leaderboard-html-file", help="Mode A: a captured leaderboard page to scan for a real strokesGained link.")
@@ -333,15 +466,30 @@ def main() -> None:
     leaderboard_html = Path(args.leaderboard_html_file).read_text(encoding="utf-8", errors="replace") if args.leaderboard_html_file else None
     warehouse_path = Path(args.warehouse)
 
+    # MISSION V91 item 8: Native AJAX is the default for Mode B (a
+    # known game_code -- there is nothing to discover, so there is no
+    # reason to run the discovery-oriented Old path). Mode A
+    # (--leaderboard-html-file) still runs the Old collect_live() /
+    # collect_from_saved_page() path -- kept, unmodified, as the real
+    # fallback for when game_code is not already known.
     if args.live:
         client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "http")
-        result = collect_live(client, leaderboard_html, season=args.season, tournament=args.tournament, warehouse_path=warehouse_path, game_code=args.game_code)
+        if args.game_code:
+            result = collect_native_ajax(client, args.game_code, season=args.season, tournament=args.tournament, warehouse_path=warehouse_path)
+        else:
+            result = collect_live(client, leaderboard_html, season=args.season, tournament=args.tournament, warehouse_path=warehouse_path)
     elif args.sg_html_file:
         sg_html = Path(args.sg_html_file).read_text(encoding="utf-8", errors="replace")
-        result = collect_from_saved_page(
-            leaderboard_html, sg_html, season=args.season, tournament=args.tournament,
-            scope=args.scope, round_number=args.round, warehouse_path=warehouse_path, game_code=args.game_code,
-        )
+        if args.game_code:
+            result = collect_native_ajax_from_saved_response(
+                sg_html, args.game_code, season=args.season, tournament=args.tournament,
+                scope=args.scope, round_number=args.round, warehouse_path=warehouse_path,
+            )
+        else:
+            result = collect_from_saved_page(
+                leaderboard_html, sg_html, season=args.season, tournament=args.tournament,
+                scope=args.scope, round_number=args.round, warehouse_path=warehouse_path,
+            )
     else:
         ap.error("one of --live or --sg-html-file is required")
         return
