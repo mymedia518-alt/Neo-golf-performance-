@@ -1,9 +1,22 @@
-"""UNIFIED PLAYER HISTORY RECONCILIATION -- playerCode=10097 (김민선7) ONLY.
+"""UNIFIED PLAYER HISTORY RECONCILIATION -- generic, any playerCode.
+
+Originally built (and still filename-scoped) for playerCode=10097
+(김민선7) only; as of this refactor, reconcile() takes player_id /
+player_name parameters and every loader below filters by whichever
+player_id/player_name it is given, so it now works for any player with
+real rows in these sources. The 10097-specific loaders (Category 4's
+KB Reader fallback, Category 5/7's Hana live/supplemental truth, OK
+Open's round/live loaders) are tournament-specific evidence files that
+simply match nothing -- and therefore no-op -- for a player who was
+never in them; they are not disabled per-player, they are naturally
+inert. Only `_KNOWN_SPECIAL_GAME_CODES` (10097's own previously
+discovered evidence gaps) is explicitly scoped to player_id == "10097";
+see `_required_special_game_codes()`.
 
 Player History must never depend on a single warehouse. Before ANY
-report is generated, this module collects her career record from every
-verified real source in this repository, in priority order, and
-reconciles them into one canonical per-tournament dataset:
+report is generated, this module collects the player's career record
+from every verified real source in this repository, in priority
+order, and reconciles them into one canonical per-tournament dataset:
 
   1. Official SG Warehouse           (historical_sg_warehouse_corrected_v2.json)
   2. Official Tournament Warehouse   (evidence/official_tournament_warehouse_v1/*.json)
@@ -72,7 +85,26 @@ EVIDENCE_DIR = ROOT / "evidence"
 # warehouse has a real row" rule above. _load_kb_reader_final() is kept
 # as the fallback for if that ever regresses; it is just no longer
 # required to fire.
+#
+# This set is 10097-specific: it is a manually-confirmed allow-list of
+# real tournaments SHE played that historically could not be retrieved
+# via the normal SG-Warehouse/Tournament-Warehouse categories. It is a
+# record of past investigation, not a generic invariant -- a different
+# player has no such known gap unless someone confirms one and adds it
+# to a similar set keyed by that player_id. See
+# _required_special_game_codes() for how this is applied per-player.
 _KNOWN_SPECIAL_GAME_CODES = {"2026090002", "2026120001"}
+
+
+def _required_special_game_codes(player_id: str) -> set:
+    """The known-special game codes that MUST be accounted for by some
+    source, for this specific player_id. Only 10097 has any (see
+    _KNOWN_SPECIAL_GAME_CODES's docstring above) -- every other player
+    has no known historical evidence gap, so an empty set here is the
+    correct, honest default rather than inventing one."""
+    if player_id == PLAYER_ID:
+        return _KNOWN_SPECIAL_GAME_CODES
+    return set()
 
 
 class ReconciliationError(Exception):
@@ -108,11 +140,11 @@ def _rank_from_display(display) -> Optional[int]:
 # CATEGORY 1 -- Official SG Warehouse (base ~94 tournaments)
 # ---------------------------------------------------------------------------
 
-def _load_sg_warehouse_rows() -> list:
+def _load_sg_warehouse_rows(player_id: str) -> list:
     doc = _load_content("historical_sg_warehouse_corrected_v2.json")
     if not doc:
         raise ReconciliationError("Official SG Warehouse (historical_sg_warehouse_corrected_v2.json) is missing -- cannot reconcile without the primary source.")
-    return [r for r in doc.get("records", []) if r.get("player_id") == PLAYER_ID]
+    return [r for r in doc.get("records", []) if r.get("player_id") == player_id]
 
 
 def _sg_warehouse_tournaments(rows: list) -> dict:
@@ -155,7 +187,7 @@ def _sg_warehouse_round_rows(rows: list) -> list:
 # by a full repository search before writing this module)
 # ---------------------------------------------------------------------------
 
-def _load_tournament_warehouse_round_rows() -> list:
+def _load_tournament_warehouse_round_rows(player_id: str) -> list:
     """Raw per-round strokes for this player, wherever the Tournament
     Warehouse module recorded them. Complements, never replaces, SG
     Warehouse rows -- rank fields here are SCORE rank, not SG rank, so
@@ -165,7 +197,7 @@ def _load_tournament_warehouse_round_rows() -> list:
     doc = _load_json(EVIDENCE_DIR / "official_tournament_warehouse_v1" / "OFFICIAL_TOURNAMENT_WAREHOUSE_V1.json")
     if doc:
         for row in doc.get("round_rows", []):
-            if row.get("playerCode") == PLAYER_ID:
+            if row.get("playerCode") == player_id:
                 out.append({
                     "game_code": row["gameCode"], "round": row["round"],
                     "strokes": row.get("round_score"), "score_rank": (row.get("raw_source_values") or {}).get(f"r{row['round']}_rank"),
@@ -189,12 +221,14 @@ def _load_schedule_end_date(game_code: str) -> Optional[date]:
     return date.fromisoformat(iso) if iso else None
 
 
-def _load_ok_open_round_rows() -> list:
+def _load_ok_open_round_rows(player_id: str) -> list:
     """2026120001 (OK Open) round-level truth -- the LAST KNOWN capture
     in this repository has R1, R2 complete and R3 partial. Whether the
     tournament is still actually live is decided separately, against
     the real official schedule (see _load_schedule_end_date) -- this
-    function only ever returns what was captured, never a live status."""
+    function only ever returns what was captured, never a live status.
+    This file only ever holds 10097's own capture -- for any other
+    player it simply matches no rows and this returns []."""
     doc = _load_json(EVIDENCE_DIR / "official_tournament_warehouse_v1" / "2026120001_RECONCILED_PLAYER_ROUNDS.json")
     if not doc:
         return []
@@ -203,7 +237,7 @@ def _load_ok_open_round_rows() -> list:
          "strokes": int(row["round_score"]) if row.get("round_score") not in (None, "0") else None,
          "total_strokes": int(row["total_score"]) if row.get("total_score") is not None else None,
          "ing_hole": row.get("ingHole"), "source": "tournament_warehouse"}
-        for row in doc.get("rows", []) if row.get("playerCode") == PLAYER_ID
+        for row in doc.get("rows", []) if row.get("playerCode") == player_id
     ]
 
 
@@ -211,23 +245,24 @@ def _load_ok_open_round_rows() -> list:
 # CATEGORY 4 -- Official Reader outputs (KB 2026090003)
 # ---------------------------------------------------------------------------
 
-def _load_kb_reader_final() -> Optional[dict]:
-    """KB금융 골든라이프 챔피언십 (2026090003) -- never in the SG
-    Warehouse. No SG data exists for this tournament anywhere in the
-    repository (confirmed by search); only raw strokes/finish. The FR
-    (final round) supplied leaderboard is the authoritative final
-    result; the R3 official leaderboard is used only to cross-check the
-    R1-R3 cumulative arithmetic before FR is trusted."""
+def _load_kb_reader_final(player_id: str, player_name: str) -> Optional[dict]:
+    """KB금융 골든라이프 챔피언십 (2026090003) -- historically never in
+    the SG Warehouse (see the module docstring -- as of this refactor
+    the SG Warehouse DOES have a real row for 10097 here, so this
+    fallback is superseded for her too; see reconcile()'s Category 4
+    handling). This evidence file only ever names 10097 (김민선7), so
+    for any other player_name it simply matches no row and this
+    returns None -- correctly inert, not a special case."""
     fr_doc = _load_json(EVIDENCE_DIR / "KB_2026090003_FR" / "KB_2026090003_KLPGA_OFFICIAL_FR_70_SUPPLIED.json")
     r3_doc = _load_json(EVIDENCE_DIR / "KB_2026090003_R3" / "KB_2026090003_R3_OFFICIAL_FINAL.json")
     if not fr_doc:
         return None
-    fr_row = next((p for p in fr_doc.get("players", []) if p.get("player_name") == PLAYER_NAME), None)
+    fr_row = next((p for p in fr_doc.get("players", []) if p.get("player_name") == player_name), None)
     if not fr_row:
         return None
     r3_row = None
     if r3_doc:
-        r3_row = next((r for r in r3_doc.get("rows", []) if r.get("playerCode") == PLAYER_ID), None)
+        r3_row = next((r for r in r3_doc.get("rows", []) if r.get("playerCode") == player_id), None)
 
     resolved = []
     if r3_row:
@@ -279,11 +314,12 @@ def _load_kb_reader_final() -> Optional[dict]:
 # CATEGORY 5 -- Official Live Tournament snapshots (Hana R1-R4, OK Open)
 # ---------------------------------------------------------------------------
 
-def _load_hana_live_sg() -> Optional[dict]:
+def _load_hana_live_sg(player_id: str) -> Optional[dict]:
     """2026090002 (하나금융그룹 챔피언십). Per-round SG for R1-R4 plus
     the official 4-round cumulative SG (real, not re-derived by this
     module) -- this cumulative figure is what the earlier R1-R3-only
-    patch was missing R4 for."""
+    patch was missing R4 for. These snapshot files only ever contain
+    10097's rows -- for another player_id this returns None."""
     rounds = {}
     for n in (1, 2, 3, 4):
         doc = _load_content(f"HANA_2026090002_R{n}_SG_V1.json")
@@ -293,7 +329,7 @@ def _load_hana_live_sg() -> Optional[dict]:
             recs = (doc.get("r4_single_round_sg") or {}).get("records", [])
         else:
             recs = doc.get("records", [])
-        row = next((r for r in recs if r.get("player_id") == PLAYER_ID), None)
+        row = next((r for r in recs if r.get("player_id") == player_id), None)
         if row:
             rounds[n] = row["total"]
     if not rounds:
@@ -303,7 +339,7 @@ def _load_hana_live_sg() -> Optional[dict]:
     r4_doc = _load_content("HANA_2026090002_R4_SG_V1.json")
     if r4_doc:
         cum_recs = (r4_doc.get("total_cumulative_sg") or {}).get("records", [])
-        cumulative = next((r for r in cum_recs if r.get("player_id") == PLAYER_ID), None)
+        cumulative = next((r for r in cum_recs if r.get("player_id") == player_id), None)
 
     resolved = []
     if cumulative and rounds:
@@ -327,11 +363,11 @@ def _load_hana_live_sg() -> Optional[dict]:
     }
 
 
-def _load_ok_open_live_snapshots() -> dict:
+def _load_ok_open_live_snapshots(player_id: str) -> dict:
     """2026120001 -- confirms Tournament Warehouse's raw R1/R2 strokes
     against the Live Snapshot's own capture, and surfaces the R3
     partial-round SG (holes_completed < 18, never treated as a finished
-    round)."""
+    round). These snapshots only ever carry 10097's row."""
     out = {"rounds": {}, "r3_partial_sg": None, "resolved": []}
     r1 = _load_content("OK_OPEN_2026_R1_LIVE_SNAPSHOT.json")
     r2 = _load_content("OK_OPEN_2026_R2_LIVE_SNAPSHOT.json")
@@ -339,11 +375,11 @@ def _load_ok_open_live_snapshots() -> dict:
     for n, doc in ((1, r1), (2, r2), (3, r3)):
         if not doc:
             continue
-        row = next((p for p in doc.get("player_table", []) if p.get("player_code") == PLAYER_ID), None)
+        row = next((p for p in doc.get("player_table", []) if p.get("player_code") == player_id), None)
         if row:
             out["rounds"][n] = row
     if r3:
-        sg_row = next((s for s in r3.get("sg", []) if s.get("player_id") == PLAYER_ID and s.get("scope") == "single_round"), None)
+        sg_row = next((s for s in r3.get("sg", []) if s.get("player_id") == player_id and s.get("scope") == "single_round"), None)
         if sg_row and sg_row.get("round") == 3:
             out["r3_partial_sg"] = sg_row
     return out
@@ -353,11 +389,11 @@ def _load_ok_open_live_snapshots() -> dict:
 # CATEGORY 7 -- Verified supplemental datasets (Hana FINAL_TRUTH)
 # ---------------------------------------------------------------------------
 
-def _load_hana_final_truth() -> Optional[dict]:
+def _load_hana_final_truth(player_id: str) -> Optional[dict]:
     doc = _load_content("2026090002_FINAL_TRUTH.json")
     if not doc:
         return None
-    row = next((r for r in doc.get("records", []) if r.get("player_id") == PLAYER_ID), None)
+    row = next((r for r in doc.get("records", []) if r.get("player_id") == player_id), None)
     if not row:
         return None
     return {"doc": doc, "row": row}
@@ -367,24 +403,26 @@ def _load_hana_final_truth() -> Optional[dict]:
 # DISCOVERY -- catch the NEXT missing tournament instead of patching it in
 # ---------------------------------------------------------------------------
 
-def _discover_special_game_codes() -> set:
+def _discover_special_game_codes(player_id: str, player_name: Optional[str]) -> set:
     """Scan every known 'primary per-tournament truth' file SHAPE
-    (not filename) in the repository for a real 10097 record whose
-    game_code is not already in the SG Warehouse. This is what turns
-    a future missing tournament into a loud ReconciliationError instead
-    of a silent gap the way Hana was for months."""
+    (not filename) in the repository for a real record for this
+    player whose game_code is not already in the SG Warehouse. This is
+    what turns a future missing tournament into a loud
+    ReconciliationError instead of a silent gap the way Hana was for
+    months. Fully generic: for a player_id these evidence files never
+    mention, every check below simply finds no hit."""
     found = set()
 
     for path in CONTENT_DIR.glob("*_FINAL_TRUTH.json"):
         doc = _load_json(path)
-        if doc and doc.get("game_code") and any(r.get("player_id") == PLAYER_ID for r in doc.get("records", [])):
+        if doc and doc.get("game_code") and any(r.get("player_id") == player_id for r in doc.get("records", [])):
             found.add(doc["game_code"])
 
     twh_dir = EVIDENCE_DIR / "official_tournament_warehouse_v1"
     if twh_dir.exists():
         for path in twh_dir.glob("*_RECONCILED_PLAYER_ROUNDS.json"):
             doc = _load_json(path)
-            if doc and doc.get("gameCode") and any(r.get("playerCode") == PLAYER_ID for r in doc.get("rows", [])):
+            if doc and doc.get("gameCode") and any(r.get("playerCode") == player_id for r in doc.get("rows", [])):
                 found.add(doc["gameCode"])
 
     if EVIDENCE_DIR.exists():
@@ -400,7 +438,8 @@ def _discover_special_game_codes() -> set:
                     continue
                 rows = doc.get("players") or doc.get("rows") or []
                 hit = any(
-                    r.get("player_id") == PLAYER_ID or r.get("playerCode") == PLAYER_ID or r.get("player_name") == PLAYER_NAME
+                    r.get("player_id") == player_id or r.get("playerCode") == player_id
+                    or (player_name is not None and r.get("player_name") == player_name)
                     for r in rows
                 )
                 if hit:
@@ -413,18 +452,32 @@ def _discover_special_game_codes() -> set:
 # RECONCILE
 # ---------------------------------------------------------------------------
 
-def reconcile() -> dict:
+def reconcile(player_id: str = PLAYER_ID, player_name: Optional[str] = None) -> dict:
+    """Reconcile one player's full tournament history from every known
+    real source. `player_id` defaults to 10097 for backward
+    compatibility with every existing caller that invokes reconcile()
+    with no arguments. `player_name` is used only by the tournament-
+    specific evidence loaders that key on it (Category 4's KB Reader
+    fallback, and the special-game-code discovery pass); when it is
+    left as None for a non-10097 player, those loaders simply find no
+    name match, which is the correct behavior when no name is known or
+    needed. For player_id == PLAYER_ID with no player_name given, the
+    module's own PLAYER_NAME is used, preserving the exact original
+    behavior of a no-argument call."""
+    if player_name is None and player_id == PLAYER_ID:
+        player_name = PLAYER_NAME
+
     resolved_log: list = []
     conflicts: list = []
 
-    sg_rows = _load_sg_warehouse_rows()
+    sg_rows = _load_sg_warehouse_rows(player_id)
     tournaments = _sg_warehouse_tournaments(sg_rows)
     sg_warehouse_codes = set(tournaments.keys())
     round_rows = _sg_warehouse_round_rows(sg_rows)
 
     # Category 2/3: enrich (never overwrite) with raw stroke data where
     # the Tournament Warehouse independently captured the same round.
-    tw_rounds = _load_tournament_warehouse_round_rows()
+    tw_rounds = _load_tournament_warehouse_round_rows(player_id)
     merged_categories = defaultdict(lambda: {"sg_warehouse"})
     for code in tournaments:
         merged_categories[code] = {"sg_warehouse"}
@@ -448,7 +501,7 @@ def reconcile() -> dict:
     # fallback -- which never carried real SG values, only rank/strokes
     # -- is skipped rather than raising, so a newly-collected real SG
     # row upgrades a tournament automatically, with no special-casing.
-    kb = _load_kb_reader_final()
+    kb = _load_kb_reader_final(player_id, player_name)
     if kb:
         gc = kb["record"]["game_code"]
         if gc not in tournaments:
@@ -462,8 +515,8 @@ def reconcile() -> dict:
             )
 
     # Category 5 + 7: Hana (2026090002) -- not in SG warehouse at all.
-    hana_live = _load_hana_live_sg()
-    hana_truth = _load_hana_final_truth()
+    hana_live = _load_hana_live_sg(player_id)
+    hana_truth = _load_hana_final_truth(player_id)
     if hana_live or hana_truth:
         gc = "2026090002"
         if gc in tournaments:
@@ -498,8 +551,8 @@ def reconcile() -> dict:
         merged_categories[gc] = {"live_snapshot", "supplemental"}
 
     # Category 2/3 + 5: OK Open (2026120001) -- IN PROGRESS, not in SG warehouse.
-    ok_rounds = _load_ok_open_round_rows()
-    ok_live = _load_ok_open_live_snapshots()
+    ok_rounds = _load_ok_open_round_rows(player_id)
+    ok_live = _load_ok_open_live_snapshots(player_id)
     in_progress_tournament = None
     if ok_rounds:
         gc = "2026120001"
@@ -561,19 +614,19 @@ def reconcile() -> dict:
     # ACCOUNTABILITY GATE: every discoverable special tournament must be
     # one this module explicitly handled above. A new shape -> loud stop.
     # -------------------------------------------------------------------
-    discovered = _discover_special_game_codes()
+    discovered = _discover_special_game_codes(player_id, player_name)
     handled_special = set(tournaments.keys()) - sg_warehouse_codes
     if in_progress_tournament:
         handled_special.add(in_progress_tournament["game_code"])
     unhandled = discovered - handled_special - sg_warehouse_codes
     if unhandled:
         raise ReconciliationError(
-            f"Reconciliation FAILED: discovered real 10097 record(s) for game_code(s) {sorted(unhandled)} "
+            f"Reconciliation FAILED: discovered real {player_id} record(s) for game_code(s) {sorted(unhandled)} "
             "in a recognized source shape, but no loader in this module accounts for them. Add a dedicated "
             "loader (see Hana/KB/OK Open above) before regenerating Player History -- do not patch this "
             "downstream in the report builder."
         )
-    missing = _KNOWN_SPECIAL_GAME_CODES - handled_special
+    missing = _required_special_game_codes(player_id) - handled_special
     if missing:
         raise ReconciliationError(f"Reconciliation FAILED: known special tournament(s) {sorted(missing)} could not be loaded from any real source.")
 
@@ -608,7 +661,7 @@ def reconcile() -> dict:
         "synthetic_sg_warehouse_doc": {
             "records": [
                 {
-                    "player_id": PLAYER_ID, "game_code": t["game_code"], "season": t["season"],
+                    "player_id": player_id, "game_code": t["game_code"], "season": t["season"],
                     "tournament": t.get("tournament"), "scope": "tournament_cumulative", "identity_state": "RETAINED",
                     "rank": t.get("rank"), "rounds": t.get("rounds_played"),
                     "total": t.get("sg_total"), "off_the_tee": t.get("sg_ott"), "approach": t.get("sg_app"),
@@ -622,7 +675,12 @@ def reconcile() -> dict:
 
 
 if __name__ == "__main__":
-    result = reconcile()
+    import argparse
+    _parser = argparse.ArgumentParser(description=__doc__)
+    _parser.add_argument("--player-id", default=PLAYER_ID, help="playerCode to reconcile (default: 10097)")
+    _parser.add_argument("--player-name", default=None, help="player's official name, for name-matched evidence files (default: 김민선7 when --player-id is 10097, else unused)")
+    _args = _parser.parse_args()
+    result = reconcile(player_id=_args.player_id, player_name=_args.player_name)
     r = result["report"]
     print(f"status: {r['status']}")
     print(f"total_tournaments: {r['total_tournaments']}")
