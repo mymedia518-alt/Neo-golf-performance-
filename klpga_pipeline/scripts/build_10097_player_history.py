@@ -89,7 +89,7 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from klpga.data_provenance import build_provenance_map  # noqa: E402
+from klpga.data_provenance import build_provenance_map, orphaned_provenance_patterns  # noqa: E402
 from klpga.knowledge_engine import knowledge_engine as ke  # noqa: E402
 from klpga.tournament_context import CONTENT_DIR  # noqa: E402
 from klpga.tournament_ordering import sort_tournaments  # noqa: E402
@@ -2325,20 +2325,32 @@ def build(player_id: str = PLAYER_ID, player_name: Optional[str] = None) -> dict
     career_story = _career_story(career_overview, player_story)
     course_profile = _course_profile(recon)
 
-    # MISSION V10 then V11: the core provenance map first, then this
-    # mission's own 5 user-facing deliverables computed FROM it (see
-    # _confidence_provenance_entries()'s docstring -- they are visible
-    # values too, so they get provenance entries of their own, merged
-    # into the same map).
-    provenance = _provenance_map()
-    page_confidence = _page_confidence_score(provenance)
-    field_confidence_legend = _field_confidence_legend()
-    provenance_summary = _provenance_summary(provenance)
-    data_confidence_roadmap = _data_confidence_roadmap(provenance)
-    data_quality_timeline = _data_quality_timeline(coverage_matrix)
-    provenance.update(_confidence_provenance_entries())
-
-    return {
+    # GENERALIZATION (feat/neo-auto-pipeline-v1, 2026-09-29), found during
+    # manual visual QA of player 8243 against 10097: _provenance_map() is a
+    # static, hand-written ledger of every field PATH this report's SCHEMA
+    # can carry -- correct in that it is schema-level, not per-tournament-row
+    # (see data_provenance.leaf_paths()'s own docstring: one entry covers
+    # every row of an array on purpose). But it was written once, entirely
+    # from playerCode=10097's own real document, and never actually checked
+    # against any OTHER player's real document -- so a field genuinely absent
+    # for a different player (no in-progress tournament, no captured
+    # hole_history, no technical_stats_2025 snapshot, ...) was still counted
+    # as MEASURED/DERIVED simply because the static map says so. Confirmed
+    # real, not theoretical: 77 real players built during this generalization
+    # (wildly different career lengths, 1 to 96 tournaments) all produced the
+    # byte-identical page_confidence (604/588/16/97.4%) -- including a player
+    # with a single tournament on record showing the same "97.4% trust" as
+    # 10097's 96-tournament history. data_provenance.orphaned_provenance_
+    # patterns() already exists precisely to catch this (its own docstring:
+    # "catches a stale entry left behind after a field was renamed or
+    # removed") but was never actually called anywhere in this file -- wiring
+    # it up here, rather than writing new logic, fixes the root cause: any
+    # provenance entry that does not match a real leaf in THIS player's own
+    # assembled document is corrected to NOT_COLLECTED before any confidence
+    # number is computed from it, so the trust score (and the Field
+    # Confidence Badges elsewhere on the page, which read this same map) both
+    # reflect what this specific player's document actually contains.
+    doc_partial = {
         "schema_version": "player_history_v2",
         "player_id": PLAYER_ID,
         "player_name": PLAYER_NAME,
@@ -2379,16 +2391,50 @@ def build(player_id: str = PLAYER_ID, player_name: Optional[str] = None) -> dict
         "player_story": player_story,
         "hole_history": hole_history,
         "not_available": NOT_AVAILABLE,
+        "source_document": (
+            "reconcile_10097_player_history.py (7-category reconciliation) + "
+            "OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)"
+        ),
+    }
+
+    # MISSION V10 then V11: the core provenance map first, then this
+    # mission's own 5 user-facing deliverables computed FROM it (see
+    # _confidence_provenance_entries()'s docstring -- they are visible
+    # values too, so they get provenance entries of their own, merged
+    # into the same map).
+    provenance = _provenance_map()
+
+    # Real per-player correction (see the long comment above doc_partial):
+    # any entry whose path does not match a real leaf in THIS player's own
+    # assembled document is not actually backed by real data for them,
+    # whatever the static map's default label claims -- downgrade it to
+    # NOT_COLLECTED before any confidence number is computed, and before it
+    # is written into the JSON that Field Confidence Badges elsewhere on the
+    # page also read from.
+    orphaned = orphaned_provenance_patterns(doc_partial, provenance)
+    for path in orphaned:
+        entry = provenance[path]
+        provenance[path] = {
+            **entry,
+            "label": "NOT_COLLECTED",
+            "reason": f"{entry['reason']} -- not present for playerCode={PLAYER_ID} specifically (genuinely absent, not merely undocumented).",
+        }
+
+    page_confidence = _page_confidence_score(provenance)
+    field_confidence_legend = _field_confidence_legend()
+    provenance_summary = _provenance_summary(provenance)
+    data_confidence_roadmap = _data_confidence_roadmap(provenance)
+    data_quality_timeline = _data_quality_timeline(coverage_matrix)
+    provenance.update(_confidence_provenance_entries())
+
+    return {
+        **doc_partial,
         "provenance": provenance,
         "page_confidence": page_confidence,
         "field_confidence_legend": field_confidence_legend,
         "provenance_summary": provenance_summary,
         "data_confidence_roadmap": data_confidence_roadmap,
         "data_quality_timeline": data_quality_timeline,
-        "source_document": (
-            "reconcile_10097_player_history.py (7-category reconciliation) + "
-            "OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)"
-        ),
     }
 
 

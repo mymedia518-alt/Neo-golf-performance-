@@ -544,7 +544,7 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .ph-round-pair{display:flex;gap:1.5rem}
 .ph-round-big{flex:1;text-align:center;padding:1.1rem;background:var(--panel)}
 .ph-round-big-lbl{font-size:.78rem;color:var(--muted);margin-bottom:.3rem}
-.ph-round-big-num{font-size:2.2rem;font-weight:800;line-height:1;color:var(--ink)}
+.ph-round-big-num{font-size:clamp(1.5rem,6vw,2.2rem);font-weight:800;line-height:1;color:var(--ink);white-space:nowrap}
 .ph-round-big--positive .ph-round-big-num{color:var(--green)}
 .ph-round-big--negative .ph-round-big-num{color:var(--red)}
 .ph-round-big-cap{font-size:.75rem;color:var(--muted);margin-top:.5rem}
