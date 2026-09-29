@@ -22,10 +22,14 @@ roundLeaderboard responses, or a special one-off per-tournament capture
 like KB's), scanning that page's own HTML for a real strokesGained link
 is enough to find and collect a tournament's SG data on its own.
 
-Every function below takes game_code as DATA, discovered from the page
-itself via discover_sg_game_code() -- never a hardcoded string, never a
-per-tournament branch. The same four functions run for every
-tournament this collector is ever pointed at.
+Every function below takes game_code as DATA -- never a hardcoded
+string, never a per-tournament branch. Two ways to supply it, both
+generic (see resolve_game_code()): Mode A discovers it from a real
+leaderboard page via discover_sg_game_code(); Mode B accepts an
+already-known real gameCode directly via --game-code, skipping
+discovery when there is nothing left to discover. The same functions
+run for every tournament this collector is ever pointed at, in either
+mode.
 
 Reuses, unchanged, the exact parser and HTTP client already proven
 correct for every other tournament in the warehouse:
@@ -94,6 +98,37 @@ def discover_sg_game_code(leaderboard_html: str) -> Optional[str]:
     every KLPGA tournament publishes an SG page."""
     m = _SG_LINK_RE.search(leaderboard_html)
     return m.group(1) if m else None
+
+
+def resolve_game_code(leaderboard_html: Optional[str], game_code: Optional[str]) -> Optional[str]:
+    """Two ways to name the real tournament this collector runs
+    against -- exactly one must be given, this function never guesses
+    which the caller meant and never silently prefers one:
+
+    Mode A (leaderboard_html): discover_sg_game_code() scans a real
+    captured leaderboard page. This is the only mode that also proves,
+    before any network call, that the tournament's own real page links
+    to an SG page at all -- valuable when you do not already know
+    whether one exists.
+
+    Mode B (game_code): an already-known real gameCode, given
+    directly -- skips discovery because there is nothing left to
+    discover. The trade-off, made explicit rather than silently
+    dropped: this mode has no equivalent up-front proof that an SG
+    page exists for this gameCode. It does not need one to stay
+    honest, though -- build_warehouse_rows() below still raises a real
+    ValueError (caught and reported, never papered over) whenever the
+    fetched page turns out to have no SG table, exactly as it always
+    has for Mode A. A tournament that genuinely has no SG data
+    produces an honest 'no rows parsed' result in either mode; Mode A
+    just finds that out one HTTP round-trip earlier."""
+    if leaderboard_html and game_code:
+        raise ValueError("pass exactly one of leaderboard_html or game_code, not both")
+    if game_code:
+        return game_code
+    if leaderboard_html:
+        return discover_sg_game_code(leaderboard_html)
+    raise ValueError("one of leaderboard_html or game_code is required")
 
 
 def fetch_sg_detail_html(client: PoliteHttpClient, game_code: str, round_number: Optional[int]) -> str:
@@ -215,70 +250,77 @@ def merge_into_warehouse_with_diff(rows: list[dict], warehouse_path: Path = DEFA
 
 
 def collect_live(
-    client: PoliteHttpClient, leaderboard_html: str, *, season: int, tournament: str,
-    id_lookup: Optional[dict] = None, warehouse_path: Path = DEFAULT_WAREHOUSE_PATH,
+    client: PoliteHttpClient, leaderboard_html: Optional[str] = None, *, season: int, tournament: str,
+    id_lookup: Optional[dict] = None, warehouse_path: Path = DEFAULT_WAREHOUSE_PATH, game_code: Optional[str] = None,
 ) -> dict:
-    """The full discover -> download -> parse -> save cycle for
-    whatever real game_code the given leaderboard page names -- tries
-    the tournament-cumulative scope plus rounds 1-4, skipping any
-    round this tournament genuinely has no SG table for (fewer than 4
-    rounds played, or SG not published for every round)."""
-    game_code = discover_sg_game_code(leaderboard_html)
-    if not game_code:
+    """The full discover-or-accept -> download -> parse -> save cycle
+    for whatever real game_code is given -- tries the
+    tournament-cumulative scope plus rounds 1-4, skipping any round
+    this tournament genuinely has no SG table for (fewer than 4 rounds
+    played, or SG not published for every round). Accepts either Mode
+    A (leaderboard_html, discovers the game_code) or Mode B (game_code,
+    given directly) -- see resolve_game_code()'s own docstring for the
+    real trade-off between the two. Exactly one must be given."""
+    resolved_game_code = resolve_game_code(leaderboard_html, game_code)
+    if not resolved_game_code:
         return {"status": "no_sg_link_found", "game_code": None}
+    discovery_note = f"(discovered via {SG_WEB_PAGE_PATH}?gameCode={resolved_game_code})" if leaderboard_html else "(game_code given directly, no leaderboard page discovery)"
     id_lookup = id_lookup or {}
     all_rows: list[dict] = []
     for scope, round_number in _ROUND_SCOPES:
-        html = fetch_sg_detail_html(client, game_code, round_number)
+        html = fetch_sg_detail_html(client, resolved_game_code, round_number)
         try:
             rows = build_warehouse_rows(
-                html, game_code=game_code, season=season, tournament=tournament,
+                html, game_code=resolved_game_code, season=season, tournament=tournament,
                 scope=scope, round_number=round_number, id_lookup=id_lookup,
                 source_note=(
-                    f"{BASE_URL}{SG_DETAIL_POST_PATH} POST gameCode={game_code}, "
-                    f"round={round_number if round_number else 'cumulative'} "
-                    f"(discovered via {SG_WEB_PAGE_PATH}?gameCode={game_code})"
+                    f"{BASE_URL}{SG_DETAIL_POST_PATH} POST gameCode={resolved_game_code}, "
+                    f"round={round_number if round_number else 'cumulative'} {discovery_note}"
                 ),
             )
         except ValueError:
             continue
         all_rows.extend(rows)
     merge_result = merge_into_warehouse(all_rows, warehouse_path)
-    return {"status": "collected", "game_code": game_code, "rows_parsed": len(all_rows), **merge_result}
+    return {"status": "collected", "game_code": resolved_game_code, "rows_parsed": len(all_rows), **merge_result}
 
 
 def collect_from_saved_page(
-    leaderboard_html: str, sg_page_html: str, *, season: int, tournament: str,
+    leaderboard_html: Optional[str] = None, sg_page_html: str = "", *, season: int, tournament: str,
     scope: str, round_number: Optional[int], id_lookup: Optional[dict] = None,
-    warehouse_path: Path = DEFAULT_WAREHOUSE_PATH,
+    warehouse_path: Path = DEFAULT_WAREHOUSE_PATH, game_code: Optional[str] = None,
 ) -> dict:
-    """Same discover -> parse -> save cycle, for an environment (like
-    this one) with no live network path to klpga.co.kr. `sg_page_html`
-    is an already-saved copy of the real
+    """Same discover-or-accept -> parse -> save cycle, for an
+    environment (like this one) with no live network path to
+    klpga.co.kr. `sg_page_html` is an already-saved copy of the real
     /web/leaderboard/strokesGained?gameCode=... page (or its
     strokesGained_detail response) -- the exact ingestion pattern this
     repository already uses for Hana (scripts/154_ingest_hana_r1_sg_raw.py
     + scripts/155_build_hana_r1_sg_v1.py), generalized to any game_code
-    instead of one hardcoded to it."""
-    game_code = discover_sg_game_code(leaderboard_html)
-    if not game_code:
+    instead of one hardcoded to it. Accepts either Mode A
+    (leaderboard_html) or Mode B (game_code) -- see
+    resolve_game_code()'s own docstring. Exactly one must be given."""
+    resolved_game_code = resolve_game_code(leaderboard_html, game_code)
+    if not resolved_game_code:
         return {"status": "no_sg_link_found", "game_code": None}
+    discovery_note = "discovered via the same page's own link, no live network fetch" if leaderboard_html else "game_code given directly by the operator, no leaderboard page discovery"
     id_lookup = id_lookup or {}
     rows = build_warehouse_rows(
-        sg_page_html, game_code=game_code, season=season, tournament=tournament,
+        sg_page_html, game_code=resolved_game_code, season=season, tournament=tournament,
         scope=scope, round_number=round_number, id_lookup=id_lookup,
         source_note=(
-            f"operator-saved copy of {BASE_URL}{SG_WEB_PAGE_PATH}?gameCode={game_code} "
-            f"(discovered via the same page's own link, no live network fetch)"
+            f"operator-saved copy of {BASE_URL}{SG_WEB_PAGE_PATH}?gameCode={resolved_game_code} ({discovery_note})"
         ),
     )
     merge_result = merge_into_warehouse(rows, warehouse_path)
-    return {"status": "collected", "game_code": game_code, "rows_parsed": len(rows), **merge_result}
+    return {"status": "collected", "game_code": resolved_game_code, "rows_parsed": len(rows), **merge_result}
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--leaderboard-html-file", required=True, help="A captured leaderboard page to scan for a real strokesGained link.")
+    discovery = ap.add_mutually_exclusive_group(required=True)
+    discovery.add_argument("--leaderboard-html-file", help="Mode A: a captured leaderboard page to scan for a real strokesGained link.")
+    discovery.add_argument("--game-code", help="Mode B: an already-known real gameCode, given directly -- skips leaderboard discovery. See resolve_game_code()'s docstring for the trade-off.")
     ap.add_argument("--season", type=int, required=True)
     ap.add_argument("--tournament", required=True)
     ap.add_argument("--live", action="store_true", help="Fetch live via PoliteHttpClient (requires real network access to klpga.co.kr).")
@@ -288,17 +330,17 @@ def main() -> None:
     ap.add_argument("--warehouse", default=str(DEFAULT_WAREHOUSE_PATH))
     args = ap.parse_args()
 
-    leaderboard_html = Path(args.leaderboard_html_file).read_text(encoding="utf-8", errors="replace")
+    leaderboard_html = Path(args.leaderboard_html_file).read_text(encoding="utf-8", errors="replace") if args.leaderboard_html_file else None
     warehouse_path = Path(args.warehouse)
 
     if args.live:
         client = PoliteHttpClient(cache_dir=ROOT / "data" / "raw_cache" / "http")
-        result = collect_live(client, leaderboard_html, season=args.season, tournament=args.tournament, warehouse_path=warehouse_path)
+        result = collect_live(client, leaderboard_html, season=args.season, tournament=args.tournament, warehouse_path=warehouse_path, game_code=args.game_code)
     elif args.sg_html_file:
         sg_html = Path(args.sg_html_file).read_text(encoding="utf-8", errors="replace")
         result = collect_from_saved_page(
             leaderboard_html, sg_html, season=args.season, tournament=args.tournament,
-            scope=args.scope, round_number=args.round, warehouse_path=warehouse_path,
+            scope=args.scope, round_number=args.round, warehouse_path=warehouse_path, game_code=args.game_code,
         )
     else:
         ap.error("one of --live or --sg-html-file is required")
