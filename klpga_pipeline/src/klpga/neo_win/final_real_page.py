@@ -127,13 +127,25 @@ def render_final_real_page(
     rise_html = "".join(_mover_item(c) for c in underestimated)
     fall_html = "".join(_mover_item(c) for c in overestimated)
 
-    # ---------------- Why the winner won (strictly data-backed) ----------------
+    # ---------------- Winner: NEO forecast vs result (metric/comparison/evidence, no narrative) ----------------
+    # NEO V2 BRAND CONSISTENCY mission (2026-09-29): the two rows below used
+    # to be a sports-recap sentence ("...우승 후보 중 하나였다", "...마무리하며
+    # 우승을 확정했다"). Same two real values (win probability + predicted
+    # rank at R3, final round score), rendered as a metric/comparison/
+    # evidence table row instead of a conclusion sentence -- no new
+    # computation, same fields winner_comparison and _r4_display() already
+    # provided.
     winner_comparison = next(c for c in comparison.confirmed_players if c.player_id == comparison.winner_player_id)
-    why_points = [
-        f"{winner_record['player_name']}는 R3 종료 시점 NEO 예상 우승확률 {winner_comparison.neo_win_probability_pct:.1f}%(예상 {winner_comparison.neo_predicted_rank}위)로 우승 후보 중 하나였다.",
-        f"3라운드까지는 선두가 아니었으나(2위권), 최종 라운드 {_r4_display(winner_record)}로 마무리하며 우승을 확정했다.",
-    ]
-    why_html = "".join(f"<li>{p}</li>" for p in why_points)
+    why_html = (
+        "<tr><td>NEO 예상 우승확률 {:.1f}%</td><td>R3 종료 시점 예상 {}위 → FINAL 1위</td>"
+        "<td>win_pct {:.1f}%, predicted_rank {}위</td></tr>"
+    ).format(
+        winner_comparison.neo_win_probability_pct, winner_comparison.neo_predicted_rank,
+        winner_comparison.neo_win_probability_pct, winner_comparison.neo_predicted_rank,
+    ) + (
+        f"<tr><td>최종 라운드 {_r4_display(winner_record)}</td><td>FINAL 순위 1위 (우승)</td>"
+        f"<td>{render_player_identity(winner_record['player_name'], winner_record.get('sponsor'), quote=chr(39))} 4라운드 스코어 기준</td></tr>"
+    )
 
     breadcrumb = breadcrumb_html(tournament_name, None, "FINAL")
     body = (
@@ -174,8 +186,10 @@ def render_final_real_page(
         f"<h3>하락</h3><ul>{fall_html}</ul>"
         "</section>"
         '<section class="product-section" id="why-the-winner-won">'
-        "<h2>우승 포인트</h2>"
-        f"<ul>{why_html}</ul>"
+        "<h2>FINAL 예측 vs 결과 요약</h2>"
+        '<div class="table-wrap"><table class="data"><thead><tr>'
+        "<th>지표</th><th>비교</th><th>근거</th>"
+        f"</tr></thead><tbody>{why_html}</tbody></table></div>"
         "</section>"
     )
 

@@ -1508,55 +1508,38 @@ _FORM_INDICATOR_LABEL = {"UP": "상승세", "DOWN": "하락세", "FLAT": "보합
 
 
 def _story_layer_html(doc: dict) -> str:
-    """MISSION V71 (2026-09-28), refined by explicit user correction:
-    'Do NOT override V50.1. Keep every real insight. Do NOT delete
-    evidence. Instead split the page into two layers. Layer 1 = Story
-    ... Layer 2 = Evidence ... Never remove unique player intelligence.
-    Reorder it. Promote the story. Demote the evidence.'
-
-    MISSION V72 (2026-09-28): 'Transform the Story layer from a
-    dashboard into a magazine cover... Every Story card starts with a
-    conclusion, never a question... at most three supporting numbers.'
-    Each headline below is a plain-language conclusion built only from
-    a value/sign some section further down already computed (career-
-    best-season check, lead skill driving the trend, the biggest real
-    season jump, the strongest individual skill, the strongest venue)
-    -- never a new computation. Every card still links to its own full
-    section for the reader who wants the evidence behind it."""
+    """MISSION V71/V72 built this as a narrative "magazine cover" layer
+    (plain-language conclusion headlines). MISSION V96 (2026-09-29):
+    "Switch from storytelling to analytics... every card starts with a
+    measurable statistic... no emotional or narrative language...
+    Headline = metric, Subtitle = comparison, Footer = evidence." Same
+    five real, already-computed values as before (career-vs-current SG,
+    the component driving the current delta, the largest real season
+    jump, the strongest individual skill, the strongest venue) -- only
+    the presentation changed, from a conclusion sentence to a metric
+    with its comparison and evidence. No new computation; every number
+    below is a field this function already read before this mission."""
     cards = []
 
     cvc = doc.get("current_vs_career")
     if cvc:
-        story = doc.get("career_story") or {}
-        is_peak_season = any(
-            m["season"] == cvc["current_season"]
-            for c in story.get("chapters", []) if c["chapter"] == "최고 경기력"
-            for m in c["milestones"] if "최고" in m["label"]
-        )
-        indicator = doc.get("current_form_indicator") or {}
-        direction = indicator.get("direction")
-        if is_peak_season:
-            headline = "커리어 최고의 시즌을 보내고 있다."
-        elif direction == "UP":
-            headline = "상승세를 타고 있다."
-        elif direction == "DOWN":
-            headline = "하락세를 보이고 있다."
-        else:
-            headline = "꾸준한 폼을 유지하고 있다."
         snap = doc.get("current_snapshot")
-        support = [f'SG {_fmt(cvc["current_season_sg_total"])}', f'평균 대비 {cvc["delta_vs_career_average"]:+.2f}']
-        if snap and snap.get("official_sg_rank") is not None:
-            support.append(f'공식 {snap["official_sg_rank"]}위')
-        cards.append((headline, support[:3], "#ph-current-form"))
+        footer = f'Tour Rank {snap["official_sg_rank"]}' if snap and snap.get("official_sg_rank") is not None else None
+        cards.append((
+            "SEASON SG", _fmt(cvc["current_season_sg_total"]),
+            f'vs Career {cvc["delta_vs_career_average"]:+.2f}', footer, "#ph-current-form",
+        ))
 
     why_now = doc.get("why_now")
     if why_now and why_now.get("lead_component"):
         lead = why_now["lead_component"].removeprefix("SG ")
         lead_delta = why_now.get("lead_delta", 0)
-        headline = f'{lead}가 최근 상승세를 이끌고 있다.' if lead_delta >= 0 else f'{lead} 부진이 가장 큰 하락 요인이다.'
         top_arrows = sorted(why_now.get("arrows", []), key=lambda a: abs(a["delta"]), reverse=True)[:3]
-        support = [f'{a["component"].removeprefix("SG ")} {a["delta"]:+.2f}' for a in top_arrows]
-        cards.append((headline, support, "#ph-why-now"))
+        subtitle = " · ".join(f'{a["component"].removeprefix("SG ")} {a["delta"]:+.2f}' for a in top_arrows)
+        cards.append((
+            "SG BREAKDOWN", f'{lead} {lead_delta:+.2f}',
+            subtitle, "vs Career Average", "#ph-why-now",
+        ))
 
     story = doc.get("career_story")
     if story:
@@ -1564,10 +1547,16 @@ def _story_layer_html(doc: dict) -> str:
             (m for c in story.get("chapters", []) if c["chapter"] == "경기력 도약" for m in c["milestones"]), None
         )
         if breakthrough:
+            # breakthrough["detail"] is real, already-formatted text:
+            # "{from_season}→{to_season} {delta:+.2f}" -- parsed back
+            # out here (never re-derived from breakthrough["season"]
+            # alone, which is only to_season and cannot recover
+            # from_season if a season was skipped).
+            season_pair, delta = breakthrough["detail"].split()
+            from_season, to_season = season_pair.split("→")
             cards.append((
-                f'{breakthrough["season"]}시즌, 가장 크게 도약했다.',
-                [breakthrough["detail"]],
-                "#ph-career-story",
+                "SEASON GROWTH", delta,
+                f'{from_season} → {to_season}', "SG Total Δ, Season-over-Season", "#ph-career-story",
             ))
 
     radar_seasons = doc.get("player_dna_radar") or []
@@ -1584,30 +1573,33 @@ def _story_layer_html(doc: dict) -> str:
         if best_axis:
             axis_ko = terms.RADAR_AXIS_LABEL_KO.get(best_axis["axis"], best_axis["axis"])
             cards.append((
-                f'{axis_ko}가 최고 무기다.',
-                [f'백분위 {best_axis["percentile"]:.0f}', f'{latest["season"]}시즌 기준'],
-                "#ph-player-dna-radar",
+                "BEST SKILL", f'P{best_axis["percentile"]:.0f}',
+                axis_ko, f'{latest["season"]} Season Percentile', "#ph-player-dna-radar",
             ))
 
     profiles = doc.get("course_profile")
     if profiles:
         strongest = profiles[0]
+        appearances = strongest.get("appearances")
+        footer = f'Avg SG, {appearances} Appearances' if appearances else "Avg SG"
         cards.append((
-            f'{strongest["tournament_family"]}에서 가장 강하다.',
-            [f'평균 SG {_fmt(strongest["avg_sg_total"])}'],
-            "#ph-course-profile",
+            "BEST EVENT", _fmt(strongest["avg_sg_total"]),
+            strongest["tournament_family"], footer, "#ph-course-profile",
         ))
 
     if not cards:
         return ""
 
     card_html = "".join(
-        f'<a class="ph-story-card" href="{href}"><p class="ph-story-headline">{escape(headline)}</p>'
-        f'<p class="ph-story-support">{escape(" · ".join(support))}</p></a>'
-        for headline, support, href in cards
+        f'<a class="ph-story-card" href="{href}"><p class="ph-story-label">{escape(label)}</p>'
+        f'<p class="ph-story-headline">{escape(headline)}</p>'
+        f'<p class="ph-story-subtitle">{escape(subtitle)}</p>'
+        + (f'<p class="ph-story-footer">{escape(footer)}</p>' if footer else "")
+        + '</a>'
+        for label, headline, subtitle, footer, href in cards
     )
     return (
-        '<section class="ph-story-layer" id="ph-story-layer" aria-label="한눈에 보는 김민선7">'
+        '<section class="ph-story-layer" id="ph-story-layer" aria-label="김민선7 시즌 분석 요약">'
         f'<div class="ph-story-grid">{card_html}</div>'
         '</section>'
         '<p class="ph-layer2-marker">분석 근거</p>'
