@@ -114,7 +114,7 @@ def _player_cell(pid: str, name: str, country_by_id: dict[str, str], sponsor_by_
     sponsor_text = _esc(sponsor) if sponsor else ""
     sponsor_cell = f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
     name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(name)}</span>"
-    name_cell = linked_player_name_cell(pid, name_cell, REPO_ROOT)
+    name_cell = linked_player_name_cell(pid, name_cell)
     return f"{flag_cell}{name_cell}{sponsor_cell}"
 
 
