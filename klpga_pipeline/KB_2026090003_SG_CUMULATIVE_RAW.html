@@ -1,0 +1,2321 @@
+
+
+
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	$(".btnOrder").click(function(){
+		var dataName = $(this).attr("_orderType");
+		var order = "desc";
+		
+		if($(this).hasClass("sort-asc")){
+			order = "desc";
+		} else if($(this).hasClass("sort-desc")){
+			order = "asc";
+		}
+		$(this).parent().children().removeClass("sort-asc sort-desc");
+		$(this).addClass("sort-"+order);
+		
+		listSort(dataName, order);
+	});
+});
+
+function listSort(dataName, order){
+	
+	$targetObj = $("#record-one tbody tr");
+	
+	$("#record-one tbody").html(
+		$targetObj.sort(function(a, b){
+			$(a).find("td:eq(0)").html($(a).data(dataName)==999 ? '' : $(a).data(dataName));
+			$(b).find("td:eq(0)").html($(b).data(dataName)==999 ? '' : $(b).data(dataName));
+			if($(a).data(dataName)!=999){
+				if(order=="desc"){
+					if($(a).data(dataName)<$(b).data(dataName)) return -1;
+					else return 1;
+				}
+				else {
+					if($(a).data(dataName)<$(b).data(dataName)) return 1;
+					else return -1;
+				}	
+			}
+		})
+	);
+}
+</script>
+<style>
+.table-blue tr th, .table-blue tr td {
+	border: 0px;
+}
+.rank {
+    /* font-size: 1rem; */
+    color: #acaaaa;
+}
+</style>
+<div class="tab-pane fade show active" id="record-one" role="tabpanel" aria-labelledby="record-one-tab">
+	<div class="table-responsive">
+		<table class="table table-blue text-center fixed-start fixed-second-60 table-hover">
+			<thead>
+				<tr>
+					<th style="min-width: 60px;">순위</th>
+					<th style="min-width: 90px;">선수명</th>
+					<th class="btnOrder sort-desc" _orderType="sgrank" style="min-width: 110px;">SG : 전체 </th>
+					<th class="btnOrder" _orderType="teetogreenrank" style="min-width: 130px;">SG : 티샷 to 그린</th>
+					<th class="btnOrder" _orderType="driverrank" style="min-width: 110px;">SG : 티샷</th>
+					<th class="btnOrder" _orderType="approachrank" style="min-width: 110px;">SG : 어프로치</th>
+					<th class="btnOrder" _orderType="aroundrank" style="min-width: 110px;">SG : 그린주변</th>
+					<th class="btnOrder" _orderType="putterrank" style="min-width: 110px;">SG : 퍼팅</th>
+					<th style="min-width: 110px;">라운드 수</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+					<tr
+						data-sgrank="1"
+						data-teetogreenrank="2"
+						data-driverrank="2"
+						data-approachrank="17"
+						data-aroundrank="15"
+						data-putterrank="33"
+					>
+						<td class="bg-white">1</td>
+						<td class="bg-lightblue">성유진</td>
+						<td>3.70<span class="rank">(1)</span></td>
+						<td>2.99<span class="rank">(2)</span></td>
+						<td>1.17<span class="rank">(2)</span></td>
+						<td>1.17<span class="rank">(17)</span></td>
+						<td>0.66<span class="rank">(15)</span></td>
+						<td>0.70<span class="rank">(33)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="2"
+						data-teetogreenrank="1"
+						data-driverrank="31"
+						data-approachrank="1"
+						data-aroundrank="4"
+						data-putterrank="65"
+					>
+						<td class="bg-white">2</td>
+						<td class="bg-lightblue">박보겸</td>
+						<td>3.65<span class="rank">(2)</span></td>
+						<td>4.02<span class="rank">(1)</span></td>
+						<td>0.41<span class="rank">(31)</span></td>
+						<td>2.44<span class="rank">(1)</span></td>
+						<td>1.16<span class="rank">(4)</span></td>
+						<td>-0.37<span class="rank">(65)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="3"
+						data-teetogreenrank="3"
+						data-driverrank="7"
+						data-approachrank="8"
+						data-aroundrank="46"
+						data-putterrank="26"
+					>
+						<td class="bg-white">3</td>
+						<td class="bg-lightblue">박예지</td>
+						<td>3.63<span class="rank">(3)</span></td>
+						<td>2.70<span class="rank">(3)</span></td>
+						<td>0.92<span class="rank">(7)</span></td>
+						<td>1.63<span class="rank">(8)</span></td>
+						<td>0.16<span class="rank">(46)</span></td>
+						<td>0.92<span class="rank">(26)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="4"
+						data-teetogreenrank="13"
+						data-driverrank="11"
+						data-approachrank="38"
+						data-aroundrank="42"
+						data-putterrank="7"
+					>
+						<td class="bg-white">4</td>
+						<td class="bg-lightblue">방신실</td>
+						<td>3.53<span class="rank">(4)</span></td>
+						<td>1.74<span class="rank">(13)</span></td>
+						<td>0.86<span class="rank">(11)</span></td>
+						<td>0.62<span class="rank">(38)</span></td>
+						<td>0.25<span class="rank">(42)</span></td>
+						<td>1.79<span class="rank">(7)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="5"
+						data-teetogreenrank="4"
+						data-driverrank="4"
+						data-approachrank="16"
+						data-aroundrank="56"
+						data-putterrank="18"
+					>
+						<td class="bg-white">5</td>
+						<td class="bg-lightblue">서교림</td>
+						<td>3.36<span class="rank">(5)</span></td>
+						<td>2.22<span class="rank">(4)</span></td>
+						<td>1.02<span class="rank">(4)</span></td>
+						<td>1.18<span class="rank">(16)</span></td>
+						<td>0.03<span class="rank">(56)</span></td>
+						<td>1.13<span class="rank">(18)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="6"
+						data-teetogreenrank="37"
+						data-driverrank="61"
+						data-approachrank="28"
+						data-aroundrank="65"
+						data-putterrank="1"
+					>
+						<td class="bg-white">6</td>
+						<td class="bg-lightblue">유서연2</td>
+						<td>3.21<span class="rank">(6)</span></td>
+						<td>0.72<span class="rank">(37)</span></td>
+						<td>0.03<span class="rank">(61)</span></td>
+						<td>0.82<span class="rank">(28)</span></td>
+						<td>-0.13<span class="rank">(65)</span></td>
+						<td>2.49<span class="rank">(1)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="7"
+						data-teetogreenrank="6"
+						data-driverrank="25"
+						data-approachrank="24"
+						data-aroundrank="14"
+						data-putterrank="25"
+					>
+						<td class="bg-white">7</td>
+						<td class="bg-lightblue">김시현</td>
+						<td>3.09<span class="rank">(7)</span></td>
+						<td>2.14<span class="rank">(6)</span></td>
+						<td>0.52<span class="rank">(25)</span></td>
+						<td>0.89<span class="rank">(24)</span></td>
+						<td>0.73<span class="rank">(14)</span></td>
+						<td>0.95<span class="rank">(25)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="8"
+						data-teetogreenrank="18"
+						data-driverrank="27"
+						data-approachrank="7"
+						data-aroundrank="96"
+						data-putterrank="9"
+					>
+						<td class="bg-white">8</td>
+						<td class="bg-lightblue">전우리</td>
+						<td>3.02<span class="rank">(8)</span></td>
+						<td>1.52<span class="rank">(18)</span></td>
+						<td>0.49<span class="rank">(27)</span></td>
+						<td>1.64<span class="rank">(7)</span></td>
+						<td>-0.62<span class="rank">(96)</span></td>
+						<td>1.51<span class="rank">(9)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="9"
+						data-teetogreenrank="15"
+						data-driverrank="76"
+						data-approachrank="9"
+						data-aroundrank="33"
+						data-putterrank="16"
+					>
+						<td class="bg-white">9</td>
+						<td class="bg-lightblue">홍진영2</td>
+						<td>2.82<span class="rank">(9)</span></td>
+						<td>1.67<span class="rank">(15)</span></td>
+						<td>-0.20<span class="rank">(76)</span></td>
+						<td>1.55<span class="rank">(9)</span></td>
+						<td>0.33<span class="rank">(33)</span></td>
+						<td>1.15<span class="rank">(16)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="10"
+						data-teetogreenrank="35"
+						data-driverrank="29"
+						data-approachrank="52"
+						data-aroundrank="48"
+						data-putterrank="6"
+					>
+						<td class="bg-white">10</td>
+						<td class="bg-lightblue">이예원</td>
+						<td>2.66<span class="rank">(10)</span></td>
+						<td>0.77<span class="rank">(35)</span></td>
+						<td>0.44<span class="rank">(29)</span></td>
+						<td>0.18<span class="rank">(52)</span></td>
+						<td>0.14<span class="rank">(48)</span></td>
+						<td>1.89<span class="rank">(6)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="11"
+						data-teetogreenrank="17"
+						data-driverrank="18"
+						data-approachrank="11"
+						data-aroundrank="79"
+						data-putterrank="19"
+					>
+						<td class="bg-white">11</td>
+						<td class="bg-lightblue">이동은</td>
+						<td>2.65<span class="rank">(11)</span></td>
+						<td>1.61<span class="rank">(17)</span></td>
+						<td>0.64<span class="rank">(18)</span></td>
+						<td>1.33<span class="rank">(11)</span></td>
+						<td>-0.36<span class="rank">(79)</span></td>
+						<td>1.04<span class="rank">(19)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="12"
+						data-teetogreenrank="10"
+						data-driverrank="83"
+						data-approachrank="3"
+						data-aroundrank="53"
+						data-putterrank="32"
+					>
+						<td class="bg-white">12</td>
+						<td class="bg-lightblue">이지현3</td>
+						<td>2.64<span class="rank">(12)</span></td>
+						<td>1.90<span class="rank">(10)</span></td>
+						<td>-0.39<span class="rank">(83)</span></td>
+						<td>2.17<span class="rank">(3)</span></td>
+						<td>0.12<span class="rank">(53)</span></td>
+						<td>0.74<span class="rank">(32)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="13"
+						data-teetogreenrank="12"
+						data-driverrank="30"
+						data-approachrank="13"
+						data-aroundrank="56"
+						data-putterrank="35"
+					>
+						<td class="bg-white">13</td>
+						<td class="bg-lightblue">김민주</td>
+						<td>2.40<span class="rank">(13)</span></td>
+						<td>1.79<span class="rank">(12)</span></td>
+						<td>0.43<span class="rank">(30)</span></td>
+						<td>1.32<span class="rank">(13)</span></td>
+						<td>0.03<span class="rank">(56)</span></td>
+						<td>0.61<span class="rank">(35)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="14"
+						data-teetogreenrank="24"
+						data-driverrank="72"
+						data-approachrank="36"
+						data-aroundrank="16"
+						data-putterrank="23"
+					>
+						<td class="bg-white">14</td>
+						<td class="bg-lightblue">전예성</td>
+						<td>2.17<span class="rank">(14)</span></td>
+						<td>1.20<span class="rank">(24)</span></td>
+						<td>-0.15<span class="rank">(72)</span></td>
+						<td>0.73<span class="rank">(36)</span></td>
+						<td>0.63<span class="rank">(16)</span></td>
+						<td>0.97<span class="rank">(23)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="15"
+						data-teetogreenrank="7"
+						data-driverrank="93"
+						data-approachrank="5"
+						data-aroundrank="10"
+						data-putterrank="55"
+					>
+						<td class="bg-white">15</td>
+						<td class="bg-lightblue">최가빈</td>
+						<td>2.16<span class="rank">(15)</span></td>
+						<td>2.04<span class="rank">(7)</span></td>
+						<td>-0.60<span class="rank">(93)</span></td>
+						<td>1.76<span class="rank">(5)</span></td>
+						<td>0.88<span class="rank">(10)</span></td>
+						<td>0.12<span class="rank">(55)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="16"
+						data-teetogreenrank="58"
+						data-driverrank="77"
+						data-approachrank="31"
+						data-aroundrank="93"
+						data-putterrank="4"
+					>
+						<td class="bg-white">16</td>
+						<td class="bg-lightblue">김하은2</td>
+						<td>2.07<span class="rank">(16)</span></td>
+						<td>0.02<span class="rank">(58)</span></td>
+						<td>-0.22<span class="rank">(77)</span></td>
+						<td>0.79<span class="rank">(31)</span></td>
+						<td>-0.55<span class="rank">(93)</span></td>
+						<td>2.05<span class="rank">(4)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="17"
+						data-teetogreenrank="8"
+						data-driverrank="5"
+						data-approachrank="10"
+						data-aroundrank="83"
+						data-putterrank="58"
+					>
+						<td class="bg-white">17</td>
+						<td class="bg-lightblue">김민선7</td>
+						<td>2.05<span class="rank">(17)</span></td>
+						<td>1.98<span class="rank">(8)</span></td>
+						<td>0.98<span class="rank">(5)</span></td>
+						<td>1.43<span class="rank">(10)</span></td>
+						<td>-0.42<span class="rank">(83)</span></td>
+						<td>0.07<span class="rank">(58)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="18"
+						data-teetogreenrank="16"
+						data-driverrank="48"
+						data-approachrank="15"
+						data-aroundrank="51"
+						data-putterrank="44"
+					>
+						<td class="bg-white">18</td>
+						<td class="bg-lightblue">노승희</td>
+						<td>2.00<span class="rank">(18)</span></td>
+						<td>1.66<span class="rank">(16)</span></td>
+						<td>0.23<span class="rank">(48)</span></td>
+						<td>1.30<span class="rank">(15)</span></td>
+						<td>0.13<span class="rank">(51)</span></td>
+						<td>0.34<span class="rank">(44)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="19"
+						data-teetogreenrank="31"
+						data-driverrank="36"
+						data-approachrank="45"
+						data-aroundrank="58"
+						data-putterrank="17"
+					>
+						<td class="bg-white">19</td>
+						<td class="bg-lightblue">한진선</td>
+						<td>1.98<span class="rank">(19)</span></td>
+						<td>0.84<span class="rank">(31)</span></td>
+						<td>0.37<span class="rank">(36)</span></td>
+						<td>0.45<span class="rank">(45)</span></td>
+						<td>0.02<span class="rank">(58)</span></td>
+						<td>1.14<span class="rank">(17)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="20"
+						data-teetogreenrank="21"
+						data-driverrank="39"
+						data-approachrank="43"
+						data-aroundrank="22"
+						data-putterrank="41"
+					>
+						<td class="bg-white">20</td>
+						<td class="bg-lightblue">이다연</td>
+						<td>1.83<span class="rank">(20)</span></td>
+						<td>1.34<span class="rank">(21)</span></td>
+						<td>0.33<span class="rank">(39)</span></td>
+						<td>0.50<span class="rank">(43)</span></td>
+						<td>0.51<span class="rank">(22)</span></td>
+						<td>0.49<span class="rank">(41)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="21"
+						data-teetogreenrank="11"
+						data-driverrank="1"
+						data-approachrank="25"
+						data-aroundrank="78"
+						data-putterrank="61"
+					>
+						<td class="bg-white">21</td>
+						<td class="bg-lightblue">송은아</td>
+						<td>1.82<span class="rank">(21)</span></td>
+						<td>1.83<span class="rank">(11)</span></td>
+						<td>1.24<span class="rank">(1)</span></td>
+						<td>0.88<span class="rank">(25)</span></td>
+						<td>-0.28<span class="rank">(78)</span></td>
+						<td>-0.01<span class="rank">(61)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="21"
+						data-teetogreenrank="49"
+						data-driverrank="44"
+						data-approachrank="44"
+						data-aroundrank="79"
+						data-putterrank="10"
+					>
+						<td class="bg-white">21</td>
+						<td class="bg-lightblue">안재희</td>
+						<td>1.82<span class="rank">(21)</span></td>
+						<td>0.40<span class="rank">(49)</span></td>
+						<td>0.27<span class="rank">(44)</span></td>
+						<td>0.49<span class="rank">(44)</span></td>
+						<td>-0.36<span class="rank">(79)</span></td>
+						<td>1.42<span class="rank">(10)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="21"
+						data-teetogreenrank="32"
+						data-driverrank="48"
+						data-approachrank="32"
+						data-aroundrank="67"
+						data-putterrank="20"
+					>
+						<td class="bg-white">21</td>
+						<td class="bg-lightblue">이주미</td>
+						<td>1.82<span class="rank">(21)</span></td>
+						<td>0.83<span class="rank">(32)</span></td>
+						<td>0.23<span class="rank">(48)</span></td>
+						<td>0.78<span class="rank">(32)</span></td>
+						<td>-0.18<span class="rank">(67)</span></td>
+						<td>0.99<span class="rank">(20)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="24"
+						data-teetogreenrank="35"
+						data-driverrank="61"
+						data-approachrank="22"
+						data-aroundrank="70"
+						data-putterrank="31"
+					>
+						<td class="bg-white">24</td>
+						<td class="bg-lightblue">김우정</td>
+						<td>1.52<span class="rank">(24)</span></td>
+						<td>0.77<span class="rank">(35)</span></td>
+						<td>0.03<span class="rank">(61)</span></td>
+						<td>0.94<span class="rank">(22)</span></td>
+						<td>-0.20<span class="rank">(70)</span></td>
+						<td>0.75<span class="rank">(31)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="24"
+						data-teetogreenrank="20"
+						data-driverrank="39"
+						data-approachrank="19"
+						data-aroundrank="60"
+						data-putterrank="51"
+					>
+						<td class="bg-white">24</td>
+						<td class="bg-lightblue">윤수아</td>
+						<td>1.52<span class="rank">(24)</span></td>
+						<td>1.35<span class="rank">(20)</span></td>
+						<td>0.33<span class="rank">(39)</span></td>
+						<td>1.06<span class="rank">(19)</span></td>
+						<td>-0.04<span class="rank">(60)</span></td>
+						<td>0.18<span class="rank">(51)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="26"
+						data-teetogreenrank="45"
+						data-driverrank="65"
+						data-approachrank="66"
+						data-aroundrank="12"
+						data-putterrank="23"
+					>
+						<td class="bg-white">26</td>
+						<td class="bg-lightblue">지한솔</td>
+						<td>1.50<span class="rank">(26)</span></td>
+						<td>0.53<span class="rank">(45)</span></td>
+						<td>0.02<span class="rank">(65)</span></td>
+						<td>-0.23<span class="rank">(66)</span></td>
+						<td>0.74<span class="rank">(12)</span></td>
+						<td>0.97<span class="rank">(23)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="26"
+						data-teetogreenrank="5"
+						data-driverrank="53"
+						data-approachrank="4"
+						data-aroundrank="38"
+						data-putterrank="79"
+					>
+						<td class="bg-white">26</td>
+						<td class="bg-lightblue">짜라위 분짠(I)</td>
+						<td>1.50<span class="rank">(26)</span></td>
+						<td>2.19<span class="rank">(5)</span></td>
+						<td>0.15<span class="rank">(53)</span></td>
+						<td>1.77<span class="rank">(4)</span></td>
+						<td>0.27<span class="rank">(38)</span></td>
+						<td>-0.69<span class="rank">(79)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="28"
+						data-teetogreenrank="9"
+						data-driverrank="12"
+						data-approachrank="27"
+						data-aroundrank="36"
+						data-putterrank="72"
+					>
+						<td class="bg-white">28</td>
+						<td class="bg-lightblue">배소현</td>
+						<td>1.41<span class="rank">(28)</span></td>
+						<td>1.96<span class="rank">(9)</span></td>
+						<td>0.85<span class="rank">(12)</span></td>
+						<td>0.83<span class="rank">(27)</span></td>
+						<td>0.28<span class="rank">(36)</span></td>
+						<td>-0.55<span class="rank">(72)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="29"
+						data-teetogreenrank="55"
+						data-driverrank="61"
+						data-approachrank="41"
+						data-aroundrank="83"
+						data-putterrank="13"
+					>
+						<td class="bg-white">29</td>
+						<td class="bg-lightblue">전인지</td>
+						<td>1.35<span class="rank">(29)</span></td>
+						<td>0.12<span class="rank">(55)</span></td>
+						<td>0.03<span class="rank">(61)</span></td>
+						<td>0.51<span class="rank">(41)</span></td>
+						<td>-0.42<span class="rank">(83)</span></td>
+						<td>1.22<span class="rank">(13)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="30"
+						data-teetogreenrank="25"
+						data-driverrank="103"
+						data-approachrank="23"
+						data-aroundrank="5"
+						data-putterrank="49"
+					>
+						<td class="bg-white">30</td>
+						<td class="bg-lightblue">서어진</td>
+						<td>1.33<span class="rank">(30)</span></td>
+						<td>1.07<span class="rank">(25)</span></td>
+						<td>-0.92<span class="rank">(103)</span></td>
+						<td>0.92<span class="rank">(23)</span></td>
+						<td>1.07<span class="rank">(5)</span></td>
+						<td>0.26<span class="rank">(49)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="31"
+						data-teetogreenrank="29"
+						data-driverrank="42"
+						data-approachrank="37"
+						data-aroundrank="61"
+						data-putterrank="43"
+					>
+						<td class="bg-white">31</td>
+						<td class="bg-lightblue">장은수</td>
+						<td>1.26<span class="rank">(31)</span></td>
+						<td>0.90<span class="rank">(29)</span></td>
+						<td>0.28<span class="rank">(42)</span></td>
+						<td>0.68<span class="rank">(37)</span></td>
+						<td>-0.06<span class="rank">(61)</span></td>
+						<td>0.35<span class="rank">(43)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="32"
+						data-teetogreenrank="71"
+						data-driverrank="75"
+						data-approachrank="54"
+						data-aroundrank="82"
+						data-putterrank="8"
+					>
+						<td class="bg-white">32</td>
+						<td class="bg-lightblue">박서현</td>
+						<td>1.09<span class="rank">(32)</span></td>
+						<td>-0.48<span class="rank">(71)</span></td>
+						<td>-0.18<span class="rank">(75)</span></td>
+						<td>0.10<span class="rank">(54)</span></td>
+						<td>-0.41<span class="rank">(82)</span></td>
+						<td>1.58<span class="rank">(8)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="33"
+						data-teetogreenrank="28"
+						data-driverrank="55"
+						data-approachrank="50"
+						data-aroundrank="21"
+						data-putterrank="54"
+					>
+						<td class="bg-white">33</td>
+						<td class="bg-lightblue">빳차라쭈타 콩끄라판(I)</td>
+						<td>1.08<span class="rank">(33)</span></td>
+						<td>0.95<span class="rank">(28)</span></td>
+						<td>0.14<span class="rank">(55)</span></td>
+						<td>0.29<span class="rank">(50)</span></td>
+						<td>0.52<span class="rank">(21)</span></td>
+						<td>0.13<span class="rank">(54)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="34"
+						data-teetogreenrank="50"
+						data-driverrank="24"
+						data-approachrank="62"
+						data-aroundrank="64"
+						data-putterrank="39"
+					>
+						<td class="bg-white">34</td>
+						<td class="bg-lightblue">김재희</td>
+						<td>0.90<span class="rank">(34)</span></td>
+						<td>0.37<span class="rank">(50)</span></td>
+						<td>0.53<span class="rank">(24)</span></td>
+						<td>-0.07<span class="rank">(62)</span></td>
+						<td>-0.10<span class="rank">(64)</span></td>
+						<td>0.54<span class="rank">(39)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="35"
+						data-teetogreenrank="61"
+						data-driverrank="79"
+						data-approachrank="63"
+						data-aroundrank="36"
+						data-putterrank="21"
+					>
+						<td class="bg-white">35</td>
+						<td class="bg-lightblue">문정민</td>
+						<td>0.89<span class="rank">(35)</span></td>
+						<td>-0.09<span class="rank">(61)</span></td>
+						<td>-0.26<span class="rank">(79)</span></td>
+						<td>-0.12<span class="rank">(63)</span></td>
+						<td>0.28<span class="rank">(36)</span></td>
+						<td>0.98<span class="rank">(21)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="36"
+						data-teetogreenrank="86"
+						data-driverrank="109"
+						data-approachrank="84"
+						data-aroundrank="8"
+						data-putterrank="5"
+					>
+						<td class="bg-white">36</td>
+						<td class="bg-lightblue">손예빈</td>
+						<td>0.85<span class="rank">(36)</span></td>
+						<td>-1.11<span class="rank">(86)</span></td>
+						<td>-1.33<span class="rank">(109)</span></td>
+						<td>-0.71<span class="rank">(84)</span></td>
+						<td>0.92<span class="rank">(8)</span></td>
+						<td>1.96<span class="rank">(5)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="37"
+						data-teetogreenrank="44"
+						data-driverrank="83"
+						data-approachrank="41"
+						data-aroundrank="27"
+						data-putterrank="46"
+					>
+						<td class="bg-white">37</td>
+						<td class="bg-lightblue">오경은</td>
+						<td>0.84<span class="rank">(37)</span></td>
+						<td>0.54<span class="rank">(44)</span></td>
+						<td>-0.39<span class="rank">(83)</span></td>
+						<td>0.51<span class="rank">(41)</span></td>
+						<td>0.42<span class="rank">(27)</span></td>
+						<td>0.30<span class="rank">(46)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="38"
+						data-teetogreenrank="73"
+						data-driverrank="48"
+						data-approachrank="83"
+						data-aroundrank="67"
+						data-putterrank="12"
+					>
+						<td class="bg-white">38</td>
+						<td class="bg-lightblue">마다솜</td>
+						<td>0.69<span class="rank">(38)</span></td>
+						<td>-0.61<span class="rank">(73)</span></td>
+						<td>0.23<span class="rank">(48)</span></td>
+						<td>-0.66<span class="rank">(83)</span></td>
+						<td>-0.18<span class="rank">(67)</span></td>
+						<td>1.30<span class="rank">(12)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="39"
+						data-teetogreenrank="23"
+						data-driverrank="35"
+						data-approachrank="39"
+						data-aroundrank="39"
+						data-putterrank="73"
+					>
+						<td class="bg-white">39</td>
+						<td class="bg-lightblue">최은우</td>
+						<td>0.66<span class="rank">(39)</span></td>
+						<td>1.24<span class="rank">(23)</span></td>
+						<td>0.38<span class="rank">(35)</span></td>
+						<td>0.60<span class="rank">(39)</span></td>
+						<td>0.26<span class="rank">(39)</span></td>
+						<td>-0.57<span class="rank">(73)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="40"
+						data-teetogreenrank="27"
+						data-driverrank="61"
+						data-approachrank="34"
+						data-aroundrank="43"
+						data-putterrank="66"
+					>
+						<td class="bg-white">40</td>
+						<td class="bg-lightblue">성은정</td>
+						<td>0.61<span class="rank">(40)</span></td>
+						<td>1.02<span class="rank">(27)</span></td>
+						<td>0.03<span class="rank">(61)</span></td>
+						<td>0.76<span class="rank">(34)</span></td>
+						<td>0.23<span class="rank">(43)</span></td>
+						<td>-0.41<span class="rank">(66)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="41"
+						data-teetogreenrank="70"
+						data-driverrank="31"
+						data-approachrank="85"
+						data-aroundrank="63"
+						data-putterrank="21"
+					>
+						<td class="bg-white">41</td>
+						<td class="bg-lightblue">이채은2</td>
+						<td>0.59<span class="rank">(41)</span></td>
+						<td>-0.39<span class="rank">(70)</span></td>
+						<td>0.41<span class="rank">(31)</span></td>
+						<td>-0.73<span class="rank">(85)</span></td>
+						<td>-0.07<span class="rank">(63)</span></td>
+						<td>0.98<span class="rank">(21)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="42"
+						data-teetogreenrank="38"
+						data-driverrank="42"
+						data-approachrank="53"
+						data-aroundrank="39"
+						data-putterrank="62"
+					>
+						<td class="bg-white">42</td>
+						<td class="bg-lightblue">최예림</td>
+						<td>0.58<span class="rank">(42)</span></td>
+						<td>0.71<span class="rank">(38)</span></td>
+						<td>0.28<span class="rank">(42)</span></td>
+						<td>0.17<span class="rank">(53)</span></td>
+						<td>0.26<span class="rank">(39)</span></td>
+						<td>-0.13<span class="rank">(62)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="42"
+						data-teetogreenrank="45"
+						data-driverrank="59"
+						data-approachrank="35"
+						data-aroundrank="77"
+						data-putterrank="60"
+					>
+						<td class="bg-white">42</td>
+						<td class="bg-lightblue">최예본</td>
+						<td>0.58<span class="rank">(42)</span></td>
+						<td>0.53<span class="rank">(45)</span></td>
+						<td>0.06<span class="rank">(59)</span></td>
+						<td>0.74<span class="rank">(35)</span></td>
+						<td>-0.27<span class="rank">(77)</span></td>
+						<td>0.05<span class="rank">(60)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="44"
+						data-teetogreenrank="66"
+						data-driverrank="83"
+						data-approachrank="55"
+						data-aroundrank="55"
+						data-putterrank="30"
+					>
+						<td class="bg-white">44</td>
+						<td class="bg-lightblue">임진영</td>
+						<td>0.53<span class="rank">(44)</span></td>
+						<td>-0.27<span class="rank">(66)</span></td>
+						<td>-0.39<span class="rank">(83)</span></td>
+						<td>0.09<span class="rank">(55)</span></td>
+						<td>0.04<span class="rank">(55)</span></td>
+						<td>0.79<span class="rank">(30)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="44"
+						data-teetogreenrank="51"
+						data-driverrank="67"
+						data-approachrank="56"
+						data-aroundrank="34"
+						data-putterrank="52"
+					>
+						<td class="bg-white">44</td>
+						<td class="bg-lightblue">정수빈</td>
+						<td>0.53<span class="rank">(44)</span></td>
+						<td>0.36<span class="rank">(51)</span></td>
+						<td>-0.03<span class="rank">(67)</span></td>
+						<td>0.08<span class="rank">(56)</span></td>
+						<td>0.31<span class="rank">(34)</span></td>
+						<td>0.17<span class="rank">(52)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="46"
+						data-teetogreenrank="22"
+						data-driverrank="6"
+						data-approachrank="20"
+						data-aroundrank="98"
+						data-putterrank="85"
+					>
+						<td class="bg-white">46</td>
+						<td class="bg-lightblue">김민별</td>
+						<td>0.48<span class="rank">(46)</span></td>
+						<td>1.33<span class="rank">(22)</span></td>
+						<td>0.94<span class="rank">(6)</span></td>
+						<td>1.02<span class="rank">(20)</span></td>
+						<td>-0.64<span class="rank">(98)</span></td>
+						<td>-0.85<span class="rank">(85)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="47"
+						data-teetogreenrank="63"
+						data-driverrank="33"
+						data-approachrank="65"
+						data-aroundrank="81"
+						data-putterrank="37"
+					>
+						<td class="bg-white">47</td>
+						<td class="bg-lightblue">한아름</td>
+						<td>0.42<span class="rank">(47)</span></td>
+						<td>-0.15<span class="rank">(63)</span></td>
+						<td>0.39<span class="rank">(33)</span></td>
+						<td>-0.14<span class="rank">(65)</span></td>
+						<td>-0.39<span class="rank">(81)</span></td>
+						<td>0.56<span class="rank">(37)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="48"
+						data-teetogreenrank="54"
+						data-driverrank="92"
+						data-approachrank="46"
+						data-aroundrank="29"
+						data-putterrank="50"
+					>
+						<td class="bg-white">48</td>
+						<td class="bg-lightblue">이재윤</td>
+						<td>0.41<span class="rank">(48)</span></td>
+						<td>0.22<span class="rank">(54)</span></td>
+						<td>-0.58<span class="rank">(92)</span></td>
+						<td>0.42<span class="rank">(46)</span></td>
+						<td>0.37<span class="rank">(29)</span></td>
+						<td>0.19<span class="rank">(50)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="49"
+						data-teetogreenrank="14"
+						data-driverrank="21"
+						data-approachrank="18"
+						data-aroundrank="61"
+						data-putterrank="97"
+					>
+						<td class="bg-white">49</td>
+						<td class="bg-lightblue">김나현2</td>
+						<td>0.34<span class="rank">(49)</span></td>
+						<td>1.68<span class="rank">(14)</span></td>
+						<td>0.63<span class="rank">(21)</span></td>
+						<td>1.11<span class="rank">(18)</span></td>
+						<td>-0.06<span class="rank">(61)</span></td>
+						<td>-1.35<span class="rank">(97)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="50"
+						data-teetogreenrank="40"
+						data-driverrank="88"
+						data-approachrank="13"
+						data-aroundrank="71"
+						data-putterrank="69"
+					>
+						<td class="bg-white">50</td>
+						<td class="bg-lightblue">정소이</td>
+						<td>0.14<span class="rank">(50)</span></td>
+						<td>0.66<span class="rank">(40)</span></td>
+						<td>-0.45<span class="rank">(88)</span></td>
+						<td>1.32<span class="rank">(13)</span></td>
+						<td>-0.21<span class="rank">(71)</span></td>
+						<td>-0.52<span class="rank">(69)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="51"
+						data-teetogreenrank="79"
+						data-driverrank="94"
+						data-approachrank="73"
+						data-aroundrank="39"
+						data-putterrank="29"
+					>
+						<td class="bg-white">51</td>
+						<td class="bg-lightblue">고은혜</td>
+						<td>-0.01<span class="rank">(51)</span></td>
+						<td>-0.84<span class="rank">(79)</span></td>
+						<td>-0.65<span class="rank">(94)</span></td>
+						<td>-0.45<span class="rank">(73)</span></td>
+						<td>0.26<span class="rank">(39)</span></td>
+						<td>0.83<span class="rank">(29)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="51"
+						data-teetogreenrank="76"
+						data-driverrank="28"
+						data-approachrank="77"
+						data-aroundrank="98"
+						data-putterrank="34"
+					>
+						<td class="bg-white">51</td>
+						<td class="bg-lightblue">정민서</td>
+						<td>-0.01<span class="rank">(51)</span></td>
+						<td>-0.68<span class="rank">(76)</span></td>
+						<td>0.47<span class="rank">(28)</span></td>
+						<td>-0.51<span class="rank">(77)</span></td>
+						<td>-0.64<span class="rank">(98)</span></td>
+						<td>0.67<span class="rank">(34)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="53"
+						data-teetogreenrank="69"
+						data-driverrank="89"
+						data-approachrank="67"
+						data-aroundrank="28"
+						data-putterrank="46"
+					>
+						<td class="bg-white">53</td>
+						<td class="bg-lightblue">이세희</td>
+						<td>-0.05<span class="rank">(53)</span></td>
+						<td>-0.35<span class="rank">(69)</span></td>
+						<td>-0.49<span class="rank">(89)</span></td>
+						<td>-0.26<span class="rank">(67)</span></td>
+						<td>0.41<span class="rank">(28)</span></td>
+						<td>0.30<span class="rank">(46)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="54"
+						data-teetogreenrank="26"
+						data-driverrank="46"
+						data-approachrank="21"
+						data-aroundrank="69"
+						data-putterrank="92"
+					>
+						<td class="bg-white">54</td>
+						<td class="bg-lightblue">김아현</td>
+						<td>-0.09<span class="rank">(54)</span></td>
+						<td>1.05<span class="rank">(26)</span></td>
+						<td>0.26<span class="rank">(46)</span></td>
+						<td>0.99<span class="rank">(21)</span></td>
+						<td>-0.19<span class="rank">(69)</span></td>
+						<td>-1.15<span class="rank">(92)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="55"
+						data-teetogreenrank="42"
+						data-driverrank="23"
+						data-approachrank="30"
+						data-aroundrank="101"
+						data-putterrank="83"
+					>
+						<td class="bg-white">55</td>
+						<td class="bg-lightblue">김소정</td>
+						<td>-0.10<span class="rank">(55)</span></td>
+						<td>0.65<span class="rank">(42)</span></td>
+						<td>0.57<span class="rank">(23)</span></td>
+						<td>0.80<span class="rank">(30)</span></td>
+						<td>-0.71<span class="rank">(101)</span></td>
+						<td>-0.75<span class="rank">(83)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="56"
+						data-teetogreenrank="57"
+						data-driverrank="17"
+						data-approachrank="76"
+						data-aroundrank="73"
+						data-putterrank="63"
+					>
+						<td class="bg-white">56</td>
+						<td class="bg-lightblue">김민솔</td>
+						<td>-0.13<span class="rank">(56)</span></td>
+						<td>0.04<span class="rank">(57)</span></td>
+						<td>0.74<span class="rank">(17)</span></td>
+						<td>-0.47<span class="rank">(76)</span></td>
+						<td>-0.23<span class="rank">(73)</span></td>
+						<td>-0.16<span class="rank">(63)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="57"
+						data-teetogreenrank="91"
+						data-driverrank="78"
+						data-approachrank="96"
+						data-aroundrank="48"
+						data-putterrank="13"
+					>
+						<td class="bg-white">57</td>
+						<td class="bg-lightblue">안지현</td>
+						<td>-0.19<span class="rank">(57)</span></td>
+						<td>-1.41<span class="rank">(91)</span></td>
+						<td>-0.24<span class="rank">(78)</span></td>
+						<td>-1.31<span class="rank">(96)</span></td>
+						<td>0.14<span class="rank">(48)</span></td>
+						<td>1.22<span class="rank">(13)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="58"
+						data-teetogreenrank="47"
+						data-driverrank="56"
+						data-approachrank="81"
+						data-aroundrank="7"
+						data-putterrank="81"
+					>
+						<td class="bg-white">58</td>
+						<td class="bg-lightblue">구래현</td>
+						<td>-0.21<span class="rank">(58)</span></td>
+						<td>0.52<span class="rank">(47)</span></td>
+						<td>0.12<span class="rank">(56)</span></td>
+						<td>-0.60<span class="rank">(81)</span></td>
+						<td>1.00<span class="rank">(7)</span></td>
+						<td>-0.73<span class="rank">(81)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="58"
+						data-teetogreenrank="77"
+						data-driverrank="44"
+						data-approachrank="74"
+						data-aroundrank="92"
+						data-putterrank="40"
+					>
+						<td class="bg-white">58</td>
+						<td class="bg-lightblue">김가희2</td>
+						<td>-0.21<span class="rank">(58)</span></td>
+						<td>-0.73<span class="rank">(77)</span></td>
+						<td>0.27<span class="rank">(44)</span></td>
+						<td>-0.46<span class="rank">(74)</span></td>
+						<td>-0.53<span class="rank">(92)</span></td>
+						<td>0.52<span class="rank">(40)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="60"
+						data-teetogreenrank="52"
+						data-driverrank="15"
+						data-approachrank="49"
+						data-aroundrank="102"
+						data-putterrank="70"
+					>
+						<td class="bg-white">60</td>
+						<td class="bg-lightblue">고지우</td>
+						<td>-0.25<span class="rank">(60)</span></td>
+						<td>0.29<span class="rank">(52)</span></td>
+						<td>0.75<span class="rank">(15)</span></td>
+						<td>0.32<span class="rank">(49)</span></td>
+						<td>-0.78<span class="rank">(102)</span></td>
+						<td>-0.54<span class="rank">(70)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="61"
+						data-teetogreenrank="19"
+						data-driverrank="8"
+						data-approachrank="29"
+						data-aroundrank="76"
+						data-putterrank="104"
+					>
+						<td class="bg-white">61</td>
+						<td class="bg-lightblue">박민지</td>
+						<td>-0.36<span class="rank">(61)</span></td>
+						<td>1.47<span class="rank">(19)</span></td>
+						<td>0.91<span class="rank">(8)</span></td>
+						<td>0.81<span class="rank">(29)</span></td>
+						<td>-0.25<span class="rank">(76)</span></td>
+						<td>-1.83<span class="rank">(104)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="62"
+						data-teetogreenrank="59"
+						data-driverrank="36"
+						data-approachrank="82"
+						data-aroundrank="44"
+						data-putterrank="67"
+					>
+						<td class="bg-white">62</td>
+						<td class="bg-lightblue">김수지</td>
+						<td>-0.45<span class="rank">(62)</span></td>
+						<td>-0.02<span class="rank">(59)</span></td>
+						<td>0.37<span class="rank">(36)</span></td>
+						<td>-0.61<span class="rank">(82)</span></td>
+						<td>0.21<span class="rank">(44)</span></td>
+						<td>-0.43<span class="rank">(67)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="63"
+						data-teetogreenrank="53"
+						data-driverrank="18"
+						data-approachrank="87"
+						data-aroundrank="25"
+						data-putterrank="82"
+					>
+						<td class="bg-white">63</td>
+						<td class="bg-lightblue">임희정</td>
+						<td>-0.48<span class="rank">(63)</span></td>
+						<td>0.26<span class="rank">(53)</span></td>
+						<td>0.64<span class="rank">(18)</span></td>
+						<td>-0.83<span class="rank">(87)</span></td>
+						<td>0.45<span class="rank">(25)</span></td>
+						<td>-0.74<span class="rank">(82)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="64"
+						data-teetogreenrank="60"
+						data-driverrank="41"
+						data-approachrank="56"
+						data-aroundrank="83"
+						data-putterrank="74"
+					>
+						<td class="bg-white">64</td>
+						<td class="bg-lightblue">황정미</td>
+						<td>-0.63<span class="rank">(64)</span></td>
+						<td>-0.04<span class="rank">(60)</span></td>
+						<td>0.29<span class="rank">(41)</span></td>
+						<td>0.08<span class="rank">(56)</span></td>
+						<td>-0.42<span class="rank">(83)</span></td>
+						<td>-0.59<span class="rank">(74)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="65"
+						data-teetogreenrank="84"
+						data-driverrank="114"
+						data-approachrank="2"
+						data-aroundrank="114"
+						data-putterrank="48"
+					>
+						<td class="bg-white">65</td>
+						<td class="bg-lightblue">신다인</td>
+						<td>-0.73<span class="rank">(65)</span></td>
+						<td>-1.00<span class="rank">(84)</span></td>
+						<td>-1.86<span class="rank">(114)</span></td>
+						<td>2.19<span class="rank">(2)</span></td>
+						<td>-1.32<span class="rank">(114)</span></td>
+						<td>0.27<span class="rank">(48)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="66"
+						data-teetogreenrank="38"
+						data-driverrank="90"
+						data-approachrank="86"
+						data-aroundrank="1"
+						data-putterrank="98"
+					>
+						<td class="bg-white">66</td>
+						<td class="bg-lightblue">이가영</td>
+						<td>-0.77<span class="rank">(66)</span></td>
+						<td>0.71<span class="rank">(38)</span></td>
+						<td>-0.51<span class="rank">(90)</span></td>
+						<td>-0.75<span class="rank">(86)</span></td>
+						<td>1.97<span class="rank">(1)</span></td>
+						<td>-1.49<span class="rank">(98)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="67"
+						data-teetogreenrank="64"
+						data-driverrank="46"
+						data-approachrank="79"
+						data-aroundrank="51"
+						data-putterrank="77"
+					>
+						<td class="bg-white">67</td>
+						<td class="bg-lightblue">이승연</td>
+						<td>-0.82<span class="rank">(67)</span></td>
+						<td>-0.16<span class="rank">(64)</span></td>
+						<td>0.26<span class="rank">(46)</span></td>
+						<td>-0.54<span class="rank">(79)</span></td>
+						<td>0.13<span class="rank">(51)</span></td>
+						<td>-0.66<span class="rank">(77)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="68"
+						data-teetogreenrank="32"
+						data-driverrank="53"
+						data-approachrank="69"
+						data-aroundrank="6"
+						data-putterrank="102"
+					>
+						<td class="bg-white">68</td>
+						<td class="bg-lightblue">김리안</td>
+						<td>-0.85<span class="rank">(68)</span></td>
+						<td>0.83<span class="rank">(32)</span></td>
+						<td>0.15<span class="rank">(53)</span></td>
+						<td>-0.37<span class="rank">(69)</span></td>
+						<td>1.06<span class="rank">(6)</span></td>
+						<td>-1.68<span class="rank">(102)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="69"
+						data-teetogreenrank="90"
+						data-driverrank="97"
+						data-approachrank="94"
+						data-aroundrank="12"
+						data-putterrank="42"
+					>
+						<td class="bg-white">69</td>
+						<td class="bg-lightblue">이소영</td>
+						<td>-0.88<span class="rank">(69)</span></td>
+						<td>-1.28<span class="rank">(90)</span></td>
+						<td>-0.71<span class="rank">(97)</span></td>
+						<td>-1.30<span class="rank">(94)</span></td>
+						<td>0.74<span class="rank">(12)</span></td>
+						<td>0.39<span class="rank">(42)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="70"
+						data-teetogreenrank="82"
+						data-driverrank="73"
+						data-approachrank="71"
+						data-aroundrank="87"
+						data-putterrank="59"
+					>
+						<td class="bg-white">70</td>
+						<td class="bg-lightblue">안선주</td>
+						<td>-0.92<span class="rank">(70)</span></td>
+						<td>-0.98<span class="rank">(82)</span></td>
+						<td>-0.16<span class="rank">(73)</span></td>
+						<td>-0.38<span class="rank">(71)</span></td>
+						<td>-0.44<span class="rank">(87)</span></td>
+						<td>0.06<span class="rank">(59)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="71"
+						data-teetogreenrank="30"
+						data-driverrank="87"
+						data-approachrank="60"
+						data-aroundrank="3"
+						data-putterrank="105"
+					>
+						<td class="bg-white">71</td>
+						<td class="bg-lightblue">김연서</td>
+						<td>-0.98<span class="rank">(71)</span></td>
+						<td>0.87<span class="rank">(30)</span></td>
+						<td>-0.43<span class="rank">(87)</span></td>
+						<td>-0.05<span class="rank">(60)</span></td>
+						<td>1.34<span class="rank">(3)</span></td>
+						<td>-1.85<span class="rank">(105)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="72"
+						data-teetogreenrank="85"
+						data-driverrank="81"
+						data-approachrank="97"
+						data-aroundrank="18"
+						data-putterrank="56"
+					>
+						<td class="bg-white">72</td>
+						<td class="bg-lightblue">박단유</td>
+						<td>-1.01<span class="rank">(72)</span></td>
+						<td>-1.10<span class="rank">(85)</span></td>
+						<td>-0.31<span class="rank">(81)</span></td>
+						<td>-1.38<span class="rank">(97)</span></td>
+						<td>0.59<span class="rank">(18)</span></td>
+						<td>0.09<span class="rank">(56)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="73"
+						data-teetogreenrank="65"
+						data-driverrank="101"
+						data-approachrank="32"
+						data-aroundrank="66"
+						data-putterrank="89"
+					>
+						<td class="bg-white">73</td>
+						<td class="bg-lightblue">유현조</td>
+						<td>-1.25<span class="rank">(73)</span></td>
+						<td>-0.25<span class="rank">(65)</span></td>
+						<td>-0.86<span class="rank">(101)</span></td>
+						<td>0.78<span class="rank">(32)</span></td>
+						<td>-0.17<span class="rank">(66)</span></td>
+						<td>-1.00<span class="rank">(89)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="74"
+						data-teetogreenrank="43"
+						data-driverrank="9"
+						data-approachrank="74"
+						data-aroundrank="47"
+						data-putterrank="106"
+					>
+						<td class="bg-white">74</td>
+						<td class="bg-lightblue">홍현지</td>
+						<td>-1.31<span class="rank">(74)</span></td>
+						<td>0.59<span class="rank">(43)</span></td>
+						<td>0.90<span class="rank">(9)</span></td>
+						<td>-0.46<span class="rank">(74)</span></td>
+						<td>0.15<span class="rank">(47)</span></td>
+						<td>-1.90<span class="rank">(106)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="75"
+						data-teetogreenrank="66"
+						data-driverrank="3"
+						data-approachrank="11"
+						data-aroundrank="118"
+						data-putterrank="90"
+					>
+						<td class="bg-white">75</td>
+						<td class="bg-lightblue">정윤지</td>
+						<td>-1.37<span class="rank">(75)</span></td>
+						<td>-0.27<span class="rank">(66)</span></td>
+						<td>1.15<span class="rank">(3)</span></td>
+						<td>1.33<span class="rank">(11)</span></td>
+						<td>-2.75<span class="rank">(118)</span></td>
+						<td>-1.10<span class="rank">(90)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="76"
+						data-teetogreenrank="99"
+						data-driverrank="111"
+						data-approachrank="64"
+						data-aroundrank="100"
+						data-putterrank="27"
+					>
+						<td class="bg-white">76</td>
+						<td class="bg-lightblue">최민경</td>
+						<td>-1.38<span class="rank">(76)</span></td>
+						<td>-2.23<span class="rank">(99)</span></td>
+						<td>-1.41<span class="rank">(111)</span></td>
+						<td>-0.13<span class="rank">(64)</span></td>
+						<td>-0.69<span class="rank">(100)</span></td>
+						<td>0.85<span class="rank">(27)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="77"
+						data-teetogreenrank="112"
+						data-driverrank="117"
+						data-approachrank="106"
+						data-aroundrank="17"
+						data-putterrank="2"
+					>
+						<td class="bg-white">77</td>
+						<td class="bg-lightblue">조정민</td>
+						<td>-1.42<span class="rank">(77)</span></td>
+						<td>-3.86<span class="rank">(112)</span></td>
+						<td>-2.47<span class="rank">(117)</span></td>
+						<td>-1.98<span class="rank">(106)</span></td>
+						<td>0.60<span class="rank">(17)</span></td>
+						<td>2.43<span class="rank">(2)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="78"
+						data-teetogreenrank="75"
+						data-driverrank="33"
+						data-approachrank="78"
+						data-aroundrank="90"
+						data-putterrank="84"
+					>
+						<td class="bg-white">78</td>
+						<td class="bg-lightblue">고지원</td>
+						<td>-1.48<span class="rank">(78)</span></td>
+						<td>-0.65<span class="rank">(75)</span></td>
+						<td>0.39<span class="rank">(33)</span></td>
+						<td>-0.52<span class="rank">(78)</span></td>
+						<td>-0.52<span class="rank">(90)</span></td>
+						<td>-0.83<span class="rank">(84)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="79"
+						data-teetogreenrank="81"
+						data-driverrank="70"
+						data-approachrank="68"
+						data-aroundrank="97"
+						data-putterrank="70"
+					>
+						<td class="bg-white">79</td>
+						<td class="bg-lightblue">노원경</td>
+						<td>-1.51<span class="rank">(79)</span></td>
+						<td>-0.97<span class="rank">(81)</span></td>
+						<td>-0.06<span class="rank">(70)</span></td>
+						<td>-0.28<span class="rank">(68)</span></td>
+						<td>-0.63<span class="rank">(97)</span></td>
+						<td>-0.54<span class="rank">(70)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="80"
+						data-teetogreenrank="97"
+						data-driverrank="67"
+						data-approachrank="112"
+						data-aroundrank="19"
+						data-putterrank="38"
+					>
+						<td class="bg-white">80</td>
+						<td class="bg-lightblue">양효리</td>
+						<td>-1.59<span class="rank">(80)</span></td>
+						<td>-2.14<span class="rank">(97)</span></td>
+						<td>-0.03<span class="rank">(67)</span></td>
+						<td>-2.65<span class="rank">(112)</span></td>
+						<td>0.54<span class="rank">(19)</span></td>
+						<td>0.55<span class="rank">(38)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="81"
+						data-teetogreenrank="80"
+						data-driverrank="82"
+						data-approachrank="98"
+						data-aroundrank="11"
+						data-putterrank="76"
+					>
+						<td class="bg-white">81</td>
+						<td class="bg-lightblue">유지나</td>
+						<td>-1.61<span class="rank">(81)</span></td>
+						<td>-0.96<span class="rank">(80)</span></td>
+						<td>-0.34<span class="rank">(82)</span></td>
+						<td>-1.41<span class="rank">(98)</span></td>
+						<td>0.79<span class="rank">(11)</span></td>
+						<td>-0.65<span class="rank">(76)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="82"
+						data-teetogreenrank="78"
+						data-driverrank="57"
+						data-approachrank="93"
+						data-aroundrank="35"
+						data-putterrank="86"
+					>
+						<td class="bg-white">82</td>
+						<td class="bg-lightblue">이율린</td>
+						<td>-1.68<span class="rank">(82)</span></td>
+						<td>-0.79<span class="rank">(78)</span></td>
+						<td>0.08<span class="rank">(57)</span></td>
+						<td>-1.18<span class="rank">(93)</span></td>
+						<td>0.30<span class="rank">(35)</span></td>
+						<td>-0.89<span class="rank">(86)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="83"
+						data-teetogreenrank="106"
+						data-driverrank="69"
+						data-approachrank="113"
+						data-aroundrank="75"
+						data-putterrank="11"
+					>
+						<td class="bg-white">83</td>
+						<td class="bg-lightblue">최정원</td>
+						<td>-1.69<span class="rank">(83)</span></td>
+						<td>-3.10<span class="rank">(106)</span></td>
+						<td>-0.04<span class="rank">(69)</span></td>
+						<td>-2.82<span class="rank">(113)</span></td>
+						<td>-0.24<span class="rank">(75)</span></td>
+						<td>1.41<span class="rank">(11)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="84"
+						data-teetogreenrank="48"
+						data-driverrank="66"
+						data-approachrank="61"
+						data-aroundrank="19"
+						data-putterrank="108"
+					>
+						<td class="bg-white">84</td>
+						<td class="bg-lightblue">김지수</td>
+						<td>-1.74<span class="rank">(84)</span></td>
+						<td>0.47<span class="rank">(48)</span></td>
+						<td>-0.02<span class="rank">(66)</span></td>
+						<td>-0.06<span class="rank">(61)</span></td>
+						<td>0.54<span class="rank">(19)</span></td>
+						<td>-2.21<span class="rank">(108)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="85"
+						data-teetogreenrank="62"
+						data-driverrank="26"
+						data-approachrank="89"
+						data-aroundrank="26"
+						data-putterrank="100"
+					>
+						<td class="bg-white">85</td>
+						<td class="bg-lightblue">김새로미</td>
+						<td>-1.75<span class="rank">(85)</span></td>
+						<td>-0.11<span class="rank">(62)</span></td>
+						<td>0.51<span class="rank">(26)</span></td>
+						<td>-1.06<span class="rank">(89)</span></td>
+						<td>0.44<span class="rank">(26)</span></td>
+						<td>-1.63<span class="rank">(100)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="86"
+						data-teetogreenrank="72"
+						data-driverrank="86"
+						data-approachrank="80"
+						data-aroundrank="24"
+						data-putterrank="94"
+					>
+						<td class="bg-white">86</td>
+						<td class="bg-lightblue">유다겸(I)</td>
+						<td>-1.79<span class="rank">(86)</span></td>
+						<td>-0.50<span class="rank">(72)</span></td>
+						<td>-0.40<span class="rank">(86)</span></td>
+						<td>-0.56<span class="rank">(80)</span></td>
+						<td>0.46<span class="rank">(24)</span></td>
+						<td>-1.29<span class="rank">(94)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="86"
+						data-teetogreenrank="40"
+						data-driverrank="12"
+						data-approachrank="26"
+						data-aroundrank="109"
+						data-putterrank="111"
+					>
+						<td class="bg-white">86</td>
+						<td class="bg-lightblue">이지민</td>
+						<td>-1.79<span class="rank">(86)</span></td>
+						<td>0.66<span class="rank">(40)</span></td>
+						<td>0.85<span class="rank">(12)</span></td>
+						<td>0.84<span class="rank">(26)</span></td>
+						<td>-1.03<span class="rank">(109)</span></td>
+						<td>-2.45<span class="rank">(111)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="86"
+						data-teetogreenrank="103"
+						data-driverrank="52"
+						data-approachrank="104"
+						data-aroundrank="107"
+						data-putterrank="28"
+					>
+						<td class="bg-white">86</td>
+						<td class="bg-lightblue">한지원</td>
+						<td>-1.79<span class="rank">(86)</span></td>
+						<td>-2.63<span class="rank">(103)</span></td>
+						<td>0.16<span class="rank">(52)</span></td>
+						<td>-1.79<span class="rank">(104)</span></td>
+						<td>-1.01<span class="rank">(107)</span></td>
+						<td>0.84<span class="rank">(28)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="89"
+						data-teetogreenrank="95"
+						data-driverrank="108"
+						data-approachrank="72"
+						data-aroundrank="71"
+						data-putterrank="56"
+					>
+						<td class="bg-white">89</td>
+						<td class="bg-lightblue">홍지원</td>
+						<td>-1.82<span class="rank">(89)</span></td>
+						<td>-1.91<span class="rank">(95)</span></td>
+						<td>-1.29<span class="rank">(108)</span></td>
+						<td>-0.40<span class="rank">(72)</span></td>
+						<td>-0.21<span class="rank">(71)</span></td>
+						<td>0.09<span class="rank">(56)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="90"
+						data-teetogreenrank="89"
+						data-driverrank="22"
+						data-approachrank="94"
+						data-aroundrank="88"
+						data-putterrank="79"
+					>
+						<td class="bg-white">90</td>
+						<td class="bg-lightblue">조혜림</td>
+						<td>-1.88<span class="rank">(90)</span></td>
+						<td>-1.19<span class="rank">(89)</span></td>
+						<td>0.58<span class="rank">(22)</span></td>
+						<td>-1.30<span class="rank">(94)</span></td>
+						<td>-0.47<span class="rank">(88)</span></td>
+						<td>-0.69<span class="rank">(79)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="91"
+						data-teetogreenrank="34"
+						data-driverrank="38"
+						data-approachrank="48"
+						data-aroundrank="53"
+						data-putterrank="115"
+					>
+						<td class="bg-white">91</td>
+						<td class="bg-lightblue">김효문</td>
+						<td>-1.95<span class="rank">(91)</span></td>
+						<td>0.82<span class="rank">(34)</span></td>
+						<td>0.36<span class="rank">(38)</span></td>
+						<td>0.34<span class="rank">(48)</span></td>
+						<td>0.12<span class="rank">(53)</span></td>
+						<td>-2.77<span class="rank">(115)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="92"
+						data-teetogreenrank="56"
+						data-driverrank="18"
+						data-approachrank="51"
+						data-aroundrank="105"
+						data-putterrank="107"
+					>
+						<td class="bg-white">92</td>
+						<td class="bg-lightblue">마서영</td>
+						<td>-1.96<span class="rank">(92)</span></td>
+						<td>0.08<span class="rank">(56)</span></td>
+						<td>0.64<span class="rank">(18)</span></td>
+						<td>0.28<span class="rank">(51)</span></td>
+						<td>-0.84<span class="rank">(105)</span></td>
+						<td>-2.04<span class="rank">(107)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="93"
+						data-teetogreenrank="102"
+						data-driverrank="91"
+						data-approachrank="111"
+						data-aroundrank="31"
+						data-putterrank="36"
+					>
+						<td class="bg-white">93</td>
+						<td class="bg-lightblue">박결</td>
+						<td>-2.02<span class="rank">(93)</span></td>
+						<td>-2.59<span class="rank">(102)</span></td>
+						<td>-0.55<span class="rank">(91)</span></td>
+						<td>-2.39<span class="rank">(111)</span></td>
+						<td>0.35<span class="rank">(31)</span></td>
+						<td>0.57<span class="rank">(36)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="94"
+						data-teetogreenrank="92"
+						data-driverrank="58"
+						data-approachrank="69"
+						data-aroundrank="111"
+						data-putterrank="75"
+					>
+						<td class="bg-white">94</td>
+						<td class="bg-lightblue">양효진</td>
+						<td>-2.17<span class="rank">(94)</span></td>
+						<td>-1.54<span class="rank">(92)</span></td>
+						<td>0.07<span class="rank">(58)</span></td>
+						<td>-0.37<span class="rank">(69)</span></td>
+						<td>-1.23<span class="rank">(111)</span></td>
+						<td>-0.64<span class="rank">(75)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="95"
+						data-teetogreenrank="96"
+						data-driverrank="14"
+						data-approachrank="109"
+						data-aroundrank="90"
+						data-putterrank="64"
+					>
+						<td class="bg-white">95</td>
+						<td class="bg-lightblue">현세린</td>
+						<td>-2.30<span class="rank">(95)</span></td>
+						<td>-2.01<span class="rank">(96)</span></td>
+						<td>0.83<span class="rank">(14)</span></td>
+						<td>-2.32<span class="rank">(109)</span></td>
+						<td>-0.52<span class="rank">(90)</span></td>
+						<td>-0.29<span class="rank">(64)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="96"
+						data-teetogreenrank="74"
+						data-driverrank="98"
+						data-approachrank="40"
+						data-aroundrank="89"
+						data-putterrank="103"
+					>
+						<td class="bg-white">96</td>
+						<td class="bg-lightblue">황유나</td>
+						<td>-2.34<span class="rank">(96)</span></td>
+						<td>-0.62<span class="rank">(74)</span></td>
+						<td>-0.73<span class="rank">(98)</span></td>
+						<td>0.58<span class="rank">(40)</span></td>
+						<td>-0.48<span class="rank">(89)</span></td>
+						<td>-1.72<span class="rank">(103)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="97"
+						data-teetogreenrank="87"
+						data-driverrank="115"
+						data-approachrank="58"
+						data-aroundrank="8"
+						data-putterrank="99"
+					>
+						<td class="bg-white">97</td>
+						<td class="bg-lightblue">이윤서</td>
+						<td>-2.79<span class="rank">(97)</span></td>
+						<td>-1.18<span class="rank">(87)</span></td>
+						<td>-2.15<span class="rank">(115)</span></td>
+						<td>0.05<span class="rank">(58)</span></td>
+						<td>0.92<span class="rank">(8)</span></td>
+						<td>-1.60<span class="rank">(99)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="98"
+						data-teetogreenrank="94"
+						data-driverrank="15"
+						data-approachrank="91"
+						data-aroundrank="114"
+						data-putterrank="91"
+					>
+						<td class="bg-white">98</td>
+						<td class="bg-lightblue">안송이</td>
+						<td>-2.82<span class="rank">(98)</span></td>
+						<td>-1.68<span class="rank">(94)</span></td>
+						<td>0.75<span class="rank">(15)</span></td>
+						<td>-1.10<span class="rank">(91)</span></td>
+						<td>-1.32<span class="rank">(114)</span></td>
+						<td>-1.14<span class="rank">(91)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="98"
+						data-teetogreenrank="108"
+						data-driverrank="98"
+						data-approachrank="98"
+						data-aroundrank="106"
+						data-putterrank="45"
+					>
+						<td class="bg-white">98</td>
+						<td class="bg-lightblue">황민정</td>
+						<td>-2.82<span class="rank">(98)</span></td>
+						<td>-3.13<span class="rank">(108)</span></td>
+						<td>-0.73<span class="rank">(98)</span></td>
+						<td>-1.41<span class="rank">(98)</span></td>
+						<td>-1.00<span class="rank">(106)</span></td>
+						<td>0.31<span class="rank">(45)</span></td>
+						<td>4</td>
+					</tr>
+				
+					<tr
+						data-sgrank="100"
+						data-teetogreenrank="93"
+						data-driverrank="51"
+						data-approachrank="92"
+						data-aroundrank="95"
+						data-putterrank="94"
+					>
+						<td class="bg-white">100</td>
+						<td class="bg-lightblue">리 슈잉</td>
+						<td>-2.84<span class="rank">(100)</span></td>
+						<td>-1.55<span class="rank">(93)</span></td>
+						<td>0.18<span class="rank">(51)</span></td>
+						<td>-1.12<span class="rank">(92)</span></td>
+						<td>-0.61<span class="rank">(95)</span></td>
+						<td>-1.29<span class="rank">(94)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="101"
+						data-teetogreenrank="68"
+						data-driverrank="113"
+						data-approachrank="6"
+						data-aroundrank="86"
+						data-putterrank="112"
+					>
+						<td class="bg-white">101</td>
+						<td class="bg-lightblue">장수연</td>
+						<td>-2.86<span class="rank">(101)</span></td>
+						<td>-0.28<span class="rank">(68)</span></td>
+						<td>-1.52<span class="rank">(113)</span></td>
+						<td>1.67<span class="rank">(6)</span></td>
+						<td>-0.43<span class="rank">(86)</span></td>
+						<td>-2.59<span class="rank">(112)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="102"
+						data-teetogreenrank="101"
+						data-driverrank="102"
+						data-approachrank="108"
+						data-aroundrank="23"
+						data-putterrank="68"
+					>
+						<td class="bg-white">102</td>
+						<td class="bg-lightblue">김지윤2</td>
+						<td>-3.08<span class="rank">(102)</span></td>
+						<td>-2.58<span class="rank">(101)</span></td>
+						<td>-0.87<span class="rank">(102)</span></td>
+						<td>-2.18<span class="rank">(108)</span></td>
+						<td>0.47<span class="rank">(23)</span></td>
+						<td>-0.49<span class="rank">(68)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="103"
+						data-teetogreenrank="111"
+						data-driverrank="118"
+						data-approachrank="101"
+						data-aroundrank="2"
+						data-putterrank="53"
+					>
+						<td class="bg-white">103</td>
+						<td class="bg-lightblue">김희지</td>
+						<td>-3.22<span class="rank">(103)</span></td>
+						<td>-3.37<span class="rank">(111)</span></td>
+						<td>-3.17<span class="rank">(118)</span></td>
+						<td>-1.59<span class="rank">(101)</span></td>
+						<td>1.39<span class="rank">(2)</span></td>
+						<td>0.15<span class="rank">(53)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="104"
+						data-teetogreenrank="100"
+						data-driverrank="60"
+						data-approachrank="102"
+						data-aroundrank="104"
+						data-putterrank="93"
+					>
+						<td class="bg-white">104</td>
+						<td class="bg-lightblue">윤화영</td>
+						<td>-3.58<span class="rank">(104)</span></td>
+						<td>-2.41<span class="rank">(100)</span></td>
+						<td>0.05<span class="rank">(60)</span></td>
+						<td>-1.63<span class="rank">(102)</span></td>
+						<td>-0.83<span class="rank">(104)</span></td>
+						<td>-1.17<span class="rank">(93)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="105"
+						data-teetogreenrank="118"
+						data-driverrank="104"
+						data-approachrank="117"
+						data-aroundrank="94"
+						data-putterrank="3"
+					>
+						<td class="bg-white">105</td>
+						<td class="bg-lightblue">김지영2</td>
+						<td>-3.94<span class="rank">(105)</span></td>
+						<td>-6.22<span class="rank">(118)</span></td>
+						<td>-0.93<span class="rank">(104)</span></td>
+						<td>-4.69<span class="rank">(117)</span></td>
+						<td>-0.60<span class="rank">(94)</span></td>
+						<td>2.27<span class="rank">(3)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="106"
+						data-teetogreenrank="109"
+						data-driverrank="10"
+						data-approachrank="116"
+						data-aroundrank="73"
+						data-putterrank="87"
+					>
+						<td class="bg-white">106</td>
+						<td class="bg-lightblue">윤다감 0907(A)</td>
+						<td>-4.19<span class="rank">(106)</span></td>
+						<td>-3.25<span class="rank">(109)</span></td>
+						<td>0.88<span class="rank">(10)</span></td>
+						<td>-3.91<span class="rank">(116)</span></td>
+						<td>-0.23<span class="rank">(73)</span></td>
+						<td>-0.94<span class="rank">(87)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="107"
+						data-teetogreenrank="115"
+						data-driverrank="100"
+						data-approachrank="118"
+						data-aroundrank="29"
+						data-putterrank="13"
+					>
+						<td class="bg-white">107</td>
+						<td class="bg-lightblue">조아연</td>
+						<td>-4.20<span class="rank">(107)</span></td>
+						<td>-5.42<span class="rank">(115)</span></td>
+						<td>-0.80<span class="rank">(100)</span></td>
+						<td>-4.99<span class="rank">(118)</span></td>
+						<td>0.37<span class="rank">(29)</span></td>
+						<td>1.22<span class="rank">(13)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="108"
+						data-teetogreenrank="98"
+						data-driverrank="112"
+						data-approachrank="88"
+						data-aroundrank="45"
+						data-putterrank="110"
+					>
+						<td class="bg-white">108</td>
+						<td class="bg-lightblue">이서윤4</td>
+						<td>-4.50<span class="rank">(108)</span></td>
+						<td>-2.15<span class="rank">(98)</span></td>
+						<td>-1.48<span class="rank">(112)</span></td>
+						<td>-0.88<span class="rank">(88)</span></td>
+						<td>0.20<span class="rank">(45)</span></td>
+						<td>-2.35<span class="rank">(110)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="109"
+						data-teetogreenrank="83"
+						data-driverrank="71"
+						data-approachrank="47"
+						data-aroundrank="113"
+						data-putterrank="118"
+					>
+						<td class="bg-white">109</td>
+						<td class="bg-lightblue">박조은 0806(A)</td>
+						<td>-4.86<span class="rank">(109)</span></td>
+						<td>-0.99<span class="rank">(83)</span></td>
+						<td>-0.12<span class="rank">(71)</span></td>
+						<td>0.39<span class="rank">(47)</span></td>
+						<td>-1.26<span class="rank">(113)</span></td>
+						<td>-3.88<span class="rank">(118)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="110"
+						data-teetogreenrank="87"
+						data-driverrank="73"
+						data-approachrank="59"
+						data-aroundrank="107"
+						data-putterrank="117"
+					>
+						<td class="bg-white">110</td>
+						<td class="bg-lightblue">조은채</td>
+						<td>-4.87<span class="rank">(110)</span></td>
+						<td>-1.18<span class="rank">(87)</span></td>
+						<td>-0.16<span class="rank">(73)</span></td>
+						<td>-0.01<span class="rank">(59)</span></td>
+						<td>-1.01<span class="rank">(107)</span></td>
+						<td>-3.69<span class="rank">(117)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="111"
+						data-teetogreenrank="105"
+						data-driverrank="94"
+						data-approachrank="100"
+						data-aroundrank="103"
+						data-putterrank="109"
+					>
+						<td class="bg-white">111</td>
+						<td class="bg-lightblue">홍정민</td>
+						<td>-5.22<span class="rank">(111)</span></td>
+						<td>-2.88<span class="rank">(105)</span></td>
+						<td>-0.65<span class="rank">(94)</span></td>
+						<td>-1.42<span class="rank">(100)</span></td>
+						<td>-0.81<span class="rank">(103)</span></td>
+						<td>-2.34<span class="rank">(109)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="112"
+						data-teetogreenrank="113"
+						data-driverrank="94"
+						data-approachrank="107"
+						data-aroundrank="110"
+						data-putterrank="94"
+					>
+						<td class="bg-white">112</td>
+						<td class="bg-lightblue">허윤서</td>
+						<td>-5.24<span class="rank">(112)</span></td>
+						<td>-3.95<span class="rank">(113)</span></td>
+						<td>-0.65<span class="rank">(94)</span></td>
+						<td>-2.17<span class="rank">(107)</span></td>
+						<td>-1.13<span class="rank">(110)</span></td>
+						<td>-1.29<span class="rank">(94)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="113"
+						data-teetogreenrank="114"
+						data-driverrank="110"
+						data-approachrank="105"
+						data-aroundrank="116"
+						data-putterrank="77"
+					>
+						<td class="bg-white">113</td>
+						<td class="bg-lightblue">이슬기2</td>
+						<td>-5.27<span class="rank">(113)</span></td>
+						<td>-4.61<span class="rank">(114)</span></td>
+						<td>-1.34<span class="rank">(110)</span></td>
+						<td>-1.82<span class="rank">(105)</span></td>
+						<td>-1.45<span class="rank">(116)</span></td>
+						<td>-0.66<span class="rank">(77)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="114"
+						data-teetogreenrank="104"
+						data-driverrank="105"
+						data-approachrank="103"
+						data-aroundrank="59"
+						data-putterrank="113"
+					>
+						<td class="bg-white">114</td>
+						<td class="bg-lightblue">구민지 0706(A)</td>
+						<td>-5.34<span class="rank">(114)</span></td>
+						<td>-2.74<span class="rank">(104)</span></td>
+						<td>-1.00<span class="rank">(105)</span></td>
+						<td>-1.74<span class="rank">(103)</span></td>
+						<td>0.00<span class="rank">(59)</span></td>
+						<td>-2.60<span class="rank">(113)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="115"
+						data-teetogreenrank="107"
+						data-driverrank="116"
+						data-approachrank="90"
+						data-aroundrank="32"
+						data-putterrank="114"
+					>
+						<td class="bg-white">115</td>
+						<td class="bg-lightblue">이정민</td>
+						<td>-5.75<span class="rank">(115)</span></td>
+						<td>-3.11<span class="rank">(107)</span></td>
+						<td>-2.36<span class="rank">(116)</span></td>
+						<td>-1.09<span class="rank">(90)</span></td>
+						<td>0.34<span class="rank">(32)</span></td>
+						<td>-2.64<span class="rank">(114)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="116"
+						data-teetogreenrank="110"
+						data-driverrank="106"
+						data-approachrank="110"
+						data-aroundrank="48"
+						data-putterrank="116"
+					>
+						<td class="bg-white">116</td>
+						<td class="bg-lightblue">이세영</td>
+						<td>-6.15<span class="rank">(116)</span></td>
+						<td>-3.33<span class="rank">(110)</span></td>
+						<td>-1.11<span class="rank">(106)</span></td>
+						<td>-2.36<span class="rank">(110)</span></td>
+						<td>0.14<span class="rank">(48)</span></td>
+						<td>-2.82<span class="rank">(116)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="117"
+						data-teetogreenrank="116"
+						data-driverrank="107"
+						data-approachrank="114"
+						data-aroundrank="111"
+						data-putterrank="88"
+					>
+						<td class="bg-white">117</td>
+						<td class="bg-lightblue">강가율</td>
+						<td>-6.93<span class="rank">(117)</span></td>
+						<td>-5.94<span class="rank">(116)</span></td>
+						<td>-1.27<span class="rank">(107)</span></td>
+						<td>-3.45<span class="rank">(114)</span></td>
+						<td>-1.23<span class="rank">(111)</span></td>
+						<td>-0.99<span class="rank">(88)</span></td>
+						<td>2</td>
+					</tr>
+				
+					<tr
+						data-sgrank="118"
+						data-teetogreenrank="117"
+						data-driverrank="79"
+						data-approachrank="115"
+						data-aroundrank="117"
+						data-putterrank="101"
+					>
+						<td class="bg-white">118</td>
+						<td class="bg-lightblue">양서후</td>
+						<td>-7.59<span class="rank">(118)</span></td>
+						<td>-5.95<span class="rank">(117)</span></td>
+						<td>-0.26<span class="rank">(79)</span></td>
+						<td>-3.84<span class="rank">(115)</span></td>
+						<td>-1.84<span class="rank">(117)</span></td>
+						<td>-1.64<span class="rank">(101)</span></td>
+						<td>1</td>
+					</tr>
+				
+			</tbody>
+		</table>
+	</div>
+</div>
