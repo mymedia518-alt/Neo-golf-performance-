@@ -389,7 +389,7 @@ def main() -> None:
         )
         sponsor_text = _esc(r["sponsor"]) if r["sponsor"] else ""
         name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{r['name']}</span>"
-        name_cell = linked_player_name_cell(r["player_id"], name_cell, REPO_ROOT)
+        name_cell = linked_player_name_cell(r["player_id"], name_cell)
         rows_html.append(
             f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}"
             f"{name_cell}"

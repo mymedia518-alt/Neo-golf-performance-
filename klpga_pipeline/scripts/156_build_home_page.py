@@ -207,7 +207,7 @@ def _player_cell(pid: str, name: str, country_by_id: dict[str, str], sponsor_by_
     # never edited internally, so every existing
     # `class='player-name'[^>]*>([^<]*)<` plain-text extraction elsewhere
     # in this codebase keeps matching byte-for-byte.
-    name_cell = linked_player_name_cell(pid, name_cell, REPO_ROOT)
+    name_cell = linked_player_name_cell(pid, name_cell)
     return f"{flag_cell}{name_cell}{sponsor_cell}"
 
 
