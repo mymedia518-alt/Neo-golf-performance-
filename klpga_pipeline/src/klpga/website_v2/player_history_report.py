@@ -1579,8 +1579,9 @@ def _story_layer_html(doc: dict) -> str:
         + '</a>'
         for label, headline, subtitle, footer, href in cards
     )
+    player_name = doc.get("player_name") or doc.get("player_id") or ""
     return (
-        '<section class="ph-story-layer" id="ph-story-layer" aria-label="김민선7 시즌 분석 요약">'
+        f'<section class="ph-story-layer" id="ph-story-layer" aria-label="{escape(str(player_name))} 시즌 분석 요약">'
         f'<div class="ph-story-grid">{card_html}</div>'
         '</section>'
         '<p class="ph-layer2-marker">분석 근거</p>'

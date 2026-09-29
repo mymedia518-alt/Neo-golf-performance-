@@ -367,20 +367,33 @@ def build_or_placeholder(
     real document -> real page; missing document -> visible placeholder
     plus a queued generation request. Never returns an empty string.
 
-    playerCode=9431 renders through the question-organized Gold Standard
-    report (see player_intelligence_9431_report.py); every other
-    player_id takes the ordinary 13-section stat layout below.
+    playerCode=9431 renders through its own question-organized Gold
+    Standard report (see player_intelligence_9431_report.py) -- a
+    separate, already-existing script (build_9431_player_intelligence_
+    report.py) builds her page, and this branch is checked FIRST and
+    unconditionally for her, so her routing (and her currently-live
+    page) is never affected by anything below.
 
-    playerCode=10097 is a further special case: Player Intelligence is
-    no longer the goal for this player (PLAYER HISTORY GOLD STANDARD V1
-    mission) -- it renders through player_history_report.py's dense,
-    verified-data-only career archive instead. That renderer is the
-    generic engine (MISSION "PLAYER COMPARISON, ARCHITECTURE FIRST"):
-    it works for any player_id whose PLAYER_HISTORY.json has been
-    built, not only 10097 -- this branch just documents that 10097 is
-    the only one built so far. If no report has been built yet, falls
-    through to the ordinary path unchanged (never a missing page)."""
-    if str(player_id) == "10097":
+    Every OTHER player_id: if a real PLAYER_HISTORY.json has been built
+    for it (scripts/build_10097_player_history.py's now-generic
+    build(), driven by scripts/build_player_report.py), it renders
+    through player_history_report.py's dense, verified-data-only career
+    archive -- the analytics-first engine from MISSION "PLAYER
+    COMPARISON, ARCHITECTURE FIRST", which already works for any
+    player_id, not only 10097. This is checked by real file existence
+    (does content/.../<player_id>/PLAYER_HISTORY.json exist), never a
+    hardcoded player_id allowlist, so a newly onboarded player (e.g.
+    8243) gets this path automatically the moment their PLAYER_HISTORY.json
+    is built, with no further routing change needed here. If no such
+    report has been built yet, falls through to the ordinary 13-section
+    layout below unchanged (never a missing page)."""
+    if str(player_id) == "9431":
+        from klpga.website_v2.player_intelligence_9431_report import load_report_cached, render_question_report_html
+
+        report_doc = load_report_cached()
+        if report_doc is not None:
+            return render_question_report_html(report_doc, prev_link=prev_link, next_link=next_link)
+    else:
         from klpga.website_v2.player_history_report import render_player_history_html
         from klpga.website_v2.player_provider import load_player_history
 
@@ -390,12 +403,6 @@ def build_or_placeholder(
                 history_doc, prev_link=prev_link, next_link=next_link,
                 data_quality_url=f"/player/{player_id}/data-quality/",
             )
-    elif str(player_id) == "9431":
-        from klpga.website_v2.player_intelligence_9431_report import load_report_cached, render_question_report_html
-
-        report_doc = load_report_cached()
-        if report_doc is not None:
-            return render_question_report_html(report_doc, prev_link=prev_link, next_link=next_link)
 
     doc = load_document_cached(player_id)
     if doc is None:

@@ -1,12 +1,22 @@
-"""PLAYER HISTORY GOLD STANDARD V1 -- playerCode=10097 (김민선7) ONLY.
+"""PLAYER HISTORY GOLD STANDARD V1 -- generic, any playerCode.
 
 Player Intelligence is no longer the goal. This is the definitive PLAYER
 HISTORY: Career -> Season -> Tournament -> Round, built ONLY from verified
 official KLPGA records already collected in this repository. History
 first, explanation second, speculation never. Every field here traces to
 a real row in a real warehouse; anything not measured is omitted, never
-invented. This script is scoped to playerCode=10097 only -- it is not a
-reusable framework and is not intended to generalize to other players.
+invented. Originally written (and still filename-scoped) for
+playerCode=10097 only, build() now takes player_id / player_name
+parameters and is the one real implementation shared by every caller,
+including scripts/build_player_report.py's generic CLI entry point --
+there is no separate/duplicated generator for other players. Every
+source in this file already filters by the given player_id (SG
+Warehouse, Tournament Warehouse, normalized snapshots, DNA radar
+population, hole-history scorecards, technical stats), so a source that
+has no real data for a given player_id/player_name degrades gracefully
+to None/empty for that section instead of crashing or leaking another
+player's data under the wrong name -- see _hole_history(),
+_technical_stats_2025(), and NOT_AVAILABLE's docstring below.
 
 Player History must never depend on a single warehouse. Every tournament
 fact used here comes from reconcile_10097_player_history.reconcile(),
@@ -106,6 +116,19 @@ _CONTRIB_KEY_LABEL = {"off_the_tee": "SG OTT", "approach": "SG APP", "around_gre
 # implies KLPGA itself lacks the data merely because this repository
 # has not ingested it (RED TEAM mission A/D: "Never imply KLPGA lacks a
 # metric merely because NEO has not ingested it").
+#
+# This list is a set of REPOSITORY-WIDE data-pipeline gaps (no player's
+# build has these fields, regardless of player_id), not one player's
+# personal disclosure text, so it is safe to share across every player
+# built by this module. It previously also named one 10097+tournament-
+# specific gap (2026090003 KB Strokes Gained) -- that line was removed
+# during the multi-player refactor because it is now stale even for
+# 10097 (the SG Warehouse gained a real row for that tournament; see
+# reconcile_10097_player_history.py's Category 4 docstring) and would
+# have been flatly wrong if shown, unedited, under another player's
+# name. If a similar single-tournament SG gap is ever discovered for
+# another player, it belongs in a per-player list computed in build(),
+# not hardcoded here.
 NOT_AVAILABLE = [
     "과거 시즌별 상금: 2026시즌 스냅샷 1건만 실측되어 있습니다. NEO가 과거 시즌분을 아직 수집하지 않았습니다.",
     "과거 시즌별 평균 스코어: 2026시즌 스냅샷 1건만 실측되어 있습니다. NEO가 과거 시즌분을 아직 수집하지 않았습니다.",
@@ -114,16 +137,14 @@ NOT_AVAILABLE = [
     "전반·후반 9홀 분할 스코어: NEO가 아직 수집하지 않았습니다 (KLPGA가 게시하는지는 이 세션의 네트워크 차단으로 확인하지 못했습니다).",
     "대회별 코스명: 극히 일부 대회만 실측되어 전체 커버리지가 없습니다.",
     "라운드 중 순위 변동(일자별 순위 이동): NEO가 아직 수집하지 않았습니다 (KLPGA가 게시하는지는 이 세션의 네트워크 차단으로 확인하지 못했습니다).",
-    "KB금융 골든라이프 챔피언십(2026090003)의 Strokes Gained: 최종 순위와 라운드별 스코어는 실측되었지만, "
-    "이 대회의 SG 데이터는 NEO가 아직 수집하지 않았습니다 (KLPGA 자체 strokesGained 페이지 URL은 이 대회 리더보드에서 실제로 확인되었습니다).",
     "시즌별 컷 통과율: 내부 저장소의 made_cut 필드가 2023시즌 표본(7건)만 있어 다른 모든 실측 소스가 확인하는 2023시즌 25개 대회와 "
     "맞지 않아 신뢰할 수 없어 사용하지 않습니다.",
 ]
 
 
-def _load_all():
-    recon = recon_module.reconcile()
-    season_profiles = ke.compute_season_profiles(PLAYER_ID, recon["synthetic_sg_warehouse_doc"])
+def _load_all(player_id: str, player_name: Optional[str]):
+    recon = recon_module.reconcile(player_id=player_id, player_name=player_name)
+    season_profiles = ke.compute_season_profiles(player_id, recon["synthetic_sg_warehouse_doc"])
     return recon, season_profiles
 
 
@@ -1193,12 +1214,21 @@ def _technical_stats_2025() -> Optional[dict]:
 # validity are reported separately; PASS requires real evidence in each.
 # ---------------------------------------------------------------------------
 
-def _status_semantics(recon_report: dict, technical_stats: Optional[dict]) -> dict:
+def _status_semantics(recon_report: dict, technical_stats: Optional[dict], career_overview: dict) -> dict:
     source_conflicts = "PASS" if recon_report["status"] == "RECONCILED_OK" and recon_report["conflicts_detected"] == 0 and recon_report["missing"] == 0 else "FAIL"
 
+    # Real per-player numbers, not hardcoded -- these used to be fixed
+    # to 10097's own counts ("2023-2026, 96 finished tournaments"),
+    # which would have been silently wrong for any other player.
+    season_min = career_overview.get("earliest_season_on_record")
+    latest = career_overview.get("latest_tournament")
+    season_max = latest["season"] if latest else season_min
+    season_range = f"{season_min}-{season_max}" if season_min is not None and season_max is not None else "N/A"
+    total_events = career_overview.get("total_events", 0)
+
     confirmed_available = [
-        "SG Total/OTT/APP/ARG/PUTT (2023-2026, 96 finished tournaments)",
-        "이벤트/우승/상위10위 (2023-2026)",
+        f"SG Total/OTT/APP/ARG/PUTT ({season_range}, {total_events} finished tournaments)",
+        f"이벤트/우승/상위10위 ({season_range})",
         "현재 시즌 상금·평균 스코어·퍼트·GIR·버디율 (2026시즌 스냅샷 1건)",
     ]
     if technical_stats:
@@ -1207,9 +1237,9 @@ def _status_semantics(recon_report: dict, technical_stats: Optional[dict]) -> di
         "보기율(Bogey %)",
         "전반·후반 9홀 분할 스코어",
         "라운드 중 순위 변동(일자별)",
-        "KB금융 골든라이프 챔피언십(2026090003)의 Strokes Gained",
-        "드라이빙 디스턴스·페어웨이 안착률·GIR 등 기술 통계의 2025시즌 외 다른 시즌 값",
     ]
+    if technical_stats:
+        still_unverified_at_source.append("드라이빙 디스턴스·페어웨이 안착률·GIR 등 기술 통계의 2025시즌 외 다른 시즌 값")
     data_completeness = "PARTIAL"
 
     derived_metrics = "PASS"
@@ -2229,14 +2259,40 @@ def _confidence_provenance_entries() -> dict:
 # BUILD
 # ---------------------------------------------------------------------------
 
-def build() -> dict:
+def build(player_id: str = PLAYER_ID, player_name: Optional[str] = None) -> dict:
+    """Build the full PLAYER_HISTORY.json document for one player.
+
+    `player_id`/`player_name` default to 10097/김민선7 for backward
+    compatibility with every existing no-argument caller (this file's
+    own __main__, build_10097_player_data_warehouse.py,
+    build_10097_player_database.py, validate_sg_integration.py). For
+    any other player, pass a real player_id (and, when known, the
+    player's real name -- needed only by the tournament-specific
+    evidence loaders inside reconcile() that key on it).
+
+    Implementation note: a handful of helper functions below still read
+    the module-level PLAYER_ID/PLAYER_NAME constants directly rather
+    than taking them as parameters (this file has ~2350 lines and dozens
+    of small helpers; threading two new parameters through every one of
+    them was judged higher-risk than this narrower approach). build()
+    therefore rebinds those module globals for the duration of this
+    call via `global`, exactly like reassigning any other module-level
+    setting before a run. This is safe because build() is always the
+    single top-level entry point per process (see
+    scripts/build_player_report.py, which invokes it once per
+    `--player-id` in its own process) -- it is never called twice
+    concurrently, or for two different players, within one call stack.
+    """
+    global PLAYER_ID, PLAYER_NAME
+    PLAYER_ID, PLAYER_NAME = player_id, (player_name or (PLAYER_NAME if player_id == "10097" else player_id))
+
     from datetime import datetime, timezone
 
     # Reconciliation runs first and unconditionally. recon_module.reconcile()
     # raises ReconciliationError -- uncaught, on purpose -- if any known
     # tournament cannot be fully accounted for. No report is generated
     # from a failed reconciliation.
-    recon, season_profiles = _load_all()
+    recon, season_profiles = _load_all(PLAYER_ID, player_name)
 
     career_overview = _career_overview(recon, season_profiles)
     current_snapshot = _current_snapshot()
@@ -2255,7 +2311,7 @@ def build() -> dict:
     career_dna = _career_dna(evolution, recon)
     player_story = _player_story(career_overview, evolution, player_evolution)
     technical_stats_2025 = _technical_stats_2025()
-    status = _status_semantics(recon["report"], technical_stats_2025)
+    status = _status_semantics(recon["report"], technical_stats_2025, career_overview)
     player_dna_radar = _player_dna_radar()
     player_dna_growth = _dna_growth_and_delta(player_dna_radar)
     recent_form_5 = _recent_form(recon, 5)
@@ -2288,7 +2344,7 @@ def build() -> dict:
         "player_name": PLAYER_NAME,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "scope_note": (
-            "이 문서는 playerCode=10097(김민선7) 선수만을 다룹니다. Player Intelligence를 대체하는 "
+            f"이 문서는 playerCode={PLAYER_ID}({PLAYER_NAME}) 선수만을 다룹니다. Player Intelligence를 대체하는 "
             "PLAYER HISTORY GOLD STANDARD V1입니다. 실측 기록만 사용하며 추측을 포함하지 않습니다. 모든 대회 기록은 "
             "단일 웨어하우스가 아니라 reconciliation(아래 참조)을 통과한 7개 카테고리 실측 소스에서 나옵니다."
         ),
@@ -2336,14 +2392,29 @@ def build() -> dict:
     }
 
 
-if __name__ == "__main__":
-    result = build()
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_PATH.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
-    RECONCILIATION_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    RECONCILIATION_REPORT_PATH.write_text(json.dumps(result["reconciliation"], ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
-    print(f"wrote {OUTPUT_PATH}")
-    print(f"wrote {RECONCILIATION_REPORT_PATH}")
+def _output_paths(player_id: str):
+    """Real output paths for a given player_id -- OUTPUT_PATH/
+    RECONCILIATION_REPORT_PATH above remain the 10097 defaults (kept
+    for any existing code that reads those module constants directly),
+    this is what main()/build_player_report.py use for any player_id."""
+    base = CONTENT_DIR / "knowledge_engine" / "player_intelligence" / player_id
+    return base / "PLAYER_HISTORY.json", base / "PLAYER_HISTORY_RECONCILIATION_REPORT.json"
+
+
+def main(player_id: str = PLAYER_ID, player_name: Optional[str] = None) -> dict:
+    """Build and write PLAYER_HISTORY.json + its reconciliation report
+    for one player, and print the same diagnostics the original
+    10097-only __main__ block printed. This is the one real build
+    implementation -- scripts/build_player_report.py imports and calls
+    this function directly rather than reimplementing any of it."""
+    result = build(player_id=player_id, player_name=player_name)
+    output_path, reconciliation_report_path = _output_paths(player_id)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+    reconciliation_report_path.parent.mkdir(parents=True, exist_ok=True)
+    reconciliation_report_path.write_text(json.dumps(result["reconciliation"], ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+    print(f"wrote {output_path}")
+    print(f"wrote {reconciliation_report_path}")
     print(f"reconciliation status: {result['reconciliation']['status']}")
     print(f"total tournaments (reconciled): {result['reconciliation']['total_tournaments']}")
     print(f"seasons: {len(result['career_overview']['season_rows'])}")
@@ -2354,3 +2425,13 @@ if __name__ == "__main__":
     ts = result.get("technical_stats_2025")
     print(f"technical_stats_2025: {'YES (' + str(len(ts['metrics'])) + ' metrics)' if ts else 'NONE'}")
     print(f"status: source_conflicts={result['status']['source_conflicts']} data_completeness={result['status']['data_completeness']} derived_metrics={result['status']['derived_metrics']}")
+    return result
+
+
+if __name__ == "__main__":
+    import argparse
+    _parser = argparse.ArgumentParser(description=__doc__)
+    _parser.add_argument("--player-id", default=PLAYER_ID, help="playerCode to build PLAYER_HISTORY.json for (default: 10097)")
+    _parser.add_argument("--player-name", default=None, help="player's official name, for name-matched evidence files (default: 김민선7 when --player-id is 10097, else unused)")
+    _args = _parser.parse_args()
+    main(player_id=_args.player_id, player_name=_args.player_name)
