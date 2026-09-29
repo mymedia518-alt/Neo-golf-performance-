@@ -177,23 +177,36 @@ def build_warehouse_rows(
     return rows
 
 
+def _dedup_identity(row: dict) -> str:
+    """merge_into_warehouse()'s dedup key used player_id alone -- when a
+    whole tournament's identities are UNRESOLVED_IDENTITY (player_id=''),
+    every one of its players collides on the same key, so only the first
+    survives and every other real player's row is silently dropped (proven
+    with real code against KB 2026090003, where this reduced 493 parsed
+    rows to 5 survivors). player_id, when present, is unaffected; only an
+    empty player_id now falls back to the row's own standardized
+    player_name so distinct players no longer collide."""
+    return row.get("player_id") or row.get("player_name") or row.get("player") or ""
+
+
 def merge_into_warehouse(rows: list[dict], warehouse_path: Path = DEFAULT_WAREHOUSE_PATH) -> dict:
     """Append newly-discovered rows into the real warehouse file,
-    de-duplicated on (player_id, game_code, scope, round) so re-running
-    this collector on the same tournament twice is always safe and
-    never overwrites a row already on disk. A genuine conflict between
-    a re-collected row and the existing one is exactly what
-    reconcile_10097_player_history.py's own ReconciliationError gate
-    is designed to catch downstream -- this function never silently
-    resolves one."""
+    de-duplicated on (identity, game_code, scope, round) -- identity is
+    player_id when resolved, else the row's standardized player_name (see
+    _dedup_identity()) -- so re-running this collector on the same
+    tournament twice is always safe and never overwrites a row already on
+    disk. A genuine conflict between a re-collected row and the existing
+    one is exactly what reconcile_10097_player_history.py's own
+    ReconciliationError gate is designed to catch downstream -- this
+    function never silently resolves one."""
     doc = json.loads(warehouse_path.read_text(encoding="utf-8")) if warehouse_path.exists() else {"records": []}
     existing_keys = {
-        (r.get("player_id"), r.get("game_code"), r.get("scope"), r.get("round"))
+        (_dedup_identity(r), r.get("game_code"), r.get("scope"), r.get("round"))
         for r in doc.get("records", [])
     }
     added = 0
     for row in rows:
-        key = (row.get("player_id"), row.get("game_code"), row.get("scope"), row.get("round"))
+        key = (_dedup_identity(row), row.get("game_code"), row.get("scope"), row.get("round"))
         if key in existing_keys:
             continue
         doc.setdefault("records", []).append(row)
