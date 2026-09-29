@@ -166,12 +166,16 @@ white-space:nowrap span instead.
 from __future__ import annotations
 
 import json
+import sys
 from html import escape as _esc
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
 CONTENT = ROOT / "content" / "website_v2"
+sys.path.insert(0, str(ROOT / "src"))
+
+from klpga.website_v2.player_link import linked_player_name_cell  # noqa: E402
 GAME_CODE = "2026090002"
 REFERENCE_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / "2026090003" / "pre" / "index.html"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html"
@@ -384,9 +388,11 @@ def main() -> None:
             f"style='display:inline-block;vertical-align:middle;margin-right:4px'>"
         )
         sponsor_text = _esc(r["sponsor"]) if r["sponsor"] else ""
+        name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{r['name']}</span>"
+        name_cell = linked_player_name_cell(r["player_id"], name_cell, REPO_ROOT)
         rows_html.append(
             f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}"
-            f"<span class='player-name' style='display:inline;vertical-align:middle'>{r['name']}</span>"
+            f"{name_cell}"
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
             f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
             f"<td data-label='NEO 경기력'>{band_cell}</td>"

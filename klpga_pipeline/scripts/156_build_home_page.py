@@ -88,6 +88,7 @@ from klpga.website_v2.home_ownership_guard import (  # noqa: E402
     assert_home_write_allowed,
 )
 from klpga.website_v2.hana_home_stage_router import current_stage_main_html  # noqa: E402
+from klpga.website_v2.player_link import linked_player_name_cell  # noqa: E402
 
 DOCS_INDEX = REPO_ROOT / "docs" / "index.html"
 SHARE_PAGE = REPO_ROOT / "docs" / "share" / "index.html"
@@ -199,15 +200,14 @@ def _player_cell(pid: str, name: str, country_by_id: dict[str, str], sponsor_by_
     sponsor_text = _esc(sponsor) if sponsor else ""
     sponsor_cell = f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
     name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(name)}</span>"
-    # PLAYER INTELLIGENCE V7 GOLD STANDARD (feature/player-intelligence-v1):
-    # playerCode=10097 (김민선7) has a real published Player Intelligence
-    # page -- link her name to it. The <span class='player-name'> tag is
-    # wrapped from the OUTSIDE, never edited internally, so every existing
+    # GENERIC PLAYER LINKING (2026-09-29, replaces the old pid=="10097"
+    # special case): any player with a real, already-built report is
+    # linked, checked fresh against disk every render -- no whitelist.
+    # The <span class='player-name'> tag is wrapped from the OUTSIDE,
+    # never edited internally, so every existing
     # `class='player-name'[^>]*>([^<]*)<` plain-text extraction elsewhere
-    # in this codebase keeps matching byte-for-byte. No other player is
-    # touched (their name_cell is returned unwrapped, exactly as before).
-    if pid == "10097":
-        name_cell = f'<a href="/player/10097/">{name_cell}</a>'
+    # in this codebase keeps matching byte-for-byte.
+    name_cell = linked_player_name_cell(pid, name_cell, REPO_ROOT)
     return f"{flag_cell}{name_cell}{sponsor_cell}"
 
 

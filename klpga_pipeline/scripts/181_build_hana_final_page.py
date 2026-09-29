@@ -58,6 +58,7 @@ from klpga.website_v2.round_score_format import format_to_par  # noqa: E402
 from klpga.website_v2.round_page_contract import assert_cumulative_score_is_relative_to_par  # noqa: E402
 from klpga.website_v2.home_ownership_guard import assert_not_root_home  # noqa: E402
 from klpga.website_v2.probability_format import format_public_probability  # noqa: E402
+from klpga.website_v2.player_link import linked_player_name_cell  # noqa: E402
 from klpga.parsers.leaderboard_parser import parse_round_leaderboard_html  # noqa: E402
 from klpga.tournament_context import load_tournament_context  # noqa: E402
 from klpga.neo_win import final_validator  # noqa: E402
@@ -138,10 +139,9 @@ def _player_cell(pid: str, name: str, country_by_id: dict[str, str], sponsor_by_
     sponsor = sponsor_by_id.get(pid)
     sponsor_text = _esc(sponsor) if sponsor else ""
     sponsor_cell = f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
-    return (
-        f"{flag_cell}<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(name)}</span>"
-        f"{sponsor_cell}"
-    )
+    name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(name)}</span>"
+    name_cell = linked_player_name_cell(pid, name_cell, REPO_ROOT)
+    return f"{flag_cell}{name_cell}{sponsor_cell}"
 
 
 def _load_raw_scores_by_id() -> dict:
