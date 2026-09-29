@@ -397,8 +397,10 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
 .ph-story-card{display:block;padding:1.3rem 1.2rem;background:var(--surface);border:1px solid var(--line);
   border-left:3px solid var(--green);text-decoration:none;color:inherit}
 .ph-story-card:hover{background:var(--panel)}
-.ph-story-headline{margin:0 0 .6rem;font-size:1.2rem;font-weight:800;line-height:1.3;color:var(--ink)}
-.ph-story-support{margin:0;font-size:.78rem;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.ph-story-label{margin:0 0 .35rem;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ph-story-headline{margin:0 0 .3rem;font-size:2rem;font-weight:800;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.ph-story-subtitle{margin:0 0 .5rem;font-size:.85rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.ph-story-footer{margin:0;font-size:.7rem;font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
 .ph-layer2-marker{margin:2rem 0 .75rem;padding-top:1rem;border-top:1px solid var(--line);
   font-size:.75rem;font-weight:700;letter-spacing:.05em;color:var(--muted)}
 /* MISSION V73 (2026-09-28): Season Replay chart redesign -- "tournament
