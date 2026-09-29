@@ -15,15 +15,53 @@ No component may hardcode a player_id to decide linking, the same way
 player_provider.py already forbids it for loading player data."""
 from __future__ import annotations
 
+import subprocess
+from functools import lru_cache
 from pathlib import Path
+
+
+@lru_cache(maxsize=4)
+def _reviewed_player_ids(repo_root: Path) -> frozenset:
+    """The real, authoritative set of player_ids whose report has
+    actually been reviewed and committed -- as opposed to merely
+    existing as a file in the working tree. This repo's own
+    established convention (see every commit in this session) is that
+    a player report earns production status only once a human reviews
+    it and it gets committed; the automation pipeline's own dry-run
+    test batches (10/50/50-player runs) leave dozens of real HTML
+    files on disk under docs/player/ that were never reviewed and were
+    deliberately never committed for exactly that reason. git's own
+    tracked-file list is the one real, already-existing signal for
+    "reviewed", so this checks that instead of inventing a second,
+    parallel approval list that could drift out of sync with what is
+    actually committed. Fails closed (empty set, nothing linked) if
+    git is unavailable -- a missing signal is never treated as
+    approval."""
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(repo_root), "ls-files", "docs/player/*/index.html"],
+            capture_output=True, text=True, check=True,
+        ).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError, OSError):
+        return frozenset()
+    ids = set()
+    for line in out.splitlines():
+        parts = line.split("/")
+        if len(parts) == 4 and parts[0] == "docs" and parts[1] == "player" and parts[3] == "index.html":
+            ids.add(parts[2])
+    return frozenset(ids)
 
 
 def player_report_exists(player_id: str, repo_root: Path) -> bool:
     """True iff docs/player/{player_id}/index.html is a real, already-
-    built file -- the one fact this module ever checks. Never guesses
-    from a population list or a name; a player with no built page is
-    never linked, however "known" they are elsewhere in the pipeline."""
-    return (repo_root / "docs" / "player" / str(player_id) / "index.html").is_file()
+    built file AND that exact file is committed to git -- i.e. a
+    reviewed, production-approved report, never a merely-built dry-run
+    test artifact. Never guesses from a population list or a name; a
+    player with no reviewed, committed page is never linked, however
+    "known" they are elsewhere in the pipeline."""
+    player_id = str(player_id)
+    path = repo_root / "docs" / "player" / player_id / "index.html"
+    return path.is_file() and player_id in _reviewed_player_ids(repo_root)
 
 
 def linked_player_name_cell(player_id: str, name_cell_html: str, repo_root: Path) -> str:
