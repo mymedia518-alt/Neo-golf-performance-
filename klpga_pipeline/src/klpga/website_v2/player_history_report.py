@@ -1281,12 +1281,12 @@ def _round_history_html(rh: dict) -> str:
     unchanged by _round_history_detail_html's relocated #8 facts)."""
     cards = (
         _round_big_stat("최고 라운드", rh.get("best_round"))
-        + _round_big_stat("최악 라운드", rh.get("worst_round"))
+        + _round_big_stat("최저 라운드", rh.get("worst_round"))
     )
     return (
         '<details class="evidence-detail pi-section" id="ph-round-history" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE5_TITLE}</h2></summary>'
-        f'<div class="pi-section__body"><p class="piq-current-detail">실측 라운드 {rh["total_rounds"]}개 기준, 그녀의 가장 좋았던 라운드와 가장 안 좋았던 라운드입니다.</p>'
+        f'<div class="pi-section__body"><p class="piq-current-detail">실측 라운드 {rh["total_rounds"]}개 기준, 선수의 최고 라운드와 최저 라운드입니다.</p>'
         f'<div class="ph-round-pair">{cards}</div></div></details>'
     )
 

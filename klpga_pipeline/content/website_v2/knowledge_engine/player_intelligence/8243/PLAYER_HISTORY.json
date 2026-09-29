@@ -2098,12 +2098,12 @@
       "title": "과거 시즌 기술 통계 확인 현황"
     },
     {
-      "field_count": 13,
-      "title": "홀 단위 기록 (버디·보기·GIR·퍼트 수)"
+      "field_count": 23,
+      "title": "기타 확인되지 않은 항목"
     },
     {
-      "field_count": 2,
-      "title": "기타 확인되지 않은 항목"
+      "field_count": 13,
+      "title": "홀 단위 기록 (버디·보기·GIR·퍼트 수)"
     },
     {
       "field_count": 1,
@@ -2159,7 +2159,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-29T17:19:28.519203+00:00",
+  "generated_at": "2026-09-29T21:31:27.748713+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",
@@ -2523,12 +2523,12 @@
   ],
   "page_confidence": {
     "estimated_fields": 0,
-    "headline": "이 페이지의 숫자는 거의 전부 실제 기록이거나, 실제 기록을 그대로 계산한 값입니다.",
-    "not_yet_available_fields": 16,
-    "real_or_calculated_fields": 588,
+    "headline": "이 페이지의 숫자는 대부분 실제 기록이거나, 실제 기록을 그대로 계산한 값입니다.",
+    "not_yet_available_fields": 37,
+    "real_or_calculated_fields": 567,
     "total_fields_checked": 604,
-    "trust_band": "매우 높음",
-    "trustworthy_pct": 97.4
+    "trust_band": "높음",
+    "trustworthy_pct": 93.9
   },
   "player_dna_growth": {
     "APPROACH": {
@@ -5286,8 +5286,8 @@
     },
     "player_evolution.biggest_decline": {
       "depends_on": [],
-      "label": "DERIVED",
-      "reason": "the largest negative season-to-season SG Total change, or null if she has never had one"
+      "label": "NOT_COLLECTED",
+      "reason": "the largest negative season-to-season SG Total change, or null if she has never had one -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "player_evolution.biggest_improvement.delta": {
       "depends_on": [],
@@ -5356,8 +5356,8 @@
     },
     "player_evolution.trend_reversal": {
       "depends_on": [],
-      "label": "DERIVED",
-      "reason": "the first adjacent season-pair where the delta sign flips, or null if it never does"
+      "label": "NOT_COLLECTED",
+      "reason": "the first adjacent season-pair where the delta sign flips, or null if it never does -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "player_id": {
       "depends_on": [],
@@ -5996,88 +5996,88 @@
     },
     "technical_stats_2025.as_of_note": {
       "depends_on": [],
-      "label": "DERIVED",
-      "reason": "disclosure sentence naming the 2025 snapshot"
+      "label": "NOT_COLLECTED",
+      "reason": "disclosure sentence naming the 2025 snapshot -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].denominator": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured denominator behind a rate metric"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured denominator behind a rate metric -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].denominator_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static label for the denominator"
+      "label": "NOT_COLLECTED",
+      "reason": "static label for the denominator -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static metric name"
+      "label": "NOT_COLLECTED",
+      "reason": "static metric name -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].measured_rounds": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real count of rounds this metric was captured over"
+      "label": "NOT_COLLECTED",
+      "reason": "real count of rounds this metric was captured over -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].measured_rounds_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static label for measured_rounds"
+      "label": "NOT_COLLECTED",
+      "reason": "static label for measured_rounds -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].numerator": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured numerator behind a rate metric"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured numerator behind a rate metric -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].numerator_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static label for the numerator"
+      "label": "NOT_COLLECTED",
+      "reason": "static label for the numerator -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].rank": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured field rank for this metric"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured field rank for this metric -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].source_file": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real filename this metric was captured from"
+      "label": "NOT_COLLECTED",
+      "reason": "real filename this metric was captured from -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].value": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured metric value"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured metric value -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].value_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static unit/format label for the value"
+      "label": "NOT_COLLECTED",
+      "reason": "static unit/format label for the value -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.player_id": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "playerCode on the captured record"
+      "label": "NOT_COLLECTED",
+      "reason": "playerCode on the captured record -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.player_name": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "player name on the captured record"
+      "label": "NOT_COLLECTED",
+      "reason": "player name on the captured record -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.schema_version": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "schema tag on the captured record"
+      "label": "NOT_COLLECTED",
+      "reason": "schema tag on the captured record -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.season": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real season this capture covers (2025 only)"
+      "label": "NOT_COLLECTED",
+      "reason": "real season this capture covers (2025 only) -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.source_endpoint": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real KLPGA endpoint this was captured from"
+      "label": "NOT_COLLECTED",
+      "reason": "real KLPGA endpoint this was captured from -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].game_code": {
       "depends_on": [],
@@ -6111,8 +6111,8 @@
     },
     "tournament_history[].round_scores[].strokes": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real strokes for this round"
+      "label": "NOT_COLLECTED",
+      "reason": "real strokes for this round -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].season": {
       "depends_on": [],
@@ -6121,8 +6121,8 @@
     },
     "tournament_history[].sg_components": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "whole object null when sg_ott is not present -- see the 4 leaf fields below"
+      "label": "NOT_COLLECTED",
+      "reason": "whole object null when sg_ott is not present -- see the 4 leaf fields below -- not present for playerCode=8243 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].sg_components.app": {
       "depends_on": [],
@@ -6195,18 +6195,25 @@
   "provenance_summary": {
     "rows": [
       {
-        "count": 332,
+        "count": 314,
         "detail": "KLPGA 공식 자료에서 그대로 가져온 값입니다.",
-        "pct": 55.0,
+        "pct": 52.0,
         "short": "공식 기록",
         "tier": "high"
       },
       {
-        "count": 256,
+        "count": 253,
         "detail": "실제 기록을 그대로 계산한 값입니다 (평균·합계 등). 실제 숫자에서 정확히 계산된 값입니다.",
-        "pct": 42.4,
+        "pct": 41.9,
         "short": "실측 기반 계산",
         "tier": "high"
+      },
+      {
+        "count": 21,
+        "detail": "존재할 가능성이 있지만 NEO가 아직 수집하지 못한 항목입니다.",
+        "pct": 3.5,
+        "short": "곧 추가 예정",
+        "tier": "gap"
       },
       {
         "count": 16,

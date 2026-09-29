@@ -2872,7 +2872,7 @@
       "title": "홀 단위 기록 (버디·보기·GIR·퍼트 수)"
     },
     {
-      "field_count": 2,
+      "field_count": 4,
       "title": "기타 확인되지 않은 항목"
     },
     {
@@ -2929,7 +2929,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-29T17:19:49.944499+00:00",
+  "generated_at": "2026-09-29T21:31:27.062051+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",
@@ -3276,11 +3276,11 @@
   "page_confidence": {
     "estimated_fields": 0,
     "headline": "이 페이지의 숫자는 거의 전부 실제 기록이거나, 실제 기록을 그대로 계산한 값입니다.",
-    "not_yet_available_fields": 16,
-    "real_or_calculated_fields": 588,
+    "not_yet_available_fields": 18,
+    "real_or_calculated_fields": 586,
     "total_fields_checked": 604,
     "trust_band": "매우 높음",
-    "trustworthy_pct": 97.4
+    "trustworthy_pct": 97.0
   },
   "player_dna_growth": {
     "APPROACH": {
@@ -6853,8 +6853,8 @@
     },
     "tournament_history[].round_scores[].strokes": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real strokes for this round"
+      "label": "NOT_COLLECTED",
+      "reason": "real strokes for this round -- not present for playerCode=10097 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].season": {
       "depends_on": [],
@@ -6863,8 +6863,8 @@
     },
     "tournament_history[].sg_components": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "whole object null when sg_ott is not present -- see the 4 leaf fields below"
+      "label": "NOT_COLLECTED",
+      "reason": "whole object null when sg_ott is not present -- see the 4 leaf fields below -- not present for playerCode=10097 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].sg_components.app": {
       "depends_on": [],
@@ -6937,9 +6937,9 @@
   "provenance_summary": {
     "rows": [
       {
-        "count": 332,
+        "count": 330,
         "detail": "KLPGA 공식 자료에서 그대로 가져온 값입니다.",
-        "pct": 55.0,
+        "pct": 54.6,
         "short": "공식 기록",
         "tier": "high"
       },
@@ -6949,6 +6949,13 @@
         "pct": 42.4,
         "short": "실측 기반 계산",
         "tier": "high"
+      },
+      {
+        "count": 2,
+        "detail": "존재할 가능성이 있지만 NEO가 아직 수집하지 못한 항목입니다.",
+        "pct": 0.3,
+        "short": "곧 추가 예정",
+        "tier": "gap"
       },
       {
         "count": 16,
