@@ -1,0 +1,18 @@
+{
+  "conflicts_detected": 0,
+  "found_in_live": 2,
+  "found_in_reader": 1,
+  "found_in_warehouse": 95,
+  "in_progress_excluded_from_finished_totals": 1,
+  "merged": 3,
+  "missing": 0,
+  "resolved": [
+    "2026090003 (KB): SG Warehouse SG rank (17) and Reader final stroke rank (T16) are different ranking systems -- Reader final rank retained; SG Total/OTT/APP/ARG/PUTT retained from the SG Warehouse.",
+    "2026090003 (KB): Reader R3 cumulative_score (218) == R1+R2+R3 (74+71+73) -- agrees.",
+    "2026090003 (KB): Reader FR total_strokes (290) == R1+R2+R3+FR (74+71+73+72) -- agrees. FR (final round) leaderboard used as the canonical final result.",
+    "2026090002 (Hana): mean of real R1-R4 SG Total (4.4975) matches the official 4-round cumulative SG Total (4.5) within tolerance -- confirms the warehouse's 'tournament_cumulative = mean of rounds' convention holds here too. Official cumulative used directly (not re-derived) since it is itself a primary official computation.",
+    "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (1) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts."
+  ],
+  "status": "RECONCILED_OK",
+  "total_tournaments": 97
+}
