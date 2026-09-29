@@ -123,6 +123,31 @@ def _sparkline_svg(values: list, width: int = 200, height: int = 40) -> str:
     )
 
 
+def _dedupe_axis_tick_labels(ticks: list, min_gap: float = 22.0) -> list:
+    """BUG FIX (2026-09-29): every x-axis on this page that places a
+    season/year tick at a real tournament's plotted x-position (as
+    opposed to _career_milestones_timeline_svg's timeline, which
+    positions ticks by real calendar-year VALUE) can land two adjacent
+    season ticks only a few pixels apart whenever one of those seasons
+    has very few tournaments -- e.g. a player whose 2025 season was a
+    single event, sandwiched between many 2024 and many 2026
+    tournaments, rendered "2025" and "2026" as an unreadable "202526".
+    Real tick LINES still mark every season boundary; this only
+    decides which ones also get a text label, keeping the LATER
+    (more recent) season's label whenever two would collide, since
+    the current season is the more useful year to keep legible.
+    `ticks`: [(x, label), ...] in any order; returns the subset to
+    render as text, in ascending x order."""
+    ordered = sorted(ticks, key=lambda t: t[0])
+    kept: list = []
+    for x, label in ordered:
+        if kept and x - kept[-1][0] < min_gap:
+            kept[-1] = (x, label)
+        else:
+            kept.append((x, label))
+    return kept
+
+
 def _marked_trend_svg(
     values: list,
     *,
@@ -179,14 +204,15 @@ def _marked_trend_svg(
     if x_labels:
         axis_y = top_pad + plot_h
         parts.append(f'<line x1="{side_pad}" y1="{axis_y:.1f}" x2="{width - side_pad}" y2="{axis_y:.1f}" stroke="#d5ddd7" stroke-width="1"/>')
-        for i, label in sorted(x_labels.items()):
-            x = _xy(i, values[i])[0]
+        tick_positions = [(_xy(i, values[i])[0], label) for i, label in sorted(x_labels.items())]
+        for x, _label in tick_positions:
+            parts.append(f'<line x1="{x:.1f}" y1="{axis_y:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
+        for x, label in _dedupe_axis_tick_labels(tick_positions):
             # text-anchor="middle" clips the first/last tick label
             # against the viewBox edge (e.g. "2023" rendering as
             # ":023") -- anchor start/end at the two ends, same fix
             # already used for the mark labels below.
             tick_anchor = "start" if x < side_pad + 20 else ("end" if x > width - side_pad - 20 else "middle")
-            parts.append(f'<line x1="{x:.1f}" y1="{axis_y:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
             parts.append(f'<text x="{x:.1f}" y="{axis_y + 15:.1f}" font-size="10" fill="#5d6964" text-anchor="{tick_anchor}">{escape(str(label))}</text>')
 
     parts.append(f'<polyline points="{path}" fill="none" stroke="{direction_color}" stroke-width="2"/>')
@@ -390,13 +416,16 @@ def _trend_svg_by_index(
         axis_y = top_pad + plot_h
         axis.append(f'<line x1="{pad}" y1="{axis_y:.1f}" x2="{width - pad}" y2="{axis_y:.1f}" stroke="#d5ddd7" stroke-width="1"/>')
         seen: set = set()
+        tick_positions = []
         for i, s in enumerate(seasons):
             if s in seen:
                 continue
             seen.add(s)
-            x = pts[i][0]
-            tick_anchor = "start" if x < pad + 20 else ("end" if x > width - pad - 20 else "middle")
+            tick_positions.append((pts[i][0], s))
+        for x, _s in tick_positions:
             axis.append(f'<line x1="{x:.1f}" y1="{axis_y:.1f}" x2="{x:.1f}" y2="{axis_y + 5:.1f}" stroke="#8a988f" stroke-width="1"/>')
+        for x, s in _dedupe_axis_tick_labels(tick_positions):
+            tick_anchor = "start" if x < pad + 20 else ("end" if x > width - pad - 20 else "middle")
             axis.append(f'<text x="{x:.1f}" y="{axis_y + 15:.1f}" font-size="10" fill="#5d6964" text-anchor="{tick_anchor}">{escape(str(s))}</text>')
 
     # MISSION V60 (2026-09-28): "remove every numeric label drawn inside
@@ -1884,13 +1913,13 @@ _STORY_CHAPTER_MARKER = {
     "최고 경기력": ("diamond", "#0f5c46"),
     "현재 경기력": ("ring", "#0f5c46"),
 }
-# When a chapter groups more than one real milestone (true only for
-# 최고 경기력, which holds both her first win and her career-best
-# season), this says which of its own real milestone labels the
-# single timeline point should take its year from -- the one that
-# most literally matches the chapter's own name. Every other chapter
-# has exactly one milestone, so no entry is needed for it.
-_STORY_CHAPTER_REPRESENTATIVE_LABEL = {"최고 경기력": "커리어 최고 SG Total 시즌"}
+# BUG FIX (2026-09-29): build_10097_player_history.py's own
+# _STORY_BUCKET_BY_LABEL used to file two milestones under 최고 경기력
+# (a genuine bucketing bug there, now fixed), which is why this
+# override existed. Every chapter now holds exactly one real
+# milestone, so _story_timeline_points's own max(season) fallback is
+# always unambiguous and no override is needed.
+_STORY_CHAPTER_REPRESENTATIVE_LABEL: dict = {}
 
 
 def _timeline_marker_svg(shape: str, cx: float, cy: float, color: str, size: float = 6.5) -> str:

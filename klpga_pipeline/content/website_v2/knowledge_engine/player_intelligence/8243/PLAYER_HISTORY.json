@@ -934,7 +934,7 @@
     "sample_size": 60
   },
   "career_overview": {
-    "data_floor_note": "NEO가 확보한 장은수 선수의 실측 SG 기록은 2023시즌부터 시작됩니다. 이는 선수 전체에 공통으로 적용되는 실측 시작 시점이며, 장은수 선수의 실제 KLPGA 데뷔 시즌은 아닙니다. 이 시점 이전의 실측 기록은 아직 확인되지 않았습니다.",
+    "data_floor_note": "NEO가 확보한 8243 선수의 실측 SG 기록은 2023시즌부터 시작됩니다. 이는 선수 전체에 공통으로 적용되는 실측 시작 시점이며, 8243 선수의 실제 KLPGA 데뷔 시즌은 아닙니다. 이 시점 이전의 실측 기록은 아직 확인되지 않았습니다.",
     "earliest_season_on_record": 2023,
     "latest_tournament": {
       "final_score_to_par": "-8",
@@ -1637,11 +1637,6 @@
         "chapter": "최고 경기력",
         "milestones": [
           {
-            "detail": "1승 (이 시즌 실측)",
-            "label": "첫 우승",
-            "season": 2026
-          },
-          {
             "detail": "+1.22, 우승 1회, 상위10위 4회",
             "label": "커리어 최고 SG Total 시즌",
             "season": 2026
@@ -1662,9 +1657,9 @@
         "chapter": "첫 우승",
         "milestones": [
           {
-            "detail": "-0.05 (커리어 평균 -0.18)",
-            "label": "커리어 평균 SG Total 최초 상회",
-            "season": 2023
+            "detail": "1승 (이 시즌 실측)",
+            "label": "첫 우승",
+            "season": 2026
           }
         ]
       },
@@ -2159,7 +2154,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-29T21:31:27.748713+00:00",
+  "generated_at": "2026-09-29T22:16:56.183993+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",
@@ -2901,7 +2896,7 @@
     "primary_type": "볼 스트라이커",
     "winning_note": "우승할 때는 SG APP이(가) 특히 결정적이었습니다 (우승 대회 기여도 50.5%)."
   },
-  "player_name": "장은수",
+  "player_name": "8243",
   "player_story": [
     {
       "detail": "SG Total -0.05 (13개 대회 표본)",
@@ -6584,14 +6579,13 @@
   "reconciliation": {
     "conflicts_detected": 0,
     "found_in_live": 2,
-    "found_in_reader": 1,
+    "found_in_reader": 0,
     "found_in_warehouse": 59,
     "in_progress_excluded_from_finished_totals": 1,
     "merged": 3,
     "missing": 0,
     "resolved": [
       "2023090001: SG Warehouse tournament_cumulative rank (SG-based) and Tournament Warehouse R1 score_rank (59) are different ranking systems (SG rank vs. stroke rank), not comparable as the same fact -- no conflict. Real R1 raw strokes (72) merged in.",
-      "2026090003: SG Warehouse now has a real row for this tournament -- Category 4's Reader-only fallback (rank/strokes only, no SG) is superseded, not used.",
       "2026090002 (Hana): mean of real R1-R4 SG Total (3.4875) matches the official 4-round cumulative SG Total (3.49) within tolerance -- confirms the warehouse's 'tournament_cumulative = mean of rounds' convention holds here too. Official cumulative used directly (not re-derived) since it is itself a primary official computation.",
       "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (2) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts.",
       "2026120001 (OK Open) R3: Tournament/Round Warehouse strokes (72) == Live Snapshot round3_score (72) -- agrees."
@@ -6647,7 +6641,7 @@
     }
   },
   "schema_version": "player_history_v2",
-  "scope_note": "이 문서는 playerCode=8243(장은수) 선수만을 다룹니다. Player Intelligence를 대체하는 PLAYER HISTORY GOLD STANDARD V1입니다. 실측 기록만 사용하며 추측을 포함하지 않습니다. 모든 대회 기록은 단일 웨어하우스가 아니라 reconciliation(아래 참조)을 통과한 7개 카테고리 실측 소스에서 나옵니다.",
+  "scope_note": "이 문서는 playerCode=8243(8243) 선수만을 다룹니다. Player Intelligence를 대체하는 PLAYER HISTORY GOLD STANDARD V1입니다. 실측 기록만 사용하며 추측을 포함하지 않습니다. 모든 대회 기록은 단일 웨어하우스가 아니라 reconciliation(아래 참조)을 통과한 7개 카테고리 실측 소스에서 나옵니다.",
   "season_replay": [
     {
       "event_count": 13,

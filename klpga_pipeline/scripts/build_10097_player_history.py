@@ -1415,11 +1415,22 @@ def _player_identity(career_dna: dict) -> Optional[dict]:
 # starts here, this is NOT necessarily her actual KLPGA debut); 기준점
 # names it as what it actually is (a reference point every later
 # comparison is measured against), never implying a debut.
+# BUG FIX (2026-09-29): "첫 우승" and "커리어 평균 SG Total 최초 상회"
+# were bucketed backwards -- the milestone whose own label IS 첫 우승
+# (first win) was filed under the 최고 경기력 chapter, while the 첫
+# 우승 chapter held a different fact (first season above her career
+# SG average) instead. Invisible for playerCode=10097 only because
+# her first-win season and first-above-average season happen to be
+# the same year (2025); for playerCode=8243 they differ (2026 vs
+# 2023), so her timeline's 첫 우승 star plotted at the wrong year.
+# "커리어 평균 SG Total 최초 상회" has no real home among these four
+# named chapters, so it is intentionally left unmapped here -- it
+# remains a real fact in the raw player_story[] list, just not
+# surfaced as one of the four headline career_story chapters.
 _STORY_BUCKET_BY_LABEL = {
     "실측 데이터 시작": "기준점",
-    "커리어 평균 SG Total 최초 상회": "첫 우승",
     "최대 SG Total 시즌 도약": "경기력 도약",
-    "첫 우승": "최고 경기력",
+    "첫 우승": "첫 우승",
     "커리어 최고 SG Total 시즌": "최고 경기력",
 }
 _STORY_CHAPTER_ORDER = ["최고 경기력", "경기력 도약", "첫 우승", "기준점"]
