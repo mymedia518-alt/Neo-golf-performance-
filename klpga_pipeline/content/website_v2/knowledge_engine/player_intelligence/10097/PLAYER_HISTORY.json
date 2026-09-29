@@ -267,6 +267,7 @@
       "delta_vs_career_average": 0.514,
       "end_season": 2023,
       "end_tournament": "상상인 · 한국경제TV 오픈 2023",
+      "sample_size": 5,
       "stage": "시즌 초반",
       "start_season": 2023,
       "start_tournament": "OK금융그룹 읏맨 오픈",
@@ -279,6 +280,7 @@
       "delta_vs_career_average": 1.55,
       "end_season": 2025,
       "end_tournament": "제13회 E1 채리티 오픈",
+      "sample_size": 5,
       "stage": "시즌 중반",
       "start_season": 2025,
       "start_tournament": "넥센 · 세인트나인 마스터즈 2025",
@@ -291,6 +293,7 @@
       "delta_vs_career_average": 1.652,
       "end_season": 2026,
       "end_tournament": "인카금융 더헤븐 마스터즈",
+      "sample_size": 5,
       "stage": "시즌 후반",
       "start_season": 2026,
       "start_tournament": "제14회 E1 채리티 오픈",
@@ -303,6 +306,7 @@
       "delta_vs_career_average": 1.652,
       "end_season": 2026,
       "end_tournament": "인카금융 더헤븐 마스터즈",
+      "sample_size": 5,
       "stage": "전성기",
       "start_season": 2026,
       "start_tournament": "제14회 E1 채리티 오픈",
@@ -315,6 +319,7 @@
       "delta_vs_career_average": 1.13,
       "end_season": 2026,
       "end_tournament": "하나금융그룹 챔피언십",
+      "sample_size": 5,
       "stage": "현재 폼",
       "start_season": 2026,
       "start_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
@@ -2924,7 +2929,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-29T15:26:37.853600+00:00",
+  "generated_at": "2026-09-29T16:25:22.941673+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",

@@ -818,51 +818,24 @@ def _season_replay_html(replays: list, tournament_history: Optional[list] = None
     )
 
 
-def _stage_narrative(s: dict) -> str:
-    """RED TEAM (2026-09-25) narrative mission: story-first sentence for
-    one Career Form Story stage, built only from real numbers already
-    on `s` (delta_vs_career_average, best/worst component and their
-    real deltas vs career average). Never claims a 'decline' when the
-    real delta is still positive -- only the RELATIVE ranking among her
-    four components changes wording, the sign of the real number
-    decides the verb.
-
-    MISSION "PLAYER HISTORY V20 continued" (2026-09-28): 'If a graph
-    and a paragraph say the same thing, delete the paragraph.' The
-    opening clause ('커리어 평균을 웃돌던 시기였습니다') only restated
-    whether this stage's real delta was positive or negative -- already
-    visible as this stage's real position on the rolling trend chart
-    above, and already stated more precisely by this card's own
-    '커리어 평균 대비 +X.XX' chip. Only the component breakdown (which
-    skill led, which lagged) survives here -- the one fact neither the
-    chart nor that chip carries."""
-    best, best_delta = s.get("best_component"), s.get("best_delta")
-    worst, worst_delta = s.get("worst_component"), s.get("worst_delta")
-    clauses = []
-    if best:
-        verb = "이 시기를 이끌었습니다" if best_delta is not None and best_delta > 0 else "그나마 가장 선방했습니다"
-        clauses.append(f"{best}가 {verb}")
-    if worst:
-        verb = "가장 부진했습니다" if worst_delta is not None and worst_delta < 0 else "상대적으로 가장 덜 강했습니다"
-        clauses.append(f"{worst}는 {verb}")
-    return ", ".join(clauses) + "." if clauses else "SG 세부 항목을 비교할 실측 데이터가 부족합니다."
-
-
 def _career_form_story_html(stages: Optional[list]) -> str:
-    """RED TEAM (2026-09-25): 'Keep every real computation. Hide every
-    implementation detail.' career_rolling_trend's real sliding-window
-    series, self-percentile, and window mechanics are never shown here
-    -- only the already-computed values selected by
-    _career_form_story() (scripts/build_10097_player_history.py),
-    translated into named chapters (시즌 초반/중반/후반, 전성기, 현재
-    폼) that each answer one question: which skill improved, which
-    skill declined. A story sentence leads every card; the real numbers
-    are supporting chips underneath, never the headline.
+    """NEO V2 BRAND CONSISTENCY mission (2026-09-29): "Convert the season
+    timeline from storytelling to analytics... no narrative sentences,
+    no verbs, no interpretation, display measurements only." Replaces
+    the former story-sentence-per-card layout (a generated clause like
+    "SG APP가 이 시기를 이끌었습니다") with one dashboard row per stage:
+    Phase / Career Delta / Best SG / Worst SG / Reference Events /
+    Sample Size. Every value is a field _career_form_story()
+    (scripts/build_10097_player_history.py) already computed -- Sample
+    Size is real data that already existed in that function's own
+    per-window decomposition (sg_component_sample_size) but was
+    previously discarded before reaching this renderer; it is plumbed
+    through, not newly computed.
 
     When her career peak (전성기) happened to fall inside the same real
     tournament range as one of the three season chapters -- true for
     this player as of this build -- the two labels are combined into
-    one card instead of repeating identical numbers twice."""
+    one row instead of repeating identical numbers twice."""
     if not stages:
         return ""
     seen: dict = {}
@@ -876,26 +849,29 @@ def _career_form_story_html(stages: Optional[list]) -> str:
             order.append(key)
     merged = [seen[k] for k in order]
 
-    cards = []
+    def _sg(component, delta):
+        return f'{escape(component)} {delta:+.2f}' if component and delta is not None else _NO_DATA
+
+    rows = []
     for s in merged:
         start_t, end_t = escape(s["start_tournament"]), escape(s["end_tournament"])
-        range_text = start_t if s["start_tournament"] == s["end_tournament"] else f"{start_t} ~ {end_t}"
-        sentence = escape(_stage_narrative(s))
+        reference = start_t if s["start_tournament"] == s["end_tournament"] else f"{start_t} ~ {end_t}"
         delta = s.get("delta_vs_career_average")
-        chips = _chip(f'커리어 평균 대비 {delta:+.2f}', positive=delta > 0) if delta is not None else ""
-        if s.get("best_component"):
-            chips += _chip(f'{s["best_component"]} {s["best_delta"]:+.2f}', positive=True)
-        if s.get("worst_component"):
-            chips += _chip(f'{s["worst_component"]} {s["worst_delta"]:+.2f}', negative=s["worst_delta"] < 0)
-        cards.append(
-            '<div class="ph-form-stage">'
-            f'<p class="piq-step-label piq-label-standalone">{escape(s["stage"])}</p>'
-            f'<p class="piq-current-detail">{sentence}</p>'
-            f'<p class="piq-current-detail">{range_text}</p>'
-            f'<div class="piq-audit">{chips}</div>'
-            '</div>'
+        delta_cell = f'{delta:+.2f}' if delta is not None else _NO_DATA
+        sample_size = s.get("sample_size")
+        rows.append(
+            "<tr>"
+            f'<td>{escape(s["stage"])}</td>'
+            f'<td>{delta_cell}</td>'
+            f'<td>{_sg(s.get("best_component"), s.get("best_delta"))}</td>'
+            f'<td>{_sg(s.get("worst_component"), s.get("worst_delta"))}</td>'
+            f'<td>{reference}</td>'
+            f'<td>{sample_size if sample_size is not None else _NO_DATA}</td>'
+            "</tr>"
         )
-    return '<div class="ph-form-story">' + "".join(cards) + '</div>'
+    header = "".join(f"<th>{h}</th>" for h in ("Phase", "Career Delta", "Best SG", "Worst SG", "Reference Events", "Sample Size"))
+    table = f'<div class="table-scroll"><table class="data-table"><thead><tr>{header}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+    return f'<div class="ph-form-story">{table}</div>'
 
 
 def _career_rolling_trend_html(crt: Optional[dict], story: Optional[list] = None) -> str:

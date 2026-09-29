@@ -700,6 +700,7 @@ def _career_form_story(recon: dict, crt: dict, hole_history: Optional[dict], car
             "start_season": w["start_season"],
             "end_season": w["end_season"],
             "delta_vs_career_average": delta_vs_avg,
+            "sample_size": decomposition.get("sg_component_sample_size"),
             **verdict,
         })
     return stages
