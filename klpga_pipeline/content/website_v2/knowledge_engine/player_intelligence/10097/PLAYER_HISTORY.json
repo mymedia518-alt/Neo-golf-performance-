@@ -25,16 +25,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.54,
+          "delta": 0.55,
           "from_season": 2025,
-          "growth_pct": 73.6,
+          "growth_pct": 75.0,
           "to_season": 2026
         }
       ],
       "label": "SG APP",
       "peak_season": {
         "season": 2026,
-        "value": 1.2729411764705885
+        "value": 1.281666666666667
       },
       "series": [
         {
@@ -51,7 +51,7 @@
         },
         {
           "season": 2026,
-          "value": 1.2729411764705885
+          "value": 1.281666666666667
         }
       ],
       "worst_season": {
@@ -75,16 +75,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.15,
+          "delta": 0.12,
           "from_season": 2025,
-          "growth_pct": 3115.4,
+          "growth_pct": 2492.3,
           "to_season": 2026
         }
       ],
       "label": "SG ARG",
       "peak_season": {
         "season": 2026,
-        "value": 0.15941176470588236
+        "value": 0.12722222222222224
       },
       "series": [
         {
@@ -101,7 +101,7 @@
         },
         {
           "season": 2026,
-          "value": 0.15941176470588236
+          "value": 0.12722222222222224
         }
       ],
       "worst_season": {
@@ -125,16 +125,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.2,
+          "delta": 0.22,
           "from_season": 2025,
-          "growth_pct": 38.1,
+          "growth_pct": 41.9,
           "to_season": 2026
         }
       ],
       "label": "SG OTT",
       "peak_season": {
         "season": 2026,
-        "value": 0.73
+        "value": 0.7438888888888889
       },
       "series": [
         {
@@ -151,7 +151,7 @@
         },
         {
           "season": 2026,
-          "value": 0.73
+          "value": 0.7438888888888889
         }
       ],
       "worst_season": {
@@ -201,7 +201,7 @@
         },
         {
           "season": 2026,
-          "value": 0.07588235294117647
+          "value": 0.07555555555555556
         }
       ],
       "worst_season": {
@@ -225,16 +225,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.82,
+          "delta": 0.81,
           "from_season": 2025,
-          "growth_pct": 57.9,
+          "growth_pct": 57.2,
           "to_season": 2026
         }
       ],
       "label": "SG Total",
       "peak_season": {
         "season": 2026,
-        "value": 2.2358823529411764
+        "value": 2.2255555555555553
       },
       "series": [
         {
@@ -251,7 +251,7 @@
         },
         {
           "season": 2026,
-          "value": 2.2358823529411764
+          "value": 2.2255555555555553
         }
       ],
       "worst_season": {
@@ -263,70 +263,70 @@
   "career_form_story": [
     {
       "best_component": "SG APP",
-      "best_delta": 0.332,
-      "delta_vs_career_average": 0.525,
+      "best_delta": 0.324,
+      "delta_vs_career_average": 0.514,
       "end_season": 2023,
       "end_tournament": "상상인 · 한국경제TV 오픈 2023",
       "stage": "시즌 초반",
       "start_season": 2023,
       "start_tournament": "OK금융그룹 읏맨 오픈",
       "worst_component": "SG OTT",
-      "worst_delta": -0.094
+      "worst_delta": -0.099
     },
     {
       "best_component": "SG PUTT",
-      "best_delta": 1.246,
-      "delta_vs_career_average": 1.561,
+      "best_delta": 1.244,
+      "delta_vs_career_average": 1.55,
       "end_season": 2025,
       "end_tournament": "제13회 E1 채리티 오픈",
       "stage": "시즌 중반",
       "start_season": 2025,
       "start_tournament": "넥센 · 세인트나인 마스터즈 2025",
       "worst_component": "SG OTT",
-      "worst_delta": -0.388
+      "worst_delta": -0.393
     },
     {
       "best_component": "SG APP",
-      "best_delta": 1.134,
-      "delta_vs_career_average": 1.663,
+      "best_delta": 1.126,
+      "delta_vs_career_average": 1.652,
       "end_season": 2026,
       "end_tournament": "인카금융 더헤븐 마스터즈",
       "stage": "시즌 후반",
       "start_season": 2026,
       "start_tournament": "제14회 E1 채리티 오픈",
       "worst_component": "SG PUTT",
-      "worst_delta": 0.064
+      "worst_delta": 0.062
     },
     {
       "best_component": "SG APP",
-      "best_delta": 1.134,
-      "delta_vs_career_average": 1.663,
+      "best_delta": 1.126,
+      "delta_vs_career_average": 1.652,
       "end_season": 2026,
       "end_tournament": "인카금융 더헤븐 마스터즈",
       "stage": "전성기",
       "start_season": 2026,
       "start_tournament": "제14회 E1 채리티 오픈",
       "worst_component": "SG PUTT",
-      "worst_delta": 0.064
+      "worst_delta": 0.062
     },
     {
       "best_component": "SG APP",
-      "best_delta": 0.92,
-      "delta_vs_career_average": 1.237,
+      "best_delta": 0.672,
+      "delta_vs_career_average": 1.13,
       "end_season": 2026,
       "end_tournament": "하나금융그룹 챔피언십",
       "stage": "현재 폼",
       "start_season": 2026,
-      "start_tournament": "제16회 롯데 오픈",
+      "start_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
       "worst_component": "SG PUTT",
-      "worst_delta": -0.124
+      "worst_delta": 0.024
     }
   ],
   "career_heartbeat": {
     "beats": [
       {
-        "career_percentile": 19.1,
-        "delta_vs_career_average": -1.787,
+        "career_percentile": 18.9,
+        "delta_vs_career_average": -1.798,
         "game_code": "2023040001",
         "is_top10": false,
         "is_win": false,
@@ -336,7 +336,7 @@
       },
       {
         "career_percentile": 3.2,
-        "delta_vs_career_average": -3.157,
+        "delta_vs_career_average": -3.168,
         "game_code": "2023040002",
         "is_top10": false,
         "is_win": false,
@@ -345,8 +345,8 @@
         "tournament": "메디힐 · 한국일보 챔피언십"
       },
       {
-        "career_percentile": 40.4,
-        "delta_vs_career_average": -0.447,
+        "career_percentile": 40.0,
+        "delta_vs_career_average": -0.458,
         "game_code": "2023040003",
         "is_top10": false,
         "is_win": false,
@@ -355,8 +355,8 @@
         "tournament": "넥센 · 세인트나인 마스터즈 2023"
       },
       {
-        "career_percentile": 6.4,
-        "delta_vs_career_average": -2.977,
+        "career_percentile": 6.3,
+        "delta_vs_career_average": -2.988,
         "game_code": "2023050001",
         "is_top10": false,
         "is_win": false,
@@ -365,8 +365,8 @@
         "tournament": "제9회 교촌 1991 레이디스 오픈"
       },
       {
-        "career_percentile": 52.1,
-        "delta_vs_career_average": 0.183,
+        "career_percentile": 51.6,
+        "delta_vs_career_average": 0.172,
         "game_code": "2023050002",
         "is_top10": false,
         "is_win": false,
@@ -375,8 +375,8 @@
         "tournament": "2023 NH투자증권 레이디스 챔피언십"
       },
       {
-        "career_percentile": 85.1,
-        "delta_vs_career_average": 1.783,
+        "career_percentile": 85.3,
+        "delta_vs_career_average": 1.772,
         "game_code": "2023050004",
         "is_top10": true,
         "is_win": false,
@@ -385,8 +385,8 @@
         "tournament": "제11회 E1 채리티 오픈"
       },
       {
-        "career_percentile": 10.6,
-        "delta_vs_career_average": -2.197,
+        "career_percentile": 10.5,
+        "delta_vs_career_average": -2.208,
         "game_code": "2023060001",
         "is_top10": false,
         "is_win": false,
@@ -395,8 +395,8 @@
         "tournament": "롯데 오픈"
       },
       {
-        "career_percentile": 61.7,
-        "delta_vs_career_average": 0.613,
+        "career_percentile": 61.1,
+        "delta_vs_career_average": 0.602,
         "game_code": "2023060002",
         "is_top10": false,
         "is_win": false,
@@ -405,8 +405,8 @@
         "tournament": "셀트리온 퀸즈 마스터즈"
       },
       {
-        "career_percentile": 9.6,
-        "delta_vs_career_average": -2.377,
+        "career_percentile": 9.5,
+        "delta_vs_career_average": -2.388,
         "game_code": "2023060004",
         "is_top10": false,
         "is_win": false,
@@ -415,8 +415,8 @@
         "tournament": "BC카드 · 한경 레이디스컵 2023"
       },
       {
-        "career_percentile": 29.8,
-        "delta_vs_career_average": -0.727,
+        "career_percentile": 29.5,
+        "delta_vs_career_average": -0.738,
         "game_code": "2023060005",
         "is_top10": false,
         "is_win": false,
@@ -425,8 +425,8 @@
         "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
       },
       {
-        "career_percentile": 44.7,
-        "delta_vs_career_average": -0.257,
+        "career_percentile": 44.2,
+        "delta_vs_career_average": -0.268,
         "game_code": "2023070001",
         "is_top10": false,
         "is_win": false,
@@ -435,8 +435,8 @@
         "tournament": "대유위니아 · MBN 여자오픈"
       },
       {
-        "career_percentile": 68.1,
-        "delta_vs_career_average": 0.803,
+        "career_percentile": 67.4,
+        "delta_vs_career_average": 0.792,
         "game_code": "2023070002",
         "is_top10": false,
         "is_win": false,
@@ -445,8 +445,8 @@
         "tournament": "에버콜라겐 · 더시에나 퀸즈크라운 2023"
       },
       {
-        "career_percentile": 93.6,
-        "delta_vs_career_average": 2.413,
+        "career_percentile": 93.7,
+        "delta_vs_career_average": 2.402,
         "game_code": "2023070003",
         "is_top10": true,
         "is_win": false,
@@ -456,7 +456,7 @@
       },
       {
         "career_percentile": 0.0,
-        "delta_vs_career_average": -4.087,
+        "delta_vs_career_average": -4.098,
         "game_code": "2023080001",
         "is_top10": false,
         "is_win": false,
@@ -465,8 +465,8 @@
         "tournament": "제10회 제주삼다수 마스터스"
       },
       {
-        "career_percentile": 57.4,
-        "delta_vs_career_average": 0.383,
+        "career_percentile": 56.8,
+        "delta_vs_career_average": 0.372,
         "game_code": "2023080003",
         "is_top10": false,
         "is_win": false,
@@ -475,8 +475,8 @@
         "tournament": "하이원리조트 여자오픈 2023"
       },
       {
-        "career_percentile": 11.7,
-        "delta_vs_career_average": -2.047,
+        "career_percentile": 11.6,
+        "delta_vs_career_average": -2.058,
         "game_code": "2023080004",
         "is_top10": false,
         "is_win": false,
@@ -485,8 +485,8 @@
         "tournament": "한화 클래식 2023"
       },
       {
-        "career_percentile": 13.8,
-        "delta_vs_career_average": -1.997,
+        "career_percentile": 13.7,
+        "delta_vs_career_average": -2.008,
         "game_code": "2023090002",
         "is_top10": false,
         "is_win": false,
@@ -495,8 +495,8 @@
         "tournament": "KB금융 스타챔피언십"
       },
       {
-        "career_percentile": 78.7,
-        "delta_vs_career_average": 1.513,
+        "career_percentile": 78.9,
+        "delta_vs_career_average": 1.502,
         "game_code": "2023090003",
         "is_top10": false,
         "is_win": false,
@@ -505,8 +505,8 @@
         "tournament": "OK금융그룹 읏맨 오픈"
       },
       {
-        "career_percentile": 24.5,
-        "delta_vs_career_average": -1.007,
+        "career_percentile": 24.2,
+        "delta_vs_career_average": -1.018,
         "game_code": "2023090004",
         "is_top10": false,
         "is_win": false,
@@ -515,8 +515,8 @@
         "tournament": "하나금융그룹 챔피언십"
       },
       {
-        "career_percentile": 69.1,
-        "delta_vs_career_average": 0.873,
+        "career_percentile": 68.4,
+        "delta_vs_career_average": 0.862,
         "game_code": "2023090005",
         "is_top10": false,
         "is_win": false,
@@ -525,8 +525,8 @@
         "tournament": "대보 하우스디 오픈"
       },
       {
-        "career_percentile": 34.0,
-        "delta_vs_career_average": -0.627,
+        "career_percentile": 33.7,
+        "delta_vs_career_average": -0.638,
         "game_code": "2023100001",
         "is_top10": false,
         "is_win": false,
@@ -535,8 +535,8 @@
         "tournament": "제23회 하이트진로 챔피언십"
       },
       {
-        "career_percentile": 87.2,
-        "delta_vs_career_average": 1.873,
+        "career_percentile": 87.4,
+        "delta_vs_career_average": 1.862,
         "game_code": "2023100003",
         "is_top10": true,
         "is_win": false,
@@ -546,7 +546,7 @@
       },
       {
         "career_percentile": 5.3,
-        "delta_vs_career_average": -3.047,
+        "delta_vs_career_average": -3.058,
         "game_code": "2023100004",
         "is_top10": false,
         "is_win": false,
@@ -555,8 +555,8 @@
         "tournament": "SK네트웍스 · 서울경제 레이디스 클래식"
       },
       {
-        "career_percentile": 33.0,
-        "delta_vs_career_average": -0.657,
+        "career_percentile": 32.6,
+        "delta_vs_career_average": -0.668,
         "game_code": "2023110001",
         "is_top10": false,
         "is_win": false,
@@ -565,8 +565,8 @@
         "tournament": "S-OIL 챔피언십 2023"
       },
       {
-        "career_percentile": 37.2,
-        "delta_vs_career_average": -0.527,
+        "career_percentile": 36.8,
+        "delta_vs_career_average": -0.538,
         "game_code": "2023110002",
         "is_top10": false,
         "is_win": false,
@@ -575,8 +575,8 @@
         "tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023"
       },
       {
-        "career_percentile": 85.1,
-        "delta_vs_career_average": 1.783,
+        "career_percentile": 85.3,
+        "delta_vs_career_average": 1.772,
         "game_code": "2024040017",
         "is_top10": true,
         "is_win": false,
@@ -585,8 +585,8 @@
         "tournament": "두산건설 We’ve 챔피언십"
       },
       {
-        "career_percentile": 20.2,
-        "delta_vs_career_average": -1.587,
+        "career_percentile": 20.0,
+        "delta_vs_career_average": -1.598,
         "game_code": "2024040018",
         "is_top10": false,
         "is_win": false,
@@ -595,8 +595,8 @@
         "tournament": "메디힐 · 한국일보 챔피언십"
       },
       {
-        "career_percentile": 42.6,
-        "delta_vs_career_average": -0.307,
+        "career_percentile": 42.1,
+        "delta_vs_career_average": -0.318,
         "game_code": "2024040019",
         "is_top10": false,
         "is_win": false,
@@ -605,8 +605,8 @@
         "tournament": "넥센 · 세인트나인 마스터즈 2024"
       },
       {
-        "career_percentile": 72.3,
-        "delta_vs_career_average": 0.983,
+        "career_percentile": 71.6,
+        "delta_vs_career_average": 0.972,
         "game_code": "2024040020",
         "is_top10": false,
         "is_win": false,
@@ -615,8 +615,8 @@
         "tournament": "크리스에프앤씨 제46회 KLPGA 챔피언십"
       },
       {
-        "career_percentile": 26.6,
-        "delta_vs_career_average": -0.917,
+        "career_percentile": 26.3,
+        "delta_vs_career_average": -0.928,
         "game_code": "2024050014",
         "is_top10": false,
         "is_win": false,
@@ -625,8 +625,8 @@
         "tournament": "제10회 교촌 1991 레이디스 오픈"
       },
       {
-        "career_percentile": 38.3,
-        "delta_vs_career_average": -0.517,
+        "career_percentile": 37.9,
+        "delta_vs_career_average": -0.528,
         "game_code": "2024050015",
         "is_top10": false,
         "is_win": false,
@@ -636,7 +636,7 @@
       },
       {
         "career_percentile": 2.1,
-        "delta_vs_career_average": -3.187,
+        "delta_vs_career_average": -3.198,
         "game_code": "2024050017",
         "is_top10": false,
         "is_win": false,
@@ -645,8 +645,8 @@
         "tournament": "제12회 E1 채리티 오픈"
       },
       {
-        "career_percentile": 95.7,
-        "delta_vs_career_average": 3.213,
+        "career_percentile": 95.8,
+        "delta_vs_career_average": 3.202,
         "game_code": "2024050018",
         "is_top10": true,
         "is_win": false,
@@ -655,8 +655,8 @@
         "tournament": "Sh수협은행 MBN 여자오픈"
       },
       {
-        "career_percentile": 45.7,
-        "delta_vs_career_average": -0.177,
+        "career_percentile": 45.3,
+        "delta_vs_career_average": -0.188,
         "game_code": "2024060013",
         "is_top10": false,
         "is_win": false,
@@ -665,8 +665,8 @@
         "tournament": "2024 셀트리온 퀸즈 마스터즈"
       },
       {
-        "career_percentile": 17.0,
-        "delta_vs_career_average": -1.887,
+        "career_percentile": 16.8,
+        "delta_vs_career_average": -1.898,
         "game_code": "2024060014",
         "is_top10": false,
         "is_win": false,
@@ -675,8 +675,8 @@
         "tournament": "DB그룹 제38회 한국여자오픈골프선수권대회"
       },
       {
-        "career_percentile": 18.1,
-        "delta_vs_career_average": -1.867,
+        "career_percentile": 17.9,
+        "delta_vs_career_average": -1.878,
         "game_code": "2024060015",
         "is_top10": false,
         "is_win": false,
@@ -685,8 +685,8 @@
         "tournament": "BC카드 · 한경 레이디스컵 2024"
       },
       {
-        "career_percentile": 31.9,
-        "delta_vs_career_average": -0.677,
+        "career_percentile": 31.6,
+        "delta_vs_career_average": -0.688,
         "game_code": "2024070016",
         "is_top10": false,
         "is_win": false,
@@ -695,8 +695,8 @@
         "tournament": "롯데 오픈"
       },
       {
-        "career_percentile": 4.3,
-        "delta_vs_career_average": -3.107,
+        "career_percentile": 4.2,
+        "delta_vs_career_average": -3.118,
         "game_code": "2024070017",
         "is_top10": false,
         "is_win": false,
@@ -705,8 +705,8 @@
         "tournament": "하이원리조트 여자오픈 2024"
       },
       {
-        "career_percentile": 35.1,
-        "delta_vs_career_average": -0.617,
+        "career_percentile": 34.7,
+        "delta_vs_career_average": -0.628,
         "game_code": "2024080014",
         "is_top10": false,
         "is_win": false,
@@ -715,8 +715,8 @@
         "tournament": "제11회 제주삼다수 마스터스"
       },
       {
-        "career_percentile": 40.4,
-        "delta_vs_career_average": -0.447,
+        "career_percentile": 40.0,
+        "delta_vs_career_average": -0.458,
         "game_code": "2024080015",
         "is_top10": false,
         "is_win": false,
@@ -725,8 +725,8 @@
         "tournament": "한화 클래식 2024"
       },
       {
-        "career_percentile": 47.9,
-        "delta_vs_career_average": 0.073,
+        "career_percentile": 47.4,
+        "delta_vs_career_average": 0.062,
         "game_code": "2024080016",
         "is_top10": false,
         "is_win": false,
@@ -735,8 +735,8 @@
         "tournament": "제13회 KG 레이디스 오픈"
       },
       {
-        "career_percentile": 89.4,
-        "delta_vs_career_average": 2.183,
+        "career_percentile": 89.5,
+        "delta_vs_career_average": 2.172,
         "game_code": "2024080018",
         "is_top10": true,
         "is_win": false,
@@ -745,8 +745,8 @@
         "tournament": "더헤븐 마스터즈"
       },
       {
-        "career_percentile": 56.4,
-        "delta_vs_career_average": 0.353,
+        "career_percentile": 55.8,
+        "delta_vs_career_average": 0.342,
         "game_code": "2024090006",
         "is_top10": false,
         "is_win": false,
@@ -755,8 +755,8 @@
         "tournament": "KB금융 스타챔피언십"
       },
       {
-        "career_percentile": 84.0,
-        "delta_vs_career_average": 1.773,
+        "career_percentile": 84.2,
+        "delta_vs_career_average": 1.762,
         "game_code": "2024090007",
         "is_top10": true,
         "is_win": false,
@@ -766,7 +766,7 @@
       },
       {
         "career_percentile": 7.4,
-        "delta_vs_career_average": -2.777,
+        "delta_vs_career_average": -2.788,
         "game_code": "2024090008",
         "is_top10": false,
         "is_win": false,
@@ -775,8 +775,8 @@
         "tournament": "대보 하우스디 오픈"
       },
       {
-        "career_percentile": 67.0,
-        "delta_vs_career_average": 0.763,
+        "career_percentile": 66.3,
+        "delta_vs_career_average": 0.752,
         "game_code": "2024090009",
         "is_top10": false,
         "is_win": false,
@@ -785,8 +785,8 @@
         "tournament": "하나금융그룹 챔피언십"
       },
       {
-        "career_percentile": 55.3,
-        "delta_vs_career_average": 0.303,
+        "career_percentile": 54.7,
+        "delta_vs_career_average": 0.292,
         "game_code": "2024100008",
         "is_top10": false,
         "is_win": false,
@@ -795,8 +795,8 @@
         "tournament": "제24회 하이트진로 챔피언십"
       },
       {
-        "career_percentile": 8.5,
-        "delta_vs_career_average": -2.577,
+        "career_percentile": 8.4,
+        "delta_vs_career_average": -2.588,
         "game_code": "2024100010",
         "is_top10": false,
         "is_win": false,
@@ -805,8 +805,8 @@
         "tournament": "상상인 · 한경 와우넷 오픈 2024"
       },
       {
-        "career_percentile": 22.3,
-        "delta_vs_career_average": -1.267,
+        "career_percentile": 22.1,
+        "delta_vs_career_average": -1.278,
         "game_code": "2024100011",
         "is_top10": false,
         "is_win": false,
@@ -816,7 +816,7 @@
       },
       {
         "career_percentile": 1.1,
-        "delta_vs_career_average": -3.687,
+        "delta_vs_career_average": -3.698,
         "game_code": "2024100012",
         "is_top10": false,
         "is_win": false,
@@ -825,8 +825,8 @@
         "tournament": "S-OIL 챔피언십 2024"
       },
       {
-        "career_percentile": 53.2,
-        "delta_vs_career_average": 0.193,
+        "career_percentile": 52.6,
+        "delta_vs_career_average": 0.182,
         "game_code": "2024110007",
         "is_top10": false,
         "is_win": false,
@@ -835,8 +835,8 @@
         "tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024"
       },
       {
-        "career_percentile": 36.2,
-        "delta_vs_career_average": -0.587,
+        "career_percentile": 35.8,
+        "delta_vs_career_average": -0.598,
         "game_code": "2025040001",
         "is_top10": false,
         "is_win": false,
@@ -845,8 +845,8 @@
         "tournament": "두산건설 We’ve 챔피언십"
       },
       {
-        "career_percentile": 27.7,
-        "delta_vs_career_average": -0.907,
+        "career_percentile": 27.4,
+        "delta_vs_career_average": -0.918,
         "game_code": "2025040002",
         "is_top10": false,
         "is_win": false,
@@ -855,8 +855,8 @@
         "tournament": "iM금융오픈 2025"
       },
       {
-        "career_percentile": 81.9,
-        "delta_vs_career_average": 1.673,
+        "career_percentile": 82.1,
+        "delta_vs_career_average": 1.662,
         "game_code": "2025040003",
         "is_top10": false,
         "is_win": false,
@@ -865,8 +865,8 @@
         "tournament": "넥센 · 세인트나인 마스터즈 2025"
       },
       {
-        "career_percentile": 80.9,
-        "delta_vs_career_average": 1.523,
+        "career_percentile": 81.1,
+        "delta_vs_career_average": 1.512,
         "game_code": "2025040004",
         "is_top10": true,
         "is_win": false,
@@ -876,7 +876,7 @@
       },
       {
         "career_percentile": 96.8,
-        "delta_vs_career_average": 3.373,
+        "delta_vs_career_average": 3.362,
         "game_code": "2025040005",
         "is_top10": true,
         "is_win": true,
@@ -885,8 +885,8 @@
         "tournament": "덕신EPC 챔피언십"
       },
       {
-        "career_percentile": 21.3,
-        "delta_vs_career_average": -1.447,
+        "career_percentile": 21.1,
+        "delta_vs_career_average": -1.458,
         "game_code": "2025050001",
         "is_top10": false,
         "is_win": false,
@@ -896,7 +896,7 @@
       },
       {
         "career_percentile": 94.7,
-        "delta_vs_career_average": 2.683,
+        "delta_vs_career_average": 2.672,
         "game_code": "2025050003",
         "is_top10": true,
         "is_win": false,
@@ -905,8 +905,8 @@
         "tournament": "제13회 E1 채리티 오픈"
       },
       {
-        "career_percentile": 39.4,
-        "delta_vs_career_average": -0.507,
+        "career_percentile": 38.9,
+        "delta_vs_career_average": -0.518,
         "game_code": "2025050004",
         "is_top10": false,
         "is_win": false,
@@ -915,8 +915,8 @@
         "tournament": "Sh수협은행 MBN 여자오픈"
       },
       {
-        "career_percentile": 28.7,
-        "delta_vs_career_average": -0.807,
+        "career_percentile": 28.4,
+        "delta_vs_career_average": -0.818,
         "game_code": "2025060001",
         "is_top10": false,
         "is_win": false,
@@ -925,8 +925,8 @@
         "tournament": "2025 셀트리온 퀸즈 마스터즈"
       },
       {
-        "career_percentile": 83.0,
-        "delta_vs_career_average": 1.713,
+        "career_percentile": 83.2,
+        "delta_vs_career_average": 1.702,
         "game_code": "2025060003",
         "is_top10": true,
         "is_win": false,
@@ -936,7 +936,7 @@
       },
       {
         "career_percentile": 92.6,
-        "delta_vs_career_average": 2.233,
+        "delta_vs_career_average": 2.222,
         "game_code": "2025060004",
         "is_top10": true,
         "is_win": false,
@@ -945,8 +945,8 @@
         "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
       },
       {
-        "career_percentile": 76.6,
-        "delta_vs_career_average": 1.343,
+        "career_percentile": 76.8,
+        "delta_vs_career_average": 1.332,
         "game_code": "2025070001",
         "is_top10": false,
         "is_win": false,
@@ -955,8 +955,8 @@
         "tournament": "제15회 롯데 오픈"
       },
       {
-        "career_percentile": 51.1,
-        "delta_vs_career_average": 0.163,
+        "career_percentile": 50.5,
+        "delta_vs_career_average": 0.152,
         "game_code": "2025070002",
         "is_top10": false,
         "is_win": false,
@@ -965,8 +965,8 @@
         "tournament": "하이원리조트 여자오픈 2025"
       },
       {
-        "career_percentile": 12.8,
-        "delta_vs_career_average": -2.027,
+        "career_percentile": 12.6,
+        "delta_vs_career_average": -2.038,
         "game_code": "2025070003",
         "is_top10": false,
         "is_win": false,
@@ -975,8 +975,8 @@
         "tournament": "더헤븐 마스터즈"
       },
       {
-        "career_percentile": 63.8,
-        "delta_vs_career_average": 0.633,
+        "career_percentile": 63.2,
+        "delta_vs_career_average": 0.622,
         "game_code": "2025070004",
         "is_top10": false,
         "is_win": false,
@@ -985,8 +985,8 @@
         "tournament": "2025 오로라월드 레이디스 챔피언십"
       },
       {
-        "career_percentile": 75.5,
-        "delta_vs_career_average": 1.333,
+        "career_percentile": 75.8,
+        "delta_vs_career_average": 1.322,
         "game_code": "2025070005",
         "is_top10": false,
         "is_win": false,
@@ -995,8 +995,8 @@
         "tournament": "제12회 제주삼다수 마스터스"
       },
       {
-        "career_percentile": 90.4,
-        "delta_vs_career_average": 2.213,
+        "career_percentile": 90.5,
+        "delta_vs_career_average": 2.202,
         "game_code": "2025080001",
         "is_top10": true,
         "is_win": false,
@@ -1005,8 +1005,8 @@
         "tournament": "메디힐 · 한국일보 챔피언십"
       },
       {
-        "career_percentile": 48.9,
-        "delta_vs_career_average": 0.093,
+        "career_percentile": 48.4,
+        "delta_vs_career_average": 0.082,
         "game_code": "2025080003",
         "is_top10": false,
         "is_win": false,
@@ -1015,8 +1015,8 @@
         "tournament": "제14회 KG 레이디스 오픈"
       },
       {
-        "career_percentile": 66.0,
-        "delta_vs_career_average": 0.703,
+        "career_percentile": 65.3,
+        "delta_vs_career_average": 0.692,
         "game_code": "2025090001",
         "is_top10": false,
         "is_win": false,
@@ -1025,8 +1025,8 @@
         "tournament": "KB금융 스타챔피언십"
       },
       {
-        "career_percentile": 14.9,
-        "delta_vs_career_average": -1.967,
+        "career_percentile": 14.7,
+        "delta_vs_career_average": -1.978,
         "game_code": "2025090002",
         "is_top10": false,
         "is_win": false,
@@ -1035,8 +1035,8 @@
         "tournament": "OK저축은행 읏맨 오픈"
       },
       {
-        "career_percentile": 71.3,
-        "delta_vs_career_average": 0.893,
+        "career_percentile": 70.5,
+        "delta_vs_career_average": 0.882,
         "game_code": "2025090003",
         "is_top10": false,
         "is_win": false,
@@ -1045,8 +1045,8 @@
         "tournament": "하나금융그룹 챔피언십"
       },
       {
-        "career_percentile": 70.2,
-        "delta_vs_career_average": 0.883,
+        "career_percentile": 69.5,
+        "delta_vs_career_average": 0.872,
         "game_code": "2025090004",
         "is_top10": false,
         "is_win": false,
@@ -1055,8 +1055,8 @@
         "tournament": "제25회 하이트진로 챔피언십"
       },
       {
-        "career_percentile": 54.3,
-        "delta_vs_career_average": 0.213,
+        "career_percentile": 53.7,
+        "delta_vs_career_average": 0.202,
         "game_code": "2025100002",
         "is_top10": false,
         "is_win": false,
@@ -1065,8 +1065,8 @@
         "tournament": "대보 하우스디 챔피언십"
       },
       {
-        "career_percentile": 24.5,
-        "delta_vs_career_average": -1.007,
+        "career_percentile": 24.2,
+        "delta_vs_career_average": -1.018,
         "game_code": "2025100003",
         "is_top10": false,
         "is_win": false,
@@ -1075,8 +1075,8 @@
         "tournament": "상상인 · 한경 와우넷 오픈 2025"
       },
       {
-        "career_percentile": 23.4,
-        "delta_vs_career_average": -1.107,
+        "career_percentile": 23.2,
+        "delta_vs_career_average": -1.118,
         "game_code": "2025100004",
         "is_top10": false,
         "is_win": false,
@@ -1085,8 +1085,8 @@
         "tournament": "광남일보 · 해피니스 오픈"
       },
       {
-        "career_percentile": 16.0,
-        "delta_vs_career_average": -1.927,
+        "career_percentile": 15.8,
+        "delta_vs_career_average": -1.938,
         "game_code": "2025100005",
         "is_top10": false,
         "is_win": false,
@@ -1095,8 +1095,8 @@
         "tournament": "S-OIL 챔피언십 2025"
       },
       {
-        "career_percentile": 77.7,
-        "delta_vs_career_average": 1.393,
+        "career_percentile": 77.9,
+        "delta_vs_career_average": 1.382,
         "game_code": "2025100012",
         "is_top10": false,
         "is_win": false,
@@ -1105,8 +1105,8 @@
         "tournament": "K-FOOD 놀부·화미 마스터즈"
       },
       {
-        "career_percentile": 74.5,
-        "delta_vs_career_average": 1.243,
+        "career_percentile": 74.7,
+        "delta_vs_career_average": 1.232,
         "game_code": "2026040001",
         "is_top10": true,
         "is_win": false,
@@ -1115,8 +1115,8 @@
         "tournament": "iM금융오픈 2026"
       },
       {
-        "career_percentile": 73.4,
-        "delta_vs_career_average": 1.063,
+        "career_percentile": 73.7,
+        "delta_vs_career_average": 1.052,
         "game_code": "2026040002",
         "is_top10": false,
         "is_win": false,
@@ -1125,8 +1125,8 @@
         "tournament": "제2회 덕신EPC 챔피언십"
       },
       {
-        "career_percentile": 59.6,
-        "delta_vs_career_average": 0.533,
+        "career_percentile": 58.9,
+        "delta_vs_career_average": 0.522,
         "game_code": "2026040003",
         "is_top10": false,
         "is_win": false,
@@ -1136,7 +1136,7 @@
       },
       {
         "career_percentile": 100.0,
-        "delta_vs_career_average": 3.693,
+        "delta_vs_career_average": 3.682,
         "game_code": "2026040004",
         "is_top10": true,
         "is_win": true,
@@ -1145,8 +1145,8 @@
         "tournament": "넥센 · 세인트나인 Masters 2026"
       },
       {
-        "career_percentile": 30.9,
-        "delta_vs_career_average": -0.707,
+        "career_percentile": 30.5,
+        "delta_vs_career_average": -0.718,
         "game_code": "2026040005",
         "is_top10": false,
         "is_win": false,
@@ -1155,8 +1155,8 @@
         "tournament": "제1회 DB 위민스 챔피언십"
       },
       {
-        "career_percentile": 64.9,
-        "delta_vs_career_average": 0.683,
+        "career_percentile": 64.2,
+        "delta_vs_career_average": 0.672,
         "game_code": "2026050001",
         "is_top10": false,
         "is_win": false,
@@ -1165,8 +1165,8 @@
         "tournament": "2026 NH투자증권 레이디스 챔피언십"
       },
       {
-        "career_percentile": 61.7,
-        "delta_vs_career_average": 0.613,
+        "career_percentile": 61.1,
+        "delta_vs_career_average": 0.602,
         "game_code": "2026050003",
         "is_top10": false,
         "is_win": false,
@@ -1176,7 +1176,7 @@
       },
       {
         "career_percentile": 98.9,
-        "delta_vs_career_average": 3.673,
+        "delta_vs_career_average": 3.662,
         "game_code": "2026060001",
         "is_top10": true,
         "is_win": true,
@@ -1185,8 +1185,8 @@
         "tournament": "2026 셀트리온 퀸즈 마스터즈"
       },
       {
-        "career_percentile": 46.8,
-        "delta_vs_career_average": -0.137,
+        "career_percentile": 46.3,
+        "delta_vs_career_average": -0.148,
         "game_code": "2026060002",
         "is_top10": false,
         "is_win": false,
@@ -1195,8 +1195,8 @@
         "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
       },
       {
-        "career_percentile": 88.3,
-        "delta_vs_career_average": 1.953,
+        "career_percentile": 88.4,
+        "delta_vs_career_average": 1.942,
         "game_code": "2026060003",
         "is_top10": true,
         "is_win": false,
@@ -1205,8 +1205,8 @@
         "tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회"
       },
       {
-        "career_percentile": 90.4,
-        "delta_vs_career_average": 2.213,
+        "career_percentile": 90.5,
+        "delta_vs_career_average": 2.202,
         "game_code": "2026060004",
         "is_top10": true,
         "is_win": false,
@@ -1215,8 +1215,8 @@
         "tournament": "인카금융 더헤븐 마스터즈"
       },
       {
-        "career_percentile": 43.6,
-        "delta_vs_career_average": -0.287,
+        "career_percentile": 43.2,
+        "delta_vs_career_average": -0.298,
         "game_code": "2026070002",
         "is_top10": false,
         "is_win": false,
@@ -1225,8 +1225,8 @@
         "tournament": "하이원리조트 여자오픈 2026"
       },
       {
-        "career_percentile": 78.7,
-        "delta_vs_career_average": 1.513,
+        "career_percentile": 78.9,
+        "delta_vs_career_average": 1.502,
         "game_code": "2026070003",
         "is_top10": true,
         "is_win": false,
@@ -1235,8 +1235,8 @@
         "tournament": "제16회 롯데 오픈"
       },
       {
-        "career_percentile": 60.6,
-        "delta_vs_career_average": 0.583,
+        "career_percentile": 60.0,
+        "delta_vs_career_average": 0.572,
         "game_code": "2026080002",
         "is_top10": false,
         "is_win": false,
@@ -1245,8 +1245,8 @@
         "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
       },
       {
-        "career_percentile": 58.5,
-        "delta_vs_career_average": 0.513,
+        "career_percentile": 57.9,
+        "delta_vs_career_average": 0.502,
         "game_code": "2026080003",
         "is_top10": false,
         "is_win": false,
@@ -1255,8 +1255,8 @@
         "tournament": "메디힐 · 한국일보 챔피언십"
       },
       {
-        "career_percentile": 48.9,
-        "delta_vs_career_average": 0.093,
+        "career_percentile": 48.4,
+        "delta_vs_career_average": 0.082,
         "game_code": "2026080004",
         "is_top10": false,
         "is_win": false,
@@ -1265,8 +1265,18 @@
         "tournament": "제13회 제주삼다수 마스터스"
       },
       {
+        "career_percentile": 72.6,
+        "delta_vs_career_average": 1.022,
+        "game_code": "2026090003",
+        "is_top10": false,
+        "is_win": false,
+        "season": 2026,
+        "sg_total": 2.05,
+        "tournament": "KB금융 골든라이프 챔피언십"
+      },
+      {
         "career_percentile": 97.9,
-        "delta_vs_career_average": 3.483,
+        "delta_vs_career_average": 3.472,
         "game_code": "2026090002",
         "is_top10": true,
         "is_win": true,
@@ -1275,8 +1285,8 @@
         "tournament": "하나금융그룹 챔피언십"
       }
     ],
-    "career_average_sg_total": 1.017,
-    "sample_size": 95
+    "career_average_sg_total": 1.028,
+    "sample_size": 96
   },
   "career_overview": {
     "data_floor_note": "NEO가 확보한 김민선7 선수의 실측 SG 기록은 2023시즌부터 시작됩니다. 이는 선수 전체에 공통으로 적용되는 실측 시작 시점이며, 김민선7 선수의 실제 KLPGA 데뷔 시즌은 아닙니다. 이 시점 이전의 실측 기록은 아직 확인되지 않았습니다.",
@@ -1366,12 +1376,12 @@
       {
         "events": 18,
         "season": 2026,
-        "sg_app": 1.2729411764705885,
-        "sg_arg": 0.15941176470588236,
-        "sg_ott": 0.73,
-        "sg_putt": 0.07588235294117647,
-        "sg_sample_size": 17,
-        "sg_total": 2.2358823529411764,
+        "sg_app": 1.281666666666667,
+        "sg_arg": 0.12722222222222224,
+        "sg_ott": 0.7438888888888889,
+        "sg_putt": 0.07555555555555556,
+        "sg_sample_size": 18,
+        "sg_total": 2.2255555555555553,
         "top10": 7,
         "top20": 11,
         "top5": 4,
@@ -1385,10 +1395,10 @@
     "total_wins": 4
   },
   "career_rolling_trend": {
-    "career_average_sample_size": 95,
-    "career_average_sg_total": 1.017,
-    "career_median_sg_total": 1.11,
-    "note": "5개 대회 슬라이딩 구간(실측 SG 95개 대회 기준). 백분위는 선수 본인의 다른 구간 대비이며, 다른 선수와의 비교가 아닙니다.",
+    "career_average_sample_size": 96,
+    "career_average_sg_total": 1.028,
+    "career_median_sg_total": 1.145,
+    "note": "5개 대회 슬라이딩 구간(실측 SG 96개 대회 기준). 백분위는 선수 본인의 다른 구간 대비이며, 다른 선수와의 비교가 아닙니다.",
     "peak_window": {
       "decomposition": {
         "app": 1.836,
@@ -1404,15 +1414,15 @@
         "sg_component_sample_size": 5,
         "sg_component_window_size": 5
       },
-      "delta_vs_career_average": 1.663,
+      "delta_vs_career_average": 1.652,
       "end_season": 2026,
       "end_tournament": "인카금융 더헤븐 마스터즈",
       "moving_average_sg_total": 2.68,
       "self_percentile": 100.0,
       "start_season": 2026,
       "start_tournament": "제14회 E1 채리티 오픈",
-      "sustainability_tournaments": 11,
-      "sustainability_windows": 7,
+      "sustainability_tournaments": 12,
+      "sustainability_windows": 8,
       "window_index": 84
     },
     "recovery_time_note": "상상인 · 한국경제TV 오픈 2023 즈음에는 이미 커리어 평균을 되찾은 상태였습니다.",
@@ -1433,12 +1443,12 @@
         "sg_component_sample_size": 5,
         "sg_component_window_size": 5
       },
-      "delta_vs_career_average": -0.923,
+      "delta_vs_career_average": -0.934,
       "delta_vs_slump": 0.714,
       "end_season": 2023,
       "end_tournament": "제11회 E1 채리티 오픈",
       "moving_average_sg_total": 0.094,
-      "self_percentile": 14.4,
+      "self_percentile": 14.3,
       "start_season": 2023,
       "start_tournament": "메디힐 · 한국일보 챔피언십",
       "window_index": 1
@@ -1457,7 +1467,7 @@
         "end_season": 2023,
         "end_tournament": "제11회 E1 채리티 오픈",
         "moving_average_sg_total": 0.094,
-        "self_percentile": 14.4,
+        "self_percentile": 14.3,
         "start_season": 2023,
         "start_tournament": "메디힐 · 한국일보 챔피언십",
         "window_index": 1
@@ -1466,7 +1476,7 @@
         "end_season": 2023,
         "end_tournament": "롯데 오픈",
         "moving_average_sg_total": 0.286,
-        "self_percentile": 18.9,
+        "self_percentile": 18.7,
         "start_season": 2023,
         "start_tournament": "넥센 · 세인트나인 마스터즈 2023",
         "window_index": 2
@@ -1475,7 +1485,7 @@
         "end_season": 2023,
         "end_tournament": "셀트리온 퀸즈 마스터즈",
         "moving_average_sg_total": 0.498,
-        "self_percentile": 26.7,
+        "self_percentile": 26.4,
         "start_season": 2023,
         "start_tournament": "제9회 교촌 1991 레이디스 오픈",
         "window_index": 3
@@ -1484,7 +1494,7 @@
         "end_season": 2023,
         "end_tournament": "BC카드 · 한경 레이디스컵 2023",
         "moving_average_sg_total": 0.618,
-        "self_percentile": 33.3,
+        "self_percentile": 33.0,
         "start_season": 2023,
         "start_tournament": "2023 NH투자증권 레이디스 챔피언십",
         "window_index": 4
@@ -1493,7 +1503,7 @@
         "end_season": 2023,
         "end_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "moving_average_sg_total": 0.436,
-        "self_percentile": 24.4,
+        "self_percentile": 24.2,
         "start_season": 2023,
         "start_tournament": "제11회 E1 채리티 오픈",
         "window_index": 5
@@ -1502,7 +1512,7 @@
         "end_season": 2023,
         "end_tournament": "대유위니아 · MBN 여자오픈",
         "moving_average_sg_total": 0.028,
-        "self_percentile": 12.2,
+        "self_percentile": 12.1,
         "start_season": 2023,
         "start_tournament": "롯데 오픈",
         "window_index": 6
@@ -1511,7 +1521,7 @@
         "end_season": 2023,
         "end_tournament": "에버콜라겐 · 더시에나 퀸즈크라운 2023",
         "moving_average_sg_total": 0.628,
-        "self_percentile": 34.4,
+        "self_percentile": 34.1,
         "start_season": 2023,
         "start_tournament": "셀트리온 퀸즈 마스터즈",
         "window_index": 7
@@ -1520,7 +1530,7 @@
         "end_season": 2023,
         "end_tournament": "두산건설 We’ve 챔피언십",
         "moving_average_sg_total": 0.988,
-        "self_percentile": 50.0,
+        "self_percentile": 49.5,
         "start_season": 2023,
         "start_tournament": "BC카드 · 한경 레이디스컵 2023",
         "window_index": 8
@@ -1529,7 +1539,7 @@
         "end_season": 2023,
         "end_tournament": "제10회 제주삼다수 마스터스",
         "moving_average_sg_total": 0.646,
-        "self_percentile": 37.8,
+        "self_percentile": 37.4,
         "start_season": 2023,
         "start_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "window_index": 9
@@ -1538,7 +1548,7 @@
         "end_season": 2023,
         "end_tournament": "하이원리조트 여자오픈 2023",
         "moving_average_sg_total": 0.868,
-        "self_percentile": 46.7,
+        "self_percentile": 46.2,
         "start_season": 2023,
         "start_tournament": "대유위니아 · MBN 여자오픈",
         "window_index": 10
@@ -1547,7 +1557,7 @@
         "end_season": 2023,
         "end_tournament": "한화 클래식 2023",
         "moving_average_sg_total": 0.51,
-        "self_percentile": 28.9,
+        "self_percentile": 28.6,
         "start_season": 2023,
         "start_tournament": "에버콜라겐 · 더시에나 퀸즈크라운 2023",
         "window_index": 11
@@ -1556,7 +1566,7 @@
         "end_season": 2023,
         "end_tournament": "KB금융 스타챔피언십",
         "moving_average_sg_total": -0.05,
-        "self_percentile": 11.1,
+        "self_percentile": 11.0,
         "start_season": 2023,
         "start_tournament": "두산건설 We’ve 챔피언십",
         "window_index": 12
@@ -1565,7 +1575,7 @@
         "end_season": 2023,
         "end_tournament": "OK금융그룹 읏맨 오픈",
         "moving_average_sg_total": -0.23,
-        "self_percentile": 8.9,
+        "self_percentile": 8.8,
         "start_season": 2023,
         "start_tournament": "제10회 제주삼다수 마스터스",
         "window_index": 13
@@ -1574,7 +1584,7 @@
         "end_season": 2023,
         "end_tournament": "하나금융그룹 챔피언십",
         "moving_average_sg_total": 0.386,
-        "self_percentile": 21.1,
+        "self_percentile": 20.9,
         "start_season": 2023,
         "start_tournament": "하이원리조트 여자오픈 2023",
         "window_index": 14
@@ -1583,7 +1593,7 @@
         "end_season": 2023,
         "end_tournament": "대보 하우스디 오픈",
         "moving_average_sg_total": 0.484,
-        "self_percentile": 25.6,
+        "self_percentile": 25.3,
         "start_season": 2023,
         "start_tournament": "한화 클래식 2023",
         "window_index": 15
@@ -1592,7 +1602,7 @@
         "end_season": 2023,
         "end_tournament": "제23회 하이트진로 챔피언십",
         "moving_average_sg_total": 0.768,
-        "self_percentile": 44.4,
+        "self_percentile": 44.0,
         "start_season": 2023,
         "start_tournament": "KB금융 스타챔피언십",
         "window_index": 16
@@ -1601,7 +1611,7 @@
         "end_season": 2023,
         "end_tournament": "상상인 · 한국경제TV 오픈 2023",
         "moving_average_sg_total": 1.542,
-        "self_percentile": 73.3,
+        "self_percentile": 72.5,
         "start_season": 2023,
         "start_tournament": "OK금융그룹 읏맨 오픈",
         "window_index": 17
@@ -1610,7 +1620,7 @@
         "end_season": 2023,
         "end_tournament": "SK네트웍스 · 서울경제 레이디스 클래식",
         "moving_average_sg_total": 0.63,
-        "self_percentile": 35.6,
+        "self_percentile": 35.2,
         "start_season": 2023,
         "start_tournament": "하나금융그룹 챔피언십",
         "window_index": 18
@@ -1619,7 +1629,7 @@
         "end_season": 2023,
         "end_tournament": "S-OIL 챔피언십 2023",
         "moving_average_sg_total": 0.7,
-        "self_percentile": 38.9,
+        "self_percentile": 38.5,
         "start_season": 2023,
         "start_tournament": "대보 하우스디 오픈",
         "window_index": 19
@@ -1628,7 +1638,7 @@
         "end_season": 2023,
         "end_tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023",
         "moving_average_sg_total": 0.42,
-        "self_percentile": 22.2,
+        "self_percentile": 22.0,
         "start_season": 2023,
         "start_tournament": "제23회 하이트진로 챔피언십",
         "window_index": 20
@@ -1637,7 +1647,7 @@
         "end_season": 2024,
         "end_tournament": "두산건설 We’ve 챔피언십",
         "moving_average_sg_total": 0.902,
-        "self_percentile": 47.8,
+        "self_percentile": 47.3,
         "start_season": 2023,
         "start_tournament": "상상인 · 한국경제TV 오픈 2023",
         "window_index": 21
@@ -1646,7 +1656,7 @@
         "end_season": 2024,
         "end_tournament": "메디힐 · 한국일보 챔피언십",
         "moving_average_sg_total": 0.21,
-        "self_percentile": 15.6,
+        "self_percentile": 15.4,
         "start_season": 2023,
         "start_tournament": "SK네트웍스 · 서울경제 레이디스 클래식",
         "window_index": 22
@@ -1655,7 +1665,7 @@
         "end_season": 2024,
         "end_tournament": "넥센 · 세인트나인 마스터즈 2024",
         "moving_average_sg_total": 0.758,
-        "self_percentile": 43.3,
+        "self_percentile": 42.9,
         "start_season": 2023,
         "start_tournament": "S-OIL 챔피언십 2023",
         "window_index": 23
@@ -1664,7 +1674,7 @@
         "end_season": 2024,
         "end_tournament": "크리스에프앤씨 제46회 KLPGA 챔피언십",
         "moving_average_sg_total": 1.086,
-        "self_percentile": 53.3,
+        "self_percentile": 52.7,
         "start_season": 2023,
         "start_tournament": "SK쉴더스 · SK텔레콤 챔피언십 2023",
         "window_index": 24
@@ -1673,7 +1683,7 @@
         "end_season": 2024,
         "end_tournament": "제10회 교촌 1991 레이디스 오픈",
         "moving_average_sg_total": 1.008,
-        "self_percentile": 52.2,
+        "self_percentile": 51.6,
         "start_season": 2024,
         "start_tournament": "두산건설 We’ve 챔피언십",
         "window_index": 25
@@ -1682,7 +1692,7 @@
         "end_season": 2024,
         "end_tournament": "2024 NH투자증권 레이디스 챔피언십",
         "moving_average_sg_total": 0.548,
-        "self_percentile": 32.2,
+        "self_percentile": 31.9,
         "start_season": 2024,
         "start_tournament": "메디힐 · 한국일보 챔피언십",
         "window_index": 26
@@ -1691,7 +1701,7 @@
         "end_season": 2024,
         "end_tournament": "제12회 E1 채리티 오픈",
         "moving_average_sg_total": 0.228,
-        "self_percentile": 16.7,
+        "self_percentile": 16.5,
         "start_season": 2024,
         "start_tournament": "넥센 · 세인트나인 마스터즈 2024",
         "window_index": 27
@@ -1700,7 +1710,7 @@
         "end_season": 2024,
         "end_tournament": "Sh수협은행 MBN 여자오픈",
         "moving_average_sg_total": 0.932,
-        "self_percentile": 48.9,
+        "self_percentile": 48.4,
         "start_season": 2024,
         "start_tournament": "크리스에프앤씨 제46회 KLPGA 챔피언십",
         "window_index": 28
@@ -1709,7 +1719,7 @@
         "end_season": 2024,
         "end_tournament": "2024 셀트리온 퀸즈 마스터즈",
         "moving_average_sg_total": 0.7,
-        "self_percentile": 38.9,
+        "self_percentile": 38.5,
         "start_season": 2024,
         "start_tournament": "제10회 교촌 1991 레이디스 오픈",
         "window_index": 29
@@ -1718,7 +1728,7 @@
         "end_season": 2024,
         "end_tournament": "DB그룹 제38회 한국여자오픈골프선수권대회",
         "moving_average_sg_total": 0.506,
-        "self_percentile": 27.8,
+        "self_percentile": 27.5,
         "start_season": 2024,
         "start_tournament": "2024 NH투자증권 레이디스 챔피언십",
         "window_index": 30
@@ -1727,7 +1737,7 @@
         "end_season": 2024,
         "end_tournament": "BC카드 · 한경 레이디스컵 2024",
         "moving_average_sg_total": 0.236,
-        "self_percentile": 17.8,
+        "self_percentile": 17.6,
         "start_season": 2024,
         "start_tournament": "제12회 E1 채리티 오픈",
         "window_index": 31
@@ -1736,7 +1746,7 @@
         "end_season": 2024,
         "end_tournament": "롯데 오픈",
         "moving_average_sg_total": 0.738,
-        "self_percentile": 42.2,
+        "self_percentile": 41.8,
         "start_season": 2024,
         "start_tournament": "Sh수협은행 MBN 여자오픈",
         "window_index": 32
@@ -1763,7 +1773,7 @@
         "end_season": 2024,
         "end_tournament": "한화 클래식 2024",
         "moving_average_sg_total": -0.326,
-        "self_percentile": 5.6,
+        "self_percentile": 5.5,
         "start_season": 2024,
         "start_tournament": "BC카드 · 한경 레이디스컵 2024",
         "window_index": 35
@@ -1772,7 +1782,7 @@
         "end_season": 2024,
         "end_tournament": "제13회 KG 레이디스 오픈",
         "moving_average_sg_total": 0.062,
-        "self_percentile": 13.3,
+        "self_percentile": 13.2,
         "start_season": 2024,
         "start_tournament": "롯데 오픈",
         "window_index": 36
@@ -1781,7 +1791,7 @@
         "end_season": 2024,
         "end_tournament": "더헤븐 마스터즈",
         "moving_average_sg_total": 0.634,
-        "self_percentile": 36.7,
+        "self_percentile": 36.3,
         "start_season": 2024,
         "start_tournament": "하이원리조트 여자오픈 2024",
         "window_index": 37
@@ -1790,7 +1800,7 @@
         "end_season": 2024,
         "end_tournament": "KB금융 스타챔피언십",
         "moving_average_sg_total": 1.326,
-        "self_percentile": 60.0,
+        "self_percentile": 59.3,
         "start_season": 2024,
         "start_tournament": "제11회 제주삼다수 마스터스",
         "window_index": 38
@@ -1799,7 +1809,7 @@
         "end_season": 2024,
         "end_tournament": "OK저축은행 읏맨 오픈",
         "moving_average_sg_total": 1.804,
-        "self_percentile": 76.7,
+        "self_percentile": 76.9,
         "start_season": 2024,
         "start_tournament": "한화 클래식 2024",
         "window_index": 39
@@ -1808,7 +1818,7 @@
         "end_season": 2024,
         "end_tournament": "대보 하우스디 오픈",
         "moving_average_sg_total": 1.338,
-        "self_percentile": 61.1,
+        "self_percentile": 60.4,
         "start_season": 2024,
         "start_tournament": "제13회 KG 레이디스 오픈",
         "window_index": 40
@@ -1817,7 +1827,7 @@
         "end_season": 2024,
         "end_tournament": "하나금융그룹 챔피언십",
         "moving_average_sg_total": 1.476,
-        "self_percentile": 66.7,
+        "self_percentile": 65.9,
         "start_season": 2024,
         "start_tournament": "더헤븐 마스터즈",
         "window_index": 41
@@ -1826,7 +1836,7 @@
         "end_season": 2024,
         "end_tournament": "제24회 하이트진로 챔피언십",
         "moving_average_sg_total": 1.1,
-        "self_percentile": 54.4,
+        "self_percentile": 53.8,
         "start_season": 2024,
         "start_tournament": "KB금융 스타챔피언십",
         "window_index": 42
@@ -1835,7 +1845,7 @@
         "end_season": 2024,
         "end_tournament": "상상인 · 한경 와우넷 오픈 2024",
         "moving_average_sg_total": 0.514,
-        "self_percentile": 30.0,
+        "self_percentile": 29.7,
         "start_season": 2024,
         "start_tournament": "OK저축은행 읏맨 오픈",
         "window_index": 43
@@ -1844,7 +1854,7 @@
         "end_season": 2024,
         "end_tournament": "덕신EPC · 서울경제 레이디스 클래식",
         "moving_average_sg_total": -0.094,
-        "self_percentile": 10.0,
+        "self_percentile": 9.9,
         "start_season": 2024,
         "start_tournament": "대보 하우스디 오픈",
         "window_index": 44
@@ -1853,7 +1863,7 @@
         "end_season": 2024,
         "end_tournament": "S-OIL 챔피언십 2024",
         "moving_average_sg_total": -0.276,
-        "self_percentile": 6.7,
+        "self_percentile": 6.6,
         "start_season": 2024,
         "start_tournament": "하나금융그룹 챔피언십",
         "window_index": 45
@@ -1880,7 +1890,7 @@
         "end_season": 2025,
         "end_tournament": "iM금융오픈 2025",
         "moving_average_sg_total": -0.234,
-        "self_percentile": 7.8,
+        "self_percentile": 7.7,
         "start_season": 2024,
         "start_tournament": "덕신EPC · 서울경제 레이디스 클래식",
         "window_index": 48
@@ -1889,7 +1899,7 @@
         "end_season": 2025,
         "end_tournament": "넥센 · 세인트나인 마스터즈 2025",
         "moving_average_sg_total": 0.354,
-        "self_percentile": 20.0,
+        "self_percentile": 19.8,
         "start_season": 2024,
         "start_tournament": "S-OIL 챔피언십 2024",
         "window_index": 49
@@ -1898,7 +1908,7 @@
         "end_season": 2025,
         "end_tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십",
         "moving_average_sg_total": 1.396,
-        "self_percentile": 63.3,
+        "self_percentile": 62.6,
         "start_season": 2024,
         "start_tournament": "SK텔레콤 · SK쉴더스 챔피언십 2024",
         "window_index": 50
@@ -1907,7 +1917,7 @@
         "end_season": 2025,
         "end_tournament": "덕신EPC 챔피언십",
         "moving_average_sg_total": 2.032,
-        "self_percentile": 85.6,
+        "self_percentile": 85.7,
         "start_season": 2025,
         "start_tournament": "두산건설 We’ve 챔피언십",
         "window_index": 51
@@ -1916,7 +1926,7 @@
         "end_season": 2025,
         "end_tournament": "2025 NH투자증권 레이디스 챔피언십",
         "moving_average_sg_total": 1.86,
-        "self_percentile": 80.0,
+        "self_percentile": 80.2,
         "start_season": 2025,
         "start_tournament": "iM금융오픈 2025",
         "window_index": 52
@@ -1934,7 +1944,7 @@
         "end_season": 2025,
         "end_tournament": "Sh수협은행 MBN 여자오픈",
         "moving_average_sg_total": 2.142,
-        "self_percentile": 90.0,
+        "self_percentile": 90.1,
         "start_season": 2025,
         "start_tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십",
         "window_index": 54
@@ -1943,7 +1953,7 @@
         "end_season": 2025,
         "end_tournament": "2025 셀트리온 퀸즈 마스터즈",
         "moving_average_sg_total": 1.676,
-        "self_percentile": 74.4,
+        "self_percentile": 73.6,
         "start_season": 2025,
         "start_tournament": "덕신EPC 챔피언십",
         "window_index": 55
@@ -1952,7 +1962,7 @@
         "end_season": 2025,
         "end_tournament": "BC카드 · 한경 레이디스컵 2025",
         "moving_average_sg_total": 1.344,
-        "self_percentile": 62.2,
+        "self_percentile": 61.5,
         "start_season": 2025,
         "start_tournament": "2025 NH투자증권 레이디스 챔피언십",
         "window_index": 56
@@ -1961,7 +1971,7 @@
         "end_season": 2025,
         "end_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "moving_average_sg_total": 2.08,
-        "self_percentile": 88.9,
+        "self_percentile": 89.0,
         "start_season": 2025,
         "start_tournament": "제13회 E1 채리티 오픈",
         "window_index": 57
@@ -1970,7 +1980,7 @@
         "end_season": 2025,
         "end_tournament": "제15회 롯데 오픈",
         "moving_average_sg_total": 1.812,
-        "self_percentile": 77.8,
+        "self_percentile": 78.0,
         "start_season": 2025,
         "start_tournament": "Sh수협은행 MBN 여자오픈",
         "window_index": 58
@@ -1979,7 +1989,7 @@
         "end_season": 2025,
         "end_tournament": "하이원리조트 여자오픈 2025",
         "moving_average_sg_total": 1.946,
-        "self_percentile": 82.2,
+        "self_percentile": 82.4,
         "start_season": 2025,
         "start_tournament": "2025 셀트리온 퀸즈 마스터즈",
         "window_index": 59
@@ -1988,7 +1998,7 @@
         "end_season": 2025,
         "end_tournament": "더헤븐 마스터즈",
         "moving_average_sg_total": 1.702,
-        "self_percentile": 75.6,
+        "self_percentile": 74.7,
         "start_season": 2025,
         "start_tournament": "BC카드 · 한경 레이디스컵 2025",
         "window_index": 60
@@ -1997,7 +2007,7 @@
         "end_season": 2025,
         "end_tournament": "2025 오로라월드 레이디스 챔피언십",
         "moving_average_sg_total": 1.486,
-        "self_percentile": 70.0,
+        "self_percentile": 69.2,
         "start_season": 2025,
         "start_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "window_index": 61
@@ -2006,7 +2016,7 @@
         "end_season": 2025,
         "end_tournament": "제12회 제주삼다수 마스터스",
         "moving_average_sg_total": 1.306,
-        "self_percentile": 58.9,
+        "self_percentile": 58.2,
         "start_season": 2025,
         "start_tournament": "제15회 롯데 오픈",
         "window_index": 62
@@ -2015,7 +2025,7 @@
         "end_season": 2025,
         "end_tournament": "메디힐 · 한국일보 챔피언십",
         "moving_average_sg_total": 1.48,
-        "self_percentile": 68.9,
+        "self_percentile": 68.1,
         "start_season": 2025,
         "start_tournament": "하이원리조트 여자오픈 2025",
         "window_index": 63
@@ -2024,7 +2034,7 @@
         "end_season": 2025,
         "end_tournament": "제14회 KG 레이디스 오픈",
         "moving_average_sg_total": 1.466,
-        "self_percentile": 65.6,
+        "self_percentile": 64.8,
         "start_season": 2025,
         "start_tournament": "더헤븐 마스터즈",
         "window_index": 64
@@ -2033,7 +2043,7 @@
         "end_season": 2025,
         "end_tournament": "KB금융 스타챔피언십",
         "moving_average_sg_total": 2.012,
-        "self_percentile": 84.4,
+        "self_percentile": 84.6,
         "start_season": 2025,
         "start_tournament": "2025 오로라월드 레이디스 챔피언십",
         "window_index": 65
@@ -2042,7 +2052,7 @@
         "end_season": 2025,
         "end_tournament": "OK저축은행 읏맨 오픈",
         "moving_average_sg_total": 1.492,
-        "self_percentile": 71.1,
+        "self_percentile": 70.3,
         "start_season": 2025,
         "start_tournament": "제12회 제주삼다수 마스터스",
         "window_index": 66
@@ -2051,7 +2061,7 @@
         "end_season": 2025,
         "end_tournament": "하나금융그룹 챔피언십",
         "moving_average_sg_total": 1.404,
-        "self_percentile": 64.4,
+        "self_percentile": 63.7,
         "start_season": 2025,
         "start_tournament": "메디힐 · 한국일보 챔피언십",
         "window_index": 67
@@ -2060,7 +2070,7 @@
         "end_season": 2025,
         "end_tournament": "제25회 하이트진로 챔피언십",
         "moving_average_sg_total": 1.138,
-        "self_percentile": 55.6,
+        "self_percentile": 54.9,
         "start_season": 2025,
         "start_tournament": "제14회 KG 레이디스 오픈",
         "window_index": 68
@@ -2069,7 +2079,7 @@
         "end_season": 2025,
         "end_tournament": "대보 하우스디 챔피언십",
         "moving_average_sg_total": 1.162,
-        "self_percentile": 57.8,
+        "self_percentile": 57.1,
         "start_season": 2025,
         "start_tournament": "KB금융 스타챔피언십",
         "window_index": 69
@@ -2078,7 +2088,7 @@
         "end_season": 2025,
         "end_tournament": "상상인 · 한경 와우넷 오픈 2025",
         "moving_average_sg_total": 0.82,
-        "self_percentile": 45.6,
+        "self_percentile": 45.1,
         "start_season": 2025,
         "start_tournament": "OK저축은행 읏맨 오픈",
         "window_index": 70
@@ -2087,7 +2097,7 @@
         "end_season": 2025,
         "end_tournament": "광남일보 · 해피니스 오픈",
         "moving_average_sg_total": 0.992,
-        "self_percentile": 51.1,
+        "self_percentile": 50.5,
         "start_season": 2025,
         "start_tournament": "하나금융그룹 챔피언십",
         "window_index": 71
@@ -2096,7 +2106,7 @@
         "end_season": 2025,
         "end_tournament": "S-OIL 챔피언십 2025",
         "moving_average_sg_total": 0.428,
-        "self_percentile": 23.3,
+        "self_percentile": 23.1,
         "start_season": 2025,
         "start_tournament": "제25회 하이트진로 챔피언십",
         "window_index": 72
@@ -2105,7 +2115,7 @@
         "end_season": 2025,
         "end_tournament": "K-FOOD 놀부·화미 마스터즈",
         "moving_average_sg_total": 0.53,
-        "self_percentile": 31.1,
+        "self_percentile": 30.8,
         "start_season": 2025,
         "start_tournament": "대보 하우스디 챔피언십",
         "window_index": 73
@@ -2114,7 +2124,7 @@
         "end_season": 2026,
         "end_tournament": "iM금융오픈 2026",
         "moving_average_sg_total": 0.736,
-        "self_percentile": 41.1,
+        "self_percentile": 40.7,
         "start_season": 2025,
         "start_tournament": "상상인 · 한경 와우넷 오픈 2025",
         "window_index": 74
@@ -2123,7 +2133,7 @@
         "end_season": 2026,
         "end_tournament": "제2회 덕신EPC 챔피언십",
         "moving_average_sg_total": 1.15,
-        "self_percentile": 56.7,
+        "self_percentile": 56.0,
         "start_season": 2025,
         "start_tournament": "광남일보 · 해피니스 오픈",
         "window_index": 75
@@ -2132,7 +2142,7 @@
         "end_season": 2026,
         "end_tournament": "더 시에나 오픈 2026",
         "moving_average_sg_total": 1.478,
-        "self_percentile": 67.8,
+        "self_percentile": 67.0,
         "start_season": 2025,
         "start_tournament": "S-OIL 챔피언십 2025",
         "window_index": 76
@@ -2150,7 +2160,7 @@
         "end_season": 2026,
         "end_tournament": "제1회 DB 위민스 챔피언십",
         "moving_average_sg_total": 2.182,
-        "self_percentile": 91.1,
+        "self_percentile": 92.3,
         "start_season": 2026,
         "start_tournament": "iM금융오픈 2026",
         "window_index": 78
@@ -2159,7 +2169,7 @@
         "end_season": 2026,
         "end_tournament": "2026 NH투자증권 레이디스 챔피언십",
         "moving_average_sg_total": 2.07,
-        "self_percentile": 87.8,
+        "self_percentile": 87.9,
         "start_season": 2026,
         "start_tournament": "제2회 덕신EPC 챔피언십",
         "window_index": 79
@@ -2168,7 +2178,7 @@
         "end_season": 2026,
         "end_tournament": "제14회 E1 채리티 오픈",
         "moving_average_sg_total": 1.98,
-        "self_percentile": 83.3,
+        "self_percentile": 83.5,
         "start_season": 2026,
         "start_tournament": "더 시에나 오픈 2026",
         "window_index": 80
@@ -2186,7 +2196,7 @@
         "end_season": 2026,
         "end_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "moving_average_sg_total": 1.842,
-        "self_percentile": 78.9,
+        "self_percentile": 79.1,
         "start_season": 2026,
         "start_tournament": "제1회 DB 위민스 챔피언십",
         "window_index": 82
@@ -2195,7 +2205,7 @@
         "end_season": 2026,
         "end_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
         "moving_average_sg_total": 2.374,
-        "self_percentile": 94.4,
+        "self_percentile": 94.5,
         "start_season": 2026,
         "start_tournament": "2026 NH투자증권 레이디스 챔피언십",
         "window_index": 83
@@ -2222,7 +2232,7 @@
         "end_season": 2026,
         "end_tournament": "제16회 롯데 오픈",
         "moving_average_sg_total": 2.068,
-        "self_percentile": 86.7,
+        "self_percentile": 86.8,
         "start_season": 2026,
         "start_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "window_index": 86
@@ -2231,7 +2241,7 @@
         "end_season": 2026,
         "end_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
         "moving_average_sg_total": 2.212,
-        "self_percentile": 92.2,
+        "self_percentile": 93.4,
         "start_season": 2026,
         "start_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
         "window_index": 87
@@ -2240,7 +2250,7 @@
         "end_season": 2026,
         "end_tournament": "메디힐 · 한국일보 챔피언십",
         "moving_average_sg_total": 1.924,
-        "self_percentile": 81.1,
+        "self_percentile": 81.3,
         "start_season": 2026,
         "start_tournament": "인카금융 더헤븐 마스터즈",
         "window_index": 88
@@ -2249,19 +2259,28 @@
         "end_season": 2026,
         "end_tournament": "제13회 제주삼다수 마스터스",
         "moving_average_sg_total": 1.5,
-        "self_percentile": 72.2,
+        "self_percentile": 71.4,
         "start_season": 2026,
         "start_tournament": "하이원리조트 여자오픈 2026",
         "window_index": 89
       },
       {
         "end_season": 2026,
-        "end_tournament": "하나금융그룹 챔피언십",
-        "moving_average_sg_total": 2.254,
-        "self_percentile": 93.3,
+        "end_tournament": "KB금융 골든라이프 챔피언십",
+        "moving_average_sg_total": 1.764,
+        "self_percentile": 75.8,
         "start_season": 2026,
         "start_tournament": "제16회 롯데 오픈",
         "window_index": 90
+      },
+      {
+        "end_season": 2026,
+        "end_tournament": "하나금융그룹 챔피언십",
+        "moving_average_sg_total": 2.158,
+        "self_percentile": 91.2,
+        "start_season": 2026,
+        "start_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+        "window_index": 91
       }
     ],
     "slump_window": {
@@ -2279,7 +2298,7 @@
         "sg_component_sample_size": 5,
         "sg_component_window_size": 5
       },
-      "delta_vs_career_average": -1.637,
+      "delta_vs_career_average": -1.648,
       "end_season": 2023,
       "end_tournament": "2023 NH투자증권 레이디스 챔피언십",
       "moving_average_sg_total": -0.62,
@@ -2288,7 +2307,7 @@
       "start_tournament": "롯데렌터카 여자오픈",
       "window_index": 0
     },
-    "total_windows": 91,
+    "total_windows": 92,
     "window_size": 5
   },
   "career_story": {
@@ -2302,7 +2321,7 @@
             "season": 2025
           },
           {
-            "detail": "+2.24, 우승 3회, 상위10위 7회",
+            "detail": "+2.23, 우승 3회, 상위10위 7회",
             "label": "커리어 최고 SG Total 시즌",
             "season": 2026
           }
@@ -2342,7 +2361,7 @@
     "current": {
       "events": 18,
       "season": 2026,
-      "sg_total": 2.2358823529411764,
+      "sg_total": 2.2255555555555553,
       "top10": 7,
       "wins": 3
     },
@@ -2392,12 +2411,12 @@
       {
         "events": 18,
         "season": 2026,
-        "sg_app": 1.2729411764705885,
-        "sg_arg": 0.15941176470588236,
-        "sg_ott": 0.73,
-        "sg_putt": 0.07588235294117647,
-        "sg_sample_size": 17,
-        "sg_total": 2.2358823529411764,
+        "sg_app": 1.281666666666667,
+        "sg_arg": 0.12722222222222224,
+        "sg_ott": 0.7438888888888889,
+        "sg_putt": 0.07555555555555556,
+        "sg_sample_size": 18,
+        "sg_total": 2.2255555555555553,
         "top10": 7,
         "top20": 11,
         "top5": 4,
@@ -2725,9 +2744,9 @@
     }
   },
   "current_form_indicator": {
-    "delta": 0.117,
-    "last5_avg_sg_total": 2.185,
-    "last5_sample_size": 4,
+    "delta": 0.09,
+    "last5_avg_sg_total": 2.158,
+    "last5_sample_size": 5,
     "prev5_avg_sg_total": 2.068,
     "prev5_sample_size": 5,
     "trend": "FLAT"
@@ -2735,36 +2754,36 @@
   "current_skill_vs_career": {
     "components": [
       {
-        "career_average": 0.512,
-        "career_sample_size": 95,
+        "career_average": 0.517,
+        "career_sample_size": 96,
         "component": "SG OTT",
-        "current_value": 0.73,
-        "delta_vs_career_average": 0.218
+        "current_value": 0.744,
+        "delta_vs_career_average": 0.227
       },
       {
-        "career_average": 0.702,
-        "career_sample_size": 95,
+        "career_average": 0.71,
+        "career_sample_size": 96,
         "component": "SG APP",
-        "current_value": 1.273,
-        "delta_vs_career_average": 0.571
+        "current_value": 1.282,
+        "delta_vs_career_average": 0.572
       },
       {
-        "career_average": -0.066,
-        "career_sample_size": 95,
+        "career_average": -0.07,
+        "career_sample_size": 96,
         "component": "SG ARG",
-        "current_value": 0.159,
-        "delta_vs_career_average": 0.225
+        "current_value": 0.127,
+        "delta_vs_career_average": 0.197
       },
       {
-        "career_average": -0.132,
-        "career_sample_size": 95,
+        "career_average": -0.13,
+        "career_sample_size": 96,
         "component": "SG PUTT",
         "current_value": 0.076,
-        "delta_vs_career_average": 0.208
+        "delta_vs_career_average": 0.206
       }
     ],
     "current_season": 2026,
-    "current_season_sample_size": 17
+    "current_season_sample_size": 18
   },
   "current_snapshot": {
     "as_of_note": "KLPGA 공식 2026시즌 스냅샷 1건입니다. 과거 시즌으로 확장하지 않습니다.",
@@ -2831,12 +2850,12 @@
     "tournament": "OK금융그룹 오픈"
   },
   "current_vs_career": {
-    "career_average_sample_size": 95,
-    "career_average_sg_total": 1.017,
+    "career_average_sample_size": 96,
+    "career_average_sg_total": 1.028,
     "current_season": 2026,
-    "current_season_sample_size": 17,
-    "current_season_sg_total": 2.236,
-    "delta_vs_career_average": 1.219
+    "current_season_sample_size": 18,
+    "current_season_sg_total": 2.226,
+    "delta_vs_career_average": 1.198
   },
   "data_confidence_roadmap": [
     {
@@ -2905,7 +2924,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-28T20:51:17.917125+00:00",
+  "generated_at": "2026-09-29T15:26:37.853600+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",
@@ -3262,8 +3281,8 @@
   "player_dna_growth": {
     "APPROACH": {
       "career_mean_percentile": 88.1,
-      "growth_acceleration_per_season": 4.3,
-      "growth_velocity_per_season": 4.77,
+      "growth_acceleration_per_season": 4.35,
+      "growth_velocity_per_season": 4.8,
       "sample_size": 4,
       "seasons_used": [
         2023,
@@ -3271,12 +3290,12 @@
         2025,
         2026
       ],
-      "stability_stddev": 5.85
+      "stability_stddev": 5.89
     },
     "PUTTING": {
-      "career_mean_percentile": 53.3,
-      "growth_acceleration_per_season": -4.85,
-      "growth_velocity_per_season": 6.97,
+      "career_mean_percentile": 53.5,
+      "growth_acceleration_per_season": -4.3,
+      "growth_velocity_per_season": 7.33,
       "sample_size": 4,
       "seasons_used": [
         2023,
@@ -3284,12 +3303,12 @@
         2025,
         2026
       ],
-      "stability_stddev": 13.21
+      "stability_stddev": 13.38
     },
     "SCORING": {
-      "career_mean_percentile": 86.4,
-      "growth_acceleration_per_season": -1.0,
-      "growth_velocity_per_season": 7.47,
+      "career_mean_percentile": 86.5,
+      "growth_acceleration_per_season": -0.8,
+      "growth_velocity_per_season": 7.6,
       "sample_size": 4,
       "seasons_used": [
         2023,
@@ -3297,12 +3316,12 @@
         2025,
         2026
       ],
-      "stability_stddev": 8.69
+      "stability_stddev": 8.81
     },
     "TEE": {
-      "career_mean_percentile": 86.8,
-      "growth_acceleration_per_season": 2.75,
-      "growth_velocity_per_season": 4.0,
+      "career_mean_percentile": 87.1,
+      "growth_acceleration_per_season": 3.3,
+      "growth_velocity_per_season": 4.37,
       "sample_size": 4,
       "seasons_used": [
         2023,
@@ -3310,12 +3329,12 @@
         2025,
         2026
       ],
-      "stability_stddev": 4.55
+      "stability_stddev": 5.0
     },
     "쇼트게임": {
-      "career_mean_percentile": 54.1,
-      "growth_acceleration_per_season": 3.35,
-      "growth_velocity_per_season": 17.33,
+      "career_mean_percentile": 53.3,
+      "growth_acceleration_per_season": 1.7,
+      "growth_velocity_per_season": 16.23,
       "sample_size": 4,
       "seasons_used": [
         2023,
@@ -3323,7 +3342,7 @@
         2025,
         2026
       ],
-      "stability_stddev": 19.63
+      "stability_stddev": 18.49
     }
   },
   "player_dna_radar": [
@@ -3332,7 +3351,7 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": -4.6,
+          "delta_vs_career_mean": -4.9,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 82.2,
           "population": 226,
@@ -3356,7 +3375,7 @@
         {
           "available": true,
           "axis": "쇼트게임",
-          "delta_vs_career_mean": -24.3,
+          "delta_vs_career_mean": -23.5,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 29.8,
           "population": 226,
@@ -3368,7 +3387,7 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": -12.9,
+          "delta_vs_career_mean": -13.1,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 40.4,
           "population": 226,
@@ -3380,7 +3399,7 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": -11.7,
+          "delta_vs_career_mean": -11.8,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 74.7,
           "population": 226,
@@ -3397,7 +3416,7 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": -0.1,
+          "delta_vs_career_mean": -0.4,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 86.7,
           "population": 250,
@@ -3421,7 +3440,7 @@
         {
           "available": true,
           "axis": "쇼트게임",
-          "delta_vs_career_mean": -11.1,
+          "delta_vs_career_mean": -10.3,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 43.0,
           "population": 250,
@@ -3433,7 +3452,7 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": -12.7,
+          "delta_vs_career_mean": -12.9,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 40.6,
           "population": 250,
@@ -3445,7 +3464,7 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": -4.5,
+          "delta_vs_career_mean": -4.6,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 81.9,
           "population": 250,
@@ -3462,7 +3481,7 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": -2.6,
+          "delta_vs_career_mean": -2.9,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 84.2,
           "population": 261,
@@ -3486,7 +3505,7 @@
         {
           "available": true,
           "axis": "쇼트게임",
-          "delta_vs_career_mean": 7.8,
+          "delta_vs_career_mean": 8.6,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 61.9,
           "population": 261,
@@ -3498,7 +3517,7 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": 17.5,
+          "delta_vs_career_mean": 17.3,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 70.8,
           "population": 261,
@@ -3510,7 +3529,7 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": 5.5,
+          "delta_vs_career_mean": 5.4,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 91.9,
           "population": 261,
@@ -3527,11 +3546,11 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": 7.4,
+          "delta_vs_career_mean": 8.2,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 94.2,
-          "population": 275,
-          "raw_value": 0.708,
+          "percentile": 95.3,
+          "population": 280,
+          "raw_value": 0.724,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_OTT"
@@ -3539,11 +3558,11 @@
         {
           "available": true,
           "axis": "APPROACH",
-          "delta_vs_career_mean": 9.3,
+          "delta_vs_career_mean": 9.4,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 97.4,
-          "population": 275,
-          "raw_value": 1.166,
+          "percentile": 97.5,
+          "population": 280,
+          "raw_value": 1.182,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_APP"
@@ -3551,11 +3570,11 @@
         {
           "available": true,
           "axis": "쇼트게임",
-          "delta_vs_career_mean": 27.7,
+          "delta_vs_career_mean": 25.2,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 81.8,
-          "population": 275,
-          "raw_value": 0.182,
+          "percentile": 78.5,
+          "population": 280,
+          "raw_value": 0.147,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_ARG"
@@ -3563,11 +3582,11 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": 8.0,
+          "delta_vs_career_mean": 8.9,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 61.3,
-          "population": 275,
-          "raw_value": 0.041,
+          "percentile": 62.4,
+          "population": 280,
+          "raw_value": 0.042,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_PUTT"
@@ -3575,11 +3594,11 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": 10.7,
+          "delta_vs_career_mean": 11.0,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 97.1,
-          "population": 275,
-          "raw_value": 2.094,
+          "percentile": 97.5,
+          "population": 280,
+          "raw_value": 2.092,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_TOTAL"
@@ -3643,7 +3662,7 @@
       "season": 2025
     },
     {
-      "detail": "+2.24, 우승 3회, 상위10위 7회",
+      "detail": "+2.23, 우승 3회, 상위10위 7회",
       "label": "커리어 최고 SG Total 시즌",
       "season": 2026
     }
@@ -7022,10 +7041,10 @@
       "game_code": "2026090003",
       "is_top10": false,
       "is_win": false,
-      "rank": 16,
+      "rank": 17,
       "season": 2026,
-      "sg_status": "NOT_COLLECTED",
-      "sg_total": null,
+      "sg_status": "COLLECTED",
+      "sg_total": 2.05,
       "tournament": "KB금융 골든라이프 챔피언십"
     },
     {
@@ -7224,10 +7243,10 @@
       "game_code": "2026090003",
       "is_top10": false,
       "is_win": false,
-      "rank": 16,
+      "rank": 17,
       "season": 2026,
-      "sg_status": "NOT_COLLECTED",
-      "sg_total": null,
+      "sg_status": "COLLECTED",
+      "sg_total": 2.05,
       "tournament": "KB금융 골든라이프 챔피언십"
     },
     {
@@ -7276,10 +7295,10 @@
       "game_code": "2026090003",
       "is_top10": false,
       "is_win": false,
-      "rank": 16,
+      "rank": 17,
       "season": 2026,
-      "sg_status": "NOT_COLLECTED",
-      "sg_total": null,
+      "sg_status": "COLLECTED",
+      "sg_total": 2.05,
       "tournament": "KB금융 골든라이프 챔피언십"
     },
     {
@@ -7297,15 +7316,14 @@
     "conflicts_detected": 0,
     "found_in_live": 2,
     "found_in_reader": 1,
-    "found_in_warehouse": 94,
+    "found_in_warehouse": 95,
     "in_progress_excluded_from_finished_totals": 1,
     "merged": 4,
     "missing": 0,
     "resolved": [
       "2023090002: SG Warehouse tournament_cumulative rank (SG-based) and Tournament Warehouse R1 score_rank (60) are different ranking systems (SG rank vs. stroke rank), not comparable as the same fact -- no conflict. Real R1 raw strokes (79) merged in.",
       "2023090003: SG Warehouse tournament_cumulative rank (SG-based) and Tournament Warehouse R1 score_rank (8) are different ranking systems (SG rank vs. stroke rank), not comparable as the same fact -- no conflict. Real R1 raw strokes (67) merged in.",
-      "2026090003 (KB): Reader R3 cumulative_score (218) == R1+R2+R3 (74+71+73) -- agrees.",
-      "2026090003 (KB): Reader FR total_strokes (290) == R1+R2+R3+FR (74+71+73+72) -- agrees. FR (final round) leaderboard used as the canonical final result.",
+      "2026090003: SG Warehouse now has a real row for this tournament -- Category 4's Reader-only fallback (rank/strokes only, no SG) is superseded, not used.",
       "2026090002 (Hana): mean of real R1-R4 SG Total (4.4975) matches the official 4-round cumulative SG Total (4.5) within tolerance -- confirms the warehouse's 'tournament_cumulative = mean of rounds' convention holds here too. Official cumulative used directly (not re-derived) since it is itself a primary official computation.",
       "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (1) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts."
     ],
@@ -7581,10 +7599,10 @@
           "wins": 1
         },
         "last": {
-          "avg_sg_total": 2.19,
+          "avg_sg_total": 2.16,
           "events": 5,
           "label": "최근 5개 대회",
-          "sg_sample_size": 4,
+          "sg_sample_size": 5,
           "top10": 1,
           "wins": 1
         },
@@ -7620,7 +7638,7 @@
           "quarter": 3
         },
         {
-          "avg_sg_total": 2.38,
+          "avg_sg_total": 2.3,
           "events": 4,
           "quarter": 4
         }
@@ -7636,7 +7654,7 @@
         "tournament": "제1회 DB 위민스 챔피언십"
       },
       "top10_rate_pct": 38.9,
-      "volatility_stddev": 1.33
+      "volatility_stddev": 1.29
     }
   ],
   "source_document": "reconcile_10097_player_history.py (7-category reconciliation) + OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)",
@@ -10656,28 +10674,16 @@
       "game_code": "2026090003",
       "is_top10": false,
       "is_win": false,
-      "rank": 16,
-      "round_scores": [
-        {
-          "round": 1,
-          "strokes": 74
-        },
-        {
-          "round": 2,
-          "strokes": 71
-        },
-        {
-          "round": 3,
-          "strokes": 73
-        },
-        {
-          "round": 4,
-          "strokes": 72
-        }
-      ],
+      "rank": 17,
+      "round_scores": null,
       "season": 2026,
-      "sg_components": null,
-      "sg_total": null,
+      "sg_components": {
+        "app": 1.43,
+        "arg": -0.42,
+        "ott": 0.98,
+        "putt": 0.07
+      },
+      "sg_total": 2.05,
       "tournament": "KB금융 골든라이프 챔피언십"
     },
     {
@@ -10718,27 +10724,27 @@
     "arrows": [
       {
         "component": "SG OTT",
-        "delta": 0.218,
+        "delta": 0.227,
         "direction": "UP"
       },
       {
         "component": "SG APP",
-        "delta": 0.571,
+        "delta": 0.572,
         "direction": "UP"
       },
       {
         "component": "SG ARG",
-        "delta": 0.225,
+        "delta": 0.197,
         "direction": "UP"
       },
       {
         "component": "SG PUTT",
-        "delta": 0.208,
+        "delta": 0.206,
         "direction": "UP"
       }
     ],
     "lead_component": "SG APP",
-    "lead_delta": 0.571,
+    "lead_delta": 0.572,
     "sentence": "최근 상승세는 주로 SG APP의 영향입니다."
   }
 }

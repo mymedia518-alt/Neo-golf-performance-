@@ -145,6 +145,36 @@ def fetch_sg_detail_html(client: PoliteHttpClient, game_code: str, round_number:
     )
 
 
+def _load_entry_snapshot_id_lookup(game_code: str) -> dict:
+    """Generic identity fallback, for when a caller's own id_lookup does
+    not resolve a name: every tournament's own entry_snapshot artifact
+    (content/website_v2/<game_code>_ENTRY_SNAPSHOT.json, resolved via
+    the same TournamentContext.artifact_path() every other PRE-pipeline
+    script already uses -- see src/klpga/tournament_context.py) names
+    its real field with real player_id values, from an independent
+    official source (the entry list), not the SG endpoint's own
+    roundLeaderboard. No player name or ID is ever hardcoded here --
+    this reads whatever real entries that game_code's own snapshot
+    contains, for whichever tournament is asked, including ones that
+    do not exist yet. Returns {} (never raises) when no entry_snapshot
+    exists for this game_code -- a missing fallback source is not
+    fatal, rows simply stay UNRESOLVED_IDENTITY, exactly as before this
+    function existed."""
+    try:
+        from klpga.tournament_context import load_tournament_context
+        path = load_tournament_context(game_code).artifact_path("entry_snapshot")
+        if not path.exists():
+            return {}
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        return {
+            e["player_name"]: str(e["player_id"])
+            for e in doc.get("entries", [])
+            if e.get("player_name") and e.get("player_id")
+        }
+    except Exception:
+        return {}
+
+
 def build_warehouse_rows(
     sg_html: str, *, game_code: str, season: int, tournament: str,
     scope: str, round_number: Optional[int], id_lookup: dict, source_note: str,
@@ -155,15 +185,19 @@ def build_warehouse_rows(
     ValueError (from parse_sg_html) when the given page has no SG
     table at all -- the caller decides whether that means 'this round
     was never played' or a genuine parser problem, this function never
-    guesses. player_id is never invented: an unresolved name is kept
+    guesses. player_id is never invented: a name unresolved by BOTH the
+    caller's id_lookup AND this game_code's own entry_snapshot is kept
     as UNRESOLVED_IDENTITY, exactly like every other warehouse row."""
     parsed = parse_sg_html(sg_html, scope=scope, round_number=round_number)
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    entry_lookup = _load_entry_snapshot_id_lookup(game_code)
     rows = []
     for row in parsed:
         row = dict(row)
         row["validation"] = validate_sg_record(row)
-        identity = standardize_player_name(row.get("player"), id_lookup.get(str(row.get("player"))))
+        name = row.get("player")
+        resolved_id = id_lookup.get(str(name)) or entry_lookup.get(name)
+        identity = standardize_player_name(name, resolved_id)
         row.update(identity)
         row.update({
             "identity_state": "RETAINED" if identity["player_id"] else "UNRESOLVED_IDENTITY",

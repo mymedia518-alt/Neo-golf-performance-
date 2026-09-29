@@ -64,7 +64,15 @@ EVIDENCE_DIR = ROOT / "evidence"
 # independently re-discoverable by _discover_special_game_codes() below --
 # that discovery pass is what turns "the next missing tournament" into a
 # loud failure instead of a silent gap.
-_KNOWN_SPECIAL_GAME_CODES = {"2026090002", "2026090003", "2026120001"}
+#
+# 2026090003 (KB) was here until the SG Warehouse gained a real row for
+# it (collect_sg_from_leaderboard.py's identity-resolution fix, plus a
+# real collection run) -- it is now a normal SG-Warehouse tournament
+# like the other ~96, per Category 4's own "Reader superseded when the
+# warehouse has a real row" rule above. _load_kb_reader_final() is kept
+# as the fallback for if that ever regresses; it is just no longer
+# required to fire.
+_KNOWN_SPECIAL_GAME_CODES = {"2026090002", "2026120001"}
 
 
 class ReconciliationError(Exception):
@@ -432,15 +440,26 @@ def reconcile() -> dict:
         )
         merged_categories[gc].add("tournament_warehouse")
 
-    # Category 4: KB (2026090003) -- not in SG warehouse at all.
+    # Category 4: KB (2026090003) -- Reader-only fallback, used only for
+    # as long as the SG Warehouse (Category 1, the real primary source)
+    # has no row for this game_code. Once a real SG Warehouse row exists
+    # (as it now does, since collect_sg_from_leaderboard.py's identity
+    # resolution was fixed), Category 1 takes priority and this Reader
+    # fallback -- which never carried real SG values, only rank/strokes
+    # -- is skipped rather than raising, so a newly-collected real SG
+    # row upgrades a tournament automatically, with no special-casing.
     kb = _load_kb_reader_final()
     if kb:
         gc = kb["record"]["game_code"]
-        if gc in tournaments:
-            raise ReconciliationError(f"{gc}: expected to be reader-only (not in SG Warehouse) but SG Warehouse already has a row -- reconciliation logic is stale, update it before regenerating Player History.")
-        tournaments[gc] = kb["record"]
-        resolved_log.extend(kb["resolved"])
-        merged_categories[gc] = {"reader"}
+        if gc not in tournaments:
+            tournaments[gc] = kb["record"]
+            resolved_log.extend(kb["resolved"])
+            merged_categories[gc] = {"reader"}
+        else:
+            resolved_log.append(
+                f"{gc}: SG Warehouse now has a real row for this tournament -- Category 4's Reader-only "
+                "fallback (rank/strokes only, no SG) is superseded, not used."
+            )
 
     # Category 5 + 7: Hana (2026090002) -- not in SG warehouse at all.
     hana_live = _load_hana_live_sg()
