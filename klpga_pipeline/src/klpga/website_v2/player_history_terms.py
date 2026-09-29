@@ -56,10 +56,13 @@ visible page never contradicts this 8-item hierarchy."""
 from __future__ import annotations
 
 HERO_TITLE = "PLAYER HISTORY"
-# MISSION V61 (2026-09-28): "재구성" (reconstruction) is developer/
-# pipeline language -- the real claim (only measured records, nothing
-# estimated) survives without it.
-HERO_SUBTITLE = "실측 기록으로 쓴 커리어 스토리"
+# NEO V3 BRAND CONSISTENCY mission (2026-09-29): "Remove every
+# remaining storytelling sentence... the page must resemble a
+# Bloomberg Terminal / Opta / Statcast / DataGolf product rather than a
+# sports article." "스토리" (story) framing removed from the hero
+# subtitle; the real claim (only measured records, nothing estimated)
+# survives without it.
+HERO_SUBTITLE = "실측 기록 전용 선수 리포트"
 
 # MISSION V72 (2026-09-28): "Remove section numbering (1,2,3...). The
 # page should read as a continuous story, not seven independent
@@ -68,28 +71,28 @@ HERO_SUBTITLE = "실측 기록으로 쓴 커리어 스토리"
 # is untouched -- that page is a different, sanctioned technical report
 # (per MISSION V50/V61), not part of this page's continuous story.
 PAGE_CURRENT_FORM_TITLE = "현재 폼"
-PAGE_WHY_NOW_TITLE = "왜 지금인가"
+PAGE_WHY_NOW_TITLE = "Performance Drivers"  # NEO V3: was "왜 지금인가"
 PAGE_RECENT_RESULTS_TITLE = "최근 경기 결과"
 PAGE_IN_PROGRESS_TITLE = "진행 중인 대회"  # subordinate to 최근 경기 결과, only when is_confirmed_live -- otherwise hidden completely
-PAGE_PLAYER_IDENTITY_TITLE = "선수 정체성"
+PAGE_PLAYER_IDENTITY_TITLE = "Player Profile"  # NEO V3: was "선수 정체성"
 PAGE_COURSE_PROFILE_TITLE = "코스 프로필"
 PAGE5_TITLE = "라운드 분석"
 PAGE_HOLE_TITLE = "홀 기록 (실측 1개 대회)"  # subordinate to 라운드 분석
 PAGE_ROUND_HISTORY_DETAIL_TITLE = "라운드 세부 기록"  # relocated to Data Quality page's raw-data cluster
-PAGE_CAREER_STORY_TITLE = "커리어 스토리"
+PAGE_CAREER_STORY_TITLE = "Career Timeline"  # NEO V3: was "커리어 스토리"
 PAGE2_TITLE = "시즌 변화"  # subordinate to #7 (MISSION V13: demoted, no longer its own numbered section)
 PAGE3_TITLE = "시즌 리플레이"  # subordinate to #7 (season_replay)
 PAGE_TECHNICAL_STATS_TITLE = "2025시즌 기술 기록"  # subordinate to #7 (technical_stats_2025)
 PAGE_TOURNAMENT_TREND_TITLE = "대회 타임라인"  # subordinate to #7 (MISSION V13: demoted)
 PAGE4_TITLE = "전체 대회 기록"  # subordinate to #7 (collapsed table)
-PAGE_PLAYER_DNA_RADAR_TITLE = "플레이어 DNA"  # subordinate to #7 (MISSION V13: demoted)
+PAGE_PLAYER_DNA_RADAR_TITLE = "Performance Profile"  # NEO V3: was "플레이어 DNA". subordinate to #7 (MISSION V13: demoted)
 PAGE_SNAPSHOT_TITLE = "현재 시즌 공식 스냅샷"  # subordinate to #1 (current form)
 PAGE_RECONCILIATION_TITLE = "8. 데이터베이스 / 검증"
 PAGE_NOT_AVAILABLE_TITLE = "실측되지 않아 제외한 항목"  # nested inside #8
 PAGE_COVERAGE_MATRIX_TITLE = "시즌별 데이터 커버리지"  # nested inside #8
-PAGE_DATA_CONFIDENCE_TITLE = "이 페이지, 얼마나 믿을 수 있나요"  # nested inside #8 (MISSION V11, 2026-09-25)
+PAGE_DATA_CONFIDENCE_TITLE = "데이터 신뢰도"  # NEO V3: was "이 페이지, 얼마나 믿을 수 있나요". nested inside #8 (MISSION V11, 2026-09-25)
 PAGE_DATA_CONFIDENCE_ROADMAP_TITLE = "앞으로 추가될 항목"  # nested inside the block above
-PAGE_DATA_QUALITY_TIMELINE_TITLE = "시즌별로 얼마나 확인할 수 있나요"  # nested inside the block above
+PAGE_DATA_QUALITY_TIMELINE_TITLE = "시즌별 확인 비율"  # NEO V3: was "시즌별로 얼마나 확인할 수 있나요". nested inside the block above
 PAGE_TOURNAMENT_TABLE_EXPAND_LABEL = "전체 대회 기록 보기"
 
 # Three explicit source states (RED TEAM mission A). "BLOCKED" in the

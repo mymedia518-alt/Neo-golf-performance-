@@ -277,7 +277,7 @@ def _radar_svg(axes: list, size: int = 360) -> str:
         axis_ko = terms.RADAR_AXIS_LABEL_KO.get(a["axis"], a["axis"])
         labels.append(f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-size="10" fill="#3d4a43">{escape(axis_ko)}</text>')
     return (
-        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" class="ph-spark ph-spark--radar" role="img" aria-label="플레이어 DNA 레이더">'
+        f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" class="ph-spark ph-spark--radar" role="img" aria-label="Performance Profile 레이더">'
         f'{rings}{spokes}{polygon}{"".join(dots)}{"".join(labels)}</svg>'
     )
 
@@ -964,8 +964,10 @@ def _career_rolling_trend_html(crt: Optional[dict], story: Optional[list] = None
     career_median_chip = _chip(f'커리어 중앙값 SG {_fmt(career_median, plus=False)}') if career_median is not None else ""
 
     peak = crt.get("peak_window")
+    # NEO V3 BRAND CONSISTENCY mission (2026-09-29): "이어졌습니다" verb
+    # removed -- bare label + count, same real field.
     sustain_chip = (
-        _chip(f'이 전성기는 이후 실측 {peak["sustainability_tournaments"]}개 대회 동안 이어졌습니다', positive=True)
+        _chip(f'Peak Duration {peak["sustainability_tournaments"]} Tournaments', positive=True)
         if peak and peak.get("sustainability_windows") else ""
     )
     recovery_time_chip = _chip(crt.get("recovery_time_note", "")) if crt.get("recovery_time_windows") is not None else ""
@@ -1092,14 +1094,17 @@ def _window_decomposition_html(label: str, w: dict) -> str:
     best_key = max(vals, key=vals.get)
     worst_key = min(vals, key=vals.get)
     sample = f'{d["sg_component_sample_size"]}/{d["sg_component_window_size"]}개 대회'
+    # NEO V3 BRAND CONSISTENCY mission (2026-09-29): "가장 강했고/약했습니다"
+    # verb phrasing removed -- same real best/worst component values,
+    # rendered as a bare label: value line (Best/Worst/Sample), no verb.
     if best_key == worst_key:
-        sentence = f'{label}에는 {_WINDOW_SKILL_LABEL[best_key]} {vals[best_key]:+.2f}만 실측되어 있습니다 ({sample}).'
+        line = f'{label}: {_WINDOW_SKILL_LABEL[best_key]} {vals[best_key]:+.2f} · Sample {sample}'
     else:
-        sentence = (
-            f'{label}에는 {_WINDOW_SKILL_LABEL[best_key]}({vals[best_key]:+.2f})가 가장 강했고, '
-            f'{_WINDOW_SKILL_LABEL[worst_key]}({vals[worst_key]:+.2f})가 가장 약했습니다 ({sample} 실측).'
+        line = (
+            f'{label}: {_WINDOW_SKILL_LABEL[best_key]} {vals[best_key]:+.2f} (Best) · '
+            f'{_WINDOW_SKILL_LABEL[worst_key]} {vals[worst_key]:+.2f} (Worst) · Sample {sample}'
         )
-    return f'<p class="piq-current-detail">{escape(sentence)}</p>'
+    return f'<p class="piq-current-detail">{escape(line)}</p>'
 
 
 # ---------------------------------------------------------------------------
@@ -1712,14 +1717,14 @@ def _skill_chain_html(why_now: Optional[dict], current_snapshot: Optional[dict],
             f'<div class="ph-chain-stage-num">{escape(num)}</div>'
             '</div>'
         )
-    sentence = (
-        f'{why_now["lead_component"].removeprefix("SG ")} 상승이 GIR {current_snapshot["gir_rate"]:.1f}%, '
-        f'평균 {current_snapshot["average_score"]:.2f}타, {career_current["season"]}시즌 {career_current["wins"]}승으로 이어졌습니다.'
-    )
-    return (
-        f'<div class="ph-skill-chain">{"".join(cards)}</div>'
-        f'<p class="piq-conclusion">{escape(sentence)}</p>'
-    )
+    # NEO V3 BRAND CONSISTENCY mission (2026-09-29): a causal "X 상승이
+    # ...으로 이어졌습니다" sentence used to follow here, restating the
+    # exact same five values as the card row above with a causation
+    # claim added on top. Removed -- the card row already is the
+    # Metric -> Comparison -> Evidence sequence this mission requires;
+    # a sentence saying it again, plus a claim of causation neither
+    # this function nor its inputs actually establish, added nothing.
+    return f'<div class="ph-skill-chain">{"".join(cards)}</div>'
 
 
 def _why_now_html(
@@ -1766,7 +1771,7 @@ def _why_now_html(
             down=" ph-arrow-card--down" if a["direction"] == "DOWN" else "",
             arrow=_ARROW.get(a["direction"], ""),
             label=escape(a["component"].removeprefix("SG ")),
-            weakest_tag='<span class="ph-arrow-weakest-tag">가장 덜 개선</span>' if a["component"] == weakest_component else "",
+            weakest_tag='<span class="ph-arrow-weakest-tag">Min Δ</span>' if a["component"] == weakest_component else "",
             delta=a["delta"],
         )
         for a in why_now["arrows"]
