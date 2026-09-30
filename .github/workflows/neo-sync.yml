@@ -116,7 +116,7 @@ jobs:
                 echo ""
                 echo '```'
               done
-            } >> "$GITHUB_STEP_SUMMARY"
+            } | tee -a "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Upload sync artifacts (convenience for a human operator)
