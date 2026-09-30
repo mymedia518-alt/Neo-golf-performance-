@@ -295,3 +295,47 @@ def test_publish_commits_to_a_dedicated_reader_branch_never_touches_original_bra
     assert f"normalized/{TEST_GAME_CODE}/TOURNAMENT_INFO.json" in files_on_branch
     assert f"content/{TEST_GAME_CODE}_KRANKING_TOP120.json" in files_on_branch
     assert "README.md" not in files_on_branch or True  # README stays from init commit; not asserting its absence
+
+
+class _KrankingBrokenClient(FakeClient):
+    """Same as FakeClient, but K-Ranking's full-table page returns
+    something that will not parse -- reproduces the real failure found
+    2026-09-30 against gameCode=2026100001 (a live K-Ranking response
+    that did not match extract_full_table's expected shape), without
+    depending on live network."""
+
+    def get_text(self, url, params=None, **kwargs):
+        from klpga.neo_reader import kranking
+        if url == kranking.CANONICAL_URL:
+            return "<html><body>not a ranking table</body></html>"
+        return super().get_text(url, params=params, **kwargs)
+
+
+def test_kranking_failure_does_not_block_tournament_info_or_entry_list(workspace):
+    """BUG FIX regression test: before this fix, any kranking failure
+    made SyncResult.ok False even when tournament_info/entry_list both
+    genuinely succeeded -- so the review report and validation never
+    ran at all, hiding two real successes behind one real, separate
+    failure."""
+    from klpga.neo_reader.sync import run_sync
+    from klpga.neo_reader.validate import validate_sync
+
+    result = run_sync(
+        TEST_GAME_CODE, TEST_SEASON, stage="pre", client=_KrankingBrokenClient(), **workspace,
+    )
+
+    kranking_stage = next(s for s in result.stages if s.name == "kranking")
+    assert kranking_stage.status == "error"
+
+    assert result.ok, [(s.name, s.status, s.error_message) for s in result.stages]
+
+    tournament_info_stage = next(s for s in result.stages if s.name == "tournament_info")
+    entry_list_stage = next(s for s in result.stages if s.name == "entry_list")
+    assert tournament_info_stage.status == "success"
+    assert entry_list_stage.status == "success"
+
+    validation = validate_sync(TEST_GAME_CODE, workspace["normalized_root"])
+    kranking_check = next(c for c in validation.checks if c.name == "kranking_present")
+    assert kranking_check.status == "SKIP"
+    tournament_info_check = next(c for c in validation.checks if c.name == "tournament_info_required_fields")
+    assert tournament_info_check.status == "PASS"
