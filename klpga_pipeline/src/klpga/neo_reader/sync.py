@@ -82,6 +82,20 @@ class StageResult:
     error_message: Optional[str] = None
 
 
+# BUG FIX (2026-09-30, found via the first real end-to-end run against
+# gameCode=2026100001): kranking used to be treated as blocking, the
+# same as tournament_info/entry_list -- so a K-Ranking-only failure
+# (e.g. the K-Ranking site's response shape not matching the parser
+# right now) reported the ENTIRE sync as failed even though Tournament
+# Info and Entry List had both genuinely succeeded against live data.
+# K-Ranking is the one stage this module's own validate.py already
+# treats as SKIP-able when absent (see validate_sync's kranking_present
+# check) -- SyncResult.ok now matches that: a "kranking" stage in
+# ("error", "blocked") does not by itself make ok False, so the other,
+# genuinely required stages' real results are never hidden behind it.
+NON_BLOCKING_STAGES = frozenset({"kranking"})
+
+
 @dataclass
 class SyncResult:
     game_code: str
@@ -91,7 +105,10 @@ class SyncResult:
 
     @property
     def ok(self) -> bool:
-        return all(s.status in ("success", "skipped") for s in self.stages)
+        return all(
+            s.status in ("success", "skipped") or s.name in NON_BLOCKING_STAGES
+            for s in self.stages
+        )
 
     def add(self, result: StageResult) -> StageResult:
         self.stages.append(result)

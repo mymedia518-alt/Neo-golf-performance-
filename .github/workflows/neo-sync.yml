@@ -1,19 +1,23 @@
-name: "NEO Sync — Reader (collect, normalize, warehouse, validate, review)"
+name: "NEO Sync — Reader (collect, normalize, warehouse, validate, review, publish)"
 
 # The default, automated tournament-start route -- see START_TOURNAMENT.md.
 # Runs klpga.neo_reader (klpga_pipeline/src/klpga/neo_reader/) on a
 # GitHub-hosted runner, which has real internet access unlike Claude's
 # own sandbox (confirmed blocked: see
-# .github/workflows/test-klpga-reachability.yml). Uploads its output as
-# a GitHub Actions Artifact -- Claude downloads that Artifact via the
-# GitHub API, never a git branch, and never a manually pasted HTML
-# capture, per START_TOURNAMENT.md's "Why GitHub Actions Artifacts, not
-# a git branch" section.
+# .github/workflows/test-klpga-reachability.yml).
 #
-# Deliberately never runs klpga.neo_reader's own git-publish stage
-# (stage 6) -- always invoked with --dry-run, so this job needs no
-# write permission to the repository at all: `permissions: contents:
-# read` is genuinely sufficient.
+# ARCHITECTURE CORRECTION (2026-09-30, found during the first real
+# end-to-end run): the original design had Claude consume this job's
+# output exclusively via a GitHub Actions Artifact. In practice, the
+# Artifact API hands back a short-lived signed URL pointing at Azure
+# Blob Storage (productionresultssa14.blob.core.windows.net) -- a host
+# outside Claude's own sandbox's network allowlist, confirmed blocked
+# the same way klpga.co.kr is. So this job now ALSO runs
+# klpga.neo_reader's own git-publish stage (stage 6), pushing to a
+# dedicated reader/<gameCode> branch -- git push/pull already proven to
+# work from Claude's sandbox throughout this project. The Artifact
+# upload stays too, for a human operator who does not have that
+# restriction and wants a quick local download.
 on:
   workflow_dispatch:
     inputs:
@@ -33,7 +37,7 @@ on:
           - results
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   neo-sync:
@@ -45,6 +49,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git identity (needed for stage 6's commit)
+        run: |
+          git config user.name "neo-sync-bot"
+          git config user.email "neo-sync-bot@users.noreply.github.com"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -56,7 +67,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 lxml tenacity
 
-      - name: Run NEO Sync (stages 1-5 only — no git publish)
+      - name: Run NEO Sync (all 6 stages — including git publish)
         id: sync
         env:
           PYTHONPATH: ${{ github.workspace }}/klpga_pipeline/src
@@ -69,8 +80,7 @@ jobs:
           python -m klpga.neo_reader.cli sync \
             --game-code "${{ inputs.game_code }}" \
             $SEASON_ARG \
-            --stage "${{ inputs.stage }}" \
-            --dry-run
+            --stage "${{ inputs.stage }}"
           echo "exit_code=$?" >> "$GITHUB_OUTPUT"
           set -e
 
@@ -90,7 +100,26 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload sync artifacts
+      - name: Diagnostic dump — raw capture sizes and a snippet of each
+        if: always()
+        run: |
+          GAME_DIR="raw/${{ inputs.game_code }}"
+          if [ -d "$GAME_DIR" ]; then
+            {
+              echo "## Raw captures for ${{ inputs.game_code }}"
+              echo ""
+              for f in "$GAME_DIR"/*; do
+                [ -f "$f" ] || continue
+                echo "### $f ($(stat -c%s "$f") bytes)"
+                echo '```'
+                head -c 800 "$f"
+                echo ""
+                echo '```'
+              done
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload sync artifacts (convenience for a human operator)
         if: always()
         uses: actions/upload-artifact@v4
         with:
