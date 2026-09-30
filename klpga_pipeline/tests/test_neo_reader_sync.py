@@ -339,3 +339,57 @@ def test_kranking_failure_does_not_block_tournament_info_or_entry_list(workspace
     assert kranking_check.status == "SKIP"
     tournament_info_check = next(c for c in validation.checks if c.name == "tournament_info_required_fields")
     assert tournament_info_check.status == "PASS"
+
+
+def test_publish_a_second_time_for_the_same_gamecode_does_not_fail_non_fast_forward(tmp_path):
+    """BUG FIX regression test: reproduces the exact live failure found
+    2026-09-30 (second real sync run for gameCode=2026100005) -- the
+    first publish_sync_artifacts call for a gameCode succeeds, and
+    re-running it (a real, expected operation -- re-syncing the same
+    tournament later) used to be rejected by git as a non-fast-forward
+    push, since git checkout -B always starts the branch fresh from
+    current HEAD with no memory of the remote's prior state for that
+    same reader/<gameCode> branch."""
+    from klpga.neo_reader.publish import publish_sync_artifacts
+
+    _init_git_repo(tmp_path, with_origin=True)
+    raw_root = tmp_path / "raw"
+    normalized_root = tmp_path / "normalized"
+    reports_root = tmp_path / "reports"
+    content_root = tmp_path / "content"
+    for root, name in ((raw_root, "raw.txt"), (normalized_root, "n.json"), (reports_root, "r.md")):
+        (root / TEST_GAME_CODE).mkdir(parents=True)
+        (root / TEST_GAME_CODE / name).write_text("v1", encoding="utf-8")
+
+    first = publish_sync_artifacts(
+        tmp_path, TEST_GAME_CODE, event_name="Test Open",
+        raw_root=raw_root, normalized_root=normalized_root,
+        reports_root=reports_root, content_root=content_root,
+        validation_ok=True,
+    )
+    assert first.ok, first.message
+
+    # A real re-sync: the same gameCode, freshly re-written content --
+    # publish_sync_artifacts' own cleanup already checked the caller's
+    # working tree back to its original branch, which (correctly)
+    # removes raw/<gameCode> et al. from disk since they're now only
+    # tracked on reader/<gameCode>; a real second sync run would
+    # likewise start from nothing on disk, not an edit of leftover files.
+    (raw_root / TEST_GAME_CODE).mkdir(parents=True)
+    (raw_root / TEST_GAME_CODE / "raw.txt").write_text("v2", encoding="utf-8")
+
+    second = publish_sync_artifacts(
+        tmp_path, TEST_GAME_CODE, event_name="Test Open",
+        raw_root=raw_root, normalized_root=normalized_root,
+        reports_root=reports_root, content_root=content_root,
+        validation_ok=True,
+    )
+    assert second.ok, second.message
+
+    # Re-fetch to see the just-pushed state.
+    subprocess.run(["git", "fetch", "origin", f"reader/{TEST_GAME_CODE}"], cwd=tmp_path, check=True)
+    on_branch = subprocess.run(
+        ["git", "show", f"origin/reader/{TEST_GAME_CODE}:raw/{TEST_GAME_CODE}/raw.txt"],
+        cwd=tmp_path, capture_output=True, text=True, check=True,
+    )
+    assert on_branch.stdout.strip() == "v2"

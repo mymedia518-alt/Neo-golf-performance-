@@ -88,7 +88,17 @@ def publish_sync_artifacts(
 
     commit_sha = _run_git(repo_root, ["rev-parse", "HEAD"]).stdout.strip()
 
-    push = _run_git(repo_root, ["push", "-u", "origin", branch])
+    # BUG FIX (2026-09-30, found via the first real green end-to-end run):
+    # `git checkout -B branch` always creates a fresh branch from the
+    # CURRENT HEAD, with no memory of whatever this same reader/<gameCode>
+    # branch held from an earlier sync run -- so a plain push is rejected
+    # as non-fast-forward the moment a gameCode is synced a second time.
+    # reader/<gameCode> is a disposable staging branch holding only the
+    # LATEST sync snapshot for review (never accumulated history a human
+    # is expected to read commit-by-commit, unlike neo-website-v2 itself),
+    # so force-push is the semantically correct operation here, not a
+    # workaround: each new sync is meant to fully replace the last one.
+    push = _run_git(repo_root, ["push", "--force", "-u", "origin", branch])
     _run_git(repo_root, ["checkout", current_branch])
 
     if push.returncode != 0:
