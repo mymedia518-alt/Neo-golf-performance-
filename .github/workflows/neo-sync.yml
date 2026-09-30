@@ -22,10 +22,13 @@ on:
   workflow_dispatch:
     inputs:
       game_code:
-        description: "Official KLPGA gameCode, e.g. 2026100001"
-        required: true
+        description: "Official KLPGA gameCode, e.g. 2026100001. Leave empty with find_title set to only run the gameCode-lookup diagnostic."
+        required: false
       season:
         description: "Season year (optional -- inferred from the gameCode's leading 4 digits if omitted)"
+        required: false
+      find_title:
+        description: "Optional: print every gameCode in `season` whose title contains this substring, before/instead of syncing"
         required: false
       stage:
         description: "'pre' (Tournament Info + Entry List + K-Ranking) or 'results' (adds round leaderboard, only once a round has real data)"
@@ -67,8 +70,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 lxml tenacity
 
+      - name: Diagnostic — find gameCode by title substring
+        if: ${{ inputs.find_title != '' }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}/klpga_pipeline/src
+        run: |
+          python scripts/find_gamecode.py "${{ inputs.season || '2026' }}" "${{ inputs.find_title }}"
+
       - name: Run NEO Sync (all 6 stages — including git publish)
         id: sync
+        if: ${{ inputs.game_code != '' }}
         env:
           PYTHONPATH: ${{ github.workspace }}/klpga_pipeline/src
         run: |
@@ -133,7 +144,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Fail the job if sync did not succeed
-        if: steps.sync.outputs.exit_code != '0'
+        if: ${{ inputs.game_code != '' && steps.sync.outputs.exit_code != '0' }}
         run: |
           echo "NEO Sync exited with code ${{ steps.sync.outputs.exit_code }} — see the job summary above."
           exit 1
