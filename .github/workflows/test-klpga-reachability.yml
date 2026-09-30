@@ -1,0 +1,128 @@
+name: "TEST ONLY: KLPGA Reachability (NEO Reader diagnostic)"
+
+# Diagnostic-only workflow. Does not touch production code, does not
+# write to this repository, does not run any part of klpga.neo_reader.
+# It answers exactly one question: can a GitHub Actions runner reach
+# the same endpoints klpga.neo_reader already calls (see
+# klpga_pipeline/src/klpga/config.py and klpga_pipeline/src/klpga/
+# neo_reader/kranking.py for where these exact URLs are confirmed)?
+#
+# Manual trigger only -- this is a one-off network test, not something
+# that should run on a schedule or on every push.
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        description: "A real gameCode to test entry-list/leaderboard against (a completed tournament recommended for the leaderboard check, e.g. 2026090002)"
+        required: false
+        default: "2026090002"
+      season:
+        description: "Season year for getGameList"
+        required: false
+        default: "2026"
+
+permissions:
+  contents: read
+
+jobs:
+  test-reachability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Prepare output directory
+        run: |
+          mkdir -p out
+          echo "endpoint,http_status,response_bytes" > results.csv
+
+      - name: "[1/5] getGameList — POST klpga.co.kr/ajax/tourInfo/getGameList"
+        continue-on-error: true
+        run: |
+          STATUS=$(curl -sS -o out/game_list.json -D out/game_list_headers.txt -w "%{http_code}" \
+            -X POST "https://klpga.co.kr/ajax/tourInfo/getGameList" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" \
+            --data "season=${{ inputs.season }}&tourType=RE&year=" || echo "000")
+          SIZE=$(stat -c%s out/game_list.json 2>/dev/null || echo 0)
+          echo "game_list,$STATUS,$SIZE" >> results.csv
+          echo "getGameList -> HTTP $STATUS, ${SIZE} bytes"
+
+      - name: "[2/5] Entry List — GET klpga.co.kr/web/tourInfo/entry"
+        continue-on-error: true
+        run: |
+          STATUS=$(curl -sS -o out/entry_list.html -D out/entry_list_headers.txt -w "%{http_code}" \
+            "https://klpga.co.kr/web/tourInfo/entry?gameCode=${{ inputs.game_code }}" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" || echo "000")
+          SIZE=$(stat -c%s out/entry_list.html 2>/dev/null || echo 0)
+          echo "entry_list,$STATUS,$SIZE" >> results.csv
+          echo "entry_list -> HTTP $STATUS, ${SIZE} bytes"
+
+      - name: "[3/5] Round Leaderboard — POST klpga.co.kr/load/leaderboard/roundLeaderboard"
+        continue-on-error: true
+        run: |
+          STATUS=$(curl -sS -o out/round_leaderboard.html -D out/round_leaderboard_headers.txt -w "%{http_code}" \
+            -X POST "https://klpga.co.kr/load/leaderboard/roundLeaderboard" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" \
+            --data "gameCode=${{ inputs.game_code }}&round=1" || echo "000")
+          SIZE=$(stat -c%s out/round_leaderboard.html 2>/dev/null || echo 0)
+          echo "round_leaderboard,$STATUS,$SIZE" >> results.csv
+          echo "round_leaderboard -> HTTP $STATUS, ${SIZE} bytes"
+
+      - name: "[4/5] K-Ranking full table — GET k-rankings.klpga.co.kr/allplayer.jsp"
+        continue-on-error: true
+        run: |
+          STATUS=$(curl -sS -o out/kranking_full.html -D out/kranking_full_headers.txt -w "%{http_code}" \
+            "https://k-rankings.klpga.co.kr/allplayer.jsp" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" || echo "000")
+          SIZE=$(stat -c%s out/kranking_full.html 2>/dev/null || echo 0)
+          echo "kranking_full,$STATUS,$SIZE" >> results.csv
+          echo "kranking_full -> HTTP $STATUS, ${SIZE} bytes"
+
+      - name: "[5/5] K-Ranking period page — GET k-rankings.klpga.co.kr/index.jsp"
+        continue-on-error: true
+        run: |
+          STATUS=$(curl -sS -o out/kranking_period.html -D out/kranking_period_headers.txt -w "%{http_code}" \
+            "https://k-rankings.klpga.co.kr/index.jsp" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" || echo "000")
+          SIZE=$(stat -c%s out/kranking_period.html 2>/dev/null || echo 0)
+          echo "kranking_period,$STATUS,$SIZE" >> results.csv
+          echo "kranking_period -> HTTP $STATUS, ${SIZE} bytes"
+
+      - name: Show response headers (diagnostic only)
+        if: always()
+        run: |
+          for f in out/*_headers.txt; do
+            echo "=== $f ==="
+            cat "$f" || true
+            echo
+          done
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## KLPGA Reachability Test Results"
+            echo ""
+            echo "gameCode=${{ inputs.game_code }}  season=${{ inputs.season }}"
+            echo ""
+            echo "| Endpoint | HTTP Status | Response Size (bytes) |"
+            echo "|---|---|---|"
+            tail -n +2 results.csv | while IFS=, read -r name status size; do
+              echo "| $name | $status | $size |"
+            done
+            echo ""
+            echo "HTTP 200 with a non-trivial byte count = reachable and returning real content."
+            echo "000 = connection-level failure (DNS/TLS/timeout/refused), not an HTTP response at all."
+            echo "403/401/429 = reachable, but the site itself is blocking this request."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload raw responses + results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: klpga-reachability-${{ github.run_id }}
+          path: |
+            out/
+            results.csv
+          retention-days: 14
+          if-no-files-found: warn

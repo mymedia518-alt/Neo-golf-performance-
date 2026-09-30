@@ -1,0 +1,110 @@
+name: "NEO Sync — Reader (collect, normalize, warehouse, validate, review)"
+
+# The default, automated tournament-start route -- see START_TOURNAMENT.md.
+# Runs klpga.neo_reader (klpga_pipeline/src/klpga/neo_reader/) on a
+# GitHub-hosted runner, which has real internet access unlike Claude's
+# own sandbox (confirmed blocked: see
+# .github/workflows/test-klpga-reachability.yml). Uploads its output as
+# a GitHub Actions Artifact -- Claude downloads that Artifact via the
+# GitHub API, never a git branch, and never a manually pasted HTML
+# capture, per START_TOURNAMENT.md's "Why GitHub Actions Artifacts, not
+# a git branch" section.
+#
+# Deliberately never runs klpga.neo_reader's own git-publish stage
+# (stage 6) -- always invoked with --dry-run, so this job needs no
+# write permission to the repository at all: `permissions: contents:
+# read` is genuinely sufficient.
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        description: "Official KLPGA gameCode, e.g. 2026100001"
+        required: true
+      season:
+        description: "Season year (optional -- inferred from the gameCode's leading 4 digits if omitted)"
+        required: false
+      stage:
+        description: "'pre' (Tournament Info + Entry List + K-Ranking) or 'results' (adds round leaderboard, only once a round has real data)"
+        required: false
+        default: "pre"
+        type: choice
+        options:
+          - pre
+          - results
+
+permissions:
+  contents: read
+
+jobs:
+  neo-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: klpga_pipeline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml tenacity
+
+      - name: Run NEO Sync (stages 1-5 only — no git publish)
+        id: sync
+        env:
+          PYTHONPATH: ${{ github.workspace }}/klpga_pipeline/src
+        run: |
+          SEASON_ARG=""
+          if [ -n "${{ inputs.season }}" ]; then
+            SEASON_ARG="--season ${{ inputs.season }}"
+          fi
+          set +e
+          python -m klpga.neo_reader.cli sync \
+            --game-code "${{ inputs.game_code }}" \
+            $SEASON_ARG \
+            --stage "${{ inputs.stage }}" \
+            --dry-run
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Write job summary from the review report
+        if: always()
+        run: |
+          REPORT="reports/${{ inputs.game_code }}/REVIEW_REPORT_V1.md"
+          if [ -f "$REPORT" ]; then
+            cat "$REPORT" >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "## NEO Sync — no review report was written"
+              echo ""
+              echo "Sync failed before stage 5 (review report). See the "
+              echo "'Run NEO Sync' step's own log output above for the exact"
+              echo "stage and error."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload sync artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neo-sync-${{ inputs.game_code }}-${{ github.run_id }}
+          path: |
+            klpga_pipeline/raw/${{ inputs.game_code }}
+            klpga_pipeline/normalized/${{ inputs.game_code }}
+            klpga_pipeline/reports/${{ inputs.game_code }}
+            klpga_pipeline/content/website_v2/${{ inputs.game_code }}_*.json
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Fail the job if sync did not succeed
+        if: steps.sync.outputs.exit_code != '0'
+        run: |
+          echo "NEO Sync exited with code ${{ steps.sync.outputs.exit_code }} — see the job summary above."
+          exit 1
