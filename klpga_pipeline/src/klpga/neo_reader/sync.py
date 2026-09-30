@@ -29,7 +29,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import sqlite3
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -42,7 +42,7 @@ from klpga.collectors.entry_list import (
     match_entries_to_player_master,
 )
 from klpga.collectors.leaderboard import collect_all_rounds_for_game
-from klpga.collectors.tournaments import fetch_game_list
+from klpga.collectors.tournaments import fetch_game_list, parse_game_list_entry
 from klpga.db.migrate import ensure_tournament_entry_schema
 from klpga.db.upsert import (
     finish_collection_run,
@@ -56,7 +56,9 @@ from klpga.db.upsert import (
 )
 from klpga.http_client import PoliteHttpClient, RateLimitBlockedError
 from klpga.neo_reader import kranking
-from klpga.neo_reader.raw_archive import RawCaptureAlreadyExists, archive_raw
+from klpga.neo_reader.raw_archive import RawCaptureAlreadyExists, archive_raw, existing_capture
+from klpga.parsers.group_page_parser import parse_round_grouping
+from klpga.parsers.leaderboard_parser import parse_round_leaderboard_html
 
 ROOT = Path(__file__).resolve().parents[3]  # klpga_pipeline/
 SCHEMA_PATH = ROOT / "src" / "klpga" / "db" / "schema.sql"
@@ -65,6 +67,48 @@ KRANKING_SCRIPT_PATH = ROOT / "scripts" / "87_collect_kranking_top120.py"
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def build_tournament_info(match) -> dict:
+    """Pure: TournamentListing -> the TOURNAMENT_INFO.json shape. The
+    ONLY place this mapping is implemented -- both the live "collect"
+    stage and the offline "read an already-archived game_list.json"
+    stage call this, so the normalized shape is byte-for-byte identical
+    regardless of where `match` came from."""
+    return {
+        "game_code": match.game_code,
+        "event_name": match.game_title,
+        "event_eng_name": match.game_eng_title,
+        "season": match.season,
+        "start_date": match.start_date_raw,
+        "end_date": match.end_date_raw,
+        "course_name": match.course_text,
+        "course_eng_name": match.course_eng_text,
+        "out_course_text": match.out_course_text,
+        "in_course_text": match.in_course_text,
+        "game_finish": match.game_finish,
+        "prize_money": match.prize_money,
+        "game_method": match.game_method,
+        "is_completed": match.is_completed,
+        "is_regular_tour": match.is_regular_tour,
+        "is_stroke_play": match.is_stroke_play,
+        "collected_at": _now_iso(),
+        "source": config.GAME_LIST_ENDPOINT,
+    }
+
+
+def build_tournament_row(match) -> dict:
+    """Pure: TournamentListing -> the tournament_master UPSERT row. See
+    build_tournament_info's docstring -- same reuse discipline."""
+    return {
+        "event_id": match.game_code, "game_code": match.game_code, "event_name": match.game_title,
+        "season": match.season,
+        "start_date": match.start_date.isoformat() if match.start_date else match.start_date_raw,
+        "end_date": match.end_date.isoformat() if match.end_date else match.end_date_raw,
+        "course_name": match.course_text, "course_location": None, "par": None, "course_yards": None,
+        "rounds_scheduled": None, "rounds_completed": None, "field_size": None,
+        "winner": match.winner_name, "winner_score": None, "official_url": None,
+    }
 
 
 def _load_kranking_module():
@@ -93,7 +137,7 @@ class StageResult:
 # check) -- SyncResult.ok now matches that: a "kranking" stage in
 # ("error", "blocked") does not by itself make ok False, so the other,
 # genuinely required stages' real results are never hidden behind it.
-NON_BLOCKING_STAGES = frozenset({"kranking"})
+NON_BLOCKING_STAGES = frozenset({"kranking", "grouping"})
 
 
 @dataclass
@@ -182,38 +226,11 @@ def run_sync(
     normalized_dir = normalized_root / game_code
     normalized_dir.mkdir(parents=True, exist_ok=True)
     tournament_info_path = normalized_dir / "TOURNAMENT_INFO.json"
-    tournament_info = {
-        "game_code": match.game_code,
-        "event_name": match.game_title,
-        "event_eng_name": match.game_eng_title,
-        "season": match.season,
-        "start_date": match.start_date_raw,
-        "end_date": match.end_date_raw,
-        "course_name": match.course_text,
-        "course_eng_name": match.course_eng_text,
-        "out_course_text": match.out_course_text,
-        "in_course_text": match.in_course_text,
-        "game_finish": match.game_finish,
-        "prize_money": match.prize_money,
-        "game_method": match.game_method,
-        "is_completed": match.is_completed,
-        "is_regular_tour": match.is_regular_tour,
-        "is_stroke_play": match.is_stroke_play,
-        "collected_at": _now_iso(),
-        "source": config.GAME_LIST_ENDPOINT,
-    }
+    tournament_info = build_tournament_info(match)
     tournament_info_path.write_text(json.dumps(tournament_info, ensure_ascii=False, indent=2), encoding="utf-8")
     _copy_to_content(content_root, game_code, "TOURNAMENT_INFO", tournament_info)
 
-    tournament_row = {
-        "event_id": match.game_code, "game_code": match.game_code, "event_name": match.game_title,
-        "season": match.season,
-        "start_date": match.start_date.isoformat() if match.start_date else match.start_date_raw,
-        "end_date": match.end_date.isoformat() if match.end_date else match.end_date_raw,
-        "course_name": match.course_text, "course_location": None, "par": None, "course_yards": None,
-        "rounds_scheduled": None, "rounds_completed": None, "field_size": None,
-        "winner": match.winner_name, "winner_score": None, "official_url": None,
-    }
+    tournament_row = build_tournament_row(match)
     upsert_tournament(conn, tournament_row)
     conn.commit()
     result.add(StageResult("tournament_info", "success", {
@@ -325,6 +342,269 @@ def run_sync(
                 # already-cached response back to archive it human-readably.
                 raw_html = fetch_round_leaderboard_html(client, game_code, rnd)
                 _try_archive(raw_root, game_code, f"round_leaderboard_r{rnd}", raw_html, config.ROUND_LEADERBOARD_ENDPOINT, "html")
+            merged = merge_player_rows(rounds_data)
+            final_round = max(rounds_data.keys())
+            player_rows, player_event_rows, player_round_rows = build_rows(
+                game_code, season, match.game_code, merged, final_round
+            )
+            for row in player_rows:
+                upsert_player(conn, row)
+            for row in player_event_rows:
+                upsert_player_event(conn, row)
+            for row in player_round_rows:
+                upsert_player_round(conn, row)
+            conn.commit()
+            winner_score = resolve_winner_score(player_event_rows, match.winner_code)
+            if winner_score is not None:
+                update_tournament_winner_score(conn, match.game_code, winner_score)
+                conn.commit()
+
+            leaderboard_path = normalized_dir / "LEADERBOARD.json"
+            leaderboard_path.write_text(
+                json.dumps({"game_code": game_code, "final_round": final_round, "records": player_event_rows}, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            _copy_to_content(content_root, game_code, "LEADERBOARD", {"game_code": game_code, "final_round": final_round, "records": player_event_rows})
+            result.add(StageResult("leaderboard", "success", {
+                "final_round": final_round, "player_count": len(player_rows), "winner_score": winner_score,
+            }))
+
+    finish_collection_run(conn, run_id, status="success" if result.ok else "error", finished_at=_now_iso())
+    conn.commit()
+    conn.close()
+    return result
+
+
+def run_sync_offline(
+    game_code: str,
+    season: int,
+    *,
+    stage: str = "pre",
+    db_path: Path,
+    raw_root: Path,
+    normalized_root: Path,
+    content_root: Path,
+) -> SyncResult:
+    """Offline counterpart to run_sync -- makes ZERO network calls. Reads
+    already-archived raw captures back from raw/<game_code>/ (the exact
+    write-once files archive_raw already produces: game_list.json,
+    entry_list.html, kranking_period.html, kranking_full_table.html,
+    round_leaderboard_r<n>.html for "results") and feeds them into the
+    SAME parse/build functions run_sync itself uses (parse_game_list_
+    entry, build_tournament_info, build_tournament_row, parse_entry_
+    list_html, parse_entry_summary, match_entries_to_player_master,
+    build_tournament_entry_rows, kranking.combine_official_evidence,
+    parse_round_leaderboard_html, merge_player_rows, build_rows,
+    resolve_winner_score). None of that parsing logic is reimplemented
+    here -- only re-wired to a disk source instead of a live fetch, so
+    online and offline sync always produce byte-for-byte the same
+    normalized shape from the same underlying raw bytes.
+
+    A stage whose raw capture is missing from disk fails closed with a
+    real "not found" error naming the exact expected path -- exactly
+    like run_sync fails closed on a real network error -- never
+    fabricating normalized output for data that was never actually
+    captured. Unlike run_sync, this never touches raw_root for writing
+    (it only reads what's already there) and never calls
+    archive_raw/_try_archive."""
+    result = SyncResult(game_code=game_code, season=season, stage=stage)
+
+    if not db_path.exists():
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(db_path)
+        conn.executescript(SCHEMA_PATH.read_text(encoding="utf-8"))
+        conn.commit()
+    else:
+        conn = sqlite3.connect(db_path)
+    ensure_tournament_entry_schema(conn, SCHEMA_PATH)
+
+    run_id = start_collection_run(conn, "neo_reader.sync_offline", target=game_code, started_at=_now_iso())
+    conn.commit()
+
+    # ---------------------------------------------------------------
+    # STAGE: Tournament Info -- read game_list.json back from raw/
+    # ---------------------------------------------------------------
+    game_list_path = existing_capture(raw_root, game_code, "game_list")
+    if game_list_path is None:
+        msg = (
+            f"no archived raw capture found at {raw_root / game_code / 'game_list.json'} "
+            "-- run online sync (or copy a real raw/<game_code>/game_list.json capture into place) first"
+        )
+        finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=msg)
+        conn.commit(); conn.close()
+        return _fail(result, "tournament_info", "error", msg)
+
+    entry_dict = json.loads(game_list_path.read_text(encoding="utf-8"))
+    match = parse_game_list_entry(entry_dict, season)
+
+    normalized_dir = normalized_root / game_code
+    normalized_dir.mkdir(parents=True, exist_ok=True)
+    tournament_info_path = normalized_dir / "TOURNAMENT_INFO.json"
+    tournament_info = build_tournament_info(match)
+    tournament_info_path.write_text(json.dumps(tournament_info, ensure_ascii=False, indent=2), encoding="utf-8")
+    _copy_to_content(content_root, game_code, "TOURNAMENT_INFO", tournament_info)
+
+    tournament_row = build_tournament_row(match)
+    upsert_tournament(conn, tournament_row)
+    conn.commit()
+    result.add(StageResult("tournament_info", "success", {
+        "event_name": match.game_title, "start_date": match.start_date_raw, "end_date": match.end_date_raw,
+        "is_completed": match.is_completed, "source": "offline:raw/game_list.json",
+    }))
+
+    # ---------------------------------------------------------------
+    # STAGE: Entry List -- read entry_list.html back from raw/
+    # ---------------------------------------------------------------
+    entry_list_path = existing_capture(raw_root, game_code, "entry_list")
+    if entry_list_path is None:
+        msg = (
+            f"no archived raw capture found at {raw_root / game_code / 'entry_list.html'} "
+            "-- run online sync (or copy a real raw/<game_code>/entry_list.html capture into place) first"
+        )
+        finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=msg)
+        conn.commit(); conn.close()
+        return _fail(result, "entry_list", "error", msg)
+
+    entry_html = entry_list_path.read_text(encoding="utf-8")
+    from klpga.parsers.entry_list_parser import parse_entry_list_html, parse_entry_summary
+    summary = parse_entry_summary(entry_html)
+    parsed = parse_entry_list_html(entry_html)
+    match_result = match_entries_to_player_master(conn, parsed.rows)
+    collected_at = _now_iso()
+    entry_rows = build_tournament_entry_rows(
+        game_code=game_code, entry_rows=parsed.rows, source=config.ENTRY_LIST_ENDPOINT, collected_at=collected_at,
+    )
+    for row in entry_rows:
+        upsert_tournament_entry(conn, row)
+    conn.commit()
+
+    entry_snapshot_path = normalized_dir / "ENTRY_SNAPSHOT.json"
+    entry_snapshot = {
+        "game_code": game_code,
+        "collected_at": collected_at,
+        "source": config.ENTRY_LIST_ENDPOINT,
+        "page_summary_counts": summary.counts,
+        "parsed_row_count": len(parsed.rows),
+        "unparsed_row_count": parsed.unparsed_row_count,
+        "duplicate_player_codes": match_result.duplicate_player_codes,
+        "matched_count": match_result.matched_count,
+        "unmatched_count": match_result.unmatched_count,
+        "records": [
+            {
+                "player_code": r.player_code, "player_name": r.player_name, "nationality": r.nationality,
+                "qualification_category": r.qualification_category, "qualification_reason": r.qualification_reason,
+            }
+            for r in parsed.rows
+        ],
+    }
+    entry_snapshot_path.write_text(json.dumps(entry_snapshot, ensure_ascii=False, indent=2), encoding="utf-8")
+    _copy_to_content(content_root, game_code, "ENTRY_SNAPSHOT", entry_snapshot)
+
+    result.add(StageResult("entry_list", "success", {
+        "parsed_row_count": len(parsed.rows), "unparsed_row_count": parsed.unparsed_row_count,
+        "matched_count": match_result.matched_count, "unmatched_count": match_result.unmatched_count,
+    }))
+
+    # ---------------------------------------------------------------
+    # STAGE: K-Ranking -- read both archived pages back from raw/
+    # ---------------------------------------------------------------
+    period_path = existing_capture(raw_root, game_code, "kranking_period")
+    full_path = existing_capture(raw_root, game_code, "kranking_full_table")
+    if period_path is None or full_path is None:
+        result.add(StageResult(
+            "kranking", "skipped",
+            error_message=(
+                f"no archived raw capture for kranking_period/kranking_full_table under {raw_root / game_code} "
+                "-- run online sync first"
+            ),
+        ))
+    else:
+        try:
+            kr = _load_kranking_module()
+            combined = kr.combine_official_evidence(period_path, full_path, _now_iso())
+            kranking_path = normalized_dir / "KRANKING_TOP120.json"
+            kranking_path.write_text(json.dumps(combined, ensure_ascii=False, indent=2), encoding="utf-8")
+            _copy_to_content(content_root, game_code, "KRANKING_TOP120", combined)
+            result.add(StageResult("kranking", "success", {
+                "ranking_week": combined["ranking_week"], "full_population_count": combined["full_population_count"],
+            }))
+        except Exception as exc:  # noqa: BLE001 -- crosscheck failure, malformed capture, etc: real, not fabricated past
+            result.add(StageResult("kranking", "error", error_message=str(exc)))
+
+    # ---------------------------------------------------------------
+    # STAGE: Grouping / tee-times -- read grouping.html back from raw/
+    # and reuse klpga.parsers.group_page_parser.parse_round_grouping,
+    # the real, already-confirmed parser for this page (see that
+    # module's docstring: tests/fixtures/group_page_sample.html is a
+    # byte-faithful slice of a real capture). This parser was never
+    # wired into ANY sync stage before (online or offline) -- unlike
+    # course/history_record/pin_placement (no parser exists for those
+    # anywhere in this repo), grouping's gap was a missing adapter, not
+    # a missing parser, so it is wired here rather than reimplemented.
+    # Non-blocking like kranking: grouping data only exists once a
+    # round has actually been grouped, which can lag "pre" entirely.
+    # ---------------------------------------------------------------
+    grouping_path = existing_capture(raw_root, game_code, "grouping")
+    if grouping_path is None:
+        result.add(StageResult(
+            "grouping", "skipped",
+            error_message=f"no archived raw capture found at {raw_root / game_code / 'grouping.html'} -- run online sync first",
+        ))
+    else:
+        grouping_html = grouping_path.read_text(encoding="utf-8")
+        rounds_grouped: dict[int, list[dict]] = {}
+        for rnd in (1, 2, 3, 4):
+            try:
+                rows = parse_round_grouping(grouping_html, rnd)
+            except ValueError:
+                continue  # that round not published yet on this capture -- real, expected, never fabricated
+            rounds_grouped[rnd] = [asdict(r) for r in rows]
+
+        if not rounds_grouped:
+            result.add(StageResult(
+                "grouping", "error",
+                error_message=(
+                    "grouping.html was archived but no round (1-4) tab-pane parsed -- this capture's "
+                    "structure does not match group_page_parser's confirmed shape"
+                ),
+            ))
+        else:
+            grouping_out_path = normalized_dir / "GROUPING.json"
+            grouping_payload = {"game_code": game_code, "rounds": rounds_grouped}
+            grouping_out_path.write_text(json.dumps(grouping_payload, ensure_ascii=False, indent=2), encoding="utf-8")
+            _copy_to_content(content_root, game_code, "GROUPING", grouping_payload)
+            result.add(StageResult("grouping", "success", {
+                "rounds_present": sorted(rounds_grouped.keys()),
+                "player_counts": {r: len(rows) for r, rows in rounds_grouped.items()},
+            }))
+
+    # ---------------------------------------------------------------
+    # STAGE "results" (opt-in only): round leaderboard, read back from
+    # raw/<game_code>/round_leaderboard_r<n>.html. The "final round" is
+    # discovered the same way run_sync's own discover_final_round does
+    # in spirit (the highest round number with real data) -- just
+    # discovered from what's actually archived on disk instead of
+    # probed live, since there is no network here to probe with.
+    # ---------------------------------------------------------------
+    if stage == "results":
+        game_dir = raw_root / game_code
+        archived_rounds = sorted(
+            int(p.stem.rsplit("_r", 1)[1])
+            for p in (game_dir.glob("round_leaderboard_r*.html") if game_dir.is_dir() else [])
+        )
+        if not archived_rounds:
+            result.add(StageResult(
+                "leaderboard", "error",
+                error_message=(
+                    f"no archived round_leaderboard_r<n>.html captures found under {game_dir} "
+                    "-- run online sync first"
+                ),
+            ))
+        else:
+            rounds_data = {}
+            for rnd in archived_rounds:
+                html = (game_dir / f"round_leaderboard_r{rnd}.html").read_text(encoding="utf-8")
+                rounds_data[rnd] = parse_round_leaderboard_html(html, game_code=game_code, round_number=rnd)
             merged = merge_player_rows(rounds_data)
             final_round = max(rounds_data.keys())
             player_rows, player_event_rows, player_round_rows = build_rows(
