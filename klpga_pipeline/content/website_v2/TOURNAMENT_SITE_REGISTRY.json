@@ -129,6 +129,31 @@
         "final_confirmed_evidence": "KB_2026090003_OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V3.json"
       },
       "_artifacts_comment": "final_confirmed_evidence points at the LATEST superseding OPERATOR_SUPPLIED_OFFICIAL_SCREENSHOT_FINAL_V*.json evidence file (see that file's own 'supersedes' chain -- V1/V2 are preserved, never deleted, this pointer just always names the current one). klpga.website_v2.kb_home_stage_router.kb_current_stage() reads this file and only advances to the 'final' stage if it parses AND has zero review_required/unmatched rows among confirmed_records AND positions_confirmed_gapless_through > 0 -- never from this pointer's mere existence. Update this string (never overwrite the V3 file itself) the next time a new version supersedes it."
+    },
+    "2026100005": {
+      "url_base": "/tournaments/2026/2026100005/",
+      "stage_state_filename": "2026100005_STAGE_STATE.json",
+      "stage_order": [
+        "pre",
+        "r1",
+        "r2",
+        "r3",
+        "final"
+      ],
+      "start_date": "2026-10-01",
+      "end_date": "2026-10-04",
+      "venue": "블루헤런",
+      "_chronology_comment": "제26회 하이트진로 챔피언십. Collected via NEO Sync (reader/2026100005, run #6, all 7 validation checks PASS) -- see START_TOURNAMENT.md. start_date/end_date/venue are the official getGameList fields already in 2026100005_TOURNAMENT_INFO.json (course_name='블루헤런'), carried here in the same shape this registry already uses for every other tournament so the generic chronology resolver can order this entry without re-reading tournament-specific content files. final_round_number is deliberately NOT set: the official response gives no explicit round count for this event and this repo's own convention (see 2026090002/2026090003's _final_round_number_comment) is to never infer one -- the generic stage_order-length fallback in tournament_context.py applies until real evidence says otherwise.",
+      "_hub_card_comment": "PRE only: nav_stages honestly lists just the one real, published stage (docs/tournaments/2026/2026100005/pre/index.html, built by scripts/190_build_hitejinro_pre_page.py). No display_name/status/date_range/result_line here, matching the KB/Hana convention for an in-progress tournament -- update nav_stages here (never invent the other static fields) once a later stage is genuinely published.",
+      "hub_card": {
+        "nav_stages": ["pre"]
+      },
+      "artifacts": {
+        "entry_snapshot": "2026100005_KE_ENTRY_SNAPSHOT.json",
+        "entry_kranking_join": "2026100005_ENTRY_KRANKING_JOIN.json",
+        "entry_validation_report": "2026100005_ENTRY_VALIDATION_REPORT.md"
+      },
+      "_artifacts_comment": "entry_kranking_join is this tournament's real official K-Ranking data (105 of 108 entrants matched against the full 747-player official table, 3 genuinely unranked -- see that file and the validation report for the full trail). entry_snapshot maps to 2026100005_KE_ENTRY_SNAPSHOT.json, NOT the raw NEO Sync 2026100005_ENTRY_SNAPSHOT.json -- the KE_ file is a pure, lossless reshaping of the same real records (records[]/player_code -> entries[]/player_id) so klpga.knowledge_engine.player_intelligence_generator.players_for_tournament() and TournamentContext.artifact_path('entry_snapshot') resolve real data instead of silently returning zero players (see that file's own _bridge_comment for the exact field-by-field mapping and what was deliberately omitted rather than guessed). No pre_win_forecast/M4 artifact exists or is referenced here: the historical warehouse (data/klpga.sqlite) required to compute one is not present in this repository or its CI runner -- see 190_build_hitejinro_pre_page.py's own module docstring for the full explanation. The PRE page renders '데이터 부족' for every entrant's NEO 경기력/컷/TOP20/TOP10/TOP5/우승확률 cell for that reason, not a partial/estimated value."
     }
   }
 }

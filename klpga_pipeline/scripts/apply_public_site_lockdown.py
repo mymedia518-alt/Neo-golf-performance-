@@ -122,6 +122,17 @@ RELEASED_HTML_PATHS = {
     # from real official KLPGA data already in this repository. No other
     # player's page is released by this entry.
     "player/10097/index.html",
+    # HITE JINRO PRE BUILD (NEO Sync reader/2026100005, run #6, all 7
+    # validation checks PASS -- see START_TOURNAMENT.md): the real PRE
+    # page for the HITE JINRO Championship (game_code 2026100005) --
+    # scripts/190_build_hitejinro_pre_page.py hard-asserts the 108-
+    # entrant identity set against ENTRY_KRANKING_JOIN.json before
+    # writing this file, and never renders a fabricated probability:
+    # every one of the 108 entrants' NEO 경기력/컷/TOP20/TOP10/TOP5/
+    # 우승확률 cells show 데이터 부족 (no historical warehouse exists
+    # to run the M4 model for this tournament yet -- see that script's
+    # own module docstring), never an estimated number.
+    "tournaments/2026/2026100005/pre/index.html",
 }
 
 # Non-HTML real content that is not an asset and is not linked from the
