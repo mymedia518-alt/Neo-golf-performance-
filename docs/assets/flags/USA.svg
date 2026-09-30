@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-us" viewBox="0 0 640 480">
+  <path fill="#bd3d44" d="M0 0h640v480H0z"/>
+  <path stroke="#fff" stroke-width="37" d="M0 55.3h640M0 129h640M0 202.7h640M0 276.3h640M0 350h640M0 423.7h640"/>
+  <path fill="#192f5d" d="M0 0h364.8v258.5H0z"/>
+  <g fill="#fff">
+    <g id="us-s18">
+      <g id="us-s9">
+        <g id="us-s5">
+          <g id="us-s4">
+            <path id="us-s" d="m30.4 11 7 21.6L19.7 19h21.4L23.4 32.6z"/>
+            <use xlink:href="#us-s" y="51.7" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <use xlink:href="#us-s" y="103.4" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+            <use xlink:href="#us-s" y="155.1" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+          </g>
+          <use xlink:href="#us-s" y="206.8" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        </g>
+        <use xlink:href="#us-s5" x="60.8" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+      </g>
+      <use xlink:href="#us-s9" x="121.6" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+    </g>
+    <use xlink:href="#us-s18" x="243.2" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+    <use xlink:href="#us-s9" x="30.4" y="25.8" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+    <use xlink:href="#us-s9" x="151.9" y="25.8" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+    <use xlink:href="#us-s9" x="273.5" y="25.8" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+  </g>
+</svg>
