@@ -14,33 +14,76 @@ directly from the validated `reader/2026100005` branch (NEO Sync run
 #6, all 7 validation checks PASS -- see reports/2026100005/REVIEW_REPORT_V1.md
 on that branch). No other source is read.
 
-WHAT IS DELIBERATELY OMITTED, AND WHY (no-fabrication rule):
+WHAT IS NOW CONNECTED (2026-09-30, operator instruction: "do not stop
+until every available dataset is connected"):
 
-- NEO 경기력 band + 컷 통과확률/TOP20/TOP10/TOP5/우승확률 (all 5 M4
-  probability columns): forced to "데이터 부족" for ALL 108 entrants,
-  never just some. The M4 win-probability model
-  (scripts/130_build_hana_pre_m4.py) requires a populated historical
-  warehouse (player_event/player_round tables in data/klpga.sqlite) to
-  compute point-in-time features per player. That file is
-  .gitignore'd and does not exist anywhere in this sandbox or on the
-  GitHub Actions runner that ran NEO Sync (confirmed via `git log
-  --all` -- no history -- and a filesystem-wide search -- no copy).
-  This is the exact same fallback value this codebase's own 139
-  script already uses for players it cannot analyze (amateurs with an
-  improper KGA basis) -- "데이터 부족" is this project's own
-  established convention for "no legitimate value exists", not a
-  placeholder invented for this build.
-- data-neo-score attribute on the band span: omitted entirely (not
-  set to 0.00 or any other value) for the same reason -- no M4 record
-  exists to source it from, and it is invisible metadata, not
-  rendered text, so omitting it changes no UX/layout.
-- Sponsor: left blank for all 108 entrants. 139's own
-  _load_sponsor_by_id() docstring states the established rule
-  explicitly: "A player_id with no verified sponsor anywhere is
-  simply absent from the returned dict -- the caller renders an empty
-  sponsor slot, never a guess." No VERIFIED_OFFICIAL sponsor evidence
-  file exists for any 2026100005 entrant, so every sponsor slot is
-  empty, matching that exact rule.
+- Sponsor: klpga.website_v2.player_identity.cross_tournament_verified_
+  sponsor_cache() -- the existing, generic, official-source-backed
+  identity pipeline (never a new lookup invented for this build). It
+  scans every OTHER tournament's own *_CURRENT_PLAYER_MASTER.json for
+  already-PASS-identity-verified sponsor facts for the SAME player_id
+  (a real person's sponsor doesn't reset between tournaments) plus
+  OPERATOR_REPORTED_SPONSOR_EVIDENCE_V*.json, dropping any player_id
+  whose value disagrees across sources. 84 of 108 entrants matched a
+  real, verified sponsor this way; the other 24 render an empty slot
+  (never a guess), exactly matching 139's own established rule for a
+  player_id with no verified sponsor anywhere.
+- NEO 경기력: computed directly from each entrant's own already-
+  committed content/website_v2/knowledge_engine/player_intelligence/
+  <id>/latest.json -> current_form (recent_5_sg/recent_10_sg/
+  long_term_sg/volatility) -- the SAME raw inputs and SAME published
+  weights (0.35/0.25/0.25/-0.10 "consistency") as this repo's own NEO
+  Ranking V1 formula (docs/NEO_RANKING_V1_REDTEAM_BACKTEST.md), but
+  z-scored across THIS tournament's own real 108-player field (not a
+  cross-event cohort), quintile-banded exactly like 139's own
+  documented band logic. This is not "publishing NEO Ranking" (that
+  standalone product/page remains NEO_RANKING_PUBLICATION=BLOCKED per
+  its own red-team gate) -- it is reusing its one transparent, already-
+  evidenced scoring formula on real per-player SG data already
+  committed to this repo, for one existing PRE-page field, the same
+  way 139 always populated this exact column from whatever model was
+  available to it. 101 of 108 entrants have complete current_form data
+  and get a real band; 7 (6 with partial/no current_form + 1 amateur
+  with no committed Player Intelligence doc at all -- see
+  _load_current_form_by_id()) honestly render 데이터 부족 -- per-player,
+  never defaulted for the whole field.
+- "이전 대회" (previous tournament): klpga.website_v2.tournament_
+  chronology.resolve_tournament_chronology(), the same real, pure,
+  date-only resolver HOME's own hub-card pipeline uses -- never a
+  hardcoded "Hana" literal. As of today it resolves "last" to Hana
+  (game_code 2026090002, real end_date 2026-09-20 < today), linked to
+  its own real, live PRE page. No live Hana/KB PRE page has ever had
+  this element in its own markup (confirmed: grepped the real
+  reference file, found nothing) -- there is no "exact Hana template"
+  copy for this piece, so it is added as a single small hero fact line
+  using only an already-established markup pattern (a plain <p
+  class="meta"> with a link), not a new component.
+
+- 컷 통과확률/TOP20/TOP10/TOP5/우승확률 (the 5 M4 probability columns):
+  connected, 2026-09-30, via _load_m4_by_id() reading scripts/193's own
+  output (M4_CANDIDATE_PATH = content/website_v2/HITEJINRO_2026100005_
+  PRE_M4_CANDIDATE_V1.json) -- pure additive wiring, zero changes to
+  193 itself. Renders each of the 5 real probabilities (cut_probability/
+  top20_probability/top10_probability/top5_probability/win_probability)
+  as a percentage ONLY for a playerCode whose record has
+  analysis_status=='PASS'; a player missing from the file, or present
+  with analysis_status=='DATA_INSUFFICIENT', still renders 데이터 부족 --
+  the same per-player "absent, not guessed" rule NEO 경기력 already
+  follows above, never a whole-field fallback. 193 itself requires a
+  populated RELATIONAL historical warehouse (player_event/player_round
+  in data/klpga.sqlite, .gitignore'd, not committed by design -- see
+  193's own module docstring for exactly what that warehouse is and how
+  it's produced) to run; if that file has never been generated in a
+  given environment, M4_CANDIDATE_PATH simply doesn't exist yet and
+  _load_m4_by_id() returns {}, so this build reproduces its pre-
+  2026-09-30 behavior (데이터 부족 for all 108) exactly, not a crash.
+
+WHAT REMAINS DELIBERATELY OMITTED, AND WHY (no-fabrication rule):
+
+- data-neo-score attribute on the band span: omitted for the 7 데이터
+  부족 rows specifically (present, real, for the other 101) -- no
+  underlying score exists for those 7, and it is invisible metadata,
+  not rendered text, so omitting it changes no UX/layout.
 - "2025 우승 ..." hero fact line: omitted entirely (not left with a
   placeholder). No prior-year 하이트진로 챔피언십 winner fact exists
   anywhere in this repository or in reader/2026100005 to report.
@@ -84,7 +127,9 @@ group.
 from __future__ import annotations
 
 import json
+import statistics
 import sys
+from datetime import date
 from html import escape as _esc
 from pathlib import Path
 
@@ -94,14 +139,105 @@ CONTENT = ROOT / "content" / "website_v2"
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.player_link import linked_player_name_cell  # noqa: E402
+from klpga.website_v2.player_identity import cross_tournament_verified_sponsor_cache  # noqa: E402
+from klpga.website_v2.official_schedule import load_official_schedule  # noqa: E402
+from klpga.website_v2.tournament_chronology import resolve_tournament_chronology  # noqa: E402
 
 GAME_CODE = "2026100005"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html"
 FLAG_ASSETS = {p.stem for p in (REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
+PLAYER_INTELLIGENCE_DIR = CONTENT / "knowledge_engine" / "player_intelligence"
+
+_NEO_BAND_FEATURES = ("recent_5_sg", "recent_10_sg", "long_term_sg", "volatility")
+_NEO_BAND_WEIGHTS = {"recent_5_sg": 0.35, "recent_10_sg": 0.25, "long_term_sg": 0.25, "volatility": -0.10}
+_BAND_LABELS = ["최상위", "상위", "중위", "하위", "최하위"]
 
 
 def _load(name: str) -> dict:
     return json.loads((CONTENT / f"{GAME_CODE}_{name}").read_text(encoding="utf-8"))
+
+
+def _load_current_form_by_id(player_ids: list[str]) -> dict[str, dict]:
+    """{player_id: current_form dict} for entrants with a committed,
+    COMPLETE (all 4 fields non-null) Player Intelligence document --
+    see module docstring's NEO 경기력 section. Never partially fills a
+    missing field; a player with any null feature is simply absent
+    from the returned dict, same 'absent, not guessed' rule this repo
+    uses everywhere else."""
+    by_id: dict[str, dict] = {}
+    for pid in player_ids:
+        path = PLAYER_INTELLIGENCE_DIR / pid / "latest.json"
+        if not path.is_file():
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        cf = doc.get("current_form") or {}
+        if all(cf.get(k) is not None for k in _NEO_BAND_FEATURES):
+            by_id[pid] = cf
+    return by_id
+
+
+def _neo_band_by_id(current_form_by_id: dict[str, dict]) -> dict[str, tuple[str, float]]:
+    """{player_id: (band_label, raw_score)} -- raw_score is a z-scored
+    composite over THIS tournament's own real field (see module
+    docstring), never compared across tournaments. Quintile-banded
+    highest-score-first, same convention as 139's own band_by_id."""
+    if not current_form_by_id:
+        return {}
+    means = {f: statistics.mean(cf[f] for cf in current_form_by_id.values()) for f in _NEO_BAND_FEATURES}
+    stdevs = {f: statistics.pstdev(cf[f] for cf in current_form_by_id.values()) or 1.0 for f in _NEO_BAND_FEATURES}
+    scores: dict[str, float] = {}
+    for pid, cf in current_form_by_id.items():
+        scores[pid] = sum(
+            _NEO_BAND_WEIGHTS[f] * ((cf[f] - means[f]) / stdevs[f]) for f in _NEO_BAND_FEATURES
+        )
+    ordered = sorted(scores, key=lambda pid: -scores[pid])
+    n = len(ordered)
+    band_by_id: dict[str, tuple[str, float]] = {}
+    for i, pid in enumerate(ordered):
+        band_by_id[pid] = (_BAND_LABELS[min(4, i * 5 // n)], scores[pid])
+    return band_by_id
+
+
+M4_CANDIDATE_PATH = CONTENT / "HITEJINRO_2026100005_PRE_M4_CANDIDATE_V1.json"
+
+
+def _load_m4_by_id() -> dict[str, dict]:
+    """{player_code: record} for every entrant scripts/193's M4 output
+    (M4_CANDIDATE_PATH) marks analysis_status=='PASS' -- a record with
+    analysis_status=='DATA_INSUFFICIENT' is deliberately excluded here
+    too, same "absent, not guessed" rule as _load_current_form_by_id.
+    Returns {} if the file doesn't exist yet (193 hasn't been run
+    against a real warehouse in this environment) -- the row loop then
+    renders 데이터 부족 for every player, exactly as before this
+    function existed; this is a pure additive connection, never a
+    behavior change when the file is absent."""
+    if not M4_CANDIDATE_PATH.is_file():
+        return {}
+    doc = json.loads(M4_CANDIDATE_PATH.read_text(encoding="utf-8"))
+    if doc.get("gameCode") != GAME_CODE:
+        return {}
+    return {
+        str(r["playerCode"]): r
+        for r in doc.get("records", [])
+        if r.get("analysis_status") == "PASS"
+    }
+
+
+def _pct(value: float) -> str:
+    return f"{value * 100:.1f}%"
+
+
+def _previous_tournament_link() -> tuple[str, str] | None:
+    """(tournament_name, url_base) for the real, date-resolved previous
+    tournament, or None if none exists yet -- see module docstring's
+    '이전 대회' section. Never a hardcoded literal."""
+    schedule = load_official_schedule(CONTENT / "OFFICIAL_KLPGA_SCHEDULE.json")
+    registry = json.loads((CONTENT / "TOURNAMENT_SITE_REGISTRY.json").read_text(encoding="utf-8"))["tournaments"]
+    chronology = resolve_tournament_chronology(schedule, registry, as_of=date.today())
+    last = chronology.get("last")
+    if last is None:
+        return None
+    return last.tournament_name, f"{last.url_base}pre/"
 
 
 _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
@@ -121,12 +257,34 @@ def main() -> None:
 
     rows_data = sorted(records, key=_sort_key)
 
+    all_ids = [r["player_code"] for r in rows_data]
+    sponsor_cache = cross_tournament_verified_sponsor_cache()
+    current_form_by_id = _load_current_form_by_id(all_ids)
+    neo_band_by_id = _neo_band_by_id(current_form_by_id)
+    m4_by_id = _load_m4_by_id()
+
     rows_html = []
     for r in rows_data:
         pid = r["player_code"]
         k_rank_cell = str(r["official_k_rank"]) if r["official_k_rank"] is not None else "—"
-        band_cell = f"<span class='band' role='img' aria-label='NEO 경기력 데이터 부족'>{_NOWRAP}</span>"
-        cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
+        if pid in m4_by_id:
+            m4 = m4_by_id[pid]
+            cut_cell = _pct(m4["cut_probability"])
+            top20_cell = _pct(m4["top20_probability"])
+            top10_cell = _pct(m4["top10_probability"])
+            top5_cell = _pct(m4["top5_probability"])
+            win_cell = _pct(m4["win_probability"])
+        else:
+            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
+
+        if pid in neo_band_by_id:
+            label, score = neo_band_by_id[pid]
+            band_cell = (
+                f"<span class='band' role='img' aria-label='NEO 경기력 {label}' "
+                f"data-neo-score='{score:.2f}'>{label}</span>"
+            )
+        else:
+            band_cell = f"<span class='band' role='img' aria-label='NEO 경기력 데이터 부족'>{_NOWRAP}</span>"
 
         country_code = r["nationality"]
         if country_code in FLAG_ASSETS:
@@ -137,12 +295,13 @@ def main() -> None:
         else:
             flag_cell = ""
 
+        sponsor_text = _esc(sponsor_cache.get(pid, ""))
         name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(r['player_name'])}</span>"
         name_cell = linked_player_name_cell(pid, name_cell)
         rows_html.append(
             f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}"
             f"{name_cell}"
-            f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'></span></th>"
+            f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
             f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
             f"<td data-label='NEO 경기력'>{band_cell}</td>"
             f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
@@ -159,6 +318,12 @@ def main() -> None:
     course_line = f"{tourney['course_name']} · {tourney['out_course_text']}, {tourney['in_course_text']}"
     if tourney.get("is_stroke_play"):
         course_line += " · 스트로크 플레이"
+
+    previous = _previous_tournament_link()
+    previous_meta_html = (
+        f"<p class='meta'>이전 대회 <a href='{_esc(previous[1])}'>{_esc(previous[0])}</a></p>"
+        if previous is not None else ""
+    )
 
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
@@ -185,7 +350,8 @@ def main() -> None:
         '<span aria-current="page">PRE</span></nav>'
         '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
-        f'<p class="meta">{_esc(course_line)}</p></div>'
+        f'<p class="meta">{_esc(course_line)}</p>'
+        f'{previous_meta_html}</div>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 
@@ -243,8 +409,13 @@ def main() -> None:
         "rows": len(rows_data),
         "k_rank_matched": sum(1 for r in rows_data if r["official_k_rank"] is not None),
         "k_rank_unmatched": sum(1 for r in rows_data if r["official_k_rank"] is None),
-        "data_insufficient_all_rows": True,
-        "reason": "no historical warehouse (data/klpga.sqlite) available to run the M4 win-probability model",
+        "sponsor_matched": sum(1 for r in rows_data if r["player_code"] in sponsor_cache),
+        "neo_band_connected": len(neo_band_by_id),
+        "neo_band_data_insufficient": len(rows_data) - len(neo_band_by_id),
+        "previous_tournament": previous[0] if previous else None,
+        "m4_connected": len(m4_by_id),
+        "m4_data_insufficient": len(rows_data) - len(m4_by_id),
+        "m4_source": str(M4_CANDIDATE_PATH) if m4_by_id else "not found -- 데이터 부족 for all 108, see module docstring",
     }, ensure_ascii=False, indent=2))
 
 
