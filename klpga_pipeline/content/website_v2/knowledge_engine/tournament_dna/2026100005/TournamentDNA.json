@@ -1,0 +1,97 @@
+{
+  "best_fits": [],
+  "course_dna": {
+    "axes": [],
+    "matched_game_codes": [],
+    "sample_events": 0
+  },
+  "danger_holes": [],
+  "field_composition": [
+    {
+      "count": 70,
+      "key": "balanced",
+      "label": "균형형"
+    },
+    {
+      "count": 17,
+      "key": "precision_ball_striker",
+      "label": "정교한 아이언 플레이어"
+    },
+    {
+      "count": 12,
+      "key": "recovery_specialist",
+      "label": "위기 관리형 플레이어"
+    },
+    {
+      "count": 5,
+      "key": "birdie_hunter",
+      "label": "공격적인 버디 메이커"
+    },
+    {
+      "count": 3,
+      "key": "stable_par_saver",
+      "label": "안정적인 파 세이버"
+    }
+  ],
+  "field_unclassified": 1,
+  "generated_at": "2026-09-30T11:17:06.386974+00:00",
+  "identity": {
+    "cut_after_round": null,
+    "field_size": 108,
+    "game_code": "2026100005",
+    "holes": null,
+    "par": null,
+    "purse": null,
+    "sources": [
+      "2026100005_ENTRY_SNAPSHOT.json"
+    ],
+    "tournament_name": "제26회 하이트진로 챔피언십",
+    "venue": "블루헤런"
+  },
+  "opportunity_holes": [],
+  "story": [
+    "이번 대회 참가 선수 중 70명이 균형형 유형입니다.",
+    "이번 대회 참가 선수는 총 108명입니다."
+  ],
+  "verdict": {
+    "summary": "제26회 하이트진로 챔피언십(블루헤런)은(는) 실제 과거 기록 0회를 근거로 분석된 코스입니다. 참가 선수 중 가장 많은 유형은 균형형입니다."
+  },
+  "watch_list": [
+    {
+      "component_label": "아이언",
+      "delta": -2.135,
+      "direction": "하락",
+      "player_id": "8972",
+      "player_name": "조정민"
+    },
+    {
+      "component_label": "아이언",
+      "delta": 2.0180000000000002,
+      "direction": "개선",
+      "player_id": "10790",
+      "player_name": "김하은2"
+    },
+    {
+      "component_label": "퍼팅",
+      "delta": 1.6711111111111108,
+      "direction": "개선",
+      "player_id": "10481",
+      "player_name": "이서윤4"
+    },
+    {
+      "component_label": "아이언",
+      "delta": -1.44,
+      "direction": "하락",
+      "player_id": "8434",
+      "player_name": "김지영2"
+    },
+    {
+      "component_label": "퍼팅",
+      "delta": -1.33,
+      "direction": "하락",
+      "player_id": "8430",
+      "player_name": "조은채"
+    }
+  ],
+  "winning_profile": []
+}
