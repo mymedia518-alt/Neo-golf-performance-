@@ -93,23 +93,49 @@ def extract_period_top10(html: str) -> tuple[str, list[dict]]:
     return week, records
 
 
+# BUG FIX (2026-09-30, found via the first real live capture of this
+# page for gameCode=2026100005): the site's full-population table used
+# to render as <table class="table table-record table-hover
+# recordTale"> (cells: '', rank, '', name, 'rating delta', points,
+# events -- see the still-real KLPGA_KRANKING_2026_W36_RAW.html
+# fixture), but the LIVE site now renders <table class="ranking-list
+# table table-striped table-bordered"> instead (cells: rank, 0-or-
+# change-indicator, name, rating, points, events, star). Both are real
+# site states, just at different points in time -- this checks for
+# either, each with its own real cell mapping, rather than assuming
+# only the older one still exists.
+_FULL_TABLE_LAYOUTS = [
+    # (css selector, index of the <td> holding the rank, name index, rating index, points index, events index)
+    ("table.recordTale", 1, 3, 4, 5, 6),
+    ("table.ranking-list", 0, 2, 3, 4, 5),
+]
+
+
 def extract_full_table(html: str) -> list[dict]:
     """Read the official all-player ordered table without inferring a week."""
     soup = BeautifulSoup(html, "html.parser")
-    candidates = [t for t in soup.select("table.recordTale") if len(t.select("tbody tr")) >= 120]
+    matched_layout = None
+    candidates: list = []
+    for selector, rank_i, name_i, rating_i, points_i, events_i in _FULL_TABLE_LAYOUTS:
+        found = [t for t in soup.select(selector) if len(t.select("tbody tr")) >= 120]
+        if found:
+            candidates = found
+            matched_layout = (rank_i, name_i, rating_i, points_i, events_i)
+            break
     if len(candidates) != 1:
         raise ValueError(f"expected one complete official all-player table, found {len(candidates)}")
+    rank_i, name_i, rating_i, points_i, events_i = matched_layout
     records: list[dict] = []
     for tr in candidates[0].select("tbody tr"):
         cells = [c.get_text(" ", strip=True) for c in tr.find_all("td")]
         if len(cells) < 7:
             raise ValueError("official all-player row is incomplete")
-        rank_text = next(tr.find_all("td")[1].stripped_strings, "")
+        rank_text = next(tr.find_all("td")[rank_i].stripped_strings, "")
         try:
             rank = int(rank_text)
         except ValueError:
             raise ValueError(f"invalid official all-player rank: {rank_text!r}") from None
-        records.append(_row(rank, _player_id(tr.find("a", href=True)), cells[3], cells[4], cells[5], cells[6]))
+        records.append(_row(rank, _player_id(tr.find("a", href=True)), cells[name_i], cells[rating_i], cells[points_i], cells[events_i]))
     ranks = [r["official_k_rank"] for r in records]
     ids = [r["player_id"] for r in records]
     if not ranks or ranks[0] != 1 or any(b < a for a, b in zip(ranks, ranks[1:])):
