@@ -136,32 +136,38 @@ def fetch_game_list(
             f"expected a list, got {type(game_list).__name__}"
         )
 
-    listings: list[TournamentListing] = []
-    for entry in game_list:
-        listings.append(
-            TournamentListing(
-                game_code=_clean(entry.get("gameCode")),
-                game_title=_clean(entry.get("gameTitle")),
-                game_eng_title=_clean(entry.get("gameEngTitle")),
-                tour_type=_clean(entry.get("tourType")),
-                course_text=_clean(entry.get("courseText")),
-                course_eng_text=_clean(entry.get("courseEngText")),
-                out_course_text=_clean(entry.get("outCourseText")),
-                in_course_text=_clean(entry.get("inCourseText")),
-                start_date=_parse_yyyymmdd(entry.get("startDate")),
-                start_date_raw=_clean(entry.get("startDate")),
-                end_date=_parse_yyyymmdd(entry.get("endDate")),
-                end_date_raw=_clean(entry.get("endDate")),
-                game_finish=_clean(entry.get("gameFinish")),
-                prize_money=_to_int(entry.get("prizeMoney")),
-                winner_code=_clean(entry.get("winnerCode")),
-                winner_name=_clean(entry.get("winnerName")),
-                game_method=_clean(entry.get("gameMethod")),
-                season=season,
-                raw=entry,
-            )
-        )
-    return listings
+    return [parse_game_list_entry(entry, season) for entry in game_list]
+
+
+def parse_game_list_entry(entry: dict, season: int) -> TournamentListing:
+    """Pure parse: one raw getGameList entry dict -> TournamentListing.
+    Extracted out of fetch_game_list so a caller that already has a raw
+    entry dict on disk (e.g. neo_reader's offline sync, reading back an
+    archived raw/<game_code>/game_list.json capture) can reconstruct the
+    exact same TournamentListing without a live request -- this is the
+    ONLY place this mapping is implemented; fetch_game_list calls this
+    too rather than duplicating it."""
+    return TournamentListing(
+        game_code=_clean(entry.get("gameCode")),
+        game_title=_clean(entry.get("gameTitle")),
+        game_eng_title=_clean(entry.get("gameEngTitle")),
+        tour_type=_clean(entry.get("tourType")),
+        course_text=_clean(entry.get("courseText")),
+        course_eng_text=_clean(entry.get("courseEngText")),
+        out_course_text=_clean(entry.get("outCourseText")),
+        in_course_text=_clean(entry.get("inCourseText")),
+        start_date=_parse_yyyymmdd(entry.get("startDate")),
+        start_date_raw=_clean(entry.get("startDate")),
+        end_date=_parse_yyyymmdd(entry.get("endDate")),
+        end_date_raw=_clean(entry.get("endDate")),
+        game_finish=_clean(entry.get("gameFinish")),
+        prize_money=_to_int(entry.get("prizeMoney")),
+        winner_code=_clean(entry.get("winnerCode")),
+        winner_name=_clean(entry.get("winnerName")),
+        game_method=_clean(entry.get("gameMethod")),
+        season=season,
+        raw=entry,
+    )
 
 
 def filter_completed_regular_tour(listings: list[TournamentListing]) -> list[TournamentListing]:
