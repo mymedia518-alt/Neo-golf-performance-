@@ -197,6 +197,29 @@ def test_offline_results_stage_reads_archived_rounds_from_disk_without_live_disc
     assert len(leaderboard["records"]) == 3  # round_leaderboard_sample.html's 3 synthetic rows
 
 
+def test_offline_tournament_info_is_found_by_content_even_under_a_different_filename(offline_workspace):
+    """Real bug found 2026-09-30: offline sync hard-required the exact
+    filename game_list.json even when a real getGameList JSON entry
+    existed under a different name (e.g. tournament_info.html).
+    run_sync_offline must now fall back to find_capture_by_capability
+    and find it by content."""
+    from klpga.neo_reader.sync import run_sync_offline
+
+    game_dir = offline_workspace["raw_root"] / TEST_GAME_CODE
+    game_dir.mkdir(parents=True)
+    # Named "tournament_info.html", NOT "game_list.json" -- but the
+    # real content is a genuine getGameList JSON entry.
+    (game_dir / "tournament_info.html").write_text(json.dumps(GAME_LIST_ENTRY, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    result = run_sync_offline(TEST_GAME_CODE, TEST_SEASON, stage="pre", **offline_workspace)
+
+    tournament_info_stage = next(s for s in result.stages if s.name == "tournament_info")
+    assert tournament_info_stage.status == "success", tournament_info_stage.error_message
+
+    info = json.loads((offline_workspace["normalized_root"] / TEST_GAME_CODE / "TOURNAMENT_INFO.json").read_text(encoding="utf-8"))
+    assert info["event_name"] == "제15회 KG 레이디스 오픈"
+
+
 def test_offline_grouping_stage_reuses_group_page_parser_from_archived_html(offline_workspace):
     """Real gap found during the required-work audit: group_page_parser
     is a real, already-confirmed parser (see its own module docstring

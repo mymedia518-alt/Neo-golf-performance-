@@ -54,7 +54,7 @@ def raw_game_dir(tmp_path):
     (game_dir / "course.html").write_bytes("<html>코스 정보 \ufeff</html>".encode("utf-8"))
     (game_dir / "history_record.html").write_bytes("<html>역대 기록</html>".encode("utf-8"))
     (game_dir / "pin_placement.html").write_bytes(b"<html>\x00binary-ish bytes\xff</html>")
-    (game_dir / "entry_list.html").write_bytes(b"<html>unrelated, already-parsed capture</html>")
+    (game_dir / "entry_list.html").write_text(ENTRY_LIST_HTML, encoding="utf-8")
     (game_dir / "RAW_MANIFEST_V1.json").write_text("{}", encoding="utf-8")  # archive_raw bookkeeping, never exported as page content
     return tmp_path / "raw"
 
