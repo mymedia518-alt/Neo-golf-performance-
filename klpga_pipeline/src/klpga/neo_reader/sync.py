@@ -56,6 +56,14 @@ from klpga.db.upsert import (
 )
 from klpga.http_client import PoliteHttpClient, RateLimitBlockedError
 from klpga.neo_reader import kranking
+from klpga.neo_reader.capability_detect import (
+    find_capture_by_capability,
+    probe_entry_list,
+    probe_grouping,
+    probe_kranking_full_table,
+    probe_kranking_period,
+    probe_tournament_info,
+)
 from klpga.neo_reader.raw_archive import RawCaptureAlreadyExists, archive_raw, existing_capture
 from klpga.parsers.group_page_parser import parse_round_grouping
 from klpga.parsers.leaderboard_parser import parse_round_leaderboard_html
@@ -422,13 +430,23 @@ def run_sync_offline(
     conn.commit()
 
     # ---------------------------------------------------------------
-    # STAGE: Tournament Info -- read game_list.json back from raw/
+    # STAGE: Tournament Info -- read the real getGameList JSON entry
+    # back from raw/. Prefers the canonical game_list.json (fast path,
+    # zero behavior change for the established convention); falls back
+    # to CONTENT-based discovery (find_capture_by_capability) across
+    # every other file in the directory, so a differently-named real
+    # capture of the exact same JSON (e.g. a mislabeled extension) is
+    # still found -- classification by parser capability, never by
+    # filename alone.
     # ---------------------------------------------------------------
     game_list_path = existing_capture(raw_root, game_code, "game_list")
     if game_list_path is None:
+        game_list_path = find_capture_by_capability(raw_root, game_code, probe_tournament_info)
+    if game_list_path is None:
         msg = (
-            f"no archived raw capture found at {raw_root / game_code / 'game_list.json'} "
-            "-- run online sync (or copy a real raw/<game_code>/game_list.json capture into place) first"
+            f"no file under {raw_root / game_code} matches a real getGameList JSON entry "
+            "(tried game_list.json by name, then every file's actual content) -- run online sync "
+            "(or copy a real capture into place) first"
         )
         finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=msg)
         conn.commit(); conn.close()
@@ -453,13 +471,17 @@ def run_sync_offline(
     }))
 
     # ---------------------------------------------------------------
-    # STAGE: Entry List -- read entry_list.html back from raw/
+    # STAGE: Entry List -- read the real entry-list HTML back from
+    # raw/. Same capability-based fallback as tournament_info above.
     # ---------------------------------------------------------------
     entry_list_path = existing_capture(raw_root, game_code, "entry_list")
     if entry_list_path is None:
+        entry_list_path = find_capture_by_capability(raw_root, game_code, probe_entry_list)
+    if entry_list_path is None:
         msg = (
-            f"no archived raw capture found at {raw_root / game_code / 'entry_list.html'} "
-            "-- run online sync (or copy a real raw/<game_code>/entry_list.html capture into place) first"
+            f"no file under {raw_root / game_code} matches real entry-list HTML "
+            "(tried entry_list.html by name, then every file's actual content) "
+            "-- run online sync (or copy a real capture into place) first"
         )
         finish_collection_run(conn, run_id, status="error", finished_at=_now_iso(), error_message=msg)
         conn.commit(); conn.close()
@@ -509,13 +531,18 @@ def run_sync_offline(
     # STAGE: K-Ranking -- read both archived pages back from raw/
     # ---------------------------------------------------------------
     period_path = existing_capture(raw_root, game_code, "kranking_period")
+    if period_path is None:
+        period_path = find_capture_by_capability(raw_root, game_code, probe_kranking_period)
     full_path = existing_capture(raw_root, game_code, "kranking_full_table")
+    if full_path is None:
+        full_path = find_capture_by_capability(raw_root, game_code, probe_kranking_full_table)
     if period_path is None or full_path is None:
         result.add(StageResult(
             "kranking", "skipped",
             error_message=(
-                f"no archived raw capture for kranking_period/kranking_full_table under {raw_root / game_code} "
-                "-- run online sync first"
+                f"no file under {raw_root / game_code} matches real K-Ranking period/full-table HTML "
+                "(tried kranking_period.html/kranking_full_table.html by name, then every file's actual "
+                "content) -- run online sync first"
             ),
         ))
     else:
@@ -546,9 +573,14 @@ def run_sync_offline(
     # ---------------------------------------------------------------
     grouping_path = existing_capture(raw_root, game_code, "grouping")
     if grouping_path is None:
+        grouping_path = find_capture_by_capability(raw_root, game_code, probe_grouping)
+    if grouping_path is None:
         result.add(StageResult(
             "grouping", "skipped",
-            error_message=f"no archived raw capture found at {raw_root / game_code / 'grouping.html'} -- run online sync first",
+            error_message=(
+                f"no file under {raw_root / game_code} matches real group-page HTML "
+                "(tried grouping.html by name, then every file's actual content) -- run online sync first"
+            ),
         ))
     else:
         grouping_html = grouping_path.read_text(encoding="utf-8")

@@ -25,26 +25,29 @@ klpga_pipeline/normalized this module always defaulted to).
 
 No network. Automatically, with no file selection by the person running
 it: (1) lists every archived raw/<game_code>/* capture, (2) classifies
-each one -- "parser_exists" (tournament_info/entry_list/kranking/
-leaderboard -- all already wired into run_sync_offline), "adapter_exists"
-(grouping -- group_page_parser.parse_round_grouping, wired 2026-09-30),
-or "parser_missing" (course/history_record/pin_placement, or anything
-else: exhaustive repo search 2026-09-30 found no parser, confirmed
-parser, or even an unconfirmed fetch-only stub for any of these
-anywhere in this project) -- purely from the filenames klpga.neo_reader.
-raw_archive.archive_raw itself already writes, never a guess, (3) runs
+each one by PARSER CAPABILITY -- reads the file's real content and
+tries every existing parser (klpga.neo_reader.capability_detect) --
+"parser_exists"/"adapter_exists" the moment any real parser actually
+returns real rows against it, regardless of filename (a file literally
+named leaderboard.html IS parser_exists if its bytes match the
+confirmed roundLeaderboard shape), or "parser_missing" only once NONE
+of them do (course/history_record/pin_placement, or any other content
+no existing parser's real contract accepts -- exhaustive repo search
+2026-09-30 found no parser, confirmed parser, or even an unconfirmed
+fetch-only stub for those three anywhere in this project), (3) runs
 every parser/adapter that exists immediately via run_sync_offline
-(unless --skip-run), and (4) bundles raw HTML + MANIFEST.json + a
-parser_samples/ copy of only the parser-missing files into one zip (or
-directory) -- so a developer building course_parser.py/etc. gets
-exactly the files that need one, decided by the tool, never by the
-person running it."""
+(unless --skip-run) -- which itself now also discovers each stage's
+input file by the same capability probe when the canonical archive_raw
+filename isn't present, not by hard-requiring one exact name -- and
+(4) bundles raw HTML + MANIFEST.json + a parser_samples/ copy of only
+the parser-missing files into one zip (or directory) -- so a developer
+building course_parser.py/etc. gets exactly the files that need one,
+decided by the tool, never by the person running it."""
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
-import re
 import shutil
 import sys
 import zipfile
@@ -52,6 +55,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))  # .../klpga_pipeline/src, so `import klpga...` resolves
 
+from klpga.neo_reader.capability_detect import classify_file_by_content  # noqa: E402
 from klpga.neo_reader.publish import publish_sync_artifacts  # noqa: E402
 from klpga.neo_reader.review_report import write_review_report  # noqa: E402
 from klpga.neo_reader.sync import run_sync, run_sync_offline  # noqa: E402
@@ -138,32 +142,6 @@ def cmd_sync(args: argparse.Namespace) -> int:
     return 0 if publish.ok else 1
 
 
-_ROUND_LEADERBOARD_RE = re.compile(r"^round_leaderboard_r(\d+)\.html$")
-
-# Maps a filename klpga.neo_reader.raw_archive.archive_raw itself
-# already writes to (parser_status, stage_name). Purely the real,
-# established archive_raw naming convention -- never a guess. Anything
-# not listed here (course.html, history_record.html, pin_placement.html,
-# or any other name) is "parser_missing": confirmed by an exhaustive
-# repo-wide search (2026-09-30) to have no parser, no adapter, and not
-# even an unconfirmed fetch-only collector stub anywhere in this project.
-_KNOWN_RAW_FILE_STAGE = {
-    "game_list.json": ("parser_exists", "tournament_info"),
-    "entry_list.html": ("parser_exists", "entry_list"),
-    "kranking_period.html": ("parser_exists", "kranking"),
-    "kranking_full_table.html": ("parser_exists", "kranking"),
-    "grouping.html": ("adapter_exists", "grouping"),
-}
-
-
-def _classify_raw_file(filename: str) -> tuple:
-    if filename in _KNOWN_RAW_FILE_STAGE:
-        return _KNOWN_RAW_FILE_STAGE[filename]
-    if _ROUND_LEADERBOARD_RE.match(filename):
-        return ("parser_exists", "leaderboard")
-    return ("parser_missing", None)
-
-
 def _sha256_file(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as f:
@@ -173,13 +151,15 @@ def _sha256_file(path: Path) -> str:
 
 
 def cmd_export_raw(args: argparse.Namespace) -> int:
-    """No network. Fully automatic: classifies every archived file,
-    runs every parser/adapter that exists against this exact capture
-    set (reusing run_sync_offline unchanged -- no duplicated parsing
-    logic), and bundles raw HTML + MANIFEST.json + a parser_samples/
-    copy of only the parser-missing files. The person running this
-    never chooses which files matter -- _classify_raw_file does, from
-    the same filenames archive_raw itself writes."""
+    """No network. Fully automatic: classifies every archived file BY
+    PARSER CAPABILITY (klpga.neo_reader.capability_detect.
+    classify_file_by_content -- reads real content, tries every real
+    parser, never guesses from the filename), runs every parser/
+    adapter that exists against this exact capture set (reusing
+    run_sync_offline unchanged -- no duplicated parsing logic), and
+    bundles raw HTML + MANIFEST.json + a parser_samples/ copy of only
+    the parser-missing files. The person running this never chooses
+    which files matter -- classify_file_by_content does."""
     raw_root = Path(args.raw_root) if args.raw_root else _resolve_raw_root()
     game_dir = raw_root / args.game_code
     if not game_dir.is_dir():
@@ -212,14 +192,17 @@ def cmd_export_raw(args: argparse.Namespace) -> int:
     # 1+2: classify every selected file automatically.
     # -------------------------------------------------------------
     manifest_entries = []
+    classification_by_path = {}
     for p in selected:
-        status, stage_name = _classify_raw_file(p.name)
+        classification = classify_file_by_content(p)
+        classification_by_path[p] = classification
         manifest_entries.append({
             "filename": p.name,
             "size_bytes": p.stat().st_size,
             "sha256": _sha256_file(p),
-            "parser_status": status,
-            "stage_name": stage_name,
+            "parser_status": classification["status"],
+            "stage_name": classification["stage_name"],
+            "classification_detail": classification["detail"],
             "run_status": None,
             "run_detail": None,
         })
@@ -271,7 +254,7 @@ def cmd_export_raw(args: argparse.Namespace) -> int:
     # 4+5: bundle raw HTML + MANIFEST.json + parser_samples/ (only the
     # parser-missing files, auto-selected -- never a manual choice).
     # -------------------------------------------------------------
-    missing_parser_files = [p for p in selected if _classify_raw_file(p.name)[0] == "parser_missing"]
+    missing_parser_files = [p for p in selected if classification_by_path[p]["status"] == "parser_missing"]
     manifest_json = json.dumps(manifest, ensure_ascii=False, indent=2)
 
     if args.zip:
