@@ -450,21 +450,21 @@ placed on this module's own card backgrounds otherwise. */
 .dd-radar-legend li{display:flex;flex-direction:column;gap:.1rem}
 .dd-radar-legend b{font-size:.8rem;color:var(--ink)}
 .dd-radar-legend span{color:var(--muted);font-size:.72rem}
-.dd-cine-stage{display:grid;gap:1rem}
-@media (min-width:860px){.dd-cine-stage{grid-template-columns:1.1fr 1fr;align-items:start}}
-.dd-cine-video-wrap{position:sticky;top:5rem;border-radius:.6rem;overflow:hidden;aspect-ratio:16/9;background:#000}
-.dd-cine-video{width:100%;height:100%;border:0;display:block}
-.dd-cine-scroll{display:flex;flex-direction:column;gap:1rem}
-.dd-cine-card{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1rem;opacity:0;transform:translateY(28px);transition:opacity .5s ease,transform .5s ease}
+.dd-cine-stage{position:relative}
+.dd-cine-video-wrap{width:100%;min-height:62vh;background:#000;border-radius:.6rem;overflow:hidden}
+@media (min-width:720px){.dd-cine-video-wrap{min-height:0;aspect-ratio:16/9}}
+.dd-cine-video{width:100%;height:100%;border:0;display:block;object-fit:cover}
+.dd-cine-scroll{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:.5rem;padding:3rem 1.1rem 1.1rem;background:linear-gradient(to top, rgba(8,12,10,.9) 25%, rgba(8,12,10,.55) 65%, rgba(8,12,10,0) 100%);border-radius:0 0 .6rem .6rem;pointer-events:none}
+.dd-cine-card{background:transparent;border:0;padding:0;opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
 .dd-cine-card.is-visible{opacity:1;transform:translateY(0)}
-.dd-cine-tag{display:inline-block;margin-bottom:.4rem;padding:.15rem .5rem;border-radius:.6rem;background:var(--green-2);color:var(--green);font-size:.68rem;font-weight:800}
+.dd-cine-tag{display:inline-block;margin-bottom:.35rem;padding:.15rem .5rem;border-radius:.6rem;background:var(--green-2);color:var(--green);font-size:.68rem;font-weight:800}
 .dd-cine-tag--mock{background:#f3e6c8;color:#7a5610}
 .dd-cine-tag--ai{background:#e3e9f7;color:#30489e}
-.dd-cine-card h3{margin:.2rem 0;font-size:1rem;color:var(--ink)}
-.dd-cine-fact{margin:.2rem 0;font-size:.85rem;color:var(--ink)}
-.dd-cine-tip{margin:.2rem 0;font-size:.85rem;color:var(--ink);line-height:1.65;font-style:normal}
-.dd-cine-source{margin:.4rem 0 0;font-size:.7rem;color:var(--muted)}
-.dd-cine-source a{color:var(--green)}
+.dd-cine-card h3{margin:.15rem 0;font-size:.95rem;color:#fff}
+.dd-cine-fact{margin:.15rem 0;font-size:.8rem;color:#eef2ee}
+.dd-cine-tip{margin:.15rem 0;font-size:.8rem;color:#eef2ee;line-height:1.6;font-style:normal}
+.dd-cine-source{margin:.3rem 0 0;font-size:.66rem;color:#c7d0ca}
+.dd-cine-source a{color:#a9e0c6;pointer-events:auto}
 </style>
 """
 
