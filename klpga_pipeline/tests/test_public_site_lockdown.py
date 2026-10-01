@@ -125,7 +125,21 @@ def test_kb_pre_r1_r2_r3_final_and_fr_are_the_only_released_tournament_routes():
     own hard stop (refuses to write a placeholder report to production).
     This is not a tournament route -- it's the first player-profile route
     -- but it belongs in this same explicit allow-list for the same reason
-    every other entry here does: reviewable, one gate per line."""
+    every other entry here does: reviewable, one gate per line.
+
+    HITE JINRO PRE BUILD (NEO Sync reader/2026100005, run #6, all 7
+    validation checks PASS -- see START_TOURNAMENT.md) added a ninth,
+    for a different tournament entirely (game_code 2026100005): the
+    real HITE JINRO Championship PRE page (scripts/
+    190_build_hitejinro_pre_page.py), gated on its own 108-entrant
+    identity-consistency hard stop against ENTRY_KRANKING_JOIN.json.
+    Sponsor and NEO 경기력 are real, connected data (cross-tournament
+    verified sponsor cache; per-player SG current_form, quintile-
+    banded); the 5 M4 probability columns still show 데이터 부족 for
+    every row -- no historical relational warehouse
+    (player_event/player_round/tournament_master) is reachable from
+    this environment (see scripts/193_build_hitejinro_pre_m4.py's own
+    module docstring for the full, exhaustive account)."""
     assert lockdown.RELEASED_HTML_PATHS == {
         "tournaments/2026/2026090003/pre/index.html",
         "tournaments/2026/2026090003/r1/index.html",
@@ -135,6 +149,7 @@ def test_kb_pre_r1_r2_r3_final_and_fr_are_the_only_released_tournament_routes():
         "tournaments/2026/2026090003/fr/index.html",
         "tournaments/2026/2026090002/pre/index.html",
         "player/10097/index.html",
+        "tournaments/2026/2026100005/pre/index.html",
     }
     pre_content = (DOCS / "tournaments/2026/2026090003/pre/index.html").read_text(encoding="utf-8")
     assert pre_content != lockdown.PLACEHOLDER_HTML

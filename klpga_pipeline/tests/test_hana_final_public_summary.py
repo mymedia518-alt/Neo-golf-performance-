@@ -101,11 +101,21 @@ def test_real_hana_final_page_shows_forecast_vs_actual_in_the_hero_above_the_fol
     assert "김민선7" in hero_html
 
 
-def test_real_hana_home_page_mirrors_the_jargon_free_final_page():
-    path = REPO_ROOT / "docs" / "index.html"
+def test_real_hana_final_page_is_jargon_free():
+    """OWNER SUPERSESSION (2026-09-30, explicit operator instruction):
+    root HOME (docs/index.html) no longer mirrors Hana's FINAL page --
+    it mirrors game_code 2026100005's (HITE JINRO) real PRE page,
+    through klpga.website_v2.home_ownership_guard's own documented
+    CURRENT_TOURNAMENT_OWNER transfer mechanism (same owner class
+    Hana's own HOME write already used -- see scripts/
+    192_promote_hitejinro_home.py). This test's real intent -- Hana's
+    own FINAL page must stay jargon-free -- is unaffected by that
+    transfer, so it now checks that page directly at its own permanent
+    URL instead of asserting HOME still mirrors it."""
+    path = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "final" / "index.html"
     html = path.read_text(encoding="utf-8")
     for term in FORBIDDEN_JARGON:
-        assert term not in html, f"forbidden internal-validation term leaked into the real public HOME page: {term!r}"
+        assert term not in html, f"forbidden internal-validation term leaked into the real public Hana FINAL page: {term!r}"
     assert 'id="final-summary"' in html
 
 
@@ -218,8 +228,12 @@ def test_real_hana_final_page_video_element_is_a_real_html5_video_with_the_expec
     assert "max-width:100%" in tag
 
 
-def test_real_hana_home_page_mirrors_the_same_video_section():
-    path = REPO_ROOT / "docs" / "index.html"
+def test_real_hana_final_page_has_the_video_section():
+    """Same OWNER SUPERSESSION as test_real_hana_final_page_is_jargon_free
+    above -- checks Hana's own FINAL page at its permanent URL, not
+    root HOME (which now legitimately belongs to a different
+    tournament)."""
+    path = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "final" / "index.html"
     html = path.read_text(encoding="utf-8")
     assert 'id="final-video"' in html
     assert VIDEO_SRC in html
