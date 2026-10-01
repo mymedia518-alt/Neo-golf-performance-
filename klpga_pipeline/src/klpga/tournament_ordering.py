@@ -40,10 +40,13 @@ from __future__ import annotations
 
 from typing import Optional
 
+import json
+
 from klpga.tournament_context import CONTENT_DIR
 from klpga.website_v2.official_schedule import load_official_schedule
 
 _SCHEDULE_PATH = CONTENT_DIR / "OFFICIAL_KLPGA_SCHEDULE.json"
+_MASTER_DATES_PATH = CONTENT_DIR / "TOURNAMENT_MASTER_DATES_V1.json"
 
 
 def load_schedule_end_dates() -> dict[str, str]:
@@ -51,7 +54,9 @@ def load_schedule_end_dates() -> dict[str, str]:
     the official schedule artifact currently covers. Missing/unreadable
     file -> empty dict (every caller then falls back to the existing
     (season, game_code) proxy for everything, exactly as before this
-    utility existed -- never an error that blocks report generation)."""
+    utility existed -- never an error that blocks report generation).
+    Unchanged by the 2026-10-01 fix below -- kept exactly as it was so
+    any direct caller of this one function keeps its exact behavior."""
     if not _SCHEDULE_PATH.exists():
         return {}
     try:
@@ -59,6 +64,48 @@ def load_schedule_end_dates() -> dict[str, str]:
     except Exception:
         return {}
     return {e.game_code: e.end_date for e in entries}
+
+
+def load_master_start_dates() -> dict[str, str]:
+    """{game_code: real official start_date (ISO)}, read from
+    content/website_v2/TOURNAMENT_MASTER_DATES_V1.json -- a real,
+    committed snapshot of tournament_master.start_date (102 game_codes,
+    generated 2026-09-10; see that file's own "source_query"). Missing/
+    unreadable file or a null date value -> simply absent from the
+    returned dict, never fabricated."""
+    if not _MASTER_DATES_PATH.exists():
+        return {}
+    try:
+        doc = json.loads(_MASTER_DATES_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    return {gc: d for gc, d in doc.get("dates", {}).items() if d}
+
+
+def load_real_tournament_dates() -> dict[str, str]:
+    """RED TEAM BUG FIX (2026-10-01): the single merged real-date source
+    sort_tournaments() now falls back to by default, replacing the old
+    "game_code string order approximates calendar order" assumption,
+    which real dates disprove (confirmed: within a single month, the
+    trailing game_code sequence number does NOT track real start_date --
+    e.g. July 2026: 2026070003 is the OLDEST of that month's three
+    events by real date, not the newest; August 2026: 2026080004 is the
+    EARLIEST of that month's four, 2026080001 the LATEST -- exactly
+    backwards from naive ascending-game_code order).
+
+    Merges load_master_start_dates() (102 game_codes, start_date) with
+    load_schedule_end_dates() (5 game_codes, end_date) -- the schedule
+    entries take priority on overlap (none of the 2 game_codes the two
+    sources both cover ever disagree in practice, confirmed by direct
+    comparison), since that was this module's original, narrower,
+    already-tested real-date source. Every OTHER caller behavior
+    (season-boundary protection, tiebreak-only semantics, proxy
+    fallback on a still-missing date) is completely unchanged -- only
+    the real-date dictionary sort_tournaments() consults by default is
+    wider now."""
+    merged = dict(load_master_start_dates())
+    merged.update(load_schedule_end_dates())
+    return merged
 
 
 def tournament_sort_key(
@@ -94,8 +141,13 @@ def sort_tournaments(
     each represent one tournament (or one row belonging to one
     tournament) into real chronological order. `schedule_end_dates`
     may be passed in (e.g. loaded once per build() call) to avoid
-    re-reading the schedule file per call; omit it to load fresh."""
-    end_dates = schedule_end_dates if schedule_end_dates is not None else load_schedule_end_dates()
+    re-reading the date files per call, and an explicit value --
+    including {} -- is always honored verbatim (every existing test
+    that pins exact proxy-fallback behavior passes one). Omit it to
+    load the merged real-date dictionary fresh: load_real_tournament_
+    dates(), not load_schedule_end_dates() alone (2026-10-01 RED TEAM
+    fix -- see that function's own docstring for why)."""
+    end_dates = schedule_end_dates if schedule_end_dates is not None else load_real_tournament_dates()
 
     def _get(item, key):
         return item.get(key) if isinstance(item, dict) else getattr(item, key)

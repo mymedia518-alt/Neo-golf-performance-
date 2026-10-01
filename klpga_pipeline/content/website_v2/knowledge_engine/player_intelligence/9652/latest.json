@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:45:13.015842+00:00",
+    "generated_at": "2026-10-01T10:33:11.326091+00:00",
     "input_signature": "23fcdffd6289f127f9221ea91063a3bca8030014723a88ff6bc91fb71ace884e",
     "tournament_game_code": null
   },
@@ -18,8 +18,8 @@
       "par_save_rate": 85.5932,
       "recovery_rate": 64.2633
     },
-    "recent_10_sg": 0.29000000000000004,
-    "recent_5_sg": 0.608,
+    "recent_10_sg": 0.2899999999999999,
+    "recent_5_sg": 0.22399999999999998,
     "volatility": 1.7079051495911592
   },
   "evolution": {
@@ -85,7 +85,7 @@
     "sample_count": 88
   },
   "neo_verdict": {
-    "summary": "이세희은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.61)이 장기 평균(+0.10) 대비 뚜렷한 상승세를 보이고 있습니다."
+    "summary": "이세희은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.22)이 장기 평균(+0.10) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -164,10 +164,10 @@
         {
           "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.608
+          "value": 0.22399999999999998
         }
       ],
-      "text": "최근 5개 대회 SG Total(+0.61)이 장기 평균(+0.10) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "최근 5개 대회 SG Total(+0.22)이 장기 평균(+0.10) 대비 뚜렷한 상승세를 보이고 있습니다."
     }
   ]
 }

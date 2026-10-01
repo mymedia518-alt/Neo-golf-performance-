@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:44:48.658126+00:00",
+    "generated_at": "2026-10-01T10:32:45.393428+00:00",
     "input_signature": "2c38733403c9a536a032bd1a9615ea5b5d816d75845e727549a087fdd522596a",
     "tournament_game_code": null
   },
@@ -19,7 +19,7 @@
       "recovery_rate": 65.6904
     },
     "recent_10_sg": 2.1320000000000006,
-    "recent_5_sg": 1.764,
+    "recent_5_sg": 1.4040000000000001,
     "volatility": 1.1764080924577152
   },
   "evolution": {
@@ -208,22 +208,22 @@
     {
       "citations": [
         {
-          "field_path": "recent_5_sg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.764
-        }
-      ],
-      "text": "최근 5개 대회 SG Total(+1.76)이 장기 평균(+0.99) 대비 뚜렷한 상승세를 보이고 있습니다."
-    },
-    {
-      "citations": [
-        {
           "field_path": "gir_rate",
           "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
           "value": 98.0
         }
       ],
       "text": "그린 적중률이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "par_save_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 97.33333333333333
+        }
+      ],
+      "text": "파세이브율이(가) 필드 상위 3%에 해당하는 엘리트 수준입니다."
     }
   ]
 }
