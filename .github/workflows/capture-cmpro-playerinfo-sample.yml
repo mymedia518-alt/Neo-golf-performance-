@@ -1,0 +1,44 @@
+name: "CAPTURE — CMPRO playerInfo labeled-shot sample (R1, 36 players x 18 holes) for 2026100005"
+
+# One-off raw capture used ONLY as labeled evidence to decode
+# getCourseHoleData's undocumented shotGroupList.pp_state codes:
+# CMPRO's own playerInfo fragment prints each shot's lie as text
+# (페어웨이/러프/벙커/그린/홀인/...), with 비거리/남은거리 that join
+# exactly to shotGroupList's pp_distanceLen/pp_distance.
+on:
+  push:
+    branches: [claude/wizardly-dirac-txqytb]
+    paths: [".github/workflows/capture-cmpro-playerinfo-sample.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Capture
+        run: |
+          OUT=klpga_pipeline/content/website_v2/incoming_evidence/2026100005/cmpro_playerinfo_r1
+          mkdir -p $OUT
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+          date -u +%Y-%m-%dT%H:%M:%SZ > $OUT/CAPTURED_AT_UTC.txt
+          for p in 10725 9134 10296 8883 10481 8300 10022 9089 10586 10727 9465 11060 11143 8881 9235 9389 8243 9820 8838 10097 8770 9714 8179 11770 8430 9723 8386 9487 11640 12080 13386 11045 10112 8318 9277 11978; do
+            for h in $(seq 1 18); do
+              curl -sS -A "$UA" -X POST "https://cmpro.klpga.co.kr/load/map3d/playerInfo" \
+                -H "X-Requested-With: XMLHttpRequest" -H "Referer: https://cmpro.klpga.co.kr/web/map3d/index" \
+                --data "gameCode=2026100005&playerCode=$p&round=1&hole=$h&lang=kr&gameMethod=0&trueHole=0&arrayTrueHole=" \
+                -o $OUT/p${p}_r1_h${h}.html -w "$p $h %{http_code} %{size_download}\n" || true
+              sleep 0.2
+            done
+          done
+          tar czf $OUT.tar.gz -C $(dirname $OUT) $(basename $OUT) && rm -rf $OUT
+      - name: Commit raw capture back to this branch
+        run: |
+          git config user.name "neo-capture-bot"
+          git config user.email "neo-capture-bot@users.noreply.github.com"
+          git add klpga_pipeline/content/website_v2/incoming_evidence/2026100005/cmpro_playerinfo_r1.tar.gz
+          git commit -m "Raw capture: CMPRO playerInfo R1 labeled-shot sample 2026100005"
+          git push origin HEAD:${{ github.ref_name }}
