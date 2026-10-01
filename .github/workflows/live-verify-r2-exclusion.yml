@@ -1,0 +1,84 @@
+name: "LIVE verify — HITE JINRO R2 pre-R2 CUT/WD exclusion (HOME + R2)"
+
+# One-off live check run from a GitHub-hosted runner (Claude's sandbox
+# cannot reach neogolfdata.com). Waits until the live HOME shows the
+# deployed build, saves the live HTML of HOME and R2, and takes desktop
+# + mobile full-page screenshots. Results are committed back to this
+# same branch under live_verify/ for review.
+on:
+  push:
+    branches: [claude/wizardly-dirac-txqytb]
+    paths: [".github/workflows/live-verify-r2-exclusion.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Wait for live deploy (HOME shows "R2 결과 <small>103명")
+        run: |
+          for i in $(seq 1 40); do
+            curl -sSL "https://neogolfdata.com/?cb=$(date +%s%N)" -H "Cache-Control: no-cache" -o /tmp/home.html || true
+            if grep -q "R2 결과 <small>103명" /tmp/home.html; then echo "live after $i tries"; exit 0; fi
+            sleep 20
+          done
+          echo "live HOME never showed 103명"; exit 1
+      - name: Capture live HTML + screenshots
+        run: |
+          mkdir -p live_verify
+          python - <<'PY'
+          import json, time
+          from playwright.sync_api import sync_playwright
+          pages = {"home": "https://neogolfdata.com/", "r2": "https://neogolfdata.com/tournaments/2026/2026100005/r2/"}
+          views = {"desktop": dict(viewport={"width": 1440, "height": 900}),
+                   "mobile": dict(viewport={"width": 390, "height": 844}, device_scale_factor=2, is_mobile=True, has_touch=True)}
+          names = ["고지우", "조하리", "이수민 0906", "이소영"]
+          report = {"captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+          with sync_playwright() as p:
+              b = p.chromium.launch()
+              for vname, vopts in views.items():
+                  ctx = b.new_context(**vopts)
+                  for pname, url in pages.items():
+                      pg = ctx.new_page()
+                      resp = pg.goto(url + "?cb=" + str(time.time_ns()), wait_until="networkidle")
+                      pg.wait_for_timeout(1500)
+                      if vname == "desktop":
+                          open(f"live_verify/{pname}.html", "w", encoding="utf-8").write(pg.content())
+                      text = pg.inner_text("body")
+                      info = pg.evaluate("""() => {
+                        const sec = document.querySelector('#r2') || document;
+                        const rows = [...sec.querySelectorAll('table tbody tr')];
+                        const vis = rows.filter(r => r.offsetParent !== null || getComputedStyle(r).display !== 'none');
+                        const h = sec.querySelector('h2');
+                        return {rows: rows.length, visible_rows: vis.length, heading: h ? h.innerText : null,
+                                scrollW: document.documentElement.scrollWidth, clientW: document.documentElement.clientWidth};
+                      }""")
+                      info["http_status"] = resp.status if resp else None
+                      info["names_in_rendered_text"] = {n: text.count(n) for n in names}
+                      report[f"{pname}_{vname}"] = info
+                      pg.screenshot(path=f"live_verify/{pname}_{vname}_top.png")
+                      pg.screenshot(path=f"live_verify/{pname}_{vname}_full.png", full_page=True)
+                      pg.close()
+                  ctx.close()
+              b.close()
+          json.dump(report, open("live_verify/report.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+      - name: Commit results back to this branch
+        run: |
+          git config user.name "neo-live-verify-bot"
+          git config user.email "neo-live-verify-bot@users.noreply.github.com"
+          git add live_verify
+          git commit -m "LIVE verify results (HOME + R2, desktop + mobile)"
+          git push origin HEAD:${{ github.ref_name }}
