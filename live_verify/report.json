@@ -1,0 +1,59 @@
+{
+  "captured_at_utc": "2026-10-01T20:18:20Z",
+  "home_desktop": {
+    "rows": 103,
+    "visible_rows": 103,
+    "heading": "R2 결과 103명",
+    "scrollW": 1440,
+    "clientW": 1440,
+    "http_status": 200,
+    "names_in_rendered_text": {
+      "고지우": 0,
+      "조하리": 0,
+      "이수민 0906": 0,
+      "이소영": 0
+    }
+  },
+  "r2_desktop": {
+    "rows": 103,
+    "visible_rows": 103,
+    "heading": "R2 결과 103명",
+    "scrollW": 1440,
+    "clientW": 1440,
+    "http_status": 200,
+    "names_in_rendered_text": {
+      "고지우": 0,
+      "조하리": 0,
+      "이수민 0906": 0,
+      "이소영": 0
+    }
+  },
+  "home_mobile": {
+    "rows": 103,
+    "visible_rows": 103,
+    "heading": "R2 결과 103명",
+    "scrollW": 390,
+    "clientW": 390,
+    "http_status": 200,
+    "names_in_rendered_text": {
+      "고지우": 0,
+      "조하리": 0,
+      "이수민 0906": 0,
+      "이소영": 0
+    }
+  },
+  "r2_mobile": {
+    "rows": 103,
+    "visible_rows": 103,
+    "heading": "R2 결과 103명",
+    "scrollW": 390,
+    "clientW": 390,
+    "http_status": 200,
+    "names_in_rendered_text": {
+      "고지우": 0,
+      "조하리": 0,
+      "이수민 0906": 0,
+      "이소영": 0
+    }
+  }
+}
