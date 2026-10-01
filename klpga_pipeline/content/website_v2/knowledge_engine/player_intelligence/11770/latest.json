@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:21.886498+00:00",
-    "input_signature": "939e2185c6881c27fb75f4ef27070218a1161cb19669d850ebdc4f01b7b739b8",
+    "generated_at": "2026-10-01T12:34:30.432976+00:00",
+    "input_signature": "fae7bded52438c42fed9d71b1eb1d8bbd126020874b9d0e2359c8744dbe299f7",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.18612903225806454,
+    "long_term_sg": 0.18031250000000001,
     "rate_stats": {
       "average_putts": 31.0213,
       "average_score": 71.4897,
@@ -18,9 +18,9 @@
       "par_save_rate": 86.2884,
       "recovery_rate": 61.6162
     },
-    "recent_10_sg": 0.8140000000000001,
-    "recent_5_sg": 0.496,
-    "volatility": 1.823382570937871
+    "recent_10_sg": 0.36099999999999993,
+    "recent_5_sg": 0.14999999999999997,
+    "volatility": 1.3434690171343737
   },
   "evolution": {
     "citations": [
@@ -32,10 +32,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.7673333333333334
+        "value": 0.7193750000000001
       }
     ],
-    "narrative": "2025시즌 SG Total -0.36에서 2026시즌 +0.77로 상승 추세입니다.",
+    "narrative": "2025시즌 SG Total -0.36에서 2026시즌 +0.72로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -46,8 +46,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.7673333333333334,
-        "delta_from_prev": 1.1260833333333333,
+        "avg_total": 0.7193750000000001,
+        "delta_from_prev": 1.078125,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
@@ -58,7 +58,7 @@
     "current_season": 2026,
     "player_id": "11770",
     "player_name": "짜라위 분짠(I)",
-    "sample_count": 31
+    "sample_count": 32
   },
   "neo_verdict": {
     "summary": "짜라위 분짠(I)은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach에서 상위 16% 수준의 기록을 유지하고 있습니다."
@@ -96,11 +96,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.658,
-    "avg_arg": 0.27133333333333337,
-    "avg_ott": 0.20866666666666664,
-    "avg_putt": -0.3693333333333333,
-    "avg_total": 0.7673333333333334,
+    "avg_app": 0.6318750000000001,
+    "avg_arg": 0.22500000000000003,
+    "avg_ott": 0.271875,
+    "avg_putt": -0.4075,
+    "avg_total": 0.7193750000000001,
     "season": 2026
   },
   "sources": [
@@ -169,22 +169,22 @@
     {
       "citations": [
         {
-          "field_path": "recent_5_sg",
+          "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.496
+          "value": 0.271875
         }
       ],
-      "text": "최근 5개 대회 SG Total(+0.50)이 장기 평균(+0.19) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.27로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
-          "field_path": "seasons[2026].avg_ott",
+          "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.20866666666666664
+          "value": 0.22500000000000003
         }
       ],
-      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.21로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.23로 반전에 성공했습니다."
     }
   ]
 }

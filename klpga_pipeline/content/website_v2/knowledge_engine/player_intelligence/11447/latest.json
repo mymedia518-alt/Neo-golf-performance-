@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:25.149695+00:00",
-    "input_signature": "58416bc4553cc2709db0084740e00dd5e4f432f6bfd517b9b7ac3b3464fdbc00",
+    "generated_at": "2026-10-01T12:34:33.207525+00:00",
+    "input_signature": "c860daa57440cae8f2062c4cb076c0421daffac6bf32e01df3d6599e30290d09",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.9576000000000002,
+    "long_term_sg": -0.9403921568627452,
     "rate_stats": {
       "average_putts": 29.7188,
       "average_score": 72.2969,
@@ -18,9 +18,9 @@
       "par_save_rate": 82.6389,
       "recovery_rate": 58.4
     },
-    "recent_10_sg": 0.925,
-    "recent_5_sg": 0.748,
-    "volatility": 0.40145360877690467
+    "recent_10_sg": 0.7579999999999999,
+    "recent_5_sg": 0.472,
+    "volatility": 0.4359541260270397
   },
   "evolution": {
     "citations": [
@@ -37,7 +37,7 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.10400000000000001
+        "value": -0.10285714285714287
       }
     ],
     "narrative": "2024시즌 SG Total -2.77에서 2026시즌 -0.10로 상승 추세입니다.",
@@ -58,8 +58,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.10400000000000001,
-        "delta_from_prev": 1.174,
+        "avg_total": -0.10285714285714287,
+        "delta_from_prev": 1.1751428571428573,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_app"
@@ -70,10 +70,10 @@
     "current_season": 2026,
     "player_id": "11447",
     "player_name": "한아름",
-    "sample_count": 50
+    "sample_count": 51
   },
   "neo_verdict": {
-    "summary": "한아름은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.15로 반전에 성공했습니다."
+    "summary": "한아름은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.14로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.16400000000000003,
-    "avg_arg": 0.014999999999999986,
-    "avg_ott": 0.14500000000000002,
-    "avg_putt": -0.10149999999999999,
-    "avg_total": -0.10400000000000001,
+    "avg_app": -0.1390476190476191,
+    "avg_arg": -0.007142857142857157,
+    "avg_ott": 0.14476190476190479,
+    "avg_putt": -0.10333333333333333,
+    "avg_total": -0.10285714285714287,
     "season": 2026
   },
   "sources": [
@@ -157,10 +157,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.14500000000000002
+          "value": 0.14476190476190479
         }
       ],
-      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.15로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.14로 반전에 성공했습니다."
     }
   ]
 }

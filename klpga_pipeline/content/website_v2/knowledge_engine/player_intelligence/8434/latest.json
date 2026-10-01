@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:53.324271+00:00",
-    "input_signature": "a2b0f41c8f3f70755c172b5de741422ef3a269e1fb18dd0f2e32e6514b5ba613",
+    "generated_at": "2026-10-01T12:34:01.608873+00:00",
+    "input_signature": "23c1587c7c86ffc6d6a85d3c9ab677996e825fd804cc2c6aa233599c0b8a3b32",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -3.37275,
+    "long_term_sg": -3.349512195121951,
     "rate_stats": {
       "average_putts": 29.0,
       "average_score": 76.7537,
@@ -18,9 +18,9 @@
       "par_save_rate": 68.5185,
       "recovery_rate": 48.4241
     },
-    "recent_10_sg": -6.069999999999999,
-    "recent_5_sg": -5.8660000000000005,
-    "volatility": 2.4420687950997615
+    "recent_10_sg": -6.054,
+    "recent_5_sg": -4.659999999999999,
+    "volatility": 2.465295925441812
   },
   "evolution": {
     "citations": [
@@ -37,10 +37,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -4.444999999999999
+        "value": -4.3384210526315785
       }
     ],
-    "narrative": "2023시즌 SG Total -2.55에서 2026시즌 -4.44로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total -2.55에서 2026시즌 -4.34로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -58,8 +58,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -4.444999999999999,
-        "delta_from_prev": -3.0949999999999993,
+        "avg_total": -4.3384210526315785,
+        "delta_from_prev": -2.9884210526315784,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_app"
@@ -70,7 +70,7 @@
     "current_season": 2026,
     "player_id": "8434",
     "player_name": "김지영2",
-    "sample_count": 40
+    "sample_count": 41
   },
   "neo_verdict": {
     "summary": "김지영2은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting에서 상위 5% 수준의 기록을 유지하고 있습니다."
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -5.196111111111112,
-    "avg_arg": 0.10277777777777779,
-    "avg_ott": -0.19111111111111112,
-    "avg_putt": 0.8388888888888888,
-    "avg_total": -4.444999999999999,
+    "avg_app": -5.1478947368421055,
+    "avg_arg": 0.11736842105263158,
+    "avg_ott": -0.26684210526315794,
+    "avg_putt": 0.9589473684210525,
+    "avg_total": -4.3384210526315785,
     "season": 2026
   },
   "sources": [

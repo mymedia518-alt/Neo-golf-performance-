@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.085075+00:00",
-    "input_signature": "b180117287d0ca30baeb0009022dcf2966f2fc475e700686735cd75c77cc1685",
+    "generated_at": "2026-10-01T12:33:54.091031+00:00",
+    "input_signature": "034b1fba675b39c0df9d7d6380992161188c2c8b24f1fd2ee72c3557ae7db6cd",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.32610526315789473,
+    "long_term_sg": 0.2585416666666666,
     "rate_stats": {
       "average_putts": 30.0652,
       "average_score": 71.6524,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.7826,
       "recovery_rate": 61.1354
     },
-    "recent_10_sg": -0.05700000000000007,
-    "recent_5_sg": -0.7180000000000001,
-    "volatility": 2.066940008805287
+    "recent_10_sg": -0.743,
+    "recent_5_sg": -1.3080000000000003,
+    "volatility": 2.732947310139733
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.31235294117647067
+        "value": -0.04722222222222215
       }
     ],
-    "narrative": "2023시즌 SG Total -0.37에서 2026시즌 +0.31로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.37에서 2026시즌 -0.05로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,10 +70,10 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.31235294117647067,
-        "delta_from_prev": -0.8432470588235292,
+        "avg_total": -0.04722222222222215,
+        "delta_from_prev": -1.202822222222222,
         "season": 2026,
-        "strongest_component": "avg_app",
+        "strongest_component": "avg_ott",
         "weakest_component": "avg_putt"
       }
     ]
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10112",
     "player_name": "고지우",
-    "sample_count": 95
+    "sample_count": 96
   },
   "neo_verdict": {
     "summary": "고지우은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 17% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.31647058823529406,
-    "avg_arg": -0.040588235294117654,
-    "avg_ott": 0.27705882352941175,
-    "avg_putt": -0.24058823529411763,
-    "avg_total": 0.31235294117647067,
+    "avg_app": -0.03277777777777782,
+    "avg_arg": 0.065,
+    "avg_ott": 0.2544444444444445,
+    "avg_putt": -0.3338888888888889,
+    "avg_total": -0.04722222222222215,
     "season": 2026
   },
   "sources": [
@@ -186,12 +186,12 @@
     {
       "citations": [
         {
-          "field_path": "seasons[2026].avg_arg",
+          "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.040588235294117654
+          "value": -0.03277777777777782
         }
       ],
-      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.04로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.03로 악화되었습니다."
     }
   ],
   "why_wins": [

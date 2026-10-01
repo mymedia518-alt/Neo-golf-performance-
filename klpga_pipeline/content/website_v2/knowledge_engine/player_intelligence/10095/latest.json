@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:00.142817+00:00",
-    "input_signature": "cd5b86303b67516477efd0d8f0623857e9c5363c70f4a1e74cc0420e173d062d",
+    "generated_at": "2026-10-01T12:34:09.374568+00:00",
+    "input_signature": "acaa497d7ac5c4fbd2540e7619a8b831c62d5c60e5035e7c3a6212cab9345923",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.5287777777777778,
+    "long_term_sg": 1.564945054945055,
     "rate_stats": {
       "average_putts": 29.4921,
       "average_score": 71.1746,
@@ -18,9 +18,9 @@
       "par_save_rate": 86.6843,
       "recovery_rate": 62.1118
     },
-    "recent_10_sg": 1.448,
-    "recent_5_sg": 2.032,
-    "volatility": 1.492781296774581
+    "recent_10_sg": 1.9829999999999999,
+    "recent_5_sg": 2.694,
+    "volatility": 1.639500228728255
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.378947368421053
+        "value": 1.5510000000000004
       }
     ],
-    "narrative": "2023시즌 SG Total +1.23에서 2026시즌 +1.38로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.23에서 2026시즌 +1.55로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.378947368421053,
-        "delta_from_prev": -0.8626526315789471,
+        "avg_total": 1.5510000000000004,
+        "delta_from_prev": -0.6905999999999997,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10095",
     "player_name": "방신실",
-    "sample_count": 90
+    "sample_count": 91
   },
   "neo_verdict": {
     "summary": "방신실은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 10% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.748421052631579,
-    "avg_arg": 0.27473684210526317,
-    "avg_ott": -0.1178947368421053,
-    "avg_putt": 0.4721052631578947,
-    "avg_total": 1.378947368421053,
+    "avg_app": 0.874,
+    "avg_arg": 0.273,
+    "avg_ott": -0.07150000000000004,
+    "avg_putt": 0.4744999999999999,
+    "avg_total": 1.5510000000000004,
     "season": 2026
   },
   "sources": [
@@ -178,10 +178,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.1178947368421053
+          "value": -0.07150000000000004
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.12로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.07로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -198,22 +198,22 @@
     {
       "citations": [
         {
+          "field_path": "recent_5_sg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 2.694
+        }
+      ],
+      "text": "최근 5개 대회 SG Total(+2.69)이 장기 평균(+1.56) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
           "field_path": "birdie_rate",
           "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
           "value": 94.0
         }
       ],
       "text": "버디율이(가) 필드 상위 6%에 해당하는 엘리트 수준입니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "par_break_rate",
-          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
-          "value": 93.33333333333333
-        }
-      ],
-      "text": "파브레이크율이(가) 필드 상위 7%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

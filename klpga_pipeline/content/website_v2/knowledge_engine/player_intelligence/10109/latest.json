@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.300416+00:00",
-    "input_signature": "b5b7206566984d1f65542c53361d6ae15fd5f5b63116fb63f87d9b13a987bc4c",
+    "generated_at": "2026-10-01T12:33:54.194469+00:00",
+    "input_signature": "1824f7d83e6b675b2b8474ed34f1b0d6e8ed7f715924713bbc39b293d602bbc9",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.17505882352941196,
+    "long_term_sg": 0.1497674418604653,
     "rate_stats": {
       "average_putts": 30.0185,
       "average_score": 71.4442,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.1399,
       "recovery_rate": 63.8376
     },
-    "recent_10_sg": 0.3659999999999999,
-    "recent_5_sg": 0.19799999999999995,
-    "volatility": 1.856869408439915
+    "recent_10_sg": -0.011000000000000076,
+    "recent_5_sg": 0.015999999999999924,
+    "volatility": 1.915335218701938
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.8558823529411763
+        "value": 0.6972222222222221
       }
     ],
-    "narrative": "2023시즌 SG Total -0.62에서 2026시즌 +0.86로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.62에서 2026시즌 +0.70로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_arg"
       },
       {
-        "avg_total": 0.8558823529411763,
-        "delta_from_prev": -0.48602240896358584,
+        "avg_total": 0.6972222222222221,
+        "delta_from_prev": -0.6446825396825401,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_putt"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10109",
     "player_name": "고지원",
-    "sample_count": 85
+    "sample_count": 86
   },
   "neo_verdict": {
     "summary": "고지원은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 13% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.38117647058823534,
-    "avg_arg": 0.12647058823529414,
-    "avg_ott": 0.4441176470588235,
-    "avg_putt": -0.09411764705882353,
-    "avg_total": 0.8558823529411763,
+    "avg_app": 0.3244444444444445,
+    "avg_arg": 0.17777777777777778,
+    "avg_ott": 0.48000000000000004,
+    "avg_putt": -0.28388888888888886,
+    "avg_total": 0.6972222222222221,
     "season": 2026
   },
   "sources": [
@@ -178,10 +178,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.09411764705882353
+          "value": -0.28388888888888886
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.09로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.28로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -200,10 +200,10 @@
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.12647058823529414
+          "value": 0.17777777777777778
         }
       ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.13로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.18로 반전에 성공했습니다."
     }
   ]
 }

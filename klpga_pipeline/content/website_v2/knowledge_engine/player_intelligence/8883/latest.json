@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:09.455540+00:00",
-    "input_signature": "98fc71284fefea63071f9f5062ecfb661304e0b4598137d28aaf628ef5c0e7f7",
+    "generated_at": "2026-10-01T12:34:16.485333+00:00",
+    "input_signature": "93b3eb969b488952244848b275126e8e133461f4911e5557ef952164b7abbf5c",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.0389898989898991,
+    "long_term_sg": 1.0762000000000003,
     "rate_stats": {
       "average_putts": 29.7742,
       "average_score": 71.629,
@@ -18,9 +18,9 @@
       "par_save_rate": 86.2007,
       "recovery_rate": 65.5977
     },
-    "recent_10_sg": 0.24799999999999991,
-    "recent_5_sg": -0.41,
-    "volatility": 1.7741916469198022
+    "recent_10_sg": 0.525,
+    "recent_5_sg": 0.22999999999999998,
+    "volatility": 2.1916626108961204
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.5240000000000002
+        "value": 0.7257142857142859
       }
     ],
-    "narrative": "2023시즌 SG Total +1.24에서 2026시즌 +0.52로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.24에서 2026시즌 +0.73로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,11 +70,11 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.5240000000000002,
-        "delta_from_prev": -0.7037777777777774,
+        "avg_total": 0.7257142857142859,
+        "delta_from_prev": -0.5020634920634918,
         "season": 2026,
-        "strongest_component": "avg_arg",
-        "weakest_component": "avg_putt"
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
       }
     ]
   },
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "8883",
     "player_name": "이가영",
-    "sample_count": 99
+    "sample_count": 100
   },
   "neo_verdict": {
-    "summary": "이가영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.05로 반전에 성공했습니다."
+    "summary": "이가영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.14로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.17099999999999999,
-    "avg_arg": 0.17600000000000002,
-    "avg_ott": 0.1285,
-    "avg_putt": 0.05000000000000003,
-    "avg_total": 0.5240000000000002,
+    "avg_app": 0.33904761904761904,
+    "avg_arg": 0.13571428571428573,
+    "avg_ott": 0.11095238095238096,
+    "avg_putt": 0.14142857142857146,
+    "avg_total": 0.7257142857142859,
     "season": 2026
   },
   "sources": [
@@ -163,10 +163,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.05000000000000003
+          "value": 0.14142857142857146
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.05로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.14로 반전에 성공했습니다."
     }
   ]
 }

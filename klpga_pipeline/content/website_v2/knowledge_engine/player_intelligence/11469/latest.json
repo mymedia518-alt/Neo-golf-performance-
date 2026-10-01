@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:12.267767+00:00",
-    "input_signature": "fc8fc8849eccc6fb2b04125f6292cd178c46e03faaf438864fe94af96106e4a3",
+    "generated_at": "2026-10-01T12:34:21.357235+00:00",
+    "input_signature": "b7a637786a290e6434715dd74585fc4226c4a7b25e72350fe1af9533cdaeeff7",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -2.1090000000000004,
+    "long_term_sg": -2.1728571428571435,
     "rate_stats": {
       "average_putts": 31.1136,
       "average_score": 74.8182,
@@ -18,9 +18,9 @@
       "par_save_rate": 76.1364,
       "recovery_rate": 49.8305
     },
-    "recent_10_sg": -2.3120000000000003,
-    "recent_5_sg": -1.276,
-    "volatility": 1.7911214364190944
+    "recent_10_sg": -2.3739999999999997,
+    "recent_5_sg": -1.782,
+    "volatility": 1.8185004811657324
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "11469",
     "player_name": "이윤서",
-    "sample_count": 20
+    "sample_count": 21
   },
   "neo_verdict": {
     "summary": "이윤서은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -70,11 +70,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.15350000000000005,
-    "avg_arg": -0.055500000000000035,
-    "avg_ott": -0.9844999999999999,
-    "avg_putt": -0.9115000000000002,
-    "avg_total": -2.1090000000000004,
+    "avg_app": -0.22952380952380957,
+    "avg_arg": -0.033809523809523845,
+    "avg_ott": -0.9661904761904762,
+    "avg_putt": -0.9400000000000003,
+    "avg_total": -2.1728571428571435,
     "season": 2026
   },
   "sources": [

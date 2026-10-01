@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:21.110373+00:00",
-    "input_signature": "d8b8a68a904032e0a630039076b00fb77c15d4959f39770c106c0a454f88467f",
+    "generated_at": "2026-10-01T12:34:30.059034+00:00",
+    "input_signature": "1dd74e5003069ba0f3e523f432049dd231b7bd86f6c3bc124c1a8e320e4a8878",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.8488888888888892,
+    "long_term_sg": -1.8118918918918925,
     "rate_stats": {
       "average_putts": 29.75,
       "average_score": 74.875,
@@ -18,9 +18,9 @@
       "par_save_rate": 77.3148,
       "recovery_rate": 57.8005
     },
-    "recent_10_sg": -1.754,
-    "recent_5_sg": -2.024,
-    "volatility": 1.354431245947907
+    "recent_10_sg": -1.7750000000000004,
+    "recent_5_sg": -1.44,
+    "volatility": 1.3327133975465242
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -2.4571428571428577
+        "value": -2.3672727272727276
       }
     ],
-    "narrative": "2023시즌 SG Total -0.87에서 2026시즌 -2.46로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.87에서 2026시즌 -2.37로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -2.4571428571428577,
-        "delta_from_prev": -1.366233766233767,
+        "avg_total": -2.3672727272727276,
+        "delta_from_prev": -1.2763636363636368,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_app"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "8972",
     "player_name": "조정민",
-    "sample_count": 36
+    "sample_count": 37
   },
   "neo_verdict": {
-    "summary": "조정민은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.40로 반전에 성공했습니다."
+    "summary": "조정민은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.46로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.8438095238095238,
-    "avg_arg": 0.28761904761904755,
-    "avg_ott": -1.3033333333333332,
-    "avg_putt": 0.40238095238095234,
-    "avg_total": -2.4571428571428577,
+    "avg_app": -1.8559090909090907,
+    "avg_arg": 0.30454545454545445,
+    "avg_ott": -1.2795454545454545,
+    "avg_putt": 0.4636363636363636,
+    "avg_total": -2.3672727272727276,
     "season": 2026
   },
   "sources": [
@@ -184,10 +184,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.40238095238095234
+          "value": 0.4636363636363636
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.40로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.46로 반전에 성공했습니다."
     },
     {
       "citations": [

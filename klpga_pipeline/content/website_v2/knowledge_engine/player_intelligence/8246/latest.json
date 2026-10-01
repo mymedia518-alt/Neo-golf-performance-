@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:12.223871+00:00",
-    "input_signature": "7ba1f50060031411a056c4081efbae9950a6d5dbb1ad0af29a95d7387fe4e422",
+    "generated_at": "2026-10-01T12:34:20.403114+00:00",
+    "input_signature": "f7139dfd9cd018e7f12f1885d32c683db82b43c459478f66628ba1612f2357ce",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.21520833333333336,
+    "long_term_sg": -0.33072164948453614,
     "rate_stats": {
       "average_putts": 30.5577,
       "average_score": 73.8077,
@@ -18,9 +18,9 @@
       "par_save_rate": 79.0598,
       "recovery_rate": 53.681
     },
-    "recent_10_sg": -2.2269999999999994,
-    "recent_5_sg": -2.0380000000000003,
-    "volatility": 1.582656311395497
+    "recent_10_sg": -3.19,
+    "recent_5_sg": -4.2219999999999995,
+    "volatility": 3.1637730639222528
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -1.5342857142857143
+        "value": -1.9836363636363636
       }
     ],
-    "narrative": "2023시즌 SG Total +0.95에서 2026시즌 -1.53로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.95에서 2026시즌 -1.98로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -1.5342857142857143,
-        "delta_from_prev": -0.7616931216931215,
+        "avg_total": -1.9836363636363636,
+        "delta_from_prev": -1.211043771043771,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_app"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "8246",
     "player_name": "이소영",
-    "sample_count": 96
+    "sample_count": 97
   },
   "neo_verdict": {
-    "summary": "이소영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.04로 반전에 성공했습니다."
+    "summary": "이소영은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.20로 악화되었습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.6999999999999997,
-    "avg_arg": 0.04142857142857145,
-    "avg_ott": -0.02523809523809525,
-    "avg_putt": 0.15047619047619046,
-    "avg_total": -1.5342857142857143,
+    "avg_app": -1.8877272727272725,
+    "avg_arg": -0.08045454545454545,
+    "avg_ott": -0.20363636363636364,
+    "avg_putt": 0.1890909090909091,
+    "avg_total": -1.9836363636363636,
     "season": 2026
   },
   "sources": [
@@ -167,22 +167,11 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.02523809523809525
+          "value": -0.20363636363636364
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.03로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.20로 악화되었습니다."
     }
   ],
-  "why_wins": [
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_arg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.04142857142857145
-        }
-      ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.04로 반전에 성공했습니다."
-    }
-  ]
+  "why_wins": []
 }

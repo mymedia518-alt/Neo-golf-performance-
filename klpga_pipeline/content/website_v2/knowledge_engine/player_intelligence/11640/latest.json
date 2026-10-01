@@ -1,18 +1,18 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:31.806449+00:00",
-    "input_signature": "e21899f441567af49bbf0261b400fd8049db963c1a0617cf2203c9d09f431da3",
+    "generated_at": "2026-10-01T12:34:40.605546+00:00",
+    "input_signature": "a7435537f7cf11cabe6e1620e262e8b00327131846bcaebbe43823394650cd80",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -2.36,
+    "long_term_sg": -2.3099999999999996,
     "rate_stats": {},
-    "recent_10_sg": -2.36,
-    "recent_5_sg": -2.36,
-    "volatility": null
+    "recent_10_sg": -2.3099999999999996,
+    "recent_5_sg": -2.3099999999999996,
+    "volatility": 0.050000000000000044
   },
   "evolution": {
     "citations": [],
@@ -24,7 +24,7 @@
     "current_season": 2026,
     "player_id": "11640",
     "player_name": "성아진",
-    "sample_count": 1
+    "sample_count": 2
   },
   "neo_verdict": {
     "summary": "성아진은(는) 균형형(Balanced) 유형입니다. SG Putting이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
@@ -62,11 +62,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -2.14,
-    "avg_arg": -1.66,
-    "avg_ott": 0.14,
-    "avg_putt": 1.3,
-    "avg_total": -2.36,
+    "avg_app": -1.36,
+    "avg_arg": -0.995,
+    "avg_ott": 0.825,
+    "avg_putt": -0.785,
+    "avg_total": -2.3099999999999996,
     "season": 2026
   },
   "sources": [

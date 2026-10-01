@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:04.471303+00:00",
-    "input_signature": "3dab5394b916999caf9b1b7107a7d140317b51183daa5bf1d7b7992e2faa7862",
+    "generated_at": "2026-10-01T12:34:15.096109+00:00",
+    "input_signature": "52701efe03a892c0e3091aa138219a970652982e559cac81ae3af0d7325f9bf7",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.5808695652173912,
+    "long_term_sg": -0.48249999999999993,
     "rate_stats": {
       "average_putts": 30.6349,
       "average_score": 72.9365,
@@ -18,9 +18,9 @@
       "par_save_rate": 81.8342,
       "recovery_rate": 55.7423
     },
-    "recent_10_sg": 0.03600000000000001,
-    "recent_5_sg": 0.10800000000000005,
-    "volatility": 1.3001630666958663
+    "recent_10_sg": 0.06399999999999997,
+    "recent_5_sg": 0.8160000000000001,
+    "volatility": 1.333965516795693
   },
   "evolution": {
     "citations": [
@@ -32,10 +32,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.49571428571428566
+        "value": -0.3922727272727272
       }
     ],
-    "narrative": "2025시즌 SG Total -1.48에서 2026시즌 -0.50로 상승 추세입니다.",
+    "narrative": "2025시즌 SG Total -1.48에서 2026시즌 -0.39로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -46,8 +46,8 @@
         "weakest_component": "avg_arg"
       },
       {
-        "avg_total": -0.49571428571428566,
-        "delta_from_prev": 0.9792857142857144,
+        "avg_total": -0.3922727272727272,
+        "delta_from_prev": 1.082727272727273,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_putt"
@@ -58,7 +58,7 @@
     "current_season": 2026,
     "player_id": "11060",
     "player_name": "안재희",
-    "sample_count": 23
+    "sample_count": 24
   },
   "neo_verdict": {
     "summary": "안재희은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.06로 반전에 성공했습니다."
@@ -96,11 +96,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.06000000000000002,
-    "avg_arg": -0.08904761904761906,
-    "avg_ott": 0.22523809523809518,
-    "avg_putt": -0.6904761904761905,
-    "avg_total": -0.49571428571428566,
+    "avg_app": 0.05636363636363639,
+    "avg_arg": -0.00818181818181819,
+    "avg_ott": 0.17454545454545448,
+    "avg_putt": -0.6140909090909091,
+    "avg_total": -0.3922727272727272,
     "season": 2026
   },
   "sources": [
@@ -135,7 +135,7 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.06000000000000002
+          "value": 0.05636363636363639
         }
       ],
       "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.06로 반전에 성공했습니다."

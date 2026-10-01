@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:56.597448+00:00",
-    "input_signature": "6b28639a28642959382a41d8b852e0dffa7b645e51a7fdf97c8d177ae82b36c6",
+    "generated_at": "2026-10-01T12:34:04.334556+00:00",
+    "input_signature": "3650018d1832672d7a1f6c60b2c83f1da4c50820a1f396dd3672520003b95024",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -2.34,
+    "long_term_sg": -2.034,
     "rate_stats": {
       "average_putts": 30.2885,
       "average_score": 73.3854,
@@ -18,9 +18,9 @@
       "par_save_rate": 80.3419,
       "recovery_rate": 54.3807
     },
-    "recent_10_sg": -2.34,
-    "recent_5_sg": -2.34,
-    "volatility": 0.5215841255253078
+    "recent_10_sg": -2.034,
+    "recent_5_sg": -2.034,
+    "volatility": 0.7695349244836129
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "10789",
     "player_name": "리 슈잉",
-    "sample_count": 4
+    "sample_count": 5
   },
   "neo_verdict": {
     "summary": "리 슈잉은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -70,11 +70,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.2175,
-    "avg_arg": -0.8099999999999999,
-    "avg_ott": -0.29750000000000004,
-    "avg_putt": -0.012500000000000011,
-    "avg_total": -2.34,
+    "avg_app": -1.3699999999999999,
+    "avg_arg": -0.44399999999999995,
+    "avg_ott": -0.278,
+    "avg_putt": 0.059999999999999984,
+    "avg_total": -2.034,
     "season": 2026
   },
   "sources": [

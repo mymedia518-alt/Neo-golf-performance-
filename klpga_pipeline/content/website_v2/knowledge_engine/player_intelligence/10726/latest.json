@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.243188+00:00",
-    "input_signature": "0e97424aef360427668af2ad7a8b908d63245a7149d77ccb79496b0f5b7b962e",
+    "generated_at": "2026-10-01T12:33:54.068824+00:00",
+    "input_signature": "522008470bc1333c4d2f49d7a5a8d95aa20a690ff63d114b9d589f01a9440964",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.41952380952380947,
+    "long_term_sg": 0.5531818181818181,
     "rate_stats": {
       "average_putts": 30.8,
       "average_score": 72.1,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.0741,
       "recovery_rate": 59.9327
     },
-    "recent_10_sg": -0.46900000000000003,
-    "recent_5_sg": -0.962,
-    "volatility": 1.4260676702036268
+    "recent_10_sg": -0.14599999999999996,
+    "recent_5_sg": -0.722,
+    "volatility": 1.832916801166927
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "10726",
     "player_name": "김가희2",
-    "sample_count": 21
+    "sample_count": 22
   },
   "neo_verdict": {
     "summary": "김가희2은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee이(가) 필드 상위 8%에 해당하는 엘리트 수준입니다."
@@ -70,11 +70,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.02523809523809524,
-    "avg_arg": 0.04714285714285715,
-    "avg_ott": 0.5876190476190476,
-    "avg_putt": -0.24142857142857144,
-    "avg_total": 0.41952380952380947,
+    "avg_app": 0.06863636363636363,
+    "avg_arg": 0.13727272727272727,
+    "avg_ott": 0.5672727272727273,
+    "avg_putt": -0.22090909090909092,
+    "avg_total": 0.5531818181818181,
     "season": 2026
   },
   "sources": [

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:28.387448+00:00",
-    "input_signature": "6a173d4adf141325365727a7a75a296e59bd9e3dacf16c9ffd399d2ce4779f2c",
+    "generated_at": "2026-10-01T12:34:35.910531+00:00",
+    "input_signature": "e6ec38e49e47e8a222ddcc293f01a09d10bdd1a45f06a5b29fb45bcc14c3566e",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.034199999999999973,
+    "long_term_sg": 0.07019801980198018,
     "rate_stats": {
       "average_putts": 30.7931,
       "average_score": 72.2928,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.7701,
       "recovery_rate": 61.0345
     },
-    "recent_10_sg": 0.10799999999999998,
-    "recent_5_sg": 0.5039999999999999,
-    "volatility": 1.3889550028708633
+    "recent_10_sg": 0.546,
+    "recent_5_sg": 0.922,
+    "volatility": 1.7144165188191578
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.21049999999999996
+        "value": -0.025714285714285672
       }
     ],
-    "narrative": "2023시즌 SG Total +0.37에서 2026시즌 -0.21로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.37에서 2026시즌 -0.03로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": -0.21049999999999996,
-        "delta_from_prev": -0.013714285714285707,
+        "avg_total": -0.025714285714285672,
+        "delta_from_prev": 0.1710714285714286,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "9705",
     "player_name": "홍지원",
-    "sample_count": 100
+    "sample_count": 101
   },
   "neo_verdict": {
-    "summary": "홍지원은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.50)이 장기 평균(+0.03) 대비 뚜렷한 상승세를 보이고 있습니다."
+    "summary": "홍지원은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.92)이 장기 평균(+0.07) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.20049999999999998,
-    "avg_arg": -0.06600000000000002,
-    "avg_ott": -0.253,
-    "avg_putt": -0.092,
-    "avg_total": -0.21049999999999996,
+    "avg_app": 0.17904761904761904,
+    "avg_arg": 0.03333333333333332,
+    "avg_ott": -0.22523809523809527,
+    "avg_putt": -0.012857142857142848,
+    "avg_total": -0.025714285714285672,
     "season": 2026
   },
   "sources": [
@@ -135,28 +135,17 @@
   ],
   "strengths": [],
   "weaknesses": [],
-  "why_loses": [
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_arg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.06600000000000002
-        }
-      ],
-      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.07로 악화되었습니다."
-    }
-  ],
+  "why_loses": [],
   "why_wins": [
     {
       "citations": [
         {
           "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.5039999999999999
+          "value": 0.922
         }
       ],
-      "text": "최근 5개 대회 SG Total(+0.50)이 장기 평균(+0.03) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "최근 5개 대회 SG Total(+0.92)이 장기 평균(+0.07) 대비 뚜렷한 상승세를 보이고 있습니다."
     }
   ]
 }

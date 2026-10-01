@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:19.721993+00:00",
-    "input_signature": "7f7ad7697a70c76cdd481ccd4b413297091dbbebb16f63ababdaa99cc6ace817",
+    "generated_at": "2026-10-01T12:34:28.134369+00:00",
+    "input_signature": "1695512d2323e6a828456ff442ba8172f42cbdc4e95e5d66450d115e8daf0f4a",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -3.5771739130434783,
+    "long_term_sg": -3.543404255319149,
     "rate_stats": {
       "average_putts": 30.3478,
       "average_score": 75.6087,
@@ -18,9 +18,9 @@
       "par_save_rate": 76.087,
       "recovery_rate": 51.2048
     },
-    "recent_10_sg": -1.5859999999999999,
-    "recent_5_sg": 0.5720000000000001,
-    "volatility": 3.8975689859192997
+    "recent_10_sg": -0.9339999999999999,
+    "recent_5_sg": 0.006000000000000005,
+    "volatility": 3.1603930135348675
   },
   "evolution": {
     "citations": [
@@ -37,10 +37,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -4.80888888888889
+        "value": -4.6605263157894745
       }
     ],
-    "narrative": "2024시즌 SG Total -2.56에서 2026시즌 -4.81로 하락 추세입니다.",
+    "narrative": "2024시즌 SG Total -2.56에서 2026시즌 -4.66로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -58,8 +58,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": -4.80888888888889,
-        "delta_from_prev": 0.8861111111111093,
+        "avg_total": -4.6605263157894745,
+        "delta_from_prev": 1.0344736842105249,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_ott"
@@ -70,10 +70,10 @@
     "current_season": 2026,
     "player_id": "8840",
     "player_name": "정수빈",
-    "sample_count": 46
+    "sample_count": 47
   },
   "neo_verdict": {
-    "summary": "정수빈은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.41로 반전에 성공했습니다."
+    "summary": "정수빈은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.37로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -2.0077777777777777,
-    "avg_arg": 0.41222222222222227,
-    "avg_ott": -2.8605555555555555,
-    "avg_putt": -0.3533333333333333,
-    "avg_total": -4.80888888888889,
+    "avg_app": -1.8573684210526316,
+    "avg_arg": 0.3673684210526316,
+    "avg_ott": -2.7431578947368425,
+    "avg_putt": -0.4278947368421052,
+    "avg_total": -4.6605263157894745,
     "season": 2026
   },
   "sources": [
@@ -171,10 +171,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.3533333333333333
+          "value": -0.4278947368421052
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.35로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.43로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -183,10 +183,10 @@
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.41222222222222227
+          "value": 0.3673684210526316
         }
       ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.41로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.37로 반전에 성공했습니다."
     }
   ]
 }

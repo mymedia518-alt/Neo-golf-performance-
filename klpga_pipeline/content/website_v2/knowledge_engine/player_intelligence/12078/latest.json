@@ -1,17 +1,17 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:32.159134+00:00",
-    "input_signature": "9caff3a121d371636b055b5a149e395fd35a85212f7563609a55e3b4375318db",
+    "generated_at": "2026-10-01T12:34:40.579453+00:00",
+    "input_signature": "390e7b2c8f2ad93bd46c5751733d8daf99b84b3c209a70e4b466c8fadcf80364",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": null,
+    "long_term_sg": -9.54,
     "rate_stats": {},
-    "recent_10_sg": null,
-    "recent_5_sg": null,
+    "recent_10_sg": -9.54,
+    "recent_5_sg": -9.54,
     "volatility": null
   },
   "evolution": {
@@ -21,13 +21,13 @@
     "steps": []
   },
   "hero": {
-    "current_season": null,
+    "current_season": 2026,
     "player_id": "12078",
-    "player_name": "12078",
-    "sample_count": 0
+    "player_name": "임선아 1108(A)",
+    "sample_count": 1
   },
   "neo_verdict": {
-    "summary": "12078은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "임선아 1108(A)은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
   },
   "player_dna": {
     "axes": []
@@ -41,12 +41,12 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": null,
-    "avg_arg": null,
-    "avg_ott": null,
-    "avg_putt": null,
-    "avg_total": null,
-    "season": null
+    "avg_app": -2.26,
+    "avg_arg": -3.72,
+    "avg_ott": -0.5,
+    "avg_putt": -3.07,
+    "avg_total": -9.54,
+    "season": 2026
   },
   "sources": [
     "historical_sg_warehouse_corrected_v2.json",

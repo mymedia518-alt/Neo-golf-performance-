@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:00.045599+00:00",
-    "input_signature": "1852379cd8b7d14f248012fb97873a036cf23c022337ba194de2631a4b549e98",
+    "generated_at": "2026-10-01T12:34:08.485323+00:00",
+    "input_signature": "12d2410bc3768cd583d2ac2a6da3e9812713afa57d54639f153cb1eff01c01dd",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.771081081081081,
+    "long_term_sg": -0.6957894736842105,
     "rate_stats": {
       "average_putts": 30.125,
       "average_score": 72.8741,
@@ -18,9 +18,9 @@
       "par_save_rate": 83.2341,
       "recovery_rate": 63.662
     },
-    "recent_10_sg": -0.8540000000000001,
-    "recent_5_sg": -0.37599999999999983,
-    "volatility": 1.1512966602922117
+    "recent_10_sg": -0.3719999999999999,
+    "recent_5_sg": 0.2700000000000001,
+    "volatility": 1.268044163268772
   },
   "evolution": {
     "citations": [
@@ -32,10 +32,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.6845000000000001
+        "value": -0.5523809523809524
       }
     ],
-    "narrative": "2023시즌 SG Total -0.87에서 2026시즌 -0.68로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.87에서 2026시즌 -0.55로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -46,11 +46,11 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": -0.6845000000000001,
-        "delta_from_prev": 0.18844117647058822,
+        "avg_total": -0.5523809523809524,
+        "delta_from_prev": 0.3205602240896359,
         "season": 2026,
-        "strongest_component": "avg_putt",
-        "weakest_component": "avg_app"
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_ott"
       }
     ]
   },
@@ -58,7 +58,7 @@
     "current_season": 2026,
     "player_id": "9111",
     "player_name": "박서현",
-    "sample_count": 37
+    "sample_count": 38
   },
   "neo_verdict": {
     "summary": "박서현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 37%)로 구조적 약점입니다."
@@ -96,11 +96,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.30750000000000005,
-    "avg_arg": -0.053500000000000006,
-    "avg_ott": -0.2814999999999999,
-    "avg_putt": -0.03849999999999998,
-    "avg_total": -0.6845000000000001,
+    "avg_app": -0.2680952380952381,
+    "avg_arg": -0.0014285714285714299,
+    "avg_ott": -0.26857142857142846,
+    "avg_putt": -0.01095238095238093,
+    "avg_total": -0.5523809523809524,
     "season": 2026
   },
   "sources": [
@@ -133,20 +133,10 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.30750000000000005
+          "value": -0.2680952380952381
         }
       ],
-      "text": "2023시즌 강점이던 SG Approach이(가) 2026시즌 -0.31로 악화되었습니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_arg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.053500000000000006
-        }
-      ],
-      "text": "2023시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.05로 악화되었습니다."
+      "text": "2023시즌 강점이던 SG Approach이(가) 2026시즌 -0.27로 악화되었습니다."
     }
   ],
   "why_wins": []

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:05.300429+00:00",
-    "input_signature": "0b1971e177bccee24c7a5b0231043e50ad8c35088b4f0c5c1e7c2e0880ca982d",
+    "generated_at": "2026-10-01T12:34:12.418506+00:00",
+    "input_signature": "7350f24556e20f21d2e566d139de716dd0d63d10b21df9e15925443e4e0a5328",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.33875000000000005,
+    "long_term_sg": -0.28685393258426967,
     "rate_stats": {
       "average_putts": 29.32,
       "average_score": 73.18,
@@ -18,9 +18,9 @@
       "par_save_rate": 79.3333,
       "recovery_rate": 56.9767
     },
-    "recent_10_sg": -1.044,
-    "recent_5_sg": -0.9200000000000002,
-    "volatility": 1.357012896033048
+    "recent_10_sg": -0.6580000000000001,
+    "recent_5_sg": 0.636,
+    "volatility": 2.0766935257760113
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.7280952380952381
+        "value": -0.5004545454545455
       }
     ],
-    "narrative": "2023시즌 SG Total +0.16에서 2026시즌 -0.73로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.16에서 2026시즌 -0.50로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.7280952380952381,
-        "delta_from_prev": -0.5993452380952381,
+        "avg_total": -0.5004545454545455,
+        "delta_from_prev": -0.37170454545454545,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10022",
     "player_name": "손예빈",
-    "sample_count": 88
+    "sample_count": 89
   },
   "neo_verdict": {
     "summary": "손예빈은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 19% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.6023809523809524,
-    "avg_arg": 0.14095238095238094,
-    "avg_ott": -1.1085714285714285,
-    "avg_putt": 0.8428571428571429,
-    "avg_total": -0.7280952380952381,
+    "avg_app": -0.474090909090909,
+    "avg_arg": 0.22045454545454543,
+    "avg_ott": -1.0354545454545454,
+    "avg_putt": 0.7890909090909091,
+    "avg_total": -0.5004545454545455,
     "season": 2026
   },
   "sources": [

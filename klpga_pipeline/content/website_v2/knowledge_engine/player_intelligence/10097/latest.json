@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.393428+00:00",
-    "input_signature": "2c38733403c9a536a032bd1a9615ea5b5d816d75845e727549a087fdd522596a",
+    "generated_at": "2026-10-01T12:33:56.992646+00:00",
+    "input_signature": "095a4451c2575220d208fe7845faf21fa6ef3826e8833aa7f6919f9f85cf7e16",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.9914736842105262,
+    "long_term_sg": 0.9661458333333331,
     "rate_stats": {
       "average_putts": 30.45,
       "average_score": 70.6833,
@@ -18,9 +18,9 @@
       "par_save_rate": 89.3519,
       "recovery_rate": 65.6904
     },
-    "recent_10_sg": 2.1320000000000006,
-    "recent_5_sg": 1.4040000000000001,
-    "volatility": 1.1764080924577152
+    "recent_10_sg": 1.519,
+    "recent_5_sg": 0.97,
+    "volatility": 1.2766162305093884
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 2.0917647058823525
+        "value": 1.8955555555555554
       }
     ],
-    "narrative": "2023시즌 SG Total +0.32에서 2026시즌 +2.09로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.32에서 2026시즌 +1.90로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_arg"
       },
       {
-        "avg_total": 2.0917647058823525,
-        "delta_from_prev": 0.6758387799564269,
+        "avg_total": 1.8955555555555554,
+        "delta_from_prev": 0.47962962962962985,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10097",
     "player_name": "김민선7",
-    "sample_count": 95
+    "sample_count": 96
   },
   "neo_verdict": {
     "summary": "김민선7은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 3% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 1.181764705882353,
-    "avg_arg": 0.14705882352941177,
-    "avg_ott": 0.723529411764706,
-    "avg_putt": 0.0423529411764706,
-    "avg_total": 2.0917647058823525,
+    "avg_app": 1.0750000000000002,
+    "avg_arg": 0.25666666666666665,
+    "avg_ott": 0.73,
+    "avg_putt": -0.16333333333333333,
+    "avg_total": 1.8955555555555554,
     "season": 2026
   },
   "sources": [
@@ -176,12 +176,12 @@
     {
       "citations": [
         {
-          "field_path": "sg_putt",
-          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
-          "value": 55.37190082644628
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.16333333333333333
         }
       ],
-      "text": "전체 기량은 최상위권이지만 SG Putting은(는) 평균 수준에 머물러 있습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.16로 악화되었습니다."
     },
     {
       "citations": [

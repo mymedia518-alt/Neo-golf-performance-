@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.142891+00:00",
-    "input_signature": "bf37b0e45c5ecd339792128797bcaae4d701a5a4e8242cea139467deac65aa2b",
+    "generated_at": "2026-10-01T12:33:54.128148+00:00",
+    "input_signature": "5ae851afcddae53401c45823c1e5d25d111fb60264afe6db0777e84268040708",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.927263157894737,
+    "long_term_sg": 0.9604166666666668,
     "rate_stats": {
       "average_putts": 30.1639,
       "average_score": 71.8361,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.8816,
       "recovery_rate": 57.0513
     },
-    "recent_10_sg": 0.507,
-    "recent_5_sg": 0.41400000000000003,
-    "volatility": 1.3298349521651174
+    "recent_10_sg": 0.607,
+    "recent_5_sg": 0.916,
+    "volatility": 1.5424205003824347
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.2885
+        "value": 0.47047619047619044
       }
     ],
-    "narrative": "2023시즌 SG Total +1.48에서 2026시즌 +0.29로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.48에서 2026시즌 +0.47로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,10 +70,10 @@
         "weakest_component": "avg_arg"
       },
       {
-        "avg_total": 0.2885,
-        "delta_from_prev": -0.49705555555555536,
+        "avg_total": 0.47047619047619044,
+        "delta_from_prev": -0.3150793650793649,
         "season": 2026,
-        "strongest_component": "avg_putt",
+        "strongest_component": "avg_ott",
         "weakest_component": "avg_arg"
       }
     ]
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10002",
     "player_name": "김민별",
-    "sample_count": 95
+    "sample_count": 96
   },
   "neo_verdict": {
     "summary": "김민별은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 23% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.04500000000000002,
-    "avg_arg": -0.2015,
-    "avg_ott": 0.263,
-    "avg_putt": 0.27049999999999996,
-    "avg_total": 0.2885,
+    "avg_app": 0.09571428571428571,
+    "avg_arg": -0.15476190476190477,
+    "avg_ott": 0.27095238095238094,
+    "avg_putt": 0.25666666666666665,
+    "avg_total": 0.47047619047619044,
     "season": 2026
   },
   "sources": [
@@ -167,18 +167,7 @@
     }
   ],
   "weaknesses": [],
-  "why_loses": [
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_app",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.04500000000000002
-        }
-      ],
-      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.05로 악화되었습니다."
-    }
-  ],
+  "why_loses": [],
   "why_wins": [
     {
       "citations": [

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:57.627243+00:00",
-    "input_signature": "e34dee5ac7f80aa6b600a64b5f78f4814acfd33628eb92a4b18ed736da35ead4",
+    "generated_at": "2026-10-01T12:34:04.844164+00:00",
+    "input_signature": "3b636f450b1d77a83851166778422b5497c5eeb9ecfc0f47920eba1c5b9bc13b",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.3899999999999997,
+    "long_term_sg": -1.343243243243243,
     "rate_stats": {
       "average_putts": 30.0597,
       "average_score": 71.9701,
@@ -18,9 +18,9 @@
       "par_save_rate": 85.738,
       "recovery_rate": 66.0274
     },
-    "recent_10_sg": 0.007999999999999962,
-    "recent_5_sg": -0.45200000000000007,
-    "volatility": 1.4864373515220881
+    "recent_10_sg": 0.26499999999999996,
+    "recent_5_sg": 0.37399999999999994,
+    "volatility": 1.5946237800810572
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.11809523809523816
+        "value": 0.20681818181818185
       }
     ],
-    "narrative": "2023시즌 SG Total -2.15에서 2026시즌 +0.12로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -2.15에서 2026시즌 +0.21로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.11809523809523816,
-        "delta_from_prev": 1.8023260073260075,
+        "avg_total": 0.20681818181818185,
+        "delta_from_prev": 1.891048951048951,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_app"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10083",
     "player_name": "마서영",
-    "sample_count": 73
+    "sample_count": 74
   },
   "neo_verdict": {
     "summary": "마서영은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 12% 수준의 기록을 유지하고 있습니다."
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.39142857142857135,
-    "avg_arg": -0.05714285714285715,
-    "avg_ott": 0.22333333333333336,
-    "avg_putt": 0.3447619047619048,
-    "avg_total": 0.11809523809523816,
+    "avg_app": -0.30681818181818177,
+    "avg_arg": -0.04136363636363637,
+    "avg_ott": 0.2340909090909091,
+    "avg_putt": 0.3227272727272728,
+    "avg_total": 0.20681818181818185,
     "season": 2026
   },
   "sources": [
@@ -179,10 +179,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.22333333333333336
+          "value": 0.2340909090909091
         }
       ],
-      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.22로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.23로 반전에 성공했습니다."
     }
   ]
 }

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:16.668277+00:00",
-    "input_signature": "bdb03b6e5ae5aa0de9429c506214864c502a7947cff9f842f9182cf0f87e6d53",
+    "generated_at": "2026-10-01T12:34:25.020020+00:00",
+    "input_signature": "c9d70ea867ae65bfb8a94f28ec593df2b1463294d324d0f027ac718385face92",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.25560000000000005,
+    "long_term_sg": 0.3106578947368422,
     "rate_stats": {
       "average_putts": 30.8039,
       "average_score": 72.3533,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.3137,
       "recovery_rate": 58.2031
     },
-    "recent_10_sg": -0.304,
-    "recent_5_sg": -0.9979999999999999,
-    "volatility": 1.342551302557932
+    "recent_10_sg": 0.05700000000000003,
+    "recent_5_sg": 0.15400000000000008,
+    "volatility": 1.9478400858386709
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.1838888888888889
+        "value": 0.4078947368421053
       }
     ],
-    "narrative": "2023시즌 SG Total +0.11에서 2026시즌 +0.18로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.11에서 2026시즌 +0.41로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.1838888888888889,
-        "delta_from_prev": 0.013518518518518458,
+        "avg_total": 0.4078947368421053,
+        "delta_from_prev": 0.23752436647173486,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_arg"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "10138",
     "player_name": "임진영",
-    "sample_count": 75
+    "sample_count": 76
   },
   "neo_verdict": {
-    "summary": "임진영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.23로 반전에 성공했습니다."
+    "summary": "임진영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.43로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.23055555555555557,
-    "avg_arg": -0.11499999999999996,
-    "avg_ott": 0.13666666666666666,
-    "avg_putt": -0.06888888888888885,
-    "avg_total": 0.1838888888888889,
+    "avg_app": 0.42894736842105263,
+    "avg_arg": -0.0589473684210526,
+    "avg_ott": 0.04894736842105263,
+    "avg_putt": -0.011052631578947331,
+    "avg_total": 0.4078947368421053,
     "season": 2026
   },
   "sources": [
@@ -141,20 +141,10 @@
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.11499999999999996
+          "value": -0.0589473684210526
         }
       ],
-      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.11로 악화되었습니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_putt",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.06888888888888885
-        }
-      ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.07로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.06로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -163,10 +153,10 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.23055555555555557
+          "value": 0.42894736842105263
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.23로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.43로 반전에 성공했습니다."
     }
   ]
 }

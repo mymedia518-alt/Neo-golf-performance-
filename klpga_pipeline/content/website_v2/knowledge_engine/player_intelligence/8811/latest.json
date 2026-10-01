@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:17.955447+00:00",
-    "input_signature": "19fabed794efaa0c7a63da27c212e5a5bf6d17833627b5c6d8f162f102ab67de",
+    "generated_at": "2026-10-01T12:34:25.112644+00:00",
+    "input_signature": "2724ff85f78b536bc963817d292cd9a5a2e2a3f20ff11c892637c356f48fd0ba",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.10871287128712868,
+    "long_term_sg": -0.11588235294117644,
     "rate_stats": {
       "average_putts": 30.1429,
       "average_score": 71.6351,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.3898,
       "recovery_rate": 65.3374
     },
-    "recent_10_sg": 0.558,
-    "recent_5_sg": 0.844,
-    "volatility": 1.3434120737882327
+    "recent_10_sg": 0.6159999999999999,
+    "recent_5_sg": 0.53,
+    "volatility": 1.2671164113845261
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.5055
+        "value": 0.4414285714285714
       }
     ],
-    "narrative": "2023시즌 SG Total -0.59에서 2026시즌 +0.51로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.59에서 2026시즌 +0.44로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,11 +70,11 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 0.5055,
-        "delta_from_prev": 0.4414259259259259,
+        "avg_total": 0.4414285714285714,
+        "delta_from_prev": 0.37735449735449733,
         "season": 2026,
         "strongest_component": "avg_putt",
-        "weakest_component": "avg_arg"
+        "weakest_component": "avg_app"
       }
     ]
   },
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "8811",
     "player_name": "이채은2",
-    "sample_count": 101
+    "sample_count": 102
   },
   "neo_verdict": {
-    "summary": "이채은2은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.09로 반전에 성공했습니다."
+    "summary": "이채은2은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.10로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.08,
-    "avg_arg": 0.07349999999999998,
-    "avg_ott": 0.0925,
-    "avg_putt": 0.261,
-    "avg_total": 0.5055,
+    "avg_app": -0.11619047619047619,
+    "avg_arg": 0.09857142857142856,
+    "avg_ott": 0.10238095238095238,
+    "avg_putt": 0.35809523809523813,
+    "avg_total": 0.4414285714285714,
     "season": 2026
   },
   "sources": [
@@ -156,27 +156,38 @@
     }
   ],
   "weaknesses": [],
-  "why_loses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.11619047619047619
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -0.12로 악화되었습니다."
+    }
+  ],
   "why_wins": [
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.0925
+          "value": 0.10238095238095238
         }
       ],
-      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.09로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.10로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.261
+          "value": 0.35809523809523813
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.26로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.36로 반전에 성공했습니다."
     }
   ]
 }
