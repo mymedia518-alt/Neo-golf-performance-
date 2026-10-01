@@ -32,6 +32,7 @@ from html import escape as _esc
 from pathlib import Path
 
 from klpga.website_v2.player_link import linked_player_name_cell
+from klpga.website_v2.previous_tournament_link import previous_tournament_meta_html
 from klpga.website_v2.round_score_format import format_to_par
 
 GAME_CODE = "2026100005"
@@ -130,7 +131,8 @@ def render_round_page(round_number: int, *, tournament_name: str, date_range: st
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
         f'<span aria-current="page">{stage_label}</span></nav>'
         f'<section class="hero" id="tournament"><div><p class="eyebrow">{stage_label} 업데이트</p>'
-        f'<h1>{_esc(tournament_name)}</h1><p class="meta">{_esc(date_range)}</p></div></section>'
+        f'<h1>{_esc(tournament_name)}</h1><p class="meta">{_esc(date_range)}</p>'
+        f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"
     table_section = (
