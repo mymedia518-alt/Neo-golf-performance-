@@ -23,6 +23,19 @@ are rendered in their own clearly-tagged cards, kept visually and
 textually separate from this module's mock performance stats (which
 are tagged "더미 성적 데이터") so the two tiers are never conflated.
 
+V2.1 (operator request, 2026-10-01): added a "코스 영상 분석 (AI)" hero
+section built from an operator-uploaded real course photo (person
+removed via image edit at the operator's request), animated into a
+drone-flyover-style clip with Kling 2.5 Turbo Pro (image-to-video).
+This clip is AI-generated camera motion applied to a real photo -- it
+is NOT actual drone footage, and is tagged as such on the page
+("AI 생성 영상 · 실제 드론 촬영 아님") directly under the video, the same
+way _HOLE6_REAL's cards are tagged "실제" and this module's performance
+numbers are tagged "더미" -- so no tier is ever presented as something
+it isn't. The overlay cards reuse this page's own computed course
+summary/one-liner (never independently retyped), with the same
+scroll-triggered rise+fade as the Hole 6 section.
+
 The real pipeline this page is a placeholder for:
 klpga.neo_win.final_course_deep_dive.connect_course_deep_dive() (real
 artifact existence check) + the real Reader collectors for
@@ -130,6 +143,23 @@ _HOLE6_REAL = {
     ),
     "youtube_id": "G33Qr32IkNU",
     "source_url": "https://blueheron.co.kr/swp/course/east/hole06",
+}
+
+# ---------------------------------------------------------------------------
+# AI-generated drone-style clip (operator request, 2026-10-01): image-to-
+# video motion applied to an operator-uploaded real course photo (person
+# removed per operator instruction). NOT real drone footage -- tagged as
+# such wherever it is shown. Kling 2.5 Turbo Pro, 5s, 1080p.
+# ---------------------------------------------------------------------------
+_PHOTO_CINEMATIC = {
+    "video_url": (
+        "https://cms-toolkit-artifacts.artlist.io/content/-e-x-t-e-r-n-a-l_-i-m-a-g-e_-t-o_-v-i-d-e-o-v1/"
+        "media__6/-e-x-t-e-r-n-a-l_-i-m-a-g-e_-t-o_-v-i-d-e-o-2f9b516a-7cb0-4eee-bdef-8dc77e94bd69.mp4"
+        "?Expires=2106252979&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=NnyVlRwjZ6vjSE9uV6O5o0z7fVATFbLGThLe6pOzhUGHb-NN6-RF3UJlgEnbk9AJFT0sRghANVclPDSXwz6rfA3KJ04qspWMDYTBHh0H7Wx7oPRsS9MvFmCKR048I5qbdBC8BbDcSsOua~GJZpsLMHNiUzIiLBzOpNMbmkxPrUWgg-DXCfZGO40K39AS6R~Sa8n7GRw53plT9dacLa8Otlh6a31KSYLNnFYfa18M8ZtJAP~WG0VUBh5865ai8ecg0M5OvSDstCBqEDk-mAMI7K~-STUhZKspBAVxitenq-wrja3UuYi169SWQ1Vw4qUE2EgC0THaC5jtmcrc7qSARw__"
+    ),
+    "thumbnail_url": "https://cms-toolkit-public-artifacts.artlist.io/content/video/video-thumbnails/generated-thumbnail-35160e64-3edf-4c0d-8dae-8e3c2a4428c7.jpg",
+    "model_name": "Kling 2.5 Turbo Pro (image-to-video)",
+    "duration_label": "5초",
 }
 
 
@@ -429,6 +459,7 @@ placed on this module's own card backgrounds otherwise. */
 .dd-cine-card.is-visible{opacity:1;transform:translateY(0)}
 .dd-cine-tag{display:inline-block;margin-bottom:.4rem;padding:.15rem .5rem;border-radius:.6rem;background:var(--green-2);color:var(--green);font-size:.68rem;font-weight:800}
 .dd-cine-tag--mock{background:#f3e6c8;color:#7a5610}
+.dd-cine-tag--ai{background:#e3e9f7;color:#30489e}
 .dd-cine-card h3{margin:.2rem 0;font-size:1rem;color:var(--ink)}
 .dd-cine-fact{margin:.2rem 0;font-size:.85rem;color:var(--ink)}
 .dd-cine-tip{margin:.2rem 0;font-size:.85rem;color:var(--ink);line-height:1.65;font-style:normal}
@@ -489,6 +520,39 @@ def _hole6_cinematic_section() -> str:
         "<span class='dd-cine-tag dd-cine-tag--mock'>더미 성적 데이터 · 레이아웃 미리보기</span>"
         f"<p class='dd-cine-fact'>평균 {_fmt_rel(mock['avg_rel'])}타 · 버디 {mock['birdie']}% · 보기 이상 {mock['bogey_plus']}%</p>"
         f"<p class='dd-cine-fact'>Fairway {mock['tee']['fairway']}% · 좌우 Rough {rough}% · 벙커 {mock['tee']['bunker']}%</p>"
+        "</article>"
+        "</div>"
+        "</div>"
+        "</section>"
+    )
+
+
+def _photo_cinematic_section(s: dict, oneliner: str) -> str:
+    v = _PHOTO_CINEMATIC
+    return (
+        "<section class='panel dd-cine' id='photo-cinematic'>"
+        "<h2 class='dd-section-title'>코스 영상 분석 (AI)</h2>"
+        "<div class='dd-cine-stage'>"
+        "<div class='dd-cine-video-wrap'>"
+        f"<video class='dd-cine-video' src='{_esc(v['video_url'])}' poster='{_esc(v['thumbnail_url'])}' "
+        "controls muted loop playsinline preload='metadata'></video>"
+        "</div>"
+        "<div class='dd-cine-scroll'>"
+        "<article class='dd-cine-card'>"
+        "<span class='dd-cine-tag dd-cine-tag--ai'>AI 생성 영상 · 실제 드론 촬영 아님</span>"
+        f"<h3>업로드 코스 사진 기반 플라이오버</h3>"
+        f"<p class='dd-cine-fact'>{v['model_name']} · {v['duration_label']} · 사람 제거(이미지 편집) 후 애니메이션</p>"
+        "<p class='dd-cine-source'>소스: 운영자 업로드 사진 (블루헤런 코스)</p>"
+        "</article>"
+        "<article class='dd-cine-card'>"
+        "<span class='dd-cine-tag dd-cine-tag--mock'>더미 성적 데이터 · 레이아웃 미리보기</span>"
+        f"<p class='dd-cine-fact'>{_esc(oneliner)}</p>"
+        "</article>"
+        "<article class='dd-cine-card'>"
+        "<span class='dd-cine-tag dd-cine-tag--mock'>더미 성적 데이터 · 레이아웃 미리보기</span>"
+        f"<p class='dd-cine-fact'>코스 평균 {_fmt_rel(s['avg_rel'])}타 · 버디율 {s['avg_birdie']:.1f}% · "
+        f"보기 이상 {s['avg_bogey_plus']:.1f}%</p>"
+        f"<p class='dd-cine-fact'>전체 {s['total_distance']}yd · PAR {s['total_par']}</p>"
         "</article>"
         "</div>"
         "</div>"
@@ -561,6 +625,7 @@ def render_deep_dive_mock_page(*, tournament_name: str, game_code: str) -> str:
     )
 
     breadcrumb = breadcrumb_html(tournament_name, f"/tournaments/2026/{game_code}/pre/", "딥 다이브")
+    photo_cinematic = _photo_cinematic_section(s, oneliner)
     hole6_cinematic = _hole6_cinematic_section()
 
     body = (
@@ -581,6 +646,8 @@ def render_deep_dive_mock_page(*, tournament_name: str, game_code: str) -> str:
         "<span class='dd-preview-badge'>레이아웃 미리보기 — 더미 데이터 (6번홀 코스 정보/영상은 실제)</span>"
         "</section>"
         "<div class='dd-wrap'>"
+
+        f"{photo_cinematic}"
 
         f"{hole6_cinematic}"
 
