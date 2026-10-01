@@ -9,6 +9,8 @@ import pytest
 from klpga.knowledge_engine import knowledge_engine as ke
 from klpga.knowledge_engine import player_intelligence_generator as pig
 
+pytestmark = pytest.mark.round_pipeline
+
 
 @pytest.fixture(autouse=True)
 def _isolate_output_root(tmp_path, monkeypatch):

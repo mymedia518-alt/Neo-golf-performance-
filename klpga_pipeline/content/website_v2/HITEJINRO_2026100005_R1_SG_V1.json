@@ -1,16 +1,16 @@
 {
-  "schema_version": "hitejinro_r1_sg_v1",
+  "schema_version": "hitejinro_round_sg_v2",
   "game_code": "2026100005",
   "round_number": 1,
   "as_of": "2026-10-01",
-  "purpose": "ROUND-SCOPED Strokes Gained observed in R1 only -- never merged into historical_sg_warehouse_corrected_v2.json or the PRE/R1 page's own NEO 경기력 band (same discipline as Hana's own scripts/155-179 R1-R4 SG files, which were never merged either).",
+  "purpose": "ROUND-SCOPED Strokes Gained observed through this round -- not merged into historical_sg_warehouse_corrected_v2.json by this function; see merge_sg_into_warehouse for the separate, explicit merge step.",
   "source_raw": {
     "path": "klpga_pipeline/content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R1_SG_RAW.html",
     "sha256": "5b000bc8443c1b8edf0e0ff57f1d34bbd31b7330972c10ba6ad2282d3fd7182f",
     "saved_from_url": "https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026100005"
   },
   "identity_join": {
-    "method": "exact display-name match, used only after independently verifying the join is a true 1:1 bijection for this exact 107-player population (both sides duplicate-free, set-equal) -- never a name-based guess",
+    "method": "exact display-name match, used only after independently verifying the join is a true 1:1 bijection for this exact population (both sides duplicate-free, set-equal)",
     "population_count": 107,
     "bijection_verified": true
   },
@@ -28,7 +28,7 @@
     {
       "player_id": "10725",
       "official_display_name": "김민솔",
-      "r1_sg_rank": 1,
+      "sg_rank": 1,
       "total": 6.89,
       "tee_to_green": 4.37,
       "off_the_tee": 1.37,
@@ -40,7 +40,7 @@
     {
       "player_id": "9431",
       "official_display_name": "박보겸",
-      "r1_sg_rank": 2,
+      "sg_rank": 2,
       "total": 5.81,
       "tee_to_green": 3.34,
       "off_the_tee": 0.23,
@@ -52,7 +52,7 @@
     {
       "player_id": "10296",
       "official_display_name": "문정민",
-      "r1_sg_rank": 3,
+      "sg_rank": 3,
       "total": 5.8,
       "tee_to_green": 5.05,
       "off_the_tee": 1.11,
@@ -64,7 +64,7 @@
     {
       "player_id": "8859",
       "official_display_name": "이승연",
-      "r1_sg_rank": 4,
+      "sg_rank": 4,
       "total": 5.79,
       "tee_to_green": 3.82,
       "off_the_tee": 0.55,
@@ -76,7 +76,7 @@
     {
       "player_id": "9990",
       "official_display_name": "윤수아",
-      "r1_sg_rank": 5,
+      "sg_rank": 5,
       "total": 5.75,
       "tee_to_green": 0.8,
       "off_the_tee": 0.27,
@@ -88,7 +88,7 @@
     {
       "player_id": "9134",
       "official_display_name": "서어진",
-      "r1_sg_rank": 6,
+      "sg_rank": 6,
       "total": 5.58,
       "tee_to_green": 2.85,
       "off_the_tee": 0.53,
@@ -100,7 +100,7 @@
     {
       "player_id": "8392",
       "official_display_name": "이다연",
-      "r1_sg_rank": 7,
+      "sg_rank": 7,
       "total": 5.22,
       "tee_to_green": 3.63,
       "off_the_tee": 0.41,
@@ -112,7 +112,7 @@
     {
       "player_id": "9000",
       "official_display_name": "김지수",
-      "r1_sg_rank": 8,
+      "sg_rank": 8,
       "total": 4.96,
       "tee_to_green": 2.6,
       "off_the_tee": 0.26,
@@ -124,7 +124,7 @@
     {
       "player_id": "9449",
       "official_display_name": "이지현3",
-      "r1_sg_rank": 9,
+      "sg_rank": 9,
       "total": 4.86,
       "tee_to_green": 5.25,
       "off_the_tee": 0.61,
@@ -136,7 +136,7 @@
     {
       "player_id": "10095",
       "official_display_name": "방신실",
-      "r1_sg_rank": 10,
+      "sg_rank": 10,
       "total": 4.82,
       "tee_to_green": 4.31,
       "off_the_tee": 0.81,
@@ -148,7 +148,7 @@
     {
       "player_id": "8883",
       "official_display_name": "이가영",
-      "r1_sg_rank": 11,
+      "sg_rank": 11,
       "total": 4.76,
       "tee_to_green": 2.79,
       "off_the_tee": -0.24,
@@ -160,7 +160,7 @@
     {
       "player_id": "10138",
       "official_display_name": "임진영",
-      "r1_sg_rank": 12,
+      "sg_rank": 12,
       "total": 4.44,
       "tee_to_green": 3.41,
       "off_the_tee": -1.53,
@@ -172,7 +172,7 @@
     {
       "player_id": "10022",
       "official_display_name": "손예빈",
-      "r1_sg_rank": 13,
+      "sg_rank": 13,
       "total": 4.28,
       "tee_to_green": 4.61,
       "off_the_tee": 0.5,
@@ -184,7 +184,7 @@
     {
       "player_id": "10002",
       "official_display_name": "김민별",
-      "r1_sg_rank": 14,
+      "sg_rank": 14,
       "total": 4.11,
       "tee_to_green": 4.12,
       "off_the_tee": 0.43,
@@ -196,7 +196,7 @@
     {
       "player_id": "9115",
       "official_display_name": "유해란",
-      "r1_sg_rank": 15,
+      "sg_rank": 15,
       "total": 3.99,
       "tee_to_green": 3.95,
       "off_the_tee": 1.6,
@@ -208,7 +208,7 @@
     {
       "player_id": "8300",
       "official_display_name": "김수지",
-      "r1_sg_rank": 16,
+      "sg_rank": 16,
       "total": 3.91,
       "tee_to_green": 4.02,
       "off_the_tee": 1.49,
@@ -220,7 +220,7 @@
     {
       "player_id": "8284",
       "official_display_name": "최예림",
-      "r1_sg_rank": 17,
+      "sg_rank": 17,
       "total": 3.78,
       "tee_to_green": 3.25,
       "off_the_tee": 0.56,
@@ -232,7 +232,7 @@
     {
       "player_id": "1521",
       "official_display_name": "지한솔",
-      "r1_sg_rank": 18,
+      "sg_rank": 18,
       "total": 3.69,
       "tee_to_green": 2.77,
       "off_the_tee": 0.2,
@@ -244,7 +244,7 @@
     {
       "player_id": "10481",
       "official_display_name": "이서윤4",
-      "r1_sg_rank": 19,
+      "sg_rank": 19,
       "total": 3.67,
       "tee_to_green": 4.04,
       "off_the_tee": 0.97,
@@ -256,7 +256,7 @@
     {
       "player_id": "9705",
       "official_display_name": "홍지원",
-      "r1_sg_rank": 19,
+      "sg_rank": 19,
       "total": 3.67,
       "tee_to_green": 2.1,
       "off_the_tee": 0.33,
@@ -268,7 +268,7 @@
     {
       "player_id": "10081",
       "official_display_name": "김민주",
-      "r1_sg_rank": 21,
+      "sg_rank": 21,
       "total": 3.42,
       "tee_to_green": 2.1,
       "off_the_tee": 0.34,
@@ -280,7 +280,7 @@
     {
       "player_id": "11066",
       "official_display_name": "유서연2",
-      "r1_sg_rank": 21,
+      "sg_rank": 21,
       "total": 3.42,
       "tee_to_green": 0.04,
       "off_the_tee": -1.5,
@@ -292,7 +292,7 @@
     {
       "player_id": "10726",
       "official_display_name": "김가희2",
-      "r1_sg_rank": 23,
+      "sg_rank": 23,
       "total": 3.36,
       "tee_to_green": 3.15,
       "off_the_tee": 0.14,
@@ -304,7 +304,7 @@
     {
       "player_id": "9145",
       "official_display_name": "임희정",
-      "r1_sg_rank": 24,
+      "sg_rank": 24,
       "total": 3.08,
       "tee_to_green": 3.43,
       "off_the_tee": 0.54,
@@ -316,7 +316,7 @@
     {
       "player_id": "9089",
       "official_display_name": "김소정",
-      "r1_sg_rank": 25,
+      "sg_rank": 25,
       "total": 3.02,
       "tee_to_green": 3.05,
       "off_the_tee": 0.61,
@@ -328,7 +328,7 @@
     {
       "player_id": "10586",
       "official_display_name": "홍진영2",
-      "r1_sg_rank": 26,
+      "sg_rank": 26,
       "total": 2.74,
       "tee_to_green": 3.5,
       "off_the_tee": 0.6,
@@ -340,7 +340,7 @@
     {
       "player_id": "9082",
       "official_display_name": "전예성",
-      "r1_sg_rank": 27,
+      "sg_rank": 27,
       "total": 2.68,
       "tee_to_green": 1.35,
       "off_the_tee": -1.55,
@@ -352,7 +352,7 @@
     {
       "player_id": "10727",
       "official_display_name": "황민정",
-      "r1_sg_rank": 28,
+      "sg_rank": 28,
       "total": 2.51,
       "tee_to_green": 0.63,
       "off_the_tee": -0.05,
@@ -364,7 +364,7 @@
     {
       "player_id": "11143",
       "official_display_name": "김시현",
-      "r1_sg_rank": 29,
+      "sg_rank": 29,
       "total": 2.31,
       "tee_to_green": 2.87,
       "off_the_tee": 0.21,
@@ -376,7 +376,7 @@
     {
       "player_id": "11042",
       "official_display_name": "홍현지",
-      "r1_sg_rank": 30,
+      "sg_rank": 30,
       "total": 2.17,
       "tee_to_green": -0.48,
       "off_the_tee": -0.41,
@@ -388,7 +388,7 @@
     {
       "player_id": "8881",
       "official_display_name": "성유진",
-      "r1_sg_rank": 31,
+      "sg_rank": 31,
       "total": 2.15,
       "tee_to_green": 3.91,
       "off_the_tee": -1.6,
@@ -400,7 +400,7 @@
     {
       "player_id": "9111",
       "official_display_name": "박서현",
-      "r1_sg_rank": 32,
+      "sg_rank": 32,
       "total": 2.09,
       "tee_to_green": 1.55,
       "off_the_tee": -0.01,
@@ -412,7 +412,7 @@
     {
       "player_id": "10083",
       "official_display_name": "마서영",
-      "r1_sg_rank": 33,
+      "sg_rank": 33,
       "total": 2.07,
       "tee_to_green": 2.21,
       "off_the_tee": 0.46,
@@ -424,7 +424,7 @@
     {
       "player_id": "8772",
       "official_display_name": "박민지",
-      "r1_sg_rank": 34,
+      "sg_rank": 34,
       "total": 1.94,
       "tee_to_green": 1.03,
       "off_the_tee": 0.38,
@@ -436,7 +436,7 @@
     {
       "player_id": "9465",
       "official_display_name": "안지현",
-      "r1_sg_rank": 35,
+      "sg_rank": 35,
       "total": 1.92,
       "tee_to_green": 3.11,
       "off_the_tee": -0.92,
@@ -448,7 +448,7 @@
     {
       "player_id": "10577",
       "official_display_name": "최예본",
-      "r1_sg_rank": 36,
+      "sg_rank": 36,
       "total": 1.9,
       "tee_to_green": 4.06,
       "off_the_tee": 1.29,
@@ -460,7 +460,7 @@
     {
       "player_id": "9784",
       "official_display_name": "이예원",
-      "r1_sg_rank": 37,
+      "sg_rank": 37,
       "total": 1.84,
       "tee_to_green": 4.77,
       "off_the_tee": 0.94,
@@ -472,7 +472,7 @@
     {
       "player_id": "8277",
       "official_display_name": "최민경",
-      "r1_sg_rank": 38,
+      "sg_rank": 38,
       "total": 1.81,
       "tee_to_green": 3.61,
       "off_the_tee": -0.13,
@@ -484,7 +484,7 @@
     {
       "player_id": "11060",
       "official_display_name": "안재희",
-      "r1_sg_rank": 39,
+      "sg_rank": 39,
       "total": 1.78,
       "tee_to_green": 0.78,
       "off_the_tee": -0.89,
@@ -496,7 +496,7 @@
     {
       "player_id": "10790",
       "official_display_name": "김하은2",
-      "r1_sg_rank": 40,
+      "sg_rank": 40,
       "total": 1.69,
       "tee_to_green": 0.54,
       "off_the_tee": 0.14,
@@ -508,7 +508,7 @@
     {
       "player_id": "11134",
       "official_display_name": "서교림",
-      "r1_sg_rank": 41,
+      "sg_rank": 41,
       "total": 1.68,
       "tee_to_green": 1.27,
       "off_the_tee": 1.55,
@@ -520,7 +520,7 @@
     {
       "player_id": "10531",
       "official_display_name": "현세린",
-      "r1_sg_rank": 42,
+      "sg_rank": 42,
       "total": 1.59,
       "tee_to_green": 3.68,
       "off_the_tee": 0.83,
@@ -532,7 +532,7 @@
     {
       "player_id": "9130",
       "official_display_name": "박현경",
-      "r1_sg_rank": 43,
+      "sg_rank": 43,
       "total": 1.51,
       "tee_to_green": 0.18,
       "off_the_tee": -0.19,
@@ -544,7 +544,7 @@
     {
       "player_id": "9708",
       "official_display_name": "이재윤",
-      "r1_sg_rank": 44,
+      "sg_rank": 44,
       "total": 1.15,
       "tee_to_green": 2.25,
       "off_the_tee": 1.03,
@@ -556,7 +556,7 @@
     {
       "player_id": "9426",
       "official_display_name": "한진선",
-      "r1_sg_rank": 45,
+      "sg_rank": 45,
       "total": 0.96,
       "tee_to_green": -3.1,
       "off_the_tee": 0.7,
@@ -568,7 +568,7 @@
     {
       "player_id": "9235",
       "official_display_name": "최은우",
-      "r1_sg_rank": 46,
+      "sg_rank": 46,
       "total": 0.92,
       "tee_to_green": -0.8,
       "off_the_tee": 0.03,
@@ -580,7 +580,7 @@
     {
       "player_id": "9389",
       "official_display_name": "전우리",
-      "r1_sg_rank": 47,
+      "sg_rank": 47,
       "total": 0.86,
       "tee_to_green": 0.63,
       "off_the_tee": 0.49,
@@ -592,7 +592,7 @@
     {
       "player_id": "9174",
       "official_display_name": "강가율",
-      "r1_sg_rank": 48,
+      "sg_rank": 48,
       "total": 0.7,
       "tee_to_green": -0.1,
       "off_the_tee": 1.07,
@@ -604,7 +604,7 @@
     {
       "player_id": "9135",
       "official_display_name": "신다인",
-      "r1_sg_rank": 49,
+      "sg_rank": 49,
       "total": 0.66,
       "tee_to_green": 1.5,
       "off_the_tee": 0.88,
@@ -616,7 +616,7 @@
     {
       "player_id": "8838",
       "official_display_name": "김우정",
-      "r1_sg_rank": 50,
+      "sg_rank": 50,
       "total": 0.26,
       "tee_to_green": -0.09,
       "off_the_tee": -0.4,
@@ -628,7 +628,7 @@
     {
       "player_id": "8770",
       "official_display_name": "조아연",
-      "r1_sg_rank": 51,
+      "sg_rank": 51,
       "total": 0.2,
       "tee_to_green": 0.89,
       "off_the_tee": -0.89,
@@ -640,7 +640,7 @@
     {
       "player_id": "8179",
       "official_display_name": "박성현",
-      "r1_sg_rank": 52,
+      "sg_rank": 52,
       "total": 0.18,
       "tee_to_green": -0.39,
       "off_the_tee": -0.22,
@@ -652,7 +652,7 @@
     {
       "player_id": "9483",
       "official_display_name": "한지원",
-      "r1_sg_rank": 53,
+      "sg_rank": 53,
       "total": 0.12,
       "tee_to_green": -1.12,
       "off_the_tee": 0.31,
@@ -664,7 +664,7 @@
     {
       "player_id": "8380",
       "official_display_name": "김새로미",
-      "r1_sg_rank": 54,
+      "sg_rank": 54,
       "total": 0.07,
       "tee_to_green": 1.09,
       "off_the_tee": -0.06,
@@ -676,7 +676,7 @@
     {
       "player_id": "8243",
       "official_display_name": "장은수",
-      "r1_sg_rank": 55,
+      "sg_rank": 55,
       "total": 0.01,
       "tee_to_green": -2.21,
       "off_the_tee": 0.3,
@@ -688,7 +688,7 @@
     {
       "player_id": "11770",
       "official_display_name": "짜라위 분짠(I)",
-      "r1_sg_rank": 56,
+      "sg_rank": 56,
       "total": 0.0,
       "tee_to_green": 0.98,
       "off_the_tee": 1.22,
@@ -700,7 +700,7 @@
     {
       "player_id": "9765",
       "official_display_name": "정소이",
-      "r1_sg_rank": 57,
+      "sg_rank": 57,
       "total": -0.04,
       "tee_to_green": 2.25,
       "off_the_tee": 0.56,
@@ -712,7 +712,7 @@
     {
       "player_id": "9183",
       "official_display_name": "박결",
-      "r1_sg_rank": 58,
+      "sg_rank": 58,
       "total": -0.08,
       "tee_to_green": -1.54,
       "off_the_tee": -0.8,
@@ -724,7 +724,7 @@
     {
       "player_id": "11447",
       "official_display_name": "한아름",
-      "r1_sg_rank": 58,
+      "sg_rank": 58,
       "total": -0.08,
       "tee_to_green": 0.06,
       "off_the_tee": 0.14,
@@ -736,7 +736,7 @@
     {
       "player_id": "9714",
       "official_display_name": "유지나",
-      "r1_sg_rank": 60,
+      "sg_rank": 60,
       "total": -0.14,
       "tee_to_green": 0.96,
       "off_the_tee": 0.9,
@@ -748,7 +748,7 @@
     {
       "player_id": "9759",
       "official_display_name": "이율린",
-      "r1_sg_rank": 60,
+      "sg_rank": 60,
       "total": -0.14,
       "tee_to_green": 0.09,
       "off_the_tee": 1.0,
@@ -760,7 +760,7 @@
     {
       "player_id": "9391",
       "official_display_name": "최가빈",
-      "r1_sg_rank": 62,
+      "sg_rank": 62,
       "total": -0.17,
       "tee_to_green": 0.72,
       "off_the_tee": 0.43,
@@ -772,7 +772,7 @@
     {
       "player_id": "9702",
       "official_display_name": "김리안",
-      "r1_sg_rank": 63,
+      "sg_rank": 63,
       "total": -0.19,
       "tee_to_green": 1.08,
       "off_the_tee": 0.22,
@@ -784,7 +784,7 @@
     {
       "player_id": "8972",
       "official_display_name": "조정민",
-      "r1_sg_rank": 64,
+      "sg_rank": 64,
       "total": -0.48,
       "tee_to_green": -2.23,
       "off_the_tee": -0.78,
@@ -796,7 +796,7 @@
     {
       "player_id": "9723",
       "official_display_name": "노원경",
-      "r1_sg_rank": 65,
+      "sg_rank": 65,
       "total": -0.65,
       "tee_to_green": 0.72,
       "off_the_tee": -1.55,
@@ -808,7 +808,7 @@
     {
       "player_id": "10789",
       "official_display_name": "리 슈잉",
-      "r1_sg_rank": 66,
+      "sg_rank": 66,
       "total": -0.81,
       "tee_to_green": -1.15,
       "off_the_tee": -0.2,
@@ -820,7 +820,7 @@
     {
       "player_id": "11056",
       "official_display_name": "박예지",
-      "r1_sg_rank": 67,
+      "sg_rank": 67,
       "total": -0.82,
       "tee_to_green": -0.09,
       "off_the_tee": 0.18,
@@ -832,7 +832,7 @@
     {
       "player_id": "6916",
       "official_display_name": "안송이",
-      "r1_sg_rank": 67,
+      "sg_rank": 67,
       "total": -0.82,
       "tee_to_green": -2.98,
       "off_the_tee": 0.04,
@@ -844,7 +844,7 @@
     {
       "player_id": "8811",
       "official_display_name": "이채은2",
-      "r1_sg_rank": 69,
+      "sg_rank": 69,
       "total": -0.84,
       "tee_to_green": -3.14,
       "off_the_tee": 0.3,
@@ -856,7 +856,7 @@
     {
       "player_id": "9820",
       "official_display_name": "정윤지",
-      "r1_sg_rank": 70,
+      "sg_rank": 70,
       "total": -1.08,
       "tee_to_green": -3.71,
       "off_the_tee": 1.33,
@@ -868,7 +868,7 @@
     {
       "player_id": "9436",
       "official_display_name": "구래현",
-      "r1_sg_rank": 71,
+      "sg_rank": 71,
       "total": -1.17,
       "tee_to_green": -1.07,
       "off_the_tee": 1.03,
@@ -880,7 +880,7 @@
     {
       "player_id": "9113",
       "official_display_name": "노승희",
-      "r1_sg_rank": 72,
+      "sg_rank": 72,
       "total": -1.24,
       "tee_to_green": -2.18,
       "off_the_tee": 0.43,
@@ -892,7 +892,7 @@
     {
       "player_id": "10097",
       "official_display_name": "김민선7",
-      "r1_sg_rank": 73,
+      "sg_rank": 73,
       "total": -1.44,
       "tee_to_green": 2.22,
       "off_the_tee": 0.84,
@@ -904,7 +904,7 @@
     {
       "player_id": "8234",
       "official_display_name": "이주미",
-      "r1_sg_rank": 74,
+      "sg_rank": 74,
       "total": -1.54,
       "tee_to_green": -3.45,
       "off_the_tee": 0.3,
@@ -916,7 +916,7 @@
     {
       "player_id": "11057",
       "official_display_name": "송은아",
-      "r1_sg_rank": 75,
+      "sg_rank": 75,
       "total": -1.74,
       "tee_to_green": -1.87,
       "off_the_tee": 0.27,
@@ -928,7 +928,7 @@
     {
       "player_id": "8884",
       "official_display_name": "윤화영",
-      "r1_sg_rank": 75,
+      "sg_rank": 75,
       "total": -1.74,
       "tee_to_green": -1.05,
       "off_the_tee": -0.38,
@@ -940,7 +940,7 @@
     {
       "player_id": "8430",
       "official_display_name": "조은채",
-      "r1_sg_rank": 77,
+      "sg_rank": 77,
       "total": -1.96,
       "tee_to_green": -1.97,
       "off_the_tee": 0.27,
@@ -952,7 +952,7 @@
     {
       "player_id": "8240",
       "official_display_name": "황정미",
-      "r1_sg_rank": 78,
+      "sg_rank": 78,
       "total": -1.97,
       "tee_to_green": -0.67,
       "off_the_tee": 0.08,
@@ -964,7 +964,7 @@
     {
       "player_id": "8840",
       "official_display_name": "정수빈",
-      "r1_sg_rank": 79,
+      "sg_rank": 79,
       "total": -1.99,
       "tee_to_green": -0.22,
       "off_the_tee": -0.63,
@@ -976,7 +976,7 @@
     {
       "player_id": "10109",
       "official_display_name": "고지원",
-      "r1_sg_rank": 80,
+      "sg_rank": 80,
       "total": -2.0,
       "tee_to_green": 1.51,
       "off_the_tee": 1.09,
@@ -988,7 +988,7 @@
     {
       "player_id": "9487",
       "official_display_name": "김재희",
-      "r1_sg_rank": 81,
+      "sg_rank": 81,
       "total": -2.09,
       "tee_to_green": -0.8,
       "off_the_tee": 0.14,
@@ -1000,7 +1000,7 @@
     {
       "player_id": "9750",
       "official_display_name": "홍정민",
-      "r1_sg_rank": 82,
+      "sg_rank": 82,
       "total": -2.24,
       "tee_to_green": -3.25,
       "off_the_tee": -2.39,
@@ -1012,7 +1012,7 @@
     {
       "player_id": "9937",
       "official_display_name": "황유나",
-      "r1_sg_rank": 83,
+      "sg_rank": 83,
       "total": -2.25,
       "tee_to_green": 1.32,
       "off_the_tee": -0.62,
@@ -1024,7 +1024,7 @@
     {
       "player_id": "11640",
       "official_display_name": "성아진",
-      "r1_sg_rank": 84,
+      "sg_rank": 84,
       "total": -2.26,
       "tee_to_green": 0.61,
       "off_the_tee": 1.51,
@@ -1036,7 +1036,7 @@
     {
       "player_id": "8434",
       "official_display_name": "김지영2",
-      "r1_sg_rank": 85,
+      "sg_rank": 85,
       "total": -2.42,
       "tee_to_green": -5.54,
       "off_the_tee": -1.63,
@@ -1048,7 +1048,7 @@
     {
       "player_id": "13386",
       "official_display_name": "에리카 윤 스미스(I)",
-      "r1_sg_rank": 85,
+      "sg_rank": 85,
       "total": -2.42,
       "tee_to_green": 0.33,
       "off_the_tee": -1.01,
@@ -1060,7 +1060,7 @@
     {
       "player_id": "10139",
       "official_display_name": "양효리",
-      "r1_sg_rank": 87,
+      "sg_rank": 87,
       "total": -2.49,
       "tee_to_green": -2.37,
       "off_the_tee": -3.72,
@@ -1072,7 +1072,7 @@
     {
       "player_id": "12038",
       "official_display_name": "이지민",
-      "r1_sg_rank": 88,
+      "sg_rank": 88,
       "total": -2.71,
       "tee_to_green": -6.47,
       "off_the_tee": 0.19,
@@ -1084,7 +1084,7 @@
     {
       "player_id": "9136",
       "official_display_name": "조혜림",
-      "r1_sg_rank": 89,
+      "sg_rank": 89,
       "total": -2.91,
       "tee_to_green": 0.53,
       "off_the_tee": 0.9,
@@ -1096,7 +1096,7 @@
     {
       "player_id": "11040",
       "official_display_name": "이세영",
-      "r1_sg_rank": 90,
+      "sg_rank": 90,
       "total": -3.11,
       "tee_to_green": 0.6,
       "off_the_tee": 0.37,
@@ -1108,7 +1108,7 @@
     {
       "player_id": "11469",
       "official_display_name": "이윤서",
-      "r1_sg_rank": 91,
+      "sg_rank": 91,
       "total": -3.45,
       "tee_to_green": -1.95,
       "off_the_tee": -0.6,
@@ -1120,7 +1120,7 @@
     {
       "player_id": "8589",
       "official_display_name": "배소현",
-      "r1_sg_rank": 92,
+      "sg_rank": 92,
       "total": -3.84,
       "tee_to_green": -3.93,
       "off_the_tee": -1.59,
@@ -1132,7 +1132,7 @@
     {
       "player_id": "12080",
       "official_display_name": "양아연 1012(A)",
-      "r1_sg_rank": 93,
+      "sg_rank": 93,
       "total": -4.08,
       "tee_to_green": -3.15,
       "off_the_tee": -0.29,
@@ -1144,7 +1144,7 @@
     {
       "player_id": "10178",
       "official_display_name": "김희지",
-      "r1_sg_rank": 94,
+      "sg_rank": 94,
       "total": -4.18,
       "tee_to_green": -4.82,
       "off_the_tee": -2.72,
@@ -1156,7 +1156,7 @@
     {
       "player_id": "8386",
       "official_display_name": "성은정",
-      "r1_sg_rank": 95,
+      "sg_rank": 95,
       "total": -4.2,
       "tee_to_green": -5.84,
       "off_the_tee": 0.04,
@@ -1168,7 +1168,7 @@
     {
       "player_id": "11045",
       "official_display_name": "양효진",
-      "r1_sg_rank": 96,
+      "sg_rank": 96,
       "total": -4.36,
       "tee_to_green": -3.99,
       "off_the_tee": 0.77,
@@ -1180,7 +1180,7 @@
     {
       "player_id": "8318",
       "official_display_name": "박단유",
-      "r1_sg_rank": 97,
+      "sg_rank": 97,
       "total": -4.78,
       "tee_to_green": -6.7,
       "off_the_tee": 0.68,
@@ -1192,7 +1192,7 @@
     {
       "player_id": "11216",
       "official_display_name": "김지윤2",
-      "r1_sg_rank": 98,
+      "sg_rank": 98,
       "total": -4.79,
       "tee_to_green": -2.91,
       "off_the_tee": -0.12,
@@ -1204,7 +1204,7 @@
     {
       "player_id": "9652",
       "official_display_name": "이세희",
-      "r1_sg_rank": 99,
+      "sg_rank": 99,
       "total": -4.99,
       "tee_to_green": -5.28,
       "off_the_tee": -0.37,
@@ -1216,7 +1216,7 @@
     {
       "player_id": "9277",
       "official_display_name": "김아현",
-      "r1_sg_rank": 100,
+      "sg_rank": 100,
       "total": -6.01,
       "tee_to_green": -4.65,
       "off_the_tee": -0.74,
@@ -1228,7 +1228,7 @@
     {
       "player_id": "11073",
       "official_display_name": "최정원",
-      "r1_sg_rank": 101,
+      "sg_rank": 101,
       "total": -6.12,
       "tee_to_green": -3.45,
       "off_the_tee": 0.72,
@@ -1240,7 +1240,7 @@
     {
       "player_id": "10112",
       "official_display_name": "고지우",
-      "r1_sg_rank": 102,
+      "sg_rank": 102,
       "total": -6.16,
       "tee_to_green": -4.24,
       "off_the_tee": -0.13,
@@ -1252,7 +1252,7 @@
     {
       "player_id": "10867",
       "official_display_name": "양서후",
-      "r1_sg_rank": 103,
+      "sg_rank": 103,
       "total": -6.72,
       "tee_to_green": -5.31,
       "off_the_tee": 0.35,
@@ -1264,7 +1264,7 @@
     {
       "player_id": "12078",
       "official_display_name": "임선아 1108(A)",
-      "r1_sg_rank": 104,
+      "sg_rank": 104,
       "total": -9.54,
       "tee_to_green": -6.48,
       "off_the_tee": -0.5,
@@ -1276,7 +1276,7 @@
     {
       "player_id": "11978",
       "official_display_name": "이수민 0906(A)",
-      "r1_sg_rank": 105,
+      "sg_rank": 105,
       "total": -10.07,
       "tee_to_green": -5.28,
       "off_the_tee": -4.47,
@@ -1288,7 +1288,7 @@
     {
       "player_id": "8246",
       "official_display_name": "이소영",
-      "r1_sg_rank": 106,
+      "sg_rank": 106,
       "total": -11.42,
       "tee_to_green": -12.43,
       "off_the_tee": -3.95,
@@ -1300,7 +1300,7 @@
     {
       "player_id": "11076",
       "official_display_name": "조하리",
-      "r1_sg_rank": 107,
+      "sg_rank": 107,
       "total": -11.83,
       "tee_to_green": -7.77,
       "off_the_tee": -1.59,

@@ -24,6 +24,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2 import player_intelligence_9431_terms as terms  # noqa: E402
 
+pytestmark = pytest.mark.round_pipeline
+
 _master_spec = importlib.util.spec_from_file_location("master_script_9431_under_test", ROOT / "scripts" / "build_9431_master_player_analysis.py")
 master_script = importlib.util.module_from_spec(_master_spec)
 _master_spec.loader.exec_module(master_script)

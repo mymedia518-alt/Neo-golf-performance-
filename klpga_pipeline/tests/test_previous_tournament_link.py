@@ -11,7 +11,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from klpga.website_v2.previous_tournament_link import latest_published_stage_url
+
+pytestmark = pytest.mark.round_pipeline
 
 
 def test_links_to_final_when_a_real_final_page_exists(tmp_path: Path):

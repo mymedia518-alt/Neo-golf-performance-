@@ -9,8 +9,12 @@ from hashlib import sha256
 from pathlib import Path
 import sys
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from klpga.tournament_atomic_promotion import validate_candidate_for_promotion  # noqa: E402
+
+pytestmark = pytest.mark.round_pipeline
 
 spec = importlib.util.spec_from_file_location(
     "build_current_round_page", Path(__file__).parents[1] / "scripts" / "build_current_round_page.py"

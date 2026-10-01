@@ -7,10 +7,14 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.tournament_ordering import load_schedule_end_dates, sort_tournaments, tournament_sort_key  # noqa: E402
+
+pytestmark = pytest.mark.round_pipeline
 
 
 def test_real_schedule_overrides_the_game_code_proxy_within_a_season():
