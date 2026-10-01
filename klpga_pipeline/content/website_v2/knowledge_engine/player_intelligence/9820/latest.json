@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:45:20.041277+00:00",
+    "generated_at": "2026-10-01T10:33:20.239059+00:00",
     "input_signature": "c3d0b146ad7b92ac5edf356c99d34667f693eff6cf6569db38094463950e86a7",
     "tournament_game_code": null
   },
@@ -19,7 +19,7 @@
       "recovery_rate": 62.6459
     },
     "recent_10_sg": 0.5009999999999999,
-    "recent_5_sg": -0.38,
+    "recent_5_sg": 0.14399999999999996,
     "volatility": 1.4727080498184288
   },
   "evolution": {

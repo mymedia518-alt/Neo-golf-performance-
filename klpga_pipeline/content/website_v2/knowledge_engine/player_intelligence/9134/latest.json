@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:45:04.223030+00:00",
+    "generated_at": "2026-10-01T10:33:02.157648+00:00",
     "input_signature": "ec9ec7a1686bc8ba8bea5e5f77adb0c1867d2a50238ab764693124b7bd2225c0",
     "tournament_game_code": null
   },
@@ -19,7 +19,7 @@
       "recovery_rate": 67.6301
     },
     "recent_10_sg": 1.09,
-    "recent_5_sg": 1.218,
+    "recent_5_sg": 1.0079999999999998,
     "volatility": 1.3652179313208568
   },
   "evolution": {
@@ -187,22 +187,22 @@
     {
       "citations": [
         {
-          "field_path": "recent_5_sg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.218
-        }
-      ],
-      "text": "최근 5개 대회 SG Total(+1.22)이 장기 평균(+0.78) 대비 뚜렷한 상승세를 보이고 있습니다."
-    },
-    {
-      "citations": [
-        {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
           "value": 0.2831578947368421
         }
       ],
       "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.28로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "recovery_rate",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 90.0
+        }
+      ],
+      "text": "리커버리율이(가) 필드 상위 10%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

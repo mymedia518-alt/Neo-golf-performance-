@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:45:06.692940+00:00",
+    "generated_at": "2026-10-01T10:33:05.435490+00:00",
     "input_signature": "a320a0baddd7eb8246f967be9f984770e95f396de48c8f25b3aced3251de4119",
     "tournament_game_code": null
   },
@@ -18,9 +18,9 @@
       "par_save_rate": 81.7778,
       "recovery_rate": 57.4913
     },
-    "recent_10_sg": -0.378,
-    "recent_5_sg": -1.046,
-    "volatility": 1.8697315315306635
+    "recent_10_sg": -0.23399999999999999,
+    "recent_5_sg": -1.0459999999999998,
+    "volatility": 1.720193012426222
   },
   "evolution": {
     "citations": [

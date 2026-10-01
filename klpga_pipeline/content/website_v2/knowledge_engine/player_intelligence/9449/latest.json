@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:45:17.177310+00:00",
+    "generated_at": "2026-10-01T10:33:15.856805+00:00",
     "input_signature": "89d701ea5a32df2dec92925ae0b52f8be5f31999bc62386e02217ea0c366a767",
     "tournament_game_code": null
   },
@@ -19,7 +19,7 @@
       "recovery_rate": 68.4039
     },
     "recent_10_sg": 1.7469999999999999,
-    "recent_5_sg": 2.4080000000000004,
+    "recent_5_sg": 2.45,
     "volatility": 1.5337864910084453
   },
   "evolution": {
@@ -189,10 +189,10 @@
         {
           "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 2.4080000000000004
+          "value": 2.45
         }
       ],
-      "text": "최근 5개 대회 SG Total(+2.41)이 장기 평균(+0.51) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "최근 5개 대회 SG Total(+2.45)이 장기 평균(+0.51) 대비 뚜렷한 상승세를 보이고 있습니다."
     },
     {
       "citations": [
