@@ -227,17 +227,43 @@ def _pct(value: float) -> str:
     return f"{value * 100:.1f}%"
 
 
+#  BUG FIX (2026-10-01, real finding): this used to hardcode
+#  f"{last.url_base}pre/" -- always linking "이전 대회" to the previous
+#  tournament's OWN PRE page, even once that tournament had long since
+#  finished and published a real FINAL page (Hana/2026090002: completed
+#  2026-09-20, real final/index.html exists). A visitor following
+#  "이전 대회" wants that tournament's actual result, not its own old
+#  pre-tournament forecast. Checked in priority order, real-page-on-
+#  disk only (same "evidence must exist" discipline as
+#  hana_home_stage_router.hana_current_stage()) -- never guesses a
+#  stage whose page was never actually published.
+_PREVIOUS_TOURNAMENT_STAGE_PRIORITY = ("final", "r3", "r2", "r1", "pre")
+
+
+def _latest_published_stage_url(url_base: str) -> str:
+    """url_base (e.g. "/tournaments/2026/2026090002/") -> the real,
+    on-disk-verified URL of that tournament's most advanced published
+    stage. Falls back to "pre/" only if nothing more advanced was ever
+    published -- never invents a stage page that doesn't exist."""
+    docs_root = REPO_ROOT / "docs"
+    for stage in _PREVIOUS_TOURNAMENT_STAGE_PRIORITY:
+        candidate = docs_root / url_base.strip("/") / stage / "index.html"
+        if candidate.is_file():
+            return f"{url_base}{stage}/"
+    return f"{url_base}pre/"
+
+
 def _previous_tournament_link() -> tuple[str, str] | None:
-    """(tournament_name, url_base) for the real, date-resolved previous
-    tournament, or None if none exists yet -- see module docstring's
-    '이전 대회' section. Never a hardcoded literal."""
+    """(tournament_name, url) for the real, date-resolved previous
+    tournament's most advanced REAL published stage -- never a
+    hardcoded literal, never assumed to still be "pre/"."""
     schedule = load_official_schedule(CONTENT / "OFFICIAL_KLPGA_SCHEDULE.json")
     registry = json.loads((CONTENT / "TOURNAMENT_SITE_REGISTRY.json").read_text(encoding="utf-8"))["tournaments"]
     chronology = resolve_tournament_chronology(schedule, registry, as_of=date.today())
     last = chronology.get("last")
     if last is None:
         return None
-    return last.tournament_name, f"{last.url_base}pre/"
+    return last.tournament_name, _latest_published_stage_url(last.url_base)
 
 
 _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
