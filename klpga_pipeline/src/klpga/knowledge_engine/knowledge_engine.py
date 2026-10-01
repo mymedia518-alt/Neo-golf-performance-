@@ -24,7 +24,20 @@ from klpga.tournament_ordering import sort_tournaments
 
 from . import knowledge_rules as rules
 
-WAREHOUSE_FILE = "historical_sg_warehouse_corrected.json"
+#  BUG FIX (2026-10-01, real finding): this pointed at the v1 corrected
+#  warehouse, which commit 1102c33 (2026-09-29) already superseded with
+#  historical_sg_warehouse_corrected_v2.json -- 118/118-identity-resolved
+#  real KB 2026090003 SG data (and 5 other previously-UNRESOLVED_IDENTITY
+#  games) merged in, verified byte-identical to v1 on every pre-existing
+#  row except retrieved_at. That commit rewired collect_sg_from_
+#  leaderboard.py and reconcile_10097_player_history.py (10097's own
+#  PLAYER_HISTORY.json) to use it, but never this module -- so every
+#  OTHER player's Player Intelligence (recent_5_sg/current_form/the NEO
+#  경기력 band) still silently missed real, already-collected tournaments.
+#  Confirmed independently: diffed all 38,123 overlapping rows between
+#  v1/v2 (identical data, only retrieved_at differs), confirmed v2 is a
+#  strict superset (103 game_codes vs 97, zero game_codes lost).
+WAREHOUSE_FILE = "historical_sg_warehouse_corrected_v2.json"
 SG_FIELD_FILE = "OFFICIAL_SG_NORMALIZED.json"
 PROFILE_FIELD_FILE = "OFFICIAL_PROFILE_NORMALIZED.json"
 UNIFIED_FIELD_FILE = "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"

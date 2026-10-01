@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:07:46.291044+00:00",
-    "input_signature": "8fc593e84910ee780a0aa3627333e0c260967b5f54c5ab0605dd5e6369ab445e",
+    "generated_at": "2026-10-01T09:45:00.779367+00:00",
+    "input_signature": "dbe643bd913ef729cf6e7dc641e42892618dee345b25ad595b2c006d24df7407",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.8895081967213114,
+    "long_term_sg": 1.417027027027027,
     "rate_stats": {
       "average_putts": 30.3,
       "average_score": 71.2996,
@@ -18,63 +18,63 @@
       "par_save_rate": 87.1111,
       "recovery_rate": 65.9574
     },
-    "recent_10_sg": 1.8530000000000002,
-    "recent_5_sg": 1.544,
-    "volatility": 1.0081671488399133
+    "recent_10_sg": 1.306,
+    "recent_5_sg": 1.214,
+    "volatility": 1.4097389829326563
   },
   "evolution": {
     "citations": [
       {
         "field_path": "seasons[2023].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 2.1807692307692306
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.3041176470588234
       },
       {
         "field_path": "seasons[2024].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.8776470588235292
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.4438095238095239
       },
       {
         "field_path": "seasons[2025].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.6968421052631577
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.6279999999999997
       },
       {
         "field_path": "seasons[2026].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.8958333333333333
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.2381249999999997
       }
     ],
-    "narrative": "2023시즌 SG Total +2.18에서 2026시즌 +1.90로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.30에서 2026시즌 +1.24로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
-        "avg_total": 2.1807692307692306,
+        "avg_total": 1.3041176470588234,
         "delta_from_prev": null,
         "season": 2023,
-        "strongest_component": "avg_app",
-        "weakest_component": "avg_arg"
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.8776470588235292,
-        "delta_from_prev": -0.30312217194570135,
+        "avg_total": 1.4438095238095239,
+        "delta_from_prev": 0.1396918767507005,
         "season": 2024,
         "strongest_component": "avg_app",
-        "weakest_component": "avg_arg"
+        "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.6968421052631577,
-        "delta_from_prev": -0.18080495356037152,
+        "avg_total": 1.6279999999999997,
+        "delta_from_prev": 0.1841904761904758,
         "season": 2025,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.8958333333333333,
-        "delta_from_prev": 0.19899122807017555,
+        "avg_total": 1.2381249999999997,
+        "delta_from_prev": -0.38987499999999997,
         "season": 2026,
         "strongest_component": "avg_app",
-        "weakest_component": "avg_arg"
+        "weakest_component": "avg_putt"
       }
     ]
   },
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "8772",
     "player_name": "박민지",
-    "sample_count": 61
+    "sample_count": 74
   },
   "neo_verdict": {
     "summary": "박민지은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 7% 수준의 기록을 유지하고 있습니다."
@@ -131,15 +131,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 1.0758333333333334,
-    "avg_arg": 0.09166666666666667,
-    "avg_ott": 0.5449999999999999,
-    "avg_putt": 0.18333333333333326,
-    "avg_total": 1.8958333333333333,
+    "avg_app": 0.7606250000000001,
+    "avg_arg": 0.086875,
+    "avg_ott": 0.6074999999999999,
+    "avg_putt": -0.216875,
+    "avg_total": 1.2381249999999997,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:07:46.806703+00:00",
-    "input_signature": "c053aab5aa9f30e1326cb7329bdf990650585a90b2c832bbf90210b60735ddbb",
+    "generated_at": "2026-10-01T09:45:00.730754+00:00",
+    "input_signature": "1852379cd8b7d14f248012fb97873a036cf23c022337ba194de2631a4b549e98",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.023749999999999966,
+    "long_term_sg": -0.771081081081081,
     "rate_stats": {
       "average_putts": 30.125,
       "average_score": 72.8741,
@@ -18,39 +18,39 @@
       "par_save_rate": 83.2341,
       "recovery_rate": 63.662
     },
-    "recent_10_sg": 0.050999999999999976,
-    "recent_5_sg": -0.446,
-    "volatility": 1.2918935714678668
+    "recent_10_sg": -0.8540000000000001,
+    "recent_5_sg": -0.37599999999999983,
+    "volatility": 1.1512966602922117
   },
   "evolution": {
     "citations": [
       {
         "field_path": "seasons[2023].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": -0.14833333333333334
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": -0.8729411764705883
       },
       {
         "field_path": "seasons[2026].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 0.051000000000000045
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": -0.6845000000000001
       }
     ],
-    "narrative": "2023시즌 SG Total -0.15에서 2026시즌 +0.05로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.87에서 2026시즌 -0.68로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
-        "avg_total": -0.14833333333333334,
+        "avg_total": -0.8729411764705883,
         "delta_from_prev": null,
         "season": 2023,
-        "strongest_component": "avg_putt",
-        "weakest_component": "avg_ott"
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.051000000000000045,
-        "delta_from_prev": 0.1993333333333334,
+        "avg_total": -0.6845000000000001,
+        "delta_from_prev": 0.18844117647058822,
         "season": 2026,
         "strongest_component": "avg_putt",
-        "weakest_component": "avg_ott"
+        "weakest_component": "avg_app"
       }
     ]
   },
@@ -58,10 +58,10 @@
     "current_season": 2026,
     "player_id": "9111",
     "player_name": "박서현",
-    "sample_count": 16
+    "sample_count": 37
   },
   "neo_verdict": {
-    "summary": "박서현은(는) 균형형(Balanced) 유형입니다. 2023시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.09로 반전에 성공했습니다."
+    "summary": "박서현은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 37%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -96,15 +96,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.013999999999999985,
-    "avg_arg": 0.094,
-    "avg_ott": -0.23800000000000004,
-    "avg_putt": 0.183,
-    "avg_total": 0.051000000000000045,
+    "avg_app": -0.30750000000000005,
+    "avg_arg": -0.053500000000000006,
+    "avg_ott": -0.2814999999999999,
+    "avg_putt": -0.03849999999999998,
+    "avg_total": -0.6845000000000001,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
@@ -127,18 +127,27 @@
         }
       ],
       "text": "최근 2시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 37%)로 구조적 약점입니다."
-    }
-  ],
-  "why_wins": [
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.30750000000000005
+        }
+      ],
+      "text": "2023시즌 강점이던 SG Approach이(가) 2026시즌 -0.31로 악화되었습니다."
+    },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.094
+          "value": -0.053500000000000006
         }
       ],
-      "text": "2023시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.09로 반전에 성공했습니다."
+      "text": "2023시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.05로 악화되었습니다."
     }
-  ]
+  ],
+  "why_wins": []
 }

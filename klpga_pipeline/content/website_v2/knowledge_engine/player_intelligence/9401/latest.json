@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:07:36.343511+00:00",
-    "input_signature": "b242f91331a02aa1febea2849c84378db0b7c365fb8471c65e1b9dece7de6471",
+    "generated_at": "2026-10-01T09:44:57.992935+00:00",
+    "input_signature": "6f3e16d9c5d3b20adb5528c3ecaec02584ce2ee3be87d8554160c578ddd381a8",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.5561666666666667,
+    "long_term_sg": 0.6504395604395603,
     "rate_stats": {
       "average_putts": 29.931,
       "average_score": 71.8966,
@@ -18,60 +18,60 @@
       "par_save_rate": 85.249,
       "recovery_rate": 61.4618
     },
-    "recent_10_sg": 1.2109999999999999,
-    "recent_5_sg": 1.1400000000000001,
-    "volatility": 0.5175219802095367
+    "recent_10_sg": -0.02699999999999998,
+    "recent_5_sg": -0.27199999999999996,
+    "volatility": 1.2603257515420367
   },
   "evolution": {
     "citations": [
       {
         "field_path": "seasons[2023].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.682857142857143
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 0.518
       },
       {
         "field_path": "seasons[2024].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.592
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 0.8446153846153847
       },
       {
         "field_path": "seasons[2025].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.64
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 0.7795
       },
       {
         "field_path": "seasons[2026].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.2508333333333335
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 0.4345
       }
     ],
-    "narrative": "2023시즌 SG Total +1.68에서 2026시즌 +1.25로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.52에서 2026시즌 +0.43로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
-        "avg_total": 1.682857142857143,
+        "avg_total": 0.518,
         "delta_from_prev": null,
         "season": 2023,
-        "strongest_component": "avg_putt",
-        "weakest_component": "avg_arg"
-      },
-      {
-        "avg_total": 1.592,
-        "delta_from_prev": -0.09085714285714297,
-        "season": 2024,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 1.64,
-        "delta_from_prev": 0.04799999999999982,
+        "avg_total": 0.8446153846153847,
+        "delta_from_prev": 0.32661538461538464,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": 0.7795,
+        "delta_from_prev": -0.06511538461538469,
         "season": 2025,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 1.2508333333333335,
-        "delta_from_prev": -0.38916666666666644,
+        "avg_total": 0.4345,
+        "delta_from_prev": -0.345,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "9401",
     "player_name": "마다솜",
-    "sample_count": 60
+    "sample_count": 91
   },
   "neo_verdict": {
     "summary": "마다솜은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 8% 수준의 기록을 유지하고 있습니다."
@@ -131,15 +131,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.6024999999999999,
-    "avg_arg": 0.2316666666666667,
-    "avg_ott": -0.5,
-    "avg_putt": 0.9175,
-    "avg_total": 1.2508333333333335,
+    "avg_app": 0.48900000000000005,
+    "avg_arg": 0.12799999999999997,
+    "avg_ott": -0.7205000000000001,
+    "avg_putt": 0.539,
+    "avg_total": 0.4345,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
