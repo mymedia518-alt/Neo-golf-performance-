@@ -1,0 +1,14 @@
+{
+  "captured_at_utc": "2026-10-01T20:36:50Z",
+  "page_url": "https://klpga.co.kr/web/tourInfo/holeInfo?gameCode=2026100005",
+  "page_status": 200,
+  "xhr": [
+    {
+      "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je69u0v9132851858za200zd9132851858xf1&_p=1790887003541&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=1739348399.1790887004&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=4&sr=1440x900&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115616986~115938465~115938469~118897920~118897930~120213116~120385423~120412527~120469145~120469153&sid=1790887003&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2FtourInfo%2FholeInfo%3FgameCode%3D2026100005&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=1797",
+      "method": "POST",
+      "post_data": null,
+      "status": 204,
+      "body": "<<unreadable: Response.text: Protocol error (Network.getResponseBody): No data found for resource with given identifier\nResponse body is not available for a response that was navigated away from. Read response.body() before triggering any navigation.>>"
+    }
+  ]
+}
