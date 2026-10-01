@@ -1,0 +1,239 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="neo-stage-publication-ready" content="false"><title>NEO GOLF DATA · 제26회 하이트진로 챔피언십 딥 다이브 (미리보기)</title><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="/assets/neo.css">
+<style>
+/* Deep Dive v2 -- page-scoped styles, mobile first. */
+.dd{--easy:#2f8f5b;--easy-soft:#e3f3ea;--mid:#c08a2b;--mid-soft:#fbf1dd;--hard:#b8463a;--hard-soft:#f8e3e0;
+  --fw:#0c6b68;--lr:#7fb9b4;--rr:#9aa7d6;--bk:#d8b25c;--etc:#b9c1c8;--bd:#2f8f5b;--pr:#c9d1d8;--bg:#b8463a}
+.dd *{box-sizing:border-box}
+.dd-dummy{display:inline-block;margin:0 0 .5rem;padding:.15rem .5rem;border-radius:999px;background:#fff3cd;color:#7a5b00;font-size:.75rem;font-weight:700}
+.dd-head h1{margin:.2rem 0 .3rem;font-size:1.45rem;line-height:1.25}
+.dd-head .meta{margin:0;color:var(--muted);font-size:.85rem}
+.dd-sec{margin:1.1rem 0;padding:1rem;border:1px solid var(--line);border-radius:12px;background:#fff}
+.dd-sec>h2{display:flex;align-items:baseline;gap:.5rem;margin:0 0 .75rem;font-size:1.05rem}
+.dd-sec>h2 .no{color:var(--accent);font-variant-numeric:tabular-nums}
+.dd-sec>h2 small{margin-left:auto;color:var(--muted);font-size:.72rem;font-weight:500}
+.stars{color:#d9a400;letter-spacing:.06em;white-space:nowrap}
+.stars .off{color:#d7dde2}
+.num{font-variant-numeric:tabular-nums}
+/* ① */
+.dd-glance{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+.dd-glance .card{padding:.7rem;border-radius:10px;background:var(--soft)}
+.dd-glance .lbl{margin:0;color:var(--muted);font-size:.78rem;font-weight:700}
+.dd-glance .stars{display:block;margin:.2rem 0;font-size:1.05rem}
+.dd-glance .val{margin:0;font-size:.85rem;font-weight:700}
+/* ② */
+.dd-oneline{margin:0;padding:.8rem 1rem;border-left:4px solid var(--accent);background:var(--accent-soft);font-weight:700;line-height:1.5}
+/* ③ */
+.dd-legend{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 .6rem;padding:0;list-style:none;font-size:.75rem;color:var(--muted)}
+.dd-legend i{display:inline-block;width:.7rem;height:.7rem;margin-right:.25rem;border-radius:3px;vertical-align:-1px}
+.dd-heat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem}
+.dd-heat .cell{padding:.45rem .35rem;border-radius:8px;text-align:center;border:1px solid transparent}
+.dd-heat .cell b{display:block;font-size:.95rem}
+.dd-heat .cell>.stars{display:block;font-size:.7rem}
+.dd-heat .cell>span.num{display:block;font-size:.72rem;color:var(--ink)}
+.dd-heat .cell .sr-only{position:absolute;left:-9999px}
+.t-easy{background:var(--easy-soft);border-color:#bfe2cd}.t-mid{background:var(--mid-soft);border-color:#ecd6a6}.t-hard{background:var(--hard-soft);border-color:#ecbcb5}
+.tag{display:inline-block;padding:.05rem .4rem;border-radius:999px;font-size:.7rem;font-weight:700;color:#fff}
+.tag.t-easy{background:var(--easy)}.tag.t-mid{background:var(--mid)}.tag.t-hard{background:var(--hard)}
+/* ④ */
+.dd-holes{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
+.dd-hole{padding:.75rem;border:1px solid var(--line);border-radius:10px}
+.dd-hole header{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.dd-hole h3{margin:0;font-size:1rem}
+.dd-hole .par{color:var(--muted);font-size:.8rem}
+.dd-hole .avg{margin-left:auto;font-weight:800}
+.bar{display:flex;height:.7rem;margin:.55rem 0 .35rem;border-radius:999px;overflow:hidden;background:#eef1f3}
+.bar>i{display:block;height:100%}
+.dd-hole dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem;margin:0}
+.dd-hole dt{color:var(--muted);font-size:.7rem}.dd-hole dd{margin:0;font-weight:700;font-size:.85rem}
+.dd-hole .note{margin:.5rem 0 0;font-size:.8rem;color:var(--ink)}
+/* ⑤ */
+.dd-tee{margin:0;padding:0;list-style:none}
+.dd-tee li{display:grid;grid-template-columns:2.6rem minmax(0,1fr);align-items:center;gap:.5rem;padding:.3rem 0;border-bottom:1px solid #f0f3f5}
+.dd-tee li b{font-size:.8rem}
+.dd-tee .bar{margin:0;height:1rem;border-radius:4px}
+.dd-tee .bar>i{font-size:.62rem;color:#fff;line-height:1rem;text-align:center;overflow:hidden;white-space:nowrap;font-style:normal}
+/* ⑥-⑨ */
+.dd-tops{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
+.dd-top{padding:.75rem;border:1px solid var(--line);border-radius:10px}
+.dd-top h3{margin:0 0 .45rem;font-size:.92rem}
+.dd-top ol{margin:0;padding:0;list-style:none;counter-reset:r}
+.dd-top li{display:grid;grid-template-columns:1.4rem 3.2rem minmax(0,1fr) auto;align-items:center;gap:.4rem;padding:.3rem 0;border-bottom:1px solid #f0f3f5;font-size:.83rem;counter-increment:r}
+.dd-top li::before{content:counter(r);color:var(--muted);font-weight:700}
+.dd-top li .mini{height:.45rem;border-radius:999px;background:#eef1f3;overflow:hidden}
+.dd-top li .mini i{display:block;height:100%}
+/* ⑩ */
+.dd-neo{margin:0;padding-left:1.1rem}.dd-neo li{margin:.35rem 0;line-height:1.5}
+/* ⑪ */
+.dd-dq{width:100%;border-collapse:collapse;font-size:.85rem}
+.dd-dq th,.dd-dq td{padding:.45rem .3rem;border-bottom:1px solid #f0f3f5;text-align:left}
+.dd-dq th{width:40%;color:var(--muted);font-weight:700}
+.pass{display:inline-block;padding:.05rem .45rem;border-radius:4px;background:var(--easy);color:#fff;font-weight:800;font-size:.75rem}
+@media(min-width:640px){
+  .dd-glance{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dd-heat{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .dd-holes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dd-tops{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:1024px){
+  .dd-head h1{font-size:1.8rem}
+  .dd-glance{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .dd-heat{grid-template-columns:repeat(9,minmax(0,1fr))}
+  .dd-holes{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dd-tops{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .dd-tee{columns:2;column-gap:1.5rem}.dd-tee li{break-inside:avoid}
+}
+</style></head><body><header class="neo-global-header" data-neo-global-navigation>
+<div class="neo-global-header__inner">
+<a class="neo-global-brand" href="/">
+<span class="neo-brand-mark">NEO GOLF DATA</span>
+<span class="neo-brand-legend">
+<span class="neo-brand-legend__item">NUMBER</span>
+<span class="neo-brand-legend__item">EVIDENCE</span>
+<span class="neo-brand-legend__item">ORACLE</span>
+</span>
+</a>
+<nav class="neo-global-nav" aria-label="주요 메뉴">
+<a href="/">홈</a>
+<a href="/tournaments/2026/2026100005/r2/">대회</a>
+<a href="/ranking/">랭킹</a>
+<a href="/deep-dive/" class="is-active" aria-current="page">딥다이브</a>
+<a href="/neo-lab/">NEO LAB</a>
+<a href="/about/">소개</a>
+</nav>
+</div></header>
+<main class="dd" id="deep-dive">
+<nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/2026/2026100005/r2/">제26회 하이트진로 챔피언십</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">딥 다이브</span></nav>
+<section class="dd-head">
+<p class="dd-dummy" data-dummy-badge>미리보기 · 더미 데이터 (실제 수치 아님)</p>
+<p class="kicker">제26회 하이트진로 챔피언십 · 블루헤런 (OUT 동 · IN 서) · Par 72</p>
+<h1>코스 딥 다이브</h1>
+<p class="meta" id="dd-meta"></p>
+</section>
+
+<section class="dd-sec" id="sec-glance" aria-labelledby="h-glance"><h2 id="h-glance"><span class="no">①</span>코스 한눈에 보기<small>별 5개 = 가장 강함</small></h2><div class="dd-glance" id="glance"></div></section>
+<section class="dd-sec" id="sec-oneline" aria-labelledby="h-oneline"><h2 id="h-oneline"><span class="no">②</span>한 줄 분석<small>자동 생성</small></h2><p class="dd-oneline" id="oneline"></p></section>
+<section class="dd-sec" id="sec-heat" aria-labelledby="h-heat"><h2 id="h-heat"><span class="no">③</span>18홀 난이도<small>평균 스코어 − Par 기준</small></h2>
+<ul class="dd-legend"><li><i style="background:var(--easy)"></i>쉬움</li><li><i style="background:var(--mid)"></i>보통</li><li><i style="background:var(--hard)"></i>어려움</li></ul>
+<div class="dd-heat" id="heat"></div></section>
+<section class="dd-sec" id="sec-holes" aria-labelledby="h-holes"><h2 id="h-holes"><span class="no">④</span>홀별 상세 분석<small>18홀</small></h2>
+<ul class="dd-legend"><li><i style="background:var(--bd)"></i>Birdie 이하</li><li><i style="background:var(--pr)"></i>파</li><li><i style="background:var(--bg)"></i>Bogey 이상</li></ul>
+<div class="dd-holes" id="holes"></div></section>
+<section class="dd-sec" id="sec-tee" aria-labelledby="h-tee"><h2 id="h-tee"><span class="no">⑤</span>티샷 분포<small>shotGroupList · 티샷 낙하 위치</small></h2>
+<ul class="dd-legend"><li><i style="background:var(--fw)"></i>Fairway</li><li><i style="background:var(--lr)"></i>좌 Rough</li><li><i style="background:var(--rr)"></i>우 Rough</li><li><i style="background:var(--bk)"></i>벙커</li><li><i style="background:var(--etc)"></i>기타</li></ul>
+<ul class="dd-tee" id="tee"></ul></section>
+<section class="dd-sec" id="sec-tops" aria-labelledby="h-tops"><h2 id="h-tops"><span class="no">⑥–⑨</span>홀 순위 TOP5<small>자동 계산</small></h2>
+<div class="dd-tops">
+<div class="dd-top" id="top-hard"><h3>⑥ 가장 어려운 홀 TOP5</h3><ol></ol></div>
+<div class="dd-top" id="top-easy"><h3>⑦ 가장 쉬운 홀 TOP5</h3><ol></ol></div>
+<div class="dd-top" id="top-birdie"><h3>⑧ Birdie 기회 TOP5</h3><ol></ol></div>
+<div class="dd-top" id="top-risk"><h3>⑨ 실수 위험 TOP5</h3><ol></ol></div>
+</div></section>
+<section class="dd-sec" id="sec-neo" aria-labelledby="h-neo"><h2 id="h-neo"><span class="no">⑩</span>NEO 코스 분석<small>자동 생성</small></h2><ul class="dd-neo" id="neo"></ul></section>
+<section class="dd-sec" id="sec-dq" aria-labelledby="h-dq"><h2 id="h-dq"><span class="no">⑪</span>DATA QUALITY<small>데이터 품질</small></h2><table class="dd-dq" id="dq"></table></section>
+</main>
+<footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer>
+<script>
+(() => {
+/* DUMMY DATA ONLY -- layout preview. Not connected to any real JSON yet. */
+const DUMMY = {
+  rounds: 2, players: 107, playersExpected: 107, puttsOnGir: 1.84,
+  meters: [368,172,390,496,155,375,472,345,369,521,159,375,344,347,387,165,357,483],
+  holes: [
+    // hole, par, avg(score), birdie%, par%, bogey+%, tee: [fairway, leftRough, rightRough, bunker, other] (%)
+    [1,4,4.35,6,61,33,[57,15,16,12,0]],[2,3,3.13,18,61,21,[0,0,0,9,91]],[3,4,4.25,8,62,30,[63,17,14,6,0]],
+    [4,5,5.20,15,54,31,[55,20,19,6,0]],[5,3,3.32,5,63,32,[0,0,0,11,89]],[6,4,4.50,5,52,43,[49,22,20,9,0]],
+    [7,5,4.92,21,69,10,[66,14,15,5,0]],[8,4,4.64,7,47,46,[44,25,22,8,1]],[9,4,4.18,9,69,22,[68,14,13,5,0]],
+    [10,5,5.51,7,61,32,[51,21,18,7,3]],[11,3,3.26,8,58,34,[0,0,0,7,93]],[12,4,4.35,2,64,34,[59,18,17,6,0]],
+    [13,4,4.21,7,69,24,[65,16,14,5,0]],[14,4,4.25,7,64,29,[61,18,15,6,0]],[15,4,4.24,6,66,28,[60,17,17,6,0]],
+    [16,3,3.19,12,68,20,[0,0,0,5,95]],[17,4,4.26,10,58,32,[58,19,17,6,0]],[18,5,4.98,22,61,17,[58,19,19,3,1]]
+  ]
+};
+const H = DUMMY.holes.map(([hole,par,avg,bird,parp,bog,tee])=>({hole,par,avg,diff:+(avg-par).toFixed(2),bird,parp,bog,tee,m:DUMMY.meters[hole-1]}));
+const $ = id => document.getElementById(id);
+const sgn = v => (v>0?'+':v<0?'−':'±')+Math.abs(v).toFixed(2);
+const stars = n => '<span class="stars" aria-label="별 '+n+'개">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span></span>';
+// difficulty stars: rank by (avg - par), split 18 holes into 5 bands
+const byDiff = [...H].sort((a,b)=>a.diff-b.diff);
+const starOf = {}; byDiff.forEach((h,i)=>{ starOf[h.hole] = Math.min(5, 1+Math.floor(i*5/18)); });
+const tier = s => s>=4?'hard':s<=2?'easy':'mid';
+const tierKo = {easy:'쉬움',mid:'보통',hard:'어려움'};
+const scale = (v,lo,hi) => Math.max(1,Math.min(5,1+Math.round((v-lo)/(hi-lo)*4)));
+const sum = (a,f) => a.reduce((s,x)=>s+f(x),0);
+const total = +sum(H,h=>h.diff).toFixed(2);
+const avgBird = +(sum(H,h=>h.bird)/18).toFixed(1), avgBog = +(sum(H,h=>h.bog)/18).toFixed(1);
+const p45 = H.filter(h=>h.par>=4);
+const roughPct = +(sum(p45,h=>h.tee[1]+h.tee[2])/p45.length).toFixed(1);
+const fwPct = +(sum(p45,h=>h.tee[0])/p45.length).toFixed(1);
+const longPar4 = H.filter(h=>h.par===4).sort((a,b)=>b.m-a.m).slice(0,3);
+const par3 = H.filter(h=>h.par===3);
+
+$('dd-meta').innerHTML = `라운드 <b class="num">${DUMMY.rounds}</b>개 · 선수 <b class="num">${DUMMY.players}</b>명 · 18홀 평균 합계 <b class="num">${sgn(total)}</b>타`;
+
+// ① 코스 한눈에 보기
+const glance = [
+  ['코스 난이도', scale(total,-2,4), `평균 스코어 ${sgn(total)}타`],
+  ['Birdie 기회', scale(avgBird,4,16), `홀당 Birdie ${avgBird}%`],
+  ['실수 위험', scale(avgBog,15,40), `홀당 Bogey 이상 ${avgBog}%`],
+  ['Rough 영향', scale(roughPct,20,45), `Par4·5 티샷 Rough ${roughPct}%`],
+  ['롱아이언 중요도', scale(sum(longPar4,h=>h.diff)/3,0.1,0.6), `최장 Par4 3개(${longPar4.map(h=>h.hole).join('·')}번) 평균 ${sgn(sum(longPar4,h=>h.diff)/3)}타`],
+  ['퍼트 영향', scale(DUMMY.puttsOnGir,1.6,2.0), `GIR 시 평균 ${DUMMY.puttsOnGir}퍼트`],
+];
+$('glance').innerHTML = glance.map(([l,s,v])=>`<div class="card"><p class="lbl">${l}</p>${stars(s)}<p class="val num">${v}</p></div>`).join('');
+
+// ② 한 줄 분석
+const ratio = (avgBog/avgBird).toFixed(1);
+$('oneline').textContent = `홀당 Bogey 이상(${avgBog}%)이 Birdie(${avgBird}%)의 ${ratio}배로, Birdie를 늘리는 것보다 Bogey를 줄이는 선수가 유리한 코스다.`;
+
+// ③ 18홀 난이도
+$('heat').innerHTML = H.map(h=>{const s=starOf[h.hole],t=tier(s);
+  return `<div class="cell t-${t}" data-hole="${h.hole}" data-tier="${t}"><b>${h.hole}</b>${stars(s)}<span class="num">${sgn(h.diff)}</span><span class="sr-only">${tierKo[t]}</span></div>`}).join('');
+
+// ④ 홀별 상세 분석
+const holeNote = h => {
+  if (h.bog >= 2*h.bird && h.bog>=30) return `Bogey 이상 ${h.bog}%가 Birdie ${h.bird}%의 ${(h.bog/Math.max(h.bird,1)).toFixed(1)}배인 실수 위험 홀`;
+  if (h.bird >= 15) return `Birdie ${h.bird}%로 18홀 중 Birdie 비율 상위 ${[...H].sort((a,b)=>b.bird-a.bird).findIndex(x=>x.hole===h.hole)+1}위`;
+  return `파 ${h.parp}%로 파 세이브가 기본인 홀 (평균 ${sgn(h.diff)}타)`;
+};
+$('holes').innerHTML = H.map(h=>{const s=starOf[h.hole],t=tier(s);return `
+<article class="dd-hole" data-hole="${h.hole}"><header><h3>${h.hole}번홀</h3><span class="par">Par ${h.par}</span>${stars(s)}<span class="tag t-${t}">${tierKo[t]}</span><span class="avg num">평균 ${sgn(h.diff)}</span></header>
+<div class="bar" role="img" aria-label="Birdie ${h.bird}% 파 ${h.parp}% Bogey 이상 ${h.bog}%"><i style="width:${h.bird}%;background:var(--bd)"></i><i style="width:${h.parp}%;background:var(--pr)"></i><i style="width:${h.bog}%;background:var(--bg)"></i></div>
+<dl><div><dt>Birdie 이하</dt><dd class="num">${h.bird}%</dd></div><div><dt>파</dt><dd class="num">${h.parp}%</dd></div><div><dt>Bogey 이상</dt><dd class="num">${h.bog}%</dd></div></dl>
+<p class="note">${holeNote(h)}</p></article>`}).join('');
+
+// ⑤ 티샷 분포
+const teeCols = ['var(--fw)','var(--lr)','var(--rr)','var(--bk)','var(--etc)'];
+const teeLbl = ['Fairway','좌 Rough','우 Rough','벙커','기타'];
+$('tee').innerHTML = H.map(h=>`<li data-hole="${h.hole}"><b>${h.hole}번</b><div class="bar" role="img" aria-label="${h.hole}번홀 티샷 ${h.tee.map((v,i)=>teeLbl[i]+' '+v+'%').join(', ')}">${h.tee.map((v,i)=>v?`<i style="width:${v}%;background:${teeCols[i]}" title="${teeLbl[i]} ${v}%">${v>=10?v+'%':''}</i>`:'').join('')}</div></li>`).join('');
+
+// ⑥-⑨ TOP5
+const renderTop = (id, arr, val, color, max) => {
+  document.querySelector(`#${id} ol`).innerHTML = arr.slice(0,5).map(h=>{const v=val(h);return `<li data-hole="${h.hole}"><b>${h.hole}번</b><span class="mini"><i style="width:${Math.min(100,Math.abs(v.n)/max*100)}%;background:${color}"></i></span><span class="num">${v.t}</span></li>`}).join('');
+};
+renderTop('top-hard', [...H].sort((a,b)=>b.diff-a.diff), h=>({n:h.diff,t:sgn(h.diff)}), 'var(--hard)', 0.6);
+renderTop('top-easy', [...H].sort((a,b)=>a.diff-b.diff), h=>({n:h.diff,t:sgn(h.diff)}), 'var(--easy)', 0.2);
+renderTop('top-birdie', [...H].sort((a,b)=>b.bird-a.bird), h=>({n:h.bird,t:h.bird+'%'}), 'var(--bd)', 25);
+renderTop('top-risk', [...H].sort((a,b)=>b.bog-a.bog), h=>({n:h.bog,t:h.bog+'%'}), 'var(--bg)', 50);
+
+// ⑩ NEO 코스 분석
+const hardest = [...H].sort((a,b)=>b.diff-a.diff)[0], easiest = [...H].sort((a,b)=>a.diff-b.diff)[0];
+const out = sum(H.slice(0,9),h=>h.diff), inn = sum(H.slice(9),h=>h.diff);
+const par5 = H.filter(h=>h.par===5);
+$('neo').innerHTML = [
+  `${hardest.hole}번홀은 평균 ${sgn(hardest.diff)}타, Bogey 이상 ${hardest.bog}%로 Birdie(${hardest.bird}%)보다 ${(hardest.bog/hardest.bird).toFixed(1)}배 많이 발생했다.`,
+  `가장 쉬운 ${easiest.hole}번홀(${sgn(easiest.diff)}타)과 가장 어려운 ${hardest.hole}번홀의 차이는 ${(hardest.diff-easiest.diff).toFixed(2)}타다.`,
+  `OUT 9홀 합계 ${sgn(out)}타, IN 9홀 합계 ${sgn(inn)}타로 ${out>inn?'OUT':'IN'}이 ${Math.abs(out-inn).toFixed(2)}타 더 어려웠다.`,
+  `Par5 ${par5.length}개 홀의 평균 Birdie 비율은 ${(sum(par5,h=>h.bird)/par5.length).toFixed(1)}%로 Par3 ${par3.length}개 홀(${(sum(par3,h=>h.bird)/par3.length).toFixed(1)}%)보다 높다.`,
+  `Par4·5 티샷 Fairway 비율은 평균 ${fwPct}%이며, 가장 낮은 홀은 ${[...p45].sort((a,b)=>a.tee[0]-b.tee[0])[0].hole}번홀(${[...p45].sort((a,b)=>a.tee[0]-b.tee[0])[0].tee[0]}%)이다.`,
+].map(t=>`<li>${t}</li>`).join('');
+
+// ⑪ DATA QUALITY
+const pass = '<span class="pass">PASS</span>';
+$('dq').innerHTML = [
+  ['출처','KLPGA 공식 (getCourseHoleData · CMPRO playerInfo)'],
+  ['수집',pass],['검증',pass],
+  ['라운드',`${pass} <span class="num">${DUMMY.rounds}</span>개 라운드`],
+  ['플레이어',`<span class="num">${DUMMY.players}/${DUMMY.playersExpected}</span>`],
+].map(([k,v])=>`<tr><th scope="row">${k}</th><td>${v}</td></tr>`).join('');
+})();
+</script>
+</body></html>
