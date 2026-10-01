@@ -10,14 +10,18 @@ already do site-wide).
 
 Reads real leaderboard rows from normalized/2026100005/LEADERBOARD.json
 (NEO Sync stage="results" output -- see klpga.neo_reader.sync). Renders
-real rank/player identity/round scores only. NEO 경기력 and every
-probability column (컷 통과율/TOP20/TOP10/TOP5/우승확률) render 데이터
-부족 for every row, same as the PRE page and for the identical reason:
-no historical warehouse exists to run the M4 model, whether or not real
-round data now exists (see scripts/193_build_hitejinro_pre_m4.py's own
-module docstring for the full, exhaustive account of what was checked).
-Real round scores are never blocked by that -- they come from NEO
-Sync's official leaderboard collection directly, no model involved.
+real rank/player identity/round scores, plus the SAME real NEO 경기력
+band and M4 probabilities (컷 통과율/TOP20/TOP10/TOP5/우승확률) PRE
+already shows for the identical player -- both now read through
+klpga.neo_win.hitejinro_player_metrics, the one shared source for
+both (2026-10-01 fix: this module used to hardcode 데이터 부족 for
+every row here unconditionally, even once the warehouse and M4 model
+were both real and PRE was already displaying them for the same 107
+players -- there was never a reason a round page should know less
+than PRE about a player who has already played). A player absent from
+either source (current_form incomplete, or M4 marks them
+DATA_INSUFFICIENT/missing) still renders 데이터 부족 for that one
+column, per-player, never a whole-field fallback.
 
 FAILS CLOSED: raises FileNotFoundError with a precise message if
 LEADERBOARD.json does not exist yet (true right now -- no round has
@@ -31,6 +35,12 @@ import json
 from html import escape as _esc
 from pathlib import Path
 
+from klpga.neo_win.hitejinro_player_metrics import (
+    load_current_form_by_id,
+    load_m4_by_id,
+    neo_band_by_id,
+    pct,
+)
 from klpga.website_v2.player_identity import cross_tournament_verified_sponsor_cache
 from klpga.website_v2.player_link import linked_player_name_cell
 from klpga.website_v2.previous_tournament_link import previous_tournament_meta_html
@@ -87,6 +97,11 @@ def render_round_page(round_number: int, *, tournament_name: str, date_range: st
     nationality_by_id = _load_nationality_by_id(content_root)
     sponsor_cache = cross_tournament_verified_sponsor_cache()
 
+    all_ids = [str(r["player_id"]) for r in played]
+    current_form_by_id = load_current_form_by_id(all_ids)
+    band_by_id = neo_band_by_id(current_form_by_id)
+    m4_by_id = load_m4_by_id()
+
     rows_html = []
     for r in played:
         pid = str(r["player_id"])
@@ -111,17 +126,37 @@ def render_round_page(round_number: int, *, tournament_name: str, date_range: st
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
         )
         name_cell = linked_player_name_cell(pid, name_cell)
+
+        if pid in band_by_id:
+            label, score = band_by_id[pid]
+            band_cell = (
+                f"<span class='band' role='img' aria-label='NEO 경기력 {label}' "
+                f"data-neo-score='{score:.2f}'>{label}</span>"
+            )
+        else:
+            band_cell = _NOWRAP
+
+        if pid in m4_by_id:
+            m4 = m4_by_id[pid]
+            cut_cell = pct(m4["cut_probability"])
+            top20_cell = pct(m4["top20_probability"])
+            top10_cell = pct(m4["top10_probability"])
+            top5_cell = pct(m4["top5_probability"])
+            win_cell = pct(m4["win_probability"])
+        else:
+            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
+
         rows_html.append(
             f"<tr><td data-label='순위'>{rank_cell}</td>"
             f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
             f"<td data-label='합계'>{total_cell}</td>"
             f"<td data-label='{stage_label}'>{score_cell}</td>"
-            f"<td data-label='NEO 경기력'>{_NOWRAP}</td>"
-            f"<td class='win' data-label='컷 통과확률'>{_NOWRAP}</td>"
-            f"<td class='win' data-label='TOP20'>{_NOWRAP}</td>"
-            f"<td class='win' data-label='TOP10'>{_NOWRAP}</td>"
-            f"<td class='win' data-label='TOP5'>{_NOWRAP}</td>"
-            f"<td class='win' data-label='우승확률'>{_NOWRAP}</td></tr>"
+            f"<td data-label='NEO 경기력'>{band_cell}</td>"
+            f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
+            f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
+            f"<td class='win' data-label='TOP10'>{top10_cell}</td>"
+            f"<td class='win' data-label='TOP5'>{top5_cell}</td>"
+            f"<td class='win' data-label='우승확률'>{win_cell}</td></tr>"
         )
 
     stage_nav_items = []
