@@ -26,6 +26,18 @@ literal <main>...</main> mirror-from-the-real-published-stage-page
 technique (klpga.website_v2.hana_home_stage_router.
 current_stage_main_html) byte-for-byte -- only the embedded tournament
 and its nav target differ.
+
+BUG FIX (2026-10-01, R1 종료 operation): STAGE_PAGE/current_stage_href
+used to be hardcoded to "pre/" -- correct only while PRE was genuinely
+the most advanced real stage. Now that R1 has really been published
+(scripts/196, fed by scripts/200's real leaderboard parse), hardcoding
+"pre/" would mirror a stale stage onto HOME forever, the exact
+"HOME stuck on an old stage" failure klpga.website_v2.hana_home_stage_
+router/kb_home_stage_router were already written to fix for the other
+two tournaments. Reuses klpga.website_v2.previous_tournament_link.
+latest_published_stage_url() -- the same "real file on disk, most
+advanced first" check already used for the "이전 대회" link -- instead
+of duplicating a second copy of that logic here.
 """
 from __future__ import annotations
 
@@ -43,10 +55,12 @@ from klpga.website_v2.home_ownership_guard import (  # noqa: E402
     assert_home_write_allowed,
     embed_owner,
 )
+from klpga.website_v2.previous_tournament_link import latest_published_stage_url  # noqa: E402
 
 GAME_CODE = "2026100005"
 URL_BASE = f"/tournaments/2026/{GAME_CODE}/"
-STAGE_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html"
+CURRENT_STAGE_HREF = latest_published_stage_url(URL_BASE, repo_root=REPO_ROOT)
+STAGE_PAGE = REPO_ROOT / "docs" / CURRENT_STAGE_HREF.strip("/") / "index.html"
 DOCS_INDEX = REPO_ROOT / "docs" / "index.html"
 
 tourney = json.loads((ROOT / "content" / "website_v2" / f"{GAME_CODE}_TOURNAMENT_INFO.json").read_text(encoding="utf-8"))
@@ -63,7 +77,7 @@ def _stage_main_html() -> str:
 
 
 def build() -> None:
-    current_stage_href = f"{URL_BASE}pre/"
+    current_stage_href = CURRENT_STAGE_HREF
     main_html = _stage_main_html()
 
     head = (
