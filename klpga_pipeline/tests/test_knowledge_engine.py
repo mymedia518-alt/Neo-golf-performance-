@@ -9,6 +9,8 @@ import pytest
 from klpga.knowledge_engine import knowledge_engine as ke
 from klpga.knowledge_engine import knowledge_rules as rules
 
+pytestmark = pytest.mark.round_pipeline
+
 
 # ---------------------------------------------------------------------------
 # field_percentile

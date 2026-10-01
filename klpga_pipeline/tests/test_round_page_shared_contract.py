@@ -22,6 +22,8 @@ from klpga.neo_win.r3_real_page import render_r3_real_page
 from klpga.neo_win.r3_rendered_output_gate import RenderedOutputGateError, validate_r3_rendered_output
 from klpga.website_v2.round_score_format import EMPTY_MARK, format_round_score, format_to_par
 
+pytestmark = pytest.mark.round_pipeline
+
 
 # ---------------------------------------------------------------------
 # The shared formatter itself.
