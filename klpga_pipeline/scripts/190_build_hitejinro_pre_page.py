@@ -127,7 +127,6 @@ group.
 from __future__ import annotations
 
 import json
-import statistics
 import sys
 from datetime import date
 from html import escape as _esc
@@ -144,89 +143,29 @@ from klpga.website_v2.previous_tournament_link import (  # noqa: E402
     previous_tournament_meta_html,
     resolve_previous_tournament_link,
 )
+from klpga.neo_win.hitejinro_player_metrics import (  # noqa: E402
+    M4_CANDIDATE_PATH,
+    load_current_form_by_id as _load_current_form_by_id,
+    load_m4_by_id as _load_m4_by_id_shared,
+    neo_band_by_id as _neo_band_by_id,
+    pct as _pct,
+)
 
 GAME_CODE = "2026100005"
+
+
+def _load_m4_by_id() -> dict[str, dict]:
+    """Thin wrapper passing THIS module's own M4_CANDIDATE_PATH (which
+    tests monkeypatch) into the shared loader, rather than calling it
+    bare -- the shared function closes over its OWN module's global by
+    default, so a bare call would silently ignore a patched path here."""
+    return _load_m4_by_id_shared(M4_CANDIDATE_PATH)
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html"
 FLAG_ASSETS = {p.stem for p in (REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
-PLAYER_INTELLIGENCE_DIR = CONTENT / "knowledge_engine" / "player_intelligence"
-
-_NEO_BAND_FEATURES = ("recent_5_sg", "recent_10_sg", "long_term_sg", "volatility")
-_NEO_BAND_WEIGHTS = {"recent_5_sg": 0.35, "recent_10_sg": 0.25, "long_term_sg": 0.25, "volatility": -0.10}
-_BAND_LABELS = ["최상위", "상위", "중위", "하위", "최하위"]
 
 
 def _load(name: str) -> dict:
     return json.loads((CONTENT / f"{GAME_CODE}_{name}").read_text(encoding="utf-8"))
-
-
-def _load_current_form_by_id(player_ids: list[str]) -> dict[str, dict]:
-    """{player_id: current_form dict} for entrants with a committed,
-    COMPLETE (all 4 fields non-null) Player Intelligence document --
-    see module docstring's NEO 경기력 section. Never partially fills a
-    missing field; a player with any null feature is simply absent
-    from the returned dict, same 'absent, not guessed' rule this repo
-    uses everywhere else."""
-    by_id: dict[str, dict] = {}
-    for pid in player_ids:
-        path = PLAYER_INTELLIGENCE_DIR / pid / "latest.json"
-        if not path.is_file():
-            continue
-        doc = json.loads(path.read_text(encoding="utf-8"))
-        cf = doc.get("current_form") or {}
-        if all(cf.get(k) is not None for k in _NEO_BAND_FEATURES):
-            by_id[pid] = cf
-    return by_id
-
-
-def _neo_band_by_id(current_form_by_id: dict[str, dict]) -> dict[str, tuple[str, float]]:
-    """{player_id: (band_label, raw_score)} -- raw_score is a z-scored
-    composite over THIS tournament's own real field (see module
-    docstring), never compared across tournaments. Quintile-banded
-    highest-score-first, same convention as 139's own band_by_id."""
-    if not current_form_by_id:
-        return {}
-    means = {f: statistics.mean(cf[f] for cf in current_form_by_id.values()) for f in _NEO_BAND_FEATURES}
-    stdevs = {f: statistics.pstdev(cf[f] for cf in current_form_by_id.values()) or 1.0 for f in _NEO_BAND_FEATURES}
-    scores: dict[str, float] = {}
-    for pid, cf in current_form_by_id.items():
-        scores[pid] = sum(
-            _NEO_BAND_WEIGHTS[f] * ((cf[f] - means[f]) / stdevs[f]) for f in _NEO_BAND_FEATURES
-        )
-    ordered = sorted(scores, key=lambda pid: -scores[pid])
-    n = len(ordered)
-    band_by_id: dict[str, tuple[str, float]] = {}
-    for i, pid in enumerate(ordered):
-        band_by_id[pid] = (_BAND_LABELS[min(4, i * 5 // n)], scores[pid])
-    return band_by_id
-
-
-M4_CANDIDATE_PATH = CONTENT / "HITEJINRO_2026100005_PRE_M4_CANDIDATE_V1.json"
-
-
-def _load_m4_by_id() -> dict[str, dict]:
-    """{player_code: record} for every entrant scripts/193's M4 output
-    (M4_CANDIDATE_PATH) marks analysis_status=='PASS' -- a record with
-    analysis_status=='DATA_INSUFFICIENT' is deliberately excluded here
-    too, same "absent, not guessed" rule as _load_current_form_by_id.
-    Returns {} if the file doesn't exist yet (193 hasn't been run
-    against a real warehouse in this environment) -- the row loop then
-    renders 데이터 부족 for every player, exactly as before this
-    function existed; this is a pure additive connection, never a
-    behavior change when the file is absent."""
-    if not M4_CANDIDATE_PATH.is_file():
-        return {}
-    doc = json.loads(M4_CANDIDATE_PATH.read_text(encoding="utf-8"))
-    if doc.get("gameCode") != GAME_CODE:
-        return {}
-    return {
-        str(r["playerCode"]): r
-        for r in doc.get("records", [])
-        if r.get("analysis_status") == "PASS"
-    }
-
-
-def _pct(value: float) -> str:
-    return f"{value * 100:.1f}%"
 
 
 # "이전 대회" link resolution lives in ONE place only now --
