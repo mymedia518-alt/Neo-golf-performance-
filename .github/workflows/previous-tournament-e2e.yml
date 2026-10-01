@@ -1,0 +1,45 @@
+name: "Previous-tournament link E2E (HOME/PRE/R1 -> real FINAL)"
+
+# Always runs, on every push and PR to neo-website-v2. The test itself
+# (klpga_pipeline/tests/test_previous_tournament_e2e_browser.py)
+# runtime-skips with a clear, specific reason until the current
+# tournament's own R1 page is actually published -- this workflow
+# still runs every time so that the moment R1 goes live, the very next
+# push catches a regression for real, with no separate workflow change
+# needed.
+
+on:
+  push:
+    branches:
+      - neo-website-v2
+  pull_request:
+    branches:
+      - neo-website-v2
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: klpga_pipeline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run the previous-tournament E2E test
+        run: python -m pytest tests/test_previous_tournament_e2e_browser.py tests/test_previous_tournament_link.py -v
