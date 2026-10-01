@@ -15,11 +15,22 @@ prior tournaments (`_build_training_rows` needs cross-event training
 data, not just this one tournament's own field).
 
 Exhaustively checked, this session, for every such database or
-equivalent real source in this repository/sandbox:
-  - data/klpga.sqlite (the only real instance of this exact schema):
-    .gitignore'd, absent from this sandbox AND the GitHub Actions
-    runner that ran NEO Sync (confirmed via `git log --all` -- no
-    history -- and a filesystem-wide search).
+equivalent real source reachable from this repository/sandbox:
+  - The real production warehouse: per origin/neo-auto-ops-v1's own
+    commit 10b70476 ("separate code and data roots for NEO AUTO OPS"),
+    klpga.sqlite is gitignored and operator-machine-resident by
+    design, resolved via the NEO_DATA_ROOT environment variable (see
+    klpga.ops.paths, ported onto this branch from that commit) so the
+    exact same code runs against one canonical external data
+    directory regardless of where it was cloned. In THIS environment,
+    NEO_DATA_ROOT is unset (confirmed: `echo "[$NEO_DATA_ROOT]"` ->
+    `[]`) and no such directory is reachable from this sandbox at all
+    -- confirmed via `git log --all` (no history for this file on any
+    branch) and a filesystem-wide search (only two unrelated,
+    single-player sqlite files exist anywhere on this machine). On a
+    machine where NEO_DATA_ROOT is set to a real, populated warehouse
+    directory, this script resolves and uses it automatically, no
+    code change required -- see main()'s --db default below.
   - content/website_v2/historical_sg_warehouse_corrected.json: real,
     committed, 97 tournaments / 43,701 rows -- but Strokes Gained
     metrics only, missing made_cut/finish_position_numeric/
@@ -37,18 +48,28 @@ equivalent real source in this repository/sandbox:
     2 work): neither file exists anywhere in this repository or
     sandbox any more -- never committed, not gitignored, simply gone.
 
-So `--db` below defaults to the same data/klpga.sqlite path the real
-production pipeline expects, and this script FAILS CLOSED with a
-precise, named reason if that path is missing or (once it exists) is
-missing the training coverage `_preflight_check_corpus` below expects
--- it never falls back to a smaller/partial source and never emits an
-estimated win probability. This is the same "FAIL_CLOSED, never
-estimate" discipline this repository's own red_team_report.json above
-already applies to itself.
+So `--db` below defaults to klpga.ops.paths.db_path() -- the real,
+already-existing, tested NEO_DATA_ROOT resolver (ported from
+origin/neo-auto-ops-v1's commit 10b70476, "separate code and data
+roots for NEO AUTO OPS": the production klpga.sqlite is gitignored and
+operator-machine-resident, never committed, resolved via the
+NEO_DATA_ROOT environment variable so the exact same code/checkout
+runs against the one canonical data directory regardless of where it
+was cloned). When NEO_DATA_ROOT is set, db_path() returns
+<NEO_DATA_ROOT>/klpga.sqlite unconditionally -- it never falls back to
+the repo-local data/klpga.sqlite path in that case, only when
+NEO_DATA_ROOT itself is unset entirely. This script still FAILS CLOSED
+with a precise, named reason if whatever path that resolves to is
+missing or (once it exists) is missing the training coverage
+`_preflight_check_corpus` below expects -- it never falls back to a
+smaller/partial source and never emits an estimated win probability.
+This is the same "FAIL_CLOSED, never estimate" discipline this
+repository's own red_team_report.json above already applies to itself.
 
-Once a real, adequately-populated warehouse exists at --db, running
-this script produces this tournament's own genuine PRE M4 output --
-no other code change is needed.
+Once NEO_DATA_ROOT is set (on whichever machine actually has the real
+warehouse -- this sandbox does not) and that warehouse is adequately
+populated, running this script produces this tournament's own genuine
+PRE M4 output -- no other code change is needed.
 """
 from __future__ import annotations
 
@@ -63,6 +84,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.ops.paths import db_path as _resolve_db_path  # noqa: E402
 from klpga.backtest.point_in_time_features import (  # noqa: E402
     compute_point_in_time_features,
     features_as_flat_dict,
@@ -220,7 +242,7 @@ def build(game_code: str, cutoff: date, db_path: Path, entry_path: Path,
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--db", default=str(ROOT / "data" / "klpga.sqlite"), type=Path)
+    parser.add_argument("--db", default=str(_resolve_db_path()), type=Path)
     parser.add_argument("--entry", default=str(ROOT / "content/website_v2/2026100005_KE_ENTRY_SNAPSHOT.json"), type=Path)
     parser.add_argument("--output", default=str(ROOT / "content/website_v2/HITEJINRO_2026100005_PRE_M4_CANDIDATE_V1.json"), type=Path)
     parser.add_argument("--cutoff", default="2026-10-01")
