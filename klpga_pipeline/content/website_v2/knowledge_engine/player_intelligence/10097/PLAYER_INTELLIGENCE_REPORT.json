@@ -44,7 +44,7 @@
     ]
   },
   "coach_report": {
-    "development_priority": "다음 시즌 개발 우선순위: 2026시즌부터 시즌 내 최약체 항목이 SG ARG에서 SG PUTT로 바뀌었습니다 -- SG ARG는 더 이상 최약체가 아닙니다. 현재 시즌 내 최약체 항목을 코칭 개발의 1순위로 둡니다.",
+    "development_priority": "다음 시즌 개발 우선순위: 2025시즌부터 시즌 내 최약체 항목이 SG PUTT에서 SG ARG로 바뀌었습니다 -- SG PUTT는 더 이상 최약체가 아닙니다. 현재 시즌 내 최약체 항목을 코칭 개발의 1순위로 둡니다.",
     "development_priority_source": "tp_weakness_shift",
     "trajectory_verdict": "실측된 시즌 전환 3건 전부 플러스 -- 단발성 향상이 아니라 지속된 궤적입니다."
   },
@@ -164,34 +164,34 @@
   ],
   "durability_method": "모든 질문은 다음을 묻습니다 -- 시즌이 하나 더 추가되어도 이 결론이 뒤집히지 않을 가능성이 높은가? 'LONG_TERM_CHARACTERISTIC'은 기록된 대부분 또는 모든 시즌에서 나타나는 패턴에 기반해 뒤집힐 가능성이 낮음을 의미합니다. 'RECENT_TREND'는 이번 시즌에만 근거하며 앞으로의 시즌에 따라 바뀔 수 있음을 의미합니다. 'CONFIRMED_HISTORICAL_EVENT'는 이미 종료된 결과로, 향후 데이터로 뒤집힐 수는 없지만 그 자체를 반복되는 패턴으로 일반화하지도 않습니다.",
   "evidence_score_method": "evidence_score = round(100 * min(1, 독립 공식 출처 수 / 3) * 표본 크기 / (표본 크기 + 5)). 이미 계산된 표본 크기와 출처 다양성을 하나의 점수로 보여주는 결정적이고 공개된 산식이며, 선수에 대한 새로운 통계적 주장이 아닙니다.",
-  "generated_at": "2026-09-25T22:06:04.984863+00:00",
+  "generated_at": "2026-10-01T11:00:21.958714+00:00",
   "growth_timeline": {
-    "narrative": "2023시즌 SG Total +0.79에서 2026시즌 +2.09로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.32에서 2026시즌 +2.09로 상승 추세입니다.",
     "steps": [
       {
-        "avg_total": 0.7870588235294118,
+        "avg_total": 0.3176,
         "delta_from_prev": null,
         "season": 2023,
         "strongest_component": "SG APP",
-        "weakest_component": "SG ARG"
+        "weakest_component": "SG PUTT"
       },
       {
-        "avg_total": 1.4064705882352944,
-        "delta_from_prev": 0.6194117647058826,
+        "avg_total": 0.47923076923076924,
+        "delta_from_prev": 0.16163076923076924,
         "season": 2024,
         "strongest_component": "SG APP",
-        "weakest_component": "SG ARG"
+        "weakest_component": "SG PUTT"
       },
       {
-        "avg_total": 1.7595652173913037,
-        "delta_from_prev": 0.3530946291560093,
+        "avg_total": 1.4159259259259256,
+        "delta_from_prev": 0.9366951566951564,
         "season": 2025,
         "strongest_component": "SG APP",
         "weakest_component": "SG ARG"
       },
       {
-        "avg_total": 2.094375,
-        "delta_from_prev": 0.3348097826086962,
+        "avg_total": 2.0917647058823525,
+        "delta_from_prev": 0.6758387799564269,
         "season": 2026,
         "strongest_component": "SG APP",
         "weakest_component": "SG PUTT"
@@ -390,7 +390,7 @@
       },
       {
         "category": "DEFEND",
-        "decision": "SG Total, SG PUTT, SG ARG 항목을 다음 대회 전 우선 점검한다.",
+        "decision": "SG Total, SG APP, SG OTT 항목을 다음 대회 전 우선 점검한다.",
         "question": "김민선7 선수는 지금 우승 기준선에 얼마나 가까운가?",
         "question_id": "q_win_simulator"
       },
@@ -404,21 +404,21 @@
   },
   "pre_tournament_checklist": [
     {
-      "current_reading": 1.33,
+      "current_reading": 0.6,
       "current_status": "NORMAL",
       "id": "q_why_wins",
       "linked_question": "김민선7 선수는 왜 우승하는가?",
       "metric": "대회별 SG APP"
     },
     {
-      "current_reading": -1.68,
-      "current_status": "WATCH",
+      "current_reading": 0.77,
+      "current_status": "NORMAL",
       "id": "q_why_loses",
       "linked_question": "김민선7 선수는 왜 우승을 놓치는가?",
       "metric": "대회별 SG PUTT"
     },
     {
-      "current_reading": 1.33,
+      "current_reading": 0.6,
       "current_status": "NORMAL",
       "id": "q_approach_biggest_weapon",
       "linked_question": "김민선7 선수에게 SG APP가 최고의 무기인 이유는?",
@@ -446,7 +446,7 @@
       "metric": "2024 셀트리온 퀸즈 마스터즈 출전 기록별 SG Total"
     },
     {
-      "current_reading": -0.7,
+      "current_reading": 5.41,
       "current_status": "NORMAL",
       "id": "q_most_recent_win",
       "linked_question": "김민선7 선수는 최근 우승, 하나금융그룹 챔피언십을(를) 어떻게 만들어냈는가?",
@@ -474,7 +474,7 @@
       "metric": "대회별 SG APP"
     },
     {
-      "current_reading": -3.2799999999999994,
+      "current_reading": -2.7899999999999996,
       "current_status": "WATCH",
       "id": "q_win_simulator",
       "linked_question": "김민선7 선수는 지금 우승 기준선에 얼마나 가까운가?",
@@ -1402,7 +1402,7 @@
   },
   "questions": [
     {
-      "action": "대회별 SG APP을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). 정상 범위: -0.13 ~ +1.80 SG (실측 대회 73회 기준 평균 +0.83, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.13 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다. 결정: SG APP 샷 운영 방식을 그대로 유지한다. 이 영역은 조정 대상에서 제외한다.",
+      "action": "대회별 SG APP을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). 정상 범위: -0.13 ~ +1.80 SG (실측 대회 73회 기준 평균 +0.83, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.13 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+0.60)은 정상 범위 안에 있습니다. 결정: SG APP 샷 운영 방식을 그대로 유지한다. 이 영역은 조정 대상에서 제외한다.",
       "analysis": "SG APP는 경기력의 다른 부분이 약했던 시즌에도 마이너스로 내려간 적이 없는 유일한 항목입니다 -- 좋은 라운드를 우승으로 바꾸는 실제 동력입니다. 이번 시즌 GIR·파세이브율 상승은 이 위에 더해진 결과이지, 새로 생긴 동력이 아닙니다.",
       "coach_focus": "GIR·파세이브율은 이번 시즌 스냅샷이라 연속 모니터링이 불가능합니다. 대회별 SG APP(실측 73개 대회)만 연속 추적하십시오.",
       "conclusion": "김민선7 선수의 우승 동력은 SG APP입니다. 경기 전략의 기본값으로 고정하고, 압박 상황에서도 SG APP 라인·클럽 선택을 바꾸지 않는 것이 결정 사항입니다.",
@@ -1420,8 +1420,8 @@
       "layer": "COMPETITION",
       "mechanism": "메커니즘: 우승 대회에서 SG APP가 플러스로 전환되는 시점부터 스코어링 우위가 시작되고, 이 우위가 라운드 전체에 누적되어 최종 스코어 차이로 이어집니다.",
       "monitoring_protocol": {
-        "current_detail": "가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다.",
-        "current_reading": 1.33,
+        "current_detail": "가장 최근 실측값(+0.60)은 정상 범위 안에 있습니다.",
+        "current_reading": 0.6,
         "current_status": "NORMAL",
         "explanatory_metric": "없음. 동일한 실측 대회 73회를 기준으로 나머지 세 지표와의 상관관계는 SG PUTT r=-0.15; SG OTT r=+0.18; SG ARG r=+0.07이며, 모두 이 리포트가 유의미하다고 보는 기준(0.3)에 미치지 못해 특정 지표를 원인으로 지목하지 않습니다. 대신 같은 경기에서 다른 세 지표도 함께 저하되는지 확인하십시오: 이 지표에서만 저하가 나타난다면 해당 샷 기술 자체의 문제이고, 다른 지표에서도 동시에 나타난다면 컨디션 저하, 이동, 피로 등 그 주의 전반적인 컨디션 문제일 가능성이 큽니다.",
         "metric": "대회별 SG APP",
@@ -1440,7 +1440,7 @@
       "why_this_matters": "이번 주뿐 아니라 매 대회 경기 전략의 기준선입니다."
     },
     {
-      "action": "대회별 SG PUTT을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='putting')). 정상 범위: -0.66 ~ +1.00 SG (실측 대회 73회 기준 평균 +0.17, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.66 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 관찰 필요 -- 가장 최근 실측값(-1.68)은 정상 범위 아래이지만, 바로 이전 값(-0.33)은 정상 범위 안이었습니다 -- 아직 2회 연속은 아니므로 다음 실측값에서 확정됩니다. 결정: 다음 훈련 사이클에서 퍼팅 전환 훈련 비중을 늘린다. 볼 스트라이킹 훈련은 현행 유지한다.",
+      "action": "대회별 SG PUTT을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='putting')). 정상 범위: -0.66 ~ +1.00 SG (실측 대회 73회 기준 평균 +0.17, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.66 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+0.77)은 정상 범위 안에 있습니다. 결정: 다음 훈련 사이클에서 퍼팅 전환 훈련 비중을 늘린다. 볼 스트라이킹 훈련은 현행 유지한다.",
       "analysis": "SG APP가 만들어내는 Birdie 기회를 SG PUTT이 볼 스트라이킹 수준만큼 전환하지 못합니다. 선수 생활 내내 있었던 격차이므로 한 주의 슬럼프가 아니라 전환 비율의 구조적 한계이며, 올해 하락폭은 새 정보라서 회복을 가정하지 말고 계속 지켜봐야 합니다.",
       "coach_focus": "SG PUTT은 대회별로 발표되므로(실측 73개 대회), 시즌 합산치가 아니라 대회별 수치로 하락 조짐을 조기에 포착하십시오.",
       "conclusion": "SG PUTT이 Birdie 전환의 병목입니다. 다음 훈련 사이클의 우선순위를 퍼팅 전환 훈련으로 재배분하고, 볼 스트라이킹 훈련 비중은 늘리지 않는 것이 결정 사항입니다.",
@@ -1458,9 +1458,9 @@
       "layer": "CONVERSION",
       "mechanism": "메커니즘: SG APP가 만든 Birdie 기회가 SG PUTT 전환 단계에서 소실됩니다 -- 기회 생성과 기회 전환은 분리된 두 단계이며, 병목은 후자에 있습니다.",
       "monitoring_protocol": {
-        "current_detail": "가장 최근 실측값(-1.68)은 정상 범위 아래이지만, 바로 이전 값(-0.33)은 정상 범위 안이었습니다 -- 아직 2회 연속은 아니므로 다음 실측값에서 확정됩니다.",
-        "current_reading": -1.68,
-        "current_status": "WATCH",
+        "current_detail": "가장 최근 실측값(+0.77)은 정상 범위 안에 있습니다.",
+        "current_reading": 0.77,
+        "current_status": "NORMAL",
         "explanatory_metric": "없음. 동일한 실측 대회 73회를 기준으로 나머지 세 지표와의 상관관계는 SG APP r=-0.15; SG OTT r=-0.08; SG ARG r=+0.04이며, 모두 이 리포트가 유의미하다고 보는 기준(0.3)에 미치지 못해 특정 지표를 원인으로 지목하지 않습니다. 대신 같은 경기에서 다른 세 지표도 함께 저하되는지 확인하십시오: 이 지표에서만 저하가 나타난다면 해당 샷 기술 자체의 문제이고, 다른 지표에서도 동시에 나타난다면 컨디션 저하, 이동, 피로 등 그 주의 전반적인 컨디션 문제일 가능성이 큽니다.",
         "metric": "대회별 SG PUTT",
         "next_review": "다음 대회 기록이 나오는 시점",
@@ -1478,7 +1478,7 @@
       "why_this_matters": "다음 스트로크 게인은 스윙이 아니라 전환력에서 나와야 합니다."
     },
     {
-      "action": "대회별 SG APP을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). 정상 범위: -0.13 ~ +1.80 SG (실측 대회 73회 기준 평균 +0.83, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.13 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다. 결정: SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.",
+      "action": "대회별 SG APP을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=tournament_cumulative, field='approach')). 정상 범위: -0.13 ~ +1.80 SG (실측 대회 73회 기준 평균 +0.83, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 대회 기록이 -0.13 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 대회 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+0.60)은 정상 범위 안에 있습니다. 결정: SG APP 샷 메커니즘과 셋업을 변경하지 않는다. 다른 영역 조정 시 이 부분은 실험 대상에서 제외한다.",
       "analysis": "한 시즌의 특출난 성적은 반짝 호조일 수 있지만, 같은 항목이 4개 시즌 연속 최상위권이면 다른 신호입니다 -- 경기력의 다른 부분과 무관하게 꾸준히 잘하는 부분이라는 뜻입니다.",
       "coach_focus": "'왜 우승하는가'와 동일한 프로토콜입니다(대회별 SG APP, 실측 73개 대회) -- 같은 근본 강점을 같은 지표로 추적합니다.",
       "conclusion": "SG APP는 가장 지속력 있는 강점입니다. 기술적 조정이 필요할 때 이 메커니즘은 손대지 않는 것이 결정 사항입니다.",
@@ -1523,8 +1523,8 @@
       "layer": "TECHNIQUE",
       "mechanism": "메커니즘: 다른 세 항목의 시즌별 등락과 무관하게 SG APP만 4개 시즌 내내 플러스를 유지했습니다 -- 경기력의 다른 부분에 의존하지 않는 독립적 강점입니다.",
       "monitoring_protocol": {
-        "current_detail": "가장 최근 실측값(+1.33)은 정상 범위 안에 있습니다.",
-        "current_reading": 1.33,
+        "current_detail": "가장 최근 실측값(+0.60)은 정상 범위 안에 있습니다.",
+        "current_reading": 0.6,
         "current_status": "NORMAL",
         "explanatory_metric": "없음. 동일한 실측 대회 73회를 기준으로 나머지 세 지표와의 상관관계는 SG PUTT r=-0.15; SG OTT r=+0.18; SG ARG r=+0.07이며, 모두 이 리포트가 유의미하다고 보는 기준(0.3)에 미치지 못해 특정 지표를 원인으로 지목하지 않습니다. 대신 같은 경기에서 다른 세 지표도 함께 저하되는지 확인하십시오: 이 지표에서만 저하가 나타난다면 해당 샷 기술 자체의 문제이고, 다른 지표에서도 동시에 나타난다면 컨디션 저하, 이동, 피로 등 그 주의 전반적인 컨디션 문제일 가능성이 큽니다.",
         "metric": "대회별 SG APP",
@@ -1682,7 +1682,7 @@
       "why_this_matters": "지나치게 코치하기보다 믿고 맡겨야 한다는 점이 가장 분명하게 드러나는 지점입니다."
     },
     {
-      "action": "라운드별 SG Total을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=single_round, field='total')). 정상 범위: -1.45 ~ +3.91 SG (실측 라운드 287회 기준 평균 +1.23, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 라운드 기록이 -1.45 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 라운드 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(-0.70)은 정상 범위 안에 있습니다. 결정: 이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.",
+      "action": "라운드별 SG Total을(를) 모니터링합니다(historical_sg_warehouse_corrected.json (scope=single_round, field='total')). 정상 범위: -1.45 ~ +3.91 SG (실측 라운드 287회 기준 평균 +1.23, 표준편차 ±1). 저하 기준(기술/훈련 점검 필요): 라운드 기록이 -1.45 SG 미만으로 2회 연속 나타나는 경우. 다음 점검: 다음 라운드 기록이 나오는 시점. 가장 최근 실측값 기준 현재 상태: 정상 -- 가장 최근 실측값(+5.41)은 정상 범위 안에 있습니다. 결정: 이번 우승의 3라운드 반등 패턴을 근거로 한 전략 변경은 하지 않는다. 대회 중에는 라운드별 SG Total만 실시간 모니터링한다.",
       "analysis": "이 대회 하나에 대해서는 확인된 사실이지만, 라운드 간 흐름 전체(실측 연속 라운드 쌍 198개)의 평균 변화는 -0.22 SG로 뚜렷한 방향이 없습니다. '대회 후반에 강해진다'는 일반 특성으로 확대 해석해서는 안 됩니다.",
       "coach_focus": "이 대회의 심리적 패턴을 가정하지 말고, 라운드별 SG Total 프로토콜(실측 287개 라운드)을 실시간 신호로 쓰십시오.",
       "conclusion": "이 결과는 대회 하나에 대한 확정된 사실입니다. 이 패턴을 일반화한 전략 변경은 하지 않는 것이 결정 사항입니다.",
@@ -1701,8 +1701,8 @@
       "layer": "COMPETITION",
       "mechanism": "메커니즘: 2라운드 부진 이후 3라운드에 SG Total이 대회 중 최고치로 반등 -- 실측 1회 사건이므로 반복 가능한 메커니즘으로 일반화하지 않습니다.",
       "monitoring_protocol": {
-        "current_detail": "가장 최근 실측값(-0.70)은 정상 범위 안에 있습니다.",
-        "current_reading": -0.7,
+        "current_detail": "가장 최근 실측값(+5.41)은 정상 범위 안에 있습니다.",
+        "current_reading": 5.41,
         "current_status": "NORMAL",
         "explanatory_metric": "SG APP (동일한 실측 라운드 287회 기준 r=+0.67 -- 네 지표 중 라운드 단위로 가장 강하게 연동되는 지표입니다. SG APP r=+0.67; SG PUTT r=+0.56; SG OTT r=+0.36; SG ARG r=+0.30)",
         "metric": "라운드별 SG Total",
@@ -1842,26 +1842,26 @@
       "why_this_matters": "순위권 경쟁 중 가장 먼저 확인해야 할 항목입니다."
     },
     {
-      "action": "대회별 SG Total 및 4항목을 모니터링합니다(우승 기준선과 직접 대조, historical_sg_warehouse_corrected.json (scope=tournament_cumulative), 가장 최근 대회 기준). 정상 범위: 5개 항목 전부 충족. 경고 기준: 1개 이상 미충족. 다음 점검: 다음 대회 공식 기록이 나오는 시점. 결정: SG Total, SG PUTT, SG ARG 항목을 다음 대회 전 우선 점검한다.",
+      "action": "대회별 SG Total 및 4항목을 모니터링합니다(우승 기준선과 직접 대조, historical_sg_warehouse_corrected.json (scope=tournament_cumulative), 가장 최근 대회 기준). 정상 범위: 5개 항목 전부 충족. 경고 기준: 1개 이상 미충족. 다음 점검: 다음 대회 공식 기록이 나오는 시점. 결정: SG Total, SG APP, SG OTT 항목을 다음 대회 전 우선 점검한다.",
       "analysis": "우승 기준선은 실측 우승 전부가 넘긴 바닥값입니다. 이번 대회가 이 기준선에 미달한 항목이 있다면, 그 항목이 이번 결과와 우승 사이의 실제 격차입니다 -- 추측이 아니라 같은 기준으로 직접 비교한 결과입니다.",
       "coach_focus": "대회 종료 직후 이 5개 항목을 우승 기준선과 대조하는 절차를 다음 대회에도 동일하게 반복하십시오.",
-      "conclusion": "우승 준비도 40% -- SG Total, SG PUTT, SG ARG이(가) 기준선 미달입니다. 다음 대회 전 이 항목을 우선 점검하는 것이 결정 사항입니다.",
+      "conclusion": "우승 준비도 40% -- SG Total, SG APP, SG OTT이(가) 기준선 미달입니다. 다음 대회 전 이 항목을 우선 점검하는 것이 결정 사항입니다.",
       "confidence": "HIGH",
       "contribution_breakdown": null,
       "durability": "RECENT_TREND",
       "durability_reasoning": "가장 최근 대회 1건에 대한 스냅샷 비교입니다. 다음 대회마다 다시 계산되어야 하며, 이번 결과 하나로 장기 패턴을 주장하지 않습니다.",
       "evidence": [
-        "항목별 목표 대비 실측: SG Total 목표 +4.39 실측 +1.11 FAILED; SG APP 목표 +1.10 실측 +1.33 PASSED; SG PUTT 목표 +0.43 실측 -1.68 FAILED; SG OTT 목표 +0.54 실측 +1.38 PASSED; SG ARG 목표 +0.13 실측 +0.08 FAILED.",
-        "미충족 항목: SG Total, SG PUTT, SG ARG."
+        "항목별 목표 대비 실측: SG Total 목표 +4.39 실측 +1.60 FAILED; SG APP 목표 +1.10 실측 +0.60 FAILED; SG PUTT 목표 +0.43 실측 +0.77 PASSED; SG OTT 목표 +0.54 실측 -0.19 FAILED; SG ARG 목표 +0.13 실측 +0.42 PASSED.",
+        "미충족 항목: SG Total, SG APP, SG OTT."
       ],
       "evidence_score": 31,
-      "fact": "가장 최근 대회(제13회 제주삼다수 마스터스, 2026)는 우승 기준선 5개 항목 중 2개를 충족했습니다(우승 준비도 40%).",
+      "fact": "가장 최근 대회(BC카드 · 한경 제48회 KLPGA 챔피언십, 2026)는 우승 기준선 5개 항목 중 2개를 충족했습니다(우승 준비도 40%).",
       "id": "q_win_simulator",
       "layer": "COMPETITION",
       "mechanism": "메커니즘: 우승 기준선(q_win_blueprint) 대비 가장 최근 대회의 실측치를 항목별로 직접 대조합니다 -- 새로운 통계가 아니라 같은 잣대를 다른 대회에 적용한 결과입니다.",
       "monitoring_protocol": {
-        "current_detail": "실측값 기준 우승 준비도 40%(2/5개 항목 충족) -- SG Total 기준선 대비 -3.28 SG.",
-        "current_reading": -3.2799999999999994,
+        "current_detail": "실측값 기준 우승 준비도 40%(2/5개 항목 충족) -- SG Total 기준선 대비 -2.79 SG.",
+        "current_reading": -2.7899999999999996,
         "current_status": "WATCH",
         "explanatory_metric": "없음. 이번 비교는 상관관계가 아니라 실측 대회 73회 기준 기준선과의 직접 대조입니다(충족 2/5개 항목).",
         "metric": "대회별 SG Total 및 4항목",
@@ -1871,7 +1871,7 @@
         "source": "historical_sg_warehouse_corrected.json (scope=tournament_cumulative)",
         "warning_threshold": "1개 이상 항목이 우승 기준선 미달"
       },
-      "player_takeaway": "이번 대회는 우승 기준선 5개 중 2개를 충족했습니다. SG Total, SG PUTT, SG ARG에 집중하십시오.",
+      "player_takeaway": "이번 대회는 우승 기준선 5개 중 2개를 충족했습니다. SG Total, SG APP, SG OTT에 집중하십시오.",
       "question": "김민선7 선수는 지금 우승 기준선에 얼마나 가까운가?",
       "reproducibility": "조건: 매 대회 종료 후 동일한 5개 항목을 우승 기준선과 대조. 대회마다 재현 가능합니다.",
       "root_cause": "근본 원인: 미충족 항목이 있다면 그 항목의 실측치가 기준선에 못 미친 것 자체가 원인입니다. 왜 그 항목이 낮았는지의 더 깊은 원인은 해당 항목의 q_why_loses/q_putting_weakest 등 개별 질문을 참조해야 하며, 이 모듈은 격차의 존재 여부만 확인합니다.",
@@ -2046,18 +2046,18 @@
   },
   "turning_points": [
     {
-      "finding": "2024시즌 SG Total이 전년 대비 +0.62 상승 -- 실측된 4개 시즌 전환 중 가장 큰 폭입니다.",
+      "finding": "2025시즌 SG Total이 전년 대비 +0.94 상승 -- 실측된 4개 시즌 전환 중 가장 큰 폭입니다.",
       "id": "tp_biggest_jump",
       "label": "가장 큰 단일 시즌 도약",
-      "season": 2024,
+      "season": 2025,
       "unknown_cause": "이 상승을 만든 구체적 계기(훈련 방법 변경, 장비 교체, 스윙 수정 등)는 이 저장소에 훈련·코칭 이력 기록이 없어 확인할 수 없습니다 -- 데이터 로드맵의 훈련·코칭 이력 기록 항목이 이를 다룹니다."
     },
     {
-      "finding": "2026시즌부터 시즌 내 최약체 항목이 SG ARG에서 SG PUTT로 바뀌었습니다 -- SG ARG는 더 이상 최약체가 아닙니다.",
+      "finding": "2025시즌부터 시즌 내 최약체 항목이 SG PUTT에서 SG ARG로 바뀌었습니다 -- SG PUTT는 더 이상 최약체가 아닙니다.",
       "id": "tp_weakness_shift",
       "label": "약점 전환",
-      "season": 2026,
-      "unknown_cause": "SG ARG가 개선되어 최약체 자리를 벗어난 것인지, SG PUTT가 상대적으로 뒤처진 것인지는 이 표만으로는 구분할 수 없습니다 -- 시즌별 실측값 자체(성장 타임라인)를 함께 확인해야 합니다."
+      "season": 2025,
+      "unknown_cause": "SG PUTT가 개선되어 최약체 자리를 벗어난 것인지, SG ARG가 상대적으로 뒤처진 것인지는 이 표만으로는 구분할 수 없습니다 -- 시즌별 실측값 자체(성장 타임라인)를 함께 확인해야 합니다."
     }
   ],
   "unsupported_analysis_modules_v12": [

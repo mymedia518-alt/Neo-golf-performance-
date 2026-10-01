@@ -457,7 +457,7 @@ _OWN_PROSE_FIELDS = ["fact", "analysis", "conclusion", "why_it_matters", "player
 #   2. Technical data-source citations embedded in the ACTION text (real
 #      file names, field names, code references) -- these identify exactly
 #      where a number came from and are never meant to read as Korean.
-_PROPER_NOUN_FRAGMENTS = {"EPC", "KLPGA", "Masters"}
+_PROPER_NOUN_FRAGMENTS = {"EPC", "KLPGA", "Masters", "BC"}
 _TECHNICAL_CITATION_PATTERN = re.compile(
     r"[\w.]+\.json(?:\s*\([^)]*\))?"  # historical_sg_warehouse_corrected.json (scope=..., field='...')
     r"|knowledge_engine\.\w+\(\)"  # knowledge_engine.find_course_history()
