@@ -203,6 +203,90 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
     return LEADERBOARD_PATH
 
 
+_DETAIL_RE = re.compile(
+    r'_gamecode="' + re.escape(GAME_CODE) + r'" _playercode="(\d+)"[^>]*_round="(\d+)" _hole="(\d*)" _level="([^"]*)"'
+)
+_EXCLUSION_TEXT_RE = re.compile(r"WD|DQ|DNS|CUT|기권|실격|불참|컷오프")
+
+
+def parse_in_progress_state(round_number: int, *, raw_path: Path | None = None) -> dict[str, dict]:
+    """{player_id: {"excluded": bool, "status_text": str|None, "score": int|None,
+    "hole": int|None}} from a LIVE, round-in-progress leaderboard raw
+    capture taken before round `round_number` has produced a single
+    real completed score -- the "R2 START" case, distinct from a
+    completed-round capture (parse_leaderboard/parse_sg/cross_validate
+    assume the round is OVER; this function assumes it has barely
+    begun and never claims otherwise).
+
+    Real signals used, never guessed:
+    - "excluded" (WD/DQ/DNS): data-updown=="999" AND round{N}score=="" --
+      a genuinely empty field, not the "0" every still-to-play player
+      shows. status_text is whatever literal WD/DQ/DNS/기권/실격/불참
+      text appears inside THIS player's own <li>...</li> block (bounded
+      to that element only, never a flat surrounding-text window that
+      could pick up another player's or the page's own status-code
+      legend).
+    - "hole" (real in-progress progress, e.g. for an "{hole}H" display):
+      only set when that player's own per-round detail markup
+      (_gamecode/_playercode/_round/_hole/_level) reports _level=="FU"
+      (on the fairway -- has genuinely hit a shot this round). _level
+      =="TE" (still at the tee, hasn't hit yet) or any other/undocumented
+      _level value is conservatively treated as "not yet confirmed
+      started" (hole=None) -- this function has no legend entry for
+      every possible _level code and refuses to guess one.
+    - "score" (a real completed round score): only set when
+      round{N}score is neither "" nor the literal "0" every not-yet-
+      played player shows at this stage -- "0" is never treated as a
+      real completed score of zero strokes.
+    """
+    raw_path = raw_path or raw_evidence_path(round_number, "LEADERBOARD")
+    html = raw_path.read_text(encoding="utf-8")
+
+    li_starts = [m.start() for m in re.finditer(r'<li id="favoritItem_\d+"', html)]
+    li_bounds: dict[str, tuple[int, int]] = {}
+    for i, start in enumerate(li_starts):
+        end = li_starts[i + 1] if i + 1 < len(li_starts) else len(html)
+        pid_m = re.match(r'<li id="favoritItem_(\d+)"', html[start:end])
+        if pid_m:
+            li_bounds[pid_m.group(1)] = (start, end)
+
+    detail_by_id: dict[str, tuple[str, str]] = {}  # player_id -> (hole, level), for THIS round_number only
+    for m in _DETAIL_RE.finditer(html):
+        pid, rnd, hole, level = m.groups()
+        if int(rnd) == round_number:
+            detail_by_id[pid] = (hole, level)
+
+    state_by_id: dict[str, dict] = {}
+    for m in _LEADERBOARD_ROW_RE.finditer(html):
+        pid, rank, name, totunderpar, inghole, todayunderpar, score, r1, r2, r3, r4, updown = m.groups()
+        round_score_raw = {1: r1, 2: r2, 3: r3, 4: r4}[round_number]
+
+        excluded = updown == "999" and round_score_raw == ""
+        status_text = None
+        if excluded and pid in li_bounds:
+            start, end = li_bounds[pid]
+            text_m = _EXCLUSION_TEXT_RE.search(html[start:end])
+            status_text = text_m.group(0) if text_m else None
+
+        real_score = None
+        if not excluded and round_score_raw not in ("", "0"):
+            real_score = int(round_score_raw)
+
+        real_hole = None
+        if not excluded and real_score is None:
+            hole, level = detail_by_id.get(pid, ("", ""))
+            if level == "FU" and hole:
+                real_hole = int(hole)
+
+        state_by_id[pid] = {
+            "excluded": excluded,
+            "status_text": status_text,
+            "score": real_score,
+            "hole": real_hole,
+        }
+    return state_by_id
+
+
 _SG_ROW_RE = re.compile(
     r'<tr data-sgrank="(\d+)" data-teetogreenrank="\d+" data-driverrank="\d+" '
     r'data-approachrank="\d+" data-aroundrank="\d+" data-putterrank="\d+">\s*'
@@ -497,6 +581,37 @@ def build_round_page(round_number: int) -> Path:
     date_range = f"{start[:4]}.{start[4:6]}.{start[6:8]} — {end[4:6]}.{end[6:8]}"
     html = render_round_page(
         round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
+    )
+    out_path = repo_root / "docs" / "tournaments" / "2026" / GAME_CODE / stage_key / "index.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8", newline="\n")
+    return out_path
+
+
+def build_in_progress_round_page(
+    round_number: int, *, raw_path: Path | None = None, show_hole_progress: bool = True,
+) -> Path:
+    """Render and write this round's public page from a LIVE, round-
+    in-progress capture (the "R2 START" case) instead of a completed-
+    round one -- parse_in_progress_state() supplies the real per-player
+    state (excluded/hole/score), render_round_page's own in_progress
+    parameter renders it using round_number-1's already-completed
+    roster/ranking ("R1 종료 기준 그대로 사용"). Same output path as
+    build_round_page(); once round_number genuinely finishes, re-run
+    build_round_page(round_number) (after parse_leaderboard/parse_sg/
+    cross_validate/merge_sg_into_warehouse) to replace this with the
+    real completed-round page -- this function never claims a round is
+    complete. show_hole_progress is passed straight through to
+    render_round_page -- see that function's own docstring."""
+    stage_key, _label = STAGE_LABELS[round_number]
+    repo_root = _ROOT.parent
+    tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
+    start, end = tourney["start_date"], tourney["end_date"]
+    date_range = f"{start[:4]}.{start[4:6]}.{start[6:8]} — {end[4:6]}.{end[6:8]}"
+    state = parse_in_progress_state(round_number, raw_path=raw_path)
+    html = render_round_page(
+        round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
+        in_progress=state, show_hole_progress=show_hole_progress,
     )
     out_path = repo_root / "docs" / "tournaments" / "2026" / GAME_CODE / stage_key / "index.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)

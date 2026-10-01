@@ -77,14 +77,46 @@ def load_leaderboard(content_root: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def render_round_page(round_number: int, *, tournament_name: str, date_range: str, content_root: Path) -> str:
+def render_round_page(
+    round_number: int, *, tournament_name: str, date_range: str, content_root: Path,
+    in_progress: dict[str, dict] | None = None, show_hole_progress: bool = True,
+) -> str:
+    """in_progress (optional): {player_id: {"excluded", "status_text",
+    "score", "hole"}} from klpga.neo_win.hitejinro_round_pipeline.
+    parse_in_progress_state() -- an "R2 START"-type render for a round
+    that has not yet produced a single real completed score. When
+    given, the roster/ranking/total this renders is round_number-1's
+    already-completed field (its own real finish_position, "R1 종료
+    기준 그대로 사용" -- round_number itself has no real standings of
+    its own yet to re-sort by), and round_number's own column shows
+    ONLY in_progress's real per-player state: excluded players' real
+    status text (WD/CUT/...), a real completed score once a player
+    finishes, a real in-progress hole number ("{hole}H") once
+    show_hole_progress is True AND that player has genuinely started,
+    or "-" for anyone not yet confirmed started -- never a fabricated
+    score or a guessed "진행 중"/"대기" label.
+
+    show_hole_progress (operator call, 2026-10-01): the hole-number
+    display is correct and ready whenever a capture genuinely shows
+    per-player in-course progress, but the operator judged the FIRST
+    such capture too close to this round's own start to treat as the
+    real signal to switch on -- so this build keeps every still-active
+    player's cell at "-" regardless of a real `hole` value, while a
+    real completed `score` (rule 6's other, later case) still renders
+    immediately, automatically, the moment one appears in any future
+    capture -- no code change needed for that. Passing True (the
+    default, used by every other round/caller) switches hole-number
+    display back on."""
     if round_number not in STAGE_LABELS:
         raise ValueError(f"round_number must be 1-4, got {round_number}")
     stage_key, stage_label = STAGE_LABELS[round_number]
 
     board = load_leaderboard(content_root)
     records = board["records"]
-    score_field = f"r{round_number}_score"
+    if in_progress is not None:
+        score_field = f"r{round_number - 1}_score"
+    else:
+        score_field = f"r{round_number}_score"
     played = [r for r in records if r.get(score_field) is not None or r.get("withdrawn") or r.get("disqualified")]
     if not played:
         raise FileNotFoundError(
@@ -107,12 +139,29 @@ def render_round_page(round_number: int, *, tournament_name: str, date_range: st
         pid = str(r["player_id"])
         status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else None
         rank_cell = _esc(str(r.get("finish_position") or "-"))
-        # r{N}_score is the raw stroke count for that round (e.g. 68),
-        # never a to-par differential -- format_to_par is only for an
-        # already-relative-to-par value (score_to_par below). Running a
-        # raw score through format_to_par would print "+68", which is
-        # not what that field means.
-        score_cell = status or (str(r[score_field]) if r.get(score_field) is not None else "-")
+        if in_progress is not None:
+            # round_number has no real score of its own yet -- show
+            # ONLY what in_progress's real per-player state carries,
+            # never fall back to score_field (that's the PREVIOUS
+            # round's own completed score, not this one's).
+            live = in_progress.get(pid)
+            if live is None:
+                score_cell = "-"
+            elif live["excluded"]:
+                score_cell = _esc(live["status_text"] or "제외")
+            elif live["score"] is not None:
+                score_cell = str(live["score"])
+            elif live["hole"] is not None and show_hole_progress:
+                score_cell = f"{live['hole']}H"
+            else:
+                score_cell = "-"
+        else:
+            # r{N}_score is the raw stroke count for that round (e.g. 68),
+            # never a to-par differential -- format_to_par is only for an
+            # already-relative-to-par value (score_to_par below). Running a
+            # raw score through format_to_par would print "+68", which is
+            # not what that field means.
+            score_cell = status or (str(r[score_field]) if r.get(score_field) is not None else "-")
         total_cell = status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
         country_code = nationality_by_id.get(pid)
         flag_cell = (
