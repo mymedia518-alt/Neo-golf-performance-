@@ -130,6 +130,12 @@ def render_round_page(
             f"LEADERBOARD.json exists but no row has a real {score_field} yet -- round {round_number} "
             "has not actually been played/collected. Never renders a round page with zero real scores."
         )
+    if in_progress is not None:
+        # Operator rule (2026-10-01): a player already excluded before
+        # this round starts (real WD/CUT/... per in_progress) is not
+        # part of this round's field -- drop the row entirely instead
+        # of listing it with a status cell.
+        played = [r for r in played if not (in_progress.get(str(r["player_id"])) or {}).get("excluded")]
 
     played.sort(key=lambda r: (r.get("finish_position_numeric") is None, r.get("finish_position_numeric", 10**9)))
 
