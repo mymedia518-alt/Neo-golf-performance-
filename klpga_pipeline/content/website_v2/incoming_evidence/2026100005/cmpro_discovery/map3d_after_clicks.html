@@ -1,0 +1,838 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>KLPGA - 한국여자프로골프협회</title>
+
+<link rel="shortcut icon" href="/resources/web/images/klpga_favicon.png">
+
+<link rel="stylesheet" href="/resources/TemplateData/style.css?ver=20230405_50">
+<link rel="stylesheet" type="text/css" href="/resources/web/css/bootstrap.css">
+<link href="/resources/web/css/style.css?ver=20240116_1" rel="stylesheet" type="text/css">
+<link href="/resources/web/css/swiper.min.css" rel="stylesheet" type="text/css">
+<link href="/resources/web/css/bootstrap-datepicker3.css" rel="stylesheet" type="text/css">
+<script src="/resources/web/js/jquery.min.js"></script>
+<script src="/resources/web/js/bootstrap.js"></script>	
+<script src="/resources/web/js/custom.js?ver=20230422_1"></script>
+<script src="/resources/web/js/swiper.min.js"></script>
+<script src="/resources/web/js/bootstrap-datepicker.js"></script>
+<script src="/resources/web/js/bootstrap-datepicker.ko.min.js"></script>
+
+<!--차트 js -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    
+<script src="/resources/web/js/jquery.min.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2HL7XYPR1G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2HL7XYPR1G');
+</script> 
+
+<style>
+
+	#unity-container {
+      position:absolute;
+      left:0;
+      top:0;
+      z-index:-1;
+    }
+    
+    .contents {
+      position:absolute;
+      z-index:0;
+      /* left:12px; */
+      /* top:10px; */
+    }
+    
+</style><script type="text/javascript">
+
+var viewPlayerCode="10725";
+var viewRound="1";
+var viewHole="1";
+var viewShowMode="0";
+
+var arrayTrueHole = '';
+var matchTrueHole = "0";
+
+
+$(document).ready(function(){
+	
+	getPlayerInfo("10725", "1", "1");
+	
+	$("#mapsidebar-leaderboard-tab").click(function(){
+		getLeaderboard();
+	});
+	$("#mapsidebar-playerrecord-tab").click(function(){
+		getPlayerScore();
+	});
+	$("#mapsidebar-courserecord-tab").click(function(){
+		getCourseRecord(1);
+	});
+	
+	
+	
+	$("#mapround-01-tab").click(function(){
+		
+		if($(this).hasClass("active")){
+			myGameInstance.SendMessage("InterOp", "SetShowMode", Number("1"));
+		} else {
+			myGameInstance.SendMessage("InterOp", "SetShowMode", Number("0"));
+		}
+	});
+	$("#mapround-02-tab").click(function(){
+		if($(this).hasClass("active")){
+			myGameInstance.SendMessage("InterOp", "SetShowMode", Number("2"));
+		} else {
+			myGameInstance.SendMessage("InterOp", "SetShowMode", Number("0"));
+		}
+	});
+	
+	
+	
+		
+});
+
+
+function getPlayerInfo(playerCode, round, hole){
+	
+	viewPlayerCode = playerCode;
+	viewRound = round;
+	viewHole = hole;
+	
+	var params = new Object();
+	params.gameCode = "2026100005";
+	params.playerCode = playerCode;
+	params.round = round;
+	params.hole = hole;
+	params.lang = "kr";
+	params.gameMethod = "0";
+	params.trueHole = matchTrueHole;
+	params.arrayTrueHole = arrayTrueHole;
+	
+	$("#divPlayerInfo").load("/load/map3d/playerInfo", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+	
+}
+
+
+
+
+function getLeaderboard(){
+	
+	var params = new Object();
+	params.gameCode = "2026100005";
+	params.lang = "kr";
+	
+	$("#mapsidebar-leaderboard").empty();
+	$("#mapsidebar-leaderboard").load("/load/map3d/leaderboard", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+}
+
+
+function getPlayerScore() {
+	
+	var params = new Object();
+	params.gameCode = "2026100005";
+	params.playerCode = viewPlayerCode;
+	params.lang = "kr";
+	
+	$("#mapsidebar-playerrecord").load("/load/map3d/playerScore", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+}
+
+function getCourseRecord(hole) {
+	
+	var params = new Object();
+	params.gameCode = "2026100005";
+	params.hole = hole;
+	params.lang = "kr";
+	
+	$("#mapsidebar-courserecord").load("/load/map3d/courseRecord", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+}
+
+
+
+$(document).on("click", "[id=btnPlayerInfo]", function(event){
+	$("#mapround-01-tab,#mapround-02-tab").removeClass("active");
+	myGameInstance.SendMessage("InterOp", "SetShowMode", Number("0"));
+	getPlayerInfo($(this).attr("_playerCode"), $(this).attr("_round"), $(this).attr("_hole"));
+	OnChangedCurrentPlayer($(this).attr("_playerCode"));
+	
+	$("#mapsidebar-leaderboard-tab").click();
+	
+});
+
+
+
+
+
+
+$(document).on("click", "[id=btnCourseHole]", function(event){
+	getCourseRecord($(this).attr("_hole"));
+});
+
+
+
+
+</script></head>
+
+
+
+
+<body>
+	<div class="contents" style="display:none;">
+		<header class="site-mapheader">
+			<div class="site-brand">제26회 하이트진로 챔피언십<button class="btn site-close" style="display:none;" onclick="history.back()"><img src="/resources/web/images/3d-btn-close.svg" width="20px"></button></div>
+		</header> <!-- end .site-header -->
+		<section class="section-area section-content-3dmap">
+	    <div class="content-3dmap-header" style="background-color: unset;">
+	        <div class="row">
+	            <div class="col-12 col-lg-4" id="divPlayerInfo">
+
+
+
+
+
+
+
+<div class="map-playerinfo">
+	
+	
+    
+	
+	
+	    <div class="avatar bg-img-top border-orange" style="background-image: url('/PHOTOIMG/SM/01673.png?ver=2026-09-30T16:28:03.280');"><img src="/resources/web/images/blank-square.png"></div>
+	    <h2 class="me-4">김민솔</h2>
+	    <h3>순위 
+	    	<span class="text-darkblue mx-2">
+		    	
+					
+					
+					
+					
+					
+					
+						1
+					
+				
+			</span><span class="mx-2">｜</span>
+	    </h3>
+	    <h3>합계 <span class="text-orange mx-2">
+		    
+				
+	       			
+	       			
+	       				<span style="font-weight: bold;" class="upcolor">-2</span>	
+	       			
+	       			
+	       			
+       			
+			
+	    	</span><span class="mx-2">｜</span>
+	    </h3>
+	    <h3>현재홀 <span class="text-darkblue mx-2">
+	    	
+				
+				
+					F
+				 
+			
+	    </span></h3>
+	    
+	
+    
+	
+    
+</div>
+
+
+
+
+<div class="map-playertext" _shot="1" style="display:none;">
+    <h3 class="fw-bold">SHOT 1</h3>
+    <h4>
+        비거리 243.0 yds
+        <span class="mx-2">/</span>
+        
+        	
+        	
+        	
+        	
+        	
+        	벙커
+        	
+        	
+        	
+        	
+        
+        <span class="mx-2">/</span>
+        남은거리 <span class="ms-2">153.6</span> yds
+    </h4>
+</div>
+
+
+<div class="map-playertext" _shot="2" style="display:none;">
+    <h3 class="fw-bold">SHOT 2</h3>
+    <h4>
+        비거리 117.6 yds
+        <span class="mx-2">/</span>
+        
+        	
+        	러프
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        
+        <span class="mx-2">/</span>
+        남은거리 <span class="ms-2">44.2</span> yds
+    </h4>
+</div>
+
+
+<div class="map-playertext" _shot="3" style="display:none;">
+    <h3 class="fw-bold">SHOT 3</h3>
+    <h4>
+        비거리 43.9 yds
+        <span class="mx-2">/</span>
+        
+        	
+        	
+        	그린
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        
+        <span class="mx-2">/</span>
+        남은거리 <span class="ms-2">4.7</span> yds
+    </h4>
+</div>
+
+
+<div class="map-playertext" _shot="4" style="">
+    <h3 class="fw-bold">SHOT 4</h3>
+    <h4>
+        비거리 4.7 yds
+        <span class="mx-2">/</span>
+        
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	홀인
+        	
+        
+        <span class="mx-2">/</span>
+        남은거리 <span class="ms-2">0.0</span> yds
+    </h4>
+</div>
+
+
+
+<div class="tab-content" id="mapround-tabContent">
+    <!------------------------------------------ 탭컨텐츠 : 라운드 ----------------------------------------->
+    <div class="tab-pane fade" id="mapround-01">
+    	
+        <dl class="map-roundinfo">
+            <dt>
+            	
+            		<span class="round-bullet" style="background-color: #b1FF00;"></span>
+            	
+            	
+            	
+            	
+            </dt>
+            <dd class="fw-bold">1R</dd>
+            <dd>
+            	
+            		
+            		
+            			
+		            	
+		            	파
+		            	
+		            		
+            		
+            		
+            		
+            	
+            </dd>
+        </dl>
+        
+    </div>
+
+    <!------------------------------------------ 탭컨텐츠 : 조별보기 ----------------------------------------->
+    <div class="tab-pane fade" id="mapround-02">
+    	
+    	
+			
+				<div class="map-playerinfo">
+				    <div class="avatar bg-img-top border-blue" style="background-image: url('/PHOTOIMG/SM/01322.png?ver=2026-09-30T16:28:03.280');"><img src="/resources/web/images/blank-square.png"></div>
+				    <h2 class="me-4">유해란</h2>
+				    <h3>순위 <span class="text-darkblue mx-2">
+				    	
+							
+							
+							
+							
+							
+							
+								T12
+							
+						
+				    	
+				    	</span><span class="mx-2">｜</span>
+				    </h3>
+				    <h3>합계 <span class="text-orange mx-2">
+				    	
+							
+				       			
+				       			
+				       				<span style="font-weight: bold;" class="dncolor">+1</span>	
+				       			
+				       			
+				       			
+			       			
+						
+	    				</span><span class="mx-2">｜</span>
+				    </h3>
+				    <h3>현재홀 <span class="text-darkblue mx-2">
+				    	
+							
+							
+								F
+							 
+						
+				    </span></h3>
+			    </div>
+			    
+			
+	    
+			
+	    
+			
+				<div class="map-playerinfo">
+				    <div class="avatar bg-img-top border-yellow" style="background-image: url('/PHOTOIMG/SM/01187.png?ver=2026-09-30T16:28:03.280');"><img src="/resources/web/images/blank-square.png"></div>
+				    <h2 class="me-4">최예림</h2>
+				    <h3>순위 <span class="text-darkblue mx-2">
+				    	
+							
+							
+							
+							
+							
+							
+								T12
+							
+						
+				    	
+				    	</span><span class="mx-2">｜</span>
+				    </h3>
+				    <h3>합계 <span class="text-orange mx-2">
+				    	
+							
+				       			
+				       			
+				       				<span style="font-weight: bold;" class="dncolor">+1</span>	
+				       			
+				       			
+				       			
+			       			
+						
+	    				</span><span class="mx-2">｜</span>
+				    </h3>
+				    <h3>현재홀 <span class="text-darkblue mx-2">
+				    	
+							
+							
+								F
+							 
+						
+				    </span></h3>
+			    </div>
+			    
+			
+	    
+		    
+    	<!-- 
+        <div class="map-playerinfo">
+            <div class="avatar border-blue bg-img" style="background-image: url('/PHOTOIMG/00960.jpg');"><a href=""><img src="/resources/web/images/blank-square.png"></a></div>
+            <h2 class="me-4">이소미</h2>
+            <h3>순위 <span class="text-darkblue mx-2">T5</span><span class="mx-2">｜</span></h3>
+            <h3>합계 <span class="text-orange mx-2">-28</span><span class="mx-2">｜</span></h3>
+            <h3>현재홀 <span class="text-darkblue mx-2">18H</span></h3>
+            button class="btn btn-playerclose"><img src="/resources/web/images/3d-btn-playerclose.svg"></button
+        </div>
+        <div class="map-playerinfo">
+            <div class="avatar border-yellow bg-img" style="background-image: url('/PHOTOIMG/00960.jpg');"><a href=""><img src="/resources/web/images/blank-square.png"></a></div>
+            <h2 class="me-4">이소미</h2>
+            <h3>순위 <span class="text-darkblue mx-2">T5</span><span class="mx-2">｜</span></h3>
+            <h3>합계 <span class="text-orange mx-2">-28</span><span class="mx-2">｜</span></h3>
+            <h3>현재홀 <span class="text-darkblue mx-2">18H</span></h3>
+            button class="btn btn-playerclose"><img src="/resources/web/images/3d-btn-playerclose.svg"></button
+        </div>
+         -->
+    </div>
+</div></div>
+	            <div class="col-6 col-lg-5">
+	                <div class="map-holeinfo">
+	                    <ul class="nav-green">
+	                    	<!-- 
+	                        <li class="nav-item">
+	                        <a class="nav-link active" href="#"><span class="badge">F</span>페어웨이</a>
+	                        </li>
+	                        <li class="nav-item">
+	                        <a class="nav-link" href="#"><span class="badge">G</span>그린</a>
+	                        </li>
+	                         -->
+	                    </ul>
+	                    
+	                    
+	                    <div class="btn-area">
+	                        <ul class="nav nav-pills nav-mapround" id="mapround-tab">
+	                            <li class="nav-item" role="presentation">
+	                                <button class="nav-link" id="mapround-01-tab">라운드</button>
+	                            </li>
+	                            <li class="nav-item" role="presentation">
+	                                <button class="nav-link" id="mapround-02-tab">조별보기</button>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                    
+	                    
+	                </div>
+	            </div>
+	            <div class="col-6 col-lg-3">
+	                <div class="map-sidebar-header">
+	                    <ul class="nav nav-pills nav-mapsidebar" id="mapsidebar-tab">
+	                        <li class="nav-item">
+	                            <button class="nav-link" id="mapsidebar-leaderboard-tab">
+	                                <div class="map-icon"><img src="/resources/web/images/3d-menu-leaderboard.svg"></div><p>리더보드</p>
+	                            </button>
+	                        </li>
+	                        
+	                        <li class="nav-item">
+	                            <button class="nav-link" id="mapsidebar-playerrecord-tab">
+	                                <div class="map-icon"><img src="/resources/web/images/3d-menu-playerrecord.svg"></div><p>선수기록</p>
+	                            </button>
+	                        </li>
+	                        
+	                        
+	                        <li class="nav-item">
+	                            <button class="nav-link" id="mapsidebar-courserecord-tab">
+	                                <div class="map-icon"><img src="/resources/web/images/3d-menu-courserecord.svg"></div><p>코스기록</p>
+	                            </button>
+	                        </li>
+	                        
+	                    </ul>
+	                </div>
+	
+	                <div class="map-sidebar-pannel" style="display: none;">
+	
+	                    <div class="tab-content" id="mapsidebar-tabContent">
+	
+	                        <!------------------------------------------------------------------------------------------------------------->
+	                        <!--------------------------------------------- 탭컨텐츠 : 리더보드 -------------------------------------------->
+	                        <!------------------------------------------------------------------------------------------------------------->
+	                        <div class="tab-pane fade" id="mapsidebar-leaderboard">
+	                        </div>
+	
+	                        <!------------------------------------------------------------------------------------------------------------->
+	                        <!--------------------------------------------- 탭컨텐츠 : 선수기록 -------------------------------------------->
+	                        <!------------------------------------------------------------------------------------------------------------->
+	                        <div class="tab-pane fade" id="mapsidebar-playerrecord">
+	                        </div>
+	
+	                        <!------------------------------------------------------------------------------------------------------------->
+	                        <!--------------------------------------------- 탭컨텐츠 : 코스기록 -------------------------------------------->
+	                        <!------------------------------------------------------------------------------------------------------------->
+	                        <div class="tab-pane fade" id="mapsidebar-courserecord">
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+		    </div>
+		</section>
+	</div>
+	
+	
+	
+	<div id="unity-container" class="unity-desktop" style="width: 100%; height: 100%; background: black;">
+		<canvas id="unity-canvas" width="1440" height="891" style="width: 100%; height: 99%; cursor: default;"></canvas>
+		<div id="unity-loading-bar" style="display: none;">
+			<div id="unity-logo"></div>
+			<div id="unity-progress-bar-empty">
+				<div id="unity-progress-bar-full" style="width: 100%;"></div>
+			</div>
+		</div>
+		<div id="unity-footer" style="display:none;">
+			<div id="unity-webgl-logo"></div>
+			<div id="unity-fullscreen-button"></div>
+			<div id="unity-build-title">3D_Shot_Tracker</div>
+		</div>
+	</div>
+	
+	<script>
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      //var buildUrl = "http://localhost:8080/DATA/test2";
+      //var buildUrl = "http://106.255.251.210:1012/DATA/3dMapBuild";
+      //var buildUrl = "/DATA/3dMapBuild";
+      var buildUrl = "https://cmpro.klpga.co.kr/DATA/3dMapBuild";
+      //var buildUrl = "https://"+window.location.hostname+"/DATA/3dMapBuild";
+      //var buildUrl = "/DATA/3dMapBuild";
+      var loaderUrl = buildUrl + "/klpga.loader.js?ver=20260309_1";
+      var config = {
+        dataUrl: buildUrl + "/klpga.data?ver=20260309_1",
+        frameworkUrl: buildUrl + "/klpga.framework.js?ver=20260309_1",
+        codeUrl: buildUrl + "/klpga.wasm?ver=20260309_1",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "RealShotTracker",
+        productVersion: "0.1",
+        showBanner: unityShowBanner,
+      };
+
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
+        canvas.style.width = "100%";
+        canvas.style.height = "99%";
+      }
+
+      loadingBar.style.display = "block";
+      var myGameInstance = null; // 유니티 게임오브젝트 인스턴스 변수 생성
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+          myGameInstance = unityInstance; // 유니티에서 받은 인스턴스를 변수에 넣어줌
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+	  document.body.appendChild(script);
+      	
+	    function ReadDataCachingString() {
+		 myGameInstance.SendMessage("InterOp", "SetDataCachingString", "20260429_1");
+	    }
+	   
+	    function ReadTotalRound() {
+	      myGameInstance.SendMessage("InterOp", "SetTotalRound", Number("4"));
+	    }
+	    
+	    function ReadMaxRound() {
+	      // 대회종료 : totalRound, 진행중 : ingRound 를 전달
+	      myGameInstance.SendMessage("InterOp", "SetMaxRound", Number("2"));
+	    }
+	    
+		function ReadMatchMaxTournament() {
+			myGameInstance.SendMessage("InterOp", "SetMatchMaxTournament", Number("0"));
+		}
+		function ReadScreenType() {
+			// 0 : 세로,  1 : 가로
+			var type = 0;
+			if(window.innerWidth > window.innerHeight) type = 1;
+			myGameInstance.SendMessage("InterOp", "SetScreenType", type);
+		}
+		
+		function ReadDeviceType() {
+			// PC : 1, IOS : 2, 안드로이드 : 0
+			
+			var type = 1;
+			if(/Android/i.test(navigator.userAgent)) type=0
+			else if (/iPhone|iPad|iPod/i.test(navigator.userAgent) || navigator.maxTouchPoints == 5) type=2;
+			
+			myGameInstance.SendMessage("InterOp", "SetDeviceType", type);
+		}
+		function ReadHostURL() {
+			//var hostUrl = "http://106.255.251.210:1012/";
+			//var hostUrl = "https://klpga.co.kr/";
+			var hostUrl = "https://cmpro.klpga.co.kr/";
+			//var hostUrl = "https://"+window.location.hostname+"/";
+			myGameInstance.SendMessage("InterOp", "SetHostURL", hostUrl);
+		}
+		function ReadGameInfo() {
+			
+			var gameMethod = "strokes"
+			if("0" == "0") gameMethod = "stroke";
+			else if("0" == "1") gameMethod = "match";
+			else if("0" == "2") gameMethod = "stableford";
+			
+			var jsonString = {TourName : "klpga", GameCode : "2026100005", CourseCode : "0486", GameMethod : gameMethod}
+			myGameInstance.SendMessage("InterOp", "SetGameInfo", JSON.stringify(jsonString));
+		}
+		
+		function ReadCurrentPlayer() {
+			myGameInstance.SendMessage("InterOp", "SetCurrentPlayerCode", viewPlayerCode);
+	    }
+		
+		function ReadCurrentRound() {
+		  	// int 
+		  	myGameInstance.SendMessage("InterOp", "SetCurrentRound", Number(viewRound));
+		
+		}
+		function ReadCurrentHole() {
+		  	// int
+		  	myGameInstance.SendMessage("InterOp", "SetCurrentHole", Number(viewHole));
+		}
+		
+		function ReadMaxHole(){
+			
+			myGameInstance.SendMessage("InterOp", "OnChangedMaxHole", arrayTrueHole);
+		}
+		
+		function ReadLangType() {
+	      myGameInstance.SendMessage("InterOp", "SetLangType", "kr");
+	    }
+	
+		function ReadShowMode() {
+
+			// 0 : 선수한명 1라운드
+			// 1 : 선수한명 올라운드
+			// 2 : 조별 현재라운드
+		    // if (showMode == 0) CurrentShowMode = SHOW_MODE.SHOW_ONLY_CURRENT;
+		    // else if (showMode == 1) CurrentShowMode = SHOW_MODE.SHOW_ALL_ROUND;
+		    // else if (showMode == 2) CurrentShowMode = SHOW_MODE.SHOW_ALL_PLAYER;
+		      myGameInstance.SendMessage("InterOp", "SetShowMode", Number("0"));
+	    }
+		
+		
+		
+
+	    //유니티 -> 서버
+	    function NoticeRoundState(num) {
+	      //라운드가 바뀜 현재 선수를 파라미터로 샷데이터를 다시 요청하게 한다 
+	      
+	      // 유니티의 라운드는 0부터 시작하므로 1을 더한다.
+	      viewRound = num ;
+	      console.log("현재라운드 : "+viewRound)
+	      
+	      getPlayerInfo(viewPlayerCode, viewRound, viewHole);
+	    } 
+	    function NoticeHoleState(num) {
+	      // 홀이 바뀜 현재 선수를 파라미터로 샷데이터를 다시 요청하게 한다
+	        // 유니티의 홀 0부터 시작하므로 1을 더한다.
+	      viewHole = num ;
+	      console.log("현재홀 : "+viewHole);
+	      getPlayerInfo(viewPlayerCode, viewRound, viewHole);
+	    }
+
+	    //서버 -> 유니티
+	    // 현재 플레이어가 바뀐경우  
+	    function OnChangedCurrentPlayer(playerCode){
+	      console.log("바뀐 플레이어 코드 : "+playerCode);
+	      
+	      //유니티의 해당함수에 샷데이터를 불러오는 리퀘스트가 있음
+	      myGameInstance.SendMessage("InterOp", "OnChangedCurrentPlayer", playerCode+","+viewRound+","+viewHole);
+	    }
+	    
+	    function OnChangedMaxHole(jsonArray){
+			myGameInstance.SendMessage("InterOp", "OnChangedMaxHole", jsonArray);
+		}
+	    
+	    function NoticeShotNum(num) {
+	    	
+	    	$("#mapround-01-tab,#mapround-02-tab,#mapround-01,#mapround-02").removeClass("active");
+			
+	    	$(".map-playertext").css("display","none");
+	    	$(".map-playertext[_shot="+num+"]").css("display","");
+	    }
+
+	    function NoticeLoadingEnded() {
+	    	$(".contents").css("display","");
+	    }
+		
+	</script><script src="https://cmpro.klpga.co.kr/DATA/3dMapBuild/klpga.loader.js?ver=20260309_1"></script>
+
+
+<script src="https://cmpro.klpga.co.kr/DATA/3dMapBuild/klpga.framework.js?ver=20260309_1"></script><video id="VideoPlayerWebGL_0" name="" src="#t=0.0000001" playsinline="" preload="auto" crossorigin="anonymous" height="1" width="1" style="pointer-events: none; z-index: -1000; position: fixed; top: 0px;"></video></body></html>
