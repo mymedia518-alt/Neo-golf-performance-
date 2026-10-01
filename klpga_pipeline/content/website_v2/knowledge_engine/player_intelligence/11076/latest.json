@@ -1,18 +1,18 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:10:25.670676+00:00",
-    "input_signature": "da4a0ca6cabad3c438685d2d5721cd0fd591aaada8c044d1a8a5ef72e8715db2",
+    "generated_at": "2026-10-01T09:45:36.047214+00:00",
+    "input_signature": "1a4b86640ff62d2e58587fddc6b608645a7ba3be6d748da0ccb88ae2c74e7dcc",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": null,
+    "long_term_sg": -2.0866666666666664,
     "rate_stats": {},
-    "recent_10_sg": null,
-    "recent_5_sg": null,
-    "volatility": null
+    "recent_10_sg": -2.0866666666666664,
+    "recent_5_sg": -2.0866666666666664,
+    "volatility": 2.2127107558126275
   },
   "evolution": {
     "citations": [],
@@ -21,10 +21,10 @@
     "steps": []
   },
   "hero": {
-    "current_season": null,
+    "current_season": 2026,
     "player_id": "11076",
     "player_name": "조하리",
-    "sample_count": 0
+    "sample_count": 3
   },
   "neo_verdict": {
     "summary": "조하리은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -62,15 +62,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": null,
-    "avg_arg": null,
-    "avg_ott": null,
-    "avg_putt": null,
-    "avg_total": null,
-    "season": null
+    "avg_app": -0.64,
+    "avg_arg": -0.57,
+    "avg_ott": 0.23333333333333336,
+    "avg_putt": -1.1166666666666667,
+    "avg_total": -2.0866666666666664,
+    "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"

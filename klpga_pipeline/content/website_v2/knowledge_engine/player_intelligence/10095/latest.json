@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:08:06.028040+00:00",
-    "input_signature": "9ae6a2115239083335022cbb741e8f5f559439664c46a13aef06266fa59ff896",
+    "generated_at": "2026-10-01T09:45:03.404562+00:00",
+    "input_signature": "cd5b86303b67516477efd0d8f0623857e9c5363c70f4a1e74cc0420e173d062d",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.9240845070422536,
+    "long_term_sg": 1.5287777777777778,
     "rate_stats": {
       "average_putts": 29.4921,
       "average_score": 71.1746,
@@ -18,60 +18,60 @@
       "par_save_rate": 86.6843,
       "recovery_rate": 62.1118
     },
-    "recent_10_sg": 1.0239999999999998,
-    "recent_5_sg": 0.9640000000000001,
-    "volatility": 1.4425130848626642
+    "recent_10_sg": 1.448,
+    "recent_5_sg": 1.468,
+    "volatility": 1.492781296774581
   },
   "evolution": {
     "citations": [
       {
         "field_path": "seasons[2023].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.99
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.2327272727272727
       },
       {
         "field_path": "seasons[2024].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.568
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.17625
       },
       {
         "field_path": "seasons[2025].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 2.4842857142857144
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 2.2416
       },
       {
         "field_path": "seasons[2026].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 1.5486666666666669
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.378947368421053
       }
     ],
-    "narrative": "2023시즌 SG Total +1.99에서 2026시즌 +1.55로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.23에서 2026시즌 +1.38로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
-        "avg_total": 1.99,
+        "avg_total": 1.2327272727272727,
         "delta_from_prev": null,
         "season": 2023,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.568,
-        "delta_from_prev": -0.42199999999999993,
+        "avg_total": 1.17625,
+        "delta_from_prev": -0.056477272727272654,
         "season": 2024,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 2.4842857142857144,
-        "delta_from_prev": 0.9162857142857144,
+        "avg_total": 2.2416,
+        "delta_from_prev": 1.06535,
         "season": 2025,
         "strongest_component": "avg_app",
-        "weakest_component": "avg_arg"
+        "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.5486666666666669,
-        "delta_from_prev": -0.9356190476190476,
+        "avg_total": 1.378947368421053,
+        "delta_from_prev": -0.8626526315789471,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10095",
     "player_name": "방신실",
-    "sample_count": 71
+    "sample_count": 90
   },
   "neo_verdict": {
     "summary": "방신실은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 10% 수준의 기록을 유지하고 있습니다."
@@ -131,15 +131,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.8793333333333332,
-    "avg_arg": 0.28666666666666657,
-    "avg_ott": -0.07800000000000001,
-    "avg_putt": 0.45866666666666667,
-    "avg_total": 1.5486666666666669,
+    "avg_app": 0.748421052631579,
+    "avg_arg": 0.27473684210526317,
+    "avg_ott": -0.1178947368421053,
+    "avg_putt": 0.4721052631578947,
+    "avg_total": 1.378947368421053,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
@@ -178,10 +178,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.07800000000000001
+          "value": -0.1178947368421053
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.08로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.12로 악화되었습니다."
     }
   ],
   "why_wins": [

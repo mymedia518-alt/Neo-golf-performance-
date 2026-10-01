@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:10:21.883065+00:00",
-    "input_signature": "2c781fb5c2f93c4ecf92f1b13df40ff12abfc358d397a80a7d3ba0515f163e2c",
+    "generated_at": "2026-10-01T09:45:20.895173+00:00",
+    "input_signature": "8a3b7390699c25b55656fa3a15706cdd33cc52828cf1c03395d1281fb19c6514",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.37534482758620685,
+    "long_term_sg": -0.1888172043010753,
     "rate_stats": {
       "average_putts": 29.5957,
       "average_score": 72.7243,
@@ -18,60 +18,60 @@
       "par_save_rate": 83.2151,
       "recovery_rate": 65.4952
     },
-    "recent_10_sg": 0.688,
-    "recent_5_sg": 0.7100000000000002,
-    "volatility": 1.2386105118236321
+    "recent_10_sg": -1.2570000000000001,
+    "recent_5_sg": -1.7920000000000003,
+    "volatility": 1.4720397413113546
   },
   "evolution": {
     "citations": [
       {
         "field_path": "seasons[2023].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 0.5108333333333333
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": -0.1541666666666667
       },
       {
         "field_path": "seasons[2024].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 0.5956250000000001
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": -0.1848
       },
       {
         "field_path": "seasons[2025].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": -0.08227272727272729
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": -0.18814814814814815
       },
       {
         "field_path": "seasons[2026].avg_total",
-        "source": "historical_sg_warehouse_corrected.json",
-        "value": 0.99
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": -0.24470588235294113
       }
     ],
-    "narrative": "2023시즌 SG Total +0.51에서 2026시즌 +0.99로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.15에서 2026시즌 -0.24로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
-        "avg_total": 0.5108333333333333,
+        "avg_total": -0.1541666666666667,
         "delta_from_prev": null,
         "season": 2023,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.5956250000000001,
-        "delta_from_prev": 0.08479166666666682,
+        "avg_total": -0.1848,
+        "delta_from_prev": -0.03063333333333329,
         "season": 2024,
-        "strongest_component": "avg_putt",
-        "weakest_component": "avg_ott"
-      },
-      {
-        "avg_total": -0.08227272727272729,
-        "delta_from_prev": -0.6778977272727273,
-        "season": 2025,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.99,
-        "delta_from_prev": 1.0722727272727273,
+        "avg_total": -0.18814814814814815,
+        "delta_from_prev": -0.0033481481481481556,
+        "season": 2025,
+        "strongest_component": "avg_arg",
+        "weakest_component": "avg_ott"
+      },
+      {
+        "avg_total": -0.24470588235294113,
+        "delta_from_prev": -0.056557734204792987,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "8770",
     "player_name": "조아연",
-    "sample_count": 58
+    "sample_count": 93
   },
   "neo_verdict": {
     "summary": "조아연은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 3% 수준의 기록을 유지하고 있습니다."
@@ -131,15 +131,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.3325,
-    "avg_arg": 0.68125,
-    "avg_ott": -0.6787500000000001,
-    "avg_putt": 0.655,
-    "avg_total": 0.99,
+    "avg_app": -0.5682352941176471,
+    "avg_arg": 0.5547058823529412,
+    "avg_ott": -0.6523529411764706,
+    "avg_putt": 0.42117647058823526,
+    "avg_total": -0.24470588235294113,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
@@ -210,26 +210,6 @@
         }
       ],
       "text": "최근 4시즌 연속 SG Around-the-Green에서 상위 3% 수준의 기록을 유지하고 있습니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "recent_5_sg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.7100000000000002
-        }
-      ],
-      "text": "최근 5개 대회 SG Total(+0.71)이 장기 평균(+0.38) 대비 뚜렷한 상승세를 보이고 있습니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_app",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.3325
-        }
-      ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.33로 반전에 성공했습니다."
     }
   ]
 }

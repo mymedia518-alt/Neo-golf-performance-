@@ -1,18 +1,18 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:08:52.699149+00:00",
-    "input_signature": "409ec89d30c6b9163c8b41025da92729d918b6f77743b029cfbe4d50d2969bda",
+    "generated_at": "2026-10-01T09:45:36.007026+00:00",
+    "input_signature": "09b958042e334bb2155b868658f722b04b8c0b38e4ae90f7ba7393e89b0946ea",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": null,
+    "long_term_sg": -3.7024999999999997,
     "rate_stats": {},
-    "recent_10_sg": null,
-    "recent_5_sg": null,
-    "volatility": null
+    "recent_10_sg": -3.7024999999999997,
+    "recent_5_sg": -3.7024999999999997,
+    "volatility": 3.650016267087038
   },
   "evolution": {
     "citations": [],
@@ -21,10 +21,10 @@
     "steps": []
   },
   "hero": {
-    "current_season": null,
+    "current_season": 2026,
     "player_id": "13386",
     "player_name": "에리카 윤 스미스(I)",
-    "sample_count": 0
+    "sample_count": 4
   },
   "neo_verdict": {
     "summary": "에리카 윤 스미스(I)은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -62,15 +62,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": null,
-    "avg_arg": null,
-    "avg_ott": null,
-    "avg_putt": null,
-    "avg_total": null,
-    "season": null
+    "avg_app": -0.89,
+    "avg_arg": -0.33999999999999997,
+    "avg_ott": -0.3775,
+    "avg_putt": -2.0975,
+    "avg_total": -3.7024999999999997,
+    "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"

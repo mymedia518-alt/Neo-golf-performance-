@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:09:42.647910+00:00",
-    "input_signature": "f11a26b398d3b6d133ab61247b8bd1e8dd89b3f4d5022f51690e7bc432f31bf3",
+    "generated_at": "2026-10-01T09:45:16.026539+00:00",
+    "input_signature": "befe325d3769f9e0ae33c34832d9301e4efb5717652f9eeb5c02c34ee2290c91",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.07800000000000007,
+    "long_term_sg": -1.7394999999999996,
     "rate_stats": {
       "average_putts": 31.5417,
       "average_score": 73.9988,
@@ -18,9 +18,9 @@
       "par_save_rate": 79.2824,
       "recovery_rate": 59.6429
     },
-    "recent_10_sg": -0.07800000000000006,
-    "recent_5_sg": -0.07800000000000006,
-    "volatility": 1.4528372241927174
+    "recent_10_sg": -1.1360000000000003,
+    "recent_5_sg": -0.32400000000000007,
+    "volatility": 1.7007480707030067
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "12038",
     "player_name": "이지민",
-    "sample_count": 5
+    "sample_count": 20
   },
   "neo_verdict": {
     "summary": "이지민은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -70,15 +70,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.03799999999999999,
-    "avg_arg": 0.22800000000000004,
-    "avg_ott": 0.142,
-    "avg_putt": -0.48599999999999993,
-    "avg_total": -0.07800000000000007,
+    "avg_app": -0.382,
+    "avg_arg": 0.07150000000000002,
+    "avg_ott": 0.26049999999999995,
+    "avg_putt": -1.69,
+    "avg_total": -1.7394999999999996,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"

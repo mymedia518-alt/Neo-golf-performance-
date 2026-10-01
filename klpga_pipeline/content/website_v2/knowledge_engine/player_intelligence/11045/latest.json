@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:08:53.486265+00:00",
-    "input_signature": "e6a81d474ca8484515fc02d5ab01b557d680a1a6f29f10a25f11f03ee9fa632e",
+    "generated_at": "2026-10-01T09:45:09.028273+00:00",
+    "input_signature": "787409f1310e54e2352813e09e54f0611865df0a068d59dda35b61c5dffb8b37",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.1726666666666667,
+    "long_term_sg": 0.52,
     "rate_stats": {
       "average_putts": 30.3433,
       "average_score": 71.7015,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.5771,
       "recovery_rate": 58.1602
     },
-    "recent_10_sg": 1.094,
-    "recent_5_sg": 0.8639999999999999,
-    "volatility": 0.9389696480717574
+    "recent_10_sg": 0.20800000000000002,
+    "recent_5_sg": -0.18399999999999994,
+    "volatility": 1.3005060553492245
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "11045",
     "player_name": "양효진",
-    "sample_count": 15
+    "sample_count": 21
   },
   "neo_verdict": {
     "summary": "양효진은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -81,15 +81,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.706,
-    "avg_arg": -0.06666666666666668,
-    "avg_ott": 0.47133333333333327,
-    "avg_putt": 0.060000000000000005,
-    "avg_total": 1.1726666666666667,
+    "avg_app": 0.4042857142857143,
+    "avg_arg": -0.1242857142857143,
+    "avg_ott": 0.38095238095238093,
+    "avg_putt": -0.1433333333333334,
+    "avg_total": 0.52,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"

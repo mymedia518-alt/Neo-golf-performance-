@@ -1,17 +1,17 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T09:45:33.573448+00:00",
-    "input_signature": "d67f64c83fcf0eed13760e5f60b4f89fa9ad0415c9914490d7eeee3e1704fccf",
+    "generated_at": "2026-10-01T09:45:36.089318+00:00",
+    "input_signature": "9caff3a121d371636b055b5a149e395fd35a85212f7563609a55e3b4375318db",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.94,
+    "long_term_sg": null,
     "rate_stats": {},
-    "recent_10_sg": 1.94,
-    "recent_5_sg": 1.94,
+    "recent_10_sg": null,
+    "recent_5_sg": null,
     "volatility": null
   },
   "evolution": {
@@ -21,13 +21,13 @@
     "steps": []
   },
   "hero": {
-    "current_season": 2024,
-    "player_id": "9115",
-    "player_name": "유해란",
-    "sample_count": 1
+    "current_season": null,
+    "player_id": "12078",
+    "player_name": "12078",
+    "sample_count": 0
   },
   "neo_verdict": {
-    "summary": "유해란은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "12078은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
   },
   "player_dna": {
     "axes": []
@@ -41,12 +41,12 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.82,
-    "avg_arg": -0.38,
-    "avg_ott": 0.7,
-    "avg_putt": 0.81,
-    "avg_total": 1.94,
-    "season": 2024
+    "avg_app": null,
+    "avg_arg": null,
+    "avg_ott": null,
+    "avg_putt": null,
+    "avg_total": null,
+    "season": null
   },
   "sources": [
     "historical_sg_warehouse_corrected_v2.json",

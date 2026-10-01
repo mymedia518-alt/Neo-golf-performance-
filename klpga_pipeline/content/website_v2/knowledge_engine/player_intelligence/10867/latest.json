@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-09-23T13:08:51.495954+00:00",
-    "input_signature": "8973ace278212602c1cff7f1051223fff3e30cfc21c8e361e8dcce1f2579dfa0",
+    "generated_at": "2026-10-01T09:45:09.085500+00:00",
+    "input_signature": "513022aa77ca4688ca8d3d7153849baa2a8465a86a3e135d6e20d80e559372aa",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.8250000000000001,
+    "long_term_sg": -2.0710526315789473,
     "rate_stats": {
       "average_putts": 31.0,
       "average_score": 74.1434,
@@ -18,9 +18,9 @@
       "par_save_rate": 78.1843,
       "recovery_rate": 54.5455
     },
-    "recent_10_sg": 0.8250000000000001,
-    "recent_5_sg": 0.8250000000000001,
-    "volatility": 0.975
+    "recent_10_sg": -2.4059999999999997,
+    "recent_5_sg": -2.196,
+    "volatility": 2.3547025289832257
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "10867",
     "player_name": "양서후",
-    "sample_count": 2
+    "sample_count": 19
   },
   "neo_verdict": {
     "summary": "양서후은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
@@ -70,15 +70,15 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.8,
-    "avg_arg": -0.325,
-    "avg_ott": 0.33999999999999997,
-    "avg_putt": 0.009999999999999995,
-    "avg_total": 0.8250000000000001,
+    "avg_app": -1.0426315789473684,
+    "avg_arg": -0.24526315789473685,
+    "avg_ott": 0.06684210526315788,
+    "avg_putt": -0.8531578947368421,
+    "avg_total": -2.0710526315789473,
     "season": 2026
   },
   "sources": [
-    "historical_sg_warehouse_corrected.json",
+    "historical_sg_warehouse_corrected_v2.json",
     "OFFICIAL_SG_NORMALIZED.json",
     "OFFICIAL_PROFILE_NORMALIZED.json",
     "OFFICIAL_PLAYER_UNIFIED_SNAPSHOT.json"
