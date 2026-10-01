@@ -133,6 +133,12 @@ def render_round_page(
 
     played.sort(key=lambda r: (r.get("finish_position_numeric") is None, r.get("finish_position_numeric", 10**9)))
 
+    rank_counts: dict[int, int] = {}
+    for r in played:
+        n = r.get("finish_position_numeric")
+        if n is not None:
+            rank_counts[n] = rank_counts.get(n, 0) + 1
+
     nationality_by_id = _load_nationality_by_id(content_root)
     sponsor_cache = cross_tournament_verified_sponsor_cache()
 
@@ -145,7 +151,17 @@ def render_round_page(
     for r in played:
         pid = str(r["player_id"])
         status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else None
-        rank_cell = _esc(str(r.get("finish_position") or "-"))
+        finish_position_numeric = r.get("finish_position_numeric")
+        if r.get("finish_position") is None:
+            rank_cell = "-"
+        elif rank_counts.get(finish_position_numeric, 0) > 1:
+            # 2+ players share this rank -- "T{rank}" (tied), matching
+            # klpga.co.kr's own real convention (confirmed against
+            # Hana's already-published PRE/R1/R2 pages, which all use
+            # this same "T" prefix, never a bare number for a shared rank).
+            rank_cell = _esc(f"T{r['finish_position']}")
+        else:
+            rank_cell = _esc(str(r["finish_position"]))
         if in_progress is not None:
             # round_number has no real score of its own yet -- show
             # ONLY what in_progress's real per-player state carries,
