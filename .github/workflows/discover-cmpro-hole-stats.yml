@@ -1,0 +1,95 @@
+name: "DISCOVER — CMPRO 3D map hole statistics endpoints for 2026100005"
+
+# One-off discovery from a GitHub-hosted runner. Opens the official
+# CMPRO 3D Shot Tracker (cmpro.klpga.co.kr/web/map3d/index, reached by
+# the same form POST klpga.co.kr's own go3dMap() submits), records every
+# XHR/fetch request + response body and every /load|/ajax URL its
+# scripts reference, clicks through visible tabs, and commits the raw
+# evidence back to this branch.
+on:
+  push:
+    branches: [claude/wizardly-dirac-txqytb]
+    paths: [".github/workflows/discover-cmpro-hole-stats.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Discover
+        run: |
+          OUT=klpga_pipeline/content/website_v2/incoming_evidence/2026100005/cmpro_discovery
+          mkdir -p $OUT
+          OUT=$OUT python - <<'PY'
+          import json, os, re, time
+          from playwright.sync_api import sync_playwright
+          out = os.environ["OUT"]
+          xhr, scripts = [], {}
+          form = """<form id=f method=post action='https://cmpro.klpga.co.kr/web/map3d/index'>
+          <input name=gameCode value=2026100005><input name=playerCode value=10725><input name=round value=1>
+          <input name=hole value=1><input name=lang value=kr><input name=arrayTrueHole value=''></form>
+          <script>document.getElementById('f').submit()</script>"""
+          with sync_playwright() as p:
+              b = p.chromium.launch()
+              pg = b.new_page(viewport={"width": 1440, "height": 900})
+              def on_resp(r):
+                  u = r.url
+                  if "klpga.co.kr" not in u: return
+                  t = r.request.resource_type
+                  if t in ("xhr", "fetch", "document"):
+                      try: body = r.text()
+                      except Exception as e: body = f"<<unreadable: {e}>>"
+                      xhr.append({"type": t, "url": u, "method": r.request.method, "post_data": r.request.post_data,
+                                  "status": r.status, "content_type": r.headers.get("content-type"), "body": body})
+                  elif t == "script" and "cmpro" in u:
+                      try: scripts[u] = r.text()
+                      except Exception: pass
+              pg.on("response", on_resp)
+              pg.set_content(form)
+              try: pg.wait_for_load_state("networkidle", timeout=60000)
+              except Exception as e: print("wait err", e)
+              pg.wait_for_timeout(8000)
+              open(f"{out}/map3d_initial.html", "w", encoding="utf-8").write(pg.content())
+              pg.screenshot(path=f"{out}/map3d_initial.png", full_page=True)
+              clicked = []
+              for h in pg.query_selector_all("button, [role=tab], a[href^='javascript'], li[onclick], div[onclick], span[onclick], .tab, .nav-link")[:80]:
+                  try:
+                      if not h.is_visible(): continue
+                      txt = (h.inner_text() or "").strip().replace("\n", " ")[:40]
+                      h.click(timeout=2000); clicked.append(txt); pg.wait_for_timeout(1500)
+                  except Exception:
+                      pass
+              open(f"{out}/map3d_after_clicks.html", "w", encoding="utf-8").write(pg.content())
+              pg.screenshot(path=f"{out}/map3d_after_clicks.png", full_page=True)
+              b.close()
+          refs = set()
+          for x in xhr:
+              if x["type"] == "document": refs |= set(re.findall(r"""["'](/(?:load|ajax|web)/[A-Za-z0-9_/]+)""", x["body"]))
+          for u, s in scripts.items():
+              refs |= set(re.findall(r"""["'](/(?:load|ajax|web)/[A-Za-z0-9_/]+)""", s))
+          json.dump(xhr, open(f"{out}/map3d_requests.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          json.dump(scripts, open(f"{out}/map3d_scripts.json", "w", encoding="utf-8"), ensure_ascii=False)
+          summary = {"captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "clicked": clicked,
+                     "requests": [(x["type"], x["method"], x["url"], x["post_data"], x["status"], len(x["body"])) for x in xhr],
+                     "refs": sorted(refs), "scripts": list(scripts)}
+          json.dump(summary, open(f"{out}/SUMMARY.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          print(json.dumps(summary, ensure_ascii=False, indent=2))
+          PY
+      - name: Commit discovery evidence back to this branch
+        run: |
+          git config user.name "neo-capture-bot"
+          git config user.email "neo-capture-bot@users.noreply.github.com"
+          git add klpga_pipeline/content/website_v2/incoming_evidence/2026100005/cmpro_discovery
+          git commit -m "Raw discovery: CMPRO 3D map endpoints 2026100005"
+          git push origin HEAD:${{ github.ref_name }}
