@@ -58,7 +58,7 @@ def verified_sponsor(record: dict) -> str | None:
 _NEVER_CHECKED_REASON = "optional live profile enrichment was not requested"
 
 
-_OPERATOR_REPORTED_EVIDENCE_FILENAME = "OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json"
+_OPERATOR_REPORTED_EVIDENCE_GLOB = "OPERATOR_REPORTED_SPONSOR_EVIDENCE_V*.json"
 """SPONSOR OFFICIAL-EVIDENCE RECOVERY V2 (OWNER DECISION): a third,
 explicitly distinct evidence tier alongside a tournament's own direct
 collection and cross_tournament_verified_sponsor_cache's reuse of
@@ -67,21 +67,34 @@ klpga.co.kr is proxy-blocked, so it cannot fetch official profile pages
 itself -- when the operator reports having personally checked KLPGA's
 own official player/team information using real network access outside
 this session, that report is recorded verbatim (never fabricated,
-never given a fake retrieval timestamp) in this one file and reused
-here by exact player_id match only, under the identical conflict-drop
-discipline as every other tier. See that file's own
-_provenance_honesty_note for the full disclosure."""
+never given a fake retrieval timestamp) in one of these files and
+reused here by exact player_id match only, under the identical
+conflict-drop discipline as every other tier.
+
+BUG FIX (2026-10-01): this used to read ONLY
+OPERATOR_REPORTED_SPONSOR_EVIDENCE_V1.json. V2 and V3 exist too, each
+one's own _provenance_honesty_note explicitly says "supersedes: none
+-- additive to V{n-1}, same evidence tier" -- i.e. every version was
+always meant to be read together, never only the first. V2/V3's real,
+already-operator-verified rows (6 players, including 문정민/10296 and
+임진영/10138 -- real sponsors 동부건설/대방건설, confirmed against
+this tournament's own raw leaderboard capture showing a real sponsor
+image in their row) were silently never reaching the cache. Reads
+every V*.json file found (never hardcodes a highest version number, so
+a future V4 needs no code change) and merges all their records --
+still through the exact same evidence_status=="VERIFIED_OFFICIAL_
+OPERATOR_REPORTED" gate and conflict-drop discipline as before."""
 
 
 def _operator_reported_sponsor_rows(content_dir: Path) -> list[dict]:
-    path = content_dir / _OPERATOR_REPORTED_EVIDENCE_FILENAME
-    if not path.is_file():
-        return []
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return []
-    return data.get("records") or []
+    rows: list[dict] = []
+    for path in sorted(content_dir.glob(_OPERATOR_REPORTED_EVIDENCE_GLOB)):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        rows.extend(data.get("records") or [])
+    return rows
 
 
 def cross_tournament_verified_sponsor_cache(
