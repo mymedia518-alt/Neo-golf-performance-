@@ -1,0 +1,180 @@
+{
+  "game_code": "2026100005",
+  "tournament_name": "제26회 하이트진로 챔피언십",
+  "venue": "블루헤런",
+  "courses": {
+    "OUT": "동",
+    "IN": "서"
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "nine": "OUT",
+      "course": "동",
+      "par": 4,
+      "meters": 368,
+      "yards": 402
+    },
+    {
+      "hole": 2,
+      "nine": "OUT",
+      "course": "동",
+      "par": 3,
+      "meters": 172,
+      "yards": 188
+    },
+    {
+      "hole": 3,
+      "nine": "OUT",
+      "course": "동",
+      "par": 4,
+      "meters": 390,
+      "yards": 426
+    },
+    {
+      "hole": 4,
+      "nine": "OUT",
+      "course": "동",
+      "par": 5,
+      "meters": 496,
+      "yards": 542
+    },
+    {
+      "hole": 5,
+      "nine": "OUT",
+      "course": "동",
+      "par": 3,
+      "meters": 155,
+      "yards": 170
+    },
+    {
+      "hole": 6,
+      "nine": "OUT",
+      "course": "동",
+      "par": 4,
+      "meters": 375,
+      "yards": 410
+    },
+    {
+      "hole": 7,
+      "nine": "OUT",
+      "course": "동",
+      "par": 5,
+      "meters": 472,
+      "yards": 516
+    },
+    {
+      "hole": 8,
+      "nine": "OUT",
+      "course": "동",
+      "par": 4,
+      "meters": 345,
+      "yards": 377
+    },
+    {
+      "hole": 9,
+      "nine": "OUT",
+      "course": "동",
+      "par": 4,
+      "meters": 369,
+      "yards": 404
+    },
+    {
+      "hole": 10,
+      "nine": "IN",
+      "course": "서",
+      "par": 5,
+      "meters": 521,
+      "yards": 570
+    },
+    {
+      "hole": 11,
+      "nine": "IN",
+      "course": "서",
+      "par": 3,
+      "meters": 159,
+      "yards": 174
+    },
+    {
+      "hole": 12,
+      "nine": "IN",
+      "course": "서",
+      "par": 4,
+      "meters": 375,
+      "yards": 410
+    },
+    {
+      "hole": 13,
+      "nine": "IN",
+      "course": "서",
+      "par": 4,
+      "meters": 344,
+      "yards": 376
+    },
+    {
+      "hole": 14,
+      "nine": "IN",
+      "course": "서",
+      "par": 4,
+      "meters": 347,
+      "yards": 379
+    },
+    {
+      "hole": 15,
+      "nine": "IN",
+      "course": "서",
+      "par": 4,
+      "meters": 387,
+      "yards": 423
+    },
+    {
+      "hole": 16,
+      "nine": "IN",
+      "course": "서",
+      "par": 3,
+      "meters": 165,
+      "yards": 180
+    },
+    {
+      "hole": 17,
+      "nine": "IN",
+      "course": "서",
+      "par": 4,
+      "meters": 357,
+      "yards": 390
+    },
+    {
+      "hole": 18,
+      "nine": "IN",
+      "course": "서",
+      "par": 5,
+      "meters": 483,
+      "yards": 528
+    }
+  ],
+  "totals": {
+    "OUT": {
+      "par": 36,
+      "meters": 3142,
+      "yards": 3435
+    },
+    "IN": {
+      "par": 36,
+      "meters": 3138,
+      "yards": 3430
+    },
+    "TOTAL": {
+      "par": 72,
+      "meters": 6280,
+      "yards": 6865
+    }
+  },
+  "provenance": {
+    "source_url": "https://klpga.co.kr/web/tourInfo/holeInfo?gameCode=2026100005",
+    "source_section": "코스정보 table, 예선(#round-one) and 본선(#round-two) tabs -- identical, so one hole list",
+    "captured_at_utc": "2026-10-01T20:36:50Z",
+    "raw_evidence": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_HOLEINFO_RAW.html",
+    "raw_evidence_sha256": "9480b743ef7a83451e8bf4c8edff4277c98dad8365c529fb3725f7029281c5ba",
+    "validation": "every hole's par/meters/yards sums to the page's own OUT/IN 합계 and 총합 rows"
+  }
+}
