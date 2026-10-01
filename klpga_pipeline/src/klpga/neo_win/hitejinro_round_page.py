@@ -130,7 +130,6 @@ def render_round_page(
             f"LEADERBOARD.json exists but no row has a real {score_field} yet -- round {round_number} "
             "has not actually been played/collected. Never renders a round page with zero real scores."
         )
-
     played.sort(key=lambda r: (r.get("finish_position_numeric") is None, r.get("finish_position_numeric", 10**9)))
 
     rank_counts: dict[int, int] = {}
@@ -138,6 +137,15 @@ def render_round_page(
         n = r.get("finish_position_numeric")
         if n is not None:
             rank_counts[n] = rank_counts.get(n, 0) + 1
+
+    if in_progress is not None:
+        # Operator rule (2026-10-01): a player already excluded before
+        # this round starts (real WD/CUT/... per in_progress) is not
+        # part of this round's field -- drop the row entirely instead
+        # of listing it with a status cell. Applied only AFTER
+        # rank_counts so every remaining player's previous-round rank
+        # (incl. a "T" tie shared with an excluded player) is unchanged.
+        played = [r for r in played if not (in_progress.get(str(r["player_id"])) or {}).get("excluded")]
 
     nationality_by_id = _load_nationality_by_id(content_root)
     sponsor_cache = cross_tournament_verified_sponsor_cache()
