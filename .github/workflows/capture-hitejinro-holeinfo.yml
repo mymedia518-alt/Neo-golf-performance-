@@ -1,0 +1,66 @@
+name: "CAPTURE — KLPGA holeInfo (코스정보) for 2026100005"
+
+# One-off raw capture from a GitHub-hosted runner (Claude's sandbox
+# cannot reach klpga.co.kr). Saves the official course-info page as
+# rendered by a real browser plus every same-origin XHR/fetch response
+# it makes, committed back to this branch as raw evidence.
+on:
+  push:
+    branches: [claude/wizardly-dirac-txqytb]
+    paths: [".github/workflows/capture-hitejinro-holeinfo.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Capture
+        run: |
+          OUT=klpga_pipeline/content/website_v2/incoming_evidence/2026100005
+          mkdir -p $OUT
+          curl -sS -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" \
+            "https://klpga.co.kr/web/tourInfo/holeInfo?gameCode=2026100005" -o $OUT/HITEJINRO_2026100005_HOLEINFO_RAW.html -w "curl HTTP %{http_code}\n"
+          OUT=$OUT python - <<'PY'
+          import json, os, time
+          from playwright.sync_api import sync_playwright
+          out = os.environ["OUT"]
+          url = "https://klpga.co.kr/web/tourInfo/holeInfo?gameCode=2026100005"
+          xhr = []
+          with sync_playwright() as p:
+              b = p.chromium.launch()
+              pg = b.new_page(viewport={"width": 1440, "height": 900})
+              def on_resp(r):
+                  if r.request.resource_type in ("xhr", "fetch") and "klpga.co.kr" in r.url:
+                      try: body = r.text()
+                      except Exception as e: body = f"<<unreadable: {e}>>"
+                      xhr.append({"url": r.url, "method": r.request.method, "post_data": r.request.post_data, "status": r.status, "body": body})
+              pg.on("response", on_resp)
+              resp = pg.goto(url, wait_until="networkidle")
+              pg.wait_for_timeout(3000)
+              open(f"{out}/HITEJINRO_2026100005_HOLEINFO_RENDERED.html", "w", encoding="utf-8").write(pg.content())
+              pg.screenshot(path=f"{out}/HITEJINRO_2026100005_HOLEINFO.png", full_page=True)
+              b.close()
+          json.dump({"captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "page_url": url,
+                     "page_status": resp.status if resp else None, "xhr": xhr},
+                    open(f"{out}/HITEJINRO_2026100005_HOLEINFO_XHR.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          print("xhr captured:", len(xhr), [x["url"] for x in xhr])
+          PY
+          ls -la $OUT/HITEJINRO_2026100005_HOLEINFO*
+      - name: Commit raw capture back to this branch
+        run: |
+          git config user.name "neo-capture-bot"
+          git config user.email "neo-capture-bot@users.noreply.github.com"
+          git add klpga_pipeline/content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_HOLEINFO*
+          git commit -m "Raw capture: KLPGA holeInfo 2026100005"
+          git push origin HEAD:${{ github.ref_name }}
