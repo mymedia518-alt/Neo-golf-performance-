@@ -1,0 +1,43 @@
+name: "CAPTURE — per-hole statistics (CMPRO courseRecord + getCourseHoleData) for 2026100005"
+
+# One-off raw capture, all 18 holes, from a GitHub-hosted runner:
+#  - POST https://cmpro.klpga.co.kr/load/map3d/courseRecord  gameCode, hole, lang=kr
+#    (the CMPRO 3D map's own getCourseRecord(hole) call)
+#  - POST https://klpga.co.kr/ajax/tourInfo/getCourseHoleData gameCode, round=0, hole
+#    (the 코스기록 page's own getHoleData() call; round=0 = 라운드 전체)
+on:
+  push:
+    branches: [claude/wizardly-dirac-txqytb]
+    paths: [".github/workflows/capture-hitejinro-hole-stats.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Capture all 18 holes
+        run: |
+          OUT=klpga_pipeline/content/website_v2/incoming_evidence/2026100005/hole_stats
+          mkdir -p $OUT/courseRecord $OUT/getCourseHoleData
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+          date -u +%Y-%m-%dT%H:%M:%SZ > $OUT/CAPTURED_AT_UTC.txt
+          for h in $(seq 1 18); do
+            curl -sS -A "$UA" -X POST "https://cmpro.klpga.co.kr/load/map3d/courseRecord" \
+              -H "X-Requested-With: XMLHttpRequest" -H "Referer: https://cmpro.klpga.co.kr/web/map3d/index" \
+              --data "gameCode=2026100005&hole=$h&lang=kr" -o $OUT/courseRecord/hole_$h.html -w "courseRecord $h %{http_code} %{size_download}\n"
+            curl -sS -A "$UA" -X POST "https://klpga.co.kr/ajax/tourInfo/getCourseHoleData" \
+              -H "X-Requested-With: XMLHttpRequest" -H "Referer: https://klpga.co.kr/web/tourInfo/course?gameCode=2026100005" \
+              --data "gameCode=2026100005&round=0&hole=$h" -o $OUT/getCourseHoleData/hole_$h.json -w "getCourseHoleData $h %{http_code} %{size_download}\n"
+            sleep 1
+          done
+      - name: Commit raw capture back to this branch
+        run: |
+          git config user.name "neo-capture-bot"
+          git config user.email "neo-capture-bot@users.noreply.github.com"
+          git add klpga_pipeline/content/website_v2/incoming_evidence/2026100005/hole_stats
+          git commit -m "Raw capture: per-hole statistics 2026100005 (courseRecord + getCourseHoleData, 18 holes)"
+          git push origin HEAD:${{ github.ref_name }}
