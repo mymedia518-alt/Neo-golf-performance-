@@ -1,0 +1,97 @@
+name: "DISCOVER — KLPGA course/hole statistics endpoints for 2026100005"
+
+# One-off discovery from a GitHub-hosted runner (Claude's sandbox cannot
+# reach klpga.co.kr). Opens the tournament's course pages in a real
+# browser, clicks every tab/round button inside the main content, and
+# records every same-site XHR/fetch request + response body, plus the
+# /ajax/... URLs referenced in each page's own scripts. Committed back
+# to this branch as raw evidence.
+on:
+  push:
+    branches: [claude/wizardly-dirac-txqytb]
+    paths: [".github/workflows/discover-hitejinro-course-stats.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Discover
+        run: |
+          OUT=klpga_pipeline/content/website_v2/incoming_evidence/2026100005/course_stats_discovery
+          mkdir -p $OUT
+          OUT=$OUT python - <<'PY'
+          import json, os, re, time
+          from playwright.sync_api import sync_playwright
+          out = os.environ["OUT"]
+          base = "https://klpga.co.kr/web/tourInfo/{}?gameCode=2026100005"
+          pages = ["holeDifficult", "course", "liveMap", "pinPlacement", "holeInfo"]
+          summary = {"captured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "pages": {}}
+          with sync_playwright() as p:
+              b = p.chromium.launch()
+              for name in pages:
+                  xhr = []
+                  pg = b.new_page(viewport={"width": 1440, "height": 900})
+                  def on_resp(r, xhr=xhr):
+                      if r.request.resource_type in ("xhr", "fetch") and "klpga.co.kr" in r.url:
+                          try: body = r.text()
+                          except Exception as e: body = f"<<unreadable: {e}>>"
+                          xhr.append({"url": r.url, "method": r.request.method, "post_data": r.request.post_data,
+                                      "status": r.status, "content_type": r.headers.get("content-type"), "body": body})
+                  pg.on("response", on_resp)
+                  try:
+                      resp = pg.goto(base.format(name), wait_until="networkidle", timeout=60000)
+                  except Exception as e:
+                      resp = None; print(name, "goto error", e)
+                  pg.wait_for_timeout(2500)
+                  html = pg.content()
+                  open(f"{out}/{name}_initial.html", "w", encoding="utf-8").write(html)
+                  pg.screenshot(path=f"{out}/{name}.png", full_page=True)
+                  clicked = []
+                  sel = "main button, main a[href^='javascript'], main [role=tab], main [onclick], .container button, .tab-content button, .nav-pills button, .nav-tabs button, select option"
+                  try:
+                      handles = pg.query_selector_all(sel)
+                  except Exception:
+                      handles = []
+                  for h in handles[:60]:
+                      try:
+                          txt = (h.inner_text() or "").strip()[:30]
+                          if h.evaluate("e => e.tagName") == "OPTION":
+                              par = h.evaluate_handle("e => e.parentElement")
+                              par.as_element().select_option(value=h.get_attribute("value"))
+                          else:
+                              if not h.is_visible(): continue
+                              h.click(timeout=2000)
+                          clicked.append(txt)
+                          pg.wait_for_timeout(1200)
+                      except Exception:
+                          pass
+                  open(f"{out}/{name}_after_clicks.html", "w", encoding="utf-8").write(pg.content())
+                  ajax_refs = sorted(set(re.findall(r"""["'](/(?:ajax|load|common)/[A-Za-z0-9_/]+)["']""", html)))
+                  json.dump(xhr, open(f"{out}/{name}_xhr.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+                  summary["pages"][name] = {"status": resp.status if resp else None, "clicked": clicked,
+                                            "xhr": [(x["method"], x["url"], x["post_data"], x["status"], len(x["body"])) for x in xhr],
+                                            "ajax_refs_in_scripts": ajax_refs}
+                  pg.close()
+              b.close()
+          json.dump(summary, open(f"{out}/SUMMARY.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          print(json.dumps(summary, ensure_ascii=False, indent=2))
+          PY
+      - name: Commit discovery evidence back to this branch
+        run: |
+          git config user.name "neo-capture-bot"
+          git config user.email "neo-capture-bot@users.noreply.github.com"
+          git add klpga_pipeline/content/website_v2/incoming_evidence/2026100005/course_stats_discovery
+          git commit -m "Raw discovery: KLPGA course statistics endpoints 2026100005"
+          git push origin HEAD:${{ github.ref_name }}
