@@ -349,13 +349,24 @@ def main() -> None:
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 
+    # BUG FIX (2026-10-01, R1 종료 operation): these 4 used to be
+    # unconditionally hardcoded disabled -- correct only while none of
+    # them had ever been published. Checked against the real file on
+    # disk now (same "evidence must exist" discipline as
+    # klpga.website_v2.previous_tournament_link), so this stays correct
+    # for R2/R3/FR too once scripts/197-199 publish them, with no
+    # further hand-edit needed (unlike Hana's own hand-patched 161/175/182).
+    _round_items = []
+    for key, label in (("r1", "R1"), ("r2", "R2"), ("r3", "R3"), ("fr", "FR")):
+        if (REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / key / "index.html").is_file():
+            _round_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='/tournaments/2026/{GAME_CODE}/{key}/'>{label}</a></li>")
+        else:
+            _round_items.append(f"<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>{label}</span></li>")
+
     stage_nav = (
         '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">사전 분석 PRE</a></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R1</span></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R2</span></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">R3</span></li>'
-        '<li class="stage-nav__item"><span class="stage-nav__disabled" aria-disabled="true">FR</span></li>'
+        + "".join(_round_items) +
         '</ol></nav>'
     )
 

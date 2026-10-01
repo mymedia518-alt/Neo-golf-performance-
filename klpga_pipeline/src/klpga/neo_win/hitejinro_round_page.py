@@ -31,14 +31,29 @@ import json
 from html import escape as _esc
 from pathlib import Path
 
+from klpga.website_v2.player_identity import cross_tournament_verified_sponsor_cache
 from klpga.website_v2.player_link import linked_player_name_cell
 from klpga.website_v2.previous_tournament_link import previous_tournament_meta_html
 from klpga.website_v2.round_score_format import format_to_par
 
 GAME_CODE = "2026100005"
 _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
+_REPO_ROOT = Path(__file__).resolve().parents[4]
+_FLAG_ASSETS = {p.stem for p in (_REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
 
 STAGE_LABELS = {1: ("r1", "R1"), 2: ("r2", "R2"), 3: ("r3", "R3"), 4: ("fr", "FR")}
+
+
+def _load_nationality_by_id(content_root: Path) -> dict[str, str]:
+    """{player_id: nationality} from the real official entry/K-ranking
+    join (same source scripts/190's PRE page already uses for the
+    identical flag feature) -- empty dict (no flags rendered) if the
+    file doesn't exist yet, never a guessed nationality."""
+    path = content_root / f"{GAME_CODE}_ENTRY_KRANKING_JOIN.json"
+    if not path.is_file():
+        return {}
+    records = json.loads(path.read_text(encoding="utf-8")).get("records", [])
+    return {r["player_code"]: r["nationality"] for r in records if r.get("nationality")}
 
 
 def load_leaderboard(content_root: Path) -> dict:
@@ -69,8 +84,12 @@ def render_round_page(round_number: int, *, tournament_name: str, date_range: st
 
     played.sort(key=lambda r: (r.get("finish_position_numeric") is None, r.get("finish_position_numeric", 10**9)))
 
+    nationality_by_id = _load_nationality_by_id(content_root)
+    sponsor_cache = cross_tournament_verified_sponsor_cache()
+
     rows_html = []
     for r in played:
+        pid = str(r["player_id"])
         status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else None
         rank_cell = _esc(str(r.get("finish_position") or "-"))
         # r{N}_score is the raw stroke count for that round (e.g. 68),
@@ -80,8 +99,18 @@ def render_round_page(round_number: int, *, tournament_name: str, date_range: st
         # not what that field means.
         score_cell = status or (str(r[score_field]) if r.get(score_field) is not None else "-")
         total_cell = status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
-        name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(r['player_name'])}</span>"
-        name_cell = linked_player_name_cell(str(r["player_id"]), name_cell)
+        country_code = nationality_by_id.get(pid)
+        flag_cell = (
+            f"<img src='/assets/flags/{country_code}.svg' alt='' width='16' height='12' "
+            f"style='display:inline;vertical-align:middle;margin-right:4px'>"
+            if country_code in _FLAG_ASSETS else ""
+        )
+        sponsor_text = _esc(sponsor_cache.get(pid, ""))
+        name_cell = (
+            f"{flag_cell}<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(r['player_name'])}</span>"
+            f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
+        )
+        name_cell = linked_player_name_cell(pid, name_cell)
         rows_html.append(
             f"<tr><td data-label='순위'>{rank_cell}</td>"
             f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
