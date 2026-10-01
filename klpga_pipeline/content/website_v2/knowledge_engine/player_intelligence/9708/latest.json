@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:16.136852+00:00",
-    "input_signature": "9b7b54958df90a2b3952847c36fbf7c4a8cbb446d285e61b1bf283cb4f9ca05f",
+    "generated_at": "2026-10-01T12:34:20.977472+00:00",
+    "input_signature": "9cc918e066f9e6c1023beb4d91260b7d9114db33306249b3a982007f923f90a8",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.33770833333333344,
+    "long_term_sg": -0.3073469387755103,
     "rate_stats": {
       "average_putts": 30.1228,
       "average_score": 72.8421,
@@ -18,9 +18,9 @@
       "par_save_rate": 82.1637,
       "recovery_rate": 54.7988
     },
-    "recent_10_sg": -1.523,
-    "recent_5_sg": -1.5179999999999998,
-    "volatility": 2.5124571638139424
+    "recent_10_sg": -0.8719999999999997,
+    "recent_5_sg": -0.8859999999999999,
+    "volatility": 2.265143704050584
   },
   "evolution": {
     "citations": [
@@ -32,10 +32,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.5685
+        "value": -0.48666666666666664
       }
     ],
-    "narrative": "2025시즌 SG Total -0.17에서 2026시즌 -0.57로 하락 추세입니다.",
+    "narrative": "2025시즌 SG Total -0.17에서 2026시즌 -0.49로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -46,8 +46,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.5685,
-        "delta_from_prev": -0.3956428571428571,
+        "avg_total": -0.48666666666666664,
+        "delta_from_prev": -0.31380952380952376,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
@@ -58,10 +58,10 @@
     "current_season": 2026,
     "player_id": "9708",
     "player_name": "이재윤",
-    "sample_count": 48
+    "sample_count": 49
   },
   "neo_verdict": {
-    "summary": "이재윤은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.43로 반전에 성공했습니다."
+    "summary": "이재윤은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.36로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -96,11 +96,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.13849999999999996,
-    "avg_arg": -0.31950000000000006,
-    "avg_ott": -0.5389999999999999,
-    "avg_putt": 0.4295,
-    "avg_total": -0.5685,
+    "avg_app": -0.08285714285714281,
+    "avg_arg": -0.2952380952380953,
+    "avg_ott": -0.4642857142857143,
+    "avg_putt": 0.35714285714285715,
+    "avg_total": -0.48666666666666664,
     "season": 2026
   },
   "sources": [
@@ -139,10 +139,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.5389999999999999
+          "value": -0.4642857142857143
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.54로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.46로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -151,10 +151,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.4295
+          "value": 0.35714285714285715
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.43로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.36로 반전에 성공했습니다."
     }
   ]
 }

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:20.239059+00:00",
-    "input_signature": "c3d0b146ad7b92ac5edf356c99d34667f693eff6cf6569db38094463950e86a7",
+    "generated_at": "2026-10-01T12:34:28.856167+00:00",
+    "input_signature": "e26ecd1f3ba10913cbadf108db17ce657bdc975976953c50960fda6fed05a3dc",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.2701111111111107,
+    "long_term_sg": 1.244285714285714,
     "rate_stats": {
       "average_putts": 30.3962,
       "average_score": 71.4908,
@@ -18,9 +18,9 @@
       "par_save_rate": 86.5828,
       "recovery_rate": 62.6459
     },
-    "recent_10_sg": 0.5009999999999999,
-    "recent_5_sg": 0.14399999999999996,
-    "volatility": 1.4727080498184288
+    "recent_10_sg": 0.28700000000000003,
+    "recent_5_sg": -0.5360000000000001,
+    "volatility": 1.5302878814131673
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.6522222222222221
+        "value": 0.5610526315789472
       }
     ],
-    "narrative": "2023시즌 SG Total +1.33에서 2026시즌 +0.65로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.33에서 2026시즌 +0.56로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.6522222222222221,
-        "delta_from_prev": -0.8797777777777781,
+        "avg_total": 0.5610526315789472,
+        "delta_from_prev": -0.970947368421053,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_arg"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "9820",
     "player_name": "정윤지",
-    "sample_count": 90
+    "sample_count": 91
   },
   "neo_verdict": {
     "summary": "정윤지은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 3% 수준의 기록을 유지하고 있습니다."
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.10388888888888889,
-    "avg_arg": -0.18944444444444444,
-    "avg_ott": 0.8333333333333335,
-    "avg_putt": -0.09333333333333334,
-    "avg_total": 0.6522222222222221,
+    "avg_app": 0.020000000000000007,
+    "avg_arg": -0.36578947368421055,
+    "avg_ott": 0.8594736842105264,
+    "avg_putt": 0.049473684210526316,
+    "avg_total": 0.5610526315789472,
     "season": 2026
   },
   "sources": [
@@ -172,6 +172,16 @@
         }
       ],
       "text": "최근 4시즌 연속 SG Off-the-Tee에서 상위 3% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.049473684210526316
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.05로 반전에 성공했습니다."
     }
   ]
 }

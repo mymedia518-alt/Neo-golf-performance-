@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.166257+00:00",
-    "input_signature": "6d3790f6814ddf364f1b863b2349bd29535c853ef4535a097e825201e2dd0491",
+    "generated_at": "2026-10-01T12:33:54.736418+00:00",
+    "input_signature": "8923a420ed30da2f74e42ac6fc42bec3068dbdbeeaaf932fa4cf202728987294",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.155,
+    "long_term_sg": -1.1553061224489796,
     "rate_stats": {
       "average_putts": 30.75,
       "average_score": 73.5569,
@@ -18,9 +18,9 @@
       "par_save_rate": 78.6325,
       "recovery_rate": 53.605
     },
-    "recent_10_sg": -1.3150000000000002,
-    "recent_5_sg": -0.942,
-    "volatility": 1.1608639024450713
+    "recent_10_sg": -1.2160000000000002,
+    "recent_5_sg": -0.43599999999999994,
+    "volatility": 1.126278828709836
   },
   "evolution": {
     "citations": [
@@ -37,7 +37,7 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -1.0379999999999998
+        "value": -1.0442857142857143
       }
     ],
     "narrative": "2024시즌 SG Total -0.58에서 2026시즌 -1.04로 하락 추세입니다.",
@@ -58,10 +58,10 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": -1.0379999999999998,
-        "delta_from_prev": 0.22496296296296325,
+        "avg_total": -1.0442857142857143,
+        "delta_from_prev": 0.2186772486772488,
         "season": 2026,
-        "strongest_component": "avg_arg",
+        "strongest_component": "avg_ott",
         "weakest_component": "avg_app"
       }
     ]
@@ -70,7 +70,7 @@
     "current_season": 2026,
     "player_id": "9436",
     "player_name": "구래현",
-    "sample_count": 48
+    "sample_count": 49
   },
   "neo_verdict": {
     "summary": "구래현은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Approach이(가) 필드 평균 이하(하위 36%)로 구조적 약점입니다."
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.6515,
-    "avg_arg": -0.021000000000000008,
-    "avg_ott": -0.078,
-    "avg_putt": -0.28700000000000003,
-    "avg_total": -1.0379999999999998,
+    "avg_app": -0.7061904761904761,
+    "avg_arg": -0.03476190476190477,
+    "avg_ott": -0.02523809523809524,
+    "avg_putt": -0.27809523809523806,
+    "avg_total": -1.0442857142857143,
     "season": 2026
   },
   "sources": [
@@ -155,10 +155,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.078
+          "value": -0.02523809523809524
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.08로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.03로 악화되었습니다."
     }
   ],
   "why_wins": []

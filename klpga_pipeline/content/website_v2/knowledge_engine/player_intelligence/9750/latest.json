@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:27.979214+00:00",
-    "input_signature": "6c1599f21be5e761cf14978a4e4a7d07b8eb7783982e3de473257f42be234964",
+    "generated_at": "2026-10-01T12:34:35.966806+00:00",
+    "input_signature": "c7e4e8cbedfd8e1f921745013d019da130e9a7e464ecb7458a905c15f4b4611a",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.0630000000000002,
+    "long_term_sg": 1.0222222222222226,
     "rate_stats": {
       "average_putts": 29.92,
       "average_score": 72.6407,
@@ -18,9 +18,9 @@
       "par_save_rate": 82.4444,
       "recovery_rate": 58.5526
     },
-    "recent_10_sg": -0.2450000000000001,
-    "recent_5_sg": -1.828,
-    "volatility": 2.248676277279591
+    "recent_10_sg": -0.6519999999999999,
+    "recent_5_sg": -2.444,
+    "volatility": 2.2041633333308126
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.4755555555555555
+        "value": -0.6519999999999999
       }
     ],
-    "narrative": "2023시즌 SG Total +1.17에서 2026시즌 -0.48로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.17에서 2026시즌 -0.65로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,11 +70,11 @@
         "weakest_component": "avg_arg"
       },
       {
-        "avg_total": -0.4755555555555555,
-        "delta_from_prev": -2.6372222222222224,
+        "avg_total": -0.6519999999999999,
+        "delta_from_prev": -2.8136666666666663,
         "season": 2026,
         "strongest_component": "avg_app",
-        "weakest_component": "avg_arg"
+        "weakest_component": "avg_ott"
       }
     ]
   },
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "9750",
     "player_name": "홍정민",
-    "sample_count": 80
+    "sample_count": 81
   },
   "neo_verdict": {
     "summary": "홍정민은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 17% 수준의 기록을 유지하고 있습니다."
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.08333333333333333,
-    "avg_arg": -0.23000000000000004,
-    "avg_ott": -0.1688888888888889,
-    "avg_putt": -0.1622222222222222,
-    "avg_total": -0.4755555555555555,
+    "avg_app": 0.008999999999999998,
+    "avg_arg": -0.22700000000000004,
+    "avg_ott": -0.391,
+    "avg_putt": -0.044,
+    "avg_total": -0.6519999999999999,
     "season": 2026
   },
   "sources": [
@@ -152,20 +152,20 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.1688888888888889
+          "value": -0.391
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.17로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.39로 악화되었습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.1622222222222222
+          "value": -0.044
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.16로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.04로 악화되었습니다."
     }
   ],
   "why_wins": [

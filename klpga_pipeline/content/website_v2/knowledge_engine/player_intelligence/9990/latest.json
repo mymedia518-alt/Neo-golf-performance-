@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:08.237163+00:00",
-    "input_signature": "f05aa4d26c87b0d215e697b4e5a662b69c1d8dee73dead1c7bfe42240d16765c",
+    "generated_at": "2026-10-01T12:34:17.870554+00:00",
+    "input_signature": "d3ae0766f15092050caf226b7cf2ec7e087d7d00eed031a4b3dbf5f4ea9ab556",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.786111111111111,
+    "long_term_sg": -0.6965753424657534,
     "rate_stats": {
       "average_putts": 30.5362,
       "average_score": 71.9275,
@@ -18,9 +18,9 @@
       "par_save_rate": 85.7488,
       "recovery_rate": 62.5731
     },
-    "recent_10_sg": 0.6770000000000002,
-    "recent_5_sg": 1.012,
-    "volatility": 1.2332319327685284
+    "recent_10_sg": 1.299,
+    "recent_5_sg": 1.89,
+    "volatility": 1.8910179798193354
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.5652380952380952
+        "value": 0.8009090909090908
       }
     ],
-    "narrative": "2023시즌 SG Total -1.98에서 2026시즌 +0.57로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -1.98에서 2026시즌 +0.80로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 0.5652380952380952,
-        "delta_from_prev": 1.6921611721611725,
+        "avg_total": 0.8009090909090908,
+        "delta_from_prev": 1.927832167832168,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "9990",
     "player_name": "윤수아",
-    "sample_count": 72
+    "sample_count": 73
   },
   "neo_verdict": {
-    "summary": "윤수아은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.45로 반전에 성공했습니다."
+    "summary": "윤수아은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.47로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.45142857142857135,
-    "avg_arg": 0.03666666666666668,
-    "avg_ott": -0.04238095238095237,
-    "avg_putt": 0.12095238095238095,
-    "avg_total": 0.5652380952380952,
+    "avg_app": 0.4731818181818181,
+    "avg_arg": 0.01681818181818183,
+    "avg_ott": -0.028181818181818176,
+    "avg_putt": 0.34045454545454545,
+    "avg_total": 0.8009090909090908,
     "season": 2026
   },
   "sources": [
@@ -169,30 +169,30 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.45142857142857135
+          "value": 0.4731818181818181
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.45로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.47로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.03666666666666668
+          "value": 0.01681818181818183
         }
       ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.04로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.02로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.12095238095238095
+          "value": 0.34045454545454545
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.12로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.34로 반전에 성공했습니다."
     }
   ]
 }

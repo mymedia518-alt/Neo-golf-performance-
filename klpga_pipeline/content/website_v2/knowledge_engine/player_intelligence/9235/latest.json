@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:25.014936+00:00",
-    "input_signature": "507ffaf6ef078d4df517aa89a7b854ee28716582f8b9f985fbf26c822a7694b2",
+    "generated_at": "2026-10-01T12:34:33.224614+00:00",
+    "input_signature": "fc7b4cef236e2821201a310102b106dba61bc20455e64065bab3f528f809d498",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.9082105263157891,
+    "long_term_sg": 0.9083333333333331,
     "rate_stats": {
       "average_putts": 30.6379,
       "average_score": 71.6895,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.1648,
       "recovery_rate": 67.8445
     },
-    "recent_10_sg": 1.136,
-    "recent_5_sg": 1.154,
-    "volatility": 1.2032555838224894
+    "recent_10_sg": 1.353,
+    "recent_5_sg": 1.0539999999999998,
+    "volatility": 0.9143855860631225
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.8347368421052631
+        "value": 0.8390000000000001
       }
     ],
-    "narrative": "2023시즌 SG Total +0.95에서 2026시즌 +0.83로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.95에서 2026시즌 +0.84로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.8347368421052631,
-        "delta_from_prev": -0.3991093117408907,
+        "avg_total": 0.8390000000000001,
+        "delta_from_prev": -0.39484615384615374,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "9235",
     "player_name": "최은우",
-    "sample_count": 95
+    "sample_count": 96
   },
   "neo_verdict": {
     "summary": "최은우은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 17% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.5142105263157893,
-    "avg_arg": 0.23684210526315785,
-    "avg_ott": 0.22789473684210532,
-    "avg_putt": -0.1426315789473684,
-    "avg_total": 0.8347368421052631,
+    "avg_app": 0.46899999999999986,
+    "avg_arg": 0.20299999999999993,
+    "avg_ott": 0.21800000000000005,
+    "avg_putt": -0.049499999999999975,
+    "avg_total": 0.8390000000000001,
     "season": 2026
   },
   "sources": [

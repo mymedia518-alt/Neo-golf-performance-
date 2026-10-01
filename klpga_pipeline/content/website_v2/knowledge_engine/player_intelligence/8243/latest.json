@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:16.103320+00:00",
-    "input_signature": "428cebd32cdf63d6ba54cae2cf484a66bfdc275a0d4d06953b5e07cc82b72c00",
+    "generated_at": "2026-10-01T12:34:25.733610+00:00",
+    "input_signature": "500c4db90066ce752105793c9f11b4df0e2a419b56f5a5c171ae2bde35077b64",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.28677966101694924,
+    "long_term_sg": -0.2818333333333334,
     "rate_stats": {
       "average_putts": 30.3043,
       "average_score": 71.3771,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.6006,
       "recovery_rate": 62.4615
     },
-    "recent_10_sg": 1.3099999999999998,
-    "recent_5_sg": 1.6420000000000001,
-    "volatility": 1.9126735215399413
+    "recent_10_sg": 0.8790000000000001,
+    "recent_5_sg": 0.8,
+    "volatility": 1.6539495155536035
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.1138095238095238
+        "value": 1.0636363636363637
       }
     ],
-    "narrative": "2023시즌 SG Total -0.05에서 2026시즌 +1.11로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.05에서 2026시즌 +1.06로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 1.1138095238095238,
-        "delta_from_prev": 1.3538095238095238,
+        "avg_total": 1.0636363636363637,
+        "delta_from_prev": 1.3036363636363637,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "8243",
     "player_name": "장은수",
-    "sample_count": 59
+    "sample_count": 60
   },
   "neo_verdict": {
-    "summary": "장은수은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.38로 반전에 성공했습니다."
+    "summary": "장은수은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.46로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.6528571428571427,
-    "avg_arg": 0.13619047619047622,
-    "avg_ott": -0.055238095238095246,
-    "avg_putt": 0.37952380952380954,
-    "avg_total": 1.1138095238095238,
+    "avg_app": 0.5659090909090908,
+    "avg_arg": 0.07318181818181822,
+    "avg_ott": -0.03909090909090909,
+    "avg_putt": 0.46318181818181825,
+    "avg_total": 1.0636363636363637,
     "season": 2026
   },
   "sources": [
@@ -179,10 +179,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.37952380952380954
+          "value": 0.46318181818181825
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.38로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.46로 반전에 성공했습니다."
     }
   ]
 }

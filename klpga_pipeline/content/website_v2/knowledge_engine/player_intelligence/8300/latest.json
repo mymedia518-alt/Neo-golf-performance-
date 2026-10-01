@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:48.597906+00:00",
-    "input_signature": "9fa621295bf41903e85061b963653d220bcf55295cea351fe4ae481497d8dfa9",
+    "generated_at": "2026-10-01T12:33:57.651475+00:00",
+    "input_signature": "b627c049c66d5512fb188f57f77f64ee127b5a043b00063eed827a092e099282",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.7166279069767447,
+    "long_term_sg": 1.7418390804597708,
     "rate_stats": {
       "average_putts": 31.1406,
       "average_score": 71.3281,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.5,
       "recovery_rate": 58.9147
     },
-    "recent_10_sg": 0.889,
-    "recent_5_sg": 0.6259999999999999,
-    "volatility": 1.9012651051339473
+    "recent_10_sg": 0.882,
+    "recent_5_sg": 0.674,
+    "volatility": 1.8899671954825037
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.118421052631579
+        "value": 1.258
       }
     ],
-    "narrative": "2023시즌 SG Total +2.08에서 2026시즌 +1.12로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +2.08에서 2026시즌 +1.26로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.118421052631579,
-        "delta_from_prev": -0.23976076555023895,
+        "avg_total": 1.258,
+        "delta_from_prev": -0.10018181818181793,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "8300",
     "player_name": "김수지",
-    "sample_count": 86
+    "sample_count": 87
   },
   "neo_verdict": {
     "summary": "김수지은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.8678947368421054,
-    "avg_arg": -0.02947368421052632,
-    "avg_ott": 0.6221052631578946,
-    "avg_putt": -0.3426315789473684,
-    "avg_total": 1.118421052631579,
+    "avg_app": 0.8505,
+    "avg_arg": 0.072,
+    "avg_ott": 0.6655,
+    "avg_putt": -0.33049999999999996,
+    "avg_total": 1.258,
     "season": 2026
   },
   "sources": [
@@ -189,6 +189,16 @@
         }
       ],
       "text": "최근 4시즌 연속 SG Approach에서 상위 5% 수준의 기록을 유지하고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.072
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.07로 반전에 성공했습니다."
     },
     {
       "citations": [

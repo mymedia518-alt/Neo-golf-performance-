@@ -1,18 +1,18 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:32.108852+00:00",
-    "input_signature": "331895406984a4f94732a405f66de00460e341cb8d077e48e7a5043ca38a148e",
+    "generated_at": "2026-10-01T12:34:40.149889+00:00",
+    "input_signature": "22bc0ce77635962a3866e1271550deec619c833825bad57dd0b91f20637720c4",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.32,
+    "long_term_sg": -2.01,
     "rate_stats": {},
-    "recent_10_sg": -1.32,
-    "recent_5_sg": -1.32,
-    "volatility": 0.2011632835948615
+    "recent_10_sg": -2.01,
+    "recent_5_sg": -2.01,
+    "volatility": 1.2077458341886342
   },
   "evolution": {
     "citations": [
@@ -24,10 +24,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -1.09
+        "value": -2.585
       }
     ],
-    "narrative": "2025시즌 SG Total -1.44에서 2026시즌 -1.09로 상승 추세입니다.",
+    "narrative": "2025시즌 SG Total -1.44에서 2026시즌 -2.58로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -38,8 +38,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -1.09,
-        "delta_from_prev": 0.345,
+        "avg_total": -2.585,
+        "delta_from_prev": -1.15,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_app"
@@ -50,10 +50,10 @@
     "current_season": 2026,
     "player_id": "12080",
     "player_name": "양아연 1012(A)",
-    "sample_count": 3
+    "sample_count": 4
   },
   "neo_verdict": {
-    "summary": "양아연 1012(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.01로 악화되었습니다."
+    "summary": "양아연 1012(A)은(는) 균형형(Balanced) 유형입니다. 2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.15로 악화되었습니다."
   },
   "player_dna": {
     "axes": []
@@ -67,11 +67,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.06,
-    "avg_arg": -0.01,
-    "avg_ott": -0.01,
-    "avg_putt": -0.01,
-    "avg_total": -1.09,
+    "avg_app": -1.535,
+    "avg_arg": -0.43,
+    "avg_ott": -0.15,
+    "avg_putt": -0.47000000000000003,
+    "avg_total": -2.585,
     "season": 2026
   },
   "sources": [
@@ -88,10 +88,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.01
+          "value": -0.15
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.01로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.15로 악화되었습니다."
     }
   ],
   "why_wins": []

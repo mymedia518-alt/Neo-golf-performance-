@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:57.131494+00:00",
-    "input_signature": "1d30b165a00209a0b145925e9a7e115dce6d6018414c73ead2ca427be6fdca88",
+    "generated_at": "2026-10-01T12:34:06.206673+00:00",
+    "input_signature": "3a2a346ad667fbb49673c45208b8d53d99e6e95f18161f628d420f664c0e48f3",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.060107526881720406,
+    "long_term_sg": 0.058617021276595724,
     "rate_stats": {
       "average_putts": 29.9762,
       "average_score": 72.9768,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.2593,
       "recovery_rate": 69.5971
     },
-    "recent_10_sg": -0.42400000000000004,
-    "recent_5_sg": -0.9760000000000002,
-    "volatility": 1.1995765919690164
+    "recent_10_sg": -0.336,
+    "recent_5_sg": -0.874,
+    "volatility": 1.1892619560046473
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.7999999999999999
+        "value": -0.76
       }
     ],
-    "narrative": "2023시즌 SG Total +0.63에서 2026시즌 -0.80로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.63에서 2026시즌 -0.76로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": -0.7999999999999999,
-        "delta_from_prev": -0.6742307692307692,
+        "avg_total": -0.76,
+        "delta_from_prev": -0.6342307692307692,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_app"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "9183",
     "player_name": "박결",
-    "sample_count": 93
+    "sample_count": 94
   },
   "neo_verdict": {
     "summary": "박결은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 7% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.7847058823529411,
-    "avg_arg": 0.29823529411764704,
-    "avg_ott": -0.4388235294117647,
-    "avg_putt": 0.12411764705882355,
-    "avg_total": -0.7999999999999999,
+    "avg_app": -0.7722222222222223,
+    "avg_arg": 0.27166666666666667,
+    "avg_ott": -0.4588888888888889,
+    "avg_putt": 0.19833333333333336,
+    "avg_total": -0.76,
     "season": 2026
   },
   "sources": [
@@ -201,10 +201,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.12411764705882355
+          "value": 0.19833333333333336
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.12로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.20로 반전에 성공했습니다."
     },
     {
       "citations": [

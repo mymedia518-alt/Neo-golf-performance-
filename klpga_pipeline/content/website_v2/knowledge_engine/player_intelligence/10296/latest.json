@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:56.278356+00:00",
-    "input_signature": "0fd08984cf1b35aab6f56cabf0b3c5864c64b4f53032bf9c76fe151772d8a2e5",
+    "generated_at": "2026-10-01T12:34:06.571337+00:00",
+    "input_signature": "962d11b8c53c75707595b3e94c87ad904b862913f205b837b9a1567058bd9680",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.5338554216867469,
+    "long_term_sg": 0.596547619047619,
     "rate_stats": {
       "average_putts": 30.5397,
       "average_score": 70.8894,
@@ -18,9 +18,9 @@
       "par_save_rate": 86.4198,
       "recovery_rate": 61.0236
     },
-    "recent_10_sg": 1.634,
-    "recent_5_sg": 1.874,
-    "volatility": 1.2770920092146847
+    "recent_10_sg": 2.31,
+    "recent_5_sg": 2.2640000000000002,
+    "volatility": 1.4955467227739827
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.131904761904762
+        "value": 1.344090909090909
       }
     ],
-    "narrative": "2023시즌 SG Total +0.11에서 2026시즌 +1.13로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.11에서 2026시즌 +1.34로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,10 +70,10 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.131904761904762,
-        "delta_from_prev": 0.5422751322751322,
+        "avg_total": 1.344090909090909,
+        "delta_from_prev": 0.7544612794612793,
         "season": 2026,
-        "strongest_component": "avg_ott",
+        "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
       }
     ]
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10296",
     "player_name": "문정민",
-    "sample_count": 83
+    "sample_count": 84
   },
   "neo_verdict": {
     "summary": "문정민은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 4시즌 연속 SG Off-the-Tee에서 상위 4% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.637142857142857,
-    "avg_arg": -0.012857142857142869,
-    "avg_ott": 0.6466666666666667,
-    "avg_putt": -0.13761904761904764,
-    "avg_total": 1.131904761904762,
+    "avg_app": 0.7499999999999999,
+    "avg_arg": 0.02545454545454544,
+    "avg_ott": 0.6677272727272728,
+    "avg_putt": -0.09772727272727275,
+    "avg_total": 1.344090909090909,
     "season": 2026
   },
   "sources": [
@@ -220,10 +220,10 @@
         {
           "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.874
+          "value": 2.2640000000000002
         }
       ],
-      "text": "최근 5개 대회 SG Total(+1.87)이 장기 평균(+0.53) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "최근 5개 대회 SG Total(+2.26)이 장기 평균(+0.60) 대비 뚜렷한 상승세를 보이고 있습니다."
     },
     {
       "citations": [

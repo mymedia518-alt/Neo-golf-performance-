@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:11.456228+00:00",
-    "input_signature": "0d7738adb6bbc2749ab73b9ff41a5dd6629bd99301836a7335edb2b6656faec3",
+    "generated_at": "2026-10-01T12:34:19.032548+00:00",
+    "input_signature": "6c03f2947309a8cbf1678544aba42ddae235d206dcd1f5da237e43606110dc3d",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.1435,
+    "long_term_sg": -1.237142857142857,
     "rate_stats": {
       "average_putts": 31.5741,
       "average_score": 73.5556,
@@ -18,9 +18,9 @@
       "par_save_rate": 79.1152,
       "recovery_rate": 49.1228
     },
-    "recent_10_sg": -1.719,
-    "recent_5_sg": -2.596,
-    "volatility": 1.8912559319140285
+    "recent_10_sg": -1.921,
+    "recent_5_sg": -3.17,
+    "volatility": 1.92092920223521
   },
   "evolution": {
     "citations": [],
@@ -32,7 +32,7 @@
     "current_season": 2026,
     "player_id": "11040",
     "player_name": "이세영",
-    "sample_count": 20
+    "sample_count": 21
   },
   "neo_verdict": {
     "summary": "이세영은(는) 균형형(Balanced) 유형입니다. SG Off-the-Tee이(가) 필드 상위 9%에 해당하는 엘리트 수준입니다."
@@ -70,11 +70,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.14,
-    "avg_arg": -0.2495,
-    "avg_ott": 0.5969999999999999,
-    "avg_putt": -1.3519999999999999,
-    "avg_total": -1.1435,
+    "avg_app": -0.08380952380952382,
+    "avg_arg": -0.2761904761904762,
+    "avg_ott": 0.586190476190476,
+    "avg_putt": -1.4642857142857142,
+    "avg_total": -1.237142857142857,
     "season": 2026
   },
   "sources": [

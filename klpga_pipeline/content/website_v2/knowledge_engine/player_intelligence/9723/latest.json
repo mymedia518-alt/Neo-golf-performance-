@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:54.480436+00:00",
-    "input_signature": "f2592970fbf2068e8f6fe0a16a1b0b7fa889c3124ad2b081195e0d1e69545910",
+    "generated_at": "2026-10-01T12:34:04.385110+00:00",
+    "input_signature": "d5418559247bfcf3186430b5ea75a8344f13fc9554ae68cb9360c1f3bce639f9",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.935909090909091,
+    "long_term_sg": -1.8800000000000001,
     "rate_stats": {
       "average_putts": 30.8846,
       "average_score": 74.1143,
@@ -18,9 +18,9 @@
       "par_save_rate": 80.1282,
       "recovery_rate": 53.1056
     },
-    "recent_10_sg": -2.2420000000000004,
-    "recent_5_sg": -1.988,
-    "volatility": 1.4091117769715786
+    "recent_10_sg": -2.1250000000000004,
+    "recent_5_sg": -1.982,
+    "volatility": 1.48578093943892
   },
   "evolution": {
     "citations": [
@@ -32,10 +32,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -1.6595238095238096
+        "value": -1.6136363636363635
       }
     ],
-    "narrative": "2023시즌 SG Total -7.74에서 2026시즌 -1.66로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -7.74에서 2026시즌 -1.61로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -46,8 +46,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -1.6595238095238096,
-        "delta_from_prev": 6.08047619047619,
+        "avg_total": -1.6136363636363635,
+        "delta_from_prev": 6.126363636363637,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_app"
@@ -58,7 +58,7 @@
     "current_season": 2026,
     "player_id": "9723",
     "player_name": "노원경",
-    "sample_count": 22
+    "sample_count": 23
   },
   "neo_verdict": {
     "summary": "노원경은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Approach이(가) 필드 평균 이하(하위 31%)로 구조적 약점입니다."
@@ -96,11 +96,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.8857142857142858,
-    "avg_arg": -0.31666666666666665,
-    "avg_ott": -0.2014285714285714,
-    "avg_putt": -0.2571428571428572,
-    "avg_total": -1.6595238095238096,
+    "avg_app": -0.7772727272727273,
+    "avg_arg": -0.2677272727272727,
+    "avg_ott": -0.2627272727272727,
+    "avg_putt": -0.30772727272727274,
+    "avg_total": -1.6136363636363635,
     "season": 2026
   },
   "sources": [
@@ -153,10 +153,10 @@
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.31666666666666665
+          "value": -0.2677272727272727
         }
       ],
-      "text": "2023시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.32로 악화되었습니다."
+      "text": "2023시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.27로 악화되었습니다."
     }
   ],
   "why_wins": []

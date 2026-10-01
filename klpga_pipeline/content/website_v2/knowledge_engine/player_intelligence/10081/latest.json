@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:49.271284+00:00",
-    "input_signature": "c52b05feb98340a2f6f3a80c9f7452e583b1b2f94192f599808f2cab6403f20e",
+    "generated_at": "2026-10-01T12:33:56.630096+00:00",
+    "input_signature": "032f43ebfca4cd0d8cb77313d6337d2b9482296ad924a70e46c652c521a12714",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.5776470588235293,
+    "long_term_sg": 0.6052427184466018,
     "rate_stats": {
       "average_putts": 29.9041,
       "average_score": 70.8082,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.7473,
       "recovery_rate": 65.0746
     },
-    "recent_10_sg": 1.799,
-    "recent_5_sg": 2.348,
-    "volatility": 1.2385430957378916
+    "recent_10_sg": 2.151,
+    "recent_5_sg": 2.332,
+    "volatility": 1.1455256435366254
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.6461904761904755
+        "value": 1.7268181818181814
       }
     ],
-    "narrative": "2023시즌 SG Total -0.10에서 2026시즌 +1.65로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.10에서 2026시즌 +1.73로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.6461904761904755,
-        "delta_from_prev": 0.9713756613756609,
+        "avg_total": 1.7268181818181814,
+        "delta_from_prev": 1.0520033670033668,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_arg"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10081",
     "player_name": "김민주",
-    "sample_count": 102
+    "sample_count": 103
   },
   "neo_verdict": {
     "summary": "김민주은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Approach에서 상위 6% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.8704761904761904,
-    "avg_arg": 0.17285714285714282,
-    "avg_ott": 0.18999999999999997,
-    "avg_putt": 0.4123809523809524,
-    "avg_total": 1.6461904761904755,
+    "avg_app": 0.9254545454545454,
+    "avg_arg": 0.14999999999999997,
+    "avg_ott": 0.19681818181818178,
+    "avg_putt": 0.4540909090909091,
+    "avg_total": 1.7268181818181814,
     "season": 2026
   },
   "sources": [
@@ -189,20 +189,20 @@
         {
           "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 2.348
+          "value": 2.332
         }
       ],
-      "text": "최근 5개 대회 SG Total(+2.35)이 장기 평균(+0.58) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "최근 5개 대회 SG Total(+2.33)이 장기 평균(+0.61) 대비 뚜렷한 상승세를 보이고 있습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.4123809523809524
+          "value": 0.4540909090909091
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.41로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.45로 반전에 성공했습니다."
     }
   ]
 }

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:49.384429+00:00",
-    "input_signature": "9685a4e011b138b6ada2db547d6df6a2fd2c6020c291ade110c56343b402539a",
+    "generated_at": "2026-10-01T12:33:59.432801+00:00",
+    "input_signature": "ae8ff37810ee5bea217c4ed935529c2c29601d59d2fa2e2666a16143793771d5",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.1128888888888888,
+    "long_term_sg": -1.2193478260869564,
     "rate_stats": {
       "average_putts": 31.2449,
       "average_score": 73.8776,
@@ -18,9 +18,9 @@
       "par_save_rate": 79.4785,
       "recovery_rate": 59.1837
     },
-    "recent_10_sg": -0.881,
-    "recent_5_sg": -0.45,
-    "volatility": 1.0603532430280014
+    "recent_10_sg": -1.461,
+    "recent_5_sg": -1.482,
+    "volatility": 1.8367332413826456
   },
   "evolution": {
     "citations": [
@@ -37,10 +37,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -1.3142857142857143
+        "value": -1.5277272727272726
       }
     ],
-    "narrative": "2023시즌 SG Total -0.86에서 2026시즌 -1.31로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.86에서 2026시즌 -1.53로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -58,8 +58,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -1.3142857142857143,
-        "delta_from_prev": 1.2957142857142856,
+        "avg_total": -1.5277272727272726,
+        "delta_from_prev": 1.0822727272727273,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_putt"
@@ -70,10 +70,10 @@
     "current_season": 2026,
     "player_id": "9277",
     "player_name": "김아현",
-    "sample_count": 45
+    "sample_count": 46
   },
   "neo_verdict": {
-    "summary": "김아현은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.00로 반전에 성공했습니다."
+    "summary": "김아현은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting이(가) 필드 평균 이하(하위 19%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.2733333333333334,
-    "avg_arg": 0.003809523809523802,
-    "avg_ott": -0.1442857142857143,
-    "avg_putt": -0.9014285714285715,
-    "avg_total": -1.3142857142857143,
+    "avg_app": -0.43454545454545457,
+    "avg_arg": -0.0009090909090909162,
+    "avg_ott": -0.17136363636363638,
+    "avg_putt": -0.9218181818181819,
+    "avg_total": -1.5277272727272726,
     "season": 2026
   },
   "sources": [
@@ -161,16 +161,5 @@
       "text": "최근 3시즌 연속 SG Putting이(가) 필드 평균 이하(하위 19%)로 구조적 약점입니다."
     }
   ],
-  "why_wins": [
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_arg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.003809523809523802
-        }
-      ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.00로 반전에 성공했습니다."
-    }
-  ]
+  "why_wins": []
 }

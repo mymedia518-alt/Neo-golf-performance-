@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:59.259089+00:00",
-    "input_signature": "b89e907d78ca0b28d4ef7e50ebcc1bc34721eb0dfb15a1a9504571280947246c",
+    "generated_at": "2026-10-01T12:34:07.547300+00:00",
+    "input_signature": "fb4bc59b516a2a33b52e0da487d58ced4f581cd80e7ee2b007fc751b682168b4",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.037551020408163285,
+    "long_term_sg": 0.02151515151515149,
     "rate_stats": {
       "average_putts": 30.3621,
       "average_score": 72.0862,
@@ -18,9 +18,9 @@
       "par_save_rate": 84.6743,
       "recovery_rate": 61.4379
     },
-    "recent_10_sg": 1.2289999999999999,
-    "recent_5_sg": 1.286,
-    "volatility": 1.8298057273929382
+    "recent_10_sg": 1.5739999999999998,
+    "recent_5_sg": 2.7060000000000004,
+    "volatility": 2.2803078739503575
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.06736842105263156
+        "value": 0.22649999999999998
       }
     ],
-    "narrative": "2023시즌 SG Total -0.04에서 2026시즌 -0.07로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.04에서 2026시즌 +0.23로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.06736842105263156,
-        "delta_from_prev": -0.37329434697855757,
+        "avg_total": 0.22649999999999998,
+        "delta_from_prev": -0.07942592592592601,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_putt"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "9431",
     "player_name": "박보겸",
-    "sample_count": 98
+    "sample_count": 99
   },
   "neo_verdict": {
-    "summary": "박보겸은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.05로 반전에 성공했습니다."
+    "summary": "박보겸은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+2.71)이 장기 평균(+0.02) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.05315789473684209,
-    "avg_arg": 0.4068421052631579,
-    "avg_ott": -0.06052631578947366,
-    "avg_putt": -0.46684210526315795,
-    "avg_total": -0.06736842105263156,
+    "avg_app": 0.1615,
+    "avg_arg": 0.43100000000000005,
+    "avg_ott": -0.04599999999999997,
+    "avg_putt": -0.32,
+    "avg_total": 0.22649999999999998,
     "season": 2026
   },
   "sources": [
@@ -147,32 +147,42 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.06052631578947366
+          "value": -0.04599999999999997
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.06로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.05로 악화되었습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.46684210526315795
+          "value": -0.32
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.47로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.32로 악화되었습니다."
     }
   ],
   "why_wins": [
     {
       "citations": [
         {
-          "field_path": "seasons[2026].avg_app",
+          "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.05315789473684209
+          "value": 2.7060000000000004
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.05로 반전에 성공했습니다."
+      "text": "최근 5개 대회 SG Total(+2.71)이 장기 평균(+0.02) 대비 뚜렷한 상승세를 보이고 있습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_app",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.1615
+        }
+      ],
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.16로 반전에 성공했습니다."
     },
     {
       "citations": [

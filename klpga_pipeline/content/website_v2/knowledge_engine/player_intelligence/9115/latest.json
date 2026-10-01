@@ -1,33 +1,59 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:31.787531+00:00",
-    "input_signature": "d67f64c83fcf0eed13760e5f60b4f89fa9ad0415c9914490d7eeee3e1704fccf",
+    "generated_at": "2026-10-01T12:34:40.112941+00:00",
+    "input_signature": "bf33560a56e14a5ae1ae2707e42f3b48fc9c7c297eddfc76cae027728efe4103",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 1.94,
+    "long_term_sg": 2.965,
     "rate_stats": {},
-    "recent_10_sg": 1.94,
-    "recent_5_sg": 1.94,
-    "volatility": null
+    "recent_10_sg": 2.965,
+    "recent_5_sg": 2.965,
+    "volatility": 1.0250000000000001
   },
   "evolution": {
-    "citations": [],
-    "narrative": "4시즌 추이를 판단하기에 시즌 데이터가 부족합니다.",
-    "status": "INSUFFICIENT_SAMPLE",
-    "steps": []
+    "citations": [
+      {
+        "field_path": "seasons[2024].avg_total",
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 1.94
+      },
+      {
+        "field_path": "seasons[2026].avg_total",
+        "source": "historical_sg_warehouse_corrected_v2.json",
+        "value": 3.99
+      }
+    ],
+    "narrative": "2024시즌 SG Total +1.94에서 2026시즌 +3.99로 상승 추세입니다.",
+    "status": "OK",
+    "steps": [
+      {
+        "avg_total": 1.94,
+        "delta_from_prev": null,
+        "season": 2024,
+        "strongest_component": "avg_app",
+        "weakest_component": "avg_arg"
+      },
+      {
+        "avg_total": 3.99,
+        "delta_from_prev": 2.0500000000000003,
+        "season": 2026,
+        "strongest_component": "avg_ott",
+        "weakest_component": "avg_putt"
+      }
+    ]
   },
   "hero": {
-    "current_season": 2024,
+    "current_season": 2026,
     "player_id": "9115",
     "player_name": "유해란",
-    "sample_count": 1
+    "sample_count": 2
   },
   "neo_verdict": {
-    "summary": "유해란은(는) 균형형(Balanced) 유형입니다. 4시즌 추이를 판단하기에 시즌 데이터가 부족합니다."
+    "summary": "유해란은(는) 균형형(Balanced) 유형입니다. 2024시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +1.01로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": []
@@ -41,12 +67,12 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.82,
-    "avg_arg": -0.38,
-    "avg_ott": 0.7,
-    "avg_putt": 0.81,
-    "avg_total": 1.94,
-    "season": 2024
+    "avg_app": 1.34,
+    "avg_arg": 1.01,
+    "avg_ott": 1.6,
+    "avg_putt": 0.04,
+    "avg_total": 3.99,
+    "season": 2026
   },
   "sources": [
     "historical_sg_warehouse_corrected_v2.json",
@@ -57,5 +83,16 @@
   "strengths": [],
   "weaknesses": [],
   "why_loses": [],
-  "why_wins": []
+  "why_wins": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.01
+        }
+      ],
+      "text": "2024시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +1.01로 반전에 성공했습니다."
+    }
+  ]
 }

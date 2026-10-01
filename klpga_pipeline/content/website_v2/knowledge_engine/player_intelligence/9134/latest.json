@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:02.157648+00:00",
-    "input_signature": "ec9ec7a1686bc8ba8bea5e5f77adb0c1867d2a50238ab764693124b7bd2225c0",
+    "generated_at": "2026-10-01T12:34:10.020272+00:00",
+    "input_signature": "d8ff1e7e5bca3703d44d31177deaa4e4c4826173e5390d82b5a4ce4c368f6b53",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.7762626262626262,
+    "long_term_sg": 0.8242999999999999,
     "rate_stats": {
       "average_putts": 29.7969,
       "average_score": 71.5938,
@@ -18,9 +18,9 @@
       "par_save_rate": 87.3264,
       "recovery_rate": 67.6301
     },
-    "recent_10_sg": 1.09,
-    "recent_5_sg": 1.0079999999999998,
-    "volatility": 1.3652179313208568
+    "recent_10_sg": 1.368,
+    "recent_5_sg": 2.272,
+    "volatility": 1.8735356948828064
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.875263157894737
+        "value": 1.1105
       }
     ],
-    "narrative": "2023시즌 SG Total +0.68에서 2026시즌 +0.88로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.68에서 2026시즌 +1.11로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 0.875263157894737,
-        "delta_from_prev": 0.26204887218045136,
+        "avg_total": 1.1105,
+        "delta_from_prev": 0.49728571428571444,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "9134",
     "player_name": "서어진",
-    "sample_count": 99
+    "sample_count": 100
   },
   "neo_verdict": {
     "summary": "서어진은(는) 위기 관리형 플레이어(Recovery Specialist) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 15% 수준의 기록을 유지하고 있습니다."
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.2831578947368421,
-    "avg_arg": 0.2473684210526316,
-    "avg_ott": -0.013157894736842111,
-    "avg_putt": 0.35736842105263156,
-    "avg_total": 0.875263157894737,
+    "avg_app": 0.381,
+    "avg_arg": 0.23900000000000002,
+    "avg_ott": 0.013999999999999995,
+    "avg_putt": 0.4755,
+    "avg_total": 1.1105,
     "season": 2026
   },
   "sources": [
@@ -187,22 +187,22 @@
     {
       "citations": [
         {
-          "field_path": "seasons[2026].avg_app",
+          "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.2831578947368421
+          "value": 2.272
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.28로 반전에 성공했습니다."
+      "text": "최근 5개 대회 SG Total(+2.27)이 장기 평균(+0.82) 대비 뚜렷한 상승세를 보이고 있습니다."
     },
     {
       "citations": [
         {
-          "field_path": "recovery_rate",
-          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
-          "value": 90.0
+          "field_path": "seasons[2026].avg_ott",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.013999999999999995
         }
       ],
-      "text": "리커버리율이(가) 필드 상위 10%에 해당하는 엘리트 수준입니다."
+      "text": "2025시즌 약점이던 SG Off-the-Tee이(가) 2026시즌 +0.01로 반전에 성공했습니다."
     }
   ]
 }

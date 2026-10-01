@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:05.327889+00:00",
-    "input_signature": "347a73e1d2a70eef06b445bd6c82facab825a3bd7c1a16102da5f6813512c53c",
+    "generated_at": "2026-10-01T12:34:12.102108+00:00",
+    "input_signature": "be89fb69aaf36e9c4e497de92cdfc189fcf796ba35c3e5693918bb86ccb96a54",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -0.041066666666666675,
+    "long_term_sg": -0.0318421052631579,
     "rate_stats": {
       "average_putts": 30.5231,
       "average_score": 71.4,
@@ -18,9 +18,9 @@
       "par_save_rate": 86.4103,
       "recovery_rate": 62.0339
     },
-    "recent_10_sg": 1.1599999999999997,
-    "recent_5_sg": 1.016,
-    "volatility": 1.398549248328424
+    "recent_10_sg": 1.062,
+    "recent_5_sg": 0.6980000000000001,
+    "volatility": 1.3958137411560325
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.7852380952380952
+        "value": 0.7795454545454544
       }
     ],
-    "narrative": "2023시즌 SG Total -0.68에서 2026시즌 +0.79로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.68에서 2026시즌 +0.78로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.7852380952380952,
-        "delta_from_prev": 0.8098809523809523,
+        "avg_total": 0.7795454545454544,
+        "delta_from_prev": 0.8041883116883115,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_putt"
@@ -82,10 +82,10 @@
     "current_season": 2026,
     "player_id": "9135",
     "player_name": "신다인",
-    "sample_count": 75
+    "sample_count": 76
   },
   "neo_verdict": {
-    "summary": "신다인은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.41로 반전에 성공했습니다."
+    "summary": "신다인은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.44로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -131,11 +131,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.41,
-    "avg_arg": -0.11000000000000003,
-    "avg_ott": 0.715714285714286,
-    "avg_putt": -0.2285714285714286,
-    "avg_total": 0.7852380952380952,
+    "avg_app": 0.4359090909090909,
+    "avg_arg": -0.12181818181818184,
+    "avg_ott": 0.7231818181818185,
+    "avg_putt": -0.2559090909090909,
+    "avg_total": 0.7795454545454544,
     "season": 2026
   },
   "sources": [
@@ -178,10 +178,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.2285714285714286
+          "value": -0.2559090909090909
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.23로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.26로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -190,10 +190,10 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.41
+          "value": 0.4359090909090909
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.41로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.44로 반전에 성공했습니다."
     },
     {
       "citations": [

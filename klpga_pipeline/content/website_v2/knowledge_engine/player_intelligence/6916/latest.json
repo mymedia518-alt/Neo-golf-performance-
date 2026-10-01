@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:33:05.002883+00:00",
-    "input_signature": "f709169bab23cd6c4a3898cb13314fce7791541ce7d1f3aad7a11727123563c4",
+    "generated_at": "2026-10-01T12:34:12.479499+00:00",
+    "input_signature": "cb554d8f05f3b6b28464dddef1f19868bf5aee3553fbb58d4ff07aae3a7ce331",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": 0.15730337078651685,
+    "long_term_sg": 0.14644444444444443,
     "rate_stats": {
       "average_putts": 30.5556,
       "average_score": 72.9069,
@@ -18,9 +18,9 @@
       "par_save_rate": 82.8189,
       "recovery_rate": 60.7595
     },
-    "recent_10_sg": -0.4029999999999999,
-    "recent_5_sg": -0.534,
-    "volatility": 1.0051373040535307
+    "recent_10_sg": -0.38299999999999995,
+    "recent_5_sg": -0.7979999999999999,
+    "volatility": 0.9945958978399216
   },
   "evolution": {
     "citations": [
@@ -42,7 +42,7 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.8705263157894735
+        "value": -0.8679999999999998
       }
     ],
     "narrative": "2023시즌 SG Total +0.67에서 2026시즌 -0.87로 하락 추세입니다.",
@@ -70,8 +70,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.8705263157894735,
-        "delta_from_prev": -1.2125263157894735,
+        "avg_total": -0.8679999999999998,
+        "delta_from_prev": -1.2099999999999997,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_app"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "6916",
     "player_name": "안송이",
-    "sample_count": 89
+    "sample_count": 90
   },
   "neo_verdict": {
     "summary": "안송이은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Around-the-Green에서 상위 19% 수준의 기록을 유지하고 있습니다."
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.5673684210526315,
-    "avg_arg": 0.028421052631578927,
-    "avg_ott": -0.06263157894736847,
-    "avg_putt": -0.2673684210526316,
-    "avg_total": -0.8705263157894735,
+    "avg_app": -0.6855,
+    "avg_arg": 0.022499999999999982,
+    "avg_ott": -0.05750000000000004,
+    "avg_putt": -0.14650000000000002,
+    "avg_total": -0.8679999999999998,
     "season": 2026
   },
   "sources": [
@@ -158,7 +158,7 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.06263157894736847
+          "value": -0.05750000000000004
         }
       ],
       "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.06로 악화되었습니다."
@@ -168,10 +168,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.2673684210526316
+          "value": -0.14650000000000002
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.27로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.15로 악화되었습니다."
     }
   ],
   "why_wins": [

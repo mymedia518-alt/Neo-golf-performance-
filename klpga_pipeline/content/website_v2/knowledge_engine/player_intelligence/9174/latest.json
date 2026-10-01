@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:45.197327+00:00",
-    "input_signature": "57ee1d8072cb7298163f9ae2cefbd087d75cf71f3afe4d527a641df1db970f5f",
+    "generated_at": "2026-10-01T12:33:54.235384+00:00",
+    "input_signature": "9804bb1e175b6f8fbaa0d5b8753ac99c687baa4862ff711e531bc89e31618656",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.3523611111111111,
+    "long_term_sg": -1.3242465753424657,
     "rate_stats": {
       "average_putts": 31.4186,
       "average_score": 75.0233,
@@ -18,9 +18,9 @@
       "par_save_rate": 75.969,
       "recovery_rate": 50.6897
     },
-    "recent_10_sg": -3.8560000000000003,
-    "recent_5_sg": -4.356,
-    "volatility": 1.8566162769942527
+    "recent_10_sg": -3.281,
+    "recent_5_sg": -3.29,
+    "volatility": 2.2471201570009556
   },
   "evolution": {
     "citations": [
@@ -37,10 +37,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -2.7642857142857147
+        "value": -2.606818181818182
       }
     ],
-    "narrative": "2024시즌 SG Total -1.15에서 2026시즌 -2.76로 하락 추세입니다.",
+    "narrative": "2024시즌 SG Total -1.15에서 2026시즌 -2.61로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -58,8 +58,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -2.7642857142857147,
-        "delta_from_prev": -2.328730158730159,
+        "avg_total": -2.606818181818182,
+        "delta_from_prev": -2.1712626262626262,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_app"
@@ -70,7 +70,7 @@
     "current_season": 2026,
     "player_id": "9174",
     "player_name": "강가율",
-    "sample_count": 72
+    "sample_count": 73
   },
   "neo_verdict": {
     "summary": "강가율은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Putting이(가) 필드 평균 이하(하위 17%)로 구조적 약점입니다."
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.358095238095238,
-    "avg_arg": -0.3219047619047619,
-    "avg_ott": -0.2080952380952381,
-    "avg_putt": -0.8757142857142856,
-    "avg_total": -2.7642857142857147,
+    "avg_app": -1.3236363636363637,
+    "avg_arg": -0.3331818181818182,
+    "avg_ott": -0.15,
+    "avg_putt": -0.799090909090909,
+    "avg_total": -2.606818181818182,
     "season": 2026
   },
   "sources": [

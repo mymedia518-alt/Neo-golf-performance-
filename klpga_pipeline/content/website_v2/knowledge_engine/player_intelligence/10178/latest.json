@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:53.362842+00:00",
-    "input_signature": "c0555a387c6fbf783715665b7ae0c4c385f01907c3d871d964fd3cdf00e52ccc",
+    "generated_at": "2026-10-01T12:34:01.694241+00:00",
+    "input_signature": "0aa50fd0cdc321d779ca548d3cf1d0903c39c3ed9d3f7a6cc72751d2549c91bd",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.4083870967741932,
+    "long_term_sg": -1.4378723404255316,
     "rate_stats": {
       "average_putts": 29.6444,
       "average_score": 74.9556,
@@ -18,9 +18,9 @@
       "par_save_rate": 77.6543,
       "recovery_rate": 54.8105
     },
-    "recent_10_sg": -1.786,
-    "recent_5_sg": -1.9919999999999998,
-    "volatility": 1.5946046531977762
+    "recent_10_sg": -2.316,
+    "recent_5_sg": -2.396,
+    "volatility": 1.410852224720931
   },
   "evolution": {
     "citations": [
@@ -42,10 +42,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -2.3904761904761904
+        "value": -2.471818181818182
       }
     ],
-    "narrative": "2023시즌 SG Total +0.34에서 2026시즌 -2.39로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.34에서 2026시즌 -2.47로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -70,8 +70,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": -2.3904761904761904,
-        "delta_from_prev": 0.5090476190476183,
+        "avg_total": -2.471818181818182,
+        "delta_from_prev": 0.4277056277056266,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
@@ -82,7 +82,7 @@
     "current_season": 2026,
     "player_id": "10178",
     "player_name": "김희지",
-    "sample_count": 93
+    "sample_count": 94
   },
   "neo_verdict": {
     "summary": "김희지은(는) 균형형(Balanced) 유형입니다. 최근 4시즌 연속 SG Putting에서 상위 22% 수준의 기록을 유지하고 있습니다."
@@ -120,11 +120,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.7704761904761906,
-    "avg_arg": 0.0757142857142857,
-    "avg_ott": -2.0166666666666666,
-    "avg_putt": 0.320952380952381,
-    "avg_total": -2.3904761904761904,
+    "avg_app": -0.8954545454545456,
+    "avg_arg": 0.13727272727272724,
+    "avg_ott": -2.048636363636364,
+    "avg_putt": 0.3354545454545455,
+    "avg_total": -2.471818181818182,
     "season": 2026
   },
   "sources": [
@@ -200,10 +200,10 @@
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.0757142857142857
+          "value": 0.13727272727272724
         }
       ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.08로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.14로 반전에 성공했습니다."
     }
   ]
 }

@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "generated_at": "2026-10-01T10:32:49.334447+00:00",
-    "input_signature": "836c460c0a1b7bc0afd5a859be7c515ac5c369838746b6b5071aa6f5f74981c1",
+    "generated_at": "2026-10-01T12:33:57.076323+00:00",
+    "input_signature": "67d6bdba32d97339f5e8ce750dc85175f757ae43535c42c0e5a492d9b77f1a8f",
     "tournament_game_code": null
   },
   "course_fit": {
     "history": []
   },
   "current_form": {
-    "long_term_sg": -1.0248888888888887,
+    "long_term_sg": -0.9369565217391304,
     "rate_stats": {
       "average_putts": 30.5556,
       "average_score": 73.3326,
@@ -18,9 +18,9 @@
       "par_save_rate": 80.5556,
       "recovery_rate": 51.8868
     },
-    "recent_10_sg": -1.036,
-    "recent_5_sg": -1.64,
-    "volatility": 2.006789475754744
+    "recent_10_sg": -0.26699999999999996,
+    "recent_5_sg": -0.572,
+    "volatility": 1.9391650264998077
   },
   "evolution": {
     "citations": [
@@ -37,10 +37,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.8695238095238096
+        "value": -0.6927272727272729
       }
     ],
-    "narrative": "2023시즌 SG Total -0.98에서 2026시즌 -0.87로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.98에서 2026시즌 -0.69로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -58,8 +58,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": -0.8695238095238096,
-        "delta_from_prev": 0.8454761904761903,
+        "avg_total": -0.6927272727272729,
+        "delta_from_prev": 1.022272727272727,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_arg"
@@ -70,7 +70,7 @@
     "current_season": 2026,
     "player_id": "9089",
     "player_name": "김소정",
-    "sample_count": 45
+    "sample_count": 46
   },
   "neo_verdict": {
     "summary": "김소정은(는) 균형형(Balanced) 유형입니다. 최근 3시즌 연속 SG Off-the-Tee이(가) 필드 평균 이하(하위 38%)로 구조적 약점입니다."
@@ -108,11 +108,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.24238095238095245,
-    "avg_arg": -0.5014285714285714,
-    "avg_ott": -0.33619047619047615,
-    "avg_putt": -0.27285714285714285,
-    "avg_total": -0.8695238095238096,
+    "avg_app": 0.31090909090909097,
+    "avg_arg": -0.4472727272727273,
+    "avg_ott": -0.2931818181818181,
+    "avg_putt": -0.2618181818181818,
+    "avg_total": -0.6927272727272729,
     "season": 2026
   },
   "sources": [
