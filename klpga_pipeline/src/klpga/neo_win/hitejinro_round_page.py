@@ -110,6 +110,13 @@ def render_round_page(
     if round_number not in STAGE_LABELS:
         raise ValueError(f"round_number must be 1-4, got {round_number}")
     stage_key, stage_label = STAGE_LABELS[round_number]
+    # R1's own page keeps its already-shipped "R1" column label
+    # unchanged (out of scope here); from R2 on, the column sits
+    # alongside "1R"/"2R"/... prior-round columns and uses that same
+    # "{N}R" suffix style for visual consistency, per explicit
+    # operator instruction -- stage_label itself (used in the hero/
+    # title/breadcrumb/stage-nav) is untouched.
+    round_col_label = stage_label if round_number == 1 else f"{round_number}R"
 
     board = load_leaderboard(content_root)
     records = board["records"]
@@ -163,6 +170,10 @@ def render_round_page(
             # not what that field means.
             score_cell = status or (str(r[score_field]) if r.get(score_field) is not None else "-")
         total_cell = status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
+        prior_round_cells = [
+            f"<td data-label='{k}R'>{status or (str(r[f'r{k}_score']) if r.get(f'r{k}_score') is not None else '-')}</td>"
+            for k in range(1, round_number)
+        ]
         country_code = nationality_by_id.get(pid)
         flag_cell = (
             f"<img src='/assets/flags/{country_code}.svg' alt='' width='16' height='12' "
@@ -176,7 +187,7 @@ def render_round_page(
         )
         name_cell = linked_player_name_cell(pid, name_cell)
 
-        if pid in band_by_id:
+        if round_number == 1 and pid in band_by_id:
             label, score = band_by_id[pid]
             band_cell = (
                 f"<span class='band' role='img' aria-label='NEO 경기력 {label}' "
@@ -195,12 +206,14 @@ def render_round_page(
         else:
             cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
 
+        band_td = f"<td data-label='NEO 경기력'>{band_cell}</td>" if round_number == 1 else ""
         rows_html.append(
             f"<tr><td data-label='순위'>{rank_cell}</td>"
             f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
             f"<td data-label='합계'>{total_cell}</td>"
-            f"<td data-label='{stage_label}'>{score_cell}</td>"
-            f"<td data-label='NEO 경기력'>{band_cell}</td>"
+            + "".join(prior_round_cells) +
+            f"<td data-label='{round_col_label}'>{score_cell}</td>"
+            f"{band_td}"
             f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
             f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
             f"<td class='win' data-label='TOP10'>{top10_cell}</td>"
@@ -252,8 +265,11 @@ def render_round_page(
         f"<section class='panel leaderboard-panel' id='{stage_key}'>"
         f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2></div>"
         "<div class='table-wrap'><table class='data leaderboard-table'><thead><tr>"
-        f"<th>순위</th><th>선수</th><th>합계</th><th>{stage_label}</th>"
-        "<th>NEO 경기력</th><th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
+        f"<th>순위</th><th>선수</th><th>합계</th>"
+        + "".join(f"<th>{k}R</th>" for k in range(1, round_number))
+        + f"<th>{round_col_label}</th>"
+        + ("<th>NEO 경기력</th>" if round_number == 1 else "")
+        + "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
     )
     footer = (
