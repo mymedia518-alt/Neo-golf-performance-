@@ -24,7 +24,7 @@ import re
 import pytest
 
 from klpga.neo_win import hitejinro_round_pipeline as _rp
-from klpga.neo_win.hitejinro_round_pipeline import parse_leaderboard, raw_evidence_path
+from klpga.neo_win.hitejinro_round_pipeline import cross_validate_against_round, parse_leaderboard, raw_evidence_path
 from klpga.neo_win.hitejinro_round_page import _advancement_summary, _status_family, render_round_page
 
 pytestmark = pytest.mark.round_pipeline
@@ -332,3 +332,95 @@ def test_r3_and_fr_pages_never_section_cut_or_wd_players():
     )
     assert "cut-divider" not in html
     assert "R1 미출전" not in html
+
+
+def test_dns_text_produces_a_real_dns_status_not_silently_none():
+    """2026-10-02 '공식 DOM 그대로 파싱' mission: re-analyzing the
+    operator-re-uploaded official R2 evidence (byte-identical to the
+    already-ingested file) confirmed _EXCLUSION_TEXT_RE already
+    matches DNS/불참 text, but _status_state had no case for it --
+    falling through to (None, None), silently indistinguishable from a
+    genuinely active player. Zero real DNS cases exist in this
+    tournament's evidence (re-confirmed this session), so this is
+    exercised with the literal text directly, the same way WD/DQ/CUT
+    already are."""
+    round_scores = {1: 75, 2: None, 3: None, 4: None}
+    assert _rp._status_state("DNS", round_scores, round_number=2) == ("DNS", 1)
+    assert _rp._status_state("불참", round_scores, round_number=2) == ("DNS", 1)
+    # Never flagged as withdrawn/disqualified/missed_cut (the legacy
+    # booleans) -- DNS is its own real outcome, not equivalent to any
+    # of those three.
+    status, _ = _rp._status_state("DNS", round_scores, round_number=2)
+    assert status not in ("WD", "DQ", "R1_CUT", "R2_CUT")
+
+
+@requires_r2_leaderboard_evidence
+def test_dns_section_renders_on_r2_page_when_a_real_dns_record_exists(tmp_path, monkeypatch):
+    """No real DNS record exists in this tournament yet, so this is
+    exercised with one synthetic record layered onto the real board --
+    the same pattern already established for the R2_CUT inline-badge
+    test above. Proves the Renderer (2026-10-02 mission item ②) gives
+    DNS its own sectioned, rank-less group on the R2 page, same as
+    R1_CUT/WD/DQ."""
+    from klpga.tournament_context import CONTENT_DIR
+    import json as _json
+
+    real_board = _json.loads((CONTENT_DIR / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
+    synthetic = dict(real_board["records"][0])
+    synthetic.update(
+        player_id="88888", player_name="테스트DNS선수", finish_position=None, finish_position_numeric=None,
+        score_to_par=None, status="DNS", status_round=None, withdrawn=False, disqualified=False, missed_cut=False,
+        r1_score=None, r2_score=None, r3_score=None, r4_score=None,
+    )
+    real_board["records"].append(synthetic)
+    for name in ("2026100005_ENTRY_KRANKING_JOIN.json", "HITEJINRO_2026100005_PRE_M4_CANDIDATE_V1.json"):
+        src = CONTENT_DIR / name
+        if src.is_file():
+            (tmp_path / name).write_bytes(src.read_bytes())
+    (tmp_path / "2026100005_LEADERBOARD.json").write_text(_json.dumps(real_board, ensure_ascii=False), encoding="utf-8")
+
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04", content_root=tmp_path,
+    )
+    dividers = re.findall(r"<tr class='cut-divider'><td colspan='\d+'>([^<]*)</td></tr>", html)
+    assert dividers[-1] == "DNS · 1명"
+    assert "테스트DNS선수" in html
+
+
+@requires_r2_leaderboard_evidence
+def test_cross_validate_against_round_flags_contradictions_and_verification_worklist(tmp_path, monkeypatch):
+    """cross_validate_against_round is VALIDATION ONLY -- it must never
+    assign or change any status (2026-10-02 mission item ③). Exercised
+    against the real R2 LEADERBOARD.json with a synthetic "round 3"
+    raw HTML built to contain: (a) 조하리 (a real R1_CUT player) --
+    a genuine contradiction, since a cut player cannot be in a later
+    round's field, and (b) a real active player simply absent --
+    must land in needs_verification, never be concluded as WD."""
+    monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_path / "LEADERBOARD.json")
+    out_path = parse_leaderboard(2)
+    assert out_path == tmp_path / "LEADERBOARD.json"
+
+    import json as _json
+    board = _json.loads(out_path.read_text(encoding="utf-8"))
+    active_ids = [r["player_id"] for r in board["records"] if r.get("status") is None]
+    first_active = active_ids[0]
+
+    # Synthetic round-3 raw HTML: 조하리 (11076, real R1_CUT) wrongly
+    # present, one real active player genuinely absent.
+    raw_html = (
+        f'<li id="favoritItem_11076" data-rank="50" data-name="조하리" '
+        f'data-totunderpar="0" data-inghole="" data-todayunderpar="" data-score="0" '
+        f'data-round1score="88" data-round2score="75" data-round3score="70" data-round4score="" '
+        f'data-updown="0">'
+    )
+    raw_path = tmp_path / "r3_raw.html"
+    raw_path.write_text(raw_html, encoding="utf-8")
+
+    result = cross_validate_against_round(3, raw_path=raw_path)
+    contradiction_ids = {c["player_id"] for c in result["contradictions"]}
+    assert "11076" in contradiction_ids
+    verify_ids = {v["player_id"] for v in result["needs_verification"]}
+    assert first_active in verify_ids
+    # Never a status field anywhere in the result -- confirms this
+    # function only reports, never decides.
+    assert "status" not in result["needs_verification"][0]
