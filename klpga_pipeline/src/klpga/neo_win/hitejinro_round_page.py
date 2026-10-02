@@ -146,17 +146,36 @@ def _round_participation_count(
     return count if count > 0 else None
 
 
+# 2026-10-02 "CUT UI 재설계" mission: "R1 CUT"/"R2 CUT" read as two
+# nearly-identical codes a user has to decode -- and worse, the label
+# text named the round the player LAST COMPLETED (status_round), while
+# it physically sits in the NEXT column (_first_missed_round), so e.g.
+# 조하리's "R1 CUT" literally appeared inside the R2 column -- a second,
+# independent source of confusion on top of the R1-vs-R2 ambiguity
+# itself. Replaced with plain-language outcomes, each written to make
+# sense specifically in the column it occupies (R1_CUT always lands in
+# the R2 column; R2_CUT always lands in the R3 column -- see
+# _first_missed_round): "2R 미출전" read inside the R2 column states
+# the real fact about THAT column directly (this player did not play
+# round 2); "3R 탈락" read inside the R3 column does the same for a
+# player cut after round 2. No round-number mismatch left to parse.
+_CUT_COLUMN_LABEL = {
+    STATUS_R1_CUT: "2R 미출전",
+    STATUS_R2_CUT: "3R 탈락",
+}
+
+
 def _status_display_label(status: str, record: dict) -> str:
-    """Qualified status text for the one round column it belongs in
-    (2026-10-02 data-model mission): a bare "CUT"/"WD"/"DQ" read, in
-    the R2 column specifically, as if THIS round produced that outcome
-    -- real evidence this session showed that's often false (조하리/
-    이수민/이소영 never played R2 at all; their real cut was decided
-    on R1's score alone). This now reads the real, already-computed
-    status_round field hitejinro_round_pipeline.parse_leaderboard
-    writes -- it does not re-derive anything from scores at render
-    time; the data model itself carries R1_CUT vs R2_CUT as distinct
-    states, not this function's guesswork."""
+    """Display text for the one round column _first_missed_round
+    identifies. CUT states get the plain-language _CUT_COLUMN_LABEL
+    text (self-explanatory in the column they sit in, never just
+    restating a round number). WD/DQ keep the existing "R{n} WD"/
+    "R{n} DQ" qualifier -- real evidence (2026-10-02 R2 운영 수정
+    mission) showed those two are not ambiguous the way CUT is, so
+    this mission's redesign is scoped to CUT only."""
+    raw_status = record.get("status")
+    if raw_status in _CUT_COLUMN_LABEL:
+        return _CUT_COLUMN_LABEL[raw_status]
     status_round = record.get("status_round")
     return f"R{status_round} {status}" if status_round is not None else status
 
@@ -276,9 +295,18 @@ def render_round_page(
             # summary was never computed from and can't guarantee; see
             # _round_participation_count / the "3R 진출" banner logic
             # below, which reads R3's own real data instead).
+            # 2026-10-02 "배너 문구 재검토" mission: "CUT LINE" alone, on
+            # an R2 RESULTS page, reads as if it were based on the
+            # cumulative R1+R2 total -- the far more common real cut
+            # rule in stroke play. cut_line_score is in fact computed
+            # from r1_score alone (this tournament's real rule: one
+            # 36-hole-style cut after R1), so the label says "R1" (not
+            # a guess -- exactly what this summary's own real
+            # computation reads) to remove that specific, plausible
+            # misreading.
             divider_label = (
-                f"CUT LINE — {summary['cut_line_score']}타 이하 통과"
-                if summary["cut_line_score"] is not None else "CUT LINE"
+                f"R1 컷라인 — {summary['cut_line_score']}타 이하 통과"
+                if summary["cut_line_score"] is not None else "R1 컷라인"
             ) + (
                 f" · CUT {summary['cut_count']}명"
                 f" · WD {summary['withdrawn_count']}명"
@@ -470,9 +498,12 @@ def render_round_page(
         if real_r3_participation is not None:
             cut_line_html = f"<p class='cut-line-banner'>3R 진출 {real_r3_participation}명</p>"
         else:
+            # "CUT 확정" alone has the same R1-vs-cumulative ambiguity
+            # the in-table divider had (see that comment) -- "R1 컷
+            # 확정" names what was actually decided.
             cut_line_html = (
                 "<p class='cut-line-banner'>"
-                "<strong>R2 종료</strong> &nbsp;·&nbsp; CUT 확정"
+                "<strong>R2 종료</strong> &nbsp;·&nbsp; R1 컷 확정"
                 f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
                 f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
                 + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
@@ -488,7 +519,7 @@ def render_round_page(
     table_section = (
         f"<section class='panel leaderboard-panel' id='{stage_key}'>"
         f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2>{cut_line_html}</div>"
-        "<div class='table-wrap'><table class='data leaderboard-table'><thead><tr>"
+        "<div class='table-wrap'><table class='data leaderboard-table leaderboard-table--hitejinro'><thead><tr>"
         "<th>순위</th><th>선수</th><th>합계</th>"
         + "".join(f"<th>{ROUND_COL_LABELS[k]}</th>" for k in (1, 2, 3, 4))
         + ("<th>NEO 경기력</th>" if round_number == 1 else "")

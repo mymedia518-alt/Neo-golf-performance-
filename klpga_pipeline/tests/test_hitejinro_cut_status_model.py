@@ -173,8 +173,12 @@ def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
     the HTML these two displays render was changed to stop using it.
 
     Real R3 data doesn't exist in this checkout yet, so the banner must
-    fall to the no-estimate branch: real R2 종료/CUT 확정/CUT+WD counts
-    only, no CUT LINE score, no guessed R3 headcount."""
+    fall to the no-estimate branch: real R2 종료/R1 컷 확정/CUT+WD counts
+    only, no CUT LINE score, no guessed R3 headcount. "R1 컷 확정" (not
+    bare "CUT 확정") per the 2026-10-02 "배너 문구 재검토" mission: this
+    tournament's real cut rule is R1-only, and a bare "CUT" on an R2
+    RESULTS page could otherwise read as a cumulative R1+R2 cut -- the
+    far more common real rule in stroke play."""
     from klpga.tournament_context import CONTENT_DIR
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
@@ -185,6 +189,48 @@ def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
     # count phrase "컷 통과 {n}명" (advanced_count) must be gone.
     assert "컷 통과 " not in html, "advanced_count must never be displayed on the R2 page"
     assert "<p class='cut-line-banner'><strong>R2 종료</strong>" in html
-    assert "CUT 확정" in html
+    assert "R1 컷 확정" in html
     assert "CUT 3명" in html
     assert "WD 3명" in html
+    assert "R1 컷라인 — 87타 이하 통과" in html
+
+
+@requires_r2_leaderboard_evidence
+def test_r2_round_columns_never_wrap_a_two_digit_score():
+    """2026-10-02 'CSS 줄바꿈 버그' mission: a real screen showed R1/R2/
+    R3/FR scores like "70" rendering as "7" over "0" -- traced to
+    .leaderboard-table tbody td's white-space:normal (docs/assets/
+    neo.css) outranking .data td's own nowrap by CSS specificity, the
+    exact same bug class KB's own --r2-full fix (further up the same
+    file) already documents. HITE JINRO's table never carried that
+    modifier, so it was never covered. Fixed with a new, HITE-JINRO-
+    scoped modifier (--hitejinro) that fixes nowrap only, without
+    inheriting --r2-full's OTHER rules (which hard-code KB's own mobile
+    grid column count/order). This test only proves the table opts
+    into the fix; docs/assets/neo.css itself (where the real behavior
+    lives) isn't Python-importable, so it can't assert the computed
+    style here -- that was verified with a real Playwright render
+    (box height ~39px / 1 line, vs ~58px / 2 lines before the fix)."""
+    from klpga.tournament_context import CONTENT_DIR
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    assert "leaderboard-table leaderboard-table--hitejinro" in html
+
+
+@requires_r2_leaderboard_evidence
+def test_r1_cut_shows_as_2r_미출전_not_as_an_r1_vs_r2_code():
+    """2026-10-02 'CUT UI 재설계' mission: R1_CUT must render as plain-
+    language "2R 미출전" inside the R2 column, not "R1 CUT" -- the old
+    text named the round the player LAST COMPLETED while sitting
+    inside the NEXT column, a second, independent source of confusion
+    on top of "CUT" itself being ambiguous between the R1 and R2 cut
+    rounds. Real evidence: 조하리/이수민/이소영 (all R1_CUT)."""
+    from klpga.tournament_context import CONTENT_DIR
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    assert "R1 CUT" not in html
+    assert html.count("data-label='R2'>2R 미출전</td>") == 3
