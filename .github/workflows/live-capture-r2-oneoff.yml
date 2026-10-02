@@ -46,6 +46,7 @@ jobs:
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
         run: |
+          mkdir -p live_capture
           python - <<'PY'
           import os
           import pathlib
@@ -70,6 +71,7 @@ jobs:
 
       - name: grep -n "CUT LINE 87타 이하 통과" on the raw served HTML
         run: |
+          mkdir -p live_capture
           echo "=== grep -n result on live_raw.html (the exact bytes fetched above) ===" > live_capture/grep_result.txt
           grep -n "CUT LINE 87타 이하 통과" live_capture/live_raw.html >> live_capture/grep_result.txt || echo "NO MATCH" >> live_capture/grep_result.txt
           echo "" >> live_capture/grep_result.txt
@@ -81,6 +83,7 @@ jobs:
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
         run: |
+          mkdir -p live_capture
           xvfb-run -a --server-args="-screen 0 1440x960x24" python - <<'PY'
           import os
           import subprocess
@@ -106,6 +109,7 @@ jobs:
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
         run: |
+          mkdir -p live_capture
           xvfb-run -a --server-args="-screen 0 430x950x24" python - <<'PY'
           import os
           import subprocess
@@ -113,18 +117,18 @@ jobs:
           from playwright.sync_api import sync_playwright
 
           url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+          mobile_ua = (
+              "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
+              "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 "
+              "Mobile/15E148 Safari/604.1"
+          )
 
           with sync_playwright() as p:
               browser = p.chromium.launch(
                   headless=False,
                   args=["--window-size=430,950", "--window-position=0,0", "--new-window"],
-                  user_agent=(
-                      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
-                      "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 "
-                      "Mobile/15E148 Safari/604.1"
-                  ),
               )
-              context = browser.new_context(no_viewport=True)
+              context = browser.new_context(no_viewport=True, user_agent=mobile_ua)
               page = context.new_page()
               page.goto(url, wait_until="networkidle", timeout=30000)
               time.sleep(1.5)
@@ -133,13 +137,14 @@ jobs:
           PY
 
       - name: Publish to dedicated orphan branch (never touches app content)
+        if: always()
         run: |
           git config user.email "actions@github.com"
           git config user.name "github-actions[bot]"
           git checkout --orphan live-capture-output
           git rm -rf --cached . > /dev/null
           mkdir -p __out
-          mv live_capture/* __out/
+          mv live_capture/* __out/ 2>/dev/null || true
           git add __out
           git commit -m "LIVE capture w/ address bar: neogolfdata.com R2 ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
           git push -f origin live-capture-output
