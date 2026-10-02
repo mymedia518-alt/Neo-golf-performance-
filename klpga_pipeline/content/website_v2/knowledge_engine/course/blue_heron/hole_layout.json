@@ -1,0 +1,28 @@
+{
+  "schema_version": "hole_layout_v1",
+  "course_id": "blue_heron",
+  "status": "PARTIAL_REAL_DATA",
+  "_purpose": "Real per-hole facts (par/hdcp/tee yardages/pro tip) as published on blueheron.co.kr's own course pages. Only East Hole 6 has been collected so far -- every other hole is explicitly null (never guessed from the one hole we do have).",
+  "holes": [
+    {"course": "East", "hole": 1, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 2, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 3, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 4, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 5, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 6, "par": 4, "hdcp": 14, "yards": {"Blue": 412, "White": 366, "Gold": 334, "Red": 314},
+     "pro_tip": "제일 높은 지역에 위치한 홀로써 블루 티에서는 레귤러 티에 심어진 나무가 티샷에 부담을 준다. 티샷을 IP지점 좌측 벙커와 우측 경사면의 벙커 사이로 공략하고 좌, 우측은 OB이므로 주의해야 한다. 그린 앞과 우측에 깊은 벙커로 둘러싸여 있어 세컨샷의 길이 조정이 중요하다.",
+     "source_url": "https://blueheron.co.kr/swp/course/east/hole06"},
+    {"course": "East", "hole": 7, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 8, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "East", "hole": 9, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 1, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 2, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 3, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 4, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 5, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 6, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 7, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 8, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null},
+    {"course": "West", "hole": 9, "par": null, "hdcp": null, "yards": null, "pro_tip": null, "source_url": null}
+  ]
+}

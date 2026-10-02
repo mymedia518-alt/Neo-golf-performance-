@@ -1,0 +1,7 @@
+{
+  "schema_version": "landing_distribution_v1",
+  "course_id": "blue_heron",
+  "status": "SCHEMA_ONLY_NO_REAL_DATA",
+  "_purpose": "Per-hole tee-shot landing zone distribution (fairway/left rough/right rough/bunker/other), aggregated across real played rounds. No shot-tracking or landing-zone source has been collected for this course yet -- never fabricated. Structure matches hitejinro_deep_dive_mock_page.py's mock _MOCK_HOLES['tee'] shape so a future real fill-in needs no reader/page-renderer code change.",
+  "holes": []
+}

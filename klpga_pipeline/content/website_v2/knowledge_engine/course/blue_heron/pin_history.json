@@ -1,0 +1,7 @@
+{
+  "schema_version": "pin_history_v1",
+  "course_id": "blue_heron",
+  "status": "SCHEMA_ONLY_NO_REAL_DATA",
+  "_purpose": "Historical per-round pin placements for this course, across tournaments/years. No pin-position source has ever been captured for this course -- never fabricated.",
+  "rounds": []
+}
