@@ -101,6 +101,30 @@ def _advancement_summary(records: list[dict]) -> dict | None:
     }
 
 
+def _round_participation_count(
+    round_number: int, records: list[dict], in_progress: dict[str, dict] | None,
+) -> int | None:
+    """Real count of players actually in THIS round's own field --
+    never advanced_count (that's R2's cut-survivor count, a different
+    real quantity that stays frozen at whatever R2 decided; R3/FR each
+    need their OWN round's real participation, which can differ, e.g.
+    a further real WD between rounds).
+
+    During an in-progress capture ("R3 START"-type render), counted
+    straight from in_progress's own real per-player state -- excluded
+    players (real WD/DQ/CUT during this round) don't count. Once the
+    round has genuinely completed and parse_leaderboard has re-parsed
+    real r{round_number}_score values into records, counted from those
+    instead. Returns None (never a fabricated/zero placeholder) if
+    this round has no real data of either kind yet."""
+    if in_progress is not None:
+        count = len([v for v in in_progress.values() if not v.get("excluded")])
+        return count if count > 0 else None
+    score_field = f"r{round_number}_score"
+    count = len([r for r in records if r.get(score_field) is not None])
+    return count if count > 0 else None
+
+
 def load_leaderboard(content_root: Path) -> dict:
     path = content_root / f"{GAME_CODE}_LEADERBOARD.json"
     if not path.is_file():
@@ -198,12 +222,19 @@ def render_round_page(
             # First CUT/WD/DQ row reached -- played is already sorted
             # with no-real-rank rows (every CUT/WD/DQ player) last, so
             # this fires exactly once, right at the real boundary
-            # between 본선 진출 and CUT/WD, never guessed/hardcoded.
+            # between 컷 통과 and CUT/WD, never guessed/hardcoded.
+            # "컷 통과" (cut-pass), never "본선 진출" (advance to the
+            # final) -- advanced_count is exactly what its own name
+            # says: not CUT/WD/DQ as of the real flags computed above,
+            # nothing more. Whether a given cut-survivor genuinely
+            # tees off in R3 is a separate, later real fact -- see
+            # _round_participation_count, which R3+'s own banner uses
+            # instead of this summary.
             divider_label = (
                 f"CUT LINE — {summary['cut_line_score']}타 이하 통과"
                 if summary["cut_line_score"] is not None else "CUT LINE"
             ) + (
-                f" · 본선 진출 {summary['advanced_count']}명 · CUT {summary['cut_count']}명"
+                f" · 컷 통과 {summary['advanced_count']}명 · CUT {summary['cut_count']}명"
                 f" · WD {summary['withdrawn_count']}명"
                 + (f" · DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
             )
@@ -366,20 +397,38 @@ def render_round_page(
         f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"
+    # R2 and R3+ each need a DIFFERENT real banner, never the same one
+    # reused: R2's cut has just been decided (summary, from the
+    # unchanged _advancement_summary above) -- "컷 통과 {n}명" states
+    # exactly what advanced_count means (not CUT/WD/DQ), never "본선
+    # 진출" (that claims a later fact -- who genuinely tees off in R3
+    # -- that summary was never computed from and can't guarantee).
+    # R3/FR instead show THIS round's own real participation
+    # (_round_participation_count, live in_progress state during an
+    # "R3 START" capture, real r{round}_score once the round actually
+    # completes) -- a separate real quantity that can differ from R2's
+    # cut-survivor count (e.g. a further real WD between rounds).
     cut_line_html = ""
-    if summary is not None:
+    if round_number == 2 and summary is not None:
         cut_line_html = (
             "<p class='cut-line-banner'>"
             + (
                 f"<strong>CUT LINE {summary['cut_line_score']}타</strong> 이하 통과"
                 if summary["cut_line_score"] is not None else "<strong>CUT LINE</strong>"
             )
-            + f" &nbsp;·&nbsp; 본선 진출 {summary['advanced_count']}명"
+            + f" &nbsp;·&nbsp; 컷 통과 {summary['advanced_count']}명"
             + f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
             + f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
             + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
             + "</p>"
         )
+    elif round_number >= 3:
+        participation = _round_participation_count(round_number, records, in_progress)
+        if participation is not None:
+            cut_line_html = (
+                f"<p class='cut-line-banner'>실제 {ROUND_COL_LABELS[round_number]} 출전 선수 "
+                f"{participation}명</p>"
+            )
     table_section = (
         f"<section class='panel leaderboard-panel' id='{stage_key}'>"
         f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2>{cut_line_html}</div>"
