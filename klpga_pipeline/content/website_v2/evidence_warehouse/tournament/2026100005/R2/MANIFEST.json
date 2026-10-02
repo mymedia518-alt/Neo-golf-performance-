@@ -1,0 +1,31 @@
+{
+  "round": "R2",
+  "game_code": "2026100005",
+  "generated_at": "2026-10-02T13:28:46.164388+00:00",
+  "files": [
+    {
+      "name": "leaderboard_inprogress_raw.html",
+      "sha256": "02ff15ab7302b537e0b03483141cf2768f09cbb763aed9f04516022a961a2f53",
+      "bytes": 1738900,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R2_LEADERBOARD_INPROGRESS_RAW.html"
+    },
+    {
+      "name": "leaderboard_raw.html",
+      "sha256": "8e031b6d142505865e7dca5632b42c1eddb2b545d9cdfe511448bf01e845503c",
+      "bytes": 1843397,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R2_LEADERBOARD_RAW.html"
+    },
+    {
+      "name": "scorecard_raw.html",
+      "sha256": "82bca6278c2f0b67f9a03752bd20f64ac4d27ef84f049eb6c1938978ab86a9cb",
+      "bytes": 1051588,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R2_SCORECARD_RAW.html"
+    },
+    {
+      "name": "sg_raw.html",
+      "sha256": "f75b8542c5d94028fde5c8fbe4b1b8af3690393aed2075ee05bd426f897197dc",
+      "bytes": 168104,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R2_SG_RAW.html"
+    }
+  ]
+}

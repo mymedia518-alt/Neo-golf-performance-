@@ -1,0 +1,25 @@
+{
+  "round": "R1",
+  "game_code": "2026100005",
+  "generated_at": "2026-10-02T13:28:46.159157+00:00",
+  "files": [
+    {
+      "name": "leaderboard_raw.html",
+      "sha256": "929b7e42321e0f8fd0c3506892d28ae603e179a220f30f021b49600aba4acadc",
+      "bytes": 1863095,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R1_LEADERBOARD_RAW.html"
+    },
+    {
+      "name": "scorecard_raw.html",
+      "sha256": "76f13f6b0f4cb237dceb4292cfe2a690a57d446d9fbe996d42ffaedb26684a76",
+      "bytes": 711625,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R1_SCORECARD_RAW.html"
+    },
+    {
+      "name": "sg_raw.html",
+      "sha256": "5b000bc8443c1b8edf0e0ff57f1d34bbd31b7330972c10ba6ad2282d3fd7182f",
+      "bytes": 170990,
+      "copied_from": "content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R1_SG_RAW.html"
+    }
+  ]
+}
