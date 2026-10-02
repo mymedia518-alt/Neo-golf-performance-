@@ -1,0 +1,15 @@
+{
+  "schema_version": "course_registry_v1",
+  "_purpose": "game_code -> course_id mapping. Phase 0 of the Knowledge Engine course/tournament split (2026-10-02 mission). Additive only -- no existing game_code-keyed consumer reads this yet (see MIGRATION_PLAN.md item Phase 1).",
+  "entries": [
+    {
+      "course_id": "blue_heron",
+      "course_name_kr": "블루헤런",
+      "game_codes": ["2026100005"],
+      "evidence": {
+        "note": "venue confirmed real via operator-uploaded saved copy of blueheron.co.kr's own official course page",
+        "source_url": "https://blueheron.co.kr/swp/course/east/hole06"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": "tournament_hole_difficulty_v1",
+  "course_id": "blue_heron",
+  "game_code": "2026100005",
+  "status": "SCHEMA_ONLY_NO_REAL_DATA",
+  "_purpose": "This tournament's real per-hole field difficulty (avg score to par, birdie/par/bogey+ rate per hole), computed from real per-hole scorecards. klpga.co.kr's real leaderboard/scorecard/SG captures for this tournament give only ROUND totals (r1_score=81, etc.), never per-hole strokes -- so this cannot be computed from any evidence this project currently collects. Never fabricated.",
+  "holes": []
+}

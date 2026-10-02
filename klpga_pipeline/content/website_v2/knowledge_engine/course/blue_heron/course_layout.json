@@ -1,0 +1,14 @@
+{
+  "schema_version": "course_layout_v1",
+  "course_id": "blue_heron",
+  "course_name_kr": "블루헤런",
+  "status": "PARTIAL_REAL_DATA",
+  "courses": {
+    "West": {"par": 36, "holes": 9, "yards": 3499},
+    "East": {"par": 36, "holes": 9, "yards": 3541}
+  },
+  "provenance": {
+    "source_url": "https://blueheron.co.kr/swp/course/east/hole06",
+    "note": "West/East par/hole-count/yardage transcribed verbatim from Blue Heron's own official course-overview widget (operator-uploaded saved HTML page, 2026-10-01). No other field (address, designer, opened year, etc.) has been sourced yet -- intentionally absent rather than guessed."
+  }
+}

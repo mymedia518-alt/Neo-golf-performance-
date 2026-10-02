@@ -1,0 +1,8 @@
+{
+  "schema_version": "tournament_pin_position_v1",
+  "course_id": "blue_heron",
+  "game_code": "2026100005",
+  "status": "SCHEMA_ONLY_NO_REAL_DATA",
+  "_purpose": "This tournament's real per-round pin placements. No pin-position source has been captured for any round of this tournament -- never fabricated.",
+  "rounds": []
+}

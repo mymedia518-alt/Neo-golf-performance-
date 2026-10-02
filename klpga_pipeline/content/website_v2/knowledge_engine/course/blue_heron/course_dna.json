@@ -1,0 +1,7 @@
+{
+  "schema_version": "course_dna_v1",
+  "course_id": "blue_heron",
+  "status": "SCHEMA_ONLY_NO_REAL_DATA",
+  "_purpose": "Aggregate course-difficulty profile (difficulty stars, avg score to par, birdie/bogey+ rate, rough impact, long-iron importance, putt impact -- the 6 'Course DNA' radar dimensions in hitejinro_deep_dive_mock_page.py) computed from real played-round, per-hole data across one or more tournaments at this course. Requires real hole-by-hole scoring, which no current evidence source provides (klpga.co.kr's leaderboard/scorecard/SG captures give round totals, never per-hole strokes) -- never fabricated.",
+  "dimensions": null
+}
