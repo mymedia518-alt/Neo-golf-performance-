@@ -17,6 +17,7 @@ import json
 
 import pytest
 
+from klpga.neo_win import hitejinro_round_pipeline as _rp
 from klpga.neo_win.hitejinro_round_pipeline import (
     GAME_CODE,
     LEADERBOARD_PATH,
@@ -57,9 +58,21 @@ def test_require_raw_evidence_passes_for_round_1():
 
 
 @requires_r1_evidence
-def test_parse_leaderboard_reproduces_the_real_r1_facts():
+def test_parse_leaderboard_reproduces_the_real_r1_facts(tmp_path, monkeypatch):
+    # 2026-10-02 fix: parse_leaderboard writes to the module-level
+    # LEADERBOARD_PATH constant, which is THE single shared production
+    # file every real round's data lives in (R1, then R2, then R3...).
+    # Calling parse_leaderboard(1) against the real path here would
+    # silently overwrite whatever real, more-advanced round data is
+    # currently live -- confirmed this actually happened: running this
+    # suite after the real R2 pipeline had already run reverted the
+    # live, committed LEADERBOARD.json back to R1-only. Redirecting the
+    # constant to a tmp_path keeps this test's real R1-evidence
+    # assertions intact without ever touching the real production file.
+    tmp_leaderboard = tmp_path / "LEADERBOARD.json"
+    monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_leaderboard)
     out_path = parse_leaderboard(1)
-    assert out_path == LEADERBOARD_PATH
+    assert out_path == tmp_leaderboard
     doc = json.loads(out_path.read_text(encoding="utf-8"))
     assert doc["game_code"] == GAME_CODE
     assert doc["final_round"] == 1
@@ -75,7 +88,9 @@ def test_parse_leaderboard_reproduces_the_real_r1_facts():
 
 
 @requires_r1_evidence
-def test_parse_sg_is_a_verified_bijection_against_completed_r1_players():
+def test_parse_sg_is_a_verified_bijection_against_completed_r1_players(tmp_path, monkeypatch):
+    tmp_leaderboard = tmp_path / "LEADERBOARD.json"
+    monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_leaderboard)
     parse_leaderboard(1)  # SG join depends on LEADERBOARD.json already existing
     out_path = parse_sg(1)
     assert out_path == sg_output_path(1)
@@ -86,13 +101,14 @@ def test_parse_sg_is_a_verified_bijection_against_completed_r1_players():
     assert doc["coverage"]["player_count"] == 107
     assert all(r["rounds"] <= 1 for r in doc["records"])
     assert {r["player_id"] for r in doc["records"]} == {
-        r["player_id"] for r in json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))["records"]
+        r["player_id"] for r in json.loads(tmp_leaderboard.read_text(encoding="utf-8"))["records"]
         if r["r1_score"] is not None
     }
 
 
 @requires_r1_evidence
-def test_cross_validate_reports_a_100_percent_match_for_real_r1():
+def test_cross_validate_reports_a_100_percent_match_for_real_r1(tmp_path, monkeypatch):
+    monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_path / "LEADERBOARD.json")
     parse_leaderboard(1)
     result = cross_validate(1)
     assert result["verdict"] == "100% MATCH"
