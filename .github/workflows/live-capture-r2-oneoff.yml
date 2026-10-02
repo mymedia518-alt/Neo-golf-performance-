@@ -1,10 +1,11 @@
-name: "LIVE capture -- neogolfdata.com R2 page (on-demand, one-off)"
+name: "LIVE capture -- neogolfdata.com (on-demand, one-off, Desktop+Mobile)"
 
 # Manually dispatched only. Opens the REAL, already-deployed live site
 # in a real Chromium on this runner (which has real internet access,
-# unlike the agent sandbox) and screenshots exactly what a human sees.
-# Commits output to a separate orphan branch (live-capture-output) so
-# this never touches neo-website-v2's or main's own tree/history.
+# unlike the agent sandbox) and screenshots exactly what a human sees,
+# at both a Desktop and a Mobile viewport. Commits output to a
+# separate orphan branch (live-capture-output) so this never touches
+# neo-website-v2's or main's own tree/history.
 
 on:
   workflow_dispatch:
@@ -12,7 +13,7 @@ on:
       url:
         description: "URL to capture"
         required: false
-        default: "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+        default: "https://neogolfdata.com/"
 
 permissions:
   contents: write
@@ -35,7 +36,7 @@ jobs:
           pip install playwright
           python -m playwright install --with-deps chromium
 
-      - name: Capture live page (real browser, real network)
+      - name: Capture live page (real browser, real network, Desktop + Mobile)
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
         run: |
@@ -46,79 +47,58 @@ jobs:
 
           from playwright.sync_api import sync_playwright
 
-          url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+          url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/"
           out = pathlib.Path("live_capture")
           out.mkdir(exist_ok=True)
 
-          result = {"requested_url": url}
+          VIEWPORTS = {
+              "desktop": {"width": 1440, "height": 900},
+              "mobile": {"width": 390, "height": 844},
+          }
+
+          results = {"requested_url": url, "viewports": {}}
 
           with sync_playwright() as p:
               browser = p.chromium.launch()
-              page = browser.new_page(viewport={"width": 1280, "height": 1000})
-              console_errors = []
-              page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+              for label, viewport in VIEWPORTS.items():
+                  is_mobile = label == "mobile"
+                  page = browser.new_page(
+                      viewport=viewport,
+                      user_agent=(
+                          "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
+                          "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 "
+                          "Mobile/15E148 Safari/604.1"
+                      ) if is_mobile else None,
+                      is_mobile=is_mobile,
+                  )
+                  console_errors = []
+                  page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
 
-              resp = page.goto(url, wait_until="networkidle", timeout=30000)
-              result["final_url"] = page.url
-              result["http_status"] = resp.status if resp else None
-              result["title"] = page.title()
+                  resp = page.goto(url, wait_until="networkidle", timeout=30000)
+                  entry = {
+                      "final_url": page.url,
+                      "http_status": resp.status if resp else None,
+                      "title": page.title(),
+                      "viewport": viewport,
+                  }
 
-              # 1. top of page
-              page.evaluate("window.scrollTo(0, 0)")
-              page.screenshot(path=str(out / "1_top.png"))
+                  # top of page (first fold, exactly what a human sees on load)
+                  page.evaluate("window.scrollTo(0, 0)")
+                  page.screenshot(path=str(out / f"{label}_1_top.png"))
 
-              # 2. CUT LINE banner area
-              cut_banner = page.locator(".cut-line-banner, :text('CUT LINE')").first
-              if cut_banner.count() > 0:
-                  cut_banner.scroll_into_view_if_needed()
-                  page.screenshot(path=str(out / "2_cutline.png"))
-                  result["cut_banner_found"] = True
-                  result["cut_banner_text"] = cut_banner.inner_text()
-              else:
-                  page.screenshot(path=str(out / "2_cutline_NOT_FOUND.png"))
-                  result["cut_banner_found"] = False
+                  # full page (entire scrollable content in one image)
+                  page.screenshot(path=str(out / f"{label}_2_full.png"), full_page=True)
 
-              # 3. a real CUT/WD player row
-              cut_row = page.locator("tr:has-text('CUT'), tr:has-text('WD')").first
-              if cut_row.count() > 0:
-                  cut_row.scroll_into_view_if_needed()
-                  page.screenshot(path=str(out / "3_cut_player.png"))
-                  result["cut_row_found"] = True
-                  result["cut_row_cell_texts"] = [
-                      c.inner_text().strip() for c in cut_row.locator("td, th").all()
-                  ]
-              else:
-                  page.screenshot(path=str(out / "3_cut_player_NOT_FOUND.png"))
-                  result["cut_row_found"] = False
-
-              # 4. bottom of page
-              page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-              page.screenshot(path=str(out / "4_bottom.png"))
-
-              # header row + one normal (non-excluded) row, verbatim visible text
-              header_row = page.locator("table tr").first
-              result["header_row_cell_texts"] = (
-                  [c.inner_text().strip() for c in header_row.locator("th, td").all()]
-                  if header_row.count() > 0
-                  else None
-              )
-
-              normal_row = page.locator("table tr:not(:has-text('CUT')):not(:has-text('WD'))").nth(1)
-              result["normal_row_cell_texts"] = (
-                  [c.inner_text().strip() for c in normal_row.locator("td, th").all()]
-                  if normal_row.count() > 0
-                  else None
-              )
-
-              result["console_errors"] = console_errors
-
-              (out / "page_source.html").write_text(page.content(), encoding="utf-8")
+                  entry["console_errors"] = console_errors
+                  (out / f"{label}_page_source.html").write_text(page.content(), encoding="utf-8")
+                  results["viewports"][label] = entry
+                  page.close()
               browser.close()
 
           (out / "meta.json").write_text(
-              json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
+              json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
           )
-          print(json.dumps(result, ensure_ascii=False, indent=2))
+          print(json.dumps(results, ensure_ascii=False, indent=2))
           PY
 
       - name: Publish to dedicated orphan branch (never touches app content)
@@ -130,5 +110,5 @@ jobs:
           mkdir -p __out
           mv live_capture/* __out/
           git add __out
-          git commit -m "LIVE capture: neogolfdata.com R2 page ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git commit -m "LIVE capture: neogolfdata.com Desktop+Mobile ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
           git push -f origin live-capture-output
