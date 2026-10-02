@@ -343,6 +343,202 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
     return LEADERBOARD_PATH
 
 
+class PartialHTMLError(Exception):
+    """Raised by validate_round_html_completeness the instant a later
+    round's captured player set fails any of the 5 completeness checks
+    (2026-10-02 'Set Difference 완전성 검증' mission). Real incident
+    this exists to prevent from ever happening silently again: an
+    operator-uploaded R3 leaderboard capture contained only 61 of this
+    tournament's real ~102 active players -- missing EXACTLY the lower
+    half of the real R2 standings (ranks roughly 53-102), with zero
+    pagination/"더보기" text anywhere in the file. That capture's own
+    <script> content showed why: it populates its leaderboard via a
+    periodic 'getRoundLeaderboard("3")' AJAX poll inside a setTimeout
+    refresh loop, not one complete server render -- so a saved
+    snapshot of it can never be assumed complete on row count alone.
+    Computing R2_CUT as (R2 active) - (R3 captured) against that file
+    would have silently mislabeled 41 real, still-competing players as
+    cut. Never caught internally and worked around -- the caller must
+    obtain a real, complete capture before Set Difference can run."""
+
+
+def _player_ranks_from_leaderboard_html(raw_html: str) -> dict[str, int | None]:
+    """{player_id: real numeric rank, or None if this capture shows
+    them still in progress (rank=="999")} for every row
+    _LEADERBOARD_ROW_RE matches -- the exact same real row regex
+    parse_leaderboard() itself uses, never a second one."""
+    ranks: dict[str, int | None] = {}
+    for m in _LEADERBOARD_ROW_RE.finditer(raw_html):
+        player_id, rank = m.group(1), m.group(2)
+        ranks[player_id] = None if rank == "999" else int(rank)
+    return ranks
+
+
+# Real evidence (2026-10-02): the operator-uploaded R3 capture that
+# motivated this whole gate carries this exact literal call, inside a
+# setTimeout-based refresh loop, proving its leaderboard is populated
+# by polling a live endpoint rather than one complete server render.
+# Narrow and evidence-grounded on purpose -- never a broad guessed
+# list of generic "might indicate lazy-load" strings.
+_LAZY_LOAD_MARKERS = ("getRoundLeaderboard",)
+
+
+def _lazy_load_detected(raw_html: str) -> bool:
+    """True if this capture's own <script> content shows the
+    leaderboard is populated via a periodic polling AJAX call rather
+    than a single complete server render -- when true, a saved
+    snapshot can never be assumed complete regardless of row/rank
+    counts, so validate_round_html_completeness always fails it."""
+    return any(marker in raw_html for marker in _LAZY_LOAD_MARKERS)
+
+
+def validate_round_html_completeness(
+    round_number: int,
+    found_player_ranks: dict[str, int | None],
+    *, prior_active_ids: set[str], entrant_ids: set[str], lazy_load_detected: bool,
+) -> dict:
+    """5-point PARTIAL HTML gate (2026-10-02 'Set Difference 완전성
+    검증' mission). Must pass before round_number's real captured
+    player set may ever be used as the later-round side of a Set
+    Difference CUT computation (e.g. R2_CUT = prior_active_ids -
+    this_round_ids). found_player_ranks: {player_id: real numeric
+    rank, or None if this round shows them still in progress} -- every
+    player (settled or in-progress) counts toward the raw player-count
+    check; only settled (non-None) ranks count toward the rank-
+    continuity check.
+
+    The 5 checks:
+    1. R2 active player 수 (prior_active_ids) -- the real count this
+       round's field should contain if nobody new dropped out.
+    2. R3 player 수 (found_player_ranks) -- real count of unique
+       players actually found in this round's raw capture; fails if
+       short of #1.
+    3. R3 HTML 마지막 rank -- the maximum real settled rank found;
+       fails if it doesn't reach #1's count (a capture that stops
+       partway through never reaches the real last rank, even once
+       ties are accounted for).
+    4. 스크롤/AJAX lazy-load 여부 (lazy_load_detected) -- real evidence
+       this capture's own markup shows it polls a live endpoint rather
+       than rendering completely in one shot; fails unconditionally
+       when true, since silent trust in exactly this case already
+       produced one real false CUT list (see PartialHTMLError).
+    5. Player ID/순위 연속성 -- every found player_id must be a real
+       official entrant (entrant_ids), AND the settled ranks, grouped
+       by tie, must have no internal gap (a hole in the MIDDLE of the
+       capture -- a distinct failure mode from #2/#3, which only catch
+       a capture that stops short at the END).
+
+    Raises PartialHTMLError, naming every failed check with its real
+    numbers, the instant ANY ONE of the 5 fails -- fail closed, never
+    a soft warning, never a partial Set Difference. Returns the 5
+    check results as a dict only when ALL pass."""
+    n2 = len(prior_active_ids)
+    n3 = len(found_player_ranks)
+    settled_ranks = {pid: r for pid, r in found_player_ranks.items() if r is not None}
+    last_rank = max(settled_ranks.values(), default=0)
+
+    failures: list[str] = []
+
+    if n3 < n2:
+        failures.append(
+            f"[1/2] R3 player count ({n3}) is less than R2 active count ({n2}) -- "
+            f"{n2 - n3} real active player(s) are missing from this capture."
+        )
+
+    if last_rank < n2:
+        failures.append(
+            f"[3] last real rank found ({last_rank}) is less than R2 active count "
+            f"({n2}) -- the real field should reach rank {n2} (or further, with "
+            f"ties), this capture's real ranks stop short."
+        )
+
+    if lazy_load_detected:
+        failures.append(
+            "[4] this capture's own <script> content shows it loads the "
+            "leaderboard via a live polling AJAX call (getRoundLeaderboard-style), "
+            "not one complete server render -- a saved snapshot of a page built "
+            "this way is never provably complete, regardless of row/rank counts."
+        )
+
+    unknown_ids = sorted(set(found_player_ranks) - entrant_ids)
+    if unknown_ids:
+        failures.append(f"[5a] {len(unknown_ids)} player_id(s) not in the official entry roster: {unknown_ids}")
+
+    gaps: list[tuple[int, int, int, int]] = []
+    if settled_ranks:
+        by_rank: dict[int, int] = {}
+        for pid, r in settled_ranks.items():
+            by_rank[r] = by_rank.get(r, 0) + 1
+        sorted_ranks = sorted(by_rank)
+        if sorted_ranks[0] != 1:
+            gaps.append((0, 0, sorted_ranks[0], 1))
+        for a, b in zip(sorted_ranks, sorted_ranks[1:]):
+            expected_next = a + by_rank[a]
+            if b != expected_next:
+                gaps.append((a, by_rank[a], b, expected_next))
+    if gaps:
+        failures.append(
+            f"[5b] rank sequence has {len(gaps)} internal gap(s) "
+            f"(rank, tie-size-at-rank, next-rank-found, next-rank-expected): {gaps}"
+        )
+
+    if failures:
+        raise PartialHTMLError(
+            f"PARTIAL HTML: round {round_number}'s captured player set fails "
+            f"{len(failures)}/5 completeness checks -- Set Difference refused.\n"
+            + "\n".join(failures)
+        )
+
+    return {
+        "r2_active_count": n2,
+        "r3_player_count": n3,
+        "r3_last_rank": last_rank,
+        "lazy_load_detected": lazy_load_detected,
+        "unknown_ids": unknown_ids,
+        "rank_continuity_ok": True,
+    }
+
+
+def parse_cut_by_set_difference(round_number: int, *, raw_path: Path | None = None) -> set[str]:
+    """R{round_number-1}_CUT candidate player_id set, computed as
+    (round_number-1's real active player set, from the already-parsed
+    LEADERBOARD.json) minus (round_number's real captured player set)
+    -- 2026-10-02 'Set Difference' mission (operator's own words: "R3
+    리더보드에 존재하는 선수는 이미 R2 컷을 통과한 선수다. R3에 없는
+    선수는 R2 CUT/WD/DQ다"). The caller is responsible for excluding
+    any player round_number's OWN raw evidence separately proves WD/DQ
+    for (this function only answers "who's missing", never "why" --
+    that's a literal-text question, parse_leaderboard's own job).
+
+    FAILS CLOSED via validate_round_html_completeness: raises
+    PartialHTMLError, never silently proceeds or returns a partial
+    answer, the instant round_number's real captured player set fails
+    any of the 5 completeness checks. Set Difference itself only ever
+    runs after that gate passes."""
+    if not LEADERBOARD_PATH.is_file():
+        raise FileNotFoundError(
+            f"no {LEADERBOARD_PATH} yet -- parse_leaderboard({round_number - 1}) must run first "
+            f"(its real active-player set is this computation's round-{round_number - 1} side)."
+        )
+    prior_board = json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))
+    prior_active_ids = {r["player_id"] for r in prior_board["records"] if r.get("status") is None}
+
+    entrants = json.loads(ENTRY_PATH.read_text(encoding="utf-8"))["records"]
+    entrant_ids = {r["player_code"] for r in entrants}
+
+    raw_path = raw_path or raw_evidence_path(round_number, "LEADERBOARD")
+    raw_html = raw_path.read_text(encoding="utf-8")
+
+    found_player_ranks = _player_ranks_from_leaderboard_html(raw_html)
+    lazy_load = _lazy_load_detected(raw_html)
+
+    validate_round_html_completeness(
+        round_number, found_player_ranks,
+        prior_active_ids=prior_active_ids, entrant_ids=entrant_ids, lazy_load_detected=lazy_load,
+    )
+    return prior_active_ids - set(found_player_ranks)
+
+
 _DETAIL_RE = re.compile(
     r'_gamecode="' + re.escape(GAME_CODE) + r'" _playercode="(\d+)"[^>]*_round="(\d+)" _hole="(\d*)" _level="([^"]*)"'
 )
