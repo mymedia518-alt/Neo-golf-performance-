@@ -1,0 +1,134 @@
+name: "LIVE capture -- neogolfdata.com R2 page (on-demand, one-off)"
+
+# Manually dispatched only. Opens the REAL, already-deployed live site
+# in a real Chromium on this runner (which has real internet access,
+# unlike the agent sandbox) and screenshots exactly what a human sees.
+# Commits output to a separate orphan branch (live-capture-output) so
+# this never touches neo-website-v2's or main's own tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL to capture"
+        required: false
+        default: "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Capture live page (real browser, real network)
+        env:
+          CAPTURE_URL: ${{ github.event.inputs.url }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+
+          from playwright.sync_api import sync_playwright
+
+          url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+          out = pathlib.Path("live_capture")
+          out.mkdir(exist_ok=True)
+
+          result = {"requested_url": url}
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page(viewport={"width": 1280, "height": 1000})
+              console_errors = []
+              page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+
+              resp = page.goto(url, wait_until="networkidle", timeout=30000)
+              result["final_url"] = page.url
+              result["http_status"] = resp.status if resp else None
+              result["title"] = page.title()
+
+              # 1. top of page
+              page.evaluate("window.scrollTo(0, 0)")
+              page.screenshot(path=str(out / "1_top.png"))
+
+              # 2. CUT LINE banner area
+              cut_banner = page.locator(".cut-line-banner, :text('CUT LINE')").first
+              if cut_banner.count() > 0:
+                  cut_banner.scroll_into_view_if_needed()
+                  page.screenshot(path=str(out / "2_cutline.png"))
+                  result["cut_banner_found"] = True
+                  result["cut_banner_text"] = cut_banner.inner_text()
+              else:
+                  page.screenshot(path=str(out / "2_cutline_NOT_FOUND.png"))
+                  result["cut_banner_found"] = False
+
+              # 3. a real CUT/WD player row
+              cut_row = page.locator("tr:has-text('CUT'), tr:has-text('WD')").first
+              if cut_row.count() > 0:
+                  cut_row.scroll_into_view_if_needed()
+                  page.screenshot(path=str(out / "3_cut_player.png"))
+                  result["cut_row_found"] = True
+                  result["cut_row_cell_texts"] = [
+                      c.inner_text().strip() for c in cut_row.locator("td, th").all()
+                  ]
+              else:
+                  page.screenshot(path=str(out / "3_cut_player_NOT_FOUND.png"))
+                  result["cut_row_found"] = False
+
+              # 4. bottom of page
+              page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+              page.screenshot(path=str(out / "4_bottom.png"))
+
+              # header row + one normal (non-excluded) row, verbatim visible text
+              header_row = page.locator("table tr").first
+              result["header_row_cell_texts"] = (
+                  [c.inner_text().strip() for c in header_row.locator("th, td").all()]
+                  if header_row.count() > 0
+                  else None
+              )
+
+              normal_row = page.locator("table tr:not(:has-text('CUT')):not(:has-text('WD'))").nth(1)
+              result["normal_row_cell_texts"] = (
+                  [c.inner_text().strip() for c in normal_row.locator("td, th").all()]
+                  if normal_row.count() > 0
+                  else None
+              )
+
+              result["console_errors"] = console_errors
+
+              (out / "page_source.html").write_text(page.content(), encoding="utf-8")
+              browser.close()
+
+          (out / "meta.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"
+          )
+          print(json.dumps(result, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Publish to dedicated orphan branch (never touches app content)
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan live-capture-output
+          git rm -rf --cached . > /dev/null
+          mkdir -p __out
+          mv live_capture/* __out/
+          git add __out
+          git commit -m "LIVE capture: neogolfdata.com R2 page ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push -f origin live-capture-output
