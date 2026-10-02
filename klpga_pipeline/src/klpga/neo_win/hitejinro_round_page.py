@@ -64,6 +64,28 @@ STATUS_WD = "WD"
 STATUS_DQ = "DQ"
 _CUT_STATUSES = {STATUS_R1_CUT, STATUS_R2_CUT}
 
+# 2026-10-02 "R2 Renderer 재설계" mission (status enum unchanged --
+# operator's own words: "문제는 status enum이 아니다. 문제는
+# Renderer다"): R2_CUT and R1_CUT are NOT the same UI.
+#
+# R2_CUT real players DID complete R2 -- klpga.co.kr's own real
+# convention for a standard 36-hole-style cut (confirmed against
+# Hana's already-published R2 page) keeps their real rank/total and
+# just adds a small "CUT" badge next to the name, same row position
+# their real score earns them. They merge straight into the one
+# ranked list, on every round page -- never their own section.
+#
+# R1_CUT (and WD/DQ) never played the round that would have produced
+# a real rank at all, so there is no "real position" to keep them in
+# -- they get pulled into their own, separate, rank-less section
+# below the ranked table instead. That section is built ONLY on the
+# R2 page (operator: "R3·FR 페이지에서는 CUT 섹션을 생성하지 않는다")
+# -- on R3/FR, these same players (if `played` still includes them at
+# all) fall back into the one flat list with their existing
+# status-replaces-rank/total cell, just with no divider around them.
+_INLINE_RANKED_STATUSES = {STATUS_R2_CUT}
+_SECTIONED_STATUSES = (STATUS_R1_CUT, STATUS_WD, STATUS_DQ)
+
 
 def _status_family(status: str | None) -> str | None:
     """R1_CUT and R2_CUT both read as the generic "CUT" display family --
@@ -202,6 +224,165 @@ def load_leaderboard(content_root: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _render_row_html(
+    r: dict, *, round_number: int, in_progress: dict[str, dict] | None,
+    rank_counts: dict[int, int], band_by_id: dict, m4_by_id: dict,
+    nationality_by_id: dict[str, str], sponsor_cache: dict[str, str],
+    show_hole_progress: bool,
+) -> str:
+    """One player's <tr> -- extracted unchanged from render_round_page's
+    own former single flat loop (2026-10-02 "Renderer가 라운드별 CUT
+    그룹을 생성" mission) so it can be called once per group (NORMAL,
+    each real CUT status, WD/DQ) instead of once per row in one mixed
+    list. Every per-row rule below (rank/total cell fallback, status
+    label placement, probability-cell suppression) is unchanged."""
+    pid = str(r["player_id"])
+    raw_status = r.get("status")
+    status = _status_family(raw_status)
+    # 2026-10-02 "R2 Renderer 재설계" mission: R2_CUT keeps its REAL
+    # rank/total -- it DID complete the round that earns one, same as
+    # 하나금융's own R2 page for a standard cut (confirmed against its
+    # real published page). rank_total_status is the value that
+    # REPLACES rank/total below; None here means "never replace, this
+    # player has a real rank" -- exactly a normal (status=None)
+    # player's own behavior, reused as-is for R2_CUT.
+    rank_total_status = None if raw_status in _INLINE_RANKED_STATUSES else status
+    finish_position_numeric = r.get("finish_position_numeric")
+    if r.get("finish_position") is None:
+        # klpga.co.kr's own real convention (confirmed against R2's
+        # raw capture): a WD/DQ/R1_CUT player's rank cell shows that
+        # literal status, never a bare "-" -- only a player with no
+        # status at all (or a real rank, like R2_CUT) falls back to "-".
+        rank_cell = rank_total_status or "-"
+    elif rank_counts.get(finish_position_numeric, 0) > 1:
+        # 2+ players share this rank -- "T{rank}" (tied), matching
+        # klpga.co.kr's own real convention (confirmed against
+        # Hana's already-published PRE/R1/R2 pages, which all use
+        # this same "T" prefix, never a bare number for a shared rank).
+        rank_cell = _esc(f"T{r['finish_position']}")
+    else:
+        rank_cell = _esc(str(r["finish_position"]))
+    total_cell = rank_total_status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
+    # Always render all 4 real rounds (R1/R2/R3/FR), never just the
+    # rounds played so far -- a round this tournament hasn't reached
+    # yet (k > round_number) shows "-" for every player regardless
+    # of status, and automatically starts showing real scores the
+    # next time this same function builds that later round's page
+    # (no special-casing per round needed). klpga.co.kr's own real
+    # convention (confirmed against R2's raw capture for WD player
+    # 고지우/CUT player 이소영, both of whom keep their real completed
+    # R1 score shown even on their WD/CUT row): a real completed
+    # score always wins over the status text; status only fills a
+    # cell for a round that has happened (k <= round_number) but
+    # genuinely has no real score of its own for this player.
+    round_cells = []
+    for k in (1, 2, 3, 4):
+        real_score = r.get(f"r{k}_score")
+        if in_progress is not None and k == round_number:
+            # round_number has no real score of its own yet -- show
+            # ONLY what in_progress's real per-player state carries,
+            # never fall back to real_score (that's the PREVIOUS
+            # round's own completed score, not this one's).
+            live = in_progress.get(pid)
+            if live is None:
+                cell = "-"
+            elif live["excluded"]:
+                cell = _esc(live["status_text"] or "제외")
+            elif live["score"] is not None:
+                cell = str(live["score"])
+            elif live["hole"] is not None and show_hole_progress:
+                cell = f"{live['hole']}H"
+            else:
+                cell = "-"
+        elif real_score is not None:
+            # the raw stroke count for that round (e.g. 68), never a
+            # to-par differential -- format_to_par is only for an
+            # already-relative-to-par value (score_to_par above).
+            cell = str(real_score)
+        elif k <= round_number and status and k == _first_missed_round(r):
+            # Operational fix (2026-10-02): show the status label
+            # ONLY in the first round column this player actually
+            # couldn't play, qualified with WHICH round the real
+            # cut/WD/DQ applies to (_status_display_label) -- a bare
+            # "CUT" repeated in every later round column read, in
+            # the R2 column specifically, as if round 2 itself
+            # produced that outcome. Real evidence this session:
+            # 조하리/이수민/이소영 never played R2 at all; their
+            # real cut was decided on R1's score alone.
+            cell = _status_display_label(status, r)
+        elif k <= round_number and status:
+            cell = "-"
+        else:
+            cell = "-"
+        round_cells.append(f"<td data-label='{ROUND_COL_LABELS[k]}'>{cell}</td>")
+    country_code = nationality_by_id.get(pid)
+    flag_cell = (
+        f"<img src='/assets/flags/{country_code}.svg' alt='' width='16' height='12' "
+        f"style='display:inline;vertical-align:middle;margin-right:4px'>"
+        if country_code in _FLAG_ASSETS else ""
+    )
+    sponsor_text = _esc(sponsor_cache.get(pid, ""))
+    name_cell = (
+        f"{flag_cell}<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(r['player_name'])}</span>"
+        f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
+    )
+    name_cell = linked_player_name_cell(pid, name_cell)
+    if raw_status in _INLINE_RANKED_STATUSES:
+        # Real rank/total already kept above -- the only remaining
+        # signal this player is out is this small inline badge next to
+        # their name, exactly 하나금융's own R2 page convention (badge
+        # outside the player-name link, never inside it).
+        name_cell += "<span class='status-badge'>CUT</span>"
+
+    if round_number == 1 and pid in band_by_id:
+        label, score = band_by_id[pid]
+        band_cell = (
+            f"<span class='band' role='img' aria-label='NEO 경기력 {label}' "
+            f"data-neo-score='{score:.2f}'>{label}</span>"
+        )
+    else:
+        band_cell = _NOWRAP
+
+    if status:
+        # Hana (2026090002) R2's own real, already-published rendering
+        # rule (confirmed against its real page's own markup -- every
+        # CUT player's TOP20/TOP10/TOP5/우승 cell is literally
+        # <td class='metric-empty'>—</td>, never a stale/meaningless
+        # percentage for someone already out of contention): real
+        # is_cut/is_wd signal (this row's own status, read above from
+        # the real status enum, _status_family(r.get("status")) --
+        # never hardcoded) suppresses every probability cell the same
+        # way, regardless
+        # of whether M4 happens to have a number for this player.
+        cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "—"
+        metric_class = "win metric-empty"
+    elif pid in m4_by_id:
+        m4 = m4_by_id[pid]
+        cut_cell = pct(m4["cut_probability"])
+        top20_cell = pct(m4["top20_probability"])
+        top10_cell = pct(m4["top10_probability"])
+        top5_cell = pct(m4["top5_probability"])
+        win_cell = pct(m4["win_probability"])
+        metric_class = "win"
+    else:
+        cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
+        metric_class = "win"
+
+    band_td = f"<td data-label='NEO 경기력'>{band_cell}</td>" if round_number == 1 else ""
+    return (
+        f"<tr><td data-label='순위'>{rank_cell}</td>"
+        f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
+        f"<td data-label='합계'>{total_cell}</td>"
+        + "".join(round_cells) +
+        f"{band_td}"
+        f"<td class='{metric_class}' data-label='컷 통과확률'>{cut_cell}</td>"
+        f"<td class='{metric_class}' data-label='TOP20'>{top20_cell}</td>"
+        f"<td class='{metric_class}' data-label='TOP10'>{top10_cell}</td>"
+        f"<td class='{metric_class}' data-label='TOP5'>{top5_cell}</td>"
+        f"<td class='{metric_class}' data-label='우승확률'>{win_cell}</td></tr>"
+    )
+
+
 def render_round_page(
     round_number: int, *, tournament_name: str, date_range: str, content_root: Path,
     in_progress: dict[str, dict] | None = None, show_hole_progress: bool = True,
@@ -278,170 +459,52 @@ def render_round_page(
 
     summary = _advancement_summary(records)
     total_cols = 3 + 4 + (1 if round_number == 1 else 0) + 5
-    divider_done = summary is None  # no real cut yet -- never insert a divider
 
-    rows_html = []
-    for r in played:
-        pid = str(r["player_id"])
-        status = _status_family(r.get("status"))
-        if status and not divider_done:
-            # First CUT/WD/DQ row reached -- played is already sorted
-            # with no-real-rank rows (every CUT/WD/DQ player) last, so
-            # this fires exactly once, right at the real boundary.
-            # 2026-10-02 "advanced_count 표시 금지" mission: never shows
-            # "컷 통과 {advanced_count}명" -- advanced_count only means
-            # "not CUT/WD/DQ as of R2's own completion", not "confirmed
-            # to tee off in R3" (a separate, later real fact this
-            # summary was never computed from and can't guarantee; see
-            # _round_participation_count / the "3R 진출" banner logic
-            # below, which reads R3's own real data instead).
-            # 2026-10-02 "배너 문구 재검토" mission: "CUT LINE" alone, on
-            # an R2 RESULTS page, reads as if it were based on the
-            # cumulative R1+R2 total -- the far more common real cut
-            # rule in stroke play. cut_line_score is in fact computed
-            # from r1_score alone (this tournament's real rule: one
-            # 36-hole-style cut after R1), so the label says "R1" (not
-            # a guess -- exactly what this summary's own real
-            # computation reads) to remove that specific, plausible
-            # misreading.
-            divider_label = (
-                f"R1 컷라인 — {summary['cut_line_score']}타 이하 통과"
-                if summary["cut_line_score"] is not None else "R1 컷라인"
-            ) + (
-                f" · CUT {summary['cut_count']}명"
-                f" · WD {summary['withdrawn_count']}명"
-                + (f" · DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
-            )
-            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(divider_label)}</td></tr>")
-            divider_done = True
-        finish_position_numeric = r.get("finish_position_numeric")
-        if r.get("finish_position") is None:
-            # klpga.co.kr's own real convention (confirmed against R2's
-            # raw capture): a WD/DQ/CUT player's rank cell shows that
-            # literal status, never a bare "-" -- only a player with no
-            # status at all and no real rank yet falls back to "-".
-            rank_cell = status or "-"
-        elif rank_counts.get(finish_position_numeric, 0) > 1:
-            # 2+ players share this rank -- "T{rank}" (tied), matching
-            # klpga.co.kr's own real convention (confirmed against
-            # Hana's already-published PRE/R1/R2 pages, which all use
-            # this same "T" prefix, never a bare number for a shared rank).
-            rank_cell = _esc(f"T{r['finish_position']}")
-        else:
-            rank_cell = _esc(str(r["finish_position"]))
-        total_cell = status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
-        # Always render all 4 real rounds (R1/R2/R3/FR), never just the
-        # rounds played so far -- a round this tournament hasn't reached
-        # yet (k > round_number) shows "-" for every player regardless
-        # of status, and automatically starts showing real scores the
-        # next time this same function builds that later round's page
-        # (no special-casing per round needed). klpga.co.kr's own real
-        # convention (confirmed against R2's raw capture for WD player
-        # 고지우/CUT player 이소영, both of whom keep their real completed
-        # R1 score shown even on their WD/CUT row): a real completed
-        # score always wins over the status text; status only fills a
-        # cell for a round that has happened (k <= round_number) but
-        # genuinely has no real score of its own for this player.
-        round_cells = []
-        for k in (1, 2, 3, 4):
-            real_score = r.get(f"r{k}_score")
-            if in_progress is not None and k == round_number:
-                # round_number has no real score of its own yet -- show
-                # ONLY what in_progress's real per-player state carries,
-                # never fall back to real_score (that's the PREVIOUS
-                # round's own completed score, not this one's).
-                live = in_progress.get(pid)
-                if live is None:
-                    cell = "-"
-                elif live["excluded"]:
-                    cell = _esc(live["status_text"] or "제외")
-                elif live["score"] is not None:
-                    cell = str(live["score"])
-                elif live["hole"] is not None and show_hole_progress:
-                    cell = f"{live['hole']}H"
-                else:
-                    cell = "-"
-            elif real_score is not None:
-                # the raw stroke count for that round (e.g. 68), never a
-                # to-par differential -- format_to_par is only for an
-                # already-relative-to-par value (score_to_par above).
-                cell = str(real_score)
-            elif k <= round_number and status and k == _first_missed_round(r):
-                # Operational fix (2026-10-02): show the status label
-                # ONLY in the first round column this player actually
-                # couldn't play, qualified with WHICH round the real
-                # cut/WD/DQ applies to (_status_display_label) -- a bare
-                # "CUT" repeated in every later round column read, in
-                # the R2 column specifically, as if round 2 itself
-                # produced that outcome. Real evidence this session:
-                # 조하리/이수민/이소영 never played R2 at all; their
-                # real cut was decided on R1's score alone.
-                cell = _status_display_label(status, r)
-            elif k <= round_number and status:
-                cell = "-"
-            else:
-                cell = "-"
-            round_cells.append(f"<td data-label='{ROUND_COL_LABELS[k]}'>{cell}</td>")
-        country_code = nationality_by_id.get(pid)
-        flag_cell = (
-            f"<img src='/assets/flags/{country_code}.svg' alt='' width='16' height='12' "
-            f"style='display:inline;vertical-align:middle;margin-right:4px'>"
-            if country_code in _FLAG_ASSETS else ""
-        )
-        sponsor_text = _esc(sponsor_cache.get(pid, ""))
-        name_cell = (
-            f"{flag_cell}<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(r['player_name'])}</span>"
-            f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span>"
-        )
-        name_cell = linked_player_name_cell(pid, name_cell)
+    # 2026-10-02 "R2 Renderer 재설계" mission. Real evidence this
+    # tournament has today: R1_CUT (조하리/이수민/이소영, real, 3명),
+    # WD (고지우/황정미/마다솜, real, 3명), R2_CUT (none yet -- real
+    # count is 0, so its section is correctly ABSENT below, never an
+    # empty placeholder). Sectioning (its own rank-less group, pulled
+    # out of the ranked table) applies ONLY on round_number == 2, and
+    # ONLY to the 3 statuses with no real rank of their own
+    # (_SECTIONED_STATUSES: R1_CUT/WD/DQ). R2_CUT never sections --
+    # it keeps a real rank (see _render_row_html) and merges straight
+    # into the one ranked list on every round page. On R3/FR
+    # ("CUT 섹션을 생성하지 않는다"), R1_CUT/WD/DQ fall back into that
+    # same flat list too, with their existing status-replaces-rank/
+    # total cell -- just with no divider/header around them.
+    use_sections = round_number == 2
+    inline_rows = [
+        r for r in played
+        if not (use_sections and r.get("status") in _SECTIONED_STATUSES)
+    ]
+    row_kwargs = dict(
+        round_number=round_number, in_progress=in_progress, rank_counts=rank_counts,
+        band_by_id=band_by_id, m4_by_id=m4_by_id, nationality_by_id=nationality_by_id,
+        sponsor_cache=sponsor_cache, show_hole_progress=show_hole_progress,
+    )
+    rows_html = [_render_row_html(r, **row_kwargs) for r in inline_rows]
 
-        if round_number == 1 and pid in band_by_id:
-            label, score = band_by_id[pid]
-            band_cell = (
-                f"<span class='band' role='img' aria-label='NEO 경기력 {label}' "
-                f"data-neo-score='{score:.2f}'>{label}</span>"
-            )
-        else:
-            band_cell = _NOWRAP
+    if use_sections:
+        r1_cut_group = [r for r in played if r.get("status") == STATUS_R1_CUT]
+        if r1_cut_group:
+            # The real R1 cut-line score (summary's own real
+            # computation, unchanged) is meaningful context for this
+            # one section -- no equivalent score exists for WD/DQ.
+            header = "R1 미출전"
+            if summary is not None and summary["cut_line_score"] is not None:
+                header += f" — {summary['cut_line_score']}타 이하 통과"
+            header += f" · {len(r1_cut_group)}명"
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
+            rows_html.extend(_render_row_html(r, **row_kwargs) for r in r1_cut_group)
 
-        if status:
-            # Hana (2026090002) R2's own real, already-published rendering
-            # rule (confirmed against its real page's own markup -- every
-            # CUT player's TOP20/TOP10/TOP5/우승 cell is literally
-            # <td class='metric-empty'>—</td>, never a stale/meaningless
-            # percentage for someone already out of contention): real
-            # is_cut/is_wd signal (this row's own status, read above from
-            # the real status enum, _status_family(r.get("status")) --
-            # never hardcoded) suppresses every probability cell the same
-            # way, regardless
-            # of whether M4 happens to have a number for this player.
-            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "—"
-            metric_class = "win metric-empty"
-        elif pid in m4_by_id:
-            m4 = m4_by_id[pid]
-            cut_cell = pct(m4["cut_probability"])
-            top20_cell = pct(m4["top20_probability"])
-            top10_cell = pct(m4["top10_probability"])
-            top5_cell = pct(m4["top5_probability"])
-            win_cell = pct(m4["win_probability"])
-            metric_class = "win"
-        else:
-            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
-            metric_class = "win"
-
-        band_td = f"<td data-label='NEO 경기력'>{band_cell}</td>" if round_number == 1 else ""
-        rows_html.append(
-            f"<tr><td data-label='순위'>{rank_cell}</td>"
-            f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
-            f"<td data-label='합계'>{total_cell}</td>"
-            + "".join(round_cells) +
-            f"{band_td}"
-            f"<td class='{metric_class}' data-label='컷 통과확률'>{cut_cell}</td>"
-            f"<td class='{metric_class}' data-label='TOP20'>{top20_cell}</td>"
-            f"<td class='{metric_class}' data-label='TOP10'>{top10_cell}</td>"
-            f"<td class='{metric_class}' data-label='TOP5'>{top5_cell}</td>"
-            f"<td class='{metric_class}' data-label='우승확률'>{win_cell}</td></tr>"
-        )
+        for section_status, section_label in ((STATUS_WD, "WD"), (STATUS_DQ, "DQ")):
+            group = [r for r in played if r.get("status") == section_status]
+            if not group:
+                continue
+            header = f"{section_label} · {len(group)}명"
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
+            rows_html.extend(_render_row_html(r, **row_kwargs) for r in group)
 
     stage_nav_items = []
     for n, (key, label) in [(0, ("pre", "사전 분석 PRE"))] + [(n, STAGE_LABELS[n]) for n in (1, 2, 3, 4)]:

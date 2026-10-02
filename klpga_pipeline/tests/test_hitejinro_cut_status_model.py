@@ -19,6 +19,7 @@ this file's own commit must not bundle in unrelated, unapproved work."""
 from __future__ import annotations
 
 import json
+import re
 
 import pytest
 
@@ -192,7 +193,11 @@ def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
     assert "R1 컷 확정" in html
     assert "CUT 3명" in html
     assert "WD 3명" in html
-    assert "R1 컷라인 — 87타 이하 통과" in html
+    # 2026-10-02 "R2 Renderer 재설계" mission: the in-table cut-line
+    # score now lives on the "R1 미출전" SECTION's own header (see
+    # test_r2_sections_are_rendered_for_r1_cut_and_wd_only below for
+    # the full grouping behavior), not a standalone "CUT LINE —" line.
+    assert "R1 미출전 — 87타 이하 통과 · 3명" in html
 
 
 @requires_r2_leaderboard_evidence
@@ -226,7 +231,11 @@ def test_r1_cut_shows_as_2r_미출전_not_as_an_r1_vs_r2_code():
     text named the round the player LAST COMPLETED while sitting
     inside the NEXT column, a second, independent source of confusion
     on top of "CUT" itself being ambiguous between the R1 and R2 cut
-    rounds. Real evidence: 조하리/이수민/이소영 (all R1_CUT)."""
+    rounds. Real evidence: 조하리/이수민/이소영 (all R1_CUT). The
+    section they're grouped under is separately named "R1 미출전"
+    (2026-10-02 "R2 Renderer 재설계" mission) -- "R1 CUT" as a string
+    does not appear anywhere on the page any more, per-cell or as a
+    section title."""
     from klpga.tournament_context import CONTENT_DIR
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
@@ -234,3 +243,92 @@ def test_r1_cut_shows_as_2r_미출전_not_as_an_r1_vs_r2_code():
     )
     assert "R1 CUT" not in html
     assert html.count("data-label='R2'>2R 미출전</td>") == 3
+
+
+@requires_r2_leaderboard_evidence
+def test_r2_sections_are_rendered_for_r1_cut_and_wd_only():
+    """2026-10-02 'R2 Renderer 재설계' mission (operator's own words:
+    "문제는 status enum이 아니다. 문제는 Renderer다"): on the R2 page,
+    R1_CUT and WD/DQ each get their OWN separate, rank-less section
+    (R1_CUT/WD/DQ never played the round that would have produced a
+    real rank) -- never one flat tail mixing them. R2_CUT never gets a
+    section at all (real evidence: none exist in this tournament yet,
+    so no "R2 CUT" section/placeholder of any kind should appear --
+    see test_r2_cut_merges_inline_with_a_real_rank_and_a_badge below
+    for its own, different, no-section treatment via a synthetic
+    record). Real evidence for what DOES section here: R1_CUT
+    (조하리/이수민/이소영, 3) and WD (고지우/황정미/마다솜, 3)."""
+    from klpga.tournament_context import CONTENT_DIR
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    dividers = re.findall(r"<tr class='cut-divider'><td colspan='\d+'>([^<]*)</td></tr>", html)
+    # Exactly 2 sections (R1 미출전, WD) -- no R2 CUT section/placeholder,
+    # no DQ section (0 real DQ).
+    assert dividers == ["R1 미출전 — 87타 이하 통과 · 3명", "WD · 3명"]
+    assert html.index("R1 미출전") < html.index("WD · 3명")
+
+
+def test_r2_cut_merges_inline_with_a_real_rank_and_a_badge(tmp_path, monkeypatch):
+    """2026-10-02 'R2 Renderer 재설계' mission, operator's own words:
+    "R2 CUT와 R1 CUT는 같은 UI가 아니다." R2_CUT players DID complete
+    R2 -- 하나금융's own already-published R2 page (real reference the
+    operator supplied) keeps a cut player's REAL rank/total and only
+    adds a small "CUT" badge next to the name, never replacing
+    rank/total with the word CUT and never pulling them into a
+    separate section. No real R2_CUT exists in this tournament yet
+    (status enum unchanged by this mission), so this is exercised with
+    one synthetic record layered onto the real board -- the only way
+    to test a real-shaped state this tournament hasn't produced yet."""
+    from klpga.tournament_context import CONTENT_DIR
+    import json as _json
+
+    real_board = _json.loads((CONTENT_DIR / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
+    synthetic = dict(real_board["records"][0])
+    synthetic.update(
+        player_id="99999", player_name="테스트선수", finish_position="55", finish_position_numeric=55,
+        score_to_par=5, status="R2_CUT", status_round=2, withdrawn=False, disqualified=False, missed_cut=True,
+        r1_score=75, r2_score=80, r3_score=None, r4_score=None,
+    )
+    real_board["records"].append(synthetic)
+    tmp_content = tmp_path
+    for name in ("2026100005_ENTRY_KRANKING_JOIN.json", "HITEJINRO_2026100005_PRE_M4_CANDIDATE_V1.json"):
+        src = CONTENT_DIR / name
+        if src.is_file():
+            (tmp_content / name).write_bytes(src.read_bytes())
+    (tmp_content / "2026100005_LEADERBOARD.json").write_text(
+        _json.dumps(real_board, ensure_ascii=False), encoding="utf-8",
+    )
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=tmp_content,
+    )
+    # Real rank (55), real total (+5) -- never replaced by "CUT" text.
+    assert "<td data-label='순위'>55</td>" in html
+    assert "<td data-label='합계'>+5</td>" in html
+    assert "<span class='status-badge'>CUT</span>" in html
+    # No "R2 CUT" section header anywhere -- it merges straight into
+    # the ranked list, not its own divider-separated group.
+    assert "R2 CUT (" not in html
+    assert "R2 CUT ·" not in html
+
+
+@requires_r2_leaderboard_evidence
+def test_r3_and_fr_pages_never_section_cut_or_wd_players():
+    """2026-10-02 'R2 Renderer 재설계' mission, operator's own words:
+    "R3·FR 페이지에서는 CUT 섹션을 생성하지 않는다." Sectioning is a
+    round_number == 2 -only behavior. Real evidence: render_round_page
+    (3, ...) against this tournament's real current data (zero real
+    r3_score values, but 6 real status-having players) renders those 6
+    players with zero 'cut-divider' rows -- they fall back to their
+    existing status-replaces-rank/total cell, just with no
+    divider/header around them, exactly as a round 3 page with no real
+    R3 field of its own should."""
+    from klpga.tournament_context import CONTENT_DIR
+    html = render_round_page(
+        3, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    assert "cut-divider" not in html
+    assert "R1 미출전" not in html
