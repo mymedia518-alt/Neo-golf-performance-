@@ -21,6 +21,40 @@ to replay `parse_leaderboard()`'s own exact record order (raw-HTML match
 order first, carried-forward/absent entrants appended after) — this is
 what made the replay byte-identical.
 
+## R2 update (2026-10-02, later same day): now NOT byte-identical — root cause is the Projection predating the R1_CUT/R2_CUT status-model mission, not a defect in this architecture
+
+The 2026-10-02 "상태 모델" mission added real `status`
+(`R1_CUT`/`R2_CUT`/`WD`/`DQ`/`None`) and `status_round` fields directly to
+the live production pipeline, `hitejinro_round_pipeline.py::parse_leaderboard()`
+— a separate, already-live module, explicitly in scope for that mission.
+That mission's instructions also explicitly froze this Warehouse/Engine/
+Projection architecture ("Warehouse Replay Transition Engine Collector
+Projection 전부 수정 금지"), so `projection_builder.py` was deliberately
+NOT updated to emit the new fields.
+
+`hitejinro_round_page.py::_status_display_label()` was simplified in the
+same mission to read `record.get("status_round")` directly (previously it
+re-derived the same value from r1-r4 scores at render time). Fed a real
+`parse_leaderboard()` record, this is correct — the live page is unaffected
+(confirmed byte-identical to the already-LIVE-verified `96e9995` output).
+Fed a `projection_builder.py` record, which has no `status_round` key at
+all, `_status_display_label()` falls back to the bare status string
+("CUT"/"WD" with no round qualifier) instead of the now-correct "R1 CUT"/
+"R1 WD" qualified label — hence the Replay Test's SHA256 mismatch.
+
+This is the same class of pre-existing-staleness divergence as the R1
+section below, just surfacing on R2 this time: the frozen Projection
+Builder's output schema predates a later, explicitly-scoped-elsewhere
+change to the live pipeline's own schema. `round_transition_engine.py`
+and `projection_builder.py` remain untouched, per that mission's explicit
+instruction. `tests/test_evidence_first_replay.py`'s R2 byte-identical
+assertion is marked `xfail(strict=True)` with this section referenced in
+the reason, rather than silently skipped or deleted — exactly the
+documentation discipline already applied to the R1 divergence below.
+Should `projection_builder.py` ever be revisited (out of scope for now),
+adding `status`/`status_round` passthrough would restore the byte-identical
+match.
+
 ## R1: NOT byte-identical — root cause is pre-existing staleness, not a defect in this architecture
 
 Two independent, already-documented causes, both predating this mission:

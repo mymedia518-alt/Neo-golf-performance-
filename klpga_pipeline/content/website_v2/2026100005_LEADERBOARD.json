@@ -45,6 +45,8 @@
       "r2_score": 70,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -59,6 +61,8 @@
       "r2_score": 69,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -73,6 +77,8 @@
       "r2_score": 72,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -87,6 +93,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -101,6 +109,8 @@
       "r2_score": 74,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -115,6 +125,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -129,6 +141,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -143,6 +157,8 @@
       "r2_score": 72,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -157,6 +173,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -171,6 +189,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -185,6 +205,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -199,6 +221,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -213,6 +237,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -227,6 +253,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -241,6 +269,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -255,6 +285,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -269,6 +301,8 @@
       "r2_score": 70,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -283,6 +317,8 @@
       "r2_score": 74,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -297,6 +333,8 @@
       "r2_score": 72,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -311,6 +349,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -325,6 +365,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -339,6 +381,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -353,6 +397,8 @@
       "r2_score": 74,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -367,6 +413,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -381,6 +429,8 @@
       "r2_score": 72,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -395,6 +445,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -409,6 +461,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -423,6 +477,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -437,6 +493,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -451,6 +509,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -465,6 +525,8 @@
       "r2_score": 72,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -479,6 +541,8 @@
       "r2_score": 72,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -493,6 +557,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -507,6 +573,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -521,6 +589,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -535,6 +605,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -549,6 +621,8 @@
       "r2_score": 71,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -563,6 +637,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -577,6 +653,8 @@
       "r2_score": 74,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -591,6 +669,8 @@
       "r2_score": 74,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -605,6 +685,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -619,6 +701,8 @@
       "r2_score": 79,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -633,6 +717,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -647,6 +733,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -661,6 +749,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -675,6 +765,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -689,6 +781,8 @@
       "r2_score": 79,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -703,6 +797,8 @@
       "r2_score": 70,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -717,6 +813,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -731,6 +829,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -745,6 +845,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -759,6 +861,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -773,6 +877,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -787,6 +893,8 @@
       "r2_score": 74,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -801,6 +909,8 @@
       "r2_score": 73,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -815,6 +925,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -829,6 +941,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -843,6 +957,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -857,6 +973,8 @@
       "r2_score": 79,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -871,6 +989,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -885,6 +1005,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -899,6 +1021,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -913,6 +1037,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -927,6 +1053,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -941,6 +1069,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -955,6 +1085,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -969,6 +1101,8 @@
       "r2_score": 82,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -983,6 +1117,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -997,6 +1133,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1011,6 +1149,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1025,6 +1165,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1039,6 +1181,8 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1053,6 +1197,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1067,6 +1213,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1081,6 +1229,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1095,6 +1245,8 @@
       "r2_score": 82,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1109,6 +1261,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1123,6 +1277,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1137,6 +1293,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1151,6 +1309,8 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1165,6 +1325,8 @@
       "r2_score": 82,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1179,6 +1341,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1193,6 +1357,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1207,6 +1373,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1221,6 +1389,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1235,6 +1405,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1249,6 +1421,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1263,6 +1437,8 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1277,6 +1453,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1291,6 +1469,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1305,6 +1485,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1319,6 +1501,8 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1333,6 +1517,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1347,6 +1533,8 @@
       "r2_score": 79,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1361,6 +1549,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1375,6 +1565,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1389,6 +1581,8 @@
       "r2_score": 83,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1403,6 +1597,8 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1417,6 +1613,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1431,6 +1629,8 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1445,6 +1645,8 @@
       "r2_score": 84,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1459,6 +1661,8 @@
       "r2_score": 84,
       "r3_score": null,
       "r4_score": null,
+      "status": null,
+      "status_round": null,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": false
@@ -1473,6 +1677,8 @@
       "r2_score": null,
       "r3_score": null,
       "r4_score": null,
+      "status": "WD",
+      "status_round": 1,
       "withdrawn": true,
       "disqualified": false,
       "missed_cut": false
@@ -1487,6 +1693,8 @@
       "r2_score": null,
       "r3_score": null,
       "r4_score": null,
+      "status": "WD",
+      "status_round": 1,
       "withdrawn": true,
       "disqualified": false,
       "missed_cut": false
@@ -1501,6 +1709,8 @@
       "r2_score": null,
       "r3_score": null,
       "r4_score": null,
+      "status": "R1_CUT",
+      "status_round": 1,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": true
@@ -1515,6 +1725,8 @@
       "r2_score": null,
       "r3_score": null,
       "r4_score": null,
+      "status": "R1_CUT",
+      "status_round": 1,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": true
@@ -1529,6 +1741,8 @@
       "r2_score": null,
       "r3_score": null,
       "r4_score": null,
+      "status": "R1_CUT",
+      "status_round": 1,
       "withdrawn": false,
       "disqualified": false,
       "missed_cut": true
@@ -1546,7 +1760,9 @@
       "withdrawn": true,
       "disqualified": false,
       "missed_cut": false,
-      "carried_forward_from_round": 1
+      "carried_forward_from_round": 1,
+      "status": "WD",
+      "status_round": null
     }
   ]
 }
