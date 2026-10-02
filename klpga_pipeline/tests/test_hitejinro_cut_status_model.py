@@ -24,7 +24,7 @@ import pytest
 
 from klpga.neo_win import hitejinro_round_pipeline as _rp
 from klpga.neo_win.hitejinro_round_pipeline import parse_leaderboard, raw_evidence_path
-from klpga.neo_win.hitejinro_round_page import _advancement_summary, _status_family
+from klpga.neo_win.hitejinro_round_page import _advancement_summary, _status_family, render_round_page
 
 pytestmark = pytest.mark.round_pipeline
 
@@ -160,3 +160,31 @@ def test_advancement_summary_classifies_by_status_not_legacy_flags():
     assert summary["withdrawn_count"] == 1
     assert summary["disqualified_count"] == 1
     assert summary["cut_line_score"] == 70
+
+
+@requires_r2_leaderboard_evidence
+def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
+    """2026-10-02 'advanced_count 표시 금지' mission: R2's top banner
+    and in-table cut-divider must never render "컷 통과 {n}명" -- that
+    phrase claims a later, unconfirmed fact (who actually tees off in
+    R3) that _advancement_summary was never computed from. _advancement_
+    summary() itself is untouched (advanced_count is still a real,
+    correct field on its returned dict -- see the test above) -- only
+    the HTML these two displays render was changed to stop using it.
+
+    Real R3 data doesn't exist in this checkout yet, so the banner must
+    fall to the no-estimate branch: real R2 종료/CUT 확정/CUT+WD counts
+    only, no CUT LINE score, no guessed R3 headcount."""
+    from klpga.tournament_context import CONTENT_DIR
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    # "컷 통과확률" (the M4 cut-PROBABILITY column header) is a separate,
+    # unrelated real metric this mission never touched -- only the
+    # count phrase "컷 통과 {n}명" (advanced_count) must be gone.
+    assert "컷 통과 " not in html, "advanced_count must never be displayed on the R2 page"
+    assert "<p class='cut-line-banner'><strong>R2 종료</strong>" in html
+    assert "CUT 확정" in html
+    assert "CUT 3명" in html
+    assert "WD 3명" in html
