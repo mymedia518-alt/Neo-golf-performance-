@@ -187,13 +187,13 @@ def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
     )
     # "컷 통과확률" (the M4 cut-PROBABILITY column header) is a separate,
     # unrelated real metric this mission never touched -- only the
-    # count phrase "컷 통과 {n}명" (advanced_count) must be gone. This is
-    # distinct from the real "R2 컷 통과" SECTION header added by the
-    # 2026-10-02 "Renderer만 수정" mission (e.g. "R2 컷 통과 · 102명",
-    # which legitimately contains the substring "컷 통과 ") -- the bad
-    # OLD pattern was specifically "컷 통과 {digits}명" with no " · "
-    # separator in between.
-    assert not re.search(r"컷 통과 \d+명", html), "advanced_count must never be displayed as a bare phrase on the R2 page"
+    # count phrase "컷 통과 {n}명" (advanced_count) must be gone. A
+    # same-day "Renderer만 수정" mission briefly added a "R2 컷 통과"
+    # SECTION header too, but a later "EVIDENCE INSUFFICIENT" mission
+    # removed it again (no real evidence backs labeling status=None
+    # as any kind of "컷 통과" group) -- so "컷 통과 " should not
+    # appear anywhere on this page any more, in any form.
+    assert "컷 통과 " not in html, "no form of '컷 통과' may be displayed on the R2 page (no real evidence backs it)"
     assert "<p class='cut-line-banner'><strong>R2 종료</strong>" in html
     assert "R1 컷 확정" in html
     assert "CUT 3명" in html
@@ -251,21 +251,23 @@ def test_r1_cut_shows_as_2r_미출전_not_as_an_r1_vs_r2_code():
 
 
 @requires_r2_leaderboard_evidence
-def test_r2_sections_are_rendered_for_active_r1_cut_and_wd():
-    """2026-10-02 'R2 Renderer 재설계' + 'Renderer만 수정' missions
-    (operator's own words: "문제는 status enum이 아니다. 문제는
-    Renderer다" / "status=None을 ACTIVE로 렌더링하지 말고... 'R2 컷
-    통과' 그룹으로 렌더링한다"): on the R2 page, EVERY real status
-    value gets its own explicitly-labeled section -- status=None was
-    previously rendered with no header at all (an asymmetry versus
-    R1_CUT/WD/DQ, each of which already got one), now first in line as
-    "R2 컷 통과". R1_CUT and WD/DQ still each get their own separate,
-    rank-less section (never played the round that would have produced
-    a real rank) -- never one flat tail mixing them. R2_CUT never gets
-    a section at all (real evidence: none exist in this tournament yet
-    -- see test_r2_cut_merges_inline_with_a_real_rank_and_a_badge below
-    for its own, different, no-section treatment via a synthetic
-    record). Real evidence: 102 active, R1_CUT (조하리/이수민/이소영,
+def test_r2_sections_are_rendered_for_r1_cut_and_wd_only_not_active():
+    """2026-10-02 'R2 Renderer 재설계' mission (operator's own words:
+    "문제는 status enum이 아니다. 문제는 Renderer다"): on the R2 page,
+    R1_CUT and WD/DQ/DNS each get their own separate, rank-less section
+    (never played the round that would have produced a real rank) --
+    never one flat tail mixing them. A same-day "Renderer만 수정"
+    mission briefly gave status=None its own "R2 컷 통과" header too,
+    but the following "EVIDENCE INSUFFICIENT" mission removed it again
+    -- no real evidence (no KLPGA page anywhere in this tournament's
+    raw evidence displays a "본선 진출자"/cut-pass counter for this
+    population) backs that label, so status=None renders as a PLAIN
+    ranked list with NO header/group name, pending real R3 evidence.
+    R2_CUT never gets a section at all (real evidence: none exist in
+    this tournament yet -- see
+    test_r2_cut_merges_inline_with_a_real_rank_and_a_badge below for
+    its own, different, no-section treatment via a synthetic record).
+    Real evidence: 102 active (unlabeled), R1_CUT (조하리/이수민/이소영,
     3), WD (고지우/황정미/마다솜, 3)."""
     from klpga.tournament_context import CONTENT_DIR
     html = render_round_page(
@@ -273,10 +275,16 @@ def test_r2_sections_are_rendered_for_active_r1_cut_and_wd():
         content_root=CONTENT_DIR,
     )
     dividers = re.findall(r"<tr class='cut-divider'><td colspan='\d+'>([^<]*)</td></tr>", html)
-    # Exactly 3 sections (R2 컷 통과, R2 미출전, WD) -- no R2 CUT
-    # section/placeholder, no DQ/DNS section (0 real cases of either).
-    assert dividers == ["R2 컷 통과 · 102명", "R2 미출전 — 87타 이하 통과 · 3명", "WD · 3명"]
-    assert html.index("R2 컷 통과") < html.index("R2 미출전") < html.index("WD · 3명")
+    # Exactly 2 sections (R2 미출전, WD) -- no header for the active
+    # group, no R2 CUT section/placeholder, no DQ/DNS section (0 real
+    # cases of either).
+    assert dividers == ["R2 미출전 — 87타 이하 통과 · 3명", "WD · 3명"]
+    assert "R2 컷 통과" not in html
+    assert html.index("R2 미출전") < html.index("WD · 3명")
+    # The first real row (활성 선수, rank 1) must come before any
+    # section divider -- confirms it renders plainly with no header
+    # above it.
+    assert html.index("<td data-label='순위'>1</td>") < html.index("R2 미출전")
 
 
 def test_r2_cut_merges_inline_with_a_real_rank_and_a_badge(tmp_path, monkeypatch):
