@@ -4,6 +4,14 @@ must be separate real states, never collapsed into one undifferentiated
 committed under content/website_v2/incoming_evidence/2026100005/ --
 never a synthetic fixture (this project's established convention).
 
+Also covers the same-day follow-up "실제 운영 적용" mission: hitejinro_
+round_page.py's display logic (_advancement_summary/_status_family)
+must key off the real status enum, never the legacy withdrawn/
+disqualified/missed_cut booleans directly -- proven with synthetic
+records whose legacy fields are deliberately wrong, since the real
+production data's legacy fields are always consistent with status and
+so can't itself catch a silent reversion to reading them.
+
 Kept as its own file rather than appended to test_hitejinro_round_
 pipeline.py, which currently carries separate, paused, not-yet-approved
 isolation-refactor edits (2026-10-02 "운영 데이터 보호 규칙" mission) --
@@ -16,6 +24,7 @@ import pytest
 
 from klpga.neo_win import hitejinro_round_pipeline as _rp
 from klpga.neo_win.hitejinro_round_pipeline import parse_leaderboard, raw_evidence_path
+from klpga.neo_win.hitejinro_round_page import _advancement_summary, _status_family
 
 pytestmark = pytest.mark.round_pipeline
 
@@ -104,3 +113,50 @@ def test_legacy_fields_stay_byte_identical_to_the_real_production_file(tmp_path,
         if cur_by_id[pid].get(f) != new_by_id[pid].get(f)
     ]
     assert mismatches == [], f"{len(mismatches)} legacy-field mismatches: {mismatches[:10]}"
+
+
+def test_status_family_reads_the_enum_not_legacy_booleans():
+    """2026-10-02 '실제 운영 적용' mission: hitejinro_round_page.py's
+    display logic must key off the real status enum (R1_CUT/R2_CUT/
+    WD/DQ/None), never the legacy withdrawn/disqualified/missed_cut
+    booleans directly. Proven here with a record whose legacy fields
+    deliberately DISAGREE with status -- if the renderer still read the
+    legacy fields, this would silently pass; reading status is the only
+    way this assertion holds."""
+    contradictory_record = {
+        "status": "R2_CUT",
+        "status_round": 2,
+        # Legacy fields deliberately wrong/stale, as if an older writer
+        # had set them -- _status_family must ignore these entirely.
+        "withdrawn": True,
+        "disqualified": True,
+        "missed_cut": False,
+    }
+    assert _status_family(contradictory_record["status"]) == "CUT"
+    assert _status_family("WD") == "WD"
+    assert _status_family("DQ") == "DQ"
+    assert _status_family(None) is None
+
+
+def test_advancement_summary_classifies_by_status_not_legacy_flags():
+    """Same proof at the _advancement_summary level: a four-record
+    synthetic set whose legacy booleans are all wrong on purpose. The
+    real counts must come out matching the real `status` values, which
+    only happens if the summary reads status, never missed_cut/
+    withdrawn/disqualified."""
+    records = [
+        {"player_id": "1", "status": None, "r1_score": 70,
+         "withdrawn": True, "disqualified": True, "missed_cut": True},
+        {"player_id": "2", "status": "R1_CUT", "r1_score": 90,
+         "withdrawn": False, "disqualified": False, "missed_cut": False},
+        {"player_id": "3", "status": "WD", "r1_score": None,
+         "withdrawn": False, "disqualified": False, "missed_cut": False},
+        {"player_id": "4", "status": "DQ", "r1_score": None,
+         "withdrawn": False, "disqualified": False, "missed_cut": False},
+    ]
+    summary = _advancement_summary(records)
+    assert summary["advanced_count"] == 1
+    assert summary["cut_count"] == 1
+    assert summary["withdrawn_count"] == 1
+    assert summary["disqualified_count"] == 1
+    assert summary["cut_line_score"] == 70
