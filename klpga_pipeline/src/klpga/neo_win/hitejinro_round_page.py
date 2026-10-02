@@ -66,6 +66,41 @@ def _load_nationality_by_id(content_root: Path) -> dict[str, str]:
     return {r["player_code"]: r["nationality"] for r in records if r.get("nationality")}
 
 
+ROUND_COL_LABELS = {1: "R1", 2: "R2", 3: "R3", 4: "FR"}
+
+
+def _advancement_summary(records: list[dict]) -> dict | None:
+    """Real cut line + counts, computed fresh from records' own
+    withdrawn/disqualified/missed_cut flags (themselves real per-player
+    WD/DQ/CUT text parsed by hitejinro_round_pipeline.parse_leaderboard
+    -- never hardcoded here or anywhere upstream). Returns None if no
+    cut has happened yet in this tournament (no missed_cut record
+    exists) -- e.g. still true for PRE/R1 pages, which render no
+    CUT LINE banner at all rather than a zero/empty one.
+
+    cut_line_score is the worst (highest) real r1_score among players
+    who were NOT cut/withdrawn/disqualified -- i.e. the real threshold
+    this tournament's own cut actually landed on, re-derived from the
+    field every time this is called, never a remembered constant."""
+    cut = [r for r in records if r.get("missed_cut")]
+    if not cut:
+        return None
+    withdrawn = [r for r in records if r.get("withdrawn")]
+    disqualified = [r for r in records if r.get("disqualified")]
+    advanced = [
+        r for r in records
+        if not r.get("missed_cut") and not r.get("withdrawn") and not r.get("disqualified")
+    ]
+    advancing_r1_scores = [r["r1_score"] for r in advanced if r.get("r1_score") is not None]
+    return {
+        "cut_line_score": max(advancing_r1_scores) if advancing_r1_scores else None,
+        "advanced_count": len(advanced),
+        "cut_count": len(cut),
+        "withdrawn_count": len(withdrawn),
+        "disqualified_count": len(disqualified),
+    }
+
+
 def load_leaderboard(content_root: Path) -> dict:
     path = content_root / f"{GAME_CODE}_LEADERBOARD.json"
     if not path.is_file():
@@ -110,13 +145,6 @@ def render_round_page(
     if round_number not in STAGE_LABELS:
         raise ValueError(f"round_number must be 1-4, got {round_number}")
     stage_key, stage_label = STAGE_LABELS[round_number]
-    # R1's own page keeps its already-shipped "R1" column label
-    # unchanged (out of scope here); from R2 on, the column sits
-    # alongside "1R"/"2R"/... prior-round columns and uses that same
-    # "{N}R" suffix style for visual consistency, per explicit
-    # operator instruction -- stage_label itself (used in the hero/
-    # title/breadcrumb/stage-nav) is untouched.
-    round_col_label = stage_label if round_number == 1 else f"{round_number}R"
 
     board = load_leaderboard(content_root)
     records = board["records"]
@@ -158,10 +186,29 @@ def render_round_page(
     band_by_id = neo_band_by_id(current_form_by_id)
     m4_by_id = load_m4_by_id()
 
+    summary = _advancement_summary(records)
+    total_cols = 3 + 4 + (1 if round_number == 1 else 0) + 5
+    divider_done = summary is None  # no real cut yet -- never insert a divider
+
     rows_html = []
     for r in played:
         pid = str(r["player_id"])
         status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else "CUT" if r.get("missed_cut") else None
+        if status and not divider_done:
+            # First CUT/WD/DQ row reached -- played is already sorted
+            # with no-real-rank rows (every CUT/WD/DQ player) last, so
+            # this fires exactly once, right at the real boundary
+            # between 본선 진출 and CUT/WD, never guessed/hardcoded.
+            divider_label = (
+                f"CUT LINE — {summary['cut_line_score']}타 이하 통과"
+                if summary["cut_line_score"] is not None else "CUT LINE"
+            ) + (
+                f" · 본선 진출 {summary['advanced_count']}명 · CUT {summary['cut_count']}명"
+                f" · WD {summary['withdrawn_count']}명"
+                + (f" · DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
+            )
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(divider_label)}</td></tr>")
+            divider_done = True
         finish_position_numeric = r.get("finish_position_numeric")
         if r.get("finish_position") is None:
             # klpga.co.kr's own real convention (confirmed against R2's
@@ -177,41 +224,48 @@ def render_round_page(
             rank_cell = _esc(f"T{r['finish_position']}")
         else:
             rank_cell = _esc(str(r["finish_position"]))
-        if in_progress is not None:
-            # round_number has no real score of its own yet -- show
-            # ONLY what in_progress's real per-player state carries,
-            # never fall back to score_field (that's the PREVIOUS
-            # round's own completed score, not this one's).
-            live = in_progress.get(pid)
-            if live is None:
-                score_cell = "-"
-            elif live["excluded"]:
-                score_cell = _esc(live["status_text"] or "제외")
-            elif live["score"] is not None:
-                score_cell = str(live["score"])
-            elif live["hole"] is not None and show_hole_progress:
-                score_cell = f"{live['hole']}H"
-            else:
-                score_cell = "-"
-        else:
-            # r{N}_score is the raw stroke count for that round (e.g. 68),
-            # never a to-par differential -- format_to_par is only for an
-            # already-relative-to-par value (score_to_par below). Running a
-            # raw score through format_to_par would print "+68", which is
-            # not what that field means.
-            score_cell = status or (str(r[score_field]) if r.get(score_field) is not None else "-")
         total_cell = status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
-        # klpga.co.kr's own real convention (confirmed against R2's raw
-        # capture for WD player 고지우/CUT player 이소영, both of whom
-        # keep their real completed R1 score shown even on their WD/CUT
-        # row): a real completed prior-round score always wins over the
-        # status text -- status only fills a prior-round cell that
-        # genuinely has no real score of its own (e.g. someone who never
-        # played that earlier round either).
-        prior_round_cells = [
-            f"<td data-label='{k}R'>{str(r[f'r{k}_score']) if r.get(f'r{k}_score') is not None else (status or '-')}</td>"
-            for k in range(1, round_number)
-        ]
+        # Always render all 4 real rounds (R1/R2/R3/FR), never just the
+        # rounds played so far -- a round this tournament hasn't reached
+        # yet (k > round_number) shows "-" for every player regardless
+        # of status, and automatically starts showing real scores the
+        # next time this same function builds that later round's page
+        # (no special-casing per round needed). klpga.co.kr's own real
+        # convention (confirmed against R2's raw capture for WD player
+        # 고지우/CUT player 이소영, both of whom keep their real completed
+        # R1 score shown even on their WD/CUT row): a real completed
+        # score always wins over the status text; status only fills a
+        # cell for a round that has happened (k <= round_number) but
+        # genuinely has no real score of its own for this player.
+        round_cells = []
+        for k in (1, 2, 3, 4):
+            real_score = r.get(f"r{k}_score")
+            if in_progress is not None and k == round_number:
+                # round_number has no real score of its own yet -- show
+                # ONLY what in_progress's real per-player state carries,
+                # never fall back to real_score (that's the PREVIOUS
+                # round's own completed score, not this one's).
+                live = in_progress.get(pid)
+                if live is None:
+                    cell = "-"
+                elif live["excluded"]:
+                    cell = _esc(live["status_text"] or "제외")
+                elif live["score"] is not None:
+                    cell = str(live["score"])
+                elif live["hole"] is not None and show_hole_progress:
+                    cell = f"{live['hole']}H"
+                else:
+                    cell = "-"
+            elif real_score is not None:
+                # the raw stroke count for that round (e.g. 68), never a
+                # to-par differential -- format_to_par is only for an
+                # already-relative-to-par value (score_to_par above).
+                cell = str(real_score)
+            elif k <= round_number and status:
+                cell = status
+            else:
+                cell = "-"
+            round_cells.append(f"<td data-label='{ROUND_COL_LABELS[k]}'>{cell}</td>")
         country_code = nationality_by_id.get(pid)
         flag_cell = (
             f"<img src='/assets/flags/{country_code}.svg' alt='' width='16' height='12' "
@@ -249,8 +303,7 @@ def render_round_page(
             f"<tr><td data-label='순위'>{rank_cell}</td>"
             f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
             f"<td data-label='합계'>{total_cell}</td>"
-            + "".join(prior_round_cells) +
-            f"<td data-label='{round_col_label}'>{score_cell}</td>"
+            + "".join(round_cells) +
             f"{band_td}"
             f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
             f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
@@ -299,13 +352,26 @@ def render_round_page(
         f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"
+    cut_line_html = ""
+    if summary is not None:
+        cut_line_html = (
+            "<p class='cut-line-banner'>"
+            + (
+                f"<strong>CUT LINE {summary['cut_line_score']}타</strong> 이하 통과"
+                if summary["cut_line_score"] is not None else "<strong>CUT LINE</strong>"
+            )
+            + f" &nbsp;·&nbsp; 본선 진출 {summary['advanced_count']}명"
+            + f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
+            + f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
+            + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
+            + "</p>"
+        )
     table_section = (
         f"<section class='panel leaderboard-panel' id='{stage_key}'>"
-        f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2></div>"
+        f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2>{cut_line_html}</div>"
         "<div class='table-wrap'><table class='data leaderboard-table'><thead><tr>"
-        f"<th>순위</th><th>선수</th><th>합계</th>"
-        + "".join(f"<th>{k}R</th>" for k in range(1, round_number))
-        + f"<th>{round_col_label}</th>"
+        "<th>순위</th><th>선수</th><th>합계</th>"
+        + "".join(f"<th>{ROUND_COL_LABELS[k]}</th>" for k in (1, 2, 3, 4))
         + ("<th>NEO 경기력</th>" if round_number == 1 else "")
         + "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"

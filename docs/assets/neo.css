@@ -50,6 +50,9 @@
 .leaderboard-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.5rem;margin-bottom:10px}
 .leaderboard-head h2{margin:0}
 .leaderboard-head .note{margin:0}
+.cut-line-banner{flex-basis:100%;margin:4px 0 0;padding:8px 12px;background:var(--accent-soft);color:var(--ink);font-size:13px;border-left:3px solid var(--band-4)}
+.cut-line-banner strong{color:var(--band-4)}
+.leaderboard-table tbody tr.cut-divider td{padding:6px 14px;background:var(--soft);color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.02em;text-align:left;border-bottom:2px solid var(--line);border-top:2px solid var(--line)}
 /* OWNER VISUAL REVIEW FAIL, item 3 (KB PRE DESKTOP): the leaderboard
    was too narrow for the available desktop viewport -- fixed at the
    container level (main{max-width} above, now min(96vw,1680px) instead
