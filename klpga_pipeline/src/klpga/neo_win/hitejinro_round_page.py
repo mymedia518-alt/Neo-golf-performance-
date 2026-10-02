@@ -268,20 +268,19 @@ def render_round_page(
         if status and not divider_done:
             # First CUT/WD/DQ row reached -- played is already sorted
             # with no-real-rank rows (every CUT/WD/DQ player) last, so
-            # this fires exactly once, right at the real boundary
-            # between 컷 통과 and CUT/WD, never guessed/hardcoded.
-            # "컷 통과" (cut-pass), never "본선 진출" (advance to the
-            # final) -- advanced_count is exactly what its own name
-            # says: not CUT/WD/DQ as of the real flags computed above,
-            # nothing more. Whether a given cut-survivor genuinely
-            # tees off in R3 is a separate, later real fact -- see
-            # _round_participation_count, which R3+'s own banner uses
-            # instead of this summary.
+            # this fires exactly once, right at the real boundary.
+            # 2026-10-02 "advanced_count 표시 금지" mission: never shows
+            # "컷 통과 {advanced_count}명" -- advanced_count only means
+            # "not CUT/WD/DQ as of R2's own completion", not "confirmed
+            # to tee off in R3" (a separate, later real fact this
+            # summary was never computed from and can't guarantee; see
+            # _round_participation_count / the "3R 진출" banner logic
+            # below, which reads R3's own real data instead).
             divider_label = (
                 f"CUT LINE — {summary['cut_line_score']}타 이하 통과"
                 if summary["cut_line_score"] is not None else "CUT LINE"
             ) + (
-                f" · 컷 통과 {summary['advanced_count']}명 · CUT {summary['cut_count']}명"
+                f" · CUT {summary['cut_count']}명"
                 f" · WD {summary['withdrawn_count']}명"
                 + (f" · DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
             )
@@ -456,31 +455,29 @@ def render_round_page(
         f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"
-    # R2 and R3+ each need a DIFFERENT real banner, never the same one
-    # reused: R2's cut has just been decided (summary, from the
-    # unchanged _advancement_summary above) -- "컷 통과 {n}명" states
-    # exactly what advanced_count means (not CUT/WD/DQ), never "본선
-    # 진출" (that claims a later fact -- who genuinely tees off in R3
-    # -- that summary was never computed from and can't guarantee).
-    # R3/FR instead show THIS round's own real participation
-    # (_round_participation_count, live in_progress state during an
-    # "R3 START" capture, real r{round}_score once the round actually
-    # completes) -- a separate real quantity that can differ from R2's
-    # cut-survivor count (e.g. a further real WD between rounds).
+    # R2's own top banner (2026-10-02 "advanced_count 표시 금지" mission):
+    # never shows "컷 통과 {advanced_count}명" or a guessed 3R headcount.
+    # Once R3 genuinely has real data of its own (_round_participation_count
+    # reading real r3_score values -- never in_progress here, that param
+    # is round_number's OWN live state, not a later round's), show ONLY
+    # the real "3R 진출 {n}명" fact. Until then, show only what R2's own
+    # completion genuinely established: R2 종료 / CUT 확정 / real CUT and
+    # WD (and DQ, if any) counts -- no CUT LINE score, no advanced_count,
+    # no estimate of who tees off in R3.
     cut_line_html = ""
     if round_number == 2 and summary is not None:
-        cut_line_html = (
-            "<p class='cut-line-banner'>"
-            + (
-                f"<strong>CUT LINE {summary['cut_line_score']}타</strong> 이하 통과"
-                if summary["cut_line_score"] is not None else "<strong>CUT LINE</strong>"
+        real_r3_participation = _round_participation_count(3, records, in_progress=None)
+        if real_r3_participation is not None:
+            cut_line_html = f"<p class='cut-line-banner'>3R 진출 {real_r3_participation}명</p>"
+        else:
+            cut_line_html = (
+                "<p class='cut-line-banner'>"
+                "<strong>R2 종료</strong> &nbsp;·&nbsp; CUT 확정"
+                f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
+                f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
+                + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
+                + "</p>"
             )
-            + f" &nbsp;·&nbsp; 컷 통과 {summary['advanced_count']}명"
-            + f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
-            + f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
-            + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
-            + "</p>"
-        )
     elif round_number >= 3:
         participation = _round_participation_count(round_number, records, in_progress)
         if participation is not None:
