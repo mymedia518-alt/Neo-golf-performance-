@@ -490,25 +490,16 @@ def render_round_page(
         band_by_id=band_by_id, m4_by_id=m4_by_id, nationality_by_id=nationality_by_id,
         sponsor_cache=sponsor_cache, show_hole_progress=show_hole_progress,
     )
-    # 2026-10-02 "Renderer만 수정" mission: status=None was rendered
-    # with NO header at all (just the top of the table) while every
-    # other status got its own labeled section -- an asymmetry the
-    # operator flagged directly ("status=None을 ACTIVE로 렌더링하지
-    # 말고... 'R2 컷 통과' 그룹으로 렌더링한다"). Every real status
-    # value now gets an explicit, equally-labeled group on the R2 page,
-    # 하나금융 R2와 동일한 구조: status=None -> "R2 컷 통과". Count is
-    # real active players only (status is None) -- never includes an
-    # inline-ranked R2_CUT row that happens to share this same list
-    # (none exist today; structurally impossible on R2's own page
-    # anyway, since R2_CUT is only ever assigned once a LATER round's
-    # evidence is parsed).
-    if use_sections:
-        active_count = len([r for r in played if r.get("status") is None])
-        header = f"R2 컷 통과 · {active_count}명"
-        rows_html = [f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>"]
-    else:
-        rows_html = []
-    rows_html.extend(_render_row_html(r, **row_kwargs) for r in inline_rows)
+    # 2026-10-02 "EVIDENCE INSUFFICIENT" mission: the "R2 컷 통과"
+    # group label (added by an earlier mission this same day) asserted
+    # a fact with no real evidence behind it -- no KLPGA page anywhere
+    # in this tournament's raw evidence displays a "본선 진출자"/cut-
+    # pass counter or label for this population (confirmed by exhaustive
+    # search). Until real R3 evidence settles what this population
+    # actually is, status=None renders as a plain ranked list ONLY --
+    # no group name, no header, same as every other real status this
+    # tournament has never fabricated a label for.
+    rows_html = [_render_row_html(r, **row_kwargs) for r in inline_rows]
 
     if use_sections:
         r1_cut_group = [r for r in played if r.get("status") == STATUS_R1_CUT]
