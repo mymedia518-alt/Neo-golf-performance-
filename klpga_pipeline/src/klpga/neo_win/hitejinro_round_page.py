@@ -53,6 +53,29 @@ _FLAG_ASSETS = {p.stem for p in (_REPO_ROOT / "docs" / "assets" / "flags").glob(
 
 STAGE_LABELS = {1: ("r1", "R1"), 2: ("r2", "R2"), 3: ("r3", "R3"), 4: ("fr", "FR")}
 
+# The real status enum hitejinro_round_pipeline.parse_leaderboard() writes
+# (2026-10-02 status-model mission) -- every display decision below reads
+# a record's own "status" value against these, never the legacy withdrawn/
+# disqualified/missed_cut booleans directly (those stay on the record
+# purely for other, external consumers' backward compatibility).
+STATUS_R1_CUT = "R1_CUT"
+STATUS_R2_CUT = "R2_CUT"
+STATUS_WD = "WD"
+STATUS_DQ = "DQ"
+_CUT_STATUSES = {STATUS_R1_CUT, STATUS_R2_CUT}
+
+
+def _status_family(status: str | None) -> str | None:
+    """R1_CUT and R2_CUT both read as the generic "CUT" display family --
+    status_round (read separately by _status_display_label) is what
+    actually distinguishes which round a cut applies to, not this
+    function. Returns None for an active player (status is None)."""
+    if status in _CUT_STATUSES:
+        return "CUT"
+    if status in (STATUS_WD, STATUS_DQ):
+        return status
+    return None
+
 
 def _load_nationality_by_id(content_root: Path) -> dict[str, str]:
     """{player_id: nationality} from the real official entry/K-ranking
@@ -70,27 +93,25 @@ ROUND_COL_LABELS = {1: "R1", 2: "R2", 3: "R3", 4: "FR"}
 
 
 def _advancement_summary(records: list[dict]) -> dict | None:
-    """Real cut line + counts, computed fresh from records' own
-    withdrawn/disqualified/missed_cut flags (themselves real per-player
-    WD/DQ/CUT text parsed by hitejinro_round_pipeline.parse_leaderboard
-    -- never hardcoded here or anywhere upstream). Returns None if no
-    cut has happened yet in this tournament (no missed_cut record
-    exists) -- e.g. still true for PRE/R1 pages, which render no
-    CUT LINE banner at all rather than a zero/empty one.
+    """Real cut line + counts, computed fresh from each record's own
+    real status enum (R1_CUT/R2_CUT/WD/DQ/None, written by
+    hitejinro_round_pipeline.parse_leaderboard from real per-player
+    WD/DQ/CUT text -- never hardcoded here or anywhere upstream).
+    Returns None if no cut has happened yet in this tournament (no
+    R1_CUT/R2_CUT record exists) -- e.g. still true for PRE/R1 pages,
+    which render no CUT LINE banner at all rather than a zero/empty one.
 
     cut_line_score is the worst (highest) real r1_score among players
-    who were NOT cut/withdrawn/disqualified -- i.e. the real threshold
-    this tournament's own cut actually landed on, re-derived from the
-    field every time this is called, never a remembered constant."""
-    cut = [r for r in records if r.get("missed_cut")]
+    whose status is None (not cut/withdrawn/disqualified) -- i.e. the
+    real threshold this tournament's own cut actually landed on,
+    re-derived from the field every time this is called, never a
+    remembered constant."""
+    cut = [r for r in records if r.get("status") in _CUT_STATUSES]
     if not cut:
         return None
-    withdrawn = [r for r in records if r.get("withdrawn")]
-    disqualified = [r for r in records if r.get("disqualified")]
-    advanced = [
-        r for r in records
-        if not r.get("missed_cut") and not r.get("withdrawn") and not r.get("disqualified")
-    ]
+    withdrawn = [r for r in records if r.get("status") == STATUS_WD]
+    disqualified = [r for r in records if r.get("status") == STATUS_DQ]
+    advanced = [r for r in records if r.get("status") is None]
     advancing_r1_scores = [r["r1_score"] for r in advanced if r.get("r1_score") is not None]
     return {
         "cut_line_score": max(advancing_r1_scores) if advancing_r1_scores else None,
@@ -204,7 +225,7 @@ def render_round_page(
         score_field = f"r{round_number}_score"
     played = [
         r for r in records
-        if r.get(score_field) is not None or r.get("withdrawn") or r.get("disqualified") or r.get("missed_cut")
+        if r.get(score_field) is not None or r.get("status") is not None
     ]
     if not played:
         raise FileNotFoundError(
@@ -243,7 +264,7 @@ def render_round_page(
     rows_html = []
     for r in played:
         pid = str(r["player_id"])
-        status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else "CUT" if r.get("missed_cut") else None
+        status = _status_family(r.get("status"))
         if status and not divider_done:
             # First CUT/WD/DQ row reached -- played is already sorted
             # with no-real-rank rows (every CUT/WD/DQ player) last, so
@@ -362,9 +383,10 @@ def render_round_page(
             # CUT player's TOP20/TOP10/TOP5/우승 cell is literally
             # <td class='metric-empty'>—</td>, never a stale/meaningless
             # percentage for someone already out of contention): real
-            # is_cut/is_wd signal (this row's own status, computed above
-            # from withdrawn/disqualified/missed_cut -- never hardcoded)
-            # suppresses every probability cell the same way, regardless
+            # is_cut/is_wd signal (this row's own status, read above from
+            # the real status enum, _status_family(r.get("status")) --
+            # never hardcoded) suppresses every probability cell the same
+            # way, regardless
             # of whether M4 happens to have a number for this player.
             cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "—"
             metric_class = "win metric-empty"
