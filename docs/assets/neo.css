@@ -73,6 +73,16 @@
    a long name/sponsor) and higher-specificity than the rule above, so
    it wins at every width without touching any other leaderboard page. */
 .leaderboard-table.leaderboard-table--r2-full tbody td{white-space:nowrap}
+/* HITE JINRO R1-FR COLUMN WRAP FIX (2026-10-02): same root cause/fix as
+   the --r2-full rule above (measured: a bare 2-digit score like "70"
+   was rendering as "7"/"0" on separate lines, computed white-space:
+   normal, cell height ~2 line-heights), hit by hitejinro_round_page.py's
+   table because it never carries --r2-full (that modifier's OTHER
+   rules, further below, hard-code KB's own column count/order for its
+   mobile card grid -- reusing it here would misalign HITE JINRO's
+   different column layout). A new, grid-rule-free modifier instead:
+   nowrap only, every width, no mobile grid side effects. */
+.leaderboard-table.leaderboard-table--hitejinro tbody td{white-space:nowrap}
 .leaderboard-table tbody tr:nth-child(even){background:#fafcfc}
 .leaderboard-table tbody tr:hover{background:var(--accent-soft)}
 .leaderboard-table tbody th[scope=row]{text-align:left;min-width:11rem}
