@@ -288,15 +288,29 @@ def render_round_page(
         else:
             band_cell = _NOWRAP
 
-        if pid in m4_by_id:
+        if status:
+            # Hana (2026090002) R2's own real, already-published rendering
+            # rule (confirmed against its real page's own markup -- every
+            # CUT player's TOP20/TOP10/TOP5/우승 cell is literally
+            # <td class='metric-empty'>—</td>, never a stale/meaningless
+            # percentage for someone already out of contention): real
+            # is_cut/is_wd signal (this row's own status, computed above
+            # from withdrawn/disqualified/missed_cut -- never hardcoded)
+            # suppresses every probability cell the same way, regardless
+            # of whether M4 happens to have a number for this player.
+            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "—"
+            metric_class = "win metric-empty"
+        elif pid in m4_by_id:
             m4 = m4_by_id[pid]
             cut_cell = pct(m4["cut_probability"])
             top20_cell = pct(m4["top20_probability"])
             top10_cell = pct(m4["top10_probability"])
             top5_cell = pct(m4["top5_probability"])
             win_cell = pct(m4["win_probability"])
+            metric_class = "win"
         else:
             cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
+            metric_class = "win"
 
         band_td = f"<td data-label='NEO 경기력'>{band_cell}</td>" if round_number == 1 else ""
         rows_html.append(
@@ -305,11 +319,11 @@ def render_round_page(
             f"<td data-label='합계'>{total_cell}</td>"
             + "".join(round_cells) +
             f"{band_td}"
-            f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
-            f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
-            f"<td class='win' data-label='TOP10'>{top10_cell}</td>"
-            f"<td class='win' data-label='TOP5'>{top5_cell}</td>"
-            f"<td class='win' data-label='우승확률'>{win_cell}</td></tr>"
+            f"<td class='{metric_class}' data-label='컷 통과확률'>{cut_cell}</td>"
+            f"<td class='{metric_class}' data-label='TOP20'>{top20_cell}</td>"
+            f"<td class='{metric_class}' data-label='TOP10'>{top10_cell}</td>"
+            f"<td class='{metric_class}' data-label='TOP5'>{top5_cell}</td>"
+            f"<td class='{metric_class}' data-label='우승확률'>{win_cell}</td></tr>"
         )
 
     stage_nav_items = []
