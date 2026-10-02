@@ -124,7 +124,10 @@ def render_round_page(
         score_field = f"r{round_number - 1}_score"
     else:
         score_field = f"r{round_number}_score"
-    played = [r for r in records if r.get(score_field) is not None or r.get("withdrawn") or r.get("disqualified")]
+    played = [
+        r for r in records
+        if r.get(score_field) is not None or r.get("withdrawn") or r.get("disqualified") or r.get("missed_cut")
+    ]
     if not played:
         raise FileNotFoundError(
             f"LEADERBOARD.json exists but no row has a real {score_field} yet -- round {round_number} "
@@ -158,10 +161,14 @@ def render_round_page(
     rows_html = []
     for r in played:
         pid = str(r["player_id"])
-        status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else None
+        status = "WD" if r.get("withdrawn") else "DQ" if r.get("disqualified") else "CUT" if r.get("missed_cut") else None
         finish_position_numeric = r.get("finish_position_numeric")
         if r.get("finish_position") is None:
-            rank_cell = "-"
+            # klpga.co.kr's own real convention (confirmed against R2's
+            # raw capture): a WD/DQ/CUT player's rank cell shows that
+            # literal status, never a bare "-" -- only a player with no
+            # status at all and no real rank yet falls back to "-".
+            rank_cell = status or "-"
         elif rank_counts.get(finish_position_numeric, 0) > 1:
             # 2+ players share this rank -- "T{rank}" (tied), matching
             # klpga.co.kr's own real convention (confirmed against
@@ -194,8 +201,15 @@ def render_round_page(
             # not what that field means.
             score_cell = status or (str(r[score_field]) if r.get(score_field) is not None else "-")
         total_cell = status or (format_to_par(r["score_to_par"]) if r.get("score_to_par") is not None else "-")
+        # klpga.co.kr's own real convention (confirmed against R2's raw
+        # capture for WD player 고지우/CUT player 이소영, both of whom
+        # keep their real completed R1 score shown even on their WD/CUT
+        # row): a real completed prior-round score always wins over the
+        # status text -- status only fills a prior-round cell that
+        # genuinely has no real score of its own (e.g. someone who never
+        # played that earlier round either).
         prior_round_cells = [
-            f"<td data-label='{k}R'>{status or (str(r[f'r{k}_score']) if r.get(f'r{k}_score') is not None else '-')}</td>"
+            f"<td data-label='{k}R'>{str(r[f'r{k}_score']) if r.get(f'r{k}_score') is not None else (status or '-')}</td>"
             for k in range(1, round_number)
         ]
         country_code = nationality_by_id.get(pid)
